@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-11-01",
+  "recordedAtUTC": "2026-11-01T14:05:45.272562+00:00",
+  "sourceBaseCommit": "d0e0c1441a6ff952eb64b47c3f10017f227431af",
+  "sourceBranch": "MP-3-plan-sync",
+  "model": "diagrams.json",
+  "modelSha256": "24222cca610badbcf6d454eb09b69f2f7b235d46b99882e0b6dc501062f3a8d0",
+  "palette": "palette.json",
+  "renderer": "generate_diagrams.py",
+  "rendererDependency": "Pillow==12.3.0",
+  "syncMode": "Manual snapshots. No automatic Lucid pull, bidirectional sync or diagram drift gate.",
+  "nativeVsCompanion": "Lucid PNG exports reflect canonical native AWS shapes and layout. Local model-generated PNG/GIF/SVG/drawio companions retain semantic labels and topology with simplified coloured blocks; they are not exact native exports.",
+  "verification": {
+    "lucidImportPreflight": "Both native import snapshots: 0 errors, 0 warnings",
+    "awsCanvas": "0 issues after final account-level budget placement",
+    "drawio": "Editable process sources listed/read/round-tripped through draw.io MCP; unique XML IDs and connected endpoints validated",
+    "animation": "All four GIFs contain 12 frames and frame 1 differs from frame 0",
+    "visual": "Native system and AWS exports plus all four companion PNGs inspected for legibility",
+    "independentReview": "Not run; user declined"
+  },
+  "diagrams": [
+    {
+      "id": "system-architecture",
+      "canonicalTool": "Lucidchart",
+      "documentId": "3ac220d1-225e-43ea-ac44-361d0c369e69",
+      "documentUrl": "https://lucid.app/lucidchart/3ac220d1-225e-43ea-ac44-361d0c369e69/edit",
+      "documentVersion": 34,
+      "nativeExport": "system-architecture-lucid.png",
+      "importSnapshot": "system-architecture.lucid.json",
+      "companionExports": [
+        "system-architecture.gif",
+        "system-architecture.svg",
+        "system-architecture.png",
+        "system-architecture.drawio"
+      ],
+      "animation": {
+        "frameCount": 12,
+        "durationPerFrameMs": 100,
+        "loop": 0
+      }
+    },
+    {
+      "id": "aws-deployment",
+      "canonicalTool": "Lucidchart",
+      "documentId": "f9a80493-7f58-44c1-b201-e97034a1398c",
+      "documentUrl": "https://lucid.app/lucidchart/f9a80493-7f58-44c1-b201-e97034a1398c/edit",
+      "documentVersion": 61,
+      "nativeExport": "aws-deployment-lucid.png",
+      "importSnapshot": "aws-deployment.lucid.json",
+      "companionExports": [
+        "aws-deployment.gif",
+        "aws-deployment.svg",
+        "aws-deployment.png",
+        "aws-deployment.drawio"
+      ],
+      "animation": {
+        "frameCount": 12,
+        "durationPerFrameMs": 100,
+        "loop": 0
+      }
+    },
+    {
+      "id": "prediction-lifecycle",
+      "canonicalTool": "Draw.io",
+      "editableSource": "prediction-lifecycle.drawio",
+      "companionExports": [
+        "prediction-lifecycle.gif",
+        "prediction-lifecycle.svg",
+        "prediction-lifecycle.png",
+        "prediction-lifecycle.drawio"
+      ],
+      "animation": {
+        "frameCount": 12,
+        "durationPerFrameMs": 100,
+        "loop": 0
+      }
+    },
+    {
+      "id": "delivery-workflow",
+      "canonicalTool": "Draw.io",
+      "editableSource": "delivery-workflow.drawio",
+      "companionExports": [
+        "delivery-workflow.gif",
+        "delivery-workflow.svg",
+        "delivery-workflow.png",
+        "delivery-workflow.drawio"
+      ],
+      "animation": {
+        "frameCount": 12,
+        "durationPerFrameMs": 100,
+        "loop": 0
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 20,
+      "sha256": "57a8ad0e62346f7b0f2e261d59a7b90f1310043424bcb9d229208f183f1940d9",
+      "mediaType": "text/plain"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6118,
+      "sha256": "4aae4244799fbe486e3a959f2b77a9ec5989f47757796bafc7ee3c0c6e54fefb",
+      "mediaType": "text/markdown"
+    },
+    {
+      "path": "aws-deployment-lucid.png",
+      "bytes": 190039,
+      "sha256": "0310447c64037abfc63ebdd5a1cbd7315433a82380861b204af8065aa9a2b906",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "aws-deployment.drawio",
+      "bytes": 7175,
+      "sha256": "b1d21a6a3f8bf3d1ff3b84eabbf4ca1ecc7f7809baec668e181de9111917aad4",
+      "mediaType": "application/vnd.jgraph.mxfile"
+    },
+    {
+      "path": "aws-deployment.gif",
+      "bytes": 775174,
+      "sha256": "8adf212670b4507d71547fead86e11e0326f6c6e81aba5b86593003613f7dd1b",
+      "mediaType": "image/gif"
+    },
+    {
+      "path": "aws-deployment.lucid.json",
+      "bytes": 12069,
+      "sha256": "5a2b633cea25962f2b846adaf80a540a4c4718537d508d8c6c10995dbd0e635d",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "aws-deployment.png",
+      "bytes": 108201,
+      "sha256": "324ceefb1e9de89df811cdccecee2375bda7b1a0da831cac4603fcc7b4e0c8e7",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "aws-deployment.svg",
+      "bytes": 7538,
+      "sha256": "62828ec2fb60e289666ffa3d9432d04fae40296aa66d9257fda69ff87042cd7b",
+      "mediaType": "image/svg+xml"
+    },
+    {
+      "path": "delivery-workflow.drawio",
+      "bytes": 8615,
+      "sha256": "9a7e68fa8c04795c5134a3aea60680be908e8f226e5c22e547d4011513ed161d",
+      "mediaType": "application/vnd.jgraph.mxfile"
+    },
+    {
+      "path": "delivery-workflow.gif",
+      "bytes": 830514,
+      "sha256": "44887560ee704921e5624b2753c7f8317b07b0be3f075b56228ff5ca38ea4da2",
+      "mediaType": "image/gif"
+    },
+    {
+      "path": "delivery-workflow.png",
+      "bytes": 111439,
+      "sha256": "d33c924bc3c73530fc74f1e85169ed234b7c315e8435aa46964edaa7d250df47",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "delivery-workflow.svg",
+      "bytes": 9781,
+      "sha256": "678ba2a2c21915576ad4ff133b54db06862479d0caab9e1f66c5cad647639adf",
+      "mediaType": "image/svg+xml"
+    },
+    {
+      "path": "diagrams.json",
+      "bytes": 22206,
+      "sha256": "24222cca610badbcf6d454eb09b69f2f7b235d46b99882e0b6dc501062f3a8d0",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "generate_diagrams.py",
+      "bytes": 13856,
+      "sha256": "487466351a66227d3cfb582826edb6abba0eb40f42025ea1862dd8458daffc2a",
+      "mediaType": "text/x-python"
+    },
+    {
+      "path": "palette.json",
+      "bytes": 974,
+      "sha256": "493676daf8ab11fe03a9acaa4ace196763b867654e0ea75c4836e9f0bc10b928",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "prediction-lifecycle.drawio",
+      "bytes": 6247,
+      "sha256": "9c1ad4edcbe756f7e117a3f3c9c6dc027574f18ffa843f609dde5a2fc795dfbb",
+      "mediaType": "application/vnd.jgraph.mxfile"
+    },
+    {
+      "path": "prediction-lifecycle.gif",
+      "bytes": 659985,
+      "sha256": "cee9c3aad702ddac6e4df3272ae73e41b2f65d84de9671bfcb1cd00d9964c943",
+      "mediaType": "image/gif"
+    },
+    {
+      "path": "prediction-lifecycle.png",
+      "bytes": 82276,
+      "sha256": "f55893b83993a7259a5a720752d4f71c19f372a8416bff5f77b9877fc7fdcb85",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "prediction-lifecycle.svg",
+      "bytes": 6913,
+      "sha256": "f83bf21d872db8d2b04d907b93a49f72f87a00e180d428cd705692ddb459f3e2",
+      "mediaType": "image/svg+xml"
+    },
+    {
+      "path": "system-architecture-lucid.png",
+      "bytes": 131660,
+      "sha256": "92a096832c500b979c17060dd277ad6577b43534b92a2cbb416d11c8f6113ce5",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "system-architecture.drawio",
+      "bytes": 8745,
+      "sha256": "4d5ce0c43fcf21f9f8bb3c65fcbecd88aed3faa07432d1d6960c8e83b556a01a",
+      "mediaType": "application/vnd.jgraph.mxfile"
+    },
+    {
+      "path": "system-architecture.gif",
+      "bytes": 788523,
+      "sha256": "5f67a4015c0dec8afad4e60c84a153d1e250e45119e6711ce8e19f85619564aa",
+      "mediaType": "image/gif"
+    },
+    {
+      "path": "system-architecture.lucid.json",
+      "bytes": 11268,
+      "sha256": "8bb1347f68f88e3f0682cbbd54b7019feeab8b2bef8e97998c074abf8813bbe7",
+      "mediaType": "application/json"
+    },
+    {
+      "path": "system-architecture.png",
+      "bytes": 105206,
+      "sha256": "4b5d90b52c2836ae5b42f96cefc91ab50948bf2a38dd912296df01347a634128",
+      "mediaType": "image/png"
+    },
+    {
+      "path": "system-architecture.svg",
+      "bytes": 8841,
+      "sha256": "85a70dbe4d6e529a62376b601c016e8f84e0720d7a14d65393372ec811d71e9c",
+      "mediaType": "image/svg+xml"
+    }
+  ]
+}

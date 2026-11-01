@@ -1,5 +1,30 @@
 # Implementation plan and milestones
 
+## Current implementation status
+
+**As of 1 November 2026:** the backend implements a health endpoint and a local sample SSE stream. The static Sites preview illustrates the product concept; it is not the planned SvelteKit PWA. Web, native Swift, React Native and infrastructure directories are placeholders without executable app or infrastructure definitions.
+
+Authentication, persistence, provider integrations, portfolio imports, quantitative evaluation, prediction/outcome tracking, research agents, the PWA/native clients and AWS provisioning remain unimplemented. Phase 0 is partially established; no phase exit is claimed complete. The six phases below remain the delivery plan.
+
+The sample SSE stream is unauthenticated and uses volatile in-process event IDs and queues. It does not support durable event replay or last-event resumption. Production authentication, reconnection and durable-state recovery remain acceptance requirements; do not deploy the starter as-is.
+
+The [dated plan-sync record](plan-sync-2026-11-01.md) records evidence and manual links between this plan, MP Jira and Confluence. These links are maintained manually; no comprehensive automated trace or drift gate exists.
+
+## Manual roadmap links
+
+The following is a manually maintained mapping as of **1 November 2026**, not an automated synchronisation or drift gate. Jira workflow status does not certify a phase exit; each phase still requires its stated evidence. [MP-3](https://duttaarun2015.atlassian.net/browse/MP-3) tracks this documentation sync and is In Progress pending the delivery workflow.
+
+| Phase | Jira epic | Status at sync |
+| --- | --- | --- |
+| 0: Foundation and guardrails | [MP-4](https://duttaarun2015.atlassian.net/browse/MP-4) | To Do; foundation partially established |
+| 1: Trusted data and portfolio ledger | [MP-5](https://duttaarun2015.atlassian.net/browse/MP-5) | To Do |
+| 2: Prediction baseline and scientific controls | [MP-6](https://duttaarun2015.atlassian.net/browse/MP-6) | To Do |
+| 3: Research and decision support | [MP-7](https://duttaarun2015.atlassian.net/browse/MP-7) | To Do |
+| 4: Native Apple experience | [MP-8](https://duttaarun2015.atlassian.net/browse/MP-8) | To Do |
+| 5: Production hardening | [MP-9](https://duttaarun2015.atlassian.net/browse/MP-9) | To Do |
+
+The first foundation tasks are [MP-10: licences and instrument policies](https://duttaarun2015.atlassian.net/browse/MP-10), [MP-11: authentication design](https://duttaarun2015.atlassian.net/browse/MP-11), [MP-12: persistence schemas](https://duttaarun2015.atlassian.net/browse/MP-12), and [MP-13: backup and restore planning](https://duttaarun2015.atlassian.net/browse/MP-13). All four are To Do at this sync. The published [Confluence roadmap](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112476) summarises this plan.
+
 ## Phase 0 — foundation and guardrails
 
 **Outcome:** a safe, reproducible workspace before product data enters it.

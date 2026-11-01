@@ -4,7 +4,7 @@ Repository: https://github.com/gilipersonal/mypaisaa-prediction
 
 ## Branches and delivery
 
-`main` is the default branch and the destination for all feature PRs. It was created from the published setup baseline `0b00793`; the existing `setup/bootstrap` branch is preserved for history. The first PR brings the Codex workflow work and this CI setup into `main` through the normal review path.
+`main` is the default branch and the destination for all feature PRs. It was created from the published setup baseline `0b00793`; the existing `setup/bootstrap` branch is preserved for history. [PR #1](https://github.com/gilipersonal/mypaisaa-prediction/pull/1) merged the Codex workflows and CI as `27fa39214797f8ca762f218e4529d625a70d1530`. [PR #2](https://github.com/gilipersonal/mypaisaa-prediction/pull/2) merged the linked-Jira-closure workflow as `d0e0c1441a6ff952eb64b47c3f10017f227431af`. Both corresponding issues, MP-1 and MP-2, are Done.
 
 Start each new task from updated `origin/main`, using an actual MP issue and `MP-<number>-<lowercase-slug>` branch. Use `MP-<number>: <summary>` commit subjects and `[MP-<number>] <summary>` PR titles. The title and branch issue keys must match. Commit and push completed work to the issue branch, then raise a PR to `main` when the running prompt requests it; otherwise ask once for permission at the end. Do not commit feature changes directly to `main`, force-push, delete branches, merge PRs or close issues without the appropriate explicit authority. Creating a PR does not authorise its merge.
 

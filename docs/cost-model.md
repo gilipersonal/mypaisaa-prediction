@@ -6,6 +6,8 @@ Keep recurring **AWS** production spend below **£50/month**, excluding Twelve D
 
 ## Initial AWS shape
 
+See the [editable Lucidchart AWS architecture](https://lucid.app/lucidchart/f9a80493-7f58-44c1-b201-e97034a1398c/edit) and [local animated/static diagram guide](diagrams/README.md). All services shown are proposed, not deployed; the diagram does not verify current regional prices or enforce the spending target.
+
 | Item | Purpose | Planning allowance |
 | --- | --- | --- |
 | Lightsail Linux instance, 2 GB tier | Dockerised FastAPI, worker, PostgreSQL, reverse proxy | £10–£18 |

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+<title id="title">Prediction-to-outcome lifecycle</title>
+<desc id="desc">A fixed data cutoff precedes purged walk-forward evaluation, with transforms and calibration fit inside each training fold. Approved model runs publish immutable predictions. Outcomes are collected only after maturity, then scored against declared benchmarks.</desc>
+<style>text{font-family:Arial,Helvetica,sans-serif}.flow{stroke-dasharray:11 19;animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-30}}@media(prefers-reduced-motion:reduce){.flow{animation:none}}</style>
+<rect width="100%" height="100%" fill="#F5F7FC"/>
+<text x="40" y="55" font-size="32" font-weight="700" fill="#17243C">MYPAISAA / Prediction-to-outcome lifecycle</text>
+<text x="40" y="96" font-size="19" font-weight="400" fill="#526078">PLANNED SCIENTIFIC CONTROLS: retain what was known, what was predicted, and what later happened.</text>
+<text x="40" y="151" font-size="16" font-weight="700" fill="#526078">01 / TIME-AWARE EVALUATION</text>
+<text x="40" y="451" font-size="16" font-weight="700" fill="#526078">02 / IMMUTABLE ACCOUNTABILITY</text>
+<defs><marker id="arrow-0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#966012"/></marker></defs>
+<polyline points="340,251 550,251" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="340,251 550,251" fill="none" stroke="#966012" stroke-width="3" marker-end="url(#arrow-0)"/>
+<defs><marker id="arrow-1" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#6840B1"/></marker></defs>
+<polyline points="850,251 1060,251" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="850,251 1060,251" fill="none" stroke="#6840B1" stroke-width="3" marker-end="url(#arrow-1)"/>
+<defs><marker id="arrow-2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#6840B1"/></marker></defs>
+<polyline points="1210,307 1210,495" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="1210,307 1210,495" fill="none" stroke="#6840B1" stroke-width="3" marker-end="url(#arrow-2)"/>
+<defs><marker id="arrow-3" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#6840B1"/></marker></defs>
+<polyline points="1060,551 850,551" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="1060,551 850,551" fill="none" stroke="#6840B1" stroke-width="3" marker-end="url(#arrow-3)"/>
+<defs><marker id="arrow-4" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#087D78"/></marker></defs>
+<polyline points="550,551 340,551" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="550,551 340,551" fill="none" stroke="#087D78" stroke-width="3" marker-end="url(#arrow-4)"/>
+<rect x="40" y="200" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="195" width="300" height="112" rx="18" fill="#FFF1D6" stroke="#966012" stroke-width="2"/>
+<rect x="55" y="211" width="6" height="80" rx="3" fill="#966012"/>
+<text x="75" y="233" font-size="22" font-weight="700" fill="#17243C">Declare data cutoff</text>
+<text x="75" y="261" font-size="18" font-weight="400" fill="#17243C">Versioned data + universe</text>
+<text x="75" y="285" font-size="18" font-weight="400" fill="#17243C">Known-at timestamps</text>
+<rect x="550" y="200" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="550" y="195" width="300" height="112" rx="18" fill="#EFE7FD" stroke="#6840B1" stroke-width="2"/>
+<rect x="565" y="211" width="6" height="80" rx="3" fill="#6840B1"/>
+<text x="585" y="233" font-size="22" font-weight="700" fill="#17243C">Purged walk-forward</text>
+<text x="585" y="261" font-size="18" font-weight="400" fill="#17243C">Rolling/expanding folds</text>
+<text x="585" y="285" font-size="18" font-weight="400" fill="#17243C">Horizon-aware embargo</text>
+<rect x="1060" y="200" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1060" y="195" width="300" height="112" rx="18" fill="#EFE7FD" stroke="#6840B1" stroke-width="2"/>
+<rect x="1075" y="211" width="6" height="80" rx="3" fill="#6840B1"/>
+<text x="1095" y="233" font-size="22" font-weight="700" fill="#17243C">Train within each fold</text>
+<text x="1095" y="261" font-size="18" font-weight="400" fill="#17243C">Fit transforms + calibration</text>
+<text x="1095" y="285" font-size="18" font-weight="400" fill="#17243C">Baselines + uncertainty</text>
+<rect x="1060" y="500" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1060" y="495" width="300" height="112" rx="18" fill="#EFE7FD" stroke="#6840B1" stroke-width="2"/>
+<rect x="1075" y="511" width="6" height="80" rx="3" fill="#6840B1"/>
+<text x="1095" y="533" font-size="22" font-weight="700" fill="#17243C">Approved model run</text>
+<text x="1095" y="561" font-size="18" font-weight="400" fill="#17243C">Hashes, splits + metrics</text>
+<text x="1095" y="585" font-size="18" font-weight="400" fill="#17243C">Explicit publishing gate</text>
+<rect x="550" y="500" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="550" y="495" width="300" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="565" y="511" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="585" y="533" font-size="22" font-weight="700" fill="#17243C">Immutable prediction</text>
+<text x="585" y="561" font-size="18" font-weight="400" fill="#17243C">Target, horizon + probability</text>
+<text x="585" y="585" font-size="18" font-weight="400" fill="#17243C">Cutoff + model + evidence</text>
+<rect x="40" y="500" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="495" width="300" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="55" y="511" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="75" y="533" font-size="22" font-weight="700" fill="#17243C">Mature outcome + score</text>
+<text x="75" y="561" font-size="18" font-weight="400" fill="#17243C">Wait for forecast horizon</text>
+<text x="75" y="585" font-size="18" font-weight="400" fill="#17243C">Calibration vs benchmark</text>
+<path d="M40,733 H1360" stroke="#A9B7CD"/>
+<text x="40" y="763" font-size="17" font-weight="700" fill="#17243C">Never random-split time series. No future leakage. Corrections append a superseding version.</text>
+<text x="40" y="791" font-size="16" font-weight="400" fill="#526078">Every forecast records target, horizon, cutoff, model version, uncertainty/calibration and cited explanation.</text>
+<text x="40" y="818" font-size="16" font-weight="400" fill="#526078">1 November 2026 | Conceptual flows, not live activity | Personal use only - no trading</text>
+</svg>

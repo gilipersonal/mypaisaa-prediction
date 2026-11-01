@@ -1,0 +1,56 @@
+<mxfile host="app.diagrams.net" version="29.0.0">
+  <diagram id="prediction-lifecycle" name="Prediction-to-outcome lifecycle"><mxGraphModel pageWidth="1400" pageHeight="850" page="1" background="#F5F7FC" adaptiveColors="none">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="heading" value="Prediction-to-outcome lifecycle" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;text;align=left;fontSize=34;fontStyle=1;">
+          <mxGeometry x="40" y="20" width="1320" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="PLANNED SCIENTIFIC CONTROLS: retain what was known, what was predicted, and what later happened." vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;text;align=left;fontSize=19;">
+          <mxGeometry x="40" y="75" width="1320" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="cutoff" value="Declare data cutoff&#10;Versioned data + universe&#10;Known-at timestamps" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#FFF1D6;strokeColor=#966012;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="40" y="195" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="folds" value="Purged walk-forward&#10;Rolling/expanding folds&#10;Horizon-aware embargo" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#EFE7FD;strokeColor=#6840B1;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="550" y="195" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="train" value="Train within each fold&#10;Fit transforms + calibration&#10;Baselines + uncertainty" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#EFE7FD;strokeColor=#6840B1;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="1060" y="195" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="model" value="Approved model run&#10;Hashes, splits + metrics&#10;Explicit publishing gate" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#EFE7FD;strokeColor=#6840B1;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="1060" y="495" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="forecast" value="Immutable prediction&#10;Target, horizon + probability&#10;Cutoff + model + evidence" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#DCF5EF;strokeColor=#087D78;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="550" y="495" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="outcome" value="Mature outcome + score&#10;Wait for forecast horizon&#10;Calibration vs benchmark" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;rounded=1;arcSize=18;fillColor=#DCF5EF;strokeColor=#087D78;strokeWidth=2;fontSize=18;spacing=10;">
+          <mxGeometry x="40" y="495" width="300" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-0" edge="1" parent="1" source="cutoff" target="folds" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#966012;strokeWidth=3;dashed=1;dashPattern=11 19;flowAnimation=1;endArrow=block;endFill=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-1" edge="1" parent="1" source="folds" target="train" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6840B1;strokeWidth=3;dashed=1;dashPattern=11 19;flowAnimation=1;endArrow=block;endFill=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-2" edge="1" parent="1" source="train" target="model" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6840B1;strokeWidth=3;dashed=1;dashPattern=11 19;flowAnimation=1;endArrow=block;endFill=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-3" edge="1" parent="1" source="model" target="forecast" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6840B1;strokeWidth=3;dashed=1;dashPattern=11 19;flowAnimation=1;endArrow=block;endFill=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-4" edge="1" parent="1" source="forecast" target="outcome" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#087D78;strokeWidth=3;dashed=1;dashPattern=11 19;flowAnimation=1;endArrow=block;endFill=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="band-0" value="01 / TIME-AWARE EVALUATION" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;text;align=left;fontSize=16;fontStyle=1;">
+          <mxGeometry x="40" y="135" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="band-1" value="02 / IMMUTABLE ACCOUNTABILITY" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;text;align=left;fontSize=16;fontStyle=1;">
+          <mxGeometry x="40" y="435" width="400" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="footer" value="Never random-split time series. No future leakage. Corrections append a superseding version.&#10;Every forecast records target, horizon, cutoff, model version, uncertainty/calibration and cited explanation.&#10;1 November 2026 | Conceptual flows, not live activity | Personal use only - no trading" vertex="1" parent="1" style="fontFamily=Arial;fontColor=#17243C;html=0;whiteSpace=wrap;text;align=left;fontSize=17;">
+          <mxGeometry x="40" y="735" width="1320" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel></diagram>
+</mxfile>

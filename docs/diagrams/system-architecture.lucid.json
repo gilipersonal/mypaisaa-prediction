@@ -1,0 +1,419 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "system-page",
+      "title": "System architecture",
+      "shapes": [
+        {
+          "id": "title",
+          "type": "text",
+          "text": "<p style=\"font-size:32px;font-family:Arial;text-align:left\">System architecture</p>",
+          "boundingBox": {
+            "x": 40,
+            "y": 20,
+            "w": 1320,
+            "h": 65
+          }
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">Target architecture: the health endpoint and local sample SSE stream are the only API features implemented.</p>",
+          "boundingBox": {
+            "x": 40,
+            "y": 145,
+            "w": 1320,
+            "h": 50
+          }
+        },
+        {
+          "id": "web",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 260,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">SvelteKit 3 PWA<br>Research + portfolio<br>Planned client</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E6EEFF"
+            },
+            "stroke": {
+              "color": "#2459B8",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "swift",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 450,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">Swift / SwiftUI<br>Native iPhone + iPad<br>Planned screens</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E6EEFF"
+            },
+            "stroke": {
+              "color": "#2459B8",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "rn",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 640,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">React Native shell<br>Navigation + typed bridge<br>Planned integration</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E6EEFF"
+            },
+            "stroke": {
+              "color": "#2459B8",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "api",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 540,
+            "y": 350,
+            "w": 320,
+            "h": 140
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">FastAPI modular core<br>STARTER: health + SSE<br>Auth + product APIs planned</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#DCF5EF"
+            },
+            "stroke": {
+              "color": "#087D78",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "ledger",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 540,
+            "y": 690,
+            "w": 320,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">PostgreSQL ledger<br>Immutable forecasts/outcomes<br>Portfolio + audit: planned</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#DCF5EF"
+            },
+            "stroke": {
+              "color": "#087D78",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "data",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1040,
+            "y": 260,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">Licensed market data<br>Twelve Data + provenance<br>Adapters planned</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF1D6"
+            },
+            "stroke": {
+              "color": "#966012",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "quant",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1040,
+            "y": 450,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">Quantitative jobs<br>Purged walk-forward<br>Models + scoring planned</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EFE7FD"
+            },
+            "stroke": {
+              "color": "#6840B1",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "agents",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1040,
+            "y": 640,
+            "w": 300,
+            "h": 112
+          },
+          "text": "<p style=\"font-size:18px;font-family:Arial;text-align:left\">Claude research agents<br>Cited, bounded read-only tools<br>SDK/API integration planned</p>",
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FDE7EE"
+            },
+            "stroke": {
+              "color": "#B23C67",
+              "width": 2,
+              "style": "solid"
+            },
+            "textColor": "#17243C"
+          }
+        },
+        {
+          "id": "foot",
+          "type": "text",
+          "text": "<p style=\"font-size:17px;font-family:Arial;text-align:left\">BLUE clients  /  TEAL API &amp; records  /  AMBER data  /  PURPLE quant  /  ROSE research<br>Planned authenticated HTTPS + SSE. Current sample SSE is unauthenticated, volatile and has no durable replay.<br>Personal use only. No trading. All connections are planned interfaces.</p>",
+          "boundingBox": {
+            "x": 40,
+            "y": 890,
+            "w": 1320,
+            "h": 120
+          }
+        }
+      ],
+      "lines": [
+        {
+          "id": "line-0",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "web",
+            "position": {
+              "x": 1.0,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "api",
+            "position": {
+              "x": 0.0,
+              "y": 0.25
+            }
+          },
+          "stroke": {
+            "color": "#2459B8",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-1",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "swift",
+            "position": {
+              "x": 1.0,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "api",
+            "position": {
+              "x": 0.0,
+              "y": 0.6428571428571429
+            }
+          },
+          "stroke": {
+            "color": "#2459B8",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-2",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "rn",
+            "position": {
+              "x": 0.5,
+              "y": 0.0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "swift",
+            "position": {
+              "x": 0.5,
+              "y": 1.0
+            }
+          },
+          "stroke": {
+            "color": "#2459B8",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-3",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "api",
+            "position": {
+              "x": 0.5,
+              "y": 1.0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "ledger",
+            "position": {
+              "x": 0.5,
+              "y": 0.0
+            }
+          },
+          "stroke": {
+            "color": "#087D78",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-4",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "api",
+            "position": {
+              "x": 1.0,
+              "y": 0.25
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "data",
+            "position": {
+              "x": 0.0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#966012",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-5",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "api",
+            "position": {
+              "x": 1.0,
+              "y": 0.6428571428571429
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "quant",
+            "position": {
+              "x": 0.0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#6840B1",
+            "width": 3,
+            "style": "solid"
+          }
+        },
+        {
+          "id": "line-6",
+          "lineType": "straight",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "api",
+            "position": {
+              "x": 1.0,
+              "y": 0.8571428571428571
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "agents",
+            "position": {
+              "x": 0.0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#B23C67",
+            "width": 3,
+            "style": "solid"
+          }
+        }
+      ]
+    }
+  ]
+}

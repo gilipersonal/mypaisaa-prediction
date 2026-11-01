@@ -4,6 +4,8 @@
 
 **Purpose:** the single starting point for future Codex work. It records product intent and working decisions; it is not a deployment plan or financial advice.
 
+For what is implemented today, read the [current implementation status](implementation-plan.md#current-implementation-status) and the [1 November 2026 plan-sync record](plan-sync-2026-11-01.md). The technology and capabilities below describe the planned product. Only the FastAPI health/sample SSE starter and illustrative static preview currently exist; phase 0 remains partial.
+
 ## 1. Product vision
 
 Build a private, high-quality investment-intelligence and prediction platform for one person. It should help research global multi-asset investments and make recommendations based on transparent, measured evidence.
@@ -159,6 +161,17 @@ Set a forecast alert at £30/month and investigate before £40/month. Actual AWS
 7. Which public/reliable research sources should agents be allowed to retrieve?
 8. Should the first release focus on the PWA before the native iOS/iPadOS app?
 
+## Project reference links
+
+Repository documents and accepted ADRs hold the versioned technical decisions; Jira holds work status. Confluence is a published knowledge snapshot that is updated through approved plan-sync operations. It does not automatically follow repository changes. The local corrections for this sync are prepared on the MP-3 issue branch and remain pending PR/merge; publication does not imply they are already on `main`.
+
+- [MP Jira backlog](https://duttaarun2015.atlassian.net/jira/software/projects/MP/boards/167/backlog)
+- [Confluence product brief and knowledge base](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981241)
+- [Confluence architecture and decision records](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145394)
+- [Confluence roadmap and current implementation status](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112476)
+- [Confluence development, CI and Codex workflows](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014127)
+- [Confluence security, cost and operations](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112525)
+
 ## 13. How to resume
 
-Start with the README, then this document. Choose one phase from the delivery order, update the relevant architecture/ADR if a decision changes, and implement the smallest tested vertical slice. Follow AGENTS.md for guardrails.
+Start with the README, this document and the [current implementation status](implementation-plan.md#current-implementation-status). Follow the manual Jira/Confluence links in the [plan-sync record](plan-sync-2026-11-01.md), choose one phase from the delivery order, update the relevant architecture/ADR if a decision changes, and implement the smallest tested vertical slice. Follow AGENTS.md for guardrails.
