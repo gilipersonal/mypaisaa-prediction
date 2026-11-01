@@ -51,5 +51,9 @@ A change is complete only when it has focused tests, reasonable error handling, 
 
 - This project's Jira key is MP. Read `.claude/jira-flow.json` and `.claude/rules/jira-flow.md` for the project workflow; the Confluence space is `mypaisaapr`.
 - For a finished MP issue, use the project-local autoship skill at `.agents/skills/autoship/SKILL.md`. Follow the user's global instruction to ask before raising a PR, merging, or closing an issue; never inherit mypaisa-agent's project-only exceptions.
-- Before presenting a deliverable, offer the independent review once, stating the lanes and up to five rounds. Run it only on a clear yes, with gates first, fresh parallel reviewers, a fixed-findings regression ledger, and delta review after round one. On no or another answer, report it as unreviewed and list gates run.
+- Before presenting a deliverable, offer the independent review, stating the lanes and up to five rounds. Run it only with approval, with gates first, fresh parallel reviewers, a fixed-findings regression ledger, and delta review after round one. For Codex, ask separately before every round as specified below. On no or another answer, report it as unreviewed and list gates run.
 - The `site/` source belongs to this repository. Preserve its `.openai/hosting.json` Sites identity and track `site/dist/`, which is its source for the buildless preview. The separate Sites publication workflow must be reconciled with this repository before publishing.
+
+## Codex-only project workflows
+
+When working in Codex, read `.codex/rules/workflow.md`. The project-local skills under `.agents/skills/` contain the detailed procedures. Plan sync, independent review, and running the review-regression ledger each require explicit approval as described there. These instructions do not change Claude configuration or any other project.

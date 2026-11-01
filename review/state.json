@@ -1,0 +1,102 @@
+{
+  "scope": "Codex-only Mypaisaa Prediction workflow setup",
+  "round_count": 9,
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_snapshot": "review/snapshots/round-1",
+      "snapshot_note": "Uncommitted files copied before round 1; subsequent review covers fixes and their joins.",
+      "gate_results": ["Seven synthetic runner tests passed", "Skill YAML frontmatter, hook JSON, Python compilation and git diff --check passed", "No existing regression ledger or MP issue; no regression entries ran", "PyYAML-based skill validator unavailable; YAML frontmatter checked with Ruby"],
+      "blocking_findings": ["R1-1", "R1-2", "R1-3"],
+      "manual_evidence": []
+    },
+    {
+      "round": 2,
+      "reviewed_snapshot": "review/snapshots/round-2",
+      "snapshot_note": "Delta from round 1 and direct joins, before round 2 fixes.",
+      "gate_results": ["Nine synthetic runner tests passed", "Four skill YAML frontmatter and hook JSON checks, Python compilation and git diff --check passed", "LOCAL regression ledger: 3 passed, 0 failed, 0 manual"],
+      "blocking_findings": ["R2-1", "R2-2"],
+      "manual_evidence": []
+    },
+    {
+      "round": 3,
+      "reviewed_snapshot": "review/snapshots/round-3",
+      "snapshot_note": "Delta from round 2 and direct joins, before round 3 fixes.",
+      "gate_results": ["Eleven synthetic runner tests passed", "Skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 5 passed, 0 failed, 0 manual"],
+      "blocking_findings": ["R3-1", "R3-2", "R3-3"],
+      "manual_evidence": []
+    },
+    {
+      "round": 4,
+      "reviewed_snapshot": "review/snapshots/round-4",
+      "snapshot_note": "Only fixes for round 3 findings and their directly affected connections.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 8 passed, 0 failed, 0 manual"],
+      "blocking_findings": ["R4-1", "R4-2"],
+      "status": "fixes applied; next round requires approval",
+      "manual_evidence": []
+    },
+    {
+      "round": 5,
+      "reviewed_snapshot": "review/snapshots/round-5",
+      "snapshot_note": "Only fixes for round 4 findings and their directly affected connections.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 10 passed, 0 failed, 0 manual"],
+      "blocking_findings": [
+        {"id": "R5-1", "finding": "The gate-results check does not detect removal of an entire historical review round."},
+        {"id": "R5-2", "finding": "The manual-verification policy check accepts a first-round-only qualifier placed before an intact policy sentence."}
+      ],
+      "status": "fixes applied; further review requires separate approval",
+      "manual_evidence": []
+    },
+    {
+      "round": 6,
+      "reviewed_snapshot": "review/snapshots/round-6",
+      "snapshot_note": "User explicitly approved this additional round; scope is only round 5 fixes and direct connections.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 12 passed, 0 failed, 0 manual"],
+      "blocking_findings": [
+        {"id": "R6-1", "finding": "Deleting the last recorded review round while reducing round_count goes undetected."},
+        {"id": "R6-2", "finding": "A first-round-only qualifier in the paragraph before the manual policy goes undetected."}
+      ],
+      "status": "fixes applied; further review requires separate approval",
+      "manual_evidence": []
+    },
+    {
+      "round": 7,
+      "reviewed_snapshot": "review/snapshots/round-7",
+      "snapshot_note": "User explicitly approved this additional round; scope is only round 6 fixes and direct connections.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, review-policy JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 14 passed, 0 failed, 0 manual"],
+      "blocking_findings": [
+        {"id": "R7-1", "finding": "A first-round-only qualifier immediately before the manual-verification heading is not detected by the prose consistency check."}
+      ],
+      "status": "fix applied; further review requires separate approval",
+      "manual_evidence": []
+    },
+    {
+      "round": 8,
+      "reviewed_snapshot": "review/snapshots/round-8",
+      "snapshot_note": "User explicitly approved this additional round; scope is only the round 7 fix and direct connections. Unchanged history lane sits out.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, review-policy JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 15 passed, 0 failed, 0 manual"],
+      "blocking_findings": [],
+      "status": "passed; no blocking or nonblocking findings in round 7 fix and direct connections",
+      "reviewer": "round8_policy_fix",
+      "verification": ["Exact before-heading qualifier rejected for both documents", "Focused policy test passed", "Both baseline digests matched", "Unchanged history lane excluded"],
+      "manual_evidence": []
+    },
+    {
+      "round": 9,
+      "deliverable": "risk-based review optimisation",
+      "deliverable_round": 1,
+      "reviewed_snapshot": "review/snapshots/round-9",
+      "snapshot_note": "First approved review of the optimisation update only; historical setup reviews remain recorded separately above.",
+      "changed_components": ["Codex workflow rule", "independent-review, regression and autoship skills", "document baseline", "README link", "review optimisation note"],
+      "risk_assessment": "Documentation and Codex workflow selection change. Validate policy consistency, approval boundaries, baseline compatibility and existing runner behaviour. No application or infrastructure code changed.",
+      "gate_results": ["python3 -m unittest discover -s tests -p test_review_regress.py -v: 13 passed", "python3 scripts/review_regress.py LOCAL --approved: 15 passed, 0 failed, 0 manual", "Three changed skill YAML frontmatter checks, state JSON, note-reference checks and git diff --check passed", "git diff --exit-code -- .claude passed; no Claude configuration edits"],
+      "broader_suites": [{"suite": "backend, web, native-device and end-to-end application tests", "decision": "not applicable to this policy-only update", "reason": "No application source, contracts, runtime dependencies or infrastructure changed; normal affected-suite and release gates remain required for future product changes."}],
+      "reused_evidence": [],
+      "blocking_findings": [],
+      "status": "passed; no blocking or nonblocking findings in either parallel lane",
+      "reviewers": ["optimisation_policy", "optimisation_docs"],
+      "verification": ["Policy lane confirmed risk-based coverage, full ledger checks and per-round consent", "Documentation lane confirmed note accuracy, evidence limits, baseline digests and scoped snapshot", "Both lanes confirmed Codex-only scope and unchanged manual-verification policy"],
+      "manual_evidence": []
+    }
+  ]
+}

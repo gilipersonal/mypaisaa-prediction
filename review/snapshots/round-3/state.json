@@ -1,0 +1,19 @@
+{
+  "scope": "Codex-only Mypaisaa Prediction workflow setup",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_snapshot": "review/snapshots/round-1",
+      "snapshot_note": "Uncommitted files copied before round 1; subsequent review covers fixes and their joins.",
+      "blocking_findings": ["R1-1", "R1-2", "R1-3"],
+      "manual_evidence": []
+    },
+    {
+      "round": 2,
+      "reviewed_snapshot": "review/snapshots/round-2",
+      "snapshot_note": "Delta from round 1 and direct joins, before round 2 fixes.",
+      "blocking_findings": ["R2-1", "R2-2"],
+      "manual_evidence": []
+    }
+  ]
+}

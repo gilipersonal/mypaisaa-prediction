@@ -1,0 +1,9 @@
+{
+  "manual_verification": {
+    "frequency": "every_round",
+    "scope": "all_outstanding",
+    "verifier": "fresh_independent",
+    "if_unverified": "stop",
+    "evidence_fields": ["finding_id", "evidence", "verifier", "result"]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "scope": "Codex-only Mypaisaa Prediction workflow setup",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_snapshot": "review/snapshots/round-1",
+      "snapshot_note": "Uncommitted files copied before round 1; subsequent review covers fixes and their joins.",
+      "gate_results": ["Seven synthetic runner tests passed", "Skill YAML frontmatter, hook JSON, Python compilation and git diff --check passed", "No existing regression ledger or MP issue; no regression entries ran", "PyYAML-based skill validator unavailable; YAML frontmatter checked with Ruby"],
+      "blocking_findings": ["R1-1", "R1-2", "R1-3"],
+      "manual_evidence": []
+    },
+    {
+      "round": 2,
+      "reviewed_snapshot": "review/snapshots/round-2",
+      "snapshot_note": "Delta from round 1 and direct joins, before round 2 fixes.",
+      "gate_results": ["Nine synthetic runner tests passed", "Four skill YAML frontmatter and hook JSON checks, Python compilation and git diff --check passed", "LOCAL regression ledger: 3 passed, 0 failed, 0 manual"],
+      "blocking_findings": ["R2-1", "R2-2"],
+      "manual_evidence": []
+    },
+    {
+      "round": 3,
+      "reviewed_snapshot": "review/snapshots/round-3",
+      "snapshot_note": "Delta from round 2 and direct joins, before round 3 fixes.",
+      "gate_results": ["Eleven synthetic runner tests passed", "Skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 5 passed, 0 failed, 0 manual"],
+      "blocking_findings": ["R3-1", "R3-2", "R3-3"],
+      "manual_evidence": []
+    },
+    {
+      "round": 4,
+      "reviewed_snapshot": "review/snapshots/round-4",
+      "snapshot_note": "Delta from round 3 and direct joins, including per-round approval rules.",
+      "gate_results": ["Thirteen synthetic runner tests passed", "Five skill YAML frontmatter, hook JSON, ledger and state JSON, Python compilation and git diff --check passed", "LOCAL regression ledger: 8 passed, 0 failed, 0 manual"],
+      "blocking_findings": [],
+      "status": "in progress",
+      "manual_evidence": []
+    }
+  ]
+}

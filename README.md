@@ -75,6 +75,8 @@ cd mobile/native-ios && swift test
 
 Before implementing an endpoint, pipeline, model, or agent, read [AGENTS.md](AGENTS.md). In particular, predictive work must use time-aware split logic and record every published prediction before its outcome is known.
 
+For Codex review rounds, [the review optimisation note](docs/review-optimisation.md) explains risk-based test selection, evidence reuse, regression coverage, and when expensive suites run. Required release gates still apply before shipping.
+
 ## Delivery plan
 
 The ordered, shippable plan is in [docs/implementation-plan.md](docs/implementation-plan.md). In short:
