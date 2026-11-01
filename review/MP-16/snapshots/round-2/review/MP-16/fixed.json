@@ -1,0 +1,98 @@
+[
+  {
+    "id": "R1-D1",
+    "finding": "Correct provider CNX1 quote unit to GBX, with GBP currency and 100:1 normalisation",
+    "check": {
+      "type": "command",
+      "argv": [
+        "uv",
+        "run",
+        "--no-project",
+        "--with",
+        "numpy==2.5.4",
+        "--with",
+        "pandas==3.1.0",
+        "--with",
+        "pandas-market-calendars==5.6.0",
+        "--with",
+        "exchange-calendars==4.13.2",
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_synthetic_data.py",
+        "-q",
+        "-k",
+        "cnx1_pence_to_pounds"
+      ],
+      "timeout_seconds": 60
+    }
+  },
+  {
+    "id": "R1-S1",
+    "finding": "Validation explicitly rejects corrupted packs even under -O and PYTHONOPTIMIZE",
+    "check": {
+      "type": "command",
+      "argv": [
+        "uv",
+        "run",
+        "--no-project",
+        "--with",
+        "numpy==2.5.4",
+        "--with",
+        "pandas==3.1.0",
+        "--with",
+        "pandas-market-calendars==5.6.0",
+        "--with",
+        "exchange-calendars==4.13.2",
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_synthetic_data.py",
+        "-q",
+        "-k",
+        "optimized_python_still_rejects_corruption"
+      ],
+      "timeout_seconds": 60
+    }
+  },
+  {
+    "id": "R1-D2",
+    "finding": "Old daily-only bars must belong to recorded market sessions",
+    "check": {
+      "type": "command",
+      "argv": [
+        "uv",
+        "run",
+        "--no-project",
+        "--with",
+        "numpy==2.5.4",
+        "--with",
+        "pandas==3.1.0",
+        "--with",
+        "pandas-market-calendars==5.6.0",
+        "--with",
+        "exchange-calendars==4.13.2",
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_synthetic_data.py",
+        "-q",
+        "-k",
+        "older_daily_session_mutation"
+      ],
+      "timeout_seconds": 60
+    }
+  }
+]

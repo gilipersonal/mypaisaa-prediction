@@ -1,0 +1,7 @@
+{
+  "docs/synthetic-test-data.md": "5a084fa5833ae5d7c552aaeda5be835cc47d12d5579316ad465a76546b61c34c",
+  "fixtures/synthetic/instruments.json": "0ea41236752598383e970f8bc1c27a43cc7f6626cda906ad29a9b49b7f711263",
+  "scripts/synthetic_data.py": "06f74df579094b60eb16801cb840626b3876e9d08c72716929650af3508295a6",
+  "scripts/validate_synthetic_data.py": "d26d3875aaf5108c0b19a0c7a70d03bf2c8bf894712da7fa694956a4594444cc",
+  "tests/test_synthetic_data.py": "832b5f01746bc57c286ccb9e04bcb8fcee51d5f7a06e9e88250f7ffefca1e6ea"
+}

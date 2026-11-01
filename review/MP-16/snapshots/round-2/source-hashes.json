@@ -1,0 +1,8 @@
+{
+  "fixtures/synthetic/instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+  "scripts/validate_synthetic_data.py": "feb77f6df1ebd851b8b85e5fbcf8d12d3ee764b3c1ec47107147826074209ad6",
+  "tests/test_synthetic_data.py": "cf8d190028077c1ab6a70ba4836c03e3f28c61e867106b5d9ba2b846b86f8c43",
+  "docs/synthetic-test-data.md": "2f4d5541a355db7cdb978990d258df9ba08d5a3328dd4102bcfba287e4c1ff58",
+  ".codex/rules/review-checklist.md": "870749246065dc04a139cecee44fa37284fdbdd9d2885100f3f7bfd72903f854",
+  "review/MP-16/fixed.json": "32baa8a1deee344f5c3014542e86f4bc7668ac458eb8e374c77ac130acc13b36"
+}
