@@ -1,0 +1,72 @@
+[
+  {
+    "id": "R1-1",
+    "finding": "Reviews without a Jira issue could not run their fixed-findings ledger.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_local_review_uses_shared_ledger_and_broken_symlink_is_an_error"]}
+  },
+  {
+    "id": "R1-2",
+    "finding": "Manual checks had no distinct, documented pre-round verification path.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_is_outstanding_not_passed", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R1-3",
+    "finding": "Timed-out regression commands could leave child processes running.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_timeout_stops_child_process"], "timeout_seconds": 10}
+  },
+  {
+    "id": "R2-1",
+    "finding": "The manual-verification policy was not protected by the original regression check.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R2-2",
+    "finding": "A dangling parent directory symlink could make an unavailable ledger look absent.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_broken_parent_symlinks_are_errors_for_local_and_issue_ledgers"]}
+  },
+  {
+    "id": "R3-1",
+    "finding": "An inaccessible review directory could look like an absent ledger.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_inaccessible_ledger_is_error_for_local_and_issue"]}
+  },
+  {
+    "id": "R3-2",
+    "finding": "The policy check did not protect verification of every manual item before each round.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R3-3",
+    "finding": "The review record omitted the actual pre-round gate results.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_review_state_records_gates_for_every_round"]}
+  },
+  {
+    "id": "R4-1",
+    "finding": "The gate-results check allowed empty or non-string entries.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_review_state_records_gates_for_every_round"]}
+  },
+  {
+    "id": "R4-2",
+    "finding": "The manual-verification policy test did not catch qualifying the rule as first-round-only.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R5-1",
+    "finding": "The gate-results check did not detect removal of an entire historical review round.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_review_state_records_gates_for_every_round"]}
+  },
+  {
+    "id": "R5-2",
+    "finding": "The manual policy check accepted a first-round-only qualifier before the original sentence.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R6-1",
+    "finding": "Truncating the final review round and lowering the state count was undetected.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_review_state_records_gates_for_every_round"]}
+  },
+  {
+    "id": "R6-2",
+    "finding": "A preceding paragraph could restrict manual verification while preserving the checked sentence.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  }
+]

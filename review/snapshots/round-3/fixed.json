@@ -1,0 +1,27 @@
+[
+  {
+    "id": "R1-1",
+    "finding": "Reviews without a Jira issue could not run their fixed-findings ledger.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_local_review_uses_shared_ledger_and_broken_symlink_is_an_error"]}
+  },
+  {
+    "id": "R1-2",
+    "finding": "Manual checks had no distinct, documented pre-round verification path.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_is_outstanding_not_passed", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R1-3",
+    "finding": "Timed-out regression commands could leave child processes running.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_timeout_stops_child_process"], "timeout_seconds": 10}
+  },
+  {
+    "id": "R2-1",
+    "finding": "The manual-verification policy was not protected by the original regression check.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_manual_verification_policy_is_preserved"]}
+  },
+  {
+    "id": "R2-2",
+    "finding": "A dangling parent directory symlink could make an unavailable ledger look absent.",
+    "check": {"type": "command", "argv": ["python3", "tests/test_review_regress.py", "ReviewRunnerTests.test_broken_parent_symlinks_are_errors_for_local_and_issue_ledgers"]}
+  }
+]

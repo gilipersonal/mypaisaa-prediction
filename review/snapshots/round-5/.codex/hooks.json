@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$(git rev-parse --show-toplevel)/.codex/hooks/workflow_reminder.py\"",
+            "timeout": 5,
+            "statusMessage": "Checking project workflow"
+          }
+        ]
+      }
+    ]
+  }
+}

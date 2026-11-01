@@ -1,0 +1,12 @@
+{
+  "scope": "Codex-only Mypaisaa Prediction workflow setup",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_snapshot": "/tmp/mp-review-round1.d9t0KCi1",
+      "snapshot_note": "Uncommitted files copied before round 1; subsequent review covers fixes and their joins.",
+      "blocking_findings": ["R1-1", "R1-2", "R1-3"],
+      "manual_evidence": []
+    }
+  ]
+}
