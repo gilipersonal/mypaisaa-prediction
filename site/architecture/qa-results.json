@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-01",
+  "issue": "MP-17",
+  "status": "maker verification passed; independent review not run; publication pending",
+  "automated": {
+    "production_build": "passed Vite 8.3.5 / Node 24",
+    "graph_contract_resource_hash_check": "passed: 19 components,32 joins,5 paths,7 narrative stages,10 phases,native/source hashes and Site identity",
+    "original_static_preview_test": "passed",
+    "workflow_lint": "actionlint 1.7.12 passed after checksum verification",
+    "npm_audit": "0 reported vulnerabilities in full lock audit",
+    "whitespace": "source checks passed; two whitespace lines inside generated upstream Remotion CSS template literals preserved"
+  },
+  "browser": {
+    "engine": "Playwright Chromium, local built static output",
+    "viewport_widths": [
+      360,
+      390,
+      768,
+      1024,
+      1440
+    ],
+    "horizontal_document_overflow": false,
+    "journey_and_keyboard_arrows": "passed, first tab ArrowRight selected Reconcile",
+    "component_and_path_controls": "passed, read-only contract detail and selected aria state",
+    "evidence_scenarios": "passed, disagreement and insufficient-evidence/abstention views",
+    "network_options": "passed N1/N1-E content and selected state",
+    "technical_view": "eight native technical disclosures open on toggle",
+    "native_images": "both loaded with natural dimensions after lazy scroll",
+    "remotion": "72-second captioned composition loaded on request; no autoplay; clock advanced to 0:01; pause held stable",
+    "global_pause": "motion off, Player removed",
+    "dynamic_reduced_motion": "preference change immediately disabled control, set motion off and removed Player; direct media-query subscription covers library hook snapshot behaviour",
+    "network": "all observed requests were local static HTML,JS,CSS,fonts or native diagram assets; no external app/provider calls",
+    "console_errors": 0,
+    "visual_inspection": "desktop first viewport, system map and 390px hero/system inspected; final low-emphasis component text kept readable"
+  },
+  "observations": [
+    {
+      "severity": "advisory",
+      "item": "Vite reports client-only package directives while making a client-only static bundle; build succeeds and browser has no runtime errors."
+    },
+    {
+      "severity": "advisory",
+      "item": "Impeccable detector flagged Instrument Sans as an overused font; retained the self-hosted selected reading face with Manrope display. No deterministic UI-quality errors were reported by file hooks."
+    }
+  ],
+  "limits": [
+    "Representative browser and keyboard checks, not a complete WCAG conformance audit or every-device certification.",
+    "No investment app, identity, streaming backend, forecasts, paid APIs or AWS deployment tested.",
+    "No new independent review or real fixed-findings-ledger run has been authorised.",
+    "No claim that still-open architecture options or full product UX are approved."
+  ]
+}
