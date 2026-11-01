@@ -1,0 +1,15 @@
+{
+  "project_id": "appgprj_6ae70bec3f6c8191947480b6423b4bb1",
+  "sites_source_commit": "6d64688dc6dbd894db6d223c19707c20ca4e4742",
+  "github_implementation_commit": "d67f51ef84323cfe85d22ef69fc0a770238cd49c",
+  "deployment_id": "appgdep_6ae7c9a083648191ba01e8c660375e1a",
+  "version_id": "appgprj_6ae70bec3f6c8191947480b6423b4bb1~appgver_df42f14020ec8191ac3cb50e3eb944dd",
+  "status": "succeeded",
+  "url": "https://mypaisaa-prediction.duttaarun2015.chatgpt.site",
+  "atlas_url": "https://mypaisaa-prediction.duttaarun2015.chatgpt.site/architecture/",
+  "published_UTC": "2026-11-01T23:22:24.278584+00:00",
+  "archive_sha256": "f3b1ee84e04a9ab9650b7f44122c724840468efc16d33352aa5fcf9a6b6fadb4",
+  "audience": "existing custom policy; owner-only; unchanged",
+  "independent_review": "explicitly declined",
+  "application_deployment": "none; only the static architecture presentation published"
+}

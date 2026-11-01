@@ -1,0 +1,38 @@
+{
+  "snapshot_date": "2026-11-01",
+  "issue": "MP-17",
+  "status": "proposed architecture; application not deployed",
+  "canonical_architecture": "https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit",
+  "native_exports": [
+    {
+      "file": "system.png",
+      "source": "docs/planning/layered-development-2026-11-01/visuals/mp-system-architecture-native.png",
+      "sha256": "2ea51f99a487f18af9e6a4284f4c3d2c6427a8d04f7ca4e84e75291bec448fd4",
+      "lucid_page": 4,
+      "source_version": 2703
+    },
+    {
+      "file": "network.png",
+      "source": "docs/planning/layered-development-2026-11-01/visuals/mp-network-options-native.png",
+      "sha256": "89acd7f59f8eb209f9362db8cfb71b413355262aec23bce85b8820ee83c22e1d",
+      "lucid_page": 5,
+      "source_version": 4333
+    }
+  ],
+  "local_source_hashes": {
+    "docs/planning/layered-development-2026-11-01/architecture-blueprint.md": "96e9faafeb537d76afafb5759413a72d42501f3c1f4156fbe129ff05c20a68ac",
+    "docs/planning/layered-development-2026-11-01/tech-stack-matrix.md": "2c3b37bfa268d5354724c81a320cd20acd71258ba7186f35ef8da642c9d82d2b",
+    "docs/planning/layered-development-2026-11-01/network-topology-options.md": "1a7dea2fbaea02f27ec73f86425a5e23692a311619f2b5b73da1e6ee7719697a",
+    "docs/planning/layered-development-2026-11-01/portfolio-import-spec.md": "a1705036406c34f03156f89c2ed8c60fb4909c908dbd1936a33c583d269c5752",
+    "docs/planning/layered-development-2026-11-01/phased-delivery-plan.md": "8f2d12b5ffe9c13da7771bb2324b258c142868c9ebb715b775cd7f702caafc47",
+    "docs/planning/aws-options-2026-11-01/product-decisions.json": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c"
+  },
+  "sync": "Manual snapshot; not automatic or bidirectional. Historical pending labels in source documents are contextualised by the completed MP-15 sync record.",
+  "interactive_map": "An explanatory logical process companion, not a replacement for native Lucid drawings or live telemetry.",
+  "library_references": [
+    "https://motion.dev/docs/react-animation",
+    "https://motion.dev/docs/react-use-reduced-motion",
+    "https://www.remotion.dev/docs/player/player",
+    "https://vite.dev/guide/build"
+  ]
+}

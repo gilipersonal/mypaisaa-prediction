@@ -1,0 +1,10 @@
+{
+  "issue": "MP-17",
+  "deliverable": "Cinematic end-to-end architecture atlas",
+  "round_count": 0,
+  "rounds": [],
+  "status": "independent review declined by owner; published privately; PR creation authorised",
+  "further_round_authorised": false,
+  "owner_choice": "Publish privately and raise the PR without independent review",
+  "regression_ledger_run": false
+}

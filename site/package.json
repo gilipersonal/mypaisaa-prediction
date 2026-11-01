@@ -1,0 +1,22 @@
+{
+  "name": "mypaisaa-architecture-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config architecture/vite.config.js --host 127.0.0.1",
+    "build": "vite build --config architecture/vite.config.js",
+    "check": "node architecture/check.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "@fontsource-variable/manrope": "5.3.0",
+    "@remotion/player": "4.0.539",
+    "lucide-react": "0.468.0",
+    "motion": "14.9.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": { "vite": "8.3.5" }
+}
