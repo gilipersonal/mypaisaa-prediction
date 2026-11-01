@@ -59,3 +59,5 @@ A change is complete only when it has focused tests, reasonable error handling, 
 ## Codex-only project workflows
 
 When working in Codex, read `.codex/rules/workflow.md`. The project-local skills under `.agents/skills/` contain the detailed procedures. Plan sync, independent review, and running the review-regression ledger each require explicit approval as described there. These instructions do not change Claude configuration or any other project.
+
+For Codex architecture documentation, follow `.codex/rules/architecture-diagrams.md` and the `mp-architecture-diagrams` skill. Use Lucidchart for AWS and other significant architecture, with colourful native service components, clearly labelled implementation status, and readable static alternatives to animation.

@@ -18,10 +18,11 @@ These instructions apply only to Codex work in this repository. Jira project MP 
 | Work | Codex skill | Gate |
 | --- | --- | --- |
 | UI/UX, web, SwiftUI, charts | `.agents/skills/mp-design-first/SKILL.md` | Present viable options for material new design and obtain the user's pick before implementing that design. |
-| Check or synchronise plan, Jira, Confluence, design and code | `.agents/skills/mp-plan-sync/SKILL.md` | Explicit approval for the stated scope before running; dry-run evidence before any approved external writes. |
+| Check or synchronise plan, Jira, Confluence, design and code | `.agents/skills/mp-plan-sync/SKILL.md` | Follow `.codex/rules/plan-sync.md`; explicit scope approval and dry-run evidence before approved external writes. |
 | Independent review | `.agents/skills/mp-independent-review/SKILL.md` | Explicit approval before the review; gates first, including the regression runner within that approval. |
 | Review regression checks on their own | `.agents/skills/mp-review-regression/SKILL.md` | Explicit approval before running ledger checks. |
 | Finish an MP issue | `.agents/skills/autoship/SKILL.md` | Follow review and shipping permissions above. |
+| AWS or significant architecture diagrams | `.agents/skills/mp-architecture-diagrams/SKILL.md` | Use Lucidchart with relevant colourful service components; follow `.codex/rules/architecture-diagrams.md` and existing external-write permissions. |
 
 Parallelise independent work within the concurrency limit. Routine implementation checks, including tests of the regression runner itself using isolated synthetic fixtures, do not constitute a run against a real review ledger. The prompt reminder hook is advisory; it cannot force a native approval dialog.
 

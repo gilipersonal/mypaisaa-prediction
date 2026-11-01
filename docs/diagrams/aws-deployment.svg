@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+<title id="title">Budget-first AWS deployment</title>
+<desc id="desc">Planned single-host personal deployment uses Amazon Lightsail with reverse proxy, FastAPI, scheduled worker and local PostgreSQL. Encrypted S3 backups, CloudWatch and AWS Budgets are planned. No infrastructure has been deployed.</desc>
+<style>text{font-family:Arial,Helvetica,sans-serif}.flow{stroke-dasharray:11 19;animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-30}}@media(prefers-reduced-motion:reduce){.flow{animation:none}}</style>
+<rect width="100%" height="100%" fill="#F5F7FC"/>
+<text x="40" y="55" font-size="32" font-weight="700" fill="#17243C">MYPAISAA / Budget-first AWS deployment</text>
+<text x="40" y="96" font-size="19" font-weight="400" fill="#526078">PLANNED ONLY: one small host, encrypted backups and explicit cost controls. Region is not selected.</text>
+<text x="40" y="151" font-size="16" font-weight="700" fill="#526078">PERSONAL ACCESS</text>
+<text x="500" y="151" font-size="16" font-weight="700" fill="#526078">PLANNED SINGLE HOST</text>
+<text x="1040" y="151" font-size="16" font-weight="700" fill="#526078">PLANNED SAFEGUARDS</text>
+<defs><marker id="arrow-0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#2459B8"/></marker></defs>
+<polyline points="340,246 500,246" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="340,246 500,246" fill="none" stroke="#2459B8" stroke-width="3" marker-end="url(#arrow-0)"/>
+<defs><marker id="arrow-1" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#6840B1"/></marker></defs>
+<polyline points="665,302 665,370" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="665,302 665,370" fill="none" stroke="#6840B1" stroke-width="3" marker-end="url(#arrow-1)"/>
+<defs><marker id="arrow-2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#087D78"/></marker></defs>
+<polyline points="665,482 665,550" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="665,482 665,550" fill="none" stroke="#087D78" stroke-width="3" marker-end="url(#arrow-2)"/>
+<defs><marker id="arrow-3" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#087D78"/></marker></defs>
+<polyline points="830,606 930,606 930,246 1040,246" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="830,606 930,606 930,246 1040,246" fill="none" stroke="#087D78" stroke-width="3" marker-end="url(#arrow-3)"/>
+<defs><marker id="arrow-4" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#B23C67"/></marker></defs>
+<polyline points="830,246 900,246 900,426 1040,426" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="830,246 900,246 900,426 1040,426" fill="none" stroke="#B23C67" stroke-width="3" marker-end="url(#arrow-4)"/>
+<rect x="40" y="195" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="190" width="300" height="112" rx="18" fill="#E6EEFF" stroke="#2459B8" stroke-width="2"/>
+<rect x="55" y="206" width="6" height="80" rx="3" fill="#2459B8"/>
+<text x="75" y="228" font-size="22" font-weight="700" fill="#17243C">Web + Apple clients</text>
+<text x="75" y="256" font-size="18" font-weight="400" fill="#17243C">One authenticated owner</text>
+<text x="75" y="280" font-size="18" font-weight="400" fill="#17243C">HTTPS only</text>
+<rect x="500" y="195" width="330" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="500" y="190" width="330" height="112" rx="18" fill="#FFF1D6" stroke="#966012" stroke-width="2"/>
+<rect x="515" y="206" width="6" height="80" rx="3" fill="#966012"/>
+<text x="535" y="228" font-size="22" font-weight="700" fill="#17243C">Amazon Lightsail</text>
+<text x="535" y="256" font-size="18" font-weight="400" fill="#17243C">Reverse proxy + FastAPI</text>
+<text x="535" y="280" font-size="18" font-weight="400" fill="#17243C">Small Linux instance</text>
+<rect x="500" y="375" width="330" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="500" y="370" width="330" height="112" rx="18" fill="#EFE7FD" stroke="#6840B1" stroke-width="2"/>
+<rect x="515" y="386" width="6" height="80" rx="3" fill="#6840B1"/>
+<text x="535" y="408" font-size="22" font-weight="700" fill="#17243C">Scheduled worker</text>
+<text x="535" y="436" font-size="18" font-weight="400" fill="#17243C">Ingestion / CPU model jobs</text>
+<text x="535" y="460" font-size="18" font-weight="400" fill="#17243C">Strict concurrency limits</text>
+<rect x="500" y="555" width="330" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="500" y="550" width="330" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="515" y="566" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="535" y="588" font-size="22" font-weight="700" fill="#17243C">Local PostgreSQL</text>
+<text x="535" y="616" font-size="18" font-weight="400" fill="#17243C">On the same encrypted host</text>
+<text x="535" y="640" font-size="18" font-weight="400" fill="#17243C">Ledger + forecasts + outcomes</text>
+<rect x="1040" y="195" width="320" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1040" y="190" width="320" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="1055" y="206" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="1075" y="228" font-size="22" font-weight="700" fill="#17243C">Amazon S3 backups</text>
+<text x="1075" y="256" font-size="18" font-weight="400" fill="#17243C">Encrypted dumps + lifecycle</text>
+<text x="1075" y="280" font-size="18" font-weight="400" fill="#17243C">Restore drill required</text>
+<rect x="1040" y="375" width="320" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1040" y="370" width="320" height="112" rx="18" fill="#FDE7EE" stroke="#B23C67" stroke-width="2"/>
+<rect x="1055" y="386" width="6" height="80" rx="3" fill="#B23C67"/>
+<text x="1075" y="408" font-size="22" font-weight="700" fill="#17243C">Amazon CloudWatch</text>
+<text x="1075" y="436" font-size="18" font-weight="400" fill="#17243C">Bounded logs + alarms</text>
+<text x="1075" y="460" font-size="18" font-weight="400" fill="#17243C">Freshness / failure alerts</text>
+<rect x="1040" y="555" width="320" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1040" y="550" width="320" height="112" rx="18" fill="#FFF1D6" stroke="#966012" stroke-width="2"/>
+<rect x="1055" y="566" width="6" height="80" rx="3" fill="#966012"/>
+<text x="1075" y="588" font-size="22" font-weight="700" fill="#17243C">AWS Budgets</text>
+<text x="1075" y="616" font-size="18" font-weight="400" fill="#17243C">Forecast alert at £30</text>
+<text x="1075" y="640" font-size="18" font-weight="400" fill="#17243C">Investigate before £40</text>
+<path d="M40,733 H1360" stroke="#A9B7CD"/>
+<text x="40" y="763" font-size="17" font-weight="700" fill="#17243C">AWS target below £50/month, excluding Twelve Data and Claude API. Prices require regional confirmation.</text>
+<text x="40" y="791" font-size="16" font-weight="400" fill="#526078">Single-host availability accepted. No ALB, NAT Gateway, RDS, GPU, managed Redis or automatic deployment.</text>
+<text x="40" y="818" font-size="16" font-weight="400" fill="#526078">1 November 2026 | Conceptual flows, not live activity | Personal use only - no trading</text>
+</svg>

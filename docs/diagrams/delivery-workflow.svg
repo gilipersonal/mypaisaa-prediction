@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+<title id="title">Consent-gated delivery workflow</title>
+<desc id="desc">Work starts on an MP issue branch, runs applicable gates, and asks before creating a PR. The exact head must pass CI. Explicit consent precedes merging and closure of the verified completed Jira issue, then a clean local checkout returns to main. Independent review is optional and each round requires approval. If Jira closure fails, still attempt the safe local return and report both outcomes separately.</desc>
+<style>text{font-family:Arial,Helvetica,sans-serif}.flow{stroke-dasharray:11 19;animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-30}}@media(prefers-reduced-motion:reduce){.flow{animation:none}}</style>
+<rect width="100%" height="100%" fill="#F5F7FC"/>
+<text x="40" y="55" font-size="32" font-weight="700" fill="#17243C">MYPAISAA / Consent-gated delivery workflow</text>
+<text x="40" y="96" font-size="19" font-weight="400" fill="#526078">IMPLEMENTED WORKFLOW RULES: issue-linked branches, explicit shipping consent, and safe return to main.</text>
+<text x="40" y="146" font-size="16" font-weight="700" fill="#526078">PREPARE</text>
+<text x="40" y="356" font-size="16" font-weight="700" fill="#526078">VERIFY + ASK</text>
+<text x="400" y="566" font-size="16" font-weight="700" fill="#526078">APPROVED MERGE + FOLLOW-UP</text>
+<defs><marker id="arrow-0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334968"/></marker></defs>
+<polyline points="340,231 550,231" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="340,231 550,231" fill="none" stroke="#334968" stroke-width="3" marker-end="url(#arrow-0)"/>
+<defs><marker id="arrow-1" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#087D78"/></marker></defs>
+<polyline points="850,231 1060,231" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="850,231 1060,231" fill="none" stroke="#087D78" stroke-width="3" marker-end="url(#arrow-1)"/>
+<defs><marker id="arrow-2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#B23C67"/></marker></defs>
+<polyline points="1210,287 1210,385" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="1210,287 1210,385" fill="none" stroke="#B23C67" stroke-width="3" marker-end="url(#arrow-2)"/>
+<defs><marker id="arrow-3" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#087D78"/></marker></defs>
+<polyline points="1060,441 850,441" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="1060,441 850,441" fill="none" stroke="#087D78" stroke-width="3" marker-end="url(#arrow-3)"/>
+<defs><marker id="arrow-4" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#B23C67"/></marker></defs>
+<polyline points="550,441 340,441" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="550,441 340,441" fill="none" stroke="#B23C67" stroke-width="3" marker-end="url(#arrow-4)"/>
+<defs><marker id="arrow-5" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#B23C67"/></marker></defs>
+<polyline points="190,497 190,595" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="190,497 190,595" fill="none" stroke="#B23C67" stroke-width="3" marker-end="url(#arrow-5)"/>
+<defs><marker id="arrow-6" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#966012"/></marker></defs>
+<polyline points="340,651 550,651" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="340,651 550,651" fill="none" stroke="#966012" stroke-width="3" marker-end="url(#arrow-6)"/>
+<defs><marker id="arrow-7" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#2459B8"/></marker></defs>
+<polyline points="850,651 1060,651" fill="none" stroke="#A9B7CD" stroke-width="3"/>
+<polyline class="flow" points="850,651 1060,651" fill="none" stroke="#2459B8" stroke-width="3" marker-end="url(#arrow-7)"/>
+<rect x="40" y="180" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="175" width="300" height="112" rx="18" fill="#FFF1D6" stroke="#966012" stroke-width="2"/>
+<rect x="55" y="191" width="6" height="80" rx="3" fill="#966012"/>
+<text x="75" y="213" font-size="22" font-weight="700" fill="#17243C">MP issue</text>
+<text x="75" y="241" font-size="18" font-weight="400" fill="#17243C">Read acceptance criteria</text>
+<text x="75" y="265" font-size="18" font-weight="400" fill="#17243C">Move work In Progress</text>
+<rect x="550" y="180" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="550" y="175" width="300" height="112" rx="18" fill="#E8EDF5" stroke="#334968" stroke-width="2"/>
+<rect x="565" y="191" width="6" height="80" rx="3" fill="#334968"/>
+<text x="585" y="213" font-size="22" font-weight="700" fill="#17243C">Feature branch</text>
+<text x="585" y="241" font-size="18" font-weight="400" fill="#17243C">Start from current main</text>
+<text x="585" y="265" font-size="18" font-weight="400" fill="#17243C">Preserve user changes</text>
+<rect x="1060" y="180" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1060" y="175" width="300" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="1075" y="191" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="1095" y="213" font-size="22" font-weight="700" fill="#17243C">Applicable gates</text>
+<text x="1095" y="241" font-size="18" font-weight="400" fill="#17243C">Tests + lint pass first</text>
+<text x="1095" y="265" font-size="18" font-weight="400" fill="#17243C">Then commit + push</text>
+<rect x="1060" y="390" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1060" y="385" width="300" height="112" rx="18" fill="#FDE7EE" stroke="#B23C67" stroke-width="2"/>
+<rect x="1075" y="401" width="6" height="80" rx="3" fill="#B23C67"/>
+<text x="1095" y="423" font-size="22" font-weight="700" fill="#17243C">Ask: create PR?</text>
+<text x="1095" y="451" font-size="18" font-weight="400" fill="#17243C">Explicit current consent</text>
+<text x="1095" y="475" font-size="18" font-weight="400" fill="#17243C">Target main</text>
+<rect x="550" y="390" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="550" y="385" width="300" height="112" rx="18" fill="#DCF5EF" stroke="#087D78" stroke-width="2"/>
+<rect x="565" y="401" width="6" height="80" rx="3" fill="#087D78"/>
+<text x="585" y="423" font-size="22" font-weight="700" fill="#17243C">Verify exact PR head</text>
+<text x="585" y="451" font-size="18" font-weight="400" fill="#17243C">All five checks pass</text>
+<text x="585" y="475" font-size="18" font-weight="400" fill="#17243C">Confirm linked MP issue</text>
+<rect x="40" y="390" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="385" width="300" height="112" rx="18" fill="#FDE7EE" stroke="#B23C67" stroke-width="2"/>
+<rect x="55" y="401" width="6" height="80" rx="3" fill="#B23C67"/>
+<text x="75" y="423" font-size="22" font-weight="700" fill="#17243C">Ask: merge + close?</text>
+<text x="75" y="451" font-size="18" font-weight="400" fill="#17243C">Name PR, head + MP key</text>
+<text x="75" y="475" font-size="18" font-weight="400" fill="#17243C">Wait for clear consent</text>
+<rect x="40" y="600" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="40" y="595" width="300" height="112" rx="18" fill="#E8EDF5" stroke="#334968" stroke-width="2"/>
+<rect x="55" y="611" width="6" height="80" rx="3" fill="#334968"/>
+<text x="75" y="633" font-size="22" font-weight="700" fill="#17243C">Merge and confirm</text>
+<text x="75" y="661" font-size="18" font-weight="400" fill="#17243C">Expected-head guard</text>
+<text x="75" y="685" font-size="18" font-weight="400" fill="#17243C">No branch deletion</text>
+<rect x="550" y="600" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="550" y="595" width="300" height="112" rx="18" fill="#FFF1D6" stroke="#966012" stroke-width="2"/>
+<rect x="565" y="611" width="6" height="80" rx="3" fill="#966012"/>
+<text x="585" y="633" font-size="22" font-weight="700" fill="#17243C">Close linked Jira</text>
+<text x="585" y="661" font-size="18" font-weight="400" fill="#17243C">Only after completed ACs</text>
+<text x="585" y="685" font-size="18" font-weight="400" fill="#17243C">Verify Done transition</text>
+<rect x="1060" y="600" width="300" height="112" rx="18" fill="#A9B7CD"/>
+<rect x="1060" y="595" width="300" height="112" rx="18" fill="#E6EEFF" stroke="#2459B8" stroke-width="2"/>
+<rect x="1075" y="611" width="6" height="80" rx="3" fill="#2459B8"/>
+<text x="1095" y="633" font-size="22" font-weight="700" fill="#17243C">Return local to main</text>
+<text x="1095" y="661" font-size="18" font-weight="400" fill="#17243C">Clean checkout + fetch</text>
+<text x="1095" y="685" font-size="18" font-weight="400" fill="#17243C">Fast-forward safely</text>
+<path d="M40,783 H1360" stroke="#A9B7CD"/>
+<text x="40" y="813" font-size="17" font-weight="700" fill="#17243C">Optional independent review: ask first; fresh parallel lanes; delta follow-ups; separate consent per round.</text>
+<text x="40" y="841" font-size="16" font-weight="400" fill="#526078">CI is configured; server-side branch protection is inactive under the current GitHub plan. No auto-deploy.</text>
+<text x="40" y="868" font-size="16" font-weight="400" fill="#526078">1 November 2026 | Conceptual flows, not live activity | Personal use only - no trading</text>
+</svg>
