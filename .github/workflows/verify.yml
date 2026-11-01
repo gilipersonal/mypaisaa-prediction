@@ -1,41 +1,100 @@
-name: Verify starter
+name: CI
 
 on:
   pull_request:
+    branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   backend:
+    name: Backend
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      UV_PYTHON_DOWNLOADS: never
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      - run: pip install -e './backend[dev]'
-      - run: pytest backend/tests
-      - run: ruff check backend
+      - name: Install pinned dependency manager
+        run: python -m pip install uv==0.12.9
+      - name: Check and install locked development dependencies
+        run: |
+          uv lock --project backend --check
+          uv sync --project backend --frozen --extra dev
+      - name: Lint backend
+        run: uv run --project backend --frozen --extra dev ruff check backend
+      - name: Check Python tooling for errors
+        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks
+      - name: Test backend
+        run: uv run --project backend --frozen --extra dev pytest backend/tests -q
 
-  web:
+  codex-tooling:
+    name: Codex tooling
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          version: 9
-      - uses: actions/setup-node@v4
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: web/pnpm-lock.yaml
-      - run: pnpm --dir web install --frozen-lockfile=false
-      - run: pnpm --dir web check
-      - run: pnpm --dir web test
+          python-version: '3.12'
+      - name: Test runner and PR policy using synthetic fixtures
+        run: |
+          python -m unittest discover -s tests -p test_review_regress.py -v
+          python -m unittest discover -s tests -p test_pr_policy.py -v
+      - name: Validate Codex and protection JSON configuration
+        run: |
+          python -m json.tool .codex/hooks.json > /dev/null
+          python -m json.tool .codex/review-policy.json > /dev/null
+          python -m json.tool .codex/review-document-baseline.json > /dev/null
+          python -m json.tool .github/main-protection.json > /dev/null
+      # The real findings ledger and independent review still require approval.
 
-  swift:
-    runs-on: macos-latest
+  static-preview:
+    name: Static preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - run: swift test
-        working-directory: mobile/native-ios
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Check preview document and local links
+        run: python -m unittest discover -s tests -p test_site_preview.py -v
+
+  workflow-lint:
+    name: Workflow lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install checksum-verified actionlint
+        env:
+          ACTIONLINT_ARCHIVE: actionlint_1.7.12_linux_amd64.tar.gz
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          curl --fail --silent --show-error --location --retry 2 --max-time 60 \
+            "https://github.com/rhysd/actionlint/releases/download/v1.7.12/$ACTIONLINT_ARCHIVE" \
+            --output "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE"
+          echo "$ACTIONLINT_SHA256  $RUNNER_TEMP/$ACTIONLINT_ARCHIVE" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/$ACTIONLINT_ARCHIVE" -C "$RUNNER_TEMP" actionlint
+      - name: Validate all GitHub workflows
+        run: '"$RUNNER_TEMP/actionlint" -color .github/workflows/*.yml'

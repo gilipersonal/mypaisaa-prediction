@@ -42,40 +42,33 @@ The consolidated product brief, technical decisions, constraints, milestones, an
 
 ## Local development
 
-Prerequisites: Python 3.12+, Node 22+, pnpm 9+, Docker Desktop (optional), and Xcode 16+ for the iOS module.
+The API is runnable today. The web and mobile directories are placeholders without build manifests. Use Python 3.12 and uv 0.12.9 for the current locked backend environment; web and native toolchains will be established when those apps are implemented.
 
 ~~~sh
-cd /Users/arundutta/arundutta/projects/mypaisaa-prediction
+cd /Users/arundutta/projects/mypaisaa-prediction
 cp backend/.env.example backend/.env
-python -m venv .venv
-. .venv/bin/activate
-pip install -e './backend[dev]'
-uvicorn app.main:app --app-dir backend --reload
+uv sync --project backend --frozen --extra dev --python 3.12
+uv run --project backend --frozen --extra dev uvicorn app.main:app --reload
 ~~~
 
-In a second terminal:
-
-~~~sh
-cd /Users/arundutta/arundutta/projects/mypaisaa-prediction/web
-pnpm install
-pnpm dev
-~~~
-
-Then visit http://localhost:5173. The API health endpoint is at http://localhost:8000/api/v1/health; the sample SSE endpoint is /api/v1/stream.
+The API health endpoint is at http://localhost:8000/api/v1/health; the sample SSE endpoint is /api/v1/stream. The separate static product preview is in `site/dist/index.html`.
 
 The starter runs without market-data or Claude credentials. Do not put keys in source control. Configure credentials only in your local .env and later in the host’s secret store.
 
 ## Quality gates
 
 ~~~sh
-pytest backend/tests
-cd web && pnpm test && pnpm check
-cd mobile/native-ios && swift test
+uv lock --project backend --check
+uv run --project backend --frozen --extra dev ruff check backend
+uv run --project backend --frozen --extra dev pytest backend/tests -q
+python3 -m unittest discover -s tests -v
 ~~~
 
 Before implementing an endpoint, pipeline, model, or agent, read [AGENTS.md](AGENTS.md). In particular, predictive work must use time-aware split logic and record every published prediction before its outcome is known.
 
 For Codex review rounds, [the review optimisation note](docs/review-optimisation.md) explains risk-based test selection, evidence reuse, regression coverage, and when expensive suites run. Required release gates still apply before shipping.
+
+[GitHub delivery and CI](docs/github-workflow.md) defines `main`, issue branches, PRs, current checks and the GitHub plan restriction that currently prevents server-side branch protection.
 
 ## Delivery plan
 
