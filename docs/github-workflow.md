@@ -10,6 +10,14 @@ Start each new task from updated `origin/main`, using an actual MP issue and `MP
 
 Codex plan-sync and review permissions are unchanged. Offer independent review of a new deliverable at the end. Each review round and standalone findings-ledger run needs its own approval; CI does not grant it. Claude configuration and other repositories are outside this change.
 
+## Merge consent and local return
+
+Once an open PR is ready, Codex presents its link, current commit, check results and review outcome, then offers `Merge PR and switch to main` or `Keep PR open`, plus `Review first` when applicable. A direct merge instruction for that PR in the running prompt counts as consent; a workflow-configuration request, PR request or review approval does not. Silence leaves the PR open. The merge choice does not close the Jira issue or delete branches.
+
+Before merging, Codex checks the current PR head against the commit presented for consent, confirms the destination is `main`, verifies all five named checks passed on that head, and confirms no blocking review findings remain. A changed head requires fresh checks and renewed consent. The merge uses the configured method and an expected-head guard, without auto-merge.
+
+After GitHub confirms the merge, Codex fetches `origin`, switches the clean local checkout to `main`, ensures it tracks `origin/main`, and fast-forwards with `git merge --ff-only origin/main`. A missing local `main` can be created from `origin/main`. Local and remote tips must match before Codex reports the checkout up to date. Unsaved work, another active session or worktree using the branch, or local divergence stops the local switch/update without resets, stashing, forced checkout or discarded changes. Codex reports the successful remote merge and any remaining local-sync problem separately.
+
 ## CI coverage
 
 All five named checks should be green before merging:
