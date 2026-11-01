@@ -5,7 +5,7 @@ description: Prepare completed Mypaisaa Prediction MP issue work for review and 
 
 # Autoship an MP issue
 
-Read `AGENTS.md`, `.claude/jira-flow.json`, `.claude/rules/jira-flow.md`, the current issue and its acceptance criteria. Identify the branch, changed files and any unrelated user changes. Preserve the nested `site/` repository and never stage it as a gitlink inadvertently. If the issue key, repository, or intended changes are unclear, stop and ask.
+Read `AGENTS.md`, `.claude/jira-flow.json`, `.claude/rules/jira-flow.md`, the current issue and its acceptance criteria. Identify the branch, changed files and any unrelated user changes. Preserve the Site's `.openai/hosting.json` identity. If the issue key, repository, or intended changes are unclear, stop and ask.
 
 Run applicable configured gates and relevant whole-deliverable checks; stop on failures. Report missing or unrunnable gates honestly. Review the diff, update relevant documentation and evidence, then commit and push the issue branch only when these actions are within the user's task and a suitable remote exists. Do not create a remote, push to main, force-push, or delete branches without the necessary authority.
 

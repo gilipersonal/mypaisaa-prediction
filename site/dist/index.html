@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mypaisaa Prediction is a private investment-intelligence workspace for transparent research, prediction tracking, and portfolio clarity."
+    />
+    <title>Mypaisaa Prediction · Research, not trading</title>
+    <style>
+      :root {
+        --ink: #eff3ef;
+        --muted: #a4b1a8;
+        --paper: #101713;
+        --panel: #17211b;
+        --panel-soft: #1c2921;
+        --line: rgba(239, 243, 239, 0.12);
+        --lime: #c8f36a;
+        --mint: #7be2b2;
+        --clay: #e7b790;
+        --danger: #f0aa92;
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 83% -8%, rgba(200, 243, 106, 0.14), transparent 31rem),
+          radial-gradient(circle at 0 34%, rgba(123, 226, 178, 0.08), transparent 28rem),
+          var(--paper);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--lime);
+        font-size: 0.72rem;
+        font-weight: 760;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .eyebrow::before {
+        width: 8px; height: 8px; border-radius: 99px;
+        background: var(--lime); box-shadow: 0 0 0 5px rgba(200, 243, 106, 0.12);
+        content: "";
+      }
+
+      header {
+        display: flex; align-items: center; justify-content: space-between;
+        min-height: 82px; border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 11px; font-weight: 760; letter-spacing: -0.04em; }
+      .brand-mark {
+        display: grid; place-items: center; width: 34px; height: 34px;
+        border-radius: 10px; color: #132014; background: var(--lime);
+        font-family: Georgia, serif; font-size: 1.26rem; font-weight: 800;
+      }
+      nav { display: flex; gap: 24px; color: var(--muted); font-size: 0.88rem; }
+      nav a:hover { color: var(--ink); }
+      .private {
+        border: 1px solid rgba(200, 243, 106, 0.35); border-radius: 99px;
+        padding: 6px 10px; color: var(--lime); font-size: 0.72rem; font-weight: 700;
+      }
+
+      .hero {
+        display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 64px;
+        padding: 86px 0 68px; align-items: center;
+      }
+      h1 {
+        max-width: 690px; margin: 17px 0 18px; font-size: clamp(3rem, 7vw, 5.8rem);
+        font-weight: 720; letter-spacing: -0.07em; line-height: 0.95;
+      }
+      h1 em { color: var(--lime); font-family: Georgia, serif; font-weight: 500; letter-spacing: -0.09em; }
+      .lead { max-width: 560px; color: var(--muted); font-size: 1.1rem; }
+      .actions { display: flex; gap: 12px; margin-top: 30px; }
+      .button {
+        display: inline-flex; align-items: center; justify-content: center; min-height: 45px;
+        padding: 0 18px; border-radius: 9px; font-size: 0.9rem; font-weight: 700;
+      }
+      .button.primary { color: #132014; background: var(--lime); }
+      .button.secondary { border: 1px solid var(--line); color: var(--ink); }
+      .fine-print { margin-top: 17px; color: var(--muted); font-size: 0.77rem; }
+
+      .terminal {
+        overflow: hidden; border: 1px solid var(--line); border-radius: 17px;
+        background: rgba(23, 33, 27, 0.83); box-shadow: var(--shadow);
+      }
+      .terminal-top {
+        display: flex; justify-content: space-between; align-items: center; min-height: 44px;
+        padding: 0 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 0.75rem;
+      }
+      .lights { display: flex; gap: 6px; }
+      .lights i { width: 8px; height: 8px; border-radius: 50%; background: #4f5c52; }
+      .lights i:first-child { background: var(--clay); }
+      .lights i:nth-child(2) { background: var(--lime); }
+      .chart-wrap { padding: 24px 22px 13px; }
+      .chart-label { display: flex; justify-content: space-between; align-items: baseline; }
+      .chart-label strong { font-size: 1rem; letter-spacing: -0.03em; }
+      .chart-label span { color: var(--mint); font-size: 0.8rem; font-weight: 700; }
+      .chart { width: 100%; height: 200px; margin-top: 14px; overflow: visible; }
+      .chart-line { fill: none; stroke: var(--lime); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .chart-area { fill: url(#fade); }
+      .gridline { stroke: rgba(239,243,239,0.09); stroke-width: 1; }
+      .dot { fill: var(--lime); stroke: #142017; stroke-width: 5; }
+      .terminal-foot {
+        display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line);
+      }
+      .terminal-foot div { padding: 13px 16px; border-right: 1px solid var(--line); }
+      .terminal-foot div:last-child { border-right: 0; }
+      .terminal-foot span { display: block; color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; }
+      .terminal-foot b { display: block; margin-top: 3px; font-size: 0.85rem; }
+
+      .signals {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+        padding: 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      }
+      .signal { padding: 15px 3px; }
+      .signal:not(:last-child) { border-right: 1px solid var(--line); padding-right: 20px; }
+      .signal b { display: block; font-size: 1.8rem; letter-spacing: -0.06em; }
+      .signal span { color: var(--muted); font-size: 0.82rem; }
+
+      section { padding: 94px 0; }
+      .section-heading { display: flex; justify-content: space-between; gap: 40px; align-items: end; margin-bottom: 32px; }
+      h2 { max-width: 600px; margin: 12px 0 0; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.06em; line-height: 1.02; }
+      .section-heading p { max-width: 350px; margin: 0; color: var(--muted); font-size: 0.92rem; }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .card { min-height: 230px; padding: 24px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); }
+      .card .number { color: var(--lime); font-family: Georgia, serif; font-size: 2.1rem; font-style: italic; }
+      .card h3 { margin: 42px 0 7px; font-size: 1.05rem; letter-spacing: -0.03em; }
+      .card p { margin: 0; color: var(--muted); font-size: 0.87rem; }
+
+      .workflow { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 18px; }
+      .principle {
+        display: flex; flex-direction: column; justify-content: space-between; min-height: 355px;
+        padding: 28px; border-radius: 16px; background: var(--lime); color: #172118;
+      }
+      .principle h3 { max-width: 360px; margin: 0; font-size: 2.1rem; letter-spacing: -0.06em; line-height: 1; }
+      .principle p { max-width: 380px; margin: 0; color: rgba(23,33,24,0.72); font-size: 0.91rem; }
+      .steps { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+      .step { display: grid; grid-template-columns: 55px 1fr auto; gap: 15px; align-items: center; min-height: 88px; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+      .step:last-child { border-bottom: 0; }
+      .step-index { color: var(--lime); font-family: Georgia, serif; font-size: 1.4rem; font-style: italic; }
+      .step strong { display: block; font-size: 0.94rem; }
+      .step small { display: block; margin-top: 2px; color: var(--muted); font-size: 0.78rem; }
+      .status { color: var(--mint); border: 1px solid rgba(123,226,178,0.3); border-radius: 99px; padding: 4px 9px; font-size: 0.68rem; font-weight: 700; }
+
+      .guardrails { background: rgba(255, 255, 255, 0.025); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; border: 1px solid var(--line); border-radius: 15px; overflow: hidden; }
+      .rule { min-height: 140px; padding: 23px; background: var(--panel); }
+      .rule .icon { color: var(--clay); font-size: 1.3rem; }
+      .rule h3 { margin: 20px 0 5px; font-size: 0.95rem; }
+      .rule p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+
+      footer { display: flex; align-items: end; justify-content: space-between; gap: 30px; padding: 34px 0 42px; color: var(--muted); font-size: 0.77rem; }
+      footer b { color: var(--ink); }
+      @media (max-width: 760px) {
+        .shell { width: min(100% - 28px, 1160px); }
+        nav { display: none; }
+        .hero, .workflow { grid-template-columns: 1fr; gap: 35px; }
+        .hero { padding-top: 56px; }
+        .grid { grid-template-columns: 1fr; }
+        .section-heading { display: block; }
+        .section-heading p { margin-top: 16px; }
+        .signals { grid-template-columns: 1fr; gap: 0; }
+        .signal:not(:last-child) { border-right: 0; border-bottom: 1px solid var(--line); padding-right: 3px; }
+        .rules { grid-template-columns: 1fr; }
+        footer { display: block; }
+        footer p { margin-top: 15px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <a class="brand" href="#top" aria-label="Mypaisaa Prediction home">
+          <span class="brand-mark">M</span>
+          <span>Mypaisaa Prediction</span>
+        </a>
+        <nav aria-label="Primary">
+          <a href="#method">Method</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#guardrails">Guardrails</a>
+        </nav>
+        <span class="private">Private workspace</span>
+      </header>
+
+      <section id="top" class="hero">
+        <div>
+          <span class="eyebrow">Investment intelligence</span>
+          <h1>See the <em>why</em> behind every market call.</h1>
+          <p class="lead">
+            A private research workspace for global multi-asset context, transparent
+            predictions, and an honest record of what happened next.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#workflow">Explore the system</a>
+            <a class="button secondary" href="#guardrails">Read the guardrails</a>
+          </div>
+          <p class="fine-print">Research and decision support only. No trading or broker execution.</p>
+        </div>
+
+        <div class="terminal" aria-label="Illustrative prediction record">
+          <div class="terminal-top">
+            <span>Forecast detail · illustrative preview</span>
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-label">
+              <strong>Prediction confidence</strong>
+              <span>Calibrated · 20d horizon</span>
+            </div>
+            <svg class="chart" viewBox="0 0 460 200" role="img" aria-label="Illustrative upward confidence path">
+              <defs>
+                <linearGradient id="fade" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#c8f36a" stop-opacity=".27"></stop>
+                  <stop offset="100%" stop-color="#c8f36a" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <path class="gridline" d="M 0 30 H 460 M 0 92 H 460 M 0 154 H 460"></path>
+              <path class="chart-area" d="M 0 160 C 38 151, 51 129, 82 138 S 129 109, 165 123 S 210 78, 254 99 S 298 72, 327 78 S 371 39, 407 59 S 436 37, 460 25 L 460 200 L 0 200 Z"></path>
+              <path class="chart-line" d="M 0 160 C 38 151, 51 129, 82 138 S 129 109, 165 123 S 210 78, 254 99 S 298 72, 327 78 S 371 39, 407 59 S 436 37, 460 25"></path>
+              <circle class="dot" cx="460" cy="25" r="7"></circle>
+            </svg>
+          </div>
+          <div class="terminal-foot">
+            <div><span>Data cutoff</span><b>Known at publish time</b></div>
+            <div><span>Model</span><b>Versioned &amp; auditable</b></div>
+            <div><span>Outcome</span><b>Scored at maturity</b></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="signals" aria-label="Core product principles">
+        <div class="signal"><b>Global</b><span>Multi-asset research, one coherent view.</span></div>
+        <div class="signal"><b>Measured</b><span>Walk-forward validation, not hindsight.</span></div>
+        <div class="signal"><b>Private</b><span>Designed for one personal workspace.</span></div>
+      </div>
+
+      <section id="method">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">A better default</span>
+            <h2>Prediction is a record, not a headline.</h2>
+          </div>
+          <p>Each forecast is a durable object with a timestamp, a data cutoff, an uncertainty range, and a future outcome.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <span class="number">01</span>
+            <h3>Make the evidence visible</h3>
+            <p>Market data, cited research, model version, and the decision horizon remain attached to the prediction.</p>
+          </article>
+          <article class="card">
+            <span class="number">02</span>
+            <h3>Respect the arrow of time</h3>
+            <p>Models are evaluated through chronological walk-forward testing, with leakage controls around every fold.</p>
+          </article>
+          <article class="card">
+            <span class="number">03</span>
+            <h3>Measure the result later</h3>
+            <p>When the horizon matures, the original forecast is scored against the realised outcome instead of being rewritten.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="workflow">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">System flow</span>
+            <h2>Research flows into accountable decisions.</h2>
+          </div>
+        </div>
+        <div class="workflow">
+          <article class="principle">
+            <h3>“Useful” only counts when it stays honest.</h3>
+            <p>Every layer is built to make context, uncertainty, and later performance easier to inspect.</p>
+          </article>
+          <div class="steps">
+            <div class="step">
+              <span class="step-index">01</span>
+              <div><strong>Ingest &amp; reconcile</strong><small>Licensed data, portfolio imports, freshness checks.</small></div>
+              <span class="status">Source-aware</span>
+            </div>
+            <div class="step">
+              <span class="step-index">02</span>
+              <div><strong>Validate &amp; calibrate</strong><small>Time-aware folds, benchmarks, confidence calibration.</small></div>
+              <span class="status">Leakage-aware</span>
+            </div>
+            <div class="step">
+              <span class="step-index">03</span>
+              <div><strong>Research &amp; explain</strong><small>Bounded specialist agents with cited source trails.</small></div>
+              <span class="status">Cited</span>
+            </div>
+            <div class="step">
+              <span class="step-index">04</span>
+              <div><strong>Publish &amp; score</strong><small>Immutable prediction ledger and outcome tracking.</small></div>
+              <span class="status">Auditable</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="guardrails" class="guardrails">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Non-negotiables</span>
+            <h2>The system stays on the right side of the line.</h2>
+          </div>
+          <p>Mypaisaa is intentionally narrow: private intelligence and learning, never order routing or automated execution.</p>
+        </div>
+        <div class="rules">
+          <article class="rule">
+            <div class="icon">↗</div>
+            <h3>No trade execution</h3>
+            <p>No broker links, order endpoints, or agent authority to transact.</p>
+          </article>
+          <article class="rule">
+            <div class="icon">◌</div>
+            <h3>Uncertainty stays visible</h3>
+            <p>Forecasts carry confidence, horizon, provenance, and a clear data-freshness state.</p>
+          </article>
+          <article class="rule">
+            <div class="icon">⌁</div>
+            <h3>Agents are constrained</h3>
+            <p>Research agents cite sources and work within bounded, read-only tools.</p>
+          </article>
+          <article class="rule">
+            <div class="icon">□</div>
+            <h3>Personal by design</h3>
+            <p>One private workspace with security, privacy, and operating costs kept proportionate.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <div><b>Mypaisaa Prediction</b><br />Private investment intelligence, built for clarity.</div>
+        <p>Illustrative product preview · Not investment advice · No trading</p>
+      </footer>
+    </main>
+  </body>
+</html>
