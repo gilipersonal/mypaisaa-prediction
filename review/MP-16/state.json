@@ -1,7 +1,7 @@
 {
   "issue": "MP-16",
-  "round_count": 1,
-  "status": "awaiting_round_2_approval",
+  "round_count": 2,
+  "status": "independent_review_complete",
   "rounds": [
     {
       "round": 1,
@@ -47,21 +47,21 @@
           "blocking": true,
           "finding": "CNX1.L native quote unit is GBX, not GBP; catalogue metadata causes native quotes at wrong scale",
           "source": "https://finance.yahoo.com/quote/CNX1.L/",
-          "status": "fixed_pending_delta_review"
+          "status": "verified_fixed_round_2"
         },
         {
           "id": "R1-S1",
           "severity": "P2",
           "blocking": true,
           "finding": "Runtime asserts disappear under Python optimisation and corrupt packs can report passed",
-          "status": "fixed_pending_delta_review"
+          "status": "verified_fixed_round_2"
         },
         {
           "id": "R1-D2",
           "severity": "nonblocking",
           "blocking": false,
           "finding": "Daily-only historical rows are not checked for recorded session membership/close/order",
-          "status": "fixed_pending_delta_review"
+          "status": "verified_fixed_round_2"
         }
       ],
       "deferred_checks": [
@@ -108,6 +108,85 @@
         ".codex/rules/review-checklist.md": "870749246065dc04a139cecee44fa37284fdbdd9d2885100f3f7bfd72903f854"
       },
       "regression_ledger_status": "Three new focused checks registered; ordinary fix tests passed; next approved round will rerun the full ledger"
+    },
+    {
+      "round": 2,
+      "approved": true,
+      "approval_scope": "Only round-one R1-D1/R1-S1/R1-D2 fixes and direct connections; two fresh parallel lanes and all three ledger checks",
+      "reviewed_commit": "ef92eeba51a10df5948ef9403dfacd9fad33f89e",
+      "base_reviewed_commit": "7c63a99a51c701f78fb534528fc087284b459ae6",
+      "snapshot": "review/MP-16/snapshots/round-2",
+      "finding_ids_in_scope": [
+        "R1-D1",
+        "R1-S1",
+        "R1-D2"
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "selected_checks": [
+        {
+          "command": "python3 scripts/review_regress.py MP-16 --approved",
+          "result": "3 passed; 0 failed; 0 manual outstanding"
+        },
+        {
+          "command": "Focused Ruff for generator, validator and fixture tests",
+          "result": "passed"
+        },
+        {
+          "command": "Pinned simulation runtime unittest test_synthetic_data.py",
+          "result": "9 passed"
+        },
+        {
+          "command": "Full local and dev pack validators",
+          "result": "both passed"
+        }
+      ],
+      "evidence_reuse": [
+        {
+          "check": "26-test full local suite",
+          "result": "passed after round-one fixes",
+          "reason": "All five post-fix source hashes match recorded round-one fix evidence; pinned dependency specs and relevant test/runtime inputs unchanged. Focused 9-test suite and full fixed ledger run afresh."
+        }
+      ],
+      "reviewers": [
+        "/root/mp16_data_review_r2",
+        "/root/mp16_safety_review_r2"
+      ],
+      "result": "clean_delta",
+      "verified_findings": [
+        "R1-D1",
+        "R1-S1",
+        "R1-D2"
+      ],
+      "independent_evidence": [
+        {
+          "verifier": "/root/mp16_data_review_r2",
+          "result": "passed",
+          "scope": [
+            "R1-D1",
+            "R1-D2"
+          ],
+          "evidence": "Both packs: all 2737 CNX1 daily rows and 1020 intraday rows use GBX with GBP normalisation; linked position prices remain GBP. Isolated old-session, wrong-close and reversed-order mutations with refreshed hashes refused for the intended semantic reason."
+        },
+        {
+          "verifier": "/root/mp16_safety_review_r2",
+          "result": "passed",
+          "scope": [
+            "R1-S1",
+            "R1-D2"
+          ],
+          "evidence": "Under -O and PYTHONOPTIMIZE=1, isolated prod-environment, wrong-close, reversed-history and invalid-OHLC packs refused; refreshed hashes used for daily mutations. Focused optimization regression passed."
+        }
+      ]
     }
-  ]
+  ],
+  "review_result": {
+    "blocking_remaining": 0,
+    "nonblocking_remaining": 0,
+    "rounds_completed": 2,
+    "scope": "Round 1 full deliverable; round 2 only fixes and direct joins",
+    "reviewed_source_commit": "ef92eeba51a10df5948ef9403dfacd9fad33f89e",
+    "PR_authorised": false,
+    "AWS_loading": "deferred by user"
+  }
 }

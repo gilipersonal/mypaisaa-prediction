@@ -1,0 +1,493 @@
+diff --git a/.codex/rules/review-checklist.md b/.codex/rules/review-checklist.md
+index 3ea757a..f8c8918 100644
+--- a/.codex/rules/review-checklist.md
++++ b/.codex/rules/review-checklist.md
+@@ -18,3 +18,7 @@
+ - Compare state history with separately preserved snapshots and fixed-finding IDs; document that local files alone are not tamper-proof.
+ - Keep manual-verification policy structured, and mutation-test qualifiers placed in the preceding paragraph as well as the same paragraph.
+ - Test qualifiers before a policy heading as well as inside its section; a document digest detects any edit but does not establish its meaning.
++
++- Verify native provider quote units separately from trading/settlement currency; an internally consistent synthetic fixture can still use the wrong scale.
++- Runtime data validators must retain their checks under Python optimisation; test the specific corruption refusal with `-O` and `PYTHONOPTIMIZE=1`.
++- Validate every daily history row against its recorded session and close, including dates outside recent intraday coverage.
+diff --git a/docs/synthetic-test-data.md b/docs/synthetic-test-data.md
+index ee02b6a..969f0ca 100644
+--- a/docs/synthetic-test-data.md
++++ b/docs/synthetic-test-data.md
+@@ -71,7 +71,7 @@ uv run --no-project --with numpy==2.5.4 --with pandas==3.1.0 \
+   python -m unittest discover -s tests -p test_synthetic_data.py -v
+ ```
+ 
+-Validation checks file hashes; unique real catalogue keys; OHLC/volume constraints; GBX normalization; intraday/session/daily reconciliation; nonnegative account cash; position/ledger/value reconciliation; probability/quantile ordering; and horizon-correct outcome timing/returns. Six isolated tests also check same-seed market reproducibility with distinct environment identities, future-outcome independence of earlier forecasts, corruption detection, production refusal and the XIRR known answer. These are fixture checks, not a production readiness claim.
++Validation checks file hashes; unique real catalogue keys; OHLC/volume constraints; GBX normalization; full daily-session membership/close/chronology and intraday/session/daily reconciliation; nonnegative account cash; position/ledger/value reconciliation; probability/quantile ordering; and horizon-correct outcome timing/returns. Nine isolated tests also check same-seed market reproducibility with distinct environment identities, future-outcome independence of earlier forecasts, corruption detection, production refusal, the XIRR known answer, CNX1 pence conversion, old daily-session mutation and corruption refusal under optimized Python. These are fixture checks, not a production readiness claim.
+ 
+ ## Public reference basis
+ 
+diff --git a/fixtures/synthetic/instruments.json b/fixtures/synthetic/instruments.json
+index 8eca1e3..6e548b5 100644
+--- a/fixtures/synthetic/instruments.json
++++ b/fixtures/synthetic/instruments.json
+@@ -368,7 +368,7 @@
+     "name": "iShares NASDAQ 100 UCITS ETF USD (Acc)",
+     "market": "UK",
+     "currency": "GBP",
+-    "quote_unit": "GBP",
++    "quote_unit": "GBX",
+     "sector": "growth_etf",
+     "kind": "ETF",
+     "ISIN": "IE00B53SZB19",
+@@ -377,7 +377,8 @@
+     "synthetic_dividend_yield": 0,
+     "synthetic_inception": "2016-01-01",
+     "identifier_reference": "https://www.ishares.com/uk/individual/en/products/253741/ishares-nasdaq-100-ucits-etf_1",
+-    "parameters_are_observed_prices": false
++    "parameters_are_observed_prices": false,
++    "quote_unit_reference": "https://finance.yahoo.com/quote/CNX1.L/"
+   },
+   {
+     "instrument_id": "XNSE:RELIANCE",
+diff --git a/review/MP-16/fixed.json b/review/MP-16/fixed.json
+new file mode 100644
+index 0000000..020c1df
+--- /dev/null
++++ b/review/MP-16/fixed.json
+@@ -0,0 +1,98 @@
++[
++  {
++    "id": "R1-D1",
++    "finding": "Correct provider CNX1 quote unit to GBX, with GBP currency and 100:1 normalisation",
++    "check": {
++      "type": "command",
++      "argv": [
++        "uv",
++        "run",
++        "--no-project",
++        "--with",
++        "numpy==2.5.4",
++        "--with",
++        "pandas==3.1.0",
++        "--with",
++        "pandas-market-calendars==5.6.0",
++        "--with",
++        "exchange-calendars==4.13.2",
++        "python",
++        "-m",
++        "unittest",
++        "discover",
++        "-s",
++        "tests",
++        "-p",
++        "test_synthetic_data.py",
++        "-q",
++        "-k",
++        "cnx1_pence_to_pounds"
++      ],
++      "timeout_seconds": 60
++    }
++  },
++  {
++    "id": "R1-S1",
++    "finding": "Validation explicitly rejects corrupted packs even under -O and PYTHONOPTIMIZE",
++    "check": {
++      "type": "command",
++      "argv": [
++        "uv",
++        "run",
++        "--no-project",
++        "--with",
++        "numpy==2.5.4",
++        "--with",
++        "pandas==3.1.0",
++        "--with",
++        "pandas-market-calendars==5.6.0",
++        "--with",
++        "exchange-calendars==4.13.2",
++        "python",
++        "-m",
++        "unittest",
++        "discover",
++        "-s",
++        "tests",
++        "-p",
++        "test_synthetic_data.py",
++        "-q",
++        "-k",
++        "optimized_python_still_rejects_corruption"
++      ],
++      "timeout_seconds": 60
++    }
++  },
++  {
++    "id": "R1-D2",
++    "finding": "Old daily-only bars must belong to recorded market sessions",
++    "check": {
++      "type": "command",
++      "argv": [
++        "uv",
++        "run",
++        "--no-project",
++        "--with",
++        "numpy==2.5.4",
++        "--with",
++        "pandas==3.1.0",
++        "--with",
++        "pandas-market-calendars==5.6.0",
++        "--with",
++        "exchange-calendars==4.13.2",
++        "python",
++        "-m",
++        "unittest",
++        "discover",
++        "-s",
++        "tests",
++        "-p",
++        "test_synthetic_data.py",
++        "-q",
++        "-k",
++        "older_daily_session_mutation"
++      ],
++      "timeout_seconds": 60
++    }
++  }
++]
+diff --git a/scripts/validate_synthetic_data.py b/scripts/validate_synthetic_data.py
+index a6246ef..93522a4 100644
+--- a/scripts/validate_synthetic_data.py
++++ b/scripts/validate_synthetic_data.py
+@@ -18,95 +18,216 @@ def read_jsonl(path: Path) -> list[dict]:
+         return [json.loads(line) for line in stream]
+ 
+ 
++def require(condition: bool, detail: object) -> None:
++    if not condition:
++        raise ValueError(str(detail))
++
++
+ def validate(pack: Path) -> dict:
+     manifest = json.loads((pack / "manifest.json").read_text())
+-    assert manifest["environment"] in {"local", "dev"}
+-    assert manifest["observations_are_synthetic"] is True
++    require(
++        manifest["environment"] in {"local", "dev"},
++        'Invalid fixture: manifest["environment"] in {"local", "dev"}',
++    )
++    require(
++        manifest["observations_are_synthetic"] is True,
++        'Invalid fixture: manifest["observations_are_synthetic"] is True',
++    )
+     for filename, expected in manifest["sha256"].items():
+-        assert hashlib.sha256((pack / filename).read_bytes()).hexdigest() == expected, filename
++        require(hashlib.sha256((pack / filename).read_bytes()).hexdigest() == expected, filename)
+     instruments = json.loads((pack / "instruments.json").read_text())
+     ids = {x["instrument_id"] for x in instruments}
+-    assert len(ids) == len(instruments) == 30
+-    assert {x["market"] for x in instruments} == {"US", "UK", "IN"}
++    require(
++        len(ids) == len(instruments) == 30, "Invalid fixture: len(ids) == len(instruments) == 30"
++    )
++    require(
++        {x["market"] for x in instruments} == {"US", "UK", "IN"},
++        'Invalid fixture: {x["market"] for x in instruments} == {"US", "UK", "IN"}',
++    )
+     for instrument in instruments:
+-        assert instrument["instrument_id"] == instrument["venue"] + ":" + instrument["ticker"]
+-        assert not instrument["instrument_id"].startswith(("SYN", "TEST"))
++        require(
++            instrument["instrument_id"] == instrument["venue"] + ":" + instrument["ticker"],
++            'Invalid fixture: instrument["instrument_id"] == instrument["venue...',
++        )
++        require(
++            not instrument["instrument_id"].startswith(("SYN", "TEST")),
++            'Invalid fixture: not instrument["instrument_id"].startswith(("SYN", "TEST"))',
++        )
++    session_map = {(r["market"], r["session"]): r for r in read_jsonl(pack / "sessions.jsonl.gz")}
++    market = {x["instrument_id"]: x["market"] for x in instruments}
+     daily = read_jsonl(pack / "daily_prices.jsonl.gz")
+     prices = {}
+     histories = defaultdict(list)
+     for row in daily:
+         key = (row["instrument_id"], row["session"])
+-        assert key not in prices
+-        assert row["instrument_id"] in ids and row["is_synthetic"]
+-        assert 0 < row["low"] <= min(row["open"], row["close"])
+-        assert row["high"] >= max(row["open"], row["close"])
+-        assert row["volume"] > 0
+-        assert row["observed_at"] < row["available_at"]
++        require(row["instrument_id"] in market, "Unknown daily instrument")
++        session_key = (market[row["instrument_id"]], row["session"])
++        require(session_key in session_map, "Daily row is not a recorded market session")
++        require(
++            row["observed_at"] == session_map[session_key]["close"],
++            "Daily observed_at does not match recorded session close",
++        )
++        previous = histories[row["instrument_id"]]
++        require(
++            not previous or previous[-1]["session"] < row["session"],
++            "Daily history must be strictly chronological",
++        )
++        require(key not in prices, "Invalid fixture: key not in prices")
++        require(
++            row["instrument_id"] in ids and row["is_synthetic"],
++            'Invalid fixture: row["instrument_id"] in ids and row["is_synthetic"]',
++        )
++        require(
++            0 < row["low"] <= min(row["open"], row["close"]),
++            'Invalid fixture: 0 < row["low"] <= min(row["open"], row["close"])',
++        )
++        require(
++            row["high"] >= max(row["open"], row["close"]),
++            'Invalid fixture: row["high"] >= max(row["open"], row["close"])',
++        )
++        require(row["volume"] > 0, 'Invalid fixture: row["volume"] > 0')
++        require(
++            row["observed_at"] < row["available_at"],
++            'Invalid fixture: row["observed_at"] < row["available_at"]',
++        )
+         expected = row["close"] / (100 if row["quote_unit"] == "GBX" else 1)
+-        assert abs(expected - row["currency_close"]) < 0.000001
++        require(
++            abs(expected - row["currency_close"]) < 1e-06,
++            'Invalid fixture: abs(expected - row["currency_close"]) < 0.000001',
++        )
+         prices[key] = row
+         histories[row["instrument_id"]].append(row)
+     intraday = read_jsonl(pack / "intraday_30m.jsonl.gz")
+     grouped = defaultdict(list)
+-    session_map = {(r["market"], r["session"]): r for r in read_jsonl(pack / "sessions.jsonl.gz")}
+-    market = {x["instrument_id"]: x["market"] for x in instruments}
+     for row in intraday:
+-        session = session_map[(market[row["instrument_id"]], row["session"])]
+-        assert datetime.fromisoformat(session["open"]) <= datetime.fromisoformat(row["start"])
+-        assert datetime.fromisoformat(row["start"]) < datetime.fromisoformat(row["end"])
+-        assert datetime.fromisoformat(row["end"]) <= datetime.fromisoformat(session["close"])
+-        assert 0 < row["low"] <= min(row["open"], row["close"])
+-        assert row["high"] >= max(row["open"], row["close"])
+-        grouped[(row["instrument_id"], row["session"])].append(row)
++        session = session_map[market[row["instrument_id"]], row["session"]]
++        require(
++            datetime.fromisoformat(session["open"]) <= datetime.fromisoformat(row["start"]),
++            'Invalid fixture: datetime.fromisoformat(session["open"]) <= datet...',
++        )
++        require(
++            datetime.fromisoformat(row["start"]) < datetime.fromisoformat(row["end"]),
++            'Invalid fixture: datetime.fromisoformat(row["start"]) < datetime....',
++        )
++        require(
++            datetime.fromisoformat(row["end"]) <= datetime.fromisoformat(session["close"]),
++            'Invalid fixture: datetime.fromisoformat(row["end"]) <= datetime.f...',
++        )
++        require(
++            0 < row["low"] <= min(row["open"], row["close"]),
++            'Invalid fixture: 0 < row["low"] <= min(row["open"], row["close"])',
++        )
++        require(
++            row["high"] >= max(row["open"], row["close"]),
++            'Invalid fixture: row["high"] >= max(row["open"], row["close"])',
++        )
++        grouped[row["instrument_id"], row["session"]].append(row)
+     for key, bars in grouped.items():
+         day = prices[key]
+-        assert bars[0]["open"] == day["open"] and bars[-1]["close"] == day["close"]
+-        assert min(x["low"] for x in bars) == day["low"]
+-        assert max(x["high"] for x in bars) == day["high"]
+-        assert sum(x["volume"] for x in bars) == day["volume"]
+-        assert all(a["end"] == b["start"] for a, b in zip(bars, bars[1:]))
++        require(
++            bars[0]["open"] == day["open"] and bars[-1]["close"] == day["close"],
++            'Invalid fixture: bars[0]["open"] == day["open"] and bars[-1]["close"] == day["close"]',
++        )
++        require(
++            min(x["low"] for x in bars) == day["low"],
++            'Invalid fixture: min(x["low"] for x in bars) == day["low"]',
++        )
++        require(
++            max(x["high"] for x in bars) == day["high"],
++            'Invalid fixture: max(x["high"] for x in bars) == day["high"]',
++        )
++        require(
++            sum(x["volume"] for x in bars) == day["volume"],
++            'Invalid fixture: sum(x["volume"] for x in bars) == day["volume"]',
++        )
++        require(
++            all((a["end"] == b["start"] for a, b in zip(bars, bars[1:]))),
++            'Invalid fixture: all(a["end"] == b["start"] for a, b in zip(bars, bars[1:]))',
++        )
+     with (pack / "transactions.csv").open() as stream:
+         ledger = list(csv.DictReader(stream))
+-    cash, quantity, seen = defaultdict(Decimal), defaultdict(Decimal), set()
++    cash, quantity, seen = (defaultdict(Decimal), defaultdict(Decimal), set())
+     for event in ledger:
+-        assert event["event_id"] not in seen
++        require(event["event_id"] not in seen, 'Invalid fixture: event["event_id"] not in seen')
+         seen.add(event["event_id"])
+-        assert event["account_id"].startswith("synthetic-" + manifest["environment"] + "-")
++        require(
++            event["account_id"].startswith("synthetic-" + manifest["environment"] + "-"),
++            'Invalid fixture: event["account_id"].startswith("synthetic-" + ma...',
++        )
+         cash[event["account_id"]] += Decimal(event["cash_delta"])
+         quantity[event["instrument_id"]] += Decimal(event["quantity_delta"])
+-        assert cash[event["account_id"]] >= 0
++        require(cash[event["account_id"]] >= 0, 'Invalid fixture: cash[event["account_id"]] >= 0')
+     for account in json.loads((pack / "accounts.json").read_text()):
+-        assert cash[account["account_id"]] == Decimal(account["cash"])
++        require(
++            cash[account["account_id"]] == Decimal(account["cash"]),
++            'Invalid fixture: cash[account["account_id"]] == Decimal(account["cash"])',
++        )
+     for position in json.loads((pack / "positions.json").read_text()):
+-        assert quantity[position["instrument_id"]] == Decimal(position["quantity"])
++        require(
++            quantity[position["instrument_id"]] == Decimal(position["quantity"]),
++            'Invalid fixture: quantity[position["instrument_id"]] == Decimal(position["quantity"])',
++        )
+         value = (Decimal(position["quantity"]) * Decimal(position["price"])).quantize(
+             Decimal(".01")
+         )
+-        assert value == Decimal(position["value"])
++        require(
++            value == Decimal(position["value"]),
++            'Invalid fixture: value == Decimal(position["value"])',
++        )
+     forecasts = read_jsonl(pack / "forecasts.jsonl.gz")
+     outcomes = {r["prediction_id"]: r for r in read_jsonl(pack / "outcomes.jsonl.gz")}
+-    assert len(outcomes) == manifest["counts"]["mature_outcomes"]
++    require(
++        len(outcomes) == manifest["counts"]["mature_outcomes"],
++        'Invalid fixture: len(outcomes) == manifest["counts"]["mature_outcomes"]',
++    )
+     for prediction in forecasts:
+-        assert 0 <= prediction["probability_up"] <= 1
+-        assert prediction["return_q10"] <= prediction["return_q50"] <= prediction["return_q90"]
+-        assert prediction["data_cutoff"] <= prediction["as_of"]
++        require(
++            0 <= prediction["probability_up"] <= 1,
++            'Invalid fixture: 0 <= prediction["probability_up"] <= 1',
++        )
++        require(
++            prediction["return_q10"] <= prediction["return_q50"] <= prediction["return_q90"],
++            'Invalid fixture: prediction["return_q10"] <= prediction["return_q...',
++        )
++        require(
++            prediction["data_cutoff"] <= prediction["as_of"],
++            'Invalid fixture: prediction["data_cutoff"] <= prediction["as_of"]',
++        )
+         history = histories[prediction["instrument_id"]]
+         source = next(
+-            i for i, row in enumerate(history) if row["available_at"] == prediction["data_cutoff"]
++            (i for i, row in enumerate(history) if row["available_at"] == prediction["data_cutoff"])
+         )
+         target = source + prediction["horizon_sessions"]
+         if target >= len(history):
+-            assert prediction["prediction_id"] not in outcomes
++            require(
++                prediction["prediction_id"] not in outcomes,
++                'Invalid fixture: prediction["prediction_id"] not in outcomes',
++            )
+         else:
+             outcome = outcomes[prediction["prediction_id"]]
+             expected = (
+                 history[target]["total_return_index"] / history[source]["total_return_index"] - 1
+             )
+-            assert abs(outcome["realised_return"] - expected) < 0.00000001
+-            assert outcome["scored_at"] == history[target]["available_at"]
+-            assert outcome["scored_at"] > prediction["as_of"]
+-    assert len(daily) == manifest["counts"]["daily_bars"]
+-    assert len(intraday) == manifest["counts"]["intraday_bars"]
++            require(
++                abs(outcome["realised_return"] - expected) < 1e-08,
++                'Invalid fixture: abs(outcome["realised_return"] - expected) < 0.00000001',
++            )
++            require(
++                outcome["scored_at"] == history[target]["available_at"],
++                'Invalid fixture: outcome["scored_at"] == history[target]["available_at"]',
++            )
++            require(
++                outcome["scored_at"] > prediction["as_of"],
++                'Invalid fixture: outcome["scored_at"] > prediction["as_of"]',
++            )
++    require(
++        len(daily) == manifest["counts"]["daily_bars"],
++        'Invalid fixture: len(daily) == manifest["counts"]["daily_bars"]',
++    )
++    require(
++        len(intraday) == manifest["counts"]["intraday_bars"],
++        'Invalid fixture: len(intraday) == manifest["counts"]["intraday_bars"]',
++    )
+     return {
+         "environment": manifest["environment"],
+         "checked": manifest["counts"],
+diff --git a/tests/test_synthetic_data.py b/tests/test_synthetic_data.py
+index f2ddf7d..7c08edd 100644
+--- a/tests/test_synthetic_data.py
++++ b/tests/test_synthetic_data.py
+@@ -1,7 +1,10 @@
+ """Scientific/financial fixture invariants, using isolated generated packs."""
+ 
+ import copy
++import gzip
++import hashlib
+ import json
++import os
+ import subprocess
+ import sys
+ import tempfile
+@@ -53,11 +56,57 @@ class SyntheticDataTests(unittest.TestCase):
+         original = target.read_bytes()
+         try:
+             target.write_text("[]")
+-            with self.assertRaises(AssertionError):
++            with self.assertRaises(ValueError):
+                 validate(self.dev)
+         finally:
+             target.write_bytes(original)
+ 
++    def test_optimized_python_still_rejects_corruption(self):
++        target = self.dev / "positions.json"
++        original = target.read_bytes()
++        try:
++            target.write_text("[]")
++            for args, extra_env in [(["-O"], {}), ([], {"PYTHONOPTIMIZE": "1"})]:
++                result = subprocess.run(
++                    [sys.executable, *args, "scripts/validate_synthetic_data.py", str(self.dev)],
++                    capture_output=True,
++                    check=False,
++                    env={**os.environ, **extra_env},
++                )
++                self.assertNotEqual(result.returncode, 0)
++                self.assertIn(b"positions.json", result.stderr)
++                self.assertNotIn(b'"status": "passed"', result.stdout)
++        finally:
++            target.write_bytes(original)
++
++    def test_cnx1_pence_to_pounds_contract(self):
++        catalogue = json.loads((self.local / "instruments.json").read_text())
++        instrument = next(x for x in catalogue if x["instrument_id"] == "XLON:CNX1")
++        self.assertEqual(instrument["yahoo_symbol"], "CNX1.L")
++        self.assertEqual(instrument["quote_unit"], "GBX")
++        self.assertEqual(instrument["currency"], "GBP")
++        bars = load_rows(self.local / "daily_prices.jsonl.gz")
++        cnx = next(x for x in bars if x["instrument_id"] == "XLON:CNX1")
++        self.assertAlmostEqual(cnx["close"] / 100, cnx["currency_close"], places=6)
++
++    def test_older_daily_session_mutation_is_rejected(self):
++        prices = self.dev / "daily_prices.jsonl.gz"
++        manifest = self.dev / "manifest.json"
++        old_prices, old_manifest = prices.read_bytes(), manifest.read_bytes()
++        try:
++            rows = load_rows(prices)
++            rows[0]["session"] = "2025-01-04"  # Saturday outside the recorded sessions.
++            with gzip.open(prices, "wt", encoding="utf-8") as stream:
++                stream.writelines(json.dumps(row) + "\n" for row in rows)
++            data = json.loads(manifest.read_text())
++            data["sha256"][prices.name] = hashlib.sha256(prices.read_bytes()).hexdigest()
++            manifest.write_text(json.dumps(data))
++            with self.assertRaisesRegex(ValueError, "not a recorded market session"):
++                validate(self.dev)
++        finally:
++            prices.write_bytes(old_prices)
++            manifest.write_bytes(old_manifest)
++
+     def test_production_environment_is_refused(self):
+         with self.assertRaises(ValueError):
+             generate(self.root / "prod", "prod")
