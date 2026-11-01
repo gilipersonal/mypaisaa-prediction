@@ -22,3 +22,9 @@
 - Verify native provider quote units separately from trading/settlement currency; an internally consistent synthetic fixture can still use the wrong scale.
 - Runtime data validators must retain their checks under Python optimisation; test the specific corruption refusal with `-O` and `PYTHONOPTIMIZE=1`.
 - Validate every daily history row against its recorded session and close, including dates outside recent intraday coverage.
+- When owner deletion covers backups, include a restore-after-deletion acceptance case so recovery cannot resurrect deleted sensitive content.
+- When audit-chain health is required, include synthetic missing/altered-event detection evidence, not only a successful upload/change timeline.
+- In option-based decision packs, shared details must not silently enforce one option's sequence or policy on the alternatives.
+- When a later owner instruction defers real inputs or a fixture is completed, update earlier immediate-step summaries and copied JSON/HTML limitations so readers do not restart deferred or finished work.
+- Existing Confluence notice updates need stable observable owned markers, duplicate/ambiguous-range refusal and safe no-op/replacement after a fresh draft read. Test repeated application, server-like HTML normalization and byte-preservation of outside macros/media; include evidence footers on bounded updates as well as new pages.
+- Validate raw, text-node and parsed-visible marker occurrences on every composition path, including canonical pairs mixed with formatted extras; refuse ambiguity instead of appending or replacing. Keep all current review-status copies and high-level apply guidance consistent with the executable protocol.

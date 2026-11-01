@@ -1,0 +1,49 @@
+{
+  "dataset_id": "mypaisaa-synthetic-v1",
+  "environment": "dev",
+  "seed": 16112026,
+  "start": "2016-01-01",
+  "end": "2026-10-30",
+  "label": "SIMULATED TEST DATA - NOT OBSERVED MARKET DATA OR INVESTMENT ADVICE",
+  "observations_are_synthetic": true,
+  "instrument_identifiers_are_real": true,
+  "calendar_source": "pandas-market-calendars==5.6.0; not exchange-certified",
+  "generator_sha256": "06f74df579094b60eb16801cb840626b3876e9d08c72716929650af3508295a6",
+  "catalogue_sha256": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+  "counts": {
+    "instruments": 30,
+    "daily_bars": 80722,
+    "intraday_bars": 25800,
+    "forecasts": 14400,
+    "mature_outcomes": 11640,
+    "ledger_events": 392,
+    "accounts": 3,
+    "positions": 30,
+    "sessions": 8133
+  },
+  "sha256": {
+    "accounts.json": "b804420bb176ec385fcc54cba067167de0e930aae815b627a9c9f6b3f74ddd58",
+    "chat_evals.json": "dd62b890eba9d2891cc33f0ba48d648600abd13e14925ab73680c38f144eceb4",
+    "corporate_actions.json": "f2797f795188337504254cf8e99039d075d4f15e4876aac4821583071c3ffb78",
+    "daily_prices.jsonl.gz": "464fffc4149fd553a7c252b9b76171dfadaf8a7dd4272b87e23d8b89510a2943",
+    "forecasts.jsonl.gz": "1945530e6e4e8b6e6343a7a017e65ed9b4073b3df2cf29c1e1080e5284ed5b3c",
+    "fx.jsonl.gz": "60b8badd38d1e1d424279abaf31ba1011c2b1cb24e4359aa13fd080b376f5945",
+    "instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+    "intraday_30m.jsonl.gz": "a68321582e7c1a435fb57f04c036a28a7f725674fa85af25abf1e00c6f16b2e0",
+    "ledger.json": "04b33bdf153a1f2a82d82d9b3c0615bac16b21575fbcbfd7ab3c8e5bcdfcbdeb",
+    "negative_cases.json": "f6a01172b75b8034f041a0c40918cc0a20d29fe0566248832cbc1665a0911d37",
+    "news_events.json": "a8bd00fa9b637f06717dc503700eb135f2315165324538a9b153df7e81704a36",
+    "outcomes.jsonl.gz": "a27261cb7320a97f00c310afd9fde9b711987cf0d3e1e1aae8dc417965b7d6b4",
+    "positions.json": "a902b6a47b6838a94d061047f5f4c092fdda0f3949c33f4ded0bc4db64cb4332",
+    "sessions.jsonl.gz": "c3659309aa071de13fc684f1f04ca438f15e0db206e2cf7df6f4aa3cb2d4a941",
+    "transactions.csv": "ffb2f560dcff79acedb70e99359878eaa883e5fffdf1b6993fcdf6c7d4bf331f",
+    "xirr_known_answer.json": "7d62faded6940e41c1341b8344fcb17ba11fbffc5df379fdb32c5ab9c28ed1fd"
+  },
+  "limitations": [
+    "Simulated parameters, not fitted to downloaded price history",
+    "Current real identifiers used for simulated history; historical symbol changes not modelled",
+    "Synthetic split/dividend assumptions are NOT issuer corporate-action facts",
+    "Toy forecast fixture is not trained, calibrated or evidence of predictive accuracy",
+    "No AWS load or application schema compatibility is implied"
+  ]
+}

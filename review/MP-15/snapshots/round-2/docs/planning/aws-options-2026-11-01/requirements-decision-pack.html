@@ -1,0 +1,840 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mypaisaa Prediction — requirements choices</title><style>
+:root{color-scheme:light;--ink:#18324b;--muted:#4c6070;--line:#cad9e4;--teal:#126458;--blue:#245389;--paper:#fff;--bg:#edf3f7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:#174e80;text-underline-offset:3px}a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid #a65000;outline-offset:4px}
+.shell{display:grid;grid-template-columns:280px minmax(0,1080px);gap:30px;max-width:1430px;margin:auto;padding:28px}
+nav{position:sticky;top:22px;align-self:start;max-height:93vh;overflow:auto}nav a{display:block;font-size:14px;line-height:1.45;padding:7px 10px;border-left:3px solid transparent;text-decoration:none}nav a:hover{background:#dce9f1;border-color:var(--blue)}nav .level-3{font-size:13px;padding-left:19px}
+.brand{font-weight:800;letter-spacing:.12em;font-size:12px;margin:0 0 10px}.sheet{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:42px}
+.banner{background:#183e61;color:white;padding:24px;border-radius:8px;margin-bottom:26px}.banner p{margin:4px 0}.banner small{color:#e2edf6}.banner a{color:white}
+h1{font-size:38px;line-height:1.12;letter-spacing:-.03em;margin:0 0 18px}h2{font-size:27px;line-height:1.25;border-top:2px solid #b9cedc;padding-top:26px;margin-top:44px;scroll-margin-top:20px}h3{font-size:22px;line-height:1.35;color:#174f70;border-left:5px solid #17816e;padding-left:16px;margin-top:34px;scroll-margin-top:20px}
+p,li{max-width:85ch}li+li{margin-top:9px}.table-scroll{overflow:auto;border:1px solid var(--line);border-radius:7px;margin:18px 0}table{border-collapse:collapse;width:100%;font-size:15px}th,td{vertical-align:top;text-align:left;padding:13px 15px;border-bottom:1px solid var(--line)}th{background:#e4eef6;color:#173956}tbody tr:last-child td{border-bottom:0}tbody tr:nth-child(odd){background:#f6fafc}.recommended{color:#0b5c4c}code{font-size:.9em;background:#edf2f6;padding:2px 5px;border-radius:3px}
+.skip{position:absolute;left:-9999px}.skip:focus{left:10px;top:10px;background:white;padding:12px;z-index:10}.footer{color:var(--muted);font-size:14px;margin-top:30px;border-top:1px solid var(--line);padding-top:18px}
+@media(max-width:1000px){.shell{display:block;padding:16px}nav{position:static;max-height:230px;margin-bottom:20px;border:1px solid var(--line);padding:12px}.sheet{padding:26px}}
+@media(max-width:560px){body{font-size:16px}.shell{padding:10px}.sheet{padding:18px}h1{font-size:31px}h2{font-size:24px}h3{font-size:20px}th,td{padding:10px;min-width:80px}.banner{padding:18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{nav,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}body{background:white;font-size:11pt}.banner{background:#eee;color:#111}.banner small,.banner a{color:#111}.table-scroll{overflow:visible}h2,h3{break-after:avoid}}
+</style></head><body><a class="skip" href="#main">Skip to decision pack</a><div class="shell"><nav aria-label="Decision pack sections"><p class="brand">MYPAISAA / MP-15</p><a class="level-2" href="#first-group-cost-decisions">First group: cost decisions</a><a class="level-3" href="#proposed-cash-allocations-for-c01-a">Proposed cash allocations for C01 A</a><a class="level-2" href="#costs">Costs</a><a class="level-3" href="#c01-how-much-of-the-100-monthly-cash-ceiling-should-we-plan-to-use">C01 · How much of the £100 monthly cash ceiling should we plan to use?</a><a class="level-3" href="#c02-what-should-happen-when-anthropic-credit-is-low-unavailable-or-not-verifiable">C02 · What should happen when Anthropic credit is low, unavailable or not verifiable?</a><a class="level-3" href="#c03-how-fresh-should-the-in-app-cost-dashboard-be">C03 · How fresh should the in-app cost dashboard be?</a><a class="level-3" href="#c04-which-cost-alert-and-spending-reduction-policy-should-we-use">C04 · Which cost-alert and spending-reduction policy should we use?</a><a class="level-2" href="#investment-analysis">Investment analysis</a><a class="level-3" href="#i01-which-initial-risk-alert-profile-should-we-propose">I01 · Which initial risk-alert profile should we propose?</a><a class="level-3" href="#i02-how-should-the-transparent-recommendation-ranking-balance-the-three-objectives">I02 · How should the transparent recommendation ranking balance the three objectives?</a><a class="level-3" href="#i03-what-return-and-benchmark-presentation-should-be-the-default">I03 · What return and benchmark presentation should be the default?</a><a class="level-3" href="#i04-how-should-the-confirmed-horizons-be-organised-in-the-first-forecast-contract">I04 · How should the confirmed horizons be organised in the first forecast contract?</a><a class="level-3" href="#i05-what-evidence-policy-should-govern-self-learning-and-promotion">I05 · What evidence policy should govern self-learning and promotion?</a><a class="level-2" href="#briefings-and-alerts">Briefings and alerts</a><a class="level-3" href="#n01-when-should-the-uk-morning-briefing-arrive">N01 · When should the UK-morning briefing arrive?</a><a class="level-3" href="#n02-how-should-material-risk-push-alerts-avoid-unnecessary-interruptions">N02 · How should material-risk push alerts avoid unnecessary interruptions?</a><a class="level-2" href="#storage-and-audit">Storage and audit</a><a class="level-3" href="#o01-what-should-the-default-original-document-retention-policy-be">O01 · What should the default original-document retention policy be?</a><a class="level-3" href="#o02-how-often-should-we-exercise-recovery-and-audit-integrity">O02 · How often should we exercise recovery and audit integrity?</a><a class="level-3" href="#o03-how-much-operational-telemetry-should-we-retain-initially">O03 · How much operational telemetry should we retain initially?</a><a class="level-2" href="#sign-in-and-access">Sign-in and access</a><a class="level-3" href="#s01-how-should-we-deliver-the-already-confirmed-cognito-sign-in-methods">S01 · How should we deliver the already-confirmed Cognito sign-in methods?</a><a class="level-3" href="#s02-how-much-recovery-redundancy-should-we-require">S02 · How much recovery redundancy should we require?</a><a class="level-2" href="#data-and-imports">Data and imports</a><a class="level-3" href="#d01-how-should-first-version-import-support-be-bounded-while-retaining-every-agreed-method">D01 · How should first-version import support be bounded while retaining every agreed method?</a><a class="level-3" href="#d02-which-evidence-should-we-gather-first-before-final-architecture-costing">D02 · Which evidence should we gather first before final architecture costing?</a><a class="level-2" href="#evidence-behind-the-recommendations">Evidence behind the recommendations</a><a class="level-2" href="#review-follow-ups-incorporated-as-proposals">Review follow-ups incorporated as proposals</a><a class="level-2" href="#what-still-blocks-implementation-readiness">What still blocks implementation readiness</a></nav><main class="sheet" id="main"><section class="banner" aria-label="Proposal status"><p><strong>18 choices · 22 confirmed decisions preserved</strong></p><p>Start with C01–C03: cash budget, Claude credit, dashboard freshness.</p><small>Draft for your choices. No option is consent. Independent review has not run on this new pack. No cloud setup or product coding.</small></section><h1>Requirements decision pack</h1>
+<p><strong>Proposals for Arun · 1 November 2026 · MP-15 · Not approved · Independent review not yet run</strong></p>
+<p><a href="product-requirements.md">Working PRD</a> · <a href="product-decisions.json">Confirmed decisions</a> · <a href="audit-observability-requirements.md">Cost/audit requirements</a> · <a href="review.html">Architecture comparison</a></p>
+<p>This pack offers <strong>18 choices</strong> with a recommended option and proposed acceptance criteria. Nothing is preselected as consent. The 22 confirmed decisions stay confirmed; alternatives here cannot silently remove any agreed method, horizon, market or safeguard. Approving a policy is separate from approving architecture, coding, spending, deployment or publication.</p>
+<p>Read one group at a time. Record choices in chat using the IDs, for example <code>C01 A, C02 A, C03 C</code>, or give your own values. Answers will update the register as explicit decisions; until then every <code>selected_option</code> in the <a href="requirements-decision-pack.json">machine-readable pack</a> is null. Suggested numbers are testable product defaults, not validated investment limits or promised forecast quality.</p>
+<h2 id="first-group-cost-decisions">First group: cost decisions</h2>
+<p>Start with <strong>C01–C03</strong>. The main discovery dashboard's cost priority is already agreed; these choices define its accounting and operating policy.</p>
+<h3 id="proposed-cash-allocations-for-c01-a">Proposed cash allocations for C01 A</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Allocation</th>
+<th style="text-align:right">Monthly GBP planning ceiling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>market data</td>
+<td style="text-align:right">£28</td>
+</tr>
+<tr>
+<td>AWS production including training</td>
+<td style="text-align:right">£20</td>
+</tr>
+<tr>
+<td>AWS development</td>
+<td style="text-align:right">£5</td>
+</tr>
+<tr>
+<td>AWS shared monitoring</td>
+<td style="text-align:right">£5</td>
+</tr>
+<tr>
+<td>CI</td>
+<td style="text-align:right">£2</td>
+</tr>
+<tr>
+<td>Apple monthly reserve</td>
+<td style="text-align:right">£8</td>
+</tr>
+<tr>
+<td>domain monthly reserve</td>
+<td style="text-align:right">£2</td>
+</tr>
+<tr>
+<td><strong>Operating envelope</strong></td>
+<td style="text-align:right"><strong>£70</strong></td>
+</tr>
+<tr>
+<td><strong>Unallocated reserve</strong></td>
+<td style="text-align:right"><strong>£30</strong></td>
+</tr>
+<tr>
+<td><strong>Total ceiling</strong></td>
+<td style="text-align:right"><strong>£100</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>These are limits to validate against a real resource/data model, <strong>not a revised quote</strong>. They include AWS training and monitoring in their named rows rather than adding those costs twice. Claude cash is conditionally £0 while verified credits cover usage; this is not a guarantee. Annual invoice months and any incremental subscription need their own truthful cash forecast. The earlier A/B £60/£65 examples remain historical initial-workload estimates; no choice below proves full-scope affordability.</p>
+<h2 id="costs">Costs</h2>
+<h3 id="c01-how-much-of-the-100-monthly-cash-ceiling-should-we-plan-to-use">C01 · How much of the £100 monthly cash ceiling should we plan to use?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-022.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>£70 operating envelope + £30 reserve <strong class="recommended">(Recommended)</strong></td>
+<td>Leaves room for delayed charges, monitoring, FX/tax uncertainty and measurement.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>£85 operating envelope + £15 reserve</td>
+<td>More experimentation, with less room for price or usage surprises.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>£60 operating envelope + £40 reserve</td>
+<td>More cautious; may require fewer simultaneous research/training jobs.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Propose ceilings of £28 data, £20 AWS production including training, £5 AWS development, £5 shared AWS/monitoring, £2 CI, £8 Apple monthly reserve and £2 domain reserve. These are allocations to test, not service quotes.</li>
+<li>Track calendar-month accruals AND cash invoices; annual renewals may exceed a monthly amortised allowance. Do not treat approval of this envelope as permission to pay an annual invoice.</li>
+<li>Claude net cash allowance is £0 only while verified eligible credit covers usage. Any incremental subscription needed for the credit belongs in the project cost model; if it does not fit, re-plan before activation.</li>
+<li>No budget is configured by this decision pack. All alternatives retain the £100 ceiling and require full-scope costing.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>The chosen allocations and reserve reconcile to £100 without double-counting AWS, monitoring or training.</li>
+<li>A Grow-tier, subscription, FX/tax or annual-invoice change produces an explicit affordability failure rather than silently spending the reserve.</li>
+</ul>
+<h3 id="c02-what-should-happen-when-anthropic-credit-is-low-unavailable-or-not-verifiable">C02 · What should happen when Anthropic credit is low, unavailable or not verifiable?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-022.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Pause new discretionary Claude calls; no paid fallback <strong class="recommended">(Recommended)</strong></td>
+<td>Preserves cash control; use saved results and clearly labelled deterministic summaries.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Ask for a one-time capped paid allowance</td>
+<td>More continuity; each allowance needs a new explicit cash decision within £100.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Pause all new Claude calls immediately</td>
+<td>Simpler and stricter; even on-demand chat waits for verification.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Propose gross-use ceilings of $120 production chat/research, $15 development, $30 live evaluations, $5 online judging, plus $30 unallocated credit reserve. These sum to the reported $200 shared benefit, not to verified available project credit.</li>
+<li>The effective project allowance is the lower of owner allocation and conservatively available organization credit after other apps, pending calls, expiry and existing liabilities. A workspace limit is not a separate pool of credit.</li>
+<li>Do not start a new chargeable call when coverage cannot be established. Queue, pause or provide an explicitly non-LLM result; never fabricate freshness.</li>
+<li>Reserve bounded maximum request/tool liability before starting; reconcile streamed, timed-out, retried and batch requests idempotently. Deterministic safety/data-integrity controls do not depend on an LLM or on available credit.</li>
+<li>The dollar ceilings describe gross usage, while the cash envelope is GBP. Do not convert promotional face value into cash headroom.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Simulated exhaustion, expiry, another application's usage and ambiguous request completion cannot trigger automatic paid fallback.</li>
+<li>The dashboard distinguishes unknown credit from zero and distinguishes paused evaluations from passed evaluations.</li>
+</ul>
+<h3 id="c03-how-fresh-should-the-in-app-cost-dashboard-be">C03 · How fresh should the in-app cost dashboard be?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-018, DEC-022.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Fast usage ledger + scheduled billing reconciliation <strong class="recommended">(Recommended)</strong></td>
+<td>Useful live estimates with bounded collection cost and honest billing delays.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Same live ledger + more frequent billing polling</td>
+<td>More collection work; upstream billing may be unchanged.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Live estimates + daily reconciliation for both providers</td>
+<td>Simpler, with slower provider reconciliation.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Record request usage on completion; update the open dashboard from cached application data within a proposed 60-second target. Mark in-flight/unknown outcomes as reservations, not completed zero-cost calls.</li>
+<li>Propose Anthropic report collection every 6 hours and AWS billing collection every 24 hours. Show covered-through and refreshed-at timestamps; polling does not accelerate provider reporting.</li>
+<li>Propose a 120-request/month ceiling for primary-view Cost Explorer requests, including pagination/retries; the request-price component is $1.20 at the currently documented rate. Custom billing views may multiply per-source charges and require re-costing.</li>
+<li>Do not publish a partial paginated report as a complete total. Persist cursor/coverage state, keep the last complete snapshot and mark partial/stale coverage.</li>
+<li>Propose a stale-report warning after 36 hours without useful refreshed billing coverage. Failed collectors raise health alerts independently. Manual refresh reads cached results; a new billing collection consumes the same budget.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Repeated dashboard refreshes cause zero new provider billing queries.</li>
+<li>Denied, partial, stale or empty reports remain visibly incomplete; API decimal cents/units are normalized without a 100x conversion error.</li>
+</ul>
+<h3 id="c04-which-cost-alert-and-spending-reduction-policy-should-we-use">C04 · Which cost-alert and spending-reduction policy should we use?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-008, DEC-022.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Warn, reduce optional work, then pause it <strong class="recommended">(Recommended)</strong></td>
+<td>Keeps essential deterministic services useful while protecting cash headroom.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Alerts plus owner approval for every new optional job</td>
+<td>Tighter manual control and more interruptions.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Pause optional work at the first warning</td>
+<td>Most conservative, with less research availability.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Propose project alerts at £60 forecast cash, reduce discretionary research/dev jobs at £75, and deny new discretionary paid jobs at £85. Reforecast fixed bills, pending jobs and remaining-month baseline use; compare both conservative projected cash and actual incurred cash to thresholds.</li>
+<li>An environment or feature allocation crossing its limit raises its own alert. New nonessential work must fit the approved allocation; it cannot silently borrow another environment's budget or the reserve.</li>
+<li>Use separate credit-cycle alerts at 70%, 85% and 95% of the effective gross-credit allocation. Do not mix these with GBP cash percentages.</li>
+<li>Admissions use atomic reservations and bounded concurrency, including evaluations and tools. Existing non-cancellable provider liabilities remain counted.</li>
+<li>AWS Budgets/provider reports are delayed. This is an application admission/degradation policy, not a promise of a universal instantaneous AWS billing stop. Leave essential integrity, access, audit and incident detection functioning with a budgeted minimal path.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Simultaneous synthetic jobs cannot reserve the same remaining allowance twice.</li>
+<li>A delayed provider report, exhausted credit or failing cost collector produces a safe degraded state and an owner alert, with no false 'all within budget' status.</li>
+</ul>
+<h2 id="investment-analysis">Investment analysis</h2>
+<h3 id="i01-which-initial-risk-alert-profile-should-we-propose">I01 · Which initial risk-alert profile should we propose?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-007, DEC-010.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Balanced monitoring thresholds <strong class="recommended">(Recommended)</strong></td>
+<td>A practical starting point to test against your holdings, with portfolio risk weighted more heavily.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Earlier warnings</td>
+<td>More sensitivity and potentially more alerts.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Wider thresholds</td>
+<td>Fewer alerts, with later warnings.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Proposed balanced drawdown/cost-basis loss warnings: portfolio 10% warning / 20% severe; individual holding 15% warning / 25% severe. Earlier profile: portfolio 5%/10%, holding 10%/20%. Wider profile: portfolio 15%/25%, holding 20%/35%. These are owner-review heuristics, not statistically validated safe limits or instructions to sell.</li>
+<li>Measure drawdown from a trailing 12-month peak (or available inception period, labelled) of a cash-flow-adjusted series. Do not treat deposits/withdrawals as gains/losses.</li>
+<li>Compute cost-basis measures only with sufficient reconciled history and a defined fee/FX/corporate-action convention. For portfolio net-invested-capital ratios, show unavailable when the denominator is nonpositive or economically misleading; keep money P&amp;L and time-weighted drawdown distinct.</li>
+<li>Propose portfolio-versus-holding weighting of 70:30 within the downside-risk component. That is separate from the overall recommendation weights in I02.</li>
+<li>A threshold changes monitoring severity, not an add/trim action. Missing/stale data or a protected holding cannot silently bypass eligibility. Defaults remain configurable per portfolio/holding after owner approval.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Synthetic deposits, withdrawals, splits, FX moves and missing history do not create invented losses or valid-looking undefined ratios.</li>
+<li>Threshold crossings explain measure, window, source age and portfolio impact; exposure/concentration rules will be specified after the actual holdings are mapped.</li>
+</ul>
+<h3 id="i02-how-should-the-transparent-recommendation-ranking-balance-the-three-objectives">I02 · How should the transparent recommendation ranking balance the three objectives?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-002, DEC-004, DEC-016, DEC-017.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>35% growth / 40% downside protection / 25% relative opportunity <strong class="recommended">(Recommended)</strong></td>
+<td>Balances all objectives with a modest emphasis on protection.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>One-third each</td>
+<td>Equal emphasis; display the exact equal-weight convention.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>25% growth / 50% downside protection / 25% relative opportunity</td>
+<td>A more protective ranking, still showing all objectives.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Each component uses a documented 0–100 scale with 'higher is better'; the downside component is protection/robustness, not raw risk. Normalize only against a declared horizon/reference population using training/reference data available at the decision time.</li>
+<li>Do not silently substitute zero for missing evidence or redistribute its weight. An ineligible component makes the combined actionable rank unavailable; show the separate available analyses.</li>
+<li>Rank comparisons within compatible horizons and contexts; do not average a next-day signal into a 12-month thesis without an explicitly approved combination rule.</li>
+<li>Eligibility, uncertainty and disagreement are evaluated before action ranking. Action bands, position sizing and protected-position rules need a separate holdings-aware proposal; these weights alone do not define 'add' or 'trim'.</li>
+<li>All score inputs, weights, model/rule versions and explanations are versioned. LLM self-confidence never substitutes for measured probability/calibration.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Changing a weight reproduces a versioned ranking explanation and never rewrites an earlier recommendation.</li>
+<li>A high growth score cannot conceal insufficient data, conflicting signals or an unapproved action rule.</li>
+</ul>
+<h3 id="i03-what-return-and-benchmark-presentation-should-be-the-default">I03 · What return and benchmark presentation should be the default?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-011, DEC-014.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>GBP portfolio view + local-currency detail <strong class="recommended">(Recommended)</strong></td>
+<td>Shows personal portfolio effects and separates instrument performance from FX.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Local currency first + GBP portfolio summary</td>
+<td>Prioritises market-level interpretation.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Side-by-side GBP and local views throughout</td>
+<td>More visible detail and a denser interface.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Use total return where the permitted data supports dividends/corporate actions; explicitly label price-return-only series. Show XIRR for investor cash-flow experience and time-weighted measures for comparable investment/benchmark performance; do not compare an XIRR directly with an unmatched index annual return.</li>
+<li>Propose MSCI ACWI net total return, converted into GBP with matched dates, as the broad global reference, subject to data licence/history availability. A clearly labelled permitted broad-global ETF proxy is an alternative; disclose fees/tracking differences rather than calling it the exact index.</li>
+<li>Choose each holding's benchmark after exact listing/share-class/exposure resolution. Construct a versioned blended portfolio comparator from approved weights fixed at the start of the evaluation period, with a declared rebalance policy; do not choose weights after seeing outcomes.</li>
+<li>Match date coverage, currency, dividends, fees and cash-flow conventions for comparisons. Explain any convention mismatch; withhold unsupported numerical superiority claims.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>A synthetic FX-only move explains the difference between local and GBP returns.</li>
+<li>Benchmark IDs, source/rights, weights, rebalance timing and return conventions are inspectable; missing licensed benchmark history is an evidence gap, not fabricated data.</li>
+</ul>
+<h3 id="i04-how-should-the-confirmed-horizons-be-organised-in-the-first-forecast-contract">I04 · How should the confirmed horizons be organised in the first forecast contract?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-001, DEC-019.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Separate horizon-specific outputs and scenarios <strong class="recommended">(Recommended)</strong></td>
+<td>Makes forecasts measurable without blurring short-term risk and long-term theses.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Long-term view first; short-term forecasts in detail</td>
+<td>Same horizons and evidence, with less short-term emphasis in presentation.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Short-term view first; long-term forecasts in detail</td>
+<td>Same coverage, prioritising near-term monitoring.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Formal forecasts are published daily for next trading day, 5 and 20 trading days, and 3/6/12 calendar-month target dates mapped to the next valid target-venue close. Record the exact maturity date/calendar rule before issuance; owner can choose a different explicit calendar convention.</li>
+<li>Define instrument total-return, benchmark-relative and downside-event targets separately, including local/GBP units and permitted adjustment conventions. Features refresh only when new eligible data exists; daily publication does not invent a daily fundamentals update.</li>
+<li>Three-to-five-year outputs are assumption-based scenarios with drivers, ranges and invalidation conditions, labelled separately from empirically calibrated probabilities.</li>
+<li>Thirty-minute quote/risk checks do not create a new formally scored daily forecast version. Material correction/retraction is a linked immutable event, not a silent overwrite.</li>
+<li>Unsupported horizons remain visible as insufficient-evidence/unavailable, while valid analysis remains usable. Approving horizon organisation does not promise that every model is validated for every listing at launch.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>A forecast cannot be scored before its recorded maturity, even after an app timezone or calendar update.</li>
+<li>Original issues, corrections, scenarios, outcomes and model versions stay distinguishable and reproducible.</li>
+</ul>
+<h3 id="i05-what-evidence-policy-should-govern-self-learning-and-promotion">I05 · What evidence policy should govern self-learning and promotion?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-001, DEC-016.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Evidence-first challengers, then owner approval <strong class="recommended">(Recommended)</strong></td>
+<td>Preserves reproducibility and avoids treating immature forecasts as proven.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Longer shadow evidence before the same approval</td>
+<td>More caution, with slower candidate adoption.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Keep rules/statistical baselines active while all ML stays shadow</td>
+<td>Makes early intelligence usable while gathering model evidence.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Compare rules/statistical baseline, numerical ML, and ML plus LLM-derived features through versioned ablations. Use purged temporal walk-forward validation, train-fold-only transformations/calibration, locked final evaluation and outcome maturity rules.</li>
+<li>Evaluate probabilities with Brier/log loss and reliability/coverage, return ranges with suitable quantile/interval scores, and portfolio experiments with matched risk/benchmark/cash-flow conventions. Report uncertainty and drawdowns alongside headline accuracy.</li>
+<li>Propose at least four feasible time-separated walk-forward evaluation folds; require an explicit sample-sufficiency design for each horizon. Overlapping dates/instruments are not independent trials; use appropriate temporal/group uncertainty estimates.</li>
+<li>Freeze exact metric thresholds, baseline improvement margins, noninferiority tolerances and mature-evidence requirements before challenger experiments, after the coverage audit. This pack approves the evidence-policy direction only; those scientific thresholds remain an explicit blocker to promotion.</li>
+<li>Long horizons need mature horizon-appropriate evidence; a short shadow period cannot prove a 12-month model. Synthetic packs verify mechanics, never predictive skill. Historical LLM features need leakage controls and prospective corroboration.</li>
+<li>Training, drift checks and evaluation can run under approved budgets; model/calibration promotion requires owner approval with evidence, cost and rollback. Safety fallback may return to a previously approved baseline under an approved policy; it cannot promote an unapproved model.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>A candidate with insufficient mature evidence is shown as inconclusive/shadow, regardless of attractive headline accuracy.</li>
+<li>Each promotion packet identifies data/feature/code/model versions, temporal splits, baselines, uncertainty, tests, resource cost and a tested rollback.</li>
+</ul>
+<h2 id="briefings-and-alerts">Briefings and alerts</h2>
+<h3 id="n01-when-should-the-uk-morning-briefing-arrive">N01 · When should the UK-morning briefing arrive?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-013, DEC-015.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>07:30 Europe/London <strong class="recommended">(Recommended)</strong></td>
+<td>A consistent morning planning slot, with daylight-saving handling.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>08:00 Europe/London</td>
+<td>Later morning delivery.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Choose a custom UK-morning time</td>
+<td>Fits your routine; record an explicit timezone.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>One daily concise briefing at the chosen local time, including weekends with a lighter market-calendar-aware format. Avoid claiming every market is open or fully updated.</li>
+<li>Show separate timestamps for US/UK/India observations; include priorities, changes, risks, events, unavailable data and expandable evidence.</li>
+<li>Idempotent schedule/delivery keys prevent duplicate briefs after DST, retries or catch-up. A missed schedule is observable; a late catch-up is labelled late.</li>
+<li>Choose later whether weekend briefings should be disabled; until this proposal is approved no scheduler is configured.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Spring/autumn clock changes, a failed job and a restart produce the documented one-brief-per-local-date policy with correct timestamps.</li>
+</ul>
+<h3 id="n02-how-should-material-risk-push-alerts-avoid-unnecessary-interruptions">N02 · How should material-risk push alerts avoid unnecessary interruptions?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-008, DEC-012.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>22:00–07:00 quiet hours; critical exceptions <strong class="recommended">(Recommended)</strong></td>
+<td>Reduces overnight noise while allowing explicitly defined urgent incidents.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Quiet hours with no investment-alert exceptions</td>
+<td>All investment alerts wait; critical security/operations routing is separately chosen.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>No quiet hours; retain duplicate suppression</td>
+<td>Most immediate delivery, potentially across UK/US/India trading hours.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Propose one push per holding/rule/severity per 24 hours; renewed push only for worsening severity or a materially new cause. Preserve the full event history in app/chat; cooldown does not discard evidence.</li>
+<li>Reserve quiet-hour exceptions for defined critical security/service-integrity incidents and any owner-approved severe investment condition. Until those critical definitions are approved, do not infer an investment exception.</li>
+<li>Push previews default to generic text such as 'A portfolio update needs attention'; no values, account names, raw documents or detailed holdings on the lock screen.</li>
+<li>Attempt native/PWA push only with permission and supported delivery; record provider acceptance separately from display/read acknowledgement. On denial/offline, retain a visible in-app inbox and catch-up state.</li>
+<li>These are detection-driven alerts on available data, not tick-level guarantees. An unavailable source yields a freshness/coverage notice, not an invented investment-risk event.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Retries, quiet hours, cooldowns and several devices do not multiply the same push; escalation retains the cause and original event.</li>
+<li>Sensitive synthetic markers never appear in lock-screen payloads or generic operational telemetry.</li>
+</ul>
+<h2 id="storage-and-audit">Storage and audit</h2>
+<h3 id="o01-what-should-the-default-original-document-retention-policy-be">O01 · What should the default original-document retention policy be?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-020, DEC-021.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>24-month renewable archive policy <strong class="recommended">(Recommended)</strong></td>
+<td>A clear review window with owner extension/deletion and predictable storage planning.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>12-month renewable archive policy</td>
+<td>Less retained sensitive content; earlier source review/export.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Retain while account is active; periodic review</td>
+<td>Maximum source history, with growing storage and privacy obligations.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Retain encrypted S3 originals and noncurrent versions according to the chosen policy, with a proposed 30-day pre-expiry notice and explicit owner extension/export/deletion controls. Define the approved automatic-expiry action before activation; no irreversible lock is implied.</li>
+<li>Propose immediate access revocation on an owner deletion request, live-store/derived-copy cleanup target within 24 hours, and expiry of remaining recovery copies within a proposed 35-day backup window. These are design targets to verify, not existing deletion guarantees.</li>
+<li>A minimal protected deletion record/tombstone outlives every recoverable copy and is reapplied before restored data becomes accessible. Do not retain deleted content inside the tombstone; review indirect identifiers/privacy too.</li>
+<li>Retain ledger, issued prediction/outcome and approval lineage for the active account according to separately approved record-class rules, not the operational run-record TTL. Owner source deletion may remove evidence availability, which must be shown truthfully.</li>
+<li>Retention values are product choices, not a statement of legal/tax compliance; reconcile any actual recordkeeping needs before relying on automated expiry. No sensitive source is copied into dev for testing.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Deletion covers current/noncurrent S3 versions, parsed derivatives, caches and recoverable copies with truthful progress status.</li>
+<li>Restore a synthetic backup containing a previously deleted document and prove deletion is reapplied before any authorized client can open it.</li>
+</ul>
+<h3 id="o02-how-often-should-we-exercise-recovery-and-audit-integrity">O02 · How often should we exercise recovery and audit integrity?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-020, DEC-021.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Monthly focused exercises + change-triggered checks <strong class="recommended">(Recommended)</strong></td>
+<td>Balances operational evidence with a small-system budget.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Weekly focused exercises + change-triggered checks</td>
+<td>Finds regressions sooner, with more test/compute cost.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Quarterly exercises + change-triggered checks</td>
+<td>Less recurring work, with a longer gap between routine proofs.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>All options require release gates for affected storage, backup, import or audit changes. The interval chooses routine exercises, not permission to ship untested changes.</li>
+<li>Exercise failed/duplicate/reprocessed imports, owner-confirmed updates, manual-entry provenance, transaction/audit/outbox atomicity, crash recovery and deletion-after-restore.</li>
+<li>Inject a missing or altered synthetic audit event and require detection plus an operator incident; define the final detection/verification mechanism during architecture design.</li>
+<li>Propose recovery objectives of at most 24 hours of data loss and 4 hours to restore essential owner read access, then validate them against the actual backup mode and cost. Recovery may show stale last-known analysis; it must not invent fresh results.</li>
+<li>Audit evidence must identify the exercise version, scenario, actual RPO/RTO achieved, verifier and unresolved failures. No successful checksum alone proves the full recovered application works.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>A restore drill measures time and recoverable state rather than only proving files exist.</li>
+<li>An intentionally altered/deleted event is detected; an authorized correction remains an intact, linked new event rather than appearing as unexplained tampering.</li>
+</ul>
+<h3 id="o03-how-much-operational-telemetry-should-we-retain-initially">O03 · How much operational telemetry should we retain initially?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-021, DEC-022.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>14-day logs / 30-day rich traces / 90-day run summaries <strong class="recommended">(Recommended)</strong></td>
+<td>A bounded starting point, subject to measured monitoring cost.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>7-day logs / 14-day rich traces / 30-day run summaries</td>
+<td>Lower volume with shorter investigations.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>30-day logs / 90-day rich traces / 180-day run summaries</td>
+<td>Longer investigations and a larger storage/query envelope.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Every meaningful operation has a durable outcome and required source/decision links; audit and required prediction/approval evidence are never sampled. A run-summary TTL must not remove the only link needed by retained business records.</li>
+<li>Propose rich traces for all failed/denied runs plus a bounded deterministic 10% sample of successful runs; cap noisy cascades and retain durable failure summaries when rich-trace limits are reached. Validate collector sampling compatibility before selecting tooling.</li>
+<li>Telemetry content is allowlisted metadata, not raw prompts/replies, imports, portfolio amounts, credentials or signed URLs. Exception messages and tool error bodies also need redaction.</li>
+<li>Metric dimensions stay bounded. Per-run/per-instrument investigations use protected records/logs rather than unlimited metric cardinality. Track dropped/sampled data and collector health.</li>
+<li>Sampling, retention and collector costs must be measured inside the shared AWS/monitoring envelope; no paid observability product is activated by this choice.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Sensitive-marker leak tests and owner/environment access tests pass, including failed requests and retry paths.</li>
+<li>An unsampled run still links to durable business evidence; expired telemetry is labelled unavailable rather than breaking or silently rewriting the audit trail.</li>
+</ul>
+<h2 id="sign-in-and-access">Sign-in and access</h2>
+<h3 id="s01-how-should-we-deliver-the-already-confirmed-cognito-sign-in-methods">S01 · How should we deliver the already-confirmed Cognito sign-in methods?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-009.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Cognito managed sign-in + verified account linking <strong class="recommended">(Recommended)</strong></td>
+<td>Reuses provider-supported flows and limits custom authentication logic.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Custom web/native sign-in UI on Cognito</td>
+<td>More design control and more authentication testing.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Managed sign-in first, custom UI after usage evidence</td>
+<td>Same required methods, with visual customisation deferred.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Apple, Google and passkeys remain required; this choice concerns the flow, not dropping a method. Plan the Cognito feature tier required for passkeys and test web/native domain association support.</li>
+<li>Use one canonical owner identity per environment. Link identities only after proving control of the existing owner and the new provider/passkey; matching email alone does not authorize a link.</li>
+<li>Cognito federation does not automatically add local passkey flows to an unlinked federated user. Specify and test the linked local-owner model, including Apple private-relay addresses and IdP subject identifiers.</li>
+<li>Owner-only admission has no open financial-data signup. Server APIs enforce owner/environment access and scoped sensitive-action reauthentication; a hidden admin menu is not authorization.</li>
+<li>Propose reauthentication within 5 minutes for source deletion, recovery/linking, budget increases and model promotion. Retain server-confirmed operation details, anti-replay/expiry and audit evidence, not just a client 'biometric succeeded' flag.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>An attacker with the same email claim, a stale session or a dev identity cannot link to or operate the prod owner.</li>
+<li>All three methods work for the same approved owner on the supported PWA/native device matrix; account linking and fresh sensitive-action authorization are demonstrated.</li>
+</ul>
+<h3 id="s02-how-much-recovery-redundancy-should-we-require">S02 · How much recovery redundancy should we require?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-009, DEC-021.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Two independent passkey paths + verified Apple/Google links <strong class="recommended">(Recommended)</strong></td>
+<td>Reduces dependence on one lost device or one sync account.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>One passkey path + verified Apple/Google links</td>
+<td>Less setup, with greater dependence on identity-provider recovery.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Two hardware-backed recovery keys + verified provider links</td>
+<td>Strong physical separation, with purchase/handling overhead.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Treat two synced passkeys in the same provider account as one failure domain where appropriate. Test recovery from loss of the primary device and provider access.</li>
+<li>Recovery is an explicit audited owner procedure with an out-of-band proof policy; do not assume Cognito password-reset email recovers a passkey-only/federated account.</li>
+<li>Propose 30-minute foreground inactivity lock for sensitive views and reauthentication for protected operations. Authentication-token and refresh lifetimes require explicit compatibility/cost/security validation before implementation.</li>
+<li>The device/session list supports revocation and sign-out. Test actual enforcement for already-issued access tokens; a UI logout alone is not immediate server revocation.</li>
+<li>Operator AWS access is separate from the application owner session. No financial account data, recovery proof or elevated billing authority enters a general research-agent context.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Recovery cannot be used as a weaker route around owner authorization; successful recovery revokes the intended old sessions with documented propagation.</li>
+<li>Loss of the primary device has a tested recovery route and an auditable result without revealing private holdings in notifications.</li>
+</ul>
+<h2 id="data-and-imports">Data and imports</h2>
+<h3 id="d01-how-should-first-version-import-support-be-bounded-while-retaining-every-agreed-method">D01 · How should first-version import support be bounded while retaining every agreed method?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-005, DEC-014, DEC-020.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Sample-backed layouts + generic templates <strong class="recommended">(Recommended)</strong></td>
+<td>Makes CSV/Excel/PDF/screenshots/manual usable with honest coverage and review.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Your most-used broker layouts first, plus generic paths</td>
+<td>Prioritises personal onboarding once the broker list is known.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Generic structured template plus assisted extraction review</td>
+<td>Broader intake with more manual confirmation of unfamiliar layouts.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>All options preserve CSV/Excel, PDFs/statements, screenshots and manual entry in the first version. Proposed initial automated layout target: one sample-backed statement family per active market, chosen from your actual brokers; it is not support for every institution.</li>
+<li>Generic CSV/XLSX templates and manual corrections remain available. Unsupported PDFs/screenshots can become a visibly uncertain extraction draft requiring review, not a silently successful import.</li>
+<li>Include image/PDF/Excel fixtures, duplicate/reprocess cases, formulas/macros/hidden sheets, ambiguous dates/currencies/units, protected documents, oversize/malformed files and malicious embedded instructions in parser/evaluation plans. No macros/formulas are executed as import instructions.</li>
+<li>Every extracted field retains source page/row/cell or manual actor/reason; uncertain instrument matching requires confirmation. Never infer your actual ETF share class from the synthetic catalogue.</li>
+<li>Incomplete history can create a flagged holding, while unsupported XIRR/cost/return measures remain unavailable. Preview and confirmation precede any ledger commit.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Each supported method has a representative synthetic/redacted sample and a documented success/failure contract.</li>
+<li>Duplicate uploads, reprocessing and owner corrections preserve originals and produce reversible, attributable ledger events.</li>
+</ul>
+<h3 id="d02-which-evidence-should-we-gather-first-before-final-architecture-costing">D02 · Which evidence should we gather first before final architecture costing?</h3>
+<p>Status: <strong>proposed, awaiting your answer</strong>. Related confirmed decisions: DEC-003, DEC-006, DEC-011.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Decision options"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Choice</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Resolve actual holdings and source entitlements first <strong class="recommended">(Recommended)</strong></td>
+<td>Avoids choosing paid data, benchmarks or training history that do not cover your instruments.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Propose the balanced research universe first</td>
+<td>Moves discovery planning forward; actual holdings still need resolution.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Collect broker format samples first</td>
+<td>Accelerates import contracts; data pricing remains unresolved.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed details:</p>
+<ul>
+<li>Gather exact listing/ticker/share class/venue/currency and broker for supplied holdings, then propose the research watchlist for approval. Quantities and account numbers are not required to resolve instrument identities.</li>
+<li>Create a per-listing coverage matrix for Yahoo/Grow: permitted access/storage/ML use, interval/delay, history depth, corporate actions, fundamentals/exposures, benchmarks, quota and actual tier price. Public ticker availability is not proof of training/retention rights.</li>
+<li>Where an entitlement cannot support 30-minute monitoring, use the already-approved daily-analysis fallback and ask before a paid source. Do not reopen that settled fallback choice.</li>
+<li>Use real identifiers with unmistakably synthetic observations/accounts in local/dev. The existing price/ledger packs are test foundations, not evidence of model skill; document-specific fixture work is still needed. AWS dev loading remains deferred.</li>
+<li>No paid API request, subscription change or live AWS dev environment is enabled by gathering this planning evidence.</li>
+</ul>
+<p>Acceptance to carry into the stories:</p>
+<ul>
+<li>Each proposed active listing has a verified identity and a truthful capability/rights row or is explicitly held pending.</li>
+<li>A costed architecture can point to the exact market-data quote/tier and expected workload rather than assuming all UK/US/India symbols have equivalent fresh coverage.</li>
+</ul>
+<h2 id="evidence-behind-the-recommendations">Evidence behind the recommendations</h2>
+<p>The policy numbers above are proposals. Provider facts were checked against the following primary sources on 1 November 2026; source documentation does not verify your private account balance, entitlements or deployed configuration.</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html">AWS Cost Explorer freshness</a>: Billing data is delayed; scheduled collection and explicit freshness are required.</li>
+<li><a href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/">AWS Cost Explorer pricing</a>: Primary-view API requests cost $0.01 each; custom-view charges depend on sources. This pack prices a proposed bounded request count, not an observed bill.</li>
+<li><a href="https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api">Anthropic Usage and Cost Analytics API</a>: Current analytics are delayed/revisable. Cost fields are decimal cents, after discounts and before credits; they are not verified remaining cash/credit balance.</li>
+<li><a href="https://platform.claude.com/docs/en/about-claude/api-credits-for-subscribers">Anthropic API credit programme</a>: Linked-organization keys/workspaces share credits; credit renewal and monthly spend-cap periods differ. The user's reported $200 account benefit remains unverified.</li>
+<li><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html">Cognito authentication flows</a>: Federated and local flows need a deliberate linked identity design; passkeys are not automatically added to an unlinked federated user.</li>
+<li><a href="https://docs.aws.amazon.com/cognito/latest/developerguide/authentication.html">Cognito authentication and plan requirements</a>: Verify required feature tier/domain and supported passkey flows in the chosen clients.</li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html">S3 versioned-object deletion</a>: A delete marker alone does not erase retained object versions; deletion must handle versions and derivatives.</li>
+<li><a href="https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split">scikit-learn temporal cross-validation</a>: Time-aware evaluation is needed; this alone is not a full financial leakage-control or promotion-evidence specification.</li>
+<li><a href="https://www.msci.com/documents/10199/255599/msci-acwi-net.pdf">MSCI ACWI methodology reference</a>: Candidate broad-global net-return benchmark reference; use/licence, currencies and available history still require confirmation.</li>
+</ul>
+<h2 id="review-follow-ups-incorporated-as-proposals">Review follow-ups incorporated as proposals</h2>
+<p>The previous operational-requirements review found no blockers and two optional acceptance refinements. O01/O02 now propose deletion-after-restore and missing/altered audit-event tests. Their presence here does not claim the old document was changed, the new pack was independently reviewed, or those behaviours are implemented. <a href="../../../review/MP-15/round-1-result.md">Previous review</a>.</p>
+<h2 id="what-still-blocks-implementation-readiness">What still blocks implementation readiness</h2>
+<ul>
+<li>Owner choices on proposals; further scientific threshold and action-policy specification.</li>
+<li>Actual holdings, broker sample coverage, data/benchmark entitlements and current prices.</li>
+<li>Architecture A/B selection, account/region isolation, IaC and full monitoring/training costing.</li>
+<li>Exact web/native device/OS matrix and clarification of adaptive Duo requirements.</li>
+<li>Complete layer-by-layer stories, contracts, local UX/prototype acceptance and end-to-end approval before product coding.</li>
+</ul>
+<p>After the owner choices, turn the agreed requirements into versioned stories/acceptance tests, resolve the remaining evidence and architecture decisions, re-cost the full initial scope, and prepare the local design system/web/mobile prototype for approval. Sync to Sites only when authorised. No application coding follows automatically from completing this questionnaire.</p>
+<p class="footer">Local planning document · 1 November 2026 · Choose in chat; this page does not submit answers or configure services.</p></main></div></body></html>

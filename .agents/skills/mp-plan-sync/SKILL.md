@@ -13,4 +13,6 @@ For relevant architecture, stack or product-status changes, check `README.md`, `
 
 Use the Smart Clearance documentation patterns recorded in `.codex/rules/plan-sync.md` when refining document structure. It is a style reference, not permission to import that repository's architecture, rules or cloud settings. Limit reads to the current change rather than rechecking unrelated code or diagrams.
 
+Use current root-document links to find the active phase/story/decision pack and its native Lucid/workflow/chart manifests, not only older bootstrap diagram snapshots. Follow the phasewise reconciliation and rich-content preservation requirements in `.codex/rules/plan-sync.md`; keep local draft IDs and implementation/readiness claims distinct from actual tracker and publication records.
+
 Propose exact local and external corrections with affected pages, issues and consequences. Read existing pages and space instructions before proposing edits. Require explicit approval for each stated external-write scope, then use the appropriate connector. Never automatically overwrite a Confluence page, invent records, or close an issue. Parallelise independent read-only lanes only when authorised and available; observe the five-agent total limit.

@@ -1,0 +1,82 @@
+{
+  "base_commit": "082972bf25fccf03ff72563257d5f7dd07f39c95",
+  "files": {
+    "docs/planning/aws-options-2026-11-01/product-requirements.md": {
+      "sha256": "7fe155fb94ebeef0ed83b2306eb2c52284f12a1496bc906812998c1cf0460ef8",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/product-decisions.json": {
+      "sha256": "98a31a34f62f08e7bfc2b7aef329394307c57f02b1cb6aa0139d1bec64386a6a",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md": {
+      "sha256": "8062bc87978ec4c506792e38bc532a92f4c5e82e6ff7a82d351900fead995c10",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/audit-observability-sources.json": {
+      "sha256": "dcc90e8683e4f85be84b7882832e114e444bf9c610f88822441e2fbcdfee3dee",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/README.md": {
+      "sha256": "cd11c152f1762644690ec17d0db9fa09c03e99345b8c5407993422fa77419ed1",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/review.html": {
+      "sha256": "f19f5164f333bd7ba3cded3b02f520eac9517b1e71646018677c0833e871b6c5",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/cost-model.json": {
+      "sha256": "7a77dee1ee57635fbb809dc59bdbfad77ac329903bc21e31f78d97bc3f56ddc0",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/forecasting-scope.md": {
+      "sha256": "9ce676f8e34e54a607369762056b798c8993f901abf3021168a7ad14b88e7a83",
+      "role": "direct reference/rules"
+    },
+    "docs/planning/aws-options-2026-11-01/forecasting-source-register.json": {
+      "sha256": "42bb458427f5d3e985a8d50c5c893a8b1349cc7e3b64fbaf14859f5fa799480c",
+      "role": "direct reference/rules"
+    },
+    "docs/planning/aws-options-2026-11-01/pricing-evidence.json": {
+      "sha256": "8ff62fe395e0b3b87dcf5a11e351cb9233cdae8a194d53889f55be27d6e5a8dc",
+      "role": "direct reference/rules"
+    },
+    "docs/planning/aws-options-2026-11-01/reference-pages.json": {
+      "sha256": "89fec851225b068a484e218c17e4960c1ebdbe5f678bbbd7e4e5bc3058e33194",
+      "role": "direct reference/rules"
+    },
+    "docs/planning/aws-options-2026-11-01/diagram-manifest.json": {
+      "sha256": "a284e529fb1bdb1266b8e967b8ca1e7ef57f51668c731bf85c25dd7ba9de39c7",
+      "role": "direct reference/rules"
+    },
+    "AGENTS.md": {
+      "sha256": "c9dd83b411aea012cbd4fe4a9be4955d8c3b4db1b245bc8ecb8e3597d8b99599",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/workflow.md": {
+      "sha256": "4f85ca9c96ab8f89e4aa8e8d91b4dc5097b43e15e80a96e94341fb3a13fc4e27",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/review-checklist.md": {
+      "sha256": "870749246065dc04a139cecee44fa37284fdbdd9d2885100f3f7bfd72903f854",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/review-ledger.md": {
+      "sha256": "d99f73afacd625c43c3f56dd98db0527e20118371b25df0e76174c8cd6f9c6dd",
+      "role": "direct reference/rules"
+    },
+    ".codex/review-policy.json": {
+      "sha256": "278a991cc9eae1afe02069f4152ec04748ef14a7425a7556243484ead9804249",
+      "role": "direct reference/rules"
+    },
+    ".agents/skills/mp-independent-review/SKILL.md": {
+      "sha256": "6bde60f915530a1e3bd26d842587a227ed536484ee86697ac801caa8106e1892",
+      "role": "direct reference/rules"
+    },
+    "docs/review-optimisation.md": {
+      "sha256": "ebeffb0a8ba88f4e05914845ec4a05dd38dea14113d08c26b0cbe59b52c8c7b3",
+      "role": "direct reference/rules"
+    }
+  },
+  "pre_review_gate_fix": "Removed stale pending-horizon label from cost-model metadata; preserved original separately."
+}

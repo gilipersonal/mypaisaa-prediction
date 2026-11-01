@@ -1,0 +1,483 @@
+{
+  "project": "mypaisaa-prediction",
+  "layer": "PH-01 / portfolio and imports",
+  "as_of": "2026-11-01",
+  "status": "draft_for_review_not_approved",
+  "implementation_authorised": false,
+  "entities": [
+    {
+      "name": "ScopeEnvelope",
+      "purpose": "Authoritative namespace and version metadata",
+      "fields": [
+        "owner_id:server-derived opaque ID",
+        "environment:local|dev|prod",
+        "schema_version:string",
+        "recorded_at:UTC instant",
+        "request_id/run_id:opaque references",
+        "is_synthetic:trusted dataset classification"
+      ],
+      "invariants": [
+        "Every account/document/draft/event/read is scoped and authorized server-side.",
+        "Client-supplied owner/environment/synthetic labels cannot grant access or choose a production target."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "Money",
+      "purpose": "A signed decimal amount with an explicit ISO currency",
+      "fields": [
+        "amount:finite decimal string",
+        "currency:GBP|USD|INR initially; extensible validated code",
+        "precision/source_literal:optional evidence",
+        "quality:known|estimated; unknown is a missing parent field with reason"
+      ],
+      "invariants": [
+        "No binary float, NaN, infinity or implicit currency.",
+        "An unknown amount is a missing parent field with a reason, not numeric zero.",
+        "Quote-unit GBX is distinct from currency GBP; conversion must occur exactly once."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "InstrumentListing",
+      "purpose": "Security/share-class identity and venue-specific quote contract",
+      "fields": [
+        "security_id:internal stable share-class ID",
+        "listing_id:internal stable listing ID",
+        "venue/ticker:effective-dated identifiers",
+        "ISIN/AMFI/provider IDs:verified optional identifiers",
+        "trading_currency/quote_unit/unit_factor",
+        "asset_kind/calendar_id/mapping_version/evidence"
+      ],
+      "invariants": [
+        "ISIN alone does not uniquely identify a listing or trading currency.",
+        "Ticker aliases are effective-dated and venue-scoped.",
+        "Real catalogue IDs are used in fixtures; unresolved identity stays unresolved."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "InvestmentAccount",
+      "purpose": "An owner-scoped investment account and context",
+      "fields": [
+        "account_id:opaque stable ID",
+        "institution_alias/country/account_kind",
+        "settlement_currencies:validated list",
+        "wrapper_context:source-backed optional label",
+        "external_reference:protected token or minimized display alias",
+        "state/version"
+      ],
+      "invariants": [
+        "No broker trading credentials or execution authority.",
+        "Account kinds/markets extend through versioned contracts; tax treatment is not inferred from a label.",
+        "Cross-account imports/transfers require explicit authorized mappings."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "SourceDocument",
+      "purpose": "Original bytes and lifecycle/provenance",
+      "fields": [
+        "document_id/version/checksum/size/media_type",
+        "protected_original_name/opaque_blob_ref",
+        "upload_route/received_at/validation_state",
+        "owner/environment/classification",
+        "retention_policy_version/deletion_state",
+        "duplicate_of/reprocess_of:optional links"
+      ],
+      "invariants": [
+        "Private encrypted originals precede extraction; failed/rejected uploads remain observable.",
+        "A storage upload is not an applied financial import.",
+        "24-month renewable original archive is confirmed; automatic expiry/deletion mechanics remain unapproved."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "ExtractionCandidate",
+      "purpose": "Untrusted, non-authoritative proposed values",
+      "fields": [
+        "candidate_id/document_version/parser_or_model_version",
+        "field_name/raw_literal/typed_proposal",
+        "page/sheet/row/cell/bounding_box/source_excerpt_ref",
+        "per_field_confidence_and_validation",
+        "candidate_identity_matches/errors"
+      ],
+      "invariants": [
+        "No tools or financial writes in document extraction.",
+        "Field confidence is not approval or proof of accuracy.",
+        "PDF passwords are handled only through a future secure local unlock flow, never prompts/logs or retained extraction records."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "ImportDraft",
+      "purpose": "An immutable reviewable import revision",
+      "fields": [
+        "import_id/draft_revision/canonical_hash",
+        "owner/environment/account_mapping/catalogue_version",
+        "ordered_rows_and_selected_subset/excluded_rows",
+        "normalization_and_duplicate_decisions/provenance",
+        "expected_ledger_revision/validation_report",
+        "status/created_at/expires_at"
+      ],
+      "invariants": [
+        "Any edit, mapping change, subset choice or reprocess changes the review hash.",
+        "Rows cannot silently vanish from the preview.",
+        "No financial writes before an eligible owner approval and commit."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "OwnerApproval",
+      "purpose": "A narrow server-verified approval intent",
+      "fields": [
+        "approval_id/import_id/draft_hash",
+        "expected_ledger_revision/owner/environment",
+        "approved_operation/selected_row_set",
+        "auth_context_ref/approved_at/expires_at/nonce",
+        "consumed_by_commit:optional"
+      ],
+      "invariants": [
+        "Approval binds the exact payload/scope/version; a chat yes is not an unscoped reusable credential.",
+        "Stale, expired, replayed or wrong-environment approvals cannot mutate records.",
+        "The sensitive-action freshness duration is still a proposal, not a chosen value."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "LedgerEvent",
+      "purpose": "A recorded economic event, never a trade instruction",
+      "fields": [
+        "event_id/commit_id/account_id/event_kind",
+        "effective_date_or_instant/time_precision/source_sequence",
+        "recorded_at/source_refs/original_external_reference",
+        "quantity_legs/cash_legs/fees/withholding",
+        "transfer_or_corporate_action_link",
+        "supersedes_or_reverses/policy_versions"
+      ],
+      "invariants": [
+        "Events are append-only; corrections produce linked new events.",
+        "Unlike currencies/quantities are never numerically summed as if interchangeable.",
+        "Financial event, durable audit and publication/outbox obligations share an atomic logical commit boundary."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "CommitReceipt",
+      "purpose": "A durable idempotent visibility decision",
+      "fields": [
+        "commit_id/import_id/draft_hash/idempotency_key",
+        "expected_and_resulting_ledger_revision",
+        "staged_batch_counts/content_digest",
+        "status:preparing|committed|failed|cancelled",
+        "visible_generation/receipt_time"
+      ],
+      "invariants": [
+        "Exactly one logical application under retries, not exactly-once message delivery.",
+        "Readers/agents/outbox consumers exclude staged or failed work.",
+        "Large imports must prove atomic visibility and fenced concurrency within the selected store's limits."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "PositionObservation",
+      "purpose": "A dated holding/valuation report with explicit sufficiency",
+      "fields": [
+        "observation_id/account/listing/as_of/source",
+        "reported_quantity/value/cost_basis:independently optional",
+        "coverage:complete_account|selected_positions|unknown",
+        "history_start/history_complete/reconciliation_state",
+        "baseline_revision/superseded_by"
+      ],
+      "invariants": [
+        "A holdings snapshot is not evidence of a purchase date or external cash flow.",
+        "Later history must reconcile/rebase an observation rather than double-count it.",
+        "A factsheet describes an instrument and does not prove owner quantity or ownership."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "ReconciliationResult",
+      "purpose": "Differences and owner disposition",
+      "fields": [
+        "reconciliation_id/import_or_view_version",
+        "field/scope/as_of/source_values/derived_values",
+        "tolerance_policy/difference/classification",
+        "resolution/actor/approval_ref"
+      ],
+      "invariants": [
+        "No unexplained plug event or silent source-value replacement.",
+        "Cash, quantity, fees, FX, units, action/date and history completeness reconcile separately.",
+        "Unresolved material conflicts block dependent metrics/actions, not unrelated valid facts."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "MetricResult",
+      "purpose": "A value with eligibility, scope and method",
+      "fields": [
+        "metric/scope/account_or_portfolio_id",
+        "as_of/ledger_and_price_and_FX_versions",
+        "value:decimal string|null/unit",
+        "status:available|partial|unavailable|ambiguous",
+        "reasons/method_version/inputs/uncertainty"
+      ],
+      "invariants": [
+        "Zero return and unavailable return are different.",
+        "XIRR scope/cash-flow signs/history and terminal valuation must be valid.",
+        "Financial forecasts/metrics retain the input revision used when issued."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "AuditEvidence",
+      "purpose": "Durable change/source/approval lineage",
+      "fields": [
+        "audit_id/event_or_document_or_commit_ref",
+        "actor/operation/effective_and_recorded_time",
+        "protected_before_after_refs/reason",
+        "previous_digest/integrity_anchor_ref:design pending",
+        "retention/deletion_tombstone_link"
+      ],
+      "invariants": [
+        "No sampling of required business audit/forecast lineage.",
+        "Hash chaining alone is not tamper-proof against an actor able to rewrite all records/anchors.",
+        "Owner source deletion and recoverable backups must not resurrect deleted content or misrepresent evidence availability."
+      ],
+      "status": "proposed_contract_not_implemented"
+    },
+    {
+      "name": "DomainNotification",
+      "purpose": "Resumable progress about durable state",
+      "fields": [
+        "event_id/cursor/owner/environment",
+        "event_type/resource_ref/revision",
+        "occurred_at/safe_status_counts",
+        "trace_or_run_ref"
+      ],
+      "invariants": [
+        "SSE/notifications are advisory; durable authenticated reads establish the truth.",
+        "A disconnect never re-applies an import or supplies proof of commit.",
+        "Generic logs/push previews exclude private document contents and portfolio values."
+      ],
+      "status": "proposed_contract_not_implemented"
+    }
+  ],
+  "document_states": [
+    "received",
+    "quarantined",
+    "validated",
+    "validation_failed",
+    "extracting",
+    "extraction_failed",
+    "extracted",
+    "retention_pending",
+    "deleted"
+  ],
+  "import_states": [
+    "draft",
+    "needs_fields",
+    "needs_mapping",
+    "needs_duplicate_review",
+    "review_ready",
+    "approved",
+    "committing",
+    "committed",
+    "commit_failed_retryable",
+    "commit_failed_terminal",
+    "cancelled",
+    "superseded",
+    "reversed"
+  ],
+  "event_kinds": [
+    "external_deposit",
+    "external_withdrawal",
+    "buy_record",
+    "sell_record",
+    "dividend",
+    "interest",
+    "fee",
+    "withholding",
+    "FX_conversion",
+    "transfer",
+    "split",
+    "cash_in_lieu",
+    "opening_observation",
+    "correction",
+    "reversal"
+  ],
+  "api_candidates": [
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/upload-intents",
+      "purpose": "Scoped upload intent; no ledger mutation",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/{document_id}/received",
+      "purpose": "Confirm byte/checksum receipt; idempotent and reconciled",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/imports",
+      "purpose": "Create draft from a validated source or manual input",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/imports/{import_id}",
+      "purpose": "Read durable draft/status/field evidence",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/imports/{import_id}/revisions",
+      "purpose": "Create a new revision; never edit an approved hash in place",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/imports/{import_id}/approvals",
+      "purpose": "Bind fresh owner approval to payload and ledger revision",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/imports/{import_id}/commits",
+      "purpose": "Request recorded-data commit; not trade execution",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/commits/{commit_id}",
+      "purpose": "Resolve ambiguous timeout to the same receipt",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/imports/{import_id}/reversal-proposals",
+      "purpose": "Preview a linked reversal, then require its own approval",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/portfolios/{portfolio_id}/positions",
+      "purpose": "Read versioned projections with quality/missing-data flags",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/accounts/{account_id}/events",
+      "purpose": "Paginated dated history, scoped and versioned",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{document_id}/access",
+      "purpose": "Short-lived authorized original access and access audit",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/portfolio-events",
+      "purpose": "Resumable safe SSE progress; durable reads recover state",
+      "status": "proposed_not_implemented"
+    }
+  ],
+  "pending_choices": [
+    {
+      "id": "L1-Q01",
+      "title": "Precision, rounding and reconciliation tolerances",
+      "recommendation": "Preserve source precision and booked net amounts; deterministic decimal calculations and display rounding. Approve bounds/tolerances per field/asset.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q02",
+      "title": "Incomplete snapshot rebase when history arrives",
+      "recommendation": "Versioned owner-confirmed replacement of the baseline/history window; no invented purchase or double counting.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q03",
+      "title": "Partial-file import policy",
+      "recommendation": "Resolve blockers or explicitly approve a consistent subset with exclusions visible and a new hash; no silent partial commit.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q04",
+      "title": "File limits, protected files and extraction budget",
+      "recommendation": "Bounded, versioned file/page/archive/pixel/runtime limits; the old MA20MB/15-minute values are candidate references, not MP approvals.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q05",
+      "title": "Cost-basis and realised-gain methods",
+      "recommendation": "Use source-supported basis; defer unsupported analytical/tax gain measures until method/jurisdiction/wrapper contracts are approved.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q06",
+      "title": "Trade-date versus settlement-date accounting",
+      "recommendation": "Explicit economic exposure and settled/unsettled cash state; no hardcoded venue settlement rule without verification.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q07",
+      "title": "Financial/audit retention and deletion matrix",
+      "recommendation": "Keep required ledger/forecast/approval joins separate from operational TTLs and renewable raw-original policy; exact durations and deletion consequences need owner approval.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q08",
+      "title": "Large-import storage/visibility design",
+      "recommendation": "Fenced staged batches and one validated activation decision; prove no partial visibility, retry safety and bounded read/write costs before selecting the physical design.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q09",
+      "title": "Draft/approval expiry and idempotency retention",
+      "recommendation": "Bind approvals to payload/revision with a chosen short lifetime; preserve business idempotency for retained history rather than relying on a provider's short token window.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    },
+    {
+      "id": "L1-Q10",
+      "title": "Execution FX and valuation FX conventions",
+      "recommendation": "Store booked execution cash/rate separately from a permitted reference FX series; choose dated source/fallback before live use.",
+      "status": "proposed_owner_choice_pending",
+      "approved": false
+    }
+  ],
+  "sources": [
+    {
+      "title": "DynamoDB transactional limits and client-token scope",
+      "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html",
+      "checked_on": "2026-11-01"
+    },
+    {
+      "title": "S3 notifications are at-least-once",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html",
+      "checked_on": "2026-11-01"
+    },
+    {
+      "title": "Python Decimal arithmetic",
+      "url": "https://docs.python.org/3/library/decimal.html",
+      "checked_on": "2026-11-01"
+    },
+    {
+      "title": "Microsoft XIRR definition",
+      "url": "https://support.microsoft.com/en-us/excel/functions/xirr-function",
+      "checked_on": "2026-11-01"
+    }
+  ]
+}

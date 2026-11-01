@@ -1,0 +1,744 @@
+{
+  "project": "mypaisaa-prediction",
+  "as_of": "2026-11-01",
+  "status": "Requirements elicitation in progress; end-to-end baseline not approved",
+  "authority": "Explicit user answers in this conversation; later reopened answers supersede earlier answers",
+  "decisions": [
+    {
+      "id": "DEC-001",
+      "title": "Long-term horizons",
+      "status": "confirmed",
+      "value": {
+        "forecast_months": [
+          3,
+          6,
+          12
+        ],
+        "scenario_years": [
+          3,
+          5
+        ],
+        "short_term_horizons_retained": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-002",
+      "title": "Combined investment objectives",
+      "status": "confirmed",
+      "value": {
+        "objectives": [
+          "long-term growth with downside protection",
+          "benchmark-relative opportunities",
+          "protect existing holdings and improve contributions/rebalancing"
+        ],
+        "weights_agreed": false
+      },
+      "supersedes": [
+        "Protection-only priority from the first, reopened question round"
+      ]
+    },
+    {
+      "id": "DEC-003",
+      "title": "Initial instrument universe",
+      "status": "confirmed",
+      "value": {
+        "user_holdings": true,
+        "proposed_balanced_research_watchlist": true,
+        "watchlist_requires_user_approval": true,
+        "initial_active_count_target": "20–30",
+        "holdings_provided": "one name supplied; precise instrument identity and complete list pending"
+      },
+      "supersedes": [
+        "Holdings-only answer from the first, reopened question round"
+      ]
+    },
+    {
+      "id": "DEC-004",
+      "title": "Recommendation detail",
+      "status": "confirmed",
+      "value": {
+        "ranked_actions": [
+          "add",
+          "hold",
+          "pause",
+          "trim",
+          "rebalance"
+        ],
+        "include": [
+          "reasons",
+          "uncertainty",
+          "portfolio impact"
+        ],
+        "execution": false
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-005",
+      "title": "First-version import methods",
+      "status": "confirmed",
+      "value": {
+        "methods": [
+          "CSV",
+          "Excel",
+          "statements/PDFs",
+          "screenshots",
+          "manual entry and corrections"
+        ],
+        "supported_specific_layouts": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-006",
+      "title": "Insufficient intraday data",
+      "status": "confirmed",
+      "value": {
+        "fallback": "daily analysis for that holding",
+        "new_paid_source_requires_permission": true,
+        "disclose_actual_cadence": true,
+        "unsupported_intraday_alerts": "suppress"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-007",
+      "title": "Risk loss measures",
+      "status": "confirmed",
+      "value": {
+        "measures": [
+          "decline from previous peak",
+          "loss versus cost basis"
+        ],
+        "priority": "portfolio risk given more weight",
+        "numeric_weights_and_thresholds": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-008",
+      "title": "Summary and alert cadence",
+      "status": "confirmed",
+      "value": {
+        "summary": "daily",
+        "immediate_alerts": "material risk changes",
+        "summary_time_and_channels": "UK morning, configurable; app/chat plus native and PWA push (DEC-012/013)",
+        "quiet_hours_and_materiality": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-009",
+      "title": "AWS Cognito sign-in methods",
+      "status": "confirmed",
+      "value": {
+        "identity_service": "AWS Cognito",
+        "methods": [
+          "Apple sign-in",
+          "Google sign-in",
+          "passkeys"
+        ],
+        "account_linking_recovery_and_sensitive_action_flow": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-010",
+      "title": "Initial risk and alert thresholds",
+      "status": "confirmed",
+      "value": {
+        "initial_policy": "Propose configurable defaults for owner approval",
+        "override_scopes": [
+          "portfolio",
+          "holding"
+        ],
+        "numeric_defaults": "not yet proposed or approved"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-011",
+      "title": "Benchmark comparison policy",
+      "status": "confirmed",
+      "value": {
+        "comparisons": [
+          "suitable benchmark for each holding",
+          "blended benchmark for the whole portfolio",
+          "broad global equity benchmark"
+        ],
+        "exact_indices_currency_and_return_conventions": "pending holdings and methodology review"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-012",
+      "title": "Notification channels",
+      "status": "confirmed",
+      "value": {
+        "channels": [
+          "app/chat",
+          "native push",
+          "PWA push"
+        ],
+        "delivery_rules": "platform capabilities, permissions, materiality and quiet hours to specify"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-013",
+      "title": "Daily summary schedule",
+      "status": "confirmed",
+      "value": {
+        "period": "UK morning",
+        "time": "configurable",
+        "market_data_timestamps": "shown separately",
+        "exact_time": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-014",
+      "title": "Incomplete holding history",
+      "status": "confirmed",
+      "value": {
+        "allow_holding": true,
+        "show_supported_analysis": true,
+        "flag_gaps": true,
+        "ask_for_missing_history": true,
+        "withhold_calculations_requiring_missing_data": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-015",
+      "title": "Daily briefing depth",
+      "status": "confirmed",
+      "value": {
+        "style": "short action-first briefing",
+        "content": [
+          "priorities",
+          "changes",
+          "risks",
+          "upcoming events"
+        ],
+        "detail": "expandable evidence and technical detail"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-016",
+      "title": "Disagreement and insufficient evidence",
+      "status": "confirmed",
+      "value": {
+        "show_separate_views": [
+          "rules engine",
+          "ML models",
+          "LLM-assisted research"
+        ],
+        "explain_disagreements": true,
+        "abstain_where_evidence_insufficient": true,
+        "no_forced_confident_action": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-017",
+      "title": "Recommendation ranking structure",
+      "status": "confirmed",
+      "value": {
+        "combined_ranking": true,
+        "visible_component_scores": [
+          "growth",
+          "downside risk",
+          "benchmark-relative opportunity"
+        ],
+        "weights": "configurable; require owner approval",
+        "specific_weights_and_eligibility_rules": "pending proposal and approval"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-018",
+      "title": "Landing experience",
+      "status": "confirmed",
+      "value": {
+        "first_screen": "market/discovery dashboard",
+        "holdings": "separate section",
+        "chat": "accessible from market and holdings context"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-019",
+      "title": "Formal forecast versus quote/risk cadence",
+      "status": "confirmed",
+      "value": {
+        "formal_forecasts": "daily",
+        "quote_and_risk_refresh_minutes": 30,
+        "freshness_condition": "only where supported by actual data; otherwise daily analysis with timestamps"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-020",
+      "title": "Original import archive",
+      "status": "confirmed",
+      "value": {
+        "storage": "encrypted private S3",
+        "retain_originals": true,
+        "retention": "configurable",
+        "owner_deletion_controls": true,
+        "exact_retention_and_derivative_deletion_policy": "pending owner approval"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-021",
+      "title": "Admin auditing and end-to-end observability",
+      "status": "confirmed",
+      "value": {
+        "admin_portal": "owner will design later; capture requirements now",
+        "coverage": [
+          "uploads and updates with source/version lineage",
+          "ledger change audit",
+          "agent/model/tool activity and evaluation lineage",
+          "whole-system logs, metrics, traces, health and alerts"
+        ],
+        "MA_reference_parity": "preserve relevant investigation outcomes, adapted to this independent app",
+        "detailed_requirements": "audit-observability-requirements.md",
+        "implementation_authorised": false
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-022",
+      "title": "Priority in-app cost monitoring",
+      "status": "confirmed",
+      "value": {
+        "priority": "launch requirement on main app dashboard",
+        "providers": [
+          "direct Anthropic Claude API",
+          "AWS"
+        ],
+        "environment_views": [
+          "dev",
+          "prod",
+          "local API usage",
+          "combined project",
+          "shared/unallocated"
+        ],
+        "breakdowns": [
+          "agent",
+          "feature",
+          "model",
+          "AWS service"
+        ],
+        "show": [
+          "live usage estimates",
+          "delayed provider-reported costs",
+          "gross usage, credits and cash separately",
+          "billing/credit cycle and source freshness",
+          "budgets, burn rate, headroom and alerts",
+          "collector health and unknown allocations"
+        ],
+        "credit_pool": "reported $200 shared organization benefit, not per environment; availability unverified",
+        "collection": "bounded server-side collection and caching; no billing API request per dashboard refresh",
+        "exact_thresholds_and_allocations": "propose for owner approval",
+        "detailed_requirements": "audit-observability-requirements.md"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-023",
+      "title": "Monthly cash planning envelope",
+      "status": "confirmed",
+      "value": {
+        "monthly_ceiling_GBP": 100,
+        "planned_operation_GBP": 70,
+        "reserve_GBP": 30,
+        "status": "planning limit; full-scope price validation pending",
+        "environment_and_service_suballocations": "proposed, not approved by this answer",
+        "spending_or_deployment_authorised": false
+      },
+      "source_proposal": "C01",
+      "source": "Explicit owner response to the named C01–C03 questions in this chat on 1 November 2026",
+      "answer": "£70 operation + £30 reserve (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-024",
+      "title": "Claude credit and paid-fallback policy",
+      "status": "confirmed",
+      "value": {
+        "when_credit_low": "pause optional calls",
+        "when_coverage_unavailable_or_unverifiable": "refuse uncovered calls",
+        "automatic_paid_fallback": false,
+        "gross_credit_suballocations_and_thresholds": "proposed, not approved by this answer"
+      },
+      "source_proposal": "C02",
+      "source": "Explicit owner response to the named C01–C03 questions in this chat on 1 November 2026",
+      "answer": "Pause optional/uncovered calls; no paid fallback (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-025",
+      "title": "Cost dashboard collection policy",
+      "status": "confirmed",
+      "value": {
+        "application_usage": "live internal estimates",
+        "Anthropic_billing_collection_hours": 6,
+        "AWS_billing_collection_hours": 24,
+        "provider_reporting_delay": "still applies; estimates and reported costs remain distinct",
+        "dashboard_60_second_target_API_request_cap_and_staleness_threshold": "proposed, not approved by this answer"
+      },
+      "source_proposal": "C03",
+      "source": "Explicit owner response to the named C01–C03 questions in this chat on 1 November 2026",
+      "answer": "Live estimates + Claude 6-hourly / AWS daily (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-026",
+      "title": "Cash alerts and discretionary-work reduction",
+      "status": "confirmed",
+      "value": {
+        "basis": "forecast monthly cash spend",
+        "warn_at_GBP": 60,
+        "reduce_optional_work_at_GBP": 75,
+        "pause_new_optional_paid_jobs_at_GBP": 85,
+        "universal_instant_AWS_billing_stop": false,
+        "credit_percent_thresholds_environment_limits_and_reservation_details": "remain proposed"
+      },
+      "source_proposal": "C04",
+      "source": "Explicit owner response to the named C04/I01/I02 questions in this chat on 1 November 2026",
+      "answer": "Warn £60; reduce £75; pause £85 (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-027",
+      "title": "Balanced initial risk-alert profile",
+      "status": "confirmed",
+      "value": {
+        "profile": "balanced; initial configurable settings to test",
+        "portfolio_loss_percent": {
+          "warning": 10,
+          "severe": 20
+        },
+        "holding_loss_percent": {
+          "warning": 15,
+          "severe": 25
+        },
+        "automatic_investment_action": false,
+        "windows_loss_calculation_and_portfolio_holding_risk_weighting": "not approved by this answer; specify separately"
+      },
+      "source_proposal": "I01",
+      "source": "Explicit owner response to the named C04/I01/I02 questions in this chat on 1 November 2026",
+      "answer": "Balanced: portfolio 10%/20%; holding 15%/25% (Recommended)",
+      "supersedes": [
+        "Pending numeric alert-profile choice in DEC-010"
+      ]
+    },
+    {
+      "id": "DEC-028",
+      "title": "Recommendation component weights",
+      "status": "confirmed",
+      "value": {
+        "growth_percent": 35,
+        "downside_protection_percent": 40,
+        "benchmark_relative_opportunity_percent": 25,
+        "evidence_eligibility_and_abstention": "still apply before action ranking",
+        "score_formulas_normalisation_action_bands_and_position_sizing": "not approved by this answer; remain to specify"
+      },
+      "source_proposal": "I02",
+      "source": "Explicit owner response to the named C04/I01/I02 questions in this chat on 1 November 2026",
+      "answer": "Growth 35%; protection 40%; opportunity 25% (Recommended)",
+      "supersedes": [
+        "Pending overall ranking-weight choice in DEC-017"
+      ]
+    },
+    {
+      "id": "DEC-029",
+      "title": "Performance currency presentation",
+      "status": "confirmed",
+      "value": {
+        "default": "GBP portfolio overview with local-currency detail",
+        "exact_benchmark_indices": "to select separately; no index approved by this answer",
+        "benchmark_measurement_and_FX_conventions": "remain to specify"
+      },
+      "source_proposal": "I03",
+      "source": "Explicit owner response to the named I03/I04/I05 questions in this chat on 1 November 2026",
+      "answer": "GBP portfolio overview + local-currency detail (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-030",
+      "title": "Forecast presentation across horizons",
+      "status": "confirmed",
+      "value": {
+        "layout": "balanced horizon-by-horizon sections",
+        "all_agreed_horizons_retained": true,
+        "evaluated_forecasts_and_3_to_5_year_scenarios": "separate",
+        "exact_target_date_calendar_and_metric_contracts": "remain to specify"
+      },
+      "source_proposal": "I04",
+      "source": "Explicit owner response to the named I03/I04/I05 questions in this chat on 1 November 2026",
+      "answer": "Balanced horizon-by-horizon sections (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-031",
+      "title": "Initial ML evidence and rollout sequence",
+      "status": "confirmed",
+      "value": {
+        "sequence": [
+          "evaluate challengers against baselines and mature outcomes",
+          "observe in shadow",
+          "present evidence and seek owner approval before promotion"
+        ],
+        "exact_metric_thresholds_fold_count_shadow_duration_and_mature_sample_requirements": "remain to specify; not approved by this answer",
+        "automatic_promotion": false,
+        "training_or_deployment_authorised_by_this_answer": false
+      },
+      "source_proposal": "I05",
+      "source": "Explicit owner response to the named I03/I04/I05 questions in this chat on 1 November 2026",
+      "answer": "Evaluate challengers → shadow → seek approval (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-032",
+      "title": "Daily briefing time",
+      "status": "confirmed",
+      "value": {
+        "local_time": "07:30",
+        "timezone": "Europe/London",
+        "daylight_saving": "follow local timezone automatically",
+        "weekend_delivery": "to decide separately",
+        "scheduler_configured": false
+      },
+      "source_proposal": "N01",
+      "source": "Explicit owner response to the named N01/N02/O01 questions in this chat on 1 November 2026",
+      "answer": "07:30 Europe/London (Recommended)",
+      "supersedes": [
+        "Pending default summary-time choice in DEC-013"
+      ]
+    },
+    {
+      "id": "DEC-033",
+      "title": "Overnight notification policy",
+      "status": "confirmed",
+      "value": {
+        "quiet_hours": {
+          "start": "22:00",
+          "end": "07:00",
+          "timezone": "Europe/London"
+        },
+        "exceptions": "only critical conditions explicitly defined and approved by owner",
+        "critical_condition_definitions": "pending; no investment exception inferred before approval",
+        "in_app_alert_history": "available during quiet hours",
+        "cooldowns_and_duplicate_suppression_defaults": "remain proposed"
+      },
+      "source_proposal": "N02",
+      "source": "Explicit owner response to the named N01/N02/O01 questions in this chat on 1 November 2026",
+      "answer": "22:00–07:00 quiet hours; approved critical exceptions (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-034",
+      "title": "Default original-document archive duration",
+      "status": "confirmed",
+      "value": {
+        "duration_months": 24,
+        "policy": "renewable",
+        "owner_extension_and_deletion_controls": true,
+        "applies_to": "original upload archive, not ledger or forecast records",
+        "automatic_deletion_authorised": false,
+        "ledger_forecast_and_audit_retention": "to decide separately",
+        "backup_window_and_deletion_completion_targets": "remain proposed"
+      },
+      "source_proposal": "O01",
+      "source": "Explicit owner response to the named N01/N02/O01 questions in this chat on 1 November 2026",
+      "answer": "24-month renewable archive (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-035",
+      "title": "Recovery and audit exercise cadence",
+      "status": "confirmed",
+      "value": {
+        "routine_exercises": "monthly focused recovery and audit-integrity exercises",
+        "change_triggered_checks": "when relevant storage/import/audit changes are released",
+        "RPO_RTO_targets_and_full_scenario_pack": "remain to specify; not approved by this answer",
+        "cloud_jobs_authorised_now": false
+      },
+      "source_proposal": "O02",
+      "source": "Explicit owner response to the named O02/O03/S01 questions in this chat on 1 November 2026",
+      "answer": "Monthly exercises + change-triggered checks (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-036",
+      "title": "Operational telemetry retention",
+      "status": "confirmed",
+      "value": {
+        "logs_days": 14,
+        "rich_traces_days": 30,
+        "run_summaries_days": 90,
+        "condition": "subject to measured monitoring cost",
+        "financial_audit_and_forecast_approval_evidence": "separate retention; do not delete required lineage using operational TTLs",
+        "sampling_percentages_and_tool_selection": "remain proposed"
+      },
+      "source_proposal": "O03",
+      "source": "Explicit owner response to the named O02/O03/S01 questions in this chat on 1 November 2026",
+      "answer": "Logs 14d / traces 30d / run summaries 90d (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-037",
+      "title": "Cognito sign-in implementation approach",
+      "status": "confirmed",
+      "value": {
+        "approach": "Cognito managed sign-in with verified account linking",
+        "required_methods": [
+          "Apple",
+          "Google",
+          "passkeys"
+        ],
+        "account_linking": "verify owner control; not email matching alone",
+        "exact_pool_tier_session_reauthentication_and_recovery_controls": "remain to specify and validate",
+        "authentication_setup_authorised_now": false
+      },
+      "source_proposal": "S01",
+      "source": "Explicit owner response to the named O02/O03/S01 questions in this chat on 1 November 2026",
+      "answer": "Cognito managed sign-in + verified linking (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-038",
+      "title": "Sign-in recovery redundancy",
+      "status": "confirmed",
+      "value": {
+        "design": "two independent passkey paths plus verified Apple/Google links",
+        "independence": "avoid relying on one lost device or one sync account",
+        "exact_recovery_proof_session_lock_and_revocation_controls": "remain to design and validate",
+        "purchase_or_registration_authorised": false
+      },
+      "source_proposal": "S02",
+      "source": "Explicit owner response to the named S02/D01/D02 questions in this chat on 1 November 2026",
+      "answer": "Two independent passkey paths + Apple/Google links (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-039",
+      "title": "First-version import coverage approach",
+      "status": "confirmed",
+      "value": {
+        "approach": "sample-backed layouts plus generic templates",
+        "methods_retained": [
+          "CSV",
+          "Excel",
+          "PDF/statements",
+          "screenshots",
+          "manual entry"
+        ],
+        "uncertain_extraction": "require review; do not promise every broker format",
+        "actual_supported_brokers_layouts_and_sample_counts": "remain to identify and agree",
+        "parser_implementation_authorised": false
+      },
+      "source_proposal": "D01",
+      "source": "Explicit owner response to the named S02/D01/D02 questions in this chat on 1 November 2026",
+      "answer": "Sample-backed layouts + generic templates (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-040",
+      "title": "Evidence-gathering priority",
+      "status": "confirmed",
+      "value": {
+        "first": "resolve actual holdings/listings and permitted source coverage",
+        "then": "propose balanced research watchlist for owner approval",
+        "before": "final architecture costing",
+        "minimum_inputs": "instrument names, listing/ticker/ISIN or exchange/broker where known; quantities/account numbers unnecessary",
+        "paid_API_subscription_AWS_loading_or_publication_authorised": false
+      },
+      "source_proposal": "D02",
+      "source": "Explicit owner response to the named S02/D01/D02 questions in this chat on 1 November 2026",
+      "answer": "Actual holdings + source entitlements first (Recommended)",
+      "supersedes": []
+    },
+    {
+      "id": "DEC-041",
+      "title": "Synthetic-first local/dev phase; actual samples later",
+      "status": "confirmed",
+      "value": {
+        "current_phase": "realistic synthetic data for local and dev only",
+        "real_instrument_ids_required": true,
+        "actual_holdings_and_source_samples": "owner will add progressively as screenshots or PDFs later",
+        "actual_inputs_required_now": false,
+        "AWS_loading": "still deferred; dev means a separate fixture pack prepared locally",
+        "scope_authorised": "offline data/document/operational fixtures and their validation; no application implementation or deployment",
+        "live_data_activation": "actual identity, rights/coverage and final pricing still required before live use"
+      },
+      "source": "Explicit owner instruction in this chat on 1 November 2026",
+      "answer": "For now just create realistic synthetic data for local and dev; actual samples will be added progressively as screenshots or PDFs later",
+      "supersedes": [
+        "Immediate actual-holdings-first execution of DEC-040 for the current local/dev phase only; real-data prerequisites remain"
+      ]
+    }
+  ],
+  "pending_question_round": [],
+  "implementation_authorised": false,
+  "holdings_capture": {
+    "provided_count": 1,
+    "identity_confirmation": "pending",
+    "storage": "local git-ignored data/private; personal holding details are not stored in the repository documentation",
+    "current_collection_status": "deferred by owner for synthetic local/dev phase; actual samples later"
+  },
+  "interview_preferences": {
+    "recommended_option_marker": "(Recommended)",
+    "explain_recommendation_briefly": true
+  },
+  "synthetic_test_data": {
+    "authorised": true,
+    "real_instrument_ids_required": true,
+    "simulated_observations_and_accounts": true,
+    "environments": [
+      "local",
+      "dev"
+    ],
+    "AWS_loading": "deferred by user until later",
+    "tracking_issue": "MP-16",
+    "documentation": "docs/synthetic-test-data.md",
+    "current_priority": true,
+    "companion_documentation": "docs/synthetic-import-samples.md",
+    "companion_data": "data/synthetic-imports-v1",
+    "real_samples_later": [
+      "screenshots",
+      "PDF"
+    ],
+    "application_implementation_authorised": false
+  },
+  "onboarding_questions": [
+    "Exact ticker/share class/listing and broker for the privately reported ETF",
+    "Additional actual holdings or confirmation of complete list",
+    "Availability of actual dated transaction/cash-flow history"
+  ],
+  "next_requirements_step": "Use verified synthetic local/dev packs and companion document/operations fixtures for requirements/design testing; defer actual inputs until the owner supplies them. Complete detailed requirements, source verification, costing and local UX before application implementation.",
+  "proposal_pack": {
+    "status": "all 18 initial choices recorded; detailed requirements and evidence still open",
+    "reading_version": "requirements-decision-pack.html",
+    "markdown": "requirements-decision-pack.md",
+    "structured_choices": "requirements-decision-pack.json",
+    "proposal_count": 18,
+    "first_choice_group": [
+      "C01",
+      "C02",
+      "C03"
+    ],
+    "recommendations_are_not_approval": true,
+    "answered_count": 18,
+    "next_choice_group": [],
+    "subdefaults_not_approved_by_option_answers": true,
+    "initial_pack_complete": true,
+    "end_to_end_requirements_approved": false
+  }
+}

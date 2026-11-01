@@ -1,0 +1,1191 @@
+{
+  "project": "mypaisaa-prediction",
+  "layer": "PH-01",
+  "as_of": "2026-11-01",
+  "status": "draft_story_map_not_implementation_or_Jira_creation",
+  "implementation_authorised": false,
+  "source_requirement_register": "docs/planning/aws-options-2026-11-01/forecasting-source-register.json",
+  "entities_contract": "portfolio-import-contracts.json",
+  "examples": "portfolio-import-examples.json",
+  "story_count": 16,
+  "stories": [
+    {
+      "id": "L1-S01",
+      "title": "Owner-scoped accounts and listing identities",
+      "user_story": "As the owner, I want to record each holding in its correct account/listing so instruments and currencies are not guessed.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S15"
+      ],
+      "depends_on": [
+        "L1-S15"
+      ],
+      "decision_refs": [
+        "DEC-003",
+        "DEC-029",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-27",
+        "MA-206"
+      ],
+      "contract_refs": [
+        "ScopeEnvelope",
+        "InstrumentListing",
+        "InvestmentAccount"
+      ],
+      "example_refs": [
+        "L1-E02",
+        "L1-E03"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S01-A01",
+          "text": "Stable security/share-class and listing identities distinguish venue, trading currency and quote units; aliases are effective-dated.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S01-A02",
+          "text": "ISIN/name-only ambiguity produces candidate matches for owner confirmation, never a guessed listing.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S01-A03",
+          "text": "Owner/environment scope is enforced at every read/write and account mapping; fixture IDs remain real and private actual holdings stay deferred.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S01-A04",
+          "text": "Account/wrapper labels retain source context without implementing unverified tax rules.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S02",
+      "title": "Private validated upload intake",
+      "user_story": "As the owner, I want to provide files through the PWA/native/chat entry points while retaining the exact originals.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S13",
+        "L1-S15"
+      ],
+      "depends_on": [
+        "L1-S13",
+        "L1-S15"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-020",
+        "DEC-034",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-37",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "SourceDocument",
+        "ScopeEnvelope"
+      ],
+      "example_refs": [
+        "L1-E01"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S02-A01",
+          "text": "Byte limits, magic type, checksum, archive/page/pixel/runtime checks and quarantine status precede extraction; exact limit values need approval.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S02-A02",
+          "text": "Original bytes/version and an upload record exist before processing; an object-created notification cannot mark a ledger import committed.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S02-A03",
+          "text": "Repeated/out-of-order upload notifications and orphaned objects reconcile idempotently; rejected uploads have a visible reason.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S02-A04",
+          "text": "Protected originals remain private; upload authorization is scoped/short-lived and app-side single-use semantics are enforced rather than assumed from a signed URL.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S03",
+      "title": "Versioned extraction for every agreed method",
+      "user_story": "As the owner, I want to turn supported CSV/Excel/PDF/screenshot inputs into evidence-backed candidates without silently saving them.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S02"
+      ],
+      "depends_on": [
+        "L1-S02"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-37",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "ExtractionCandidate",
+        "SourceDocument"
+      ],
+      "example_refs": [
+        "L1-E01",
+        "L1-E03"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S03-A01",
+          "text": "Deterministic parsers handle supported layouts; document/image LLM extraction is bounded, tool-free and produces validated typed proposals with source locations.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S03-A02",
+          "text": "Every field records raw/normalized values, parser/model/schema version and page/sheet/row/cell evidence; missing data remains missing.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S03-A03",
+          "text": "Cells/macros/formulas/links and document instructions are untrusted; no script/formula/network execution is needed to import a workbook.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S03-A04",
+          "text": "Generic fixtures are distinguished from validated broker layouts; encrypted PDFs are unlocked only through the approved secure local flow, never a logged/model password.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S04",
+      "title": "Instrument and account matching",
+      "user_story": "As the owner, I want to resolve source identifiers to the right account/listing and review uncertain matches.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S01",
+        "L1-S03"
+      ],
+      "depends_on": [
+        "L1-S01",
+        "L1-S03"
+      ],
+      "decision_refs": [
+        "DEC-003",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-37",
+        "MA-152",
+        "MA-206"
+      ],
+      "contract_refs": [
+        "InstrumentListing",
+        "ExtractionCandidate",
+        "ImportDraft"
+      ],
+      "example_refs": [
+        "L1-E02",
+        "L1-E03"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S04-A01",
+          "text": "Matching uses verified identifiers plus venue/currency/share-class context and preserves confidence/evidence.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S04-A02",
+          "text": "Unknown/ambiguous matches block only dependent rows until explicit mapping; choosing a mapping creates a new draft revision.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S04-A03",
+          "text": "A factsheet alone can describe a candidate instrument but cannot invent owner units, cost or purchase history.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S04-A04",
+          "text": "A mapping/template reused later is versioned and scoped; it cannot silently turn one listing into another because a ticker or name looks similar.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S05",
+      "title": "Exact normalization of money, dates and events",
+      "user_story": "As the owner, I want to review typed economic facts without currency, precision or date errors.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S04"
+      ],
+      "depends_on": [
+        "L1-S04"
+      ],
+      "decision_refs": [
+        "DEC-007",
+        "DEC-014",
+        "DEC-029",
+        "DEC-039"
+      ],
+      "reference_issue_refs": [
+        "MA-44",
+        "MA-156",
+        "MA-207"
+      ],
+      "contract_refs": [
+        "Money",
+        "LedgerEvent",
+        "PositionObservation"
+      ],
+      "example_refs": [
+        "L1-E02",
+        "L1-E06",
+        "L1-E07"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S05-A01",
+          "text": "Finite decimal strings and explicit units are used; GBX converts to GBP exactly once, and unknown fees/currencies are not silently zero/defaulted.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S05-A02",
+          "text": "Source booked net amounts, unit prices, fees/withholding and FX execution/reference rates remain distinguishable and reconcile under an approved tolerance.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S05-A03",
+          "text": "Trade/effective, settlement, observed/available and recorded times have explicit meanings; date-only input is not invented into a precise UTC instant.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S05-A04",
+          "text": "Each supported event has validated cash/quantity legs; transfers/FX/splits preserve economic boundaries and never sum unlike units.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S06",
+      "title": "Preview, guided edits and explicit subset selection",
+      "user_story": "As the owner, I want to see what will change and correct it before approving.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S05",
+        "L1-S07"
+      ],
+      "depends_on": [
+        "L1-S05",
+        "L1-S07"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-014",
+        "DEC-016"
+      ],
+      "reference_issue_refs": [
+        "MA-37",
+        "MA-39",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "ImportDraft",
+        "ReconciliationResult"
+      ],
+      "example_refs": [
+        "L1-E01",
+        "L1-E03",
+        "L1-E09"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S06-A01",
+          "text": "Preview shows every accepted/blocked/duplicate/excluded row, account and instrument mapping, before/after values, errors and metric eligibility.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S06-A02",
+          "text": "An edit/subset/mapping/parser change creates a new canonical draft hash and invalidates earlier approval.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S06-A03",
+          "text": "The default partial-file policy remains an owner choice; any approved subset is independently consistent, explicit and traceable.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S06-A04",
+          "text": "Confirm/Edit/Cancel/resume/stale/expired states have accessible web/native acceptance scenarios; document content cannot self-approve.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S07",
+      "title": "Business deduplication and replay-safe identity",
+      "user_story": "As the owner, I want to repeat an upload or history import without losing or duplicating genuine transactions.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S05"
+      ],
+      "depends_on": [
+        "L1-S05"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-021",
+        "DEC-039"
+      ],
+      "reference_issue_refs": [
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "ImportDraft",
+        "LedgerEvent",
+        "CommitReceipt"
+      ],
+      "example_refs": [
+        "L1-E04",
+        "L1-E05"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S07-A01",
+          "text": "File identity, source row identity and economic-event identity are separate, scoped and versioned.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S07-A02",
+          "text": "Stable provider/account transaction references suppress true replays; two genuine same-date/same-amount trades with distinct IDs remain two events.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S07-A03",
+          "text": "Without sufficient reference evidence, a near/exact-content collision is reviewed rather than automatically discarded or inserted.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S07-A04",
+          "text": "Reprocessing with a new parser does not bypass economic dedup; a changed fact becomes a correction proposal, not a second original trade.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S08",
+      "title": "Owner approval and atomic visible commit",
+      "user_story": "As the owner, I want to apply only the exact approved draft once, even after retries or a worker crash.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S06",
+        "L1-S13",
+        "L1-S15"
+      ],
+      "depends_on": [
+        "L1-S06",
+        "L1-S13",
+        "L1-S15"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-021",
+        "DEC-037"
+      ],
+      "reference_issue_refs": [
+        "MA-28",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "OwnerApproval",
+        "CommitReceipt",
+        "LedgerEvent",
+        "AuditEvidence"
+      ],
+      "example_refs": [
+        "L1-E04",
+        "L1-E09",
+        "L1-E10"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S08-A01",
+          "text": "Approval binds owner/environment, canonical selected rows, draft hash and expected ledger revision with server-verified authentication and expiry.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S08-A02",
+          "text": "Concurrent/stale/expired/wrong-scope requests refuse mutation; an ambiguous timeout resolves through the existing durable receipt.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S08-A03",
+          "text": "A successful logical commit couples financial changes, required audit and outbox obligations; staged work is invisible to all consumers until a valid activation marker.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S08-A04",
+          "text": "Large workbooks use a proven bounded/fenced staging design or another approved atomic-visibility strategy; transaction item/byte limits include metadata/audit and cannot be treated as row counts.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S09",
+      "title": "Deterministic ledger replay and versioned projections",
+      "user_story": "As the owner, I want to rebuild holdings/cash from the recorded economic history and know the exact revision.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S08"
+      ],
+      "depends_on": [
+        "L1-S08"
+      ],
+      "decision_refs": [
+        "DEC-014",
+        "DEC-021"
+      ],
+      "reference_issue_refs": [
+        "MA-27",
+        "MA-40"
+      ],
+      "contract_refs": [
+        "LedgerEvent",
+        "CommitReceipt",
+        "PositionObservation"
+      ],
+      "example_refs": [
+        "L1-E06",
+        "L1-E07",
+        "L1-E11"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S09-A01",
+          "text": "Rebuilding from the same committed events/policy versions produces identical projections; caches are not financial truth.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S09-A02",
+          "text": "Trade/settlement and transfer ordering is explicit; unresolved ties or unsupported margin/short behaviour are surfaced rather than guessed.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S09-A03",
+          "text": "Failed/staged/superseded work cannot leak into active holdings, metrics, agent context or read APIs.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S09-A04",
+          "text": "A later complete history reconciles with an opening observation and activates a new baseline/window, never adds the same units twice.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S10",
+      "title": "Cash, units and valuation reconciliation",
+      "user_story": "As the owner, I want to understand discrepancies between a statement, the ledger and current valuations.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S09"
+      ],
+      "depends_on": [
+        "L1-S09"
+      ],
+      "decision_refs": [
+        "DEC-014",
+        "DEC-029"
+      ],
+      "reference_issue_refs": [
+        "MA-27",
+        "MA-156",
+        "MA-207"
+      ],
+      "contract_refs": [
+        "ReconciliationResult",
+        "MetricResult"
+      ],
+      "example_refs": [
+        "L1-E01",
+        "L1-E02",
+        "L1-E08"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S10-A01",
+          "text": "Cash/quantity/fees/FX/unit/date/coverage differences are classified with source and derived values and an approved tolerance.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S10-A02",
+          "text": "An unexplained difference cannot be cleared by an invented plug trade or silent overwrite.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S10-A03",
+          "text": "Price and FX timestamps/availability/quality accompany totals; an unpriced holding leaves a partial total and visible missing coverage.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S10-A04",
+          "text": "Owner resolution records the reason and source and creates a new revision when financial facts change.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S11",
+      "title": "Corrections, reversal and baseline rebase",
+      "user_story": "As the owner, I want to repair imported history while preserving what was originally recorded and approved.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S08",
+        "L1-S09"
+      ],
+      "depends_on": [
+        "L1-S08",
+        "L1-S09"
+      ],
+      "decision_refs": [
+        "DEC-021",
+        "DEC-039"
+      ],
+      "reference_issue_refs": [
+        "MA-28",
+        "MA-40",
+        "MA-111"
+      ],
+      "contract_refs": [
+        "LedgerEvent",
+        "ImportDraft",
+        "AuditEvidence"
+      ],
+      "example_refs": [
+        "L1-E11"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S11-A01",
+          "text": "Corrections and import-level reversal are separate preview/approval operations linked to original events and sources.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S11-A02",
+          "text": "Dependent later events and observations are assessed before reversal; a bulk delete cannot leave impossible quantities or remove audit history.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S11-A03",
+          "text": "Recomputed views are versioned/restated while issued forecasts and their input revisions remain historically identifiable.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S11-A04",
+          "text": "A repeated correction/reversal request returns the same result and does not reapply its effects.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S12",
+      "title": "Incomplete holdings and eligible performance measures",
+      "user_story": "As the owner, I want to use supported analysis immediately and see why other calculations are unavailable.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S09",
+        "L1-S10"
+      ],
+      "depends_on": [
+        "L1-S09",
+        "L1-S10"
+      ],
+      "decision_refs": [
+        "DEC-007",
+        "DEC-011",
+        "DEC-014",
+        "DEC-029"
+      ],
+      "reference_issue_refs": [
+        "MA-111",
+        "MA-212"
+      ],
+      "contract_refs": [
+        "PositionObservation",
+        "MetricResult"
+      ],
+      "example_refs": [
+        "L1-E03",
+        "L1-E06",
+        "L1-E07",
+        "L1-E12"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S12-A01",
+          "text": "Missing purchase history/fees/FX is represented as per-measure insufficiency, not fabricated transactions or a zero return.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S12-A02",
+          "text": "Holding/account/portfolio XIRR uses its own defined flow boundary, dated signs, terminal valuation and FX convention; internal portfolio trades/dividends/transfers are not external contributions.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S12-A03",
+          "text": "Solver failure, ambiguous multiple roots, same-day-only histories or incomplete terminal valuation return an explicit unavailable/ambiguous result with evidence.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S12-A04",
+          "text": "Known-answer and invariant examples verify monetary residuals and rate tolerances with correct units; synthetic outcomes never prove predictive skill.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S13",
+      "title": "Originals, audit, retention and recovery lineage",
+      "user_story": "As the owner, I want to trace every change back to its source/approval and retain/delete evidence truthfully.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S15",
+        "L1-S01"
+      ],
+      "depends_on": [
+        "L1-S15",
+        "L1-S01"
+      ],
+      "decision_refs": [
+        "DEC-020",
+        "DEC-021",
+        "DEC-034",
+        "DEC-035",
+        "DEC-036"
+      ],
+      "reference_issue_refs": [
+        "MA-28",
+        "MA-37",
+        "MA-40",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "SourceDocument",
+        "AuditEvidence"
+      ],
+      "example_refs": [
+        "L1-E01",
+        "L1-E10",
+        "L1-E11"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S13-A01",
+          "text": "Every authoritative change carries durable source/actor/approval/commit links; required business lineage is unsampled and separate from short-lived operational telemetry.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S13-A02",
+          "text": "Original retention is renewable24months with owner extension/deletion, without assuming automatic expiry or irreversible Object Lock.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S13-A03",
+          "text": "A source-deletion request and backup restore cannot resurrect content; remaining evidence joins expose deleted/unavailable source state honestly.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S13-A04",
+          "text": "Synthetic missing/altered-audit-event exercises are detected using the approved threat model/anchoring design; a hash chain alone is not described as tamper-proof.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S14",
+      "title": "Scoped portfolio reads, progress and accessible clients",
+      "user_story": "As the owner, I want to inspect the same durable import/holdings state on web/native/chat without relying on a live stream.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S09",
+        "L1-S12",
+        "L1-S15"
+      ],
+      "depends_on": [
+        "L1-S09",
+        "L1-S12",
+        "L1-S15"
+      ],
+      "decision_refs": [
+        "DEC-009",
+        "DEC-018",
+        "DEC-021",
+        "DEC-029",
+        "DEC-030"
+      ],
+      "reference_issue_refs": [
+        "MA-36",
+        "MA-39",
+        "MA-40"
+      ],
+      "contract_refs": [
+        "DomainNotification",
+        "MetricResult",
+        "CommitReceipt"
+      ],
+      "example_refs": [
+        "L1-E08",
+        "L1-E09"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S14-A01",
+          "text": "Paginated reads serve owner/account/instrument/date/status access patterns with version/cursor and quality metadata; no unbounded table scan is the default.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S14-A02",
+          "text": "SSE reconnect/resume and durable GET recovery cannot lose commit truth or repeat a mutation; starter volatile SSE is not claimed production-ready.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S14-A03",
+          "text": "Private values appear only in authorized app views; privacy mode, VoiceOver, responsive/iPad layout and offline/stale states are specified before implementation.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S14-A04",
+          "text": "Read-only agents cite the same committed version/evidence; a notification or model summary cannot become an alternative ledger.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S15",
+      "title": "Owner/environment isolation and bounded processing costs",
+      "user_story": "As the owner, I want to keep imports private and within approved authority and budget.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence"
+      ],
+      "depends_on": [],
+      "decision_refs": [
+        "DEC-022",
+        "DEC-023",
+        "DEC-024",
+        "DEC-025",
+        "DEC-026",
+        "DEC-037",
+        "DEC-038",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-28",
+        "MA-37",
+        "MA-111",
+        "MA-152"
+      ],
+      "contract_refs": [
+        "ScopeEnvelope",
+        "OwnerApproval",
+        "SourceDocument"
+      ],
+      "example_refs": [
+        "L1-E09",
+        "L1-E10"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S15-A01",
+          "text": "API/worker/source-access/commit paths recheck owner/environment and prevent fixture loading into live data; no trading or broker execution credentials exist.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S15-A02",
+          "text": "Signed source links, raw fields/prompts/passwords/account numbers and holdings values do not enter general telemetry or push previews.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S15-A03",
+          "text": "Extraction/retry/queue work has bounded file/time/token/concurrency reservations and idempotent usage accounting; unknown credit pauses uncovered model calls.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S15-A04",
+          "text": "Import activity links to the main per-env Claude/AWS cost dashboard; collectors remain cached/scheduled, with no paid billing call per UI refresh.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    },
+    {
+      "id": "L1-S16",
+      "title": "Layer acceptance and later real-sample qualification",
+      "user_story": "As the owner, I want to prove the complete workflow with synthetic cases before enabling real imports.",
+      "phase": "PH-01",
+      "status": "local_draft_not_created_in_Jira",
+      "jira_key": null,
+      "implementation_authorised": false,
+      "implementation_requires": [
+        "full requirements and UX approval",
+        "PH-02 foundation evidence",
+        "L1-S01",
+        "L1-S02",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15"
+      ],
+      "depends_on": [
+        "L1-S01",
+        "L1-S02",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15"
+      ],
+      "decision_refs": [
+        "DEC-005",
+        "DEC-014",
+        "DEC-021",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "reference_issue_refs": [
+        "MA-27",
+        "MA-28",
+        "MA-37",
+        "MA-111",
+        "MA-152",
+        "MA-156",
+        "MA-212"
+      ],
+      "contract_refs": [
+        "SourceDocument",
+        "ImportDraft",
+        "CommitReceipt",
+        "MetricResult",
+        "AuditEvidence"
+      ],
+      "example_refs": [
+        "L1-E01",
+        "L1-E02",
+        "L1-E03",
+        "L1-E04",
+        "L1-E05",
+        "L1-E06",
+        "L1-E07",
+        "L1-E08",
+        "L1-E09",
+        "L1-E10",
+        "L1-E11",
+        "L1-E12"
+      ],
+      "acceptance": [
+        {
+          "id": "L1-S16-A01",
+          "text": "All declared L1 examples pass across local/dev with real identifiers and simulated observations; source originals/golden records remain intact.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S16-A02",
+          "text": "Fault injection covers duplicate delivery, stale approvals, crash-midstage, ambiguous commit response, source tampering, cross-scope access and deletion-after-restore.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S16-A03",
+          "text": "Generic PDF/PNG/CSV foundations are accurately labelled; missing Excel/real-broker/photographed-image cases remain visible until filled and tested.",
+          "status": "planned_not_verified"
+        },
+        {
+          "id": "L1-S16-A04",
+          "text": "Implementation readiness requires approved unresolved choices, source/data rights before live use, tested supported layouts, complete UX and trace from requirements to evidence; phase status or a diagram alone cannot certify completion.",
+          "status": "planned_not_verified"
+        }
+      ],
+      "definition_of_ready": [
+        "Owner choices/pending contracts that affect this story resolved or explicitly deferred with consequences",
+        "Local web/native flows and failure/privacy/accessibility states agreed",
+        "Synthetic example inputs and expected evidence attached; any real inputs remain deferred until owner provides them",
+        "Affected data/financial/security/cost test scope and rollback/recovery evidence planned"
+      ],
+      "definition_of_done": [
+        "Implemented in an approved later task, with required gates and evidence",
+        "No unsupported financial/data completeness claim; audit and cost records linked",
+        "Approved delivery workflow and separate PR/merge/closure permissions respected"
+      ]
+    }
+  ]
+}

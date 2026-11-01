@@ -1,0 +1,588 @@
+{
+  "is_synthetic": true,
+  "environment": "dev",
+  "statements": [
+    {
+      "document_id": "synthetic-dev-us-statement",
+      "environment": "dev",
+      "is_synthetic": true,
+      "page": 1,
+      "market": "US",
+      "account_id": "synthetic-dev-us",
+      "currency": "USD",
+      "cash": "2363.67",
+      "positions_value": "30967.66",
+      "total_value": "33331.33",
+      "positions": [
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:AAPL",
+          "quantity": "8.4854",
+          "price": "339.00225207",
+          "value": "2876.57",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Apple"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:MSFT",
+          "quantity": "16.0369",
+          "price": "190.10566491",
+          "value": "3048.71",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Microsoft"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:NVDA",
+          "quantity": "84.5692",
+          "price": "29.18496277",
+          "value": "2468.15",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "NVIDIA"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:AMZN",
+          "quantity": "27.6209",
+          "price": "106.7767527",
+          "value": "2949.27",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Amazon"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:FSLR",
+          "quantity": "11.1392",
+          "price": "209.69795406",
+          "value": "2335.87",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "First Solar"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNYS:JPM",
+          "quantity": "12.7030",
+          "price": "215.14256199",
+          "value": "2732.96",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "JPMorgan Chase"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNYS:JNJ",
+          "quantity": "11.4470",
+          "price": "398.02429885",
+          "value": "4556.18",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Johnson & Johnson"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNYS:XOM",
+          "quantity": "35.5655",
+          "price": "90.46506877",
+          "value": "3217.44",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Exxon Mobil"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "ARCX:SPY",
+          "quantity": "17.1751",
+          "price": "226.42579456",
+          "value": "3888.89",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "SPDR S&P 500 ETF Trust"
+        },
+        {
+          "account_id": "synthetic-dev-us",
+          "instrument_id": "XNAS:QQQ",
+          "quantity": "14.8531",
+          "price": "194.81593252",
+          "value": "2893.62",
+          "currency": "USD",
+          "as_of": "2026-10-30T20:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Invesco QQQ ETF"
+        }
+      ],
+      "recent_events": [
+        {
+          "event_id": "synthetic-dev-us:JPM:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNYS:JPM",
+          "quantity_delta": "0",
+          "cash_delta": "17.08",
+          "currency": "USD",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-us:MSFT:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNAS:MSFT",
+          "quantity_delta": "0",
+          "cash_delta": "6.10",
+          "currency": "USD",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-us:NVDA:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNAS:NVDA",
+          "quantity_delta": "0",
+          "cash_delta": "0.62",
+          "currency": "USD",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-us:QQQ:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNAS:QQQ",
+          "quantity_delta": "0",
+          "cash_delta": "4.34",
+          "currency": "USD",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-us:SPY:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "ARCX:SPY",
+          "quantity_delta": "0",
+          "cash_delta": "14.58",
+          "currency": "USD",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-us:XOM:dividend",
+          "account_id": "synthetic-dev-us",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNYS:XOM",
+          "quantity_delta": "0",
+          "cash_delta": "28.15",
+          "currency": "USD",
+          "is_synthetic": true
+        }
+      ],
+      "history_is_complete_in_document": false,
+      "screenshot": "statement-1.png"
+    },
+    {
+      "document_id": "synthetic-dev-uk-statement",
+      "environment": "dev",
+      "is_synthetic": true,
+      "page": 2,
+      "market": "UK",
+      "account_id": "synthetic-dev-uk",
+      "currency": "GBP",
+      "cash": "10250.60",
+      "positions_value": "19981.94",
+      "total_value": "30232.54",
+      "positions": [
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:AZN",
+          "quantity": "42.1750",
+          "price": "54.87657791",
+          "value": "2314.42",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "AstraZeneca"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:SHEL",
+          "quantity": "74.2289",
+          "price": "26.75248534",
+          "value": "1985.81",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "Shell"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:HSBA",
+          "quantity": "164.7167",
+          "price": "11.21104014",
+          "value": "1846.65",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "HSBC Holdings"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:ULVR",
+          "quantity": "97.0165",
+          "price": "20.67393215",
+          "value": "2005.71",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "Unilever"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:BP.",
+          "quantity": "401.9967",
+          "price": "4.15053029",
+          "value": "1668.50",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "BP"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:LLOY",
+          "quantity": "4737.2749",
+          "price": "0.41189141",
+          "value": "1951.24",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "Lloyds Banking Group"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:BARC",
+          "quantity": "282.9154",
+          "price": "5.15343099",
+          "value": "1457.98",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "Barclays"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:NG.",
+          "quantity": "314.9968",
+          "price": "7.15241728",
+          "value": "2252.99",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "National Grid"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:VOD",
+          "quantity": "686.3731",
+          "price": "3.38681532",
+          "value": "2324.62",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "Vodafone Group"
+        },
+        {
+          "account_id": "synthetic-dev-uk",
+          "instrument_id": "XLON:CNX1",
+          "quantity": "8.3033",
+          "price": "261.82620275",
+          "value": "2174.02",
+          "currency": "GBP",
+          "as_of": "2026-10-30T16:31:00+00:00",
+          "is_synthetic": true,
+          "name": "iShares NASDAQ 100 UCITS ETF USD (Acc)"
+        }
+      ],
+      "recent_events": [
+        {
+          "event_id": "synthetic-dev-uk:LLOY:dividend",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XLON:LLOY",
+          "quantity_delta": "0",
+          "cash_delta": "12.20",
+          "currency": "GBP",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-uk:NG.:dividend",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XLON:NG.",
+          "quantity_delta": "0",
+          "cash_delta": "22.53",
+          "currency": "GBP",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-uk:SHEL:dividend",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XLON:SHEL",
+          "quantity_delta": "0",
+          "cash_delta": "19.86",
+          "currency": "GBP",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-uk:ULVR:dividend",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XLON:ULVR",
+          "quantity_delta": "0",
+          "cash_delta": "16.71",
+          "currency": "GBP",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-uk:ULVR:sale",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "sell",
+          "instrument_id": "XLON:ULVR",
+          "quantity_delta": "-10.7796",
+          "cash_delta": "221.86",
+          "currency": "GBP",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-uk:VOD:dividend",
+          "account_id": "synthetic-dev-uk",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XLON:VOD",
+          "quantity_delta": "0",
+          "cash_delta": "20.34",
+          "currency": "GBP",
+          "is_synthetic": true
+        }
+      ],
+      "history_is_complete_in_document": false,
+      "screenshot": "statement-2.png"
+    },
+    {
+      "document_id": "synthetic-dev-in-statement",
+      "environment": "dev",
+      "is_synthetic": true,
+      "page": 3,
+      "market": "IN",
+      "account_id": "synthetic-dev-in",
+      "currency": "INR",
+      "cash": "1071922.75",
+      "positions_value": "636476.74",
+      "total_value": "1708399.49",
+      "positions": [
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:RELIANCE",
+          "quantity": "315",
+          "price": "192.11890753",
+          "value": "60517.46",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Reliance Industries"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:TCS",
+          "quantity": "40",
+          "price": "2076.8036534",
+          "value": "83072.15",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Tata Consultancy Services"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:INFY",
+          "quantity": "176",
+          "price": "331.60826082",
+          "value": "58363.05",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Infosys"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:HDFCBANK",
+          "quantity": "271",
+          "price": "248.45459947",
+          "value": "67331.20",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "HDFC Bank"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:ICICIBANK",
+          "quantity": "148",
+          "price": "513.86834773",
+          "value": "76052.52",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "ICICI Bank"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:SBIN",
+          "quantity": "353",
+          "price": "159.95903074",
+          "value": "56465.54",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "State Bank of India"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:ITC",
+          "quantity": "464",
+          "price": "129.70987274",
+          "value": "60185.38",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "ITC"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:TATAPOWER",
+          "quantity": "1215",
+          "price": "47.58395473",
+          "value": "57814.50",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Tata Power"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:ADANIGREEN",
+          "quantity": "6604",
+          "price": "5.64298911",
+          "value": "37266.30",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Adani Green Energy"
+        },
+        {
+          "account_id": "synthetic-dev-in",
+          "instrument_id": "XNSE:NIFTYBEES",
+          "quantity": "885",
+          "price": "89.72727436",
+          "value": "79408.64",
+          "currency": "INR",
+          "as_of": "2026-10-30T10:01:00+00:00",
+          "is_synthetic": true,
+          "name": "Nippon India ETF Nifty 50 BeES"
+        }
+      ],
+      "recent_events": [
+        {
+          "event_id": "synthetic-dev-in:ITC:dividend",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNSE:ITC",
+          "quantity_delta": "0",
+          "cash_delta": "501.00",
+          "currency": "INR",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-in:ITC:sale",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "sell",
+          "instrument_id": "XNSE:ITC",
+          "quantity_delta": "-51",
+          "cash_delta": "6614.20",
+          "currency": "INR",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-in:RELIANCE:dividend",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNSE:RELIANCE",
+          "quantity_delta": "0",
+          "cash_delta": "75.65",
+          "currency": "INR",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-in:SBIN:dividend",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNSE:SBIN",
+          "quantity_delta": "0",
+          "cash_delta": "141.16",
+          "currency": "INR",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-in:TATAPOWER:dividend",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNSE:TATAPOWER",
+          "quantity_delta": "0",
+          "cash_delta": "101.18",
+          "currency": "INR",
+          "is_synthetic": true
+        },
+        {
+          "event_id": "synthetic-dev-in:TCS:dividend",
+          "account_id": "synthetic-dev-in",
+          "date": "2026-10-30",
+          "type": "dividend",
+          "instrument_id": "XNSE:TCS",
+          "quantity_delta": "0",
+          "cash_delta": "311.52",
+          "currency": "INR",
+          "is_synthetic": true
+        }
+      ],
+      "history_is_complete_in_document": false,
+      "screenshot": "statement-3.png"
+    }
+  ]
+}

@@ -1,0 +1,1492 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | Portfolio and imports</title><link rel="icon" href="data:,"><style>
+:root{--ink:#0f172a;--muted:#475569;--line:#cbd5e1;--surface:#f8fafc;--blue:#1d4ed8;--blue-dark:#1e3a8a;--teal:#115e59;--amber:#92400e;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--blue-dark)}a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:3px solid #b45309;outline-offset:4px}
+.grid{display:grid}.gap-6{gap:24px}.p-6{padding:24px}.rounded-lg{border-radius:8px}.font-semibold{font-weight:600}.text-sm{font-size:14px}.text-slate-600{color:var(--muted)}
+.shell{grid-template-columns:256px minmax(0,1fr);max-width:1536px;margin:auto;padding:32px}.sidebar{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;padding:8px}.brand{font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--blue-dark);margin:0 0 16px}.sidebar a{display:block;text-decoration:none;font-size:14px;padding:8px 12px;border-left:3px solid transparent}.sidebar a[aria-current=page]{background:#dbeafe;border-color:var(--blue);font-weight:600}.sidebar .toc{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}.sidebar .toc a{font-size:13px;padding:6px 12px}
+.sheet{min-width:0;background:#fff;border:1px solid #e2e8f0;padding:48px}.status{border-left:4px solid #b45309;background:#fffbeb;padding:16px 24px;margin:0 0 32px}.status p{margin:0}.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h1{font-size:36px;line-height:1.18;letter-spacing:-.03em;margin:0 0 24px;color:var(--blue-dark)}h2{font-size:26px;line-height:1.3;letter-spacing:-.015em;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:24px}h3{font-size:20px;line-height:1.4;margin:32px 0 12px;scroll-margin-top:24px}p,li{max-width:90ch;overflow-wrap:anywhere}p{margin:16px 0}li+li{margin-top:8px}code{font-size:.9em;background:#f1f5f9;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{background:#0f172a;color:#f1f5f9;border-radius:8px;padding:24px;max-width:100%;overflow:auto;line-height:1.5;font-size:13px}pre code{padding:0;background:transparent;color:inherit;white-space:pre;overflow-wrap:normal}
+.table-scroll{max-width:100%;overflow:auto;margin:24px 0;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid #e2e8f0;min-width:96px}th{background:#eff6ff;color:#1e3a8a;font-weight:600}tbody tr:nth-child(even){background:#f8fafc}tbody tr:last-child td{border-bottom:0}
+.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:32px}.metric{border:1px solid var(--line);padding:20px;border-radius:8px}.metric strong{display:block;font-size:28px;line-height:1.2;color:var(--teal)}.metric span{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+.workflow,.diagram{border:1px solid var(--line);border-radius:8px;margin:32px 0;padding:24px;background:#f8fafc}.workflow img,.diagram img{display:block;width:100%;height:auto;background:#fff}.controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}button{font:inherit;font-size:14px;font-weight:600;background:var(--blue-dark);color:white;border:1px solid var(--blue-dark);border-radius:6px;padding:10px 16px;cursor:pointer}button:disabled{opacity:.65;cursor:default}.caption{font-size:13px;line-height:1.55;color:var(--muted)}.native-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.diagram{min-width:0}.diagram h3{margin-top:0}
+details{margin:16px 0;border:1px solid var(--line);border-radius:8px;padding:16px 20px}summary{cursor:pointer;font-weight:600;color:var(--blue-dark)}details p{font-size:14px}.tag{display:inline-block;padding:3px 8px;border-radius:4px;background:#e2e8f0;font-size:12px;color:#334155}.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:10;background:white;padding:12px}.footer{border-top:1px solid var(--line);margin-top:48px;padding-top:24px;font-size:13px;color:var(--muted)}
+@media(max-width:1100px){.shell{grid-template-columns:220px minmax(0,1fr);padding:24px}.sheet{padding:32px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.shell{display:block;padding:16px}.sidebar{position:static;max-height:220px;border:1px solid var(--line);border-radius:8px;margin-bottom:24px}.sidebar .toc{display:none}.sheet{padding:24px}.native-grid{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:480px){.shell{padding:8px}.sheet{padding:16px}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:24px}.workflow,.diagram{padding:12px}th,td{padding:10px 12px}h2{font-size:23px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.sidebar,.controls,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}.table-scroll{overflow:visible}body{font-size:10pt;background:white}h2,h3{break-after:avoid}.workflow,.diagram{break-inside:avoid}details{break-inside:avoid}}
+</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections"><a href="index.html">Reading hub</a><a href="portfolio-import-spec.html" aria-current="page">Portfolio and imports</a><a href="phased-delivery-plan.html">Phased delivery</a><a href="architecture-blueprint.html">Architecture</a><a href="network-topology-options.html">VPC and egress options</a><a href="tech-stack-matrix.html">Technology choices</a><a href="confluence-page-map.html">MP page proposal</a><a href="mp-sync-write-proposal.html">Proposed sync scope</a><div class="toc"><a href="#1-outcome-authority-and-boundaries">1. Outcome, authority and boundaries</a><a href="#2-journeys-and-first-version-input-coverage">2. Journeys and first-version input coverage</a><a href="#3-domain-contracts-and-identity">3. Domain contracts and identity</a><a href="#4-financial-semantics-no-invented-history-or-unit-conversions">4. Financial semantics: no invented history or unit conversions</a><a href="#5-sources-extraction-and-normalization">5. Sources, extraction and normalization</a><a href="#6-import-state-and-review-contract">6. Import state and review contract</a><a href="#7-deduplication-concurrency-and-atomic-visibility">7. Deduplication, concurrency and atomic visibility</a><a href="#8-replay-snapshots-and-reconciliation">8. Replay, snapshots and reconciliation</a><a href="#9-valuation-and-performance-eligibility">9. Valuation and performance eligibility</a><a href="#10-privacy-audit-retention-and-agent-costs">10. Privacy, audit, retention and agent costs</a><a href="#11-draft-read-api-and-client-contracts">11. Draft read/API and client contracts</a><a href="#12-worked-acceptance-examples-and-current-fixture-evidence">12. Worked acceptance examples and current fixture evidence</a><a href="#13-story-map-and-sequencing">13. Story map and sequencing</a><a href="#14-owner-choices-and-readiness-gates">14. Owner choices and readiness gates</a><a href="#15-mp-documentation-placement-and-source-adaptations">15. MP documentation placement and source adaptations</a></div></nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p><h1>Layer 1: portfolio, imports and the investment ledger</h1><div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div><section class="workflow" aria-label="Planned import process"><h3>From source file to an auditable financial record</h3><p class="caption">Proposed process companion. Every stage retains source, status and cost evidence. This is documentation, not an app screen.</p><img id="workflow-image" src="visuals/import-workflow.png" alt="Receive, validate, extract, match, owner review, commit with audit, then durable receipt and reconciliation"><div class="controls"><button id="workflow-toggle" type="button" aria-pressed="false">Play illustrative workflow</button><a href="visuals/import-workflow.svg">Accessible SVG</a><a href="visuals/import-workflow.drawio">Editable process source</a></div><p class="caption" id="workflow-status" aria-live="polite">Static workflow.</p><noscript><p class="caption">Static workflow is available without JavaScript.</p></noscript></section>
+<p><strong>MP / Mypaisaa Prediction · PH-01 · Draft 0.1 for review · 1 November 2026</strong><br />
+<strong>Not implemented. End-to-end requirements, UX and architecture selection remain unapproved.</strong></p>
+<p><a href="index.html">Planning index</a> · <a href="phased-delivery-plan.html">Phased plan</a> · <a href="architecture-blueprint.html">Architecture</a> · <a href="tech-stack-matrix.html">Technology matrix</a> · <a href="portfolio-import-stories.json">Story contracts</a> · <a href="portfolio-import-contracts.json">Entity contracts</a> · <a href="portfolio-import-examples.json">Worked examples</a></p>
+<h2 id="1-outcome-authority-and-boundaries">1. Outcome, authority and boundaries</h2>
+<p>Give the owner a trustworthy investment record: what is held, in which account and listing, what happened, where each fact came from, which figures can be computed, and what remains unknown. Imports must be reviewable, reproducible, idempotent and reversible through an auditable correction process. A statement becoming available is not the same as a financial change being applied.</p>
+<p>DEC-001–041 in the <a href="../aws-options-2026-11-01/product-decisions.json">decision register</a> are the current owner decisions. This layer expands them into proposed contracts and acceptance criteria; it does not approve the unasked defaults. DEC-041 makes synthetic local/dev work the current phase. Actual holdings and broker screenshots/PDFs will arrive progressively later and are not a prerequisite for this specification.</p>
+<p>The application is independent of mypaisa-agent. It owns its own investment accounts, source documents, ledger, observations and conversations. No shared production ledger or migration is assumed. It records historical investment events and suggestions; it never executes a trade or requests broker trading credentials.</p>
+<p>Initial analysis covers UK/US/India equities and ETFs, with versioned extension points for further markets and instruments. Account/wrapper context and the captured Indian CAS/fund-import requirements are retained as planned contracts; supported institution/layout families must be agreed and tested. A new unsupported instrument type, accounting action or jurisdiction policy requires a compatible implementation and evidence, not arbitrary unvalidated configuration.</p>
+<p><strong>Present evidence:</strong> health/sample SSE starter; validated synthetic market/ledger packs for 30 real instrument IDs; generic synthetic PDF/raster companions and expected extraction records. <strong>Absent:</strong> a production import API, parser/OCR service, financial repository, transaction commit engine, Cognito implementation or portfolio UI. Planning/story status cannot certify those features.</p>
+<h2 id="2-journeys-and-first-version-input-coverage">2. Journeys and first-version input coverage</h2>
+<p>The same durable workflow serves PWA, native Apple clients and contextual chat. A chat attachment is an entry point to the import process, not a separate financial authority. Human confirmation occurs through an authenticated owner flow; the document, model and research agent cannot confirm on the owner's behalf.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Journey</th>
+<th>Proposed behaviour</th>
+<th>Evidence needed before release</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Structured history</td>
+<td>CSV and a versioned Excel workbook map accounts, holdings, transactions and valuations; preview row-level results before applying</td>
+<td>Generic templates, field/date/currency errors, duplicate/reprocess and large-history tests</td>
+</tr>
+<tr>
+<td>PDF statement</td>
+<td>Supported text layouts use code extraction; unsupported layouts enter a bounded assisted draft/review flow</td>
+<td>Generic synthetic foundation plus qualified target broker/CAS families; incomplete/rotated/encrypted/malformed tests</td>
+</tr>
+<tr>
+<td>Screenshot</td>
+<td>Extract visible facts with page/image regions, source timestamp and uncertainty; distinguish snapshot from dated history</td>
+<td>Current clean raster fixtures plus later cropped/blurred/photographed and actual sample qualification</td>
+</tr>
+<tr>
+<td>Manual/guided entry</td>
+<td>Ask only missing fields, preserve user wording, validate units/dates, then show the same review card</td>
+<td>Resume/cancel/expired/stale/error/privacy/accessibility flows</td>
+</tr>
+<tr>
+<td>Factsheet/research document</td>
+<td>Resolve an instrument or research candidate; ask for owner quantity/history separately</td>
+<td>A factsheet never becomes evidence of owner quantity or acquisition cost</td>
+</tr>
+<tr>
+<td>Later history/backfill</td>
+<td>Compare new events with existing observations/history and propose a rebase/correction</td>
+<td>No double application of an opening position and its historical transactions</td>
+</tr>
+<tr>
+<td>Correct or reverse</td>
+<td>Show dependent effects, changed totals and affected evidence before a separately approved correction</td>
+<td>Original events/approval and issued forecast versions remain inspectable</td>
+</tr>
+</tbody>
+</table></div>
+<p>All five input methods are required in the first version (DEC-005/039). This is not universal broker-format support. A supported-layout register records format/version, expected fields, known limitations and test evidence; an unqualified layout is labelled unsupported or review-required. Existing PDF/PNG companions do not constitute an OCR evaluation, and Excel-layout fixtures remain work to plan. Actual sample collection is deferred, not silently removed from later real-import qualification.</p>
+<p>Suggested workbook sheets follow the captured reference intent: Accounts, Holdings, Transactions and Valuations. The exact template columns, type bounds and supported CAS families remain a specification choice. Ten thousand transaction rows are a useful proposed scale benchmark from the captured source; runtime, cost and response-time targets require a measured resource model rather than a promise inherited from another app.</p>
+<h2 id="3-domain-contracts-and-identity">3. Domain contracts and identity</h2>
+<p>The <a href="portfolio-import-contracts.json">structured contracts</a> describe field families and invariants; they are draft design material, not deployed API schemas or migrations.</p>
+<p>A security/share class, a listing and a provider symbol are different identities. A security can have multiple venue/currency listings. ISIN alone is not permission to combine them. The fixture key <code>XLON:CNX1</code> is a real public listing example and does not identify the owner's still-unconfirmed ETF. Provider aliases and ticker changes are effective-dated; a mapping revision never silently renames old events.</p>
+<p>Accounts carry owner, environment, institution alias, country, kind and settlement currency context. US brokerage, UK wrapper and Indian demat/folio information is source-backed metadata. No legal/tax treatment is inferred from a label. Multi-currency accounts and later asset types fit versioned contracts; there is no household/member-sharing requirement in this owner-only app.</p>
+<p>Every record belongs to the server-authorized owner/environment namespace. Client strings and a PDF's text cannot select a production dataset or bypass authorization. Records may store minimized protected account-reference tokens; full sensitive originals, where necessary, remain in private encrypted evidence storage. This does not mean retained PDFs contain no personal information.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Purpose</th>
+<th>Selected invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ScopeEnvelope</td>
+<td>Authoritative namespace and version metadata</td>
+<td>Every account/document/draft/event/read is scoped and authorized server-side.</td>
+</tr>
+<tr>
+<td>Money</td>
+<td>A signed decimal amount with an explicit ISO currency</td>
+<td>No binary float, NaN, infinity or implicit currency.</td>
+</tr>
+<tr>
+<td>InstrumentListing</td>
+<td>Security/share-class identity and venue-specific quote contract</td>
+<td>ISIN alone does not uniquely identify a listing or trading currency.</td>
+</tr>
+<tr>
+<td>InvestmentAccount</td>
+<td>An owner-scoped investment account and context</td>
+<td>No broker trading credentials or execution authority.</td>
+</tr>
+<tr>
+<td>SourceDocument</td>
+<td>Original bytes and lifecycle/provenance</td>
+<td>Private encrypted originals precede extraction; failed/rejected uploads remain observable.</td>
+</tr>
+<tr>
+<td>ExtractionCandidate</td>
+<td>Untrusted, non-authoritative proposed values</td>
+<td>No tools or financial writes in document extraction.</td>
+</tr>
+<tr>
+<td>ImportDraft</td>
+<td>An immutable reviewable import revision</td>
+<td>Any edit, mapping change, subset choice or reprocess changes the review hash.</td>
+</tr>
+<tr>
+<td>OwnerApproval</td>
+<td>A narrow server-verified approval intent</td>
+<td>Approval binds the exact payload/scope/version; a chat yes is not an unscoped reusable credential.</td>
+</tr>
+<tr>
+<td>LedgerEvent</td>
+<td>A recorded economic event, never a trade instruction</td>
+<td>Events are append-only; corrections produce linked new events.</td>
+</tr>
+<tr>
+<td>CommitReceipt</td>
+<td>A durable idempotent visibility decision</td>
+<td>Exactly one logical application under retries, not exactly-once message delivery.</td>
+</tr>
+<tr>
+<td>PositionObservation</td>
+<td>A dated holding/valuation report with explicit sufficiency</td>
+<td>A holdings snapshot is not evidence of a purchase date or external cash flow.</td>
+</tr>
+<tr>
+<td>ReconciliationResult</td>
+<td>Differences and owner disposition</td>
+<td>No unexplained plug event or silent source-value replacement.</td>
+</tr>
+<tr>
+<td>MetricResult</td>
+<td>A value with eligibility, scope and method</td>
+<td>Zero return and unavailable return are different.</td>
+</tr>
+<tr>
+<td>AuditEvidence</td>
+<td>Durable change/source/approval lineage</td>
+<td>No sampling of required business audit/forecast lineage.</td>
+</tr>
+<tr>
+<td>DomainNotification</td>
+<td>Resumable progress about durable state</td>
+<td>SSE/notifications are advisory; durable authenticated reads establish the truth.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Identifiers are opaque application IDs except explicitly typed external identifiers. Money, quantities, dates, source locations and versions are explicit. Missing data is represented independently per field; a row does not become complete because some fields were extracted confidently.</p>
+<h2 id="4-financial-semantics-no-invented-history-or-unit-conversions">4. Financial semantics: no invented history or unit conversions</h2>
+<p>Use decimal strings at contract boundaries and deterministic decimal arithmetic in code. Reject non-finite values, malformed literals, ambiguous currencies and unsupported precision; retain the raw literal for review. Preserve source-booked net cash amounts separately from calculated gross/fee components. A missing fee is not automatically zero. Precision, rounding and reconciliation tolerances remain L1-Q01. Python's Decimal supports exact decimal representation and configurable arithmetic/rounding; that capability does not choose our policy automatically. <a href="https://docs.python.org/3/library/decimal.html">Python Decimal</a></p>
+<p>GBP is the default portfolio presentation with local-currency detail (DEC-029). A native GBX quote must be converted exactly once to GBP before a GBP ledger value is computed; a source price already denominated in GBP is not converted again. Preserve trading currency, quote unit and factor with the dated listing contract. Use instrument units and currency units rather than a naked number.</p>
+<p>Store effective/trade date, settlement date, source observation/availability time and recorded time separately when known. A date-only record retains its precision and relevant calendar context; do not invent a precise time. Same-day economic ordering comes from declared source sequence/action links or is reviewed when it affects replay. A timezone conversion does not change the original economic date.</p>
+<p>Execution FX belongs to the booked transaction. Valuation FX belongs to a dated permitted reference series. Neither can silently replace the other. Retain original amount/currency, received amount/currency, fees, rate direction and provenance. A reference estimate may be offered in a preview, labelled as estimated; it is not evidence of the amount credited. Do not automatically add ECB or another provider merely because the source app used it. Current selected provider rights/coverage must be verified before live use.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Recorded event</th>
+<th>Position/cash treatment</th>
+<th>Flow boundary and caveat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>External deposit/withdrawal</td>
+<td>Signed cash in its currency; no invented units</td>
+<td>External at the chosen account/portfolio boundary when verified</td>
+</tr>
+<tr>
+<td>Buy/sell record</td>
+<td>Signed units and booked net cash; gross/fees retained separately</td>
+<td>Internal portfolio investment activity, not a broker order</td>
+</tr>
+<tr>
+<td>Dividend/interest/withholding</td>
+<td>Source-supported gross, net and deductions</td>
+<td>Retained portfolio income is internal; instrument-level performance has its own defined cash-flow boundary</td>
+</tr>
+<tr>
+<td>Reinvestment</td>
+<td>Linked income and purchase legs/events</td>
+<td>Avoid a duplicated external contribution or duplicated dividend return</td>
+</tr>
+<tr>
+<td>Transfer</td>
+<td>Matched linked outgoing/incoming legs and in-transit state</td>
+<td>Internal at whole-portfolio scope, potentially external at account scope; an unmatched side remains unresolved</td>
+</tr>
+<tr>
+<td>FX conversion</td>
+<td>Distinct signed legs in each currency, rate and fee evidence</td>
+<td>Do not add GBP and USD amounts as though their units matched</td>
+</tr>
+<tr>
+<td>Split/reverse split</td>
+<td>Quantity ratio and linked action/date; preserve economic cost basis</td>
+<td>Fractional entitlement/cash-in-lieu needs explicit evidence; no fictitious gain</td>
+</tr>
+<tr>
+<td>Opening observation</td>
+<td>Dated units/value/cost fields that are actually known</td>
+<td>Not an inferred purchase, deposit or complete transaction history</td>
+</tr>
+<tr>
+<td>Correction/reversal</td>
+<td>New linked events and a new projection revision</td>
+<td>Never rewrite the original transaction, source or earlier forecast input</td>
+</tr>
+</tbody>
+</table></div>
+<p>Proposed first-account profiles are non-margin/long-only unless the owner approves another supported contract. A negative position/cash figure is not silently discarded or rounded into validity: preserve it as an exception, determine settled/unsettled semantics and block unsupported dependent calculations. Settlement timing and supported account behaviour remain L1-Q06; do not hardcode market settlement assumptions.</p>
+<h2 id="5-sources-extraction-and-normalization">5. Sources, extraction and normalization</h2>
+<p>The source lifecycle is received → quarantined → validated or validation_failed → extracting → extracted or extraction_failed, with independent retention/deletion status. Check actual bytes, size, media signature, checksum and relevant archive/page/pixel/runtime limits. File names and Content-Type are hints, not authority. Bound decompression, embedded links, workbook formulas/macros and resource usage. A spreadsheet is data, never an executable instruction sheet.</p>
+<p>Retain the original immutable document version and received/processing provenance. Derived extraction is separately versioned. A processing rejection, duplicate or crash still leaves a durable outcome; neither S3 success nor an LLM response means that financial records changed. S3 notification delivery can repeat; intake/workers need idempotent state transitions and orphan reconciliation. <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html">S3 event notifications</a></p>
+<p>Code parses supported structures. The bounded document/image extractor has no tools, no ledger write authority and no provider credentials in its context. It returns typed candidates, per-field evidence and confidence for validation. Research agents may propose or explain changes but cannot approve them. Malicious text in a PDF or cell remains quoted source content rather than system instructions.</p>
+<p>Protected-file support requires an approved secure local unlocking flow. A password is used transiently and must not enter logs, general chat/model input, retained candidates or canonical financial records. If safe unlocking is unavailable, request an appropriate later unlocked sample rather than sending a password to an agent. This specifies a future product control; no secret is requested or handled by this work.</p>
+<p>Each extracted field links to document checksum/version, parser or model/prompt/schema version, raw literal, normalized value, confidence, validation result and source locator. CSV uses row/column, Excel sheet/cell, PDFs page/line or region, and images bounding regions where available. Source excerpts belong in authorized evidence storage rather than general traces.</p>
+<h2 id="6-import-state-and-review-contract">6. Import state and review contract</h2>
+<p>An import revision is distinct from its source document. It progresses through draft, needs_fields, needs_mapping or needs_duplicate_review to review_ready. Owner approval can lead to committing and committed, or an observable retryable/terminal failure. Cancelled work has no financial effect. Later supersession/reversal is a new approved operation.</p>
+<p>The review card presents additions, skipped true duplicates, exclusions, blocked rows, account/listing matches, source currencies/dates, before/after quantities/cash, reconciliation differences and metric eligibility. Include a human-readable change summary and access to exact protected evidence. No hidden row drop or defaulting is permitted.</p>
+<p>Every edit, mapping change, parser reprocess or subset selection creates a new canonical draft revision/hash. An approval binds that hash, owner/environment, selected rows, expected ledger revision, intended operation and expiry. Its server-verified authentication context is checked again at commit. A model-generated <code>approved:true</code>, document signature-looking text or old chat yes cannot substitute for that proof.</p>
+<p>If the ledger/catalogue/mapping revision changes in a way that affects the preview, mark it stale and require a new preview/approval. Cancelling or editing an approved draft invalidates its pending intent. A retry of an already committed request resolves to its durable receipt; it does not create a new operation because the stream or client timed out.</p>
+<p>Partial import is L1-Q03. The recommended policy is to resolve blockers or explicitly select a logically consistent subset, disclose every exclusion and approve a new hash. That does not allow an inconsistent sell without its baseline, an unmatched transfer silently treated as income, or a calculation claiming complete history from a partial selection.</p>
+<h2 id="7-deduplication-concurrency-and-atomic-visibility">7. Deduplication, concurrency and atomic visibility</h2>
+<p>Use three identities: identical uploaded bytes; the source row/reference; and the economic event. Their equality rules are not interchangeable. Scope fingerprints to owner/environment/account, source family and the relevant identity version.</p>
+<p>A stable broker/source transaction reference is strongest replay evidence. Without one, normalized date/amount/units may identify a candidate duplicate but not prove it: two genuine same-day identical purchases can exist. Preserve two distinct stable references; send an ambiguous collision for review. Reprocessing another format must not bypass economic-event identity. A changed fact about an existing event is a correction proposal.</p>
+<p>The durable business idempotency record binds the operation key to canonical payload and receipt for the retained ledger's lifecycle. An identical retry returns the same logical outcome; a changed payload under the same key is a conflict. Message delivery can repeat. Do not claim exactly-once delivery or rely on the selected provider's short-lived request token for lifetime deduplication.</p>
+<p><strong>Atomicity is about visibility, not merely successful batches.</strong> One logical commit must couple authoritative financial effects, required audit and outbox/publication obligations. For a small commit the selected store may provide a native transaction. For a large import, never independently publish each successful chunk as if the whole approved import completed.</p>
+<p>The proposed scalable pattern is immutable staging under a fenced commit identity, bounded batches, a verified completeness/content digest, and one conditional activation decision against the expected ledger revision. Readers, projections, agents and outbox delivery must all honor the same committed visibility marker or approved versioned-generation mechanism. Failed/unfinished staging remains invisible; a reconciler can safely resume or retire it. A lock/lease design must prove that an expired or superseded worker cannot activate old work.</p>
+<p>The physical schema, staging/replay proof and write/read cost are L1-Q08 and require an ADR/spike. DynamoDB's current transaction ceiling is 100 actions/4 MB; audit, dedup and metadata consume actions too. Its client request token lasts 10 minutes, so it is not our durable business receipt. S3 upload and the application database are separate boundaries. These constraints inform the design; they do not establish that a candidate store/algorithm is already approved. <a href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html">DynamoDB TransactWriteItems</a></p>
+<h2 id="8-replay-snapshots-and-reconciliation">8. Replay, snapshots and reconciliation</h2>
+<p>Authoritative events are append-only. Derived views can be rebuilt and cached, with their ledger generation, algorithm/policy and source revisions visible. Replaying the same committed history produces identical cash/units; a mutable cached balance is not an alternative ledger.</p>
+<p>A snapshot can establish that five units were reported on a date while acquisition cost, date and prior cash flows remain unknown. Show supported valuation and identity facts, flag gaps and withhold unsupported measures. Do not invent a purchase at the snapshot price/date merely to make the ledger balance.</p>
+<p>When complete history arrives, reconcile it against the observation and propose a baseline/window rebase. Owner-approved activation replaces the relevant projection basis without deleting evidence or counting opening units plus their full purchase history. Reconcile account-level completeness separately from selected-position completeness; absence of a holding from a cropped screenshot is not proof it was sold.</p>
+<p>Reconciliation compares cash, units, fees, quote units, FX, action/date ordering, reported value and source coverage separately. Preserve both reported and derived values. Differences outside approved tolerances become explicit issues and require a source-backed resolution. No unexplained plug event, hidden basis reset or silent overwrite is allowed.</p>
+<p>Correcting history creates linked replacement/reversal events and a new view revision, with downstream dependencies assessed first. A reversal cannot leave later events impossible. Already-issued predictions retain their original ledger/data cutoff and evidence; a restated portfolio is labelled restated and does not retroactively improve a forecast's input state.</p>
+<h2 id="9-valuation-and-performance-eligibility">9. Valuation and performance eligibility</h2>
+<p>Each metric returns value/unit, scope, as-of, method and source versions plus status/reasons. Quantity known does not imply cost basis known; cost basis known does not imply dated cash-flow history known. A valid quoted value can be shown while XIRR is unavailable. Zero return is a result, not an unavailable-data marker.</p>
+<p>A complete portfolio valuation includes eligible positions, cash and approved unsettled receivable/payable treatment, converted using explicit dated FX. Market-price and FX freshness follow source/session calendars. A missing price/FX yields a visible partial-known value and a list of uncovered holdings/currencies; it is never a complete total with missing components filled as zero.</p>
+<p>For investor-scope XIRR, externally contributed capital is negative, externally received/distributed cash positive, and an eligible terminal portfolio value supplies the closing value. Internal portfolio buys/sells, retained dividends, transfers and FX conversions do not become duplicate external contributions. Account and single-holding calculations use their own explicitly documented boundaries; a transfer can be external to an account while internal to the portfolio.</p>
+<p>The proposed compatibility convention is the dated present-value root:</p>
+<p><code>sum(C_i / (1 + r)^((date_i - date_0).days / 365)) = 0</code></p>
+<p>Validate signs, dates, complete relevant history, common-currency conversion and terminal valuation. Missing, same-day-only, nonconvergent or ambiguous cases return unavailable/ambiguous with a reason rather than an arbitrary root or zero. Non-conventional cash flows can admit multiple roots; record the solver domain/method and do not treat the first Newton result as authoritative. Validate rate error separately from monetary present-value residual—an IRR is not measured “to the penny.” The 365-day compatibility definition and sign requirements follow Excel's documented XIRR; exact tolerances/solver policy remain to agree. <a href="https://support.microsoft.com/en-us/excel/functions/xirr-function">Microsoft XIRR</a></p>
+<p>The synthetic -10,000/+11,000 over 365 days case gives 10%; the worked ambiguity case has more than one valid rate. These are numerical acceptance examples, not predictive performance. See E12. Realised gains, lot-selection and tax measures are not inferred from a generic average-cost rule; source-supported basis can be displayed, with unapproved methods unavailable (L1-Q05).</p>
+<h2 id="10-privacy-audit-retention-and-agent-costs">10. Privacy, audit, retention and agent costs</h2>
+<p>Every authoritative mutation links source, draft, owner approval, actor, commit, economic event and before/after evidence. Required business/forecast/approval lineage is durable and unsampled. Operational logs/traces/run summaries use DEC-036's 14/30/90-day retention subject to measured cost; those TTLs cannot delete the only reference needed by retained financial evidence.</p>
+<p>Originals use the confirmed renewable 24-month archive with owner extension/deletion controls. No automatic expiry/deletion or irreversible retention lock is authorized by that duration choice. The record-class retention/deletion matrix remains L1-Q07. When content is deleted, retain only the agreed minimal tombstone/audit evidence, disclose missing source availability and ensure any backup restoration reapplies deletion before access. Do not retain sensitive content inside a supposed minimal tombstone.</p>
+<p>Audit integrity needs an explicit threat model and protected verification/anchor policy; a hash chain alone is not tamper-proof against an actor able to rewrite the chain and its head. Acceptance includes synthetic missing/altered-event detection and distinguishes authorized appended corrections from unexplained tampering.</p>
+<p>Recheck owner/environment on upload, extraction context, preview, commit, read, source access and worker continuation. Generic telemetry/push previews exclude raw imports, portfolio values, personal account identifiers, prompts/replies, passwords and signed links. Protected UI/evidence APIs are separate from general operator logs.</p>
+<p>Parsing/extraction is budgeted activity. Record agent/model/token/latency/cache/retry/run attribution and estimate/reservation/final usage without double counting. Unknown or uncovered credit prevents new chargeable calls; optional work follows the £60/£75/£85 cash policy and £70-operation/£30-reserve planning envelope. A failed or budget-stopped import is observable, not reported as applied. The main app dashboard surfaces costs per environment/agent; provider billing collection stays scheduled/cached (Anthropic 6h, AWS daily), rather than a paid query per UI refresh.</p>
+<h2 id="11-draft-read-api-and-client-contracts">11. Draft read/API and client contracts</h2>
+<p>These routes are candidates only. They do not exist in the starter and are not an API implementation approval. Stable scope/version/error semantics matter more than route spelling at this stage.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Candidate path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/documents/upload-intents</code></td>
+<td>Scoped upload intent; no ledger mutation</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/documents/{document_id}/received</code></td>
+<td>Confirm byte/checksum receipt; idempotent and reconciled</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/imports</code></td>
+<td>Create draft from a validated source or manual input</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/imports/{import_id}</code></td>
+<td>Read durable draft/status/field evidence</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/imports/{import_id}/revisions</code></td>
+<td>Create a new revision; never edit an approved hash in place</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/imports/{import_id}/approvals</code></td>
+<td>Bind fresh owner approval to payload and ledger revision</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/imports/{import_id}/commits</code></td>
+<td>Request recorded-data commit; not trade execution</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/commits/{commit_id}</code></td>
+<td>Resolve ambiguous timeout to the same receipt</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/imports/{import_id}/reversal-proposals</code></td>
+<td>Preview a linked reversal, then require its own approval</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/portfolios/{portfolio_id}/positions</code></td>
+<td>Read versioned projections with quality/missing-data flags</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/accounts/{account_id}/events</code></td>
+<td>Paginated dated history, scoped and versioned</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/documents/{document_id}/access</code></td>
+<td>Short-lived authorized original access and access audit</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/portfolio-events</code></td>
+<td>Resumable safe SSE progress; durable reads recover state</td>
+</tr>
+</tbody>
+</table></div>
+<p>Successful mutations return a durable receipt and resulting revision. Proposed errors distinguish invalid fields, ambiguity, stale preview/revision, duplicate-versus-conflicting idempotency, unavailable/budget-stopped dependencies and forbidden scope. Exact HTTP/error-code policy remains part of the contract review; errors must not reveal another owner's document existence.</p>
+<p>SSE reports safe progress/cursors and links to authenticated durable reads. A reconnect or missed event cannot lose commit truth or repeat a financial operation. The current sample SSE has volatile unauthenticated in-process state and is not this production contract. Pagination, stable cursors and owner/account/instrument/date/status access patterns must be specified with bounded query costs; an unbounded table scan is not the default.</p>
+<p>Proposed local design states include empty/synthetic badge, upload/quarantine, extracting, mapping uncertainty, duplicate review, editable preview, partial-history metric warning, fresh approval, committing, retry/timeout receipt lookup, cancelled/failed, committed, corrected and deleted-source evidence. Specify phone/desktop/iPad layouts, light/dark, keyboard/VoiceOver, privacy mode, offline/stale state and deep links before implementation. These state requirements do not select a visual design.</p>
+<h2 id="12-worked-acceptance-examples-and-current-fixture-evidence">12. Worked acceptance examples and current fixture evidence</h2>
+<p>Every example is synthetic. Real IDs are catalogue identities, not the owner's holdings or observed prices. E01 uses the existing local source values; the other mathematical/fault examples are proposed acceptance inputs. They do not claim an importer already passes them.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Example</th>
+<th>What must hold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1-E01</td>
+<td>Source-backed three-market document/ledger fields, totals, labels and explicit partial recent-history extract</td>
+</tr>
+<tr>
+<td>L1-E02</td>
+<td>Native GBX quote normalized once; GBP price/gross/fee/net cash retain correct units</td>
+</tr>
+<tr>
+<td>L1-E03</td>
+<td>Snapshot with missing purchase flows permits supported valuation but withholds XIRR</td>
+</tr>
+<tr>
+<td>L1-E04</td>
+<td>Repeated file/confirmation yields one logical application and the same receipt</td>
+</tr>
+<tr>
+<td>L1-E05</td>
+<td>Distinct stable transaction references preserve two genuine identical-looking trades; missing references trigger review</td>
+</tr>
+<tr>
+<td>L1-E06</td>
+<td>Deposit then purchase/fee reconciles cash/NAV without treating the buy as an external portfolio flow</td>
+</tr>
+<tr>
+<td>L1-E07</td>
+<td>FX conversion and fee reconcile two currency legs/base-currency NAV without summing unlike units</td>
+</tr>
+<tr>
+<td>L1-E08</td>
+<td>Missing FX/price produces incomplete coverage, not a false zero or complete total</td>
+</tr>
+<tr>
+<td>L1-E09</td>
+<td>Stale approval/revision cannot mutate the ledger</td>
+</tr>
+<tr>
+<td>L1-E10</td>
+<td>Crash during large staged import exposes no partial financial state; retry resolves the same commit</td>
+</tr>
+<tr>
+<td>L1-E11</td>
+<td>Fee correction appends lineage and restates the view without rewriting the original forecast input</td>
+</tr>
+<tr>
+<td>L1-E12</td>
+<td>Golden XIRR, incomplete-history refusal and ambiguous-root behaviour are distinguished</td>
+</tr>
+</tbody>
+</table></div>
+<p><a href="../../synthetic-test-data.md">Market/ledger fixtures</a> and <a href="../../synthetic-import-samples.md">document/operations companions</a> are the current foundation. Seven document-tool and nine market-fixture tests were checked in the earlier fixture task; that evidence is not proof of an application contract, supported real broker, OCR robustness or model accuracy. No test is reported run against a nonexistent importer here.</p>
+<h2 id="13-story-map-and-sequencing">13. Story map and sequencing</h2>
+<p>PH-01 planning produces this specification, contracts, examples, story map and local UX requirements. It can be written before cloud foundations. Implementation remains blocked by the full requirements/UX approval and PH-02 foundation evidence. The planning and implementation dependency graphs are intentionally separate in the <a href="phased-delivery-plan.html">phased plan</a>.</p>
+<p>All IDs below are <strong>local draft IDs</strong>, not created MP Jira issues. The existing roadmap's portfolio epic is a reference, not a verified current implementation state. Detailed source-clause decomposition and issue creation follow the approved planning/publication scope.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Local story</th>
+<th>Outcome</th>
+<th>Implementation prerequisites within L1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1-S01</td>
+<td>Owner-scoped accounts and listing identities</td>
+<td>L1-S15</td>
+</tr>
+<tr>
+<td>L1-S02</td>
+<td>Private validated upload intake</td>
+<td>L1-S13, L1-S15</td>
+</tr>
+<tr>
+<td>L1-S03</td>
+<td>Versioned extraction for every agreed method</td>
+<td>L1-S02</td>
+</tr>
+<tr>
+<td>L1-S04</td>
+<td>Instrument and account matching</td>
+<td>L1-S01, L1-S03</td>
+</tr>
+<tr>
+<td>L1-S05</td>
+<td>Exact normalization of money, dates and events</td>
+<td>L1-S04</td>
+</tr>
+<tr>
+<td>L1-S06</td>
+<td>Preview, guided edits and explicit subset selection</td>
+<td>L1-S05, L1-S07</td>
+</tr>
+<tr>
+<td>L1-S07</td>
+<td>Business deduplication and replay-safe identity</td>
+<td>L1-S05</td>
+</tr>
+<tr>
+<td>L1-S08</td>
+<td>Owner approval and atomic visible commit</td>
+<td>L1-S06, L1-S13, L1-S15</td>
+</tr>
+<tr>
+<td>L1-S09</td>
+<td>Deterministic ledger replay and versioned projections</td>
+<td>L1-S08</td>
+</tr>
+<tr>
+<td>L1-S10</td>
+<td>Cash, units and valuation reconciliation</td>
+<td>L1-S09</td>
+</tr>
+<tr>
+<td>L1-S11</td>
+<td>Corrections, reversal and baseline rebase</td>
+<td>L1-S08, L1-S09</td>
+</tr>
+<tr>
+<td>L1-S12</td>
+<td>Incomplete holdings and eligible performance measures</td>
+<td>L1-S09, L1-S10</td>
+</tr>
+<tr>
+<td>L1-S13</td>
+<td>Originals, audit, retention and recovery lineage</td>
+<td>L1-S15, L1-S01</td>
+</tr>
+<tr>
+<td>L1-S14</td>
+<td>Scoped portfolio reads, progress and accessible clients</td>
+<td>L1-S09, L1-S12, L1-S15</td>
+</tr>
+<tr>
+<td>L1-S15</td>
+<td>Owner/environment isolation and bounded processing costs</td>
+<td>PH-02 foundation / no internal L1 prerequisite</td>
+</tr>
+<tr>
+<td>L1-S16</td>
+<td>Layer acceptance and later real-sample qualification</td>
+<td>L1-S01, L1-S02, L1-S03, L1-S04, L1-S05, L1-S06, L1-S07, L1-S08, L1-S09, L1-S10, L1-S11, L1-S12, L1-S13, L1-S14, L1-S15</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <a href="portfolio-import-stories.json">structured story file</a> contains 64 explicit acceptance criteria plus per-story contract/example/decision/source references and readiness/done conditions. Planning can proceed in parallel by contract/extraction/ledger/client/evidence lanes within the approved total concurrency cap. Shared ledger tests/commit resources need isolation or sequential execution; an agent limit is not permission for competing writers.</p>
+<h2 id="14-owner-choices-and-readiness-gates">14. Owner choices and readiness gates</h2>
+<p>The following defaults/policies are <strong>proposals</strong> and have not been approved by the 18 high-level option answers. They must be agreed or explicitly deferred with their effects before a dependent implementation is ready.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Topic</th>
+<th>Proposed direction for approval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1-Q01</td>
+<td>Precision, rounding and reconciliation tolerances</td>
+<td>Preserve source precision and booked net amounts; deterministic decimal calculations and display rounding. Approve bounds/tolerances per field/asset.</td>
+</tr>
+<tr>
+<td>L1-Q02</td>
+<td>Incomplete snapshot rebase when history arrives</td>
+<td>Versioned owner-confirmed replacement of the baseline/history window; no invented purchase or double counting.</td>
+</tr>
+<tr>
+<td>L1-Q03</td>
+<td>Partial-file import policy</td>
+<td>Resolve blockers or explicitly approve a consistent subset with exclusions visible and a new hash; no silent partial commit.</td>
+</tr>
+<tr>
+<td>L1-Q04</td>
+<td>File limits, protected files and extraction budget</td>
+<td>Bounded, versioned file/page/archive/pixel/runtime limits; the old MA20MB/15-minute values are candidate references, not MP approvals.</td>
+</tr>
+<tr>
+<td>L1-Q05</td>
+<td>Cost-basis and realised-gain methods</td>
+<td>Use source-supported basis; defer unsupported analytical/tax gain measures until method/jurisdiction/wrapper contracts are approved.</td>
+</tr>
+<tr>
+<td>L1-Q06</td>
+<td>Trade-date versus settlement-date accounting</td>
+<td>Explicit economic exposure and settled/unsettled cash state; no hardcoded venue settlement rule without verification.</td>
+</tr>
+<tr>
+<td>L1-Q07</td>
+<td>Financial/audit retention and deletion matrix</td>
+<td>Keep required ledger/forecast/approval joins separate from operational TTLs and renewable raw-original policy; exact durations and deletion consequences need owner approval.</td>
+</tr>
+<tr>
+<td>L1-Q08</td>
+<td>Large-import storage/visibility design</td>
+<td>Fenced staged batches and one validated activation decision; prove no partial visibility, retry safety and bounded read/write costs before selecting the physical design.</td>
+</tr>
+<tr>
+<td>L1-Q09</td>
+<td>Draft/approval expiry and idempotency retention</td>
+<td>Bind approvals to payload/revision with a chosen short lifetime; preserve business idempotency for retained history rather than relying on a provider's short token window.</td>
+</tr>
+<tr>
+<td>L1-Q10</td>
+<td>Execution FX and valuation FX conventions</td>
+<td>Store booked execution cash/rate separately from a permitted reference FX series; choose dated source/fallback before live use.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Layer exit needs: agreed entity/event/metric/error contracts; every agreed input method represented by supported sample-backed paths; full state/permission/UX walkthrough; source-to-story-to-example trace; proof plan for replay/idempotency/atomic visibility/corrections; privacy/retention/recovery decisions; budget assumptions and required live-source rights before actual data activation. A diagram, green fixture tool or Jira status does not close these gates.</p>
+<p>This document does not change ADR-0006's historical accepted single-host record into an approved serverless implementation. The latest preferred stack and unresolved alternatives are documented in the architecture/technology drafts; reconcile ADRs through an explicit future decision. No infrastructure, financial repository or client is built by this specification.</p>
+<h2 id="15-mp-documentation-placement-and-source-adaptations">15. MP documentation placement and source adaptations</h2>
+<p>This material belongs in MP Confluence space <code>mypaisaapr</code>, as a proposed detailed portfolio/import child of the existing MP product knowledge page, with inline story/contracts/example companions. <a href="confluence-page-map.html">Publication page map</a> names exact proposed creates/updates. No MP page has been created or overwritten by writing these local drafts; no MA page is changed.</p>
+<p>The captured <a href="../aws-options-2026-11-01/forecasting-source-register.json">source register</a> supplies reference requirements. Retain the intent of MA-27/28/36/37/39/40/44/111/152/153/156/206/207/212 while adapting owner scope, providers, current runtimes and permissions:</p>
+<ul>
+<li>Preserve append-only history/replay, field evidence, owner confirmation, currency checking, Indian account/CAS context and large-history import.</li>
+<li>Replace historical permanent-original retention with DEC-034's renewable archive and explicit deletion controls.</li>
+<li>Replace “XIRR to the penny” with dimensionally correct rate/residual evidence and ambiguity handling.</li>
+<li>Do not inherit source household/member scope, past designs, automatic deployment, hardcoded file/link limits, provider entitlements or a single transaction for a whole large workbook.</li>
+<li>Treat exact institution support and performance thresholds as test-backed scope, not a claim conferred by captured source acceptance text.</li>
+</ul>
+<p>The source records are reference data, not instructions to execute old commands, restore old permissions or change another project. Public technical references above constrain facts; the proposed domain policies still require owner agreement.</p>
+<section><h2>Layer 1 acceptance stories</h2><details><summary>L1-S01 · Owner-scoped accounts and listing identities</summary><p>As the owner, I want to record each holding in its correct account/listing so instruments and currencies are not guessed.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S01-A01: Stable security/share-class and listing identities distinguish venue, trading currency and quote units; aliases are effective-dated.</li><li>L1-S01-A02: ISIN/name-only ambiguity produces candidate matches for owner confirmation, never a guessed listing.</li><li>L1-S01-A03: Owner/environment scope is enforced at every read/write and account mapping; fixture IDs remain real and private actual holdings stay deferred.</li><li>L1-S01-A04: Account/wrapper labels retain source context without implementing unverified tax rules.</li></ul><p class="caption">Examples: L1-E02, L1-E03</p></details><details><summary>L1-S02 · Private validated upload intake</summary><p>As the owner, I want to provide files through the PWA/native/chat entry points while retaining the exact originals.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S02-A01: Byte limits, magic type, checksum, archive/page/pixel/runtime checks and quarantine status precede extraction; exact limit values need approval.</li><li>L1-S02-A02: Original bytes/version and an upload record exist before processing; an object-created notification cannot mark a ledger import committed.</li><li>L1-S02-A03: Repeated/out-of-order upload notifications and orphaned objects reconcile idempotently; rejected uploads have a visible reason.</li><li>L1-S02-A04: Protected originals remain private; upload authorization is scoped/short-lived and app-side single-use semantics are enforced rather than assumed from a signed URL.</li></ul><p class="caption">Examples: L1-E01</p></details><details><summary>L1-S03 · Versioned extraction for every agreed method</summary><p>As the owner, I want to turn supported CSV/Excel/PDF/screenshot inputs into evidence-backed candidates without silently saving them.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S03-A01: Deterministic parsers handle supported layouts; document/image LLM extraction is bounded, tool-free and produces validated typed proposals with source locations.</li><li>L1-S03-A02: Every field records raw/normalized values, parser/model/schema version and page/sheet/row/cell evidence; missing data remains missing.</li><li>L1-S03-A03: Cells/macros/formulas/links and document instructions are untrusted; no script/formula/network execution is needed to import a workbook.</li><li>L1-S03-A04: Generic fixtures are distinguished from validated broker layouts; encrypted PDFs are unlocked only through the approved secure local flow, never a logged/model password.</li></ul><p class="caption">Examples: L1-E01, L1-E03</p></details><details><summary>L1-S04 · Instrument and account matching</summary><p>As the owner, I want to resolve source identifiers to the right account/listing and review uncertain matches.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S04-A01: Matching uses verified identifiers plus venue/currency/share-class context and preserves confidence/evidence.</li><li>L1-S04-A02: Unknown/ambiguous matches block only dependent rows until explicit mapping; choosing a mapping creates a new draft revision.</li><li>L1-S04-A03: A factsheet alone can describe a candidate instrument but cannot invent owner units, cost or purchase history.</li><li>L1-S04-A04: A mapping/template reused later is versioned and scoped; it cannot silently turn one listing into another because a ticker or name looks similar.</li></ul><p class="caption">Examples: L1-E02, L1-E03</p></details><details><summary>L1-S05 · Exact normalization of money, dates and events</summary><p>As the owner, I want to review typed economic facts without currency, precision or date errors.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S05-A01: Finite decimal strings and explicit units are used; GBX converts to GBP exactly once, and unknown fees/currencies are not silently zero/defaulted.</li><li>L1-S05-A02: Source booked net amounts, unit prices, fees/withholding and FX execution/reference rates remain distinguishable and reconcile under an approved tolerance.</li><li>L1-S05-A03: Trade/effective, settlement, observed/available and recorded times have explicit meanings; date-only input is not invented into a precise UTC instant.</li><li>L1-S05-A04: Each supported event has validated cash/quantity legs; transfers/FX/splits preserve economic boundaries and never sum unlike units.</li></ul><p class="caption">Examples: L1-E02, L1-E06, L1-E07</p></details><details><summary>L1-S06 · Preview, guided edits and explicit subset selection</summary><p>As the owner, I want to see what will change and correct it before approving.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S06-A01: Preview shows every accepted/blocked/duplicate/excluded row, account and instrument mapping, before/after values, errors and metric eligibility.</li><li>L1-S06-A02: An edit/subset/mapping/parser change creates a new canonical draft hash and invalidates earlier approval.</li><li>L1-S06-A03: The default partial-file policy remains an owner choice; any approved subset is independently consistent, explicit and traceable.</li><li>L1-S06-A04: Confirm/Edit/Cancel/resume/stale/expired states have accessible web/native acceptance scenarios; document content cannot self-approve.</li></ul><p class="caption">Examples: L1-E01, L1-E03, L1-E09</p></details><details><summary>L1-S07 · Business deduplication and replay-safe identity</summary><p>As the owner, I want to repeat an upload or history import without losing or duplicating genuine transactions.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S07-A01: File identity, source row identity and economic-event identity are separate, scoped and versioned.</li><li>L1-S07-A02: Stable provider/account transaction references suppress true replays; two genuine same-date/same-amount trades with distinct IDs remain two events.</li><li>L1-S07-A03: Without sufficient reference evidence, a near/exact-content collision is reviewed rather than automatically discarded or inserted.</li><li>L1-S07-A04: Reprocessing with a new parser does not bypass economic dedup; a changed fact becomes a correction proposal, not a second original trade.</li></ul><p class="caption">Examples: L1-E04, L1-E05</p></details><details><summary>L1-S08 · Owner approval and atomic visible commit</summary><p>As the owner, I want to apply only the exact approved draft once, even after retries or a worker crash.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S08-A01: Approval binds owner/environment, canonical selected rows, draft hash and expected ledger revision with server-verified authentication and expiry.</li><li>L1-S08-A02: Concurrent/stale/expired/wrong-scope requests refuse mutation; an ambiguous timeout resolves through the existing durable receipt.</li><li>L1-S08-A03: A successful logical commit couples financial changes, required audit and outbox obligations; staged work is invisible to all consumers until a valid activation marker.</li><li>L1-S08-A04: Large workbooks use a proven bounded/fenced staging design or another approved atomic-visibility strategy; transaction item/byte limits include metadata/audit and cannot be treated as row counts.</li></ul><p class="caption">Examples: L1-E04, L1-E09, L1-E10</p></details><details><summary>L1-S09 · Deterministic ledger replay and versioned projections</summary><p>As the owner, I want to rebuild holdings/cash from the recorded economic history and know the exact revision.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S09-A01: Rebuilding from the same committed events/policy versions produces identical projections; caches are not financial truth.</li><li>L1-S09-A02: Trade/settlement and transfer ordering is explicit; unresolved ties or unsupported margin/short behaviour are surfaced rather than guessed.</li><li>L1-S09-A03: Failed/staged/superseded work cannot leak into active holdings, metrics, agent context or read APIs.</li><li>L1-S09-A04: A later complete history reconciles with an opening observation and activates a new baseline/window, never adds the same units twice.</li></ul><p class="caption">Examples: L1-E06, L1-E07, L1-E11</p></details><details><summary>L1-S10 · Cash, units and valuation reconciliation</summary><p>As the owner, I want to understand discrepancies between a statement, the ledger and current valuations.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S10-A01: Cash/quantity/fees/FX/unit/date/coverage differences are classified with source and derived values and an approved tolerance.</li><li>L1-S10-A02: An unexplained difference cannot be cleared by an invented plug trade or silent overwrite.</li><li>L1-S10-A03: Price and FX timestamps/availability/quality accompany totals; an unpriced holding leaves a partial total and visible missing coverage.</li><li>L1-S10-A04: Owner resolution records the reason and source and creates a new revision when financial facts change.</li></ul><p class="caption">Examples: L1-E01, L1-E02, L1-E08</p></details><details><summary>L1-S11 · Corrections, reversal and baseline rebase</summary><p>As the owner, I want to repair imported history while preserving what was originally recorded and approved.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S11-A01: Corrections and import-level reversal are separate preview/approval operations linked to original events and sources.</li><li>L1-S11-A02: Dependent later events and observations are assessed before reversal; a bulk delete cannot leave impossible quantities or remove audit history.</li><li>L1-S11-A03: Recomputed views are versioned/restated while issued forecasts and their input revisions remain historically identifiable.</li><li>L1-S11-A04: A repeated correction/reversal request returns the same result and does not reapply its effects.</li></ul><p class="caption">Examples: L1-E11</p></details><details><summary>L1-S12 · Incomplete holdings and eligible performance measures</summary><p>As the owner, I want to use supported analysis immediately and see why other calculations are unavailable.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S12-A01: Missing purchase history/fees/FX is represented as per-measure insufficiency, not fabricated transactions or a zero return.</li><li>L1-S12-A02: Holding/account/portfolio XIRR uses its own defined flow boundary, dated signs, terminal valuation and FX convention; internal portfolio trades/dividends/transfers are not external contributions.</li><li>L1-S12-A03: Solver failure, ambiguous multiple roots, same-day-only histories or incomplete terminal valuation return an explicit unavailable/ambiguous result with evidence.</li><li>L1-S12-A04: Known-answer and invariant examples verify monetary residuals and rate tolerances with correct units; synthetic outcomes never prove predictive skill.</li></ul><p class="caption">Examples: L1-E03, L1-E06, L1-E07, L1-E12</p></details><details><summary>L1-S13 · Originals, audit, retention and recovery lineage</summary><p>As the owner, I want to trace every change back to its source/approval and retain/delete evidence truthfully.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S13-A01: Every authoritative change carries durable source/actor/approval/commit links; required business lineage is unsampled and separate from short-lived operational telemetry.</li><li>L1-S13-A02: Original retention is renewable24months with owner extension/deletion, without assuming automatic expiry or irreversible Object Lock.</li><li>L1-S13-A03: A source-deletion request and backup restore cannot resurrect content; remaining evidence joins expose deleted/unavailable source state honestly.</li><li>L1-S13-A04: Synthetic missing/altered-audit-event exercises are detected using the approved threat model/anchoring design; a hash chain alone is not described as tamper-proof.</li></ul><p class="caption">Examples: L1-E01, L1-E10, L1-E11</p></details><details><summary>L1-S14 · Scoped portfolio reads, progress and accessible clients</summary><p>As the owner, I want to inspect the same durable import/holdings state on web/native/chat without relying on a live stream.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S14-A01: Paginated reads serve owner/account/instrument/date/status access patterns with version/cursor and quality metadata; no unbounded table scan is the default.</li><li>L1-S14-A02: SSE reconnect/resume and durable GET recovery cannot lose commit truth or repeat a mutation; starter volatile SSE is not claimed production-ready.</li><li>L1-S14-A03: Private values appear only in authorized app views; privacy mode, VoiceOver, responsive/iPad layout and offline/stale states are specified before implementation.</li><li>L1-S14-A04: Read-only agents cite the same committed version/evidence; a notification or model summary cannot become an alternative ledger.</li></ul><p class="caption">Examples: L1-E08, L1-E09</p></details><details><summary>L1-S15 · Owner/environment isolation and bounded processing costs</summary><p>As the owner, I want to keep imports private and within approved authority and budget.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S15-A01: API/worker/source-access/commit paths recheck owner/environment and prevent fixture loading into live data; no trading or broker execution credentials exist.</li><li>L1-S15-A02: Signed source links, raw fields/prompts/passwords/account numbers and holdings values do not enter general telemetry or push previews.</li><li>L1-S15-A03: Extraction/retry/queue work has bounded file/time/token/concurrency reservations and idempotent usage accounting; unknown credit pauses uncovered model calls.</li><li>L1-S15-A04: Import activity links to the main per-env Claude/AWS cost dashboard; collectors remain cached/scheduled, with no paid billing call per UI refresh.</li></ul><p class="caption">Examples: L1-E09, L1-E10</p></details><details><summary>L1-S16 · Layer acceptance and later real-sample qualification</summary><p>As the owner, I want to prove the complete workflow with synthetic cases before enabling real imports.</p><p class="caption">Draft local story; no Jira issue or implementation evidence.</p><ul><li>L1-S16-A01: All declared L1 examples pass across local/dev with real identifiers and simulated observations; source originals/golden records remain intact.</li><li>L1-S16-A02: Fault injection covers duplicate delivery, stale approvals, crash-midstage, ambiguous commit response, source tampering, cross-scope access and deletion-after-restore.</li><li>L1-S16-A03: Generic PDF/PNG/CSV foundations are accurately labelled; missing Excel/real-broker/photographed-image cases remain visible until filled and tested.</li><li>L1-S16-A04: Implementation readiness requires approved unresolved choices, source/data rights before live use, tested supported layouts, complete UX and trace from requirements to evidence; phase status or a diagram alone cannot certify completion.</li></ul><p class="caption">Examples: L1-E01, L1-E02, L1-E03, L1-E04, L1-E05, L1-E06, L1-E07, L1-E08, L1-E09, L1-E10, L1-E11, L1-E12</p></details><h2>Worked synthetic examples</h2><p>Source-backed or proposed acceptance cases; no importer implementation is certified.</p><details><summary>L1-E01 · SYNTHETIC source-backed US/USD statement reconciliation</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E01&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC source-backed US/USD statement reconciliation&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;source_fixture&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;environment&quot;: &quot;local&quot;,
+    &quot;synthetic_document_id&quot;: &quot;synthetic-local-us-statement&quot;,
+    &quot;statement_page&quot;: 1,
+    &quot;currency&quot;: &quot;USD&quot;,
+    &quot;positions&quot;: [
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:AAPL&quot;,
+        &quot;quantity&quot;: &quot;8.4854&quot;,
+        &quot;price_currency_units&quot;: &quot;339.00225207&quot;,
+        &quot;source_position_value&quot;: &quot;2876.57&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:MSFT&quot;,
+        &quot;quantity&quot;: &quot;16.0369&quot;,
+        &quot;price_currency_units&quot;: &quot;190.10566491&quot;,
+        &quot;source_position_value&quot;: &quot;3048.71&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:NVDA&quot;,
+        &quot;quantity&quot;: &quot;84.5692&quot;,
+        &quot;price_currency_units&quot;: &quot;29.18496277&quot;,
+        &quot;source_position_value&quot;: &quot;2468.15&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:AMZN&quot;,
+        &quot;quantity&quot;: &quot;27.6209&quot;,
+        &quot;price_currency_units&quot;: &quot;106.7767527&quot;,
+        &quot;source_position_value&quot;: &quot;2949.27&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:FSLR&quot;,
+        &quot;quantity&quot;: &quot;11.1392&quot;,
+        &quot;price_currency_units&quot;: &quot;209.69795406&quot;,
+        &quot;source_position_value&quot;: &quot;2335.87&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNYS:JPM&quot;,
+        &quot;quantity&quot;: &quot;12.7030&quot;,
+        &quot;price_currency_units&quot;: &quot;215.14256199&quot;,
+        &quot;source_position_value&quot;: &quot;2732.96&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNYS:JNJ&quot;,
+        &quot;quantity&quot;: &quot;11.4470&quot;,
+        &quot;price_currency_units&quot;: &quot;398.02429885&quot;,
+        &quot;source_position_value&quot;: &quot;4556.18&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNYS:XOM&quot;,
+        &quot;quantity&quot;: &quot;35.5655&quot;,
+        &quot;price_currency_units&quot;: &quot;90.46506877&quot;,
+        &quot;source_position_value&quot;: &quot;3217.44&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;ARCX:SPY&quot;,
+        &quot;quantity&quot;: &quot;17.1751&quot;,
+        &quot;price_currency_units&quot;: &quot;226.42579456&quot;,
+        &quot;source_position_value&quot;: &quot;3888.89&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      },
+      {
+        &quot;instrument_id&quot;: &quot;XNAS:QQQ&quot;,
+        &quot;quantity&quot;: &quot;14.8531&quot;,
+        &quot;price_currency_units&quot;: &quot;194.81593252&quot;,
+        &quot;source_position_value&quot;: &quot;2893.62&quot;,
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;source_as_of&quot;: &quot;2026-10-30T20:01:00+00:00&quot;
+      }
+    ],
+    &quot;cash&quot;: &quot;2363.67&quot;,
+    &quot;positions_value&quot;: &quot;30967.66&quot;,
+    &quot;total_value&quot;: &quot;33331.33&quot;,
+    &quot;history_is_complete_in_document&quot;: false,
+    &quot;recent_event_count&quot;: 6
+  },
+  &quot;when&quot;: [
+    &quot;Extract or manually enter the synthetic statement fields into a proposed preview.&quot;,
+    &quot;Match each real instrument identifier; recompute each displayed position and the USD subtotal with Decimal.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;rounded_position_values_match_source&quot;: true,
+    &quot;position_count&quot;: 10,
+    &quot;recomputed_positions_value&quot;: &quot;30967.66&quot;,
+    &quot;recomputed_total_value&quot;: &quot;33331.33&quot;,
+    &quot;cash&quot;: &quot;2363.67&quot;,
+    &quot;currency&quot;: &quot;USD&quot;,
+    &quot;arithmetic&quot;: [
+      &quot;sum(source position values) = 30967.66&quot;,
+      &quot;30967.66 + 2363.67 = 33331.33&quot;
+    ],
+    &quot;account_total_reconciliation&quot;: &quot;matches&quot;,
+    &quot;transaction_history_complete&quot;: false,
+    &quot;xirr_eligibility&quot;: &quot;unavailable - statement contains only six recent events; missing full dated external cash-flow history&quot;,
+    &quot;automatic_financial_commit&quot;: false
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-imports-v1/local/expected-imports.json&quot;,
+      &quot;json_pointer&quot;: &quot;/statements/0&quot;,
+      &quot;use&quot;: &quot;Read current actual local SYNTHETIC fixture JSON; totals and all position value products verified.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-imports-v1/local/portfolio-statements.pdf&quot;,
+      &quot;use&quot;: &quot;Existing synthetic document, page 1; no new parser accuracy claim.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-imports-v1/local/statement-1.png&quot;,
+      &quot;use&quot;: &quot;Existing clean synthetic screenshot, page 1.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S01&quot;,
+    &quot;L1-S03&quot;,
+    &quot;L1-S04&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Decimal position products round to two USD decimals using ROUND_HALF_UP for this worked assertion; none of these values is an observed market price or owner holding.&quot;,
+    &quot;Expected-imports JSON is the inspected value source; this example does not claim a new PDF/OCR parser run.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Final field-specific rounding policy remains to agree; this example does not approve one for every currency.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E02 · SYNTHETIC GBX quote normalises once to GBP settlement</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E02&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC GBX quote normalises once to GBP settlement&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;instrument_id&quot;: &quot;XLON:CNX1&quot;,
+    &quot;artificial_raw_quote&quot;: &quot;12000&quot;,
+    &quot;quote_unit&quot;: &quot;GBX&quot;,
+    &quot;settlement_currency&quot;: &quot;GBP&quot;,
+    &quot;quantity&quot;: &quot;2&quot;,
+    &quot;fee_GBP&quot;: &quot;1.00&quot;,
+    &quot;trade_side&quot;: &quot;buy&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Normalise pence to pounds exactly once before computing the currency-unit gross and cash effect.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;unit_price_GBP&quot;: &quot;120.00&quot;,
+    &quot;gross_GBP&quot;: &quot;240.00&quot;,
+    &quot;fee_GBP&quot;: &quot;1.00&quot;,
+    &quot;cash_delta_GBP&quot;: &quot;-241.00&quot;,
+    &quot;quantity_delta&quot;: &quot;2&quot;,
+    &quot;arithmetic&quot;: [
+      &quot;12000 GBX / 100 = 120 GBP per unit&quot;,
+      &quot;2 × 120 GBP = 240 GBP&quot;,
+      &quot;-(240 + 1) GBP = -241 GBP&quot;
+    ],
+    &quot;double_normalisation_allowed&quot;: false
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S01&quot;,
+    &quot;L1-S04&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Toy quote/quantity/fee are artificial; real catalogue identity XLON:CNX1 has GBP currency and GBX quote unit.&quot;,
+    &quot;GBX is a quote subunit, not a second cash currency or an FX conversion.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: []
+}</code></pre></details><details><summary>L1-E03 · SYNTHETIC snapshot permits valuation but withholds missing-history metrics</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E03&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC snapshot permits valuation but withholds missing-history metrics&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;instrument_id&quot;: &quot;XLON:CNX1&quot;,
+    &quot;snapshot_quantity&quot;: &quot;5&quot;,
+    &quot;dated_purchase_history&quot;: null,
+    &quot;external_cashflows&quot;: null,
+    &quot;cost_basis&quot;: null,
+    &quot;available_mark&quot;: {
+      &quot;price_GBP&quot;: &quot;50.00&quot;,
+      &quot;as_of&quot;: &quot;2026-10-30T16:31:00Z&quot;,
+      &quot;status&quot;: &quot;valid for this synthetic scenario&quot;
+    }
+  },
+  &quot;when&quot;: [
+    &quot;Preview an opening holding snapshot and evaluate field-specific metric sufficiency.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;holding_market_value_GBP&quot;: &quot;250.00&quot;,
+    &quot;valuation_eligible&quot;: true,
+    &quot;valuation_label&quot;: &quot;synthetic price and timestamp; snapshot holding, incomplete history&quot;,
+    &quot;cost_basis&quot;: null,
+    &quot;purchase_date&quot;: null,
+    &quot;xirr&quot;: null,
+    &quot;xirr_status&quot;: &quot;unavailable - missing dated external cash flows/history&quot;,
+    &quot;cost_based_return_status&quot;: &quot;unavailable - cost basis not supplied&quot;,
+    &quot;invented_history_allowed&quot;: false
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S01&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Price 50 GBP and quantity 5 are artificial; a valid relevant mark permits holding valuation only.&quot;,
+    &quot;A snapshot is not silently converted to a dated purchase or contribution.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Owner-supplied real history can later enable eligible metrics; no actual sample is required for this synthetic example.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E04 · SYNTHETIC repeated file and confirmation return one logical commit</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E04&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC repeated file and confirmation return one logical commit&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_fault_injection&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;file_identity&quot;: &quot;same artificial file bytes/hash, account and import context&quot;,
+    &quot;approved_preview&quot;: &quot;same approved preview/version&quot;,
+    &quot;logical_commit_identity&quot;: &quot;synthetic-logical-commit-E04&quot;,
+    &quot;confirmation_delivery_count&quot;: 2,
+    &quot;retry_schedule&quot;: [
+      &quot;first delivery&quot;,
+      &quot;same delivery retried well beyond ten minutes&quot;
+    ],
+    &quot;financial_rows&quot;: &quot;same approved rows in both deliveries&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Send the same logical confirmation twice, with the retry occurring outside any short infrastructure idempotency-token window.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;logical_commits&quot;: 1,
+    &quot;durable_business_deduplication&quot;: true,
+    &quot;same_receipt_on_both_responses&quot;: true,
+    &quot;receipt_identity&quot;: &quot;synthetic-receipt-E04&quot;,
+    &quot;second_application_of_financial_rows&quot;: false,
+    &quot;cash_quantity_effect&quot;: &quot;applied exactly once&quot;,
+    &quot;audit&quot;: &quot;record repeated attempt/result without another financial effect&quot;,
+    &quot;ten_minute_AWS_token_sufficient&quot;: false
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S02&quot;,
+    &quot;L1-S07&quot;,
+    &quot;L1-S08&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S13&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;The receipt and logical-commit IDs are invented example labels, not existing records.&quot;,
+    &quot;Business idempotency persists across retries for the logical import; it cannot depend on a ten-minute infrastructure token.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Exact durable key schema and record-class retention/deletion remain to specify; this example approves no permanent retention policy.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E05 · SYNTHETIC equal trade values with different broker IDs stay distinct</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E05&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC equal trade values with different broker IDs stay distinct&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;instrument_id&quot;: &quot;XLON:CNX1&quot;,
+    &quot;account_context&quot;: &quot;one artificial account&quot;,
+    &quot;trades&quot;: [
+      {
+        &quot;broker_transaction_id&quot;: &quot;synthetic-broker-E05-A&quot;,
+        &quot;date&quot;: &quot;2026-10-30&quot;,
+        &quot;quantity&quot;: &quot;2&quot;,
+        &quot;unit_price_GBP&quot;: &quot;50.00&quot;,
+        &quot;cash_delta_GBP&quot;: &quot;-100.00&quot;
+      },
+      {
+        &quot;broker_transaction_id&quot;: &quot;synthetic-broker-E05-B&quot;,
+        &quot;date&quot;: &quot;2026-10-30&quot;,
+        &quot;quantity&quot;: &quot;2&quot;,
+        &quot;unit_price_GBP&quot;: &quot;50.00&quot;,
+        &quot;cash_delta_GBP&quot;: &quot;-100.00&quot;
+      }
+    ],
+    &quot;comparison_variant&quot;: &quot;same rows with the broker_transaction_id fields absent&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Compare candidate duplicates using stable source identity and context.&quot;,
+    &quot;Separately preview the no-ID variant.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;with_distinct_stable_source_ids&quot;: {
+      &quot;valid_trade_count&quot;: 2,
+      &quot;quantity_delta&quot;: &quot;4&quot;,
+      &quot;cash_delta_GBP&quot;: &quot;-200.00&quot;,
+      &quot;automatic_merge_allowed&quot;: false
+    },
+    &quot;without_source_ids&quot;: {
+      &quot;status&quot;: &quot;ambiguous possible duplicates - owner review required&quot;,
+      &quot;automatic_drop_or_merge_allowed&quot;: false
+    },
+    &quot;identity_rule&quot;: &quot;same date/amount/quantity alone does not establish one business transaction&quot;
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S04&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S07&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;All transaction labels and amounts are artificial. Source IDs are stable within a verified source/account namespace.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Broker layout and ID semantics require sample-backed evidence before live support.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E06 · SYNTHETIC deposit and GBP purchase distinguish external flow from internal trade</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E06&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC deposit and GBP purchase distinguish external flow from internal trade&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;instrument_id&quot;: &quot;XLON:CNX1&quot;,
+    &quot;starting_cash_GBP&quot;: &quot;0.00&quot;,
+    &quot;external_deposit_GBP&quot;: &quot;1000.00&quot;,
+    &quot;buy_quantity&quot;: &quot;2&quot;,
+    &quot;explicit_currency_unit_execution_price_GBP&quot;: &quot;50.00&quot;,
+    &quot;fee_GBP&quot;: &quot;1.00&quot;,
+    &quot;end_mark_GBP&quot;: &quot;50.00&quot;,
+    &quot;quote_unit_handling&quot;: &quot;GBP-normalised execution price is explicitly supplied; do not divide it by 100 again&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Apply an external deposit, then an internal purchase and fee; value the two units at the same artificial mark.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;cash_path_GBP&quot;: [
+      &quot;0.00&quot;,
+      &quot;1000.00&quot;,
+      &quot;899.00&quot;
+    ],
+    &quot;buy_gross_GBP&quot;: &quot;100.00&quot;,
+    &quot;buy_cash_delta_GBP&quot;: &quot;-101.00&quot;,
+    &quot;holding_value_GBP&quot;: &quot;100.00&quot;,
+    &quot;end_NAV_GBP&quot;: &quot;999.00&quot;,
+    &quot;external_contribution_GBP&quot;: &quot;1000.00&quot;,
+    &quot;purchase_external_flow_GBP&quot;: &quot;0.00&quot;,
+    &quot;fee_external_flow_GBP&quot;: &quot;0.00&quot;,
+    &quot;arithmetic&quot;: [
+      &quot;1000 - (2 × 50) - 1 = 899 GBP cash&quot;,
+      &quot;899 + 2 × 50 = 999 GBP NAV&quot;
+    ],
+    &quot;xirr_note&quot;: &quot;Do not add the internal purchase as a second portfolio contribution.&quot;
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;All amounts/marks are artificial; the real listing identity remains XLON:CNX1.&quot;,
+    &quot;This source explicitly supplies a price already in GBP currency units, despite the catalogue raw quote unit being GBX.&quot;,
+    &quot;Cash and holdings are assumed to belong to the same defined portfolio boundary.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Final portfolio/account boundary and metric cash-flow convention require detailed agreement.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E07 · SYNTHETIC FX conversion retains currency legs without external contribution</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E07&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC FX conversion retains currency legs without external contribution&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;starting_cash&quot;: {
+      &quot;GBP&quot;: &quot;1000.00&quot;,
+      &quot;USD&quot;: &quot;0.00&quot;
+    },
+    &quot;conversion_group&quot;: &quot;synthetic-fx-E07&quot;,
+    &quot;linked_legs&quot;: [
+      {
+        &quot;currency&quot;: &quot;GBP&quot;,
+        &quot;amount&quot;: &quot;-100.00&quot;
+      },
+      {
+        &quot;currency&quot;: &quot;USD&quot;,
+        &quot;amount&quot;: &quot;125.00&quot;
+      },
+      {
+        &quot;currency&quot;: &quot;GBP&quot;,
+        &quot;amount&quot;: &quot;-1.00&quot;,
+        &quot;role&quot;: &quot;fee&quot;
+      }
+    ],
+    &quot;valuation_rate&quot;: {
+      &quot;base_currency&quot;: &quot;USD&quot;,
+      &quot;reporting_currency&quot;: &quot;GBP&quot;,
+      &quot;GBP_per_USD&quot;: &quot;0.8&quot;,
+      &quot;as_of&quot;: &quot;2026-10-30T16:31:00Z&quot;,
+      &quot;status&quot;: &quot;valid artificial rate&quot;
+    }
+  },
+  &quot;when&quot;: [
+    &quot;Apply all linked conversion/fee legs and value each currency with the explicit artificial reporting rate.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;ending_cash&quot;: {
+      &quot;GBP&quot;: &quot;899.00&quot;,
+      &quot;USD&quot;: &quot;125.00&quot;
+    },
+    &quot;USD_cash_in_GBP&quot;: &quot;100.00&quot;,
+    &quot;NAV_GBP&quot;: &quot;999.00&quot;,
+    &quot;external_flow_GBP&quot;: &quot;0.00&quot;,
+    &quot;sum_unlike_currency_amounts_allowed&quot;: false,
+    &quot;arithmetic&quot;: [
+      &quot;1000 GBP - 100 GBP - 1 GBP = 899 GBP&quot;,
+      &quot;125 USD × 0.8 GBP/USD = 100 GBP&quot;,
+      &quot;899 GBP + 100 GBP = 999 GBP NAV&quot;
+    ],
+    &quot;conversion_is_internal_to_portfolio&quot;: true
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Both cash wallets lie inside the same artificial portfolio boundary.&quot;,
+    &quot;The 0.8 rate and all amounts are toy inputs, not observed FX or owner transactions.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Approved FX source, cutoff, conversion timing, missing-rate policy and rounding remain to specify.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E08 · SYNTHETIC unknown USD-to-GBP rate or missing USD price makes valuation partial</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E08&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC unknown USD-to-GBP rate or missing USD price makes valuation partial&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_fault_injection&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;reporting_currency&quot;: &quot;GBP&quot;,
+    &quot;known_cash_GBP&quot;: &quot;899.00&quot;,
+    &quot;variants&quot;: [
+      {
+        &quot;name&quot;: &quot;missing FX&quot;,
+        &quot;instrument_id&quot;: &quot;XNAS:AAPL&quot;,
+        &quot;quantity&quot;: &quot;2&quot;,
+        &quot;valid_artificial_price_USD&quot;: &quot;50.00&quot;,
+        &quot;USD_to_GBP_rate&quot;: null
+      },
+      {
+        &quot;name&quot;: &quot;missing price&quot;,
+        &quot;instrument_id&quot;: &quot;XNAS:AAPL&quot;,
+        &quot;quantity&quot;: &quot;2&quot;,
+        &quot;price_USD&quot;: null,
+        &quot;valid_artificial_GBP_per_USD&quot;: &quot;0.8&quot;
+      }
+    ]
+  },
+  &quot;when&quot;: [
+    &quot;Request a GBP portfolio valuation for each incomplete-input variant.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;portfolio_valuation_status&quot;: &quot;partial&quot;,
+    &quot;known_GBP_subtotal&quot;: &quot;899.00&quot;,
+    &quot;complete_NAV_GBP&quot;: null,
+    &quot;unknown_holding_value_GBP&quot;: null,
+    &quot;unknown_price_or_FX_replaced_with_zero&quot;: false,
+    &quot;display_requirement&quot;: &quot;Show the known subtotal, omitted exposure and missing-price/FX reason; never label the subtotal as complete NAV.&quot;,
+    &quot;dependent_metrics_status&quot;: &quot;withheld or visibly partial according to field-specific eligibility&quot;
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S01&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S14&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;AAPL is a real catalogue identity; quantities, price and FX rate are artificial.&quot;,
+    &quot;Unknown value is null/unavailable, not a zero-value holding.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Final staleness windows and field-specific partial-metric presentation remain to agree.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E09 · SYNTHETIC stale approved preview cannot commit after ledger revision change</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E09&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC stale approved preview cannot commit after ledger revision change&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_fault_injection&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;preview_bound_ledger_revision&quot;: &quot;synthetic-ledger-r7&quot;,
+    &quot;approved_preview_hash&quot;: &quot;synthetic-preview-hash-E09&quot;,
+    &quot;current_ledger_revision_at_confirmation&quot;: &quot;synthetic-ledger-r8&quot;,
+    &quot;revision_change_source&quot;: &quot;another completed import/correction in this proposed scenario&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Attempt confirmation using the approval bound to r7 while the ledger is at r8.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;financial_commit&quot;: &quot;refused - stale ledger/preview precondition&quot;,
+    &quot;new_financial_rows&quot;: 0,
+    &quot;ledger_revision_remains&quot;: &quot;synthetic-ledger-r8&quot;,
+    &quot;new_financial_mutations&quot;: false,
+    &quot;next_step&quot;: &quot;Recompute reconciliation/preview against r8, disclose the changes and obtain a new owner approval.&quot;,
+    &quot;reuse_old_approval_for_changed_preview&quot;: false,
+    &quot;rejection_audit_allowed&quot;: true
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S06&quot;,
+    &quot;L1-S08&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S13&quot;,
+    &quot;L1-S14&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Revision labels/hashes are artificial illustrative values, not existing application identifiers.&quot;,
+    &quot;A rejected attempt may append a security/audit attempt record; it does not alter financial state.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Exact approval expiry/reauthentication and conflict response contract remain proposed.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E10 · SYNTHETIC large staged import survives a crash without partial financial visibility</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E10&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC large staged import survives a crash without partial financial visibility&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_fault_injection&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;artificial_source_row_count&quot;: 10000,
+    &quot;logical_commit_identity&quot;: &quot;synthetic-logical-commit-E10&quot;,
+    &quot;staging&quot;: &quot;bounded batches sized from validated item/byte/service constraints&quot;,
+    &quot;fault&quot;: &quot;crash after some staging batches and before the completed commit marker&quot;,
+    &quot;prior_visible_ledger_revision&quot;: &quot;synthetic-ledger-r10&quot;
+  },
+  &quot;when&quot;: [
+    &quot;Stage the large synthetic import under one logical identity.&quot;,
+    &quot;Crash mid-stage, read all financial views, then retry/resume the same logical commit and finish its validated completion transition.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;during_partial_staging&quot;: {
+      &quot;financial_visibility&quot;: &quot;none of the uncompleted import rows&quot;,
+      &quot;visible_ledger_revision&quot;: &quot;synthetic-ledger-r10&quot;,
+      &quot;completed_marker_exists&quot;: false
+    },
+    &quot;on_retry&quot;: {
+      &quot;logical_identity_reused&quot;: true,
+      &quot;already_staged_rows_not_duplicated&quot;: true,
+      &quot;partial_stage_not_treated_as_completed&quot;: true
+    },
+    &quot;after_valid_completion&quot;: {
+      &quot;completed_logical_commits&quot;: 1,
+      &quot;receipt_identity&quot;: &quot;synthetic-receipt-E10&quot;,
+      &quot;financial_visibility&quot;: &quot;the validated completed import through its completed marker/read boundary&quot;,
+      &quot;consistent_snapshot_required&quot;: true
+    },
+    &quot;all_10000_rows_in_one_transaction_assumed&quot;: false,
+    &quot;guessed_transaction_item_or_batch_count&quot;: null,
+    &quot;cleanup_financial_effect&quot;: &quot;abandoned staging never changes financial state&quot;
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S02&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S08&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S13&quot;,
+    &quot;L1-S14&quot;,
+    &quot;L1-S15&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;Ten thousand is an artificial input row count, not a promised supported limit or generated/executed fixture.&quot;,
+    &quot;Exact ledger-row fanout, item sizes and service transaction count are deliberately unspecified; source rows need not map one-to-one to writes.&quot;,
+    &quot;This is a proposed staging/visibility acceptance contract, not implemented DynamoDB behavior.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Final maximum import size, batch sizing, staging expiry/recovery, completion concurrency/read-model contract and reconciliation evidence require design and validation.&quot;,
+    &quot;No RPO, RTO, retention or cloud operation is approved by this example.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E11 · SYNTHETIC fee correction appends history and preserves prior forecast inputs</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E11&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC fee correction appends history and preserves prior forecast inputs&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;proposed_worked_example&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;instrument_id&quot;: &quot;XLON:CNX1&quot;,
+    &quot;starting_cash_GBP&quot;: &quot;1000.00&quot;,
+    &quot;original_buy&quot;: {
+      &quot;synthetic_event_id&quot;: &quot;synthetic-buy-E11-original&quot;,
+      &quot;quantity&quot;: &quot;2&quot;,
+      &quot;unit_price_GBP&quot;: &quot;50.00&quot;,
+      &quot;fee_GBP&quot;: &quot;1.00&quot;,
+      &quot;cash_after_GBP&quot;: &quot;899.00&quot;,
+      &quot;input_revision&quot;: &quot;synthetic-ledger-r11&quot;
+    },
+    &quot;corrected_fee_GBP&quot;: &quot;2.00&quot;,
+    &quot;prior_forecast&quot;: {
+      &quot;synthetic_forecast_id&quot;: &quot;synthetic-forecast-E11&quot;,
+      &quot;ledger_input_revision&quot;: &quot;synthetic-ledger-r11&quot;,
+      &quot;input_hash&quot;: &quot;synthetic-original-input-hash-E11&quot;
+    }
+  },
+  &quot;when&quot;: [
+    &quot;Preview and approve a fee correction, then append a linked reversal/replacement group or an equally traceable superseding correction.&quot;,
+    &quot;Recompute current holdings/cash while retaining the old forecast input revision/hash.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;original_event_overwritten&quot;: false,
+    &quot;linked_reversal_replacement_example&quot;: {
+      &quot;reverse_original_cash_GBP&quot;: &quot;101.00&quot;,
+      &quot;reverse_original_quantity&quot;: &quot;-2&quot;,
+      &quot;replacement_cash_GBP&quot;: &quot;-102.00&quot;,
+      &quot;replacement_quantity&quot;: &quot;2&quot;,
+      &quot;net_correction_cash_GBP&quot;: &quot;-1.00&quot;,
+      &quot;net_correction_quantity&quot;: &quot;0&quot;
+    },
+    &quot;current_quantity&quot;: &quot;2&quot;,
+    &quot;current_cash_GBP&quot;: &quot;898.00&quot;,
+    &quot;cash_path_for_logical_states_GBP&quot;: [
+      &quot;899.00&quot;,
+      &quot;898.00&quot;
+    ],
+    &quot;external_flow_GBP&quot;: &quot;0.00&quot;,
+    &quot;prior_forecast_ledger_input_revision&quot;: &quot;synthetic-ledger-r11&quot;,
+    &quot;prior_forecast_input_hash&quot;: &quot;synthetic-original-input-hash-E11&quot;,
+    &quot;prior_forecast_inputs_rewritten&quot;: false,
+    &quot;new_analysis&quot;: &quot;May reference a new corrected ledger revision; it does not silently alter old forecast evidence.&quot;,
+    &quot;intermediate_reversal_visibility&quot;: &quot;Do not expose the corrective group as a completed partial state.&quot;
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/instruments.json&quot;,
+      &quot;use&quot;: &quot;Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S08&quot;,
+    &quot;L1-S09&quot;,
+    &quot;L1-S10&quot;,
+    &quot;L1-S11&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S13&quot;,
+    &quot;L1-S14&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;All prices/fees/events/revisions/forecasts are artificial acceptance inputs.&quot;,
+    &quot;Append-only history keeps the original + correction linkage; active calculations count the effective corrected event once.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Final correction representation and approval semantics remain proposed; this example does not prescribe every database write or approve retention/deletion defaults.&quot;
+  ]
+}</code></pre></details><details><summary>L1-E12 · SYNTHETIC XIRR golden, ambiguous-root and incomplete-document cases</summary><pre><code>{
+  &quot;id&quot;: &quot;L1-E12&quot;,
+  &quot;title&quot;: &quot;SYNTHETIC XIRR golden, ambiguous-root and incomplete-document cases&quot;,
+  &quot;is_synthetic&quot;: true,
+  &quot;kind&quot;: &quot;source_fixture&quot;,
+  &quot;status&quot;: &quot;proposed acceptance example; no application implementation claim&quot;,
+  &quot;given&quot;: {
+    &quot;complete_golden_case&quot;: {
+      &quot;currency&quot;: &quot;GBP&quot;,
+      &quot;cashflows&quot;: [
+        {
+          &quot;date&quot;: &quot;2025-01-01&quot;,
+          &quot;amount&quot;: &quot;-10000.00&quot;
+        },
+        {
+          &quot;date&quot;: &quot;2026-01-01&quot;,
+          &quot;amount&quot;: &quot;11000.00&quot;
+        }
+      ],
+      &quot;day_count_basis&quot;: &quot;ACT/365 for this golden assertion&quot;,
+      &quot;elapsed_days&quot;: 365
+    },
+    &quot;incomplete_statement_case&quot;: {
+      &quot;synthetic_document_id&quot;: &quot;synthetic-local-us-statement&quot;,
+      &quot;page&quot;: 1,
+      &quot;recent_event_count&quot;: 6,
+      &quot;history_is_complete_in_document&quot;: false
+    },
+    &quot;ambiguous_roots_variant&quot;: {
+      &quot;is_synthetic&quot;: true,
+      &quot;cashflows&quot;: [
+        {
+          &quot;day&quot;: 0,
+          &quot;amount&quot;: &quot;-100.00&quot;
+        },
+        {
+          &quot;day&quot;: 365,
+          &quot;amount&quot;: &quot;230.00&quot;
+        },
+        {
+          &quot;day&quot;: 730,
+          &quot;amount&quot;: &quot;-132.00&quot;
+        }
+      ],
+      &quot;day_count_basis&quot;: &quot;ACT/365 with exact elapsed days 0/365/730 for this toy assertion&quot;,
+      &quot;currency&quot;: &quot;GBP&quot;,
+      &quot;note&quot;: &quot;New artificial ambiguity variant, not sourced from the existing golden fixture.&quot;
+    }
+  },
+  &quot;when&quot;: [
+    &quot;Evaluate the complete two-cash-flow mathematical golden case.&quot;,
+    &quot;Separately assess whether the six-event statement excerpt can establish portfolio XIRR.&quot;,
+    &quot;Separately evaluate the artificial three-flow case at both candidate roots; inspect ambiguity instead of selecting whichever root a solver finds first.&quot;
+  ],
+  &quot;expected&quot;: {
+    &quot;golden_case&quot;: {
+      &quot;xirr&quot;: &quot;0.1&quot;,
+      &quot;xirr_percent&quot;: &quot;10.00&quot;,
+      &quot;NPV_residual_GBP&quot;: &quot;0.00&quot;,
+      &quot;formula&quot;: &quot;-10000 + 11000 / (1 + 0.10)^(365/365) = 0&quot;
+    },
+    &quot;incomplete_statement_case&quot;: {
+      &quot;xirr&quot;: null,
+      &quot;status&quot;: &quot;unavailable - incomplete dated external cash-flow history&quot;,
+      &quot;using_six_recent_dividends_as_complete_history_allowed&quot;: false
+    },
+    &quot;maturity_or_future_return_claim&quot;: false,
+    &quot;ambiguous_roots_variant&quot;: {
+      &quot;root_checks&quot;: [
+        {
+          &quot;rate&quot;: &quot;0.10&quot;,
+          &quot;rate_percent&quot;: &quot;10.00&quot;,
+          &quot;NPV_residual&quot;: &quot;0.00&quot;,
+          &quot;exact_equivalent_numerator&quot;: &quot;0.0000&quot;,
+          &quot;verification_formula&quot;: &quot;(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2&quot;
+        },
+        {
+          &quot;rate&quot;: &quot;0.20&quot;,
+          &quot;rate_percent&quot;: &quot;20.00&quot;,
+          &quot;NPV_residual&quot;: &quot;0.00&quot;,
+          &quot;exact_equivalent_numerator&quot;: &quot;0.0000&quot;,
+          &quot;verification_formula&quot;: &quot;(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2&quot;
+        }
+      ],
+      &quot;xirr&quot;: null,
+      &quot;status&quot;: &quot;ambiguous - more than one admissible root; no single authoritative XIRR&quot;,
+      &quot;select_first_solver_root&quot;: false,
+      &quot;replace_ambiguous_result_with_zero&quot;: false,
+      &quot;cashflow_sign_changes&quot;: 2,
+      &quot;eligible_roots_in_this_toy_case&quot;: [
+        &quot;0.10&quot;,
+        &quot;0.20&quot;
+      ]
+    }
+  },
+  &quot;source_refs&quot;: [
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-v1/local/xirr_known_answer.json&quot;,
+      &quot;use&quot;: &quot;Existing complete synthetic mathematical known-answer case; amounts/dates read and Decimal result verified.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;data/synthetic-imports-v1/local/expected-imports.json&quot;,
+      &quot;json_pointer&quot;: &quot;/statements/0&quot;,
+      &quot;use&quot;: &quot;Statement explicitly has incomplete history and six recent events.&quot;
+    },
+    {
+      &quot;repo_relative_path&quot;: &quot;docs/planning/aws-options-2026-11-01/product-requirements.md&quot;,
+      &quot;use&quot;: &quot;Working requirements; not end-to-end approval.&quot;
+    }
+  ],
+  &quot;story_refs&quot;: [
+    &quot;L1-S03&quot;,
+    &quot;L1-S05&quot;,
+    &quot;L1-S06&quot;,
+    &quot;L1-S12&quot;,
+    &quot;L1-S16&quot;
+  ],
+  &quot;assumptions&quot;: [
+    &quot;The golden pair is a mathematical check, not a forecast, realised owner return or proof of general solver correctness.&quot;,
+    &quot;One cash outflow followed by a positive terminal amount exactly 365 days later gives one positive root in this case.&quot;,
+    &quot;The ambiguity variant has exactly the stated annual intervals. Its zero NPV residual is evaluated through a common-denominator polynomial with Decimal to avoid repeating-decimal cancellation noise.&quot;
+  ],
+  &quot;pending_decision_notes&quot;: [
+    &quot;Production XIRR cash-flow boundary, day count, solver tolerance, multiple/no-root behavior and eligibility still require specification; this example does not approve all conventions.&quot;
+  ]
+}</code></pre></details></section><footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div><script>
+(()=>{const img=document.getElementById('workflow-image');const button=document.getElementById('workflow-toggle');if(!img||!button)return;const motion=matchMedia('(prefers-reduced-motion: reduce)');const status=document.getElementById('workflow-status');let playing=false;
+const stop=()=>{playing=false;img.src='visuals/import-workflow.png';button.setAttribute('aria-pressed','false');button.textContent='Play illustrative workflow';status.textContent='Static workflow. Financial visibility begins only after a valid commit.';};
+const preference=()=>{stop();button.disabled=motion.matches;if(motion.matches)status.textContent='Reduced motion enabled. Static workflow remains available.';};
+button.addEventListener('click',()=>{if(motion.matches)return;if(playing){stop();return;}playing=true;img.src='visuals/import-workflow.gif';button.setAttribute('aria-pressed','true');button.textContent='Pause animation';status.textContent='Illustrative animation of planned behaviour; no import or live telemetry is running.';});motion.addEventListener('change',preference);addEventListener('pagehide',stop);preference();})();
+</script></body></html>

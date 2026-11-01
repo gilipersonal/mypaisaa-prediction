@@ -1,0 +1,23 @@
+[
+  {
+    "account_id": "synthetic-dev-us",
+    "owner_id": "synthetic-dev-owner",
+    "currency": "USD",
+    "cash": "2363.67",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "owner_id": "synthetic-dev-owner",
+    "currency": "GBP",
+    "cash": "10250.60",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "owner_id": "synthetic-dev-owner",
+    "currency": "INR",
+    "cash": "1071922.75",
+    "is_synthetic": true
+  }
+]

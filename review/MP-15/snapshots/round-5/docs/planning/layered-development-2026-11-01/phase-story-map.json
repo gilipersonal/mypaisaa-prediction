@@ -1,0 +1,4423 @@
+{
+  "schema_version": "1.0-draft",
+  "project": "mypaisaa-prediction",
+  "target_jira_project": "MP",
+  "target_confluence_space": "mypaisaapr",
+  "as_of": "2026-11-01",
+  "status": "local_draft_unapproved_unreviewed",
+  "scope": "Product-wide planning story map; L1 detailed stories delegated to coordinator",
+  "authority": {
+    "documentation_and_stories": true,
+    "synthetic_local_dev_fixture_development": "previously authorised and separately prepared; no new fixture implementation in this map",
+    "application_implementation": false,
+    "aws_loading_deployment_paid_calls": false,
+    "external_jira_confluence_writes": false,
+    "ma_changes": false,
+    "commit_push_pr_merge_issue_closure": false
+  },
+  "actual_status": {
+    "baseline_approved": false,
+    "ux_approved": false,
+    "architecture_A_or_B_selected": false,
+    "backend": "health endpoint and local unauthenticated volatile sample SSE only",
+    "preview": "static concept; not planned SvelteKit PWA",
+    "synthetic": "local/dev 30-real-ID market/ledger packs and clean generic PDF/PNG/operations companion fixtures documented as prepared; no parser/application proof",
+    "product_features": "not implemented; no phase exit certified"
+  },
+  "sources": {
+    "requirements": "../aws-options-2026-11-01/product-requirements.md",
+    "decisions": "../aws-options-2026-11-01/product-decisions.json",
+    "forecasting_scope": "../aws-options-2026-11-01/forecasting-scope.md",
+    "source_register": "../aws-options-2026-11-01/forecasting-source-register.json",
+    "historical_implementation_plan": "../../implementation-plan.md",
+    "synthetic_coverage": "../../synthetic-import-samples.md"
+  },
+  "id_policy": "Lx-Sxx are local draft IDs, never MP keys. L1 IDs live only in the delegated detailed map. No Jira issues were created.",
+  "phases": [
+    {
+      "id": "PH-00",
+      "title": "Complete baseline and contract decisions",
+      "status": "draft_planning_only",
+      "planning_dependencies": [],
+      "implementation_dependencies": [],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Whole-product requirement/decision trace",
+        "Versioned shared contracts and approval boundary",
+        "UX/state inventory and local prototype acceptance plan"
+      ],
+      "exit_gate": "Complete draft layers now; whole baseline and UX still need owner approval.",
+      "failure_or_rollback": "Keep unresolved choices explicit; no application implementation or external writes.",
+      "story_ids": [
+        "L0-S01",
+        "L0-S02",
+        "L0-S03",
+        "L0-S04",
+        "L0-S05"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-01",
+      "title": "Standalone portfolio, all-method imports and source lineage",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-02"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "portfolio-import-spec.md (coordinator-owned draft)",
+        "portfolio-import-stories.json (coordinator-owned detailed L1 stories)",
+        "Ledger/import/identity/reconciliation/performance-sufficiency contracts"
+      ],
+      "exit_gate": "All CSV/Excel/PDF/screenshot/manual methods remain first-version requirements; supported layouts have sample-backed coverage and uncertain values require confirmation.",
+      "failure_or_rollback": "Quarantine uncertain extraction; retain originals; reverse confirmed imports through audited ledger events, never silent deletion.",
+      "story_ids": [],
+      "implementation_authorised": false,
+      "delegated_story_source": {
+        "path": "portfolio-import-stories.json",
+        "status": "coordinator_owned_local_draft_present_not_approved",
+        "story_ids": [
+          "L1-S01",
+          "L1-S02",
+          "L1-S03",
+          "L1-S04",
+          "L1-S05",
+          "L1-S06",
+          "L1-S07",
+          "L1-S08",
+          "L1-S09",
+          "L1-S10",
+          "L1-S11",
+          "L1-S12",
+          "L1-S13",
+          "L1-S14",
+          "L1-S15",
+          "L1-S16"
+        ],
+        "spec_path": "portfolio-import-spec.md",
+        "contracts_path": "portfolio-import-contracts.json",
+        "examples_path": "portfolio-import-examples.json"
+      }
+    },
+    {
+      "id": "PH-02",
+      "title": "Identity, private runtime, audit and launch cost controls",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-00"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Identity/recovery threat model",
+        "Storage/API/SSE/job and retention contracts",
+        "Main-dashboard cost/credit admission specifications"
+      ],
+      "exit_gate": "Foundation safeguards and cost attribution must precede paid jobs, real documents and external activation.",
+      "failure_or_rollback": "Fail closed for unknown paid-call coverage; stop optional work; retain durable state and deterministic reads.",
+      "story_ids": [
+        "L2-S01",
+        "L2-S02",
+        "L2-S03",
+        "L2-S04",
+        "L2-S05",
+        "L2-S06"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-03",
+      "title": "Market data, performance and portfolio risk",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-02"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Instrument/source capability matrix",
+        "Point-in-time data and schedule contracts",
+        "Financial/risk/benchmark definitions and golden cases"
+      ],
+      "exit_gate": "Synthetic mappings can be specified now; live listing/rights/pricing evidence is required only before live activation.",
+      "failure_or_rollback": "Display stale/partial status,fall back to eligible daily analysis,suppress unsupported alerts and preserve last trusted values.",
+      "story_ids": [
+        "L3-S01",
+        "L3-S02",
+        "L3-S03",
+        "L3-S04",
+        "L3-S05"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-04",
+      "title": "Scientific baseline, full Forecaster and controlled learning",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-03"
+      ],
+      "implementation_dependencies": [
+        "PH-03"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Horizon/task/feature/model/outcome contracts",
+        "F1–F8 and indicator specifications",
+        "Walk-forward/ablation/shadow/promotion evidence plan"
+      ],
+      "exit_gate": "Every agreed horizon is in the product baseline; eligibility depends on mature evidence and never on synthetic success.",
+      "failure_or_rollback": "Keep challenger in shadow/disabled; revert to prior compatible approved baseline/model without rewriting historic outputs.",
+      "story_ids": [
+        "L4-S01",
+        "L4-S02",
+        "L4-S03",
+        "L4-S04",
+        "L4-S05",
+        "L4-S06",
+        "L4-S07",
+        "L4-S08"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-05",
+      "title": "Evidence research, agents, chat and evaluations",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-02",
+        "PH-03"
+      ],
+      "implementation_dependencies": [
+        "PH-02",
+        "PH-03"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Direct client-SDK loop/tool manifests",
+        "Evidence/cards/conversation/memory contracts",
+        "T0/T1/T2,online and human evaluation plan"
+      ],
+      "exit_gate": "LLM research stays grounded/read-only; numerical models and realised-outcome validation remain separate.",
+      "failure_or_rollback": "Abort bounded loop,deny tools,quarantine tainted material and return deterministic/abstaining views with a run audit.",
+      "story_ids": [
+        "L5-S01",
+        "L5-S02",
+        "L5-S03",
+        "L5-S04",
+        "L5-S05",
+        "L5-S06"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-06",
+      "title": "Web discovery, ranked actions, proof and briefings",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-05"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Approved local PWA design and state inventory",
+        "Ranking/eligibility/briefing/alert contracts",
+        "Web journey and accessibility acceptance pack"
+      ],
+      "exit_gate": "Launch includes discovery-first web,all import methods,priority cost view,chat,all horizon sections and honest disabled/unavailable states.",
+      "failure_or_rollback": "Hide no uncertainty; disable ineligible ranked claims and paid analysis,retain ledger/audit/cost/freshness access.",
+      "story_ids": [
+        "L6-S01",
+        "L6-S02",
+        "L6-S03",
+        "L6-S04",
+        "L6-S05"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-07",
+      "title": "Native Apple, offline and push",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-02",
+        "PH-06"
+      ],
+      "implementation_dependencies": [
+        "PH-02",
+        "PH-06"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "SwiftUI/RN bridge and device matrix",
+        "Offline/privacy/accessibility contracts",
+        "Native and PWA push acceptance plan"
+      ],
+      "exit_gate": "First-version native/PWA push fallbacks follow verified platform capability; advanced integrations need an explicit launch/later choice.",
+      "failure_or_rollback": "Revoke affected session/cache,fall back to in-app notices and stale-labelled read cache; no unsafe offline financial writes.",
+      "story_ids": [
+        "L7-S01",
+        "L7-S02",
+        "L7-S03",
+        "L7-S04"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-08",
+      "title": "Operational acceptance and controlled personal launch",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-07"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-07"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Record-class recovery/retention runbook",
+        "Security/scientific/cost/UX gate report",
+        "Release evidence,admin requirements and owner runbook"
+      ],
+      "exit_gate": "Release approval and deployment/spending authority are separate; existing MP status and this draft certify neither.",
+      "failure_or_rollback": "Pause optional work,schedules or affected feature; replay only bounded idempotent jobs;restore isolated target and reconcile before switch.",
+      "story_ids": [
+        "L8-S01",
+        "L8-S02",
+        "L8-S03",
+        "L8-S04",
+        "L8-S05"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "PH-09",
+      "title": "Versioned extensions and conditional future transfer",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-08"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Market/theme/model/agent extension admission pack",
+        "Conditional MA interchange/parity/cutover boundary"
+      ],
+      "exit_gate": "Future markets and families remain retained scope with per-extension evidence and owner approval; no implied budget increase.",
+      "failure_or_rollback": "Deactivate extension and roll back version pointer while preserving history; no MA retirement without separately approved cutover.",
+      "story_ids": [
+        "L9-S01",
+        "L9-S02",
+        "L9-S03",
+        "L9-S04"
+      ],
+      "implementation_authorised": false
+    }
+  ],
+  "stories": [
+    {
+      "id": "L0-S01",
+      "phase_id": "PH-00",
+      "title": "Reconcile full scope and approval boundary",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Understand what is included before any application work starts.",
+      "acceptance_criteria": [
+        "Trace DEC-001–041, CAP-01–19 and the 140 captured source stories to planned phases, preserving differences from historical source wording.",
+        "Record current health/sample SSE/static preview separately from planned product capabilities; actual holdings and documents remain deferred.",
+        "Obtain an explicit full end-to-end requirements and UX decision after all layers have specifications, contracts, local stories and reviewed design options; a phase draft or fixture pass is insufficient."
+      ],
+      "required_evidence": [
+        "Decision-to-phase matrix; open-choice register; owner approval record or explicit unapproved status"
+      ],
+      "capability_ids": [
+        "CAP-19"
+      ],
+      "decision_ids": [
+        "DEC-041"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L0-S02",
+      "phase_id": "PH-00",
+      "title": "Select architecture and cost assumptions",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Choose a deliverable platform within the cash ceiling.",
+      "acceptance_criteria": [
+        "Compare active A lean AWS training versus B selective SageMaker training without declaring either selected; both retain Lambda and the direct Anthropic client-SDK loop.",
+        "Price full launch scope across dev/prod/data/models/evals/builds/storage/notifications and fixed subscriptions within £70 planned plus £30 reserve; record unverified credit as unverified.",
+        "Resolve or explicitly escalate old local-PostgreSQL/host assumptions and the historical £50 AWS target through approved ADRs; no cloud changes follow from a draft."
+      ],
+      "required_evidence": [
+        "Option ADR draft; dated price/rights assumptions; full-scope cash stress case with no usable credit"
+      ],
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "decision_ids": [
+        "DEC-023",
+        "DEC-024",
+        "DEC-026"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L0-S03",
+      "phase_id": "PH-00",
+      "title": "Freeze shared versioned contracts and state semantics",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Keep clients, data, agents and experiments compatible.",
+      "acceptance_criteria": [
+        "Define instrument/listing, money/FX, timestamps/known-at, event, ledger, forecast/task/horizon, model, agent, strategy and evaluation contracts with version/error/compatibility rules.",
+        "Define contract owners and change review; every record links relevant schema/data/code versions and no-trading authority.",
+        "Specify durable-state recovery independently of SSE delivery and preserve additive correction semantics."
+      ],
+      "required_evidence": [
+        "Schema examples; compatibility and migration cases; contract ownership table"
+      ],
+      "capability_ids": [
+        "CAP-01",
+        "CAP-08",
+        "CAP-09",
+        "CAP-12",
+        "CAP-18"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S01",
+        "L1-S08",
+        "L1-S09",
+        "L1-S14"
+      ]
+    },
+    {
+      "id": "L0-S04",
+      "phase_id": "PH-00",
+      "title": "Approve cross-client product flows",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "See the whole personal investment journey before coding.",
+      "acceptance_criteria": [
+        "Cover discovery-first dashboard, separate holdings/imports, per-horizon forecasts/proof, research/chat, action journal, cost visibility, owner approvals and privacy/recovery flows.",
+        "Document loading/empty/error/stale/offline/no-model/disagreement/abstention states and accessibility on web, iPhone, iPad and adaptive Duo layouts.",
+        "Verify the requested SvelteKit 3 version against current official availability before choosing packages; do not imply it is installed. Agree native/device support and local design/prototype before any authorised Sites sync."
+      ],
+      "required_evidence": [
+        "Local user-flow and state inventory; design options and explicit selection; version/device evidence"
+      ],
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16",
+        "CAP-17"
+      ],
+      "decision_ids": [
+        "DEC-018",
+        "DEC-022",
+        "DEC-030"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L0-S05",
+      "phase_id": "PH-00",
+      "title": "Define synthetic acceptance coverage and future real-sample intake",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Progress now without pretending sample layouts prove broker compatibility.",
+      "acceptance_criteria": [
+        "Index existing local/dev synthetic 30-real-ID packs and PDF/PNG/expected-import/operations companions; mark prices, accounts, transactions and outcomes synthetic.",
+        "Identify missing Excel, malformed/blurred/rotated/protected/hostile documents and add to planned coverage; existing clean fixtures do not prove parser robustness or forecast accuracy.",
+        "Allow actual screenshots/PDFs to arrive progressively through later private intake; no current planning exit requires them."
+      ],
+      "required_evidence": [
+        "Fixture coverage matrix; deferred real-sample register; labelled expected outputs"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-003",
+        "DEC-005",
+        "DEC-039",
+        "DEC-040",
+        "DEC-041"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S03",
+        "L1-S16"
+      ]
+    },
+    {
+      "id": "L2-S01",
+      "phase_id": "PH-02",
+      "title": "Cognito identity and owner recovery",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Reach my own data safely across devices.",
+      "acceptance_criteria": [
+        "Specify managed Apple/Google/passkey sign-in and server-verified account linking; email similarity alone cannot merge identities.",
+        "Define two independent passkey paths, verified provider links, lost-device/recovery proof, session revocation and sensitive-action reauthentication.",
+        "Demonstrate denied cross-environment/cross-owner access and audit recovery/link changes without exposing identity tokens."
+      ],
+      "required_evidence": [
+        "Threat model and auth contracts; recovery/linking negative scenarios; eventual web/native integration results"
+      ],
+      "capability_ids": [
+        "CAP-13",
+        "CAP-14",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-009",
+        "DEC-037",
+        "DEC-038"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L2-S02",
+      "phase_id": "PH-02",
+      "title": "Private durable storage and job contracts",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Keep changes durable despite interrupted jobs.",
+      "acceptance_criteria": [
+        "Specify isolated dev/prod identities and encrypted storage with least privilege; synthetic dev cannot write production.",
+        "Specify conditional ledger/audit/outbox writes and S3 hash/manifest publication boundaries; uploaded bytes and database pointers are not one transaction.",
+        "Retries use idempotency keys, bounded backoff and quarantine; no duplicate financial side effect after timeout/replay."
+      ],
+      "required_evidence": [
+        "Access-pattern model; write-failure matrix; planned idempotency/fault-injection cases"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-12",
+        "CAP-14"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S08",
+        "L1-S13",
+        "L1-S15"
+      ]
+    },
+    {
+      "id": "L2-S03",
+      "phase_id": "PH-02",
+      "title": "Launch dashboard cost meter and reconciliation",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Know combined cost before enabling paid workloads.",
+      "acceptance_criteria": [
+        "Main dashboard shows dev/prod/local API/shared-unallocated costs with provider/agent/model/feature/service drill-down and source age.",
+        "Separate live estimates from delayed billing and gross usage from credit applied/cash; Anthropic billing collection every 6 hours, AWS daily, bounded and cached.",
+        "Unknown shared credit stays unknown and is never multiplied per environment; show collector failures and reconciliation discrepancies."
+      ],
+      "required_evidence": [
+        "Cost event and allocation schemas; dashboard states; stale/unknown/adjusted-bill synthetic cases"
+      ],
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-021",
+        "DEC-022",
+        "DEC-025"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L2-S04",
+      "phase_id": "PH-02",
+      "title": "Enforce discretionary spending admission",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Keep paid work within approved operating policy.",
+      "acceptance_criteria": [
+        "Evaluate forecast monthly cash against £60 warning/£75 reduced optional work/£85 pause-new-optional-paid thresholds while retaining £100 total ceiling and £70+£30 plan.",
+        "Use bounded reservations/limits for concurrent jobs; refuse uncovered or unverifiable Claude calls and pause optional calls at agreed low-credit conditions without paid fallback.",
+        "Show uncertainty from delayed AWS billing; approval thresholds are not claimed to provide an instantaneous universal AWS shutoff. Keep deterministic essential views available."
+      ],
+      "required_evidence": [
+        "Admission state table; concurrent-reservation and unknown-credit cases; full-workload stress budget"
+      ],
+      "capability_ids": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-023",
+        "DEC-024",
+        "DEC-026"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L2-S05",
+      "phase_id": "PH-02",
+      "title": "Authenticated API and resumable SSE",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Recover the correct view after network or app interruption.",
+      "acceptance_criteria": [
+        "Version authenticated APIs and short-lived heartbeat-enabled SSE; use durable event IDs/cursor recovery where supported, refetch durable records after gaps.",
+        "Define reconnect/token-expiry/ordering/dedup/backpressure and multi-tab/background rules; no secrets or durable financial truth solely in a stream.",
+        "Cost active connections and validate selected API/Lambda streaming compatibility before implementation; starter unauthenticated volatile SSE is not production evidence."
+      ],
+      "required_evidence": [
+        "API/event examples; disconnect/expired-session cases; streaming compatibility and cost evidence"
+      ],
+      "capability_ids": [
+        "CAP-12",
+        "CAP-16"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S14"
+      ]
+    },
+    {
+      "id": "L2-S06",
+      "phase_id": "PH-02",
+      "title": "Telemetry, evidence separation and original archive",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Investigate a run without leaking financial documents.",
+      "acceptance_criteria": [
+        "Plan logs 14 days, rich traces 30, run summaries 90 subject to measured cost; maintain distinct durable financial/forecast/approval/source audit lifecycles.",
+        "Plan encrypted private S3 originals with renewable 24-month retention and owner extension/deletion controls; define versions/derivatives/backups and no automatic expiry deletion yet.",
+        "Redact document contents, holdings, tokens and prompts from operational telemetry; correlation IDs link to access-controlled evidence."
+      ],
+      "required_evidence": [
+        "Record-class retention table; redaction cases; source-to-ledger/model audit examples"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-09",
+        "CAP-12",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-020",
+        "DEC-021",
+        "DEC-034",
+        "DEC-036"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S13"
+      ]
+    },
+    {
+      "id": "L3-S01",
+      "phase_id": "PH-03",
+      "title": "Instrument identity, entitlement and cadence",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Know which listing and actual data support each analysis.",
+      "acceptance_criteria": [
+        "Support initial UK/US/India 20–30 real-ID synthetic instruments, preserving issuer/security/listing/venue, GBP/GBX/local currencies and NAV versus OHLC semantics.",
+        "Before live activation, resolve owner identities and source rights/history/latency/storage for Yahoo plus exact Twelve Data Grow tier; then propose the balanced research watchlist for owner approval.",
+        "Record source capability by listing; 30-minute risk/quote refresh only where supported, otherwise daily labelled analysis and suppressed unsupported intraday alerts; no paid provider addition without approval."
+      ],
+      "required_evidence": [
+        "Listing/capability matrix; entitlement evidence before live; ambiguous/dual-listing/GBX/NAV cases"
+      ],
+      "capability_ids": [
+        "CAP-01",
+        "CAP-18"
+      ],
+      "decision_ids": [
+        "DEC-003",
+        "DEC-006",
+        "DEC-019",
+        "DEC-040",
+        "DEC-041"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S01",
+        "L1-S04",
+        "L1-S05"
+      ]
+    },
+    {
+      "id": "L3-S02",
+      "phase_id": "PH-03",
+      "title": "Point-in-time ingestion and data health",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Use history that was actually available at the decision time.",
+      "acceptance_criteria": [
+        "Pin source publication/observation/ingestion/known-at times, corporate actions, FX/calendar versions and quality flags.",
+        "Backfill toward ten years or inception where entitled; gaps/revisions/partial exposure history remain explicit and cannot be replaced by current constituents.",
+        "Handle provider disagreement, missing bars, market holidays/half-days/DST, quota failures and safe daily fallback with provenance."
+      ],
+      "required_evidence": [
+        "Provider contract fixtures; ingestion/revision/gap cases; per-market coverage report"
+      ],
+      "capability_ids": [
+        "CAP-01",
+        "CAP-05",
+        "CAP-06"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L3-S03",
+      "phase_id": "PH-03",
+      "title": "Ledger performance, XIRR and benchmarks",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Compare money-weighted history without invented cash flows.",
+      "acceptance_criteria": [
+        "Consume approved L1 ledger/read/sufficiency contracts; compute XIRR and holdings only where required cash flows and prices exist, otherwise show supported partial analysis.",
+        "Specify GBP overview/local detail, FX date, fees/income/corporate-action and return conventions; choose holding, blended-portfolio and global equity benchmarks.",
+        "Use decimal money and independent known-answer reconciliation cases; never infer transactions from a holdings snapshot to manufacture XIRR."
+      ],
+      "required_evidence": [
+        "L1 contract join cases; financial golden fixtures; benchmark methodology approval"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-03"
+      ],
+      "decision_ids": [
+        "DEC-011",
+        "DEC-014",
+        "DEC-029"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S09",
+        "L1-S10",
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "L3-S04",
+      "phase_id": "PH-03",
+      "title": "Portfolio exposure and risk facts",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Recognise concentration, overlap and both loss measures.",
+      "acceptance_criteria": [
+        "Show portfolio/holding decline from peak and loss versus cost basis separately with explicit windows and missing-data eligibility.",
+        "Retain confirmed portfolio 10%/20% and holding 15%/25% warning/severe defaults as configurable, requiring agreed measurement/portfolio-priority weights.",
+        "Compute exposure/overlap/HHI/currency and scenario facts only from dated evidence; label provisional proxy or missing holdings exposure."
+      ],
+      "required_evidence": [
+        "Risk formula/window decision; concentration/loss golden fixtures; incomplete-cost/exposure cases"
+      ],
+      "capability_ids": [
+        "CAP-03",
+        "CAP-06",
+        "CAP-08"
+      ],
+      "decision_ids": [
+        "DEC-007",
+        "DEC-010",
+        "DEC-027"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S09",
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "L3-S05",
+      "phase_id": "PH-03",
+      "title": "Daily and market-aware refresh orchestration",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "See accurate freshness without excessive background calls.",
+      "acceptance_criteria": [
+        "Separate daily formal forecast readiness from supported 30-minute quote/risk schedules and broader daily research refresh.",
+        "Define per-market completion/watermark and last-success/next-due states; retries cannot create duplicate forecasts or hide missed jobs.",
+        "Budget batching, source quota, catch-up and throttled loops before enabling schedules."
+      ],
+      "required_evidence": [
+        "Market schedule examples; closed-market/missed-run cases; quota/cost envelope"
+      ],
+      "capability_ids": [
+        "CAP-01",
+        "CAP-12"
+      ],
+      "decision_ids": [
+        "DEC-006",
+        "DEC-019"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S01",
+      "phase_id": "PH-04",
+      "title": "Forecast tasks, calendars and mature labels",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Read each horizon with an exact statistical meaning.",
+      "acceptance_criteria": [
+        "Define next trading day,5/20 trading days and3/6/12months: target, total/price/excess return, currency, calendar target date, maturity and correction policy.",
+        "Preserve3–5-year assumption-based scenarios separately; no score or maturity label implies future outcomes have already occurred.",
+        "Each prediction pins as-of/cutoff/task/horizon/model/calibration/data/code and probability or interval interpretation."
+      ],
+      "required_evidence": [
+        "ForecastTask examples for every horizon/market; maturity/holiday/correction cases"
+      ],
+      "capability_ids": [
+        "CAP-05",
+        "CAP-09",
+        "CAP-10",
+        "CAP-18"
+      ],
+      "decision_ids": [
+        "DEC-001",
+        "DEC-030"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S02",
+      "phase_id": "PH-04",
+      "title": "Transparent rule and statistical baseline",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Have interpretable comparisons before a challenger is trusted.",
+      "acceptance_criteria": [
+        "Specify the retained indicators/pillars, seeds/lookbacks and macro-basket completeness from forecasting-scope; NAV series do not receive fake candle features.",
+        "Implement only after approval: known-answer rules plus naïve/trend and reproducible bootstrap/linear baselines with explicit uncertainty meaning.",
+        "Distinguish rule strength from calibrated probabilities; preserve disabled/insufficient/no-clear-view states."
+      ],
+      "required_evidence": [
+        "Indicator and baseline contracts; per-kind golden fixtures; seeded replay report"
+      ],
+      "capability_ids": [
+        "CAP-02",
+        "CAP-04",
+        "CAP-05"
+      ],
+      "decision_ids": [
+        "DEC-016"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S03",
+      "phase_id": "PH-04",
+      "title": "Walk-forward backtest and leakage controls",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Judge forecasts using evidence that excludes the future.",
+      "acceptance_criteria": [
+        "Use temporal walk-forward folds with horizon-aware purge/embargo and train-only transforms/calibration; deliberately leaky fixtures must fail.",
+        "Record dataset hashes, code/feature/model versions, split dates, fees/spreads/income/FX, survivorship and history limits.",
+        "Report calibration/error/coverage/turnover/growth/drawdown/sample intervals and benchmarks; decide objective trade-offs and evidence thresholds before promotion."
+      ],
+      "required_evidence": [
+        "F1/F2 replay specification; leakage negative cases; reproducibility and subgroup report"
+      ],
+      "capability_ids": [
+        "CAP-04",
+        "CAP-05",
+        "CAP-09",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-002",
+        "DEC-011",
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S04",
+      "phase_id": "PH-04",
+      "title": "Risk regimes, analogs and event studies",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Understand uncertainty around similar conditions without overstating sparse events.",
+      "acceptance_criteria": [
+        "Preserve F3 regimes/volatility/downside and F4 analog/event modules with past-only smoothing, horizon-aware neighbour exclusion and uncertainty.",
+        "Numerical code computes event count/spread/interval; overlapping outcomes and multiple testing are accounted for.",
+        "Sparse/biased event data and missing point-in-time events yield low-evidence/unavailable states rather than a confident effect."
+      ],
+      "required_evidence": [
+        "F3/F4 schemas; analog overlap/leakage tests; market/event subgroup evidence"
+      ],
+      "capability_ids": [
+        "CAP-05",
+        "CAP-06"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S05",
+      "phase_id": "PH-04",
+      "title": "Directional and distribution challengers",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Compare better models without losing the baseline.",
+      "acceptance_criteria": [
+        "Preserve F5 tree/gradient challenger, direction/quantiles/calibration and interpretable drivers; conformal labels require demonstrated time-series coverage.",
+        "Run R0 rules/statistical→M1 numerical→M2 LLM-structured features→M3 approved family ablations, measuring incremental cost and evidence.",
+        "Choose A/B execution via PH00 ADR; no training calls or artefact promotion authorised by this story draft."
+      ],
+      "required_evidence": [
+        "Model adapter/evaluation pack; ablation and calibration plan; resource/cost estimate"
+      ],
+      "capability_ids": [
+        "CAP-05",
+        "CAP-09",
+        "CAP-18"
+      ],
+      "decision_ids": [
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S06",
+      "phase_id": "PH-04",
+      "title": "Pattern detectors and contribution experiments",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Test patterns and portfolio ideas without treating them as orders.",
+      "acceptance_criteria": [
+        "Retain F8 candle/chart/technical detectors with hand-marked examples, confirmation lag, per-kind eligibility and false-discovery/out-of-sample controls.",
+        "Retain F7 contribution/rebalance scenarios, protected positions/bands and fees, comparing downside improvement against lost growth.",
+        "Scenario assumptions and owner decision journal remain explicit; no broker credential or executable order exists."
+      ],
+      "required_evidence": [
+        "F7/F8 contracts and golden examples; strategy replay; no-trading cases"
+      ],
+      "capability_ids": [
+        "CAP-03",
+        "CAP-05",
+        "CAP-09"
+      ],
+      "decision_ids": [
+        "DEC-002",
+        "DEC-004"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S07",
+      "phase_id": "PH-04",
+      "title": "Immutable forecast/outcome scorecards",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Inspect the record including failures and later corrections.",
+      "acceptance_criteria": [
+        "Append forecasts, revisions, mature outcomes and corrections; never overwrite unsuccessful predictions or score before maturity.",
+        "Show proof/eligibility, horizon/holding/model/regime track record and30/90/365-day summaries with sample sufficiency and censoring.",
+        "Durable audit and raw score evidence survive operational log expiry."
+      ],
+      "required_evidence": [
+        "Prediction/outcome schema; maturity/revision invariants; scorecard reconciliation"
+      ],
+      "capability_ids": [
+        "CAP-09",
+        "CAP-10"
+      ],
+      "decision_ids": [
+        "DEC-021",
+        "DEC-036"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L4-S08",
+      "phase_id": "PH-04",
+      "title": "Challenger shadow, owner promotion and rollback",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Keep control over changes to live numerical decisions.",
+      "acceptance_criteria": [
+        "Require baseline/mature-outcome evidence then shadow observation and explicit owner approval for every live model/calibration/strategy change.",
+        "Agree per-horizon metric thresholds, effectively independent sample sufficiency, shadow duration, subgroup gates and probation; eight weeks does not validate 12 months.",
+        "Pin previous compatible model/data/feature/calibration pointers; failed or drifted candidate stays disabled and rollback preserves audit."
+      ],
+      "required_evidence": [
+        "Promotion evidence contract; approval/rejection/rollback walkthrough; immature-evidence rejection cases"
+      ],
+      "capability_ids": [
+        "CAP-09",
+        "CAP-13",
+        "CAP-18"
+      ],
+      "decision_ids": [
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S01",
+      "phase_id": "PH-05",
+      "title": "Evidence ingestion and structured LLM factors",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Know where research claims and model features came from.",
+      "acceptance_criteria": [
+        "Capture citations/content hashes/publication/known-at/extraction times and rights for news/filings/events/exposures; deduplicate and quarantine untrusted material.",
+        "Version extraction prompt/model/schema/confidence and tag possible hindsight in retrospective article extraction.",
+        "News sentiment/factors remain shadow until prospective or justified point-in-time ablation evidence permits approved use."
+      ],
+      "required_evidence": [
+        "Evidence/factor contracts; source injection and time-contamination cases; citation audit"
+      ],
+      "capability_ids": [
+        "CAP-06",
+        "CAP-07",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-016"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S02",
+      "phase_id": "PH-05",
+      "title": "Bounded direct Anthropic client-SDK agent runtime",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Get research without uncontrolled tools or spending.",
+      "acceptance_criteria": [
+        "Specify official Python client-SDK loop on Lambda, direct Claude-hosted inference and typed validated tool results; do not use Anthropic Agent SDK subprocess runtime.",
+        "Nine reference responsibilities have allowlisted read-only scopes, budgets, timeout/turn/token caps and durable continuation/cancellation; roles need not all invoke an LLM.",
+        "Agents cannot trade, fetch secrets, alter ledger truth, edit model weights or promote themselves; budget admission precedes calls including evaluations."
+      ],
+      "required_evidence": [
+        "AgentManifest/tool schemas; denied-tool/timeout/continuation cases; cost trace"
+      ],
+      "capability_ids": [
+        "CAP-07",
+        "CAP-13",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-024"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S03",
+      "phase_id": "PH-05",
+      "title": "Contextual chat and research cards",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Ask about holdings and candidates with visible supporting evidence.",
+      "acceptance_criteria": [
+        "Retain stance/profile/overlap/benchmark/bull-bear/scenario/valuation/earnings cards and shared cross-device conversation context.",
+        "Bound bull/bear to two arguments plus adjudication; source claims and numerics resolve to permitted evidence and deterministic calculators.",
+        "Chat cannot bypass forecast eligibility or fabricate missing prices/history; technical detail/glossary expand from concise answers."
+      ],
+      "required_evidence": [
+        "Card/conversation API examples; citation/numerical/abstention cases; UX context walkthrough"
+      ],
+      "capability_ids": [
+        "CAP-07",
+        "CAP-10",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-014",
+        "DEC-015",
+        "DEC-016"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S04",
+      "phase_id": "PH-05",
+      "title": "Layered safety and quality evaluations",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Know the combined system follows boundaries as well as sounding plausible.",
+      "acceptance_criteria": [
+        "Specify T0 deterministic checks,T1 bounded model cases,T2 end-to-end capability/safety cases plus online checks, sampled judges and owner calibration.",
+        "Test prompt injection, identity/privacy/cross-env leakage, ungrounded numbers, citation failures, no-trading and budget exhaustion; LLM judges do not replace realised outcomes.",
+        "Keep eval provenance/cost and human disagreement; approve release thresholds before activation."
+      ],
+      "required_evidence": [
+        "Evaluation pack and adversarial corpus; gate thresholds; human-calibration protocol"
+      ],
+      "capability_ids": [
+        "CAP-14",
+        "CAP-09"
+      ],
+      "decision_ids": [
+        "DEC-021",
+        "DEC-024",
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S05",
+      "phase_id": "PH-05",
+      "title": "Owner settings, approvals and scope controls",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Review a change before it affects financial research.",
+      "acceptance_criteria": [
+        "Version schemas/ranges for risk/ranking/agent settings; show proposed impact,evidence,cost and rollback before sensitive approval.",
+        "Record verified owner decisions and reject stale/replayed approvals; denied requests cannot retry endlessly.",
+        "A configuration change cannot grant broader tools, sources, budgets or infrastructure authority."
+      ],
+      "required_evidence": [
+        "Approval/settings state machine; stale/replay and privilege-boundary cases"
+      ],
+      "capability_ids": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-010",
+        "DEC-017",
+        "DEC-027",
+        "DEC-028"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L5-S06",
+      "phase_id": "PH-05",
+      "title": "Scoped memory and cache economics",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Reuse context while retaining control over remembered information.",
+      "acceptance_criteria": [
+        "Keep owner-visible scoped notes, correction/forget controls, taint and source audit; notes cannot replace ledger values or approved settings.",
+        "Bound context and cache stable prefixes only within privacy scopes; measure savings and all cache costs.",
+        "Deletion/correction policy covers note derivatives without deleting required durable financial audit evidence."
+      ],
+      "required_evidence": [
+        "Memory/cache schemas and retention join; isolation/forgetting cases; cache cost evidence"
+      ],
+      "capability_ids": [
+        "CAP-15",
+        "CAP-14"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L6-S01",
+      "phase_id": "PH-06",
+      "title": "Discovery-first web dashboard with launch cost visibility",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Find useful research and operating limits at a glance.",
+      "acceptance_criteria": [
+        "Adaptive accessible PWA opens on discovery/market view with main-dashboard costs, freshness, eligibility and separate holdings navigation.",
+        "Search/filter/saved watchlists include unowned candidates, peers/benchmarks/themes and impact on current overlap.",
+        "Use approved local design/package baseline; static Sites concept does not count as the PWA."
+      ],
+      "required_evidence": [
+        "Web state matrix and local design selection; eventual accessibility/visual evidence; cost join cases"
+      ],
+      "capability_ids": [
+        "CAP-16",
+        "CAP-17",
+        "CAP-08"
+      ],
+      "decision_ids": [
+        "DEC-018",
+        "DEC-022"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L6-S02",
+      "phase_id": "PH-06",
+      "title": "Transparent ranked actions and disagreement",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Understand why an action is suggested and when no action is justified.",
+      "acceptance_criteria": [
+        "Show add/hold/pause/trim/rebalance with holdings/candidate distinction,reasons,uncertainty,portfolio impact and horizon.",
+        "Apply eligibility/abstention before the combined 35% growth/40% protection/25% opportunity ranking, with component scores and agreed normalization/tie/action bands.",
+        "Expose rules,ML and LLM-assisted views separately; disagreement and unavailable inputs cannot be hidden by a single score."
+      ],
+      "required_evidence": [
+        "Ranking formula/action-band approval; missing/conflicting/tied case matrix; deterministic reference outputs"
+      ],
+      "capability_ids": [
+        "CAP-03",
+        "CAP-10",
+        "CAP-17"
+      ],
+      "decision_ids": [
+        "DEC-002",
+        "DEC-004",
+        "DEC-016",
+        "DEC-017",
+        "DEC-028"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L6-S03",
+      "phase_id": "PH-06",
+      "title": "Balanced horizon proof and scenario experience",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Compare short and long horizons without a false accuracy impression.",
+      "acceptance_criteria": [
+        "Show nextday/5/20days, 3/6/12 months and separate 3–5-year scenario sections with cutoff,uncertainty,eligibility and evidence.",
+        "F6 side-by-side explanation, fan/range charts, regime/analog/event/pattern sheets and model/track-record proof remain accessible.",
+        "No-model/in-practice/disabled/stale/unavailable states work in chart and text alternatives; simple/technical modes preserve material uncertainty."
+      ],
+      "required_evidence": [
+        "Per-horizon state inventory; accessibility text alternatives; forecast/proof API join evidence"
+      ],
+      "capability_ids": [
+        "CAP-05",
+        "CAP-10",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-001",
+        "DEC-015",
+        "DEC-030"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L6-S04",
+      "phase_id": "PH-06",
+      "title": "Daily brief, risk alerts and decision journal",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Receive useful changes without excessive or misleading interruption.",
+      "acceptance_criteria": [
+        "Action-first summary 07:30 Europe/London with per-market timestamps, priorities,risks,changes and upcoming events; quiet hours 22:00–07:00.",
+        "Define material/critical thresholds,weekends,cooldown,dedup and denied-push fallback; immediate means after detection using available cadence.",
+        "Retain in-app/chat alerts,wrap/reflection requirements and I-acted journal; no alert executes an action."
+      ],
+      "required_evidence": [
+        "Notification/briefing state table; DST/quiet/missed/duplicate cases; privacy-safe payload examples"
+      ],
+      "capability_ids": [
+        "CAP-11",
+        "CAP-09"
+      ],
+      "decision_ids": [
+        "DEC-008",
+        "DEC-012",
+        "DEC-013",
+        "DEC-015",
+        "DEC-032",
+        "DEC-033"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L6-S05",
+      "phase_id": "PH-06",
+      "title": "Web import, audit and recovery journey joins",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Complete a coherent daily web flow across the separate layers.",
+      "acceptance_criteria": [
+        "Consume detailed L1 preview/confirm/reversal/partial-history flows without diverging from canonical ledger contracts.",
+        "Join source→ledger→risk→forecast→action→outcome→audit with clear error/stale/permission states.",
+        "Cross-client deep links retrieve durable authorized state; offline mode labels cached ages and blocks unsafe writes."
+      ],
+      "required_evidence": [
+        "L1 story trace links; full journey walkthrough; offline/reconnect/error scenarios"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-12",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-005",
+        "DEC-014",
+        "DEC-021"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S02",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S11",
+        "L1-S12",
+        "L1-S14"
+      ]
+    },
+    {
+      "id": "L7-S01",
+      "phase_id": "PH-07",
+      "title": "Native SwiftUI within React Native shell",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Use the core product natively on iPhone and iPad.",
+      "acceptance_criteria": [
+        "Swift owns native views,persistence,widgets and secure-device integration; RN shell owns navigation/bridge contracts.",
+        "Deliver approved adaptive dashboard,holdings,imports,forecast/proof,chat,cost and approval journeys across iPhone/iPad/Duo matrix.",
+        "Test shared API/event and shell/native schema compatibility and discoverable error/recovery states."
+      ],
+      "required_evidence": [
+        "Bridge contract; device/OS acceptance matrix; native snapshots and contract results"
+      ],
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-018",
+        "DEC-022"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S02",
+        "L1-S06",
+        "L1-S14"
+      ]
+    },
+    {
+      "id": "L7-S02",
+      "phase_id": "PH-07",
+      "title": "Offline cache, privacy and accessibility",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Read the last trusted state safely on any supported device.",
+      "acceptance_criteria": [
+        "Encrypt/cache only approved data,display per-record age,refetch after reconnect and revoke access/session caches appropriately.",
+        "VoiceOver,Dynamic Type,reduced motion,focus/chart alternatives and large/adaptive layouts satisfy agreed acceptance.",
+        "No confidential holdings appear on lockscreen,app snapshots or exported share content by default without approved settings."
+      ],
+      "required_evidence": [
+        "Offline/revoked-session tests; native accessibility walkthrough; privacy state matrix"
+      ],
+      "capability_ids": [
+        "CAP-16",
+        "CAP-14"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L7-S03",
+      "phase_id": "PH-07",
+      "title": "PWA/native push and permission fallbacks",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Receive the same material alert within actual platform constraints.",
+      "acceptance_criteria": [
+        "Implement first-version app/chat,native and PWA push per verified OS/browser capability and user permission.",
+        "Use durable outbox,dedup/deep links,quiet hours and neutral payloads; denied/background-disabled delivery remains visible in-app.",
+        "Measure delivery limitations; do not promise instant OS delivery or infer no risk from silence."
+      ],
+      "required_evidence": [
+        "Supported-platform evidence; permission/quiet/duplicate/deep-link cases"
+      ],
+      "capability_ids": [
+        "CAP-11",
+        "CAP-16"
+      ],
+      "decision_ids": [
+        "DEC-012",
+        "DEC-033"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L7-S04",
+      "phase_id": "PH-07",
+      "title": "Native capability backlog without hidden scope loss",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Retain useful device integrations while keeping activation bounded.",
+      "acceptance_criteria": [
+        "Specify widgets,share-sheet intake,search/deep links,Siri/AppIntents and long-job Live Activities with privacy,availability and cost constraints.",
+        "Classify each capability launch-required or later activation by explicit owner choice; no silent removal of inherited scope.",
+        "Keep Android product screens outside current agreed release scope; RN shell does not imply an Android UI."
+      ],
+      "required_evidence": [
+        "Capability/release decision table; platform fallback and privacy examples"
+      ],
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L8-S01",
+      "phase_id": "PH-08",
+      "title": "Release readiness and reconciled actual-input onboarding",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Enable only the scope backed by approved evidence.",
+      "acceptance_criteria": [
+        "Require approved full baseline/UX,per-layer acceptance and whole-product contracts/evidence; no Jira status proves release readiness.",
+        "Actual holdings/listings/documents may be added progressively; verify identity,source entitlements and named layout coverage before their real use, retaining unsupported review/manual paths.",
+        "No live claims or training accuracy derives from synthetic fixtures; no deployment/spend follows automatically from draft approval."
+      ],
+      "required_evidence": [
+        "Release trace/coverage matrix; named-live-universe and layout sign-off; remaining-gap decision"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-14",
+        "CAP-19"
+      ],
+      "decision_ids": [
+        "DEC-003",
+        "DEC-039",
+        "DEC-040",
+        "DEC-041"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S16"
+      ]
+    },
+    {
+      "id": "L8-S02",
+      "phase_id": "PH-08",
+      "title": "Restore, rollback and monthly audit exercises",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Recover the portfolio and its evidence together.",
+      "acceptance_criteria": [
+        "Agree RPO/RTO by record class,perform monthly focused exercises plus relevant storage/import/audit change checks.",
+        "Restore original versions,ledger,audit,outcomes,approval and model pointers into isolated recovery target and reconcile counts/hashes/financial balances.",
+        "Exercise rollback of app/contracts/model/calibration and failed import reversal; no destructive restore into production or automatic expiry deletion."
+      ],
+      "required_evidence": [
+        "Recovery runbook and approved targets; isolated restore report; source-to-record reconciliation"
+      ],
+      "capability_ids": [
+        "CAP-08",
+        "CAP-09",
+        "CAP-12"
+      ],
+      "decision_ids": [
+        "DEC-034",
+        "DEC-035",
+        "DEC-036"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S13"
+      ]
+    },
+    {
+      "id": "L8-S03",
+      "phase_id": "PH-08",
+      "title": "Resilience, incidents and bounded self-recovery",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Recognise and recover failed jobs without duplicate or unauthorized work.",
+      "acceptance_criteria": [
+        "Test queue/DLQ/replay limits,out-of-order conversation events,market outage,missed forecast,expired source access and stalled collector.",
+        "Self-recovery uses approved bounded actions only; no agent may edit infrastructure or buy a provider.",
+        "Correlate alert→incident→run→source/model evidence; avoid hidden lost events behind a healthy service health endpoint."
+      ],
+      "required_evidence": [
+        "Failure injection matrix; replay/idempotency audit; missed-job and billing-stale alerts"
+      ],
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13",
+        "CAP-14"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L8-S04",
+      "phase_id": "PH-08",
+      "title": "Whole-release security, scientific and cost gates",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Evaluate the actual planned launch load before activation.",
+      "acceptance_criteria": [
+        "Run relevant API/schema/ledger/scientific/no-leakage/agent/accessibility/native/offline/privacy/security gates before any separately approved independent review.",
+        "Demonstrate full launch usage and budget fallbacks within £100 aggregate,including dev/prod/evals/collectors/SSE/backups/builds and unverified/no credit cases.",
+        "Review blockers,non-blocking issues and rollback readiness; live model gate remains separate from application release approval."
+      ],
+      "required_evidence": [
+        "Risk-based gate report; per-market/horizon coverage; aggregate cost and credit failure evidence"
+      ],
+      "capability_ids": [
+        "CAP-14",
+        "CAP-16",
+        "CAP-09"
+      ],
+      "decision_ids": [
+        "DEC-022",
+        "DEC-023",
+        "DEC-024",
+        "DEC-026",
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L8-S05",
+      "phase_id": "PH-08",
+      "title": "Owner operations and admin requirements",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Investigate sources, costs and changes without losing daily usability.",
+      "acceptance_criteria": [
+        "Capture admin requirements now: uploads/versions,ledger updates,runs/tools/models/evals,health,cost and approvals; owner designs the full portal later.",
+        "Ship required audit/owner controls in approved launch UX; later portal styling does not defer main-dashboard cost visibility or critical recovery controls.",
+        "Retain pause switches,incident escalation,monthly evidence review and documented owner procedures."
+      ],
+      "required_evidence": [
+        "Admin requirements/permission inventory; launch-versus-later UX decision; operations walkthrough"
+      ],
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "decision_ids": [
+        "DEC-021",
+        "DEC-022",
+        "DEC-035"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S13"
+      ]
+    },
+    {
+      "id": "L9-S01",
+      "phase_id": "PH-09",
+      "title": "Validated market and instrument extensions",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Expand beyond the initial markets without treating config as proof.",
+      "acceptance_criteria": [
+        "Use versioned MarketProfile/InstrumentKind/DataSource contracts for mainland China,Taiwan,Hong Kong and continental Europe as later scope.",
+        "Check venue/calendar/currency/dual-listing mappings,rights,history,delay and budget; unsupported handlers need tested code and approved deployment.",
+        "Each market/kind receives contract,replay,shadow and owner activation evidence; avoid projecting US-only validation across markets."
+      ],
+      "required_evidence": [
+        "Extension admission checklist; hypothetical region/kind cases; incremental cost/rights evidence before activation"
+      ],
+      "capability_ids": [
+        "CAP-18",
+        "CAP-01"
+      ],
+      "decision_ids": [
+        "DEC-006"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L9-S02",
+      "phase_id": "PH-09",
+      "title": "Themes, segments and bounded broad-universe research",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Explore solar/clean-energy themes without buying uncontrolled inference.",
+      "acceptance_criteria": [
+        "Version dated many-to-many theme membership and sources; distinguish marketing labels from measured economic exposures.",
+        "Use batched daily quantitative screening and a bounded LLM shortlist; compare themes/peers/benchmarks and holdings overlap.",
+        "Historical theme studies use historical constituents; expanded universe/data/model load must fit approved aggregate cost."
+      ],
+      "required_evidence": [
+        "Theme/screen contracts; look-ahead/overlap cases; bounded workload plan"
+      ],
+      "capability_ids": [
+        "CAP-17",
+        "CAP-18",
+        "CAP-06"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L9-S03",
+      "phase_id": "PH-09",
+      "title": "New features, model families and horizons",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Improve the system through explicit compatible experiments.",
+      "acceptance_criteria": [
+        "Version FeatureSet/ModelAdapter/ForecastTask/Strategy/AgentManifest/EvaluationPack schemas and supported capability matrix.",
+        "New computation requires tested trusted code,resource costing,ablation/mature outcomes/shadow evidence and owner promotion.",
+        "No arbitrary runtime code/plugin download or self-authorized model/tool/budget expansion."
+      ],
+      "required_evidence": [
+        "Plugin compatibility suite plan; admission/rejection examples; owner rollout protocol"
+      ],
+      "capability_ids": [
+        "CAP-18",
+        "CAP-09",
+        "CAP-14"
+      ],
+      "decision_ids": [
+        "DEC-031"
+      ],
+      "depends_on": [],
+      "implementation_authorised": false
+    },
+    {
+      "id": "L9-S04",
+      "phase_id": "PH-09",
+      "title": "Optional MA interchange and eventual retirement boundary",
+      "status": "draft_not_created",
+      "jira_key": null,
+      "user_need": "Keep the standalone product independent and preserve existing MA capabilities.",
+      "acceptance_criteria": [
+        "No shared live database or required MA API; any optional export/import needs an approved versioned file contract and reconciliation.",
+        "Before any later MA advanced-Forecaster retirement,refresh source/code/runtime inventory,prove agreed parity/history preservation,recovery and explicit cutover scope.",
+        "MA rules,tracking and XIRR remain; no MA page/issue/source/runtime change is authorized by this plan or its MP story mapping."
+      ],
+      "required_evidence": [
+        "Boundary ADR; conditional parity/cutover checklist; explicit not-authorized record"
+      ],
+      "capability_ids": [
+        "CAP-19",
+        "CAP-08"
+      ],
+      "decision_ids": [],
+      "depends_on": [],
+      "implementation_authorised": false,
+      "related_L1_story_ids": [
+        "L1-S04",
+        "L1-S07",
+        "L1-S10"
+      ]
+    }
+  ],
+  "capability_phase_mapping": {
+    "CAP-01": [
+      "PH-00",
+      "PH-03",
+      "PH-09"
+    ],
+    "CAP-02": [
+      "PH-04"
+    ],
+    "CAP-03": [
+      "PH-01",
+      "PH-03",
+      "PH-04",
+      "PH-06"
+    ],
+    "CAP-04": [
+      "PH-04"
+    ],
+    "CAP-05": [
+      "PH-03",
+      "PH-04",
+      "PH-06"
+    ],
+    "CAP-06": [
+      "PH-03",
+      "PH-04",
+      "PH-05",
+      "PH-09"
+    ],
+    "CAP-07": [
+      "PH-05",
+      "PH-06"
+    ],
+    "CAP-08": [
+      "PH-01",
+      "PH-02",
+      "PH-03",
+      "PH-06",
+      "PH-08"
+    ],
+    "CAP-09": [
+      "PH-04",
+      "PH-06",
+      "PH-08",
+      "PH-09"
+    ],
+    "CAP-10": [
+      "PH-04",
+      "PH-06"
+    ],
+    "CAP-11": [
+      "PH-06",
+      "PH-07"
+    ],
+    "CAP-12": [
+      "PH-02",
+      "PH-03",
+      "PH-08"
+    ],
+    "CAP-13": [
+      "PH-00",
+      "PH-02",
+      "PH-04",
+      "PH-05",
+      "PH-08"
+    ],
+    "CAP-14": [
+      "PH-00",
+      "PH-02",
+      "PH-04",
+      "PH-05",
+      "PH-08",
+      "PH-09"
+    ],
+    "CAP-15": [
+      "PH-05"
+    ],
+    "CAP-16": [
+      "PH-00",
+      "PH-06",
+      "PH-07",
+      "PH-08"
+    ],
+    "CAP-17": [
+      "PH-06",
+      "PH-09"
+    ],
+    "CAP-18": [
+      "PH-00",
+      "PH-03",
+      "PH-04",
+      "PH-09"
+    ],
+    "CAP-19": [
+      "PH-00",
+      "PH-01",
+      "PH-08",
+      "PH-09"
+    ]
+  },
+  "historical_source_phase_mapping": [
+    {
+      "source_key": "MA-22",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-27",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-28",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-30",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-31",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-34",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-36",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-37",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-39",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-40",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-41",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-42",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-43",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-44",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01",
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-45",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-46",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-47",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-48",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-02"
+      ],
+      "phase_ids": [
+        "PH-04"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-49",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-02"
+      ],
+      "phase_ids": [
+        "PH-04"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-50",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-51",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-02"
+      ],
+      "phase_ids": [
+        "PH-04"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-52",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-04"
+      ],
+      "phase_ids": [
+        "PH-04"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-53",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-02"
+      ],
+      "phase_ids": [
+        "PH-04"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-54",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-55",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-56",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-57",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-06",
+        "PH-07"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-58",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-59",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-06",
+        "PH-07"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-60",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09",
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-61",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11",
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-62",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-63",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-05",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-64",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-65",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-66",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-67",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-68",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-69",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-70",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-71",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-76",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-78",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-79",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-80",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-81",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-04",
+        "CAP-09"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-82",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-83",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-84",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-85",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09",
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-86",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-87",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-88",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-06",
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-07",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-89",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-90",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-09"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-91",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-11"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-06",
+        "PH-07"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-92",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-98",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-99",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-104",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-111",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-114",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-115",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-116",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-118",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-119",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01",
+        "CAP-05",
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-120",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-121",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-122",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05",
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-123",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-124",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05",
+        "CAP-10"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-125",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-03",
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-126",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-128",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-129",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-130",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-131",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-132",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-133",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-134",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-09",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-135",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-136",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-137",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-138",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-139",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-140",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-146",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-148",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-149",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-151",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-03",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-152",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-153",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-154",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-06"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-156",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-170",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-171",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-172",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-173",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-174",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-176",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-177",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-178",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-179",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-180",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-181",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-182",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-183",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-10"
+      ],
+      "phase_ids": [
+        "PH-04",
+        "PH-05",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-195",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-200",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-11",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-206",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-207",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-01",
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-212",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-221",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-08"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-06",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-232",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-233",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-234",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-235",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-12"
+      ],
+      "phase_ids": [
+        "PH-02",
+        "PH-03",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-246",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-247",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-248",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-249",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-250",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-251",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-252",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-253",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-254",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-255",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-256",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-271",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-07",
+        "CAP-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-02",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-08",
+        "PH-09"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-275",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-279",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-280",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-05"
+      ],
+      "phase_ids": [
+        "PH-03",
+        "PH-04",
+        "PH-06"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-281",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-285",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-286",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-287",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-288",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-289",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-15"
+      ],
+      "phase_ids": [
+        "PH-05"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-291",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    },
+    {
+      "source_key": "MA-295",
+      "source_status_is_historical": true,
+      "capability_ids": [
+        "CAP-10",
+        "CAP-16"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-04",
+        "PH-06",
+        "PH-07",
+        "PH-08"
+      ],
+      "mapping_granularity": "capability_to_phase_only; detailed acceptance decomposition remains required",
+      "target_jira_key": null
+    }
+  ],
+  "coverage_limits": {
+    "captured_historical_source_stories": 140,
+    "context_only_source_issues_excluded": 71,
+    "detailed_source_acceptance_decomposition_complete": false,
+    "note": "All captured140 source stories map mechanically through their CAP tags to phases; this prevents phase omission, but is not proof that48 local umbrella stories reproduce every source acceptance clause. Preserve original descriptions and finish detailed per-phase decomposition before baseline approval.",
+    "delegated_L1_stories": 16,
+    "total_local_stories_including_delegated_L1": 64,
+    "confirmed_decisions_mapped": 41
+  },
+  "concurrency": {
+    "user_total_maximum_including_coordinator": 5,
+    "session_runtime_maximum_including_coordinator": 4,
+    "current_planning": "Coordinator plus up to3 independent maker lanes; no further agents spawned by this lane",
+    "future_scheduling": "Use lower of runtime limit and5; reserve coordinator slot,do not silently start a fourth worker in this session",
+    "contract_join_rule": "Parallel lanes consume the same approved versioned contracts; dependent acceptance waits for producer evidence"
+  },
+  "release_boundary": {
+    "first_version": [
+      "Standalone own ledger and CSV/Excel/PDF/screenshots/manual imports with named sample-backed coverage",
+      "UK/US/India initial 20–30 universe with actual cadence/fallback",
+      "Daily forecasts for all agreed horizons,eligibility/unavailable states and separate 3–5-year scenarios",
+      "Rules/ML/LLM disagreement and abstention;long-term/protection/benchmark objectives",
+      "Discovery-first adaptive web and native SwiftUI/RN;app/chat plus native/PWA push",
+      "Main-dashboard per-environment/provider/agent costs and credit/cash controls",
+      "Identity/recovery,audit,source lineage,operational safeguards and approved recovery targets"
+    ],
+    "later_activation_needs_explicit_scope_choice": [
+      "Advanced native widgets/search/share/Siri/Live Activities if not launch-selected",
+      "Future mainland China/Taiwan/Hong Kong/continental Europe",
+      "Expanded thematic universes and additional model families",
+      "Detailed owner-designed admin portal styling"
+    ],
+    "not_authorised": [
+      "Automatic trading",
+      "Automatic paid provider or Claude fallback",
+      "Automatic original expiry deletion",
+      "Automatic live model/calibration promotion",
+      "MA retirement or page/issue changes"
+    ]
+  },
+  "proposed_confluence": {
+    "space": "mypaisaapr",
+    "canonical_page_map": "confluence-page-map.json",
+    "canonical_page_map_prose": "confluence-page-map.md",
+    "publication_status": "not_published",
+    "ready_to_publish": false,
+    "external_writes_authorised": false,
+    "proposed_mutation_counts": {
+      "creates": 5,
+      "boundedUpdates": 6,
+      "moves": 0,
+      "renames": 0,
+      "deletes": 0,
+      "attachmentUploads": 0,
+      "diagramUpdates": 0,
+      "jiraWrites": 0,
+      "MAWrites": 0,
+      "attachmentUpserts": 8
+    },
+    "proposed_creates": [
+      {
+        "draft_page_id": "NEW-PLANNING-INDEX",
+        "title": "MP | Layered development planning - 1 November 2026",
+        "parent": {
+          "pageId": "5112476"
+        },
+        "page_id": null
+      },
+      {
+        "draft_page_id": "NEW-PORTFOLIO-IMPORT",
+        "title": "MP | Portfolio and import specification",
+        "parent": {
+          "pageId": "4981241"
+        },
+        "page_id": null
+      },
+      {
+        "draft_page_id": "NEW-PHASED-PLAN",
+        "title": "MP | Phased delivery plan and story map",
+        "parent": {
+          "draftPageId": "NEW-PLANNING-INDEX"
+        },
+        "page_id": null
+      },
+      {
+        "draft_page_id": "NEW-ARCHITECTURE",
+        "title": "MP | Architecture blueprint",
+        "parent": {
+          "pageId": "5145394"
+        },
+        "page_id": null
+      },
+      {
+        "draft_page_id": "NEW-TECH-STACK",
+        "title": "MP | Technology stack and decision matrix",
+        "parent": {
+          "pageId": "5145394"
+        },
+        "page_id": null
+      }
+    ],
+    "proposed_bounded_updates": [
+      {
+        "page_id": "5145345",
+        "observed_published_version": 2,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      },
+      {
+        "page_id": "4981241",
+        "observed_published_version": 3,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      },
+      {
+        "page_id": "5145394",
+        "observed_published_version": 4,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      },
+      {
+        "page_id": "5112476",
+        "observed_published_version": 2,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      },
+      {
+        "page_id": "5014127",
+        "observed_published_version": 5,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      },
+      {
+        "page_id": "5112525",
+        "observed_published_version": 3,
+        "preserve_existing_content": true,
+        "preserve_existing_rich_macros_and_attachments": true
+      }
+    ],
+    "tree_rule": "Use this canonical five-create/six-bounded-update map; reuse all six existing MP hubs,create no extra tree,move/rename/delete nothing. Recheck exact-title collisions and current page identity/version before an authorised write.",
+    "identities": "NEW-* are local proposal identifiers,not real created page IDs. All proposed new page IDs remain null. MA pages remain untouched."
+  },
+  "review": {
+    "status": "not_run",
+    "required_permission": "Coordinator offers independent review at end under project workflow; each round/regression scope needs explicit approval",
+    "maximum_rounds": 5,
+    "proposed_lanes": [
+      "Requirements/scientific coverage and source trace",
+      "Portfolio/import/security/privacy boundaries",
+      "Delivery dependencies,cost and operational readiness"
+    ],
+    "maker_checks_do_not_equal_review": true
+  },
+  "dependency_semantics": {
+    "planning_dependencies": "Draft contract seeds required; not phase exit or implementation acceptance. Full PH00 baseline is assembled iteratively from all layers and approved only after every layer pack and UX are complete.",
+    "implementation_dependencies": "Accepted predecessor controls/contracts plus explicit whole end-to-end baseline and UX approval; this map grants no implementation authority.",
+    "model_factor_join": "PH05 structured research can be developed behind approved contracts; promotion of factors into numerical production additionally requires PH04 ablation/maturity/shadow approval evidence.",
+    "related_L1_story_ids": "Cross-layer contract/evidence joins, not extra DAG edges. Exact L1 depends_on links remain owned by portfolio-import-stories.json; phase-level implementation dependencies still apply."
+  },
+  "historical_six_phase_crosswalk": [
+    {
+      "historical_phase": 0,
+      "existing_epic_reference": "MP-4",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-00",
+        "PH-02",
+        "PH-08"
+      ]
+    },
+    {
+      "historical_phase": 1,
+      "existing_epic_reference": "MP-5",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-01",
+        "PH-03",
+        "PH-06"
+      ]
+    },
+    {
+      "historical_phase": 2,
+      "existing_epic_reference": "MP-6",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-04",
+        "PH-05"
+      ]
+    },
+    {
+      "historical_phase": 3,
+      "existing_epic_reference": "MP-7",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-05",
+        "PH-06",
+        "PH-07"
+      ]
+    },
+    {
+      "historical_phase": 4,
+      "existing_epic_reference": "MP-8",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-00",
+        "PH-06",
+        "PH-07"
+      ]
+    },
+    {
+      "historical_phase": 5,
+      "existing_epic_reference": "MP-9",
+      "live_status_verified": false,
+      "proposed_phases": [
+        "PH-02",
+        "PH-08"
+      ]
+    }
+  ],
+  "decision_phase_mapping": {
+    "DEC-001": [
+      "PH-04",
+      "PH-06"
+    ],
+    "DEC-002": [
+      "PH-00",
+      "PH-03",
+      "PH-04",
+      "PH-06"
+    ],
+    "DEC-003": [
+      "PH-00",
+      "PH-03",
+      "PH-06"
+    ],
+    "DEC-004": [
+      "PH-04",
+      "PH-06"
+    ],
+    "DEC-005": [
+      "PH-01",
+      "PH-06"
+    ],
+    "DEC-006": [
+      "PH-03",
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-007": [
+      "PH-03",
+      "PH-06"
+    ],
+    "DEC-008": [
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-009": [
+      "PH-02",
+      "PH-07"
+    ],
+    "DEC-010": [
+      "PH-03",
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-011": [
+      "PH-03",
+      "PH-04",
+      "PH-06"
+    ],
+    "DEC-012": [
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-013": [
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-014": [
+      "PH-01",
+      "PH-03",
+      "PH-06"
+    ],
+    "DEC-015": [
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-016": [
+      "PH-04",
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-017": [
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-018": [
+      "PH-00",
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-019": [
+      "PH-03",
+      "PH-04",
+      "PH-06"
+    ],
+    "DEC-020": [
+      "PH-01",
+      "PH-02",
+      "PH-08"
+    ],
+    "DEC-021": [
+      "PH-01",
+      "PH-02",
+      "PH-04",
+      "PH-05",
+      "PH-08"
+    ],
+    "DEC-022": [
+      "PH-00",
+      "PH-02",
+      "PH-06",
+      "PH-07",
+      "PH-08"
+    ],
+    "DEC-023": [
+      "PH-00",
+      "PH-02",
+      "PH-08",
+      "PH-09"
+    ],
+    "DEC-024": [
+      "PH-00",
+      "PH-02",
+      "PH-05",
+      "PH-08"
+    ],
+    "DEC-025": [
+      "PH-02",
+      "PH-06"
+    ],
+    "DEC-026": [
+      "PH-02",
+      "PH-06",
+      "PH-08"
+    ],
+    "DEC-027": [
+      "PH-03",
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-028": [
+      "PH-05",
+      "PH-06"
+    ],
+    "DEC-029": [
+      "PH-01",
+      "PH-03",
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-030": [
+      "PH-00",
+      "PH-04",
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-031": [
+      "PH-04",
+      "PH-05",
+      "PH-08",
+      "PH-09"
+    ],
+    "DEC-032": [
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-033": [
+      "PH-06",
+      "PH-07"
+    ],
+    "DEC-034": [
+      "PH-01",
+      "PH-02",
+      "PH-08"
+    ],
+    "DEC-035": [
+      "PH-08"
+    ],
+    "DEC-036": [
+      "PH-02",
+      "PH-04",
+      "PH-08"
+    ],
+    "DEC-037": [
+      "PH-02",
+      "PH-07"
+    ],
+    "DEC-038": [
+      "PH-02",
+      "PH-07"
+    ],
+    "DEC-039": [
+      "PH-00",
+      "PH-01",
+      "PH-06",
+      "PH-08"
+    ],
+    "DEC-040": [
+      "PH-00",
+      "PH-03",
+      "PH-08"
+    ],
+    "DEC-041": [
+      "PH-00",
+      "PH-01",
+      "PH-03",
+      "PH-08"
+    ]
+  }
+}

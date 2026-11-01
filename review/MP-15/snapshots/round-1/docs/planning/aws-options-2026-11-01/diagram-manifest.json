@@ -1,0 +1,32 @@
+{
+  "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+  "url": "https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit",
+  "version": 423,
+  "pages": 3,
+  "native_exports": true,
+  "status": "Draft options; not approved or deployed",
+  "validation": "Updated canvas: no issues for changed A/B shapes and retired C notices; native exports inspected",
+  "sync": "Manual exports; not automatically synchronised",
+  "exports": [
+    {
+      "file": "option-a-lucid.png",
+      "sha256": "536af178b55ee856e7399ef8fb847abcdb4f913fcf14704edf188385722f33b3"
+    },
+    {
+      "file": "option-b-lucid.png",
+      "sha256": "54fd0f47fbe3d80a7083e8624085a9df7805dcb337f56715dc937442368478c5"
+    },
+    {
+      "file": "option-c-lucid.png",
+      "sha256": "31985f8aede9e7f47741f62af9cf66552bca0142d4d4d03e3044b3f1549160d9"
+    }
+  ],
+  "active_pages": [
+    "option-a",
+    "option-b"
+  ],
+  "retired_pages": [
+    "option-c"
+  ],
+  "revision": "Direct Anthropic client SDK on Lambda; Yahoo/Grow; contextual chat, guardrails and evaluations"
+}

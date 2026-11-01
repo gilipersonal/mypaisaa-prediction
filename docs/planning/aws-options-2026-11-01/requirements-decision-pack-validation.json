@@ -1,0 +1,74 @@
+{
+  "as_of": "2026-11-01",
+  "scope": "New proposed requirements decision pack and direct navigation/register links",
+  "status": "planning checks passed after fixture-review P3 wording correction; no new decision-pack review round",
+  "checks": [
+    "18 choices backed by explicit owner answers and scoped DEC-023\u2013040; none unanswered",
+    "Original DEC-001\u2013022 preserved exactly; 41 confirmed decisions; no implementation or end-to-end approval",
+    "JSON/Markdown/HTML parity, links/anchors and cash/ranking arithmetic",
+    "Unasked detailed defaults, scientific gates, exact source entitlements, recovery mechanics and full-scope costing remain open"
+  ],
+  "deferred": [
+    "Browser/device visual inspection: no UI implementation; reading version structurally checked",
+    "Application/infra/runtime tests: no product or deployment changes",
+    "Full-scope resource pricing and data entitlement audit: next planning evidence step"
+  ],
+  "hashes": {
+    "requirements-decision-pack.md": "e62748aa8d13e9335d3a6e5d226ef80efc7f5e7ba45d3611d13837f67780074b",
+    "requirements-decision-pack.json": "c24a1cb95853a46f5e38c88e8abdb1d2c84c6e13b2ef9fe7056ad3a602ba4d76",
+    "requirements-decision-pack.html": "821b60c3840ea0baa9f3b8482050f4116d3bd1b3e811a938939e0dfe68184429"
+  },
+  "independent_review_report": "../../../review/MP-15/decision-pack-round-1-result.md",
+  "post_review_checks": [
+    "All eighteen choices recorded only after explicit owner replies",
+    "Original 22 decisions match reviewed snapshot",
+    "Choice/document gates and git diff whitespace passed after final initial-answer recording"
+  ],
+  "owner_answer_capture": {
+    "as_of": "2026-11-01",
+    "questions": [
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "I01",
+      "I02",
+      "I03",
+      "I04",
+      "I05",
+      "N01",
+      "N02",
+      "O01",
+      "O02",
+      "O03",
+      "S01",
+      "S02",
+      "D01",
+      "D02"
+    ],
+    "decisions": [
+      "DEC-023",
+      "DEC-024",
+      "DEC-025",
+      "DEC-026",
+      "DEC-027",
+      "DEC-028",
+      "DEC-029",
+      "DEC-030",
+      "DEC-031",
+      "DEC-032",
+      "DEC-033",
+      "DEC-034",
+      "DEC-035",
+      "DEC-036",
+      "DEC-037",
+      "DEC-038",
+      "DEC-039",
+      "DEC-040"
+    ],
+    "new_independent_review_run": false,
+    "next_questions": [],
+    "next_evidence": "Actual holding/listing identities and permitted source coverage (DEC-040)"
+  },
+  "current_phase": "DEC-041: synthetic local/dev first; actual samples progressively later"
+}

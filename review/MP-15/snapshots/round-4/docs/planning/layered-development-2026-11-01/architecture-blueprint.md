@@ -1,0 +1,174 @@
+# Mypaisaa Prediction architecture blueprint
+
+**DRAFT · MP-15 · 1 November 2026 · Requirements and architecture planning only · Independent review not run**
+
+This blueprint describes a standalone personal investment intelligence app: its own investment ledger, imports, rules, XIRR, quantitative forecasts, LLM-derived structured factors, research and contextual conversation. It does not execute trades. It proposes boundaries and acceptance evidence so the complete requirements and UX can be agreed before application implementation. It does not authorise coding the app, making paid calls, provisioning AWS, publishing documents, or changing mypaisa-agent.
+
+## 1. Authority and implementation status
+
+Read the [working PRD](../aws-options-2026-11-01/product-requirements.md), [DEC-001–041](../aws-options-2026-11-01/product-decisions.json), [full forecasting scope](../aws-options-2026-11-01/forecasting-scope.md), [audit and observability requirements](../aws-options-2026-11-01/audit-observability-requirements.md) and [cost assumptions](../aws-options-2026-11-01/cost-model.json) together. Later explicit owner decisions supersede earlier proposals. DEC-041 makes realistic synthetic local/dev fixtures the current evidence source; actual holdings, screenshots and PDFs arrive progressively later. A dev fixture pack prepared on the Mac has not been loaded into AWS.
+
+| Evidence | What exists | What it does not establish |
+| --- | --- | --- |
+| `backend/app/main.py`, health route | FastAPI starter, configuration and `/api/v1/health` | Product APIs, identity, persistence or cloud readiness |
+| `backend/app/api/routes/stream.py`, `backend/app/services/event_bus.py` | Sample SSE route, heartbeat and process-local queues/counter | Authenticated subscriptions, cross-process fan-out, durable IDs, replay or reconnect correctness |
+| `backend/pyproject.toml`, `backend/uv.lock` | Declared/locked Python dependencies, including historical PostgreSQL and Agent SDK optional groups | Installed feature, DynamoDB adapter or direct Anthropic agent implementation |
+| `site/dist/index.html` | Static concept preview | SvelteKit 3 PWA, live dashboard or agreed UX |
+| Client/infrastructure placeholders | Intended repository organisation | Executable Swift/RN/web manifests, deployed resources or tested adapters |
+| Synthetic data/import packs | Offline fixtures and validation evidence described in their own manifests | Provider entitlement, genuine holdings, live prices or model performance |
+
+Existing accepted ADRs remain historical records. ADR 0002 (append-only predictions), 0003 (purged walk-forward) and 0004 (native Swift inside RN) retain relevant invariants. ADR 0001's modular codebase and durable-state/SSE separation remain useful, but its deployment assumptions require reconciliation. ADR 0005's Agent SDK wording and ADR 0006's Lightsail/PostgreSQL/£50 AWS shape conflict with the later direct Anthropic client SDK, serverless preference and £100 all-in planning envelope. Root architecture/stack docs and the diagram skill contain the earlier shape too. This draft records that conflict; it does not silently amend accepted ADRs or claim that their replacement has been approved.
+
+## 2. System boundaries and ownership
+
+**Proposed logical path:** owner clients authenticate with Cognito; authenticated API commands create durable work/ledger records; bounded workers ingest/extract/evaluate/research; durable records feed read models, notifications and the dashboard. The browser/native client, AWS application and Anthropic platform are separate trust boundaries. Source text and extracted model/tool output are untrusted at every boundary.
+
+| Boundary/component | Responsibility and interface | Authority limit |
+| --- | --- | --- |
+| SvelteKit 3 PWA | Market/discovery landing page, separate holdings, import review, evidence/proof, chat, costs and settings; authenticated versioned HTTPS plus bounded SSE | Never embeds service/billing credentials or commits extracted transactions without confirmation |
+| Swift/SwiftUI in RN shell | Native Apple screens/cache/security/accessibility; RN navigation and typed bridge | Does not duplicate server ledger/promotion policy; device cache is a projection |
+| Identity | Cognito managed sign-in, Apple/Google/passkeys, owner/session mapping and protected-action checks | Verified linking requires proof of owner control; matching email alone grants nothing |
+| API/application modules | Authentication/authorisation, schema validation, commands, queries, approvals, idempotency and admission | No broker order interface; every object read/write scoped to environment and owner |
+| Durable core | Ledger/import/prediction/outcome/approval records, job state, outbox, cost reservations; DynamoDB preferred subject to fit gate | Not the SSE process queue; updates to history create superseding records |
+| Object/evidence store | Private encrypted S3 originals, snapshots, feature/model/evaluation artefacts, protected archives | No public originals; originals and derived records have distinct retention/deletion rules |
+| Data/rules/performance | Yahoo/Grow adapters; canonical instruments/calendars/FX; rules, XIRR and portfolio risk | Permitted coverage/freshness per listing; withhold calculations unsupported by inputs |
+| Quantitative pipeline | Point-in-time features, baselines/challengers, evaluation, immutable forecast and mature grading | Owner promotion required; no automatic live model replacement or accuracy promise |
+| Research/conversation | Specialist manifests and explicit bounded tool loop using official Anthropic client SDK on Lambda; structured cited evidence | Claude runs on Anthropic, not Bedrock, AgentCore or the Agent SDK; agents cannot trade, promote models or mutate the financial ledger |
+| Operations/cost plane | Correlation, audit investigation, bounded collectors, spend estimates/reservations, health and alerts | Billing privileges isolated from research and UI; telemetry does not substitute for durable business audit |
+
+The app has no required shared ledger or live integration with MA. MA source stories are requirements evidence, not runtime dependencies, transferred completion or permission to remove MA capabilities. This work belongs to Jira **MP** and Confluence **mypaisaapr**; historical MA references remain reference-only.
+
+## 3. Environments and AWS shape
+
+Preferred ingredients are CloudFront, Route 53, API Gateway, Lambda, S3, DynamoDB and Cognito. Proposed scheduled/queued work uses EventBridge Scheduler and an explicit durable workflow/queue design. Account, region, names, roles and exact services remain unprovisioned. The earlier `us-east-1` suggestion is a candidate pending availability, privacy/latency and measured full-scope cost evidence.
+
+| Ownership | Proposed separation | Cost/accounting treatment |
+| --- | --- | --- |
+| Local | Synthetic local fixtures, local API/tests, no cloud loading; optional API calls require later authority | Local compute separate from any real paid API usage |
+| Dev | Separate prepared synthetic pack; eventually own data stores, identity config, queues, roles and deployment target | Dedicated workspace/key/tag/account attribution where available; no prod data copied by default |
+| Prod | Owner's approved real imports and permitted providers after readiness gates | No dev write principal or public cache path into prod |
+| Shared | Repository/contracts, domain/DNS if chosen, CI tooling and one reported organization credit pool | Report shared/unallocated explicitly; resource separation does not create a second credit grant |
+
+Separate AWS accounts offer the strongest dev/prod boundary; a lower-cost single-account option would require independently scoped resources, keys, roles and deny tests. This trade-off needs an ADR and pricing, not just naming prefixes. No inherited MA account/region or permissions are assumed. Prefer infrastructure as code; no persistent NAT Gateway, ALB, RDS, GPU host or continuously provisioned ML endpoint is included by default. Required controls such as edge protection, customer-managed encryption keys, backup and telemetry still need explicit pricing; do not call them free because their workloads are small.
+
+### Customer VPC and internet egress options
+
+The [technical network appendix](network-topology-options.md) compares **N0**, customer-VPC-unattached Lambda as the cost baseline candidate, with **N1**, a conditional split using two-AZ private isolated subnets, scoped SGs, route tables and S3/DynamoDB gateway endpoints only for justified private work. External Anthropic/Yahoo/Grow workers stay unattached in N1, retaining outbound HTTPS without customer NAT. Lambda's service execution and its customer-VPC ENI attachment are distinct. S3, DynamoDB, Cognito, API Gateway and CloudFront remain managed services outside the customer VPC; a VPC is not itself the owner-authorization layer.
+
+The new [native network diagram](visuals/mp-network-options-native.png) shows N0, the optional VPC structure and **N1-E**, a separately costed, unselected public-NAT/IGW alternative if all workers must attach. Public-subnet placement alone gives Lambda neither a public IP nor internet access. S3/DynamoDB gateway routes cannot reach Anthropic. Paid interface endpoints may be needed for actual private-job bootstrap/runtime paths; they are not assumed free or universally required. SGs do not filter DNS names, and a blanket `SourceVpce` resource deny must not silently block CloudFront OAC, unattached roles or recovery. These choices require the network ADR and full-scope cost evidence, with no approved Region/account/topology. [Actual network source snapshot](visuals/mp-network-options-source.json) · [Page 5/version 4333 export and preservation evidence](visuals/network-lucid-manifest.json).
+
+### Web serving mode
+
+**Recommendation for evaluation:** a SvelteKit 3 static application shell on private S3 behind CloudFront, with all private data loaded from the authenticated API. Public shell content may be prerendered; authenticated routes use the appropriate client-side fallback and never bake holdings into build output. Service workers cache static assets by default; private/offline data policy requires explicit design and logout/cache-clearing tests. Static hosting does not execute server routes, server loads, form actions or server-side session logic. SvelteKit SSR would instead require a compatible runtime adapter and separate compute/session design. Choose static versus SSR in an ADR before implementation. The official [static adapter guide](https://svelte.dev/docs/kit/adapter-static) distinguishes fully static output from dynamic rendering; [the official SvelteKit 3 announcement](https://svelte.dev/blog/sveltekit-3-is-here) confirms version 3 is available as of this evidence check.
+
+### API and SSE: bounded transport, durable work
+
+REST requests read/command durable state. A long import, research run or evaluation returns an accepted job reference once durable admission succeeds, and continues without requiring a connected UI. SSE delivers event IDs, status/resource references and selected chat deltas; it is a disposable observation channel. A disconnect must not discard an accepted job or cause a duplicate model call.
+
+Current AWS documentation supports API Gateway response streaming on **REST APIs**, with proxy integration in `STREAM` mode, for up to **15 minutes**; idle timeouts and CloudFront behaviour also apply. Do not assume the cheaper HTTP API supports SSE response streaming. The exact Regional REST integration, authorizer, origin/CORS configuration and shorter application stream lifetime need a compatibility/cost experiment after implementation approval. Python FastAPI requires a compatible streaming adapter/custom runtime such as Lambda Web Adapter; an ordinary buffered ASGI Lambda adapter is insufficient. AWS warns a dropped connection need not stop billed function execution. [API Gateway streaming](https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html), [Lambda streaming](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html)
+
+Proposed reconnect contract: authorize each connection and owner/resource subscription, emit durable monotonic cursor semantics within a declared scope, heartbeat, end before platform limits, and reconnect with backoff. Cursor expiry or a gap triggers an authenticated snapshot fetch and a new cursor. Chat deltas are provisional until the final assistant message is durably recorded. Replayed events do not repeat mutations, reservations or paid calls. Browser native `EventSource` does not provide a custom bearer-header interface; evaluate authenticated streaming `fetch` or a deliberately designed secure cookie/session gateway. Do not put long-lived tokens in stream URLs. If cookie authentication is selected, include CSRF and cookie origin policy. Stream/push delivery is never the authorisation check for the resource fetched afterwards.
+
+Do not implement serverless fan-out using the current in-memory bus. Compare a bounded durable-event polling bridge with a separately costed managed fan-out option; polling incurs database/compute charges while open connections occupy Lambda duration. Notification bodies must be private/minimal, with read access checked again on open. API Gateway WebSockets would change the transport decision and require an ADR; they are not a hidden substitute for SSE.
+
+## 4. Durable core and failure semantics
+
+### Financial ledger and import visibility
+
+All v1 methods remain: CSV, Excel, PDF/statements, screenshots and manual entry/correction. Support named sample-backed layouts plus generic templates; uncertain extraction enters review. Synthetic equivalents can exercise these flows locally now. Real source samples are not a prerequisite to preparing the plan, but actual supported layout promises remain unproven until their samples are validated.
+
+1. Allocate a durable upload/document identity and expected constraints, then grant a bounded private upload path. Validate owner, environment, size/type/checksum and quarantine unsafe content before parser/model work.
+2. Record the exact S3 version/checksum, parser/prompt/model versions, row/cell/page evidence, extraction confidence and terminal/retry state. S3 acceptance means bytes received, not transactions committed.
+3. Produce a versioned import draft with deterministic normalized rows, source matching, duplicate/conflict findings and a preview hash. The owner confirms that exact preview; edits require a new preview/confirmation.
+4. Commit once with persistent application idempotency and concurrency checks. Financial changes and required audit/outbox evidence must become visible together. Holdings/cash/XIRR derive only from committed ledger events; reversals/corrections append events with reasons and prior links.
+5. Reconcile orphan objects, missing metadata, duplicate storage callbacks and jobs interrupted between services. Owner-visible failed/pending states remain investigable.
+
+**DynamoDB fit gate:** explicitly design access patterns, immutable event keys, uniqueness/duplicate indexes, concurrency and balance precision before choosing a schema. Financial amounts use defined decimal/minor-unit conventions; XIRR requires agreed dated cash-flow, income/fee, FX and root/no-root handling. DynamoDB transactions provide atomic operations within one account/Region, limited to 100 actions/4 MB, and their request-token idempotency window is only 10 minutes. Persistent import idempotency is an application responsibility. [DynamoDB transaction contract](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html)
+
+For larger imports, evaluate a staged immutable batch with a single atomic visibility/commit marker tied to the owner-confirmed manifest and audit/outbox record. **Every** ledger reader, projection and replay consumer must enforce that marker; no partially staged row may affect holdings. Concurrent imports need a consistent owner/account version policy. Test a crash before/after each stage and repeated confirmation after a day. If these invariants or investigation queries are impractical at measured cost, compare PostgreSQL explicitly and reconcile the serverless preference in an ADR. Do not split an import across independent writes and call it atomic. S3 and DynamoDB are not one distributed transaction.
+
+### Async jobs and continuations
+
+Define a durable job state machine with accepted, runnable, leased/running, waiting, succeeded, failed, cancelled and needs-owner states; names are proposed, terminal semantics are required. Store stable job/task IDs, attempts, lease expiry, heartbeat, input snapshot/hash, build/config versions, timeout and reservation references. Use transactional outbox publication, duplicate-safe consumers and reconciliation for commit-to-dispatch gaps. A scheduler, queue receipt or stream is not the authoritative job state.
+
+Before implementation choose **Lambda Durable Functions** (workflow written/checkpointed in supported Lambda application code) versus **Step Functions** (external state machine, especially useful for optional SageMaker/service coordination). Runtime, regional support, state retention, replay semantics and total costs need evidence; Python 3.12 starter compatibility cannot be assumed for Durable Functions. Queues/DLQs provide buffering and failure handling where needed; replay of side effects still requires application idempotency. External API ambiguity is recorded as unknown/pending reconciliation, not blindly retried as free. Long waits, owner approvals and larger training runs are continuations rather than one indefinitely running Lambda. [Durable runtimes](https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html), [Durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html)
+
+## 5. Quantitative truth and controlled learning
+
+Data adapters preserve issuer/security/listing identities, provider symbol mapping, venue/calendar, currency/units, observation time, available/known-at time, ingest time, source version and quality. Yahoo Finance plus Twelve Data Grow is the selected source combination; coverage, personal-use rights, exact tier/quota and point-in-time history remain per-listing gates. Unsupported intraday data means labelled daily analysis and suppressed intraday alerts. Formal forecasts are daily, with 30-minute quote/risk refresh only where inputs support it.
+
+The pipeline is reproducible source snapshot → versioned features → chronological rolling/expanding evaluation → calibration/benchmark comparison → candidate/shadow evidence → owner promotion → immutable published forecast → mature outcome and score. Fit imputation, normalization, feature selection and calibration inside training folds; purge/embargo must reflect the actual horizon and label/feature overlap. Today’s constituents, revisions or LLM extraction knowledge cannot silently enter historical folds. Record dataset/feature/model artefact hashes, parameters, seeds, split/cutoff/calendar policies, evidence references and uncertainty.
+
+Keep separate targets for short-term horizons, 3/6/12-month forecasts and 3/5-year scenarios. Scenarios are not prematurely scored as equivalent evaluated forecasts. Do not invent mature outcomes for newly issued long-horizon predictions: distinguish backtest, historical reconstructed evidence, shadow and genuinely prospective track records. Score only after maturity against the declared canonical outcome; corrections append linked records and preserve the original published view.
+
+Rules/statistical baselines → numerical ML → ML plus versioned LLM-derived structured features → additional approved families form an ablation ladder. An LLM may extract factors, classify exposures and propose experiments, but confident prose is not numerical calibration or an outcome label. Compare incremental quality, stability, leakage risk and cost. Exact sample sizes, thresholds, shadow duration, action formulas and rollback policy remain to agree. DEC-031 requires evidence, shadow, then owner approval; automatic promotion is excluded.
+
+| Still-open execution option | What stays the same | Evidence needed to select |
+| --- | --- | --- |
+| A: portable bounded ML jobs | Same data contracts, walk-forward science, immutable records and owner approval; use portable artefacts/jobs | Runtime/memory/package duration measurements, suitable job runner for work too large for Lambda, failure recovery and total operations cost |
+| B: selective SageMaker training | Same science; bounded training jobs plus managed registration where justified; Lambda inference where compatible | Initial training/experimentation frequency, setup/storage/registry costs, job caps, model export compatibility and operations benefit |
+
+Neither option is selected. Existing options documentation favours B as a proposal; this is not an owner decision or a quality advantage. Start with the cheapest evidence-producing baseline, then select the execution option after representative offline measurements and a revised total cost model. No continuously provisioned endpoint is assumed.
+
+## 6. Research, chat, approvals and guardrails
+
+Use a versioned specialist catalogue: market/data health, rules/performance explanation, risk/exposure, filing/news extraction, bull/bear research, briefing, model experiment proposer, evaluation/quality and orchestration roles. Exact role count is a design proposal. Each manifest defines input/output schemas, read-only tools, evidence scope, model/prompt/config versions, token/time/iteration/concurrency ceilings, purpose/environment, evaluation requirements and fallback. A role does not receive broad database or shell access because it is called an agent.
+
+The application calls Anthropic directly through its official client SDK and explicitly controls the loop. Model-requested tools are validated, allowlisted and executed server-side; retrieved documents cannot issue privileged instructions. Numerical values come from typed deterministic tools with source IDs and freshness. Extractions carry uncertainty and citations. User-visible memory is scoped, versioned, bounded and correctable; imported source text cannot silently become a permanent instruction. Persist conversation/message IDs with client idempotency and per-conversation sequencing; final responses link to the evidence/prediction/config versions actually used. A changed holding after a chat response does not rewrite that response’s context. [Anthropic tool-use contract](https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works)
+
+Keep safety/guardrail checks, answer-quality T0/T1/T2 evaluations and numerical predictive evaluation separate. Offline deterministic cases precede bounded paid trials; online checks, sampled judges and owner calibration are metered. A language judge cannot certify profitable forecasts. Sensitive actions such as model promotion, import commit, reprocessing changes, source deletion, replay with consequences and budget changes require explicit server-verified owner authority. An authenticated chat instruction alone is not a bypass around the corresponding confirmation contract.
+
+## 7. Costs, audit and recovery from the first useful layer
+
+The discovery dashboard launches with dev/prod/local/shared cost views, agent/model/feature/service attribution and collector health. The confirmed envelope is **£100/month all-in**, **£70 planned + £30 reserve**; forecast cash warnings/reductions/optional-job pauses at **£60/£75/£85**. Initial A/B totals are historical examples for the initial workload, not a priced guarantee for all requirements. Include AWS, data, Claude/evals, CI/builds, storage/backups, telemetry, transfer, domain/Apple costs where applicable, FX and tax.
+
+**Proposed admission algorithm:** atomically reserve a conservative maximum for a logical paid request/job before dispatch against a versioned budget; count parallel outstanding reservations, known liabilities and other organization credit consumption. Resolve final usage or retain liability for ambiguous responses. Dedupe retries/provider report rows and reconcile late adjustments. Environment/agent/feature/model breakdowns partition the same charge; parent/child spans do not each create additional bills. Provider reports replace/reconcile covered estimates rather than being added on top. Shared/unallocated amounts remain visible.
+
+Live application estimates are distinct from Anthropic reports collected every **6 hours** and AWS reports every **24 hours**. Dashboard refresh reads cached aggregates; it does not query paid billing APIs. AWS Cost Explorer data can lag upstream collection; the documented API charge is per paginated request. Anthropic analytics availability, access scope and freshness must be validated for the actual account. Preserve original currency/price version and dated GBP FX/tax presentation. [AWS Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html), [Anthropic analytics](https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api)
+
+The **$200 organization credit** is user-reported and unverified, shared across environments/apps and potentially on a different reset cycle. Gross usage, credit applied, remaining verifiable credit and cash liability are separate. If coverage cannot be established, refuse uncovered Claude calls; pause optional calls when credit is low. No automatic paid fallback. Internal admission is not a universal instantaneous AWS billing cap, and stale credit information must reduce permissible discretionary work rather than fabricate headroom.
+
+Carry business IDs plus run/trace/span/request IDs, parent/retry/replay links, environment and build/config/model versions across UI/API/jobs/tools/storage/notification. Async continuations may link separate traces. Operational retention is **logs 14 days / rich traces 30 days / run summaries 90 days**, subject to cost; durable ledger/forecast/approval/audit evidence uses a separately agreed policy and cannot disappear with trace TTL. S3 originals have **24-month renewable** retention with owner extension/deletion; no automatic expiry/deletion is authorised. Design deletion for versions, derived copies and backups with explicit tombstones/failure states, not an irreversible lock.
+
+Monthly focused recovery/audit-integrity exercises and change-triggered checks are required. Agree RPO/RTO, exact backup retention and restore scope; prove restoration of object versions, committed records, model/prediction lineage, outbox and costs together in an isolated environment. Monitor stale schedules, queue age/DLQs, reservation leaks, failed collectors and incomplete jobs. Sensitive payloads, prompts and source documents do not belong in general telemetry; redact and minimise, with restricted evidence access. Provider-side retention is separate: calling Anthropic means selected inputs leave AWS.
+
+## 8. Readiness, ADRs and phase alignment
+
+The new planning sequence uses PH-00–PH-09. Ordering the ledger/import **specification** before platform work does not allow ledger **implementation** before platform/auth/audit/cost foundations. PH-00 end-to-end requirements and UX agreement gates all application implementation. These phases refine the older roadmap; they do not claim its phase exits are complete.
+
+| Current phase | Architectural result required before its exit |
+| --- | --- |
+| PH-00: full baseline/contracts/UX/cost-option decision | End-to-end requirements/UX agreement; identity/threat/contract proposals, cost model and synthetic failure cases; ADR conflicts reconciled and critical options resolved before build |
+| PH-01: standalone ledger and imports | All v1 methods’ agreed layouts/templates; exactly-once visible commit, lineage, reversal/reconciliation and ledger/performance contracts; detailed L1-S01–L1-S16 planning can proceed locally now; implementation depends on PH-02 |
+| PH-02: platform/auth/cost foundations | Private environments, owner auth/recovery, API/runtime/jobs, audit and launch cost/admission controls; no claim of AWS activation |
+| PH-03: market data/performance/risk | Permitted instruments/sources, canonical calendars/FX, rules/XIRR/risk and freshness; source evidence before live activation |
+| PH-04: scientific baseline/F1–F8/learning | Point-in-time folds/benchmarks, immutable predictions/mature outcomes and owner promotion evidence; A/B execution choice backed by measurements |
+| PH-05: evidence/agents/chat/evals | Bounded direct SDK roles, contextual chat/memory, structured factors, T0/T1/T2/online monitoring and per-call cost admission |
+| PH-06: web discovery/ranking/proof/briefs | Agreed SvelteKit mode and UX, discovery first, separate holdings, cost views, horizon/proof/ranking and briefing/alert policy |
+| PH-07: native/offline/push | Agreed iPhone/iPad/“Duo” matrix, Swift-owned surfaces and typed RN contracts, auth/secure cache/push/accessibility/reconnect evidence |
+| PH-08: operational/release acceptance | Security/UI/regression/CI/recovery drills, total-cost admission/reconciliation and investigation evidence; full launch gates, not a reason to postpone earlier-layer controls |
+| PH-09: extensions/conditional MA transfer | New markets/themes/models only after evidence/cost/owner approval; refresh any MA transfer inventory and obtain explicit authority before retirement/removal |
+
+Historical crosswalk: old phase 0 maps mainly to PH-00/02; old phase 1 to PH-01/03/06; old phase 2 to PH-04; old phase 3 to PH-05/06; old phase 4 to PH-07; old phase 5 to PH-08. PH-09 makes expansion/transfer conditions explicit. These are dependency/outcome constraints, not an instruction to implement before agreement. Cost/audit/guardrail work accompanies its first feature and is not deferred to the admin portal or final phase.
+
+Proposed ADR backlog, **unapproved**:
+
+- Supersede/reconcile ADR 0006 for serverless preference, data-store fit, dev/prod boundary and the all-in budget; select region only with current evidence.
+- Amend ADR 0001 for REST streaming, Python adapter, authorization/reconnect and durable-event bridge; define static SvelteKit versus SSR.
+- Amend ADR 0005 for official Anthropic client SDK loop and per-role authority; remove Agent SDK as the intended runtime after approval.
+- Define DynamoDB access/atomic visibility/idempotency model versus justified relational alternative, financial precision and privacy/deletion semantics.
+- Choose Durable Functions versus Step Functions, queue/outbox and external-side-effect reconciliation, including runtime version and limits.
+- Choose ML option A/B, register/artefact format, inference packaging and owner promotion/rollback evidence.
+- Specify Cognito tier/local-profile linking, Apple/Google/passkeys, two independent recovery paths and sensitive-action reauthentication; test lost-device/recovery/revocation.
+- Specify observability tooling, durable-audit retention, deletion/backup semantics, RPO/RTO, cost reservations and report reconciliation.
+- Resolve broker/layout coverage, market calendars/FX/benchmark/return definitions, alert materiality/cooldowns/weekends and exact native device matrix. Confirmed weights (35/40/25), balanced loss thresholds and 07:30 Europe/London with 22:00–07:00 quiet hours are inputs; calculation windows, exceptional critical alerts and score formulas remain open.
+
+## 9. Diagram and validation evidence
+
+Under the owner's later explicit diagram request, one **new detailed draft page** was appended to the existing [editable Lucidchart](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit): **“DRAFT | Detailed MP system | 2026-11-01”**, page ID `jvMISWi7AU3v` (page 4), document version **2703**. It covers clients/auth, imports, durable jobs, market/forecast science, bounded direct Anthropic agents, launch costs and logical trust boundaries with 25 verified native AWS icons, 40 component/control nodes and 30 labelled connectors. Open the [native PNG](visuals/mp-system-architecture-native.png) at full resolution for detailed labels. [Actual canvas source snapshot](visuals/mp-system-architecture-source.json) · [Export provenance, hashes and validation](visuals/architecture-lucid-manifest.json). This is diagram authoring, not implementation or an independent review; no Confluence publication, public-share change, invitation, paid feature or deployment occurred.
+
+The existing A/B/C pages were preserved and compared unchanged before/after authoring. Their [prior manifest](../aws-options-2026-11-01/diagram-manifest.json), [Plan A export](../aws-options-2026-11-01/option-a-lucid.png) and [Plan B export](../aws-options-2026-11-01/option-b-lucid.png) remain historical comparison evidence; C is retired. A/B training and workflow alternatives remain unselected on the new page. The export is a native Lucid PNG, not a model-rendered reconstruction; its JSON companion is a canvas readback, not Standard Import JSON. Seven native canvas validators passed with no final issues, and the saved PNG was visually inspected. These are manual snapshots, not automatic synchronization. The static diagram is readable without motion; separate animated companions explain sequence only.
+
+The owner's subsequent request for detailed VPC/network options added **page 5**, `VNMISlFqoQy9`, at document version **4333**, with native VPC/AZ/private/public subnet/SG/ENI/NAT/IGW components and explicit unselected alternatives. The [network appendix](network-topology-options.md) is an inline technical companion for the architecture page. Its [native PNG](visuals/mp-network-options-native.png), [canvas source](visuals/mp-network-options-source.json) and [manifest](visuals/network-lucid-manifest.json) record clean native checks, final image inspection and preservation of all four prior pages. No Confluence/Jira publication or AWS resource operation followed from this authoring.
+
+Evidence checked for this draft: local manifests/lock and starter routes, accepted ADRs, current decision register and named planning documents; official Svelte/AWS/Anthropic documentation linked above on 1 November 2026, plus the later authorised Lucid authoring/readback/export described here. Documentation capability is not account/region/service verification. Remaining validation is deliberate: full-scope recost, approved contract proofs, native/device matrix, identity linking/recovery, actual provider/layout evidence, independent review and owner end-to-end agreement. No AWS/Anthropic account APIs, paid model calls, deployments, real-data uploads or independent review ran as part of this draft.

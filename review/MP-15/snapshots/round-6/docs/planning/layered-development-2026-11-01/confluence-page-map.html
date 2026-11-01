@@ -1,0 +1,289 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | MP page proposal</title><link rel="icon" href="data:,"><style>
+:root{--ink:#0f172a;--muted:#475569;--line:#cbd5e1;--surface:#f8fafc;--blue:#1d4ed8;--blue-dark:#1e3a8a;--teal:#115e59;--amber:#92400e;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--blue-dark)}a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:3px solid #b45309;outline-offset:4px}
+.grid{display:grid}.gap-6{gap:24px}.p-6{padding:24px}.rounded-lg{border-radius:8px}.font-semibold{font-weight:600}.text-sm{font-size:14px}.text-slate-600{color:var(--muted)}
+.shell{grid-template-columns:256px minmax(0,1fr);max-width:1536px;margin:auto;padding:32px}.sidebar{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;padding:8px}.brand{font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--blue-dark);margin:0 0 16px}.sidebar a{display:block;text-decoration:none;font-size:14px;padding:8px 12px;border-left:3px solid transparent}.sidebar a[aria-current=page]{background:#dbeafe;border-color:var(--blue);font-weight:600}.sidebar .toc{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}.sidebar .toc a{font-size:13px;padding:6px 12px}
+.sheet{min-width:0;background:#fff;border:1px solid #e2e8f0;padding:48px}.status{border-left:4px solid #b45309;background:#fffbeb;padding:16px 24px;margin:0 0 32px}.status p{margin:0}.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h1{font-size:36px;line-height:1.18;letter-spacing:-.03em;margin:0 0 24px;color:var(--blue-dark)}h2{font-size:26px;line-height:1.3;letter-spacing:-.015em;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:24px}h3{font-size:20px;line-height:1.4;margin:32px 0 12px;scroll-margin-top:24px}p,li{max-width:90ch;overflow-wrap:anywhere}p{margin:16px 0}li+li{margin-top:8px}code{font-size:.9em;background:#f1f5f9;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{background:#0f172a;color:#f1f5f9;border-radius:8px;padding:24px;max-width:100%;overflow:auto;line-height:1.5;font-size:13px}pre code{padding:0;background:transparent;color:inherit;white-space:pre;overflow-wrap:normal}
+.table-scroll{max-width:100%;overflow:auto;margin:24px 0;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid #e2e8f0;min-width:96px}th{background:#eff6ff;color:#1e3a8a;font-weight:600}tbody tr:nth-child(even){background:#f8fafc}tbody tr:last-child td{border-bottom:0}
+.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:32px}.metric{border:1px solid var(--line);padding:20px;border-radius:8px}.metric strong{display:block;font-size:28px;line-height:1.2;color:var(--teal)}.metric span{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+.workflow,.diagram{border:1px solid var(--line);border-radius:8px;margin:32px 0;padding:24px;background:#f8fafc}.workflow img,.diagram img{display:block;width:100%;height:auto;background:#fff}.controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}button{font:inherit;font-size:14px;font-weight:600;background:var(--blue-dark);color:white;border:1px solid var(--blue-dark);border-radius:6px;padding:10px 16px;cursor:pointer}button:disabled{opacity:.65;cursor:default}.caption{font-size:13px;line-height:1.55;color:var(--muted)}.native-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.diagram{min-width:0}.diagram h3{margin-top:0}
+details{margin:16px 0;border:1px solid var(--line);border-radius:8px;padding:16px 20px}summary{cursor:pointer;font-weight:600;color:var(--blue-dark)}details p{font-size:14px}.tag{display:inline-block;padding:3px 8px;border-radius:4px;background:#e2e8f0;font-size:12px;color:#334155}.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:10;background:white;padding:12px}.footer{border-top:1px solid var(--line);margin-top:48px;padding-top:24px;font-size:13px;color:var(--muted)}
+@media(max-width:1100px){.shell{grid-template-columns:220px minmax(0,1fr);padding:24px}.sheet{padding:32px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.shell{display:block;padding:16px}.sidebar{position:static;max-height:220px;border:1px solid var(--line);border-radius:8px;margin-bottom:24px}.sidebar .toc{display:none}.sheet{padding:24px}.native-grid{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:480px){.shell{padding:8px}.sheet{padding:16px}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:24px}.workflow,.diagram{padding:12px}th,td{padding:10px 12px}h2{font-size:23px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.sidebar,.controls,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}.table-scroll{overflow:visible}body{font-size:10pt;background:white}h2,h3{break-after:avoid}.workflow,.diagram{break-inside:avoid}details{break-inside:avoid}}
+</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections"><a href="index.html">Reading hub</a><a href="portfolio-import-spec.html">Portfolio and imports</a><a href="phased-delivery-plan.html">Phased delivery</a><a href="architecture-blueprint.html">Architecture</a><a href="network-topology-options.html">VPC and egress options</a><a href="tech-stack-matrix.html">Technology choices</a><a href="confluence-page-map.html" aria-current="page">MP page proposal</a><a href="mp-sync-write-proposal.html">Proposed sync scope</a><div class="toc"><a href="#verified-target-and-published-baseline">Verified target and published baseline</a><a href="#proposed-page-tree">Proposed page tree</a><a href="#proposed-creates-and-local-source-mapping">Proposed creates and local source mapping</a><a href="#exact-bounded-updates-to-existing-pages">Exact bounded updates to existing pages</a><a href="#source-and-evidence-navigation">Source and evidence navigation</a><a href="#publication-preparation-gaps-and-owner-boundaries">Publication preparation gaps and owner boundaries</a><a href="#eight-proposed-private-mp-image-attachment-upserts">Eight proposed private MP image attachment upserts</a><a href="#owned-notice-composition-and-retry-contract">Owned notice composition and retry contract</a><a href="#checks-for-the-local-map">Checks for the local map</a></div></nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p><h1>MP Confluence publication map</h1><div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div>
+<p><strong>Prepared 1 November 2026. Local publication proposal; nothing in this pack has been published.</strong> Target: the existing <strong>mypaisaa-prediction</strong> knowledge base, space key <code>mypaisaapr</code>, space ID <code>5145174</code>. No MA page is a destination. The completed approved read-only comparison was reported in chat and made zero changes; this file is prepared separately under the later local-authoring permission. No external sync correction is applied. Round 1 found the blocking notice-composition issue; the author fix is prepared and round 2 remains unrun/not clean-certified.</p>
+<p>The <a href="confluence-page-map.json">structured map</a> carries the same target inventory and proposed mutations. Its local draft IDs identify pages to create later; they are not Confluence page IDs or Jira issue keys.</p>
+<h2 id="verified-target-and-published-baseline">Verified target and published baseline</h2>
+<p>The Atlassian connector read the current MP pages, space metadata and ancestors on <strong>2026-11-01</strong>, completing this inventory by <strong>20:35 UTC</strong>. Every knowledge page below is currently a direct child of the homepage. The space lookup returned no configured space instructions, consistent with <code>metadata.hasSpaceInstructions=false</code> on all six page reads. The space is a current knowledge base; its two template pages are outside this change.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Existing page</th>
+<th>ID</th>
+<th>Published version</th>
+<th>Version timestamp UTC</th>
+<th>Proposed treatment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/overview?homepageId=5145345">mypaisaa-prediction home</a></td>
+<td>5145345</td>
+<td>2</td>
+<td>2026-11-01 13:56:44.179</td>
+<td>Reuse; bounded current-planning notice and navigation update</td>
+</tr>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981241">Product brief and knowledge base</a></td>
+<td>4981241</td>
+<td>3</td>
+<td>2026-11-01 14:09:40.749</td>
+<td>Reuse; current requirement digest and child-spec link</td>
+</tr>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145394">Architecture and decision records</a></td>
+<td>5145394</td>
+<td>4</td>
+<td>2026-11-01 14:06:08.693</td>
+<td>Reuse; historical/current separation and two child links</td>
+</tr>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112476">Roadmap and current implementation status</a></td>
+<td>5112476</td>
+<td>2</td>
+<td>2026-11-01 13:54:40.961</td>
+<td>Reuse; link new planning index and qualify older phase snapshot</td>
+</tr>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014127">Development, CI and Codex workflows</a></td>
+<td>5014127</td>
+<td>5</td>
+<td>2026-11-01 14:09:37.929</td>
+<td>Reuse; add current pack/approval/evidence links</td>
+</tr>
+<tr>
+<td><a href="https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112525">Security, cost and operations</a></td>
+<td>5112525</td>
+<td>3</td>
+<td>2026-11-01 14:06:13.461</td>
+<td>Reuse; current cost/retention/auth digest, preserve older evidence</td>
+</tr>
+</tbody>
+</table></div>
+<p>These versions describe <strong>already published older snapshots</strong>, mostly marked <code>d0e0c14</code> on <code>main</code>. They do not certify the new local pack. The local preparation branch was <code>MP-15-requirements-decisions</code>, with HEAD <code>082972bf25fccf03ff72563257d5f7dd07f39c95</code>; the new documents were being drafted locally and are not asserted to exist at that commit or on GitHub. Publication must record the eventual approved source revision and hashes.</p>
+<h2 id="proposed-page-tree">Proposed page tree</h2>
+<p>Existing pages keep their IDs, names and parents. Five new, bounded children carry the substantial new documents. This avoids replacing the knowledge base with a second copy or putting every document into one long page.</p>
+<pre><code class="language-text">mypaisaa-prediction [5145345, existing]
+├── Product brief and knowledge base [4981241, existing]
+│   └── MP | Portfolio and import specification [NEW, page ID not allocated]
+├── Architecture and decision records [5145394, existing]
+│   ├── MP | Architecture blueprint [NEW, page ID not allocated]
+│   └── MP | Technology stack and decision matrix [NEW, page ID not allocated]
+├── Roadmap and current implementation status [5112476, existing]
+│   └── MP | Layered development planning - 1 November 2026 [NEW]
+│       └── MP | Phased delivery plan and story map [NEW]
+├── Development, CI and Codex workflows [5014127, existing]
+└── Security, cost and operations [5112525, existing]
+</code></pre>
+<p>The planning index links all five new pages and the five existing knowledge hubs; semantic placement and cross-links give readers one entry point without duplicating the detailed content. No page moves, renames, deletions, template edits, ownership transfers or permission changes are proposed.</p>
+<h2 id="proposed-creates-and-local-source-mapping">Proposed creates and local source mapping</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Draft page ID / destination</th>
+<th>Exact local source payload</th>
+<th>Bounded page contents and joins</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NEW-PLANNING-INDEX</code>; parent 5112476</td>
+<td><a href="index.html">README.md</a>, <a href="index.html">index.html</a>, this map and <a href="confluence-page-map.json">JSON map</a></td>
+<td>One navigation/status digest of the pack: layer overview, local approved-versus-proposed status, unresolved decisions, links to four detailed child/peer pages, existing MP hubs and MP-15. Use README as the prose source; index.html is a local reading view, not a separate Confluence page or Sites publication.</td>
+</tr>
+<tr>
+<td><code>NEW-PORTFOLIO-IMPORT</code>; parent 4981241</td>
+<td><a href="portfolio-import-spec.html">portfolio-import-spec.md</a>, <a href="portfolio-import-stories.json">portfolio-import-stories.json</a>, <a href="portfolio-import-contracts.json">portfolio-import-contracts.json</a>, <a href="portfolio-import-examples.json">portfolio-import-examples.json</a>, <a href="portfolio-import-spec.html">local reading view</a></td>
+<td>Portfolio/import contracts, user workflow, data sufficiency, all five import methods, preview/confirmation/reversal, acceptance and open decisions. Render <code>L1-S01</code>–<code>L1-S16</code> as a table with their own IDs and evidence links, not fabricated MP issue links. Reference contracts and worked examples as companions on this same page; the HTML reading view creates no additional page. Join requirements/DEC links, fixture evidence, architecture interfaces and the phase plan.</td>
+</tr>
+<tr>
+<td><code>NEW-PHASED-PLAN</code>; parent <code>NEW-PLANNING-INDEX</code></td>
+<td><a href="phased-delivery-plan.html">phased-delivery-plan.md</a>, <a href="phase-story-map.json">phase-story-map.json</a></td>
+<td>Ordered phases, dependencies, entry/exit evidence, cross-cutting cost/security/science/UX controls, local story map and approval gates. Distinguish the new proposed sequence from existing Phase 0–5 epics; preserve actual MP issue mappings only when verified.</td>
+</tr>
+<tr>
+<td><code>NEW-ARCHITECTURE</code>; parent 5145394</td>
+<td><a href="architecture-blueprint.html">architecture-blueprint.md</a>, <a href="network-topology-options.html">network appendix</a></td>
+<td>Planned component/layer contracts, import and evidence boundaries, request/batch/research flows, storage trade-offs, failure/authorization/cost constraints, open ADRs. Keep the current health/sample-SSE implementation separate from proposed product components. Inline N0/N1/N1-E network options and their native export on this same page; no extra child page. Link the stack matrix, portfolio contracts, phase gates and current visual inventory.</td>
+</tr>
+<tr>
+<td><code>NEW-TECH-STACK</code>; parent 5145394</td>
+<td><a href="tech-stack-matrix.html">tech-stack-matrix.md</a></td>
+<td>Requested versus installed/verified/proposed choices; service responsibilities and interfaces, deployment/cost consequences, alternatives, compatibility evidence and decisions still needed. Link the architecture, current manifests, canonical decisions and sources rather than repeating contracts.</td>
+</tr>
+</tbody>
+</table></div>
+<p>These are proposed payload mappings, not assertions that draft files are final or already uploaded. Local JSON remains the machine-readable companion; its tables may be rendered on the destination page. Eight named image attachment upserts are proposed under the new planning index as listed below; JSON companions are inline content, not attachments. New pages start as <strong>Draft planning - owner approval pending; implementation not authorised</strong>, even when an individual source decision is confirmed.</p>
+<h2 id="exact-bounded-updates-to-existing-pages">Exact bounded updates to existing pages</h2>
+<p>Preserve existing content, links, rich macros and attachments. At publication, re-read the <strong>full current draft as HTML</strong>, inspect differences, and obtain a fresh draft snapshot token. The published versions above are evidence, not tokens to reuse for a write. Apply the following named blocks and link additions, not a whole-body replacement.</p>
+<ol>
+<li><strong>Homepage 5145345:</strong> prepend <code>Current requirements and layered planning - 1 November 2026</code>; link the planning index and show the requirements/UX approval boundary. Add the planning-index link in a bounded current-navigation block while preserving the existing navigation table. State MP-3 Done as historical sync, MP-15 In Progress as current planning, and MP-16 Done as fixture-tooling evidence only. Label the older £50 AWS-only line as a historical baseline and give the current £100 all-in planning envelope beside it.</li>
+<li><strong>Product KB 4981241:</strong> prepend <code>Current requirements baseline</code>; link canonical <a href="../aws-options-2026-11-01/product-requirements.md">product requirements</a> and <a href="../aws-options-2026-11-01/product-decisions.json">DEC-001–041 register</a>, then the portfolio/import child and planning index. Summarise all five first-version import methods, long-term horizons, synthetic local/dev now, actual screenshots/PDFs later, discovery-first UX and cost dashboard at launch. Clearly identify the older CSV-only, pending-auth and Agent-SDK descriptions as historical where contradicted; retain the original snapshot as evidence.</li>
+<li><strong>Architecture 5145394:</strong> prepend <code>Current architecture direction and open decisions</code>; link both new children and the canonical decisions. State direct Anthropic Python <strong>client-SDK</strong> loop on Lambda, with models on Anthropic; Lambda/S3/DynamoDB is the AWS preference, with final storage/compute/service contracts and costing still proposed. Label the current single-host/PostgreSQL/Agent-SDK material, ADR-0005/0006 and old diagrams as the previous baseline requiring explicit reconciliation. Do not relabel them as a freshly approved Lambda deployment. Add the actual native page-5 network options and N0/N1/N1-E choice as proposed/unselected; no physical infrastructure is implied.</li>
+<li><strong>Roadmap 5112476:</strong> prepend <code>Current layered plan - proposed</code>; link the index and phase-plan page. Retain the existing implementation-status block and original phase/MP-4–MP-9 mapping as a dated snapshot. Do not infer current epic statuses from those older links. Explain that the new local story IDs are draft planning items; a later approved Jira write will allocate actual keys. No phase exit is declared complete by this pack. The approved check read MP-4–MP-13 as To Do, MP-15 In Progress, MP-16 Done and MP-3/MP-14 Done; preserve historical snapshots below rather than implying the old MP-3 In Progress wording is current.</li>
+<li><strong>Workflow 5014127:</strong> add <code>Layered planning publication and evidence</code>; link the index, page map, requirements/decision sources and MP-15. State precise-scope plan-sync approval before any later sync, explicit external-write approval, independent review only when approved, and current-prompt PR/merge/closure permissions. Preserve the existing workflow diagrams, commands and history; do not report their dated CI observations as new verification.</li>
+<li><strong>Security/cost 5112525:</strong> prepend <code>Current requirements delta - proposed implementation</code>; link canonical <a href="../aws-options-2026-11-01/audit-observability-requirements.md">audit/observability/cost requirements</a>, decisions, stack and plan. Summarise £100 all-in cash ceiling (£70 operation/£30 reserve), £60/£75/£85 forecast-cash actions, reported shared $200 Anthropic credit <strong>unverified</strong>, no automatic paid fallback, internal live estimates with Claude billing every six hours/AWS daily, priority cost dashboard, renewable 24-month originals, separate 14d/30d/90d telemetry, monthly recovery/audit exercises and Cognito/verified linking. Keep original £50 AWS-only allowances, single-host diagram and quarterly-drill text as visibly historical; do not imply an approved service allocation, current pricing, configured collectors, deletion job or provisioned auth. Add conditional NAT/interface-endpoint fixed-floor and reachability/policy/recovery gates; Region prices and any network selection remain open.</li>
+</ol>
+<p>Each new page and update block carries a source/evidence footer: source path, eventual source revision/hash, decisions referenced, status, preparation/publish date, actual reviewer status, relevant phase/local story IDs and external page/issue links. Mark source URLs as pending until reachable. Do not construct GitHub links to uncommitted files or invent anchors/issue keys. When publishing, resolve local document links to the actual created/reused MP page IDs and use verified section links or source paths for JSON decision/story references.</p>
+<h2 id="source-and-evidence-navigation">Source and evidence navigation</h2>
+<ul>
+<li><strong>Authority:</strong> <a href="../aws-options-2026-11-01/product-requirements.md">product-requirements.md</a>, <a href="../aws-options-2026-11-01/product-decisions.json">product-decisions.json</a>, DEC-001–041. An approved decision does not approve its unasked implementation defaults. DEC-041 postpones actual input collection for the current synthetic phase; it does not remove live identity, rights or pricing prerequisites.</li>
+<li><strong>Synthetic evidence:</strong> <a href="../../synthetic-test-data.md">synthetic-test-data.md</a> and <a href="../../synthetic-import-samples.md">synthetic-import-samples.md</a>. Link validated sample manifests/acceptance evidence from the portfolio and phase pages. Synthetic observations/accounts must never look like actual owner holdings. No private originals, account details or source data are copied to Confluence by this proposal.</li>
+<li><strong>Operational requirements:</strong> <a href="../aws-options-2026-11-01/audit-observability-requirements.md">audit-observability-requirements.md</a> and its existing source register. Reuse captured evidence; do not import MA accounts, policies, naming, permissions or ownership.</li>
+<li><strong>Visual sources:</strong> <a href="../../diagrams/README.md">historical diagram guide</a> and <a href="../../diagrams/manifest.json">historical manifest</a> retain older system/deployment snapshot identities and versions. The current detailed native <a href="visuals/mp-system-architecture-native.png">MP system PNG</a> is a byte-for-byte Lucid export from existing comparison document <code>02218133-613a-4b78-aea4-e0dba26db386</code>, new page <code>jvMISWi7AU3v</code> (page 4), document version <strong>2703</strong>. Its <a href="visuals/mp-system-architecture-source.json">native source snapshot</a> and <a href="visuals/architecture-lucid-manifest.json">export/validation manifest</a> record actual provenance; original A/B/C pages are unchanged. Supporting <a href="visuals/manifest.json">workflow manifest</a> and <a href="visuals/planning-chart-manifest.json">chart manifest</a> record exact source values and rendering checks. Confluence publication adds the eight listed image upserts only; it performs no further Lucid source edit or architecture deployment.</li>
+<li><strong>Work tracking:</strong> <a href="https://duttaarun2015.atlassian.net/browse/MP-15">MP-15</a> was read as <strong>In Progress</strong>, parent MP-4, updated <strong>2026-11-01T17:29:58.940Z</strong>. It currently describes Claude Agent SDK and local brainstorming with no publication. Its historical text is not authority for the newer client-SDK direction or a publication permission. The DEC register identifies MP-16 for existing synthetic-fixture work; this map has not checked MP-16's live status and does not claim it is complete.</li>
+</ul>
+<h2 id="publication-preparation-gaps-and-owner-boundaries">Publication preparation gaps and owner boundaries</h2>
+<p>This is a narrow publication-preparation inventory. It does not run plan-sync or mutate Confluence/Jira. Other authorised maker lanes added the detailed native Lucid page and local diagram references; these remain proposed and independently unreviewed.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Consequence before publication or implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New local drafts versus old published <code>d0e0c14</code> baseline</td>
+<td>Approve the five creates and six bounded updates together so navigation never presents incompatible snapshots as one current baseline. Re-read full drafts immediately before writing and preserve unrelated edits/macros.</td>
+</tr>
+<tr>
+<td>Root AGENTS/workflow/ADR-0006 still describe £50 AWS and single-host storage</td>
+<td>Current owner decisions give the £100 all-in envelope and Lambda/S3/Dynamo preference, while final architecture is open. Record supersession explicitly; propose any root/ADR correction separately. This map does not silently rewrite an accepted ADR or treat the preference as final deployment approval.</td>
+</tr>
+<tr>
+<td>MP-15 and old ADR-0005 say Claude Agent SDK</td>
+<td>Current pack follows the explicit Anthropic Python client-SDK Lambda decision. Any later tracker/ADR correction is a separately stated write scope.</td>
+</tr>
+<tr>
+<td>SvelteKit 3 requested; versions/compatibility still to verify</td>
+<td>Use a requested-version label and the stack matrix's actual verification evidence. Do not call a requested major version installed or supported.</td>
+</tr>
+<tr>
+<td>£100 full scope and shared $200 promotional credit not account/cost verified</td>
+<td>Preserve gross usage, credit and cash separately; proposed allocations are not funded facts. No paid fallback, provider subscription, AWS load or deployment is approved here.</td>
+</tr>
+<tr>
+<td>Actual broker/layout and listing evidence deferred</td>
+<td>Publish synthetic-first requirements and sample-backed/generic templates. Actual holdings/PDF/screenshots can be added progressively; they are not prerequisites for this local pack, and are not included in the publication payload.</td>
+</tr>
+<tr>
+<td>Detailed requirements, numerical defaults, UX and phase exit evidence open</td>
+<td>Pages remain draft planning. Approval to publish documentation is distinct from approval of architecture, end-to-end requirements/UX, implementation, live data or model promotion.</td>
+</tr>
+<tr>
+<td>Independent review not yet run</td>
+<td>Offer it once at the end of the coordinated work, specifying lanes/rounds and required regressions. No reviewer or regression ledger is started by preparing this map.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The recommended destination/tree is concrete and needs no extra page-location choice. The remaining owner decision is <strong>whether to approve five MP page creates, six bounded updates and eight named private MP image attachment upserts after the local drafts and gates are ready</strong>. It authorises neither a formal plan-sync nor Jira changes, Sites/Artifacts publication, diagram source edits, attachments beyond the eight named images, paid calls, AWS mutations, application implementation, PR creation, merge or issue closure. If a later task also asks for plan-sync, ask for its precise scope using the project procedure. Review consent follows the project-specific per-round rule.</p>
+<p>The subsequent bounded-correction proposal incorporates the approved check’s observations: all six published page versions are unchanged; MP-3 is Done; MP-15 remains In Progress; MP-16’s completed synthetic-tooling work does not certify product importers; ten MP-4–13 records remain To Do. Homepage macros and ten existing diagram attachments must be preserved. Eleven MP Jira description-only changes are prepared separately in the local sync proposal; that proposal is neither a Confluence-body source nor an applied change.</p>
+<h2 id="eight-proposed-private-mp-image-attachment-upserts">Eight proposed private MP image attachment upserts</h2>
+<p>The new planning index owns these eight exact files. After approved page allocation/reuse, inspect current owner attachments by exact filename and reuse actual IDs/versions when appropriate. No page or attachment IDs are invented. No upload has run.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Filename</th>
+<th>Pixels</th>
+<th>Bytes</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IMPORT-WORKFLOW-STATIC</td>
+<td><code>import-workflow.png</code></td>
+<td>1600×880</td>
+<td>113892</td>
+<td><code>f6265042c96a51b12e7f48646bf5949486c8296f2234d8c5c190fd76052acacf</code></td>
+</tr>
+<tr>
+<td>IMPORT-WORKFLOW-ANIMATED</td>
+<td><code>import-workflow.gif</code></td>
+<td>1600×880</td>
+<td>555995</td>
+<td><code>edba2c4c25a1cb9ae07c66920093e7a52651ad0656e8949196c3179aca3fea02</code></td>
+</tr>
+<tr>
+<td>LUCID-OPTION-A</td>
+<td><code>option-a-lucid.png</code></td>
+<td>2280×2900</td>
+<td>151563</td>
+<td><code>536af178b55ee856e7399ef8fb847abcdb4f913fcf14704edf188385722f33b3</code></td>
+</tr>
+<tr>
+<td>LUCID-OPTION-B</td>
+<td><code>option-b-lucid.png</code></td>
+<td>2280×2900</td>
+<td>153105</td>
+<td><code>54fd0f47fbe3d80a7083e8624085a9df7805dcb337f56715dc937442368478c5</code></td>
+</tr>
+<tr>
+<td>MP-SYSTEM-ARCHITECTURE</td>
+<td><code>mp-system-architecture-native.png</code></td>
+<td>2565×4932</td>
+<td>1339989</td>
+<td><code>2ea51f99a487f18af9e6a4284f4c3d2c6427a8d04f7ca4e84e75291bec448fd4</code></td>
+</tr>
+<tr>
+<td>PHASE-DEPENDENCIES</td>
+<td><code>phase-dependencies.png</code></td>
+<td>1600×1280</td>
+<td>104324</td>
+<td><code>edf1f949e5addad9e9875ecab5b10a1b7ef5753d1a37f2379c99c74c8d059f98</code></td>
+</tr>
+<tr>
+<td>BUDGET-ENVELOPE</td>
+<td><code>budget-envelope.png</code></td>
+<td>1600×720</td>
+<td>60557</td>
+<td><code>fe56fac7fda3bf713879a82bd5943ccdad83d7635a5667aff15a6d793c7451b5</code></td>
+</tr>
+<tr>
+<td>MP-NETWORK-OPTIONS</td>
+<td><code>mp-network-options-native.png</code></td>
+<td>2416×4714</td>
+<td>1010128</td>
+<td><code>89acd7f59f8eb209f9362db8cfb71b413355262aec23bce85b8820ee83c22e1d</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>The architecture child contains the actual detailed-system native export, preserved A/B comparisons and full network appendix/native page-5 export. The phased page contains the exact dependency chart. Index/security-cost show the £70/£30 planning chart. The index uses the workflow PNG by default and an explicit optional GIF link; no autoplay. Reuse the eight attachments by reference from the index owner. No extra child page is introduced.</p>
+<p>Network export provenance is <a href="visuals/network-lucid-manifest.json">network-lucid-manifest.json</a>: document <code>02218133-613a-4b78-aea4-e0dba26db386</code>, page <code>VNMISlFqoQy9</code> (page 5), saved version <strong>4333</strong>. N0/N1/N1-E are unselected candidates, not deployed VPCs/subnets/routes/SGs/endpoints/NATs. Endpoint reachability, policy paths and network fixed cost require evidence and owner selection. The page-4 export remains its historical saved version <strong>2703</strong>. These are manual source/export snapshots; neither image publishes or deploys anything.</p>
+<p>No PDF, private original, data fixture, workbook, JSON/source/manifest, SVG/draw.io or ninth image is in upload scope. Eight upserts are additional to five creates/six bounded updates; identical existing files may need no binary upload. Verify the supported binary-version route before updating a different existing attachment.</p>
+<h2 id="owned-notice-composition-and-retry-contract">Owned notice composition and retry contract</h2>
+<p>The six per-page content descriptions are <strong>owned notice upserts</strong>, not instructions to prepend again on retry. Each page has stable visible HTML paragraph/code begin/end identifiers <code>MP15-NOTICE-BEGIN:&lt;page-id&gt;:v1</code> and <code>MP15-NOTICE-END:&lt;page-id&gt;:v1</code>. They survive through observable supported paragraph text; no HTML comments, storage XML, custom attributes or fabricated local IDs are used for ownership.</p>
+<ul>
+<li>Absent range: insert exactly one wrapped notice before existing content.</li>
+<li>Exactly one valid pair: compare the actual inner HTML. Proven equivalent content is a no-op; changed content replaces only that range. A declared content/source hash alone never proves equality.</li>
+<li>Missing, duplicate, reversed, nested, malformed, unknown-scope or unobservable range: stop. Do not guess, repair or append.</li>
+<li>A stale token or ambiguous response requires another full current draft HTML read and fresh token/read identity before any retry. Recompose from that read; never replay an old prepend.</li>
+</ul>
+<p>Prefer granular supported MCP edits with fresh local IDs for the complete contiguous owned root nodes. If a safe edit cannot be expressed, stop unless an HTML-only exact splice can demonstrably preserve all outside rich nodes/bytes/IDs. Never downgrade the full existing body to Markdown. Dry-run and read back the actual range and outside macros/media/IDs before reporting success. Conservative comparison tolerates assigned local IDs/attribute order/between-block whitespace; other normalisation triggers bounded replacement rather than a false no-op claim.</p>
+<p>The focused <a href="confluence_notice_composition.py">composer</a> and <a href="test_confluence_notice_composition.py">behavioural tests</a> run offline; they never access Confluence. They prove double composition does not duplicate, rich outside markup remains byte-identical, and invalid scopes/stale/ambiguous state refuses unsafe retries. These are maker checks for a round-1 fix, not an independent review or live ADF round-trip certification. Every bounded notice now includes decision/phase/story references, working-tree source hashes/Git base and the honest round-1-fix/round-2-pending status.</p>
+<h2 id="checks-for-the-local-map">Checks for the local map</h2>
+<p>Run JSON parsing, unique local draft IDs, existing-page/version completeness, only-MP destination and parent checks, local source-path checks once the coordinated pack is complete, and cross-check the mutation counts against this document. These are document-integrity checks, not independent review, a review-regression run, a formal plan-sync or proof of product readiness. Publication still requires current-page rereads, content-format guidance, approved source versions and explicit owner write consent.</p>
+<p>Final local reference check: all mapped source/reading-view paths exist. Eight named image source files were inspected for type/dimensions/bytes/hash; the workflow GIF is an optional seven-frame companion with a static default. Source paths and generated payload links passed maker document-integrity checks. This remains unpublished and not clean-certified: round-1 fixes await separately approved round 2.</p>
+<footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div><script>
+(()=>{const img=document.getElementById('workflow-image');const button=document.getElementById('workflow-toggle');if(!img||!button)return;const motion=matchMedia('(prefers-reduced-motion: reduce)');const status=document.getElementById('workflow-status');let playing=false;
+const stop=()=>{playing=false;img.src='visuals/import-workflow.png';button.setAttribute('aria-pressed','false');button.textContent='Play illustrative workflow';status.textContent='Static workflow. Financial visibility begins only after a valid commit.';};
+const preference=()=>{stop();button.disabled=motion.matches;if(motion.matches)status.textContent='Reduced motion enabled. Static workflow remains available.';};
+button.addEventListener('click',()=>{if(motion.matches)return;if(playing){stop();return;}playing=true;img.src='visuals/import-workflow.gif';button.setAttribute('aria-pressed','true');button.textContent='Pause animation';status.textContent='Illustrative animation of planned behaviour; no import or live telemetry is running.';});motion.addEventListener('change',preference);addEventListener('pagehide',stop);preference();})();
+</script></body></html>

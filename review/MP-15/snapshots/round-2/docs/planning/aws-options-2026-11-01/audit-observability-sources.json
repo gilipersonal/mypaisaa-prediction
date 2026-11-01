@@ -1,0 +1,432 @@
+{
+  "project": "mypaisaa-prediction",
+  "tracking_issue": "MP-15",
+  "as_of": "2026-11-01",
+  "status": "Read-only reference capture; source requirements adapted, not implementation or verified operational state",
+  "source_repository": {
+    "path": "/Users/arundutta/projects/mypaisa-agent",
+    "commit": "387fc38bdc99d77460b6b03d90e2637241e79d1e",
+    "sections": [
+      "ARCHITECTURE.md §4.6",
+      "ARCHITECTURE.md §9.3",
+      "ARCHITECTURE.md §§10.1–10.10"
+    ]
+  },
+  "confluence": [
+    {
+      "id": "1671230",
+      "version": 12,
+      "title": "Observability: one trace from door to model",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671230"
+    }
+  ],
+  "source_issue_count": 21,
+  "adaptations": [
+    "Full upload/change/agent/system traceability is carried forward as requirements, not assumed deployed.",
+    "Owner-configurable retention and deletion supersede MA's permanent raw-file retention.",
+    "Cost monitoring belongs on the main app dashboard, with environment and agent attribution.",
+    "Do not inherit AWS accounts, secrets, permissions, deployments, old pricing or unlimited telemetry.",
+    "Do not assume automatic async trace propagation; verify each boundary and recovery path."
+  ],
+  "issues": [
+    {
+      "id": "11012",
+      "key": "MA-29",
+      "fields": {
+        "summary": "Every Lambda run leaves a RunRecord, logs, traces and an error alarm",
+        "description": "As the operator I want observability from the first Lambda so that every run's model calls, tokens, cost and tools are visible.\n\n**Where.** `src/mypaisa_agent/runs.py`, the handler base in `handlers/`, CloudWatch alarms in `infra/terraform/`.\n\n**Acceptance.**\n\n* A handler base wiring Powertools Logger, Tracer and Metrics, with a run id on every log line.\n* A `RunRecord` per run (success and failure) with model calls, tokens, cost and tool calls; expires after 90 days.\n* An error alarm per function delivered to the owner in the app's chat and by push (wired once the chat API and the sender exist, MA-31, MA-30, MA-61).\n\n**Depends on.** MA-26\n\nUpdated 25 Oct 2026 (MA-161): \"the chat\" is the app's, reached through the sender instead of Telegram's webhook.\n\nUpdated 26 Oct 2026 (MA-230): Tracer gives way to OpenTelemetry. The handler base runs under the AWS Lambda Layer for OpenTelemetry unzipped into the image (`ARCHITECTURE.md` §10.3); Powertools keeps Logger and Metrics; every log line carries `trace_id`, `span_id`, `run_id`, the member's hash and `build`. The `RunRecord` carries `trace_id`, `build` and `version`; its model calls the cache-read and cache-write tokens, the time to the first token, the stop reason and whether the call refused or fell back; its tool calls the error class and the input and output sizes (§10.1). The error alarm also goes to `mypaisa-<env>-admin-alerts` from phase 0 (MA-231) and is itself a `RunRecord` of trigger `alarm` (§10.6). The whole trace from the door is MA-232; the model and tool spans are MA-233.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11044",
+      "key": "MA-61",
+      "fields": {
+        "summary": "A dead man's switch and the error alarms tell the owner, in the app and by push, when a job did not run",
+        "description": "As the operator I want to hear in the app when the morning job is missing or failing so that silence never means broken.\n\n**Where.** CloudWatch alarms in `infra/terraform/`, the alarm-to-owner path through the sender (a card in the owner's chat and a push, MA-170).\n\n**Acceptance.**\n\n* A 07:45 dead man's switch on the morning run; error alarms per function delivered to the owner as a card in the chat and, when the app is closed, a push.\n* Cost, freshness and audit-chain alarms as ARCHITECTURE.md 10 lists, at most ten custom metrics and one dashboard per environment.\n\n**Depends on.** MA-53, MA-29, MA-170\n\nUpdated 25 Oct 2026 (MA-161): \"tell the chat\" becomes the owner's chat in the app and a push.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11054",
+      "key": "MA-71",
+      "fields": {
+        "summary": "Design the Audit and Activity screens on iPhone and iPad",
+        "description": "As Arun I want to pick how the audit log and the agent's activity look on the phone and the iPad.\n\n**Where.** MyPaisa iOS v1 (`iPhone audit and activity.dc.html`, `iPad and foldable.dc.html`), mirrored in `docs/design/ios-v1/`; `docs/design/reviews/MA-71/`, the design-first skill; ARCHITECTURE.md 9.3, 10.\n\n**Board to redraw.** `Foldable · Open, Audit` is redrawn to the width rule: at 880 pt the chat is a sheet over Audit and the sidebar a tab bar at the top, where the board draws a column beside it (ARCHITECTURE.md 9.1). The redraw is done in MA-163's design-first round, not in this story's; until then the rule wins over the board.\n\n**Acceptance.**\n\n* Audit: newest first, filtered by member, record and date, before and after, link to the run; Files and a file preview (MA-149).\n* Activity: runs with model calls, tokens, cost, tools and outcome; the schedule board with last and next run and price freshness; this month's spend against the cap; the last seven days of alarms.\n* iPhone and iPad boards, dark and light; pick recorded.\n\n**Depends on.** MA-70\n\nUpdated 25 Oct 2026 (MA-161): the Mini App and browser boards become the iPhone and iPad boards.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11062",
+      "key": "MA-79",
+      "fields": {
+        "summary": "The Audit screen shows every change with who, when and the file behind it, at every door",
+        "description": "As the owner I want to see who changed what, when, and the file behind it, in the app and the web app.\n\n**Where.** `ios/MyPaisa/` (the Audit screen), `handlers/api`; the web app's Audit page is MA-184.\n\n**Acceptance.**\n\n* Built to MA-71's pick on iPhone and iPad.\n* Exit: the Audit screen shows a change made in the chat, or a figure corrected in place, within a minute, with who, when and the file behind it (MA-149). Activity is the phase 1 story \"Activity shows each run of the agent at every door\" (MA-196).\n\n**Depends on.** MA-71\n\nUpdated 25 Oct 2026 (MA-161): the web pages become screens in the app.\n\nUpdated 26 Oct 2026 (MA-186): Activity moved to its own phase 1 story (MA-196); this story is the Audit screen at every door, in phase 8.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11088",
+      "key": "MA-102",
+      "fields": {
+        "summary": "The owner can sign out or pause any member's devices from the Admin center, behind the second check",
+        "description": "As the owner I want to sign out any member's devices and browser sessions, or pause their account, from the Admin center in the iOS app or the web app, and I want every action there proven by more than an unlocked phone or an open browser, so that a stolen device or a hijacked account cannot read or change the household's money.\n\nArun, 24 Oct 2026: \"I should be able to invalidate any user/telegram session from Dashboard Admin center if needed (in case mobile or telegram session is hacked). Telegram session must be validated and secured somehow using some form of authentication.\"\n\n**Design picked (24 Oct 2026).**\n\n* Admin center option **A, People first**, in MyPaisa DS v1 (Warm ledger). Option B is kept as the record.\n* Both are in the MyPaisa app v1 Claude Design project. The record is in `docs/design/reviews/MA-102/decision.md`. Its browser boards stay the web app's spec (MA-184).\n* Carried into the iOS app (MA-161) on `iPhone admin.dc.html` and `iPad · Admin center` in MyPaisa iOS v1, with the second check as one board (`Second check`); `planned` again until Arun has seen the iOS rendering.\n\n**Arun's decisions.**\n\n1. Pausing ends every session: every device and every browser the member is signed in on, whatever they signed in with. Only the owner lifts a pause (24 Oct 2026).\n2. (24 Oct 2026, replaced on 29 Oct 2026 by decision 4) The owner could pause their own account and restore it by signing in.\n3. The alert colour is a truer red, clearly apart from the coral accent: `--mp-alert` #B5123F / #FF6B8B.\n4. (29 Oct 2026) A paused member gets back in only by the owner's Restore in the Admin center, behind the second check. Their sign-in is refused, with Apple, Google or a passkey alike, and shows one line; there is no Restore tap after signing in. The owner cannot pause their own account, since nobody else could restore it: when the owner's own phone is lost, they sign it out, or sign out everywhere, from another device.\n5. (29 Oct 2026) Adding a sign-in needs no second check: the new provider's fresh sign-in, an audit row, and the new-device message on its first use on a new device (MA-77).\n\n**What a session is here.** Each signed-in iOS device is a `Device` row (name, model, last seen, push token) with its own refresh token; each browser signed in to the web app holds an `HttpOnly` session cookie on the api's host (MA-185) and is listed beside the devices. MyPaisa cannot sign anyone out of their Apple or Google account. It can stop trusting a member, a device or a browser, so they get nothing until the owner restores them.\n\n**How revoking works.**\n\n* Each Member gets a `session_epoch` and a `status` (active or paused).\n* Every access token and session carries the epoch it was issued under.\n* The authorizer (MA-75) refuses any call, or the stream on the api host, from a paused member, or with an older epoch.\n* Signing out one device revokes its refresh token and deletes its push token; signing out one browser ends its session. \"Sign out everywhere\" raises the epoch (and calls `AdminUserGlobalSignOut`), so every device and browser ends on its next request and their streams on the api host close. Pausing raises it too, and disables the member's Cognito user (`AdminDisableUser`), so signing in is refused. Restore enables it again (`AdminEnableUser`), and the member signs in as before. Nothing waits for a token or cookie to expire.\n\n**Admin center (owner only, in the iOS app and in the web app, MA-184).**\n\n* **Members and their sessions.** For each device or browser:\n\n    * its name and model, or the browser and system;\n    * how it signed in (Apple, Google or a passkey);\n    * first and last seen;\n    * the country and city from the IP.\n    \n* **Actions:**\n\n    * sign out this device or browser;\n    * sign out everywhere;\n    * pause the member, which also signs them out everywhere, and restore them;\n    * unlink a sign-in method (MA-77).\n    \n* **The owner's own account.** The owner cannot pause their own account (decision 4). When their own phone is lost, they sign it out, or sign out everywhere, from another device.\n* **Step-up check.** Every action needs the second check (MA-76) taken within the last 5 minutes: in the iOS app a fresh Sign in with Apple or a passkey under Face ID (a member who signs in only with Google proves it with Google again); in the web app a passkey or a fresh Apple or Google sign-in in the browser. A local Face ID alone never authorises an action.\n* **Record and notice.** Every action is an audit row. The affected member gets a message in the chat and a push saying what happened and when, as does the owner.\n\n**Securing the sessions.**\n\n* **Sign-in (MA-109, MA-185).** Apple's or Google's identity token is checked against the provider's keys; refused if older than 5 minutes, replayed, or for the wrong audience or nonce; then exchanged for Cognito tokens bound to the member's epoch, kept in the Keychain on an iOS device, or behind the session cookie in a browser.\n* **An app lock on the phone.** Optional Face ID or the passcode on open and after five minutes away (MA-171); a local comfort, never the server's check.\n* **Changes.** Every change from the chat still needs Confirm; the second check covers exactly the actions ARCHITECTURE.md §4.5 lists: the owner's admin actions, from the Admin center or the admin's chat (ARCHITECTURE.md §20.3), an import's Confirm and rolling an import back, leaving the household (MA-172) and approving a new kind (MA-197), and nothing else. Adding a sign-in is not among them (decision 5).\n* **New devices.** Signing in on a device or a browser the member has not used before sends a push to their other devices and a card in their chat: \"New sign-in to MyPaisa: an iPad, with Google, today at 19:41. Was this you?\", with Yes, it was me and No, sign it out (which signs that device out). Until the member answers, Members and devices shows it as not confirmed, and the owner's chat gets one line with Open Admin center (ARCHITECTURE.md §4.5, \"A new device\").\n* **The accounts' own two-factor.** Setup recommends it on the Google account; Sign in with Apple requires it (MA-72).\n\n**Where.**\n\n* `handlers/api`: the authorizer's session check, the Admin center endpoints, the second check's challenge.\n* `src/mypaisa_agent/registry/`: Member `session_epoch`, `status`, passkeys, `Device`, browser sessions.\n* `ios/MyPaisa/`: the Admin center screens, the second check sheet.\n* `web/`: the web app's Admin center pages and its second check (MA-184).\n* `audit.py`.\n* `ARCHITECTURE.md` §1, §4.5 and §9.4.\n\n**Acceptance.**\n\n* **Sign out one device or browser.** The owner signs out a member's device or browser session; its next request is refused and it shows the sign-in screen.\n* **Sign out everywhere.** Every device and browser of that member ends, and their streams on the api host close.\n* **Pause.**\n\n    * Every device and browser of that member signs out.\n    * Signing in is refused, with Apple, Google or a passkey alike, and shows one line, \"The household’s owner has paused your access to MyPaisa.\", and nothing more; neither the app nor the web app serves data.\n    * Only the owner's Restore in the Admin center, behind the second check, undoes this; the member then signs in as before. There is no Restore tap after signing in.\n    \n* **The owner cannot pause their own account.** The Admin center offers no Pause for the owner, and the api refuses one. A test covers it.\n* **Step-up.** Without the second check from the last 5 minutes, no Admin center action runs, in either door.\n* **Sign-in tokens.** Tampered, replayed, or older than 5 minutes is refused. A test covers each case.\n* **Changes.** The second check is asked on exactly the actions ARCHITECTURE.md §4.5 lists (the owner's admin actions, from the Admin center or the admin's chat, §20.3; an import's Confirm and rolling an import back; leaving the household, MA-172; and approving a new kind, MA-197), and on no others: adding a sign-in asks none.\n* **Audit and messages.** Each of these is an audit row and a message to the owner in the chat and by push:\n\n    * sign-out, pause and restore;\n    * a step-up failure.\n    \n* **A new device or browser.** Its sign-in is an audit row and sends the member's other devices a push and a card in their chat (\"New sign-in to MyPaisa: an iPad, with Google, today at 19:41. Was this you?\", with Yes, it was me and No, sign it out, which signs that device out); until the member answers, Members and devices shows it as not confirmed, and the owner's chat gets one line with Open Admin center (ARCHITECTURE.md §4.5, \"A new device\").\n* **Owner only.** A member or a viewer cannot open the Admin center or call its endpoints. Isolation tests cover this.\n* **The Admin center's own writes.** `ARCHITECTURE.md` §1 records them: owner-only security actions in the Admin center, behind the second check, apart from the records, where anything new is created in the chat and an existing figure can be corrected in place. §4.5 is updated to match.\n* **Built from the picked designs.** The iOS app matches the Admin center option A boards and the second check board as drawn for iOS, on iPhone and iPad; the web app matches the picked browser boards, redrawn without the owner pausing their own account (the trace row's undrawn list); both in light and dark.\n* **Gates:** `uv run ruff check . && uv run pyright && uv run pytest`; the iOS gates (MA-166); Playwright for the web pages. Verified on the dev environment with two members on two devices (an iPhone and an iPad) and a laptop browser.\n\n**Depends on.**\n\n* MA-32: members, invite and remove.\n* MA-74: the api Lambda.\n* MA-75: the authorizer.\n* MA-76: the second check.\n* MA-77: adding and removing sign-in methods.\n* MA-168: sign-in in the app.\n* MA-185: sign-in in the web app.\n\n**Settled (Arun, 29 Oct 2026).** The two questions the trace row held open, which kept this story from In Review:\n\n1. Signing back in after a pause: the owner restores them (decision 4).\n2. Second check to add a sign-in: no, a fresh sign-in only (decision 5; also settled on MA-77 and MA-76).\n\nThe web Admin center boards (Admin center, Admin center 3) still draw the owner pausing and restoring their own account; that redraw is on the trace row's undrawn list, for MA-279.\n\nUpdated 25 Oct 2026 (MA-161): Telegram sessions become the app's devices; the Mini App's initData, its Face ID or PIN lock and the PIN lockouts give way to Sign in with Apple or Google, the optional app lock (MA-171) and the server's second check (MA-76). After Arun's correction the web app's Admin center stays beside the app's, with its browser sessions and its own second check.",
+        "status": {
+          "description": "",
+          "name": "In Progress",
+          "id": "10149",
+          "statusCategory": {
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    {
+      "id": "11094",
+      "key": "MA-108",
+      "fields": {
+        "summary": "A nightly check reports any prod change made outside Terraform",
+        "description": "As the owner I want to know when anything in prod differs from Terraform, so that the rule \"AWS changes only through Terraform\" is checked, not just hoped for.\n\n**Where.** `.github/workflows/drift.yml`, using the read-only `ci-plan` role.\n\n**Acceptance.**\n\n* Every night, `terraform plan -detailed-exitcode` runs against prod, and against dev too.\n* A non-empty plan opens or updates one GitHub issue, labelled `drift`, with the plan summary and no secret values. It also posts one line to the owner's chat.\n* A clean night closes the issue.\n* A deliberate change made in dev outside Terraform is caught the next night, and the test run proves it.\n* The role can read but not write. Its permissions are in Terraform, and the deny on writes is checked by a test.\n\n**Depends on.** MA-26.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11123",
+      "key": "MA-137",
+      "fields": {
+        "summary": "The admin sets the AWS and Claude caps and their alert thresholds in the Admin center, and alerts reach the app, push and email",
+        "description": "As the admin I want to set how much AWS and Claude may spend and when I am warned, from the Admin center in the iOS app or the web app, and to get each warning in the app, by push and by email, so that nothing runs away and I always hear about it.\n\n**Arun's words, 24 Oct 2026.** \"Claude Spend Budget will be £200, I have Max x20 plan which give me that. Threshold to be set and kept configurable which I can control from Web portal Admin. 1. AWS capping 2. Claude cost capping. 3. Get Alerts on my web app, telegram and if possible email too (if free).\"\n\n**Where.**\n\n* the Admin center in both doors: `ios/MyPaisa/` (Spend and the ceiling, Caps and alerts, Alert routing) and `web/` (the web app's Spend and Alerts pages, MA-184);\n* the `api` admin routes;\n* `BudgetSettings`, `AwsSpendMonth`, `AlertRule` and `Alert`;\n* an SNS topic `mypaisa-<env>-admin-alerts`;\n* AWS Budgets in `infra/`;\n* `ARCHITECTURE.md` §15.2.\n\nDesigned first: the boards of `iPhone admin.dc.html` for the iOS app, and the picked browser boards in MyPaisa app v1 for the web app.\n\n**Acceptance.**\n\n* **Claude caps, all settings:**\n\n    * the ceiling per environment, in dollars, by default $160 prod and $40 dev: the Max 20x plan's $200 monthly credit;\n    * the steps (70%, 85%, 95%, 100% by default; any ascending list);\n    * the member share, the daily guard and the calls per run;\n    * each agent's share, set here once MA-136 (phase 18) brings the agents (PLAN E8);\n    * the Console hard limit, typed in to match.\n    * A ceiling that would pass the credit warns that the extra needs a card, and needs an explicit yes.\n    \n* **AWS caps, all settings:**\n\n    * the monthly cap for AWS and others, £50 by default;\n    * alert steps (50%, 80%, 100% by default);\n    * an alert when the month's forecast passes the cap;\n    * what happens at each step: by default, dev's schedules pause at 80%; at 100%, dev pauses and so do non-essential prod jobs (back-fills, retraining). The brief, alerts and chat never stop.\n    * Actions are flags the jobs read, never changes to AWS resources.\n    \n* **Metering AWS:**\n\n    * once a day from Cost Explorer: month to date by service and by `env` tag, plus the forecast;\n    * about $0.01 a request;\n    * AWS's figures lag up to a day, and the screen says so.\n    \n* **The backstop (Terraform, not set from the Admin center):**\n\n    * one AWS Budgets cost budget at the hard limit (£75 by default, in dollars), alerting the SNS topic on actual and forecast;\n    * a budget action that stops dev's schedules;\n    * monitoring and up to two action-enabled budgets are free.\n    * Raising it is a pull request.\n    \n* **Alerts:**\n\n    * one router with a matrix by alert type (Claude spend, AWS spend, incident - including the day-60 TestFlight build-age alert from MA-167, approval, data, holding) and severity (info, warning, critical), each with:\n    \n        * the app: the Alerts page in the Admin center with a badge, in the iOS app and in the web app, and a card in the admin's chat;\n        * push: critical is time-sensitive with sound (MA-170);\n        * email.\n        \n    * quiet hours per channel, with critical able to break through;\n    * a cooldown, and a daily digest option.\n    \n* **Email** goes through Amazon SNS. The first 1,000 email notifications a month are free.\n\n    * The address is put in SSM by hand, and Terraform makes the subscription; it is confirmed once (see Open).\n    * Email carries system alerts only, never holding values, unless the admin turns that on.\n    \n* **Every change** to a cap, step, action or route needs the second check (MA-76): in the iOS app a fresh Sign in with Apple or passkey under Face ID (a member who signs in only with Google proves it with Google again), in the web app a passkey or a fresh sign-in in the browser. Each writes an audit row and sends a message to the admin's chat and a push.\n* **Tests:**\n\n    * each step fires once per cycle;\n    * an action pauses the right jobs and never the brief;\n    * the routing matrix (including the day-60 TestFlight build-age warning alert);\n    * quiet hours;\n    * the SNS publish;\n    * a Claude ceiling past the credit needs the explicit yes;\n    * snapshot tests of the Spend and Alerts screens, and Playwright screenshots of the web pages.\n    \n* Gates: ruff, pyright, pytest, terraform validate; the iOS gates (MA-166); Playwright.\n\n**Depends on.** MA-113, MA-116, MA-102, MA-76, MA-170.\n\n**Open** (the trace row's `open` list). The admin's alert address: this story and ARCHITECTURE 15.2 put it in SSM by hand with the SNS subscription made by Terraform, but under MA-159 a value goes in only after the apply that made its parameter, and a write-only value cannot feed the subscription. Settle it: the address as a plain Terraform variable (an email address is not a secret), or the subscription made outside a Terraform resource.\n\nUpdated 25 Oct 2026 (MA-161): Telegram becomes the admin's chat in the app and push; the Admin center and its Alerts page are in the iOS app and, after Arun's correction, still in the web app (MA-184); the open question stays.\n\nUpdated 29 Oct 2026 (MA-274): routes MA-167's day-60 TestFlight build-age alert through the Admin center alert router (app, push, email).",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11131",
+      "key": "MA-145",
+      "fields": {
+        "summary": "A failed-work alert carries a Replay button that puts the dead-lettered work back on its queue",
+        "description": "As the admin I want to replay failed work with one tap on its alert, in the Admin center (the iOS app or the web app) or my chat in the app, so that a bad hour at a data source or an API is put right without a laptop.\n\n**Where.** The alert router and the Alerts page (MA-137); the Admin center in `ios/MyPaisa/` (`Failed work and Replay` in `iPhone admin.dc.html`) and in `web/` (MA-184); `handlers/api` (an admin-only replay route, and the card's action through `/v1/chat/actions`); the dead-letter queues of MA-139 and MA-140. Designed with MA-137's Alerts page (`.claude/skills/design-first`). PLAN.md phase 8 (the Caps and alerts bullet: \"failed work\" alerts carry a \\[Replay\\] button); ARCHITECTURE.md §21.3 and §15.2.\n\n**Acceptance.**\n\n* Each \"failed work\" alert from a dead-letter queue shows the queue, how many messages wait, the oldest one's age and the reason, with a \\[Replay\\] button in the admin's chat and on the Alerts page of the Admin center, in the iOS app and in the web app.\n* Replay moves that queue's messages back to their source queue, the same move as `scripts/redrive.sh`. The alert then says how many went back and, later, how many failed again.\n* The admin only: the owner, the household's one admin (Arun, 25 Oct 2026: \"there is only 1 admin\"). Replay needs the second check (MA-76) from every place: in the iOS app a fresh Sign in with Apple or passkey under Face ID (a member who signs in only with Google proves it with Google again), in the web app a passkey or a fresh sign-in in the browser. Every replay is an audit row.\n* Replays stay safe: handlers are idempotent; a message more than an hour old is answered \"still want this?\"; a Confirm tap whose `PendingAction` has expired is refused.\n* A replay while the cause is still failing sends the messages back to the dead-letter queue and raises the alarm again; it never loops.\n* Tests: a replay from each place; a member refused; the audit row; an old message asking first; snapshot tests of the alert and its button at iPhone and iPad sizes in both themes, and Playwright screenshots of the web page at phone and laptop widths.\n* Gates: ruff, pyright, pytest; the iOS gates (MA-166); Playwright.\n\n**Depends on.** MA-137, MA-139, MA-140, MA-102, MA-76.\n\nUpdated 25 Oct 2026 (MA-161): the admin's Telegram chat becomes the admin's chat in the app; the Alerts page is in the iOS app's Admin center and, after Arun's correction, still in the web app's; the fresh check and Telegram's check become the second check (MA-76).",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11134",
+      "key": "MA-148",
+      "fields": {
+        "summary": "Every file and image a member sends is kept in S3 for good, with a Document row and an audit entry that point to it",
+        "description": "As the owner I want every file and image anyone in the household sends in the app kept in S3 and linked from the audit log, so that the original behind any change can always be looked at again.\n\nArun, 24 Oct 2026: \"Remember all the files and images I send should be stored on S3 and I should be able to view that in audit logs.\" This replaces the earlier rule that screenshots were deleted after extraction unless the member said keep.\n\n**Where.** The chat API's presigned upload (`handlers/api`, MA-31), `handlers/agent` and the docs job of `handlers/worker`; the `mypaisa-<env>-documents` bucket in `infra/modules/mypaisa`; the `Document` and `AuditEvent` items. ARCHITECTURE.md §4.1, §4.6 and §14; PLAN.md phase 1.\n\n**Acceptance.**\n\n* Every file a member sends (PDF, image, CSV, spreadsheet, CAS statement) goes from the app straight to `s3://mypaisa-<env>-documents/<household>/<member>/<yyyy>/<mm>/<document_id>.<ext>` through a short-lived presigned upload, before anything reads it, whatever happens next: read, rejected, cancelled or failed.\n* Each file gets a `Document` row: `document_id`, `s3_key`, `sha256`, `mime`, `bytes`, `original_name`, `sent_by`, `sent_at`, the message's client id, `kind` (`factsheet`, `screenshot`, `cas`, `broker_export`, `spreadsheet`, `other`), and the instrument or import it ended up feeding, if any. A file sent twice is recognised by its `sha256` and linked, not stored twice.\n* An `AuditEvent` for the upload itself (`entity` Document, `action` create, `via` the file's kind), and every change made from a file carries its `document_id`, so the audit log can show the source file of each change.\n* Never deleted: no expiry rule on the bucket; versioning and `prevent_destroy` in prod; public access blocked; encrypted at rest; only the docs job and the api Lambda may read it, each in its own environment; the app may only write a new object through its presigned link.\n* Passwords for protected PDFs are never stored, logged or sent to Claude; extracted records never keep a PAN, an address or account numbers, even though the file itself is kept as sent.\n* Dev holds synthetic files only.\n* Tests: a file stored before extraction; a failed extraction still stored; a duplicate linked by hash; the audit rows; no PAN in any extracted record; a presigned link that cannot overwrite or read.\n* Gates: ruff, pyright, pytest with moto, terraform fmt and validate, tflint.\n\n**Depends on.** MA-26, MA-27, MA-28, MA-37\n\nUpdated 25 Oct 2026 (MA-161): files are uploaded by the app through a presigned link instead of being copied from Telegram.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11135",
+      "key": "MA-149",
+      "fields": {
+        "summary": "The Audit screen opens the original file behind each change, through a short-lived link only the right member can use",
+        "description": "As a member I want to open, from the audit log, the screenshot, factsheet or statement that a change came from, so that I can check what MyPaisa read against what I sent.\n\nArun, 24 Oct 2026: \"... I should be able to view that in audit logs.\"\n\n**Where.** `ios/MyPaisa/` (the Audit screen, Files and the file preview) and `web/` (the web app's Audit and Files pages, MA-184), `handlers/api` (a `GET /v1/documents/<id>` route), the boards `Audit, a change from a file`, `Files` and `File preview` in `iPhone audit and activity.dc.html` (MyPaisa iOS v1, designed first with `.claude/skills/design-first`) and the web app's picked browser boards. ARCHITECTURE.md §4.6, §9.3 and §9.4; PLAN.md phase 8.\n\n**Acceptance.**\n\n* Each Audit row made from a file shows the file's kind, name and size, and a thumbnail for images. In the iOS app, Open shows the image or PDF inside the app (Quick Look), and a CSV or spreadsheet opens in Quick Look too, with Share to save it; in the web app an image or PDF opens in the page and a CSV or spreadsheet downloads.\n* A Files screen, in both doors, lists every file sent, newest first, filterable by member, kind and date, each with the changes it fed.\n* The api Lambda returns a presigned S3 link valid for five minutes, only after the authorizer has checked the token or session and the role: a member opens their own files; the owner opens any; a viewer opens none.\n* Every opening of a file writes an audit row, so the log shows who looked at what.\n* Read-only: no delete, rename or upload from these screens, in the app or the web app.\n* In the chat, a change card's \"Source\" button opens the original file for the member who may see it.\n* Tests: the role checks; the link's expiry; the audit row for each opening; snapshot tests of the Audit row and the Files screen at iPhone and iPad sizes in both themes; Playwright screenshots of the web pages at phone and laptop widths.\n* Gates: ruff, pyright, pytest; the iOS gates (MA-166); Playwright.\n\n**Depends on.** MA-79, MA-74, MA-75\n\nUpdated 25 Oct 2026 (MA-161): the Audit and Files screens are in the iOS app and, after Arun's correction, still in the web app (MA-184); the Telegram \"Source\" button opens the file in the app.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11175",
+      "key": "MA-180",
+      "fields": {
+        "summary": "Search finds a holding, a change, a file or a past answer from anywhere in the app",
+        "description": "**Where.** `ios/MyPaisa/Search/`, `GET /v1/search`.\n\n**Acceptance.** The search tab (iPhone) and ⌘F (iPad) search holdings, audit rows, files and the member's own chat turns, within the member's rights (§4.5); results open their screen. Boards drawn before it starts.\n\n**Depends on.** MA-78, MA-79\n\nFiled with MA-161 (the iOS app).",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11200",
+      "key": "MA-196",
+      "fields": {
+        "summary": "Activity shows each run of the agent at every door: what it read, which tools it called, what it proposed, and what it cost",
+        "description": "As the owner I want to see what the agent did, step by step, so that I can follow each layer as it is built.\n\n**Where.** `web/`, `ios/`, the RunRecord reads (MA-29); ARCHITECTURE.md 10.\n\n**Acceptance.**\n\n* A list of runs and one run's detail: its trigger, its steps, each tool call with its time, what it proposed, its tokens and its cost, at both doors.\n* Every figure comes from the RunRecord; nothing is estimated.\n* Gates: the doors' gates; verified on dev.\n\n**Depends on.** MA-29\n\nFiled on MA-186 (26 Oct 2026), the whole-wealth re-plan.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11234",
+      "key": "MA-230",
+      "fields": {
+        "summary": "The architecture records one trace from the door to the model, OpenTelemetry on every Lambda, and what each reader of the agent's work sees",
+        "description": "As the developer I want end-to-end tracing and LLM observability written down before phase 0 is built, so that every Lambda, the queues, the agent, the model calls and both doors are watched the same way from the first run, and a message can be followed from the tap to the push.\n\nArun, 26 Oct 2026: \"I need AWS monitoring, tracing and Observability for LLMs and all components. Do whatever is best and tell me what can be done for end to end traceability across apps and agents. Application will do audits, anyway.\"\n\n**Where.** `ARCHITECTURE.md` §10 (rewritten as 10.1 to 10.10), §4.1, §13, §15, §16, §17, §18.4, §20.5, §21.5; `PLAN.md` (phases 0, 1 and 18, the risks, the definition of done); `TECH_STACK.md`; `README.md`; `docs/trace.json`, `docs/roadmap.json`, Confluence; the descriptions of MA-29 and MA-107.\n\n**Acceptance.**\n\n* §10 records: the `RunRecord` as the source of truth, with its trace id; one trace from the door through the api, the queues, the agent, the model and the stores to the sender, the stream and push; OpenTelemetry on every Lambda (the AWS Lambda Layer for OpenTelemetry unzipped into the image, Application Signals, Transaction Search), with Powertools keeping logs, metrics, idempotency and parameters; model and tool spans on the OpenTelemetry GenAI conventions with MyPaisa's own attributes, and what is never recorded; the fixed metric set, the dashboard and the saved queries; the alarms and who hears them; the rest of AWS; the agent team's traces; privacy, retention and cost; and the stories that build it.\n* The stack table, the decisions table, the cost table, the plan's phases and tests, the trace, the roadmap and Confluence agree with it.\n* The stories and tasks that build it exist with their rows, estimates and PLAN bullets (listed in the comment when this lands).\n* Gates: plan-sync selftest and check, contrast selftest and check; Confluence republished.\n\n**Depends on.** MA-138, MA-228.",
+        "status": {
+          "description": "",
+          "name": "Done",
+          "id": "10151",
+          "statusCategory": {
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "id": "11235",
+      "key": "MA-231",
+      "fields": {
+        "summary": "Terraform builds each environment's watch tower before the first Lambda runs: log groups, Transaction Search and Application Signals, the dashboard, the saved queries and the alarm topic",
+        "description": "As the operator I want each environment's watch tower built in Terraform before the first Lambda runs, so that the first run is already logged, traced, measured and alarmed, and nothing about watching is ever made by hand.\n\n**Where.** `infra/modules/mypaisa/observability.tf` (and the module's Lambda, API Gateway and queue resources it reads), `infra/dev`, `infra/prod`; the saved queries in `infra/modules/mypaisa/queries/`.\n\n**Acceptance.**\n\n* One log group per function and one for the api's access log, each with 14-day retention, and the `aws/spans` log group's retention set to 30 days; Transaction Search on (indexing beyond the free 1% of spans stays off) and Application Signals' discovery enabled, dev first; each Lambda's role carries `CloudWatchLambdaApplicationSignalsExecutionRolePolicy` and X-Ray write; every function has active tracing on and the OpenTelemetry environment variables of `ARCHITECTURE.md` §10.3.\n* The dashboard per environment with §10.5's panels, the saved Logs Insights queries of §10.5, the SNS topic `mypaisa-<env>-admin-alerts` as the alarms' first route, the alarms of §10.6 that need no code (errors and throttles per function, queue age and dead-letter depth, the api's 5xx and latency, the AWS Budgets backstop), each with its OK action, and the composite alarm `mypaisa-<env>-unhealthy`.\n* The metric namespace `MyPaisa/<env>` and the fixed metric names of §10.5 are variables of the module, so code and Terraform name them once.\n* `terraform plan` for dev and prod is posted on the PR; dev is applied from its saved plan; Transaction Search's and Application Signals' first month in dev is measured and put to Arun with the price before prod's apply (`.claude/rules/aws-changes.md`).\n* Gates: `terraform fmt`, `validate`, tflint, the security scan; verified on dev: the dashboard renders with every widget bound, and a test invocation of the skeleton Lambda appears in Application Signals and Transaction Search within five minutes.\n\n**Depends on.** MA-26, MA-230.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11236",
+      "key": "MA-232",
+      "fields": {
+        "summary": "One trace follows a message from the door through the api, the queues and the agent to the model and back to every door, shared by every log line, span and RunRecord",
+        "description": "As the operator I want one trace to follow a message from the door through the api, the updates queue, the agent, the model and the stores, the outbox and the sender to the stream and push, so that a slow or lost reply shows which hop it was at, and every log line, span and `RunRecord` of that message shares one id.\n\n**Where.** `src/mypaisa_agent/obs/` (the tracer setup, the propagators, the resource attributes, the log formatter), the handler base in `handlers/`, `handlers/api` (the FastAPI correlation middleware and trace headers in and out, MA-266), the queue producers and consumers, `handlers/sender` and `handlers/stream` (the event envelope), `web/src/lib/obs/` and `ios/src/obs/` (the `traceparent` each door sends), the Dockerfile (the AWS Lambda Layer for OpenTelemetry unzipped into `/opt`), the smoke tests in `.github/workflows/`.\n\n**Acceptance.**\n\n* Both doors send a W3C `traceparent` on every call, new per action; the FastAPI `api` continues it through `CorrelationMiddleware` and `opentelemetry-instrumentation-fastapi` (recording the route template `http.route` for Application Signals), returns the trace id in `x-mypaisa-trace-id` and API Gateway's request id in `x-request-id` (MA-266), puts the message on `updates.fifo` with the trace header, and the agent, the sender and the FastAPI `stream` continue it: one trace in X-Ray and Transaction Search from `api` to the stream's delivery and the push, with the model, tool, DynamoDB, S3, SQS and APNs calls as spans.\n* Every log line carries `trace_id`, `span_id`, `run_id`, `request_id` (on HTTP handlers), the member's hash, `client_message_id`, `conversation_id` or `job_id`, `env` and `build`; every span carries the same as attributes; the `RunRecord` carries `trace_id` and `build`; every `StreamEvent` and push payload envelope carries the `run_id` and `trace_id` of the run that made it, and nothing else about the trace.\n* A scheduled job's trace starts at its tick and the work queue carries it; a replay by `scripts/redrive.sh` starts a new trace linked to the original by its `run_id`.\n* Powertools Tracer is not used and the X-Ray SDK is not in the image; the OpenTelemetry SDK's cold-start cost on the `api` Lambda is measured and stays under 300 ms \\[verify\\], else the `api` keeps only the AWS SDK, FastAPI and HTTP instrumentations.\n* The leak test: a recorded conversation with figures, names and a statement runs on the local stack with an in-memory exporter and a captured log, and no span attribute, span name, log line or metric holds a prompt, a reply, an amount, a name, a token or an account number; it runs in CI.\n* The dev smoke test after each deploy sends one message and asserts, through the X-Ray API, one trace from `api` to `sender` within two minutes.\n* Gates: ruff, pyright, pytest with moto and the leak test; verified on dev: one message's trace opened from its `run_id` in Transaction Search, with the stream's delivery and the push on it.\n\n**Depends on.** MA-29, MA-31, MA-30, MA-139, MA-140, MA-231, MA-266.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11237",
+      "key": "MA-233",
+      "fields": {
+        "summary": "Every model call and tool call is a span with its model, tokens, cache reads, cost, latency and outcome, shown on the model panel with its quality alarms",
+        "description": "As the owner I want every model call and tool call to be a span with its model, tokens, cache reads, cost, latency and outcome, and the dashboard's model panel to show spend, refusals, fallbacks and slow tools with alarms, so that what Claude costs and how well it behaves is visible without opening a log.\n\n**Where.** `src/mypaisa_agent/obs/llm.py` (the one wrapper every Anthropic call goes through), `src/mypaisa_agent/agent/` (the tool loop's tool spans), `runs.py` (the `RunRecord`'s model and tool calls), the metrics in the handler base, the model panel and its alarms in `infra/modules/mypaisa/observability.tf`.\n\n**Acceptance.**\n\n* One wrapper around `messages.create`, `messages.stream` and Batches sets, on a span named `chat <model>`, the OpenTelemetry GenAI attributes (`gen_ai.provider.name` `anthropic`, `gen_ai.operation.name`, `gen_ai.request.model`, `gen_ai.response.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens`, the cache read and cache write token counts, `gen_ai.response.finish_reasons`, `gen_ai.request.max_tokens`) and MyPaisa's own (`mypaisa.cost_usd` from the price table, `mypaisa.feature`, `mypaisa.agent`, `mypaisa.step` of the ladder, `mypaisa.cache_hit`, `mypaisa.ttft_ms`, `mypaisa.refusal`, `mypaisa.fallback`), and never the prompt, the reply, a figure or a name; in dev only, a setting captures the prompt and the reply on the span for the synthetic household, and prod refuses the setting.\n* Every tool call is a span `tool <name>` with its duration, outcome, error class and the sizes of its input and output; the `RunRecord` keeps the truncated input and output as `ARCHITECTURE.md` §10.1 says.\n* The model metrics of §10.5 are emitted through Powertools Metrics: cost, tokens, cache reads, time to the first token, refusals, template fallbacks, tool errors and cancelled proposals, with the model, feature and tool in each metric line's own fields rather than as dimensions; the model panel shows them against the ceiling and the ladder's step; the alarms: a day's cost past the daily guard, refusals or fallbacks above 5% of calls in an hour, a tool's p95 over 10 s, no model call in a chat hour that had messages.\n* The model spans appear in CloudWatch's generative AI observability views (model invocations, tokens, tool calls, latency) in dev; the weekly reconciliation of the meter against the Console (§15.1) also reconciles the spans' token totals.\n* Gates: ruff, pyright, pytest with recorded `usage` blocks costed to the cent, and the leak test; verified on dev: one conversation's spans in the generative AI view with the right tokens and cost, and the model panel live.\n\n**Depends on.** MA-29, MA-113, MA-232.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11238",
+      "key": "MA-234",
+      "fields": {
+        "summary": "The doors report what they saw, with the trace id and no content: the time to the first word, a resume or resync, an api error, a crash or a hang",
+        "description": "As the operator I want each door to report what it saw of a message, with the trace id and no content, so that a reply that felt slow or a stream that dropped is visible from the door's side as well as the server's.\n\n**Where.** `web/src/lib/obs/` (the client events, the batch, `window.onerror`), `ios/src/obs/` (the client events, MetricKit's crash and hang summaries), `handlers/api` (`POST /v1/telemetry`), the client metrics and the client panel in `infra/modules/mypaisa/observability.tf`.\n\n**Acceptance.**\n\n* Each door keeps a small ring of events: the time from send to the first word and to the finished reply, a stream resume or resync, an api error with its status, a push received, a crash or a hang summary (MetricKit on iOS; `window.onerror` and unhandled rejections on the web), each with the `traceparent` of the action it belongs to, the app or web version, the door, the device class and the OS version; never a message, a figure, a name or a token.\n* The events go in one batch to `POST /v1/telemetry` (authorised like every route, at most one batch a minute per device, dropped when offline past a day), which writes them as log lines carrying the trace id and emits the client metrics of `ARCHITECTURE.md` §10.5: the time to the first word as the door saw it, client errors and crashes, with the door and the version in each line's own fields.\n* The client panel on the dashboard shows them beside the server's view of the same messages; an alarm when a door's time to the first word p95 passes 5 s for an hour, or on any crash in prod.\n* Gates: the web and iOS gates; pytest for the route (a batch over the limit refused, a batch with content refused by the schema); the leak test extended to a client batch; verified on dev: one message's door event and server spans on one trace.\n\n**Depends on.** MA-163, MA-199, MA-30, MA-232.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11239",
+      "key": "MA-235",
+      "fields": {
+        "summary": "The daily run and every agent share one trace: Step Functions and the event bus carry it, a replay links to the run it repeats, an incident names its trace, and heartbeats are metrics",
+        "description": "As the operator I want the daily run and every agent to share one trace, so that a slow or failed step, a replay and an incident are read from one place, and the agent team appears as services on one map.\n\n**Where.** `agents/` (each agent's `OTEL_SERVICE_NAME` and resource attributes), the Step Functions state machine and the event bus in `infra/modules/mypaisa/`, the ops warden's replay and incidents (MA-135, MA-146), the admin desk's incident rows.\n\n**Acceptance.**\n\n* X-Ray tracing is on for the state machine; every step's Lambda continues its trace; an event on `mypaisa-<env>-events` carries the trace header and its consumer continues it, so one daily run is one trace from the tick to the brief's push.\n* Each agent is a service of its own in Application Signals and on CloudWatch's agent map, named as `ARCHITECTURE.md` §20.1 names it; the concierge's chat traces stay separate from the daily run's.\n* A replay by the ops warden starts a new trace linked to the original by `run_id` and a span link; an `Incident` row carries the trace id and the run ids it covers; every agent's heartbeat is a metric, and a silent heartbeat is an alarm as well as an incident.\n* Gates: ruff, pyright, pytest with injected failures at each step showing the trace and the incident; verified on dev: one daily run's trace with every agent on it, and the agent map.\n\n**Depends on.** MA-135, MA-146, MA-232.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11240",
+      "key": "MA-236",
+      "fields": {
+        "summary": "The Lucid architecture gains a page for one trace from the door to the model, and the explainer page says where each signal lives",
+        "description": "As the developer I want the Lucid architecture to show one trace from the door to the model, so that the drawing agrees with `ARCHITECTURE.md` §10 and the explainer page says where each signal lives.\n\n**Where.** `docs/design/lucid/gen_aws_architecture.py` (a ninth page), `docs/design/lucid/aws-architecture.lucid.json`, `docs/design/lucid/09-observability.png`, `scripts/confluence_docs.py` (the `LUCID` list), `docs/design/agent-journey.html` (one line on where logs, spans, metrics and the `RunRecord` live), `ARCHITECTURE.md` §10 (the picture).\n\n**Acceptance.**\n\n* Page 9 draws the doors, API Gateway, the api, the queues, the agent, the model, the stores, the sender, the stream and push with one trace running through them, and where each signal is kept: the logs, `aws/spans`, the metrics, the `RunRecord`, the dashboard and the alarms.\n* The PNG is in the repo, the explainers page shows it, and §10 embeds it the way §3 and §21 embed theirs.\n* Gates: plan-sync selftest and check; Confluence republished.\n\n**Depends on.** MA-230, MA-225.",
+        "status": {
+          "description": "",
+          "name": "Done",
+          "id": "10151",
+          "statusCategory": {
+            "id": 3,
+            "key": "done",
+            "colorName": "green",
+            "name": "Done"
+          }
+        }
+      }
+    },
+    {
+      "id": "11259",
+      "key": "MA-255",
+      "fields": {
+        "summary": "The admin labels a monthly sample of runs in the Admin center, each judge's agreement is measured, a drifting judge drops to advisory, and a failed run becomes a regression case",
+        "description": "As the admin I want to check the judges against my own reading of real runs once a month and whenever something changes, so that their verdicts can be trusted and a real failure becomes a permanent test (ARCHITECTURE §9.3, §23.4, §23.5). Arun, 27 Oct 2026: monthly and on every change; 28 Oct 2026: each label and each new case behind the second check.\n\n**Where.** the Admin center's Evals page at both doors (`ios/`, `web/`), `src/mypaisa_agent/evals/calibrate.py`, `handlers/api`, the `EvalLabel` item.\n\n**Acceptance.**\n\n* Each month the Evals page offers about 30 runs: every run where a judge and a code check disagree, the flagged runs and a random share, each with its transcript, tool calls and verdicts. A session also opens when a judge, prompt, tool or model changes and when flags spike.\n* The admin marks pass or fail for each failure mode with a one-line critique; each label is behind the second check (§4.5) and writes an audit row.\n* Labels accumulate: each `EvalLabel` keeps the transcript of the run it labels past that run's ninety days, so a changed judge is measured again on the same runs.\n* A judge acts only once it has at least 50 pass and 50 fail labels it was not built from; until then, and whenever its true-positive or true-negative rate falls below 0.8, it is advisory until a pull request fixes it.\n* A run the admin marks as failed becomes a regression case once it is rewritten onto the synthetic household and the admin confirms it, behind the second check; nothing of the household's own leaves the account.\n* The eval caps (prod's judges at 3%; the evals workspace's $10 a run) are shown and moved here, behind the second check (§23.7).\n* The boards are drawn with `/design-first` before the story starts.\n* Gates: the web and iOS gates for the screens, pytest with coverage, T0.\n\n**Depends on.** MA-252, MA-116, MA-184, MA-76.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    },
+    {
+      "id": "11260",
+      "key": "MA-256",
+      "fields": {
+        "summary": "Each team agent has its own tools and safety suite, and a change it proposes to a prompt, rule or model carries its eval results to the admin's approval",
+        "description": "As the admin I want each agent on the team limited to its own tools and every change it proposes tested before I approve it, so that a self-learning team cannot widen its reach or ship an untested rule (ARCHITECTURE §20.2, §20.3, §23.5).\n\n**Where.** `src/mypaisa_agent/manifest.py`, `agents/`, `evals/team/`, the admin desk.\n\n**Acceptance.**\n\n* Each team agent (data steward, news scout, analyst, Forecaster, grader and tuner, ops warden, budget keeper, admin desk) has its manifest entry (tools, model route, limits) and its safety suite.\n* The agents talk only through the event bus and the settings service, every message typed and checked like a tool call; no agent takes another's text as an instruction.\n* A `ChangeRequest` that changes a prompt, a rule, a threshold or a model carries the affected suites' T1 results; the approval shows them and a failing safety case blocks it (drawn with MA-130's boards, in its undrawn list).\n* A proposal drawn from uploaded or fetched text says so, and where it came from.\n* Gates: ruff, pyright, pytest with coverage, T0.\n\n**Depends on.** MA-246, MA-250, MA-129, MA-130.",
+        "status": {
+          "description": "",
+          "name": "To Do",
+          "id": "10148",
+          "statusCategory": {
+            "id": 2,
+            "key": "new",
+            "colorName": "blue-gray",
+            "name": "To Do"
+          }
+        }
+      }
+    }
+  ]
+}

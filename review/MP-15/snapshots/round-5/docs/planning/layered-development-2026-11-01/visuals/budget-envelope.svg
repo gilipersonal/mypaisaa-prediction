@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="budget-envelope-title budget-envelope-description" lang="en">
+  <title id="budget-envelope-title">Proposed monthly cash planning allocation from confirmed DEC-023</title>
+  <desc id="budget-envelope-description">Proposed monthly cash planning allocation, not actual spending or a provider quote. Confirmed DEC-023 provides £100 monthly ceiling, divided into £70 planned operation (70 percent) and £30 reserve (30 percent). No service or environment suballocation is approved by this chart. Spending and deployment remain unauthorised.</desc>
+  <rect width="1600" height="720" fill="#f8fafc" />
+  <text x="48" y="52.379999999999995" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start" font-weight="700">MYPAISAA PREDICTION  /  CASH PLANNING ENVELOPE</text>
+  <text x="48" y="116.4" font-size="40" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">A bounded plan with a reserve</text>
+  <text x="48" y="160.02" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Confirmed owner allocation from DEC-023 • No service or environment breakdown</text>
+  <rect x="1352" y="36" width="200" height="44" rx="20" fill="#fef3c7" />
+  <text x="1452" y="64.02" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#78350f" text-anchor="middle" font-weight="700">PROPOSED</text>
+  <text x="48" y="281.52" font-size="72" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">£100</text>
+  <text x="280" y="276.66" font-size="26" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">per month · aggregate cash ceiling</text>
+  <rect x="48" y="350" width="1052.8" height="176" rx="0" fill="#1d4ed8" />
+  <rect x="1100.8" y="350" width="451.2" height="176" rx="0" fill="#92400e" />
+  <text x="80" y="427.32" font-size="52" font-family="Arial, Helvetica, sans-serif" fill="#ffffff" text-anchor="start" font-weight="700">£70</text>
+  <text x="80" y="479.48" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#ffffff" text-anchor="start" font-weight="700">Planned operation · 70%</text>
+  <text x="1132.8" y="427.32" font-size="52" font-family="Arial, Helvetica, sans-serif" fill="#ffffff" text-anchor="start" font-weight="700">£30</text>
+  <text x="1132.8" y="479.48" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#ffffff" text-anchor="start" font-weight="700">Reserve · 30%</text>
+  <rect x="48" y="570" width="1504" height="64" rx="12" fill="#fef3c7" />
+  <text x="800" y="609.93" font-size="23" font-family="Arial, Helvetica, sans-serif" fill="#78350f" text-anchor="middle" font-weight="700">Planning allocation — not actual spend, a resource quote or permission to spend</text>
+  <text x="48" y="683.29" font-size="19" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Proposed / not implemented • Full-scope pricing remains unvalidated • Source: confirmed DEC-023</text>
+</svg>

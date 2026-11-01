@@ -1,0 +1,61 @@
+{
+  "status": "maker structural/arithmetic checks passed; independent review not run",
+  "as_of": "2026-11-01",
+  "phases": 10,
+  "stories": 64,
+  "L1_stories": 16,
+  "L1_acceptance_criteria": 64,
+  "contracts": 15,
+  "synthetic_examples": 12,
+  "source_mappings": 140,
+  "publication": {
+    "creates": 5,
+    "bounded_updates": 6,
+    "image_upserts": 8,
+    "Jira_description_updates": 11,
+    "status_changes": 0,
+    "writes_performed": 0
+  },
+  "coverage_limit": "Phase-level source mapping does not prove source-clause decomposition or product acceptance.",
+  "gates": [
+    "planning/implementation/story dependency DAGs",
+    "decision/source/story/contract/example joins",
+    "synthetic Decimal arithmetic and ambiguous-XIRR evidence",
+    "local Markdown/HTML links and anchors",
+    "MP-only non-destructive publication actions and current source/image hashes"
+  ],
+  "application_implementation_authorised": false,
+  "evidence_kind": "Final maker gates for proposed documentation/sync scope; not independent review or application acceptance",
+  "skill_checks": {
+    "mp-architecture-diagrams": "quick_validate passed using isolated offline PyYAML environment",
+    "mp-plan-sync": "quick_validate passed using isolated offline PyYAML environment",
+    "permission_model": "unchanged; read-only check grants no write or review approval",
+    "Claude_configuration": "git diff --exit-code -- .claude passed"
+  },
+  "visual_checks": {
+    "workflow": "7 distinct frames; static default/play-pause/reduced-motion branch verified",
+    "native_system": "Lucid page4/version2703; current native PNG inspected",
+    "native_network": "Lucid page5/version4333; current native PNG inspected; N0/N1/N1-E unselected",
+    "chart_evidence_reuse": "Current dependency/budget PNG hashes equal the previously inspected rasters after metadata-only source-count refresh; dependency edges/allocation unchanged",
+    "browser": "Representative reading hub/portfolio/architecture pages checked at desktop and390px widths; no horizontal document overflow; images loaded; opt-in animation and native reduced-motion emulation passed",
+    "limit": "No claim of complete WCAG/device/product end-to-end testing"
+  },
+  "read_only_sync": {
+    "scope": "MP Jira and mypaisaapr Confluence versus current local drafts",
+    "initial_check": "2026-11-01 21:22\u201321:25 UTC",
+    "network_delta": "2026-11-01 21:34 UTC",
+    "check_changes": 0,
+    "finding": "six published hubs and eleven existing open descriptions need corrections; MP3Done/MP16Done stay closed",
+    "write_proposal": "mp-sync-write-proposal.json",
+    "applied": false
+  },
+  "asset_hashes": {
+    "phase-dependencies.png": "edf1f949e5addad9e9875ecab5b10a1b7ef5753d1a37f2379c99c74c8d059f98",
+    "mp-system-architecture-native.png": "2ea51f99a487f18af9e6a4284f4c3d2c6427a8d04f7ca4e84e75291bec448fd4",
+    "budget-envelope.png": "fe56fac7fda3bf713879a82bd5943ccdad83d7635a5667aff15a6d793c7451b5",
+    "mp-network-options-native.png": "89acd7f59f8eb209f9362db8cfb71b413355262aec23bce85b8820ee83c22e1d",
+    "import-workflow.png": "f6265042c96a51b12e7f48646bf5949486c8296f2234d8c5c190fd76052acacf"
+  },
+  "validation_scope": "Docs/contracts/examples/graphs/assets/proposed publication and description-only edits; application code and infrastructure unchanged",
+  "independent_review_run": false
+}

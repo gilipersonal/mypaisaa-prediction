@@ -1,0 +1,38 @@
+[
+  {
+    "id": "LAYERED-R1-01",
+    "finding": "Existing Confluence notices could duplicate on retry after an ambiguous successful write; owned-range idempotency/readback guards and evidence bindings added.",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "LAYERED-R2-01",
+    "finding": "Parsed-visible marker text split across inline markup could be misclassified as absent; refuse noncanonical visible reserved scope, including desired nested markers.",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "LAYERED-R3-01",
+    "finding": "Canonical marker pairs plus formatted extra reserved markers bypassed refusal; compare parsed-visible/raw/text-node occurrences on every composition path.",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py"
+      ],
+      "timeout_seconds": 30
+    }
+  }
+]

@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "project": "mypaisaa-prediction",
+  "prepared_on": "2026-11-01",
+  "status": "Proposed local supporting charts, not implemented",
+  "published": false,
+  "external_calls": 0,
+  "independent_review": "not_run",
+  "model": {
+    "kind": "Deterministic exact-data dependency matrices and proportional budget stack",
+    "image_generation_model": null,
+    "renderer": "Python/Pillow 12.3.0 with macOS-bundled Arial",
+    "source_authority": "phase-story-map.json exact dependencies and confirmed DEC-023 exact allocation",
+    "editable_vs_exports": "Draw.io is editable; exports are generated from renderer and current JSON source. Reconcile manual chart edits into authority/renderer before re-export.",
+    "boundary": "Supporting process/dependency and planning-budget charts only; not AWS/system architecture or a replacement for canonical Lucid diagrams."
+  },
+  "sources": [
+    {
+      "path": "../phase-story-map.json",
+      "sha256": "23ae4d8e4d4be984217e958c4885477b81a665e2ec84a3c64ce625242821ca4e"
+    },
+    {
+      "path": "../../aws-options-2026-11-01/product-decisions.json",
+      "sha256": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c",
+      "decision_id": "DEC-023"
+    }
+  ],
+  "reproduce": "python3 docs/planning/layered-development-2026-11-01/visuals/render_planning_charts.py",
+  "artifacts": [
+    {
+      "path": "phase-dependencies.drawio",
+      "kind": "editable native supporting chart",
+      "sha256": "705ef34fa90b3f68bc639e0cf6aa1408682e3cec7c7bd7bcea411f179f48431b",
+      "bytes": 89977
+    },
+    {
+      "path": "phase-dependencies.svg",
+      "kind": "accessible static vector export",
+      "sha256": "80911aae48a87d2140fe2fdc640aa1da0c73d05118e3f68b2e44507f689084d9",
+      "bytes": 38335
+    },
+    {
+      "path": "phase-dependencies.png",
+      "kind": "static raster export",
+      "sha256": "edf1f949e5addad9e9875ecab5b10a1b7ef5753d1a37f2379c99c74c8d059f98",
+      "bytes": 104324
+    },
+    {
+      "path": "budget-envelope.drawio",
+      "kind": "editable native supporting chart",
+      "sha256": "2c2f054782956bd3bd523a21e9f3494dfa56c61edac606fe6d2a5a56c0b25241",
+      "bytes": 5626
+    },
+    {
+      "path": "budget-envelope.svg",
+      "kind": "accessible static vector export",
+      "sha256": "4f65ad1ce6fffa831feae3657f90ef95cc485792beaf90f5de7cd8921d6c7cbd",
+      "bytes": 3200
+    },
+    {
+      "path": "budget-envelope.png",
+      "kind": "static raster export",
+      "sha256": "fe56fac7fda3bf713879a82bd5943ccdad83d7635a5667aff15a6d793c7451b5",
+      "bytes": 60557
+    },
+    {
+      "path": "render_planning_charts.py",
+      "kind": "reproducible source renderer",
+      "sha256": "e54327450e56fd5787b2dad7d5b58d4a1ddc889cb0bf7232597d77d0586c8fa6",
+      "bytes": 14551
+    }
+  ],
+  "validation": {
+    "minimum_text_contrast_ratio": 4.84,
+    "text_contrast_4_5_to_1": "passed",
+    "charts": {
+      "phase-dependencies": {
+        "dimensions": [
+          1600,
+          1280
+        ],
+        "text_fit": "passed measured line-width checks",
+        "drawio_cells": 336,
+        "source_field": "phases[].planning_dependencies / implementation_dependencies",
+        "phases": [
+          "PH-00",
+          "PH-01",
+          "PH-02",
+          "PH-03",
+          "PH-04",
+          "PH-05",
+          "PH-06",
+          "PH-07",
+          "PH-08",
+          "PH-09"
+        ],
+        "matrix_rows": 10,
+        "matrix_columns": 10,
+        "filled_counts": {
+          "planning_dependencies": 27,
+          "implementation_dependencies": 22
+        },
+        "filled_cells": {
+          "planning_dependencies": [
+            [
+              "PH-01",
+              "PH-00"
+            ],
+            [
+              "PH-02",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-01"
+            ],
+            [
+              "PH-03",
+              "PH-02"
+            ],
+            [
+              "PH-04",
+              "PH-00"
+            ],
+            [
+              "PH-04",
+              "PH-03"
+            ],
+            [
+              "PH-05",
+              "PH-00"
+            ],
+            [
+              "PH-05",
+              "PH-02"
+            ],
+            [
+              "PH-05",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-00"
+            ],
+            [
+              "PH-06",
+              "PH-01"
+            ],
+            [
+              "PH-06",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-04"
+            ],
+            [
+              "PH-06",
+              "PH-05"
+            ],
+            [
+              "PH-07",
+              "PH-00"
+            ],
+            [
+              "PH-07",
+              "PH-02"
+            ],
+            [
+              "PH-07",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-00"
+            ],
+            [
+              "PH-08",
+              "PH-01"
+            ],
+            [
+              "PH-08",
+              "PH-02"
+            ],
+            [
+              "PH-08",
+              "PH-03"
+            ],
+            [
+              "PH-08",
+              "PH-04"
+            ],
+            [
+              "PH-08",
+              "PH-05"
+            ],
+            [
+              "PH-08",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-07"
+            ],
+            [
+              "PH-09",
+              "PH-00"
+            ]
+          ],
+          "implementation_dependencies": [
+            [
+              "PH-01",
+              "PH-02"
+            ],
+            [
+              "PH-02",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-01"
+            ],
+            [
+              "PH-03",
+              "PH-02"
+            ],
+            [
+              "PH-04",
+              "PH-03"
+            ],
+            [
+              "PH-05",
+              "PH-02"
+            ],
+            [
+              "PH-05",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-01"
+            ],
+            [
+              "PH-06",
+              "PH-02"
+            ],
+            [
+              "PH-06",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-04"
+            ],
+            [
+              "PH-06",
+              "PH-05"
+            ],
+            [
+              "PH-07",
+              "PH-02"
+            ],
+            [
+              "PH-07",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-01"
+            ],
+            [
+              "PH-08",
+              "PH-02"
+            ],
+            [
+              "PH-08",
+              "PH-03"
+            ],
+            [
+              "PH-08",
+              "PH-04"
+            ],
+            [
+              "PH-08",
+              "PH-05"
+            ],
+            [
+              "PH-08",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-07"
+            ],
+            [
+              "PH-09",
+              "PH-08"
+            ]
+          ]
+        },
+        "ledger_requires_foundation": {
+          "planning": [
+            "PH-00"
+          ],
+          "implementation": [
+            "PH-02"
+          ]
+        },
+        "meaning": "Each dot is an exact draft prerequisite; no dates,elapsed time,percent complete or implementation status is encoded.",
+        "drawio_xml_unique_ids": "passed",
+        "svg_xml_unique_ids": "passed",
+        "svg_accessible_title_desc_role": "passed",
+        "png_visual_inspection": "pending maker inspection"
+      },
+      "budget-envelope": {
+        "dimensions": [
+          1600,
+          720
+        ],
+        "text_fit": "passed measured line-width checks",
+        "drawio_cells": 18,
+        "source_decision": "DEC-023",
+        "source_status": "confirmed",
+        "unit": "GBP per month",
+        "ceiling": 100,
+        "planned_operation": 70,
+        "reserve": 30,
+        "planned_operation_percent": 70.0,
+        "reserve_percent": 30.0,
+        "stack_geometry": {
+          "total_width_px": 1504,
+          "planned_operation_width_px": 1052.8,
+          "reserve_width_px": 451.2
+        },
+        "sum_and_proportions": "passed exact values and proportional width calculation",
+        "meaning": "Confirmed planning allocation only; no actual usage,service/environment quote or credit is plotted.",
+        "drawio_xml_unique_ids": "passed",
+        "svg_xml_unique_ids": "passed",
+        "svg_accessible_title_desc_role": "passed",
+        "png_visual_inspection": "pending maker inspection"
+      }
+    },
+    "application_or_live_billing_validation": "not_run"
+  }
+}

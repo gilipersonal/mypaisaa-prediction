@@ -1,0 +1,208 @@
+{
+  "base_commit": "082972bf25fccf03ff72563257d5f7dd07f39c95",
+  "deliverable": "synthetic-import-document-and-operations-fixtures",
+  "deliverable_round": 1,
+  "issue_history_round": 3,
+  "files": {
+    "scripts/synthetic_import_samples.py": {
+      "sha256": "d5e29cbbfeb3e205036abb95187272642b214ed389c4c78f1d7d43547ab131e5",
+      "role": "deliverable"
+    },
+    "tests/test_synthetic_import_samples.py": {
+      "sha256": "8582c541878cb941c33d282f89eaa61e2dd0c02f2a94c41ef8447e20adcfedef",
+      "role": "deliverable"
+    },
+    "docs/synthetic-import-samples.md": {
+      "sha256": "6b00ae7e621020ac161b4c9c723caa6f7f0db3a498f20fe7917d7e99cb37d6e5",
+      "role": "deliverable"
+    },
+    "docs/synthetic-test-data.md": {
+      "sha256": "e54f6fee691edb9df806e8a8d67f0440b698a17385566221054e8b3acc252a26",
+      "role": "deliverable"
+    },
+    "docs/knowledge-base.md": {
+      "sha256": "e604a0fdc704c7e4d7092cc478fb9e6a7e289427a345f61ac2713d6e7ac5f0f6",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/product-decisions.json": {
+      "sha256": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/product-requirements.md": {
+      "sha256": "a9abdf75d1032ff664ca727e2a8d7ddfd06304dad381ae65cb4c932b11b94a75",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.md": {
+      "sha256": "9f2f3c8bb96c6eb43db0174a4bdad96cf74ec81c7911a3a7d56785c8f4e81d5a",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.json": {
+      "sha256": "bf3fdccd0fee65ade7f8f27a080c99d9e437c9be0a1ac173fe6c09105bdc1f45",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.html": {
+      "sha256": "5cb042314ae82fe48b99205a924066400742eff483b6f02920928a3f0a6a4a1c",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/README.md": {
+      "sha256": "0517adb7260e3e9f3c90e99bc6ca8cfc2e694dab3b91b512609a0a48ab5122cf",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/review.html": {
+      "sha256": "c4f44ab3d7f28582ce9d12641ee0bd87082f4895fb2d7d39df577a7503d920b5",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/index.html": {
+      "sha256": "660b73a0ca956a54c486faaeba8a573ea413bebbb1ee44f1f0c2d18676197419",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/verification.json": {
+      "sha256": "9923621f8b4fd504b565d66fe8e80685d5711cbab4125994ea728be6ac47f964",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/expected-imports.json": {
+      "sha256": "186a765b0bdfa420df4b7bf1ae4df357c7e1b54629aae5850756ffb124dea685",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/statement-1.png": {
+      "sha256": "816a253e5aa38e03ead9402ab52c84687331dd4987aebaebdf601a95b787f86c",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/statement-2.png": {
+      "sha256": "0f004f6eb6e7f909325167c6c10dba091ffae63956465fe9b4486c121aafbaff",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/portfolio-statements.pdf": {
+      "sha256": "de3ba2c6f9a08d2b94d6c9b36fce8906347ef2e65ca5da1caca4869664a66cc5",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/statement-3.png": {
+      "sha256": "c185c972ba4e69a0280746f4ecf2d4577a68bbbbacf0e1be82d43cfc62d939d8",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/manifest.json": {
+      "sha256": "0ba966539a788a16a9289e6c385855e21f6323a485f50adaa16bb8a27b3ce00d",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/local/operations-scenarios.json": {
+      "sha256": "ead8ff8e665a75483f15d94334946c1496b2d6824a878985b5399a714220ca84",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/expected-imports.json": {
+      "sha256": "856f5158519760e43cd6e2d81e07dbad45031b08729b3ef8587d5e28fd793335",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/statement-1.png": {
+      "sha256": "3387e545706a26cd11791c79e2b609cb880ab10542d7a9fce8dde79001978ebb",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/statement-2.png": {
+      "sha256": "368acb0e1832c47fa5427210146e3371eab5c808eedcad4babd5484323850aba",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/portfolio-statements.pdf": {
+      "sha256": "12f0ecd46b21434ce5287d2551e44a462c506e2e416294579c8c263f068c71c1",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/statement-3.png": {
+      "sha256": "1b0015d0d5f8de8f11ea8d69c267d39c7406d31b57cc9456207350b8c12c0dde",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/manifest.json": {
+      "sha256": "183fafcb0ff8ec60b1f7047ba271537248592b3d6070cf453fd573e40d641f9e",
+      "role": "deliverable"
+    },
+    "data/synthetic-imports-v1/dev/operations-scenarios.json": {
+      "sha256": "6b9767811df2534d99d9f7f670612a8ebe14b5895e53184bf7731cda6a64d96a",
+      "role": "deliverable"
+    },
+    "AGENTS.md": {
+      "sha256": "c9dd83b411aea012cbd4fe4a9be4955d8c3b4db1b245bc8ecb8e3597d8b99599",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/workflow.md": {
+      "sha256": "4f85ca9c96ab8f89e4aa8e8d91b4dc5097b43e15e80a96e94341fb3a13fc4e27",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/review-checklist.md": {
+      "sha256": "ef5ce3b75968825ad5c72428c202a0231b09937fa2038de60ba0733713681d1e",
+      "role": "direct reference/rules"
+    },
+    ".codex/rules/review-ledger.md": {
+      "sha256": "d99f73afacd625c43c3f56dd98db0527e20118371b25df0e76174c8cd6f9c6dd",
+      "role": "direct reference/rules"
+    },
+    ".codex/review-policy.json": {
+      "sha256": "278a991cc9eae1afe02069f4152ec04748ef14a7425a7556243484ead9804249",
+      "role": "direct reference/rules"
+    },
+    ".agents/skills/mp-independent-review/SKILL.md": {
+      "sha256": "6bde60f915530a1e3bd26d842587a227ed536484ee86697ac801caa8106e1892",
+      "role": "direct reference/rules"
+    },
+    "docs/review-optimisation.md": {
+      "sha256": "ebeffb0a8ba88f4e05914845ec4a05dd38dea14113d08c26b0cbe59b52c8c7b3",
+      "role": "direct reference/rules"
+    },
+    "review/MP-15/fixed.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "role": "direct reference/rules"
+    },
+    "scripts/synthetic_data.py": {
+      "sha256": "06f74df579094b60eb16801cb840626b3876e9d08c72716929650af3508295a6",
+      "role": "direct reference/rules"
+    },
+    "scripts/validate_synthetic_data.py": {
+      "sha256": "feb77f6df1ebd851b8b85e5fbcf8d12d3ee764b3c1ec47107147826074209ad6",
+      "role": "direct reference/rules"
+    },
+    "tests/test_synthetic_data.py": {
+      "sha256": "cf8d190028077c1ab6a70ba4836c03e3f28c61e867106b5d9ba2b846b86f8c43",
+      "role": "direct reference/rules"
+    },
+    "fixtures/synthetic/instruments.json": {
+      "sha256": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/local/accounts.json": {
+      "sha256": "4df4b401c15ffd5b4d79e1d29972fb6a0ddf123fb03b3cc017434418f051aa9d",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/local/positions.json": {
+      "sha256": "595270b5928c74f855e257025f95fdb165bb195c06abd7ec5aa9b3ba7626cb6b",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/local/ledger.json": {
+      "sha256": "c5480ddc0ac9875809acd13d2bc6daa1b00b05aab59ca040d9844812ee268365",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/local/instruments.json": {
+      "sha256": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/local/manifest.json": {
+      "sha256": "0a79bb6021fe5a0b8019b279b593e8759bedbf0b192369577939c828bcdfd9b2",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/dev/accounts.json": {
+      "sha256": "b804420bb176ec385fcc54cba067167de0e930aae815b627a9c9f6b3f74ddd58",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/dev/positions.json": {
+      "sha256": "a902b6a47b6838a94d061047f5f4c092fdda0f3949c33f4ded0bc4db64cb4332",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/dev/ledger.json": {
+      "sha256": "04b33bdf153a1f2a82d82d9b3c0615bac16b21575fbcbfd7ab3c8e5bcdfcbdeb",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/dev/instruments.json": {
+      "sha256": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+      "role": "direct reference/rules"
+    },
+    "data/synthetic-v1/dev/manifest.json": {
+      "sha256": "db5d4e906cc01e6ea22a8bffa1940f6b275e6d8a474f001499783791e91597dd",
+      "role": "direct reference/rules"
+    }
+  }
+}

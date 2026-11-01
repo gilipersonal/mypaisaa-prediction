@@ -1,0 +1,92 @@
+{
+  "base_commit": "082972bf25fccf03ff72563257d5f7dd07f39c95",
+  "deliverable": "requirements-decision-pack",
+  "deliverable_round": 1,
+  "issue_history_round": 2,
+  "files": {
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.md": {
+      "sha256": "6e5f55021949ca37e479cdaf57332c8722b9611f498c9f1908953522b60faaf6",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.json": {
+      "sha256": "8e023a3f37c9982edfc5d146e702a95cb40b22008f3bb277cddba975ac0b0aa7",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack.html": {
+      "sha256": "99e2e7d200af8dc63ffbdc733bd0bf961137e66b343d363a248bd02768cc7be3",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/product-requirements.md": {
+      "sha256": "6ff838147cbcab31f8bb7238b4977d4c7ad745ed8c31979c8dbe22224263aaf3",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/product-decisions.json": {
+      "sha256": "dadb7807ea5180e2c3b870e62f0f9d3fa8d3f80f486e9bd393d00e532036c382",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/README.md": {
+      "sha256": "e33e18592a8da478d66a01794b77e7e9256862be68961e1f1f45fbd73fb0192f",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/review.html": {
+      "sha256": "eb2bc226d802e2d60c339810d19d9d6b2a8245d1f7e2742febb874669cbfef40",
+      "role": "deliverable"
+    },
+    "docs/planning/aws-options-2026-11-01/requirements-decision-pack-validation.json": {
+      "sha256": "3c89ab070e4f517ab1f8b2f7a710b3896683326550c1ef7a5593a1047ebf7289",
+      "role": "direct reference/rules/gates"
+    },
+    "docs/planning/aws-options-2026-11-01/cost-model.json": {
+      "sha256": "7a77dee1ee57635fbb809dc59bdbfad77ac329903bc21e31f78d97bc3f56ddc0",
+      "role": "direct reference/rules/gates"
+    },
+    "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md": {
+      "sha256": "8062bc87978ec4c506792e38bc532a92f4c5e82e6ff7a82d351900fead995c10",
+      "role": "direct reference/rules/gates"
+    },
+    "docs/planning/aws-options-2026-11-01/forecasting-scope.md": {
+      "sha256": "9ce676f8e34e54a607369762056b798c8993f901abf3021168a7ad14b88e7a83",
+      "role": "direct reference/rules/gates"
+    },
+    "docs/planning/aws-options-2026-11-01/audit-observability-sources.json": {
+      "sha256": "dcc90e8683e4f85be84b7882832e114e444bf9c610f88822441e2fbcdfee3dee",
+      "role": "direct reference/rules/gates"
+    },
+    "AGENTS.md": {
+      "sha256": "c9dd83b411aea012cbd4fe4a9be4955d8c3b4db1b245bc8ecb8e3597d8b99599",
+      "role": "direct reference/rules/gates"
+    },
+    ".codex/rules/workflow.md": {
+      "sha256": "4f85ca9c96ab8f89e4aa8e8d91b4dc5097b43e15e80a96e94341fb3a13fc4e27",
+      "role": "direct reference/rules/gates"
+    },
+    ".codex/rules/review-checklist.md": {
+      "sha256": "1ebec827b4e8cba3cbfd6815a90627f93a162f51e5d99bed51e7e4ee75d91830",
+      "role": "direct reference/rules/gates"
+    },
+    ".codex/rules/review-ledger.md": {
+      "sha256": "d99f73afacd625c43c3f56dd98db0527e20118371b25df0e76174c8cd6f9c6dd",
+      "role": "direct reference/rules/gates"
+    },
+    ".codex/review-policy.json": {
+      "sha256": "278a991cc9eae1afe02069f4152ec04748ef14a7425a7556243484ead9804249",
+      "role": "direct reference/rules/gates"
+    },
+    ".agents/skills/mp-independent-review/SKILL.md": {
+      "sha256": "6bde60f915530a1e3bd26d842587a227ed536484ee86697ac801caa8106e1892",
+      "role": "direct reference/rules/gates"
+    },
+    "docs/review-optimisation.md": {
+      "sha256": "ebeffb0a8ba88f4e05914845ec4a05dd38dea14113d08c26b0cbe59b52c8c7b3",
+      "role": "direct reference/rules/gates"
+    },
+    "review/MP-15/fixed.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "role": "direct reference/rules/gates"
+    },
+    "review/MP-15/check_decision_pack.py": {
+      "sha256": "5c9c1b1ed2a3dc33ba69a93470eefdaa6e4536cf052cc841979835efa481779b",
+      "role": "direct reference/rules/gates"
+    }
+  }
+}

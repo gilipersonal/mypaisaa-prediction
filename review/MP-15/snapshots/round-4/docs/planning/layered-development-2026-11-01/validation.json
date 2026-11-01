@@ -1,0 +1,28 @@
+{
+  "status": "maker structural/arithmetic checks passed; independent review not run",
+  "as_of": "2026-11-01",
+  "phases": 10,
+  "stories": 64,
+  "L1_stories": 16,
+  "L1_acceptance_criteria": 64,
+  "contracts": 15,
+  "synthetic_examples": 12,
+  "source_mappings": 140,
+  "publication": {
+    "creates": 5,
+    "bounded_updates": 6,
+    "image_upserts": 8,
+    "Jira_description_updates": 11,
+    "status_changes": 0,
+    "writes_performed": 0
+  },
+  "coverage_limit": "Phase-level source mapping does not prove source-clause decomposition or product acceptance.",
+  "gates": [
+    "planning/implementation/story dependency DAGs",
+    "decision/source/story/contract/example joins",
+    "synthetic Decimal arithmetic and ambiguous-XIRR evidence",
+    "local Markdown/HTML links and anchors",
+    "MP-only non-destructive publication actions and current source/image hashes"
+  ],
+  "application_implementation_authorised": false
+}

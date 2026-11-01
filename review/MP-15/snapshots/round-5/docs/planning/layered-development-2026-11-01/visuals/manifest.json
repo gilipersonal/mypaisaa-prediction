@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "project": "mypaisaa-prediction",
+  "prepared_on": "2026-11-01",
+  "status": "Proposed - local supporting workflow, implementation not authorised",
+  "published": false,
+  "model": {
+    "kind": "deterministic seven-stage process model in renderer NODES/EDGES",
+    "ai_image_generation_model": null,
+    "renderer": "Python/Pillow using macOS-bundled Arial fonts",
+    "pillow_version": "12.3.0",
+    "editing_model": "import-workflow.drawio contains editable labelled process blocks; exports regenerated from renderer source",
+    "source_and_export_relationship": "Renderer is the reproducible authority for this bundle; draw.io is separately editable. Manual draw.io edits are not automatically reflected in SVG/PNG/GIF. Reconcile edits into renderer before re-export.",
+    "architecture_boundary": "Supporting import workflow only; not AWS/system architecture, not an alternative phase DAG and not a replacement for canonical Lucid diagrams."
+  },
+  "sources": [
+    {
+      "path": "../portfolio-import-contracts.json",
+      "sha256": "f9509a89c13af4f77f1eab7965e305037babfcce605026e7accb02b9487d5dbe",
+      "role": "requirements reference; not implementation evidence"
+    },
+    {
+      "path": "../portfolio-import-spec.md",
+      "sha256": "a1705036406c34f03156f89c2ed8c60fb4909c908dbd1936a33c583d269c5752",
+      "role": "requirements reference; not implementation evidence"
+    },
+    {
+      "path": "../portfolio-import-stories.json",
+      "sha256": "57aa9599f98994de55bffd799e6943c50e6aeac8f678a931b7165be9416ded93",
+      "role": "requirements reference; not implementation evidence"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "render_import_workflow.py",
+      "kind": "reproducible-source",
+      "sha256": "ecc8eb76c2a397548d3706c059a5d60a2d28591581f6d6243001c991adb9e365",
+      "bytes": 16316
+    },
+    {
+      "path": "import-workflow.drawio",
+      "kind": "editable-native-process-model",
+      "sha256": "74dabddd9b92e882f31085f96fbfcda5b6f54aa84db65a467d2b8833d3c03672",
+      "bytes": 6642
+    },
+    {
+      "path": "import-workflow.svg",
+      "kind": "accessible-static-vector-export",
+      "sha256": "6c2e619ed177997bf9de7c1ef1585fb4e190ec354185376a09a56eee7b98b615",
+      "bytes": 10506
+    },
+    {
+      "path": "import-workflow.png",
+      "kind": "static-raster-export",
+      "sha256": "f6265042c96a51b12e7f48646bf5949486c8296f2234d8c5c190fd76052acacf",
+      "bytes": 113892
+    },
+    {
+      "path": "import-workflow.gif",
+      "kind": "illustrative-animation-export",
+      "sha256": "edba2c4c25a1cb9ae07c66920093e7a52651ad0656e8949196c3179aca3fea02",
+      "bytes": 555995
+    }
+  ],
+  "alt_text": "Proposed import workflow, not implemented or live telemetry. Seven ordered stages: Receive original; Validate or quarantine; Extract candidates; Match and normalise; Owner preview and approval; Commit and financial audit; Durable receipt and reconciliation. Trace, source, status and cost evidence applies at every stage. Failed, cancelled or staged work has no financial visibility. Financial visibility is permitted only after a successful logical commit. Static PNG and SVG alternatives are available.",
+  "animation": {
+    "purpose": "Slow focus walkthrough of seven proposed stages, not live telemetry",
+    "default": "Use static PNG/SVG by default; opt-in animation button,restore static to stop",
+    "reduced_motion": "Host must suppress automatic playback and use static when prefers-reduced-motion is reduce",
+    "embedded_gif_note": "GIF cannot enforce reduced-motion by itself; host owns the opt-in control",
+    "static_alternatives": [
+      "import-workflow.png",
+      "import-workflow.svg"
+    ],
+    "loop": "repeats while host chooses GIF; 12.6 second cycle",
+    "flashing": "No flicker; one bounded focus change every 1.8 seconds",
+    "palette": "Shared across all frames to keep unchanged regions stable"
+  },
+  "reproduce": "python3 docs/planning/layered-development-2026-11-01/visuals/render_import_workflow.py",
+  "validation": {
+    "drawio_xml_parse": "passed",
+    "drawio_unique_cell_ids": 19,
+    "drawio_ordered_connected_process_edges": 6,
+    "svg_xml_accessible_title_description_role": "passed",
+    "svg_process_edges": 6,
+    "text_fit": "passed for every process title/body line",
+    "minimum_text_contrast_ratio": 5.36,
+    "text_contrast_4_5_to_1": "passed",
+    "png_dimensions": [
+      1600,
+      880
+    ],
+    "gif_frames": 7,
+    "gif_frame_duration_ms": [
+      1800,
+      1800,
+      1800,
+      1800,
+      1800,
+      1800,
+      1800
+    ],
+    "gif_adjacent_frames_visually_distinct": true,
+    "gif_frame_difference_bounds": [
+      [
+        41,
+        209,
+        792,
+        855
+      ],
+      [
+        261,
+        209,
+        1176,
+        855
+      ],
+      [
+        261,
+        209,
+        1560,
+        855
+      ],
+      [
+        261,
+        209,
+        1560,
+        855
+      ],
+      [
+        261,
+        509,
+        1560,
+        855
+      ],
+      [
+        261,
+        509,
+        1176,
+        855
+      ],
+      [
+        41,
+        209,
+        792,
+        855
+      ]
+    ],
+    "gif_cycle_ms": 12600,
+    "gif_focus_changes_per_second": 0.556,
+    "png_visual_inspection": {
+      "result": "passed maker inspection",
+      "performed_on": "2026-11-01",
+      "inspected_file": "import-workflow.png",
+      "sha256": "f6265042c96a51b12e7f48646bf5949486c8296f2234d8c5c190fd76052acacf",
+      "observations": "All seven numbered cards and ordered connectors are legible; Proposed status, nonvisibility invariant and every-stage evidence band visible; no clipping or overlap at1600x880. This is maker visual verification, not independent review."
+    },
+    "independent_review": "not_run",
+    "application_or_live_pipeline_validation": "not_run",
+    "svg_unique_ids": 10,
+    "gif_static_header_safety_and_evidence_pixels_stable": true
+  }
+}

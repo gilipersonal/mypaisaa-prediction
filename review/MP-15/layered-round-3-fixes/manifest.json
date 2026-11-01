@@ -1,0 +1,12 @@
+{
+  "basis": "review/MP-15/snapshots/round-6/manifest.json",
+  "scope": "Round3 fixes only; not another independent round",
+  "files": {
+    "docs/planning/layered-development-2026-11-01/mp-sync-write-proposal.json": "087630d3bd1a036256963d1997fb6dd6d1890b0f326f583986c6770ca83639cb",
+    "docs/planning/layered-development-2026-11-01/confluence-publish-payloads.json": "86a9d3f24cb1fbf29119683b2ca420957ca3a3dc7736cec26ae4f1d1790fda8a",
+    ".codex/rules/review-checklist.md": "cb6f5f143c880155f5cba1e6496df2dd495e66ba3920ea9dacdefccf213acb88",
+    "review/MP-15/fixed.json": "6d1df71439cfc0f238faadd7e664e0c0a36426029f346a52fb5dfc7e0a728692",
+    "docs/planning/layered-development-2026-11-01/confluence_notice_composition.py": "75d75c38842c8f0f5405ba87ced8418df2114082a433a1a9a9104f9017ae5db4",
+    "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py": "3f22638ae8072b4278677c9862db78e444301a7448cf1cbad080cea7a9a1d901"
+  }
+}
