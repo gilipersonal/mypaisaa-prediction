@@ -6,6 +6,19 @@
 
 For what is implemented today, read the [current implementation status](implementation-plan.md#current-implementation-status) and the [1 November 2026 plan-sync record](plan-sync-2026-11-01.md). The technology and capabilities below describe the planned product. Only the FastAPI health/sample SSE starter and illustrative static preview currently exist; phase 0 remains partial.
 
+## Agreed direction: requirements first (1 November 2026)
+
+This records the user's latest agreement and takes precedence over the earlier delivery/resume sequence below. It is a record of intent, not a completed requirements specification or permission to begin development.
+
+- **Do not start implementation until the end-to-end requirements are resolved and agreed with the user.** The present authorisation is only to save these decisions; do not begin planning, design or implementation from this record alone.
+- Prepare the eventual work layer by layer: product requirements; data and holdings; prediction and learning; research intelligence; user experience; architecture and delivery. For each layer, prepare detailed documentation, decisions, acceptance criteria, stories, implementation plans and relevant UX designs before implementation begins. Keep the layers consistent as one end-to-end specification.
+- The original premise remains a personal investment-intelligence system combining **LLMs and ML** for stocks/shares and ETFs, within the previously discussed global multi-asset ambition. It is **not a trading application** and must not execute orders.
+- Aim for highly accurate predictions and a system that learns over time. Treat accuracy as a measurable ambition, never a guarantee. Record predictions and realised outcomes, evaluate candidate improvements against baselines on unseen data and across market conditions, and validate improvements before adopting them. Existing walk-forward, leakage-prevention, uncertainty and immutable-history requirements remain in force. Exact learning/retraining and promotion policies still need agreement; this does not authorise agents to change live models autonomously.
+- **Author all designs locally**, following the approach used in `mypaisaa-agent`, then sync them to **ChatGPT Sites**. The intended design deliverables are the design system, web and mobile views, and a running end-to-end prototype. Prototype/sample data must be clearly identified; a prototype does not demonstrate validated prediction performance. No Sites sync or publication is authorised by this note.
+- Use the existing knowledge base and accepted decisions as the starting point. Record and resolve outstanding questions with the user before calling the end-to-end specification ready. The existing stack, budget, no-trading limits and delivery permissions remain in force unless explicitly revised.
+
+The initial permission covered local knowledge capture and a short persistent memory pointer only. The user subsequently requested a PR for these saved decisions and declined independent review. That delivery request does not authorise Confluence/Sites publication, implementation, PR merge or issue closure.
+
 ## 1. Product vision
 
 Build a private, high-quality investment-intelligence and prediction platform for one person. It should help research global multi-asset investments and make recommendations based on transparent, measured evidence.
@@ -174,4 +187,4 @@ Repository documents and accepted ADRs hold the versioned technical decisions; J
 
 ## 13. How to resume
 
-Start with the README, this document and the [current implementation status](implementation-plan.md#current-implementation-status). Follow the manual Jira/Confluence links in the [plan-sync record](plan-sync-2026-11-01.md), choose one phase from the delivery order, update the relevant architecture/ADR if a decision changes, and implement the smallest tested vertical slice. Follow AGENTS.md for guardrails.
+Start with the requirements-first agreement above, the README, this document and the [current implementation status](implementation-plan.md#current-implementation-status). Do not automatically resume implementation from the earlier delivery order: wait for the user to authorise requirements/planning work, resolve and agree the end-to-end requirements, and only then proceed to authorised implementation. Use the manual Jira/Confluence links in the [plan-sync record](plan-sync-2026-11-01.md) as references; external sync and shipping retain their separate permission requirements. Follow AGENTS.md for guardrails.
