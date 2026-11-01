@@ -1,0 +1,100 @@
+{
+  "is_synthetic": true,
+  "environment": "dev",
+  "label": "SIMULATED OPERATIONS - NOT OBSERVED USAGE OR BILLED COSTS",
+  "rate_card": {
+    "version": "illustrative-fixture-rates-v1",
+    "current_provider_price": false,
+    "USD_per_million_input": "3",
+    "USD_per_million_output": "15"
+  },
+  "runs": [
+    {
+      "run_id": "synthetic-dev-holdings-research",
+      "environment": "dev",
+      "agent": "holdings-research",
+      "input_tokens": 24000,
+      "output_tokens": 1800,
+      "gross_estimated_USD": "0.099",
+      "is_synthetic": true
+    },
+    {
+      "run_id": "synthetic-dev-daily-brief",
+      "environment": "dev",
+      "agent": "daily-brief",
+      "input_tokens": 9000,
+      "output_tokens": 700,
+      "gross_estimated_USD": "0.0375",
+      "is_synthetic": true
+    },
+    {
+      "run_id": "synthetic-dev-import-extraction",
+      "environment": "dev",
+      "agent": "import-extraction",
+      "input_tokens": 6000,
+      "output_tokens": 500,
+      "gross_estimated_USD": "0.0255",
+      "is_synthetic": true
+    }
+  ],
+  "independent_scenarios": [
+    {
+      "id": "credit-covered",
+      "gross_USD": "18.50",
+      "credit_applied_USD": "18.50",
+      "estimated_cash_USD": "0.00",
+      "state": "covered",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "credit-unknown",
+      "credit_remaining_USD": null,
+      "state": "pause-uncovered-calls",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "cash-60",
+      "forecast_GBP": "60",
+      "state": "warn",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "cash-75",
+      "forecast_GBP": "75",
+      "state": "reduce-optional",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "cash-85",
+      "forecast_GBP": "85",
+      "state": "pause-new-optional",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "billing-stale",
+      "provider_report_age_hours": 48,
+      "state": "stale-not-zero",
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "rejected-upload",
+      "state": "quarantined",
+      "ledger_changed": false,
+      "is_synthetic": true,
+      "environment": "dev"
+    },
+    {
+      "id": "duplicate-upload",
+      "state": "duplicate",
+      "ledger_changed": false,
+      "is_synthetic": true,
+      "environment": "dev"
+    }
+  ]
+}

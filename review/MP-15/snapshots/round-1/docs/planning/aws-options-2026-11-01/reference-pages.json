@@ -1,0 +1,128 @@
+[
+  {
+    "id": "2622286",
+    "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+    "version": 7,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2622286"
+  },
+  {
+    "id": "1540302",
+    "title": "\u00a718 \u00b7 Environments, domains and delivery",
+    "version": 15,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540302"
+  },
+  {
+    "id": "2589543",
+    "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+    "version": 12,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2589543"
+  },
+  {
+    "id": "3670133",
+    "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+    "version": 4,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3670133"
+  },
+  {
+    "id": "1704037",
+    "title": "\ud83d\udd2e \u00a719 \u00b7 The Forecaster",
+    "version": 13,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704037"
+  },
+  {
+    "id": "4816897",
+    "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+    "version": 4,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/4816897"
+  },
+  {
+    "id": "2818197",
+    "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+    "version": 8,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2818197"
+  },
+  {
+    "id": "1442082",
+    "title": "\ud83d\udcec \u00a721 \u00b7 Queues and live delivery",
+    "version": 8,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442082"
+  },
+  {
+    "id": "1147065",
+    "title": "\ud83d\udee1\ufe0f \u00a714 \u00b7 Security and privacy",
+    "version": 10,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147065"
+  },
+  {
+    "id": "1540178",
+    "title": "Guardrails and evals: how the agents are guarded and tested",
+    "version": 13,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540178"
+  },
+  {
+    "id": "1671190",
+    "title": "\ud83e\udded \u00a71 to \u00a73 \u00b7 The rules, what MyPaisa does, and the system around it",
+    "version": 10,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671190"
+  },
+  {
+    "id": "1442042",
+    "title": "\ud83d\uddc2\ufe0f \u00a74 \u00b7 The holdings registry and the data model",
+    "version": 15,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442042"
+  },
+  {
+    "id": "1147045",
+    "title": "\ud83d\udce1 \u00a75 to \u00a77 \u00b7 Prices, FX and the rules engine",
+    "version": 12,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147045"
+  },
+  {
+    "id": "1671210",
+    "title": "\ud83e\udd16 \u00a78 \u00b7 The agent: one tool loop, its tools and its models",
+    "version": 13,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671210"
+  },
+  {
+    "id": "1409219",
+    "title": "\u00a79 \u00b7 The two doors: the iOS app and the web app",
+    "version": 28,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1409219"
+  },
+  {
+    "id": "1671230",
+    "title": "\ud83d\udd2d \u00a710 \u00b7 Observability: one trace from the door to the model",
+    "version": 12,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671230"
+  },
+  {
+    "id": "1442062",
+    "title": "\ud83d\udcb7 \u00a715 \u00b7 Cost, the Claude budget, caps and alerts",
+    "version": 11,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442062"
+  },
+  {
+    "id": "1769473",
+    "title": "\ud83d\udc65 \u00a720 \u00b7 The agent team",
+    "version": 14,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769473"
+  },
+  {
+    "id": "3899472",
+    "title": "\ud83e\udde0 \u00a724 \u00b7 Caching and memory for every agent",
+    "version": 2,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3899472"
+  },
+  {
+    "id": "1540282",
+    "title": "\ud83d\udd10 \u00a74.5 \u00b7 Identity, members and views",
+    "version": 8,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540282"
+  },
+  {
+    "id": "1769493",
+    "title": "The Market Agent, end to end",
+    "version": 7,
+    "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769493"
+  }
+]

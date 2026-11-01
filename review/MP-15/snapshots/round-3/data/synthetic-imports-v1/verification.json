@@ -1,0 +1,33 @@
+{
+  "status": "maker checks passed; independent review not run",
+  "as_of": "2026-11-01",
+  "counts": {
+    "local": {
+      "PDFs": 1,
+      "pages": 3,
+      "screenshots": 3,
+      "positions": 30,
+      "independent_operation_scenarios": 8
+    },
+    "dev": {
+      "PDFs": 1,
+      "pages": 3,
+      "screenshots": 3,
+      "positions": 30,
+      "independent_operation_scenarios": 8
+    }
+  },
+  "checks": [
+    "Both original full market/ledger packs passed existing validators",
+    "All new PDF/PNG/JSON hashes, current generator and preserved source hashes verified",
+    "Every final document instrument/quantity/price/value and account total matches expected records",
+    "All six final pages visually inspected; no clipping/overlap/invalid glyphs observed",
+    "Fixture index and relevant documentation local links resolve",
+    "Seven isolated new document tests and nine existing synthetic data tests passed",
+    "Ruff checks passed for changed fixture code; planning JSON/content gates and git diff whitespace passed"
+  ],
+  "test_count": 16,
+  "cloud_loading": false,
+  "paid_service_calls": false,
+  "actual_samples": "deferred by owner; synthetic fixtures only"
+}

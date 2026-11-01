@@ -1,0 +1,453 @@
+{
+  "status": "completed_and_readback_verified",
+  "date": "2026-11-01",
+  "approved_scope": {
+    "new_pages": 5,
+    "existing_page_updates": 6,
+    "image_upserts": 8,
+    "Jira_description_updates": 11,
+    "status_changes": 0
+  },
+  "review": {
+    "deliverable_round": 4,
+    "blockers": 0,
+    "nonblocking": "stale labels corrected during rendering; no technical changes"
+  },
+  "pages": {
+    "NEW-PLANNING-INDEX": {
+      "id": "4981438",
+      "title": "MP | Layered development planning - 1 November 2026",
+      "parent_id": "5112476",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981438",
+      "state": "published",
+      "version": 2
+    },
+    "NEW-PORTFOLIO-IMPORT": {
+      "id": "4981454",
+      "title": "MP | Portfolio and import specification",
+      "parent_id": "4981241",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981454",
+      "state": "published",
+      "version": 1
+    },
+    "NEW-PHASED-PLAN": {
+      "id": "5014255",
+      "title": "MP | Phased delivery plan and story map",
+      "parent_id": "4981438",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014255",
+      "state": "published",
+      "version": 1
+    },
+    "NEW-ARCHITECTURE": {
+      "id": "5014267",
+      "title": "MP | Architecture blueprint",
+      "parent_id": "5145394",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014267",
+      "state": "published",
+      "version": 1
+    },
+    "NEW-TECH-STACK": {
+      "id": "5014301",
+      "title": "MP | Technology stack and decision matrix",
+      "parent_id": "5145394",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014301",
+      "state": "published",
+      "version": 1
+    }
+  },
+  "attachments": {
+    "IMPORT-WORKFLOW-STATIC": {
+      "id": "att5112613",
+      "media_id": "ad6725e9-07d2-4e1d-aa76-a6f4c8b52115",
+      "collection": "contentId-4981438",
+      "filename": "import-workflow.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 113892,
+      "state": "uploaded"
+    },
+    "IMPORT-WORKFLOW-ANIMATED": {
+      "id": "att5112619",
+      "media_id": "c3ae8fe3-499d-4e2c-910d-7a624b4e4379",
+      "collection": "contentId-4981438",
+      "filename": "import-workflow.gif",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 555995,
+      "state": "uploaded"
+    },
+    "LUCID-OPTION-A": {
+      "id": "att5112625",
+      "media_id": "f1b050c3-074b-4bb4-b48c-c7be778a6b37",
+      "collection": "contentId-4981438",
+      "filename": "option-a-lucid.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 151563,
+      "state": "uploaded"
+    },
+    "LUCID-OPTION-B": {
+      "id": "att5014354",
+      "media_id": "dedf4fa2-1400-493d-b9bf-27c40b32859c",
+      "collection": "contentId-4981438",
+      "filename": "option-b-lucid.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 153105,
+      "state": "uploaded"
+    },
+    "MP-SYSTEM-ARCHITECTURE": {
+      "id": "att5014360",
+      "media_id": "46a88144-3882-4b0c-a1bc-845182f6bea3",
+      "collection": "contentId-4981438",
+      "filename": "mp-system-architecture-native.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 1339989,
+      "state": "uploaded"
+    },
+    "PHASE-DEPENDENCIES": {
+      "id": "att5014366",
+      "media_id": "7f18ab8a-c063-4ef4-81a8-bcd7f7680199",
+      "collection": "contentId-4981438",
+      "filename": "phase-dependencies.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 104324,
+      "state": "uploaded"
+    },
+    "BUDGET-ENVELOPE": {
+      "id": "att5014372",
+      "media_id": "c9035d1a-2d86-48d2-974c-857689d663df",
+      "collection": "contentId-4981438",
+      "filename": "budget-envelope.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 60557,
+      "state": "uploaded"
+    },
+    "MP-NETWORK-OPTIONS": {
+      "id": "att5145568",
+      "media_id": "68c9bdda-6e89-47dc-bb7a-1fe1db1d311e",
+      "collection": "contentId-4981438",
+      "filename": "mp-network-options-native.png",
+      "page_id": "4981438",
+      "version": 1,
+      "bytes": 1010128,
+      "state": "uploaded"
+    }
+  },
+  "page_updates": [
+    {
+      "id": "5145345",
+      "title": "mypaisaa-prediction",
+      "version": 3,
+      "operation": "insert_owned_notice",
+      "outside_bytes_preserved_in_dry_run": true
+    },
+    {
+      "id": "4981241",
+      "title": "Product brief and knowledge base",
+      "version": 4,
+      "operation": "insert_owned_notice",
+      "outside_bytes_preserved_in_dry_run": true
+    },
+    {
+      "id": "5145394",
+      "title": "Architecture and decision records",
+      "version": 5,
+      "operation": "insert_owned_notice",
+      "outside_bytes_preserved_in_dry_run": true
+    },
+    {
+      "id": "5112476",
+      "title": "Roadmap and current implementation status",
+      "version": 3,
+      "operation": "insert_owned_notice",
+      "outside_bytes_preserved_in_dry_run": true
+    },
+    {
+      "id": "5014127",
+      "title": "Development, CI and Codex workflows",
+      "version": 6,
+      "operation": "insert_owned_notice",
+      "preservation": "granular edit; outside canonical tokens and every existing local ID match in dry-run"
+    },
+    {
+      "id": "5112525",
+      "title": "Security, cost and operations",
+      "version": 4,
+      "operation": "insert_owned_notice",
+      "outside_bytes_preserved_in_dry_run": true
+    }
+  ],
+  "jira_updates": [
+    {
+      "key": "MP-4",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:47.412+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-5",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:49.531+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-6",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:51.563+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-7",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:53.625+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-8",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:55.756+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-9",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:57.807+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-10",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:43:59.773+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-11",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:44:01.828+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-12",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:44:03.907+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-13",
+      "status_before": "To Do",
+      "status_after": "To Do",
+      "updated_at": "2026-11-01T22:44:05.896+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    },
+    {
+      "key": "MP-15",
+      "status_before": "In Progress",
+      "status_after": "In Progress",
+      "updated_at": "2026-11-01T22:44:07.871+0000",
+      "fields_changed": [
+        "description"
+      ],
+      "marker_pair_verified": true
+    }
+  ],
+  "errors": [],
+  "verification": {
+    "published_pages": [
+      {
+        "id": "4981438",
+        "title": "MP | Layered development planning - 1 November 2026",
+        "version": 2,
+        "status": "current",
+        "media_refs": 11
+      },
+      {
+        "id": "4981454",
+        "title": "MP | Portfolio and import specification",
+        "version": 1,
+        "status": "current",
+        "media_refs": 0
+      },
+      {
+        "id": "5014255",
+        "title": "MP | Phased delivery plan and story map",
+        "version": 1,
+        "status": "current",
+        "media_refs": 1
+      },
+      {
+        "id": "5014267",
+        "title": "MP | Architecture blueprint",
+        "version": 1,
+        "status": "current",
+        "media_refs": 12
+      },
+      {
+        "id": "5014301",
+        "title": "MP | Technology stack and decision matrix",
+        "version": 1,
+        "status": "current",
+        "media_refs": 3
+      },
+      {
+        "id": "5145345",
+        "title": "mypaisaa-prediction",
+        "version": 3,
+        "status": "current",
+        "media_refs": 0
+      },
+      {
+        "id": "4981241",
+        "title": "Product brief and knowledge base",
+        "version": 4,
+        "status": "current",
+        "media_refs": 0
+      },
+      {
+        "id": "5145394",
+        "title": "Architecture and decision records",
+        "version": 5,
+        "status": "current",
+        "media_refs": 5
+      },
+      {
+        "id": "5112476",
+        "title": "Roadmap and current implementation status",
+        "version": 3,
+        "status": "current",
+        "media_refs": 0
+      },
+      {
+        "id": "5014127",
+        "title": "Development, CI and Codex workflows",
+        "version": 6,
+        "status": "current",
+        "media_refs": 2
+      },
+      {
+        "id": "5112525",
+        "title": "Security, cost and operations",
+        "version": 4,
+        "status": "current",
+        "media_refs": 4
+      }
+    ],
+    "all_visuals_referenced": true,
+    "closed_issues_verified_done": [
+      "MP-3",
+      "MP-14",
+      "MP-16"
+    ],
+    "jira_original_content_preserved": true,
+    "confluence_preservation": [
+      {
+        "id": "5145345",
+        "canonical_original_content_equal": false,
+        "original_native_ids_preserved": 54,
+        "additional_server_assigned_local_ids": 0,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": [
+          {
+            "macro": "livesearch",
+            "server_removed_parameter": "_parentId",
+            "previous_value": "5014186"
+          },
+          {
+            "macro": "listlabels",
+            "server_removed_parameter": "_parentId",
+            "previous_value": "5014186"
+          },
+          {
+            "macro": "recently-updated",
+            "server_removed_parameter": "_parentId",
+            "previous_value": "5014186"
+          }
+        ]
+      },
+      {
+        "id": "4981241",
+        "canonical_original_content_equal": true,
+        "original_native_ids_preserved": 108,
+        "additional_server_assigned_local_ids": 0,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": []
+      },
+      {
+        "id": "5145394",
+        "canonical_original_content_equal": true,
+        "original_native_ids_preserved": 140,
+        "additional_server_assigned_local_ids": 5,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": []
+      },
+      {
+        "id": "5112476",
+        "canonical_original_content_equal": true,
+        "original_native_ids_preserved": 153,
+        "additional_server_assigned_local_ids": 0,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": []
+      },
+      {
+        "id": "5014127",
+        "canonical_original_content_equal": true,
+        "original_native_ids_preserved": 121,
+        "additional_server_assigned_local_ids": 2,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": []
+      },
+      {
+        "id": "5112525",
+        "canonical_original_content_equal": true,
+        "original_native_ids_preserved": 116,
+        "additional_server_assigned_local_ids": 3,
+        "single_owned_notice_pair": true,
+        "publication_serialization_changes": []
+      }
+    ]
+  },
+  "completed_at_UTC": "2026-11-01 22:50:29 UTC",
+  "source_proposals": "Pre-publication payloads, source hashes, page versions and maker gates are preserved as historical preparation evidence. This receipt and SYNC-COMPLETED.md record the applied state; do not replay historical proposals."
+}

@@ -1,0 +1,302 @@
+[
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:AAPL",
+    "quantity": "8.4854",
+    "price": "339.00225207",
+    "value": "2876.57",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:MSFT",
+    "quantity": "16.0369",
+    "price": "190.10566491",
+    "value": "3048.71",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:NVDA",
+    "quantity": "84.5692",
+    "price": "29.18496277",
+    "value": "2468.15",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:AMZN",
+    "quantity": "27.6209",
+    "price": "106.7767527",
+    "value": "2949.27",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:FSLR",
+    "quantity": "11.1392",
+    "price": "209.69795406",
+    "value": "2335.87",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNYS:JPM",
+    "quantity": "12.7030",
+    "price": "215.14256199",
+    "value": "2732.96",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNYS:JNJ",
+    "quantity": "11.4470",
+    "price": "398.02429885",
+    "value": "4556.18",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNYS:XOM",
+    "quantity": "35.5655",
+    "price": "90.46506877",
+    "value": "3217.44",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "ARCX:SPY",
+    "quantity": "17.1751",
+    "price": "226.42579456",
+    "value": "3888.89",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-us",
+    "instrument_id": "XNAS:QQQ",
+    "quantity": "14.8531",
+    "price": "194.81593252",
+    "value": "2893.62",
+    "currency": "USD",
+    "as_of": "2026-10-30T20:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:AZN",
+    "quantity": "42.1750",
+    "price": "54.87657791",
+    "value": "2314.42",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:SHEL",
+    "quantity": "74.2289",
+    "price": "26.75248534",
+    "value": "1985.81",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:HSBA",
+    "quantity": "164.7167",
+    "price": "11.21104014",
+    "value": "1846.65",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:ULVR",
+    "quantity": "97.0165",
+    "price": "20.67393215",
+    "value": "2005.71",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:BP.",
+    "quantity": "401.9967",
+    "price": "4.15053029",
+    "value": "1668.50",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:LLOY",
+    "quantity": "4737.2749",
+    "price": "0.41189141",
+    "value": "1951.24",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:BARC",
+    "quantity": "282.9154",
+    "price": "5.15343099",
+    "value": "1457.98",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:NG.",
+    "quantity": "314.9968",
+    "price": "7.15241728",
+    "value": "2252.99",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:VOD",
+    "quantity": "686.3731",
+    "price": "3.38681532",
+    "value": "2324.62",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-uk",
+    "instrument_id": "XLON:CNX1",
+    "quantity": "8.3033",
+    "price": "261.82620275",
+    "value": "2174.02",
+    "currency": "GBP",
+    "as_of": "2026-10-30T16:31:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:RELIANCE",
+    "quantity": "315",
+    "price": "192.11890753",
+    "value": "60517.46",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:TCS",
+    "quantity": "40",
+    "price": "2076.8036534",
+    "value": "83072.15",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:INFY",
+    "quantity": "176",
+    "price": "331.60826082",
+    "value": "58363.05",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:HDFCBANK",
+    "quantity": "271",
+    "price": "248.45459947",
+    "value": "67331.20",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:ICICIBANK",
+    "quantity": "148",
+    "price": "513.86834773",
+    "value": "76052.52",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:SBIN",
+    "quantity": "353",
+    "price": "159.95903074",
+    "value": "56465.54",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:ITC",
+    "quantity": "464",
+    "price": "129.70987274",
+    "value": "60185.38",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:TATAPOWER",
+    "quantity": "1215",
+    "price": "47.58395473",
+    "value": "57814.50",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:ADANIGREEN",
+    "quantity": "6604",
+    "price": "5.64298911",
+    "value": "37266.30",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  },
+  {
+    "account_id": "synthetic-dev-in",
+    "instrument_id": "XNSE:NIFTYBEES",
+    "quantity": "885",
+    "price": "89.72727436",
+    "value": "79408.64",
+    "currency": "INR",
+    "as_of": "2026-10-30T10:01:00+00:00",
+    "is_synthetic": true
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "basis": "review/MP-15/snapshots/round-4/manifest.json",
+  "scope": "Round1 fixes plus directly regenerated/provenance joins; not a further review round",
+  "files": {
+    "docs/planning/layered-development-2026-11-01/confluence-page-map.json": "7ccc975b8346ea460327f9f974d03d1f58cc5098fe823e243a898f5185599383",
+    "docs/planning/layered-development-2026-11-01/architecture-blueprint.html": "d2e6753f8cad38b860458f9d1b1d9b93a5b3eb59addc16d4e74a1e1e577ba8b3",
+    "docs/planning/layered-development-2026-11-01/architecture-blueprint.md": "96e9faafeb537d76afafb5759413a72d42501f3c1f4156fbe129ff05c20a68ac",
+    "docs/planning/layered-development-2026-11-01/mp-sync-write-proposal.json": "39c5f65f97c68b6a25b7e206c261a7f5863034071b30f9361b782ba7dc39c1bf",
+    "docs/planning/layered-development-2026-11-01/confluence-page-map.md": "46ed6e11840d1ebf94b9027cb44baf864afa906da6d17c8058e59e7a961172a4",
+    "docs/planning/layered-development-2026-11-01/confluence-publish-payloads.json": "38dc857582c4817a6714f305f7aea54a522962a23e9209cab5ac76f01363e9fb",
+    "docs/planning/layered-development-2026-11-01/confluence-page-map.html": "95103cad92b3bc94cdc3794d1ed5a9243b710af5bae4b6ed5ccf152a1b3fab9c",
+    "docs/tech-stack.md": "c84c3632e4c0d433f673032562b15d665fc00c2b8470814f5568599e05450a53",
+    ".codex/rules/review-checklist.md": "9bc514ffe413119af98532517240bb7efa4872d7fe9d0be412b08588e76e5aa7",
+    "review/MP-15/fixed.json": "a982200a562010650681603628623d16ccd569112953eed9943a05ad1339ab15",
+    "docs/planning/layered-development-2026-11-01/confluence_notice_composition.py": "feab3763ac0210fd4698544b2b4ffdd4d49b2ca1dd64061205f8d7fe245e94d9",
+    "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py": "1fc118349a3ecf7e8e56c956f8de73a92a6085e05ff725450f422d7c0164e8b0"
+  }
+}

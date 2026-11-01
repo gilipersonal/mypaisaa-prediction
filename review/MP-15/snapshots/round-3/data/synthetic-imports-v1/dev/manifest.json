@@ -1,0 +1,31 @@
+{
+  "dataset_id": "mypaisaa-synthetic-imports-v1",
+  "environment": "dev",
+  "is_synthetic": true,
+  "pdf_pages": 3,
+  "screenshots": 3,
+  "source_dataset": "mypaisaa-synthetic-v1",
+  "source_hashes": {
+    "accounts.json": "b804420bb176ec385fcc54cba067167de0e930aae815b627a9c9f6b3f74ddd58",
+    "positions.json": "a902b6a47b6838a94d061047f5f4c092fdda0f3949c33f4ded0bc4db64cb4332",
+    "ledger.json": "04b33bdf153a1f2a82d82d9b3c0615bac16b21575fbcbfd7ab3c8e5bcdfcbdeb",
+    "instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7"
+  },
+  "source_manifest_sha256": "db5d4e906cc01e6ea22a8bffa1940f6b275e6d8a474f001499783791e91597dd",
+  "generator_sha256": "d5e29cbbfeb3e205036abb95187272642b214ed389c4c78f1d7d43547ab131e5",
+  "sha256": {
+    "expected-imports.json": "856f5158519760e43cd6e2d81e07dbad45031b08729b3ef8587d5e28fd793335",
+    "operations-scenarios.json": "6b9767811df2534d99d9f7f670612a8ebe14b5895e53184bf7731cda6a64d96a",
+    "portfolio-statements.pdf": "12f0ecd46b21434ce5287d2551e44a462c506e2e416294579c8c263f068c71c1",
+    "statement-1.png": "3387e545706a26cd11791c79e2b609cb880ab10542d7a9fce8dde79001978ebb",
+    "statement-2.png": "368acb0e1832c47fa5427210146e3371eab5c808eedcad4babd5484323850aba",
+    "statement-3.png": "1b0015d0d5f8de8f11ea8d69c267d39c7406d31b57cc9456207350b8c12c0dde"
+  },
+  "limitations": [
+    "Generic sample layouts, not a supported real-broker parser",
+    "Screenshots are clean PDF rasters, not photographed/OCR stress cases",
+    "Partial transaction extracts cannot establish complete XIRR history",
+    "Illustrative costs/scenarios, not provider rates or production controls",
+    "No AWS load, paid call or app-schema compatibility implied"
+  ]
+}

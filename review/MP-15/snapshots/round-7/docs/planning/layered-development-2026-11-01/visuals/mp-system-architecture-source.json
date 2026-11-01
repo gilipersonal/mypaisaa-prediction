@@ -1,0 +1,2851 @@
+{
+  "format": "Lucid canvas inspection snapshot; not Standard Import JSON",
+  "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+  "document_version": 2703,
+  "page_id": "jvMISWi7AU3v",
+  "page_index": 4,
+  "page": {
+    "id": "jvMISWi7AU3v",
+    "title": "DRAFT | Detailed MP system | 2026-11-01",
+    "textDefaults": {
+      "bold": "false",
+      "italic": "false",
+      "underline": "false",
+      "strike": "false",
+      "textColor": "#000000",
+      "fontSize": "8",
+      "fontFamily": "Inter",
+      "highlightColor": "",
+      "superscript": "false",
+      "subscript": "false"
+    },
+    "styleDefaults": {
+      "blocks": {
+        "LineWidth": "1",
+        "StrokeStyle": "solid",
+        "TextAlign": "center",
+        "TextVAlign": "middle"
+      },
+      "lines": {
+        "StrokeStyle": "solid"
+      }
+    },
+    "data": {
+      "flowcharts": [
+        {
+          "diagramGroupId": "group_0",
+          "nodes": [
+            {
+              "id": "5zMI-zXjxrPk",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "CwMINn5SIPiy",
+                "CwMI6HK-NNrd",
+                "CwMIt9xYsxeB",
+                "GvMIybP0OgOS",
+                "CwMIv763Jl~-",
+                "CwMI6t~LAxz6",
+                "CwMI1-xeFLNE",
+                "GvMINukj_egc"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: 413, y: 222.807, w: 1633, h: 329.338",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-358"
+              }
+            },
+            {
+              "id": "GvMI0wzJ3_NZ",
+              "label": "PROPOSED OWNER CLIENTS\nSvelteKit 3 PWA\nSwiftUI inside RN shell\nDiscovery + costs first",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 41, y: 247.807, w: 320, h: 150",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED OWNER CLIENTS\nSvelteKit 3 PWA\nSwiftUI inside RN shell\nDiscovery + costs first",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "2"
+              }
+            },
+            {
+              "id": "GvMIybP0OgOS",
+              "label": "",
+              "shapeType": "Amazon Cognito",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dd344cff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 552, y: 246.807, w: 90, h: 90",
+                "BlockClass": "ArchAmazonCognitoAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "3"
+              }
+            },
+            {
+              "id": "GvMINukj_egc",
+              "label": "PROPOSED Cognito\nApple / Google / passkeys\nVerified owner linking\n2 independent recovery paths; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 437, y: 356.807, w: 320, h: 144.45",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED Cognito\nApple / Google / passkeys\nVerified owner linking\n2 independent recovery paths",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "4"
+              }
+            },
+            {
+              "id": "CwMINn5SIPiy",
+              "label": "",
+              "shapeType": "Amazon API Gateway",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 972, y: 246.807, w: 90, h: 90",
+                "BlockClass": "ArchAmazonAPIGatewayAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "5"
+              }
+            },
+            {
+              "id": "CwMI1-xeFLNE",
+              "label": "PROPOSED API Gateway REST\nCognito authorization\nHTTPS + bounded SSE\nSTREAM mode; Python adapter; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 852, y: 356.807, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED API Gateway REST\nCognito authorization\nHTTPS + bounded SSE\nSTREAM mode; Python adapter",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "6"
+              }
+            },
+            {
+              "id": "CwMIt9xYsxeB",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1392, y: 246.807, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "7"
+              }
+            },
+            {
+              "id": "CwMI6t~LAxz6",
+              "label": "PROPOSED FastAPI Lambda\nAuthorize / validate / admit\nLedger commands + reads\nAsync jobs survive disconnect; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1272, y: 356.807, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED FastAPI Lambda\nAuthorize / validate / admit\nLedger commands + reads\nAsync jobs survive disconnect",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "8"
+              }
+            },
+            {
+              "id": "CwMI6HK-NNrd",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1812, y: 246.807, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "9"
+              }
+            },
+            {
+              "id": "CwMIv763Jl~-",
+              "label": "PROPOSED DynamoDB core\nOwner ledger / draft / approval\nAudit / job / cost records\nFit and atomic-visibility gate; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1692, y: 356.807, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED DynamoDB core\nOwner ledger / draft / approval\nAudit / job / cost records\nFit and atomic-visibility gate",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "10"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "UyMIoWFwbFeE",
+              "sourceId": "GvMI0wzJ3_NZ",
+              "targetId": "GvMIybP0OgOS",
+              "label": "sign in",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 362, y: 322.807, style: None, connectedBlockId: GvMI0wzJ3_NZ",
+                "Endpoint2": "x: 552, y: 291.807, style: Arrow, connectedBlockId: GvMIybP0OgOS",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "sign in",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMITZ2KV.ar",
+              "sourceId": "GvMIybP0OgOS",
+              "targetId": "CwMINn5SIPiy",
+              "label": "verified claims",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 642, y: 291.807, style: None, connectedBlockId: GvMIybP0OgOS",
+                "Endpoint2": "x: 972, y: 291.807, style: Arrow, connectedBlockId: CwMINn5SIPiy",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "verified claims",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIVeOpy~7w",
+              "sourceId": "CwMINn5SIPiy",
+              "targetId": "CwMIt9xYsxeB",
+              "label": "authorize",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1062, y: 291.807, style: None, connectedBlockId: CwMINn5SIPiy",
+                "Endpoint2": "x: 1392, y: 291.807, style: Arrow, connectedBlockId: CwMIt9xYsxeB",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "authorize",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIm.42cC7O",
+              "sourceId": "CwMIt9xYsxeB",
+              "targetId": "CwMI6HK-NNrd",
+              "label": "read / commit",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1482, y: 291.807, style: None, connectedBlockId: CwMIt9xYsxeB",
+                "Endpoint2": "x: 1812, y: 291.807, style: Arrow, connectedBlockId: CwMI6HK-NNrd",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "read / commit",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_1",
+          "nodes": [
+            {
+              "id": "5zMIOZl0jZeW",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "LxMImWePE_.F",
+                "LxMIKhF-AEMZ",
+                "LxMIMjgK6cZN",
+                "LxMIz5H_-mFX",
+                "LxMId9jEcjsW",
+                "LxMI5l7RfJ4a",
+                "LxMIarKVpV-P",
+                "LxMIQfd1R~~O"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: -104.5, y: 724.645, w: 2059, h: 318",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-359"
+              }
+            },
+            {
+              "id": "LxMIKhF-AEMZ",
+              "label": "",
+              "shapeType": "Amazon Route 53",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 39.5, y: 748.645, w: 90, h: 90",
+                "BlockClass": "ArchAmazonRoute53AWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "12"
+              }
+            },
+            {
+              "id": "LxMIQfd1R~~O",
+              "label": "PROPOSED Route 53\nDNS / TLS domain\nAccount / region unselected; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -80.5, y: 858.645, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED Route 53\nDNS / TLS domain\nAccount / region unselected",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "13"
+              }
+            },
+            {
+              "id": "LxMIMjgK6cZN",
+              "label": "",
+              "shapeType": "Amazon CloudFront",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 459.5, y: 748.645, w: 90, h: 90",
+                "BlockClass": "ArchAmazonCloudFrontAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "14"
+              }
+            },
+            {
+              "id": "LxMIarKVpV-P",
+              "label": "PROPOSED CloudFront\nStatic shell delivery\nPrivate-origin access\nSSR remains an open decision; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 339.5, y: 858.645, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED CloudFront\nStatic shell delivery\nPrivate-origin access\nSSR remains an open decision",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "15"
+              }
+            },
+            {
+              "id": "LxMImWePE_.F",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 879.5, y: 748.645, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "16"
+              }
+            },
+            {
+              "id": "LxMId9jEcjsW",
+              "label": "PROPOSED private S3 web\nBuilt SvelteKit 3 assets\nNo private records baked in\nNot the existing Sites preview; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 759.5, y: 858.645, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED private S3 web\nBuilt SvelteKit 3 assets\nNo private records baked in\nNot the existing Sites preview",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "17"
+              }
+            },
+            {
+              "id": "LxMI5l7RfJ4a",
+              "label": "PROPOSED SSE contract\nObserve durable state / chat\nAuth + cursor + snapshot recovery\nBounded; no job coupling",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1179.5, y: 749.645, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED SSE contract\nObserve durable state / chat\nAuth + cursor + snapshot recovery\nBounded; no job coupling",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "18"
+              }
+            },
+            {
+              "id": "LxMIz5H_-mFX",
+              "label": "PROPOSED trust controls\nOwner + environment checks\nNo token in stream URL\nSensitive actions reauthenticate",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1599.5, y: 749.645, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED trust controls\nOwner + environment checks\nNo token in stream URL\nSensitive actions reauthenticate",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "19"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "UyMIbnSNUOhv",
+              "sourceId": "LxMIKhF-AEMZ",
+              "targetId": "LxMIMjgK6cZN",
+              "label": "resolve",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 129.5, y: 794.145, style: None, connectedBlockId: LxMIKhF-AEMZ",
+                "Endpoint2": "x: 459.5, y: 794.145, style: Arrow, connectedBlockId: LxMIMjgK6cZN",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "resolve",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIYxKaQXV5",
+              "sourceId": "LxMIMjgK6cZN",
+              "targetId": "LxMImWePE_.F",
+              "label": "private origin",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 549.5, y: 794.145, style: None, connectedBlockId: LxMIMjgK6cZN",
+                "Endpoint2": "x: 879.5, y: 794.145, style: Arrow, connectedBlockId: LxMImWePE_.F",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "private origin",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIrb~Enjkp",
+              "sourceId": "LxMI5l7RfJ4a",
+              "targetId": "LxMIz5H_-mFX",
+              "label": "policy",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1510.5, y: 848.645, style: None, connectedBlockId: LxMI5l7RfJ4a",
+                "Endpoint2": "x: 1598.5, y: 848.645, style: Arrow, connectedBlockId: LxMIz5H_-mFX",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "policy",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_2",
+          "nodes": [
+            {
+              "id": "5zMIuN6hcsFM",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "MxMIw17BAhf9",
+                "MxMIehBK1Ul8",
+                "MxMIT6WTnQxr",
+                "MxMIsoXyX4ED",
+                "MxMIyJc4up5V",
+                "MxMIRoDPiX1i",
+                "MxMIY1oS5_Jf"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: 316.5, y: 1215.145, w: 1638, h: 329.338",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-360"
+              }
+            },
+            {
+              "id": "MxMIQPGPri6H",
+              "label": "PROPOSED owner input\nCSV / Excel / PDF / screenshots\nManual entries + corrections\nUncertain extraction reviewed",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -79.5, y: 1240.145, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED owner input\nCSV / Excel / PDF / screenshots\nManual entries + corrections\nUncertain extraction reviewed",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "21"
+              }
+            },
+            {
+              "id": "MxMIRoDPiX1i",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 460.5, y: 1239.145, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "22"
+              }
+            },
+            {
+              "id": "MxMIehBK1Ul8",
+              "label": "PROPOSED S3 raw / quarantine\nPrivate encrypted originals\nVersion + checksum + evidence\n24-month renewable archive; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 340.5, y: 1349.145, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 raw / quarantine\nPrivate encrypted originals\nVersion + checksum + evidence\n24-month renewable archive",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "23"
+              }
+            },
+            {
+              "id": "MxMIyJc4up5V",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 880.5, y: 1239.145, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "24"
+              }
+            },
+            {
+              "id": "MxMIw17BAhf9",
+              "label": "PROPOSED extract / validate\nParser / schema / source rows\nVersioned immutable draft\nNo automatic financial commit; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 760.5, y: 1349.145, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED extract / validate\nParser / schema / source rows\nVersioned immutable draft\nNo automatic financial commit",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "25"
+              }
+            },
+            {
+              "id": "MxMIsoXyX4ED",
+              "label": "PROPOSED owner confirmation\nExact preview hash + authority\nPersistent idempotency\nBounded commit visibility proof",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#d1fae5ff",
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1180.5, y: 1240.145, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED owner confirmation\nExact preview hash + authority\nPersistent idempotency\nBounded commit visibility proof",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "26"
+              }
+            },
+            {
+              "id": "MxMIY1oS5_Jf",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1720.5, y: 1239.145, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "27"
+              }
+            },
+            {
+              "id": "MxMIT6WTnQxr",
+              "label": "PROPOSED ledger / audit view\nCommitted events / reversals\nHoldings / cash / XIRR lineage\nStore fit still requires proof; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1600.5, y: 1349.145, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED ledger / audit view\nCommitted events / reversals\nHoldings / cash / XIRR lineage\nStore fit still requires proof",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "28"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "UyMILzAU.n4Y",
+              "sourceId": "MxMIQPGPri6H",
+              "targetId": "MxMIRoDPiX1i",
+              "label": "upload",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 251.5, y: 1284.645, style: None, connectedBlockId: MxMIQPGPri6H",
+                "Endpoint2": "x: 460.5, y: 1284.645, style: Arrow, connectedBlockId: MxMIRoDPiX1i",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "upload",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIZCatdNR~",
+              "sourceId": "MxMIRoDPiX1i",
+              "targetId": "MxMIyJc4up5V",
+              "label": "extract",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 550.5, y: 1284.645, style: None, connectedBlockId: MxMIRoDPiX1i",
+                "Endpoint2": "x: 880.5, y: 1284.645, style: Arrow, connectedBlockId: MxMIyJc4up5V",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "extract",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIdNQk_gJT",
+              "sourceId": "MxMIyJc4up5V",
+              "targetId": "MxMIsoXyX4ED",
+              "label": "preview",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 970.5, y: 1284.645, style: None, connectedBlockId: MxMIyJc4up5V",
+                "Endpoint2": "x: 1179.5, y: 1284.645, style: Arrow, connectedBlockId: MxMIsoXyX4ED",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "preview",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIYPPce3JW",
+              "sourceId": "MxMIsoXyX4ED",
+              "targetId": "MxMIY1oS5_Jf",
+              "label": "confirm + commit",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1511.5, y: 1284.645, style: None, connectedBlockId: MxMIsoXyX4ED",
+                "Endpoint2": "x: 1720.5, y: 1284.645, style: Arrow, connectedBlockId: MxMIY1oS5_Jf",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "confirm + commit",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_3",
+          "nodes": [
+            {
+              "id": "5zMIAgMr9eT2",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "MxMI7a.lM4up",
+                "MxMIU.DWCLZK",
+                "MxMIGTKcB0C~",
+                "MxMIvceitn01",
+                "MxMIn0DmbxA_",
+                "MxMIF-BVwb8D",
+                "MxMISD56EVpa",
+                "MxMIM.LLoL~n",
+                "MxMIv.2dZquu"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: -104.5, y: 1716.983, w: 2058, h: 318",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-361"
+              }
+            },
+            {
+              "id": "MxMIF-BVwb8D",
+              "label": "",
+              "shapeType": "Amazon EventBridge",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#e7157bff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 39.5, y: 1740.983, w: 90, h: 90",
+                "BlockClass": "ArchAmazonEventBridgeAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "30"
+              }
+            },
+            {
+              "id": "MxMIvceitn01",
+              "label": "PROPOSED Scheduler\n30-minute risk where supported\nDaily forecasts / UK briefing\nMissed-run + DST policy; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -80.5, y: 1850.983, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED Scheduler\n30-minute risk where supported\nDaily forecasts / UK briefing\nMissed-run + DST policy",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "31"
+              }
+            },
+            {
+              "id": "MxMISD56EVpa",
+              "label": "",
+              "shapeType": "Amazon Simple Queue Service (Amazon SQS)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#e7157bff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 459.5, y: 1740.983, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleQueueServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "32"
+              }
+            },
+            {
+              "id": "MxMIn0DmbxA_",
+              "label": "PROPOSED SQS / DLQ\nBounded backlog / retry\nPer-conversation ordering\nDuplicate-safe consumers; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 339.5, y: 1850.983, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED SQS / DLQ\nBounded backlog / retry\nPer-conversation ordering\nDuplicate-safe consumers",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "33"
+              }
+            },
+            {
+              "id": "MxMIU.DWCLZK",
+              "label": "PROPOSED workflow choice\nLambda Durable Functions OR\nStep Functions; unselected\nRuntime / region / cost gate",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ede9feff",
+                "LineColor": "#6d28d9ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 759.5, y: 1741.983, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED workflow choice\nLambda Durable Functions OR\nStep Functions; unselected\nRuntime / region / cost gate",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "34"
+              }
+            },
+            {
+              "id": "MxMIv.2dZquu",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1299.5, y: 1740.983, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "35"
+              }
+            },
+            {
+              "id": "MxMIGTKcB0C~",
+              "label": "PROPOSED bounded workers\nIngest / research / extraction\nLeases / heartbeat / continuation\nNo endlessly open Lambda; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1179.5, y: 1850.983, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED bounded workers\nIngest / research / extraction\nLeases / heartbeat / continuation\nNo endlessly open Lambda",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "36"
+              }
+            },
+            {
+              "id": "MxMIM.LLoL~n",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1719.5, y: 1740.983, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "37"
+              }
+            },
+            {
+              "id": "MxMI7a.lM4up",
+              "label": "PROPOSED durable job view\nAccepted / attempted / terminal\nOutbox / retry / replay links\nAmbiguous effects reconciled; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1599.5, y: 1850.983, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED durable job view\nAccepted / attempted / terminal\nOutbox / retry / replay links\nAmbiguous effects reconciled",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "38"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "UyMIi3cV3Rke",
+              "sourceId": "MxMIF-BVwb8D",
+              "targetId": "MxMISD56EVpa",
+              "label": "enqueue",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 129.5, y: 1786.483, style: None, connectedBlockId: MxMIF-BVwb8D",
+                "Endpoint2": "x: 459.5, y: 1786.483, style: Arrow, connectedBlockId: MxMISD56EVpa",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "enqueue",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMI-PPREUyc",
+              "sourceId": "MxMISD56EVpa",
+              "targetId": "MxMIU.DWCLZK",
+              "label": "resume",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 549.5, y: 1786.483, style: None, connectedBlockId: MxMISD56EVpa",
+                "Endpoint2": "x: 758.5, y: 1786.483, style: Arrow, connectedBlockId: MxMIU.DWCLZK",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "resume",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIU.kIICJb",
+              "sourceId": "MxMIU.DWCLZK",
+              "targetId": "MxMIv.2dZquu",
+              "label": "bounded step",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1090.5, y: 1786.483, style: None, connectedBlockId: MxMIU.DWCLZK",
+                "Endpoint2": "x: 1299.5, y: 1786.483, style: Arrow, connectedBlockId: MxMIv.2dZquu",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "bounded step",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "UyMIxSBhrAF0",
+              "sourceId": "MxMIv.2dZquu",
+              "targetId": "MxMIM.LLoL~n",
+              "label": "checkpoint",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1389.5, y: 1786.483, style: None, connectedBlockId: MxMIv.2dZquu",
+                "Endpoint2": "x: 1719.5, y: 1786.483, style: Arrow, connectedBlockId: MxMIM.LLoL~n",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "checkpoint",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_4",
+          "nodes": [
+            {
+              "id": "5zMIY3d_A4G4",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "dyMIEaF~SivX",
+                "dyMIPTI0l61m",
+                "dyMIT3kTvmvD",
+                "dyMIAIczGpCk",
+                "dyMIKLo619fv",
+                "cyMIAFNRRoqE",
+                "dyMII4Nj~-P3",
+                "dyMIsHEuycJi"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: 316.5, y: 2204.931, w: 1638, h: 356.226",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-362"
+              }
+            },
+            {
+              "id": "cyMI9VF9_uP2",
+              "label": "EXTERNAL SOURCES | proposed\nYahoo Finance + Twelve Data Grow\nUK / US / India per-listing rights\nFreshness / history still unverified",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#fef3c7ff",
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -79.5, y: 2229.931, w: 330, h: 225.104",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "EXTERNAL SOURCES | proposed\nYahoo Finance + Twelve Data Grow\nUK / US / India per-listing rights\nFreshness / history still unverified",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "40"
+              }
+            },
+            {
+              "id": "cyMIAFNRRoqE",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 460.5, y: 2228.931, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "41"
+              }
+            },
+            {
+              "id": "dyMIAIczGpCk",
+              "label": "PROPOSED ingestion\nValidate / map / timestamp\nCalendar / units / FX / quality\nDaily fallback if needed; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 340.5, y: 2338.931, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED ingestion\nValidate / map / timestamp\nCalendar / units / FX / quality\nDaily fallback if needed",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "42"
+              }
+            },
+            {
+              "id": "dyMIsHEuycJi",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 880.5, y: 2228.931, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "43"
+              }
+            },
+            {
+              "id": "dyMIEaF~SivX",
+              "label": "PROPOSED S3 snapshots\nKnown-at / source versions\nFeature / dataset hashes\nPoint-in-time and licence limits; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 760.5, y: 2338.931, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 snapshots\nKnown-at / source versions\nFeature / dataset hashes\nPoint-in-time and licence limits",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "44"
+              }
+            },
+            {
+              "id": "dyMII4Nj~-P3",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1300.5, y: 2228.931, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "45"
+              }
+            },
+            {
+              "id": "dyMIPTI0l61m",
+              "label": "PROPOSED quant inference\nRules + approved ML artefact\nVersioned horizon / cutoff\nFormal forecast daily; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1180.5, y: 2338.931, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED quant inference\nRules + approved ML artefact\nVersioned horizon / cutoff\nFormal forecast daily",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "46"
+              }
+            },
+            {
+              "id": "dyMIKLo619fv",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1720.5, y: 2228.931, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "47"
+              }
+            },
+            {
+              "id": "dyMIT3kTvmvD",
+              "label": "PROPOSED forecast / outcome view\nImmutable issued prediction\nMature realised outcome + score\nCorrections append; never rewrite; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1600.5, y: 2338.931, w: 330, h: 198.226",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED forecast / outcome view\nImmutable issued prediction\nMature realised outcome + score\nCorrections append; never rewrite",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "48"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "UyMIlvZADXUn",
+              "sourceId": "cyMI9VF9_uP2",
+              "targetId": "cyMIAFNRRoqE",
+              "label": "permitted data",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 251.5, y: 2274.431, style: None, connectedBlockId: cyMI9VF9_uP2",
+                "Endpoint2": "x: 460.5, y: 2274.431, style: Arrow, connectedBlockId: cyMIAFNRRoqE",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "permitted data",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIWV9YAjAs",
+              "sourceId": "cyMIAFNRRoqE",
+              "targetId": "dyMIsHEuycJi",
+              "label": "versioned snapshot",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 550.5, y: 2274.431, style: None, connectedBlockId: cyMIAFNRRoqE",
+                "Endpoint2": "x: 880.5, y: 2274.431, style: Arrow, connectedBlockId: dyMIsHEuycJi",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "versioned snapshot",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMINahnp6Sp",
+              "sourceId": "dyMIsHEuycJi",
+              "targetId": "dyMII4Nj~-P3",
+              "label": "cutoff read",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 970.5, y: 2274.431, style: None, connectedBlockId: dyMIsHEuycJi",
+                "Endpoint2": "x: 1300.5, y: 2274.431, style: Arrow, connectedBlockId: dyMII4Nj~-P3",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "cutoff read",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIfQjK5vnd",
+              "sourceId": "dyMII4Nj~-P3",
+              "targetId": "dyMIKLo619fv",
+              "label": "append forecast",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1390.5, y: 2274.431, style: None, connectedBlockId: dyMII4Nj~-P3",
+                "Endpoint2": "x: 1720.5, y: 2274.431, style: Arrow, connectedBlockId: dyMIKLo619fv",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "append forecast",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_5",
+          "nodes": [
+            {
+              "id": "5zMIFbQBE.lW",
+              "label": "PROPOSED SCIENTIFIC CONTRACT",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "dyMIZybbRAva",
+                "dyMIaEy_BroD",
+                "dyMIMYTaa94M",
+                "dyMIgXrfKtss",
+                "dyMI69kHQcLA",
+                "dyMI67~kMTLp"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: -104.5, y: 2733.657, w: 2062, h: 329.338",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED SCIENTIFIC CONTRACT",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-363"
+              }
+            },
+            {
+              "id": "dyMI69kHQcLA",
+              "label": "PROPOSED training A / B choice\nA: portable bounded ML jobs\nB: selective SageMaker jobs\nNo option is approved",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ede9feff",
+                "LineColor": "#6d28d9ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -79.5, y: 2758.657, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED training A / B choice\nA: portable bounded ML jobs\nB: selective SageMaker jobs\nNo option is approved",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "50"
+              }
+            },
+            {
+              "id": "dyMIaEy_BroD",
+              "label": "PROPOSED scientific gate\nPurged walk-forward / embargo\nTrain-fold-only preprocessing\nBenchmarks / ablations / intervals",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ede9feff",
+                "LineColor": "#6d28d9ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 341.5, y: 2758.657, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED scientific gate\nPurged walk-forward / embargo\nTrain-fold-only preprocessing\nBenchmarks / ablations / intervals",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "51"
+              }
+            },
+            {
+              "id": "dyMIgXrfKtss",
+              "label": "PROPOSED challenger evidence\nRules → ML → ML + LLM factors\nHeld-out + mature outcomes\nShadow before promotion",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ede9feff",
+                "LineColor": "#6d28d9ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 762.5, y: 2758.657, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED challenger evidence\nRules → ML → ML + LLM factors\nHeld-out + mature outcomes\nShadow before promotion",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "52"
+              }
+            },
+            {
+              "id": "dyMIMYTaa94M",
+              "label": "PROPOSED owner promotion\nExact model / evidence version\nExplicit approval + rollback plan\nAgent cannot self-promote",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#fce7f3ff",
+                "LineColor": "#6d28d9ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1183.5, y: 2758.657, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED owner promotion\nExact model / evidence version\nExplicit approval + rollback plan\nAgent cannot self-promote",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "53"
+              }
+            },
+            {
+              "id": "dyMI67~kMTLp",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1723.5, y: 2757.657, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "54"
+              }
+            },
+            {
+              "id": "dyMIZybbRAva",
+              "label": "PROPOSED S3 model artefacts\nVersion / schema / hash\nApproved pointer → inference\nLong-horizon scenarios separate; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1603.5, y: 2867.657, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 model artefacts\nVersion / schema / hash\nApproved pointer → inference\nLong-horizon scenarios separate",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "55"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "VyMI9gSPqo7H",
+              "sourceId": "dyMI69kHQcLA",
+              "targetId": "dyMIaEy_BroD",
+              "label": "evaluate",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 251.5, y: 2857.657, style: None, connectedBlockId: dyMI69kHQcLA",
+                "Endpoint2": "x: 340.5, y: 2857.657, style: Arrow, connectedBlockId: dyMIaEy_BroD",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "evaluate",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIbF9pRbSG",
+              "sourceId": "dyMIaEy_BroD",
+              "targetId": "dyMIgXrfKtss",
+              "label": "compare",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 672.5, y: 2857.657, style: None, connectedBlockId: dyMIaEy_BroD",
+                "Endpoint2": "x: 761.5, y: 2857.657, style: Arrow, connectedBlockId: dyMIgXrfKtss",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "compare",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIv5M3G0NE",
+              "sourceId": "dyMIgXrfKtss",
+              "targetId": "dyMIMYTaa94M",
+              "label": "shadow evidence",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1093.5, y: 2857.657, style: None, connectedBlockId: dyMIgXrfKtss",
+                "Endpoint2": "x: 1182.5, y: 2857.657, style: Arrow, connectedBlockId: dyMIMYTaa94M",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "shadow evidence",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIfK-tHB6z",
+              "sourceId": "dyMIMYTaa94M",
+              "targetId": "dyMI67~kMTLp",
+              "label": "approve exact version",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1514.5, y: 2803.157, style: None, connectedBlockId: dyMIMYTaa94M",
+                "Endpoint2": "x: 1723.5, y: 2803.157, style: Arrow, connectedBlockId: dyMI67~kMTLp",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "approve exact version",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_6",
+          "nodes": [
+            {
+              "id": "5zMIQ3iFZIP1",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "dyMIaI9oZybf",
+                "eyMIZlInJonY",
+                "dyMI2UBDGZl6",
+                "dyMICLyvred~",
+                "dyMIv~32Zid8",
+                "eyMISrD1it7v",
+                "dyMIhMESA26T"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: -104, y: 3232.943, w: 1639, h: 358.778",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-364"
+              }
+            },
+            {
+              "id": "dyMIv~32Zid8",
+              "label": "",
+              "shapeType": "Amazon Simple Queue Service (Amazon SQS)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#e7157bff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 40, y: 3259.495, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleQueueServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "57"
+              }
+            },
+            {
+              "id": "dyMICLyvred~",
+              "label": "PROPOSED chat / research jobs\nConversation + message IDs\nOrdering / replay / idempotency\nPersist final message; deltas interim; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -80, y: 3369.495, w: 330, h: 198.226",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED chat / research jobs\nConversation + message IDs\nOrdering / replay / idempotency\nPersist final message; deltas interim",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "58"
+              }
+            },
+            {
+              "id": "dyMIhMESA26T",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 460, y: 3259.495, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "59"
+              }
+            },
+            {
+              "id": "dyMI2UBDGZl6",
+              "label": "PROPOSED Anthropic client loop\nOfficial Python client SDK\nLambda owns bounded tool loop\nNot Agent SDK / Bedrock / AgentCore; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 340, y: 3369.495, w: 330, h: 198.226",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED Anthropic client loop\nOfficial Python client SDK\nLambda owns bounded tool loop\nNot Agent SDK / Bedrock / AgentCore",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "60"
+              }
+            },
+            {
+              "id": "dyMIaI9oZybf",
+              "label": "PROPOSED tools / guard / eval\nVersioned allowlisted read tools\nTyped figures / citation grounding\nT0 / T1 / T2 + online evaluation",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#fce7f3ff",
+                "LineColor": "#be185dff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 761, y: 3257.943, w: 330, h: 225.104",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED tools / guard / eval\nVersioned allowlisted read tools\nTyped figures / citation grounding\nT0 / T1 / T2 + online evaluation",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "61"
+              }
+            },
+            {
+              "id": "eyMISrD1it7v",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1301, y: 3256.943, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "62"
+              }
+            },
+            {
+              "id": "eyMIZlInJonY",
+              "label": "PROPOSED evidence + memory\nCitations / extraction versions\nScoped notes / final chat lineage\nNo ledger or model mutation; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1181, y: 3366.943, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED evidence + memory\nCitations / extraction versions\nScoped notes / final chat lineage\nNo ledger or model mutation",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "63"
+              }
+            },
+            {
+              "id": "eyMI9ENjJx5A",
+              "label": "EXTERNAL ANTHROPIC | PROPOSED\nClaude models / Messages API\nSelected inputs leave AWS\n$200 credit reported, unverified",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffedd5ff",
+                "LineColor": "#be185dff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1602, y: 3257.943, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "EXTERNAL ANTHROPIC | PROPOSED\nClaude models / Messages API\nSelected inputs leave AWS\n$200 credit reported, unverified",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "64"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "VyMIQlDD9MSz",
+              "sourceId": "dyMIv~32Zid8",
+              "targetId": "dyMIhMESA26T",
+              "label": "consume",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 130, y: 3303.219, style: None, connectedBlockId: dyMIv~32Zid8",
+                "Endpoint2": "x: 460, y: 3303.219, style: Arrow, connectedBlockId: dyMIhMESA26T",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "consume",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMI5QHqNcuq",
+              "sourceId": "dyMIhMESA26T",
+              "targetId": "dyMIaI9oZybf",
+              "label": "validated tool call",
+              "properties": {
+                "LineColor": "#be185dff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 550, y: 3303.219, style: None, connectedBlockId: dyMIhMESA26T",
+                "Endpoint2": "x: 760, y: 3303.219, style: Arrow, connectedBlockId: dyMIaI9oZybf",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "validated tool call",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMI2Uhzgnv9",
+              "sourceId": "dyMIaI9oZybf",
+              "targetId": "eyMISrD1it7v",
+              "label": "scoped evidence read",
+              "properties": {
+                "LineColor": "#be185dff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1092, y: 3303.219, style: None, connectedBlockId: dyMIaI9oZybf",
+                "Endpoint2": "x: 1301, y: 3303.219, style: Arrow, connectedBlockId: eyMISrD1it7v",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "scoped evidence read",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIwLgTYAQx",
+              "sourceId": "dyMIhMESA26T",
+              "targetId": "eyMI9ENjJx5A",
+              "label": "direct model API; bounded tokens",
+              "properties": {
+                "LineColor": "#be185dff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 505, y: 3259.495, style: None, connectedBlockId: dyMIhMESA26T",
+                "Endpoint2": "x: 1767, y: 3256.943, style: Arrow, connectedBlockId: eyMI9ENjJx5A",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "direct model API; bounded tokens",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_7",
+          "nodes": [
+            {
+              "id": "5zMIcZ.L1viD",
+              "label": "PROPOSED AWS APP BOUNDARY",
+              "shapeType": "Frame",
+              "childrenIds": [
+                "eyMIcgH3lC.o",
+                "eyMI1b3XMJSA",
+                "eyMIyUiK_RYc",
+                "eyMI4IOHHqDe",
+                "eyMIiqmwgVyt",
+                "eyMI9B_Xu_l7"
+              ],
+              "properties": {
+                "FillColor": "#f8fafcff",
+                "LineColor": "#94a3b8ff",
+                "TextAlign": "left",
+                "BoundingBox": "x: 316.5, y: 3764.221, w: 798, h: 777.564",
+                "BlockClass": "SparkFrameBlock",
+                "TextAreas": [
+                  {
+                    "key": "FrameTitle",
+                    "text": "PROPOSED AWS APP BOUNDARY",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-365"
+              }
+            },
+            {
+              "id": "eyMIZP0~~zRQ",
+              "label": "PROPOSED provider report inputs\nAnthropic analytics every 6 hours\nAWS billing collected daily\nDelayed reporting ≠ live bill",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffedd5ff",
+                "LineColor": "#0369a1ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -79.5, y: 3789.221, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED provider report inputs\nAnthropic analytics every 6 hours\nAWS billing collected daily\nDelayed reporting ≠ live bill",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "66"
+              }
+            },
+            {
+              "id": "eyMIiqmwgVyt",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 460.5, y: 3788.221, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "67"
+              }
+            },
+            {
+              "id": "eyMI1b3XMJSA",
+              "label": "PROPOSED restricted collectors\nRead-only billing authority\nBounded cached collection\nNo billing keys in UI / agents; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 340.5, y: 3898.221, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED restricted collectors\nRead-only billing authority\nBounded cached collection\nNo billing keys in UI / agents",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "68"
+              }
+            },
+            {
+              "id": "eyMI4IOHHqDe",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 880.5, y: 3788.221, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "69"
+              }
+            },
+            {
+              "id": "eyMIyUiK_RYc",
+              "label": "PROPOSED costs / reservations\nLive estimate + delayed report\nGross / credit / cash separate\nOne charge; no span double count; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 760.5, y: 3898.221, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED costs / reservations\nLive estimate + delayed report\nGross / credit / cash separate\nOne charge; no span double count",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "70"
+              }
+            },
+            {
+              "id": "eyMI9B_Xu_l7",
+              "label": "",
+              "shapeType": "Amazon CloudWatch",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#e7157bff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 880.5, y: 4209.56, w: 90, h: 90",
+                "BlockClass": "ArchAmazonCloudWatchAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "71"
+              }
+            },
+            {
+              "id": "eyMIcgH3lC.o",
+              "label": "PROPOSED telemetry + OTel\nLogs14d / traces30d / runs90d\nBusiness IDs / linked async traces\nDurable audit retained separately; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 760.5, y: 4319.56, w: 330, h: 198.226",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED telemetry + OTel\nLogs14d / traces30d / runs90d\nBusiness IDs / linked async traces\nDurable audit retained separately",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "72"
+              }
+            },
+            {
+              "id": "eyMIjall59M9",
+              "label": "PROPOSED first-screen dashboard\nDev / prod / local / shared costs\nCached API reads + source age\n£100 cash: £70 plan + £30 reserve",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#0369a1ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1601.5, y: 3786.669, w: 330, h: 225.104",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED first-screen dashboard\nDev / prod / local / shared costs\nCached API reads + source age\n£100 cash: £70 plan + £30 reserve",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "73"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "VyMIk5XBgx6g",
+              "sourceId": "eyMIZP0~~zRQ",
+              "targetId": "eyMIiqmwgVyt",
+              "label": "bounded pull",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 251.5, y: 3833.721, style: None, connectedBlockId: eyMIZP0~~zRQ",
+                "Endpoint2": "x: 460.5, y: 3833.721, style: Arrow, connectedBlockId: eyMIiqmwgVyt",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "bounded pull",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMIfX5wcNuS",
+              "sourceId": "eyMIiqmwgVyt",
+              "targetId": "eyMI4IOHHqDe",
+              "label": "reconcile / cache",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 550.5, y: 3833.721, style: None, connectedBlockId: eyMIiqmwgVyt",
+                "Endpoint2": "x: 880.5, y: 3833.721, style: Arrow, connectedBlockId: eyMI4IOHHqDe",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "reconcile / cache",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "VyMI9K5GzExe",
+              "sourceId": "eyMI4IOHHqDe",
+              "targetId": "eyMIjall59M9",
+              "label": "authenticated cached API read",
+              "properties": {
+                "LineColor": "#0369a1ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 970.5, y: 3833.721, style: None, connectedBlockId: eyMI4IOHHqDe",
+                "Endpoint2": "x: 1600.5, y: 3833.721, style: Arrow, connectedBlockId: eyMIjall59M9",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "authenticated cached API read",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "standaloneClusters": [
+        {
+          "cluster": [
+            {
+              "diagramGroupId": "group_8",
+              "id": "GvMIVYvpdSFl",
+              "label": "MYPAISAA PREDICTION | DRAFT SYSTEM BLUEPRINT\nProposed logical components • MP-15 • 1 November 2026 • No deployment / trading / accuracy claim",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 40, y: 40, w: 2300, h: 106.807",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "MYPAISAA PREDICTION | DRAFT SYSTEM BLUEPRINT\nProposed logical components • MP-15 • 1 November 2026 • No deployment / trading / accuracy claim",
+                    "bold": "true",
+                    "textColor": "#102A43",
+                    "fontSize": "18"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "bold": "true",
+                    "textColor": "#979ea8",
+                    "fontSize": "18"
+                  }
+                ],
+                "ZOrder": "1"
+              }
+            },
+            {
+              "diagramGroupId": "group_9",
+              "id": "LxMI8-cFZDSb",
+              "label": "01 | PRIVATE ACCESS + WEB DELIVERY  •  Logical AWS services; separate dev/prod authority",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#2563ebff",
+                "LineColor": "#2563ebff",
+                "BoundingBox": "x: -80, y: 583.145, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "01 | PRIVATE ACCESS + WEB DELIVERY  •  Logical AWS services; separate dev/prod authority",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "11"
+              }
+            },
+            {
+              "diagramGroupId": "group_10",
+              "id": "LxMI8wjRzIbM",
+              "label": "02 | ALL V1 IMPORTS  •  Draft → owner confirmation → committed ledger; S3/database are not one transaction",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#0f766eff",
+                "LineColor": "#0f766eff",
+                "BoundingBox": "x: -80, y: 1073.645, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "02 | ALL V1 IMPORTS  •  Draft → owner confirmation → committed ledger; S3/database are not one transaction",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "20"
+              }
+            },
+            {
+              "diagramGroupId": "group_11",
+              "id": "MxMI9OujDz.m",
+              "label": "03 | DURABLE ASYNC WORK  •  Job state + outbox + replay proof; a live connection is not the source of truth",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#6d28d9ff",
+                "LineColor": "#6d28d9ff",
+                "BoundingBox": "x: -80, y: 1575.483, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "03 | DURABLE ASYNC WORK  •  Job state + outbox + replay proof; a live connection is not the source of truth",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "29"
+              }
+            },
+            {
+              "diagramGroupId": "group_12",
+              "id": "cyMIRelog1TT",
+              "label": "04 | MARKET + FORMAL FORECASTS  •  Data cutoff and quality gates; immutable predictions grade only at maturity",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#b45309ff",
+                "LineColor": "#b45309ff",
+                "BoundingBox": "x: -80, y: 2065.983, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "04 | MARKET + FORMAL FORECASTS  •  Data cutoff and quality gates; immutable predictions grade only at maturity",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "39"
+              }
+            },
+            {
+              "diagramGroupId": "group_13",
+              "id": "dyMIpv6Bdopa",
+              "label": "05 | CONTROLLED LEARNING  •  A/B execution stays unselected; no always-on endpoint or promised accuracy",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#6d28d9ff",
+                "LineColor": "#6d28d9ff",
+                "BoundingBox": "x: -80, y: 2592.157, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "05 | CONTROLLED LEARNING  •  A/B execution stays unselected; no always-on endpoint or promised accuracy",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "49"
+              }
+            },
+            {
+              "diagramGroupId": "group_14",
+              "id": "dyMIDWMK0F-5",
+              "label": "06 | CONTEXTUAL CHAT + RESEARCH  •  AWS application owns the loop; Claude inference is outside AWS",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#be185dff",
+                "LineColor": "#be185dff",
+                "BoundingBox": "x: -80, y: 3093.995, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "06 | CONTEXTUAL CHAT + RESEARCH  •  AWS application owns the loop; Claude inference is outside AWS",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "56"
+              }
+            },
+            {
+              "diagramGroupId": "group_15",
+              "id": "eyMI7KsYr-6p",
+              "label": "07 | LAUNCH COSTS + INVESTIGATION  •  Read-only collectors → cached data → first-screen cost view",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#0369a1ff",
+                "LineColor": "#0369a1ff",
+                "BoundingBox": "x: -80, y: 3622.721, w: 2140, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "07 | LAUNCH COSTS + INVESTIGATION  •  Read-only collectors → cached data → first-screen cost view",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "65"
+              }
+            },
+            {
+              "diagramGroupId": "group_16",
+              "id": "5zMIX1u-2nXK",
+              "label": "READING KEY + NON-NEGOTIABLES | All integrations/components proposed; no deployment or trading. Native AWS icons show AWS roles; orange external boxes are separate trust domains. Repeated store views are logical contracts, not extra provisioned tables/buckets.\nSeparate dev/prod authority and data. Current work: synthetic local/dev fixtures only, no AWS loading. Full requirements + UX agreement gate implementation. Static/SSR, workflow, region, data-store fit and ML A/B remain open.\n£100 all-in cash envelope (£70 operation + £30 reserve); forecast alerts/reduce/pause at £60 / £75 / £85. Gross usage, shared credit and cash differ; no automatic paid fallback or universal instant billing stop. Business audit is separate from short-lived operational traces.\nS3 originals: renewable 24 months with owner deletion/extension; no automatic deletion authorised. Monthly focused recovery / audit checks. Science: no random splits, leakage or premature grading; owner model promotion required.\nSources: MP architecture blueprint + DEC-001–041, 1 Nov 2026. Saved diagram explains direction/sequence, not live telemetry. Existing health/volatile SSE/site preview do not implement these capabilities.",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#eff6ffff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: -144.5, y: 4614.346, w: 2140, h: 278.88",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "READING KEY + NON-NEGOTIABLES | All integrations/components proposed; no deployment or trading. Native AWS icons show AWS roles; orange external boxes are separate trust domains. Repeated store views are logical contracts, not extra provisioned tables/buckets.\nSeparate dev/prod authority and data. Current work: synthetic local/dev fixtures only, no AWS loading. Full requirements + UX agreement gate implementation. Static/SSR, workflow, region, data-store fit and ML A/B remain open.\n£100 all-in cash envelope (£70 operation + £30 reserve); forecast alerts/reduce/pause at £60 / £75 / £85. Gross usage, shared credit and cash differ; no automatic paid fallback or universal instant billing stop. Business audit is separate from short-lived operational traces.\nS3 originals: renewable 24 months with owner deletion/extension; no automatic deletion authorised. Monthly focused recovery / audit checks. Science: no random splits, leakage or premature grading; owner model promotion required.\nSources: MP architecture blueprint + DEC-001–041, 1 Nov 2026. Saved diagram explains direction/sequence, not live telemetry. Existing health/volatile SSE/site preview do not implement these capabilities.",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "104"
+              }
+            }
+          ]
+        }
+      ],
+      "containers": {
+        "itemIds": [
+          "GvMI0wzJ3_NZ",
+          "GvMIybP0OgOS",
+          "GvMINukj_egc",
+          "CwMINn5SIPiy",
+          "CwMI1-xeFLNE",
+          "CwMIt9xYsxeB",
+          "CwMI6t~LAxz6",
+          "CwMI6HK-NNrd",
+          "CwMIv763Jl~-",
+          "5zMI-zXjxrPk",
+          "UyMIoWFwbFeE",
+          "UyMITZ2KV.ar",
+          "UyMIVeOpy~7w",
+          "UyMIm.42cC7O",
+          "LxMIKhF-AEMZ",
+          "LxMIQfd1R~~O",
+          "LxMIMjgK6cZN",
+          "LxMIarKVpV-P",
+          "LxMImWePE_.F",
+          "LxMId9jEcjsW",
+          "LxMI5l7RfJ4a",
+          "LxMIz5H_-mFX",
+          "5zMIOZl0jZeW",
+          "UyMIbnSNUOhv",
+          "UyMIYxKaQXV5",
+          "UyMIrb~Enjkp",
+          "MxMIQPGPri6H",
+          "MxMIRoDPiX1i",
+          "MxMIehBK1Ul8",
+          "MxMIyJc4up5V",
+          "MxMIw17BAhf9",
+          "MxMIsoXyX4ED",
+          "MxMIY1oS5_Jf",
+          "MxMIT6WTnQxr",
+          "5zMIuN6hcsFM",
+          "UyMILzAU.n4Y",
+          "UyMIZCatdNR~",
+          "UyMIdNQk_gJT",
+          "UyMIYPPce3JW",
+          "MxMIF-BVwb8D",
+          "MxMIvceitn01",
+          "MxMISD56EVpa",
+          "MxMIn0DmbxA_",
+          "MxMIU.DWCLZK",
+          "MxMIv.2dZquu",
+          "MxMIGTKcB0C~",
+          "MxMIM.LLoL~n",
+          "MxMI7a.lM4up",
+          "5zMIAgMr9eT2",
+          "UyMIi3cV3Rke",
+          "UyMI-PPREUyc",
+          "UyMIU.kIICJb",
+          "UyMIxSBhrAF0",
+          "cyMI9VF9_uP2",
+          "cyMIAFNRRoqE",
+          "dyMIAIczGpCk",
+          "dyMIsHEuycJi",
+          "dyMIEaF~SivX",
+          "dyMII4Nj~-P3",
+          "dyMIPTI0l61m",
+          "dyMIKLo619fv",
+          "dyMIT3kTvmvD",
+          "5zMIY3d_A4G4",
+          "UyMIlvZADXUn",
+          "VyMIWV9YAjAs",
+          "VyMINahnp6Sp",
+          "VyMIfQjK5vnd",
+          "dyMI69kHQcLA",
+          "dyMIaEy_BroD",
+          "dyMIgXrfKtss",
+          "dyMIMYTaa94M",
+          "dyMI67~kMTLp",
+          "dyMIZybbRAva",
+          "5zMIFbQBE.lW",
+          "VyMI9gSPqo7H",
+          "VyMIbF9pRbSG",
+          "VyMIv5M3G0NE",
+          "VyMIfK-tHB6z",
+          "dyMIv~32Zid8",
+          "dyMICLyvred~",
+          "dyMIhMESA26T",
+          "dyMI2UBDGZl6",
+          "dyMIaI9oZybf",
+          "eyMISrD1it7v",
+          "eyMIZlInJonY",
+          "eyMI9ENjJx5A",
+          "5zMIQ3iFZIP1",
+          "VyMIQlDD9MSz",
+          "VyMI5QHqNcuq",
+          "VyMI2Uhzgnv9",
+          "VyMIwLgTYAQx",
+          "eyMIZP0~~zRQ",
+          "eyMIiqmwgVyt",
+          "eyMI1b3XMJSA",
+          "eyMI4IOHHqDe",
+          "eyMIyUiK_RYc",
+          "eyMI9B_Xu_l7",
+          "eyMIcgH3lC.o",
+          "eyMIjall59M9",
+          "5zMIcZ.L1viD",
+          "VyMIk5XBgx6g",
+          "VyMIfX5wcNuS",
+          "VyMI9K5GzExe",
+          "GvMIVYvpdSFl",
+          "LxMI8-cFZDSb",
+          "LxMI8wjRzIbM",
+          "MxMI9OujDz.m",
+          "cyMIRelog1TT",
+          "dyMIpv6Bdopa",
+          "dyMIDWMK0F-5",
+          "eyMI7KsYr-6p",
+          "5zMIX1u-2nXK"
+        ],
+        "childContainers": [],
+        "diagramGroupIds": [
+          "group_0",
+          "group_1",
+          "group_2",
+          "group_3",
+          "group_4",
+          "group_5",
+          "group_6",
+          "group_7",
+          "group_8",
+          "group_9",
+          "group_10",
+          "group_11",
+          "group_12",
+          "group_13",
+          "group_14",
+          "group_15",
+          "group_16"
+        ]
+      }
+    }
+  },
+  "construction": {
+    "verified_shape_library": "aws2024.js",
+    "logical_components": 40,
+    "native_AWS_icons": 25,
+    "labelled_connectors": 30
+  }
+}

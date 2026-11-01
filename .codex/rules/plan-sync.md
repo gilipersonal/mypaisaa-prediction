@@ -36,3 +36,16 @@ In check-only mode, report inconsistencies and exact proposed corrections. Befor
 writing, follow the existing approved scope for local files, Jira, Confluence and
 diagram documents. Diagram updates do not authorise public sharing, paid features,
 deployment, independent review, PR creation, merge or issue closure.
+
+For phasewise MP planning, reconcile the current local story/decision/phase maps,
+Jira descriptions as well as comments/status, and draft versus published Confluence
+content. Preserve rich macros/media and distinguish markup-only differences from
+semantic drift. Include detailed native Lucid VPC/network alternatives and current
+colourful workflow/chart exports; original bootstrap exports may be historical.
+Use the current root-document links and manifests to locate the latest pack.
+
+After an approved write, record actual page/issue/attachment IDs, versions, source
+hashes, resolved links and partial failures. A manual aligned snapshot is not a
+continuous or bidirectional sync engine. Draft local story IDs are not real Jira
+keys, phase-level source coverage is not complete source-clause decomposition,
+and documentation approval does not approve application implementation.

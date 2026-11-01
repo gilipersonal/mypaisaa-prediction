@@ -20,15 +20,20 @@ actual library identifiers returned by Lucid. When a required shape is unavailab
 label the fallback and explain that limitation. Do not install another tool, enable
 a paid feature, or replace Lucidchart without the user's agreement.
 
-Preserve the current budget-first design: one proposed small host for API, worker,
-reverse proxy and PostgreSQL, encrypted S3 backups, bounded monitoring and budget
-alerts; below £50/month AWS excluding Twelve Data and Claude. Use a service icon
-only for a service actually proposed. Do not infer an AWS account, region, deployed
-resource or price verification from a diagram. Keep credentials and account details
-out of documents, labels, exports and animation metadata.
+Read the latest owner decision register and linked architecture/stack drafts before
+choosing the topology. The older single-host/£50 AWS-only ADR is historical evidence,
+not permission to override newer directions. Current planning prefers Lambda/S3/
+DynamoDB with a direct Anthropic client-SDK loop and a £100 all-in cash ceiling;
+training, workflow and network alternatives remain unselected. Mark proposals and
+ADR reconciliation explicitly. Use an icon only for a proposed service; never infer
+an account, Region, deployed resource or verified price from the drawing. Keep
+credentials and account details out of all diagram/export metadata.
 
 Use a consistent, accessible palette for clients, data, API, quant, research and
 operations. Labels, shapes and legends must convey meaning without colour alone.
+For detailed AWS networking follow the VPC/options requirements in
+`.codex/rules/architecture-diagrams.md`; logical application boundaries alone do
+not satisfy a requested technical VPC view.
 Distinguish current starter capabilities from planned components. Clearly show that
 research agents cannot trade, mutate models or publish forecasts. Show data cutoffs,
 train-fold-only processing and immutable forecasts in relevant scientific flows.

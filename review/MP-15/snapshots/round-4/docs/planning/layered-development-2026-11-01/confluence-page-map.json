@@ -1,0 +1,1175 @@
+{
+  "schemaVersion": 1,
+  "project": "mypaisaa-prediction",
+  "preparedAt": "2026-11-01T20:35:14Z",
+  "kind": "local-publication-proposal",
+  "published": false,
+  "readyToPublish": false,
+  "scope": {
+    "activity": "Separately authorised local publication-proposal authoring, informed by completed read-only comparison; no sync corrections applied",
+    "formalPlanSync": false,
+    "independentReviewRun": false,
+    "externalWritesPerformed": 0,
+    "allowedDestinations": [
+      "mypaisaapr"
+    ],
+    "excludedDestinations": [
+      "MA",
+      "mypaisa-agent"
+    ],
+    "sourceDirectory": "docs/planning/layered-development-2026-11-01",
+    "sourcesMirrorReadOnly": true,
+    "completed_check_only_context": "The approved read-only MP comparison was reported in chat at 21:22–21:25 UTC with textual network delta at 21:34 UTC. That check made zero file or external changes. This map is updated by the subsequent local-authoring task."
+  },
+  "target": {
+    "cloudId": "81c51173-bbea-4905-bbc5-1a880fa348bb",
+    "spaceKey": "mypaisaapr",
+    "spaceId": "5145174",
+    "spaceName": "mypaisaa-prediction",
+    "spaceType": "knowledge_base",
+    "homepageId": "5145345",
+    "spaceInstructions": {
+      "configured": false,
+      "evidence": "getConfluenceSpace omitted spaceInstructions; all six page reads returned metadata.hasSpaceInstructions=false",
+      "checkedOn": "2026-11-01"
+    },
+    "inventoryCompletedBy": "2026-11-01T20:35:14Z"
+  },
+  "localPreparation": {
+    "branch": "MP-15-requirements-decisions",
+    "head": "082972bf25fccf03ff72563257d5f7dd07f39c95",
+    "newDraftsIncludedInHead": false,
+    "eventualApprovedSourceRevision": null,
+    "remoteSourceLinksVerified": false
+  },
+  "publishedInventory": [
+    {
+      "pageId": "5145345",
+      "title": "mypaisaa-prediction",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 2,
+      "publishedVersionCreatedAt": "2026-11-01T13:56:44.179Z",
+      "parentId": null,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/overview?homepageId=5145345",
+      "hasSpaceInstructions": false
+    },
+    {
+      "pageId": "4981241",
+      "title": "Product brief and knowledge base",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 3,
+      "publishedVersionCreatedAt": "2026-11-01T14:09:40.749Z",
+      "parentId": "5145345",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981241",
+      "hasSpaceInstructions": false
+    },
+    {
+      "pageId": "5145394",
+      "title": "Architecture and decision records",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 4,
+      "publishedVersionCreatedAt": "2026-11-01T14:06:08.693Z",
+      "parentId": "5145345",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145394",
+      "hasSpaceInstructions": false
+    },
+    {
+      "pageId": "5112476",
+      "title": "Roadmap and current implementation status",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 2,
+      "publishedVersionCreatedAt": "2026-11-01T13:54:40.961Z",
+      "parentId": "5145345",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112476",
+      "hasSpaceInstructions": false
+    },
+    {
+      "pageId": "5014127",
+      "title": "Development, CI and Codex workflows",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 5,
+      "publishedVersionCreatedAt": "2026-11-01T14:09:37.929Z",
+      "parentId": "5145345",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014127",
+      "hasSpaceInstructions": false
+    },
+    {
+      "pageId": "5112525",
+      "title": "Security, cost and operations",
+      "spaceId": "5145174",
+      "status": "current",
+      "publishedVersion": 3,
+      "publishedVersionCreatedAt": "2026-11-01T14:06:13.461Z",
+      "parentId": "5145345",
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112525",
+      "hasSpaceInstructions": false
+    }
+  ],
+  "sourceAuthority": {
+    "requirements": "../aws-options-2026-11-01/product-requirements.md",
+    "decisions": "../aws-options-2026-11-01/product-decisions.json",
+    "decisionIds": [
+      "DEC-001",
+      "DEC-002",
+      "DEC-003",
+      "DEC-004",
+      "DEC-005",
+      "DEC-006",
+      "DEC-007",
+      "DEC-008",
+      "DEC-009",
+      "DEC-010",
+      "DEC-011",
+      "DEC-012",
+      "DEC-013",
+      "DEC-014",
+      "DEC-015",
+      "DEC-016",
+      "DEC-017",
+      "DEC-018",
+      "DEC-019",
+      "DEC-020",
+      "DEC-021",
+      "DEC-022",
+      "DEC-023",
+      "DEC-024",
+      "DEC-025",
+      "DEC-026",
+      "DEC-027",
+      "DEC-028",
+      "DEC-029",
+      "DEC-030",
+      "DEC-031",
+      "DEC-032",
+      "DEC-033",
+      "DEC-034",
+      "DEC-035",
+      "DEC-036",
+      "DEC-037",
+      "DEC-038",
+      "DEC-039",
+      "DEC-040",
+      "DEC-041"
+    ],
+    "endToEndRequirementsAndUXApproved": false,
+    "implementationAuthorised": false,
+    "syntheticPhase": "DEC-041: realistic synthetic local/dev fixtures now with real instrument IDs; actual holdings/screenshots/PDFs later; no AWS loading"
+  },
+  "proposedMutationCounts": {
+    "creates": 5,
+    "boundedUpdates": 6,
+    "moves": 0,
+    "renames": 0,
+    "deletes": 0,
+    "attachmentUploads": 0,
+    "diagramUpdates": 0,
+    "jiraWrites": 0,
+    "MAWrites": 0,
+    "attachmentUpserts": 8
+  },
+  "proposedCreates": [
+    {
+      "draftPageId": "NEW-PLANNING-INDEX",
+      "title": "MP | Layered development planning - 1 November 2026",
+      "parent": {
+        "pageId": "5112476"
+      },
+      "sources": [
+        "README.md",
+        "index.html",
+        "confluence-page-map.md",
+        "confluence-page-map.json"
+      ],
+      "payload": "Navigation/status digest only; README is prose source, index.html is a local reading view. Links to portfolio/import, phases, architecture, stack, requirements and existing MP hubs.",
+      "joins": [
+        "NEW-PORTFOLIO-IMPORT",
+        "NEW-PHASED-PLAN",
+        "NEW-ARCHITECTURE",
+        "NEW-TECH-STACK",
+        "4981241",
+        "5145394",
+        "5112476",
+        "5014127",
+        "5112525"
+      ],
+      "pageId": null,
+      "operation": "create-proposed",
+      "published": false,
+      "readyToPublish": false,
+      "statusLabel": "Draft planning - owner approval pending; implementation not authorised"
+    },
+    {
+      "draftPageId": "NEW-PORTFOLIO-IMPORT",
+      "title": "MP | Portfolio and import specification",
+      "parent": {
+        "pageId": "4981241"
+      },
+      "sources": [
+        "portfolio-import-spec.md",
+        "portfolio-import-stories.json",
+        "portfolio-import-contracts.json",
+        "portfolio-import-examples.json",
+        "portfolio-import-spec.html"
+      ],
+      "payload": "Detailed specification; L1-S01–L1-S16 rendered story table; contract and worked-example companion references. HTML is a local reading view, not an extra page. All first-version import methods, synthetic-first evidence, confirmation, sufficiency and reversals.",
+      "joins": [
+        "4981241",
+        "NEW-PLANNING-INDEX",
+        "NEW-PHASED-PLAN",
+        "NEW-ARCHITECTURE",
+        "NEW-TECH-STACK"
+      ],
+      "pageId": null,
+      "operation": "create-proposed",
+      "published": false,
+      "readyToPublish": false,
+      "statusLabel": "Draft planning - owner approval pending; implementation not authorised"
+    },
+    {
+      "draftPageId": "NEW-PHASED-PLAN",
+      "title": "MP | Phased delivery plan and story map",
+      "parent": {
+        "draftPageId": "NEW-PLANNING-INDEX"
+      },
+      "sources": [
+        "phased-delivery-plan.md",
+        "phase-story-map.json"
+      ],
+      "payload": "Phases, dependencies, entry/exit evidence, cross-cutting controls, local story table and approval gates. Existing MP epic mappings remain historical unless verified.",
+      "joins": [
+        "NEW-PLANNING-INDEX",
+        "NEW-PORTFOLIO-IMPORT",
+        "NEW-ARCHITECTURE",
+        "NEW-TECH-STACK",
+        "5112476"
+      ],
+      "pageId": null,
+      "operation": "create-proposed",
+      "published": false,
+      "readyToPublish": false,
+      "statusLabel": "Draft planning - owner approval pending; implementation not authorised"
+    },
+    {
+      "draftPageId": "NEW-ARCHITECTURE",
+      "title": "MP | Architecture blueprint",
+      "parent": {
+        "pageId": "5145394"
+      },
+      "sources": [
+        "architecture-blueprint.md",
+        "network-topology-options.md"
+      ],
+      "payload": "Planned component/layer contracts, import/evidence boundaries, request/batch/research flows, storage alternatives, failures, cost constraints and open ADRs. Current starter and historical topology labelled separately. Inline the network appendix and actual page-5 native export, with N0/N1/N1-E unselected, endpoint/route/SG/policy distinctions and cost gates; no extra child page.",
+      "joins": [
+        "5145394",
+        "NEW-TECH-STACK",
+        "NEW-PORTFOLIO-IMPORT",
+        "NEW-PHASED-PLAN",
+        "5112525"
+      ],
+      "pageId": null,
+      "operation": "create-proposed",
+      "published": false,
+      "readyToPublish": false,
+      "statusLabel": "Draft planning - owner approval pending; implementation not authorised"
+    },
+    {
+      "draftPageId": "NEW-TECH-STACK",
+      "title": "MP | Technology stack and decision matrix",
+      "parent": {
+        "pageId": "5145394"
+      },
+      "sources": [
+        "tech-stack-matrix.md"
+      ],
+      "payload": "Requested versus installed/verified/proposed choices, responsibilities, compatibility evidence, alternatives, cost and deployment consequences, unresolved decisions.",
+      "joins": [
+        "5145394",
+        "NEW-ARCHITECTURE",
+        "NEW-PORTFOLIO-IMPORT",
+        "NEW-PHASED-PLAN",
+        "5112525"
+      ],
+      "pageId": null,
+      "operation": "create-proposed",
+      "published": false,
+      "readyToPublish": false,
+      "statusLabel": "Draft planning - owner approval pending; implementation not authorised"
+    }
+  ],
+  "proposedUpdates": [
+    {
+      "pageId": "5145345",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 2,
+      "blockHeading": "Current requirements and layered planning - 1 November 2026",
+      "links": [
+        "NEW-PLANNING-INDEX"
+      ],
+      "mutation": "Prepend current-planning/status notice; add one navigation row; label £50 AWS-only line historical and show current £100 all-in envelope.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    },
+    {
+      "pageId": "4981241",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 3,
+      "blockHeading": "Current requirements baseline",
+      "links": [
+        "NEW-PORTFOLIO-IMPORT",
+        "NEW-PLANNING-INDEX"
+      ],
+      "mutation": "Prepend canonical DEC-001–041 requirements digest and child links; show all import methods, long-term horizons, discovery-first, synthetic-now/actual-later, cost dashboard launch priority. Qualify contradicted CSV/auth/Agent-SDK old text as historical.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    },
+    {
+      "pageId": "5145394",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 4,
+      "blockHeading": "Current architecture direction and open decisions",
+      "links": [
+        "NEW-ARCHITECTURE",
+        "NEW-TECH-STACK"
+      ],
+      "mutation": "Prepend current direct Anthropic Python client-SDK Lambda direction and AWS preference; link children; label old single-host/PostgreSQL/Agent-SDK ADRs/visuals historical pending explicit reconciliation.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    },
+    {
+      "pageId": "5112476",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 2,
+      "blockHeading": "Current layered plan - proposed",
+      "links": [
+        "NEW-PLANNING-INDEX",
+        "NEW-PHASED-PLAN"
+      ],
+      "mutation": "Prepend current proposed layered-plan links; preserve current implementation block and historical phase/epic links; no current epic status or completed exit inferred; no MP keys fabricated for local stories.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    },
+    {
+      "pageId": "5014127",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 5,
+      "blockHeading": "Layered planning publication and evidence",
+      "links": [
+        "NEW-PLANNING-INDEX"
+      ],
+      "mutation": "Add pack, source/evidence and approval-scope links; preserve existing macros, diagrams, commands and dated CI history. No fresh CI claim.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    },
+    {
+      "pageId": "5112525",
+      "operation": "bounded-update-proposed",
+      "observedPublishedVersion": 3,
+      "blockHeading": "Current requirements delta - proposed implementation",
+      "links": [
+        "NEW-TECH-STACK",
+        "NEW-PHASED-PLAN"
+      ],
+      "mutation": "Prepend current DEC-020–026/034–038 and operational requirements digest: cash/credit/cadence/cost visibility, archive/telemetry, monthly exercises, Cognito/verified linking; label old £50 single-host/quarterly-drill evidence historical.",
+      "preserveExistingContent": true,
+      "preserveExistingRichMacrosAndAttachments": true,
+      "preserveHistoricalSnapshot": true,
+      "published": false,
+      "readyToPublish": false
+    }
+  ],
+  "companionEvidence": [
+    {
+      "paths": [
+        "../aws-options-2026-11-01/product-requirements.md",
+        "../aws-options-2026-11-01/product-decisions.json"
+      ],
+      "use": "Canonical current requirements/decision authority; reuse in product KB, all five new page footers and bounded updates. Do not create a second decision authority."
+    },
+    {
+      "paths": [
+        "../../synthetic-test-data.md",
+        "../../synthetic-import-samples.md"
+      ],
+      "use": "Synthetic fixture provenance/validation; do not expose actual private holdings or originals."
+    },
+    {
+      "paths": [
+        "../aws-options-2026-11-01/audit-observability-requirements.md",
+        "../aws-options-2026-11-01/audit-observability-sources.json"
+      ],
+      "use": "Existing captured operational requirements and source register; no MA policy/account import."
+    },
+    {
+      "paths": [
+        "../../diagrams/README.md",
+        "../../diagrams/manifest.json"
+      ],
+      "use": "Manual snapshot source IDs/versions/hashes. Existing visuals are historical topology; no update/attachment scope here."
+    },
+    {
+      "paths": [
+        "visuals/architecture-lucid-manifest.json",
+        "visuals/mp-system-architecture-source.json",
+        "visuals/planning-chart-manifest.json",
+        "visuals/manifest.json"
+      ],
+      "use": "Actual native page4/version2703 export and supporting workflow/dependency/budget snapshot provenance. Seven named images only; JSON/draw.io/SVG sources are not uploaded as attachments."
+    },
+    {
+      "paths": [
+        "network-topology-options.md",
+        "visuals/network-lucid-manifest.json",
+        "visuals/mp-network-options-source.json"
+      ],
+      "use": "Inline proposed N0/N1/N1-E network appendix and actual native page5/version4333 provenance. No VPC choice, physical resources, public sharing or extra child page."
+    }
+  ],
+  "traceContract": {
+    "requiredFooter": [
+      "source path",
+      "eventual approved source revision/hash",
+      "decision IDs",
+      "status",
+      "prepared/published dates",
+      "actual review status",
+      "phase/local story IDs",
+      "verified MP page/issue links"
+    ],
+    "storyIds": "Use local L1-S01–L1-S16 and other actual local IDs as plain draft identifiers; never generate Jira keys or /browse links from them.",
+    "links": "Resolve local links to real created/reused MP page IDs after creation. Do not invent anchors or publish GitHub links to uncommitted files.",
+    "statusLabels": [
+      "Current implementation - evidenced separately",
+      "Historical published snapshot - retain source/version",
+      "Confirmed owner decision - detailed defaults may remain open",
+      "Proposed planning - not implementation approval",
+      "Blocked pending named evidence/owner choice"
+    ]
+  },
+  "trackerContext": {
+    "key": "MP-15",
+    "url": "https://duttaarun2015.atlassian.net/browse/MP-15",
+    "observedStatus": "In Progress",
+    "parentKey": "MP-4",
+    "observedUpdated": "2026-11-01T17:29:58.940Z",
+    "descriptionGaps": [
+      "Still names Claude Agent SDK; latest source direction is direct Anthropic Python client SDK on Lambda.",
+      "Still defines local brainstorming with no Confluence publication; publication permission must be explicit."
+    ],
+    "mutationProposedHere": false,
+    "MP16": {
+      "referenceSource": "product-decisions.json synthetic_test_data.tracking_issue",
+      "liveStatusChecked": false
+    }
+  },
+  "publicationPreparationNotes": [
+    {
+      "id": "PUB-01",
+      "topic": "Historical root and published baseline",
+      "note": "Root AGENTS/workflow/ADR-0006 and published pages retain £50 AWS-only/single-host/PostgreSQL assumptions. Current £100 all-in owner envelope and AWS Lambda/S3/Dynamo preference are recorded separately; final architecture remains open. No silent ADR/root rewrite."
+    },
+    {
+      "id": "PUB-02",
+      "topic": "Claude integration",
+      "note": "Use explicit direct Anthropic Python client-SDK Lambda loop, models hosted on Anthropic. Existing Agent-SDK wording is historical, requiring a separately approved tracker/ADR correction."
+    },
+    {
+      "id": "PUB-03",
+      "topic": "Technology versions",
+      "note": "SvelteKit 3 is requested, not asserted installed/supported. Use stack matrix verification evidence and a pending label where necessary."
+    },
+    {
+      "id": "PUB-04",
+      "topic": "Cash and credit",
+      "note": "£100 monthly cash planning ceiling, £70 operation/£30 reserve; £60/£75/£85 forecast-cash actions confirmed. Reported $200 shared Anthropic benefit unverified; no automatic paid fallback. Full-scope costs/provider rights remain to validate."
+    },
+    {
+      "id": "PUB-05",
+      "topic": "Actual samples deferred",
+      "note": "DEC-041 permits synthetic local/dev work now; actual holdings/PDF/screenshots progressively later. Preserve live identity/rights/coverage/pricing prerequisites."
+    },
+    {
+      "id": "PUB-06",
+      "topic": "Diagrams",
+      "note": "Existing old system/deployment diagram IDs and manifest versions remain historical evidence. The current detailed native asset is an actual export of existing Lucid comparison document 02218133-613a-4b78-aea4-e0dba26db386, newly added page jvMISWi7AU3v (page 4), version 2703; original A/B/C pages preserved. Seven named PNG/GIF upserts are proposed under the planning index. The Confluence publication itself does not author/update Lucid sources or deploy the architecture. Actual network native export is page VNMISlFqoQy9/page5/version4333 of the same document; eight image upserts now include it. Native export versions are saved snapshots, not automatic synchronization."
+    },
+    {
+      "id": "PUB-07",
+      "topic": "No comprehensive sync/review claim",
+      "note": "The completed approved read-only check was reported in chat and made zero changes; it found MP-3 Done, MP-15 In Progress, MP-16 Done and ten To Do MP-4–13 records. Draft/published Confluence text and links matched, with representation differences on four pages. This subsequent local proposal prepares bounded corrections; it is not applied sync, independent review or product-readiness evidence."
+    }
+  ],
+  "approval": {
+    "ownerDecisionPending": "Approve or decline the concrete MP-only scope after drafts/gates: this Confluence part is five page creates, six bounded existing-page updates and eight named image upserts. Eleven MP Jira description-only updates are prepared separately; no status changes or new issues.",
+    "treeChoiceNeeded": false,
+    "formalPlanSyncRequiresSeparatePreciseScopeApproval": true,
+    "reviewRequiresSeparateApprovalAndProjectPerRoundRule": true,
+    "externalWritesAuthorised": false,
+    "notIncluded": [
+      "Jira write payloads; eleven description-only corrections are proposed separately, with no statuses/new issues/closures",
+      "MA changes",
+      "page moves/renames/deletes",
+      "ownership/permission changes",
+      "Sites/Artifacts publication",
+      "paid calls",
+      "AWS loading/provisioning/deployment",
+      "application implementation",
+      "model promotion",
+      "PR creation/merge",
+      "any attachment outside the eight named workflow/A/B image files",
+      "further diagram source edits or new architecture renders as part of Confluence publication"
+    ],
+    "writePreflight": [
+      "Re-read full current drafts as HTML and inspect unrelated changes/macros.",
+      "Obtain current draft snapshot tokens; never reuse observed published version tokens.",
+      "Load content-format guidance before composing external payload.",
+      "Recheck MP space/page identity and exact-title collisions before creates; reuse a matching approved page rather than duplicate it.",
+      "Resolve new actual IDs and source links; publish only approved content/scope.",
+      "Resolve NEW-PLANNING-INDEX and inspect its current filename/attachment IDs; reuse identical versions, validate approved binary-version route if changed, and resolve all eight attachment placeholders. Do not upload PDF/fixture/private originals.",
+      "Read back actual resulting IDs/versions and record applied mutations separately from this proposal."
+    ]
+  },
+  "localChecks": {
+    "required": [
+      "JSON parse",
+      "unique draft IDs",
+      "existing page versions complete",
+      "only MP destination/valid parents",
+      "local source paths once coordinated pack complete",
+      "mutation count/markdown consistency",
+      "eight named attachment metadata/hash and static-default/optional-motion checks"
+    ],
+    "independentReview": false,
+    "formalPlanSync": false,
+    "reviewRegressionRun": false,
+    "results": [
+      {
+        "check": "JSON parse, unique draft IDs, six existing versions, MP-only destination/parents, mutation counts and false publish/readiness flags",
+        "result": "passed",
+        "runOn": "2026-11-01"
+      },
+      {
+        "check": "Existing canonical evidence paths",
+        "result": "passed",
+        "runOn": "2026-11-01"
+      },
+      {
+        "check": "Whitespace check on owned map paths",
+        "result": "passed",
+        "runOn": "2026-11-01",
+        "limitation": "New untracked files are not included by git diff; JSON parsing and manual content inspection covered new map content."
+      },
+      {
+        "check": "Coordinated draft source paths",
+        "result": "passed",
+        "missingAtCheck": [],
+        "runOn": "2026-11-01"
+      },
+      {
+        "check": "Eight actual attachment source metadata",
+        "result": "passed",
+        "runOn": "2026-11-01",
+        "files": [
+          "import-workflow.png",
+          "import-workflow.gif",
+          "option-a-lucid.png",
+          "option-b-lucid.png",
+          "mp-system-architecture-native.png",
+          "phase-dependencies.png",
+          "budget-envelope.png",
+          "mp-network-options-native.png"
+        ]
+      }
+    ]
+  },
+  "proposedAttachmentUpserts": [
+    {
+      "action_id": "ATTACH-01",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "IMPORT-WORKFLOW-STATIC",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "import-workflow.png",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/import-workflow.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 113892,
+        "sha256": "f6265042c96a51b12e7f48646bf5949486c8296f2234d8c5c190fd76052acacf",
+        "width": 1600,
+        "height": 880
+      },
+      "caption": "Supporting import workflow: static accessible default; conceptual proposed process, not live activity.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false
+    },
+    {
+      "action_id": "ATTACH-02",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "IMPORT-WORKFLOW-ANIMATED",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "import-workflow.gif",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/import-workflow.gif",
+      "media_type": "image/gif",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 555995,
+        "sha256": "edba2c4c25a1cb9ae07c66920093e7a52651ad0656e8949196c3179aca3fea02",
+        "width": 1600,
+        "height": 880,
+        "frame_count": 7,
+        "frame_duration_ms": [
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800,
+          1800
+        ],
+        "cycle_ms": 12600
+      },
+      "caption": "Optional motion companion; open only on an explicit animation link, with static image default.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false
+    },
+    {
+      "action_id": "ATTACH-03",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "LUCID-OPTION-A",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "option-a-lucid.png",
+      "repo_relative_source_path": "docs/planning/aws-options-2026-11-01/option-a-lucid.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 151563,
+        "sha256": "536af178b55ee856e7399ef8fb847abcdb4f913fcf14704edf188385722f33b3",
+        "width": 2280,
+        "height": 2900
+      },
+      "caption": "Existing native Lucid option A export, prior planning snapshot; no new architecture render or selected option implied.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false
+    },
+    {
+      "action_id": "ATTACH-04",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "LUCID-OPTION-B",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "option-b-lucid.png",
+      "repo_relative_source_path": "docs/planning/aws-options-2026-11-01/option-b-lucid.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 153105,
+        "sha256": "54fd0f47fbe3d80a7083e8624085a9df7805dcb337f56715dc937442368478c5",
+        "width": 2280,
+        "height": 2900
+      },
+      "caption": "Existing native Lucid option B export, prior planning snapshot; no new architecture render or selected option implied.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false
+    },
+    {
+      "action_id": "ATTACH-05",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "MP-SYSTEM-ARCHITECTURE",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "mp-system-architecture-native.png",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/mp-system-architecture-native.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 1339989,
+        "sha256": "2ea51f99a487f18af9e6a4284f4c3d2c6427a8d04f7ca4e84e75291bec448fd4",
+        "width": 2565,
+        "height": 4932
+      },
+      "caption": "New detailed logical MP system architecture, native Lucid export of page 4/version 2703. Proposed, unreviewed; not deployed physical infrastructure.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false,
+      "native_provenance": {
+        "document_url": "https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit",
+        "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+        "page_id": "jvMISWi7AU3v",
+        "page_index": 4,
+        "page_title": "DRAFT | Detailed MP system | 2026-11-01",
+        "version": 2703,
+        "exported_at": "2026-11-01T21:10:50Z",
+        "native_export_provenance": {
+          "tool": "mcp__lucid__lucid_export_document_as_PNG",
+          "arguments": {
+            "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+            "page": 4
+          },
+          "result": "Native Lucid PNG image content saved byte-for-byte; not a model-rendered or locally reconstructed image",
+          "local_image_inspected": true,
+          "reading_note": "Detailed tall diagram; open original at full resolution for labels rather than relying on a scaled thumbnail. Static image has no animation."
+        },
+        "source_snapshot": "mp-system-architecture-source.json",
+        "source_snapshot_sha256": "0f8f830f6a7201bd846b433e1c3ac90a2afcfd31551e8e0d29789ef760d44cf8",
+        "limitations": [
+          "One detailed logical architecture page, not a physical AWS network or deployed resource inventory",
+          "Dev/prod boundaries are logical requirements; no accounts or resources are provisioned",
+          "Existing A/B/C pages and their prior exports are preserved historical comparison evidence",
+          "Local source snapshot and PNG are manually saved, not automatically synchronized",
+          "No Confluence attachment/upload/publication was performed",
+          "Native diagram authoring checks are not an independent review"
+        ]
+      }
+    },
+    {
+      "action_id": "ATTACH-06",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "PHASE-DEPENDENCIES",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "phase-dependencies.png",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/phase-dependencies.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 104324,
+        "sha256": "edf1f949e5addad9e9875ecab5b10a1b7ef5753d1a37f2379c99c74c8d059f98",
+        "width": 1600,
+        "height": 1280
+      },
+      "caption": "Two exact 10-by-10 draft dependency matrices: planning versus implementation prerequisites; 27/22 filled cells, no dates or completion percentages.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false,
+      "chart_source_manifest": "docs/planning/layered-development-2026-11-01/visuals/planning-chart-manifest.json",
+      "chart_evidence": {
+        "dimensions": [
+          1600,
+          1280
+        ],
+        "text_fit": "passed measured line-width checks",
+        "drawio_cells": 336,
+        "source_field": "phases[].planning_dependencies / implementation_dependencies",
+        "phases": [
+          "PH-00",
+          "PH-01",
+          "PH-02",
+          "PH-03",
+          "PH-04",
+          "PH-05",
+          "PH-06",
+          "PH-07",
+          "PH-08",
+          "PH-09"
+        ],
+        "matrix_rows": 10,
+        "matrix_columns": 10,
+        "filled_counts": {
+          "planning_dependencies": 27,
+          "implementation_dependencies": 22
+        },
+        "filled_cells": {
+          "planning_dependencies": [
+            [
+              "PH-01",
+              "PH-00"
+            ],
+            [
+              "PH-02",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-01"
+            ],
+            [
+              "PH-03",
+              "PH-02"
+            ],
+            [
+              "PH-04",
+              "PH-00"
+            ],
+            [
+              "PH-04",
+              "PH-03"
+            ],
+            [
+              "PH-05",
+              "PH-00"
+            ],
+            [
+              "PH-05",
+              "PH-02"
+            ],
+            [
+              "PH-05",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-00"
+            ],
+            [
+              "PH-06",
+              "PH-01"
+            ],
+            [
+              "PH-06",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-04"
+            ],
+            [
+              "PH-06",
+              "PH-05"
+            ],
+            [
+              "PH-07",
+              "PH-00"
+            ],
+            [
+              "PH-07",
+              "PH-02"
+            ],
+            [
+              "PH-07",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-00"
+            ],
+            [
+              "PH-08",
+              "PH-01"
+            ],
+            [
+              "PH-08",
+              "PH-02"
+            ],
+            [
+              "PH-08",
+              "PH-03"
+            ],
+            [
+              "PH-08",
+              "PH-04"
+            ],
+            [
+              "PH-08",
+              "PH-05"
+            ],
+            [
+              "PH-08",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-07"
+            ],
+            [
+              "PH-09",
+              "PH-00"
+            ]
+          ],
+          "implementation_dependencies": [
+            [
+              "PH-01",
+              "PH-02"
+            ],
+            [
+              "PH-02",
+              "PH-00"
+            ],
+            [
+              "PH-03",
+              "PH-01"
+            ],
+            [
+              "PH-03",
+              "PH-02"
+            ],
+            [
+              "PH-04",
+              "PH-03"
+            ],
+            [
+              "PH-05",
+              "PH-02"
+            ],
+            [
+              "PH-05",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-01"
+            ],
+            [
+              "PH-06",
+              "PH-02"
+            ],
+            [
+              "PH-06",
+              "PH-03"
+            ],
+            [
+              "PH-06",
+              "PH-04"
+            ],
+            [
+              "PH-06",
+              "PH-05"
+            ],
+            [
+              "PH-07",
+              "PH-02"
+            ],
+            [
+              "PH-07",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-01"
+            ],
+            [
+              "PH-08",
+              "PH-02"
+            ],
+            [
+              "PH-08",
+              "PH-03"
+            ],
+            [
+              "PH-08",
+              "PH-04"
+            ],
+            [
+              "PH-08",
+              "PH-05"
+            ],
+            [
+              "PH-08",
+              "PH-06"
+            ],
+            [
+              "PH-08",
+              "PH-07"
+            ],
+            [
+              "PH-09",
+              "PH-08"
+            ]
+          ]
+        },
+        "ledger_requires_foundation": {
+          "planning": [
+            "PH-00"
+          ],
+          "implementation": [
+            "PH-02"
+          ]
+        },
+        "meaning": "Each dot is an exact draft prerequisite; no dates,elapsed time,percent complete or implementation status is encoded.",
+        "drawio_xml_unique_ids": "passed",
+        "svg_xml_unique_ids": "passed",
+        "svg_accessible_title_desc_role": "passed",
+        "png_visual_inspection": "pending maker inspection"
+      }
+    },
+    {
+      "action_id": "ATTACH-07",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "BUDGET-ENVELOPE",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "budget-envelope.png",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/budget-envelope.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 60557,
+        "sha256": "fe56fac7fda3bf713879a82bd5943ccdad83d7635a5667aff15a6d793c7451b5",
+        "width": 1600,
+        "height": 720
+      },
+      "caption": "Confirmed DEC-023 monthly planning allocation: £70 operation plus £30 reserve within £100; not actual spend or a service price quotation.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false,
+      "chart_source_manifest": "docs/planning/layered-development-2026-11-01/visuals/planning-chart-manifest.json",
+      "chart_evidence": {
+        "dimensions": [
+          1600,
+          720
+        ],
+        "text_fit": "passed measured line-width checks",
+        "drawio_cells": 18,
+        "source_decision": "DEC-023",
+        "source_status": "confirmed",
+        "unit": "GBP per month",
+        "ceiling": 100,
+        "planned_operation": 70,
+        "reserve": 30,
+        "planned_operation_percent": 70.0,
+        "reserve_percent": 30.0,
+        "stack_geometry": {
+          "total_width_px": 1504,
+          "planned_operation_width_px": 1052.8,
+          "reserve_width_px": 451.2
+        },
+        "sum_and_proportions": "passed exact values and proportional width calculation",
+        "meaning": "Confirmed planning allocation only; no actual usage,service/environment quote or credit is plotted.",
+        "drawio_xml_unique_ids": "passed",
+        "svg_xml_unique_ids": "passed",
+        "svg_accessible_title_desc_role": "passed",
+        "png_visual_inspection": "pending maker inspection"
+      }
+    },
+    {
+      "action_id": "ATTACH-08",
+      "operation": "attachment_upsert_proposed",
+      "attachment_key": "MP-NETWORK-OPTIONS",
+      "owner_page_key": "NEW-PLANNING-INDEX",
+      "owner_page_id": null,
+      "space_key": "mypaisaapr",
+      "space_id": "5145174",
+      "filename": "mp-network-options-native.png",
+      "repo_relative_source_path": "docs/planning/layered-development-2026-11-01/visuals/mp-network-options-native.png",
+      "media_type": "image/png",
+      "source_metadata": {
+        "exists": true,
+        "bytes": 1010128,
+        "sha256": "89acd7f59f8eb209f9362db8cfb71b413355262aec23bce85b8820ee83c22e1d",
+        "width": 2416,
+        "height": 4714
+      },
+      "caption": "Actual native Lucid page-5/version-4333 export of unselected N0/N1/N1-E topology candidates. No account, Region, VPC, subnet, route, endpoint, NAT or physical infrastructure is provisioned.",
+      "existing_attachment_id": null,
+      "existing_version": null,
+      "reuse_policy": "After resolving the owner page, list its current attachments by exact filename. Reuse the actual returned ID/version for an identical existing file; upload only when missing or an explicitly approved new version is needed. Never invent an ID or delete/recreate to hide an update limitation.",
+      "connector_preflight": "listConfluenceAttachments and getConfluenceAttachment are discovered read operations. createConfluenceAttachment prepares an upload command only after write approval. No supported existing-binary update operation was discovered; if needed, discover/verify it before mutation, rather than guessing its name/parameters.",
+      "uploaded": false,
+      "ready_to_upload": false,
+      "native_provenance": {
+        "document_url": "https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit",
+        "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+        "page_id": "VNMISlFqoQy9",
+        "page_index": 5,
+        "page_title": "DRAFT | VPC network options N0-N1 | 2026-11-01",
+        "version": 4333,
+        "exported_at": "2026-11-01T21:34:27Z",
+        "native_export_provenance": {
+          "tool": "mcp__lucid__lucid_export_document_as_PNG",
+          "arguments": {
+            "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+            "page": 5
+          },
+          "saved": "Native PNG image content saved byte-for-byte, not model-rendered or locally reconstructed",
+          "local_final_image_inspected": true,
+          "reading_note": "Tall detailed technical diagram; open full-resolution PNG for labels. Static export contains no animation."
+        },
+        "source_snapshot": "mp-network-options-source.json",
+        "source_snapshot_sha256": "790f144be838929a9d2af1a1bcf892c3224decca9478a69fb031ecaca67176ec",
+        "limitations": [
+          "No live network tests, deployed routes, selected Region/account/AZ/CIDR or verified account bill",
+          "No change to £100 all-in cash budget or £70/£30 split; paid network capabilities require a cost/owner decision",
+          "SvelteKit static/SSR and ML A/B training remain open",
+          "Interface endpoint portfolio is conditional on actual job/runtime paths; no universal list is assumed",
+          "Manual diagram/source/export snapshots; no automatic synchronization or Confluence publication"
+        ]
+      }
+    }
+  ],
+  "related_jira_scope": {
+    "description_only_updates_prepared_separately": 11,
+    "issue_keys": [
+      "MP-4",
+      "MP-5",
+      "MP-6",
+      "MP-7",
+      "MP-8",
+      "MP-9",
+      "MP-10",
+      "MP-11",
+      "MP-12",
+      "MP-13",
+      "MP-15"
+    ],
+    "new_issues": 0,
+    "status_changes": 0,
+    "closures": 0,
+    "this_file_contains_Jira_write_payloads": false,
+    "proposal_body_is_input_to_Confluence_bodies": false
+  }
+}

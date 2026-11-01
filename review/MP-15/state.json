@@ -1,0 +1,441 @@
+{
+  "issue": "MP-15",
+  "deliverable": "S3 audit, whole-system observability and priority per-environment Claude/AWS cost dashboard requirements update",
+  "round_count": 7,
+  "rounds": [
+    {
+      "round": 1,
+      "status": "passed with no blockers; two nonblocking P3 follow-ups recorded",
+      "scope": "All of this requirements update and directly affected planning-document connections; no implementation or broad historical architecture review",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-1",
+      "approval": "User approved round 1, then explicitly included MP-15 fixed-findings regression check",
+      "gate_results": [
+        "python3 review/MP-15/check_documents.py: passed planning JSON, 22 decision IDs, 21 complete source issues, Markdown links, HTML anchors, cost allowance arithmetic and approval metadata",
+        "Initial document gate caught stale pending-horizon status in cost-model.json; corrected to confirmed DEC-001 horizons, preserved pre-fix copy, refreshed snapshot hash; rerun passed",
+        "python3 scripts/review_regress.py MP-15 --approved: exit 0, no MP-15 fixed-findings ledger; zero checks ran; not a clean-review claim",
+        "git diff --check: passed for tracked changes; untracked planning files covered by explicit document checks",
+        "SHA-256 manifest verifies all 19 snapshot and corresponding worktree files match at reviewer start"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "cost accounting and environment dashboard",
+          "agent": "/root/mp15_cost_review_r1"
+        },
+        {
+          "lane": "audit, privacy and observability",
+          "agent": "/root/mp15_audit_review_r1"
+        }
+      ],
+      "blocking_findings": [],
+      "test_selection": {
+        "scope": "Documentation and machine-readable planning metadata only; no application, infrastructure, security implementation or runtime contract changed",
+        "deferred": [
+          {
+            "checks": "backend, browser/device/end-to-end, live billing/auth APIs, deployment/release gates",
+            "reason": "No runtime changes or shipping; review concerns requirement design. Provider facts can be verified against public official documentation without paid calls."
+          }
+        ],
+        "prior_manual_items": "No MP-15 ledger exists; no outstanding manual verification items",
+        "reused_evidence": []
+      },
+      "nonblocking_findings": [
+        {
+          "id": "MP15-R1-A1",
+          "severity": "P3",
+          "finding": "Combined deletion-after-backup-restore acceptance case",
+          "status": "recorded; not applied",
+          "report": "review/MP-15/round-1-audit-review.md"
+        },
+        {
+          "id": "MP15-R1-A2",
+          "severity": "P3",
+          "finding": "Explicit missing/altered audit-event detection acceptance case",
+          "status": "recorded; not applied",
+          "report": "review/MP-15/round-1-audit-review.md"
+        }
+      ],
+      "reports": [
+        "review/MP-15/round-1-cost-review.md",
+        "review/MP-15/round-1-audit-review.md",
+        "review/MP-15/round-1-result.md"
+      ],
+      "post_review_bookkeeping": "Two lessons appended to .codex/rules/review-checklist.md; planning deliverable unchanged after reviewers finished.",
+      "deliverable_id": "operational-requirements",
+      "deliverable_round": 1
+    },
+    {
+      "round": 2,
+      "deliverable_id": "requirements-decision-pack",
+      "deliverable_round": 1,
+      "status": "passed with no blockers; one P3 wording follow-up recorded",
+      "scope": "First full review of new 18-choice pack and direct navigation/decision/cost/audit connections. Not a new round on the earlier operational-requirements deliverable.",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-2",
+      "approval": "Explicit current user answer: Review the pack first (Recommended), including full MP-15 ledger and two parallel lanes",
+      "gate_results": [
+        "python3 review/MP-15/check_decision_pack.py: passed 18 unanswered choices, option/recommendation/reference integrity, 22 confirmed decisions, JSON/Markdown/HTML content parity, cash arithmetic, local links/anchors",
+        "python3 review/MP-15/check_documents.py: passed planning JSON, source/decision integrity, local and HTML links, cost arithmetic and approval metadata",
+        "python3 scripts/review_regress.py MP-15 --approved: exit 0; empty issue ledger, 0 checks, 0 failures, 0 manual outstanding",
+        "git diff --check: passed; untracked pack files covered by explicit document gates",
+        "SHA-256 manifest: all 21 snapshot/worktree files matched at reviewer start"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "costs, security, privacy and operations",
+          "agent": "/root/mp15_pack_cost_security_r1"
+        },
+        {
+          "lane": "investment science, data and import requirements",
+          "agent": "/root/mp15_pack_investment_data_r1"
+        }
+      ],
+      "blocking_findings": [],
+      "test_selection": {
+        "scope": "Proposed requirements and their JSON/Markdown/HTML representations; no product, cloud or auth implementation changes",
+        "selected": [
+          "offline pack content/choice/cash/link gates",
+          "existing planning document gates",
+          "full approved MP-15 fixed-findings ledger",
+          "snapshot SHA-256 integrity and git diff whitespace checks"
+        ],
+        "deferred": [
+          {
+            "checks": "backend, UI/device/end-to-end, live auth/billing and release gates",
+            "reason": "No application/runtime changes, shipping or account operations. Public documentation can be read without paid calls."
+          }
+        ],
+        "reused_evidence": []
+      },
+      "nonblocking_findings": [
+        {
+          "id": "MP15-PACK-R1-D1",
+          "severity": "P3",
+          "finding": "D02 B watchlist-first ordering conflicts with common holdings-then-watchlist detail",
+          "status": "recorded; not applied",
+          "report": "review/MP-15/decision-pack-round-1-investment-data.md"
+        }
+      ],
+      "reports": [
+        "review/MP-15/decision-pack-round-1-cost-security.md",
+        "review/MP-15/decision-pack-round-1-investment-data.md",
+        "review/MP-15/decision-pack-round-1-result.md"
+      ],
+      "post_review_bookkeeping": "Recorded reports and one checklist lesson. Review-status metadata/links will be updated without changing choice content. Exact reviewed version remains in snapshot."
+    },
+    {
+      "round": 3,
+      "deliverable_id": "synthetic-import-document-and-operations-fixtures",
+      "deliverable_round": 1,
+      "status": "passed with no blockers; one P3 documentation finding corrected by maker",
+      "scope": "Full first review of new offline document/operations fixture generator, tests, resulting PDFs/screenshots/expected records and DEC-041 documentation connections; existing market generator only as a direct dependency",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-3",
+      "approval": "Current explicit user answer Run independent review (Recommended), including full MP-15 fixed-findings ledger and two parallel lanes",
+      "gate_results": [
+        "New synthetic-import suite: 7 isolated tests passed in bundled Python with reportlab 4.4.9/pypdf 6.10.0/Pillow 12.3.0",
+        "Existing synthetic market/ledger suite: 9 tests passed with pinned numpy 2.5.4/pandas 3.1.0/pandas-market-calendars 5.6.0/exchange-calendars 4.13.2",
+        "Full local and dev source validators: both passed all original fixture hashes and financial/temporal/session invariants",
+        "Planning pack/document gates: passed 18 recorded choices, 41 decisions, content parity/links/cost arithmetic",
+        "Full MP-15 fixed ledger: exit 0, 0 checks, 0 failed, 0 manual outstanding; no prior fixed findings",
+        "Ruff with backend rules: changed fixture generator/tests passed; git diff --check passed",
+        "Final document/data gate: both new manifests, PDF values, PNG validity, preserved source/current generator hashes and fixture links passed",
+        "All 50 snapshot and worktree file SHA-256 hashes match at reviewer start"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "financial/document consistency",
+          "agent": "/root/mp15_fixture_financial_r1"
+        },
+        {
+          "lane": "generator safety and documentation",
+          "agent": "/root/mp15_fixture_safety_r1"
+        }
+      ],
+      "blocking_findings": [],
+      "test_selection": {
+        "selected": [
+          "new seven-test fixture suite",
+          "existing nine-test market/ledger fixture suite",
+          "both full source pack validators",
+          "planning JSON/content/link gates",
+          "fixture/source/generator hash and PDF extraction/PNG inventory checks",
+          "lint and git diff whitespace",
+          "full approved MP-15 ledger"
+        ],
+        "deferred": [
+          {
+            "checks": "app backend, web/device journeys, deployment and live AWS/data/model APIs",
+            "reason": "Offline fixture-only work and knowledge capture; no application or infrastructure/runtime changes, no shipping or paid calls"
+          }
+        ],
+        "reused_evidence": []
+      },
+      "nonblocking_findings": [
+        {
+          "id": "MP15-FIXTURE-R1-D1",
+          "severity": "P3",
+          "finding": "Stale immediate actual-input summary and understated generic document fixture coverage",
+          "status": "wording/metadata corrected; planning gates passed; not independently re-reviewed",
+          "report": "review/MP-15/fixture-round-1-safety-review.md"
+        }
+      ],
+      "reports": [
+        "review/MP-15/fixture-round-1-financial-review.md",
+        "review/MP-15/fixture-round-1-safety-review.md",
+        "review/MP-15/fixture-round-1-result.md"
+      ],
+      "post_review_checks": [
+        "Only affected planning Markdown/JSON/HTML wording updated for P3; original reviewed snapshot preserved",
+        "Planning content-parity and document/whitespace gates passed after correction",
+        "Added a focused semantic document gate for DEC-041 current-phase/fixture-coverage consistency; gate passed",
+        "Generator/test code and all PDF/PNG/expected/scenario/source files remain identical to reviewed snapshot"
+      ],
+      "post_review_independent_round_run": false
+    },
+    {
+      "round": 4,
+      "deliverable_id": "layered-requirements-architecture-and-MP-sync",
+      "deliverable_round": 1,
+      "status": "round1 findings fixed;23 tests and planning gates passed; waiting separate round2 approval before sync",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-4",
+      "scope": "Whole new layered L1/phase/architecture/stack/network/visual pack, canonical docs and project-local skill/rule changes, proposed Confluence and Jira writes; not full historical application review",
+      "approval": "User explicitly selected Review, then sync MP (Recommended): first three-lane review including full MP-15 ledger, then approved 5 new pages/6 updates/8 images/11 description updates if no blockers. Further review rounds require separate permission.",
+      "gate_results": [
+        "validate_planning_pack.py passed:10phases/64stories/64L1criteria/15entities/12examples/140source mappings;DAGs/Decimal arithmetic/links/currentsource+imagehashes;MP5creates6updates8images11descriptions0statuschanges",
+        "Existing decision-pack and planning-doc gates passed;41decisions and18answers intact",
+        "Two changed skills quick_validate passed with isolated offline PyYAML",
+        "Full approved MP15 ledger:exit0;0checks/0failed/0manualoutstanding",
+        "git diff --check and .claude isolation passed",
+        "All64snapshot/worktree file hashes matched at reviewer start"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "financial/portfolio/import contracts",
+          "agent": "/root/mp_l1_finance_review_r1"
+        },
+        {
+          "lane": "AWS/AI/security/cost/network",
+          "agent": "/root/mp_cloud_review_r1"
+        },
+        {
+          "lane": "phases/trace/publication/Jira/permissions",
+          "agent": "/root/mp_sync_review_r1"
+        }
+      ],
+      "blocking_findings": [
+        {
+          "id": "LAYERED-R1-01",
+          "finding": "Confluence hub notices lack idempotent owned-range retry handling",
+          "status": "fixed by maker; required independent delta verification pending"
+        }
+      ],
+      "test_selection": {
+        "selected": [
+          "local planning trace/DAG/arithmetic/link/source-hash gates",
+          "existing planning content gates",
+          "two skill validators",
+          "full MP-15 ledger",
+          "git diff whitespace and Claude isolation"
+        ],
+        "not_applicable": [
+          "backend/device/live AWS/model calls: documentation only; no app implementation/deployment"
+        ],
+        "reused_evidence": [
+          "Representative desktop/mobile document image-loading/play-pause/reduced-motion checks already recorded in final-gates.json; renderer inputs unchanged before snapshot"
+        ]
+      },
+      "nonblocking_findings": [
+        {
+          "id": "LAYERED-R1-02",
+          "finding": "Six existing hub insertions lack promised evidence footers",
+          "status": "fixed by maker; required independent delta verification pending"
+        },
+        {
+          "id": "LAYERED-R1-03",
+          "finding": "Two stale authoring statements in stack/blueprint",
+          "status": "fixed by maker; required independent delta verification pending"
+        }
+      ],
+      "external_sync_applied": false,
+      "reports": [
+        "review/MP-15/layered-round-1-finance.md",
+        "review/MP-15/layered-round-1-cloud.md",
+        "review/MP-15/layered-round-1-sync.md"
+      ],
+      "post_fix_tests": [
+        "23 confluence notice behavioural/config tests passed",
+        "Planning/DAG/arithmetic/links/current-source/asset/proposal gates passed",
+        "Jira insertion strings unchanged; provenance hashes refreshed",
+        "git diff --check passed",
+        "New full-ledger entry recorded but ledger not rerun without next-round approval"
+      ],
+      "fix_snapshot": "review/MP-15/layered-round-1-fixes/manifest.json"
+    },
+    {
+      "round": 5,
+      "deliverable_id": "layered-requirements-architecture-and-MP-sync",
+      "deliverable_round": 2,
+      "status": "round2 found one P2 and three P3 metadata joins; fixes applied;30 tests passed; round3 permission required",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-5",
+      "delta_basis": "review/MP-15/snapshots/round-4",
+      "scope": "Only round1 retry/marker fix, evidence footers, two stale authoring corrections and direct publication/provenance joins; unchanged financial/cloud architecture excluded",
+      "approval": "Explicit current user Run round 2 (Recommended), including full MP15 ledger and two parallel reviewers; previously approved sync remains conditional on clean verification",
+      "gate_results": [
+        "Full MP15 ledger:1checkpassed,0failed,0manual;includes23 focused behavioural/config tests",
+        "Planningtrace/DAG/Decimal/links/35sourcehashes/8assets/11description-onlyscopepassed",
+        "Existingplanningdocumentgatepassed;whitespaceandClaudeisolationpassed",
+        "All66snapshot/worktreehashesmatchatreviewerstart"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "notice helper/protocol fixes",
+          "agent": "/root/mp_sync_fix_review_r2"
+        },
+        {
+          "lane": "metadata/provenance/permissions/wording joins",
+          "agent": "/root/mp_doc_fix_review_r2"
+        }
+      ],
+      "blocking_findings": [
+        {
+          "id": "LAYERED-R2-01",
+          "finding": "Split parsed-visible markers could trigger duplicate insert",
+          "status": "maker fixed; independent verification pending"
+        }
+      ],
+      "test_selection": {
+        "selected": [
+          "fullMP15ledger including23 focused tests",
+          "local planning/content/link/source/proposal gates",
+          "whitespace/Claudeisolation/snapshot hashes"
+        ],
+        "reused": [
+          "unchanged financial/cloud architecture reviews round1; no relevant input changes"
+        ],
+        "not_applicable": [
+          "runtime/backend/device/deploy/live provider tests; no app changes"
+        ]
+      },
+      "nonblocking_findings": [
+        {
+          "id": "LAYERED-R2-02",
+          "finding": "Obsolete high-level unconditional prepend guidance",
+          "status": "corrected"
+        },
+        {
+          "id": "LAYERED-R2-03",
+          "finding": "Workflow notice obsolete no-review statement",
+          "status": "corrected"
+        },
+        {
+          "id": "LAYERED-R2-04",
+          "finding": "Sync proposal top review status not_run obsolete",
+          "status": "corrected"
+        }
+      ],
+      "post_fix_tests": [
+        "30 focused behavioural/config tests passed; helper guard now checks parsed visible reserved namespace before declaring absence",
+        "Publication source/proposal hashes refreshed; Jira insertions and architecture contracts unchanged"
+      ],
+      "external_sync_applied": false,
+      "reports": [
+        "review/MP-15/layered-round-2-result.md"
+      ],
+      "fix_snapshot": "review/MP-15/layered-round-2-fixes/manifest.json"
+    },
+    {
+      "round": 6,
+      "deliverable_id": "layered-requirements-architecture-and-MP-sync",
+      "deliverable_round": 3,
+      "status": "round3 found mixed-marker P2 and status-copy P3; fixed;35 tests pass; round4 permission required",
+      "scope": "Only six round2-fix files and direct joins; financial/cloud architecture unchanged",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-6",
+      "delta_basis": "review/MP-15/snapshots/round-5",
+      "approval": "Explicit Run round 3 (Recommended), two fresh lanes + full MP15 ledger; previous exact sync approval persists conditional on clean verification",
+      "gate_results": [
+        "FullMP15ledger2checksPASSED;30focusedcasespercheck;0failed0manual",
+        "Planning/DAG/Decimal/content/links/35sourcehashes/8visuals/11description-onlyscopepassed",
+        "Existingplanninggatesandwhitespacepassed",
+        "66snapshot/worktreehashesmatch;sixchangedfilesonly"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "marker helper delta",
+          "agent": "/root/mp_marker_delta_review_r3"
+        },
+        {
+          "lane": "metadata/provenance delta",
+          "agent": "/root/mp_metadata_delta_review_r3"
+        }
+      ],
+      "blocking_findings": [
+        {
+          "id": "LAYERED-R3-01",
+          "finding": "Canonical pair plus formatted extra markers bypassed visible guard",
+          "status": "maker fixed,independent verification pending"
+        }
+      ],
+      "nonblocking_findings": [
+        {
+          "id": "LAYERED-R3-02",
+          "finding": "Current review status not consistent across create/global/prewrite/proposal copies",
+          "status": "aligned and tested"
+        }
+      ],
+      "external_sync_applied": false,
+      "post_fix_tests": [
+        "35 focused behavioural/config tests passed",
+        "Planning/source/proposal/HTML gates and whitespace passed"
+      ],
+      "reports": [
+        "review/MP-15/layered-round-3-result.md"
+      ],
+      "fix_snapshot": "review/MP-15/layered-round-3-fixes/manifest.json"
+    },
+    {
+      "round": 7,
+      "deliverable_id": "layered-requirements-architecture-and-MP-sync",
+      "deliverable_round": 4,
+      "status": "passed with no blockers; approved MP publication applied and readback verified",
+      "reviewed_snapshot": "review/MP-15/snapshots/round-7",
+      "delta_basis": "review/MP-15/snapshots/round-6",
+      "scope": "Six-file round3 fix delta and direct joins only; unchanged architecture excluded",
+      "approval": "Current explicit Run round4 (Recommended), duplicated delivery authorises one round only;2reviewers/fullMP15ledger;existingconditional sync approval persists",
+      "gate_results": [
+        "FullMP15ledger3checksPASSED;35casefocusedSuiteeach,0failed0manual",
+        "Planningtrace/Decimal/DAG/links/35sourcehashes/8assets/proposedscopepassed",
+        "Whitespacepassed;66snapshot/worktreehashesmatched"
+      ],
+      "manual_evidence": [],
+      "reviewers": [
+        {
+          "lane": "marker guard",
+          "agent": "/root/mp_marker_review_r4"
+        },
+        {
+          "lane": "status/provenance",
+          "agent": "/root/mp_metadata_review_r4"
+        }
+      ],
+      "blocking_findings": [],
+      "nonblocking_findings": [
+        {
+          "id": "LAYERED-R4-01",
+          "finding": "Categorical unreviewed labels remain in create bodies/action/proposal statuses",
+          "status": "corrected in published review labels; reviewed pre-publication snapshots preserved"
+        }
+      ],
+      "review_outcome": "no blockers;financial/cloud/fullpackround1 plusfix-onlyrounds2\u20134 verification chain",
+      "external_sync_applied": true,
+      "publication_receipt": "docs/planning/layered-development-2026-11-01/sync-receipt.json",
+      "reports": [
+        "review/MP-15/layered-round-4-result.md"
+      ]
+    }
+  ],
+  "further_round_authorised": false
+}

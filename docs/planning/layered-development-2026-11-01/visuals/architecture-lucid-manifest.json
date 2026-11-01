@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "project": "mypaisaa-prediction",
+  "issue": "MP-15",
+  "status": "Draft proposed architecture; unreviewed; no application implementation or deployment",
+  "document_url": "https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit",
+  "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+  "page_id": "jvMISWi7AU3v",
+  "page_index": 4,
+  "page_title": "DRAFT | Detailed MP system | 2026-11-01",
+  "version": 2703,
+  "document_modified_at": "2026-11-01T21:08:57Z",
+  "exported_at": "2026-11-01T21:10:50Z",
+  "native_export": "mp-system-architecture-native.png",
+  "native_export_sha256": "2ea51f99a487f18af9e6a4284f4c3d2c6427a8d04f7ca4e84e75291bec448fd4",
+  "native_export_bytes": 1339989,
+  "native_export_dimensions": {"width": 2565, "height": 4932},
+  "native_export_provenance": {
+    "tool": "mcp__lucid__lucid_export_document_as_PNG",
+    "arguments": {"document_id": "02218133-613a-4b78-aea4-e0dba26db386", "page": 4},
+    "result": "Native Lucid PNG image content saved byte-for-byte; not a model-rendered or locally reconstructed image",
+    "local_image_inspected": true,
+    "reading_note": "Detailed tall diagram; open original at full resolution for labels rather than relying on a scaled thumbnail. Static image has no animation."
+  },
+  "source_snapshot": "mp-system-architecture-source.json",
+  "source_snapshot_sha256": "0f8f830f6a7201bd846b433e1c3ac90a2afcfd31551e8e0d29789ef760d44cf8",
+  "source_format": "Actual Lucid canvas readback with properties; not Standard Import JSON. The linked Lucid page is the editable canonical source.",
+  "authoring": {
+    "route": "Native Lucid RunScript API; one new page appended to existing document",
+    "external_diagram_write_authorized": true,
+    "external_change": "Appended and populated only page jvMISWi7AU3v under the owner's latest request for detailed colourful diagrams",
+    "existing_pages": [
+      {"page_id": "option-a", "content_comparison": "unchanged"},
+      {"page_id": "option-b", "content_comparison": "unchanged"},
+      {"page_id": "option-c", "content_comparison": "unchanged; remains retired"}
+    ],
+    "comparison_method": "Canonical key-sorted JSON comparison of full-property canvas readbacks before/after authoring for all three existing pages",
+    "logical_component_nodes": 40,
+    "native_AWS_icons": 25,
+    "labelled_connectors": 30,
+    "native_shape_library": "aws2024.js",
+    "native_shape_discovery": "Exact AWS shape/library IDs returned by skills.shapelibrary.shapeLibrary before creation",
+    "public_share_or_invitation_created": false,
+    "existing_document_sharing_changed": false,
+    "Confluence_published": false,
+    "paid_features_activated": false,
+    "AWS_account_or_deployment_calls": false
+  },
+  "validation": {
+    "status": "pass",
+    "mode": "Native canvas validation and structural readback, followed by local inspection of the final native PNG",
+    "validators": ["blockOverlap", "containerInFront", "disconnectedEndpoint", "lineThroughBlock", "lineTextOverlapsBlock", "textOverflow", "textContrast"],
+    "final_issues": [],
+    "final_missing_ids": [],
+    "import_validation": {"status": "not_applicable", "reason": "Page authored through native canvas APIs; no Standard Import JSON was submitted"},
+    "original_pages_preserved": true,
+    "required_boundaries_checked": ["Owner clients versus AWS application", "Direct Anthropic cloud outside AWS", "External market/provider reports", "Logical scientific contracts versus selected execution service", "Operational telemetry versus durable business audit"],
+    "content_checks": ["A/B training and workflow choices remain open", "Native SwiftUI in RN and SvelteKit 3 remain proposed", "No Agent SDK/Bedrock/AgentCore target", "Owner-confirmed import commit and model promotion", "Immutable forecast and mature outcome grading", "Bounded SSE does not own durable jobs", "Cost reports cached; estimates/credits/cash distinct; no instant universal billing stop", "All component integrations proposed; no AWS account, region or physical network implied"],
+    "independent_review": "not run"
+  },
+  "requirements": ["../architecture-blueprint.md", "../tech-stack-matrix.md", "../../aws-options-2026-11-01/product-decisions.json"],
+  "limitations": ["One detailed logical architecture page, not a physical AWS network or deployed resource inventory", "Dev/prod boundaries are logical requirements; no accounts or resources are provisioned", "Existing A/B/C pages and their prior exports are preserved historical comparison evidence", "Local source snapshot and PNG are manually saved, not automatically synchronized", "No Confluence attachment/upload/publication was performed", "Native diagram authoring checks are not an independent review"]
+}

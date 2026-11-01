@@ -1,0 +1,14 @@
+[
+  {
+    "id": "LAYERED-R1-01",
+    "finding": "Existing Confluence notices could duplicate on retry after an ambiguous successful write; owned-range idempotency/readback guards and evidence bindings added.",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/layered-development-2026-11-01/test_confluence_notice_composition.py"
+      ],
+      "timeout_seconds": 30
+    }
+  }
+]

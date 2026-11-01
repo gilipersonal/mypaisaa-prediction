@@ -1,0 +1,770 @@
+{
+  "schema_version": "1.0-draft",
+  "project": "mypaisaa-prediction",
+  "prepared_on": "2026-11-01",
+  "document_kind": "separate local write-scope proposal after completed read-only check",
+  "status": "draft_unreviewed_ready_for_owner_scope_review_not_applied",
+  "shared_header": "Current draft requirements, not implementation approval",
+  "ready_for_owner_scope_review": true,
+  "ready_to_apply": false,
+  "independent_review": "not_run",
+  "external_writes_authorised": false,
+  "external_writes_performed": 0,
+  "sync_applied": false,
+  "provenance": {
+    "read_only_check": {
+      "date": "2026-11-01",
+      "window_UTC": "21:22–21:25",
+      "source": "Coordinator-supplied completed read-only session evidence; this authoring lane did not repeat account reads or modify checked records.",
+      "local_report_path": null
+    },
+    "network_delta": {
+      "date": "2026-11-01",
+      "time_UTC": "21:34",
+      "source": "network-topology-options.md and visuals/network-lucid-manifest.json; later authoring evidence,not retroactive mutation of read-only check.",
+      "options": [
+        "N0",
+        "N1",
+        "N1-E"
+      ],
+      "selection": "none"
+    },
+    "checked_record_modifications": 0,
+    "observed_issue_statuses_are_dated_snapshots": true,
+    "observed_page_versions": [
+      {
+        "page_id": "5145345",
+        "title": "mypaisaa-prediction",
+        "published_version": 2
+      },
+      {
+        "page_id": "4981241",
+        "title": "Product brief and knowledge base",
+        "published_version": 3
+      },
+      {
+        "page_id": "5145394",
+        "title": "Architecture and decision records",
+        "published_version": 4
+      },
+      {
+        "page_id": "5112476",
+        "title": "Roadmap and current implementation status",
+        "published_version": 2
+      },
+      {
+        "page_id": "5014127",
+        "title": "Development, CI and Codex workflows",
+        "published_version": 5
+      },
+      {
+        "page_id": "5112525",
+        "title": "Security, cost and operations",
+        "published_version": 3
+      }
+    ],
+    "observed_existing_attachments": 10,
+    "attachment_observation_note": "Coordinator-reported count; preserve all ten,do not delete/replace by assumption. Fresh drafts/macros/attachments must be read before any bounded update.",
+    "local_source_snapshots": [
+      {
+        "path": "confluence-page-map.json",
+        "sha256": "7ccc975b8346ea460327f9f974d03d1f58cc5098fe823e243a898f5185599383",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 52015
+      },
+      {
+        "path": "confluence-page-map.md",
+        "sha256": "46ed6e11840d1ebf94b9027cb44baf864afa906da6d17c8058e59e7a961172a4",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 24869
+      },
+      {
+        "path": "confluence-publish-payloads.json",
+        "sha256": "38dc857582c4817a6714f305f7aea54a522962a23e9209cab5ac76f01363e9fb",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 410572
+      },
+      {
+        "path": "network-topology-options.md",
+        "sha256": "1a7dea2fbaea02f27ec73f86425a5e23692a311619f2b5b73da1e6ee7719697a",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 14812
+      },
+      {
+        "path": "phase-story-map.json",
+        "sha256": "23ae4d8e4d4be984217e958c4885477b81a665e2ec84a3c64ce625242821ca4e",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 134996
+      },
+      {
+        "path": "portfolio-import-stories.json",
+        "sha256": "57aa9599f98994de55bffd799e6943c50e6aeac8f678a931b7165be9416ded93",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 45567
+      },
+      {
+        "path": "portfolio-import-contracts.json",
+        "sha256": "468bb45c8fde0cab81cb92e7a9ddab2c1fe141813d65e9ca7571d98cbb992021",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 19063
+      },
+      {
+        "path": "../aws-options-2026-11-01/product-decisions.json",
+        "sha256": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 27095
+      },
+      {
+        "path": "visuals/network-lucid-manifest.json",
+        "sha256": "c0b1c1fea2bcf26fb1f13b2cadc1a530cc3a5ed62fc3f0c0bcc1df27b08f7466",
+        "snapshot_kind": "current_local_authoring_capture_not_the_earlier_read_only_check",
+        "bytes": 6593
+      }
+    ],
+    "canonical_compiler_final_freeze": {
+      "source": "Current round-1 author fixes and source captures verified locally; independent delta review pending",
+      "canonical_hashes": {
+        "confluence-page-map.md": "46ed6e11840d1ebf94b9027cb44baf864afa906da6d17c8058e59e7a961172a4",
+        "confluence-page-map.json": "7ccc975b8346ea460327f9f974d03d1f58cc5098fe823e243a898f5185599383",
+        "confluence-publish-payloads.json": "38dc857582c4817a6714f305f7aea54a522962a23e9209cab5ac76f01363e9fb"
+      },
+      "counts_verified": {
+        "creates": 5,
+        "bounded_updates": 6,
+        "image_upserts": 8
+      },
+      "proposal_excluded_from_canonical_payload_inputs": true,
+      "no_hash_cycle": true,
+      "scope": "Final source capture for this local proposal only; not a fresh external account inspection or apply."
+    },
+    "round1_author_fixes": "Confluence retry/owned-block protocol and evidence footers fixed; two stale authoring statements corrected; source hashes refreshed. Not independently re-reviewed; external sync still unapplied."
+  },
+  "scope_counts": {
+    "confluence_new_pages": 5,
+    "confluence_bounded_existing_page_updates": 6,
+    "confluence_image_upserts": 8,
+    "jira_existing_description_updates": 11,
+    "jira_new_issues": 0,
+    "jira_status_changes": 0,
+    "jira_closures": 0,
+    "confluence_moves_renames_deletes": 0,
+    "MA_writes": 0
+  },
+  "confluence": {
+    "space_key": "mypaisaapr",
+    "space_id": "5145174",
+    "canonical_map": "confluence-page-map.json",
+    "canonical_prose": "confluence-page-map.md",
+    "canonical_payloads": "confluence-publish-payloads.json",
+    "inline_native_payload_copied_here": false,
+    "canonical_counts_at_authoring_capture": {
+      "creates": 5,
+      "boundedUpdates": 6,
+      "moves": 0,
+      "renames": 0,
+      "deletes": 0,
+      "attachmentUploads": 0,
+      "diagramUpdates": 0,
+      "jiraWrites": 0,
+      "MAWrites": 0,
+      "attachmentUpserts": 8
+    },
+    "canonical_eight_attachment_alignment": "matched_final_frozen_canonical_map_and_payload",
+    "proposed_creates": [
+      {
+        "draft_page_key": "NEW-PLANNING-INDEX",
+        "title": "MP | Layered development planning - 1 November 2026",
+        "parent": {
+          "pageId": "5112476"
+        },
+        "new_page_id": null
+      },
+      {
+        "draft_page_key": "NEW-PORTFOLIO-IMPORT",
+        "title": "MP | Portfolio and import specification",
+        "parent": {
+          "pageId": "4981241"
+        },
+        "new_page_id": null
+      },
+      {
+        "draft_page_key": "NEW-PHASED-PLAN",
+        "title": "MP | Phased delivery plan and story map",
+        "parent": {
+          "draftPageId": "NEW-PLANNING-INDEX"
+        },
+        "new_page_id": null
+      },
+      {
+        "draft_page_key": "NEW-ARCHITECTURE",
+        "title": "MP | Architecture blueprint",
+        "parent": {
+          "pageId": "5145394"
+        },
+        "new_page_id": null
+      },
+      {
+        "draft_page_key": "NEW-TECH-STACK",
+        "title": "MP | Technology stack and decision matrix",
+        "parent": {
+          "pageId": "5145394"
+        },
+        "new_page_id": null
+      }
+    ],
+    "existing_bounded_updates": [
+      {
+        "page_id": "5145345",
+        "observed_published_version": 2,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      },
+      {
+        "page_id": "4981241",
+        "observed_published_version": 3,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      },
+      {
+        "page_id": "5145394",
+        "observed_published_version": 4,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      },
+      {
+        "page_id": "5112476",
+        "observed_published_version": 2,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      },
+      {
+        "page_id": "5014127",
+        "observed_published_version": 5,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      },
+      {
+        "page_id": "5112525",
+        "observed_published_version": 3,
+        "operation": "bounded_current_baseline_and_navigation_update",
+        "preserve_existing_content_macros_attachments": true
+      }
+    ],
+    "image_upserts": [
+      {
+        "filename": "import-workflow.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/import-workflow.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "import-workflow.gif",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/import-workflow.gif",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "option-a-lucid.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/aws-options-2026-11-01/option-a-lucid.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "option-b-lucid.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/aws-options-2026-11-01/option-b-lucid.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "mp-system-architecture-native.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/mp-system-architecture-native.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "phase-dependencies.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/phase-dependencies.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "budget-envelope.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/budget-envelope.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      },
+      {
+        "filename": "mp-network-options-native.png",
+        "owner_page_key": "NEW-PLANNING-INDEX",
+        "source_path": "docs/planning/layered-development-2026-11-01/visuals/mp-network-options-native.png",
+        "attachment_id": null,
+        "operation": "upsert_after_exact_filename_and_content_check",
+        "write_performed": false
+      }
+    ],
+    "new_page_key_resolution": "All NEW-* names are local keys. Numeric page IDs remain null until actually returned from an approved create/reuse; never fabricate a child-page ID or prepublish a placeholder URL.",
+    "preflight": "Re-read fresh full lossless page/draft content,identity,versions,macros and current attachments. Preserve unrelated content and all ten observed existing attachments. Use current draft/version tokens,not these historical published versions. Exact-title reuse before create; attachment filename+content reuse before upsert. Verify supported update operation before replacing any existing binary.",
+    "write_performed": false
+  },
+  "jira": {
+    "project": "MP",
+    "fields_only": [
+      "description"
+    ],
+    "issue_keys": [
+      "MP-4",
+      "MP-5",
+      "MP-6",
+      "MP-7",
+      "MP-8",
+      "MP-9",
+      "MP-10",
+      "MP-11",
+      "MP-12",
+      "MP-13",
+      "MP-15"
+    ],
+    "observed_statuses": {
+      "To Do": [
+        "MP-4",
+        "MP-5",
+        "MP-6",
+        "MP-7",
+        "MP-8",
+        "MP-9",
+        "MP-10",
+        "MP-11",
+        "MP-12",
+        "MP-13"
+      ],
+      "In Progress": [
+        "MP-15"
+      ]
+    },
+    "excluded_done_issues": [
+      {
+        "issue_key": "MP-3",
+        "observed_status": "Done",
+        "operation": "none_leave_closed"
+      },
+      {
+        "issue_key": "MP-14",
+        "observed_status": "Done",
+        "operation": "none_leave_closed"
+      },
+      {
+        "issue_key": "MP-16",
+        "observed_status": "Done",
+        "operation": "none_leave_closed"
+      }
+    ],
+    "new_local_story_references": {
+      "detailed_L1_count": 16,
+      "detailed_L1_ids": [
+        "L1-S01",
+        "L1-S02",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15",
+        "L1-S16"
+      ],
+      "other_umbrella_count": 48,
+      "source_files": [
+        "portfolio-import-stories.json",
+        "phase-story-map.json"
+      ],
+      "create_jira_issues": false,
+      "rule": "No64-new-issue creation before baseline readiness; preserve local IDs as draft references only."
+    },
+    "issues": [
+      {
+        "issue_key": "MP-4",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-4",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-00, PH-02 and foundation portions of PH-08",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-4-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-4-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-4-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-00, PH-02 and foundation portions of PH-08.\n\n- Treat this existing foundation epic as the historical six-phase entry point for PH-00 baseline/contracts, PH-02 identity/private platform/cost controls and foundation acceptance in PH-08. All ten PH-00–PH-09 layers remain planned; no phase exit is certified.\n\n- Complete every layer’s requirements, contracts, stories, UX states and evidence plan, then seek full end-to-end baseline/UX approval before any application implementation. Existing health/sample SSE/static preview are starter evidence only.\n\n- Include Cognito managed Apple/Google/passkey sign-in, verified linking and two independent passkey paths; isolate owner/environment permissions; preserve private originals, durable financial/forecast/approval audit and redacted operational telemetry.\n\n- Establish launch cost attribution/admission before paid work: per environment/provider/agent/model/feature/service, estimated versus provider-reported charges, gross/credit/cash and unknown allocation/source age.\n\n- Keep network N0 customer-VPC-unattached Lambda versus optional N1 split private scope, and conditional N1-E egress, unselected. Require the service-path/policy matrix, regional cost, endpoint/bootstrap, SSE and recovery-access evidence before selection. A VPC icon or diagram is not security or connectivity proof.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PLANNING-INDEX}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-4-END]]",
+        "new_page_key_references": [
+          "NEW-PLANNING-INDEX",
+          "NEW-PHASED-PLAN",
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-5",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-5",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-01, PH-03 and portfolio/web joins in PH-06",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-5-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-5-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-5-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-01, PH-03 and portfolio/web joins in PH-06.\n\n- Retain the standalone investment ledger and extend historical CSV-only import wording to CSV, Excel, PDF/statements, screenshots and manual entry/correction in the first version. Supported institution/layout coverage is sample-backed; generic synthetic fixtures do not prove arbitrary broker compatibility.\n\n- Use immutable reviewable draft revisions with exact source/field provenance, account/listing/unit normalization, duplicate/reconciliation choices and owner approval bound to draft hash, selected rows, environment and expected ledger revision. Any material edit invalidates that approval.\n\n- Require persistent idempotency and one logical financial application under retries, with staged/failed/cancelled work excluded from holdings, agents, totals and outbox consumers. Prove atomic financial visibility within selected store limits; storage upload is not a committed import.\n\n- Retain replayable projections, durable receipts, financial/audit/outbox obligations, explicit reconciliation and append-only correction/reversal. Snapshot history must not create invented purchases or be double-counted when older transactions arrive.\n\n- Allow incomplete holdings/history, disclose sufficiency and withhold unsupported XIRR/cost measures. Join detailed L1-S01–L1-S16 to authenticated web/native/chat review/read/SSE journeys and launch cost/privacy controls. Keep the 48 other local stories as references, not newly created MP issues.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-5-END]]",
+        "new_page_key_references": [
+          "NEW-PORTFOLIO-IMPORT",
+          "NEW-PHASED-PLAN",
+          "NEW-ARCHITECTURE"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-6",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-6",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-04 and scientific/data/research joins in PH-03/PH-05/PH-06",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-6-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-6-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-6-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-04 and scientific/data/research joins in PH-03/PH-05/PH-06.\n\n- Retain daily formal forecasts for next trading day, 5/20 trading days and 3/6/12 months; show 3–5-year assumption-based scenarios separately. Define target, currency/return convention, exchange calendar, cutoff, maturity and correction policy per horizon before implementation.\n\n- Preserve transparent rules/statistical baselines and all F1–F8: point-in-time data; leakage-safe backtest lab; regime/risk; analogs/events; direction/distribution challengers; explanation/proof; contribution/rebalance experiments; and chart/pattern features with applicable instrument-kind controls.\n\n- Use temporal walk-forward validation with horizon-aware purge/embargo and train-only transformations/calibration. Version datasets/features/models/prompts, known-at timestamps, revisions, splits, benchmarks and uncertainty/sample evidence; never claim synthetic outcomes prove live accuracy.\n\n- Evaluate the ablation ladder from rules/statistical to numerical ML to LLM-structured features and approved additional families. Separate answer-quality judges from predictive evidence and score only mature outcomes.\n\n- Require challenger-versus-baseline evidence, shadow observation and explicit owner approval before any live model/calibration/strategy promotion; keep compatible rollback pointers. Numerical metric thresholds, effective sample sufficiency and shadow duration remain pending, especially for long horizons. ML execution A versus B remains unselected.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PHASED-PLAN}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-6-END]]",
+        "new_page_key_references": [
+          "NEW-PHASED-PLAN",
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-7",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-7",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-05, PH-06 and PH-02 durable job/SSE joins",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-7-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-7-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-7-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-05, PH-06 and PH-02 durable job/SSE joins.\n\n- Current intended research runtime is an explicit bounded official Anthropic Python client-SDK loop on Lambda calling Claude hosted on Anthropic. Earlier Agent SDK/subprocess/AgentCore runtime wording below is historical and does not select that implementation.\n\n- Define typed allowlisted read-only tools, verified owner/environment context, source-taint quarantine, numerical/citation grounding and token/turn/time/cost admission. Agents cannot trade, fetch secrets, alter ledger truth or promote model/calibration/settings authority.\n\n- Retain contextual holdings/candidate/forecast chat, sourced research cards, shared conversation state and scoped owner-visible memory/caching with correction/forget controls. Notes do not replace financial truth, approved settings or primary evidence.\n\n- Specify T0/T1/T2, online checks and human-calibrated judges with bounded evaluation spend. Expose rules/ML/LLM disagreement and abstain when evidence is insufficient; chat cannot bypass disabled/in-practice forecast eligibility.\n\n- Use bounded durable jobs, idempotent continuation/cancellation and authenticated heartbeat/resume-aware SSE with durable refetch after gaps. The local unauthenticated volatile sample stream is not production evidence. N0/N1/N1-E reachability and optional private-job endpoint/bootstrap requirements remain unselected and evidence-gated.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-7-END]]",
+        "new_page_key_references": [
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK",
+          "NEW-PHASED-PLAN"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-8",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-8",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-07 with shared PH-00/PH-01/PH-02/PH-06 contracts",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-8-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-8-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-8-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-07 with shared PH-00/PH-01/PH-02/PH-06 contracts.\n\n- Swift/SwiftUI owns native iPhone/iPad views, persistence, widgets and secure-device integrations; the React Native shell owns navigation and bridge contracts. This does not create an Android product-screen commitment.\n\n- Retain the approved native and PWA push requirement alongside in-app/chat delivery, permission-denied/background-limited fallback, neutral payloads, durable outbox/deep links and quiet-hour/dedup rules. Do not promise instantaneous OS delivery.\n\n- Carry complete L1 import/preview/confirmation/correction/sufficiency journeys, discovery-first experience, separate holdings, horizon proof/chat and launch cost dashboard across clients using the same financial/privacy contracts.\n\n- Agree supported device/OS/iPad/adaptive Duo matrix, offline cache/session revocation and accessibility (VoiceOver, Dynamic Type, reduced motion and chart alternatives) before implementation. Requested web SvelteKit 3 availability is still to verify, not an installed dependency claim.\n\n- Explicitly classify advanced widgets/search/share/Siri/App Intents/Live Activities as launch or later activation without silently dropping inherited scope. Native design selection and full end-to-end UX/baseline approval remain pending.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PLANNING-INDEX}}, {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}, {{MP_PAGE_URL:NEW-TECH-STACK}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-8-END]]",
+        "new_page_key_references": [
+          "NEW-PLANNING-INDEX",
+          "NEW-PORTFOLIO-IMPORT",
+          "NEW-TECH-STACK",
+          "NEW-PHASED-PLAN"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-9",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-9",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-02 safeguards and PH-08 personal-launch acceptance",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-9-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-9-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-9-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-02 safeguards and PH-08 personal-launch acceptance.\n\n- Earlier always-on/single-host/PostgreSQL and £50 AWS-only descriptions below are historical architecture/budget assumptions. Current Lambda/S3/DynamoDB preference and £100 all-in cash envelope do not silently supersede accepted ADRs: final store-fit, network and ML A/B choices require explicit reconciliation.\n\n- Evaluate N0 unattached Lambda as cost-baseline candidate, optional N1 split private jobs and conditional N1-E egress; none is selected or deployed. Keep API service invocation distinct from ENI ingress, route/endpoint policy distinct from IAM permission, and SG egress distinct from domain firewall controls.\n\n- Price total dev/prod/data/Claude/evals/edge/identity/telemetry/backups/SSE/build/network overhead and credit uncertainty. Enforce current cash alerts and launch cost attribution; no paid fallback or new optional paid work when admission denies it.\n\n- Require monthly focused recovery/audit exercises plus relevant storage/import/audit/topology changes, replacing historical quarterly-only planning. Preserve original renewable 24-month archive and 14/30/90-day operational telemetry as separate from durable financial/forecast/approval audit.\n\n- Exercise topology failures, service/endpoint/NAT/DNS/bootstrap/replay and owner recovery, isolated restore and model/schema rollback. RPO/RTO, account/region/IaC choices and detailed retention/deletion mechanics remain open; no automatic expiry deletion or deploy follows from this insertion.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-9-END]]",
+        "new_page_key_references": [
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK",
+          "NEW-PHASED-PLAN"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-10",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-10",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-03 source/instrument contracts and PH-00/PH-01 evidence joins",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-10-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-10-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-10-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-03 source/instrument contracts and PH-00/PH-01 evidence joins.\n\n- Current selected data mix is Yahoo Finance plus Twelve Data Grow. Verify exact Grow tier, permitted access/analysis/storage/history/retention, UK/US/India listing coverage and actual delay; no licence, subscription or live coverage is inferred from a key, fixture or past source wording.\n\n- Start current local/dev design with 20–30 real-ID synthetic instruments. Actual owner holdings/listings and PDF/screenshots are deferred; progressively resolve them later, then check permitted source coverage before proposing the balanced research watchlist for owner approval and final live costing.\n\n- Separate issuer/security/share class/listing/venue identities, effective-dated aliases, currencies and quote units including GBX/GBP. Specify exchange calendars/DST/holidays, FX timestamps/conventions, corporate actions, NAV versus OHLC and source known-at/revision semantics.\n\n- Formal forecasts are daily; supported quote/risk refresh is 30 minutes per actual capability. Fall back to daily analysis per holding with timestamps and suppression of unsupported intraday alerts; ask before any new paid source.\n\n- Preserve provenance/quality/disagreement/gap/entitlement matrices and fail safe under quota, rights or freshness failure. No real private inputs are required to complete the current local planning/fixture phase.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-10-END]]",
+        "new_page_key_references": [
+          "NEW-PORTFOLIO-IMPORT",
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-11",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-11",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-02 identity and PH-07 cross-client recovery",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-11-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-11-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-11-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-02 identity and PH-07 cross-client recovery.\n\n- Confirmed sign-in direction is Cognito managed sign-in with Apple, Google and passkeys, verified account linking and two independent passkey paths. Similar email text alone must not merge identities or establish recovery authority.\n\n- Specify pool/tier/current capability compatibility, sessions/devices/token revocation, lost-device and provider-link recovery proof, sensitive-action reauthentication/freshness and approval replay protection. These details remain pending and no Cognito service is configured by this proposal.\n\n- Use server-verified owner/environment scope for every read/write and approval; test denied cross-environment/cross-owner access, expired/wrong-scope approval and session/cache revocation across web/native.\n\n- Keep public authenticated API invocation separate from private-network reachability: API Gateway invokes Lambda through its authorised service integration, not an inbound socket to a Lambda ENI.\n\n- N0/N1/N1-E remain unselected. Workload security-group ingress/egress is role-specific; SG rules are not DNS-name/domain firewall controls. Policy, authentication, application validation and optional DNS/firewall controls need separate evidence and cost.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}, {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-11-END]]",
+        "new_page_key_references": [
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK",
+          "NEW-PORTFOLIO-IMPORT"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-12",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-12",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-01/PH-02 durable contracts with PH-03/PH-04 consumers",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-12-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-12-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-12-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-01/PH-02 durable contracts with PH-03/PH-04 consumers.\n\n- Choose persistence through a store-fit/access-pattern/transaction-size ADR; do not treat historical PostgreSQL as prescribed or a DynamoDB preference as proof every import fits. Evaluate operational and analytical storage, conditional concurrency and staged large-import publication explicitly.\n\n- Use the 15 draft L1 contracts: ScopeEnvelope, Money, InstrumentListing, InvestmentAccount, SourceDocument, ExtractionCandidate, ImportDraft, OwnerApproval, LedgerEvent, CommitReceipt, PositionObservation, ReconciliationResult, MetricResult, AuditEvidence and DomainNotification. They are planned contracts, not implemented services.\n\n- Bind owner approval to immutable exact draft/hash/scope/row set and expected ledger revision. Require persistent idempotency, fenced atomic logical financial visibility, durable receipt, audit/outbox obligations and safe retry/replay; S3 objects and database writes are not one transaction.\n\n- Exclude staged/failed/cancelled records from financial views, agents and notifications. Append linked corrections/reversals and reconcile later full history against snapshots. Define field-specific sufficiency and decimal/currency/FX policy; missing cost/cash-flow history never becomes invented XIRR.\n\n- For N0/N1/N1-E, compose resource/role and endpoint policies for each legitimate CloudFront, unattached worker, private-job, owner-upload, CI and recovery path. Do not impose a blanket aws:SourceVpce deny that breaks these paths; endpoint routing/policy does not independently grant IAM access.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-12-END]]",
+        "new_page_key_references": [
+          "NEW-PORTFOLIO-IMPORT",
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-13",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-13",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "To Do",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "PH-08 recovery joined to PH-01/PH-02 storage and topology",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-13-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-13-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-13-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** PH-08 recovery joined to PH-01/PH-02 storage and topology.\n\n- Define recovery by record class and selected store: originals/versions/derivatives, ledger/projections, durable financial/source/forecast/approval audits, model/data pointers and outbox/receipts. Versioning/retention alone is not a tested backup.\n\n- Retain confirmed renewable 24-month original archive with owner extension/deletion controls and no authorised automatic expiry deletion; separate 14-day logs, 30-day rich traces and 90-day run summaries from durable business/forecast audit retention.\n\n- Require monthly focused exercises plus relevant storage/import/audit/topology change checks, with isolated restore targets and financial/count/hash/source-lineage reconciliation before any switch. Agree RPO/RTO and backup/deletion retention details explicitly.\n\n- Exercise restore bootstrap, DNS/service routing, endpoint/resource policy, role/owner access, queue replay and conditional NAT/endpoint failure paths under the selected N0/N1/N1-E topology. Avoid a blanket endpoint-only policy that strands approved recovery tools.\n\n- Include compatible app/schema/model/calibration rollback and import correction/reversal; never rewrite unsuccessful forecasts or silently delete ledger history. No cloud restore, policy change, deletion or scheduled job is authorised by this planning correction.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}, {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-13-END]]",
+        "new_page_key_references": [
+          "NEW-ARCHITECTURE",
+          "NEW-PHASED-PLAN",
+          "NEW-PORTFOLIO-IMPORT"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      },
+      {
+        "issue_key": "MP-15",
+        "issue_url": "https://duttaarun2015.atlassian.net/browse/MP-15",
+        "operation": "description_only_prepend_or_replace_exact_marked_section",
+        "project_must_equal": "MP",
+        "observed_status": "In Progress",
+        "target_status": "unchanged",
+        "observed_updated_at": null,
+        "observed_updated_at_note": "Exact value not supplied in coordinator summary; mandatory fresh read before apply,do not invent or reuse another issue timestamp.",
+        "allowed_fields": [
+          "description"
+        ],
+        "phase_crosswalk": "Whole current pack: PH-00–PH-09; no phase exit certified",
+        "section_marker_begin": "[[MP-CURRENT-BASELINE-2026-11-01-MP-15-BEGIN]]",
+        "section_marker_end": "[[MP-CURRENT-BASELINE-2026-11-01-MP-15-END]]",
+        "markdown_insertion": "[[MP-CURRENT-BASELINE-2026-11-01-MP-15-BEGIN]]\n\n### Current draft requirements, not implementation approval\n\n**Current draft requirements, not implementation approval**\n**Current-baseline insertion dated 1 November 2026; includes the 21:34 UTC network-document delta.**\n\nDEC-001–041 are the individual decision authority; full end-to-end requirements and UX remain unapproved. Use realistic synthetic local/dev fixtures with real instrument IDs now. Actual holdings, screenshots and PDFs are deferred and may arrive progressively; they do not gate this planning work. Live identity, source rights/coverage and full-scope pricing still gate the relevant later activation.\n\nShared current constraints: standalone personal decision support with its own ledger and no trading; CSV/Excel/PDF/screenshots/manual methods in the first version with named sample-backed coverage; direct Anthropic Python **client-SDK** loop on Lambda, with Claude models hosted on Anthropic; £100/month aggregate cash ceiling, £70 planned operation plus £30 reserve, forecast-cash warn/reduce/pause at £60/£75/£85; main-dashboard cost visibility at launch. The reported shared $200 Anthropic credit is unverified and counted once; no automatic paid fallback. Detailed formulas, suballocations and controls are not approved by these headline decisions.\n\n**Current phase crosswalk:** Whole current pack: PH-00–PH-09; no phase exit certified.\n\n- Current scope is the local layered pack: portfolio/import specification, 16 detailed L1 stories plus 48 other local umbrella stories, 15 L1 contracts, worked examples, phase plan, architecture/stack, colourful static/optional-motion companions and canonical MP publication proposal. These are drafts, not 64 new Jira issues or an implemented app.\n\n- Keep N0 customer-VPC-unattached Lambda, optional N1 split private scope and conditional N1-E egress unselected; the 21:34 UTC network appendix/native Lucid source/export adds technical evidence, not deployment approval. ML A portable jobs versus B selective SageMaker is unselected; retired AgentCore option C stays retired.\n\n- The runtime direction is direct Anthropic Python client SDK on Lambda with Claude hosted by Anthropic. Reported $200 shared monthly credit is unverified, counted once and subject to availability; uncovered/unverifiable calls are refused without automatic paid fallback.\n\n- Synthetic real-ID local/dev data is authorised now; actual holdings/screenshots/PDFs arrive progressively later. No current local planning gate requires them. Live source identity/rights/coverage, full-scope cost, recovery and scientific/UX decisions remain pending before activation.\n\n- Confluence publication is pending exact owner approval for five new pages, six bounded existing-hub updates and eight image upserts in mypaisaapr only, using canonical map/payload sources with new-page IDs unresolved until actually returned. Existing content/macros and ten observed attachments remain preserved; no MA pages change.\n\n- Any approved Jira correction is description-only for MP-4–MP-13 and MP-15. Keep To Do/In Progress statuses unchanged; MP-3/MP-14/MP-16 remain Done/closed. Full baseline/UX approval, application build, AWS loading/deployment, paid calls, model promotion, PR/merge and issue closure are not authorised by documentation or publication consent.\n\n**Planning references — resolve only after actual MP child-page IDs are returned:** {{MP_PAGE_URL:NEW-PLANNING-INDEX}}, {{MP_PAGE_URL:NEW-PORTFOLIO-IMPORT}}, {{MP_PAGE_URL:NEW-PHASED-PLAN}}, {{MP_PAGE_URL:NEW-ARCHITECTURE}}, {{MP_PAGE_URL:NEW-TECH-STACK}}.\n\n**Historical context preserved:** Earlier contradictory scope, runtime, budget or topology wording retained below is dated historical context as of 1 November 2026; this current-baseline section identifies the intended draft delta. Preserve valid prior acceptance criteria and all original rich description nodes, comments, attachments and changelog. No task is marked implemented or Done by this insertion.\n\n[[MP-CURRENT-BASELINE-2026-11-01-MP-15-END]]",
+        "new_page_key_references": [
+          "NEW-PLANNING-INDEX",
+          "NEW-PORTFOLIO-IMPORT",
+          "NEW-PHASED-PLAN",
+          "NEW-ARCHITECTURE",
+          "NEW-TECH-STACK"
+        ],
+        "preserve_comments": true,
+        "preserve_attachments": true,
+        "preserve_changelog": true,
+        "preserve_rich_description_nodes": true,
+        "write_performed": false
+      }
+    ],
+    "fresh_prewrite_verification": [
+      "Read issue from the intended Atlassian site and require returned key/projectMP/identity match; read current native lossless description and updated_at for each issue.",
+      "Compare newly read issue status and updated_at plus a canonical hash/version of full native description with the preflight snapshot; if changed before mutation,re-read/recompose or stop rather than overwrite concurrent edits.",
+      "The read-only status snapshot is evidence,not permission to transition. This operation sends description only and never a status,transition,summary,assignee,label,comment or attachment mutation.",
+      "Read approved canonical Confluence create/reuse results,resolve every referenced NEW-* key to the returned actual MP page URL and verify space. Never send unresolved template tokens.",
+      "Refuse application if the connector cannot preserve the native rich document nodes losslessly; converting the entire existing description from rendered Markdown/HTML is not an acceptable fallback.",
+      "Use native optimistic version/conditional-update support when available. If only a full-description replacement is available,do not claim atomic protection against concurrent edits; re-read immediately before write,detect/read back drift,and stop/escalate rather than overwrite when lossless concurrent preservation cannot be established."
+    ],
+    "lossless_compose_protocol": [
+      "Retain the freshly read native description tree as an immutable preflight snapshot and record its updated_at/hash. Convert only this proposal’s new Markdown insertion into supported native nodes.",
+      "If no matching section marker exists,prepend the new marked block plus a separator before every original native node in original order. The historical-context note is inside the new block;do not rewrite or discard old rich content.",
+      "If exactly one matching BEGIN/END pair encloses a prior proposal block,replace only that bounded node range;leave all nodes outside it byte/structure-equivalent where the platform allows. Identical resolved insertion means no-op.",
+      "Stop on duplicated,missing-end,mismatched or ambiguous markers,unsupported rich nodes,changed issue/version/permissions or project mismatch. Do not infer safety from a rendered-text comparison.",
+      "Preserve comments,attachments,changelog and all unmentioned fields;record that a successful description edit itself naturally appends platform history. No old history is removed or fabricated.",
+      "After each approved update,re-read description/status,verify exactly one resolved current block,unchanged original nodes outside it and unchanged status;record actual returned timestamps. Report partial failures precisely and do not claim the rest applied."
+    ],
+    "write_performed": false
+  },
+  "execution_order_if_later_approved": [
+    "Freeze/revalidate exact approved source hashes and canonical5/6/8 scope;reconcile map/payload snapshot if changed.",
+    "Fresh Confluence space/page/draft/attachment and Jira identity/updated_at/native-description preflight,without mutating anything yet.",
+    "Create/reuse approved five MP pages in dependency order and resolve actual page keys;upsert only approved eight images after exact filename/content checks;apply six bounded page updates preserving fresh rich content.",
+    "Resolve approved real page URLs into each Jira insertion and fresh-compose description-only changes for the11 named issues;unchanged payloads become no-ops.",
+    "Read back all resulting page IDs/versions/attachment IDs/hashes and issue descriptions/statuses;report actual successful/failed/no-op counts separately. Never infer total success from first writes."
+  ],
+  "not_in_scope": [
+    "New Jira issues or64local-story creation",
+    "Any Jira status transition,Done/closure,reopening or MA mutation",
+    "Comments,assignees,labels,summaries or deletion of description history",
+    "Confluence moves/renames/deletes,sharing/permissions or extra child tree",
+    "Application implementation,full-baseline or UX approval",
+    "AWS loading,provisioning,deployment,connectivity tests or paid calls",
+    "Network selection,ML A/B selection or model/calibration promotion",
+    "PR creation,merge,branch deletion or issue closure",
+    "New independent review or review-regression run"
+  ],
+  "consent_boundary": {
+    "owner_question": "Shall I apply only the proposed MP Confluence five page creates,six bounded hub updates and eight image upserts,and the11 named Jira description-only insertions,with every status and closed issue unchanged?",
+    "question_is_proposed_text_not_permission_requested_by_this_lane": true,
+    "needs_explicit_scope_approval": true,
+    "review_is_separate": "Draft remains unreviewed; independent review and its regression checks/rounds require separate explicit project approval.",
+    "stop_if_scope_changes": "Changes tocounts,targets,source hashes or payload content require resolving the concrete delta before applying;do not expand an unrelated yes."
+  },
+  "maker_validation": {
+    "independent_review": false,
+    "account_reads_or_writes_in_this_authoring_lane": 0,
+    "passed": [
+      "JSON parse and exact11MPissuekeys",
+      "Eleven exact insertion strings mirrored in Markdown",
+      "22unique begin/endmarkers,one pair perissue",
+      "Shared DEC001–041/synthetic/runtime/budget/cashalerts/cost/importconstraints",
+      "Description-only and unchanged statuses;DoneMP3/14/16excluded",
+      "Canonical5creates/6boundedupdates/8realimageupserts exactscope and finalsourcehashes",
+      "Null actualIDs for newpages/attachments;pagekeys unresolved until returned",
+      "Fresh native lossless description/updated_at/version and concurrent-edit-stop preflight",
+      "Read-only21:22–21:25 provenance and21:34networkdelta distinguished from current localhash capture",
+      "Local links,finalnewlines and no trailingwhitespace"
+    ],
+    "not_run": [
+      "External apply",
+      "Independent review or review-regression ledger",
+      "Application/provider/AWS/model/billing validation"
+    ]
+  }
+}

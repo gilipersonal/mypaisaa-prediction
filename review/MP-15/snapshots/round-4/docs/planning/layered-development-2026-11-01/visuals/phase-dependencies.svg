@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1280" viewBox="0 0 1600 1280" role="img" aria-labelledby="phase-dependencies-title phase-dependencies-description" lang="en">
+  <title id="phase-dependencies-title">Proposed planning and implementation dependency matrices</title>
+  <desc id="phase-dependencies-description">Proposed dependency charts, not implemented progress or a time schedule. Rows are phases and columns are prerequisites. Filled cells mean a dependency in the draft source. Planning: PH-00 needs none; PH-01 needs PH-00; PH-02 needs PH-00; PH-03 needs PH-00, PH-01, PH-02; PH-04 needs PH-00, PH-03; PH-05 needs PH-00, PH-02, PH-03; PH-06 needs PH-00, PH-01, PH-03, PH-04, PH-05; PH-07 needs PH-00, PH-02, PH-06; PH-08 needs PH-00, PH-01, PH-02, PH-03, PH-04, PH-05, PH-06, PH-07; PH-09 needs PH-00. Implementation: PH-00 needs none; PH-01 needs PH-02; PH-02 needs PH-00; PH-03 needs PH-01, PH-02; PH-04 needs PH-03; PH-05 needs PH-02, PH-03; PH-06 needs PH-01, PH-02, PH-03, PH-04, PH-05; PH-07 needs PH-02, PH-06; PH-08 needs PH-01, PH-02, PH-03, PH-04, PH-05, PH-06, PH-07; PH-09 needs PH-08. PH-01 portfolio and imports can be specified from PH-00 drafts, but its later implementation needs PH-02 foundations. Full end-to-end requirements and UX approval is required before implementation.</desc>
+  <rect width="1600" height="1280" fill="#f8fafc" />
+  <text x="48" y="52.379999999999995" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start" font-weight="700">MYPAISAA PREDICTION  /  DEPENDENCY CHARTS</text>
+  <text x="48" y="116.4" font-size="40" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">Plan the layers; build behind their prerequisites</text>
+  <text x="48" y="160.02" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Exact draft dependencies from the phase map • No timeline, progress or implementation claim</text>
+  <rect x="1352" y="36" width="200" height="44" rx="20" fill="#fef3c7" />
+  <text x="1452" y="64.02" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#78350f" text-anchor="middle" font-weight="700">PROPOSED</text>
+  <text x="152" y="219.48" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1d4ed8" text-anchor="start" font-weight="700">Planning dependencies</text>
+  <text x="412" y="250.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="middle">Column: prerequisite</text>
+  <text x="48" y="280.56" font-size="16" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Row:</text>
+  <text x="48" y="302.56" font-size="16" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">phase</text>
+  <text x="178.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-00</text>
+  <text x="230.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-01</text>
+  <text x="282.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-02</text>
+  <text x="334.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-03</text>
+  <text x="386.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-04</text>
+  <text x="438.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-05</text>
+  <text x="490.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-06</text>
+  <text x="542.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-07</text>
+  <text x="594.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-08</text>
+  <text x="646.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-09</text>
+  <text x="128" y="332.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-00</text>
+  <rect x="152" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="204" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="384.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-01</text>
+  <rect x="152" y="352" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="378.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="436.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-02</text>
+  <rect x="152" y="404" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="430.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="488.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-03</text>
+  <rect x="152" y="456" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="482.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="456" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="230.0" cy="482.0" r="7" fill="#1d4ed8" />
+  <rect x="256" y="456" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="282.0" cy="482.0" r="7" fill="#1d4ed8" />
+  <rect x="308" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="540.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-04</text>
+  <rect x="152" y="508" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="534.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="508" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="334.0" cy="534.0" r="7" fill="#1d4ed8" />
+  <rect x="360" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="592.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-05</text>
+  <rect x="152" y="560" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="586.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="560" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="282.0" cy="586.0" r="7" fill="#1d4ed8" />
+  <rect x="308" y="560" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="334.0" cy="586.0" r="7" fill="#1d4ed8" />
+  <rect x="360" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="644.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-06</text>
+  <rect x="152" y="612" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="638.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="612" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="230.0" cy="638.0" r="7" fill="#1d4ed8" />
+  <rect x="256" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="612" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="334.0" cy="638.0" r="7" fill="#1d4ed8" />
+  <rect x="360" y="612" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="386.0" cy="638.0" r="7" fill="#1d4ed8" />
+  <rect x="412" y="612" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="438.0" cy="638.0" r="7" fill="#1d4ed8" />
+  <rect x="464" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="696.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-07</text>
+  <rect x="152" y="664" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="690.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="664" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="282.0" cy="690.0" r="7" fill="#1d4ed8" />
+  <rect x="308" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="664" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="490.0" cy="690.0" r="7" fill="#1d4ed8" />
+  <rect x="516" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="748.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-08</text>
+  <rect x="152" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="230.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="256" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="282.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="308" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="334.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="360" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="386.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="412" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="438.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="464" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="490.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="516" y="716" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="542.0" cy="742.0" r="7" fill="#1d4ed8" />
+  <rect x="568" y="716" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="716" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="128" y="800.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-09</text>
+  <rect x="152" y="768" width="52" height="52" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="178.0" cy="794.0" r="7" fill="#1d4ed8" />
+  <rect x="204" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="256" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="308" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="360" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="412" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="464" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="516" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="568" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="620" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="152" y="840" width="24" height="24" rx="0" fill="#dbeafe" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="164" cy="852" r="5" fill="#1d4ed8" />
+  <text x="188" y="858.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Filled cell = draft dependency (27 links)</text>
+  <text x="920" y="219.48" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#047857" text-anchor="start" font-weight="700">Implementation dependencies</text>
+  <text x="1180" y="250.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="middle">Column: prerequisite</text>
+  <text x="816" y="280.56" font-size="16" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Row:</text>
+  <text x="816" y="302.56" font-size="16" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">phase</text>
+  <text x="946.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-00</text>
+  <text x="998.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-01</text>
+  <text x="1050.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-02</text>
+  <text x="1102.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-03</text>
+  <text x="1154.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-04</text>
+  <text x="1206.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-05</text>
+  <text x="1258.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-06</text>
+  <text x="1310.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-07</text>
+  <text x="1362.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-08</text>
+  <text x="1414.0" y="281.47" font-size="17" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle" font-weight="700">PH-09</text>
+  <text x="896" y="332.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-00</text>
+  <rect x="920" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1076" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="300" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="384.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-01</text>
+  <rect x="920" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="352" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="378.0" r="7" fill="#047857" />
+  <rect x="1027" y="355" width="46" height="46" rx="4" fill="#d1fae5" stroke="#92400e" stroke-width="3" />
+  <circle cx="1050.0" cy="378.0" r="7" fill="#047857" />
+  <rect x="1076" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="352" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="436.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-02</text>
+  <rect x="920" y="404" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="946.0" cy="430.0" r="7" fill="#047857" />
+  <rect x="972" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1076" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="404" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="488.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-03</text>
+  <rect x="920" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="456" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="998.0" cy="482.0" r="7" fill="#047857" />
+  <rect x="1024" y="456" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="482.0" r="7" fill="#047857" />
+  <rect x="1076" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="456" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="540.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-04</text>
+  <rect x="920" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1076" y="508" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1102.0" cy="534.0" r="7" fill="#047857" />
+  <rect x="1128" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="508" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="592.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-05</text>
+  <rect x="920" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="560" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="586.0" r="7" fill="#047857" />
+  <rect x="1076" y="560" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1102.0" cy="586.0" r="7" fill="#047857" />
+  <rect x="1128" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="560" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="644.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-06</text>
+  <rect x="920" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="612" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="998.0" cy="638.0" r="7" fill="#047857" />
+  <rect x="1024" y="612" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="638.0" r="7" fill="#047857" />
+  <rect x="1076" y="612" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1102.0" cy="638.0" r="7" fill="#047857" />
+  <rect x="1128" y="612" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1154.0" cy="638.0" r="7" fill="#047857" />
+  <rect x="1180" y="612" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1206.0" cy="638.0" r="7" fill="#047857" />
+  <rect x="1232" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="612" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="696.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-07</text>
+  <rect x="920" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="664" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="690.0" r="7" fill="#047857" />
+  <rect x="1076" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="664" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1258.0" cy="690.0" r="7" fill="#047857" />
+  <rect x="1284" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="664" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="748.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-08</text>
+  <rect x="920" y="716" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="998.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1024" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1050.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1076" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1102.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1128" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1154.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1180" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1206.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1232" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1258.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1284" y="716" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1310.0" cy="742.0" r="7" fill="#047857" />
+  <rect x="1336" y="716" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1388" y="716" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <text x="896" y="800.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="end" font-weight="700">PH-09</text>
+  <rect x="920" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="972" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1024" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1076" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1128" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1180" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1232" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1284" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="1336" y="768" width="52" height="52" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="1362.0" cy="794.0" r="7" fill="#047857" />
+  <rect x="1388" y="768" width="52" height="52" rx="0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+  <rect x="920" y="840" width="24" height="24" rx="0" fill="#d1fae5" stroke="#cbd5e1" stroke-width="1" />
+  <circle cx="932" cy="852" r="5" fill="#047857" />
+  <text x="956" y="858.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Filled cell = draft dependency (22 links)</text>
+  <rect x="48" y="896" width="1504" height="60" rx="12" fill="#fef3c7" />
+  <text x="800" y="933.02" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#78350f" text-anchor="middle" font-weight="700">PH-01 ledger: planning can precede foundations; implementation requires PH-02.</text>
+  <text x="48" y="1009.84" font-size="24" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">Phase key</text>
+  <text x="48" y="1048.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-00</text>
+  <text x="128" y="1048.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Complete baseline and contract decisions</text>
+  <text x="48" y="1090.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-01</text>
+  <text x="128" y="1090.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Standalone portfolio, all-method imports and source lineage</text>
+  <text x="48" y="1132.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-02</text>
+  <text x="128" y="1132.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Identity, private runtime, audit and launch cost controls</text>
+  <text x="48" y="1174.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-03</text>
+  <text x="128" y="1174.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Market data, performance and portfolio risk</text>
+  <text x="48" y="1216.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-04</text>
+  <text x="128" y="1216.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Scientific baseline, full Forecaster and controlled learning</text>
+  <text x="816" y="1048.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-05</text>
+  <text x="896" y="1048.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Evidence research, agents, chat and evaluations</text>
+  <text x="816" y="1090.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-06</text>
+  <text x="896" y="1090.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Web discovery, ranked actions, proof and briefings</text>
+  <text x="816" y="1132.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-07</text>
+  <text x="896" y="1132.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Native Apple, offline and push</text>
+  <text x="816" y="1174.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-08</text>
+  <text x="896" y="1174.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Operational acceptance and controlled personal launch</text>
+  <text x="816" y="1216.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="start" font-weight="700">PH-09</text>
+  <text x="896" y="1216.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Versioned extensions and conditional future transfer</text>
+  <text x="48" y="1266.38" font-size="18" font-family="Arial, Helvetica, sans-serif" fill="#475569" text-anchor="start">Proposed • Full end-to-end requirements and UX approval before application implementation</text>
+</svg>

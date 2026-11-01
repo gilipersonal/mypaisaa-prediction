@@ -1,0 +1,2102 @@
+{
+  "format": "Actual Lucid canvas inspection snapshot; not Standard Import JSON",
+  "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+  "document_version": 4333,
+  "page_id": "VNMISlFqoQy9",
+  "page_index": 5,
+  "page": {
+    "id": "VNMISlFqoQy9",
+    "title": "DRAFT | VPC network options N0-N1 | 2026-11-01",
+    "textDefaults": {
+      "bold": "false",
+      "italic": "false",
+      "underline": "false",
+      "strike": "false",
+      "textColor": "#000000",
+      "fontSize": "8",
+      "fontFamily": "Inter",
+      "highlightColor": "",
+      "superscript": "false",
+      "subscript": "false"
+    },
+    "styleDefaults": {
+      "blocks": {
+        "StrokeStyle": "solid",
+        "TextAlign": "center",
+        "TextVAlign": "middle"
+      },
+      "lines": {
+        "StrokeStyle": "solid"
+      }
+    },
+    "data": {
+      "flowcharts": [
+        {
+          "diagramGroupId": "group_0",
+          "nodes": [
+            {
+              "id": "vOMINID.3wWs",
+              "label": "PROPOSED OWNER CLIENTS\nSvelteKit 3 PWA / SwiftUI + RN\nHTTPS; token/session checks\nStatic versus SSR unselected",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 41, y: 372, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED OWNER CLIENTS\nSvelteKit 3 PWA / SwiftUI + RN\nHTTPS; token/session checks\nStatic versus SSR unselected",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "3"
+              }
+            },
+            {
+              "id": "vOMI60IuoxV3",
+              "label": "",
+              "shapeType": "Amazon Cognito",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#dd344cff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 581, y: 371, w: 90, h: 90",
+                "BlockClass": "ArchAmazonCognitoAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "4"
+              }
+            },
+            {
+              "id": "vOMIh9z0XG8W",
+              "label": "",
+              "shapeType": "Amazon API Gateway",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1001, y: 371, w: 90, h: 90",
+                "BlockClass": "ArchAmazonAPIGatewayAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "6"
+              }
+            },
+            {
+              "id": "vOMI2MwSuhbR",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1421, y: 371, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "8"
+              }
+            },
+            {
+              "id": "vOMIW2azjtcq",
+              "label": "EXTERNAL | proposed integration\nAnthropic direct client SDK API\nYahoo Finance / Twelve Data Grow\nTLS + app tool/URL allowlists",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffedd5ff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1721, y: 372, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "EXTERNAL | proposed integration\nAnthropic direct client SDK API\nYahoo Finance / Twelve Data Grow\nTLS + app tool/URL allowlists",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "10"
+              }
+            },
+            {
+              "id": "vOMIU1spXDYI",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1421, y: 789.226, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "16"
+              }
+            },
+            {
+              "id": "vOMIrm~NZFYN",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1841, y: 789.226, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "18"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "GTMIxy1R40M4",
+              "sourceId": "vOMINID.3wWs",
+              "targetId": "vOMI60IuoxV3",
+              "label": "sign in",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 372, y: 416.5, style: None, connectedBlockId: vOMINID.3wWs",
+                "Endpoint2": "x: 581, y: 416.5, style: Arrow, connectedBlockId: vOMI60IuoxV3",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "sign in",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIS9FGlhw1",
+              "sourceId": "vOMI60IuoxV3",
+              "targetId": "vOMIh9z0XG8W",
+              "label": "verified claims",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 671, y: 416.5, style: None, connectedBlockId: vOMI60IuoxV3",
+                "Endpoint2": "x: 1001, y: 416.5, style: Arrow, connectedBlockId: vOMIh9z0XG8W",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "verified claims",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI6wmD9oEX",
+              "sourceId": "vOMIh9z0XG8W",
+              "targetId": "vOMI2MwSuhbR",
+              "label": "AWS invoke / auth",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1091, y: 416.5, style: None, connectedBlockId: vOMIh9z0XG8W",
+                "Endpoint2": "x: 1421, y: 416.5, style: Arrow, connectedBlockId: vOMI2MwSuhbR",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "AWS invoke / auth",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMImTuLJHiX",
+              "sourceId": "vOMI2MwSuhbR",
+              "targetId": "vOMIW2azjtcq",
+              "label": "outbound HTTPS",
+              "properties": {
+                "LineColor": "#c2410cff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1511, y: 394.25, style: None, connectedBlockId: vOMI2MwSuhbR",
+                "Endpoint2": "x: 1720, y: 394.25, style: Arrow, connectedBlockId: vOMIW2azjtcq",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "outbound HTTPS",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIOz1ME13X",
+              "sourceId": "vOMI2MwSuhbR",
+              "targetId": "vOMIU1spXDYI",
+              "label": "IAM + TLS",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1511, y: 438.5, style: None, connectedBlockId: vOMI2MwSuhbR",
+                "Endpoint2": "x: 1511, y: 834.226, style: Arrow, connectedBlockId: vOMIU1spXDYI",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "IAM + TLS",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIqV83mMq7",
+              "sourceId": "vOMI2MwSuhbR",
+              "targetId": "vOMIrm~NZFYN",
+              "label": "IAM + TLS",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1511, y: 416, style: None, connectedBlockId: vOMI2MwSuhbR",
+                "Endpoint2": "x: 1841, y: 834.226, style: Arrow, connectedBlockId: vOMIrm~NZFYN",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "IAM + TLS",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_1",
+          "nodes": [
+            {
+              "id": "vOMIYOuFj76c",
+              "label": "",
+              "shapeType": "Amazon CloudFront",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 581, y: 789.226, w: 90, h: 90",
+                "BlockClass": "ArchAmazonCloudFrontAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "12"
+              }
+            },
+            {
+              "id": "vOMINMPlV5fN",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1001, y: 789.226, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "14"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "GTMI6dWZmwQe",
+              "sourceId": "vOMIYOuFj76c",
+              "targetId": "vOMINMPlV5fN",
+              "label": "signed OAC",
+              "properties": {
+                "LineColor": "#475569ff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 671, y: 834.726, style: None, connectedBlockId: vOMIYOuFj76c",
+                "Endpoint2": "x: 1001, y: 834.726, style: Arrow, connectedBlockId: vOMINMPlV5fN",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "signed OAC",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_2",
+          "nodes": [
+            {
+              "id": "OOMIQBK3gf2C",
+              "label": "PROPOSED CUSTOMER VPC | N1 | CIDR TBD",
+              "shapeType": "Virtual private cloud (VPC)",
+              "childrenIds": [
+                "zQMIpwjZA1WK",
+                "zQMIbl2c2o-t",
+                "zQMIMTjy4Wkf",
+                "1PMIxWIOj_0f",
+                "zQMIDy-SPz_b",
+                "zQMI7nBqc5hD",
+                "1PMISHxHbh8N"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#8c4fffff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 40.5, y: 1374.064, w: 1450, h: 1450",
+                "BlockClass": "VirtualPrivateCloudVPCAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PROPOSED CUSTOMER VPC | N1 | CIDR TBD",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-51"
+              }
+            },
+            {
+              "id": "1PMIz2Mu9oEN",
+              "label": "PRIVATE ISOLATED A | CIDR TBD",
+              "shapeType": "Private subnet",
+              "childrenIds": [
+                "yQMIswxobeOT",
+                "yQMI6d3wp43D"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#00a4a6ff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 125.5, y: 1524.064, w: 560, h: 690",
+                "BlockClass": "PrivateSubnetAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PRIVATE ISOLATED A | CIDR TBD",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-49"
+              }
+            },
+            {
+              "id": "1PMIAhUpV4aO",
+              "label": "PRIVATE ISOLATED B | CIDR TBD",
+              "shapeType": "Private subnet",
+              "childrenIds": [
+                "zQMIaNSGZDqo",
+                "yQMIK0F4G8bD"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#00a4a6ff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 800.5, y: 1524.064, w: 560, h: 690",
+                "BlockClass": "PrivateSubnetAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PRIVATE ISOLATED B | CIDR TBD",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-47"
+              }
+            },
+            {
+              "id": "yQMI6d3wp43D",
+              "label": "PROPOSED SG-A | role-specific; inbound closed",
+              "shapeType": "Security group",
+              "childrenIds": [
+                "yQMIemry~Ogm",
+                "yQMI5DHpkQFP"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#dd344cff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 160.5, y: 1579.064, w: 490, h: 310",
+                "BlockClass": "SecurityGroupAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PROPOSED SG-A | role-specific; inbound closed",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-46"
+              }
+            },
+            {
+              "id": "yQMIK0F4G8bD",
+              "label": "PROPOSED SG-B | role-specific; inbound closed",
+              "shapeType": "Security group",
+              "childrenIds": [
+                "zQMIZ2089Dp.",
+                "zQMIhGL9iAfn"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#dd344cff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 835.5, y: 1579.064, w: 490, h: 310",
+                "BlockClass": "SecurityGroupAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PROPOSED SG-B | role-specific; inbound closed",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-45"
+              }
+            },
+            {
+              "id": "1PMISHxHbh8N",
+              "label": "PROPOSED AZ-A | zone ID TBD",
+              "shapeType": "Availability Zone",
+              "childrenIds": [
+                "1PMIz2Mu9oEN"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#00a4a6ff",
+                "LineWidth": "3",
+                "StrokeStyle": "dashed44",
+                "BoundingBox": "x: 95.5, y: 1464.064, w: 620, h: 810",
+                "BlockClass": "AvailabilityZoneAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PROPOSED AZ-A | zone ID TBD",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-50"
+              }
+            },
+            {
+              "id": "1PMIxWIOj_0f",
+              "label": "PROPOSED AZ-B | zone ID TBD",
+              "shapeType": "Availability Zone",
+              "childrenIds": [
+                "1PMIAhUpV4aO"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#00a4a6ff",
+                "LineWidth": "3",
+                "StrokeStyle": "dashed44",
+                "BoundingBox": "x: 770.5, y: 1464.064, w: 620, h: 810",
+                "BlockClass": "AvailabilityZoneAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "PROPOSED AZ-B | zone ID TBD",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-48"
+              }
+            },
+            {
+              "id": "yQMI5DHpkQFP",
+              "label": "",
+              "shapeType": "Elastic network interface",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 365.5, y: 1629.064, w: 80, h: 80",
+                "BlockClass": "ResAmazonVPCElasticNetworkInterfaceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "21"
+              }
+            },
+            {
+              "id": "yQMIemry~Ogm",
+              "label": "OPTIONAL private job ENI\nor Lambda Hyperplane ENI\nNo public IP / inbound listener; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 190.5, y: 1729.564, w: 430, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "OPTIONAL private job ENI\nor Lambda Hyperplane ENI\nNo public IP / inbound listener",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "22"
+              }
+            },
+            {
+              "id": "yQMIswxobeOT",
+              "label": "PROPOSED RT-A / SG egress\nVPC CIDR → local\nS3 prefix → S3 gateway endpoint\nDDB prefix → DynamoDB gateway endpoint\nNo default 0.0.0.0/0 route\nSG egress: TCP443 required prefixes",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ecfdf5ff",
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 160.5, y: 1939.064, w: 490, h: 200",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED RT-A / SG egress\nVPC CIDR → local\nS3 prefix → S3 gateway endpoint\nDDB prefix → DynamoDB gateway endpoint\nNo default 0.0.0.0/0 route\nSG egress: TCP443 required prefixes",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "23"
+              }
+            },
+            {
+              "id": "zQMIhGL9iAfn",
+              "label": "",
+              "shapeType": "Elastic network interface",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1040.5, y: 1629.064, w: 80, h: 80",
+                "BlockClass": "ResAmazonVPCElasticNetworkInterfaceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "24"
+              }
+            },
+            {
+              "id": "zQMIZ2089Dp.",
+              "label": "OPTIONAL private job ENI\nor Lambda Hyperplane ENI\nNo public IP / inbound listener; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 865.5, y: 1729.564, w: 430, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "OPTIONAL private job ENI\nor Lambda Hyperplane ENI\nNo public IP / inbound listener",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "25"
+              }
+            },
+            {
+              "id": "zQMIaNSGZDqo",
+              "label": "PROPOSED RT-B / SG egress\nVPC CIDR → local\nS3 prefix → S3 gateway endpoint\nDDB prefix → DynamoDB gateway endpoint\nNo default 0.0.0.0/0 route\nSG egress: TCP443 required prefixes",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ecfdf5ff",
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 835.5, y: 1939.064, w: 490, h: 200",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED RT-B / SG egress\nVPC CIDR → local\nS3 prefix → S3 gateway endpoint\nDDB prefix → DynamoDB gateway endpoint\nNo default 0.0.0.0/0 route\nSG egress: TCP443 required prefixes",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "26"
+              }
+            },
+            {
+              "id": "zQMIbl2c2o-t",
+              "label": "",
+              "shapeType": "Endpoints",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 380.5, y: 2424.064, w: 90, h: 90",
+                "BlockClass": "ResAmazonVPCEndpointsAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "27"
+              }
+            },
+            {
+              "id": "zQMI7nBqc5hD",
+              "label": "PROPOSED S3 GATEWAY ENDPOINT\nRoute target associated with RT-A + RT-B\nNo endpoint hourly / processing fee\nNot an ENI; no endpoint SG; not general internet; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 175.5, y: 2534.564, w: 500, h: 150",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 GATEWAY ENDPOINT\nRoute target associated with RT-A + RT-B\nNo endpoint hourly / processing fee\nNot an ENI; no endpoint SG; not general internet",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "28"
+              }
+            },
+            {
+              "id": "zQMIpwjZA1WK",
+              "label": "",
+              "shapeType": "Endpoints",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1040.5, y: 2424.064, w: 90, h: 90",
+                "BlockClass": "ResAmazonVPCEndpointsAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "29"
+              }
+            },
+            {
+              "id": "zQMIMTjy4Wkf",
+              "label": "PROPOSED DynamoDB GATEWAY ENDPOINT\nRoute target associated with RT-A + RT-B\nNo endpoint hourly / processing fee\nNot an ENI; no endpoint SG; not general internet; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 835.5, y: 2534.564, w: 500, h: 150",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED DynamoDB GATEWAY ENDPOINT\nRoute target associated with RT-A + RT-B\nNo endpoint hourly / processing fee\nNot an ENI; no endpoint SG; not general internet",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "30"
+              }
+            },
+            {
+              "id": "zQMIDy-SPz_b",
+              "label": "PRIVATE SCOPE ONLY: Lambda still executes in the Lambda service; its VPC attachment is represented by ENIs here.\nNo NAT / IGW / public subnet in the N1 split candidate. Gateways cannot reach Anthropic, Yahoo or Twelve Data.; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 120.5, y: 2294.064, w: 1270, h: 70",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PRIVATE SCOPE ONLY: Lambda still executes in the Lambda service; its VPC attachment is represented by ENIs here.\nNo NAT / IGW / public subnet in the N1 split candidate. Gateways cannot reach Anthropic, Yahoo or Twelve Data.",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "31"
+              }
+            },
+            {
+              "id": "9QMIJH7deQIN",
+              "label": "",
+              "shapeType": "Amazon Simple Storage Service (Amazon S3)",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#7aa116ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1770.5, y: 2134.064, w: 90, h: 90",
+                "BlockClass": "ArchAmazonSimpleStorageServiceAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "35"
+              }
+            },
+            {
+              "id": "9QMIzrm73-KJ",
+              "label": "",
+              "shapeType": "Amazon DynamoDB",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#c925d1ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1770.5, y: 2494.064, w: 90, h: 90",
+                "BlockClass": "ArchAmazonDynamoDBAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "37"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "GTMIfrj1l8AX",
+              "sourceId": "yQMI5DHpkQFP",
+              "targetId": "yQMIswxobeOT",
+              "label": "subnet route lookup",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 445.5, y: 1669.064, style: None, connectedBlockId: yQMI5DHpkQFP",
+                "Endpoint2": "x: 648.794, y: 1939.064, style: Arrow, connectedBlockId: yQMIswxobeOT",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "subnet route lookup",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI8ref-_-f",
+              "sourceId": "yQMIswxobeOT",
+              "targetId": "zQMIbl2c2o-t",
+              "label": "S3 prefix",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 162.206, y: 2139.064, style: None, connectedBlockId: yQMIswxobeOT",
+                "Endpoint2": "x: 382.368, y: 2481.689, style: Arrow, connectedBlockId: zQMIbl2c2o-t",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "S3 prefix",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIZ0qCx.JQ",
+              "sourceId": "yQMIswxobeOT",
+              "targetId": "zQMIpwjZA1WK",
+              "label": "DDB prefix",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 430.75, y: 2140.064, style: None, connectedBlockId: yQMIswxobeOT",
+                "Endpoint2": "x: 1128.632, y: 2481.689, style: Arrow, connectedBlockId: zQMIpwjZA1WK",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "DDB prefix",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI88hm0P8H",
+              "sourceId": "zQMIhGL9iAfn",
+              "targetId": "zQMIaNSGZDqo",
+              "label": "subnet route lookup",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1120.5, y: 1669.064, style: None, connectedBlockId: zQMIhGL9iAfn",
+                "Endpoint2": "x: 1325.5, y: 1940.77, style: Arrow, connectedBlockId: zQMIaNSGZDqo",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "subnet route lookup",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIHA~LXxnT",
+              "sourceId": "zQMIaNSGZDqo",
+              "targetId": "zQMIbl2c2o-t",
+              "label": "S3 prefix",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 857.875, y: 2140.064, style: None, connectedBlockId: zQMIaNSGZDqo",
+                "Endpoint2": "x: 386.521, y: 2446.689, style: Arrow, connectedBlockId: zQMIbl2c2o-t",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "S3 prefix",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMItZc9hpFr",
+              "sourceId": "zQMIaNSGZDqo",
+              "targetId": "zQMIpwjZA1WK",
+              "label": "DDB prefix",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1323.794, y: 2139.064, style: None, connectedBlockId: zQMIaNSGZDqo",
+                "Endpoint2": "x: 1124.467, y: 2446.689, style: Arrow, connectedBlockId: zQMIpwjZA1WK",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "DDB prefix",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIl8lIOtAn",
+              "sourceId": "zQMIbl2c2o-t",
+              "targetId": "9QMIJH7deQIN",
+              "label": "private S3 route",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 453.769, y: 2504.064, style: None, connectedBlockId: zQMIbl2c2o-t",
+                "Endpoint2": "x: 1860.5, y: 2164.064, style: Arrow, connectedBlockId: 9QMIJH7deQIN",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "private S3 route",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIdFMT.aHw",
+              "sourceId": "zQMIpwjZA1WK",
+              "targetId": "9QMIzrm73-KJ",
+              "label": "private DDB route",
+              "properties": {
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1113.769, y: 2504.064, style: None, connectedBlockId: zQMIpwjZA1WK",
+                "Endpoint2": "x: 1770.5, y: 2504.064, style: Arrow, connectedBlockId: 9QMIzrm73-KJ",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "private DDB route",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_3",
+          "nodes": [
+            {
+              "id": "9QMI7uk6VsfC",
+              "label": "",
+              "shapeType": "AWS Lambda",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ed7100ff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1770.5, y: 1444.064, w: 90, h: 90",
+                "BlockClass": "ArchAWSLambdaAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "32"
+              }
+            },
+            {
+              "id": "9QMIGsYR.OXK",
+              "label": "EXTERNAL INTERNET APIS\nAnthropic cloud + market sources\nScoped SDK tools / URL allowlists\nNo Bedrock / Agent SDK / AgentCore",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffedd5ff",
+                "LineColor": "#c2410cff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1590.5, y: 1774.064, w: 470, h: 200",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "EXTERNAL INTERNET APIS\nAnthropic cloud + market sources\nScoped SDK tools / URL allowlists\nNo Bedrock / Agent SDK / AgentCore",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "34"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "GTMIOGb_.44p",
+              "sourceId": "9QMI7uk6VsfC",
+              "targetId": "9QMIGsYR.OXK",
+              "label": "HTTPS",
+              "properties": {
+                "LineColor": "#c2410cff",
+                "LineWidth": "2",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1770.5, y: 1489.064, style: None, connectedBlockId: 9QMI7uk6VsfC",
+                "Endpoint2": "x: 1589.5, y: 1874.064, style: Arrow, connectedBlockId: 9QMIGsYR.OXK",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "HTTPS",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_4",
+          "nodes": [
+            {
+              "id": "YSMIi_FFrXx_",
+              "label": "N1-E VPC PATTERN | alternative to isolated routes; NOT deployed",
+              "shapeType": "Virtual private cloud (VPC)",
+              "childrenIds": [
+                "YSMIlv8nUgtM",
+                "YSMI~Y_u3mU~",
+                "YSMITCTrmGrR",
+                "YSMITfPRViP7",
+                "YSMItxcFQQ6E",
+                "YSMIxlWMOeWM",
+                "YSMIwF~_o1q9"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#8c4fffff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 40, y: 3144.064, w: 1650, h: 1050",
+                "BlockClass": "VirtualPrivateCloudVPCAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "N1-E VPC PATTERN | alternative to isolated routes; NOT deployed",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-44"
+              }
+            },
+            {
+              "id": "YSMIxlWMOeWM",
+              "label": "CONDITIONAL PUBLIC SUBNET A | AZ-A",
+              "shapeType": "Public subnet",
+              "childrenIds": [
+                "YSMIkSEkK~Hi",
+                "YSMIhtSn.3fC"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#7aa116ff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 600, y: 3244.064, w: 500, h: 320",
+                "BlockClass": "PublicSubnetAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "CONDITIONAL PUBLIC SUBNET A | AZ-A",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-43"
+              }
+            },
+            {
+              "id": "YSMITCTrmGrR",
+              "label": "CONDITIONAL PUBLIC SUBNET B | AZ-B",
+              "shapeType": "Public subnet",
+              "childrenIds": [
+                "YSMIFlLmmqJL",
+                "YSMIXZW1HrIX"
+              ],
+              "properties": {
+                "FillColor": "#ffffff00",
+                "LineColor": "#7aa116ff",
+                "LineWidth": "3",
+                "TextAlign": "left",
+                "BoundingBox": "x: 600, y: 3654.064, w: 500, h: 320",
+                "BlockClass": "PublicSubnetAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": "CONDITIONAL PUBLIC SUBNET B | AZ-B",
+                    "textColor": "#102A43",
+                    "fontSize": "8"
+                  }
+                ],
+                "ZOrder": "-42"
+              }
+            },
+            {
+              "id": "YSMItxcFQQ6E",
+              "label": "CONDITIONAL PRIVATE A\n0.0.0.0/0 → NAT-A\nKeep S3 / DDB prefix routes\nRole SG egress policy still applies\nNo public IP on Lambda",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#fef3c7ff",
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 100, y: 3244.064, w: 330, h: 250",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "CONDITIONAL PRIVATE A\n0.0.0.0/0 → NAT-A\nKeep S3 / DDB prefix routes\nRole SG egress policy still applies\nNo public IP on Lambda",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "40"
+              }
+            },
+            {
+              "id": "YSMIhtSn.3fC",
+              "label": "",
+              "shapeType": "NAT gateway",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 805, y: 3304.064, w: 90, h: 90",
+                "BlockClass": "ResAmazonVPCNATGatewayAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "41"
+              }
+            },
+            {
+              "id": "YSMIkSEkK~Hi",
+              "label": "CONDITIONAL public NAT-A\nPublic route 0.0.0.0/0 → IGW\nPer-hour + processed-data costs\nSame-AZ private egress pattern; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 635, y: 3414.564, w: 430, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "CONDITIONAL public NAT-A\nPublic route 0.0.0.0/0 → IGW\nPer-hour + processed-data costs\nSame-AZ private egress pattern",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "42"
+              }
+            },
+            {
+              "id": "YSMITfPRViP7",
+              "label": "CONDITIONAL PRIVATE B\n0.0.0.0/0 → NAT-B\nKeep S3 / DDB prefix routes\nRole SG egress policy still applies\nNo public IP on Lambda",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#fef3c7ff",
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 100, y: 3654.064, w: 330, h: 250",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "CONDITIONAL PRIVATE B\n0.0.0.0/0 → NAT-B\nKeep S3 / DDB prefix routes\nRole SG egress policy still applies\nNo public IP on Lambda",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "43"
+              }
+            },
+            {
+              "id": "YSMIXZW1HrIX",
+              "label": "",
+              "shapeType": "NAT gateway",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 805, y: 3714.064, w: 90, h: 90",
+                "BlockClass": "ResAmazonVPCNATGatewayAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "44"
+              }
+            },
+            {
+              "id": "YSMIFlLmmqJL",
+              "label": "CONDITIONAL public NAT-B\nPublic route 0.0.0.0/0 → IGW\nPer-hour + processed-data costs\nSame-AZ private egress pattern; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 635, y: 3824.564, w: 430, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "CONDITIONAL public NAT-B\nPublic route 0.0.0.0/0 → IGW\nPer-hour + processed-data costs\nSame-AZ private egress pattern",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "45"
+              }
+            },
+            {
+              "id": "YSMIlv8nUgtM",
+              "label": "",
+              "shapeType": "Internet gateway",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#8c4fffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1550, y: 3564.064, w: 90, h: 90",
+                "BlockClass": "ResAmazonVPCInternetGatewayAWS2024",
+                "TextAreas": [
+                  {
+                    "key": "Title",
+                    "text": ""
+                  }
+                ],
+                "ZOrder": "46"
+              }
+            },
+            {
+              "id": "YSMI~Y_u3mU~",
+              "label": "CONDITIONAL attached IGW\nPublic NAT uses this route\nIGW alone does not grant\nprivate Lambda internet access; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1310.5, y: 3674.564, w: 330, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "CONDITIONAL attached IGW\nPublic NAT uses this route\nIGW alone does not grant\nprivate Lambda internet access",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "47"
+              }
+            },
+            {
+              "id": "YSMIym.OcaaS",
+              "label": "EXTERNAL INTERNET\nAnthropic / Yahoo / Grow\nOutbound HTTPS via NAT + IGW\nSG is not a domain allowlist\nApplication controls still required",
+              "shapeType": "Block",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffedd5ff",
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1840, y: 3564.064, w: 390, h: 240",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "EXTERNAL INTERNET\nAnthropic / Yahoo / Grow\nOutbound HTTPS via NAT + IGW\nSG is not a domain allowlist\nApplication controls still required",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "48"
+              }
+            },
+            {
+              "id": "YSMIwF~_o1q9",
+              "label": "Two classic zonal NATs shown for AZ alignment. One NAT changes availability and cross-AZ transfer risk; it is not an automatic economy setting.\nNo private-Lambda → IGW shortcut; public subnet placement alone does not create internet access. This panel is an alternative, not additional baseline resources.; Type something",
+              "shapeType": "Text",
+              "childrenIds": [],
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 110, y: 4054.064, w: 1510, h: 110",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "Two classic zonal NATs shown for AZ alignment. One NAT changes availability and cross-AZ transfer risk; it is not an automatic economy setting.\nNo private-Lambda → IGW shortcut; public subnet placement alone does not create internet access. This panel is an alternative, not additional baseline resources.",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "49"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "GTMIZfpXmMqt",
+              "sourceId": "YSMItxcFQQ6E",
+              "targetId": "YSMIhtSn.3fC",
+              "label": "conditional default route",
+              "properties": {
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "StrokeStyle": "dashed",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 431, y: 3349.064, style: None, connectedBlockId: YSMItxcFQQ6E",
+                "Endpoint2": "x: 805, y: 3349.064, style: Arrow, connectedBlockId: YSMIhtSn.3fC",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "conditional default route",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI-6OIQNs~",
+              "sourceId": "YSMIhtSn.3fC",
+              "targetId": "YSMIlv8nUgtM",
+              "label": "public 0/0 → IGW",
+              "properties": {
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "StrokeStyle": "dashed",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 895, y: 3349.064, style: None, connectedBlockId: YSMIhtSn.3fC",
+                "Endpoint2": "x: 1552.584, y: 3594.064, style: Arrow, connectedBlockId: YSMIlv8nUgtM",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "public 0/0 → IGW",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMIp3jZqvou",
+              "sourceId": "YSMITfPRViP7",
+              "targetId": "YSMIXZW1HrIX",
+              "label": "conditional default route",
+              "properties": {
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "StrokeStyle": "dashed",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 431, y: 3754.314, style: None, connectedBlockId: YSMITfPRViP7",
+                "Endpoint2": "x: 805.292, y: 3754.314, style: Arrow, connectedBlockId: YSMIXZW1HrIX",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "conditional default route",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI3ExU1xZB",
+              "sourceId": "YSMIXZW1HrIX",
+              "targetId": "YSMIlv8nUgtM",
+              "label": "public 0/0 → IGW",
+              "properties": {
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "StrokeStyle": "dashed",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 850, y: 3714.064, style: None, connectedBlockId: YSMIXZW1HrIX",
+                "Endpoint2": "x: 1552.581, y: 3624.064, style: Arrow, connectedBlockId: YSMIlv8nUgtM",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "public 0/0 → IGW",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "GTMI5~qmUbDf",
+              "sourceId": "YSMIlv8nUgtM",
+              "targetId": "YSMIym.OcaaS",
+              "label": "outbound internet",
+              "properties": {
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "StrokeStyle": "dashed",
+                "LineShape": "elbow",
+                "Endpoint1": "x: 1640, y: 3609.064, style: None, connectedBlockId: YSMIlv8nUgtM",
+                "Endpoint2": "x: 1839, y: 3609.064, style: Arrow, connectedBlockId: YSMIym.OcaaS",
+                "TextAreas": [
+                  {
+                    "key": "t0",
+                    "text": "outbound internet",
+                    "textColor": "#334155",
+                    "fontSize": "8"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "standaloneClusters": [
+        {
+          "cluster": [
+            {
+              "diagramGroupId": "group_5",
+              "id": "VNMIuOZxiUAW",
+              "label": "MYPAISAA PREDICTION | NETWORK OPTIONS N0 / N1\nDRAFT technical topology • No selected account / region / network • 1 November 2026",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 40, y: 40, w: 2200, h: 120",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "MYPAISAA PREDICTION | NETWORK OPTIONS N0 / N1\nDRAFT technical topology • No selected account / region / network • 1 November 2026",
+                    "bold": "true",
+                    "textColor": "#102A43",
+                    "fontSize": "18"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "bold": "true",
+                    "textColor": "#979ea8",
+                    "fontSize": "18"
+                  }
+                ],
+                "ZOrder": "1"
+              }
+            },
+            {
+              "diagramGroupId": "group_6",
+              "id": "dOMIXNJ9GCN9",
+              "label": "N0 | COST BASELINE CANDIDATE • No customer VPC attachment • Authentication and private data remain mandatory",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#2563ebff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 41, y: 221, w: 2200, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "N0 | COST BASELINE CANDIDATE • No customer VPC attachment • Authentication and private data remain mandatory",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "2"
+              }
+            },
+            {
+              "diagramGroupId": "group_7",
+              "id": "vOMIHOjidaI1",
+              "label": "PROPOSED Cognito\nApple / Google / passkeys\nVerified owner linking / recovery\nManaged service, outside VPC",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 461, y: 481, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED Cognito\nApple / Google / passkeys\nVerified owner linking / recovery\nManaged service, outside VPC",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "5"
+              }
+            },
+            {
+              "diagramGroupId": "group_8",
+              "id": "vOMI7oBR9vF1",
+              "label": "PROPOSED API Gateway REST\nPublic TLS, authenticated owner\nBounded SSE + snapshot recovery\nNot a private/VPN-only API",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 881, y: 481, w: 330, h: 198.226",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED API Gateway REST\nPublic TLS, authenticated owner\nBounded SSE + snapshot recovery\nNot a private/VPN-only API",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "7"
+              }
+            },
+            {
+              "diagramGroupId": "group_9",
+              "id": "vOMI~cGp4HfS",
+              "label": "PROPOSED FastAPI / SDK Lambda\nNOT customer-VPC attached\nService-managed outbound HTTPS\nScoped IAM; no customer SG",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1301, y: 481, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED FastAPI / SDK Lambda\nNOT customer-VPC attached\nService-managed outbound HTTPS\nScoped IAM; no customer SG",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "9"
+              }
+            },
+            {
+              "diagramGroupId": "group_10",
+              "id": "vOMI0mye2NPq",
+              "label": "N0 CONTROL REQUIREMENTS\nOwner/environment authorization\nPrivate data; least-privilege IAM\nNo VPC ≠ unauthenticated",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#dbeafeff",
+                "LineColor": "#2563ebff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 41, y: 790.226, w: 330, h: 220",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "N0 CONTROL REQUIREMENTS\nOwner/environment authorization\nPrivate data; least-privilege IAM\nNo VPC ≠ unauthenticated",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "11"
+              }
+            },
+            {
+              "diagramGroupId": "group_11",
+              "id": "vOMIj755WjUf",
+              "label": "PROPOSED CloudFront + DNS\nRoute 53 domain / TLS\nSigned OAC to standard S3 origin\nNo holdings in public cache",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 461, y: 899.226, w: 330, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED CloudFront + DNS\nRoute 53 domain / TLS\nSigned OAC to standard S3 origin\nNo holdings in public cache",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "13"
+              }
+            },
+            {
+              "diagramGroupId": "group_12",
+              "id": "vOMIddqY6JSQ",
+              "label": "PROPOSED S3 web origin\nBlock Public Access + encryption\nOAC distribution-scoped access\nS3 is NOT inside a subnet",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 881, y: 899.226, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 web origin\nBlock Public Access + encryption\nOAC distribution-scoped access\nS3 is NOT inside a subnet",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "15"
+              }
+            },
+            {
+              "diagramGroupId": "group_13",
+              "id": "vOMI7HxEqjCa",
+              "label": "PROPOSED DynamoDB core\nOwner ledger / audit / job / costs\nIAM-authorized TLS access\nManaged API outside customer VPC",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1301, y: 899.226, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED DynamoDB core\nOwner ledger / audit / job / costs\nIAM-authorized TLS access\nManaged API outside customer VPC",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "17"
+              }
+            },
+            {
+              "diagramGroupId": "group_14",
+              "id": "vOMITT5hpdKY",
+              "label": "PROPOSED S3 data / evidence\nRaw quarantine / model artefacts\nPrivate IAM + owner controls\nDistinct from static web origin",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1721, y: 899.226, w: 330, h: 171.338",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "PROPOSED S3 data / evidence\nRaw quarantine / model artefacts\nPrivate IAM + owner controls\nDistinct from static web origin",
+                    "textColor": "#102A43",
+                    "fontSize": "10"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "10"
+                  }
+                ],
+                "ZOrder": "19"
+              }
+            },
+            {
+              "diagramGroupId": "group_15",
+              "id": "OOMIJsSkqEcx",
+              "label": "N1 | OPTIONAL SPLIT TOPOLOGY • Two-AZ private scope only where justified • External API workers remain unattached",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#0f766eff",
+                "LineColor": "#0f766eff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 40, y: 1171.564, w: 2200, h: 70",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "N1 | OPTIONAL SPLIT TOPOLOGY • Two-AZ private scope only where justified • External API workers remain unattached",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "20"
+              }
+            }
+          ]
+        },
+        {
+          "cluster": [
+            {
+              "diagramGroupId": "group_16",
+              "id": "9QMInwKjYHyE",
+              "label": "N1 PROPOSED external-API Lambda\nNOT attached to customer VPC\nAnthropic client SDK / Yahoo / Grow\nInternet HTTPS without customer NAT",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1580.5, y: 1554.064, w: 470, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "N1 PROPOSED external-API Lambda\nNOT attached to customer VPC\nAnthropic client SDK / Yahoo / Grow\nInternet HTTPS without customer NAT",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "33"
+              }
+            },
+            {
+              "diagramGroupId": "group_17",
+              "id": "9QMINY_ey~z7",
+              "label": "AWS MANAGED S3 | outside VPC\nRaw / quarantine / model artefacts\nGateway route from private roles\nOAC web origin is a separate path",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1580.5, y: 2244.064, w: 470, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "AWS MANAGED S3 | outside VPC\nRaw / quarantine / model artefacts\nGateway route from private roles\nOAC web origin is a separate path",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "36"
+              }
+            },
+            {
+              "diagramGroupId": "group_18",
+              "id": "9QMIchGILerg",
+              "label": "AWS MANAGED DYNAMODB | outside VPC\nOwner ledger / job / audit / forecast\nGateway route from private roles\nNo blanket SourceVpce deny",
+              "shapeType": "Text",
+              "properties": {
+                "FillColor": "#ffffffff",
+                "LineColor": "#000000ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 1580.5, y: 2604.064, w: 470, h: 160",
+                "BlockClass": "AutoGrowTextBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "AWS MANAGED DYNAMODB | outside VPC\nOwner ledger / job / audit / forecast\nGateway route from private roles\nNo blanket SourceVpce deny",
+                    "textColor": "#102A43",
+                    "fontSize": "9"
+                  },
+                  {
+                    "key": "Placeholder",
+                    "text": "Type something",
+                    "textColor": "#979ea8",
+                    "fontSize": "9"
+                  }
+                ],
+                "ZOrder": "38"
+              }
+            },
+            {
+              "diagramGroupId": "group_19",
+              "id": "YSMIu72079XB",
+              "label": "N1-E | CONDITIONAL EGRESS ALTERNATIVE • NOT SELECTED • If all workers must attach: zonal NAT + IGW add an ongoing cost floor",
+              "shapeType": "Block",
+              "properties": {
+                "FillColor": "#b45309ff",
+                "LineColor": "#b45309ff",
+                "LineWidth": "2",
+                "BoundingBox": "x: 40, y: 2944.064, w: 2200, h: 80",
+                "BlockClass": "DefaultSquareBlock",
+                "TextAreas": [
+                  {
+                    "key": "Text",
+                    "text": "N1-E | CONDITIONAL EGRESS ALTERNATIVE • NOT SELECTED • If all workers must attach: zonal NAT + IGW add an ongoing cost floor",
+                    "bold": "true",
+                    "textColor": "#FFFFFF",
+                    "fontSize": "11"
+                  }
+                ],
+                "ZOrder": "39"
+              }
+            }
+          ]
+        },
+        {
+          "diagramGroupId": "group_20",
+          "id": "nVMIeqLA8bMx",
+          "label": "OPTIONAL PAID CAPABILITIES + DECISION GATE | All network options proposed, no deployment\nIsolated Fargate/ECR: verify ecr.api + ecr.dkr interface endpoints, S3 layer path and Logs; add regional STS / KMS / other APIs only if used. SageMaker network-isolation/service-side paths need their own matrix. Interface endpoints add service × AZ × hours + GB costs.\nNAT adds gateway-hours + GB + applicable IPv4/transfer, even when mostly idle. Gateway S3/DynamoDB endpoints add no endpoint fee, but do not reach arbitrary internet. No VPC/account/Region/CIDR or A/B training choice is approved.\nIAM / endpoint / bucket policies must preserve CloudFront OAC, unattached roles, CI and recovery. No blanket SourceVpce deny. SGs are not DNS/domain filters; API Gateway invocation is not inbound traffic to a Lambda ENI. Private API/VPN is not baseline.\n£100 all-in cash = £70 operation + £30 reserve. Network fixed charges can threaten that envelope. Compare measured N0 versus justified N1; obtain owner choice before infrastructure work. Native shapes show planned topology, not live resources.\nSources: official AWS Lambda, VPC/PrivateLink, CloudFront, ECS and SageMaker docs • MP network-topology-options.md • DEC-001–041. Existing pages 1–4 preserved. Current code remains health / volatile SSE / static preview; synthetic local/dev only.",
+          "shapeType": "Block",
+          "properties": {
+            "FillColor": "#eff6ffff",
+            "LineColor": "#2563ebff",
+            "LineWidth": "2",
+            "BoundingBox": "x: 40, y: 4344.064, w: 2200, h: 330",
+            "BlockClass": "DefaultSquareBlock",
+            "TextAreas": [
+              {
+                "key": "Text",
+                "text": "OPTIONAL PAID CAPABILITIES + DECISION GATE | All network options proposed, no deployment\nIsolated Fargate/ECR: verify ecr.api + ecr.dkr interface endpoints, S3 layer path and Logs; add regional STS / KMS / other APIs only if used. SageMaker network-isolation/service-side paths need their own matrix. Interface endpoints add service × AZ × hours + GB costs.\nNAT adds gateway-hours + GB + applicable IPv4/transfer, even when mostly idle. Gateway S3/DynamoDB endpoints add no endpoint fee, but do not reach arbitrary internet. No VPC/account/Region/CIDR or A/B training choice is approved.\nIAM / endpoint / bucket policies must preserve CloudFront OAC, unattached roles, CI and recovery. No blanket SourceVpce deny. SGs are not DNS/domain filters; API Gateway invocation is not inbound traffic to a Lambda ENI. Private API/VPN is not baseline.\n£100 all-in cash = £70 operation + £30 reserve. Network fixed charges can threaten that envelope. Compare measured N0 versus justified N1; obtain owner choice before infrastructure work. Native shapes show planned topology, not live resources.\nSources: official AWS Lambda, VPC/PrivateLink, CloudFront, ECS and SageMaker docs • MP network-topology-options.md • DEC-001–041. Existing pages 1–4 preserved. Current code remains health / volatile SSE / static preview; synthetic local/dev only.",
+                "textColor": "#102A43",
+                "fontSize": "10"
+              }
+            ],
+            "ZOrder": "71"
+          }
+        }
+      ],
+      "containers": {
+        "itemIds": [
+          "vOMINID.3wWs",
+          "vOMI60IuoxV3",
+          "vOMIh9z0XG8W",
+          "vOMI2MwSuhbR",
+          "vOMIW2azjtcq",
+          "vOMIU1spXDYI",
+          "vOMIrm~NZFYN",
+          "GTMIxy1R40M4",
+          "GTMIS9FGlhw1",
+          "GTMI6wmD9oEX",
+          "GTMImTuLJHiX",
+          "GTMIOz1ME13X",
+          "GTMIqV83mMq7",
+          "vOMIYOuFj76c",
+          "vOMINMPlV5fN",
+          "GTMI6dWZmwQe",
+          "OOMIQBK3gf2C",
+          "1PMISHxHbh8N",
+          "1PMIz2Mu9oEN",
+          "1PMIxWIOj_0f",
+          "1PMIAhUpV4aO",
+          "yQMI6d3wp43D",
+          "yQMI5DHpkQFP",
+          "yQMIemry~Ogm",
+          "yQMIswxobeOT",
+          "yQMIK0F4G8bD",
+          "zQMIhGL9iAfn",
+          "zQMIZ2089Dp.",
+          "zQMIaNSGZDqo",
+          "zQMIbl2c2o-t",
+          "zQMI7nBqc5hD",
+          "zQMIpwjZA1WK",
+          "zQMIMTjy4Wkf",
+          "zQMIDy-SPz_b",
+          "9QMIJH7deQIN",
+          "9QMIzrm73-KJ",
+          "GTMIfrj1l8AX",
+          "GTMI8ref-_-f",
+          "GTMIZ0qCx.JQ",
+          "GTMI88hm0P8H",
+          "GTMIHA~LXxnT",
+          "GTMItZc9hpFr",
+          "GTMIl8lIOtAn",
+          "GTMIdFMT.aHw",
+          "9QMI7uk6VsfC",
+          "9QMIGsYR.OXK",
+          "GTMIOGb_.44p",
+          "YSMIi_FFrXx_",
+          "YSMItxcFQQ6E",
+          "YSMIxlWMOeWM",
+          "YSMIhtSn.3fC",
+          "YSMIkSEkK~Hi",
+          "YSMITfPRViP7",
+          "YSMITCTrmGrR",
+          "YSMIXZW1HrIX",
+          "YSMIFlLmmqJL",
+          "YSMIlv8nUgtM",
+          "YSMI~Y_u3mU~",
+          "YSMIym.OcaaS",
+          "YSMIwF~_o1q9",
+          "GTMIZfpXmMqt",
+          "GTMI-6OIQNs~",
+          "GTMIp3jZqvou",
+          "GTMI3ExU1xZB",
+          "GTMI5~qmUbDf",
+          "VNMIuOZxiUAW",
+          "dOMIXNJ9GCN9",
+          "vOMIHOjidaI1",
+          "vOMI7oBR9vF1",
+          "vOMI~cGp4HfS",
+          "vOMI0mye2NPq",
+          "vOMIj755WjUf",
+          "vOMIddqY6JSQ",
+          "vOMI7HxEqjCa",
+          "vOMITT5hpdKY",
+          "OOMIJsSkqEcx",
+          "9QMInwKjYHyE",
+          "9QMINY_ey~z7",
+          "9QMIchGILerg",
+          "YSMIu72079XB",
+          "nVMIeqLA8bMx"
+        ],
+        "childContainers": [],
+        "diagramGroupIds": [
+          "group_0",
+          "group_1",
+          "group_2",
+          "group_3",
+          "group_4",
+          "group_5",
+          "group_6",
+          "group_7",
+          "group_8",
+          "group_9",
+          "group_10",
+          "group_11",
+          "group_12",
+          "group_13",
+          "group_14",
+          "group_15",
+          "group_16",
+          "group_17",
+          "group_18",
+          "group_19",
+          "group_20"
+        ]
+      }
+    }
+  },
+  "options": {
+    "N0": "Cost baseline candidate; Lambda not attached to customer VPC",
+    "N1": "Unselected split topology; two private isolated AZs; external API Lambda remains unattached",
+    "N1_E": "Unselected conditional NAT/IGW alternative if all workers need VPC attachment"
+  },
+  "shape_library": "aws2024.js"
+}

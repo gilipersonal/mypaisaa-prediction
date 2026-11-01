@@ -1,0 +1,382 @@
+{
+  "project": "mypaisaa-prediction",
+  "as_of": "2026-11-01",
+  "status": "Requirements elicitation in progress; end-to-end baseline not approved",
+  "authority": "Explicit user answers in this conversation; later reopened answers supersede earlier answers",
+  "decisions": [
+    {
+      "id": "DEC-001",
+      "title": "Long-term horizons",
+      "status": "confirmed",
+      "value": {
+        "forecast_months": [
+          3,
+          6,
+          12
+        ],
+        "scenario_years": [
+          3,
+          5
+        ],
+        "short_term_horizons_retained": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-002",
+      "title": "Combined investment objectives",
+      "status": "confirmed",
+      "value": {
+        "objectives": [
+          "long-term growth with downside protection",
+          "benchmark-relative opportunities",
+          "protect existing holdings and improve contributions/rebalancing"
+        ],
+        "weights_agreed": false
+      },
+      "supersedes": [
+        "Protection-only priority from the first, reopened question round"
+      ]
+    },
+    {
+      "id": "DEC-003",
+      "title": "Initial instrument universe",
+      "status": "confirmed",
+      "value": {
+        "user_holdings": true,
+        "proposed_balanced_research_watchlist": true,
+        "watchlist_requires_user_approval": true,
+        "initial_active_count_target": "20–30",
+        "holdings_provided": "one name supplied; precise instrument identity and complete list pending"
+      },
+      "supersedes": [
+        "Holdings-only answer from the first, reopened question round"
+      ]
+    },
+    {
+      "id": "DEC-004",
+      "title": "Recommendation detail",
+      "status": "confirmed",
+      "value": {
+        "ranked_actions": [
+          "add",
+          "hold",
+          "pause",
+          "trim",
+          "rebalance"
+        ],
+        "include": [
+          "reasons",
+          "uncertainty",
+          "portfolio impact"
+        ],
+        "execution": false
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-005",
+      "title": "First-version import methods",
+      "status": "confirmed",
+      "value": {
+        "methods": [
+          "CSV",
+          "Excel",
+          "statements/PDFs",
+          "screenshots",
+          "manual entry and corrections"
+        ],
+        "supported_specific_layouts": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-006",
+      "title": "Insufficient intraday data",
+      "status": "confirmed",
+      "value": {
+        "fallback": "daily analysis for that holding",
+        "new_paid_source_requires_permission": true,
+        "disclose_actual_cadence": true,
+        "unsupported_intraday_alerts": "suppress"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-007",
+      "title": "Risk loss measures",
+      "status": "confirmed",
+      "value": {
+        "measures": [
+          "decline from previous peak",
+          "loss versus cost basis"
+        ],
+        "priority": "portfolio risk given more weight",
+        "numeric_weights_and_thresholds": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-008",
+      "title": "Summary and alert cadence",
+      "status": "confirmed",
+      "value": {
+        "summary": "daily",
+        "immediate_alerts": "material risk changes",
+        "summary_time_and_channels": "UK morning, configurable; app/chat plus native and PWA push (DEC-012/013)",
+        "quiet_hours_and_materiality": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-009",
+      "title": "AWS Cognito sign-in methods",
+      "status": "confirmed",
+      "value": {
+        "identity_service": "AWS Cognito",
+        "methods": [
+          "Apple sign-in",
+          "Google sign-in",
+          "passkeys"
+        ],
+        "account_linking_recovery_and_sensitive_action_flow": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-010",
+      "title": "Initial risk and alert thresholds",
+      "status": "confirmed",
+      "value": {
+        "initial_policy": "Propose configurable defaults for owner approval",
+        "override_scopes": [
+          "portfolio",
+          "holding"
+        ],
+        "numeric_defaults": "not yet proposed or approved"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-011",
+      "title": "Benchmark comparison policy",
+      "status": "confirmed",
+      "value": {
+        "comparisons": [
+          "suitable benchmark for each holding",
+          "blended benchmark for the whole portfolio",
+          "broad global equity benchmark"
+        ],
+        "exact_indices_currency_and_return_conventions": "pending holdings and methodology review"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-012",
+      "title": "Notification channels",
+      "status": "confirmed",
+      "value": {
+        "channels": [
+          "app/chat",
+          "native push",
+          "PWA push"
+        ],
+        "delivery_rules": "platform capabilities, permissions, materiality and quiet hours to specify"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-013",
+      "title": "Daily summary schedule",
+      "status": "confirmed",
+      "value": {
+        "period": "UK morning",
+        "time": "configurable",
+        "market_data_timestamps": "shown separately",
+        "exact_time": "pending"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-014",
+      "title": "Incomplete holding history",
+      "status": "confirmed",
+      "value": {
+        "allow_holding": true,
+        "show_supported_analysis": true,
+        "flag_gaps": true,
+        "ask_for_missing_history": true,
+        "withhold_calculations_requiring_missing_data": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-015",
+      "title": "Daily briefing depth",
+      "status": "confirmed",
+      "value": {
+        "style": "short action-first briefing",
+        "content": [
+          "priorities",
+          "changes",
+          "risks",
+          "upcoming events"
+        ],
+        "detail": "expandable evidence and technical detail"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-016",
+      "title": "Disagreement and insufficient evidence",
+      "status": "confirmed",
+      "value": {
+        "show_separate_views": [
+          "rules engine",
+          "ML models",
+          "LLM-assisted research"
+        ],
+        "explain_disagreements": true,
+        "abstain_where_evidence_insufficient": true,
+        "no_forced_confident_action": true
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-017",
+      "title": "Recommendation ranking structure",
+      "status": "confirmed",
+      "value": {
+        "combined_ranking": true,
+        "visible_component_scores": [
+          "growth",
+          "downside risk",
+          "benchmark-relative opportunity"
+        ],
+        "weights": "configurable; require owner approval",
+        "specific_weights_and_eligibility_rules": "pending proposal and approval"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-018",
+      "title": "Landing experience",
+      "status": "confirmed",
+      "value": {
+        "first_screen": "market/discovery dashboard",
+        "holdings": "separate section",
+        "chat": "accessible from market and holdings context"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-019",
+      "title": "Formal forecast versus quote/risk cadence",
+      "status": "confirmed",
+      "value": {
+        "formal_forecasts": "daily",
+        "quote_and_risk_refresh_minutes": 30,
+        "freshness_condition": "only where supported by actual data; otherwise daily analysis with timestamps"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-020",
+      "title": "Original import archive",
+      "status": "confirmed",
+      "value": {
+        "storage": "encrypted private S3",
+        "retain_originals": true,
+        "retention": "configurable",
+        "owner_deletion_controls": true,
+        "exact_retention_and_derivative_deletion_policy": "pending owner approval"
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-021",
+      "title": "Admin auditing and end-to-end observability",
+      "status": "confirmed",
+      "value": {
+        "admin_portal": "owner will design later; capture requirements now",
+        "coverage": [
+          "uploads and updates with source/version lineage",
+          "ledger change audit",
+          "agent/model/tool activity and evaluation lineage",
+          "whole-system logs, metrics, traces, health and alerts"
+        ],
+        "MA_reference_parity": "preserve relevant investigation outcomes, adapted to this independent app",
+        "detailed_requirements": "audit-observability-requirements.md",
+        "implementation_authorised": false
+      },
+      "supersedes": []
+    },
+    {
+      "id": "DEC-022",
+      "title": "Priority in-app cost monitoring",
+      "status": "confirmed",
+      "value": {
+        "priority": "launch requirement on main app dashboard",
+        "providers": [
+          "direct Anthropic Claude API",
+          "AWS"
+        ],
+        "environment_views": [
+          "dev",
+          "prod",
+          "local API usage",
+          "combined project",
+          "shared/unallocated"
+        ],
+        "breakdowns": [
+          "agent",
+          "feature",
+          "model",
+          "AWS service"
+        ],
+        "show": [
+          "live usage estimates",
+          "delayed provider-reported costs",
+          "gross usage, credits and cash separately",
+          "billing/credit cycle and source freshness",
+          "budgets, burn rate, headroom and alerts",
+          "collector health and unknown allocations"
+        ],
+        "credit_pool": "reported $200 shared organization benefit, not per environment; availability unverified",
+        "collection": "bounded server-side collection and caching; no billing API request per dashboard refresh",
+        "exact_thresholds_and_allocations": "propose for owner approval",
+        "detailed_requirements": "audit-observability-requirements.md"
+      },
+      "supersedes": []
+    }
+  ],
+  "pending_question_round": [],
+  "implementation_authorised": false,
+  "holdings_capture": {
+    "provided_count": 1,
+    "identity_confirmation": "pending",
+    "storage": "local git-ignored data/private; personal holding details are not stored in the repository documentation"
+  },
+  "interview_preferences": {
+    "recommended_option_marker": "(Recommended)",
+    "explain_recommendation_briefly": true
+  },
+  "synthetic_test_data": {
+    "authorised": true,
+    "real_instrument_ids_required": true,
+    "simulated_observations_and_accounts": true,
+    "environments": [
+      "local",
+      "dev"
+    ],
+    "AWS_loading": "deferred by user until later",
+    "tracking_issue": "MP-16",
+    "documentation": "docs/synthetic-test-data.md"
+  },
+  "onboarding_questions": [
+    "Exact ticker/share class/listing and broker for the privately reported ETF",
+    "Additional actual holdings or confirmation of complete list",
+    "Availability of actual dated transaction/cash-flow history"
+  ],
+  "next_requirements_step": "Consolidate remaining proposed defaults for owner review; do not reopen confirmed choices or start implementation."
+}

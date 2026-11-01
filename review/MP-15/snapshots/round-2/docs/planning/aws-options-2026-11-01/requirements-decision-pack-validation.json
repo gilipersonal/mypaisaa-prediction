@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-11-01",
+  "scope": "New proposed requirements decision pack and direct navigation/register links",
+  "status": "structural gates passed; independent review not run on this new deliverable",
+  "checks": [
+    "18 unique proposal IDs, three options each, one recommendation, all selections null",
+    "22 existing confirmed decisions preserved; no implementation authorisation",
+    "Cost allocations, reserve, credit ceiling and score-weight arithmetic",
+    "Markdown local links, HTML local links/anchors and unique IDs",
+    "Reading version contains all proposal IDs and reduced-motion support",
+    "Public billing/authentication/source documentation checked; private entitlements/balances not accessed"
+  ],
+  "deferred": [
+    "Independent review and review-regression ledger: require separate current approval",
+    "Browser/device visual inspection: no UI implementation; reading version structurally checked",
+    "Application/infra/runtime tests: no product or deployment changes",
+    "Full-scope resource pricing and data entitlement audit: next planning evidence step"
+  ],
+  "hashes": {
+    "requirements-decision-pack.md": "6e5f55021949ca37e479cdaf57332c8722b9611f498c9f1908953522b60faaf6",
+    "requirements-decision-pack.json": "8e023a3f37c9982edfc5d146e702a95cb40b22008f3bb277cddba975ac0b0aa7",
+    "requirements-decision-pack.html": "99e2e7d200af8dc63ffbdc733bd0bf961137e66b343d363a248bd02768cc7be3"
+  }
+}

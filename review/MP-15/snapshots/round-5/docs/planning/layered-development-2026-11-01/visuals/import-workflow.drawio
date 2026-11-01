@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" agent="Local deterministic renderer - supporting workflow only">
+  <diagram id="mp-import-workflow" name="Proposed import workflow">
+    <mxGraphModel dx="1600" dy="880" grid="1" gridSize="8" page="1" pageWidth="1600" pageHeight="880" background="#f8fafc">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="workflow-heading" value="Visible only after a confirmed commit&#10;PROPOSED supporting import workflow" style="text;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=32;fontStyle=1;align=left;fontColor=#0f172a;" vertex="1" parent="1">
+          <mxGeometry x="48" y="40" width="1504" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="receive" value="1. Receive original&#10;&#10;CSV / Excel / PDF&#10;Screenshot or manual" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#eff6ff;strokeColor=#1d4ed8;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="48" y="216" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="validate" value="2. Validate / quarantine&#10;&#10;Check type, size, scope&#10;Reject unsafe inputs" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#fff1f2;strokeColor=#9f1239;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="432" y="216" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="extract" value="3. Extract candidates&#10;&#10;Capture field + source&#10;Treat text as untrusted" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#f5f3ff;strokeColor=#6d28d9;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="816" y="216" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="match" value="4. Match / normalise&#10;&#10;Resolve listing + units&#10;Review uncertain values" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#ecfeff;strokeColor=#0e7490;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="216" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="approve" value="5. Owner preview + approval&#10;&#10;Review exact draft&#10;Bind scope + revision" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#fffbeb;strokeColor=#92400e;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="516" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="commit" value="6. Commit + financial audit&#10;&#10;One logical application&#10;Fence financial visibility" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#ecfdf5;strokeColor=#047857;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="816" y="516" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="receipt" value="7. Durable receipt / reconcile&#10;&#10;Recover the result&#10;Check ledger + originals" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#f1f5f9;strokeColor=#334155;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="432" y="516" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-1" edge="1" parent="1" source="receive" target="validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-2" edge="1" parent="1" source="validate" target="extract" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-3" edge="1" parent="1" source="extract" target="match" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-4" edge="1" parent="1" source="match" target="approve" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-5" edge="1" parent="1" source="approve" target="commit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge-6" edge="1" parent="1" source="commit" target="receipt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#64748b;strokeWidth=3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="visibility-rule" value="NO FINANCIAL VISIBILITY&#10;&#10;Failed, cancelled or staged work stays outside holdings, agents and totals." style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#fff1f2;strokeColor=#fda4af;fontColor=#881337;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="48" y="516" width="352" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="evidence-band" value="Trace / source / status / cost evidence at every stage" style="rounded=1;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=22;fontColor=#0f172a;spacing=20;align=left;verticalAlign=middle;fillColor=#e2e8f0;strokeColor=none;align=center;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="48" y="760" width="1504" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="status-note" value="Proposed workflow - not implemented. Animation is an illustrative walkthrough, not live telemetry." style="text;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=18;fontColor=#475569;align=left;" vertex="1" parent="1">
+          <mxGeometry x="48" y="832" width="1504" height="32" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

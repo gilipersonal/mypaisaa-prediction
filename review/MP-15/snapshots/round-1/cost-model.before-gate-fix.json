@@ -1,0 +1,200 @@
+{
+  "status": "Draft allowance-based model, not a quoted or observed bill",
+  "as_of": "2026-11-01",
+  "GBP_per_USD_assumption": 0.8,
+  "tax_reserve_fraction": 0.2,
+  "free_trial_credits_assumed": 0,
+  "scope": "All-in cash dev + prod + data + Anthropic net cash + Apple/domain reserves; gross Claude usage tracked separately",
+  "workload": {
+    "active_watchlist": 30,
+    "daily_universe_assumption": 100,
+    "refresh_minutes": 30,
+    "markets": [
+      "UK",
+      "US",
+      "India"
+    ],
+    "SSE_client_hours_month": 120,
+    "retained_GB_assumption": 50,
+    "ordinary_API_requests_month_max": 100000,
+    "formal_forecast_cadence": "daily; quote/risk polling is the separate refresh_minutes value"
+  },
+  "plans": {
+    "A": {
+      "GBP_allowances": {
+        "data": 28,
+        "Claude_prod_dev_evals": 0,
+        "AWS_core_dev_prod": 14,
+        "ML_jobs": 3,
+        "CI_allowance": 3,
+        "Apple_monthly_reserve": 8,
+        "domain_monthly_reserve": 2,
+        "Lambda_research_runtime": 2
+      },
+      "total": 60,
+      "reserve": 40,
+      "without_credit_same_gross_usage_GBP": 100,
+      "Grow_79_USD_cash_sensitivity_GBP": 107.84,
+      "automatic_paid_fallback": false
+    },
+    "B": {
+      "GBP_allowances": {
+        "data": 28,
+        "Claude_prod_dev_evals": 0,
+        "AWS_core_dev_prod": 14,
+        "ML_jobs": 8,
+        "CI_allowance": 3,
+        "Apple_monthly_reserve": 8,
+        "domain_monthly_reserve": 2,
+        "Lambda_research_runtime": 2
+      },
+      "total": 65,
+      "reserve": 35,
+      "without_credit_same_gross_usage_GBP": 105,
+      "Grow_79_USD_cash_sensitivity_GBP": 112.84,
+      "automatic_paid_fallback": false
+    }
+  },
+  "cadence_scenarios": [
+    {
+      "assets": 30,
+      "minutes": 30,
+      "observations_day": 430,
+      "observations_month": 9460
+    },
+    {
+      "assets": 30,
+      "minutes": 15,
+      "observations_day": 850,
+      "observations_month": 18700
+    },
+    {
+      "assets": 99,
+      "minutes": 30,
+      "observations_day": 1419,
+      "observations_month": 31218
+    },
+    {
+      "assets": 99,
+      "minutes": 15,
+      "observations_day": 2805,
+      "observations_month": 61710
+    }
+  ],
+  "examples_USD_before_tax": {
+    "fargate_training_4vCPU_16GiB_8h": 1.49184,
+    "sagemaker_US_training_20h": 4.6,
+    "sagemaker_London_training_20h": 5.32,
+    "SSE_512MiB_120h": 2.880014,
+    "client_VPN_730h_endpoint_only": 73,
+    "Lambda_research_1GiB_6h": 0.288001
+  },
+  "data_examples_GBP_including_reserve": {
+    "19.99": 19.19,
+    "29": 27.84,
+    "29.99": 28.79,
+    "79": 75.84,
+    "99": 95.04,
+    "229": 219.84
+  },
+  "conditions": [
+    "Exact data entitlement, ML/storage rights and market coverage unconfirmed",
+    "No always-on model endpoint or notebook",
+    "Dev live schedules disabled by default",
+    "Annual Apple/domain invoices are cash payments; monthly amortisation does not cap invoice month",
+    "No paid CloudFront tier or always-on VPN included",
+    "Budget warnings are delayed; use application admission controls and reserve",
+    "Anthropic promotional credit is user-reported; gross API use and net cash are separate",
+    "Chat/eval gross usage is metered even when credit covers cash; Plan B example without credit exceeds £100 and must pause/reduce"
+  ],
+  "long_term_requirement": {
+    "status": "Core requirement; horizon selection pending",
+    "base_scope": "Selected Yahoo/Grow plus permitted dated filings/issuer material; no paid extra data provider assumed",
+    "full_point_in_time_fundamentals_coverage_verified": false
+  },
+  "revision": "Direct Anthropic client SDK on Lambda; Yahoo Finance + Twelve Data Grow",
+  "anthropic_credit": {
+    "USD_per_month": 200,
+    "basis": "User-reported account benefit; not independently account-verified",
+    "assumed_eligible_cash_cost_GBP": 0,
+    "gross_model_usage_allowance_GBP": 40,
+    "conditions": [
+      "Correct Anthropic API workspace",
+      "Credit active, eligible, available and renewed",
+      "Track expiry, shared usage, remaining balance and noneligible fees",
+      "Default stop rather than automatic paid overage"
+    ],
+    "incremental_subscription_cost_for_credit": "Unknown; not assumed free if an additional purchase is needed",
+    "proposed_USD_allocations": {
+      "production_chat_research": 120,
+      "development": 15,
+      "T1_T2_evals": 30,
+      "online_judges": 5,
+      "reserve": 30
+    }
+  },
+  "retired_options": {
+    "C": "AgentCore runtime retired by user selection of Lambda/client-SDK on direct Anthropic"
+  },
+  "data_selection": {
+    "providers": [
+      "Yahoo Finance",
+      "Twelve Data Grow"
+    ],
+    "Grow_entry_USD_month": 29,
+    "Grow_tier": "Entry 55 credits/min assumed; user exact tier pending",
+    "Yahoo_GBP_subscription_assumption": 0,
+    "coverage_status": "Per-symbol UK/US/India freshness, entitlements and history to verify"
+  },
+  "chat_evaluation_workload": {
+    "chat_tasks_month": 300,
+    "chat_total_input_tokens_per_task": 20000,
+    "chat_total_output_tokens_per_task": 2000,
+    "example_model": "Claude Sonnet 4.6, example only",
+    "rate_USD_per_million_input": 3,
+    "rate_USD_per_million_output": 15,
+    "chat_USD": 27,
+    "eval_cases": 60,
+    "T1_trials": 3,
+    "T2_trials": 5,
+    "eval_input_tokens_per_trial": 6000,
+    "eval_output_tokens_per_trial": 800,
+    "T1_USD": 5.4,
+    "T2_USD": 9,
+    "combined_USD": 41.4,
+    "combined_GBP_with_tax_reserve": 39.74,
+    "extra_development_retrieval_judges_excluded_from_example": true
+  },
+  "scope_extension": {
+    "standalone_app": true,
+    "own_investment_ledger": true,
+    "source_requirement_count": 140,
+    "direct_forecasting_count": 70,
+    "related_count": 70,
+    "future_markets": [
+      "China",
+      "Taiwan",
+      "Hong Kong",
+      "continental Europe"
+    ],
+    "themes": [
+      "solar energy",
+      "clean energy"
+    ],
+    "full_expanded_scope_costed": false,
+    "estimates_apply_to": "Initial 20–30-asset workload, not all future capabilities/markets/models simultaneously",
+    "activation_requires": [
+      "coverage and rights",
+      "compatibility and evaluations",
+      "incremental budget",
+      "owner approval"
+    ]
+  },
+  "scope_validation": {
+    "recost_required": true,
+    "reason": "Expanded full audit, upload archive, end-to-end telemetry, admin investigation and per-environment Claude/AWS cost dashboard are launch requirements. Earlier A/B totals remain illustrative initial-workload allowances, not a priced full-scope guarantee.",
+    "confirmed_cash_ceiling_GBP": 100,
+    "implementation_or_service_activation_authorised": false,
+    "requirements": "audit-observability-requirements.md"
+  }
+}

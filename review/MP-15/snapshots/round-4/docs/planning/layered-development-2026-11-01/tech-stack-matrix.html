@@ -1,0 +1,354 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | Technology choices</title><link rel="icon" href="data:,"><style>
+:root{--ink:#0f172a;--muted:#475569;--line:#cbd5e1;--surface:#f8fafc;--blue:#1d4ed8;--blue-dark:#1e3a8a;--teal:#115e59;--amber:#92400e;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--blue-dark)}a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:3px solid #b45309;outline-offset:4px}
+.grid{display:grid}.gap-6{gap:24px}.p-6{padding:24px}.rounded-lg{border-radius:8px}.font-semibold{font-weight:600}.text-sm{font-size:14px}.text-slate-600{color:var(--muted)}
+.shell{grid-template-columns:256px minmax(0,1fr);max-width:1536px;margin:auto;padding:32px}.sidebar{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;padding:8px}.brand{font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--blue-dark);margin:0 0 16px}.sidebar a{display:block;text-decoration:none;font-size:14px;padding:8px 12px;border-left:3px solid transparent}.sidebar a[aria-current=page]{background:#dbeafe;border-color:var(--blue);font-weight:600}.sidebar .toc{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}.sidebar .toc a{font-size:13px;padding:6px 12px}
+.sheet{min-width:0;background:#fff;border:1px solid #e2e8f0;padding:48px}.status{border-left:4px solid #b45309;background:#fffbeb;padding:16px 24px;margin:0 0 32px}.status p{margin:0}.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h1{font-size:36px;line-height:1.18;letter-spacing:-.03em;margin:0 0 24px;color:var(--blue-dark)}h2{font-size:26px;line-height:1.3;letter-spacing:-.015em;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:24px}h3{font-size:20px;line-height:1.4;margin:32px 0 12px;scroll-margin-top:24px}p,li{max-width:90ch;overflow-wrap:anywhere}p{margin:16px 0}li+li{margin-top:8px}code{font-size:.9em;background:#f1f5f9;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{background:#0f172a;color:#f1f5f9;border-radius:8px;padding:24px;max-width:100%;overflow:auto;line-height:1.5;font-size:13px}pre code{padding:0;background:transparent;color:inherit;white-space:pre;overflow-wrap:normal}
+.table-scroll{max-width:100%;overflow:auto;margin:24px 0;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid #e2e8f0;min-width:96px}th{background:#eff6ff;color:#1e3a8a;font-weight:600}tbody tr:nth-child(even){background:#f8fafc}tbody tr:last-child td{border-bottom:0}
+.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:32px}.metric{border:1px solid var(--line);padding:20px;border-radius:8px}.metric strong{display:block;font-size:28px;line-height:1.2;color:var(--teal)}.metric span{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+.workflow,.diagram{border:1px solid var(--line);border-radius:8px;margin:32px 0;padding:24px;background:#f8fafc}.workflow img,.diagram img{display:block;width:100%;height:auto;background:#fff}.controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}button{font:inherit;font-size:14px;font-weight:600;background:var(--blue-dark);color:white;border:1px solid var(--blue-dark);border-radius:6px;padding:10px 16px;cursor:pointer}button:disabled{opacity:.65;cursor:default}.caption{font-size:13px;line-height:1.55;color:var(--muted)}.native-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.diagram{min-width:0}.diagram h3{margin-top:0}
+details{margin:16px 0;border:1px solid var(--line);border-radius:8px;padding:16px 20px}summary{cursor:pointer;font-weight:600;color:var(--blue-dark)}details p{font-size:14px}.tag{display:inline-block;padding:3px 8px;border-radius:4px;background:#e2e8f0;font-size:12px;color:#334155}.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:10;background:white;padding:12px}.footer{border-top:1px solid var(--line);margin-top:48px;padding-top:24px;font-size:13px;color:var(--muted)}
+@media(max-width:1100px){.shell{grid-template-columns:220px minmax(0,1fr);padding:24px}.sheet{padding:32px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.shell{display:block;padding:16px}.sidebar{position:static;max-height:220px;border:1px solid var(--line);border-radius:8px;margin-bottom:24px}.sidebar .toc{display:none}.sheet{padding:24px}.native-grid{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:480px){.shell{padding:8px}.sheet{padding:16px}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:24px}.workflow,.diagram{padding:12px}th,td{padding:10px 12px}h2{font-size:23px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.sidebar,.controls,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}.table-scroll{overflow:visible}body{font-size:10pt;background:white}h2,h3{break-after:avoid}.workflow,.diagram{break-inside:avoid}details{break-inside:avoid}}
+</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections"><a href="index.html">Reading hub</a><a href="portfolio-import-spec.html">Portfolio and imports</a><a href="phased-delivery-plan.html">Phased delivery</a><a href="architecture-blueprint.html">Architecture</a><a href="network-topology-options.html">VPC and egress options</a><a href="tech-stack-matrix.html" aria-current="page">Technology choices</a><a href="confluence-page-map.html">MP page proposal</a><a href="mp-sync-write-proposal.html">Proposed sync scope</a><div class="toc"><a href="#1-current-repository-evidence">1. Current repository evidence</a><a href="#2-target-matrix">2. Target matrix</a><a href="#3-compatibility-facts-checked-against-primary-sources">3. Compatibility facts checked against primary sources</a><a href="#4-ownership-contracts-and-launch-gates">4. Ownership, contracts and launch gates</a></div></nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p><h1>Technology stack and component contracts</h1><div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div>
+<p><strong>DRAFT · MP-15 · 1 November 2026 · Planning only · Independent review not run</strong></p>
+<p>This matrix separates repository evidence, confirmed product preferences and unselected implementation proposals. Read it with the <a href="architecture-blueprint.html">architecture blueprint</a>, <a href="../aws-options-2026-11-01/product-decisions.json">DEC-001–041</a> and <a href="../aws-options-2026-11-01/audit-observability-requirements.md">audit/cost requirements</a>. A locked dependency is not a working feature. No implementation, paid service activation or publication is authorised by this document.</p>
+<h2 id="1-current-repository-evidence">1. Current repository evidence</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Evidence checked</th>
+<th>Actual state and target implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python runtime</td>
+<td><code>backend/pyproject.toml</code>: <code>&gt;=3.12</code>; CI selects 3.12</td>
+<td>Starter target. Future runtime must match chosen Lambda/adapters/orchestrator, not just this minimum</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Manifest <code>fastapi&gt;=0.115,&lt;1.0</code>; lock <strong>0.162.0</strong></td>
+<td>API version <strong>0.1.0</strong>, health and sample SSE only; versioned <code>/api/v1</code> remains planned product boundary</td>
+</tr>
+<tr>
+<td>Validation/config</td>
+<td>Pydantic lock <strong>2.14.2</strong>, Pydantic Settings <strong>2.16.2</strong></td>
+<td>Starter configuration; typed product schemas still to define</td>
+</tr>
+<tr>
+<td>Local serving/SSE</td>
+<td>Uvicorn <strong>0.54.0</strong>, <code>sse-starlette</code> <strong>2.4.1</strong> in lock</td>
+<td>Local ASGI/SSE sample; no evidence of Lambda streaming compatibility or durable subscriptions</td>
+</tr>
+<tr>
+<td>Dependency management</td>
+<td><code>backend/uv.lock</code>; CI <strong>uv 0.12.9</strong></td>
+<td>Frozen dependency/check workflow exists; listed versions are repository resolutions, not latest-version claims</td>
+</tr>
+<tr>
+<td>Data optional group</td>
+<td>SQLAlchemy <strong>2.1.6</strong>, asyncpg <strong>0.32.0</strong>, Alembic <strong>1.20.1</strong> locked</td>
+<td>Historical PostgreSQL declarations; no implemented ledger or DynamoDB persistence</td>
+</tr>
+<tr>
+<td>ML optional group</td>
+<td>NumPy <strong>2.5.4</strong>, pandas <strong>2.3.3</strong>, scikit-learn <strong>1.9.1</strong> locked</td>
+<td>Available planning baseline only; no fitted forecast model/evaluator or demonstrated performance</td>
+</tr>
+<tr>
+<td>Agent optional group</td>
+<td><code>claude-agent-sdk&gt;=0.1</code>, lock <strong>0.2.176</strong></td>
+<td>Superseded target preference; direct official Anthropic client SDK loop must replace/reconcile this declaration in a later authorised implementation</td>
+</tr>
+<tr>
+<td>Test/lint</td>
+<td>pytest <strong>8.4.2</strong>, Ruff <strong>0.17.3</strong> locked</td>
+<td>Existing checks cover starter/tooling/preview; no product/security/device/evaluation certification</td>
+</tr>
+<tr>
+<td>Web/mobile/infra</td>
+<td>Static <code>site/dist/index.html</code>; no executable target clients/IaC established</td>
+<td>Current preview is not the SvelteKit PWA; native and infrastructure remain to build</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source of versions: <a href="../../../backend/pyproject.toml">manifest</a>, <a href="../../../backend/uv.lock">lock</a>, <a href="../../../.github/workflows/verify.yml">CI</a>. Existing historical <a href="../../tech-stack.md">stack document</a> and ADRs retain earlier choices; this matrix flags the drift instead of rewriting them. Version bumps must include a compatibility/security and budget check when implementation is authorised.</p>
+<h2 id="2-target-matrix">2. Target matrix</h2>
+<p>Status key: <strong>confirmed direction</strong> records an owner preference/requirement, <strong>proposed</strong> needs a technical decision, <strong>open</strong> has meaningful alternatives. All target product components remain unimplemented unless the current-evidence table says otherwise. Cost impact describes what must be measured, not a quotation.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Layer/component</th>
+<th>Technology and status</th>
+<th>Responsibility/interface</th>
+<th>Alternative or unresolved decision</th>
+<th>Cost impact and first evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web app</td>
+<td><strong>SvelteKit 3</strong>, TypeScript PWA; confirmed direction</td>
+<td>Discovery dashboard first; holdings separate; contextual chat, imports, proof, costs; <code>/api/v1</code> and event schema</td>
+<td>Static shell proposed versus SSR; UI/UX approval still required</td>
+<td>Static S3/CloudFront versus extra SSR compute; measure bundle, accessibility and authenticated routing</td>
+</tr>
+<tr>
+<td>PWA offline/push</td>
+<td>Service worker, explicit private-cache policy, Web Push; proposed details</td>
+<td>Asset cache, update lifecycle, permission/status and private notification routing</td>
+<td>Platform capability/device matrix, offline private-data scope, push transport</td>
+<td>Storage/transfer and delivery/retry cost; logout/data-clear and stale-version cases</td>
+</tr>
+<tr>
+<td>Native Apple</td>
+<td>Swift/SwiftUI in RN shell; confirmed direction</td>
+<td>Swift screens/cache/secure-device integration/widgets; RN navigation/typed bridge</td>
+<td>Exact SDK/RN/Swift versions, supported OS/device “Duo” interpretation</td>
+<td>Apple membership/build/signing and bridge maintenance; adaptive iPhone/iPad evidence</td>
+</tr>
+<tr>
+<td>API language/framework</td>
+<td>Python/FastAPI/Pydantic; confirmed direction</td>
+<td>Owner/env authorization, validated commands/queries, durable jobs, OpenAPI</td>
+<td>Runtime/package lock refresh after adapter/workflow choice</td>
+<td>Lambda duration/memory/cold starts; contract tests and measured payload/latency</td>
+</tr>
+<tr>
+<td>Edge and web origin</td>
+<td>Route 53, CloudFront, private S3; preferred</td>
+<td>DNS/TLS/static assets; authenticated data excluded from public caches</td>
+<td>Domain/region/origin policy and SSR choice</td>
+<td>DNS/domain/CDN/requests/transfer; cache-isolation and origin-access tests</td>
+</tr>
+<tr>
+<td>API front door</td>
+<td>API Gateway; REST <code>STREAM</code> proposed for SSE</td>
+<td>Authenticated HTTPS and bounded observation streams</td>
+<td>All REST versus split HTTP API commands + REST stream; additional complexity/cost needs evidence</td>
+<td>API request/stream costs plus duration; no assumed HTTP API SSE compatibility</td>
+</tr>
+<tr>
+<td>Python streaming</td>
+<td>Lambda Web Adapter/custom streaming runtime candidate; open</td>
+<td>Incremental ASGI response via supported streaming integration</td>
+<td>Dedicated Node stream bridge if Python integration proves unsuitable</td>
+<td>Packaging, invocation duration and durable-event polling; stream cancellation/reconnect spike</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>Cognito managed login, Apple/Google/passkeys; confirmed</td>
+<td>Authentication and verified canonical owner linking</td>
+<td>Pool tier, passkey/local profile flow, sessions/revocation/recovery proof</td>
+<td>Identity tier/feature and external enrollment costs; two independent passkey paths plus verified links</td>
+</tr>
+<tr>
+<td>App compute</td>
+<td>On-demand Lambda; preferred</td>
+<td>Bounded APIs, ingest/infer/research/collectors; least-privilege functions</td>
+<td>Package/runtime/memory/concurrency; heavy jobs outside invocation limits</td>
+<td>Duration/concurrency/logging/transfer; no provisioned capacity assumed</td>
+</tr>
+<tr>
+<td>Network N0/N1</td>
+<td>Customer-VPC-unattached Lambda baseline candidate versus optional two-AZ private split; open</td>
+<td>Auth/IAM/private S3 apply to both; N1 scopes private ENIs/SGs/routes/endpoints to justified work</td>
+<td>No selected account/Region/CIDR; external Anthropic/Yahoo/Grow workers remain unattached in N1</td>
+<td>Compare fixed costs and path requirements; <a href="network-topology-options.html">network appendix</a> and <a href="visuals/mp-network-options-native.png">native VPC diagram</a></td>
+</tr>
+<tr>
+<td>Conditional egress N1-E</td>
+<td>Public zonal NAT/IGW or paid interface endpoints only where required; unselected</td>
+<td>Real outbound route if all workers attach; bootstrap/runtime service reachability</td>
+<td>No internet merely from public-subnet Lambda; no gateway endpoint path to arbitrary internet; static/SSR and A/B remain open</td>
+<td>NAT-hours/GB/IPv4/transfer plus endpoint service-AZ-hours/GB can threaten £100 all-in budget; cost/owner gate</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>EventBridge Scheduler; proposed</td>
+<td>Daily forecast, supported 30-minute quotes/risk, 07:30 Europe/London briefing, collectors, recovery checks</td>
+<td>Weekend briefing and catch-up/materiality policy</td>
+<td>Schedule invocations plus jobs; DST/missed-run/duplicate fixtures</td>
+</tr>
+<tr>
+<td>Workflow</td>
+<td>Lambda Durable Functions <strong>or</strong> Step Functions; open</td>
+<td>Durable steps/waits/retry/approval, continuation references</td>
+<td>Code-first checkpointed flow versus external service state machine; region/runtime proof</td>
+<td>Checkpoints/transitions/storage/duration; compare full representative workflow</td>
+</tr>
+<tr>
+<td>Queue/outbox</td>
+<td>Durable transactional outbox + SQS/DLQ as justified; proposed</td>
+<td>Dispatch gaps, backpressure, attempts/leases/recovery; per-conversation sequencing</td>
+<td>FIFO versus application ordering, exact queue topology, fan-out</td>
+<td>Queue polling/requests/retries; duplicate and crash-boundary cases</td>
+</tr>
+<tr>
+<td>Durable operational core</td>
+<td>DynamoDB preferred; schema open</td>
+<td>Ledger/import/job/approval/prediction/outcome/cost records and indexes</td>
+<td>Relational alternative if atomic visibility/query complexity fails fit gate</td>
+<td>Read/write/index/transaction/backup/restore; multi-row financial invariants and replay</td>
+</tr>
+<tr>
+<td>Private evidence/artefacts</td>
+<td>S3 encryption/version/checksum references; confirmed archive direction</td>
+<td>Originals, snapshots, model/feature/evaluation artefacts; metadata refs</td>
+<td>Encryption key policy, lifecycle/delete semantics, format/partitioning</td>
+<td>Storage/version/request/backup/egress; 24-month renewable originals; no automatic deletion authorised</td>
+</tr>
+<tr>
+<td>Tabular import</td>
+<td>CSV/Excel deterministic parsers; proposed libraries</td>
+<td>Typed rows, source cells, preview/match/dedupe/confirm/reversal</td>
+<td>Exact formats/layouts; safe formula/macro/external-link handling</td>
+<td>Bounded parsing/storage; synthetic malformed/duplicate/large-file cases</td>
+</tr>
+<tr>
+<td>Document extraction</td>
+<td>Local/Python PDF/image parsing/OCR with optional bounded Claude extraction; open</td>
+<td>Page/region/source evidence and confidence; uncertain rows require review</td>
+<td>OCR/parser/model choices; no promise every broker layout</td>
+<td>CPU/packages and metered extraction; restrict pixels/pages/tokens and stored sensitive text</td>
+</tr>
+<tr>
+<td>Data providers</td>
+<td>Yahoo Finance + Twelve Data Grow; selected</td>
+<td>Instrument-aware adapters, validation/provenance/availability</td>
+<td>Exact Grow tier, quota/UK-US-India listings/history/rights; no extra paid feed without permission</td>
+<td>Subscription, FX/tax and request budgets; source fixtures now, real entitlements before activation</td>
+</tr>
+<tr>
+<td>Instrument/market registry</td>
+<td>Versioned typed contract; proposed implementation</td>
+<td>Issuer/security/listing, calendars/units/currencies/FX/benchmarks, theme/exposure versions</td>
+<td>Exact indices, return/FX/corporate-action timing and calendar conventions</td>
+<td>Registry/source maintenance; known-answer split/dividend/GBp/GBP/holiday cases</td>
+</tr>
+<tr>
+<td>Ledger/performance/rules</td>
+<td>Deterministic typed Python core; proposed</td>
+<td>Transactions/cash/holdings, XIRR, risk/indicators/weights, explainable recommendations</td>
+<td>Numeric precision, XIRR no/multiple-root conventions, score formulas/action bands</td>
+<td>CPU/storage/evidence; invariant/known-answer tests before LLM narration</td>
+</tr>
+<tr>
+<td>Numerical baseline/ML</td>
+<td>NumPy/pandas/scikit-learn baseline; proposed family set</td>
+<td>Features, chronological folds, calibration, benchmarks and artefact exports</td>
+<td>Specific model families/versions and evidence thresholds; optional larger libraries only by proof</td>
+<td>Bounded training/evals/inference and data storage; no accuracy guarantee</td>
+</tr>
+<tr>
+<td>ML execution A</td>
+<td>Portable bounded jobs; <strong>unselected option</strong></td>
+<td>Reproducible training/artefact/version/evaluation contracts</td>
+<td>Suitable runner when Lambda duration/memory insufficient</td>
+<td>Measure job/operations cost, not just inference</td>
+</tr>
+<tr>
+<td>ML execution B</td>
+<td>Selective SageMaker jobs/registration; <strong>unselected option</strong></td>
+<td>Managed bounded training/experiment/model record where justified</td>
+<td>Is operational evidence worth managed setup/extra cost?</td>
+<td>Training/jobs/artefact/registry/monitoring; no always-on endpoint</td>
+</tr>
+<tr>
+<td>Research/model client</td>
+<td>Official Anthropic client SDK, explicit bounded loop on Lambda; confirmed</td>
+<td>Structured factor extraction, cited evidence and chat, scoped deterministic tools</td>
+<td>Specific client/model versions and compatible streaming/tool schemas</td>
+<td>Gross tokens/cache/tool/eval usage; credit eligibility unverified; no Agent SDK/Bedrock/AgentCore target</td>
+</tr>
+<tr>
+<td>Agent catalogue/memory</td>
+<td>Versioned manifests, scoped durable notes/cache; proposed</td>
+<td>Tool authority, prompt/eval/budget contracts, per-conversation provenance</td>
+<td>Exact role split, memory retention, context/caching policy</td>
+<td>Input/history/caching/storage/judges; no silent agent privilege changes</td>
+</tr>
+<tr>
+<td>Guardrails/evaluations</td>
+<td>Deterministic T0 plus bounded T1/T2/online suites; required capability</td>
+<td>Prompt-injection, numerical grounding, abstention, capability/safety regressions and owner-calibrated judges</td>
+<td>Exact case counts/thresholds/trials and model/prompt policy</td>
+<td>Evaluation spend is inside same all-in/credit envelope; quality judging distinct from predictive scoring</td>
+</tr>
+<tr>
+<td>Forecast/outcome registry</td>
+<td>Append-only records with artefact refs; confirmed invariant</td>
+<td>Declared target/horizon/cutoff/model, immutable issued forecast, mature outcome/versioned score</td>
+<td>Precise schema, mature samples and scenario-vs-forecast contracts</td>
+<td>Durable storage and replay; no operational TTL deletion of required lineage</td>
+</tr>
+<tr>
+<td>Cost admission/reconciliation</td>
+<td>Durable reservations, price tables and cached aggregates; required</td>
+<td>Concurrent liability accounting, environment/agent attribution and estimate/report reconciliation</td>
+<td>Service allocations, credit thresholds and acceptable report age still proposed</td>
+<td>Monitor the monitor: collectors, reads, storage, queries and alerts all cost money</td>
+</tr>
+<tr>
+<td>Billing collectors</td>
+<td>Anthropic analytics 6-hourly; AWS daily; confirmed cadence</td>
+<td>Restricted server-side collection, covered-through/version/source health</td>
+<td>Actual account permissions/API compatibility, tag availability and organization balance visibility</td>
+<td>Cost Explorer paid pagination; dashboard refresh uses cache; no credentials in clients/agents</td>
+</tr>
+<tr>
+<td>Telemetry/audit</td>
+<td>OpenTelemetry convention; CloudWatch/trace backends under evaluation</td>
+<td>Business/run correlation, redacted logs, metrics, linked async traces and investigation</td>
+<td>Product/tool selections, sampling/export/storage and durable audit retention</td>
+<td>Logs14d/traces30d/runs90d initial policy; long-lived audit separately costed</td>
+</tr>
+<tr>
+<td>CI/CD/IaC</td>
+<td>Existing GitHub Actions; CDK or CloudFormation proposed</td>
+<td>Locked builds, schema/security/unit/integration/UI/eval gates, plan-only IaC and controlled release</td>
+<td>IaC language/tool, accounts/region, artifact signing/provenance, deployment approval</td>
+<td>Build minutes/artifacts/scanners/test devices plus infrastructure; no apply/deploy now</td>
+</tr>
+<tr>
+<td>Backup/recovery</td>
+<td>Store-specific snapshots/versioned archives and reproducible restore; proposed</td>
+<td>Consistent ledger/evidence/artefact/audit recovery and monthly focused drills</td>
+<td>RPO/RTO, backup windows/key recovery/deletion policy</td>
+<td>Backup/version storage, restore and drill costs; proof before treating data as protected</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-compatibility-facts-checked-against-primary-sources">3. Compatibility facts checked against primary sources</h2>
+<ul>
+<li><strong>SvelteKit 3 is available.</strong> The <a href="https://svelte.dev/blog/sveltekit-3-is-here">official announcement</a> is dated 1 October 2026; the <a href="https://svelte.dev/docs/kit/migrating-to-sveltekit-3">migration guide</a> covers its breaking changes. No SvelteKit version is currently installed in this product. Select a compatible exact Svelte/Kit/Vite/Node/adapter set with a lock when the build is authorised; do not substitute historical Svelte 3 for SvelteKit 3.</li>
+<li><strong>Static and SSR differ.</strong> <a href="https://svelte.dev/docs/kit/adapter-static">SvelteKit static adapter</a> produces static files. Dynamic server logic needs another adapter/runtime; Cognito client sign-in alone does not create server-side SvelteKit sessions.</li>
+<li><strong>SSE is a constrained AWS integration.</strong> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html">API Gateway</a> documents REST proxy response streaming and a 15-minute ceiling. <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html">Lambda</a> documents Python custom runtime/Web Adapter requirements and billed continuation after disconnect. Region availability and the complete authenticated Python path still need validation.</li>
+<li><strong>Workflow runtime matters.</strong> <a href="https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html">Durable Functions’ supported runtimes</a> include Python 3.13/3.14 at this check; the starter CI’s Python 3.12 is not sufficient evidence for that choice. Step Functions remains the external state-machine alternative; neither is activated or selected here.</li>
+<li><strong>Financial atomicity has real bounds.</strong> <a href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html">DynamoDB transactions</a> have action/size/idempotency limits. A staged immutable import with consistent commit visibility or an explicit relational alternative needs proof before design approval.</li>
+<li><strong>Cognito features do not prove a complete recovery design.</strong> <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html">Authentication flows</a> describe federation/passkeys; <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html">federated linking</a> is a privileged identity operation. Validate tier, canonical local owner, linking, recovery and reauthentication as one flow; do not grant access on email equality.</li>
+<li><strong>Claude tool use is an application trust boundary.</strong> The <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works">official tool-use guide</a> describes the model/client exchange. Here, tool allowlists, authority, idempotency, budgets and continuation are controlled by our server code. Official client SDK support is different from adopting Claude Agent SDK.</li>
+<li><strong>Costs are not instantaneous.</strong> <a href="https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html">Cost Explorer</a> documents delayed updates and paid paginated queries. <a href="https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api">Anthropic analytics</a> is a historical organization report, not proof of the owner’s promotional balance. Permission/response/API version checks remain future implementation evidence.</li>
+</ul>
+<p>These facts were checked on 1 November 2026 through official documentation/web or AWS MCP documentation tools. No AWS/Anthropic account calls or credential inspection were made. Target versions, quotas, pricing and regional support must be checked again at implementation; this draft makes no compatibility guarantee based only on a package name.</p>
+<h2 id="4-ownership-contracts-and-launch-gates">4. Ownership, contracts and launch gates</h2>
+<p>Environment is an immutable attribute on business/job/cost evidence. Dev and prod have separate write authority, stores, queues and client configurations; local uses prepared offline fixtures. Shared DNS/builds/organization credits are reported once under an agreed allocation or shared/unallocated view. Separate resources do not imply verified cost tags or separate credit pools.</p>
+<p>Contract pack required before app build: owner/session claims and protected actions; instruments/FX/calendars; import manifest/preview/confirmation/commit visibility; ledger/precision/reversals; job/outbox/retry/cancel; event cursor/snapshot/reconnect; source/factor/feature lineage; model/forecast/mature outcome; conversation/tool/agent/evaluation manifests; cost reservation/report reconciliation; audit retention/deletion/restore; Swift/RN/web compatibility schemas. Put schema version and environment on durable envelopes and preserve backward compatibility through rolling client/backend upgrades.</p>
+<p>The source requirements contain 140 captured MA stories mapped into Prediction capabilities; that inheritance is not permission to duplicate their old stack choices or call target functionality implemented. Future China/Taiwan/Hong Kong/continental Europe, theme expansion and model families require rights, evaluated compatibility, incremental cost and owner approval; the initial 20–30-instrument examples do not fund all future scope.</p>
+<p>Minimum readiness evidence: end-to-end requirements and UX agreement; ADR conflict resolution and A/B choice; full-scope £70 operation/£30 reserve recost; source/layout/device identity gates; contract/invariant/error/recovery cases; security/access-isolation and package checks; quant leakage/calibration/ablation tests; web/native accessibility/reconnect/offline/push tests; budget exhaustion/ambiguous-call reconciliation; monthly restore/audit exercise design. Apply these with each layer, then run complete release gates. Current CI does not establish that evidence.</p>
+<p>Significant architecture diagrams remain in the existing <a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">Lucidchart source</a>. Under the owner's later explicit diagram request, a new <strong>detailed draft page 4</strong> (<code>jvMISWi7AU3v</code>, document version <strong>2703</strong>) was appended; existing A/B/C pages were verified unchanged. <a href="visuals/mp-system-architecture-native.png">Native detailed PNG</a> · <a href="visuals/mp-system-architecture-source.json">Actual canvas source snapshot</a> · <a href="visuals/architecture-lucid-manifest.json">Native export provenance/hashes and clean canvas validation</a>. Exact native AWS shape IDs were discovered through Lucid before creation. The diagram remains logical/proposed, with A/B training and workflow choice open; no network/account/deployment is implied. Prior <a href="../aws-options-2026-11-01/diagram-manifest.json">A/B export metadata</a> remains historical comparison evidence. No Confluence publication, sharing change, invitation or paid feature occurred. See the blueprint for phase mapping and ADR backlog. This document remains <strong>unreviewed</strong> until the owner approves independent review under the project workflow.</p>
+<p>The subsequent explicit VPC/network request added <strong>native page 5</strong> (<code>VNMISlFqoQy9</code>, document version <strong>4333</strong>). <a href="network-topology-options.html">N0/N1 technical appendix</a> · <a href="visuals/mp-network-options-native.png">Native network PNG</a> · <a href="visuals/mp-network-options-source.json">Actual source</a> · <a href="visuals/network-lucid-manifest.json">Export/validation/preserved-pages manifest</a>. S3/DynamoDB/Cognito/API Gateway/CloudFront stay outside the customer VPC. Native subnet/SG/ENI/gateway/NAT shapes show proposed boundaries and unselected alternatives, with no network or paid endpoint approved. The appendix is intended inline with the MP architecture page; no additional Confluence child page or publication was created. Original pages 1–4 remain unchanged.</p>
+<figure class="diagram"><h3>The confirmed cash planning envelope</h3><a href="visuals/budget-envelope.png"><img src="visuals/budget-envelope.png" alt="DEC-023: £70 planned operation plus £30 reserve within £100; resource prices and actual spend are not plotted." loading="lazy"></a><figcaption class="caption">DEC-023: £70 planned operation plus £30 reserve within £100; resource prices and actual spend are not plotted. · <a href="visuals/budget-envelope.svg">Accessible SVG</a> · <a href="visuals/budget-envelope.drawio">Editable draw.io source</a></figcaption></figure><section><h2>Detailed proposed MP system</h2><p>Native Lucidchart export with AWS components and labelled logical boundaries. Training/workflow choices and full-scope costs remain open.</p><figure class="diagram"><a href="visuals/mp-system-architecture-native.png"><img src="visuals/mp-system-architecture-native.png" alt="Detailed proposed Mypaisaa Prediction architecture with private clients, bounded APIs/jobs, source and ledger data, models, agents and cost visibility" loading="lazy"></a><figcaption class="caption"><a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">Editable Lucidchart document</a> · <a href="visuals/architecture-lucid-manifest.json">Native export/source manifest</a></figcaption></figure></section><section aria-label="Existing native Lucid architecture snapshots"><h2>Native Lucidchart planning references</h2><p><a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">Editable Lucidchart source</a> · <a href="../aws-options-2026-11-01/diagram-manifest.json">Source/export manifest</a></p><div class="grid gap-6 native-grid"><figure class="diagram"><h3>Proposed A: portable ML jobs</h3><a href="../aws-options-2026-11-01/option-a-lucid.png"><img src="../aws-options-2026-11-01/option-a-lucid.png" alt="Native Lucidchart export of proposed architecture option A" loading="lazy"></a><figcaption class="caption">Initial planning snapshot; final training/runtime choices and detailed topology remain open.</figcaption></figure><figure class="diagram"><h3>Proposed B: selective SageMaker</h3><a href="../aws-options-2026-11-01/option-b-lucid.png"><img src="../aws-options-2026-11-01/option-b-lucid.png" alt="Native Lucidchart export of proposed architecture option B" loading="lazy"></a><figcaption class="caption">Initial planning snapshot; final training/runtime choices and detailed topology remain open.</figcaption></figure></div></section><section><h2>Detailed AWS network options</h2><figure class="diagram"><a href="visuals/mp-network-options-native.png"><img src="visuals/mp-network-options-native.png" alt="Native Lucidchart network options showing N0, two-AZ N1 private subnets and endpoints, and conditional NAT egress" loading="lazy"></a><figcaption class="caption">Proposed network choices, not provisioned resources. <a href="visuals/network-lucid-manifest.json">Native source and validation</a></figcaption></figure></section><footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div><script>
+(()=>{const img=document.getElementById('workflow-image');const button=document.getElementById('workflow-toggle');if(!img||!button)return;const motion=matchMedia('(prefers-reduced-motion: reduce)');const status=document.getElementById('workflow-status');let playing=false;
+const stop=()=>{playing=false;img.src='visuals/import-workflow.png';button.setAttribute('aria-pressed','false');button.textContent='Play illustrative workflow';status.textContent='Static workflow. Financial visibility begins only after a valid commit.';};
+const preference=()=>{stop();button.disabled=motion.matches;if(motion.matches)status.textContent='Reduced motion enabled. Static workflow remains available.';};
+button.addEventListener('click',()=>{if(motion.matches)return;if(playing){stop();return;}playing=true;img.src='visuals/import-workflow.gif';button.setAttribute('aria-pressed','true');button.textContent='Pause animation';status.textContent='Illustrative animation of planned behaviour; no import or live telemetry is running.';});motion.addEventListener('change',preference);addEventListener('pagehide',stop);preference();})();
+</script></body></html>

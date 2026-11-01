@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | VPC and egress options</title><link rel="icon" href="data:,"><style>
+:root{--ink:#0f172a;--muted:#475569;--line:#cbd5e1;--surface:#f8fafc;--blue:#1d4ed8;--blue-dark:#1e3a8a;--teal:#115e59;--amber:#92400e;color-scheme:light}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--blue-dark)}a:focus-visible,button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:3px solid #b45309;outline-offset:4px}
+.grid{display:grid}.gap-6{gap:24px}.p-6{padding:24px}.rounded-lg{border-radius:8px}.font-semibold{font-weight:600}.text-sm{font-size:14px}.text-slate-600{color:var(--muted)}
+.shell{grid-template-columns:256px minmax(0,1fr);max-width:1536px;margin:auto;padding:32px}.sidebar{position:sticky;top:24px;align-self:start;max-height:92vh;overflow:auto;padding:8px}.brand{font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--blue-dark);margin:0 0 16px}.sidebar a{display:block;text-decoration:none;font-size:14px;padding:8px 12px;border-left:3px solid transparent}.sidebar a[aria-current=page]{background:#dbeafe;border-color:var(--blue);font-weight:600}.sidebar .toc{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}.sidebar .toc a{font-size:13px;padding:6px 12px}
+.sheet{min-width:0;background:#fff;border:1px solid #e2e8f0;padding:48px}.status{border-left:4px solid #b45309;background:#fffbeb;padding:16px 24px;margin:0 0 32px}.status p{margin:0}.eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h1{font-size:36px;line-height:1.18;letter-spacing:-.03em;margin:0 0 24px;color:var(--blue-dark)}h2{font-size:26px;line-height:1.3;letter-spacing:-.015em;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:24px}h3{font-size:20px;line-height:1.4;margin:32px 0 12px;scroll-margin-top:24px}p,li{max-width:90ch;overflow-wrap:anywhere}p{margin:16px 0}li+li{margin-top:8px}code{font-size:.9em;background:#f1f5f9;padding:2px 4px;border-radius:4px;overflow-wrap:anywhere}pre{background:#0f172a;color:#f1f5f9;border-radius:8px;padding:24px;max-width:100%;overflow:auto;line-height:1.5;font-size:13px}pre code{padding:0;background:transparent;color:inherit;white-space:pre;overflow-wrap:normal}
+.table-scroll{max-width:100%;overflow:auto;margin:24px 0;border:1px solid var(--line);border-radius:8px}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid #e2e8f0;min-width:96px}th{background:#eff6ff;color:#1e3a8a;font-weight:600}tbody tr:nth-child(even){background:#f8fafc}tbody tr:last-child td{border-bottom:0}
+.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:32px}.metric{border:1px solid var(--line);padding:20px;border-radius:8px}.metric strong{display:block;font-size:28px;line-height:1.2;color:var(--teal)}.metric span{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+.workflow,.diagram{border:1px solid var(--line);border-radius:8px;margin:32px 0;padding:24px;background:#f8fafc}.workflow img,.diagram img{display:block;width:100%;height:auto;background:#fff}.controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px}button{font:inherit;font-size:14px;font-weight:600;background:var(--blue-dark);color:white;border:1px solid var(--blue-dark);border-radius:6px;padding:10px 16px;cursor:pointer}button:disabled{opacity:.65;cursor:default}.caption{font-size:13px;line-height:1.55;color:var(--muted)}.native-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.diagram{min-width:0}.diagram h3{margin-top:0}
+details{margin:16px 0;border:1px solid var(--line);border-radius:8px;padding:16px 20px}summary{cursor:pointer;font-weight:600;color:var(--blue-dark)}details p{font-size:14px}.tag{display:inline-block;padding:3px 8px;border-radius:4px;background:#e2e8f0;font-size:12px;color:#334155}.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:10;background:white;padding:12px}.footer{border-top:1px solid var(--line);margin-top:48px;padding-top:24px;font-size:13px;color:var(--muted)}
+@media(max-width:1100px){.shell{grid-template-columns:220px minmax(0,1fr);padding:24px}.sheet{padding:32px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.shell{display:block;padding:16px}.sidebar{position:static;max-height:220px;border:1px solid var(--line);border-radius:8px;margin-bottom:24px}.sidebar .toc{display:none}.sheet{padding:24px}.native-grid{grid-template-columns:1fr}h1{font-size:30px}}
+@media(max-width:480px){.shell{padding:8px}.sheet{padding:16px}.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:24px}.workflow,.diagram{padding:12px}th,td{padding:10px 12px}h2{font-size:23px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media print{.sidebar,.controls,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}.table-scroll{overflow:visible}body{font-size:10pt;background:white}h2,h3{break-after:avoid}.workflow,.diagram{break-inside:avoid}details{break-inside:avoid}}
+</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections"><a href="index.html">Reading hub</a><a href="portfolio-import-spec.html">Portfolio and imports</a><a href="phased-delivery-plan.html">Phased delivery</a><a href="architecture-blueprint.html">Architecture</a><a href="network-topology-options.html" aria-current="page">VPC and egress options</a><a href="tech-stack-matrix.html">Technology choices</a><a href="confluence-page-map.html">MP page proposal</a><a href="mp-sync-write-proposal.html">Proposed sync scope</a><div class="toc"><a href="#1-n0-customer-vpc-unattached-lambda-as-the-cost-baseline-candidate">1. N0: customer-VPC-unattached Lambda as the cost baseline candidate</a><a href="#2-n1-optional-split-topology-with-a-private-vpc-scope">2. N1: optional split topology with a private VPC scope</a><a href="#3-n1-e-conditional-public-egress-if-all-workers-must-be-vpc-attached">3. N1-E: conditional public egress if all workers must be VPC-attached</a><a href="#4-optional-private-job-service-reachability-and-paid-endpoints">4. Optional private-job service reachability and paid endpoints</a><a href="#5-policies-must-preserve-every-legitimate-access-path">5. Policies must preserve every legitimate access path</a><a href="#6-cost-comparison-and-decision-gate">6. Cost comparison and decision gate</a><a href="#7-diagram-evidence">7. Diagram evidence</a></div></nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p><h1>Network topology options N0 and N1</h1><div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div>
+<p><strong>DRAFT · MP-15 · 1 November 2026 · Technical architecture appendix · Unreviewed · No deployment or network choice approved</strong></p>
+<p>This appendix makes the network alternatives explicit alongside the <a href="architecture-blueprint.html">system blueprint</a> and <a href="tech-stack-matrix.html">technology matrix</a>. It is intended as an inline companion on the MP Confluence architecture page, not a new child page or permission to publish. The current task authorises documentation and a native Lucid diagram only. Account, Region, CIDRs, AZ IDs, resource names, rules and endpoints remain unprovisioned. Full requirements and UX agreement still gate application implementation. Synthetic local/dev fixtures remain local; nothing is loaded into AWS.</p>
+<h2 id="1-n0-customer-vpc-unattached-lambda-as-the-cost-baseline-candidate">1. N0: customer-VPC-unattached Lambda as the cost baseline candidate</h2>
+<p>N0 evaluates the app without attaching its Lambda functions to a customer VPC. Lambda still runs in AWS-managed infrastructure; “unattached” does not mean the function itself is a publicly addressable server. API Gateway is the authenticated application front door. Cognito managed sign-in, verified Apple/Google/passkey linking/recovery, object authorization, least-privilege IAM, encryption and environment isolation are still required.</p>
+<p>Use direct outbound TLS from the bounded Lambda workers for Anthropic's API, Yahoo Finance and Twelve Data Grow. The application owns the official Anthropic client SDK loop, read-only tool allowlists, URL/redirect validation, token/time/iteration ceilings and cost admission. An application URL allowlist is not the same control as a network firewall. No Bedrock, AgentCore or Agent SDK runtime is introduced. AWS explains that default Lambda networking has internet access, while a function attached to a customer VPC needs an explicit egress path. <a href="https://repost.aws/knowledge-center/internet-access-lambda-function">Lambda internet access</a></p>
+<p>CloudFront and Route 53 serve the web entry point. If the static SvelteKit option is selected, a standard private S3 origin uses signed OAC and a distribution-scoped bucket policy, with Block Public Access and encryption. S3 website endpoints do not support this OAC design. OAC protects the origin, not the confidentiality of every viewer response: holdings, imports, chat and cost data must not be baked into static assets or publicly cached. Dynamic SSR remains a separate, unselected adapter/runtime/session decision. <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html">S3 origin protection</a></p>
+<p>N0 accesses S3/DynamoDB through their managed service APIs using IAM/TLS; it has no customer subnet, gateway endpoint, NAT or customer security group. Data buckets/tables remain private by policy. Neither a customer VPC nor a VPN is required simply to make the product owner-only. Public TLS endpoints still require authentication, throttling and application security; a private API/VPN design is a separately costed alternative, not the baseline.</p>
+<h2 id="2-n1-optional-split-topology-with-a-private-vpc-scope">2. N1: optional split topology with a private VPC scope</h2>
+<p>N1 adds a customer VPC only for a demonstrated private-resource or compute-isolation need. It does not attach every internet-facing worker by default. Keep the direct Anthropic/retrieval/market-data functions customer-VPC-unattached; place only justified private jobs or VPC attachments in two isolated private subnets across two AZs. This is a candidate design, not a selected infrastructure plan or an availability guarantee.</p>
+<p>Lambda execution remains in the Lambda service. A VPC-configured Lambda uses Hyperplane ENIs to reach the customer network; the diagram distinguishes those attachment interfaces from the service's execution infrastructure. Optional Fargate/SageMaker job networking must be evaluated for the selected execution mode. Two AZs do not turn a single job, a regional dependency or a backup into a multi-region recovery design. <a href="https://aws.amazon.com/blogs/compute/using-aws-lambda-iam-condition-keys-for-vpc-settings/">Lambda VPC attachment</a></p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Proposed N1 contract</th>
+<th>Deliberately absent/unselected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer VPC</td>
+<td>CIDR/DNS settings to agree; dev/prod separation under the environment ADR</td>
+<td>No inherited MA network/account/Region</td>
+</tr>
+<tr>
+<td>Private subnet A/B</td>
+<td>One isolated subnet per AZ; no public addresses assigned to Lambda; route tables associated explicitly</td>
+<td>No default internet route in this split candidate</td>
+</tr>
+<tr>
+<td>Route tables</td>
+<td>VPC local route; same-Region S3/DynamoDB service-prefix routes to gateway endpoints</td>
+<td>No claim that an S3 gateway reaches Anthropic, arbitrary URLs or another VPC</td>
+</tr>
+<tr>
+<td>Workload security group</td>
+<td>No unsolicited inbound rules; narrowly scoped role-specific egress, such as required TCP443 service prefixes; application/database inbound only for a separately justified dependency</td>
+<td>No shared “allow everything” group; not an HTTP hostname/DNS firewall</td>
+</tr>
+<tr>
+<td>Gateway endpoints</td>
+<td>S3 and DynamoDB route targets, associated with both selected subnet route tables; scoped endpoint policies</td>
+<td>Not interface endpoint ENIs and not a reason to put S3/DynamoDB inside the VPC</td>
+</tr>
+<tr>
+<td>AWS managed services</td>
+<td>S3, DynamoDB, Cognito, API Gateway and CloudFront remain outside the customer VPC boundary</td>
+<td>They are not deployed into the two private subnets</td>
+</tr>
+<tr>
+<td>External API roles</td>
+<td>Separate unattached Lambda functions retain outbound internet access without customer NAT</td>
+<td>No direct inbound path into private subnets from the public API inferred</td>
+</tr>
+<tr>
+<td>API invocation</td>
+<td>AWS service integration invokes an authorized Lambda; private job dispatch/state follows the durable workflow contract</td>
+<td>API Gateway invocation is not an inbound socket opened on a Lambda ENI</td>
+</tr>
+</tbody>
+</table></div>
+<p>Gateway endpoints support their named service in the selected Region; their route and policy scope must match actual access. They have no additional endpoint charge, but the S3/DynamoDB service, requests, storage, backups and compute are still billed. Evaluate DNS resolution, service-prefix routes, network ACL return paths, IAM and endpoint policies together. <a href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 gateway endpoints</a>, <a href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html">DynamoDB gateway endpoints</a></p>
+<p>Security groups allow traffic by protocol, port, addresses/prefix lists and security-group references; they do not restrict destinations by DNS name. They also cannot block queries to AmazonProvidedDNS/Route 53 Resolver. DNS Firewall or an inspected proxy/firewall would be additional controls with their own coverage and cost decisions, not a capability hidden inside an SG. <a href="https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html">Security-group rules</a></p>
+<h2 id="3-n1-e-conditional-public-egress-if-all-workers-must-be-vpc-attached">3. N1-E: conditional public egress if all workers must be VPC-attached</h2>
+<p>This is an <strong>unselected change to N1</strong>, shown separately so the additional resources and route changes are visible. For classic zonal public NAT, each participating AZ has a public subnet/NAT gateway, the public route table sends <code>0.0.0.0/0</code> to an attached internet gateway, and the private subnet's default route points to its same-AZ NAT. Permit only necessary workload egress; NAT itself is connectivity, not destination authorization. Retain the more-specific S3/DynamoDB gateway routes for those services.</p>
+<p>Putting Lambda in a public subnet does <strong>not</strong> give it a public IP or internet access. Likewise, an IGW alone does not give a private Lambda ENI an outbound IPv4 path. Do not draw a direct private-subnet-to-IGW shortcut. A one-NAT design may reduce fixed cost but adds an AZ dependency and potentially cross-AZ transfer; two zonal NATs avoid that specific cross-AZ dependency while increasing the monthly floor. Other NAT products/IPv6 strategies require a new compatibility/pricing comparison, not an assumed free equivalent. <a href="https://repost.aws/knowledge-center/internet-access-lambda-function">Lambda egress requirements</a>, <a href="https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-pricing.html">NAT placement/cost</a></p>
+<h2 id="4-optional-private-job-service-reachability-and-paid-endpoints">4. Optional private-job service reachability and paid endpoints</h2>
+<p>Do not assume an isolated subnet can launch every training/container workload using just an S3 gateway. Record a call-by-call dependency matrix for build/pull, start, runtime tools, logging, model/data access, callbacks, cancellation and recovery. A container image pull, a job's training data path and a model API call are different routes.</p>
+<ul>
+<li>For Fargate/ECR workloads without internet, verify both <code>ecr.api</code> and <code>ecr.dkr</code> interface endpoints, S3 layer access and CloudWatch Logs access for the selected platform/log driver. Other runtime API calls can need additional endpoints. <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html">ECS endpoint considerations</a></li>
+<li>Regional STS is needed only where the actual code/service path calls STS through that network; add KMS or other service endpoints only where the selected runtime uses their APIs. Do not assume every endpoint is mandatory or that all services share one endpoint.</li>
+<li>SageMaker service-side download/logging and a training container's own networking differ, particularly with network isolation. Validate the chosen job's VPC configuration and service-side paths rather than copying the Fargate endpoint list. With network isolation the container cannot freely call the internet or private resources. <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/interface-vpc-endpoint.html">SageMaker VPC/network isolation</a></li>
+<li>Each interface endpoint requires service/Region/DNS/endpoint-policy compatibility and an endpoint SG permitting the intended workload SG on the required port. Those endpoint SGs are distinct from the route-based S3/DynamoDB gateway endpoints. New endpoint/logging/control-plane costs require the budget gate.</li>
+</ul>
+<p>ML option A portable jobs versus B selective SageMaker remains unselected. The diagram's private-job interfaces and optional paid endpoint box describe capabilities to investigate, not approved Fargate/SageMaker activation or an always-on inference endpoint.</p>
+<h2 id="5-policies-must-preserve-every-legitimate-access-path">5. Policies must preserve every legitimate access path</h2>
+<p>Keep separate service/role paths for CloudFront OAC web assets, unattached Lambda data access, optional VPC jobs through gateway endpoints, confirmed owner upload/read URLs, CI/deployment and approved recovery tools. Scope each to the required objects/actions/environment and audit it. The static web origin and sensitive raw archive need different viewer/access policies.</p>
+<p>A blanket bucket/table deny requiring <code>aws:SourceVpce</code> can break CloudFront, unattached workers, console/CI or restoration. AWS's S3 endpoint examples explicitly warn about blocking non-endpoint access. Design resource and endpoint policies together, with narrowly justified principal/service exceptions or separate resources rather than pasting a global deny. A network path does not replace IAM authorization, and an endpoint policy does not grant an otherwise unauthorized principal access. <a href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 endpoint policy considerations</a></p>
+<h2 id="6-cost-comparison-and-decision-gate">6. Cost comparison and decision gate</h2>
+<p>The confirmed envelope remains <strong>£100 monthly cash all-in</strong>, <strong>£70 operation + £30 reserve</strong>, covering dev/prod, data, Claude/evaluations and operating overhead. No suballocation proves that a VPC/NAT design fits. The shared $200 Anthropic credit is user-reported/unverified and does not offset unrelated AWS networking charges.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Planning table"><table>
+<thead>
+<tr>
+<th>Cost class</th>
+<th>Planning formula; Region/rate/tax/FX remain to verify</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N0 customer-network fixed floor</td>
+<td>No customer NAT/interface endpoints introduced by N0</td>
+<td>App, requests, transfer, edge, identity, storage, telemetry and recovery still cost money</td>
+</tr>
+<tr>
+<td>S3/DynamoDB gateway endpoints</td>
+<td>No additional endpoint hourly/data-processing charge</td>
+<td>Not a free storage/compute guarantee; only named service routes</td>
+</tr>
+<tr>
+<td>Classic zonal public NAT</td>
+<td><code>number of NATs × provisioned hours × regional NAT hourly rate + processed GB × rate + applicable transfer/IPv4 charges</code></td>
+<td>Idle gateways still incur fixed cost; two AZs can double the gateway-hour floor</td>
+</tr>
+<tr>
+<td>Interface endpoints</td>
+<td>Sum over required services/AZs: <code>provisioned endpoint-AZ hours × regional rate + processed GB × rate</code></td>
+<td>An ECR/logging/STS/etc. endpoint portfolio can cost substantially more than one endpoint</td>
+</tr>
+<tr>
+<td>Flow/DNS/firewall/edge logs</td>
+<td>Measured ingestion, storage, queries, rules/requests and retention</td>
+<td>Monitoring the network is separately budgeted; sensitive logs need restricted encrypted storage</td>
+</tr>
+</tbody>
+</table></div>
+<p>AWS prices NAT by provisioned hour plus processed data and applicable transfer, and PrivateLink by endpoint-AZ-hour plus processed data. The <a href="https://aws.amazon.com/vpc/pricing/">VPC pricing page</a> currently illustrates <strong>$0.045/hour</strong> for its <strong>US East (Ohio)</strong> NAT example: 730 illustrative hours gives <strong>$32.85 for one gateway's hours alone</strong>, before data, applicable IPv4/transfer, tax and GBP conversion. Two at that example rate would be $65.70 for gateway hours alone. <strong>This is not a quote for the unselected project Region or a complete bill.</strong> The fixed floor can threaten the available AWS portion of the all-in budget even with low traffic. <a href="https://aws.amazon.com/privatelink/pricing/">PrivateLink pricing</a></p>
+<p>Provisional evaluation order: measure N0 as the cost baseline, identify an actual private dependency, then compare the smallest N1 split that addresses it; evaluate N1-E only if all-worker VPC attachment is a requirement. The owner selects the network option after evidence. Neither security nor cost is established merely by adding a VPC icon.</p>
+<p>Before implementation approval, record the N0/N1 ADR, full-scope regional cost comparison, complete service/path policy matrix, two-AZ/route/endpoint failure cases, authenticated SSE/adapter proof, endpoint/job bootstrap evidence, source/credit collector behavior, recovery access and source/data deletion controls. This task does not perform cloud connectivity tests, pricing-account calls, policy deployment or independent review.</p>
+<h2 id="7-diagram-evidence">7. Diagram evidence</h2>
+<p>The editable source is the existing <a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">MP planning Lucidchart</a>, new <strong>“DRAFT | VPC network options N0-N1 | 2026-11-01”</strong>, page ID <code>VNMISlFqoQy9</code> (page 5). The <a href="visuals/mp-network-options-native.png">native PNG</a>, <a href="visuals/mp-network-options-source.json">actual canvas source snapshot</a> and <a href="visuals/network-lucid-manifest.json">network export manifest</a> record the saved revision and checks. Existing pages 1–4 are protected from editing. The diagram is proposed physical/logical topology, not live infrastructure or an approved resource inventory; it does not publish to Confluence.</p>
+<section><h2>Detailed AWS network options</h2><figure class="diagram"><a href="visuals/mp-network-options-native.png"><img src="visuals/mp-network-options-native.png" alt="Native Lucidchart network options showing N0, two-AZ N1 private subnets and endpoints, and conditional NAT egress" loading="lazy"></a><figcaption class="caption">Proposed network choices, not provisioned resources. <a href="visuals/network-lucid-manifest.json">Native source and validation</a></figcaption></figure></section><footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div><script>
+(()=>{const img=document.getElementById('workflow-image');const button=document.getElementById('workflow-toggle');if(!img||!button)return;const motion=matchMedia('(prefers-reduced-motion: reduce)');const status=document.getElementById('workflow-status');let playing=false;
+const stop=()=>{playing=false;img.src='visuals/import-workflow.png';button.setAttribute('aria-pressed','false');button.textContent='Play illustrative workflow';status.textContent='Static workflow. Financial visibility begins only after a valid commit.';};
+const preference=()=>{stop();button.disabled=motion.matches;if(motion.matches)status.textContent='Reduced motion enabled. Static workflow remains available.';};
+button.addEventListener('click',()=>{if(motion.matches)return;if(playing){stop();return;}playing=true;img.src='visuals/import-workflow.gif';button.setAttribute('aria-pressed','true');button.textContent='Pause animation';status.textContent='Illustrative animation of planned behaviour; no import or live telemetry is running.';});motion.addEventListener('change',preference);addEventListener('pagehide',stop);preference();})();
+</script></body></html>

@@ -1,0 +1,1030 @@
+{
+  "schema_version": 1,
+  "document_kind": "proposed acceptance-example register; not a runtime API/schema contract",
+  "project": "mypaisaa-prediction",
+  "prepared_on": "2026-11-01",
+  "is_synthetic": true,
+  "status": "local draft; owner requirements/UX approval pending; independently unreviewed",
+  "application_implementation_authorised": false,
+  "published": false,
+  "scope": "Twelve worked examples for requirements/acceptance walkthroughs only. No application code, parser, database, AWS loading or external publication was run.",
+  "global_labels": [
+    "SYNTHETIC: source-backed fixture amounts and newly proposed toy amounts are artificial, not observed market data or owner holdings.",
+    "Only instrument_id values reuse real identities from the existing synthetic catalogue; synthetic document/account/transaction/receipt/revision labels are artificial identifiers.",
+    "Source references are repository-relative paths resolved from the repository root; JSON pointers identify inspected value locations.",
+    "Decimal monetary values are encoded as strings. Null represents unknown/unavailable data; unknown values must never silently become zero.",
+    "Kinds distinguish existing synthetic source fixtures from new proposed worked examples and new proposed fault injections. A fault injection is a requirement scenario, not evidence that the application passed it.",
+    "No example approves an otherwise unresolved policy, provider right, paid call, retention period, recovery target, architecture, numerical default or implementation."
+  ],
+  "schema_notes": {
+    "required_example_fields": [
+      "id",
+      "title",
+      "is_synthetic",
+      "kind",
+      "given",
+      "when",
+      "expected",
+      "source_refs",
+      "story_refs",
+      "assumptions",
+      "pending_decision_notes"
+    ],
+    "kind_values": [
+      "source_fixture",
+      "proposed_worked_example",
+      "proposed_fault_injection"
+    ],
+    "story_id_range": "L1-S01–L1-S16; local planning IDs, not Jira issue keys",
+    "instrument_identity_evidence": "Catalogue entries read locally; no claim of newly verified live listing/provider availability.",
+    "source_fixture_paths_git_ignored": true
+  },
+  "source_snapshot": {
+    "repo_relative_paths": [
+      "data/synthetic-imports-v1/local/expected-imports.json",
+      "data/synthetic-v1/local/instruments.json",
+      "data/synthetic-v1/local/xirr_known_answer.json"
+    ],
+    "sha256_before": {
+      "data/synthetic-imports-v1/local/expected-imports.json": "186a765b0bdfa420df4b7bf1ae4df357c7e1b54629aae5850756ffb124dea685",
+      "data/synthetic-v1/local/instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+      "data/synthetic-v1/local/xirr_known_answer.json": "7d62faded6940e41c1341b8344fcb17ba11fbffc5df379fdb32c5ab9c28ed1fd"
+    },
+    "source_files_modified": false,
+    "instrument_catalogue_count": 30,
+    "E01_computed_position_count": 10,
+    "E01_computed_total_USD": "33331.33",
+    "E12_elapsed_days": 365,
+    "sha256_after": {
+      "data/synthetic-imports-v1/local/expected-imports.json": "186a765b0bdfa420df4b7bf1ae4df357c7e1b54629aae5850756ffb124dea685",
+      "data/synthetic-v1/local/instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+      "data/synthetic-v1/local/xirr_known_answer.json": "7d62faded6940e41c1341b8344fcb17ba11fbffc5df379fdb32c5ab9c28ed1fd"
+    }
+  },
+  "validation": {
+    "method": "Python Decimal arithmetic and source JSON assertions; JSON/ID/story/path checks. No application tests or independent review.",
+    "example_count": 12,
+    "source_backed_examples": [
+      "L1-E01",
+      "L1-E12"
+    ],
+    "GBX_to_GBP": [
+      "12000 / 100 = 120.00",
+      "2 * 120.00 = 240.00",
+      "-(240.00 + 1.00) = -241.00"
+    ],
+    "deposit_trade_NAV": [
+      "1000.00 - 100.00 - 1.00 = 899.00",
+      "899.00 + 100.00 = 999.00"
+    ],
+    "FX_NAV": [
+      "1000.00 - 100.00 - 1.00 = 899.00 GBP",
+      "125.00 USD * 0.8 GBP/USD = 100.00 GBP",
+      "899.00 + 100.00 = 999.00 GBP"
+    ],
+    "fee_correction": "1000.00 - 100.00 - 2.00 = 898.00 GBP",
+    "XIRR": {
+      "rate": "0.1",
+      "residual_GBP": "0.00",
+      "elapsed_days": 365
+    },
+    "status": "passed maker document/arithmetic checks only",
+    "XIRR_ambiguity": {
+      "root_checks": [
+        {
+          "rate": "0.10",
+          "rate_percent": "10.00",
+          "NPV_residual": "0.00",
+          "exact_equivalent_numerator": "0.0000",
+          "verification_formula": "(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2"
+        },
+        {
+          "rate": "0.20",
+          "rate_percent": "20.00",
+          "NPV_residual": "0.00",
+          "exact_equivalent_numerator": "0.0000",
+          "verification_formula": "(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2"
+        }
+      ],
+      "expected_result": "ambiguous; xirr null; neither first root nor zero substituted",
+      "example_id": "L1-E12"
+    }
+  },
+  "examples": [
+    {
+      "id": "L1-E01",
+      "title": "SYNTHETIC source-backed US/USD statement reconciliation",
+      "is_synthetic": true,
+      "kind": "source_fixture",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "environment": "local",
+        "synthetic_document_id": "synthetic-local-us-statement",
+        "statement_page": 1,
+        "currency": "USD",
+        "positions": [
+          {
+            "instrument_id": "XNAS:AAPL",
+            "quantity": "8.4854",
+            "price_currency_units": "339.00225207",
+            "source_position_value": "2876.57",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNAS:MSFT",
+            "quantity": "16.0369",
+            "price_currency_units": "190.10566491",
+            "source_position_value": "3048.71",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNAS:NVDA",
+            "quantity": "84.5692",
+            "price_currency_units": "29.18496277",
+            "source_position_value": "2468.15",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNAS:AMZN",
+            "quantity": "27.6209",
+            "price_currency_units": "106.7767527",
+            "source_position_value": "2949.27",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNAS:FSLR",
+            "quantity": "11.1392",
+            "price_currency_units": "209.69795406",
+            "source_position_value": "2335.87",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNYS:JPM",
+            "quantity": "12.7030",
+            "price_currency_units": "215.14256199",
+            "source_position_value": "2732.96",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNYS:JNJ",
+            "quantity": "11.4470",
+            "price_currency_units": "398.02429885",
+            "source_position_value": "4556.18",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNYS:XOM",
+            "quantity": "35.5655",
+            "price_currency_units": "90.46506877",
+            "source_position_value": "3217.44",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "ARCX:SPY",
+            "quantity": "17.1751",
+            "price_currency_units": "226.42579456",
+            "source_position_value": "3888.89",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          },
+          {
+            "instrument_id": "XNAS:QQQ",
+            "quantity": "14.8531",
+            "price_currency_units": "194.81593252",
+            "source_position_value": "2893.62",
+            "currency": "USD",
+            "source_as_of": "2026-10-30T20:01:00+00:00"
+          }
+        ],
+        "cash": "2363.67",
+        "positions_value": "30967.66",
+        "total_value": "33331.33",
+        "history_is_complete_in_document": false,
+        "recent_event_count": 6
+      },
+      "when": [
+        "Extract or manually enter the synthetic statement fields into a proposed preview.",
+        "Match each real instrument identifier; recompute each displayed position and the USD subtotal with Decimal."
+      ],
+      "expected": {
+        "rounded_position_values_match_source": true,
+        "position_count": 10,
+        "recomputed_positions_value": "30967.66",
+        "recomputed_total_value": "33331.33",
+        "cash": "2363.67",
+        "currency": "USD",
+        "arithmetic": [
+          "sum(source position values) = 30967.66",
+          "30967.66 + 2363.67 = 33331.33"
+        ],
+        "account_total_reconciliation": "matches",
+        "transaction_history_complete": false,
+        "xirr_eligibility": "unavailable - statement contains only six recent events; missing full dated external cash-flow history",
+        "automatic_financial_commit": false
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-imports-v1/local/expected-imports.json",
+          "json_pointer": "/statements/0",
+          "use": "Read current actual local SYNTHETIC fixture JSON; totals and all position value products verified."
+        },
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "data/synthetic-imports-v1/local/portfolio-statements.pdf",
+          "use": "Existing synthetic document, page 1; no new parser accuracy claim."
+        },
+        {
+          "repo_relative_path": "data/synthetic-imports-v1/local/statement-1.png",
+          "use": "Existing clean synthetic screenshot, page 1."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S01",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S10",
+        "L1-S12",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Decimal position products round to two USD decimals using ROUND_HALF_UP for this worked assertion; none of these values is an observed market price or owner holding.",
+        "Expected-imports JSON is the inspected value source; this example does not claim a new PDF/OCR parser run."
+      ],
+      "pending_decision_notes": [
+        "Final field-specific rounding policy remains to agree; this example does not approve one for every currency."
+      ]
+    },
+    {
+      "id": "L1-E02",
+      "title": "SYNTHETIC GBX quote normalises once to GBP settlement",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "instrument_id": "XLON:CNX1",
+        "artificial_raw_quote": "12000",
+        "quote_unit": "GBX",
+        "settlement_currency": "GBP",
+        "quantity": "2",
+        "fee_GBP": "1.00",
+        "trade_side": "buy"
+      },
+      "when": [
+        "Normalise pence to pounds exactly once before computing the currency-unit gross and cash effect."
+      ],
+      "expected": {
+        "unit_price_GBP": "120.00",
+        "gross_GBP": "240.00",
+        "fee_GBP": "1.00",
+        "cash_delta_GBP": "-241.00",
+        "quantity_delta": "2",
+        "arithmetic": [
+          "12000 GBX / 100 = 120 GBP per unit",
+          "2 × 120 GBP = 240 GBP",
+          "-(240 + 1) GBP = -241 GBP"
+        ],
+        "double_normalisation_allowed": false
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S01",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S09",
+        "L1-S10",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Toy quote/quantity/fee are artificial; real catalogue identity XLON:CNX1 has GBP currency and GBX quote unit.",
+        "GBX is a quote subunit, not a second cash currency or an FX conversion."
+      ],
+      "pending_decision_notes": []
+    },
+    {
+      "id": "L1-E03",
+      "title": "SYNTHETIC snapshot permits valuation but withholds missing-history metrics",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "instrument_id": "XLON:CNX1",
+        "snapshot_quantity": "5",
+        "dated_purchase_history": null,
+        "external_cashflows": null,
+        "cost_basis": null,
+        "available_mark": {
+          "price_GBP": "50.00",
+          "as_of": "2026-10-30T16:31:00Z",
+          "status": "valid for this synthetic scenario"
+        }
+      },
+      "when": [
+        "Preview an opening holding snapshot and evaluate field-specific metric sufficiency."
+      ],
+      "expected": {
+        "holding_market_value_GBP": "250.00",
+        "valuation_eligible": true,
+        "valuation_label": "synthetic price and timestamp; snapshot holding, incomplete history",
+        "cost_basis": null,
+        "purchase_date": null,
+        "xirr": null,
+        "xirr_status": "unavailable - missing dated external cash flows/history",
+        "cost_based_return_status": "unavailable - cost basis not supplied",
+        "invented_history_allowed": false
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S01",
+        "L1-S05",
+        "L1-S06",
+        "L1-S12",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Price 50 GBP and quantity 5 are artificial; a valid relevant mark permits holding valuation only.",
+        "A snapshot is not silently converted to a dated purchase or contribution."
+      ],
+      "pending_decision_notes": [
+        "Owner-supplied real history can later enable eligible metrics; no actual sample is required for this synthetic example."
+      ]
+    },
+    {
+      "id": "L1-E04",
+      "title": "SYNTHETIC repeated file and confirmation return one logical commit",
+      "is_synthetic": true,
+      "kind": "proposed_fault_injection",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "file_identity": "same artificial file bytes/hash, account and import context",
+        "approved_preview": "same approved preview/version",
+        "logical_commit_identity": "synthetic-logical-commit-E04",
+        "confirmation_delivery_count": 2,
+        "retry_schedule": [
+          "first delivery",
+          "same delivery retried well beyond ten minutes"
+        ],
+        "financial_rows": "same approved rows in both deliveries"
+      },
+      "when": [
+        "Send the same logical confirmation twice, with the retry occurring outside any short infrastructure idempotency-token window."
+      ],
+      "expected": {
+        "logical_commits": 1,
+        "durable_business_deduplication": true,
+        "same_receipt_on_both_responses": true,
+        "receipt_identity": "synthetic-receipt-E04",
+        "second_application_of_financial_rows": false,
+        "cash_quantity_effect": "applied exactly once",
+        "audit": "record repeated attempt/result without another financial effect",
+        "ten_minute_AWS_token_sufficient": false
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S02",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S13",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "The receipt and logical-commit IDs are invented example labels, not existing records.",
+        "Business idempotency persists across retries for the logical import; it cannot depend on a ten-minute infrastructure token."
+      ],
+      "pending_decision_notes": [
+        "Exact durable key schema and record-class retention/deletion remain to specify; this example approves no permanent retention policy."
+      ]
+    },
+    {
+      "id": "L1-E05",
+      "title": "SYNTHETIC equal trade values with different broker IDs stay distinct",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "instrument_id": "XLON:CNX1",
+        "account_context": "one artificial account",
+        "trades": [
+          {
+            "broker_transaction_id": "synthetic-broker-E05-A",
+            "date": "2026-10-30",
+            "quantity": "2",
+            "unit_price_GBP": "50.00",
+            "cash_delta_GBP": "-100.00"
+          },
+          {
+            "broker_transaction_id": "synthetic-broker-E05-B",
+            "date": "2026-10-30",
+            "quantity": "2",
+            "unit_price_GBP": "50.00",
+            "cash_delta_GBP": "-100.00"
+          }
+        ],
+        "comparison_variant": "same rows with the broker_transaction_id fields absent"
+      },
+      "when": [
+        "Compare candidate duplicates using stable source identity and context.",
+        "Separately preview the no-ID variant."
+      ],
+      "expected": {
+        "with_distinct_stable_source_ids": {
+          "valid_trade_count": 2,
+          "quantity_delta": "4",
+          "cash_delta_GBP": "-200.00",
+          "automatic_merge_allowed": false
+        },
+        "without_source_ids": {
+          "status": "ambiguous possible duplicates - owner review required",
+          "automatic_drop_or_merge_allowed": false
+        },
+        "identity_rule": "same date/amount/quantity alone does not establish one business transaction"
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S09",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "All transaction labels and amounts are artificial. Source IDs are stable within a verified source/account namespace."
+      ],
+      "pending_decision_notes": [
+        "Broker layout and ID semantics require sample-backed evidence before live support."
+      ]
+    },
+    {
+      "id": "L1-E06",
+      "title": "SYNTHETIC deposit and GBP purchase distinguish external flow from internal trade",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "instrument_id": "XLON:CNX1",
+        "starting_cash_GBP": "0.00",
+        "external_deposit_GBP": "1000.00",
+        "buy_quantity": "2",
+        "explicit_currency_unit_execution_price_GBP": "50.00",
+        "fee_GBP": "1.00",
+        "end_mark_GBP": "50.00",
+        "quote_unit_handling": "GBP-normalised execution price is explicitly supplied; do not divide it by 100 again"
+      },
+      "when": [
+        "Apply an external deposit, then an internal purchase and fee; value the two units at the same artificial mark."
+      ],
+      "expected": {
+        "cash_path_GBP": [
+          "0.00",
+          "1000.00",
+          "899.00"
+        ],
+        "buy_gross_GBP": "100.00",
+        "buy_cash_delta_GBP": "-101.00",
+        "holding_value_GBP": "100.00",
+        "end_NAV_GBP": "999.00",
+        "external_contribution_GBP": "1000.00",
+        "purchase_external_flow_GBP": "0.00",
+        "fee_external_flow_GBP": "0.00",
+        "arithmetic": [
+          "1000 - (2 × 50) - 1 = 899 GBP cash",
+          "899 + 2 × 50 = 999 GBP NAV"
+        ],
+        "xirr_note": "Do not add the internal purchase as a second portfolio contribution."
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S05",
+        "L1-S06",
+        "L1-S09",
+        "L1-S10",
+        "L1-S12",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "All amounts/marks are artificial; the real listing identity remains XLON:CNX1.",
+        "This source explicitly supplies a price already in GBP currency units, despite the catalogue raw quote unit being GBX.",
+        "Cash and holdings are assumed to belong to the same defined portfolio boundary."
+      ],
+      "pending_decision_notes": [
+        "Final portfolio/account boundary and metric cash-flow convention require detailed agreement."
+      ]
+    },
+    {
+      "id": "L1-E07",
+      "title": "SYNTHETIC FX conversion retains currency legs without external contribution",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "starting_cash": {
+          "GBP": "1000.00",
+          "USD": "0.00"
+        },
+        "conversion_group": "synthetic-fx-E07",
+        "linked_legs": [
+          {
+            "currency": "GBP",
+            "amount": "-100.00"
+          },
+          {
+            "currency": "USD",
+            "amount": "125.00"
+          },
+          {
+            "currency": "GBP",
+            "amount": "-1.00",
+            "role": "fee"
+          }
+        ],
+        "valuation_rate": {
+          "base_currency": "USD",
+          "reporting_currency": "GBP",
+          "GBP_per_USD": "0.8",
+          "as_of": "2026-10-30T16:31:00Z",
+          "status": "valid artificial rate"
+        }
+      },
+      "when": [
+        "Apply all linked conversion/fee legs and value each currency with the explicit artificial reporting rate."
+      ],
+      "expected": {
+        "ending_cash": {
+          "GBP": "899.00",
+          "USD": "125.00"
+        },
+        "USD_cash_in_GBP": "100.00",
+        "NAV_GBP": "999.00",
+        "external_flow_GBP": "0.00",
+        "sum_unlike_currency_amounts_allowed": false,
+        "arithmetic": [
+          "1000 GBP - 100 GBP - 1 GBP = 899 GBP",
+          "125 USD × 0.8 GBP/USD = 100 GBP",
+          "899 GBP + 100 GBP = 999 GBP NAV"
+        ],
+        "conversion_is_internal_to_portfolio": true
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S05",
+        "L1-S06",
+        "L1-S09",
+        "L1-S10",
+        "L1-S12",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Both cash wallets lie inside the same artificial portfolio boundary.",
+        "The 0.8 rate and all amounts are toy inputs, not observed FX or owner transactions."
+      ],
+      "pending_decision_notes": [
+        "Approved FX source, cutoff, conversion timing, missing-rate policy and rounding remain to specify."
+      ]
+    },
+    {
+      "id": "L1-E08",
+      "title": "SYNTHETIC unknown USD-to-GBP rate or missing USD price makes valuation partial",
+      "is_synthetic": true,
+      "kind": "proposed_fault_injection",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "reporting_currency": "GBP",
+        "known_cash_GBP": "899.00",
+        "variants": [
+          {
+            "name": "missing FX",
+            "instrument_id": "XNAS:AAPL",
+            "quantity": "2",
+            "valid_artificial_price_USD": "50.00",
+            "USD_to_GBP_rate": null
+          },
+          {
+            "name": "missing price",
+            "instrument_id": "XNAS:AAPL",
+            "quantity": "2",
+            "price_USD": null,
+            "valid_artificial_GBP_per_USD": "0.8"
+          }
+        ]
+      },
+      "when": [
+        "Request a GBP portfolio valuation for each incomplete-input variant."
+      ],
+      "expected": {
+        "portfolio_valuation_status": "partial",
+        "known_GBP_subtotal": "899.00",
+        "complete_NAV_GBP": null,
+        "unknown_holding_value_GBP": null,
+        "unknown_price_or_FX_replaced_with_zero": false,
+        "display_requirement": "Show the known subtotal, omitted exposure and missing-price/FX reason; never label the subtotal as complete NAV.",
+        "dependent_metrics_status": "withheld or visibly partial according to field-specific eligibility"
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S01",
+        "L1-S05",
+        "L1-S06",
+        "L1-S10",
+        "L1-S12",
+        "L1-S14",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "AAPL is a real catalogue identity; quantities, price and FX rate are artificial.",
+        "Unknown value is null/unavailable, not a zero-value holding."
+      ],
+      "pending_decision_notes": [
+        "Final staleness windows and field-specific partial-metric presentation remain to agree."
+      ]
+    },
+    {
+      "id": "L1-E09",
+      "title": "SYNTHETIC stale approved preview cannot commit after ledger revision change",
+      "is_synthetic": true,
+      "kind": "proposed_fault_injection",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "preview_bound_ledger_revision": "synthetic-ledger-r7",
+        "approved_preview_hash": "synthetic-preview-hash-E09",
+        "current_ledger_revision_at_confirmation": "synthetic-ledger-r8",
+        "revision_change_source": "another completed import/correction in this proposed scenario"
+      },
+      "when": [
+        "Attempt confirmation using the approval bound to r7 while the ledger is at r8."
+      ],
+      "expected": {
+        "financial_commit": "refused - stale ledger/preview precondition",
+        "new_financial_rows": 0,
+        "ledger_revision_remains": "synthetic-ledger-r8",
+        "new_financial_mutations": false,
+        "next_step": "Recompute reconciliation/preview against r8, disclose the changes and obtain a new owner approval.",
+        "reuse_old_approval_for_changed_preview": false,
+        "rejection_audit_allowed": true
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S06",
+        "L1-S08",
+        "L1-S10",
+        "L1-S13",
+        "L1-S14",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Revision labels/hashes are artificial illustrative values, not existing application identifiers.",
+        "A rejected attempt may append a security/audit attempt record; it does not alter financial state."
+      ],
+      "pending_decision_notes": [
+        "Exact approval expiry/reauthentication and conflict response contract remain proposed."
+      ]
+    },
+    {
+      "id": "L1-E10",
+      "title": "SYNTHETIC large staged import survives a crash without partial financial visibility",
+      "is_synthetic": true,
+      "kind": "proposed_fault_injection",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "artificial_source_row_count": 10000,
+        "logical_commit_identity": "synthetic-logical-commit-E10",
+        "staging": "bounded batches sized from validated item/byte/service constraints",
+        "fault": "crash after some staging batches and before the completed commit marker",
+        "prior_visible_ledger_revision": "synthetic-ledger-r10"
+      },
+      "when": [
+        "Stage the large synthetic import under one logical identity.",
+        "Crash mid-stage, read all financial views, then retry/resume the same logical commit and finish its validated completion transition."
+      ],
+      "expected": {
+        "during_partial_staging": {
+          "financial_visibility": "none of the uncompleted import rows",
+          "visible_ledger_revision": "synthetic-ledger-r10",
+          "completed_marker_exists": false
+        },
+        "on_retry": {
+          "logical_identity_reused": true,
+          "already_staged_rows_not_duplicated": true,
+          "partial_stage_not_treated_as_completed": true
+        },
+        "after_valid_completion": {
+          "completed_logical_commits": 1,
+          "receipt_identity": "synthetic-receipt-E10",
+          "financial_visibility": "the validated completed import through its completed marker/read boundary",
+          "consistent_snapshot_required": true
+        },
+        "all_10000_rows_in_one_transaction_assumed": false,
+        "guessed_transaction_item_or_batch_count": null,
+        "cleanup_financial_effect": "abandoned staging never changes financial state"
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S02",
+        "L1-S05",
+        "L1-S08",
+        "L1-S09",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "Ten thousand is an artificial input row count, not a promised supported limit or generated/executed fixture.",
+        "Exact ledger-row fanout, item sizes and service transaction count are deliberately unspecified; source rows need not map one-to-one to writes.",
+        "This is a proposed staging/visibility acceptance contract, not implemented DynamoDB behavior."
+      ],
+      "pending_decision_notes": [
+        "Final maximum import size, batch sizing, staging expiry/recovery, completion concurrency/read-model contract and reconciliation evidence require design and validation.",
+        "No RPO, RTO, retention or cloud operation is approved by this example."
+      ]
+    },
+    {
+      "id": "L1-E11",
+      "title": "SYNTHETIC fee correction appends history and preserves prior forecast inputs",
+      "is_synthetic": true,
+      "kind": "proposed_worked_example",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "instrument_id": "XLON:CNX1",
+        "starting_cash_GBP": "1000.00",
+        "original_buy": {
+          "synthetic_event_id": "synthetic-buy-E11-original",
+          "quantity": "2",
+          "unit_price_GBP": "50.00",
+          "fee_GBP": "1.00",
+          "cash_after_GBP": "899.00",
+          "input_revision": "synthetic-ledger-r11"
+        },
+        "corrected_fee_GBP": "2.00",
+        "prior_forecast": {
+          "synthetic_forecast_id": "synthetic-forecast-E11",
+          "ledger_input_revision": "synthetic-ledger-r11",
+          "input_hash": "synthetic-original-input-hash-E11"
+        }
+      },
+      "when": [
+        "Preview and approve a fee correction, then append a linked reversal/replacement group or an equally traceable superseding correction.",
+        "Recompute current holdings/cash while retaining the old forecast input revision/hash."
+      ],
+      "expected": {
+        "original_event_overwritten": false,
+        "linked_reversal_replacement_example": {
+          "reverse_original_cash_GBP": "101.00",
+          "reverse_original_quantity": "-2",
+          "replacement_cash_GBP": "-102.00",
+          "replacement_quantity": "2",
+          "net_correction_cash_GBP": "-1.00",
+          "net_correction_quantity": "0"
+        },
+        "current_quantity": "2",
+        "current_cash_GBP": "898.00",
+        "cash_path_for_logical_states_GBP": [
+          "899.00",
+          "898.00"
+        ],
+        "external_flow_GBP": "0.00",
+        "prior_forecast_ledger_input_revision": "synthetic-ledger-r11",
+        "prior_forecast_input_hash": "synthetic-original-input-hash-E11",
+        "prior_forecast_inputs_rewritten": false,
+        "new_analysis": "May reference a new corrected ledger revision; it does not silently alter old forecast evidence.",
+        "intermediate_reversal_visibility": "Do not expose the corrective group as a completed partial state."
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/instruments.json",
+          "use": "Only real catalogue instrument identity/currency/quote-unit metadata is reused; new example prices/quantities/events are artificial."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "All prices/fees/events/revisions/forecasts are artificial acceptance inputs.",
+        "Append-only history keeps the original + correction linkage; active calculations count the effective corrected event once."
+      ],
+      "pending_decision_notes": [
+        "Final correction representation and approval semantics remain proposed; this example does not prescribe every database write or approve retention/deletion defaults."
+      ]
+    },
+    {
+      "id": "L1-E12",
+      "title": "SYNTHETIC XIRR golden, ambiguous-root and incomplete-document cases",
+      "is_synthetic": true,
+      "kind": "source_fixture",
+      "status": "proposed acceptance example; no application implementation claim",
+      "given": {
+        "complete_golden_case": {
+          "currency": "GBP",
+          "cashflows": [
+            {
+              "date": "2025-01-01",
+              "amount": "-10000.00"
+            },
+            {
+              "date": "2026-01-01",
+              "amount": "11000.00"
+            }
+          ],
+          "day_count_basis": "ACT/365 for this golden assertion",
+          "elapsed_days": 365
+        },
+        "incomplete_statement_case": {
+          "synthetic_document_id": "synthetic-local-us-statement",
+          "page": 1,
+          "recent_event_count": 6,
+          "history_is_complete_in_document": false
+        },
+        "ambiguous_roots_variant": {
+          "is_synthetic": true,
+          "cashflows": [
+            {
+              "day": 0,
+              "amount": "-100.00"
+            },
+            {
+              "day": 365,
+              "amount": "230.00"
+            },
+            {
+              "day": 730,
+              "amount": "-132.00"
+            }
+          ],
+          "day_count_basis": "ACT/365 with exact elapsed days 0/365/730 for this toy assertion",
+          "currency": "GBP",
+          "note": "New artificial ambiguity variant, not sourced from the existing golden fixture."
+        }
+      },
+      "when": [
+        "Evaluate the complete two-cash-flow mathematical golden case.",
+        "Separately assess whether the six-event statement excerpt can establish portfolio XIRR.",
+        "Separately evaluate the artificial three-flow case at both candidate roots; inspect ambiguity instead of selecting whichever root a solver finds first."
+      ],
+      "expected": {
+        "golden_case": {
+          "xirr": "0.1",
+          "xirr_percent": "10.00",
+          "NPV_residual_GBP": "0.00",
+          "formula": "-10000 + 11000 / (1 + 0.10)^(365/365) = 0"
+        },
+        "incomplete_statement_case": {
+          "xirr": null,
+          "status": "unavailable - incomplete dated external cash-flow history",
+          "using_six_recent_dividends_as_complete_history_allowed": false
+        },
+        "maturity_or_future_return_claim": false,
+        "ambiguous_roots_variant": {
+          "root_checks": [
+            {
+              "rate": "0.10",
+              "rate_percent": "10.00",
+              "NPV_residual": "0.00",
+              "exact_equivalent_numerator": "0.0000",
+              "verification_formula": "(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2"
+            },
+            {
+              "rate": "0.20",
+              "rate_percent": "20.00",
+              "NPV_residual": "0.00",
+              "exact_equivalent_numerator": "0.0000",
+              "verification_formula": "(-100 * (1 + r)^2 + 230 * (1 + r) - 132) / (1 + r)^2"
+            }
+          ],
+          "xirr": null,
+          "status": "ambiguous - more than one admissible root; no single authoritative XIRR",
+          "select_first_solver_root": false,
+          "replace_ambiguous_result_with_zero": false,
+          "cashflow_sign_changes": 2,
+          "eligible_roots_in_this_toy_case": [
+            "0.10",
+            "0.20"
+          ]
+        }
+      },
+      "source_refs": [
+        {
+          "repo_relative_path": "data/synthetic-v1/local/xirr_known_answer.json",
+          "use": "Existing complete synthetic mathematical known-answer case; amounts/dates read and Decimal result verified."
+        },
+        {
+          "repo_relative_path": "data/synthetic-imports-v1/local/expected-imports.json",
+          "json_pointer": "/statements/0",
+          "use": "Statement explicitly has incomplete history and six recent events."
+        },
+        {
+          "repo_relative_path": "docs/planning/aws-options-2026-11-01/product-requirements.md",
+          "use": "Working requirements; not end-to-end approval."
+        }
+      ],
+      "story_refs": [
+        "L1-S03",
+        "L1-S05",
+        "L1-S06",
+        "L1-S12",
+        "L1-S16"
+      ],
+      "assumptions": [
+        "The golden pair is a mathematical check, not a forecast, realised owner return or proof of general solver correctness.",
+        "One cash outflow followed by a positive terminal amount exactly 365 days later gives one positive root in this case.",
+        "The ambiguity variant has exactly the stated annual intervals. Its zero NPV residual is evaluated through a common-denominator polynomial with Decimal to avoid repeating-decimal cancellation noise."
+      ],
+      "pending_decision_notes": [
+        "Production XIRR cash-flow boundary, day count, solver tolerance, multiple/no-root behavior and eligibility still require specification; this example does not approve all conventions."
+      ]
+    }
+  ]
+}
