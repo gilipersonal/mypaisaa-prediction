@@ -1,0 +1,113 @@
+{
+  "issue": "MP-16",
+  "round_count": 1,
+  "status": "awaiting_round_2_approval",
+  "rounds": [
+    {
+      "round": 1,
+      "approved": true,
+      "approval_scope": "two blind parallel lanes: data integrity and generator safety, with regression preflight; separate approval for later rounds",
+      "reviewed_commit": "7c63a99a51c701f78fb534528fc087284b459ae6",
+      "snapshot": "review/MP-16/snapshots/round-1",
+      "scope": [
+        "docs/synthetic-test-data.md",
+        "fixtures/synthetic/instruments.json",
+        "scripts/synthetic_data.py",
+        "scripts/validate_synthetic_data.py",
+        "tests/test_synthetic_data.py"
+      ],
+      "dataset_evidence": [
+        "data/synthetic-v1/local/manifest.json",
+        "data/synthetic-v1/dev/manifest.json"
+      ],
+      "risk": "Financial and temporal fixture consistency; identifier truthfulness; preservation and environment boundaries",
+      "selected_checks": [
+        {
+          "command": "python3 scripts/review_regress.py MP-16 --approved",
+          "result": "0 entries, no failed or manual checks; no prior findings, not a clean-review claim"
+        },
+        {
+          "command": "uv run --project backend --frozen --extra dev ruff check --config backend/pyproject.toml scripts/synthetic_data.py scripts/validate_synthetic_data.py tests/test_synthetic_data.py",
+          "result": "passed"
+        },
+        {
+          "command": "uv run --no-project --with numpy==2.5.4 --with pandas==3.1.0 --with pandas-market-calendars==5.6.0 --with exchange-calendars==4.13.2 python -m unittest discover -s tests -q",
+          "result": "23 tests passed"
+        },
+        {
+          "command": "python3 scripts/validate_synthetic_data.py data/synthetic-v1/local; same for dev",
+          "result": "both full packs passed"
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R1-D1",
+          "severity": "P2",
+          "blocking": true,
+          "finding": "CNX1.L native quote unit is GBX, not GBP; catalogue metadata causes native quotes at wrong scale",
+          "source": "https://finance.yahoo.com/quote/CNX1.L/",
+          "status": "fixed_pending_delta_review"
+        },
+        {
+          "id": "R1-S1",
+          "severity": "P2",
+          "blocking": true,
+          "finding": "Runtime asserts disappear under Python optimisation and corrupt packs can report passed",
+          "status": "fixed_pending_delta_review"
+        },
+        {
+          "id": "R1-D2",
+          "severity": "nonblocking",
+          "blocking": false,
+          "finding": "Daily-only historical rows are not checked for recorded session membership/close/order",
+          "status": "fixed_pending_delta_review"
+        }
+      ],
+      "deferred_checks": [
+        {
+          "check": "backend runtime/API, device, provider and AWS integration suites",
+          "reason": "No app/runtime/provider/AWS loader implemented or changed; not claimed",
+          "when": "When those integrations are implemented or before a release that includes them"
+        }
+      ],
+      "reviewers": [
+        "/root/mp16_data_review_r1",
+        "/root/mp16_safety_review_r1"
+      ],
+      "fixes": [
+        "CNX1 quote unit GBX and regenerated local/dev packs",
+        "Explicit validator requirements survive optimized Python",
+        "Daily membership, close and chronology checks across entire series",
+        "Three targeted regression tests and checklist lessons"
+      ],
+      "next_round_requires_new_permission": true,
+      "post_fix_gates": [
+        {
+          "check": "Full local test discovery with pinned simulation dependencies",
+          "result": "26 tests passed, including 9 fixture tests"
+        },
+        {
+          "check": "Focused Ruff",
+          "result": "passed"
+        },
+        {
+          "check": "Full local/dev fixture validation after regeneration",
+          "result": "passed both packs"
+        },
+        {
+          "check": "git diff --check",
+          "result": "passed"
+        }
+      ],
+      "post_fix_source_hashes": {
+        "fixtures/synthetic/instruments.json": "e30f89f12deb2e62b6b6ff3a926b300ea6f1f6c13136d788c6de377adc7ad1d7",
+        "scripts/validate_synthetic_data.py": "feb77f6df1ebd851b8b85e5fbcf8d12d3ee764b3c1ec47107147826074209ad6",
+        "tests/test_synthetic_data.py": "cf8d190028077c1ab6a70ba4836c03e3f28c61e867106b5d9ba2b846b86f8c43",
+        "docs/synthetic-test-data.md": "2f4d5541a355db7cdb978990d258df9ba08d5a3328dd4102bcfba287e4c1ff58",
+        ".codex/rules/review-checklist.md": "870749246065dc04a139cecee44fa37284fdbdd9d2885100f3f7bfd72903f854"
+      },
+      "regression_ledger_status": "Three new focused checks registered; ordinary fix tests passed; next approved round will rerun the full ledger"
+    }
+  ]
+}

@@ -1,7 +1,10 @@
 """Scientific/financial fixture invariants, using isolated generated packs."""
 
 import copy
+import gzip
+import hashlib
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -53,10 +56,56 @@ class SyntheticDataTests(unittest.TestCase):
         original = target.read_bytes()
         try:
             target.write_text("[]")
-            with self.assertRaises(AssertionError):
+            with self.assertRaises(ValueError):
                 validate(self.dev)
         finally:
             target.write_bytes(original)
+
+    def test_optimized_python_still_rejects_corruption(self):
+        target = self.dev / "positions.json"
+        original = target.read_bytes()
+        try:
+            target.write_text("[]")
+            for args, extra_env in [(["-O"], {}), ([], {"PYTHONOPTIMIZE": "1"})]:
+                result = subprocess.run(
+                    [sys.executable, *args, "scripts/validate_synthetic_data.py", str(self.dev)],
+                    capture_output=True,
+                    check=False,
+                    env={**os.environ, **extra_env},
+                )
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(b"positions.json", result.stderr)
+                self.assertNotIn(b'"status": "passed"', result.stdout)
+        finally:
+            target.write_bytes(original)
+
+    def test_cnx1_pence_to_pounds_contract(self):
+        catalogue = json.loads((self.local / "instruments.json").read_text())
+        instrument = next(x for x in catalogue if x["instrument_id"] == "XLON:CNX1")
+        self.assertEqual(instrument["yahoo_symbol"], "CNX1.L")
+        self.assertEqual(instrument["quote_unit"], "GBX")
+        self.assertEqual(instrument["currency"], "GBP")
+        bars = load_rows(self.local / "daily_prices.jsonl.gz")
+        cnx = next(x for x in bars if x["instrument_id"] == "XLON:CNX1")
+        self.assertAlmostEqual(cnx["close"] / 100, cnx["currency_close"], places=6)
+
+    def test_older_daily_session_mutation_is_rejected(self):
+        prices = self.dev / "daily_prices.jsonl.gz"
+        manifest = self.dev / "manifest.json"
+        old_prices, old_manifest = prices.read_bytes(), manifest.read_bytes()
+        try:
+            rows = load_rows(prices)
+            rows[0]["session"] = "2025-01-04"  # Saturday outside the recorded sessions.
+            with gzip.open(prices, "wt", encoding="utf-8") as stream:
+                stream.writelines(json.dumps(row) + "\n" for row in rows)
+            data = json.loads(manifest.read_text())
+            data["sha256"][prices.name] = hashlib.sha256(prices.read_bytes()).hexdigest()
+            manifest.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "not a recorded market session"):
+                validate(self.dev)
+        finally:
+            prices.write_bytes(old_prices)
+            manifest.write_bytes(old_manifest)
 
     def test_production_environment_is_refused(self):
         with self.assertRaises(ValueError):

@@ -71,7 +71,7 @@ uv run --no-project --with numpy==2.5.4 --with pandas==3.1.0 \
   python -m unittest discover -s tests -p test_synthetic_data.py -v
 ```
 
-Validation checks file hashes; unique real catalogue keys; OHLC/volume constraints; GBX normalization; intraday/session/daily reconciliation; nonnegative account cash; position/ledger/value reconciliation; probability/quantile ordering; and horizon-correct outcome timing/returns. Six isolated tests also check same-seed market reproducibility with distinct environment identities, future-outcome independence of earlier forecasts, corruption detection, production refusal and the XIRR known answer. These are fixture checks, not a production readiness claim.
+Validation checks file hashes; unique real catalogue keys; OHLC/volume constraints; GBX normalization; full daily-session membership/close/chronology and intraday/session/daily reconciliation; nonnegative account cash; position/ledger/value reconciliation; probability/quantile ordering; and horizon-correct outcome timing/returns. Nine isolated tests also check same-seed market reproducibility with distinct environment identities, future-outcome independence of earlier forecasts, corruption detection, production refusal, the XIRR known answer, CNX1 pence conversion, old daily-session mutation and corruption refusal under optimized Python. These are fixture checks, not a production readiness claim.
 
 ## Public reference basis
 

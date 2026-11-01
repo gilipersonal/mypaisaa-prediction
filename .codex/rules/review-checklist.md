@@ -18,3 +18,7 @@
 - Compare state history with separately preserved snapshots and fixed-finding IDs; document that local files alone are not tamper-proof.
 - Keep manual-verification policy structured, and mutation-test qualifiers placed in the preceding paragraph as well as the same paragraph.
 - Test qualifiers before a policy heading as well as inside its section; a document digest detects any edit but does not establish its meaning.
+
+- Verify native provider quote units separately from trading/settlement currency; an internally consistent synthetic fixture can still use the wrong scale.
+- Runtime data validators must retain their checks under Python optimisation; test the specific corruption refusal with `-O` and `PYTHONOPTIMIZE=1`.
+- Validate every daily history row against its recorded session and close, including dates outside recent intraday coverage.

@@ -368,7 +368,7 @@
     "name": "iShares NASDAQ 100 UCITS ETF USD (Acc)",
     "market": "UK",
     "currency": "GBP",
-    "quote_unit": "GBP",
+    "quote_unit": "GBX",
     "sector": "growth_etf",
     "kind": "ETF",
     "ISIN": "IE00B53SZB19",
@@ -377,7 +377,8 @@
     "synthetic_dividend_yield": 0,
     "synthetic_inception": "2016-01-01",
     "identifier_reference": "https://www.ishares.com/uk/individual/en/products/253741/ishares-nasdaq-100-ucits-etf_1",
-    "parameters_are_observed_prices": false
+    "parameters_are_observed_prices": false,
+    "quote_unit_reference": "https://finance.yahoo.com/quote/CNX1.L/"
   },
   {
     "instrument_id": "XNSE:RELIANCE",
