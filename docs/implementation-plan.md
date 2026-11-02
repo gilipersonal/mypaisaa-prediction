@@ -8,6 +8,8 @@ The owner requires the researched architecture, contracts and complete phase/sto
 
 All twelve broad direction answers are now captured in the [selected-direction summary](planning/ma-reconciliation-2026-11-02/direction-summary.md). Follow the [baseline completion plan](planning/ma-reconciliation-2026-11-02/baseline-completion-plan.md) for exact contracts, phase/story decomposition, visuals and sign-off. Direction selection does not certify detailed baseline completeness or start UX.
 
+The [13 MP-19 Confluence planning drafts](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720) are now published with all twelve selected directions. Phase/story content remains draft; no phase exit, UX start or implementation approval follows from publication.
+
 ## Current implementation status
 
 **As of 1 November 2026:** the backend implements a health endpoint and a local sample SSE stream. The static Sites preview illustrates the product concept; it is not the planned SvelteKit PWA. Web, native Swift, React Native and infrastructure directories are placeholders without executable app or infrastructure definitions.

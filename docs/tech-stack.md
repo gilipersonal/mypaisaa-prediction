@@ -2,6 +2,8 @@
 
 **Current selection work, 2 November 2026:** [MP-19 research and decision cards](planning/ma-reconciliation-2026-11-02/decision-cards.md) assess MA concepts for this separate app, including workflow/runtime, ML training versus serving, identity/action assurance, source rights, telemetry/eval costs and client compatibility. Exact versions, topology and region require MP evidence and owner decisions; MA version/free-tier claims are not imported. [Reconciliation and gap register](planning/ma-reconciliation-2026-11-02/README.md). Architecture and the detailed phase/story baseline must be agreed before UX; no application implementation is authorised.
 
+[Published MP-19 planning drafts](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720) now reflect all twelve owner directions across 13 pages. They are draft specifications with compatibility/cost evidence open, not deployed services or approved UX/build work.
+
 **Snapshot: 1 November 2026 · Backend starter implemented · Product clients and production services planned**
 
 This inventory separates technology choices from working features. A package in `uv.lock` proves a resolved dependency version, not an implemented product capability or a completed compatibility test. [Architecture](architecture.md) explains the boundaries; [implementation status](implementation-plan.md#current-implementation-status) names what remains unbuilt.

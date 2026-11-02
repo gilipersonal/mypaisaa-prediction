@@ -16,5 +16,11 @@
     "Repository synthetic-fixture/tooling unit tests"
   ],
   "review_regression": "real MP-19 ledger not run; separate round approval required",
-  "implementation_authorised": false
+  "implementation_authorised": false,
+  "confluence_publication": {
+    "status": "published_planning_drafts",
+    "pages": 13,
+    "receipt": "docs/planning/ma-reconciliation-2026-11-02/confluence-publication-receipt.json",
+    "owner_authorised": true
+  }
 }

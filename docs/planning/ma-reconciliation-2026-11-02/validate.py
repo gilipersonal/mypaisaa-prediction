@@ -84,5 +84,21 @@ for name in ['README.md','docs/architecture.md','docs/tech-stack.md','docs/imple
 receipt=read(BASE/'jira-receipt.json');assert len(receipt['groups'])==15
 assert len([x for x in receipt['groups'] if x['action']=='create_planning_task'])==11
 assert all(x.get('verified_parent')==x['parent_requested'] and x.get('verified_status')=='To Do' for x in receipt['groups'] if x['action']=='create_planning_task')
-result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'selected_directions':len(answers['decisions']),'architecture_baseline_approved':answers['architecture_baseline_approved'],'phases':10,'local_story_drafts':64,'confluence_bodies_prepared':13,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','publication':'not_applied','implementation_authorised':False}
+publication='not_applied'
+publication_receipt=BASE/'confluence-publication-receipt.json'
+if publication_receipt.exists():
+ live=read(publication_receipt)
+ publication=live['status']
+ if publication=='published_and_verified':
+  evidence=read(BASE/'confluence-publication-validation.json')
+  assert evidence['status']=='publication_readback_passed' and evidence['published_pages']==13
+  assert evidence['selected_decision_rows_verified']==156
+  assert len(live['pages'])==13 and not live['preexisting_pages_edited']
+  assert all(x['same_version'] and x['canonical_body_preserved'] for x in live['parent_preservation'])
+  for page in live['pages']:
+   assert page['content_status']=='current' and page['planning_status']=='draft' and page['decisions_verified']==12
+   assert page['readback_artifact_sha256']==sha(BASE/page['readback_file'])
+  assert not live['architecture_baseline_approved'] and not live['UX_authorised'] and not live['implementation_authorised']
+
+result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'selected_directions':len(answers['decisions']),'architecture_baseline_approved':answers['architecture_baseline_approved'],'phases':10,'local_story_drafts':64,'confluence_bodies_prepared':13,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','publication':publication,'implementation_authorised':False}
 (BASE/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

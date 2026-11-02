@@ -163,5 +163,7 @@
   ],
   "existing_page_updates": [],
   "review": "not_run",
-  "independent_review_required_choice": "Ask owner at end; this generator does not authorise or run review."
+  "independent_review_required_choice": "Ask owner at end; this generator does not authorise or run review.",
+  "snapshot_role": "historical_prepublication_source_payloads",
+  "actual_publication_receipt": "confluence-publication-receipt.json"
 }

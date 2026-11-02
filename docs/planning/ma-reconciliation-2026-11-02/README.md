@@ -4,6 +4,12 @@
 
 The owner authorised reconciliation of all relevant MA planning, with gaps captured in MP documentation and Jira and up to five concurrent threads. The owner then clarified: carry concepts and research them against the MP discussions; do not blindly copy MA. Three specialist maker lanes and the coordinator worked concurrently (four total, the runtime limit). This is authoring and research, not independent review.
 
+## Published MP Confluence planning drafts
+
+The owner authorised publication of the 13 pages after the twelve direction choices were recorded. All are now published as clearly labelled **PLANNING DRAFT** pages at version 2. [Open the decision/publication index](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720). Every page includes all twelve selected directions; no final baseline, UX or implementation approval is implied. Independent review has not run.
+
+[Publication receipt](confluence-publication-receipt.json) · [Readback validation](confluence-publication-validation.json) · [Page map](confluence-page-ids.json). These actual records supersede earlier local-only/publication-pending statements in pre-publication source snapshots. Existing parent pages, native Lucid/Site snapshots and sharing settings were preserved. No PR, merge or issue closure is included.
+
 ## Read in this order
 
 1. [Reconciliation report](reconciliation-report.md): the source boundary, concept dispositions, researched differences and remaining gaps.
@@ -30,7 +36,7 @@ This pack follows MA's useful organisation: architecture areas, technical and us
 
 - Research and documentation may proceed; no product code, provisioning, live data import, paid provider call or model promotion is authorised.
 - Architecture baseline approval is distinct from UX approval. UX starts only after architecture/contracts/phase structure are agreed. Implementation starts only after the complete UX and end-to-end baseline are approved and the owner explicitly authorises build work.
-- These local publication payloads are proposals. Existing Confluence pages, Lucid diagrams and the Site are not silently replaced or auto-synchronised.
+- The local preparation payloads are retained historical proposals; the receipt above records the 13-page owner-authorised publication. Existing parent pages, Lucid diagrams and the Site are not silently replaced or auto-synchronised.
 - Independent review, PR creation, merge and issue closure keep their separate project consent gates.
 
 ## Reproducible checks
