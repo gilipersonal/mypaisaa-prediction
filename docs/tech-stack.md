@@ -77,6 +77,8 @@ Current confirmed cash planning is **£100/month all-in**, **£70 operation + £
 - **Cloud streaming:** API Gateway REST `STREAM` plus a compatible Python streaming adapter is a proposed path; HTTP API streaming, durable replay and actual regional compatibility are not assumed. See the primary sources and bounded reconnect contract in the [blueprint](planning/layered-development-2026-11-01/architecture-blueprint.md#api-and-sse-bounded-transport-durable-work).
 - **Retention/recovery:** renewable S3 originals (24 months) with owner extension/deletion; operational logs (14 days), rich traces (30 days) and run summaries (90 days); durable ledger/forecast/approval evidence has separate retention. No automatic deletion authorised; monthly focused recovery/audit checks required, with RPO/RTO still open.
 
+**ARC-06 owner direction:** each Claude task route uses a separate Lambda worker with distinct permissions, sharing the bounded Anthropic client-SDK runner library. Exact route/worker/model counts, IAM/queue/context/memory/cache/batch/eval contracts and full cost remain open; no runtime is installed or deployed.
+
 ## Build and verification boundaries
 
 Current CI covers **Backend, Codex tooling, Static preview, Workflow lint and Jira traceability**. The preview check is structural; it does not certify an operational PWA, browser accessibility or investment functionality. Web, Swift and React Native builds/tests must be added with their first executable manifests. [GitHub delivery and CI](github-workflow.md) records the procedure and existing evidence; this document does not assert a fresh test pass.

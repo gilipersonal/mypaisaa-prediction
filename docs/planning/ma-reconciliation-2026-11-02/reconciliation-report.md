@@ -83,6 +83,8 @@ ARC-04 subsequently selected capped SageMaker CPU training/evaluation with porta
 
 ARC-05 subsequently selected baselines-first qualification followed by bounded challengers and separately tested feature contributions. All agreed horizons/capabilities remain; exact scientific thresholds/protocols and promotion evidence remain open.
 
+ARC-06 subsequently selected separate Lambda workers per Claude task route, sharing the bounded runner library. This supersedes the maker consolidation recommendation; route/worker counts, IAM/context/tool/memory/batch/eval and complete cost evidence remain open.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

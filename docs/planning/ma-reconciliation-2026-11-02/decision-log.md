@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-06, Anthropic runner and task packaging.
+Next: ARC-07, identity, session recovery and action-bound fresh authentication.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next remains ARC-06.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-07.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -57,3 +57,13 @@ The owner selected option A: **Baselines first, then bounded challengers.** Firs
 The evidence ladder remains rules/statistics, numerical ML, then separately evaluated structured LLM/news/pattern factors. Training/evaluation must remain chronological with horizon-aware overlap controls, training-fold-only transformations, untouched candidate evaluation, bounded predeclared experiment/search limits, calibration/coverage/subgroup evidence and baseline/ablation comparisons. Retrospective LLM extraction needs contamination controls or prospective evidence. Rules/XIRR, calibrated forecasts and long-range scenarios retain distinct meanings.
 
 Mature outcomes and shadow evidence are required; refreshing daily does not mature a 12-month outcome. Owner approval precedes promotion. Exact candidate catalogue, formulas, fold schedules, search caps, sample/uncertainty/eligibility/abstention criteria and rollback authority still need specifications; associated FC/CT gaps stay open. No accuracy guarantee, training job, paid call, automatic live recalibration or implementation is approved.
+
+## ARC-06: separate Claude task workers with a shared runner library
+
+The owner selected option B: **Separate Lambda workers for each task route.** Each evaluated Claude route gets an independently deployable Lambda worker with its own execution permissions and route-specific queue, context/tool, concurrency/retry and evaluation policy. All reuse a versioned typed Anthropic client-SDK runner library for common grounding, schema validation, cost reservations/reconciliation, redaction, cache and batch controls. This supersedes the maker consolidation recommendation.
+
+Lambda runs the client loop; Claude model inference remains on Anthropic. The task catalogue may cover portfolio analysis, forecast explanation, source research and long-term thesis, but exact worker/route/model counts are not fixed by this choice. Deterministic analyst/grader/budget/operations responsibilities do not automatically become LLM calls.
+
+Untrusted-file extraction remains isolated and tool-free; public research and private portfolio context have explicit outbound boundaries. Memory is scoped, sourced and revisable and cannot become financial truth or policy. Cache eligibility/economics and nonurgent batch deadlines/privacy must be measured. Immediate alerts and fresh briefings cannot depend on a just-submitted batch.
+
+Separate workers share one project budget and the actual provider allowances; each worker does not gain a separate credit pool. Global cost admission/rate coordination must prevent parallel overspend. Agents have no direct financial commit or model-promotion authority. Exact IAM/queue design, manifest, model IDs, limits, memory retention, eval coverage and full operating cost remain open. No deployment, paid call or complete architecture approval is implied.

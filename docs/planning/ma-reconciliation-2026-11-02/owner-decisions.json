@@ -142,6 +142,31 @@
         "issue": "MP-21",
         "comment_id": "12154"
       }
+    },
+    {
+      "card_id": "ARC-06",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "B",
+        "label": "Separate Lambda workers for each task route",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision6, call_10ac80fb76ea407d81b99e3ae9e092f4",
+        "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+      },
+      "open_gap_ids": [
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-12",
+        "CT-15",
+        "FC-13"
+      ],
+      "jira_evidence": {
+        "issue": "MP-25",
+        "comment_id": "12155"
+      }
     }
   ]
 }

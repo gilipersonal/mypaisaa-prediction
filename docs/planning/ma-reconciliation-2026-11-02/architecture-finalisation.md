@@ -44,6 +44,8 @@ For ML, decide the first trainable families, task/horizon artefact policy, retra
 
 **Owner direction recorded on 2 November 2026 (ARC-05): baselines first, then bounded challengers and separately evaluated additional factors.** This chooses qualification order; exact target/fold/metric/cost/eligibility contracts remain to settle.
 
+**Owner direction recorded on 2 November 2026 (ARC-06): separate Lambda workers for each Claude task route, sharing one versioned bounded client-runner library.** Each worker has distinct permissions and context/tool/budget/eval policy; exact route/model catalogue and controls remain to specify.
+
 ## 5. Set admin, safety, eval and operating policies
 
 Agree an action catalogue before drawing admin screens: viewing, source access, reprocessing, committing/correcting records, changing configuration/budgets, replay, deletion, promotion and rollback. Each sensitive action needs current server authorisation, an action-bound approval, expiry, version checks, idempotency and durable audit evidence. Face ID alone is not server authorisation.

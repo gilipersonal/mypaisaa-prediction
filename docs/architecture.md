@@ -53,7 +53,7 @@ These are current intended responsibilities; exact adapters, schemas and service
 | --- | --- | --- |
 | API | Authenticated commands, read models, bounded SSE, schema validation and job admission | Modular FastAPI codebase on Lambda; streaming adapter/integration proof required |
 | Ingestion | Provider normalisation, quality checks, idempotent writes | scheduled Python jobs |
-| Research/chat | Cited retrieval, structured factor extraction, specialist evidence and contextual conversation | Official Anthropic client SDK with explicit bounded tool loop on Lambda; Claude runs on Anthropic |
+| Research/chat | Cited retrieval, structured factor extraction, specialist evidence and contextual conversation | Separate Lambda workers per Claude task route, sharing the bounded Anthropic client-SDK runner (ARC-06); Claude runs on Anthropic |
 | Quant engine | feature creation, training, validation, calibration, scoring | Python, scikit-learn-compatible pipelines |
 | Ledger | Own transactions, holdings, cash, all v1 imports, rules/XIRR, reconciliation | DynamoDB selected in ARC-02; one controlled write service; atomicity/access-pattern proof pending and earlier PostgreSQL ADR awaiting reconciliation |
 | Prediction registry | Immutable forecast, model, data cutoff, mature outcome and approval records | Durable append-only records plus private artefacts; exact schema/store decision open |
