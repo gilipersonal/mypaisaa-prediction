@@ -170,6 +170,30 @@
         "MP-27",
         "MP-29"
       ]
+    },
+    {
+      "id": "COST-AT-15",
+      "spec_id": "COST-04",
+      "given": "The proposed USD15 annual domain allowance is due once in an illustrative setup/renewal month; central Virginia with Claude blocked.",
+      "expected": "Keep 108 amortised monthly run-rate variants separate from 216 cash timing variants. Grow79 annual invoice cash is GBP108.88 and exceeds GBP100, versus ordinary-month GBP94.48; conditional Grow55 annual invoice cash is GBP60.88, below GBP70 with warning reached. Full due commitment replaces USD1.25 amortisation. No purchase, invoice date or subscription approval is implied.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-16",
+      "spec_id": "COST-06",
+      "given": "A selected fixed invoice is annual, or its amount/due month is unknown.",
+      "expected": "Reserve the full conservative cash liability in its due month before optional jobs; never admit against an amortised monthly equivalent or release on forecast expiry. Unknown invoice amount/timing blocks a new commitment until conservatively bounded and authorised. Settlement/effective cancellation replaces or releases the same liability without duplication.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
     }
   ]
 }

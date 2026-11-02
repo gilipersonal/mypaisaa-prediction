@@ -172,7 +172,10 @@
     "fencing": "monotonic token scoped to manifest; all chunk/seal/activation writes check token and state; lease clock alone cannot fence a stale worker",
     "checkpoint": "optional immutable verified projection linked to full parent revision and digest; not correctness authority without rebuild proof",
     "manifest_inventory": "Bounded inline header or immutable paged child manifests; every page/chunk count and digest checked before complete. No header/item may exceed service item limit.",
-    "chunk_reuse_on_recovery": "Previously immutable chunk content may be referenced by a new-fence recovery receipt after full count/digest verification; historical old-fence completion receipts remain evidence, not new activation authority."
+    "chunk_reuse_on_recovery": "Previously immutable chunk content may be referenced by a new-fence recovery receipt after full count/digest verification; historical old-fence completion receipts remain evidence, not new activation authority.",
+    "content_hash_contract": "hash-contract.json FIN-HASH-1: exact acyclic leaf -> chunk -> optional page -> manifest projections; actual synthetic proof in hash-graph-example.json",
+    "delivery_records": "Only immutable EventIntent enters chunk content. After-root PublicationPointer, mutable DeliveryState and append-only DeliveryAttempt are separately keyed and never part of sealed content; all join owner/environment/commit/message and require published authority.",
+    "hash_exclusions": "Own digest fields excluded explicitly; manifest activation envelope state/resulting_revision/published_at excluded. Fence and approval_id included. No implied full-record hash. Unknown schema fields are refused."
   },
   "metric_eligibility": {
     "common_required": [

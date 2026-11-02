@@ -1,8 +1,8 @@
 # Foundation Specification Pack 1
 
-**2 November 2026 · MP-20 · Proposed specifications · Unreviewed · Architecture/UX/build unapproved**
+**2 November 2026 · MP-20 · Proposed specifications · Round 1 findings fixed; verification pending · Architecture/UX/build unapproved**
 
-This pack turns the selected architecture directions into precise data, financial and forecast contracts with worked examples, planned acceptance and quantitative cost assumptions. It is a local maker draft. It implements no application feature and runs no live acquisition, model, training, backtest, AWS account or deployment operation.
+This pack turns the selected architecture directions into precise data, financial and forecast contracts with worked examples, planned acceptance and quantitative cost assumptions. It is a local specification draft. The first independent review found five blocking issues; the changes addressing them await separate verification approval. It implements no application feature and runs no live acquisition, model, training, backtest, AWS account or deployment operation.
 
 ## Read the specification
 
@@ -31,9 +31,9 @@ Exact daily cutoff/finality tolerances, calendar invalid-day conventions, financ
 
 ## Budget feasibility remains conditional
 
-The [model](costs/model.json) includes both AWS environments with no free-tier deductions and separates allowable blocked-Claude mode from counterfactual cash-funded full functionality. Under its **assumed £0.80/USD and 20% tax** central scenario, the displayed Grow $79 option plus the Virginia AWS candidate is approximately **£95.68/month even with Claude calls blocked**, above the £70 planned-operation allowance. Full cash-funded Claude would require approximately £100.27 and is not authorised.
+The [model](costs/model.json) includes both AWS environments with no free-tier deductions and separates allowable blocked-Claude mode from counterfactual cash-funded full functionality. Under its **assumed £0.80/USD and 20% tax** central scenario, the displayed Grow $79 option plus the Virginia AWS candidate is an amortised **£95.68 monthly run rate with Claude calls blocked**, above the £70 planned-operation allowance. Cash timing is different: the annual domain invoice month would require approximately **£108.88**, above the £100 cash ceiling. Full cash-funded Claude is an unauthorised counterfactual and also needs explicit invoice-month accounting.
 
-A support-reported $29/55-credit Grow candidate produces approximately £47.68 in the same blocked-Claude scenario, but current purchase terms, rights and coverage are unverified. Neither is an approved bill, regional selection or proven complete-system fit. The global £100 cash ceiling and £30 reserve remain unchanged. [Scenario source/evidence](costs/research.json).
+A support-reported $29/55-credit Grow candidate produces an amortised £47.68 run rate and approximately £60.88 in the annual domain invoice month in the same blocked-Claude scenario, but current purchase terms, rights and coverage are unverified. Neither is an approved bill, regional selection or proven complete-system fit. The global £100 cash ceiling and £30 reserve remain unchanged. [Scenario source/evidence](costs/research.json).
 
 ![Illustrative monthly cash scenarios under unverified pricing/FX/tax/rights assumptions](costs/cost-scenarios.png)
 
@@ -57,6 +57,6 @@ uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-sp
 
 The offline command requires the pinned PR #9 Git object from the reference history; a fresh shallow checkout must obtain that authorised reference separately. The checker itself performs no network fetch.
 
-The [validation receipt](validation.json) records document/schema/math/provenance checks. It covers 34 positive wire records, strict negative format/scalar cases, 15 financial plus 15 scientific worked examples, 108 cash variants and source/reference consistency. The 73 area acceptance cases are **planned backend/live tests**, not 71 executed integration tests. [Maker verification](MAKER-CHECKS.md).
+The [validation receipt](validation.json) records document/schema/math/provenance checks. It covers 37 positive wire records, strict negative format/scalar cases, 15 financial plus 15 scientific worked examples, 108 amortised run-rate variants and 216 invoice-timing cash variants and source/reference consistency. The area acceptance cases are **planned backend/live tests**, not executed integration tests. [Maker verification](MAKER-CHECKS.md).
 
-Independent review and the real MP-20 regression ledger have not run. No new Confluence page, Site, Lucid document or PR is published by this draft. A [five-page reading/publication proposal](publication-proposal.json) is prepared locally for a separately approved scope. Full architecture/phase/story sign-off precedes UX; complete end-to-end/admin UX and explicit permission precede implementation.
+Independent review round 1 ran in three fresh parallel lanes after the document gates and the full MP-20 regression gate (zero prior checks, zero manual items). It found five blocking specification issues: invoice-month cash timing; acyclic content hashing; immutable intents versus delivery state; acquisition/cutoff timing; and pre/post-release feature availability. The fixes have focused document checks, but independent verification of those fixes has not run. A second round requires separate approval and covers only these fixes and their direct connections. See the [review state](../../../review/MP-20/state.json) and [fixed-findings ledger](../../../review/MP-20/fixed.json). No new Confluence page, Site, Lucid document or PR is published by this draft. A [five-page reading/publication proposal](publication-proposal.json) is prepared locally for a separately approved scope. Full architecture/phase/story sign-off precedes UX; complete end-to-end/admin UX and explicit permission precede implementation.

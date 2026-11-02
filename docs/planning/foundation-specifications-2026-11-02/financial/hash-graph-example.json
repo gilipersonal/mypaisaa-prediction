@@ -1,0 +1,280 @@
+{
+  "hash_policy_version": "FIN-HASH-1",
+  "classification": "Entirely synthetic offline hash graph. Unlike contract-examples.json placeholders, all leaf/chunk/page/manifest digests here are computed by the declared FIN-HASH-1 projections. Prices, balances, IDs and events do not describe the owner or observed market data. No runtime, cloud, authentication, durability, approval or delivery proof is claimed. serialized_item_bytes is illustrative service-budget metadata, not a measured DynamoDB item size.",
+  "leaves": [
+    {
+      "record_type": "LedgerEvent",
+      "record_id": "fictional-buy",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "event_id": "fictional-buy",
+        "commit_id": "fictional-commit",
+        "account_ids": [
+          "fictional-UK-A"
+        ],
+        "kind": "buy_record",
+        "economic_date": "2026-10-30",
+        "economic_at": null,
+        "time_precision": "date",
+        "trade_date": "2026-10-30",
+        "settlement_date": null,
+        "source_sequence": 1,
+        "recorded_at": "2026-11-02T10:00:00Z",
+        "cash_legs": [
+          {
+            "leg_id": "cash1",
+            "account_id": "fictional-UK-A",
+            "money": {
+              "amount": "-201",
+              "currency": "GBP",
+              "quality": "booked",
+              "source_literal": "-201.00"
+            },
+            "cash_state": "payable",
+            "role": "principal",
+            "boundary": "internal_portfolio",
+            "transfer_link": null
+          }
+        ],
+        "quantity_legs": [
+          {
+            "leg_id": "units1",
+            "account_id": "fictional-UK-A",
+            "listing_id": "UK-VOD-XLON-GBX",
+            "units": "2",
+            "role": "acquisition",
+            "lot_reference": "fictional-lot"
+          }
+        ],
+        "fee_detail": [
+          {
+            "amount": "1",
+            "currency": "GBP",
+            "quality": "booked",
+            "source_literal": "1.00"
+          }
+        ],
+        "deduction_detail": [],
+        "cash_detail_mode": "net_leg_includes_details",
+        "source_reference": "fictional-txn1",
+        "economic_identity": "fictional-UK-A:fictional-txn1",
+        "evidence": [
+          {
+            "source_id": "fictional-source",
+            "source_version": "v1",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "locator": "Transactions!G2",
+            "evidence_status": "available"
+          }
+        ],
+        "reverses_event_id": null,
+        "replaces_event_id": null,
+        "action_link": null,
+        "policy_versions": [
+          "fictional-accounting1"
+        ]
+      },
+      "sha256": "80ad1a027b15bd852a86085a39753f19fc9335038801ce3a4d2f0dce647365ce"
+    },
+    {
+      "record_type": "AuditEvidence",
+      "record_id": "fictional-event-audit",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "audit_id": "fictional-event-audit",
+        "actor_type": "writer",
+        "actor_ref": "fictional-writer-service",
+        "operation": "publish_owner_confirmed_import",
+        "target_refs": [
+          "fictional-buy"
+        ],
+        "commit_id": "fictional-commit",
+        "source_refs": [
+          {
+            "source_id": "fictional-source",
+            "source_version": "v1",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "locator": "Transactions!G2",
+            "evidence_status": "available"
+          }
+        ],
+        "approval_id": "fictional-approval",
+        "before_ref": "fictional-r10",
+        "after_ref": "fictional-r11",
+        "reason": "Owner confirmed row2 of fictional statement.",
+        "recorded_at": "2026-11-02T10:01:00Z",
+        "economic_date": "2026-10-30",
+        "previous_digest": null,
+        "content_sha256": "fe6659ef14fa6b964359853e2e81226b708ffa3d182d9c3a243bef308acf8b1e",
+        "integrity_anchor_ref": null,
+        "integrity_claim": "digest_only",
+        "retention_policy": "owner-policy-pending"
+      },
+      "sha256": "fe6659ef14fa6b964359853e2e81226b708ffa3d182d9c3a243bef308acf8b1e"
+    },
+    {
+      "record_type": "EventIntent",
+      "record_id": "fictional-event-intent",
+      "value": {
+        "record_type": "FIN-INTENT-1.0",
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "message_id": "fictional-event-intent",
+        "commit_id": "fictional-commit",
+        "payload_ref": "fictional-buy",
+        "consumer_dedup_key": "fictional-commit:fictional-buy:published"
+      },
+      "sha256": "b56fbb4a50e13c49305eaf403c7aca456cf3b14e09b6a0fd4cadf6ce23950787"
+    }
+  ],
+  "chunk_contents": [
+    {
+      "scope": {
+        "owner_id": "fictional-owner",
+        "environment": "dev",
+        "schema_version": "FIN-1.0",
+        "is_synthetic": true
+      },
+      "commit_id": "fictional-commit",
+      "chunk_id": "fictional-chunk1",
+      "ordered_leaf_refs": [
+        {
+          "record_type": "LedgerEvent",
+          "record_id": "fictional-buy",
+          "sha256": "80ad1a027b15bd852a86085a39753f19fc9335038801ce3a4d2f0dce647365ce"
+        },
+        {
+          "record_type": "AuditEvidence",
+          "record_id": "fictional-event-audit",
+          "sha256": "fe6659ef14fa6b964359853e2e81226b708ffa3d182d9c3a243bef308acf8b1e"
+        },
+        {
+          "record_type": "EventIntent",
+          "record_id": "fictional-event-intent",
+          "sha256": "b56fbb4a50e13c49305eaf403c7aca456cf3b14e09b6a0fd4cadf6ce23950787"
+        }
+      ]
+    }
+  ],
+  "chunk_receipts": [
+    {
+      "chunk_id": "fictional-chunk1",
+      "fence": 3,
+      "event_count": 1,
+      "audit_count": 1,
+      "intent_count": 1,
+      "item_count": 3,
+      "serialized_item_bytes": 2048,
+      "content_sha256": "c07db6703f301fe03b77ddd0715e630d90f5955b07cbd7dd0f2624035388c76a",
+      "storage_refs": [
+        "fictional-buy",
+        "fictional-event-audit",
+        "fictional-event-intent"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "page_id": "hash-proof-page0",
+      "commit_id": "fictional-commit",
+      "page_index": 0,
+      "chunks": [
+        {
+          "chunk_id": "fictional-chunk1",
+          "fence": 3,
+          "event_count": 1,
+          "audit_count": 1,
+          "intent_count": 1,
+          "item_count": 3,
+          "serialized_item_bytes": 2048,
+          "content_sha256": "c07db6703f301fe03b77ddd0715e630d90f5955b07cbd7dd0f2624035388c76a",
+          "storage_refs": [
+            "fictional-buy",
+            "fictional-event-audit",
+            "fictional-event-intent"
+          ]
+        }
+      ],
+      "page_sha256": "84e6a5d296e16c01c9a7e100c9dae6373a4682e171f2efd534bbfd9aefc5eb1c"
+    }
+  ],
+  "manifest": {
+    "scope": {
+      "owner_id": "fictional-owner",
+      "environment": "dev",
+      "schema_version": "FIN-1.0",
+      "is_synthetic": true
+    },
+    "commit_id": "fictional-commit",
+    "import_id": "fictional-import",
+    "operation_key": "fictional-operation",
+    "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "expected_revision": 10,
+    "resulting_revision": 11,
+    "parent_commit_id": "fictional-parent10",
+    "fence": 3,
+    "state": "published",
+    "chunks": [],
+    "expected_event_count": 1,
+    "expected_audit_count": 1,
+    "expected_intent_count": 1,
+    "manifest_sha256": "17ec2f2174a89cffbabb13d836805232332a0708ad0a123d06c6bec8dcc5ba02",
+    "approval_id": "fictional-approval",
+    "published_at": "2026-11-02T10:01:00Z",
+    "supersedes_commit_id": null,
+    "chunk_inventory_mode": "paged",
+    "chunk_page_refs": [
+      {
+        "page_id": "hash-proof-page0",
+        "page_sha256": "84e6a5d296e16c01c9a7e100c9dae6373a4682e171f2efd534bbfd9aefc5eb1c"
+      }
+    ],
+    "expected_chunk_count": 1,
+    "expected_page_count": 1,
+    "hash_policy_version": "FIN-HASH-1"
+  },
+  "publication_pointer": {
+    "record_type": "FIN-POINTER-1.0",
+    "scope": {
+      "owner_id": "fictional-owner",
+      "environment": "dev",
+      "schema_version": "FIN-1.0",
+      "is_synthetic": true
+    },
+    "commit_id": "fictional-commit",
+    "message_id": "fictional-publication-pointer",
+    "manifest_sha256": "17ec2f2174a89cffbabb13d836805232332a0708ad0a123d06c6bec8dcc5ba02",
+    "consumer_dedup_key": "fictional-commit:publication"
+  },
+  "delivery_states": [
+    {
+      "record_type": "FIN-DELIVERY-1.0",
+      "scope": {
+        "owner_id": "fictional-owner",
+        "environment": "dev",
+        "schema_version": "FIN-1.0",
+        "is_synthetic": true
+      },
+      "message_id": "fictional-event-intent",
+      "commit_id": "fictional-commit",
+      "status": "pending",
+      "attempt_count": 0,
+      "last_attempt_at": null
+    }
+  ],
+  "delivery_attempts": []
+}

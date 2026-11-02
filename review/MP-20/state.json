@@ -1,11 +1,22 @@
 {
   "issue": "MP-20",
   "deliverable": "Foundation Specification Pack1",
-  "round_count": 0,
-  "status": "maker_draft_review_permission_pending",
-  "review_approval": null,
-  "independent_review": "not_run",
-  "real_fixed_findings_ledger": "not_run",
+  "round_count": 1,
+  "status": "round_1_fixes_ready_round_2_permission_pending",
+  "review_approval": {
+    "round": 1,
+    "source": "Owner answer call_8649f5e68cfb4fc2886c5abc498e6cd3",
+    "answer": "Run review round 1 (Recommended)",
+    "scope": "Three lanes and full MP-20 fixed-findings regression gate"
+  },
+  "independent_review": "round_1_completed_fixes_await_independent_verification",
+  "real_fixed_findings_ledger": {
+    "command": "python3 scripts/review_regress.py MP-20 --approved",
+    "exit_code": 0,
+    "checks": 0,
+    "failed": 0,
+    "manual_outstanding": 0
+  },
   "proposed_lanes": [
     "Data/source rights, quotas and quantitative cost feasibility",
     "Financial contracts, ledger publication, formulas and worked examples",
@@ -28,5 +39,136 @@
   "owner_detail_receipts": [
     "FND-DEC-001",
     "FND-DEC-002"
-  ]
+  ],
+  "reviewed_commit": "0ddf55eb66c58641883c5d7534524768872b3861",
+  "gate_results": [
+    {
+      "command": "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py",
+      "result": "PASS: 34 wire records, 30 worked examples and 108 cost variants; planned acceptance not executed"
+    },
+    {
+      "command": "uv run --no-project --with ruff==0.14.3 ruff check --select F docs/planning/foundation-specifications-2026-11-02",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff 68ad1bf630d1a83f9d2c9179adcbb7894ac2e44a..HEAD --check",
+      "result": "PASS"
+    }
+  ],
+  "deferred_gates": [
+    {
+      "scope": "Backend, live data/licensing, cloud, native/browser, scientific fitting and backtest acceptance",
+      "reason": "No executable product, cloud or model component changed; document schemas and known-answer arithmetic only. Required proofs remain before architecture/build sign-off."
+    }
+  ],
+  "manual_verification": [],
+  "findings": [
+    {
+      "id": "R1-C1",
+      "severity": "P2",
+      "blocking": true,
+      "lane": "data_cost",
+      "reviewer": "/root/mp20_r1_data_cost",
+      "finding": "Annual domain cash invoice is amortised when testing the monthly cash ceiling",
+      "anchor": "docs/planning/foundation-specifications-2026-11-02/costs/model.json:680",
+      "evidence": "Grow79 Virginia annual invoice month is (20.67090995-1.25+15+79)*0.8*1.2=108.884073552 GBP; amortised row says95.68 and within100=true.",
+      "status": "fixed_maker_checks_passed_independent_verification_pending"
+    },
+    {
+      "id": "R1-F1",
+      "severity": "P2",
+      "blocking": true,
+      "lane": "financial",
+      "reviewer": "/root/mp20_r1_financial",
+      "finding": "Event intent references enclosing manifest hash and canonical digest exclusions are undefined",
+      "anchor": "docs/planning/foundation-specifications-2026-11-02/financial/contracts.schema.json:1804",
+      "evidence": "Manifest digest covers chunk content including intent that requires same manifest digest, creating a cycle; own digest fields also require explicit projections.",
+      "status": "fixed_maker_checks_passed_independent_verification_pending"
+    },
+    {
+      "id": "R1-F2",
+      "severity": "P2",
+      "blocking": true,
+      "lane": "financial",
+      "reviewer": "/root/mp20_r1_financial",
+      "finding": "Delivery status is mutable inside an immutable sealed event intent",
+      "anchor": "docs/planning/foundation-specifications-2026-11-02/financial/contracts.schema.json:1820",
+      "evidence": "Updating status/attempt_count/last_attempt_at changes serialized event intent hash and hence sealed chunk/root.",
+      "status": "fixed_maker_checks_passed_independent_verification_pending"
+    },
+    {
+      "id": "R1-S1",
+      "severity": "P2",
+      "blocking": true,
+      "lane": "forecasting",
+      "reviewer": "/root/mp20_r1_forecasting",
+      "finding": "First daily acquisition starts at its own frozen information deadline",
+      "anchor": "docs/planning/foundation-specifications-2026-11-02/data/specification.md:23",
+      "evidence": "Close21:00, collect22:00, positive1s latency yields known_at22:00:01 after close+60m cutoff; retry23:00 also late.",
+      "status": "fixed_maker_checks_passed_independent_verification_pending"
+    },
+    {
+      "id": "R1-S2",
+      "severity": "P2",
+      "blocking": true,
+      "lane": "forecasting",
+      "reviewer": "/root/mp20_r1_forecasting",
+      "finding": "Earnings release features become known after their selected prior-close prediction origin/cutoff",
+      "anchor": "docs/planning/foundation-specifications-2026-11-02/forecasting/model-catalogue.json:237",
+      "evidence": "Tuesday08:00 public release cannot enter Monday closing predictor with earlier close+60m cutoff; same for late after-close releases. Distinguish pre/postrelease prediction from descriptive event study.",
+      "status": "fixed_maker_checks_passed_independent_verification_pending"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_commit": "0ddf55eb66c58641883c5d7534524768872b3861",
+      "reviewers": [
+        {
+          "agent": "/root/mp20_r1_data_cost",
+          "blocking_findings": [
+            "R1-C1"
+          ],
+          "nonblocking_findings": []
+        },
+        {
+          "agent": "/root/mp20_r1_financial",
+          "blocking_findings": [
+            "R1-F1",
+            "R1-F2"
+          ],
+          "nonblocking_findings": []
+        },
+        {
+          "agent": "/root/mp20_r1_forecasting",
+          "blocking_findings": [
+            "R1-S1",
+            "R1-S2"
+          ],
+          "nonblocking_findings": []
+        }
+      ],
+      "result": "5 blocking P2 findings fixed with maker checks; independent fix verification pending; no nonblocking findings"
+    }
+  ],
+  "fixed_findings_current_ledger": {
+    "entries": 5,
+    "full_runner_on_updated_ledger": "not_run_requires_next_round_permission",
+    "individual_helper_maker_gates": "all passed normal and Python -O",
+    "manual_outstanding": 0
+  },
+  "post_fix_gate_results": {
+    "integrated_document_validator": "PASS:37wire records;9computed graph records;108run rates;216cash variants;6daily+9event proofs;75planned backend/live cases not executed",
+    "cash_mutations": "10 refused; normal and optimized helper passed",
+    "financial_hash_graph": "acyclic construction, typed graph, leaf tampering, inline/paged and delivery invariance passed normal and optimized",
+    "timing": "6 daily plus9 event checks passed normal and optimized",
+    "ruff_F": "PASS",
+    "whole_delta_whitespace": "PASS including all staged new files"
+  },
+  "next_round": {
+    "approval": "not_received",
+    "scope": "Only R1-C1/R1-F1/R1-F2/R1-S1/R1-S2 fixes and their direct connections; source whole architecture excluded",
+    "lanes": 3,
+    "full_fixed_findings_ledger_required": true
+  }
 }

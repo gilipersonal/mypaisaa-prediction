@@ -1,13 +1,14 @@
 {
   "checked_on": "2026-11-02",
   "status": "maker_document_checks_passed",
-  "independent_review": "not_run_not_authorised",
+  "independent_review": "round_1_findings_addressed_delta_review_not_run",
   "application_implementation": "none",
   "checks": [
     {
       "name": "JSON parse",
       "result": "pass",
-      "files": 8
+      "files": 10,
+      "scope": "Companion JSON files excluding this provenance record"
     },
     {
       "name": "JSON Schema 2020-12 metaschema",
@@ -16,7 +17,7 @@
     {
       "name": "Full synthetic wire samples validated against named definitions and date-time formats",
       "result": "pass",
-      "records": 18
+      "records": 21
     },
     {
       "name": "Contract/example/acceptance references",
@@ -58,27 +59,49 @@
         "EX15_basis_vs_peak": true,
         "AC28_rank_arithmetic": true
       }
+    },
+    {
+      "name": "FIN-HASH-1 computed synthetic graph and mutation proof",
+      "result": "pass",
+      "command": "python3 docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py",
+      "optimized_command": "python3 -O docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py",
+      "coverage": [
+        "Three computed immutable leaf hashes, chunk, page and manifest root; named schema validation of every graph record",
+        "Inline and paged inventory modes with exact joins/counts/order",
+        "Leaf edit rejects old hashes and changes recomputed root",
+        "Delivery failure, retry scheduling and success leave sealed root unchanged",
+        "Unknown fields, root/delivery fields on intent, unknown version, incorrect page digest reference and binary float refused"
+      ],
+      "scope": "Offline synthetic document proof only; not backend/cloud/authentication/durability evidence"
+    },
+    {
+      "name": "FIN hash proof Ruff F and financial whitespace",
+      "result": "pass"
     }
   ],
   "maker_fix": [
     "Exact arithmetic caught a draft ranking total of 70.5; corrected to 71 before final checks.",
-    "Normalized wire listing references to DATA canonical UK-VOD-XLON-GBX and added a real-instrument alias crosswalk for UK/US/India."
+    "Normalized wire listing references to DATA canonical UK-VOD-XLON-GBX and added a real-instrument alias crosswalk for UK/US/India.",
+    "Round-one FIN-12 findings: separate immutable EventIntent, after-root PublicationPointer, mutable DeliveryState and append-only DeliveryAttempt; specify exact acyclic FIN-HASH-1 content projections and add computed synthetic graph/mutation proof."
   ],
   "limits": [
     "These are document/schema/arithmetic checks, not backend acceptance tests.",
     "No DynamoDB transaction, OCR, provider, model, auth, UI, deployment, production ledger or recovery exercise ran.",
     "Cross-record authorization, decimal bounds, no-negative-zero and cryptographic completeness are semantic requirements, not proven by shape validation.",
-    "Synthetic sample digest fields are explicit placeholders; no cryptographic content proof claimed."
+    "contract-examples.json digests remain explicit placeholders. hash-graph-example.json separately supplies computed synthetic content digests only."
   ],
   "artifact_hashes": {
-    "acceptance.json": "36e030a6afe4d23f7d80501cc12fc077f0f4cc1945b7c281bead6ab7622dfa26",
-    "contract-catalogue.json": "5ffb6ee5541441e2e8481b88a896d5e4497887038f8c70b7d3a28f9f64798aad",
-    "contract-examples.json": "d011f1810c5c229efdfce27bd42ba2bc01c62d4b5032f87baaa52cd7d68b8f8c",
-    "contracts.schema.json": "90874cd01cadaed8cde6d1fdeded75f39b8587c74329f6a8f84c526e28cecf1a",
+    "acceptance.json": "026f4ef273185fe873cf309c6c8b1bb4af8adce49c7da1f442f6b0b979dc6113",
+    "contract-catalogue.json": "6d13812d1bdee4f645b8cd4b57a6a189dd947d7e40ac3825ffa7360eefa2884b",
+    "contract-examples.json": "2d1a9aa590316733366a1e25703e28aa2ca40b23872ca6c3d4c73b427882ee1c",
+    "contracts.schema.json": "628a0d2c3214049bceb25b2fa38fa08230e7e6a5433a7c69ae6e4ff6699352ae",
+    "hash-contract.json": "0bd7f366cbc692c046bfc606644d7a272d1049f9c12bb613ce1edd5878ffc3c3",
+    "hash-graph-example.json": "070ba4c88b8b7110e4bb0feff738950146bb54d79f8c6f35aabedee7b1514fac",
     "open-decisions.json": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc",
-    "policies.json": "1748cf8580782a604f95ac9450bd86bda460e4c0edeec9a719d007b65e8c35d6",
+    "policies.json": "784d2defccc72f6fb4b6bfc4ebe407dfc935985090a586245e260fec6f5a7af6",
     "research.json": "552d1a0dbfb16418b336925c332fc781b93098cc2b5bd30cdbda3af6f1f45e5d",
-    "specification.md": "f9880134cb172935a2d3ecbf078c91aefbff3f8bb10596bd52b969506544d645",
+    "specification.md": "a4a4392a5d11f5e26d1ca6623a55e70c05522f854eccaa84acf876ac0631b475",
+    "verify_hash_contract.py": "42f75e06875aad1b99815f6402bdf85170e3309c755a08842606b97de307e48f",
     "worked-examples.json": "667b7c867918fb6d3a214bbcbc61ff438d52a66354ba39b69064beb443c9e3a1"
   }
 }

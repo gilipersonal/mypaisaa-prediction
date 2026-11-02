@@ -5,9 +5,9 @@
       "id": "SCI-01-AC01",
       "requirement": "SCI-01",
       "title": "Task/clocks/maturity",
-      "given": "A registered exact task and listing calendar",
-      "when": "Freeze origin/cutoff/issue/maturity; count supplied calendars; delay publication without moving economic date",
-      "then": "Match horizon/calendar; cutoff leak and missed deadline abstain; no NAV/market mixing",
+      "given": "A registered exact task, listing calendar and proposed four-clock schedule (collection +15m, retry +40m, frozen cutoff +60m, issuance deadline +75m)",
+      "when": "Collect ordinary close with positive latency; retry a missing close with positive latency; separately inject late ingestion/publication, late issuance and a next-open conflict",
+      "then": "Ordinary and retry input known before cutoff can issue after cutoff by deadline and strictly before next open; exclude later known_at without shifting cutoff; late issuance misses origin and unsupported schedule abstains; NAV economic date remains unchanged",
       "source_gaps": [
         "FC-02",
         "FC-08",
@@ -25,7 +25,8 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check daily; six synthetic cases, not backend or provider execution"
     },
     {
       "id": "SCI-02-AC01",
@@ -99,7 +100,9 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "event_timing": "Prerelease schedule-only input known by cutoff; before-open and late-after-close release content rejected at prior-close predictor; postrelease content waits for later eligible daily origin/cutoff and a new target start; prior-close event study descriptive only",
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check event; eight synthetic cases plus earlier-target negative refusal, not empirical predictive evidence"
     },
     {
       "id": "SCI-05-AC01",

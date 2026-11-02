@@ -34,11 +34,12 @@
       "unknown_cells": 54
     },
     {
-      "name": "Cost line products, token bands, aggregates, FX/tax/card/policy variants and training units",
+      "name": "Cost products, token bands, aggregates, 108 amortised run rates, 216 invoice-month cash variants and training units",
       "result": "passed",
       "region_workload_scenarios": 6,
-      "cash_variants": 108,
-      "baseline_shared_training_instance_hours": 12
+      "cash_variants": 216,
+      "baseline_shared_training_instance_hours": 12,
+      "run_rate_variants": 108
     },
     {
       "name": "Concrete line units and price/assumption evidence references",
@@ -56,12 +57,42 @@
       "name": "Pinned source checkout file hashes unchanged",
       "result": "passed",
       "count": 6
+    },
+    {
+      "name": "Independent cash-timing recomputation and cash-admission invariants with in-memory behavioural mutations",
+      "result": "passed",
+      "run_rate_variants": 108,
+      "cash_variants": 216,
+      "mutations_rejected": 10,
+      "python_optimised_mode": "passed",
+      "annual_invoice_virginia_grow79_cash_gbp": "108.88",
+      "annual_invoice_virginia_grow55_cash_gbp": "60.88",
+      "asserts_not_required_by_regression": true
+    },
+    {
+      "name": "Repeated Matplotlib render is byte-identical for SVG and PNG",
+      "result": "passed",
+      "renderer": "Matplotlib 3.10.7",
+      "outputs": {
+        "cost-scenarios.svg": "0156ffac116ea19132fd68b210217ace82de6f6bc27bfd84a5a930bcc41d2641",
+        "cost-scenarios.png": "5ce554c7197227ad662764587f3c605e7ef54301432e55006ea94f04967d11e0"
+      },
+      "command": "uv run --offline --no-project --with matplotlib==3.10.7 python docs/planning/foundation-specifications-2026-11-02/costs/plot_scenarios.py"
+    },
+    {
+      "name": "Ruff F on costs Python and costs whitespace check",
+      "result": "passed",
+      "commands": [
+        "uv run --offline --no-project --with ruff==0.14.3 ruff check --select F docs/planning/foundation-specifications-2026-11-02/costs",
+        "git diff --check -- docs/planning/foundation-specifications-2026-11-02/costs"
+      ]
     }
   ],
   "limitations": [
     "No runtime service, provider account, licence grant, personal ledger, scientific evaluation or independent review was exercised.",
     "Public prices and synthetic contracts do not prove live feasibility.",
-    "JSON Schema format annotations were supplemented with explicit standard-library timestamp/date parsing because optional RFC3339 format support was unavailable."
+    "JSON Schema format annotations were supplemented with explicit standard-library timestamp/date parsing because optional RFC3339 format support was unavailable.",
+    "Cash timing correction has maker checks only; a fresh independent reviewer must review its delta if authorised."
   ],
   "checker": "costs/validate_specifications.py",
   "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
@@ -76,7 +107,22 @@
     "proposed_credit_proof_max_age_minutes": 30,
     "org_wide_allocation_status": "live_proof_pending",
     "price_evidence_sha256": "011eb2d90be975b9b1669f0e0fa655b3f58b8731905a356a24278786e22e10b7",
-    "helper_sha256": "17fa10b61de627737d4cc1bf696c393a5713f42d4f0b575cc895c82920b84a54",
+    "helper_sha256": "cce35b09211e5fe213b10b7a7e860ff4abbdcc66f7d79307fde6ee8c874fe008",
     "source_pin_count": 6
+  },
+  "cash_timing_correction": {
+    "status": "maker_checked_not_independently_reviewed",
+    "external_calls": false,
+    "commit_or_push": false,
+    "run_rate_variants": 108,
+    "cash_variants": 216,
+    "helper": "costs/check_cash_timing.py",
+    "callable_API": [
+      "check_model(model)",
+      "check_cash_admission(reservation)"
+    ],
+    "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
+    "helper_sha256": "4d75f1a7b7806db9f9efc1d0fbb03b5985217fb4b1d05035db77d4ed716eb08f",
+    "meaning": "Amortised annual allowance is a monthly run rate only. Full selected annual invoice is reserved in its due month; ordinary/invoice-month cases are explicit assumptions and establish no purchase or actual due date."
   }
 }

@@ -43,6 +43,14 @@
     {
       "name": "Concrete line units and price/assumption evidence references",
       "result": "passed"
+    },
+    {
+      "name": "Daily acquisition/cutoff/issuance clock specification proof after review fix",
+      "result": "passed",
+      "command": "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check daily",
+      "synthetic_cases": 6,
+      "python_optimisation_refusals": "passed",
+      "limitation": "Does not execute acquisition or prove source/runtime timing; +15/+40/+60/+75 timings remain owner pending."
     }
   ],
   "limitations": [

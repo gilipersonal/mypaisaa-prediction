@@ -156,7 +156,14 @@
       "gap_refs": [
         "PL-08",
         "FC-10"
-      ]
+      ],
+      "variants": [
+        "EventIntent",
+        "PublicationPointer",
+        "DeliveryState",
+        "DeliveryAttempt"
+      ],
+      "hash_contract_ref": "hash-contract.json"
     },
     {
       "id": "FIN-13",

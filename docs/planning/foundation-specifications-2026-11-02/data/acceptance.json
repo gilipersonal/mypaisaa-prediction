@@ -61,13 +61,14 @@
     {
       "id": "DATA-AT-06",
       "spec_id": "DATA-06",
-      "given": "A DST mismatch week, half-day and holiday affect sessions.",
-      "expected": "Use the local versioned calendar; do not use fixed UTC offsets or holiday monitoring.",
+      "given": "A DST mismatch week, half-day and holiday affect sessions. Proposed four-clock daily schedule and a source with nonzero collection latency.",
+      "expected": "Use the local versioned calendar; do not use fixed UTC offsets or holiday monitoring. Collection +15m and retry +40m can complete before frozen +60m cutoff; issue by +75m and strictly before next open. Late known_at is excluded without shifting cutoff; unsupported next-open schedule abstains.",
       "evidence_kind": "offline_plus_calendar_proof",
       "status": "proposed",
       "task_refs": [
         "MP-10"
-      ]
+      ],
+      "offline_specification_proof": "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check daily; ordinary/retry latency success, late ingestion/publication/issue and next-open conflict"
     },
     {
       "id": "DATA-AT-07",

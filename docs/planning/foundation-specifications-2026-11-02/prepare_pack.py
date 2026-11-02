@@ -16,6 +16,9 @@ def read(p):return json.loads(p.read_text())
 def write(p,d):p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
 def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 
+work_state=read(BASE/'work-state.json')
+review_status=work_state['independent_review']
+review_notice='Independent review round 1 found five specification blockers. Fixes are maker-checked; independent verification of the fixes requires separately approved round 2.'
 owners=read(BASE/'owner-decisions.json')
 fin=read(BASE/'financial/open-decisions.json')['decisions']
 sci=read(BASE/'forecasting/open-decisions.json')['material_choices']
@@ -31,13 +34,14 @@ lines+=['','The exact trial counts, solver limits, numeric tolerances, availabil
 '- **Current provider price and rights:** reconcile displayed Grow377 $79 and support-reported Grow55 $29, including term/current availability and every intended use/listing. All54 use-right cells in the representative nine-row matrix remain unverified. Basic dev coverage/rights and any retained/derived data or transmission to Anthropic need their own evidence.',
 '- **Tax/FX/payment:** the central £0.80/USD and20% tax are scenario assumptions, not a live exchange quote or invoice determination. Adverse/no-tax sensitivities are not permission to choose a favourable assumption.',
 '- **Actual Claude credit:** user-reported shared $200 is unknown and counted once. No verified allocation means uncovered calls are refused, not paid. The full-function no-credit row is a counterfactual funding requirement, not an executable plan.',
-'- **Whole-system fit:** under the central displayed-tier blocked-Claude scenario the cost is about£95.68 in the Virginia candidate, above the£70 operation plan; conditional lower-tier arithmetic is not a feasible licensed source proof. Keep the£100 ceiling and£30 reserve. Apple membership, exchange/add-on/SMS and material network/hosting changes remain unselected/unpriced and require recosting.',
+'- **Whole-system fit:** the Virginia displayed-tier blocked-Claude run rate is about£95.68, above the£70 operation plan. Its annual domain invoice month requires about£108.88 cash, above the£100 ceiling; ordinary/invoice timing must be admitted separately. Conditional lower-tier arithmetic is not a feasible licensed source proof. Keep the£100 ceiling and£30 reserve. Apple membership, exchange/add-on/SMS and material network/hosting changes remain unselected/unpriced and require recosting.',
 '- **Region/account/runtime/workload:** public prices do not certify actual account/tier/rollout, quotas, memory/artefact compatibility, end-to-end streaming, concurrency, training duration or region suitability. No region is selected by the lowest illustrative total.',
 '- **Real inputs:** owner holdings/listings and samples arrive progressively. They do not block this synthetic specification draft; live capability/layout/forecast eligibility requires their later evidence.',
 '- **Source-side withdrawal/deletion:** specify effects on archives, derivative datasets, features, models, labels, backups and retained audit evidence before accepting the detailed privacy/recovery baseline.',
 '','## Cross-lane decision joins','',
-'- DATA freshness and SCI origin/grace/replay policies must resolve together; one source arriving late cannot become a backdated forecast input.',
+'- DATA acquisition start/retry, SCI frozen cutoff and issuance deadline are separate clocks. Positive collection latency must fit before cutoff; late data cannot be backdated. Pre-release schedule-only, subsequent-daily-origin post-release features and descriptive prior-close event studies remain distinct.',
 '- FIN analytical/FX/benchmark conventions and SCI target contracts must agree before combining scores; cost-basis loss, MDD, MAE, terminal loss and preference ranks remain distinct.',
+'- FIN sealed event intents use stable IDs and acyclic content projections; delivery state/attempts are outside the immutable hash graph.',
 '- FIN approval lifetime is currently proposed at trusted-writer transaction submission; strict completion-before-expiry is not a proven DynamoDB server-clock predicate.',
 '- SCI campaign/fit/CPU caps are subordinate to shared cost admission. Proposed internal money allocations are ceilings, not independent spendable pots or automatic permission to use cash for uncovered calls.',
 '','[Financial choices](financial/open-decisions.json) · [Scientific choices](forecasting/open-decisions.json) · [Data capability proposals](data/catalogue.json) · [Quantitative cost model](costs/model.json)']
@@ -56,7 +60,7 @@ for g in old['gaps']:
  areas=[a for a,x in refs.items() if g['id'] in x]
  source_gaps.append({'source_gap':g['id'],'planning_issue':g['jira_key'],'referenced_in_areas':areas,'status':'proposed_contract_detail_present_approval_or_proof_pending' if areas else 'outside_pack1_or_consolidation_followup','closed':False})
 counts={'financial_worked_examples':15,'scientific_worked_examples':15,'data_acceptance':len(read(BASE/'data/acceptance.json')['cases']),'cost_acceptance':len(read(BASE/'costs/acceptance.json')['cases']),'financial_acceptance':len(read(BASE/'financial/acceptance.json')['cases']),'scientific_acceptance':len(read(BASE/'forecasting/acceptance-cases.json')['cases'])}
-write(BASE/'coverage.json',{'date':'2026-11-02','primary_issue':'MP-20','source_pr9_head':source['source_head'],'implementation_authorised':False,'independent_review':'not_run','scope':'Reference presence and proposed contract trace; not acceptance completion or source-gap closure.','areas':area_files,'counts':counts,'planned_acceptance_total':sum(v for k,v in counts.items() if 'acceptance' in k),'source_gaps':source_gaps,'all_source_gaps_still_open':True,'story_limit':'Thirty financial cases reference all 16 prior L1 drafts; actual implementation Jira keys/complete phase exits remain future readiness work.'})
+write(BASE/'coverage.json',{'date':'2026-11-02','primary_issue':'MP-20','source_pr9_head':source['source_head'],'implementation_authorised':False,'independent_review':review_status,'scope':'Reference presence and proposed contract trace; not acceptance completion or source-gap closure.','areas':area_files,'counts':counts,'planned_acceptance_total':sum(v for k,v in counts.items() if 'acceptance' in k),'source_gaps':source_gaps,'all_source_gaps_still_open':True,'story_limit':'Thirty financial cases reference all 16 prior L1 drafts; actual implementation Jira keys/complete phase exits remain future readiness work.'})
 
 # Local rich reading/publication proposal. IDs resolve only after separately approved writes.
 md=MarkdownIt('commonmark',{'html':False}).enable('table')
@@ -73,7 +77,7 @@ for index,(file,title,parent) in enumerate(docs):
   return 'href="'+URL+html.escape(str(target.relative_to(ROOT)))+'"'
  body=re.sub(r'href="([^"]+)"',link,body)
  body=re.sub(r'<img src="[^"]*cost-scenarios.png"[^>]*>', '<p><code>FOUNDATION-COST-FIGURE</code> Illustrative cost chart requires the named separately approved native attachment.</p>',body)
- banner='<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING DRAFT</span> MP-20 Foundation Pack 1. Architecture baseline unapproved; no UX or implementation. Maker checks only; independent review has not run. Budget status conditional/unproven.</p></div>'
+ banner='<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING DRAFT</span> MP-20 Foundation Pack 1. Architecture baseline unapproved; no UX or implementation. '+review_notice+' Budget status conditional/unproven.</p></div>'
  context='<div data-type="panel-info"><p>Owner-confirmed detail: next-day plus 5/10/20 trading-day points; 3/6/12 calendar-month anniversaries roll to a preceding valid local session/valuation date. Canonical-value availability controls scoring. Exact daily tolerances and policy parameters remain proposed. The source twelve directions are in the existing MP-19 planning index.</p></div>'
  body=banner+context+body;target=out/(str(index+1).zfill(2)+'.html');target.write_text(body)
  assert not any(x in body for x in ['<ac:','<ri:','file:///','<html','<body'])

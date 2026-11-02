@@ -3,7 +3,7 @@
   "primary_issue": "MP-20",
   "source_pr9_head": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
   "implementation_authorised": false,
-  "independent_review": "not_run",
+  "independent_review": "round_1_completed_fixes_await_independent_verification",
   "scope": "Reference presence and proposed contract trace; not acceptance completion or source-gap closure.",
   "areas": {
     "data": [
@@ -17,6 +17,7 @@
     ],
     "costs": [
       "costs/acceptance.json",
+      "costs/check_cash_timing.py",
       "costs/cost-scenarios.png",
       "costs/cost-scenarios.svg",
       "costs/maker-checks.json",
@@ -33,11 +34,14 @@
       "financial/contract-catalogue.json",
       "financial/contract-examples.json",
       "financial/contracts.schema.json",
+      "financial/hash-contract.json",
+      "financial/hash-graph-example.json",
       "financial/maker-checks.json",
       "financial/open-decisions.json",
       "financial/policies.json",
       "financial/research.json",
       "financial/specification.md",
+      "financial/verify_hash_contract.py",
       "financial/worked-examples.json"
     ],
     "forecasting": [
@@ -51,18 +55,20 @@
       "forecasting/model-catalogue.json",
       "forecasting/open-decisions.json",
       "forecasting/research-register.json",
-      "forecasting/task-catalogue.json"
+      "forecasting/task-catalogue.json",
+      "forecasting/timing-examples.json",
+      "forecasting/timing_checks.py"
     ]
   },
   "counts": {
     "financial_worked_examples": 15,
     "scientific_worked_examples": 15,
     "data_acceptance": 12,
-    "cost_acceptance": 14,
+    "cost_acceptance": 16,
     "financial_acceptance": 30,
     "scientific_acceptance": 17
   },
-  "planned_acceptance_total": 73,
+  "planned_acceptance_total": 75,
   "source_gaps": [
     {
       "source_gap": "FC-01",

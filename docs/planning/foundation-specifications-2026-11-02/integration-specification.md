@@ -24,6 +24,8 @@ A record's economic/effective date, evidenced publication time and actual MP ing
 
 The owner confirmed formal horizons of next day plus 5/10/20 trading sessions, and 3/6/12 calendar months. Month anniversaries roll to the preceding eligible local session/valuation date when closed. Publication delay changes when an outcome can be scored, not which economic date it measures. Exact origin/finality tolerances and calendar invalid-day rules remain explicit engineering proposals. These forecast rules do not shift actual ledger cash-flow dates or change XIRR's declared year-fraction convention.
 
+The proposed daily schedule separates acquisition start, retry, frozen information cutoff and issuance deadline. Collection and validation must complete before the cutoff, leaving positive processing time; an after-cutoff retry never backdates availability. Earnings release content is eligible only at a subsequent daily origin whose cutoff admits it. A prior-close event study using the realised release is descriptive evidence, excluded from predictive-feature qualification.
+
 ## Distinct meanings of loss and probability
 
 Keep terminal return/loss, within-horizon running-peak maximum drawdown, origin-relative adverse excursion, realised cost-basis loss and portfolio drawdown separate. A portfolio withdrawal is not a market loss. Flow-adjusted drawdown needs adequate valuations around external flows; otherwise report it unavailable with a reason.
@@ -38,6 +40,8 @@ A forecast issued after a market close may use only information permitted by its
 
 Unverified rights block the specific live use. A conditional capability or pricing assumption must remain visible rather than masquerade as a live feature. Agents can prepare explanations and typed proposals; the financial write service and owner-bound confirmation own ledger changes. Training produces candidates; mature evidence and owner approval govern promotion. New workers and accounts do not create additional provider-credit pools.
 
+Immutable financial event intents are sealed by stable IDs and acyclic content digests. Delivery state and delivery attempts remain outside sealed content. A publication pointer may reference the completed root; no leaf intent requires its enclosing root to be known before its own digest can be constructed. Exact projections and a computed synthetic proof are defined in the financial contract pack.
+
 ## Funding and resource accounting
 
 Cost the aggregate dev/prod system with explicit endpoint/symbol credits, API/stream use, compute, training jobs, storage/backup, telemetry, builds, DNS and billing collection. Price SageMaker by actual allocated instance hours; a process working-set target does not reduce the price of the instance. Count every inner/outer/calibrator/final fit, target head, seed and ablation under explicit campaign/month caps. Resource caps are proposed bounds, not evidence a training workload fits them.
@@ -46,6 +50,8 @@ The £100 ceiling and £70 planned-operation/£30 reserve split are owner-confir
 
 **Confirmed collector cadence (DEC-025):** AWS billing daily; Anthropic usage/cost collection every six hours; internal usage estimates remain live. Credit allocation/freshness is separate evidence and cannot be inferred from those delayed reports. MP-local reservations cannot prevent unrelated applications consuming a shared organisation pool; without trustworthy allocation/control evidence the dispatcher refuses credit-dependent calls. No change to other projects is authorised.
 
+An amortised monthly run rate is not a monthly cash bill. Domain setup/renewal and other annual or upfront commitments enter the full cash forecast for their due month. Ordinary-month and invoice-month scenarios have separate cash admission and alert flags; the £30 reserve cannot silently finance a month above the £100 ceiling. Current domain and vendor terms remain assumptions, not purchase approvals.
+
 ## Before the architecture handoff
 
-The coordinator reconciles disagreements in these handoffs, validates JSON/schema and hand-worked examples, maps cases/contracts to the existing MP tasks and gap IDs, and classifies unresolved owner decisions versus later live proofs. A source-to-phase map alone is not detailed acceptance parity. No live acquisition, fitting, backtest execution, architecture proof in AWS, UX, application implementation, independent review or external publication is included.
+The coordinator reconciles disagreements in these handoffs, validates JSON/schema and hand-worked examples, maps cases/contracts to the existing MP tasks and gap IDs, and classifies unresolved owner decisions versus later live proofs. A source-to-phase map alone is not detailed acceptance parity. Independent review round 1 ran with separate approval and found five blocking specification issues; fixes and their document checks are recorded in the review state, and another review requires separate permission. No live acquisition, fitting, backtest execution, architecture proof in AWS, UX, application implementation or external publication is included.

@@ -6,6 +6,7 @@ import copy
 import datetime as dt
 import hashlib
 import json
+import runpy
 from decimal import Decimal as D
 from pathlib import Path
 
@@ -130,15 +131,15 @@ def main() -> None:
                 total += D(quantity) * rate
             assert total == D(claude["environment_usd"][environment])
         assert sum(D(value) for value in claude["environment_usd"].values()) == D(claude["gross_usd"])
-        for variant in result["all_in_variants"]:
+        for variant in result["all_in_run_rate_variants"]:
             fx = next(item for item in model["fx_tax_scenarios"] if item["id"] == variant["fx_scenario"])
             factor = D(fx["gbp_per_usd"]) * (1 + D(fx["tax_fraction"])) * (1 + D(fx["card_fx_fraction"]))
             data = D("79") if variant["data_option"] == "Grow377_displayed" else D("29") if variant["data_option"] == "Grow55_support_candidate" else D(0)
             claude_cash = D(claude["gross_usd"]) if variant["credit_scenario"] == "counterfactual_gross_no_credit_paid_not_authorised" else D(0)
             cash = (sum(subtotals) + data + claude_cash) * factor
-            assert cash.quantize(D("0.01")) == D(variant["cash_gbp"])
-            assert (cash <= 70) == variant["within_70_operating"]
-            assert (cash <= 100) == variant["within_100_ceiling"]
+            assert cash.quantize(D("0.01")) == D(variant["monthly_run_rate_gbp"])
+            assert (cash <= 70) == variant["run_rate_within_70_operating"]
+            assert (cash <= 100) == variant["run_rate_within_100_reference"]
             variants += 1
         hours = sum(D(line["quantity"]) for record in result["environment_costs"].values() for line in record["line_items"] if line["name"] == "training_instance_hour")
         assert hours == (12 if result["scenario"] == "baseline" else 56)
@@ -149,9 +150,13 @@ def main() -> None:
     assert boundary["usage_cost_report_is_realtime_credit_balance"] is False
     assert boundary["credit_balance_api_assumed"] is False
     assert boundary["other_projects_changed"] is False
+    cash_checks = runpy.run_path(str(PACK / "costs" / "check_cash_timing.py"))
+    timing_counts = cash_checks["check_model"](model)
+    cash_checks["check_cash_admission"](reservation)
+    assert timing_counts["run_rate_variants"] == variants
     states = reservation["transitions"]
     assert all(target in states for targets in states.values() for target in targets)
-    print(json.dumps({"status": "passed", "json_files": len(files), "schema_instances": instance_counts, "negative_shapes_rejected": 5, "cash_variants": variants, "region_workload_scenarios": len(model["results"]), "independent_review": False, "network_or_service_calls": False}, indent=2))
+    print(json.dumps({"status": "passed", "json_files": len(files), "schema_instances": instance_counts, "negative_shapes_rejected": 5, "run_rate_variants": variants, "cash_variants": timing_counts["cash_variants"], "region_workload_scenarios": len(model["results"]), "independent_review": False, "network_or_service_calls": False}, indent=2))
 
 
 if __name__ == "__main__":

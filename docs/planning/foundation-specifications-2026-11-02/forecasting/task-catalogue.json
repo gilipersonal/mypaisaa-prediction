@@ -159,12 +159,25 @@
   ],
   "price_type_rule": "FUND_NAV and MARKET_CLOSE are distinct tasks; do not grade one with the other. SPY may be ETF with a NAV-only source profile; it is not declared a NAV-only product.",
   "origin_policy": {
-    "id": "origin-proposed-v1",
+    "id": "origin-proposed-v2",
     "daily_per_listing": true,
     "grace_minutes_proposed": 60,
-    "deadline": "before_next_eligible_session_open",
+    "deadline": "issued at or after frozen information cutoff, no later than proposed issuance deadline, strictly before next eligible session open; otherwise abstain",
     "late": "missed_origin_no_backdate",
-    "nav": "effective_date_is_valuation_origin; wait_for_evidenced_publication; no stale NAV promoted to current economic date"
+    "nav": "effective_date_is_valuation_origin; wait_for_evidenced_publication; no stale NAV promoted to current economic date",
+    "daily_clocks_proposed": {
+      "id": "daily-origin-clocks-proposed-v2",
+      "status": "owner_pending",
+      "collection_start_minutes_after_close": 15,
+      "retry_start_minutes_after_close": 40,
+      "information_cutoff_minutes_after_close": 60,
+      "issuance_deadline_minutes_after_close": 75,
+      "known_at_rule": "max_evidenced_publication_actual_ingestion",
+      "retry": "one missing-close retry within existing daily acquisition/retry allowance, not a new stream or added paid quota",
+      "schedule_admission": "require issuance deadline strictly before next eligible open and demonstrated source/processing latency; otherwise unsupported_schedule_abstain",
+      "late_input": "known_at greater than frozen cutoff excluded, including successful late retries; never shift cutoff or backdate",
+      "issuance": "wait until frozen cutoff; issued_at <= close+75minutes and issued_at < next_open; otherwise missed_origin"
+    }
   },
   "maturity_policy": {
     "session": "count strictly after origin on frozen local valuation calendar",

@@ -1485,13 +1485,19 @@
         "chunk_page_refs": {
           "type": "array",
           "items": {
-            "type": "string",
-            "minLength": 1
+            "$ref": "#/$defs/PageRef"
           }
         },
         "expected_chunk_count": {
           "type": "integer",
           "minimum": 0
+        },
+        "expected_page_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hash_policy_version": {
+          "const": "FIN-HASH-1"
         }
       },
       "required": [
@@ -1515,10 +1521,12 @@
         "supersedes_commit_id",
         "chunk_inventory_mode",
         "chunk_page_refs",
-        "expected_chunk_count"
+        "expected_chunk_count",
+        "expected_page_count",
+        "hash_policy_version"
       ],
       "title": "FIN-09 CommitManifest",
-      "description": "Inline only while serialized header is under item limit; otherwise immutable paged child manifests, covered by manifest_sha256 and exact page/chunk counts. No omitted chunk is permissible."
+      "description": "The FIN-HASH-1 immutable projection defined in hash-contract.json binds ordered chunks or ordered page ID/digest pairs and exact counts. Mutable activation envelope and own digest are excluded explicitly. Inline and paged inventories are mutually exclusive semantic modes."
     },
     "CommitReceipt": {
       "type": "object",
@@ -1785,81 +1793,22 @@
       "title": "FIN-11 AuditEvidence"
     },
     "OutboxRecord": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "scope": {
-          "$ref": "#/$defs/ScopeEnvelope"
+      "title": "FIN-12 OutboxRecord",
+      "description": "Typed transport family. Only EventIntent is sealed chunk content. PublicationPointer is created after root computation. DeliveryState is mutable and DeliveryAttempt append-only; both are outside financial content digests.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/EventIntent"
         },
-        "message_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 160
+        {
+          "$ref": "#/$defs/PublicationPointer"
         },
-        "commit_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 160
+        {
+          "$ref": "#/$defs/DeliveryState"
         },
-        "manifest_sha256": {
-          "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
-        },
-        "kind": {
-          "type": "string",
-          "enum": [
-            "publication_pointer",
-            "event_intent"
-          ]
-        },
-        "payload_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 160
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "staged",
-            "pending",
-            "delivered",
-            "delivery_failed"
-          ]
-        },
-        "attempt_count": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "last_attempt_at": {
-          "anyOf": [
-            {
-              "type": "string",
-              "format": "date-time"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "consumer_dedup_key": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 160
+        {
+          "$ref": "#/$defs/DeliveryAttempt"
         }
-      },
-      "required": [
-        "scope",
-        "message_id",
-        "commit_id",
-        "manifest_sha256",
-        "kind",
-        "payload_ref",
-        "status",
-        "attempt_count",
-        "last_attempt_at",
-        "consumer_dedup_key"
-      ],
-      "title": "FIN-12 OutboxRecord"
+      ]
     },
     "PositionObservation": {
       "type": "object",
@@ -2678,6 +2627,271 @@
           "pattern": "^[a-f0-9]{64}$"
         }
       }
+    },
+    "EventIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-INTENT-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "payload_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "consumer_dedup_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "payload_ref",
+        "consumer_dedup_key"
+      ]
+    },
+    "PublicationPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-POINTER-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "consumer_dedup_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "manifest_sha256",
+        "consumer_dedup_key"
+      ]
+    },
+    "DeliveryState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-DELIVERY-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "staged",
+            "pending",
+            "delivered",
+            "delivery_failed"
+          ]
+        },
+        "attempt_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_attempt_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "status",
+        "attempt_count",
+        "last_attempt_at"
+      ]
+    },
+    "DeliveryAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-ATTEMPT-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "attempted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "outcome": {
+          "enum": [
+            "delivered",
+            "delivery_failed"
+          ]
+        },
+        "error_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "attempt_id",
+        "attempt_number",
+        "attempted_at",
+        "outcome",
+        "error_code"
+      ]
+    },
+    "HashLeafRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "enum": [
+            "LedgerEvent",
+            "AuditEvidence",
+            "EventIntent"
+          ]
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "record_type",
+        "record_id",
+        "sha256"
+      ]
+    },
+    "ChunkContent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chunk_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ordered_leaf_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/HashLeafRef"
+          }
+        }
+      },
+      "required": [
+        "scope",
+        "commit_id",
+        "chunk_id",
+        "ordered_leaf_refs"
+      ]
+    },
+    "PageRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "page_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "page_id",
+        "page_sha256"
+      ]
     }
   }
 }

@@ -16,7 +16,7 @@
     {
       "id": "SCI-D01",
       "topic": "Daily origin, next-day interpretation and availability tolerances",
-      "recommendation": "Use next eligible local session, close+60minute proposed deadline, per-source NAV schedule, explicit bounded FX age; monthly anniversary roll already confirmed FND-DEC-002.",
+      "recommendation": "Propose four separate clocks after each eligible daily close: collection starts +15min; one missing-close retry starts +40min; information cutoff freezes at +60min; issuance completes by +75min and strictly before next open. Require source/processing proof or abstain; no late-input cutoff shift. Per-source NAV schedule and bounded FX age remain proposed; monthly roll already confirmed FND-DEC-002.",
       "why_owner_material": "Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate.",
       "requirements": [
         "SCI-01",

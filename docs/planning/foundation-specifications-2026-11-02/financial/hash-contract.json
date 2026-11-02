@@ -1,0 +1,159 @@
+{
+  "version": "FIN-HASH-1",
+  "status": "proposed_document_contract_not_runtime_implementation",
+  "encoding": {
+    "envelope_fields": [
+      "hash_policy_version",
+      "record_type",
+      "content"
+    ],
+    "envelope": "{\"hash_policy_version\":\"FIN-HASH-1\",\"record_type\":<projection name>,\"content\":<object of exactly included_fields>}",
+    "serialization": "Python 3 json.dumps(envelope, ensure_ascii=True, sort_keys=True, separators=(\",\",\":\"), allow_nan=False), encoded as UTF-8; no newline. This named restricted encoding is not a claim of general RFC8785 compliance.",
+    "constraints": [
+      "All property names in projection/envelope are ASCII; content string values preserve exact Unicode scalar code points without normalization. Lone surrogates are rejected.",
+      "Integers and booleans/null are allowed only where the named schema permits them. Financial numeric values remain decimal strings. Binary floats and non-finite numbers are rejected recursively.",
+      "Records must satisfy the named closed schema before projection. Reject missing or additional fields; do not silently hash a subset of an unknown schema.",
+      "Array order is significant and preserved; dictionary keys are sorted. SHA-256 output is exactly 64 lowercase hexadecimal characters.",
+      "Digest fields identify FIN-HASH-1 via the containing manifest hash_policy_version and this versioned contract; a future encoding/projection change needs a new policy version, root and exact approval."
+    ]
+  },
+  "projections": {
+    "LedgerEvent": {
+      "included_fields": [
+        "scope",
+        "event_id",
+        "commit_id",
+        "account_ids",
+        "kind",
+        "economic_date",
+        "economic_at",
+        "time_precision",
+        "trade_date",
+        "settlement_date",
+        "source_sequence",
+        "recorded_at",
+        "cash_legs",
+        "quantity_legs",
+        "fee_detail",
+        "deduction_detail",
+        "cash_detail_mode",
+        "source_reference",
+        "economic_identity",
+        "evidence",
+        "reverses_event_id",
+        "replaces_event_id",
+        "action_link",
+        "policy_versions"
+      ],
+      "excluded_fields": [],
+      "schema_ref": "contracts.schema.json#/$defs/LedgerEvent"
+    },
+    "AuditEvidence": {
+      "included_fields": [
+        "scope",
+        "audit_id",
+        "actor_type",
+        "actor_ref",
+        "operation",
+        "target_refs",
+        "commit_id",
+        "source_refs",
+        "approval_id",
+        "before_ref",
+        "after_ref",
+        "reason",
+        "recorded_at",
+        "economic_date",
+        "previous_digest",
+        "integrity_anchor_ref",
+        "integrity_claim",
+        "retention_policy"
+      ],
+      "excluded_fields": [
+        "content_sha256"
+      ],
+      "schema_ref": "contracts.schema.json#/$defs/AuditEvidence"
+    },
+    "EventIntent": {
+      "included_fields": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "payload_ref",
+        "consumer_dedup_key"
+      ],
+      "excluded_fields": [],
+      "schema_ref": "contracts.schema.json#/$defs/EventIntent"
+    },
+    "ChunkContent": {
+      "included_fields": [
+        "scope",
+        "commit_id",
+        "chunk_id",
+        "ordered_leaf_refs"
+      ],
+      "excluded_fields": [],
+      "schema_ref": "contracts.schema.json#/$defs/ChunkContent"
+    },
+    "ManifestPage": {
+      "included_fields": [
+        "page_id",
+        "commit_id",
+        "page_index",
+        "chunks"
+      ],
+      "excluded_fields": [
+        "page_sha256"
+      ],
+      "schema_ref": "contracts.schema.json#/$defs/ManifestPage"
+    },
+    "CommitManifest": {
+      "included_fields": [
+        "scope",
+        "commit_id",
+        "import_id",
+        "operation_key",
+        "payload_sha256",
+        "expected_revision",
+        "parent_commit_id",
+        "fence",
+        "chunks",
+        "expected_event_count",
+        "expected_audit_count",
+        "expected_intent_count",
+        "approval_id",
+        "supersedes_commit_id",
+        "chunk_inventory_mode",
+        "chunk_page_refs",
+        "expected_chunk_count",
+        "expected_page_count",
+        "hash_policy_version"
+      ],
+      "excluded_fields": [
+        "manifest_sha256",
+        "state",
+        "resulting_revision",
+        "published_at"
+      ],
+      "schema_ref": "contracts.schema.json#/$defs/CommitManifest"
+    }
+  },
+  "dependencies": [
+    "Hash immutable LedgerEvent, AuditEvidence (excluding only its own content_sha256), and EventIntent first. An audit previous_digest can refer only to a previously sealed audit record; no forward/self references.",
+    "ChunkContent hashes ordered type/ID/leaf-digest refs plus scope/commit/chunk identity. ChunkReceipt.content_sha256 is that digest; storage_refs use the identical order, counts match leaf types, and every referenced leaf is present exactly once. Receipt byte size remains a separate service-preflight obligation.",
+    "ManifestPage hashes all its fields except page_sha256 and covers full ordered immutable ChunkReceipts.",
+    "CommitManifest hashes its named immutable projection. Inline requires chunks and zero pages; paged requires empty chunks and ordered page ID/digest pairs. Page indices are consecutive from zero; IDs unique; exact page/chunk/event/audit/intent counts and scoped commit joins must match.",
+    "CommitManifest excludes only its own digest and the activation envelope state/resulting_revision/published_at. These excluded fields remain protected by the conditional atomic publication protocol, never by a content-hash claim. At publication resulting_revision must equal expected_revision+1. Fence and approval_id ARE included; approval recovery advances fence/rebinds approval and computes a new sealed root.",
+    "Create PublicationPointer with the completed root after sealing. It is not part of any chunk/page/root; EventIntent contains stable commit/message IDs and no manifest digest.",
+    "DeliveryState and append-only DeliveryAttempt records join by owner/environment+commit/message IDs. Neither is part of the content graph. Delivery changes never rewrite EventIntent, chunk receipts, pages or sealed root. Pointer and delivery validity require the authoritative published manifest and exact joins."
+  ],
+  "excluded_mutable_records": [
+    "DeliveryState",
+    "DeliveryAttempt",
+    "PublicationPointer"
+  ],
+  "proof_fixture": "hash-graph-example.json",
+  "proof_command": "python3 docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py",
+  "proof_limit": "Offline synthetic document proof only: not a DynamoDB, authentication, durability, live-delivery or application implementation test."
+}

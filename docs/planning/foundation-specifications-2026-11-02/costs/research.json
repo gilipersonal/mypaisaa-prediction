@@ -338,5 +338,14 @@
       "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
       "status": "source_verified"
     }
-  ]
+  ],
+  "cash_timing_derivation": {
+    "status": "proposed",
+    "source": "model.json EST-COST-DOMAIN allowance, not a vendor invoice",
+    "external_price_or_purchase_claim": false,
+    "inputs": "USD15 proposed annual allowance; USD1.25 amortised comparison; existing quantities, FX/tax/card assumptions.",
+    "method": "For ordinary-month cash subtract amortisation. For annual-domain invoice-month cash subtract amortisation and add full USD15 once. Convert once, then compare unrounded cash with owner thresholds.",
+    "checker": "check_cash_timing.py independently derives amounts from line quantities and rates; no service calls.",
+    "limitations": "Exact TLD, provider, purchase terms, actual invoice/due month and tax/credit settlement remain unverified. Other monthly services are assumed due monthly; any annual/prepaid payment terms require their own full due-month cash liability."
+  }
 }

@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-02",
-  "classification": "Entirely synthetic shape examples, not production ledger or outputs. All aaaa digest fields are deliberately illustrative placeholders and are NOT computed cryptographic evidence. References may denote separately retained records. Eligibility/authentication labels are fictional; no real rights or authentication has been verified.",
+  "classification": "Entirely synthetic shape examples, not production ledger or outputs. All aaaa digest fields are deliberately illustrative placeholders and are NOT computed cryptographic evidence. References may denote separately retained records. Eligibility/authentication labels are fictional; no real rights or authentication has been verified. FIN-12 separates immutable intents from the after-seal publication pointer and external delivery records. Digest examples remain placeholders here; hash-graph-example.json separately contains computed content proofs.",
   "records": [
     {
       "schema": "ScopeEnvelope",
@@ -297,7 +297,9 @@
         "supersedes_commit_id": null,
         "chunk_inventory_mode": "inline",
         "chunk_page_refs": [],
-        "expected_chunk_count": 1
+        "expected_chunk_count": 1,
+        "expected_page_count": 0,
+        "hash_policy_version": "FIN-HASH-1"
       }
     },
     {
@@ -366,6 +368,7 @@
       "schema": "OutboxRecord",
       "contract_ref": "FIN-12",
       "value": {
+        "record_type": "FIN-INTENT-1.0",
         "scope": {
           "owner_id": "fictional-owner",
           "environment": "dev",
@@ -374,12 +377,7 @@
         },
         "message_id": "fictional-event-intent",
         "commit_id": "fictional-commit",
-        "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "kind": "event_intent",
         "payload_ref": "fictional-buy",
-        "status": "pending",
-        "attempt_count": 0,
-        "last_attempt_at": null,
         "consumer_dedup_key": "fictional-commit:fictional-buy:published"
       }
     },
@@ -603,6 +601,61 @@
         "reasons": [
           "10% unknown look-through exposure; no paired return history"
         ]
+      }
+    },
+    {
+      "schema": "PublicationPointer",
+      "contract_ref": "FIN-12",
+      "value": {
+        "record_type": "FIN-POINTER-1.0",
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "commit_id": "fictional-commit",
+        "message_id": "fictional-publication-pointer",
+        "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "consumer_dedup_key": "fictional-commit:publication"
+      }
+    },
+    {
+      "schema": "DeliveryState",
+      "contract_ref": "FIN-12",
+      "value": {
+        "record_type": "FIN-DELIVERY-1.0",
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "message_id": "fictional-event-intent",
+        "commit_id": "fictional-commit",
+        "status": "pending",
+        "attempt_count": 0,
+        "last_attempt_at": null
+      }
+    },
+    {
+      "schema": "DeliveryAttempt",
+      "contract_ref": "FIN-12",
+      "value": {
+        "record_type": "FIN-ATTEMPT-1.0",
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "message_id": "fictional-event-intent",
+        "commit_id": "fictional-commit",
+        "attempt_id": "fictional-attempt1",
+        "attempt_number": 1,
+        "attempted_at": "2026-11-02T10:02:00Z",
+        "outcome": "delivery_failed",
+        "error_code": "fictional_timeout"
       }
     }
   ]

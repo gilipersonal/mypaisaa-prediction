@@ -234,14 +234,45 @@
     "id": "F4-EVENT-v1",
     "initial_event_kind": "scheduled_earnings_release_equity_only",
     "status": "retained_proposed_source_rights_and_labelled_releases_required",
-    "event_origin": "last eligible completed valuation before evidenced release_known_at; after-close release cannot enter earlier-origin predictor",
-    "features": "declared public release fields only, no future surprise-consensus reconstruction",
+    "event_origin": "Mode-specific: prerelease uses scheduled daily origin before release; postrelease uses a subsequent eligible daily origin after release_known_at; prior-close event-study origin is retrospective description only.",
+    "features": "Pre-release public schedule only if known by cutoff; public release fields only in postrelease daily mode with a later eligible origin/cutoff. Descriptive study content never qualifies predictive features.",
     "outcome_windows_sessions": [
       5,
       20
     ],
     "outcomes": "separate terminal total return and arithmetic benchmark excess; same currency/endpoints",
     "confounding": "display overlapping releases/market events and calendar/sector comparators; association not causation",
-    "search": "event-kind/window definitions predeclared and consume trials; no post-result cohort selection"
+    "search": "event-kind/window definitions predeclared and consume trials; no post-result cohort selection",
+    "new_intraday_forecast_or_acquisition_authorised": false,
+    "modes": {
+      "prerelease_daily_prediction": {
+        "allowed_input_kinds": [
+          "public_schedule"
+        ],
+        "origin": "ordinary daily origin before the release; its frozen cutoff must precede release_known_at and all schedule information must be known by cutoff",
+        "target": "5/20-session target starts at this daily origin; release content excluded",
+        "predictive_qualification_eligible": true,
+        "qualification": "separate purged matched-date incremental evidence required"
+      },
+      "postrelease_daily_prediction": {
+        "allowed_input_kinds": [
+          "public_release_fields"
+        ],
+        "requires_subsequent_daily_origin": true,
+        "origin": "next eligible ordinary daily valuation origin strictly after release_known_at; wait for its normal frozen cutoff and source eligibility",
+        "target": "new task/version and 5/20-session target beginning at that later daily valuation, not the previous close or release instant",
+        "predictive_qualification_eligible": true,
+        "qualification": "content known by later cutoff; prospective/hindsight and rights gates remain; separate incremental evidence required"
+      },
+      "retrospective_event_study": {
+        "allowed_input_kinds": [
+          "public_release_fields"
+        ],
+        "origin": "last eligible completed valuation before release_known_at; explicit retrospective prior-close event study",
+        "target": "descriptive 5/20-session event-window return/excess with confounding and comparator cohorts",
+        "predictive_qualification_eligible": false,
+        "use": "association/context only; do not supply this study as admissible predictive factor or promote from its results"
+      }
+    }
   }
 }

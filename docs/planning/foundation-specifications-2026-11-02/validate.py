@@ -69,8 +69,12 @@ def validator(area,name):
  s=schema_sources[area]
  return Draft202012Validator({'$schema':s['$schema'],'$defs':s['$defs'],'$ref':'#/$defs/'+name},format_checker=checker)
 
-fin=read(BASE/'financial/contract-examples.json');assert len(fin['records'])==18
-for row in fin['records']:validator('financial',row['schema']).validate(row['value'])
+fin=read(BASE/'financial/contract-examples.json');assert len(fin['records'])==21
+fin_catalogue=read(BASE/'financial/contract-catalogue.json')['contracts']
+assert {row['contract_ref'] for row in fin['records']}=={row['id'] for row in fin_catalogue}
+for row in fin['records']:
+ validator('financial',row['schema']).validate(row['value'])
+ if row['contract_ref']=='FIN-12':validator('financial','OutboxRecord').validate(row['value'])
 sci=read(BASE/'forecasting/contract-examples.json');assert len(sci['records'])==7
 for name,value in sci['records'].items():
  validator('forecasting',name).validate(value)
@@ -82,14 +86,40 @@ for value in [1.5,'NaN']:
  bad={'amount':value,'currency':'GBP','quality':'booked','source_literal':None}
  assert not validator('financial','Money').is_valid(bad)
 
-# Source lane checker independently recomputes dimensions/quotas/108 cash scenarios.
+# Source lane checker recomputes dimensions/quotas/108 run rates and216 cash timings.
 with redirect_stdout(io.StringIO()) as captured:runpy.run_path(str(BASE/'costs/validate_specifications.py'),run_name='__main__')
 data_cost_report=json.loads(captured.getvalue())
-assert data_cost_report['status']=='passed' and data_cost_report['cash_variants']==108
+assert data_cost_report['status']=='passed' and data_cost_report['run_rate_variants']==108 and data_cost_report['cash_variants']==216
 # Explicit date/time validation additionally covers all data examples.
 dex=read(BASE/'data/examples.json');dc=read(BASE/'data/catalogue.json')
+data_record_count=0
 for name,rows in [('Observation',dex['observations']),('Listing',dc['listings']),('SourceCapability',dex['capabilities']),('CorporateAction',dex['corporate_actions'])]:
  for row in rows:validator('data',name).validate(row)
+ data_record_count+=len(rows)
+
+# Focused document proofs for round-1 timing fixes; not model/live acceptance.
+with redirect_stdout(io.StringIO()):
+ timing=runpy.run_path(str(BASE/'forecasting/timing_checks.py'))
+ daily_timing_cases=timing['verify_daily_origin_clock_contract']()
+ event_timing_cases=timing['verify_event_availability_contract']()
+assert daily_timing_cases==6 and event_timing_cases==9
+
+
+# Actual computed synthetic leaf-to-root graph, separate from placeholder wire examples.
+proof=runpy.run_path(str(BASE/'financial/verify_hash_contract.py'))['check']()
+assert proof['status']=='passed' and proof['leaf_mutation_changes_root'] and proof['delivery_failure_retry_success_preserve_root']
+graph=read(BASE/'financial/hash-graph-example.json')
+hash_graph_record_count=0
+for leaf in graph['leaves']:
+ validator('financial',leaf['record_type']).validate(leaf['value'])
+ hash_graph_record_count+=1
+for key,name in [('chunk_contents','ChunkContent'),('chunk_receipts','ChunkReceipt'),('pages','ManifestPage'),('delivery_states','DeliveryState'),('delivery_attempts','DeliveryAttempt')]:
+ for record in graph[key]:
+  validator('financial',name).validate(record)
+  hash_graph_record_count+=1
+for key,name in [('manifest','CommitManifest'),('publication_pointer','PublicationPointer')]:
+ validator('financial',name).validate(graph[key])
+ hash_graph_record_count+=1
 
 # Independent known-answer arithmetic: these do not fit a model or implement a solver.
 financial={x['id']:x for x in read(BASE/'financial/worked-examples.json')['examples']}
@@ -166,5 +196,5 @@ for p in BASE.rglob('*.md'):
  for target in re.findall(r'\[[^\]]*\]\(([^)]+)\)',p.read_text()):
   if target.startswith(('http:','https:','#')):continue
   assert (p.parent/target.split('#',1)[0]).resolve().exists(),(p,target)
-report={'status':'maker_document_checks_passed','schema_definitions':schema_counts,'validated_positive_wire_records':34,'financial_worked_examples':15,'forecast_worked_examples':15,'financial_acceptance_cases':30,'forecast_acceptance_cases':17,'data_acceptance_cases':len(read(BASE/'data/acceptance.json')['cases']),'cost_acceptance_cases':len(read(BASE/'costs/acceptance.json')['cases']),'cost_cash_variants':108,'owner_detail_decisions':2,'source_pr9_head':source['source_head'],'budget_status':model['budget_verdict']['verdict'],'architecture_baseline_approved':False,'UX_authorised':False,'implementation_authorised':False,'independent_review':'not_run','live_provider_model_AWS_calls':False,'limitations':['Shape/math/provenance checks only; planned backend/live acceptance not executed.','No model fit, backtest, solver implementation, cloud proof or licence approval.','No complete architecture/UX readiness from these checks.']}
+report={'status':'maker_document_checks_passed','schema_definitions':schema_counts,'validated_positive_wire_records':data_record_count+len(fin['records'])+len(sci['records']),'financial_worked_examples':15,'forecast_worked_examples':15,'financial_acceptance_cases':30,'forecast_acceptance_cases':17,'data_acceptance_cases':len(read(BASE/'data/acceptance.json')['cases']),'cost_acceptance_cases':len(read(BASE/'costs/acceptance.json')['cases']),'cost_run_rate_variants':108,'cost_cash_variants':216,'computed_hash_graph_records':hash_graph_record_count,'acyclic_hash_delivery_proof':proof['status'],'daily_clock_proofs':daily_timing_cases,'event_availability_proofs':event_timing_cases,'owner_detail_decisions':2,'source_pr9_head':source['source_head'],'budget_status':model['budget_verdict']['verdict'],'architecture_baseline_approved':False,'UX_authorised':False,'implementation_authorised':False,'independent_review':read(BASE/'work-state.json')['independent_review'],'live_provider_model_AWS_calls':False,'limitations':['Shape/math/provenance checks only; planned backend/live acceptance not executed.','No model fit, backtest, solver implementation, cloud proof or licence approval.','No complete architecture/UX readiness from these checks.']}
 (BASE/'validation.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

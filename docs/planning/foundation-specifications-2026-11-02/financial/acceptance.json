@@ -736,8 +736,8 @@
         "MP-12",
         "MP-22"
       ],
-      "given_when": "Export revision 12 while 13 publishes. Remove/alter an event, delete an original and restore an older backup during an isolated future recovery test.",
-      "required_evidence": "Export pins revision 12, hashes and versions; altered/missing event fails integrity; deleted evidence is unavailable; restoration cannot silently resurrect it; no unanchored tamperproof claim.",
+      "given_when": "Export revision 12 while 13 publishes. Remove/alter an event, delete an original and restore an older backup during an isolated future recovery test. Compute a FIN-HASH-1 paged graph, mutate a leaf, and exercise delivery failure/retry/success independently of sealed content.",
+      "required_evidence": "Export pins revision 12, hashes and versions; altered/missing event fails integrity; deleted evidence is unavailable; restoration cannot silently resurrect it; no unanchored tamperproof claim. Exact versioned canonical projections recompute leaf→chunk→page→root without root references in intents or own-digest cycles. Leaf edits invalidate the old root; delivery state/attempt updates leave root unchanged. Unknown fields and unsupported versions are refused. Hash-contract helper proves these synthetic document properties only.",
       "status": "specified_not_implemented",
       "baseline_story_refs": [
         "L1-S13"

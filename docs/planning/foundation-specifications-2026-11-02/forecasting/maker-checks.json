@@ -2,7 +2,7 @@
   "status": "maker_checks_passed_not_independent_review",
   "checked_on": "2026-11-02",
   "checks": {
-    "JSON_parse": "10 JSON files passed including this receipt",
+    "JSON_parse": "11 JSON files parsed including this receipt",
     "schema": "Draft202012Validator.check_schema, internal refs and seven complete wire instances passed against exact $defs and root oneOf",
     "real_ID_fixture_contract": "15 cases passed against existing synthetic real-ID catalogue",
     "Decimal_hand_arithmetic": "8 numeric golden cases recomputed and passed",
@@ -27,15 +27,31 @@
     "independent_review"
   ],
   "artifact_sha256": {
-    "acceptance-cases.json": "376726c139cd3ea092e2c1281c5e40959c2d0b3bba64bac8f32f675be13916ba",
+    "acceptance-cases.json": "e1a9c7cdf64c3da9a0792d8bba81e63671356ea60c4f2b3dc97977892d90f018",
     "contract-examples.json": "5a3fb4e092f7fb870edb511e5d4d2d1d26c2daad0e87949d04a544466c01d4fc",
     "contracts.schema.json": "e53c2ebb985efd8cf540d4501a1d1d85052ddd6bf12d28a4e5fddf2bef8cf774",
     "evaluation-protocol.json": "0b62a0b828e7626aee9d1aad124810ca71c0d45643efdd80bc2cfe6df9707cca",
-    "forecasting-specification.md": "d03748e8f57d402ddeaa8fb88fe8be75a9c27d97e82ceb4bf8b7ce788e014a36",
+    "forecasting-specification.md": "a1d6833dc5f868112022b7f1e22056b12a1a850b5163d52f045668bd97481633",
     "golden-examples.json": "1f1ed7353ddba364ab1f9a818dc1028ce682ef43bab5e18a1d9da72be70896e2",
-    "model-catalogue.json": "dbc2f3129b129a39b5f75a5276db7ba8e21abd8480c84d4a568717dabe2bcf3e",
-    "open-decisions.json": "dbefa5ddf9bdac59114390111be62c531d5bc277651d0936e4ca4ab120f94c7a",
-    "research-register.json": "99ffd626e8ac236c21cb7856396be9f2b021802bafbe5b4b8cdd9e2187ea146a",
-    "task-catalogue.json": "12772847683abb7439cef1289be4fe47959ecddac9b4b536cf0bd3823c9e27c9"
+    "model-catalogue.json": "9c98b0db5a7c10f65b5e3144eeedc2cfd523176db127d7f63dc3fed8e68b9694",
+    "open-decisions.json": "29d1443cc6061b2485d374bcb2d4d9343e151c5c27c48ad896b5b732159cf7b7",
+    "research-register.json": "9cd6f67c8755e09762176197dcf1b18098793ebeca99e583d716cd7891f078f6",
+    "task-catalogue.json": "e1a858e30fdb70b84c0c7aac1806eb74e16c3dd09c8f230020542eacfe1d8e48",
+    "timing-examples.json": "7153b1b9e17327b3d52c6081827a002ed4d7964a3935756620084b0486afceb4",
+    "timing_checks.py": "b9ae258e415bda4bd837df5b4d1a3568df1f4499d93fe36a68ad97063e7cd6b9"
+  },
+  "review_fix_checks": {
+    "status": "maker_fix_checks_passed_awaiting_fresh_independent_delta_review",
+    "date": "2026-11-02",
+    "daily": "six synthetic cases: ordinary and retry positive latency pass; late ingestion/publication/issue and next-open conflict refuse",
+    "event": "eight synthetic cases plus earlier-target negative refusal; prerelease schedule, before-open and late-after-close content exclusion, later daily origin, descriptive-only study",
+    "optimisation": "same 15 checks passed with python3 -O; explicit exceptions, no assert-dependent refusal",
+    "mutation_proof": "four temporary-copy mutations rejected: collection at cutoff, prerelease release fields, predictive qualification of retrospective study, earlier postrelease origin",
+    "ruff": "uv run --offline --no-project --with ruff ruff check --select F forecasting/timing_checks.py passed",
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all"
+    ],
+    "limitations": "Executable offline specification examples only; no backend, acquisition, provider finality, calendar, training, empirical quality or runtime evidence."
   }
 }

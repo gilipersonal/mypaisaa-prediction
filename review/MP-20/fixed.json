@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "R1-C1",
+    "finding": "Annual domain invoice cash is distinguished from amortised run rate and threshold admission uses full due commitments",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py",
+        "--self-test"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "R1-F1",
+    "finding": "Versioned acyclic canonical projections construct and verify actual leaf/chunk/page/root hashes",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "R1-F2",
+    "finding": "Delivery failure/retry/success updates separate state and attempts without changing sealed intent/root hashes",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "R1-S1",
+    "finding": "Positive-latency ordinary and retry acquisition fit frozen cutoff; late inputs and unsupported next-open schedules abstain",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+        "--check",
+        "daily"
+      ],
+      "timeout_seconds": 30
+    }
+  },
+  {
+    "id": "R1-S2",
+    "finding": "Pre/postrelease predictive inputs obey own cutoff and later origin, while retrospective event studies cannot qualify predictors",
+    "check": {
+      "type": "command",
+      "argv": [
+        "python3",
+        "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+        "--check",
+        "event"
+      ],
+      "timeout_seconds": 30
+    }
+  }
+]

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "status": "proposed",
   "task_refs": [
     "MP-27",
@@ -20,7 +20,8 @@
     "external_request_id": "Nullable provider receipt binding",
     "reconciled_at": "Nullable instant",
     "expires_at": "Admission expiry; not proof that external billing stopped",
-    "org_wide_credit_allocation_proof": "Required, currently unproven evidence of a cooperative or otherwise enforceable allocation and coverage despite other applications. MP-local records cannot control unrelated spending."
+    "org_wide_credit_allocation_proof": "Required, currently unproven evidence of a cooperative or otherwise enforceable allocation and coverage despite other applications. MP-local records cannot control unrelated spending.",
+    "fixed_commitments": "Selected invoices with full amount, currency, due month, tax/card/FX bound and settlement/cancellation state; no annual amortisation in cash admission. This draft establishes no actual purchase or invoice."
   },
   "transitions": {
     "reserved": [
@@ -51,7 +52,8 @@
     "Fixed subscriptions remain committed until cancellation is effective.",
     "Counterfactual full-function no-credit costs are not permitted paid-call forecasts.",
     "Expiry, scope, freshness or coverage failure denies model dispatch.",
-    "Emergency policy does not bypass owner authority or the GBP100 aggregate envelope."
+    "Emergency policy does not bypass owner authority or the GBP100 aggregate envelope.",
+    "A full fixed annual invoice is encumbered in its due month before optional jobs. Amortised run rates never replace invoice-month cash; release only on confirmed settlement or effective cancellation. Unknown amount or due date blocks a new commitment until conservatively bounded and authorised."
   ],
   "credit_proof_boundary": {
     "status": "live_proof_pending",
@@ -63,5 +65,13 @@
     "anthropic_usage_billing_collection_hours": 6,
     "proposed_credit_allocation_proof_max_age_minutes": 30,
     "distinction": "Usage/billing collection cadence is separate from the proposed admission-proof freshness bound. If trustworthy proof cannot be obtained, deny dispatch."
+  },
+  "cash_admission": {
+    "basis": "invoice_month_cash",
+    "amortisation_is_cash": false,
+    "reserve_full_due_fixed_commitments": true,
+    "release_only_after_confirmed_settlement_or_cancellation": true,
+    "unknown_due_date_or_invoice_blocks_new_commitment": true,
+    "scope": "Both workload accounts, data, model/evaluation and selected ancillary fixed invoices share the aggregate month. Reserve a full selected annual invoice in its due month; projected monthly savings or amortisation do not reduce its liability. Unknown timing/amount needs a conservative approved bound before new commitment."
   }
 }
