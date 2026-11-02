@@ -13,3 +13,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
 Next: ARC-02, ledger/import persistence and application write ownership.
+
+## ARC-01 dev refinement: Twelve Data Basic/Free
+
+The owner asked to consider the free tier for dev. Record it as the preferred live dev candidate alongside offline synthetic fixtures, not as an activated subscription or a guarantee of the same coverage as Grow. Official pricing/credit documentation checked on 2 November 2026 lists 8 API credits/minute and 800/day, resetting at 00:00 UTC. Credits are weighted by endpoint and symbol; one HTTP request need not equal one credit. See [dev data policy](dev-data-policy.md).

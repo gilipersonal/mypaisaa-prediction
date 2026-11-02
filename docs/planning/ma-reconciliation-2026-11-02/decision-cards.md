@@ -45,7 +45,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 
 Which source-rights resolution route should anchor the v1 capability and cost matrix?
 
-**Owner answer: A selected on 2 November 2026 — keep Yahoo/Grow, verify uses and investigate documented gaps.** Coverage, rights and complete cost evidence remain pending. This is a direction decision, not activation or full architecture approval. Dependencies: none.
+**Owner answer: A selected on 2 November 2026 — keep Yahoo/Grow, verify uses and investigate documented gaps; consider Twelve Data Basic/Free for dev.** Coverage, rights and complete cost evidence remain pending. This is a direction decision, not activation or full architecture approval. Dependencies: none.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

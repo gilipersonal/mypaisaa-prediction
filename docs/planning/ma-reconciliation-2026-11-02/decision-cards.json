@@ -32,7 +32,17 @@
         "label": "Keep Yahoo/Grow; verify uses and investigate gaps (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision 1, call_a9fb61df13c0420cb65c12f1b5972650",
-        "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised.",
+        "dev_refinement": {
+          "recorded_on": "2026-11-02",
+          "direction": "Consider Twelve Data Basic/Free for dev, alongside synthetic fixtures.",
+          "verified_limits": {
+            "api_credits_per_minute": 8,
+            "api_credits_per_day": 800,
+            "daily_reset": "00:00 UTC"
+          },
+          "constraint": "Weighted credits, not necessarily800HTTPrequests. Actual account, listing/endpoint entitlements and storage/training/LLM rights still require verification. No provider calls or setup authorised."
+        }
       },
       "depends_on": [],
       "gap_ids": [

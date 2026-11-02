@@ -12,7 +12,7 @@ The owner authorised reconciliation of all relevant MA planning, with gaps captu
 4. [Phase specifications](phases): PH-00–PH-09 with current draft stories, contracts, dependencies and acceptance evidence.
 5. [Source coverage](source-coverage.json), [gap register](gap-register.json), [Jira receipt](jira-receipt.json) and [publication proposal](confluence-publication-proposal.json).
 
-[Owner decision log](decision-log.md): ARC-01 option A selected; rights, coverage and cost proof remain open. Eleven further architecture decisions are pending.
+[Owner decision log](decision-log.md): ARC-01 option A selected, including [Twelve Data Free for dev](dev-data-policy.md); rights, coverage and cost proof remain open. Eleven further architecture decisions are pending.
 
 ## Authority and evidence
 
