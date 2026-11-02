@@ -81,6 +81,8 @@ ARC-03 subsequently selected Lambda Durable Functions with Python workflows, sup
 
 ARC-04 subsequently selected capped SageMaker CPU training/evaluation with portable approved Lambda inference and stored daily results. Exact model/job/artefact/cost/scientific evidence remains open; this does not authorise a job or an always-on endpoint.
 
+ARC-05 subsequently selected baselines-first qualification followed by bounded challengers and separately tested feature contributions. All agreed horizons/capabilities remain; exact scientific thresholds/protocols and promotion evidence remain open.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

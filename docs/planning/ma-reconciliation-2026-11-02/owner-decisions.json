@@ -112,6 +112,36 @@
         "issue": "MP-24",
         "comment_id": "12152"
       }
+    },
+    {
+      "card_id": "ARC-05",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Baselines first, then bounded challengers (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision5, call_ff13748f07f04b93ac2f8611c0f62c9c",
+        "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+      },
+      "open_gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-16",
+        "CT-15"
+      ],
+      "jira_evidence": {
+        "issue": "MP-21",
+        "comment_id": "12154"
+      }
     }
   ]
 }

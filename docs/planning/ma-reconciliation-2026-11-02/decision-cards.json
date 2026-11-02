@@ -313,8 +313,14 @@
       "id": "ARC-05",
       "title": "Forecast experiments, probability calibration and recommendations",
       "question": "How broadly should the first scientific qualification programme search for an edge?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Baselines first, then bounded challengers (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision5, call_ff13748f07f04b93ac2f8611c0f62c9c",
+        "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+      },
       "depends_on": [
         "ARC-01",
         "ARC-02",

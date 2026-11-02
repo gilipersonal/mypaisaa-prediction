@@ -67,7 +67,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -134,7 +140,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -169,6 +181,11 @@
           "card_id": "ARC-04",
           "option_id": "A",
           "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        },
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
         }
       ],
       "planning_group": "science",
@@ -199,7 +216,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -229,7 +252,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -260,7 +289,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -296,6 +331,11 @@
           "card_id": "ARC-04",
           "option_id": "A",
           "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        },
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
         }
       ],
       "planning_group": "science",
@@ -363,7 +403,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "portfolio",
       "jira_key": "MP-22"
     },
@@ -393,7 +439,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "portfolio",
       "jira_key": "MP-22"
     },
@@ -424,7 +476,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -454,7 +512,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -521,7 +585,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -1485,7 +1555,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },

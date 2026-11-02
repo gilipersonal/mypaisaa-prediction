@@ -42,6 +42,8 @@ For ML, decide the first trainable families, task/horizon artefact policy, retra
 
 **Recommended:** selective short-lived SageMaker CPU training/evaluation with portable approved inference when feasible. **Alternative:** bounded AWS job execution without SageMaker if the measured workload/cost justifies it. Always-on endpoints, GPUs and provider-claimed accuracy are not assumed. **ARC-04 owner direction, 2 November 2026:** selective SageMaker CPU training/evaluation with portable Lambda inference is selected. Job limits, artefact/runtime fit and complete cost/scientific evidence remain open.
 
+**Owner direction recorded on 2 November 2026 (ARC-05): baselines first, then bounded challengers and separately evaluated additional factors.** This chooses qualification order; exact target/fold/metric/cost/eligibility contracts remain to settle.
+
 ## 5. Set admin, safety, eval and operating policies
 
 Agree an action catalogue before drawing admin screens: viewing, source access, reprocessing, committing/correcting records, changing configuration/budgets, replay, deletion, promotion and rollback. Each sensitive action needs current server authorisation, an action-bound approval, expiry, version checks, idempotency and durable audit evidence. Face ID alone is not server authorisation.

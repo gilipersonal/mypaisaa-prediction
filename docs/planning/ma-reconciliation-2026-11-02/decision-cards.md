@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 4 directions selected; 8 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 5 directions selected; 7 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -31,7 +31,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-02](#arc-02) | Ledger, imports and write ownership | ARC-01 | A selected; evidence pending |
 | [ARC-03](#arc-03) | Durable workflow orchestration | ARC-02 | B selected; evidence pending |
 | [ARC-04](#arc-04) | ML training and serving execution | ARC-01, ARC-03 | A selected; evidence pending |
-| [ARC-05](#arc-05) | Forecast experiments, probability calibration and recommendations | ARC-01, ARC-02, ARC-04 | Owner answer pending |
+| [ARC-05](#arc-05) | Forecast experiments, probability calibration and recommendations | ARC-01, ARC-02, ARC-04 | A selected; evidence pending |
 | [ARC-06](#arc-06) | Anthropic route, memory, cache and batch boundaries | ARC-03, ARC-05 | Owner answer pending |
 | [ARC-07](#arc-07) | Identity, session recovery and action-bound step-up | ARC-02, ARC-06 | Owner answer pending |
 | [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | Owner answer pending |
@@ -137,7 +137,7 @@ Primary sources: [source 1](https://docs.aws.amazon.com/sagemaker/latest/dg/host
 
 How broadly should the first scientific qualification programme search for an edge?
 
-**Owner answer: pending.** Dependencies: ARC-01, ARC-02, ARC-04.
+**Owner answer: A selected on 2 November 2026 — baselines first, then bounded challengers.** All agreed horizons/capabilities remain; detailed scientific contracts and evidence are pending. Dependencies: ARC-01, ARC-02, ARC-04.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
