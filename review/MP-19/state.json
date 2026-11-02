@@ -1,6 +1,7 @@
 {
   "issue": "MP-19",
   "round_count": 0,
+  "rounds": [],
   "status": "unreviewed_owner_decisions_in_progress",
   "review_approval": "declined_for_now_owner_chose_architecture_decisions",
   "scope": "MA concept reconciliation, research, documentation/phase/story structure, current-rule corrections and Jira evidence; prepared Confluence bodies only",

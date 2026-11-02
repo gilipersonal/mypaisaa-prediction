@@ -1,0 +1,13 @@
+{
+ "slug": "ph-08",
+ "page_id": "6291609",
+ "version": 2,
+ "sent_sha256": "3faec1e70aa319bc3a6f2f8bc08aa856a7bf4c86f3f5395d4a482209e459c2df",
+ "readback_sha256": "ef323a0c8dd2afa65fc9f77538c66b56dc22b290e8538a2d55e0e71af298ab49",
+ "canonical_sha256": "60ba74121b1902b45b9c3ecaf37a6646d218f3b89f3519639dab292d7054243b",
+ "parts": 308,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:37Z"
+}

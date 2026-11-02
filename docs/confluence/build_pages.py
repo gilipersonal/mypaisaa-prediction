@@ -10,7 +10,13 @@ create the pages, upload the attachments, then send the rendered bodies.
     python3 docs/confluence/build_pages.py write      # render every page
     python3 docs/confluence/build_pages.py tree       # print the page tree with statuses
     python3 docs/confluence/build_pages.py media      # list the attachments each page needs
-    python3 docs/confluence/build_pages.py check      # fail on a page or attachment not yet published
+    python3 docs/confluence/build_pages.py check      # fail on a page or attachment not yet published, or not read back
+    python3 docs/confluence/build_pages.py set-readback SLUG FILE [--version N]  # record a read-back receipt
+    python3 docs/confluence/build_pages.py selftest   # prove the receipt passes and refuses what it should
+
+A page sent by hand can arrive cut short (MA-300), so every published page is read back
+(getConfluenceContent, detail full, html) and compared with the file sent; the receipt lands in
+docs/confluence/receipts/<slug>.json (MP-35, from MA-303).
 
 Facts come from ARCHITECTURE.md, TECH-STACK.md, the owner decisions in docs/planning/ and the
 phase baseline. Anything not decided is shown as PROPOSED; nothing here approves architecture,
@@ -19,16 +25,23 @@ UX, spending or implementation.
 
 from __future__ import annotations
 
+import datetime
+import difflib
 import hashlib
 import html
 import json
+import re
 import sys
+import tempfile
+import unicodedata
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "pages"
 MANIFEST = HERE / "confluence.json"
+RECEIPTS = HERE / "receipts"
 LUCID = ROOT / "docs/diagrams/mp-architecture-2026-11-02/manifest.json"
 BASELINE = ROOT / "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"
 SITE = "https://duttaarun2015.atlassian.net"
@@ -445,8 +458,10 @@ def rec_delivery(s: str) -> str:
             + table(["Check", "What it runs", "Status"], [
                 ["Backend", "Lock freshness, Ruff, pytest", lozenge("implemented")],
                 ["Docs", "README, ARCHITECTURE and TECH-STACK links, the mark, the GIFs", lozenge("implemented")],
-                ["Review tooling", "Review runner, PR policy and check selection tests", lozenge("implemented")],
-                ["Agent config", "Claude skills, rules and Jira flow, Codex JSON, protection names", lozenge("implemented")],
+                ["Review tooling", "Review runner tests and self-test; every fixed finding still holds", lozenge("implemented")],
+                ["Agent config", "Claude skills, rules and Jira flow, Codex JSON, protection names, the hooks", lozenge("implemented")],
+                ["Plan sync", "Jira mirror, root documents, phases and Confluence pages agree; PR files belong to their issue", lozenge("implemented")],
+                ["Confluence receipts", "Every page rendered from the repo, published and read back whole", lozenge("implemented")],
                 ["Static preview", "The concept site build and checks", lozenge("implemented")],
                 ["Workflow lint", "actionlint on every workflow", lozenge("implemented")],
                 ["Jira traceability", "MP key on the branch, the title and every commit", lozenge("implemented")]])
@@ -559,7 +574,7 @@ def drawings(s: str) -> str:
 def sync(s: str) -> str:
     return (banner("record", "Five records describe MP. They agree because each one has an owner and a check.", [".claude/rules/mp-workflow.md"])
             + table(["Record", "Holds", "Kept in step by"], [
-                ["The repo", "Decisions, contracts, ARCHITECTURE.md, TECH-STACK.md, the generators", "CI's seven checks on every PR"],
+                ["The repo", "Decisions, contracts, ARCHITECTURE.md, TECH-STACK.md, the generators", "CI's nine checks on every PR"],
                 [f'<a href="{JIRA_BOARD}">Jira MP</a>', "Work and its status", "Branch, title and commits carry the MP key"],
                 ["Lucid", "The architecture drawings", "Generated from the repo; exported with hashes"],
                 ["This space", "The readable plan", "Rendered from the repo; the next publish overwrites edits made here"],
@@ -618,6 +633,216 @@ def tree() -> None:
     walk(None, 0)
 
 
+# ---------- read-back receipts (MP-35, ported from MA-300/MA-303) ----------
+# Confluence stores a page in its own document model and returns it in its own words. The reader
+# below drops exactly the rewrites seen on the 33 pages read back on 2 Nov 2026 and keeps every
+# word, tag, link, status, macro parameter and media node we sent, so a page cut short or changed
+# in transit still differs. The cases are in selftest().
+
+RB_DROP = {"data-local-id"}  # Confluence adds an id to every block
+RB_DROP_BY_TYPE = {
+    "media-single": {"data-width", "data-width-type"},  # 90% becomes a pixel width; full width loses its type
+    "media": {"data-width", "data-height"},  # the file's own pixel size, added
+    "column": {"data-width"},  # 50 or 33.33, added to each layout column
+    "panel-custom": {"data-icon-id", "data-icon-text"},  # the emoji's code point and glyph, added
+}
+RB_VOID = {"br", "hr", "img", "col", "input", "meta", "link", "wbr", "source", "embed", "area"}
+RB_P_WRAPPED = {"th", "td", "li"}  # Confluence wraps a cell's or item's text in a <p>
+RB_FONT_SIZE = {"12px": "small", "14px": "small"}  # 14px is stored as 12px
+
+
+def _rb_text(text: str) -> str:
+    text = unicodedata.normalize("NFC", text).replace("️", "").replace("︎", "")
+    return " ".join(text.split())
+
+
+def _rb_style(style: str) -> str:
+    decls = []
+    for part in style.split(";"):
+        if ":" in part:
+            k, v = (x.strip().lower() for x in part.split(":", 1))
+            decls.append(f"{k}:{RB_FONT_SIZE.get(v, v) if k == 'font-size' else v}")
+    return ";".join(sorted(decls))
+
+
+def _rb_params(raw: str) -> str:
+    """A macro's or tab set's parameters without what Confluence adds: macroMetadata and _-prefixed params."""
+    try:
+        p = json.loads(raw)
+    except ValueError:
+        return raw
+    if isinstance(p, dict):
+        p.pop("macroMetadata", None)
+        if isinstance(p.get("macroParams"), dict):
+            p["macroParams"] = {k: v for k, v in p["macroParams"].items() if not k.startswith("_")}
+    return json.dumps(p, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+class _Canon(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)  # entity and numeric encodings read as their characters
+        self.out: list[str] = []
+        self.buf: list[str] = []
+        self.stack: list[tuple[str, bool]] = []  # (tag, emitted)
+
+    def flush(self) -> None:
+        text = _rb_text("".join(self.buf))
+        self.buf = []
+        if text:
+            self.out.append(text)
+
+    def handle_starttag(self, tag, attrs):  # noqa: ANN001
+        self.flush()
+        if tag == "p" and self.stack and self.stack[-1][0] in RB_P_WRAPPED:
+            self.stack.append((tag, False))
+            return
+        a = {k: v or "" for k, v in attrs if k not in RB_DROP}
+        for k in RB_DROP_BY_TYPE.get(a.get("data-type", ""), ()):
+            a.pop(k, None)
+        if a.get("data-layout") == "default":  # Confluence adds the default layout to a macro
+            del a["data-layout"]
+        if tag == "ol" and a.get("start") == "1":  # and drops a list's default start
+            del a["start"]
+        if "style" in a:
+            a["style"] = _rb_style(a["style"])
+        if "data-parameters" in a:
+            a["data-parameters"] = _rb_params(a["data-parameters"])
+        self.out.append(f"<{tag}" + "".join(f' {k}="{_rb_text(a[k])}"' for k in sorted(a)) + ">")
+        if tag not in RB_VOID:
+            self.stack.append((tag, True))
+
+    def handle_startendtag(self, tag, attrs):  # noqa: ANN001
+        self.handle_starttag(tag, attrs)
+        if tag not in RB_VOID:
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):  # noqa: ANN001
+        if tag in RB_VOID or not any(t == tag for t, _ in self.stack):
+            return
+        self.flush()
+        while self.stack:
+            t, emitted = self.stack.pop()
+            if emitted:
+                self.out.append(f"</{t}>")
+            if t == tag:
+                break
+
+    def handle_data(self, data):  # noqa: ANN001
+        self.buf.append(data)
+
+
+def canonical(body: str) -> list[str]:
+    """A page body as the parts a read-back is compared on: tags with their kept attributes, sorted, and text."""
+    c = _Canon()
+    c.feed(body)
+    c.close()
+    c.flush()
+    while c.stack:
+        t, emitted = c.stack.pop()
+        if emitted:
+            c.out.append(f"</{t}>")
+    return c.out
+
+
+def readback_body(raw: str, version: int | None = None) -> tuple[str, dict]:
+    """The body in a read-back file: getConfluenceContent's whole reply (detail full, html), whose page id and
+    version are checked, or a bare HTML body, which must be given its version (--version N)."""
+    try:
+        d = json.loads(raw)
+    except ValueError:
+        if version is None:
+            raise ValueError("a bare HTML body names no version: pass --version N, or save getConfluenceContent's "
+                             "whole reply (detail full, html)") from None
+        return raw, {"id": None, "version": version, "envelope": False}
+    d = d.get("data", d) if isinstance(d, dict) else {}
+    body = d.get("body") if isinstance(d, dict) else None
+    if not isinstance(body, dict) or not isinstance(body.get("value"), str):
+        raise ValueError("the reply holds no body.value: read the page with detail full and content_format html")
+    if body.get("format") not in (None, "html"):
+        raise ValueError(f"the body is {body.get('format')}, not html")
+    v = ((d.get("metadata") or {}).get("version") or {}).get("number")
+    if isinstance(v, bool) or not isinstance(v, int) or not d.get("id"):
+        raise ValueError(f"the reply has no page id or version number (id {d.get('id')!r}, version {v!r})")
+    return body["value"], {"id": str(d["id"]), "version": v, "envelope": True}
+
+
+def differences(want: list[str], got: list[str], limit: int = 5) -> list[dict]:
+    out = []
+    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, want, got, autojunk=False).get_opcodes():
+        if op != "equal":
+            out.append({"change": op, "part": i1 + 1, "sent": [x[:160] for x in want[i1:i2][:3]],
+                        "read_back": [x[:160] for x in got[j1:j2][:3]]})
+            if len(out) == limit:
+                break
+    return out
+
+
+def record_readback(slug: str, raw: str, version: int | None = None, manifest_: dict | None = None,
+                    pages_dir: Path | None = None, receipts_dir: Path | None = None) -> int:
+    """set-readback: compare the page as Confluence returns it with pages/<slug>.html as sent and write the
+    receipt. 0 when they agree, 1 when they differ, 2 when there is nothing valid to compare."""
+    m = manifest_ if manifest_ is not None else M
+    pages_dir, receipts_dir = pages_dir or OUT, receipts_dir or RECEIPTS
+    rec = m.get("pages", {}).get(slug, {})
+    path = pages_dir / f"{slug}.html"
+    if not rec.get("id") or not rec.get("sha256"):
+        print(f"set-readback {slug}: not published (no id or sha256 in confluence.json)")
+        return 2
+    if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != rec["sha256"]:
+        print(f"set-readback {slug}: pages/{slug}.html is not the file last published (sha256 differs)")
+        return 2
+    try:
+        body, meta = readback_body(raw, version)
+    except ValueError as e:
+        print(f"set-readback {slug}: {e}")
+        return 2
+    if meta["id"] is not None and meta["id"] != str(rec["id"]):
+        print(f"set-readback {slug}: the read-back is page {meta['id']}, but {slug} is page {rec['id']}")
+        return 2
+    if meta["version"] != rec.get("version"):
+        print(f"set-readback {slug}: the read-back is version {meta['version']}, but version {rec.get('version')} "
+              "is recorded as published")
+        return 2
+    want, got = canonical(path.read_text()), canonical(body)
+    ok = want == got
+    receipt = {
+        "slug": slug, "page_id": str(rec["id"]), "version": meta["version"], "sent_sha256": rec["sha256"],
+        "readback_sha256": hashlib.sha256(body.encode()).hexdigest(),
+        "canonical_sha256": hashlib.sha256("\n".join(got).encode()).hexdigest(),
+        "parts": len(want), "verdict": "match" if ok else "differs", "differences": differences(want, got),
+        "id_checked": meta["id"] is not None,
+        "read_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    receipts_dir.mkdir(parents=True, exist_ok=True)
+    (receipts_dir / f"{slug}.json").write_text(json.dumps(receipt, indent=1, ensure_ascii=False) + "\n")
+    if ok:
+        print(f"set-readback {slug}: matches what was sent ({len(want)} parts)")
+        return 0
+    print(f"set-readback {slug}: DIFFERS from what was sent; re-publish it")
+    for d in receipt["differences"]:
+        print(f"  part {d['part']} {d['change']}: sent {d['sent']} read back {d['read_back']}")
+    return 1
+
+
+def receipt_problems(pages_manifest: dict, slugs: list[str], receipts_dir: Path) -> list[str]:
+    """Each published page needs a passing receipt for the file and version last published."""
+    problems = []
+    for slug in slugs:
+        rec = pages_manifest.get(slug, {})
+        if not rec.get("id") or not rec.get("sha256"):
+            continue
+        path = receipts_dir / f"{slug}.json"
+        if not path.exists():
+            problems.append(f"{slug}: published but not read back (no receipt)")
+            continue
+        r = json.loads(path.read_text())
+        if r.get("sent_sha256") != rec["sha256"] or r.get("version") != rec.get("version"):
+            problems.append(f"{slug}: the receipt is for an older publish (version {r.get('version')}); read it back")
+        elif r.get("verdict") != "match":
+            problems.append(f"{slug}: as read back it differs from what was published")
+    return problems
+
+
 def check() -> int:
     write()
     problems = []
@@ -632,9 +857,92 @@ def check() -> int:
         for path in paths:
             if path not in M["media"].get(slug, {}):
                 problems.append(f"{slug}: {path} not attached")
+    problems += receipt_problems(M["pages"], [p["slug"] for p in PAGES], RECEIPTS)
     for p in problems:
         print("PENDING:", p)
     return 1 if problems else 0
+
+
+def _confluence_rewrites(sent: str) -> str:
+    """What Confluence does to a page it stores, as seen on 2 Nov 2026: the faithful read-back for selftest."""
+    n = iter(range(10**6))
+    s = re.sub(r"<(p|h2|h3|table|tr|th|td|ul|ol|li|section|figure|hr|details)(?=[ >])",
+               lambda m: f'<{m.group(1)} data-local-id="id{next(n)}"', sent)
+    s = s.replace('style="font-size: 14px"', 'style="font-size: 12px"')
+    s = s.replace('data-width="90" data-width-type="percentage"', 'data-width="612" data-width-type="pixel"')
+    s = s.replace('data-width="100" data-width-type="percentage"', 'data-width="100"')
+    s = re.sub(r'(data-type="media" [^>]*?)></div>', r'\1 data-height="540" data-width="960"></div>', s)
+    s = re.sub(r"(<th(?=[ >])[^>]*>)(.*?)</th>", r"\1<p>\2</p></th>", s)
+    s = s.replace('data-type="column"', 'data-type="column" data-width="50"')
+    s = re.sub(r'data-type="panel-custom" (data-icon="[^"]*") (data-color="[^"]*")',
+               r'\2 data-type="panel-custom" \1 data-icon-id="1f4cc" data-icon-text="📌"', s)  # reordered too
+    s = s.replace("'", "&#39;").replace("🔮", "&#x1f52e;").replace("🗺️", "🗺")
+    s = re.sub(r"data-parameters=&#39;(.*?)&#39;",
+               lambda m: 'data-parameters="' + html.escape(json.dumps(
+                   {**json.loads(m.group(1)), "macroMetadata": {"macroId": {"value": "x"}, "schemaVersion": {"value": "1"}}}
+                   if "macroParams" in m.group(1) else json.loads(m.group(1))).replace(
+                   '"macroParams": {', '"macroParams": {"_parentId": {"value": "42"}, '), quote=True) + '"', s)
+    s = re.sub(r'(<ol[^>]*?) start="1"', r"\1", s.replace("</p><p", "</p>\n  <p"))  # block whitespace; default start
+    return s.rstrip("\n")  # the trailing newline is lost
+
+
+def selftest() -> int:
+    """The receipt on a temporary copy: a made-up page, manifest and receipts folder; never the real ones."""
+    figure = lambda w: (f'<figure data-type="media-single" data-layout="center" data-width="{w}" data-width-type="percentage">'  # noqa: E731
+                        f'<div data-type="media" data-media-type="file" data-id="m{w}" data-collection="contentId-42" '
+                        f'data-alt="x{w}.gif"></div><figcaption>The owner&#39;s picture {w}</figcaption></figure>')
+    sent = (banner("proposed", "🔮 The road 🗺️ and the owner's gates.", ["ARCHITECTURE.md"])
+            + cols(panel("dart", "#DEEBFF", "<h3>Exit gate</h3><p>One</p>"), panel("rewind", "#FFEBE6", "<p>Two</p>"))
+            + figure(90) + figure(100)
+            + '<ol start="1"><li><p>First gate</p></li><li><p>Second gate</p></li></ol>'
+            + table(["Phase", "Outcome"], [["<strong>PH-00</strong>", "Baseline"], ["PH-01", "Imports"], ["PH-02", "Identity"]])
+            + tabs([("A", "<p>first tab</p>"), ("B", "<p>second tab</p>")])
+            + macro("children", {"all": "true", "depth": "1"}) + footer() + "\n")
+    faithful = _confluence_rewrites(sent)
+    cases: list[tuple[str, bool, bool]] = []
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "pages").mkdir()
+        (root / "pages" / "p.html").write_text(sent)
+        man = {"pages": {"p": {"id": "42", "version": 3, "sha256": hashlib.sha256(sent.encode()).hexdigest()}}}
+        rdir = root / "receipts"
+        reply = lambda body, v=3, pid="42": json.dumps(  # noqa: E731
+            {"data": {"id": pid, "body": {"format": "html", "value": body}, "metadata": {"version": {"number": v}}}})
+
+        def run(name: str, body: str, want: int, **kw) -> None:
+            got = record_readback("p", kw.pop("raw", None) or reply(body, **kw), manifest_=man,
+                                  pages_dir=root / "pages", receipts_dir=rdir)
+            cases.append((name, got == want, got))
+
+        probs = receipt_problems(man["pages"], ["p"], rdir)
+        cases.append(("a published page with no receipt fails check", any("not read back" in p for p in probs), probs))
+        run("a faithful read-back with every known rewrite passes", faithful, 0)
+        cases.append(("... and check then passes", receipt_problems(man["pages"], ["p"], rdir) == [], None))
+        run("a bare body without --version is refused", "", 2, raw=faithful)
+        run("a read-back of another page is refused", faithful, 2, pid="43")
+        run("a read-back of another version is refused", faithful, 2, v=2)
+        run("a body cut short fails", faithful[: len(faithful) * 2 // 3], 1)
+        cases.append(("... and check then fails", any("differs" in p for p in receipt_problems(man["pages"], ["p"], rdir)), None))
+        tr = re.findall(r"<tr data-local-id=\"[^\"]*\"><td.*?</tr>", faithful)
+        run("a missing table row fails", faithful.replace(tr[1], "", 1), 1)
+        run("a changed word fails", faithful.replace("Imports", "Exports", 1), 1)
+        run("a missing media node fails", re.sub(r'<div data-type="media" [^>]*></div>', "", faithful, count=1), 1)
+        run("a dropped status lozenge fails", re.sub(r"<span [^>]*data-type=\"status\"[^>]*>PROPOSED</span>", "", faithful), 1)
+        run("a changed macro parameter fails", faithful.replace("&quot;depth&quot;: {&quot;value&quot;: &quot;1&quot;}",
+                                                                "&quot;depth&quot;: {&quot;value&quot;: &quot;2&quot;}"), 1)
+        run("a renumbered list fails", faithful.replace("<ol", '<ol start="2"', 1), 1)
+        run("the faithful read-back passes again", faithful, 0)
+        man["pages"]["p"]["sha256"] = "0" * 64
+        (root / "pages" / "p.html").write_text("changed")
+        man["pages"]["p"]["sha256"] = hashlib.sha256(b"changed").hexdigest()
+        man["pages"]["p"]["version"] = 4
+        probs = receipt_problems(man["pages"], ["p"], rdir)
+        cases.append(("a receipt for an older publish fails check", any("older publish" in p for p in probs), probs))
+    fails = [c for c in cases if not c[1]]
+    for name, ok, detail in cases:
+        print(("ok    " if ok else "FAIL  ") + name + ("" if ok else f"  ({detail})"))
+    print(f"build_pages selftest: {len(cases) - len(fails)} of {len(cases)} cases pass")
+    return 1 if fails else 0
 
 
 if __name__ == "__main__":
@@ -648,5 +956,14 @@ if __name__ == "__main__":
         print(json.dumps(MEDIA_NEEDED, indent=1))
     elif command == "check":
         sys.exit(check())
+    elif command == "selftest":
+        sys.exit(selftest())
+    elif command == "set-readback" and len(sys.argv) in (4, 6):
+        ver = None
+        if len(sys.argv) == 6:
+            if sys.argv[4] != "--version":
+                sys.exit("usage: set-readback SLUG FILE [--version N]")
+            ver = int(sys.argv[5])
+        sys.exit(record_readback(sys.argv[2], Path(sys.argv[3]).read_text(), ver))
     else:
-        sys.exit(f"unknown command {command}")
+        sys.exit(f"unknown command {command}; see the module docstring")

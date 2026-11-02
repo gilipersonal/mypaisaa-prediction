@@ -47,8 +47,8 @@
   },
   "sync": {
    "id": "6389776",
-   "version": 2,
-   "sha256": "cc1a34823941ee46563ae4f3e22b11436d3fcb38a6b541da9c47b3a5b14cb3ae"
+   "version": 3,
+   "sha256": "9845310c1de6e54908d1356414a0e164d4403eb7218b9dd78bf4b6c8669118f3"
   },
   "rec-rules": {
    "id": "6291509",
@@ -102,8 +102,8 @@
   },
   "rec-delivery": {
    "id": "6094881",
-   "version": 2,
-   "sha256": "6c5adadf58b8034cb7c5f5e8d00df2afbb0cadaf6e0720468abe1a4dfb7e1a44"
+   "version": 3,
+   "sha256": "1dd30889fbe5285db0faffa1c8e3a84f3dc2da203a90c46a6beae5ee8948e12c"
   },
   "rec-cost": {
    "id": "6291529",

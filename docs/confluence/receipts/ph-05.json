@@ -1,0 +1,13 @@
+{
+ "slug": "ph-05",
+ "page_id": "6291569",
+ "version": 2,
+ "sent_sha256": "ddbb6a67fbb42281ffbcdf099a6b0d969efc1823d17e450a2178f5ac7e81697b",
+ "readback_sha256": "23b8bc6e2428ee2166a4eb1f78520fdbee34aa07f4a8f0588aa5e0cd74f6f3e7",
+ "canonical_sha256": "90aeb76d17623c50bf872f1e39f83671097149646274e3b7c2c2da63ff8ccc13",
+ "parts": 340,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:37Z"
+}

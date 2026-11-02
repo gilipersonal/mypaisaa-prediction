@@ -1,0 +1,13 @@
+{
+ "slug": "drawings",
+ "page_id": "6357015",
+ "version": 2,
+ "sent_sha256": "5f41c799aceedd07cdf6a40e8c4e48fb182672889007141faa0107052f972eec",
+ "readback_sha256": "c13e634e7e5301eb19d89ad43f7d23187d1ab8180710b34e13b600371db8b4c4",
+ "canonical_sha256": "dff03ff7e74a24daab70cb91ee9a6dd9fa7f0b264a6bd345e6c60ff07aaa66f4",
+ "parts": 193,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:35Z"
+}

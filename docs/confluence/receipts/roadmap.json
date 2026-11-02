@@ -1,0 +1,13 @@
+{
+ "slug": "roadmap",
+ "page_id": "6127702",
+ "version": 2,
+ "sent_sha256": "10d33a43078b1156e27fe6ee03f89e527b96930704271bd10ec4830b94a68885",
+ "readback_sha256": "8252f8db3bdb203d512700583c7db281a84f7c5e2105f725c448a59a6ca8c036",
+ "canonical_sha256": "72c0850a328cf5ff728c36f0236e75fdbd4de15141e24689126b8ec2ec9ed519",
+ "parts": 301,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:45Z"
+}

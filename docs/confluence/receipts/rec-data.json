@@ -1,0 +1,13 @@
+{
+ "slug": "rec-data",
+ "page_id": "6357035",
+ "version": 2,
+ "sent_sha256": "5fff6ef2ffcc47fc6998197dd6249665ae500af7e13570f679c3b24fba2b6fd2",
+ "readback_sha256": "f2cfb8864bab76f527608243c6506d40af17ba0fb1187ea2b80c68e3a52d846f",
+ "canonical_sha256": "93670b9b2b6dee5c8d87981197e0981afbde364623dd5d19695f8c7dca703327",
+ "parts": 143,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:35Z"
+}

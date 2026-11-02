@@ -1,0 +1,13 @@
+{
+ "slug": "rec-rules",
+ "page_id": "6291509",
+ "version": 2,
+ "sent_sha256": "d03c067ca0b22dadc5aeed5141032d752af55200f482fdbcaa9befa0e57d9331",
+ "readback_sha256": "ff54dde8d62f6c5ad1687956014268298ef5c375cd70da215766177b8f1b01cd",
+ "canonical_sha256": "58e3f022ffc99aed9b8f12305f9205118016b69d6c805d7e1e6709a145436b21",
+ "parts": 160,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:35Z"
+}

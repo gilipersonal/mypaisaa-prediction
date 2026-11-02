@@ -1,0 +1,13 @@
+{
+ "slug": "rec-ledger",
+ "page_id": "6389816",
+ "version": 2,
+ "sent_sha256": "343758bebeca44f3f4011e66938fa16aee87712c27729ff68e3e688388bcac0c",
+ "readback_sha256": "279ccf383b2f7d894b5007abbb684a3164f01e4596eae36fd7907c849a9aa9f6",
+ "canonical_sha256": "4b85b39f4eced75e2e08a5d746e62deff96c934334e714169256a76ce3e9a982",
+ "parts": 140,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:36Z"
+}
