@@ -6,9 +6,8 @@ vendor was contacted and no paid API was called. Money is at £0.80 to the dolla
 month an invoice is due (COST-04, COST-06). The Region, account and network findings for MP-29 come from the same
 research. They are summarised here and taken forward on their own branch.
 
-**Status: findings and options, not decisions.** ARC-01 (keep Yahoo and Twelve Data Grow, verify uses) stays
-owner-selected until the owner answers the decision card below. Every live use in `data/catalogue.json` stays
-`unknown` until a vendor confirms it in writing.
+**Status: findings, then the owner's answers** (below). ARC-01 is confirmed. Every live use in
+`data/catalogue.json` stays `unknown`: no vendor has confirmed it in writing, and the owner has chosen not to ask.
 
 ## The headline
 
@@ -112,7 +111,18 @@ In every Region:
 N0 (no VPC) with SageMaker network isolation, two accounts under AWS Organizations, and CDK in Python as the IaC
 proposal are taken forward in MP-29.
 
-## Decision card for the owner
+## The owner's answers (2 November 2026)
+
+- **Data mix:** keep ARC-01: Yahoo Finance and Twelve Data Grow, with Twelve Data Basic (free) for development. MP
+  is personal hobby use, not commercial, and the owner accepts the published-terms risk recorded above. The Grow tier
+  is still open; only Grow 55 at $29 fits £100 every month.
+- **Vendors:** none is contacted. The questions below stay unsent.
+- **The Apple Developer fee:** one exception month a year above £100, for this fee only.
+- **Region:** Virginia (us-east-1), taken forward in MP-29.
+
+The answers are also in the [decision log](../ma-reconciliation-2026-11-02/decision-log.md).
+
+## Decision card for the owner (as asked)
 
 Each question has a recommended option first. Nothing is decided until the owner answers.
 
@@ -136,7 +146,7 @@ Each question has a recommended option first. Nothing is decided until the owner
    - Raise the ceiling in that month.
 5. **The domain.** **(Recommended)** .uk at $9 a year, or .com at $16 a year.
 
-## Questions for vendors (to send only with the owner's yes)
+## Questions for vendors (unsent: the owner chose not to contact vendors)
 
 **Twelve Data:**
 1. Does Grow's "view-only" label forbid one private individual from storing daily bars in his own private cloud and

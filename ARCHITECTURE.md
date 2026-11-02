@@ -291,12 +291,12 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **52 gaps** in the [gap register](docs/planning/ma-reconciliation-2026-11-02/gap-register.json), and 64 local story
   drafts that are not yet Jira stories.
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
-  view-only, so ARC-01's mix lacks the storage, training and monitoring rights MP needs. The options and the vendor
-  questions are in the [MP-10 findings](docs/planning/source-rights-2026-11-02/README.md); ARC-01 stands until the
-  owner answers.
+  view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk; the Grow
+  tier is open ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
+  (us-east-1), and the Apple Developer fee has one exception month a year above £100.
 - **Cost fit:** the £100 ceiling with Grow at $79 does not fit an invoice month; the cheaper tier is unverified.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
-  recovery, listing rights per market, and the Region.
+  recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
   model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
 - **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work.

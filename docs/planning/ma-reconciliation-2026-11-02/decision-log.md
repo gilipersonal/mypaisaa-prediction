@@ -114,4 +114,23 @@ The owner selected option A: **Architecture-area specs + linked phases/stories.*
 
 All twelve broad direction cards now have answers. The complete architecture baseline is still unapproved: detailed contract/evidence gaps, story decomposition/readiness, source visual verification, exact formulas/security/recovery/runtime/region/network/cost and optional scope decisions remain open. Complete and present the exact architecture/plan revision for owner sign-off before UX; complete full end-to-end/admin UX and obtain explicit permission before implementation. Nothing here publishes pages, creates a PR, runs review, closes issues or starts UX/build/cloud work.
 
+## Owner answers after the MP-10 source-rights research (2 November 2026)
+
+The owner answered the decision card in [the MP-10 findings](../source-rights-2026-11-02/README.md):
+
+- **ARC-01 is confirmed as selected:** Yahoo Finance and Twelve Data Grow, with Twelve Data's free Basic tier for
+  development. MP is the owner's personal hobby use, not commercial. The owner accepts the risk the research
+  recorded: on published terms, Yahoo forbids automated collection and Twelve Data labels Grow view-only. The Grow
+  tier (55, 144 or 377 credits) is still open. Only Grow 55 at $29 keeps every month under £100.
+- **No vendor is contacted.** The drafted questions to Twelve Data, EODHD and AMFI stay unsent, and the rights matrix
+  keeps those uses unresolved.
+- **The Apple Developer Program fee** ($99 a membership year) is allowed one exception month a year above the £100
+  ceiling, for this fee only. Every other month stays inside the ceiling and the £60/£75/£85 thresholds.
+- **Region: Virginia (us-east-1)**, the cheapest of the three candidates in the cost model. AWS-held data and
+  same-Region backups sit in the US; Anthropic processes prompts in the US or globally whatever the Region. MP-29
+  takes the Region forward with the network, accounts and IaC choices.
+
+These answers settle the questions asked. They do not approve the complete architecture baseline, UX or
+implementation.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.
