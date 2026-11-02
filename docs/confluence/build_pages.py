@@ -43,6 +43,7 @@ OUT = HERE / "pages"
 MANIFEST = HERE / "confluence.json"
 RECEIPTS = HERE / "receipts"
 LUCID = ROOT / "docs/diagrams/mp-architecture-2026-11-02/manifest.json"
+LUCID_QUALITY = ROOT / "docs/diagrams/mp-quality-2026-11-02/manifest.json"  # MP-36
 BASELINE = ROOT / "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"
 SITE = "https://duttaarun2015.atlassian.net"
 SPACE = "mypaisaapr"
@@ -145,17 +146,20 @@ def media(slug: str, path: str, caption: str, width: int = 100) -> str:
             f'data-alt="{esc(name)}"></div><figcaption>{esc(caption)}</figcaption></figure>')
 
 
-def lucid_doc() -> dict:
-    return json.loads(LUCID.read_text()) if LUCID.exists() else {"pages": [], "document_url": "#"}
+def lucid_doc(path: Path = LUCID) -> dict:
+    return json.loads(path.read_text()) if path.exists() else {"pages": [], "document_url": "#"}
 
 
-def lucid(slug: str, number: int, caption: str) -> str:
-    doc = lucid_doc()
+def lucid(slug: str, number: int, caption: str, pack: Path = LUCID) -> str:
+    doc = lucid_doc(pack)
     page = next((p for p in doc["pages"] if p.get("page_number") == number), None)
     if not page:
         return panel("hourglass", "#F4F5F7", f"<p><em>Lucid page {number} to export.</em></p>")
-    open_link = f'<p style="font-size: 14px"><a href="{doc["document_url"]}">Open it in Lucid</a> (page {number}).</p>'
-    return media(slug, f"docs/diagrams/mp-architecture-2026-11-02/{page['filename']}", caption) + open_link
+    # MP-36's pack is one Lucid document per drawing, so a page may carry its own document_url.
+    where = page.get("document_url")
+    open_link = (f'<p style="font-size: 14px"><a href="{where}">Open it in Lucid</a>.</p>' if where else
+                 f'<p style="font-size: 14px"><a href="{doc["document_url"]}">Open it in Lucid</a> (page {number}).</p>')
+    return media(slug, f"{pack.parent.relative_to(ROOT)}/{page['filename']}", caption) + open_link
 
 
 def gif(slug: str, name: str, caption: str) -> str:
@@ -478,7 +482,7 @@ def rec_cost(s: str) -> str:
             + table(["Part of the £70 plan", "Up to"], [["Market data", "£30"], ["AWS, both accounts", "£22"], ["Claude and evaluations", "£10"], ["Forecast and price uncertainty", "£8"]])
             + table(["Draft scenario (Claude blocked)", "Cash in the month"], [
                 ["Grow $79, an ordinary month", "£94.48"], ["Grow $79, the month the domain renews", "£108.88, over the ceiling"],
-                ["Grow $55 if offered, that month", "£60.88"]])
+                ["Grow 55 credits at $29 if offered, the month the domain renews", "£60.88"]])
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero."])
@@ -486,13 +490,131 @@ def rec_cost(s: str) -> str:
 
 
 def rec_observability(s: str) -> str:
-    return (banner("proposed", "A placeholder. Telemetry, traces, alarms and the cost dashboard are to be specified.",
-                   ["ARCHITECTURE.md"])
+    return (banner("proposed", "Proposed. Nothing is instrumented or deployed; the starter only logs on a laptop. The retention periods and the billing cadence are owner-selected.",
+                   ["ARCHITECTURE.md", "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md",
+                    "docs/planning/foundation-specifications-2026-11-02/costs/specification.md"])
+            + gif(s, "trace-journey", "One request, one trace, and where a new trace links on. Illustrative ids and values.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 2, "One trace from the door to the model, and where a linked trace takes over.", LUCID_QUALITY)
+            + panel("telescope", "#DEEBFF",
+                    "<p><strong>Three readers, one rule.</strong> You read Activity, Audit and Costs in the app. Whoever operates MP reads CloudWatch logs, metrics and traces. "
+                    "Alarms reach a person. The rule: <strong>durable business records are the truth; telemetry is sampled, short-lived and allowed to be missing.</strong> "
+                    f"The stack it watches is on {link('rec-stack')}.</p>")
+            + "<h2>🧾 The run record</h2>"
+            + "<p>Every Lambda run, not only Claude's, leaves one record in DynamoDB. It is written when the run is accepted, not only when it ends, so a crash leaves a trace of its own (CT-05).</p>"
+            + table(["Part", "What it holds"], [
+                ["Lifecycle", "Accepted, started, heartbeats, then one end state: succeeded, failed, timed out, cancelled, partial, or an unknown outcome at an outside provider. A reconciler finds runs that stopped talking"],
+                ["Who and why", "Trigger, <code>run_id</code>, <code>job_id</code>, <code>trace_id</code>, environment, build, and the config, model and prompt versions"],
+                ["Each Claude call", "Route, model, input, output and cache tokens, batch or live, cost estimate, latency, stop reason, refusal"],
+                ["Each tool call", "Tool name and version, the policy decision, outcome, duration, input and output sizes"],
+                ["Money", "The cost reservation it held and what it actually spent"]])
+            + "<p>Tool inputs and outputs are protected evidence for the owner, never sent to CloudWatch.</p>"
+            + "<h2>🧵 One trace, and where it cannot join</h2>"
+            + "<p>The placeholder promised one trace from the door to the model. That holds for the hops a person waits on. Where work is queued, resumed or batched, "
+              "the trace ends and stable business IDs carry the join, with an OpenTelemetry span link where one helps (PL-12, CT-06).</p>"
+            + table(["Hop", "How it joins", "One trace?"], [
+                ["Door → API Gateway → FastAPI", "The door sends a W3C <code>traceparent</code>; FastAPI checks its format and returns <code>trace_id</code> and <code>request_id</code> on every response", "Yes"],
+                ["FastAPI → SQS → worker", "Trace context rides the message; the worker continues it", "Yes, once propagation is proved"],
+                ["A durable workflow resumes, say after your approval", "A new trace, linked to the first; <code>job_id</code> and <code>import_id</code> join them", "No: linked"],
+                ["Scheduler tick → the daily forecast", "The run's first step starts the trace; <code>job_id</code> names the tick", "A new root"],
+                ["Worker → Anthropic API, live", "One client span with model, tokens, cost and the response id. Anthropic's internals are not visible", "To the edge only"],
+                ["Message Batches", "Submitting is one span. Results come back hours later in another run, matched by batch id and <code>custom_id</code>", "No: joined by IDs"],
+                ["SSE notice or push → the door's re-read", "The notice carries <code>run_id</code>; the re-read is a new request with its own trace", "No: joined by <code>run_id</code>"],
+                ["A replay", "A new run and a new trace, linked to the original, which is never rewritten", "No: linked"]])
+            + expand("The correlation keys",
+                     "<p><code>trace_id</code>, <code>span_id</code>, <code>request_id</code>, <code>run_id</code>, <code>job_id</code>, <code>client_message_id</code>, "
+                     "<code>conversation_id</code>, <code>document_id</code>, <code>import_id</code>, <code>prediction_id</code>, <code>model_version</code>, "
+                     "<code>config_version</code>, environment, build and app version. Activity stays complete when a span is missing, and the joins survive after traces expire.</p>")
+            + "<h2>🛠️ Instrumentation</h2>"
+            + table(["Piece", "Proposed", "Status"], [
+                ["Traces", "OpenTelemetry for Python through the AWS Distro (ADOT) Lambda layer, exporting to X-Ray, with parent-based sampling", lozenge("proposed")],
+                ["Logs and metrics", "Powertools for AWS Lambda (Python): Logger for JSON lines carrying the keys above, Metrics in the embedded metric format", lozenge("proposed")],
+                ["Not used", "Powertools Tracer: it wraps the X-Ray SDK, which reaches end of support on 25 February 2027", lozenge("proposed")],
+                ["Claude spans", "One span per call in the OpenTelemetry GenAI conventions (model, tokens including cache) plus MP's route, batch flag, refusal and cost estimate; the convention version pinned, as it is still in development", lozenge("proposed")],
+                ["The doors", "No tracing SDK. Each action mints a <code>traceparent</code>; errors and timings go to an authenticated telemetry route", lozenge("open") + " with PL-14"]])
+            + "<h2>📈 Metrics: few on purpose</h2>"
+            + "<p>Lambda, API Gateway, SQS and DynamoDB publish their own metrics at no extra charge. MP's own metrics cost $0.30 each a month, so there are eight in prod and four in dev, "
+              "with no dimensions. Everything finer, the route, the listing, the model, lives in the log line beside the metric and is queried when needed.</p>"
+            + table(["Metric", "Tells you", "Prod", "Dev"], [
+                ["<code>ScheduleLateness</code>", "The daily window or a 30-minute check started late", "✓", "✓"],
+                ["<code>RunsUnfinished</code>", "The reconciler found runs stuck, timed out or in a dead-letter queue", "✓", "✓"],
+                ["<code>DataFreshnessMinutes</code>", "Age of the oldest eligible listing's price", "✓", "✓"],
+                ["<code>ClaudeSpendEstimateUSD</code>", "Today's Claude spend from the run records", "✓", "✓"],
+                ["<code>ForecastsMissing</code>", "Origins expected by +75 minutes that were not issued", "✓", ""],
+                ["<code>ClaudeFailures</code>", "Refusals, expired batch requests and tool errors", "✓", ""],
+                ["<code>AdmissionRefusals</code>", "Jobs the cost check refused", "✓", ""],
+                ["<code>WriterRejections</code>", "Commits the controlled writer refused or found conflicting", "✓", ""]])
+            + "<h2>🚨 Alarms, and who hears them</h2>"
+            + cols(card("rotating_light", "#FFEBE6", "System incidents",
+                        "An SNS topic per environment to the owner's email (proposed), a run record with trigger <em>alarm</em>, and an incident in Admin. "
+                        "A downstream outage is one incident with its symptoms linked, not ten messages. An OK closes it without erasing it."),
+                   card("chart_with_upwards_trend", "#E3FCEF", "Investment alerts",
+                        "Material risk and opportunity alerts go through the product: push to the app and the PWA, the 07:30 briefing, quiet hours 22:00 to 07:00. "
+                        "They never use the operations topic, and a failed provider can never send a confident all-clear (CT-18)."))
+            + table(["Alarm (proposed)", "Prod", "Dev"], [
+                ["Any Lambda error, from the account-wide metric", "✓", "✓"],
+                ["<code>ClaudeSpendEstimateUSD</code> past the day's guard", "✓", "✓"],
+                ["<code>RunsUnfinished</code> above zero for 30 minutes", "✓", ""],
+                ["<code>ScheduleLateness</code> over 10 minutes; missing data counts as late", "✓", ""],
+                ["<code>ForecastsMissing</code> above zero at +75 minutes", "✓", ""],
+                ["<code>DataFreshnessMinutes</code> past the listing's limit", "✓", ""]])
+            + "<p>The budget ladder (warn at £60, reduce at £75, pause at £85) runs in the app from the cost ledger, not from CloudWatch.</p>"
+            + "<h2>💷 The cost dashboard</h2>"
             + ul(["Every run records its trigger, model calls, tokens, cost, tools and outcome.",
-                  "One trace from the door to the model.",
+                  "One trace from the door to the model, for the hops a person waits on; queued, batched and resumed work joins by its IDs.",
                   "Internal estimates live, Anthropic usage every six hours, AWS billing daily, with the lag shown.",
-                  "Dev and prod shown apart; estimates, credits and reconciled billing kept separate."])
-            + panel("hourglass", "#FFFAE6", "<p>To decide: the collector, the alarms and who hears them, the dashboard, retention per signal.</p>")
+                  "Dev and prod shown apart; estimates, credits and reconciled billing kept separate.",
+                  "The dashboard reads cached figures; opening it never calls a billing API. AWS collection is capped at 120 Cost Explorer pages a month ($1.20).",
+                  "Shared and unallocated costs are shown as such, and a missing or stale report is never a fresh zero. An AWS report older than 36 hours blocks optional work (proposed)."])
+            + f"<p>The ceiling and the ladder: {link('rec-cost')}. The Costs screen itself belongs to {link('rec-admin')}.</p>"
+            + "<h2>🔒 Redaction</h2>"
+            + ul(["Never in a log, span or metric: secrets, tokens, prompts, replies, holdings amounts, names, account numbers, file names, signed URLs or tool arguments.",
+                  "Prompt and reply capture is off by default. Only dev may switch it on, only for data proved synthetic, behind a setting prod refuses.",
+                  "Client baggage is ignored and a malformed <code>traceparent</code> is replaced, so a door cannot inject an identity.",
+                  "A leak test replays synthetic runs carrying marker strings and fails CI if a marker reaches a log, span or metric."])
+            + "<h2>🗄️ How long each signal is kept</h2>"
+            + table(["Signal", "Kept for", "Status"], [
+                ["Operational logs", "14 days", lozenge("selected")],
+                ["Rich traces", "30 days", lozenge("selected")],
+                ["Run summaries", "90 days", lozenge("selected")],
+                ["Audit, approvals, predictions and outcomes", "The life of the account, subject to deletion", lozenge("selected")],
+                ["CloudWatch metrics", "CloudWatch's own 15-month roll-up", lozenge("proposed")],
+                ["AWS API activity", "CloudTrail's 90-day event history, at no charge; a trail to S3 is a later choice", lozenge("proposed") + " trail " + lozenge("open")],
+                ["Batch results at Anthropic", "29 days there, so MP copies them into its own records as soon as they arrive", lozenge("proposed")]])
+            + "<h2>🎯 Sampling</h2>"
+            + ul(["Never sampled: run records, audit, approvals, predictions, outcomes and the cost ledger.",
+                  "Always traced: owner commands, imports, approvals, chat, every Claude call and the daily forecast run.",
+                  "Sampled: read-only API calls, the 30-minute checks and the data collectors, tuned in dev to fit the costed 15,000 prod and 5,000 dev traces a month. Errors are always logged with their <code>trace_id</code>."])
+            + "<h2>💰 What watching costs</h2>"
+            + "<p>Official AWS prices, checked 2 November 2026, in the Virginia candidate Region, with no free tier deducted, at the cost specification's central £0.80 to the dollar and 20% tax. "
+              "The quantities are the cost model's.</p>"
+            + table(["Line", "Price", "Prod", "Dev", "A month"], [
+                ["Logs ingested", "$0.50 per GB", "0.5 GB", "0.25 GB", "$0.375"],
+                ["Logs kept", "$0.03 per GB-month", "0.25 GB", "0.10 GB", "$0.011"],
+                ["Logs Insights queries", "$0.005 per GB scanned (the cost model's evidence)", "5 GB", "2 GB", "$0.035"],
+                ["Custom metrics", "$0.30 each", "8", "4", "$3.600"],
+                ["Alarms", "$0.10 each", "6", "2", "$0.800"],
+                ["X-Ray traces recorded", "$5 per million", "15,000", "5,000", "$0.100"],
+                ["X-Ray traces read", "$0.50 per million", "30,000", "10,000", "$0.020"],
+                ["<strong>Total</strong>", "", "", "", "<strong>$4.94, about £4.74</strong>"]])
+            + cols(card("bar_chart", "#DEEBFF", "Against the £22",
+                        "About a fifth of the £22 AWS share. It is already counted inside the cost model's AWS total of $20.67 (£19.84), which leaves £2.16. "
+                        "Custom metrics are three quarters of it: dropping dev's four saves about £1.15."),
+                   card("gift", "#E3FCEF", "What is free",
+                        "Powertools, OpenTelemetry and the ADOT layer are free; they add a few cents of Lambda time by estimate. A CloudWatch free tier would lower the total, but is not counted."))
+            + expand("Options outside the baseline, priced",
+                     table(["Option", "Price, checked 2 November 2026", "Estimate"], [
+                         ["Every span kept through CloudWatch Transaction Search", "$0.35 per GB of spans; 1% indexing free", "About 0.9 GB a month, about $0.31; my estimate, unmeasured"],
+                         ["CloudWatch Application Signals", "$1.50 per million signals after a 3-month trial", "Off at launch"],
+                         ["A composite alarm", "$0.50 a month", "Off at launch; the app groups incidents"],
+                         ["A custom CloudWatch dashboard", "Unverified: the official page did not show it", "None at launch; the app's screens come first"]]))
+            + panel("question", "#FFFAE6", "<h3>To decide</h3>" + ul([
+                "Sampled X-Ray, or every span through Transaction Search, and the per-environment telemetry envelope (PL-12, MP-27).",
+                "The run record schema, the stuck-run thresholds, and what is content versus metadata (CT-05, MP-27).",
+                "The minimum launch signals: the eight metrics, six alarms and sampling rates above (CT-06, MP-27).",
+                "Whether email is the operations emergency channel; which investment conditions are critical, the cooldowns and weekends (CT-18, MP-30).",
+                "Whether Application Signals, a CloudWatch dashboard or a composite alarm earns its cost after a measured month in dev."]))
+            + f"<p><strong>Phases:</strong> {link('ph-02', 'PH-02')} builds the run record, traces, logs, metrics and cost collection; {link('ph-05', 'PH-05')} adds the Claude spans and evaluation evidence; "
+            + f"{link('ph-07', 'PH-07')} routes investment alerts to push; {link('ph-08', 'PH-08')} accepts the whole as operational.</p>"
             + footer())
 
 
@@ -582,21 +704,511 @@ def sync(s: str) -> str:
             + footer())
 
 
+def rec_testing(s: str) -> str:
+    return (banner("proposed", "Today's nine CI checks, the Claude hooks and the fixed-findings ledger are implemented. "
+                   "Everything else on this page is proposed: nothing is deployed, the IaC tool is not chosen and no account exists.",
+                   [".github/workflows/verify.yml", "docs/github-workflow.md", ".claude/rules/aws-changes.md",
+                    "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
+            + gif(s, "delivery-pipeline", "Nine checks today, then the proposed road to prod with a rollback.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 3, "From a merge to prod: today's checks, the scan gate, dev, approval, prod and rollback.", LUCID_QUALITY)
+            + f"<p>{link('rec-delivery', 'Environments, CI and delivery')} stays the summary of today's checks. This page is the plan for "
+              "what comes next: the road to dev and prod, scanning, smoke, rollback and the regression layers. It answers "
+              "PL-11 (MP-30).</p>"
+
+            + "<h2>✅ What runs today</h2>"
+            + table(["Piece", "What it does", "Status"], [
+                ["Nine CI checks", "Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, "
+                 "Workflow lint and Jira traceability, on every PR to <code>main</code> and every push to it", lozenge("implemented")],
+                ["Claude hooks", "<code>.claude/hooks/mp_hook.py</code>: before a PR is raised it runs the selected checks, plan sync and "
+                 "the Confluence check and refuses the PR on a failure; after an edit it reports drift; a new-work prompt gets a Jira reminder",
+                 lozenge("implemented")],
+                ["Fixed stays fixed", "<code>scripts/review_regress.py --every</code> re-runs every fixed review finding on every PR",
+                 lozenge("implemented")],
+                ["Pinned actions", "Every action pinned to a commit SHA; actionlint checked against its checksum", lozenge("implemented")],
+                ["Branch protection", "Not enforced: GitHub answers 403 on the Free plan for a private repo. The settings wait in "
+                 "<code>.github/main-protection.json</code>", lozenge("open")],
+                ["Vulnerability scanning, deploys, smoke", "None yet", lozenge("proposed")]])
+
+            + "<h2>🚚 From a merge to prod</h2>"
+            + "<p>One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does.</p>"
+            + table(["Step", "What happens", "Status"], [
+                ["1. PR gates", "Today's checks, plus the scans and contract tests below", lozenge("proposed")],
+                ["2. Build once", "On a merge to <code>main</code>: the Lambda packages and the static PWA bundle, each with a recorded "
+                 "sha256 and an SBOM from GitHub's dependency graph", lozenge("proposed")],
+                ["3. Deploy to dev", "GitHub OIDC into a dev-only role that trusts <code>main</code> and the release workflow, nothing else; "
+                 "no stored AWS keys", lozenge("proposed")],
+                ["4. Dev smoke", "The full synthetic profile below", lozenge("proposed")],
+                ["5. Owner approves", "The owner promotes that exact sha256. How the approval is enforced is open (see the warning below)",
+                 lozenge("open")],
+                ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11)", lozenge("selected")],
+                ["7. Prod smoke, then keep or roll back", "Read-only checks; a failure moves the alias back", lozenge("proposed")],
+                ["IaC until a tool is chosen", "Plan-only. CDK or CloudFormation is picked by an ADR first", lozenge("open")],
+                ["How the code is packaged", "Zip or container image is not decided. Durable Functions list managed Python 3.13 and 3.14; "
+                 "MP targets 3.12 or later, so this choice matters", lozenge("open")]])
+            + panel("warning", "#FFFAE6",
+                    "<p><strong>The Free plan cannot hold the prod gate.</strong> On a private repo, GitHub's required reviewers and wait "
+                    "timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner approves in a protected "
+                    "environment&quot; cannot be built on today's plan. Options:</p>"
+                    + ul(["<strong>A, free:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
+                          "that trusts only <code>main</code> and that workflow file. The org has one member today.",
+                          "<strong>B:</strong> GitHub Team, $4 a user a month (about £3.84): branch protection and environment secrets, still no "
+                          "required reviewers on a private repo.",
+                          "<strong>C:</strong> GitHub Enterprise, $21 a user a month (about £20.16): required reviewers.",
+                          "<strong>D:</strong> an AWS CodePipeline manual approval in the prod account. Approvals are not charged, but it is a new "
+                          "managed service, so it needs a costed ADR."]))
+
+            + "<h2>🛡️ Vulnerability scanning</h2>"
+            + "<p>Free and open-source first. Two GitHub features that MA lists are paid add-ons on a private repo, so they are not selected.</p>"
+            + table(["Gate", "Tool", "Free on a private repo?", "Status"], [
+                ["Dependency alerts", "Dependabot alerts and security updates (uv, npm, Swift and GitHub Actions)", "Yes, every plan",
+                 lozenge("proposed")],
+                ["Lockfile audit in CI", "OSV-Scanner on <code>backend/uv.lock</code> and <code>site/package-lock.json</code>; "
+                 "pip-audit as a second source", "Yes, Apache-2.0", lozenge("proposed")],
+                ["Secrets in commits", "gitleaks CLI, checksum-verified like actionlint", "Yes, MIT", lozenge("proposed")],
+                ["Code patterns", "Ruff's <code>S</code> (Bandit) rules, as Ruff already runs; Semgrep CE if it earns its place",
+                 "Yes", lozenge("proposed")],
+                ["Infrastructure code", "cfn-lint and Checkov on the CloudFormation template; cdk-nag if CDK is chosen",
+                 "Yes", lozenge("open")],
+                ["Container images", "Trivy or Grype, only if images are chosen", "Yes", lozenge("open")],
+                ["GitHub secret scanning", "Secret Protection, $19 per active committer a month, Team or Enterprise only", "No",
+                 lozenge("open")],
+                ["CodeQL", "Code Security, $30 per active committer a month, Team or Enterprise only", "No", lozenge("open")]])
+            + ul(["A High or Critical finding with a fix blocks the merge. An exception names its owner, its reason and its expiry.",
+                  "A weekly scheduled sweep catches advisories published after the merge.",
+                  "Actions stay pinned to SHAs. In March 2026 nearly every trivy-action tag was repointed to credential-stealing code "
+                  "(CVE-2026-33634). Pinning is why that would not have reached MP."])
+
+            + "<h2>💨 Smoke, per environment</h2>"
+            + table(["Check", "Dev (synthetic)", "Prod (read-only)"], [
+                ["Health", "<code>/api/v1/health</code> returns the deployed sha", "The same"],
+                ["Who gets in", "Every protected route refuses a call with no token", "The same; no user is created or signed in"],
+                ["Web door", "The PWA loads with its security headers", "The same"],
+                ["SSE", "A synthetic user opens the stream and gets a heartbeat", "An unauthenticated stream is refused"],
+                ["Work", "A synthetic import runs through the queue and the workflow", "Skipped: nothing is written"],
+                ["Paid calls", "None by default", "None: no Claude, no market-data quota, no writes"]])
+
+            + "<h2>⏪ Rollback</h2>"
+            + ul(["Each Lambda runs behind a <code>live</code> alias. Rolling back points the alias at the previous version.",
+                  "The previous PWA build is kept, so the site can switch back to it.",
+                  "Code rolls back; data does not. Schema changes go in two steps (add, then remove later) so the old code still reads them.",
+                  "A model is rolled back through its approved pointer, separately from the app " + f"({link('rec-forecast', 'controlled learning')}).",
+                  "To verify: what a rollback does to a durable workflow already running. No speed is claimed until it is measured."])
+
+            + "<h2>🧱 Regression layers</h2>"
+            + table(["Layer", "What it proves", "When", "Status"], [
+                ["Unit", "pytest and Ruff", "Every PR", lozenge("implemented") + " starter only"],
+                ["Contracts, both sides", "API and PWA types, API and Swift models, the RN-Swift bridge, SSE events, queue messages, "
+                 "provider payloads checked before storage", "Every PR", lozenge("proposed")],
+                ["Integration, offline", "FastAPI with local stand-ins and synthetic data", "Every PR", lozenge("proposed")],
+                ["Scientific evidence", "Walk-forward folds, purge and embargo, calibration, golden maths. Kept as separate evidence, "
+                 "not a CI tick", "Fixtures every PR; full runs capped", lozenge("proposed")],
+                ["Agent evaluations", "Inspect AI (ARC-09). Deterministic replays offline in CI; paid runs capped and approved, never green "
+                 "if incomplete or out of budget", "Replays every PR", lozenge("selected") + " tool; cases proposed"],
+                ["Web and Apple", f"{link('rec-web-quality', 'Web quality')} and {link('rec-apple-testing', 'Apple testing')}",
+                 "By path", lozenge("proposed")],
+                ["Fixed stays fixed", "The review ledger", "Every PR", lozenge("implemented")]])
+
+            + "<h2>💷 What CI costs</h2>"
+            + cols(card("bar_chart", "#DEEBFF", "$12 a month, shared",
+                        "GitHub Free for organisations includes $12 of runner time. Every private repo in the org draws on it, MA included. "
+                        "Linux is $0.006 a minute (about 2,000 minutes); macOS is $0.062 (about 193 minutes, 10.3 times Linux)."),
+                   card("stopwatch", "#E3FCEF", "MP's CI today",
+                        "A PR run bills about 9 minutes (each job rounds up to a minute); a merge about 8. On 1 and 2 November MP used "
+                        "219 Linux minutes and MA 58: setup days, not a normal month."))
+            + ul(["A proposed normal month, 40 PR pushes and 20 merges, is about 520 Linux minutes: $3.12, about £3.00. Inside the allowance.",
+                  "Past the allowance, 100 Linux minutes cost about £0.58 and 100 macOS minutes about £5.95.",
+                  "Apple builds run on the owner's Mac, which bills no GitHub minutes " + f"({link('rec-apple-testing', 'Apple testing')}).",
+                  "GitHub is not yet in the cost model; it needs a line, planned at £0 with a cap " + f"({link('rec-cost', 'Cost and the £100 ceiling')})."])
+            + expand("How these figures were reached",
+                     ul(["Prices: docs.github.com, GitHub Actions billing and Actions runner pricing, checked 2 November 2026.",
+                         "Usage: the org's billing usage report for October and November 2026, read 2 November 2026.",
+                         "Pounds use the cost specification's central £0.80 per dollar and 20% tax.",
+                         "Without a payment method GitHub stops runs at the allowance; whether one is on file is not verified."]))
+
+            + "<h2>❓ To decide</h2>"
+            + panel("hourglass", "#FFFAE6", ul([
+                "How prod approval is enforced on GitHub Free: A, B, C or D above, and the wording of the AWS rule. PL-11 (MP-30)",
+                "The IaC tool, which picks cfn-lint, Checkov or cdk-nag. PL-10 (MP-29)",
+                "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
+                "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
+                "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
+                "Whether to switch on Dependabot, OSV-Scanner and gitleaks now, under their own MP issue."]))
+            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} picks the IaC tool and accounts; "
+              f"{link('ph-02', 'PH-02')} brings the first deployed runtime, so the dev pipeline and dev smoke; "
+              f"{link('ph-08', 'PH-08')} holds prod promotion, the rollback exercises and the whole-release gates (L8-S02, L8-S04).</p>"
+            + footer())
+
+
+def rec_web_quality(s: str) -> str:
+    checked = "checked 2 Nov 2026"
+    return (banner("proposed", "A proposal. <code>web/</code> does not exist and no screen is designed: these checks run once the PWA is built, "
+                   "after the architecture sign-off and UX approval. WCAG 2.2 Level AA is proposed; ARCHITECTURE.md says only &quot;accessible and responsive&quot;.",
+                   ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
+            + gif(s, "a11y-pipeline", "One screen through ARIA snapshots, axe-core, a screenshot diff and the staleness rule.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 6, "Web quality on every screen: ARIA snapshots, axe-core, screenshots and the staleness rule.", LUCID_QUALITY)
+            + cols(card("white_check_mark", "#E3FCEF", "Already the rule",
+                        "Accessible, responsive PWA views. Never hide risk, staleness or a data provider's status behind a loading state (AGENTS.md, ARC-10)."),
+                   card("bulb", "#FFFAE6", "Proposed standard",
+                        "WCAG 2.2 Level AA, the W3C Recommendation (current version 12 December 2024). It adds nine success criteria to 2.1 and drops 4.1.1 Parsing. It needs the owner's yes."))
+            + "<h2>🧪 Four checks in one browser session</h2>"
+            + table(["Check", "Tool", "Catches", "Status"], [
+                ["Journeys", "Playwright on the built static SvelteKit app, against a local stub API with synthetic data", "A broken flow, a dead link, a lost state", lozenge("proposed")],
+                ["Structure", "Playwright's <code>toMatchAriaSnapshot</code>, kept as <code>.aria.yml</code> files in the repo", "A button losing its name, a heading changing level, a live region vanishing", lozenge("proposed")],
+                ["Rules", "<code>@axe-core/playwright</code> with the WCAG 2.0, 2.1 and 2.2 A and AA tags; any violation fails the test", "The faults a machine can find", lozenge("proposed")],
+                ["Looks", "A screenshot comparison (three options below)", "An unintended visual change", lozenge("open")]])
+            + ul(["An ARIA snapshot is a diff against the last approved tree, not a WCAG test. axe is the rule check, and it finds on average 57% of WCAG issues by its makers' count; the rest need people.",
+                  "Each release gets a keyboard-only pass and a VoiceOver pass in Safari, by hand.",
+                  "Browsers: Chromium and WebKit. The PWA on an iPad runs in Safari's engine; Playwright's WebKit is close to it, not the same, so Safari itself is checked by hand.",
+                  "Widths: a phone and a laptop to start, plus the 320 CSS pixel reflow check. The real breakpoints come with the design.",
+                  "Elements are found by the shared test-ID dictionary, the same one the Apple app uses (" + link('rec-apple-testing', 'iOS and iPadOS testing') + ")."])
+            + "<h2>♿ What WCAG 2.2 adds that matters to MP</h2>"
+            + table(["Criterion", "Where MP meets it", "Checked by"], [
+                ["2.4.11 Focus Not Obscured (Minimum)", "A sticky header, the chat panel or the cost bar never covers the focused control", "A Playwright test per main screen"],
+                ["2.5.7 Dragging Movements", "Scrubbing a forecast fan has a non-drag way in: buttons or a table", "A Playwright test, then by hand"],
+                ["2.5.8 Target Size (Minimum)", "Approve, reject and the horizon tabs are at least 24 by 24 CSS pixels", "A Playwright size check"],
+                ["3.3.7 Redundant Entry", "An import correction never asks again for what was already given", "By hand, per journey"],
+                ["3.3.8 Accessible Authentication (Minimum)", "Passkeys and Apple or Google sign-in, and step-up, with no memory or puzzle test", "By hand, per journey"]])
+            + "<h2>⏳ The spinner rule, as a test</h2>"
+            + "<p>AGENTS.md says MP never hides risk, staleness or a provider's status behind a loading state. "
+            + "Each state gets a fixture, and Playwright holds or replaces the API's reply to test it.</p>"
+            + table(["State", "The test asserts", "Status"], [
+                ["Loading", "While a reply is held, the as-of time, staleness label and provider status of every figure already shown stay visible and in the ARIA tree", lozenge("proposed")],
+                ["Stale", "The stale label is text in the ARIA snapshot, not only a colour", lozenge("proposed")],
+                ["Provider down", "The page says which provider and since when; a forecast shows as unavailable, never as a blank or a spinner", lozenge("proposed")],
+                ["Forecast states", "Disagreement, insufficient history, no clear view, disabled, corrected outcome and cost-paused each render with their reason (FC-16)", lozenge("proposed")],
+                ["Busy regions", "<code>aria-busy</code> is never set on a region that holds a risk or a freshness label", lozenge("proposed")]])
+            + "<p>A test fails when a spinner is the only thing where a risk, a freshness label or a provider status should be.</p>"
+            + "<h2>📸 Screenshot comparison: the options</h2>"
+            + f"<p>Prices {checked}, in pounds at the cost specification's £0.80 to the dollar plus 20% tax.</p>"
+            + table(["Option", "Price", "Trade-off", "Status"], [
+                ["Playwright's own <code>toHaveScreenshot</code>", "Free", "Baselines live in the repo. Rendering varies by operating system, so baselines are made and checked in one pinned Linux image, locally and in CI", lozenge("proposed") + " recommended"],
+                ["Argos Hobby", "Free, 5,000 captures a month; uploads pause at the limit; every capture, image or not, counts", "A review dashboard, but screenshots leave for a third party: synthetic data only. Terms for a private repo are unverified", lozenge("open")],
+                ["Argos Pro", "100 USD a month for 35,000 captures, then 0.004 USD each", "£96.00 a month: nearly the whole £100 ceiling", lozenge("open") + " not proposed"],
+                ["Other hosted services (Percy, Chromatic and the like)", "Not priced here; unverified", "Same trade-off as Argos", lozenge("open") + " not proposed"]])
+            + ul(["Volume if Argos were chosen: about 12 screen areas, 2 widths and 2 themes make 48 captures a run, so about 100 runs a month before the Hobby limit.",
+                  "Running the suite in CI on GitHub's Linux runner: 0.006 USD a minute, so a 5-minute run costs £0.03 and 40 runs £1.15 a month, inside the 12 USD of compute GitHub Free includes, which the nine existing checks share."])
+            + "<h2>🗓️ When it runs</h2>"
+            + table(["Step", "When", "Status"], [
+                ["Lint, type checks, unit tests", "Every pull request that touches <code>web/</code>", lozenge("proposed")],
+                ["Playwright, ARIA snapshots, axe, screenshots", "Locally first; in CI on pull requests touching <code>web/</code>, or only on request", lozenge("open")],
+                ["Keyboard, VoiceOver and real Safari", "By hand before a release", lozenge("proposed")]])
+            + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
+                "WCAG 2.2 Level AA as MP's standard for the web, and the same bar for the Apple app: PL-14 (MP-30).",
+                "The screenshot tool: Playwright's own (proposed) or Argos Hobby: PL-11 (MP-30).",
+                "Whether the browser suite runs on every web pull request or only on request: PL-11 (MP-30).",
+                "Browsers, widths and themes, with the screens: PL-14 (MP-30).",
+                "The list of states that may never hide behind loading: FC-16 (MP-21)."]))
+            + f"<p>Phase: {link('ph-06', 'PH-06 · Web discovery, ranked actions, proof and briefings')}, whose deliverables include the web journey and accessibility acceptance pack. "
+            + "The tooling waits for <code>web/</code>.</p>"
+            + f"<p>Related: {link('rec-clients', 'The two doors: web and Apple')} · {link('rec-testing', 'Testing')} · "
+            + f"{link('rec-apple-testing', 'iOS and iPadOS testing')} · {link('screens', 'Screens and UX')}.</p>"
+            + footer())
+
+
+def rec_apple_testing(s: str) -> str:
+    checked = "checked 2 Nov 2026"
+    return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
+                   "Testing on simulators costs nothing; a private TestFlight beta needs the paid Apple Developer Program, which is not yet in the cost model.",
+                   ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
+            + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a private TestFlight build.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac and the private TestFlight beta.", LUCID_QUALITY)
+            + "<h2>📲 What is already fixed, and what is not</h2>"
+            + table(["Fact", "Source", "Status"], [
+                ["SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications",
+                 "ARC-10, AGENTS.md, ARCHITECTURE.md §11", lozenge("selected")],
+                ["The React Native shell owns navigation and typed bridge contracts only", "ARC-10, AGENTS.md", lozenge("selected")],
+                ["Shared API and event schemas are tested on both sides of every boundary", "AGENTS.md", lozenge("selected")],
+                ["Supported iOS and iPadOS versions, devices, and what &quot;Duo&quot; means", "PL-14 (MP-30); TECH-STACK.md §5", lozenge("open")],
+                ["Android screens stay out of the release; the shell does not imply an Android app", "L7-S04", lozenge("proposed")]])
+            + "<h2>🧪 Three layers, cheapest first</h2>"
+            + table(["Layer", "Tool", "Runs on", "Cost", "Status"], [
+                ["Views and units", "XCTest and XCUITest in Xcode", "The owner's Mac", "£0", lozenge("proposed")],
+                ["Journeys end to end", "Maestro CLI and Studio, free and open source, on iOS simulators", "The owner's Mac", "£0", lozenge("proposed")],
+                ["Every pull request", "Maestro's flow syntax check and the test-ID check (below)", "GitHub's Linux runner, seconds", "Inside the free allowance", lozenge("proposed")],
+                ["Real hardware", "A private TestFlight build on the owner's iPhone and iPad", "Real devices", "Needs the Developer Program", lozenge("open")]])
+            + ul(["Maestro drives simulators only; Face ID hardware, real push delivery and a real VoiceOver pass happen on a TestFlight build, by hand.",
+                  "Flows run against a local stub of the FastAPI with synthetic data. Nothing is deployed, so there is no live mode until the dev account exists (ARC-11).",
+                  "A flow that tests a figure also checks its as-of time and provider status are on screen while it loads: the same never-behind-a-spinner rule as the web."])
+            + "<h2>🏷️ One ID scheme for web and Apple</h2>"
+            + "<p>One dictionary of test IDs, kept with the shared contracts, generates both sides: <code>data-testid</code> for the SvelteKit PWA, "
+            + "which Playwright finds with <code>getByTestId</code>, and Swift constants for <code>.accessibilityIdentifier</code> and the shell's <code>testID</code>, "
+            + "which Maestro finds with its <code>id</code> selector. One journey then reads the same on both doors.</p>"
+            + ul(["IDs name the job, not the look: <code>mpp.forecast.freshness</code>, <code>mpp.import.approve</code>.",
+                  "IDs never carry a value, a holding or anything personal.",
+                  "A check fails when a Maestro flow or a Playwright test names an ID the dictionary lacks.",
+                  "An ID is for tests; VoiceOver reads the label. Tests check both, so an ID never stands in for a missing label.",
+                  "The prefix <code>mpp.</code> is proposed so MP's IDs never mix with MA's <code>mp.</code> dictionary if the two ever exchange data (PH-09).",
+                  "That the shell's <code>testID</code> reaches iOS as the accessibility identifier, through SwiftUI views hosted in the shell, is to be proved in the first bridge spike."])
+            + "<h2>📐 iPad: widths and rotation</h2>"
+            + "<p>Layout follows the window's width, not the device's name. The breakpoints come from the screen design, not from MA's four bands, "
+            + f"so they are set when the screens are drawn ({link('screens', 'Screens and UX')}).</p>"
+            + table(["Case", "What the flow asserts", "Status"], [
+                ["iPhone, portrait and landscape", "The compact layout; nothing clipped", lozenge("proposed")],
+                ["iPad portrait, landscape, Split View and Stage Manager widths", "The layout for each agreed width band", lozenge("proposed")],
+                ["Rotation in the middle of a journey", "A half-typed question or an open import approval survives with no lost input", lozenge("proposed")],
+                ["Which devices and versions are in the matrix", "Set by PL-14 (MP-30)", lozenge("open")]])
+            + "<h2>♿ VoiceOver, Dynamic Type and the other settings</h2>"
+            + table(["Check", "How", "Status"], [
+                ["Dynamic Type, smallest to the largest accessibility size", "<code>xcrun simctl ui</code> sets the size before a Maestro run; figures and the Confirm button stay whole", lozenge("proposed")],
+                ["Light, dark, Increase Contrast, Reduce Motion", "Set per run; functional flows launch with motion stilled so figures are not read mid-animation", lozenge("proposed")],
+                ["Automated audit", "XCUITest's accessibility audit on each main screen, on the Xcode version chosen", lozenge("proposed")],
+                ["VoiceOver", "A walkthrough by hand on a real device before each beta build; a test runner cannot listen", lozenge("proposed")],
+                ["Charts", "Each chart has a text alternative and a summary value (L6-S03, L7-S02)", lozenge("proposed")],
+                ["Lock screen and app switcher", "A simulated push carries a neutral payload; no holding or amount appears (L7-S02)", lozenge("proposed")]])
+            + "<h2>✈️ A private TestFlight beta</h2>"
+            + table(["Apple's rule (" + checked + ")", "What MP proposes", "Status"], [
+                ["Up to 100 internal testers, who are App Store Connect users", "One internal group: the owner only", lozenge("proposed")],
+                ["A build can be tested for up to 90 days, then becomes unavailable", "A reminder at day 60 of each build; a new upload restarts the clock", lozenge("proposed")],
+                ["A build uploaded as TestFlight Internal Only can go only to internal groups", "Every MP build is uploaded that way", lozenge("proposed")],
+                ["External testing (up to 10,000 people) goes through App Review", "Not used", lozenge("proposed")],
+                ["The Developer Program is 99 USD a membership year", "Needs the owner's yes and a cost model update", lozenge("open")]])
+            + ul(["Builds are uploaded by hand from Xcode on the owner's Mac, so no App Store Connect key is stored in GitHub and no Mac CI minutes are spent.",
+                  "A beta build talks to the dev account only, which must exist first (PH-02, ARC-11). TestFlight access is not sign-in: Cognito still decides who gets in.",
+                  "TestFlight feedback screenshots go to Apple. Send them only from synthetic data or with amounts hidden."])
+            + "<h2>💷 What it costs</h2>"
+            + f"<p>Prices {checked}, in pounds at the cost specification's £0.80 to the dollar plus 20% tax.</p>"
+            + table(["Item", "Price", "In MP's money", "Status"], [
+                ["Maestro CLI and Studio", "Free", "£0", lozenge("proposed")],
+                ["Maestro Cloud", "250 USD per device a month", "£240.00 a month: 2.4 times the whole £100 ceiling", lozenge("open") + " not proposed"],
+                ["GitHub macOS runner", "0.062 USD a minute, about ten times Linux at 0.006", "A 15-minute simulator run £0.89; 20 runs £17.86 a month, close to the £22 planned for all of AWS", lozenge("open") + " not proposed"],
+                ["Apple Developer Program", "99 USD a membership year, charged in local currency at enrolment", "£95.04 in the month it is paid", lozenge("open")]])
+            + panel("warning", "#FFEBE6",
+                    "<p>MP counts cash in the month an invoice is due. The Apple fee in one month, on top of the draft scenarios, "
+                    "makes £189.52 with Grow at 79 USD, or £141.52 with the Grow 55 tier at 29 USD: over the ceiling either way. "
+                    "The cost model already lists Apple membership as needing separate selection and recosting. "
+                    "Push, Sign in with Apple and passkeys on a real device most likely need the membership too, so this is a cost of the Apple door itself, not only of TestFlight.</p>")
+            + "<p>GitHub's Free plan includes 12 USD of compute a month for this private repo, shared with the nine existing checks; that is about 193 macOS minutes. "
+            + "Local first keeps it for the checks.</p>"
+            + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
+                "Supported iOS and iPadOS versions, devices and what &quot;Duo&quot; means: PL-14 (MP-30).",
+                "Whether to join the Apple Developer Program, and which month pays for it, with the cost model updated: PL-11 (MP-30).",
+                "The Mac CI budget: proposed £0, with simulator runs on the owner's Mac: PL-11 (MP-30).",
+                "The test-ID prefix and where the shared dictionary lives: PL-14 (MP-30).",
+                "The largest Dynamic Type size and the settings every screen must pass: PL-14 (MP-30), L7-S02.",
+                "Testers: the owner only, or others too (no gap yet)."]))
+            + f"<p>Phase: {link('ph-07', 'PH-07 · Native Apple, offline and push')}, after PH-02 and PH-06. Nothing runs before UX approval and explicit permission to build.</p>"
+            + f"<p>Related: {link('rec-clients', 'The two doors: web and Apple')} · {link('rec-testing', 'Testing')} · "
+            + f"{link('rec-web-quality', 'Web visual regression, ARIA snapshots and WCAG 2.2 AA')} · {link('screens', 'Screens and UX')}.</p>"
+            + footer())
+
+
+def rec_perimeter(s: str) -> str:
+    """🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED). MP-36; adapted from MA's page 3670133."""
+    price_list = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/index.json"
+    return (banner("proposed", "Nothing here is deployed and no network option is chosen. The baseline is a perimeter without a VPC. "
+                   "The lockdown is optional, off by default and decided late. The Region is not chosen (PL-10, MP-29), "
+                   "so prices are shown for Virginia, as MP's cost model uses, with London alongside.",
+                   ["ARCHITECTURE.md", "AGENTS.md",
+                    "docs/planning/layered-development-2026-11-01/network-topology-options.md",
+                    "docs/planning/foundation-specifications-2026-11-02/costs/specification.md"])
+            + gif(s, "perimeter-layers", "The layers of the perimeter, and what each lockdown option costs a month.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 5, "The baseline perimeter, and the optional lockdown with its costs.", LUCID_QUALITY)
+            + cols(card("shield", "#E3FCEF", "The baseline: no VPC",
+                        "Two accounts, tight IAM roles, resource policies, encryption, an organisation-wide guard rail and an audit trail. "
+                        "Almost all of it is free. This is how MP starts."),
+                   card("lock", "#FFFAE6", "The option: a lockdown",
+                        "Lambdas inside private subnets, with a controlled way out to Claude and the market data. "
+                        "It adds about £14 to £250 a month, against an AWS share of £22 that the baseline already nearly fills."))
+
+            + "<h2>🛡️ The baseline perimeter, without a VPC</h2>"
+            + "<p>The perimeter is built from who may act on what, not from where traffic flows.</p>"
+            + table(["Control", "What it does in MP", "Cost a month", "Status"], [
+                ["Two accounts", "Dev and prod are separate AWS accounts on one bill. A dev mistake or a leaked dev key cannot reach prod by default (ARC-11).",
+                 "$0", lozenge("selected")],
+                ["AWS Organizations, all features", "Needed for the two guard rails below; consolidated billing alone cannot hold them. The management account runs nothing, because they do not apply to it.",
+                 "$0", lozenge("open")],
+                ["Service control policies", "Cap what any role can do: stay in the chosen Region, never stop CloudTrail, never leave the organisation.",
+                 "$0", lozenge("proposed")],
+                ["Resource control policies", "Cap who can reach MP's S3, KMS, Secrets Manager, SQS and STS: only MP's own principals, plus named AWS services.",
+                 "$0", lozenge("proposed")],
+                ["Least-privilege IAM", "One role per Lambda, each Claude route worker included (ARC-06), scoped to its own table, prefix and secret. Prod deploys come from CI only.",
+                 "$0", lozenge("proposed")],
+                ["Resource policies", "Bucket, key and queue policies name the exact roles. The PWA bucket is read only by CloudFront through origin access control.",
+                 "$0", lozenge("proposed")],
+                ["S3 Block Public Access", "On at account level in both accounts, so no bucket policy can make anything public. New buckets block it already.",
+                 "$0", lozenge("proposed")],
+                ["Encryption", "S3 and DynamoDB encrypt at rest by default, free. One customer managed KMS key per account guards the ledger, evidence and secrets, under a key policy MP controls.",
+                 "$1 a key, plus $0.03 per 10,000 requests; already in the cost model", lozenge("proposed")],
+                ["IAM Access Analyzer", "The external access analyzer flags anything shared outside the organisation. The unused-access and internal-access analyzers stay off.",
+                 "$0 (the paid two: $0.20 per role a month, $9 per resource a month)", lozenge("proposed")],
+                ["CloudTrail", "One trail per account delivers one copy of management events to an encrypted S3 bucket. Data events only where audit needs them.",
+                 "$0 for the first copy, plus S3 storage; data events $0.10 per 100,000", lozenge("proposed")]])
+            + panel("bulb", "#DEEBFF", "<p><strong>What a data perimeter means here.</strong> AWS describes three walls: identity (only our people), "
+                    "resource (only our things) and network (only from our networks). Without a VPC, MP builds the first two with "
+                    "<code>aws:PrincipalOrgID</code> and <code>aws:ResourceOrgID</code> conditions in the resource and control policies. "
+                    "The third wall, <code>aws:SourceVpce</code>, needs a VPC. It is the main thing a lockdown adds.</p>")
+
+            + "<h2>🌐 Why MP starts without a VPC</h2>"
+            + ul(["Lambda has internet access by default. Attached to a VPC, it loses it until a NAT is added; a public subnet gives it no public address.",
+                  "The Claude workers call the Anthropic API and the data workers call Yahoo Finance and Twelve Data. No VPC endpoint reaches them, so inside a VPC they need a NAT.",
+                  "<code>AGENTS.md</code> rules out a NAT Gateway without a revised cost model and an ADR.",
+                  "API Gateway, Cognito, CloudFront, DynamoDB and S3 never sit inside a customer VPC, whatever the Lambdas do.",
+                  "Security groups filter by address and port, not host name. A host allowlist needs a DNS firewall or a proxy, each priced separately."])
+            + panel("no_entry_sign", "#FFEBE6", "<p><strong>A VPN is not a sign-in.</strong> A VPN may be added later as an extra layer, but it never replaces "
+                    "authentication (PL-10). Every request is still signed in through Cognito and checked by the API, on a VPN or off it.</p>")
+
+            + "<h2>🔒 The optional lockdown, in four steps</h2>"
+            + "<p>Each step is stricter or dearer than the one before. N1 and N1-E are the options in MP's network appendix.</p>"
+            + table(["Step", "What it adds", "Network option", "Status"], [
+                ["L1 Private jobs only", "Two private subnets with free S3 and DynamoDB gateway endpoints, for a job that never calls out. No internet route. Everything else stays outside.",
+                 "N1", lozenge("proposed") + " only for a proven need"],
+                ["L2 Lean lockdown", "Every Lambda in the VPC. One small NAT instance (t4g.nano, run and patched by us) per zone carries calls to Claude, the data providers and AWS APIs.",
+                 "N1-E", lozenge("open")],
+                ["L3 Managed lockdown", "As L2, with an AWS managed NAT Gateway per zone instead of the instance. Nothing to patch, a much higher floor.",
+                 "N1-E", lozenge("open")],
+                ["L4 Strict lockdown", "As L3, plus four interface endpoints (Secrets Manager, SQS, STS, KMS) so calls to AWS never leave through the NAT.",
+                 "N1-E", lozenge("open")]])
+
+            + "<h2>💷 What each step costs a month</h2>"
+            + "<p>Extra AWS cost on top of MP's baseline, before data volume beyond the stated assumption. "
+              "At the cost specification's central scenario: £0.80 to the dollar and 20% tax.</p>"
+            + table(["Step", "Per environment, 1 zone (Virginia)", "Per environment, 2 zones (Virginia)", "MP total: dev 1 zone, prod 2 zones (Virginia)", "Same total (London)"], [
+                ["L1 Private jobs only", "$0", "$0", "$0 (£0)", "$0 (£0)"],
+                ["L2 Lean lockdown", "$7.36", "$14.71", "$22.07 (£21.19)", "$23.47 (£22.53)"],
+                ["L3 Managed lockdown", "$36.73", "$73.23", "$109.77 (£105.38)", "$120.75 (£115.92)"],
+                ["L4 Strict lockdown", "$65.98", "$131.68", "$197.43 (£189.53)", "$217.17 (£208.48)"]])
+            + table(["Against the budget", "Virginia", "London"], [
+                ["Baseline AWS, both accounts (cost specification)", "£19.84", "£20.31"],
+                ["Left in the £22 AWS share", "£2.16", "£1.69"],
+                ["Cheapest paid step: L2 with one zone in each account", "£14.12", "£15.02"],
+                ["A Grow $79 ordinary month, plus L2 (dev 1 zone, prod 2 zones)", "£94.48 + £21.19 = £115.67, over the £100 ceiling", "£94.95 + £22.53 = £117.48, over the ceiling"],
+                ["A Grow $29 month if offered, plus the same L2", "£46.48 + £21.19 = £67.67, past the £60 warning", "£46.95 + £22.53 = £69.48, past the warning"]])
+            + ul(["The baseline leaves about £2 of the £22 AWS share, so every paid step overruns it. L3 and L4 alone pass the £100 ceiling, whatever data plan is chosen.",
+                  "The floor is fixed: a NAT Gateway or an endpoint bills every hour it exists, busy or idle.",
+                  "Not priced here: a DNS firewall, AWS WAF, GuardDuty, flow logs and a network firewall. Each is its own costed decision.",
+                  "Not offered: IPv6-only egress through a free egress-only gateway. It works only if every destination answers on IPv6, which is unverified."])
+            + expand("How the numbers are made", ul([
+                f"Rates from the AWS price list offer files for us-east-1 and eu-west-2 (<a href=\"{price_list}\">index</a>), checked 2 Nov 2026, 730 hours a month.",
+                "NAT Gateway: $0.045 an hour and $0.045 per GB in Virginia; $0.05 and $0.05 in London. Each NAT also holds a public IPv4 address at $0.005 an hour.",
+                "Interface endpoint: $0.01 per zone-hour in Virginia, $0.011 in London, plus $0.01 per GB. Gateway endpoints for S3 and DynamoDB: no charge.",
+                "NAT instance: t4g.nano at $0.0042 an hour in Virginia, $0.0047 in London; an 8 GB gp3 disk at $0.08 or $0.0928 per GB-month; one public IPv4 address.",
+                "Assumed traffic: 5 GB a month through the NAT in prod and 1 GB in dev; four interface endpoints. More traffic adds per-GB charges.",
+                "Baseline AWS run rates are the cost specification's: $20.67 in Virginia and $21.15 in London, with no free tier deducted."]))
+
+            + "<h2>🧭 The recommendation</h2>"
+            + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). Keep the lockdown <strong>off by default</strong>. "
+                    "Use L1 only if a job is shown to need a private network. Decide the lockdown last, at PH-08, from measured traffic and the security "
+                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected.</p>")
+            + panel("question", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
+                "The Region: Virginia, Ireland or London, on service fit, residency and whole cost (PL-10, MP-29).",
+                "Whether MP's organisation runs with all features, so the guard rails can exist; ARC-11 leaves the organisation open (PL-10, MP-29).",
+                "Whether any job, such as private SageMaker training, needs L1 (PL-10, MP-29; PL-07, MP-24).",
+                "One customer managed key per account, or AWS keys only (PL-10, MP-29).",
+                "Whether the lockdown is turned on, and which step, as part of release evidence (PL-11, MP-30)."]))
+            + "<p><strong>Phases:</strong> PH-00 settles the network option and Region; PH-02 builds the baseline perimeter with the private runtime; "
+              "PH-08 decides the lockdown; a deferred lockdown can return as a PH-09 extension.</p>"
+            + "<p>See also " + link("rec-system") + ", " + link("rec-cost") + " and " + link("rec-identity") + ".</p>"
+            + footer())
+
+
+def rec_stack(s: str) -> str:
+    return (banner("proposed", "One level below the system page: the libraries, the contracts and how a request flows. The layers are owner-selected (ARC-02 to ARC-10); the library picks are proposed. Only the FastAPI starter runs, on a laptop.",
+                   ["ARCHITECTURE.md", "TECH-STACK.md", "docs/planning/ma-reconciliation-2026-11-02/direction-summary.md",
+                    "docs/planning/claude-models-and-batching-2026-11-02.md"])
+            + gif(s, "stack-build", "The stack, layer by layer, from the doors to the records.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 1, "The stack end to end, each layer with its libraries and status.", LUCID_QUALITY)
+            + panel("compass", "#DEEBFF",
+                    f"<p>The AWS services are on {link('rec-system')}. This page says what each layer is built with, which contract it keeps, "
+                    f"and how one question travels from a tap to Claude and back. How all of it is watched is on {link('rec-observability')}.</p>")
+            + "<h2>🧱 The layers, one level down</h2>"
+            + table(["Layer", "Built with", "The contract it keeps", "Status"], [
+                ["Web (ARC-10)", "SvelteKit 3 with the static adapter, built once and served from private S3 through CloudFront; a service worker for the PWA and Web Push",
+                 "No server rendering. Every private read or command is an authenticated call to <code>/api/v1</code>", lozenge("selected")],
+                ["Apple", "SwiftUI owns the screens, local persistence, widgets, Keychain and notifications; a React Native shell owns navigation",
+                 "The bridge carries typed messages only, never a secret. Swift, not the shell, keeps the offline cache", lozenge("selected") + " device matrix " + lozenge("open")],
+                ["API", "FastAPI with Pydantic v2 models at every boundary; Uvicorn locally",
+                 "Routes under <code>/api/v1</code>; a schema in and out, never a storage record", lozenge("implemented") + " health route and sample SSE, locally"],
+                ["API on AWS", "The same app on ordinary Lambda behind API Gateway, through a Lambda adapter in buffered mode, and in streaming mode for the SSE route",
+                 "Commands return quickly; long work becomes a job", lozenge("selected") + " Lambda; adapter " + lozenge("proposed")],
+                ["Work (ARC-03)", "EventBridge Scheduler, SQS with a dead-letter queue, and Lambda Durable Functions written in Python",
+                 "Every step is idempotent by key; a replay is a new attempt, never an edit of the old one", lozenge("selected")],
+                ["Claude workers (ARC-06, ARC-06b)", "The official <code>anthropic</code> Python SDK in an explicit loop; one Lambda per task route sharing one bounded runner; Message Batches for work no one waits for",
+                 "Tools are allowlisted, typed and read-only by default. Extraction runs with no tools", lozenge("selected")],
+                ["Records (ARC-02)", "DynamoDB and private, encrypted S3, through a thin typed repository on <code>boto3</code>",
+                 "One controlled writer commits to the ledger. Predictions, model runs and outcomes are append-only", lozenge("selected") + " repository " + lozenge("proposed")],
+                ["Models (ARC-04, ARC-05)", "scikit-learn style pipelines on NumPy and pandas; capped SageMaker CPU training jobs; approved artefacts run in an inference Lambda",
+                 "Only an approved artefact, found by its hash, can produce a forecast", lozenge("selected")],
+                ["Evals (ARC-09)", "Inspect AI for agent scenarios and replays; pytest for unit and contract tests",
+                 "Deterministic checks and replays first; forecast validation stays a separate, walk-forward evidence line", lozenge("selected")]])
+            + "<h2>🔀 How one question flows</h2>"
+            + "<p>The owner taps <em>Why did this forecast fall?</em> Every hop below is proposed; the step that crosses SQS still needs its propagation proved.</p>"
+            + table(["Step", "What happens", "What travels with it"], [
+                ["1. The door", "The PWA or the Apple app sends the question to <code>POST /api/v1/conversations/{id}/turns</code> with the Cognito token",
+                 "A new W3C <code>traceparent</code> and a <code>client_message_id</code>, which doubles as the idempotency key"],
+                ["2. API Gateway", "Checks the token, then hands the request to the API Lambda", "Its own <code>request_id</code>"],
+                ["3. FastAPI", "Pydantic validates the body. The cost check reserves the turn's maximum spend. A run record is written as <em>accepted</em>, and the job goes to the chat route worker",
+                 "Returns <code>202</code> with the job id, <code>request_id</code> and <code>trace_id</code>"],
+                ["4. Chat route worker", "Marks the run <em>started</em> and calls Sonnet 5.5 in a server-controlled loop. Each tool call reads stored forecasts, prices and event analyses from DynamoDB",
+                 "<code>run_id</code> on every log line and span; no prompt text"],
+                ["5. The answer", "Every figure in it comes from a tool result. The turn is stored append-only with its citations, and the run record closes with tokens, cost, tools and outcome",
+                 "Model id, token counts, cost estimate"],
+                ["6. Back to the door", "An SSE notice says the turn is ready; the door re-reads it with an authenticated <code>GET</code>",
+                 "The notice holds an event id, a type, a time and a resource reference, nothing more"]])
+            + "<h2>📜 The contracts every layer keeps</h2>"
+            + ul(["<strong>One error shape</strong> on every failure, 401, 403, 422 and 500 alike: a code, a plain message, the <code>request_id</code> and the <code>trace_id</code>. Proposed.",
+                  "<strong>Client types come from the API.</strong> FastAPI's OpenAPI document generates the TypeScript types for the web and the Swift types for the app, so a field renamed on the server breaks a build, not a screen. Proposed.",
+                  "<strong>SSE stays thin:</strong> one-way, heartbeats, resume from the last event id where it can, and never holdings, credentials, provider payloads or model artefacts.",
+                  "<strong>Every command is idempotent.</strong> The same key twice gives the same result and one ledger change.",
+                  "<strong>Money is a decimal,</strong> never a float, from the Pydantic model to the DynamoDB number. Proposed.",
+                  "<strong>Every market observation</strong> keeps its provider, symbol mapping, source time, ingestion time and quality flags, and is validated before it is stored.",
+                  "<strong>Every prediction</strong> carries its as-of time, target, horizon, distribution or probability, calibration, model version, data cutoff and explanation references."])
+            + "<h2>📦 The libraries, proposed</h2>"
+            + "<p>Every library here is free and open source; none adds a monthly cost. Versions are picked when a story builds the layer and pinned in <code>backend/uv.lock</code>, not here.</p>"
+            + table(["Area", "Proposed", "Why", "Status"], [
+                ["Lambda adapter", "AWS Lambda Web Adapter, buffered for the API and streaming for SSE", "The same Uvicorn app runs on a laptop and on Lambda; Mangum is the alternative for the buffered routes", lozenge("proposed")],
+                ["Logging, metrics, idempotency", "Powertools for AWS Lambda (Python): Logger, Metrics, Idempotency, Parameters", "Structured JSON logs and cheap metrics without extra calls; its Tracer is left out", lozenge("proposed")],
+                ["Tracing", "OpenTelemetry for Python through the AWS Distro layer", f"One open standard; the detail is on {link('rec-observability', 'the observability page')}", lozenge("proposed")],
+                ["AWS calls", "<code>boto3</code> with <code>boto3-stubs</code> for types; no ORM", "Explicit keys and transactions the controlled writer can reason about", lozenge("proposed")],
+                ["Claude", "<code>anthropic</code> Python SDK, explicit loop", "The server decides every step (ARC-06)", lozenge("selected")],
+                ["Evaluations", "<code>inspect-ai</code>, with pytest", "ARC-09", lozenge("selected")],
+                ["Forecasting", "scikit-learn, NumPy, pandas; pandas-market-calendars and exchange-calendars for sessions", "Strong CPU baselines; versions re-chosen at build time", lozenge("selected") + " family"],
+                ["Web", "SvelteKit 3, TypeScript, an OpenAPI type generator", "The UI kit, charts and state library wait for the UX work", lozenge("selected") + " kit " + lozenge("open")],
+                ["Apple", "Swift and SwiftUI; an OpenAPI generator for Swift types; a React Native shell", "Swift owns what the device keeps", lozenge("selected") + " generator " + lozenge("proposed")]])
+            + panel("no_entry_sign", "#FFEBE6",
+                    "<p>Left over from earlier plans and not to be installed for new work: the <code>data</code> extra (SQLAlchemy, asyncpg, Alembic), replaced by DynamoDB, "
+                    "and the <code>agents</code> extra (<code>claude-agent-sdk</code>), replaced by the client SDK loop. "
+                    + repo("TECH-STACK.md", "TECH-STACK.md") + " lists them.</p>")
+            + expand("Where this differs from the sister project",
+                     ul(["No UI kit, chart library or framework version is pinned before the UX work; the sister project pinned them all.",
+                         "Swift keeps the Apple app's offline cache, as AGENTS.md says; the React Native shell does not.",
+                         "Long work runs in Lambda Durable Functions (ARC-03), not Step Functions.",
+                         "The ledger has one controlled writer and append-only predictions; no hash-chained audit claim is carried over until it is proved.",
+                         "One Lambda adapter for both the API and the stream is proposed, so the code path is the same on a laptop and on AWS."]))
+            + panel("question", "#FFFAE6", "<h3>To decide</h3>" + ul([
+                "The IaC tool, CDK or CloudFormation, and its ADR (PL-11, MP-30).",
+                "The Lambda adapter, after the streaming proof through API Gateway (PL-04, MP-23).",
+                "Whether a live chat turn goes through SQS or a direct invoke, and the outbox and replay rules (PL-05, MP-23).",
+                "One DynamoDB table or a few, and the keys, once ledger atomicity is proved (PL-08, MP-12).",
+                "The agent loop, memory and the typed tool manifest (PL-02, CT-07, MP-25).",
+                "Who owns which client contract, offline and privacy, before UX (PL-14, MP-30).",
+                "The model artefact format and where inference runs (PL-07, MP-24).",
+                "The Region and the accounts' set-up (PL-10, MP-29)."]))
+            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} settles the tool and contract choices; {link('ph-01', 'PH-01')} builds the records, "
+            + f"{link('ph-02', 'PH-02')} the API runtime and run records, {link('ph-03', 'PH-03')} the data workers, {link('ph-04', 'PH-04')} the models, "
+            + f"{link('ph-05', 'PH-05')} the Claude workers and evaluations, {link('ph-06', 'PH-06')} the web and {link('ph-07', 'PH-07')} the Apple app.</p>"
+            + footer())
+
+
 PAGES = [
     {"slug": "home", "title": "mypaisaa-prediction", "parent": None, "status": "record", "body": home},
     {"slug": "hub", "title": "🔮 Mypaisaa Prediction: the plan", "parent": "home", "status": "record", "body": hub},
     {"slug": "record", "title": "📘 The record: the whole architecture", "parent": "hub", "status": "record", "body": record},
     {"slug": "rec-rules", "title": "🧭 The rules, what MP does, and what wins", "parent": "record", "status": "selected", "body": rec_rules},
     {"slug": "rec-system", "title": "🏛️ The system on AWS", "parent": "record", "status": "selected", "body": rec_system},
+    {"slug": "rec-stack", "title": "🧱 Tech stack end to end: FastAPI, DynamoDB and agents (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_stack},
     {"slug": "rec-data", "title": "📡 Market data and source rights", "parent": "record", "status": "selected", "body": rec_data},
     {"slug": "rec-ledger", "title": "🗂️ Holdings, imports and the ledger", "parent": "record", "status": "selected", "body": rec_ledger},
     {"slug": "rec-forecast", "title": "🔮 Forecasting: horizons, models and controlled learning", "parent": "record", "status": "selected", "body": rec_forecast},
     {"slug": "rec-claude", "title": "🤖 Claude: routes, models and the batch lane", "parent": "record", "status": "selected", "body": rec_claude},
     {"slug": "rec-identity", "title": "🔐 Identity, sign-in and step-up", "parent": "record", "status": "selected", "body": rec_identity},
+    {"slug": "rec-perimeter", "title": "🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_perimeter},
     {"slug": "rec-admin", "title": "🛠️ Admin, audit, retention and recovery", "parent": "record", "status": "selected", "body": rec_admin},
     {"slug": "rec-guardrails", "title": "🛡️ Guardrails and evaluations", "parent": "record", "status": "selected", "body": rec_guardrails},
     {"slug": "rec-clients", "title": "📱 The two doors: web and Apple", "parent": "record", "status": "selected", "body": rec_clients},
+    {"slug": "rec-web-quality", "title": "♿ Web visual regression, ARIA snapshots and WCAG 2.2 AA (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_web_quality},
+    {"slug": "rec-apple-testing", "title": "📲 iOS and iPadOS testing with Maestro and the TestFlight beta (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_apple_testing},
     {"slug": "rec-delivery", "title": "🚀 Environments, CI and delivery", "parent": "record", "status": "implemented", "body": rec_delivery},
+    {"slug": "rec-testing", "title": "🧪 CI/CD, vulnerability scanning, smoke and regression (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_testing},
     {"slug": "rec-cost", "title": "💷 Cost and the £100 ceiling", "parent": "record", "status": "selected", "body": rec_cost},
     {"slug": "rec-observability", "title": "🔭 Observability (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_observability},
     {"slug": "rec-decisions", "title": "📜 Decisions and open questions", "parent": "record", "status": "record", "body": rec_decisions},

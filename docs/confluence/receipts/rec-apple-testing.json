@@ -1,0 +1,13 @@
+{
+ "slug": "rec-apple-testing",
+ "page_id": "6291956",
+ "version": 2,
+ "sent_sha256": "f631221aeebafc5ee661b7137be6a02e2f0f015277a03d9b13b97901f803d5e9",
+ "readback_sha256": "dbd85757b704ae2e24ab5be63737829364d4968a4263be2beefc9f672a0be494",
+ "canonical_sha256": "ade5ce7e6fedd4b4f9b0484870e813e5a712be4244ec7b9eaf4e3d39442c06db",
+ "parts": 745,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T21:43:13Z"
+}

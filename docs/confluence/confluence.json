@@ -107,13 +107,13 @@
   },
   "rec-cost": {
    "id": "6291529",
-   "version": 2,
-   "sha256": "d65c7a070fee1409706897c793f3069ed4250b5f2e9c4be533ba910cd97427a0"
+   "version": 3,
+   "sha256": "ba7a5729077b791612d3a5bf869df5888f777c264acc709835224fe98d798a31"
   },
   "rec-observability": {
    "id": "6357075",
-   "version": 2,
-   "sha256": "f23549dafb985c8326b95526a0fbcf64a463224f13e34c322692486269680db4"
+   "version": 3,
+   "sha256": "5ef3af90b4b65806ebe8293654e6df6d051919a9f54fe15f3bb9e4274e059254"
   },
   "rec-decisions": {
    "id": "6357095",
@@ -169,6 +169,31 @@
    "id": "6094921",
    "version": 2,
    "sha256": "97512bf968801664fd0c507cc33d72c841a1c805797f48087052ecd40a766ba5"
+  },
+  "rec-stack": {
+   "id": "6128065",
+   "version": 2,
+   "sha256": "18996f4d1edd1f8ceba29160767e4e83a6c0c883764cae52083d9dbd549030a2"
+  },
+  "rec-testing": {
+   "id": "6291936",
+   "version": 2,
+   "sha256": "6db4bc83576c26bd4f483c27e3ec136d77fae5e47938f3da22c99f70b7bd32ca"
+  },
+  "rec-apple-testing": {
+   "id": "6291956",
+   "version": 2,
+   "sha256": "f631221aeebafc5ee661b7137be6a02e2f0f015277a03d9b13b97901f803d5e9"
+  },
+  "rec-perimeter": {
+   "id": "6390123",
+   "version": 2,
+   "sha256": "842991895dbf55d42cd9a90f0e725c29bbfab49c4e05231d88900bbe34bf3942"
+  },
+  "rec-web-quality": {
+   "id": "6095187",
+   "version": 2,
+   "sha256": "698c02f6e4ae8d602f1731cb122d241346e65d7192255ef883561944cfd21034"
   }
  },
  "media": {
@@ -181,7 +206,7 @@
   },
   "rec-cost": {
    "docs/motion/budget.gif": {
-    "id": "e938d979-d9d9-4c4d-b8d7-34da5ff55915",
+    "id": "27c74122-afb0-4d56-8770-f202f49ac30c",
     "collection": "contentId-6291529",
     "attachment": "att6127882"
    }
@@ -315,6 +340,78 @@
     "id": "a4357060-96f6-456d-81b3-f56b71254184",
     "collection": "contentId-6389836",
     "attachment": "att6390024"
+   }
+  },
+  "rec-stack": {
+   "docs/motion/stack-build.gif": {
+    "id": "ef53ba80-166a-4fdd-951b-7c8ae8092237",
+    "collection": "contentId-6128065",
+    "attachment": "att6095207"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/01-stack-end-to-end.png": {
+    "id": "12dfc2e7-05b2-4691-936b-dc1aed8743b9",
+    "collection": "contentId-6128065",
+    "attachment": "att6128898"
+   }
+  },
+  "rec-web-quality": {
+   "docs/motion/a11y-pipeline.gif": {
+    "id": "6eda6c97-baff-44fe-bd60-6f65fad7d7db",
+    "collection": "contentId-6095187",
+    "attachment": "att6292702"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/06-web-quality.png": {
+    "id": "3c93b114-375e-4dd0-bb79-059cc1d984af",
+    "collection": "contentId-6095187",
+    "attachment": "att6292708"
+   }
+  },
+  "rec-observability": {
+   "docs/motion/trace-journey.gif": {
+    "id": "c8deecdf-f71d-48b5-be23-a2b8055e0e38",
+    "collection": "contentId-6357075",
+    "attachment": "att6390861"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/02-one-trace.png": {
+    "id": "8d615421-7797-43b0-857d-1285284d5cf3",
+    "collection": "contentId-6357075",
+    "attachment": "att6390869"
+   }
+  },
+  "rec-perimeter": {
+   "docs/motion/perimeter-layers.gif": {
+    "id": "8576eb6a-80f5-4fe3-9067-fb76bad99470",
+    "collection": "contentId-6390123",
+    "attachment": "att6096169"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/05-perimeter.png": {
+    "id": "ed08f3ab-bd3b-476f-a165-1786bd250cef",
+    "collection": "contentId-6390123",
+    "attachment": "att6096183"
+   }
+  },
+  "rec-apple-testing": {
+   "docs/motion/device-matrix.gif": {
+    "id": "a2ab98b5-5a79-4106-b32e-49332fe1f122",
+    "collection": "contentId-6291956",
+    "attachment": "att6390857"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
+    "id": "616a229f-62ed-4c36-bb2e-dc88885613da",
+    "collection": "contentId-6291956",
+    "attachment": "att6128904"
+   }
+  },
+  "rec-testing": {
+   "docs/motion/delivery-pipeline.gif": {
+    "id": "a1382d6d-6b1c-4fec-9167-db000c343252",
+    "collection": "contentId-6291936",
+    "attachment": "att6096173"
+   },
+   "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png": {
+    "id": "79530317-4ac9-4838-aad9-f245cc167da5",
+    "collection": "contentId-6291936",
+    "attachment": "att6390873"
    }
   }
  },

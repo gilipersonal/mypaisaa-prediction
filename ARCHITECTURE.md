@@ -216,7 +216,8 @@ SSE is one-way and carries only an event ID, a type, a time and a resource refer
 provider payloads or model artefacts. It sends heartbeats, resumes from the last event ID where it can, and the
 client always re-reads the durable record. On AWS, response streaming needs a REST API proxy integration in stream
 mode and a Lambda streaming adapter; that is still to be proven. The starter's stream has no authentication or
-durable replay.
+durable replay. Proposed (MP-36): every error response carries a code, a message, the `request_id` and the
+`trace_id`.
 
 ## 9. Identity, security and retention
 
@@ -238,13 +239,19 @@ durable replay.
 ## 10. Operations and cost
 
 Every run records its trigger, model calls, tokens, cost, tools and outcome. One trace follows a request from the door
-to the model. The planned dashboard separates dev from prod and shows estimates, credits and reconciled billing, with
+to the model. Proposed (MP-36): that one trace covers the hops a person waits on; queued, resumed, scheduled and
+batched work starts a new trace joined by business ids and span links, and Activity stays complete when a span is missing
+(PL-12). The planned dashboard separates dev from prod and shows estimates, credits and reconciled billing, with
 the lag stated: internal estimates live, Anthropic usage every six hours, AWS billing daily.
 
 The ceiling is £100 a month all-in, planned as £70 of operation and a £30 reserve, warning at £60, reducing optional
 work at £75 and pausing it at £85. These controls cannot stop every AWS charge instantly, so hard caps on requests,
 concurrency, timeouts and retention back them. The draft numbers do not yet fit; [TECH-STACK.md](TECH-STACK.md#9-monthly-cost)
 shows why.
+
+**Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
+at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
+decision (PL-11, MP-30).
 
 [![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
@@ -257,6 +264,7 @@ shows why.
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
 - **Both:** accessible and responsive, and never hide risk, staleness or a provider's status behind a spinner.
+- **Proposed (MP-36):** WCAG 2.2 Level AA as the accessibility standard for web and Apple, pending the owner's yes.
 
 ## 12. The twelve directions
 

@@ -510,7 +510,7 @@
    "key": "MP-35",
    "summary": "Bring MA's skills, rules, hooks and CI practices to MP",
    "type": "Story",
-   "status": "In Review",
+   "status": "Done",
    "code": [
     ".claude/hooks/",
     ".claude/rules/",
@@ -528,6 +528,20 @@
     "scripts/review_checks.py",
     "scripts/review_regress.py",
     "tests/"
+   ]
+  },
+  {
+   "key": "MP-36",
+   "summary": "Plan the stack, observability, delivery, device testing, network perimeter and web accessibility pages for MP",
+   "type": "Story",
+   "status": "In Progress",
+   "code": [
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    "docs/confluence/",
+    "docs/diagrams/mp-quality-2026-11-02/",
+    "docs/motion/",
+    "docs/planning/trace.json"
    ]
   }
  ]
