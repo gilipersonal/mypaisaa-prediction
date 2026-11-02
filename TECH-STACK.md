@@ -69,7 +69,7 @@ feature exists.
 | Client | Official Anthropic Python SDK, explicit tool loop | The server decides every step; nothing autonomous | Owner-selected (ARC-06) |
 | Routes | One Lambda worker per task route, one shared runner | Each route keeps its own context, tools and budget | Owner-selected |
 | Evaluation | Inspect AI plus deterministic checks | Replays and scored scenarios before any live check | Owner-selected (ARC-09) |
-| Models and batching | Still to choose and evaluate | Exact IDs, batch and cache use are not copied from MA | Open |
+| Models and batching | Haiku 5.5 for bounded work, Sonnet 5.5 for conversation, Message Batches for what can wait (recommended) | Options and costs in [ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md) | Proposed, awaiting the owner |
 
 ## 4. The web app
 

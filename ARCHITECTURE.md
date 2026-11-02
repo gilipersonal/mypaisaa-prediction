@@ -159,7 +159,8 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 Claude runs on Anthropic, called through the official Python client SDK in an explicit, server-controlled loop: not
 Bedrock, and not the Agent SDK. Each task route (extraction, research, structured factors, explanations and
 briefings, chat) is its own Lambda worker sharing one bounded runner, so each keeps its own context, tools and
-budget. Exact model IDs, the number of routes and batch and cache policies are still to be specified and evaluated.
+budget. Exact model IDs, the number of routes and batch and cache policies are still to be specified and evaluated;
+the options are set out in [ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md), awaiting the owner's answer.
 
 [![Who may do what, Lucid page 2: a table of five actors against six actions, with refusals shaded rose](docs/diagrams/mp-system-2026-11-02/02-who-may-do-what.png)](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
 
@@ -248,7 +249,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Cost fit:** the £100 ceiling with Grow at $79 does not fit an invoice month; the cheaper tier is unverified.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, listing rights per market, and the Region.
-- **Model IDs and routes** for Claude, and the evaluation budgets.
+- **Model IDs, effort, caching and batching** for each Claude route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)),
+  and the evaluation budgets.
 - **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work.
 
 ## 14. Diagram sources
