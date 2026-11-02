@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 1 direction selected; 11 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 2 directions selected; 10 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -28,7 +28,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | Card | Decision | Dependencies | Status |
 | --- | --- | --- | --- |
 | [ARC-01](#arc-01) | Source rights and full-budget feasibility | First | A selected; evidence pending |
-| [ARC-02](#arc-02) | Ledger, imports and write ownership | ARC-01 | Owner answer pending |
+| [ARC-02](#arc-02) | Ledger, imports and write ownership | ARC-01 | A selected; evidence pending |
 | [ARC-03](#arc-03) | Durable workflow orchestration | ARC-02 | Owner answer pending |
 | [ARC-04](#arc-04) | ML training and serving execution | ARC-01, ARC-03 | Owner answer pending |
 | [ARC-05](#arc-05) | Forecast experiments, probability calibration and recommendations | ARC-01, ARC-02, ARC-04 | Owner answer pending |
@@ -68,7 +68,7 @@ Primary sources: [source 1](https://twelvedata.com/pricing), [source 2](https://
 
 Which persistence boundary should the detailed ledger/import specification adopt?
 
-**Owner answer: pending.** Dependencies: ARC-01.
+**Owner answer: A selected on 2 November 2026 — DynamoDB + S3, with one controlled write service.** Integrity, access-pattern and recovery proofs remain open; this is not full architecture or build approval. Dependencies: ARC-01.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

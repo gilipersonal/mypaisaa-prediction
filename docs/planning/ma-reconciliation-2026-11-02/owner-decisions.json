@@ -39,6 +39,28 @@
         "issue": "MP-10",
         "comment_id": "12149"
       }
+    },
+    {
+      "card_id": "ARC-02",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "DynamoDB + S3, with one controlled write service (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision 2, call_b4bd470284f749658ca3e84b5db62806",
+        "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+      },
+      "open_gap_ids": [
+        "PL-08",
+        "CT-02",
+        "CT-03",
+        "FC-10",
+        "IR-02"
+      ],
+      "jira_evidence": {
+        "issue": "MP-12",
+        "comment_id": "12150"
+      }
     }
   ]
 }

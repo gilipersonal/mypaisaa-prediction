@@ -75,6 +75,8 @@ Thirteen substantive Confluence page bodies are prepared locally: reconciliation
 
 On 2 November 2026 the owner selected ARC-01 option A: retain Yahoo/Grow as preferred candidates, verify each use and investigate alternatives for documented gaps. Rights, listing coverage and full-budget evidence remain pending; no gap is closed by selecting this direction. See the [decision log](decision-log.md). The owner chose to retain drafts and discuss decisions before review/publication/PR.
 
+ARC-02 subsequently selected DynamoDB + S3 and one controlled backend financial write service. Exact financial/approval/query/import/recovery contracts remain open; the owner has not approved the complete architecture.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

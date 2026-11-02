@@ -33,7 +33,7 @@ Versions below come from this repository's [backend manifest](../backend/pyproje
 | Server-sent events | `sse-starlette` | Sample stream and heartbeat code; authentication and durable recovery pending | `sse-starlette` **2.4.1** locked |
 | Dependency management | uv | Frozen backend installation and lock checks in CI | CI pins **uv 0.12.9** |
 | Backend tests and lint | pytest, Ruff | Starter suites/configuration and CI exist | pytest **8.4.2**, Ruff **0.17.3** locked; a lock entry is not a fresh test result |
-| Durable records | DynamoDB preferred; PostgreSQL in historical accepted baseline | No persistence implementation; ledger access/atomicity fit and exact store/schema choice open | No selected server/store SDK version or production instance implied |
+| Durable records | DynamoDB selected in ARC-02; PostgreSQL in historical baseline | No persistence implementation; ledger access/atomicity proof and exact schema design pending | No selected server/store SDK version or production instance implied |
 | Historical database dependencies | SQLAlchemy, asyncpg, Alembic | Optional `data` group retained; not an implemented or selected target ledger | SQLAlchemy **2.1.6**, asyncpg **0.32.0**, Alembic **1.20.1** locked as optional dependencies |
 | Quantitative pipeline | NumPy, pandas, scikit-learn-compatible estimators | Optional `ml` group; feature, evaluation, calibration and scoring code pending | NumPy **2.5.4**, pandas **2.3.3**, scikit-learn **1.9.1** locked; scientific validity not established by versions |
 | Research runtime target | Official Anthropic client SDK; explicit bounded tool loop on Lambda | Not implemented; direct calls to Claude on Anthropic, not Bedrock/AgentCore/Agent SDK | Exact client/model/API versions require selection and compatibility evidence |
@@ -68,7 +68,7 @@ Current confirmed cash planning is **£100/month all-in**, **£70 operation + £
 ## Contracts that govern the choices
 
 - **Personal use, no trading:** no broker execution credentials, order endpoints or agent transaction authority.
-- **Durable truth:** portfolio transactions, model runs, predictions, corrections and mature outcomes require append-only records. DynamoDB is preferred subject to ledger-fit proof; historical PostgreSQL ADRs await reconciliation. The sample event bus is not a database and S3/database writes are not one atomic transaction.
+- **Durable truth:** portfolio transactions, model runs, predictions, corrections and mature outcomes require append-only records. DynamoDB is selected as the ARC-02 direction, with ledger-fit proof pending; historical PostgreSQL ADRs await reconciliation. The sample event bus is not a database and S3/database writes are not one atomic transaction.
 - **Scientific validity:** chronological walk-forward evaluation, appropriate purge/embargo, train-fold-only preprocessing/calibration, declared benchmarks and reproducible provenance are required before claiming predictive performance.
 - **Research boundaries:** direct Anthropic client-SDK agents organise cited evidence and versioned structured factors with allowlisted tools and token/time limits. They cannot mutate models/ledger, publish forecasts, trade, increase budgets or access secret values. Agent answer-quality evaluation is separate from numerical predictive evaluation.
 - **Transport:** `/api/v1/stream` currently lacks authentication and durable replay. IDs and queues are process-local; accepting `Last-Event-ID` in CORS does not implement resumption. Production clients must reconnect safely and re-fetch durable state.

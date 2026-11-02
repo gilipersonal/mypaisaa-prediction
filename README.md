@@ -37,7 +37,7 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | --- | --- |
 | Clients | SvelteKit 3 PWA; Swift/SwiftUI product surfaces inside a React Native shell |
 | Identity/API | Cognito managed Apple/Google/passkeys; FastAPI on Lambda; authenticated HTTPS and bounded resumable SSE |
-| Data/records | Yahoo Finance + Twelve Data Grow; private S3 evidence; DynamoDB preferred subject to ledger-fit proof |
+| Data/records | Yahoo Finance + Twelve Data Grow; private S3 evidence; DynamoDB selected in ARC-02; ledger-fit and integrity proofs pending |
 | Science/research | Rules/XIRR plus ML and structured LLM factors; direct Anthropic client SDK loop; immutable predictions and mature outcomes |
 | Operations | Separate dev/prod authority; launch cost/audit visibility; £100 all-in planning envelope; ML execution A/B and workflow choices open |
 
