@@ -43,11 +43,15 @@ Versions below come from this repository's [backend manifest](../backend/pyproje
 | Static concept preview | Buildless HTML/CSS | Illustrative `site/dist/index.html` exists; not the product PWA | No JavaScript application framework version implied |
 | Compute/workflows/IaC | Lambda preferred; Durable Functions/Step Functions and CDK/CloudFormation choices open | Placeholder infrastructure only; bootstrap small-host design is historical | No executable IaC, image, adapter or deployment claimed; Python 3.12 starter compatibility is not proof for every workflow |
 | Hosting and evidence | CloudFront/Route 53/API Gateway, private S3; DynamoDB preferred | Serverless direction proposed; region/identity/streaming/schema/cost gates open | No resources provisioned; no continuously provisioned ML endpoint assumed |
-| ML execution | A portable bounded jobs or B selective SageMaker | Unselected options with common scientific/approval contracts | Neither service choice establishes accuracy; runtime/job/registry costs need measurement |
+| ML execution | A portable bounded jobs or B selective SageMaker; MP-18 diagrams depict B on request | Execution choice still unselected; proposed B uses short-lived CPU training/evaluation and approved portable inference | Two proposed initial trainable families (F3 and F5); no endpoint, model ID or SageMaker job is installed/provisioned; full-scope cost and runtime measurements required |
 | Identity | Cognito managed Apple/Google/passkeys | Not implemented; verified owner linking plus two independent recovery paths required | Tier/session/reauthentication/device compatibility need proof |
 | Monitoring and costs | Launch app cost/audit views; telemetry/collector/admission tooling under evaluation | No collectors, alarms, reservations or spend dashboard implemented | Live estimates plus Anthropic reports every 6 hours/AWS daily; gross usage/credits/cash and shared costs separate |
 | Delivery | GitHub Actions, issue branches and PRs to `main` | Backend/tooling/preview/workflow/Jira-metadata checks configured | Action revisions and tool pins live in `.github/workflows/`; server-side protection remains unavailable under the current GitHub plan |
 | Architecture sources | Lucidchart; Draw.io supporting workflows/animation companions | Editable architecture documents and saved exports exist | Source IDs and snapshot hashes in [diagram manifest](diagrams/manifest.json); manual refresh only |
+
+The [MP-18 deep dive](architecture-deep-dive.md) documents EventBridge Scheduler versus optional bus, separate SQS work/target/worker DLQs, direct Anthropic SDK live Sonnet and deferred Haiku Message Batches, two proposed SageMaker ML families, and CloudWatch/X-Ray/CloudTrail/billing collection. Its [native Lucid pages 6–8](diagrams/aws-e2e-2026-11-01/manifest.json) are dated planning evidence. The exact Anthropic model IDs, SageMaker inference path, orchestration choice, region and cost viability remain open; the older Agent SDK/£50 bootstrap fields below are retained as historical evidence.
+
+The current technical page is [published in MP Confluence](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981639); native attachments and the three parent-hub links are recorded in the [sync receipt](diagrams/aws-e2e-2026-11-01/confluence-sync.json).
 
 ## Proposed runtime footprint
 

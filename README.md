@@ -14,6 +14,7 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | [Portfolio/import specification](docs/planning/layered-development-2026-11-01/portfolio-import-spec.md) | Standalone ledger, all v1 import methods, review/commit/reversal and audit contracts |
 | [Phased delivery plan](docs/planning/layered-development-2026-11-01/phased-delivery-plan.md) | PH-00–PH-09, planning versus implementation dependencies and evidence gates |
 | [Architecture blueprint](docs/planning/layered-development-2026-11-01/architecture-blueprint.md) | Latest proposed boundaries, serverless options, durable work, costs and open ADRs |
+| [AWS and forecasting deep dive](docs/architecture-deep-dive.md) | Native Lucid request, EventBridge/SQS/Haiku batching and SageMaker forecast diagrams with detailed integration and failure contracts |
 | [Technology matrix](docs/planning/layered-development-2026-11-01/tech-stack-matrix.md) | Current dependency evidence versus intended components, interfaces and alternatives |
 | [Architecture](docs/architecture.md) | Canonical overview with current-direction notices and retained bootstrap visuals |
 | [Technology stack](docs/tech-stack.md) | Runnable starter versions, target preferences and historical dependency drift |
@@ -40,6 +41,10 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | Operations | Separate dev/prod authority; launch cost/audit visibility; £100 all-in planning envelope; ML execution A/B and workflow choices open |
 
 The [new blueprint](docs/planning/layered-development-2026-11-01/architecture-blueprint.md) describes the target options and trust boundaries. The original accepted single-host/PostgreSQL ADR remains a **bootstrap baseline awaiting reconciliation**, not the chosen architecture for the expanded requirements. No deployed production footprint is claimed. Significant architecture drawings use Lucidchart with native technology components.
+
+The [new technical deep dive](docs/architecture-deep-dive.md) and [three native Lucid exports](docs/diagrams/aws-e2e-2026-11-01/manifest.json) trace the UI request, queues, Claude on Anthropic, bounded Haiku batches, two proposed SageMaker ML families, monitoring and recovery. SageMaker is the user's requested diagram direction; its deployment/cost ADR remains open. The diagram counts describe proposed logical routes and model families, not running agents or approved production endpoints.
+
+The same MP-18 deep dive is [published in the MP Confluence space](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981639) with three native attachments. Its dated Lucid exports and manual publication record are saved in this repository.
 
 ## Visual guides
 

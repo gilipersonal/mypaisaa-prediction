@@ -1,0 +1,398 @@
+{
+  "request": [
+    {
+      "id": "01",
+      "from": "owner",
+      "to": "dns",
+      "meaning": "DNS"
+    },
+    {
+      "id": "02",
+      "from": "dns",
+      "to": "cdn",
+      "meaning": "route"
+    },
+    {
+      "id": "03",
+      "from": "cdn",
+      "to": "shell",
+      "meaning": "static"
+    },
+    {
+      "id": "04",
+      "from": "auth",
+      "to": "policy",
+      "meaning": "claims"
+    },
+    {
+      "id": "05",
+      "from": "gateway",
+      "to": "fastapi",
+      "meaning": "command"
+    },
+    {
+      "id": "06",
+      "from": "fastapi",
+      "to": "state",
+      "meaning": "commit"
+    },
+    {
+      "id": "07",
+      "from": "stream",
+      "to": "read",
+      "meaning": "cursor"
+    },
+    {
+      "id": "08",
+      "from": "schedule",
+      "to": "queue",
+      "meaning": "enqueue"
+    },
+    {
+      "id": "09",
+      "from": "queue",
+      "to": "worker",
+      "meaning": "poll"
+    },
+    {
+      "id": "10",
+      "from": "eventbus",
+      "to": "notification",
+      "meaning": "fan-out"
+    },
+    {
+      "id": "11",
+      "from": "providers",
+      "to": "ingest",
+      "meaning": "licensed data"
+    },
+    {
+      "id": "12",
+      "from": "ingest",
+      "to": "features",
+      "meaning": "snapshot"
+    },
+    {
+      "id": "13",
+      "from": "features",
+      "to": "train",
+      "meaning": "fold input"
+    },
+    {
+      "id": "14",
+      "from": "train",
+      "to": "registry",
+      "meaning": "candidate"
+    },
+    {
+      "id": "15",
+      "from": "registry",
+      "to": "infer",
+      "meaning": "approved"
+    },
+    {
+      "id": "16",
+      "from": "agent",
+      "to": "gate",
+      "meaning": "tool use"
+    },
+    {
+      "id": "17",
+      "from": "gate",
+      "to": "claude",
+      "meaning": "HTTPS SDK"
+    },
+    {
+      "id": "18",
+      "from": "batch",
+      "to": "answer",
+      "meaning": "reconcile"
+    },
+    {
+      "id": "19",
+      "from": "answer",
+      "to": "live",
+      "meaning": "final ID"
+    }
+  ],
+  "events": [
+    {
+      "id": "01",
+      "from": "clock",
+      "to": "workq",
+      "meaning": "target"
+    },
+    {
+      "id": "02",
+      "from": "workq",
+      "to": "claim",
+      "meaning": "poll"
+    },
+    {
+      "id": "03",
+      "from": "claim",
+      "to": "source",
+      "meaning": "fetch"
+    },
+    {
+      "id": "04",
+      "from": "source",
+      "to": "raw",
+      "meaning": "validate"
+    },
+    {
+      "id": "05",
+      "from": "outbox",
+      "to": "relay",
+      "meaning": "unpublished"
+    },
+    {
+      "id": "06",
+      "from": "relay",
+      "to": "bus",
+      "meaning": "publish"
+    },
+    {
+      "id": "07",
+      "from": "bus",
+      "to": "alertq",
+      "meaning": "filter"
+    },
+    {
+      "id": "08",
+      "from": "alertq",
+      "to": "alert",
+      "meaning": "consume"
+    },
+    {
+      "id": "09",
+      "from": "trainClock",
+      "to": "mlq",
+      "meaning": "enqueue"
+    },
+    {
+      "id": "10",
+      "from": "mlq",
+      "to": "orchestrator",
+      "meaning": "claim"
+    },
+    {
+      "id": "11",
+      "from": "orchestrator",
+      "to": "train",
+      "meaning": "bounded job"
+    },
+    {
+      "id": "12",
+      "from": "train",
+      "to": "evaluation",
+      "meaning": "artifact"
+    },
+    {
+      "id": "13",
+      "from": "evaluation",
+      "to": "approval",
+      "meaning": "owner gate"
+    },
+    {
+      "id": "14",
+      "from": "chat",
+      "to": "coordinator",
+      "meaning": "direct"
+    },
+    {
+      "id": "15",
+      "from": "coordinator",
+      "to": "policy",
+      "meaning": "pre-tool"
+    },
+    {
+      "id": "16",
+      "from": "policy",
+      "to": "sonnet",
+      "meaning": "request"
+    },
+    {
+      "id": "17",
+      "from": "sonnet",
+      "to": "stream",
+      "meaning": "delta"
+    },
+    {
+      "id": "18",
+      "from": "stream",
+      "to": "answer",
+      "meaning": "final"
+    },
+    {
+      "id": "19",
+      "from": "dedupe",
+      "to": "batchq",
+      "meaning": "eligible"
+    },
+    {
+      "id": "20",
+      "from": "batchq",
+      "to": "submit",
+      "meaning": "claim"
+    },
+    {
+      "id": "21",
+      "from": "submit",
+      "to": "haiku",
+      "meaning": "custom ID"
+    },
+    {
+      "id": "22",
+      "from": "haiku",
+      "to": "poll",
+      "meaning": "batch status"
+    },
+    {
+      "id": "23",
+      "from": "poll",
+      "to": "result",
+      "meaning": "reconcile"
+    },
+    {
+      "id": "24",
+      "from": "bill",
+      "to": "guard",
+      "meaning": "reconcile"
+    },
+    {
+      "id": "25",
+      "from": "fallback",
+      "to": "investigate",
+      "meaning": "escalate"
+    }
+  ],
+  "forecasting": [
+    {
+      "id": "01",
+      "from": "feed",
+      "to": "raw",
+      "meaning": "ingest"
+    },
+    {
+      "id": "02",
+      "from": "raw",
+      "to": "quality",
+      "meaning": "validate"
+    },
+    {
+      "id": "03",
+      "from": "ledger",
+      "to": "snapshot",
+      "meaning": "eligible"
+    },
+    {
+      "id": "04",
+      "from": "snapshot",
+      "to": "lineage",
+      "meaning": "manifest"
+    },
+    {
+      "id": "05",
+      "from": "schedule",
+      "to": "walk",
+      "meaning": "split then train"
+    },
+    {
+      "id": "06",
+      "from": "walk",
+      "to": "train",
+      "meaning": "fold-specific train"
+    },
+    {
+      "id": "07",
+      "from": "train",
+      "to": "calibrate",
+      "meaning": "candidate evaluation"
+    },
+    {
+      "id": "08",
+      "from": "calibrate",
+      "to": "shadow",
+      "meaning": "register"
+    },
+    {
+      "id": "09",
+      "from": "shadow",
+      "to": "owner",
+      "meaning": "approve"
+    },
+    {
+      "id": "10",
+      "from": "inference",
+      "to": "horizons",
+      "meaning": "forecast"
+    },
+    {
+      "id": "11",
+      "from": "proof",
+      "to": "strategy",
+      "meaning": "eligible"
+    },
+    {
+      "id": "12",
+      "from": "strategy",
+      "to": "publish",
+      "meaning": "no trade"
+    },
+    {
+      "id": "13",
+      "from": "news",
+      "to": "batch",
+      "meaning": "custom ID"
+    },
+    {
+      "id": "14",
+      "from": "batch",
+      "to": "relevance",
+      "meaning": "typed tags"
+    },
+    {
+      "id": "15",
+      "from": "relevance",
+      "to": "sonnet",
+      "meaning": "evidence"
+    },
+    {
+      "id": "16",
+      "from": "sonnet",
+      "to": "guard",
+      "meaning": "check"
+    },
+    {
+      "id": "17",
+      "from": "guard",
+      "to": "answer",
+      "meaning": "cite"
+    },
+    {
+      "id": "18",
+      "from": "outcome",
+      "to": "score",
+      "meaning": "maturity"
+    },
+    {
+      "id": "19",
+      "from": "score",
+      "to": "ablation",
+      "meaning": "compare"
+    },
+    {
+      "id": "20",
+      "from": "ablation",
+      "to": "proposal",
+      "meaning": "candidate"
+    },
+    {
+      "id": "21",
+      "from": "proposal",
+      "to": "review",
+      "meaning": "owner gate"
+    }
+  ]
+}
