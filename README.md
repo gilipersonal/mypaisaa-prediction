@@ -11,6 +11,7 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | Read next | What it answers |
 | --- | --- |
 | [MA concept reconciliation and architecture finalisation](docs/planning/ma-reconciliation-2026-11-02/README.md) | Current 2 November research/gap closure pack, pending architecture decisions, phase/story structure and pre-UX sign-off; no implementation authority |
+| [Twelve selected architecture directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md) | Owner choices and detailed baseline completion gates; final architecture/UX/build approval pending |
 | [Layered development pack](docs/planning/layered-development-2026-11-01/README.md) | Current draft entry point, scope, approval boundaries and validation evidence |
 | [Portfolio/import specification](docs/planning/layered-development-2026-11-01/portfolio-import-spec.md) | Standalone ledger, all v1 import methods, review/commit/reversal and audit contracts |
 | [Phased delivery plan](docs/planning/layered-development-2026-11-01/phased-delivery-plan.md) | PH-00–PH-09, planning versus implementation dependencies and evidence gates |

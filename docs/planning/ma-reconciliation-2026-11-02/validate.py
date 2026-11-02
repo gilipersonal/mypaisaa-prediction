@@ -50,6 +50,13 @@ for card in cards:
 answers=read(BASE/'owner-decisions.json')
 assert not answers['architecture_baseline_approved'] and not answers['implementation_authorised']
 assert {x['card_id'] for x in answers['decisions']}=={c['id'] for c in cards if c['owner_answer'] is not None}
+unique([x['card_id'] for x in answers['decisions']])
+by_card={c['id']:c for c in cards}
+for recorded in answers['decisions']:
+ assert recorded['answer']==by_card[recorded['card_id']]['owner_answer']
+if answers.get('direction_selection_complete'):
+ assert len(answers['decisions'])==12 and all(c['owner_answer'] is not None for c in cards)
+
 phase=read(BASE/'phase-story-baseline.json');assert len(phase['phases'])==10 and len(phase['stories'])==64
 unique([s['id'] for s in phase['stories']]);pids={p['id'] for p in phase['phases']}
 visited=set();pending={p['id']:set(p['implementation_dependencies']) for p in phase['phases']}
@@ -77,5 +84,5 @@ for name in ['README.md','docs/architecture.md','docs/tech-stack.md','docs/imple
 receipt=read(BASE/'jira-receipt.json');assert len(receipt['groups'])==15
 assert len([x for x in receipt['groups'] if x['action']=='create_planning_task'])==11
 assert all(x.get('verified_parent')==x['parent_requested'] and x.get('verified_status')=='To Do' for x in receipt['groups'] if x['action']=='create_planning_task')
-result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'phases':10,'local_story_drafts':64,'confluence_bodies_prepared':13,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','publication':'not_applied','implementation_authorised':False}
+result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'selected_directions':len(answers['decisions']),'architecture_baseline_approved':answers['architecture_baseline_approved'],'phases':10,'local_story_drafts':64,'confluence_bodies_prepared':13,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','publication':'not_applied','implementation_authorised':False}
 (BASE/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

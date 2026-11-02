@@ -610,6 +610,11 @@
           "card_id": "ARC-10",
           "option_id": "A",
           "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
         }
       ],
       "planning_group": "science",
@@ -639,7 +644,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1015,6 +1026,11 @@
           "card_id": "ARC-11",
           "option_id": "B",
           "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
         }
       ],
       "planning_group": "delivery",
@@ -1792,6 +1808,11 @@
           "card_id": "ARC-10",
           "option_id": "A",
           "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
         }
       ],
       "planning_group": "admin",
@@ -1905,7 +1926,13 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1934,7 +1961,13 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1969,7 +2002,13 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },

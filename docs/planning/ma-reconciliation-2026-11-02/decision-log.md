@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-12, canonical architecture, phase and story documentation structure.
+Next: complete detailed area contracts and phase/story evidence, then present the exact architecture baseline for separate sign-off.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-12.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now detailed baseline completion.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -107,3 +107,11 @@ The owner selected option B: **Separate dev/prod AWS accounts** under consolidat
 The £100 monthly all-in cash ceiling remains one combined MP envelope across dev/prod AWS, data and Claude/evaluations: £70 planned operation plus £30 reserve. Organizations itself has no additional service fee; actual services, duplication, builds, telemetry, backups and collectors are still billed. Do not multiply AWS free-tier benefits or provider credit pools by account/environment. Account separation does not create a universal instant spend cap.
 
 Choose the cheapest suitable region only after confirming selected service/runtime availability, supported networking and actual complete prices. Exact account/organisation/roles, OIDC/IaC promotion, N0/N1/N1-E network choices, runtime/SDK/adapter matrix, quotas, recovery and cost/stress evidence remain open. No account creation, billing/organisation change, secret work, provisioning, paid call or full architecture approval follows from this selection.
+
+## ARC-12: architecture areas linked to phases and stories
+
+The owner selected option A: **Architecture-area specs + linked phases/stories.** Keep one system map, central architecture-area specifications/technical journeys and shared decision/contract registers. Link one page per stable MP phase and individual Jira stories to source concepts, requirements, producer/consumer contracts, positive/negative acceptance tests and later UX states. MA supplies structural precedent, not approved MP design or architecture choices.
+
+All twelve broad direction cards now have answers. The complete architecture baseline is still unapproved: detailed contract/evidence gaps, story decomposition/readiness, source visual verification, exact formulas/security/recovery/runtime/region/network/cost and optional scope decisions remain open. Complete and present the exact architecture/plan revision for owner sign-off before UX; complete full end-to-end/admin UX and obtain explicit permission before implementation. Nothing here publishes pages, creates a PR, runs review, closes issues or starts UX/build/cloud work.
+
+Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

@@ -95,6 +95,8 @@ ARC-10 subsequently selected the static SvelteKit PWA shell/assets on S3/CloudFr
 
 ARC-11 subsequently selected separate dev/prod AWS workload accounts under consolidated billing. The £100 all-in envelope stays aggregate; exact accounts, region/network/runtime/IaC/recovery and complete cost evidence remain open. No account/organisation/billing changes are authorised.
 
+ARC-12 subsequently selected central architecture-area specifications linked to phases/stories. All twelve direction answers are now captured, while the detailed baseline, gap closure, story/visual/cost evidence and final owner sign-off remain pending. [Direction summary](direction-summary.md) · [Completion plan](baseline-completion-plan.md).
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

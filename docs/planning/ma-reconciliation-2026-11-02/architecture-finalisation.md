@@ -70,6 +70,8 @@ The sign-off bundle must contain the component/ownership catalogue; decided ADRs
 
 Classify every open item as **blocks UX**, **blocks implementation**, **blocks live activation**, or **future extension** with a reason. No material UI-shaping boundary may remain undecided when UX begins. Provider proofs that require later live access can be conditional, but the product's fallback and unavailable states must already be fixed. No accepted baseline silently claims those proofs passed.
 
+**Owner direction recorded on 2 November 2026 (ARC-12): central architecture-area specifications linked to phase pages and individual stories is the selected organisation.** All direction answers are now recorded. Complete detailed contracts, source/story evidence and remaining decisions before presenting the exact baseline for owner sign-off; no UX starts from the questionnaire alone.
+
 ## 7. Start UX, then obtain separate build permission
 
 After architecture sign-off, create the design system, information architecture, web and Apple adaptive flows, state inventories, accessibility/privacy/reduced-motion behaviour and complete prototype. Include market discovery, holdings/imports, forecasts/proof, chat, costs, activity/audit, admin approvals and incident recovery. User journeys and story acceptance may be specified now; screen design starts after the sign-off.

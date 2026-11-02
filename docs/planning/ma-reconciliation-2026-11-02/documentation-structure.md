@@ -1,6 +1,6 @@
 # Canonical MP documentation and story structure
 
-**Proposed structure · MP-19 · Owner approval required before UX**
+**Structure selected in ARC-12 · MP-19 · Detailed content/baseline sign-off still required before UX**
 
 Use one readable hierarchy inspired by MA's area-by-area architecture and phase pages. Keep MP's existing Confluence identities and historical snapshots. New structure does not mean a new application scope, copied UI, automatic two-way sync or implemented trace checker.
 

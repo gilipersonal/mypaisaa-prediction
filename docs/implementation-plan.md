@@ -6,6 +6,8 @@ The [MP-19 architecture reconciliation and finalisation pack](planning/ma-reconc
 
 The owner requires the researched architecture, contracts and complete phase/story structure to be settled before UX starts. Follow the [decision sequence](planning/ma-reconciliation-2026-11-02/architecture-finalisation.md), then complete detailed phase Confluence pages and actual implementation stories with acceptance/dependencies before the UX gate. Local phase drafts and grouped planning tickets are preparation; unallocated story keys and umbrella acceptance remain explicit gaps. Full end-to-end UX approval and separate owner permission still gate application implementation. Nothing in this plan authorises AWS provisioning, paid calls or model promotion.
 
+All twelve broad direction answers are now captured in the [selected-direction summary](planning/ma-reconciliation-2026-11-02/direction-summary.md). Follow the [baseline completion plan](planning/ma-reconciliation-2026-11-02/baseline-completion-plan.md) for exact contracts, phase/story decomposition, visuals and sign-off. Direction selection does not certify detailed baseline completeness or start UX.
+
 ## Current implementation status
 
 **As of 1 November 2026:** the backend implements a health endpoint and a local sample SSE stream. The static Sites preview illustrates the product concept; it is not the planned SvelteKit PWA. Web, native Swift, React Native and infrastructure directories are placeholders without executable app or infrastructure definitions.

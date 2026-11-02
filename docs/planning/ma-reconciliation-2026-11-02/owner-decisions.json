@@ -284,6 +284,31 @@
         "issue": "MP-29",
         "comment_id": "12160"
       }
+    },
+    {
+      "card_id": "ARC-12",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Architecture-area specs + linked phases/stories (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision12, call_85c73d42e75a44b2b629371b22c08dab",
+        "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+      },
+      "open_gap_ids": [
+        "PL-01",
+        "FC-16",
+        "CT-16",
+        "PL-11",
+        "CD-01",
+        "CD-02",
+        "IR-01"
+      ],
+      "jira_evidence": {
+        "issue": "MP-20",
+        "comment_id": "12161"
+      }
     }
-  ]
+  ],
+  "direction_selection_complete": true
 }

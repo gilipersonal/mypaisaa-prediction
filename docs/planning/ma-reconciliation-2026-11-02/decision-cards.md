@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 11 directions selected; 1 owner answer pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 12 directions selected; detailed baseline approval pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -38,7 +38,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-09](#arc-09) | Guardrails and evaluation harness | ARC-05, ARC-06, ARC-07, ARC-08 | A selected; evidence pending |
 | [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | A selected; evidence pending |
 | [ARC-11](#arc-11) | Environment isolation, region, compatibility and whole-system recost | ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10 | B selected; evidence pending |
-| [ARC-12](#arc-12) | Architecture and phase-document freeze | ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11 | Owner answer pending |
+| [ARC-12](#arc-12) | Architecture and phase-document freeze | ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11 | A selected; evidence pending |
 
 <a id="arc-01"></a>
 ## ARC-01 — Source rights and full-budget feasibility
@@ -302,7 +302,7 @@ Primary account/isolation research: [AWS environment isolation](https://docs.aws
 
 Which canonical documentation structure should be the approved handoff into UX?
 
-**Owner answer: pending.** Dependencies: ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11.
+**Owner answer: A selected on 2 November 2026 — architecture-area specifications plus linked phase pages and stories.** All broad direction answers are recorded; detailed contracts, phase/story readiness and final architecture approval remain open. Dependencies: ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
