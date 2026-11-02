@@ -9,6 +9,10 @@
   "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png",
   "docs/motion/system-flow.gif"
  ],
+ "rec-stack": [
+  "docs/motion/stack-build.gif",
+  "docs/diagrams/mp-quality-2026-11-02/01-stack-end-to-end.png"
+ ],
  "rec-ledger": [
   "docs/motion/import-approval.gif",
   "docs/diagrams/mp-architecture-2026-11-02/05-importing-a-statement.png",
@@ -26,14 +30,34 @@
  "rec-identity": [
   "docs/diagrams/mp-architecture-2026-11-02/06-identity-step-up.png"
  ],
+ "rec-perimeter": [
+  "docs/motion/perimeter-layers.gif",
+  "docs/diagrams/mp-quality-2026-11-02/05-perimeter.png"
+ ],
  "rec-guardrails": [
   "docs/diagrams/mp-architecture-2026-11-02/02-who-may-do-what.png"
+ ],
+ "rec-web-quality": [
+  "docs/motion/a11y-pipeline.gif",
+  "docs/diagrams/mp-quality-2026-11-02/06-web-quality.png"
+ ],
+ "rec-apple-testing": [
+  "docs/motion/device-matrix.gif",
+  "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png"
  ],
  "rec-delivery": [
   "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png"
  ],
+ "rec-testing": [
+  "docs/motion/delivery-pipeline.gif",
+  "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png"
+ ],
  "rec-cost": [
   "docs/motion/budget.gif"
+ ],
+ "rec-observability": [
+  "docs/motion/trace-journey.gif",
+  "docs/diagrams/mp-quality-2026-11-02/02-one-trace.png"
  ],
  "journeys": [
   "docs/motion/system-flow.gif",

@@ -49,6 +49,10 @@ feature exists.
 | On AWS | Lambda with a streaming adapter | Pay per request; nothing idles | Owner-selected; streaming proof pending |
 | Workflows | Lambda Durable Functions in Python | Long imports, approvals and jobs that survive restarts, in the same language | Owner-selected (ARC-03) |
 | Packaging | uv **0.12.9** with a frozen lock | Reproducible installs, the same in CI | Implemented |
+| Lambda adapter | AWS Lambda Web Adapter, buffered for the API and streaming for SSE (Mangum the alternative) | The same Uvicorn app on a laptop and on Lambda | Proposed (MP-36); waits on the streaming proof (PL-04) |
+| Lambda utilities | Powertools for AWS Lambda (Python): Logger, Metrics, Idempotency, Parameters | Structured logs, cheap metrics, idempotent commands | Proposed (MP-36) |
+| DynamoDB access | boto3 with type stubs, a thin typed repository, Decimal money, no ORM | Explicit keys and transactions for the controlled writer | Proposed (MP-36) |
+| Client types | Generated from FastAPI's OpenAPI: TypeScript for the web, Swift for the app | One contract for both doors | Proposed (MP-36) |
 
 ## 2. Forecasting and data science
 
@@ -80,6 +84,7 @@ feature exists.
 | Hosting | S3 and CloudFront | Cheap static hosting with a private origin | Owner-selected |
 | Data | Authenticated calls to FastAPI; SSE for notices | Durable state is always a normal read | Owner-selected |
 | Install | PWA with Web Push | Works on a laptop, an iPad or a phone | Owner-selected |
+| Testing | Playwright end to end with ARIA snapshots, axe-core WCAG 2.2 A and AA checks, Playwright screenshot comparison | Free tools; nothing hosted | Proposed (MP-36) |
 
 The React and Vite project in `site/` is a documentation presentation, not the product app.
 
@@ -90,6 +95,7 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | Screens | Swift and SwiftUI on iOS and iPadOS | Native feel, widgets, Keychain, notifications, large screens | Owner-selected |
 | Shell | React Native | Shared navigation and typed bridges, room for other platforms | Owner-selected |
 | Device matrix | Still to agree | Versions, foldables and offline behaviour need design first | Open |
+| Testing | XCTest and the Maestro CLI on simulators, on the owner's Mac; TestFlight internal-only builds for real devices | Free locally; the Developer Program fee needs approval | Proposed (MP-36) |
 
 ## 6. AWS services
 
@@ -106,8 +112,13 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | S3 (private) | Source files, model artefacts, evidence | Owner-selected (ARC-02) |
 | SageMaker | Capped CPU training and evaluation jobs | Owner-selected (ARC-04) |
 | CloudWatch, X-Ray, CloudTrail | Logs, metrics, traces, API audit | Proposed |
+| Tracing | OpenTelemetry through the ADOT Lambda layer to X-Ray, sampled; one trace per waited-on request, linked across queues and batches | Proposed (MP-36) |
+| Telemetry budget | 14-day JSON logs, a small set of custom metrics and alarms: about $4.94 a month, already inside the AWS estimate | Proposed (MP-36) |
 | Secrets Manager | Provider and Anthropic keys | Proposed |
 | Two accounts | Dev and prod, same shape, one bill | Owner-selected (ARC-11) |
+| AWS Organizations (all features), SCPs and RCPs | Guard rails across the dev and prod accounts; the management account runs nothing | Proposed (MP-36) |
+| KMS, S3 Block Public Access, IAM Access Analyzer (external access) | A customer key per account; no public buckets; outside sharing flagged | Proposed (MP-36) |
+| VPC lockdown | None by default; optional private subnets and endpoints, costed and decided at PH-08 | Proposed (MP-36) |
 
 Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, always-on endpoints.
 
@@ -121,6 +132,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
+| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Proposed (MP-36); $99 a year, not yet in the cost model |
 
 ## 8. Quality and delivery
 
@@ -130,6 +142,10 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Lint | Ruff **0.17.3** | Implemented |
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
+| Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; cfn-lint and Checkov once IaC exists | Proposed (MP-36) |
+| Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod from CI after the owner approves; Lambda alias rollback | Proposed (MP-36); the approval route is open on GitHub Free |
+| CI minutes | GitHub Free for organisations: $12 a month shared by the org's private repos; Apple builds on the owner's Mac | Proposed (MP-36) |
+| Test IDs | One shared dictionary generating web `data-testid` and Swift accessibility identifiers | Proposed (MP-36) |
 | Infrastructure as code | Plan-only; CDK or CloudFormation still to choose | Open |
 
 ## 9. Monthly cost
@@ -161,7 +177,7 @@ window for sign-in, ledger reads, audit and recovery.
 | --- | --- |
 | Twelve Data Grow at $79, an ordinary month | £94.48 |
 | Grow at $79, the month the yearly domain renews | £108.88 (over the ceiling) |
-| Grow at $55 if it is offered on the needed terms, that month | £60.88 (at the warning) |
+| Grow 55 credits at $29 if it is offered on the needed terms, the month the domain renews | £60.88 (at the warning) |
 
 ### What moves the number
 

@@ -1,0 +1,13 @@
+{
+ "slug": "rec-perimeter",
+ "page_id": "6390123",
+ "version": 2,
+ "sent_sha256": "842991895dbf55d42cd9a90f0e725c29bbfab49c4e05231d88900bbe34bf3942",
+ "readback_sha256": "1c4a14869e81fc9ea756745b5fea6f6d15adbf3d11c80c5dafbf834435b04b2a",
+ "canonical_sha256": "ed7cd430a2e7155b93dfde014bd880237b2ef1be2463a56dd66b161d6d9f0ff4",
+ "parts": 675,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T21:45:40Z"
+}
