@@ -14,6 +14,8 @@ The owner authorised reconciliation of all relevant MA planning, with gaps captu
 
 [Owner decision log](decision-log.md): ARC-01 option A selected, including [Twelve Data Free for dev](dev-data-policy.md); rights, coverage and cost proof remain open. ARC-02 selects DynamoDB + S3 and one controlled financial write service, with integrity/access/recovery proofs open. ARC-03 selects Lambda Durable Functions with Python workflows; replay, runtime and cost proofs remain open. ARC-04 selects capped SageMaker CPU training/evaluation with portable Lambda inference; resource, scientific and cost proof remains open. Eight further architecture decisions are pending.
 
+[FastAPI hosting and workflow boundary](api-workflow-boundary.md) explains ordinary API Lambdas, separate Durable workflows and the optional SageMaker-specific hybrid. ARC-03 remains unchanged while this alternative is discussed.
+
 ## Authority and evidence
 
 MA is read-only research. Its existing household features, dates, estimates, feed rights, accounts, model IDs, numeric gates and permissions are not inherited. Current MP decisions take precedence: standalone owner ledger, no trading; US/UK/India; daily formal forecasts plus supported 30-minute monitoring; next-day, 5–20-day and 3/6/12-month horizons with separate 3–5-year scenarios; direct Anthropic client SDK on Lambda; £100 all-in cash envelope and no uncovered automatic paid fallback. ARC-04 now selects selective SageMaker training with portable serving; its detailed proof and network choices remain unresolved.
