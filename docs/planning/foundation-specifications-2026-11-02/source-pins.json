@@ -1,0 +1,38 @@
+{
+  "source_pr": 9,
+  "source_head": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+  "source_files": [
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/owner-decisions.json",
+      "sha256": "d76cd917b89d00e3cfb3c1a173d34171b10d9ab1b0180f6a695450373e921f83",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/ma-reconciliation-2026-11-02/owner-decisions.json"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/gap-register.json",
+      "sha256": "501943d0eb56ce371be8139d92082a75770264e629cdef86a6c8201421967d18",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/ma-reconciliation-2026-11-02/gap-register.json"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json",
+      "sha256": "90ad3b5d596fccc337398603a55d7c3a986294faaa6e464d4881167c5e7adb12",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"
+    },
+    {
+      "path": "docs/planning/layered-development-2026-11-01/portfolio-import-spec.md",
+      "sha256": "a1705036406c34f03156f89c2ed8c60fb4909c908dbd1936a33c583d269c5752",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/layered-development-2026-11-01/portfolio-import-spec.md"
+    },
+    {
+      "path": "docs/planning/layered-development-2026-11-01/portfolio-import-examples.json",
+      "sha256": "eb0f552a0c2e6e6ff63c251d53d3ffd59e300d620311e89da87fc38427b6698e",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/layered-development-2026-11-01/portfolio-import-examples.json"
+    },
+    {
+      "path": "docs/planning/aws-options-2026-11-01/product-decisions.json",
+      "sha256": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/blob/34b03900837428b51ddffcd637d92c1cd2a6fb1e/docs/planning/aws-options-2026-11-01/product-decisions.json"
+    }
+  ],
+  "source_checkout_read_only": "/Users/arundutta/projects/mypaisaa-prediction",
+  "note": "PR9 remains open and untouched. This branch starts from origin/main; these are reference pins, not a merge/cherry-pick of PR9."
+}

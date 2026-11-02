@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0-proposed",
+  "status": "engineering_contract_proposal_not_baseline_approval",
+  "date": "2026-11-02",
+  "authority": {
+    "owner_confirmed": "Selected directions and foundation owner-decisions.json control; numerical/protocol defaults remain proposed unless explicitly recorded.",
+    "implementation_authorised": false,
+    "UX_authorised": false,
+    "live_activation_authorised": false
+  },
+  "identity": {
+    "levels": [
+      "issuer",
+      "security_or_share_class",
+      "listing",
+      "provider_alias"
+    ],
+    "listing_key": "Canonical listing plus venue/MIC; ticker alone is not globally unique. Real identifiers, synthetic observations.",
+    "aliases": "Effective-dated and source-specific, with ambiguity states."
+  },
+  "numbers": {
+    "amounts": "Finite decimal strings; quantities and prices carry explicit scales/units. Do not use binary float as financial ledger truth.",
+    "money_currency": "ISO currency, with quote unit separate; GBX quotes normalise into GBP units via explicit 1/100 factor.",
+    "rounding": "Policy/scale/rounding/residual tolerances are proposed in financial lane and require their own approval."
+  },
+  "fx": {
+    "orientation": "GBP_per_one_unit_of_local_currency",
+    "equation": "GBP_value = local_value * GBP_per_local_rate",
+    "evidence": [
+      "pair",
+      "direction",
+      "source",
+      "observed_at",
+      "known_at",
+      "ingested_at",
+      "rate_version",
+      "quality_and_staleness"
+    ],
+    "no_silent_inverse_or_latest": "Historical calculations pin the defined dated FX policy; no future FX or unlabeled latest-value substitution."
+  },
+  "time": {
+    "timestamps": "UTC aware timestamps plus exchange IANA timezone/session/calendar version; dates and instants are distinct.",
+    "economic_time": "When the economic event/observation applies.",
+    "known_at": "Conservative MP availability for prospective use: at least ingestion and evidenced publication when both exist.",
+    "ingested_at": "When MP acquired this version.",
+    "cutoff_rule": "Every feature cites information available by its task cutoff under the declared operational or vintage-backed replay policy.",
+    "published_at": "Evidenced source publication of the specific vintage; unknown remains explicit.",
+    "replay_available_at": "Separate historical-availability evidence/policy; never rewrites actual ingestion or prospective known_at.",
+    "cash_flow_dates": "Forecast calendar rolling never changes actual ledger cash-flow dates or the declared XIRR year-fraction convention."
+  },
+  "price_basis": {
+    "ledger": "Raw normalised prices plus explicitly booked cash income/fees; no dividend double counting with total-return adjusted inputs.",
+    "forecast": "Each task pins raw/adjusted/total-return/NAV basis and transformations. NAV and market close are distinct truths.",
+    "total_return": "Declare income/reinvestment/actions/FX conventions. No owner contributions in an instrument total-return target unless a separate simulation task says so."
+  },
+  "states": {
+    "observation_mode": [
+      "synthetic",
+      "observed",
+      "derived",
+      "scenario"
+    ],
+    "entitlement": [
+      "permitted",
+      "unverified",
+      "restricted",
+      "expired"
+    ],
+    "data_quality": [
+      "usable",
+      "partial",
+      "stale",
+      "missing",
+      "conflicting",
+      "invalid"
+    ],
+    "metric_eligibility": [
+      "eligible",
+      "insufficient_history",
+      "insufficient_quality",
+      "unsupported",
+      "blocked_rights",
+      "in_practice",
+      "disabled"
+    ],
+    "separation": "These dimensions are not collapsed into one confidence percentage. Numeric value remains absent when the calculation is unsupported."
+  },
+  "publication": {
+    "ledger": "Readers pin owner/environment revision head and consume published manifests only; staging/GSI/Streams is not completeness authority.",
+    "corrections": "Append superseding financial/source/outcome evidence; do not overwrite original predictions or approvals.",
+    "atomicity": "S3 and DynamoDB are not one atomic transaction; financial visibility/audit/outbox is specified explicitly."
+  },
+  "science": {
+    "targets": "Terminal return/loss, probability of positive/excess return, running-peak maximum drawdown, origin-relative adverse excursion and cost-basis loss are distinct.",
+    "ground_truth": "Canonical realised matured outcomes, not LLM confidence.",
+    "qualification": "Baselines first; bounded challengers/factor ablations; train-fold-only transforms and chronological evidence; owner promotion."
+  },
+  "budget": {
+    "cash_ceiling_gbp_month": "100",
+    "planned_operation_gbp_month": "70",
+    "reserve_gbp_month": "30",
+    "thresholds_gbp": [
+      "60",
+      "75",
+      "85"
+    ],
+    "scope": "Combined MP dev/prod AWS, data and Claude/evals; not per account.",
+    "anthropic_credit": "Shared user-reported unverified pool, counted once; no automatic uncovered/unverifiable paid calls.",
+    "dev_data": "Synthetic default; Basic live candidate uses actual shared weighted minute/day limits. No quota multiplication by worker/key/environment."
+  }
+}

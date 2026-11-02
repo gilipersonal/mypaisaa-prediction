@@ -1,0 +1,733 @@
+{
+  "scope": "Public offer files only; no AWS account or paid pricing API; price is not runtime availability proof.",
+  "offers": [
+    {
+      "service": "AWSLambda",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-30T23:42:55Z",
+      "sha256": "18186b1bfae20da4d6c49193a51927379aae5020cb09710523886e79c9c6965c",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "durable_operation",
+          "sku": "6PP8P2Z8BKMWQ7PH",
+          "rate_code": "6PP8P2Z8BKMWQ7PH.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "Lambda-Durable-Execution-Operations",
+          "usd_per_unit": "0.0000080000",
+          "unit": "DurableOperations",
+          "begin_range": "0",
+          "description": "$0.000008 per DurableOperation for Lambda-Durable-Execution-Operations in US East (N. Virginia)"
+        },
+        {
+          "metric": "lambda_gb_second",
+          "sku": "TG3M4CAGBA3NYQBH",
+          "rate_code": "TG3M4CAGBA3NYQBH.JRTCKXETXF.CUKFZ388N3",
+          "usage_type": "Lambda-GB-Second",
+          "usd_per_unit": "0.0000166667",
+          "unit": "Lambda-GB-Second",
+          "begin_range": "0",
+          "description": "AWS Lambda - Total Compute - US East (Northern Virginia)-Tier-1"
+        },
+        {
+          "metric": "durable_retained_gb_month",
+          "sku": "Q5E8ZZTEB2T8GKU4",
+          "rate_code": "Q5E8ZZTEB2T8GKU4.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "Lambda-Durable-Execution-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.1500000000",
+          "unit": "GigaBytesMonth",
+          "begin_range": "0",
+          "description": "$0.15 per GigaBytesMonth for Lambda-Durable-Execution-TimedStorage-ByteHrs in US East (N. Virginia)"
+        },
+        {
+          "metric": "durable_written_gb",
+          "sku": "WRYMFKHR4D6USK5C",
+          "rate_code": "WRYMFKHR4D6USK5C.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "Lambda-Durable-Execution-Written-Bytes",
+          "usd_per_unit": "0.2500000000",
+          "unit": "GigaBytes",
+          "begin_range": "0",
+          "description": "$0.25 per GigaByte for Lambda-Durable-Execution-Written-Bytes in US East (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "service": "AWSLambda",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-30T23:42:55Z",
+      "sha256": "2cb96e71072db58d99d26d4f27abd9c20323f22aeb7871a9991474ab6b7d913d",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "durable_operation",
+          "sku": "UXAE7FSFKWBQJ8D7",
+          "rate_code": "UXAE7FSFKWBQJ8D7.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Lambda-Durable-Execution-Operations",
+          "usd_per_unit": "0.0000086000",
+          "unit": "DurableOperations",
+          "begin_range": "0",
+          "description": "$0.0000086 per DurableOperation for Lambda-Durable-Execution-Operations in EU (Ireland)"
+        },
+        {
+          "metric": "durable_retained_gb_month",
+          "sku": "MFQST9R7A9A4EAXU",
+          "rate_code": "MFQST9R7A9A4EAXU.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Lambda-Durable-Execution-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.1600000000",
+          "unit": "GigaBytesMonth",
+          "begin_range": "0",
+          "description": "$0.16 per GigaBytesMonth for Lambda-Durable-Execution-TimedStorage-ByteHrs in EU (Ireland)"
+        },
+        {
+          "metric": "lambda_gb_second",
+          "sku": "SGGKTWDV7PGMPPSJ",
+          "rate_code": "SGGKTWDV7PGMPPSJ.JRTCKXETXF.CUKFZ388N3",
+          "usage_type": "EU-Lambda-GB-Second",
+          "usd_per_unit": "0.0000166667",
+          "unit": "Lambda-GB-Second",
+          "begin_range": "0",
+          "description": "AWS Lambda - Total Compute - EU (Ireland)-Tier-1"
+        },
+        {
+          "metric": "durable_written_gb",
+          "sku": "73D5SCT8VUKYNSS8",
+          "rate_code": "73D5SCT8VUKYNSS8.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Lambda-Durable-Execution-Written-Bytes",
+          "usd_per_unit": "0.2600000000",
+          "unit": "GigaBytes",
+          "begin_range": "0",
+          "description": "$0.26 per GigaByte for Lambda-Durable-Execution-Written-Bytes in EU (Ireland)"
+        }
+      ]
+    },
+    {
+      "service": "AWSLambda",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-30T23:42:55Z",
+      "sha256": "8ab64c9075882c7003e68df09b51f36c5822de76f046347ff49401eb688e95b1",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "lambda_gb_second",
+          "sku": "RP9RSZYUC96SQ4G2",
+          "rate_code": "RP9RSZYUC96SQ4G2.JRTCKXETXF.CUKFZ388N3",
+          "usage_type": "EUW2-Lambda-GB-Second",
+          "usd_per_unit": "0.0000166667",
+          "unit": "Lambda-GB-Second",
+          "begin_range": "0",
+          "description": "AWS Lambda - Total Compute - EU (London)-Tier-1"
+        },
+        {
+          "metric": "durable_retained_gb_month",
+          "sku": "K25DU8V5A9T3CPEN",
+          "rate_code": "K25DU8V5A9T3CPEN.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Lambda-Durable-Execution-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.2500000000",
+          "unit": "GigaBytesMonth",
+          "begin_range": "0",
+          "description": "$0.25 per GigaBytesMonth for Lambda-Durable-Execution-TimedStorage-ByteHrs in EU (London)"
+        },
+        {
+          "metric": "durable_written_gb",
+          "sku": "UG7XDJNH3SZJMFVU",
+          "rate_code": "UG7XDJNH3SZJMFVU.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Lambda-Durable-Execution-Written-Bytes",
+          "usd_per_unit": "0.4100000000",
+          "unit": "GigaBytes",
+          "begin_range": "0",
+          "description": "$0.41 per GigaByte for Lambda-Durable-Execution-Written-Bytes in EU (London)"
+        },
+        {
+          "metric": "durable_operation",
+          "sku": "CXKUXA6RF8G94VNH",
+          "rate_code": "CXKUXA6RF8G94VNH.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Lambda-Durable-Execution-Operations",
+          "usd_per_unit": "0.0000134000",
+          "unit": "DurableOperations",
+          "begin_range": "0",
+          "description": "$0.0000134 per DurableOperation for Lambda-Durable-Execution-Operations in EU (London)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonSageMaker",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-29T16:50:09Z",
+      "sha256": "6571b36d59a62601c4289f1d7069cb01581d36c674b0f6bdb9614cbd4ea7fd62",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "training_instance_hour",
+          "sku": "JMCWJEAPVJNFJ5P4",
+          "rate_code": "JMCWJEAPVJNFJ5P4.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "USE1-Train:ml.m5.large",
+          "usd_per_unit": "0.1150000000",
+          "unit": "Hrs",
+          "begin_range": "0",
+          "description": "$0.115 per Training ml.m5.large hour in US East (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonSageMaker",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-29T16:50:09Z",
+      "sha256": "99eea4e6682142d586c5ef739a7191ad296c49f28bf1c09652bd19794bacf435",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "training_instance_hour",
+          "sku": "X3PM3ZW6GJHGZNM6",
+          "rate_code": "X3PM3ZW6GJHGZNM6.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Train:ml.m5.large",
+          "usd_per_unit": "0.1280000000",
+          "unit": "Hrs",
+          "begin_range": "0",
+          "description": "$0.128 per Training ml.m5.large hour in EU (Ireland)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonSageMaker",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-29T16:50:09Z",
+      "sha256": "e386136e47969c2e08f3c2153eed5be6183992593283112b8ac9c3b97d2d1c44",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "training_instance_hour",
+          "sku": "8MKF25K66HVDW8GC",
+          "rate_code": "8MKF25K66HVDW8GC.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Train:ml.m5.large",
+          "usd_per_unit": "0.1330000000",
+          "unit": "Hrs",
+          "begin_range": "0",
+          "description": "$0.133 per Training ml.m5.large hour in EU (London)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonDynamoDB",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-09-11T12:44:22Z",
+      "sha256": "b25d0fd8d26a9fd489b27c19abf895c9d86145ca6ed935fcf25303f784cfb15e",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "ddb_pitr_gb_month",
+          "sku": "TFXQN9PEG62G7A67",
+          "rate_code": "TFXQN9PEG62G7A67.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "USE1-TimedPITRStorage-ByteHrs",
+          "usd_per_unit": "0.2000000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.20 per GB-Month of storage used for DynamoDB PITR backup"
+        },
+        {
+          "metric": "ddb_gb_month",
+          "sku": "F3E2EDSYC6ZNW7XP",
+          "rate_code": "F3E2EDSYC6ZNW7XP.JRTCKXETXF.VYAP54KATQ",
+          "usage_type": "TimedStorage-ByteHrs",
+          "usd_per_unit": "0.2500000000",
+          "unit": "GB-Mo",
+          "begin_range": "25",
+          "description": "$0.25 per GB-Month of storage used beyond first 25 free GB-Months"
+        },
+        {
+          "metric": "ddb_write_request_unit",
+          "sku": "FGXVD96DKJMUASY3",
+          "rate_code": "FGXVD96DKJMUASY3.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "WriteRequestUnits",
+          "usd_per_unit": "0.0000006250",
+          "unit": "WriteRequestUnits",
+          "begin_range": "0",
+          "description": "$0.625 per million write request units (N. Virginia)"
+        },
+        {
+          "metric": "ddb_read_request_unit",
+          "sku": "4W4ZMC46EHE8XTTZ",
+          "rate_code": "4W4ZMC46EHE8XTTZ.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "ReadRequestUnits",
+          "usd_per_unit": "0.0000001250",
+          "unit": "ReadRequestUnits",
+          "begin_range": "0",
+          "description": "$0.125 per million read request units (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonDynamoDB",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-09-11T12:44:22Z",
+      "sha256": "af2e425badc1f32e409721fb3487252f9a40471c9f3b49b529ee2646e01642a3",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "ddb_gb_month",
+          "sku": "E6MS5SS3AMMHBJC6",
+          "rate_code": "E6MS5SS3AMMHBJC6.JRTCKXETXF.VYAP54KATQ",
+          "usage_type": "EU-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.2830000000",
+          "unit": "GB-Mo",
+          "begin_range": "25",
+          "description": "$0.283 per GB-Month of storage used beyond first 25 free GB-Months"
+        },
+        {
+          "metric": "ddb_pitr_gb_month",
+          "sku": "W73KZTNZ7UBXFD8S",
+          "rate_code": "W73KZTNZ7UBXFD8S.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-TimedPITRStorage-ByteHrs",
+          "usd_per_unit": "0.2200000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.22 per GB-Month of storage used for DynamoDB PITR backup"
+        },
+        {
+          "metric": "ddb_read_request_unit",
+          "sku": "3ERQSZWPAMX2JWHN",
+          "rate_code": "3ERQSZWPAMX2JWHN.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-ReadRequestUnits",
+          "usd_per_unit": "0.0000001415",
+          "unit": "ReadRequestUnits",
+          "begin_range": "0",
+          "description": "$0.1415 per million read request units (EU (Ireland))"
+        },
+        {
+          "metric": "ddb_write_request_unit",
+          "sku": "F4EZE5SAMS3D49NJ",
+          "rate_code": "F4EZE5SAMS3D49NJ.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-WriteRequestUnits",
+          "usd_per_unit": "0.0000007050",
+          "unit": "WriteRequestUnits",
+          "begin_range": "0",
+          "description": "$0.705 per million write request units (EU (Ireland))"
+        }
+      ]
+    },
+    {
+      "service": "AmazonDynamoDB",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-09-11T12:44:22Z",
+      "sha256": "552627e7f09e78d9c4bd88e3531e4e1ee116ae34edbc0b3d7e3088c50f0c3f4b",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "ddb_pitr_gb_month",
+          "sku": "E2U4GFTM4Z6XCHQQ",
+          "rate_code": "E2U4GFTM4Z6XCHQQ.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-TimedPITRStorage-ByteHrs",
+          "usd_per_unit": "0.2377200000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.23772 per GB-Month of storage used for DynamoDB PITR backup"
+        },
+        {
+          "metric": "ddb_read_request_unit",
+          "sku": "C3KVQJC3P2UZ6DKW",
+          "rate_code": "C3KVQJC3P2UZ6DKW.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-ReadRequestUnits",
+          "usd_per_unit": "0.0000001487",
+          "unit": "ReadRequestUnits",
+          "begin_range": "0",
+          "description": "$0.1487 per million read request units Europe West 2"
+        },
+        {
+          "metric": "ddb_write_request_unit",
+          "sku": "6PCERDN3NMDKW474",
+          "rate_code": "6PCERDN3NMDKW474.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-WriteRequestUnits",
+          "usd_per_unit": "0.0000007423",
+          "unit": "WriteRequestUnits",
+          "begin_range": "0",
+          "description": "$0.7423 per million write request units Europe West 2"
+        },
+        {
+          "metric": "ddb_gb_month",
+          "sku": "8BMKSHZNW5CVQKKZ",
+          "rate_code": "8BMKSHZNW5CVQKKZ.JRTCKXETXF.VYAP54KATQ",
+          "usage_type": "EUW2-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.2971500000",
+          "unit": "GB-Mo",
+          "begin_range": "25",
+          "description": "$0.29715 per GB-Month of storage used beyond first 25 free GB-Months"
+        }
+      ]
+    },
+    {
+      "service": "AmazonS3",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-15T17:35:40Z",
+      "sha256": "a298361f29bd9bc926d810d1eb093720827275689c1e2db5a7af90890b1dc67c",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "s3_get_request",
+          "sku": "ZWQ6Q48CRJXX4FXE",
+          "rate_code": "ZWQ6Q48CRJXX4FXE.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "Requests-Tier2",
+          "usd_per_unit": "0.0000004000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.004 per 10,000 GET and all other requests"
+        },
+        {
+          "metric": "s3_put_request",
+          "sku": "E9YHNFENF4XQBZR6",
+          "rate_code": "E9YHNFENF4XQBZR6.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "Requests-Tier1",
+          "usd_per_unit": "0.0000050000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.005 per 1,000 PUT, COPY, POST, or LIST requests"
+        },
+        {
+          "metric": "s3_gb_month",
+          "sku": "WP9ANXZGBYYSGJEA",
+          "rate_code": "WP9ANXZGBYYSGJEA.JRTCKXETXF.PGHJ3S3EYE",
+          "usage_type": "TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0230000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.023 per GB - first 50 TB / month of storage used"
+        }
+      ]
+    },
+    {
+      "service": "AmazonS3",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-15T17:35:40Z",
+      "sha256": "1ce98703534e52c806f1467d5abd6ef81842d1893366cb3c0fb46dc3945e8e6c",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "s3_put_request",
+          "sku": "578M9UJHH6X5PZVC",
+          "rate_code": "578M9UJHH6X5PZVC.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Requests-Tier1",
+          "usd_per_unit": "0.0000050000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.005 per 1,000 PUT, COPY, POST, or LIST requests"
+        },
+        {
+          "metric": "s3_get_request",
+          "sku": "ZCQD4CM637S7D8U5",
+          "rate_code": "ZCQD4CM637S7D8U5.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-Requests-Tier2",
+          "usd_per_unit": "0.0000004000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.004 per 10,000 GET and all other requests"
+        },
+        {
+          "metric": "s3_gb_month",
+          "sku": "4AJHPB29ZPVFADXP",
+          "rate_code": "4AJHPB29ZPVFADXP.JRTCKXETXF.PGHJ3S3EYE",
+          "usage_type": "EU-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0230000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.023 per GB - first 50 TB / month of storage used"
+        }
+      ]
+    },
+    {
+      "service": "AmazonS3",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-15T17:35:40Z",
+      "sha256": "01567dfd7d38272e9b424d0c3500bcbbcec3bdbf72dc4fe165d0f438a2aa356a",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "s3_gb_month",
+          "sku": "DV3FSFEQ3QM4J6VP",
+          "rate_code": "DV3FSFEQ3QM4J6VP.JRTCKXETXF.PGHJ3S3EYE",
+          "usage_type": "EUW2-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0240000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.024 per GB - first 50 TB / month of storage used"
+        },
+        {
+          "metric": "s3_put_request",
+          "sku": "CXT6934AJ2W6U8P9",
+          "rate_code": "CXT6934AJ2W6U8P9.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Requests-Tier1",
+          "usd_per_unit": "0.0000053000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.0053 per 1,000 PUT, COPY, POST, or LIST requests"
+        },
+        {
+          "metric": "s3_get_request",
+          "sku": "3D99223WSVTX96UP",
+          "rate_code": "3D99223WSVTX96UP.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-Requests-Tier2",
+          "usd_per_unit": "0.0000004200",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$0.0042 per 10,000 GET and all other requests"
+        }
+      ]
+    },
+    {
+      "service": "AmazonCloudWatch",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-07T11:55:40Z",
+      "sha256": "56cc88ec0074530e7a14c232c17e3bda0807468f1724c6a746e19f0f0330f5f5",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "metric_month",
+          "sku": "KG586CTNGQ4VRZKZ",
+          "rate_code": "KG586CTNGQ4VRZKZ.JRTCKXETXF.A6VD9GXV7W",
+          "usage_type": "CW:MetricMonitorUsage",
+          "usd_per_unit": "0.3000000000",
+          "unit": "Metrics",
+          "begin_range": "0",
+          "description": "$0.30 per metric-month for the first 10,000 metrics - US East (Northern Virginia)"
+        },
+        {
+          "metric": "alarm_month",
+          "sku": "EVETVUGEN3MUTMXM",
+          "rate_code": "EVETVUGEN3MUTMXM.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "CW:AlarmMonitorUsage",
+          "usd_per_unit": "0.1000000000",
+          "unit": "Alarms",
+          "begin_range": "0",
+          "description": "$0.10 per alarm metric month (standard resolution) - US East (Northern Virginia)"
+        },
+        {
+          "metric": "logs_stored_gb_month",
+          "sku": "JRHJQ2UMPUB5K73A",
+          "rate_code": "JRHJQ2UMPUB5K73A.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0300000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.03 per GB-mo of log storage - US East (Northern Virginia)"
+        },
+        {
+          "metric": "logs_ingested_gb",
+          "sku": "96K55R2PV3ZZZ3AM",
+          "rate_code": "96K55R2PV3ZZZ3AM.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "DataProcessing-Bytes",
+          "usd_per_unit": "0.5000000000",
+          "unit": "GB",
+          "begin_range": "0",
+          "description": "$0.50 per GB custom log data ingested in Standard log class - US East (Northern Virginia)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonCloudWatch",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-07T11:55:40Z",
+      "sha256": "26cde27997980a244e3fde4145d9ed505027a0fafcf3f7842f96fbfc2bbb6ca6",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "logs_scanned_gb",
+          "sku": "UJ6PK2UV33YZ3FVU",
+          "rate_code": "UJ6PK2UV33YZ3FVU.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-DataScanned-Bytes",
+          "usd_per_unit": "0.0057000000",
+          "unit": "GB",
+          "begin_range": "0",
+          "description": "$0.0057 per GB log data scanned by CloudWatch Logs Insights queries - EU (Ireland)"
+        },
+        {
+          "metric": "logs_stored_gb_month",
+          "sku": "M93YPPU987S2T6U9",
+          "rate_code": "M93YPPU987S2T6U9.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0300000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.03 per GB-mo of log storage - EU (Ireland)"
+        },
+        {
+          "metric": "alarm_month",
+          "sku": "GDMKAEDCSYJAKBZQ",
+          "rate_code": "GDMKAEDCSYJAKBZQ.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-CW:AlarmMonitorUsage",
+          "usd_per_unit": "0.1000000000",
+          "unit": "Alarms",
+          "begin_range": "0",
+          "description": "$0.10 per alarm metric month (standard resolution) - EU (Ireland)"
+        },
+        {
+          "metric": "metric_month",
+          "sku": "58YXNUN4MF8JD9ZA",
+          "rate_code": "58YXNUN4MF8JD9ZA.JRTCKXETXF.A6VD9GXV7W",
+          "usage_type": "EU-CW:MetricMonitorUsage",
+          "usd_per_unit": "0.3000000000",
+          "unit": "Metrics",
+          "begin_range": "0",
+          "description": "$0.30 per metric-month for the first 10,000 metrics - EU (Ireland)"
+        },
+        {
+          "metric": "logs_ingested_gb",
+          "sku": "KJBTQPDHW2H92B8Y",
+          "rate_code": "KJBTQPDHW2H92B8Y.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EU-DataProcessing-Bytes",
+          "usd_per_unit": "0.5700000000",
+          "unit": "GB",
+          "begin_range": "0",
+          "description": "$0.57 per GB custom log data ingested in Standard log class - EU (Ireland)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonCloudWatch",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-07T11:55:40Z",
+      "sha256": "9226c372d2b49d4eb20e4f0c09923918250344b8ca0b4be329ff87c59539bbec",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "metric_month",
+          "sku": "PN3YV46EU5ACM6BK",
+          "rate_code": "PN3YV46EU5ACM6BK.JRTCKXETXF.A6VD9GXV7W",
+          "usage_type": "EUW2-CW:MetricMonitorUsage",
+          "usd_per_unit": "0.3000000000",
+          "unit": "Metrics",
+          "begin_range": "0",
+          "description": "$0.30 per metric-month for the first 10,000 metrics - EU (London)"
+        },
+        {
+          "metric": "alarm_month",
+          "sku": "VU6CBY3UVQ6KVEAN",
+          "rate_code": "VU6CBY3UVQ6KVEAN.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-CW:AlarmMonitorUsage",
+          "usd_per_unit": "0.1000000000",
+          "unit": "Alarms",
+          "begin_range": "0",
+          "description": "$0.10 per alarm metric month (standard resolution) - EU (London)"
+        },
+        {
+          "metric": "logs_scanned_gb",
+          "sku": "PPAMB7UTP3AKQW52",
+          "rate_code": "PPAMB7UTP3AKQW52.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-DataScanned-Bytes",
+          "usd_per_unit": "0.0059000000",
+          "unit": "GB",
+          "begin_range": "0",
+          "description": "$0.0059 per GB log data scanned by CloudWatch Logs Insights queries - EU (London)"
+        },
+        {
+          "metric": "logs_stored_gb_month",
+          "sku": "7YQ22RBNQBPK86VK",
+          "rate_code": "7YQ22RBNQBPK86VK.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-TimedStorage-ByteHrs",
+          "usd_per_unit": "0.0315000000",
+          "unit": "GB-Mo",
+          "begin_range": "0",
+          "description": "$0.0315 per GB-mo of log storage -  EU (London)"
+        },
+        {
+          "metric": "logs_ingested_gb",
+          "sku": "S9T455EP2J2BR9R9",
+          "rate_code": "S9T455EP2J2BR9R9.JRTCKXETXF.6YS6EN2CT7",
+          "usage_type": "EUW2-DataProcessing-Bytes",
+          "usd_per_unit": "0.5985000000",
+          "unit": "GB",
+          "begin_range": "0",
+          "description": "$0.5985 per GB custom log data ingested in Standard log class - EU (London)"
+        }
+      ]
+    },
+    {
+      "service": "AmazonApiGateway",
+      "region": "us-east-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/us-east-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-13T00:30:44Z",
+      "sha256": "0bdd35785508b1a116cec8df403951d2d68ee036d2f7c9f486fd8ca499b738bc",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "rest_api_request",
+          "sku": "KKDZ3TFSXUSMCZ3A",
+          "rate_code": "KKDZ3TFSXUSMCZ3A.JRTCKXETXF.QS4VQ8N7FD",
+          "usage_type": "USE1-ApiGatewayRequest",
+          "usd_per_unit": "0.0000035000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$3.50/million requests - first 333 million requests/month"
+        }
+      ]
+    },
+    {
+      "service": "AmazonApiGateway",
+      "region": "eu-west-1",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/eu-west-1/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-13T00:30:44Z",
+      "sha256": "7a8cb669e02b5beb908af0686caf3f5396baed07677dd7fbaa37f30370808198",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "rest_api_request",
+          "sku": "97HEGEHSUXEP2W8Y",
+          "rate_code": "97HEGEHSUXEP2W8Y.JRTCKXETXF.QS4VQ8N7FD",
+          "usage_type": "EU-ApiGatewayRequest",
+          "usd_per_unit": "0.0000035000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$3.50/million requests - first 333 million requests/month"
+        }
+      ]
+    },
+    {
+      "service": "AmazonApiGateway",
+      "region": "eu-west-2",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/eu-west-2/index.json",
+      "checked_date": "2026-11-02",
+      "publication_date": "2026-10-13T00:30:44Z",
+      "sha256": "3fe32b1491574c28555a94bff11725e921639784430a2ace9d3ac8c1dfccb01b",
+      "status": "source_verified",
+      "rates": [
+        {
+          "metric": "rest_api_request",
+          "sku": "Z5KFC4J7492YHH8P",
+          "rate_code": "Z5KFC4J7492YHH8P.JRTCKXETXF.QS4VQ8N7FD",
+          "usage_type": "EUW2-ApiGatewayRequest",
+          "usd_per_unit": "0.0000035000",
+          "unit": "Requests",
+          "begin_range": "0",
+          "description": "$3.50/million requests - first 333 million requests/month"
+        }
+      ]
+    }
+  ]
+}

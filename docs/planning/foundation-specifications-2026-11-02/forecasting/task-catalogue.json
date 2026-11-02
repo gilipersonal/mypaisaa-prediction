@@ -1,0 +1,226 @@
+{
+  "pack": "foundation-specifications-2026-11-02",
+  "lane": "forecasting",
+  "status": "proposed_maker_checked_unreviewed",
+  "implementation_authorised": false,
+  "as_of": "2026-11-02",
+  "id": "SCI-01",
+  "owner_horizon_receipt": [
+    "FND-DEC-001",
+    "FND-DEC-002"
+  ],
+  "horizons": [
+    {
+      "id": "H-S01",
+      "unit": "valuation_session",
+      "value": 1,
+      "owner_scope_status": "confirmed_next_day",
+      "convention_status": "proposed_next_eligible_session"
+    },
+    {
+      "id": "H-S05",
+      "unit": "valuation_session",
+      "value": 5,
+      "owner_scope_status": "owner_confirmed_FND-DEC-001",
+      "convention_status": "local_frozen_calendar"
+    },
+    {
+      "id": "H-S10",
+      "unit": "valuation_session",
+      "value": 10,
+      "owner_scope_status": "owner_confirmed_FND-DEC-001",
+      "convention_status": "local_frozen_calendar"
+    },
+    {
+      "id": "H-S20",
+      "unit": "valuation_session",
+      "value": 20,
+      "owner_scope_status": "owner_confirmed_FND-DEC-001",
+      "convention_status": "local_frozen_calendar"
+    },
+    {
+      "id": "H-M03",
+      "unit": "calendar_month",
+      "value": 3,
+      "owner_scope_status": "confirmed_month_horizon",
+      "convention_status": "owner_confirmed_FND-DEC-002_anniversary_preceding_valid_valuation_date",
+      "invalid_day_convention": "clamp_to_last_day_explicit_engineering_default"
+    },
+    {
+      "id": "H-M06",
+      "unit": "calendar_month",
+      "value": 6,
+      "owner_scope_status": "confirmed_month_horizon",
+      "convention_status": "owner_confirmed_FND-DEC-002_anniversary_preceding_valid_valuation_date",
+      "invalid_day_convention": "clamp_to_last_day_explicit_engineering_default"
+    },
+    {
+      "id": "H-M12",
+      "unit": "calendar_month",
+      "value": 12,
+      "owner_scope_status": "confirmed_month_horizon",
+      "convention_status": "owner_confirmed_FND-DEC-002_anniversary_preceding_valid_valuation_date",
+      "invalid_day_convention": "clamp_to_last_day_explicit_engineering_default"
+    }
+  ],
+  "target_templates": [
+    {
+      "id": "T-RET",
+      "output": "return_distribution",
+      "equation": "R=W_H/W_0-1",
+      "unit": "fraction",
+      "metrics": [
+        "pinball_q10_q50_q90",
+        "central_80_coverage",
+        "central_80_width",
+        "median_MAE"
+      ],
+      "threshold": null
+    },
+    {
+      "id": "T-UP",
+      "output": "probability_up",
+      "equation": "U=1[R>0]",
+      "unit": "probability",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "threshold": "0_strict"
+    },
+    {
+      "id": "T-EXCESS",
+      "output": "probability_benchmark_excess",
+      "equation": "E=R-R_b; B=1[E>0]",
+      "unit": "probability",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "threshold": "0_strict",
+      "eligibility": "owner_approved_market_kind_benchmark_and_endpoint_pairing"
+    },
+    {
+      "id": "T-MDD",
+      "output": "probability_daily_path_maximum_drawdown",
+      "equation": "D=max_j(1-W_j/max_{0<=k<=j}W_k);Y=1[D>=delta]",
+      "unit": "probability",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "threshold": "SCI-D02_owner_pending",
+      "path_grid": "daily_close_or_FUND_NAV_per_task"
+    },
+    {
+      "id": "T-MAE",
+      "output": "probability_origin_relative_adverse_excursion",
+      "equation": "A=max(0,1-min_j(W_j)/W_0);Y=1[A>=alpha]",
+      "unit": "probability",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "threshold": "SCI-D02_owner_pending"
+    },
+    {
+      "id": "T-LOSS",
+      "output": "probability_terminal_loss",
+      "equation": "Y=1[R<=-tau]",
+      "unit": "probability",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "threshold": "SCI-D02_owner_pending"
+    }
+  ],
+  "bounded_catalogue": {
+    "horizon_count": 7,
+    "target_template_count": 6,
+    "maximum_logical_combinations_per_currency_basis": 42,
+    "not_a_model_count": true,
+    "issuance": "Only registered exact ForecastTask versions with approved thresholds/benchmark and eligible data; retained scope is not activation."
+  },
+  "currency_bases": {
+    "proposed_primary": "GBP",
+    "diagnostic": "native_currency_separate_task",
+    "fx": "GBP_per_one_local_currency",
+    "aggregation": "R_GBP=(1+R_local)*(1+R_FX)-1"
+  },
+  "price_types": [
+    "MARKET_CLOSE",
+    "FUND_NAV"
+  ],
+  "price_type_rule": "FUND_NAV and MARKET_CLOSE are distinct tasks; do not grade one with the other. SPY may be ETF with a NAV-only source profile; it is not declared a NAV-only product.",
+  "origin_policy": {
+    "id": "origin-proposed-v2",
+    "daily_per_listing": true,
+    "grace_minutes_proposed": 60,
+    "deadline": "issued at or after frozen information cutoff, no later than proposed issuance deadline, strictly before next eligible session open; otherwise abstain",
+    "late": "missed_origin_no_backdate",
+    "nav": "effective_date_is_valuation_origin; wait_for_evidenced_publication; no stale NAV promoted to current economic date",
+    "daily_clocks_proposed": {
+      "id": "daily-origin-clocks-proposed-v2",
+      "status": "owner_pending",
+      "collection_start_minutes_after_close": 15,
+      "retry_start_minutes_after_close": 40,
+      "information_cutoff_minutes_after_close": 60,
+      "issuance_deadline_minutes_after_close": 75,
+      "known_at_rule": "max_evidenced_publication_actual_ingestion",
+      "retry": "one missing-close retry within existing daily acquisition/retry allowance, not a new stream or added paid quota",
+      "schedule_admission": "require issuance deadline strictly before next eligible open and demonstrated source/processing latency; otherwise unsupported_schedule_abstain",
+      "late_input": "known_at greater than frozen cutoff excluded, including successful late retries; never shift cutoff or backdate",
+      "issuance": "wait until frozen cutoff; issued_at <= close+75minutes and issued_at < next_open; otherwise missed_origin"
+    }
+  },
+  "maturity_policy": {
+    "session": "count strictly after origin on frozen local valuation calendar",
+    "month": "OWNER-CONFIRMED FND-DEC-002: calendar-month anniversary, preceding valid local valuation date if closed; invalid day clamp made explicit.",
+    "month_to_session_equivalence": false,
+    "availability": "Outcome ready only when required path/actions/FX/benchmark are available; economic maturity is unchanged by publication lag"
+  },
+  "separate_scenarios": {
+    "id": "SC-3Y5Y",
+    "years": [
+      3,
+      5
+    ],
+    "not_scored_forecast": true,
+    "required_assumptions": [
+      "nominal_return_path",
+      "inflation",
+      "FX",
+      "fees",
+      "contribution_dates_amounts",
+      "dividend_policy"
+    ],
+    "probabilities": "none unless separately approved evidence supports them"
+  },
+  "source_gaps": [
+    "FC-02",
+    "FC-07",
+    "FC-08",
+    "FC-15",
+    "FC-16"
+  ],
+  "contracts": [
+    "CT-15"
+  ],
+  "delivery_tasks": [
+    "MP-21",
+    "MP-24"
+  ],
+  "retained_horizon_states": [
+    "eligible_baseline",
+    "heuristic_rules_explicitly_not_probability",
+    "challenger_in_practice",
+    "pending_outcome_maturity",
+    "unavailable_with_reason"
+  ]
+}

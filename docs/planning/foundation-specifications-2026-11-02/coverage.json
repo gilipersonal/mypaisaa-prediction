@@ -1,0 +1,495 @@
+{
+  "date": "2026-11-02",
+  "primary_issue": "MP-20",
+  "source_pr9_head": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+  "implementation_authorised": false,
+  "independent_review": "round_1_completed_fixes_await_independent_verification",
+  "scope": "Reference presence and proposed contract trace; not acceptance completion or source-gap closure.",
+  "areas": {
+    "data": [
+      "data/acceptance.json",
+      "data/catalogue.json",
+      "data/contracts.json",
+      "data/examples.json",
+      "data/maker-checks.json",
+      "data/research.json",
+      "data/specification.md"
+    ],
+    "costs": [
+      "costs/acceptance.json",
+      "costs/check_cash_timing.py",
+      "costs/cost-scenarios.png",
+      "costs/cost-scenarios.svg",
+      "costs/maker-checks.json",
+      "costs/model.json",
+      "costs/plot_scenarios.py",
+      "costs/public-price-evidence.json",
+      "costs/research.json",
+      "costs/reservation-contract.json",
+      "costs/specification.md",
+      "costs/validate_specifications.py"
+    ],
+    "financial": [
+      "financial/acceptance.json",
+      "financial/contract-catalogue.json",
+      "financial/contract-examples.json",
+      "financial/contracts.schema.json",
+      "financial/hash-contract.json",
+      "financial/hash-graph-example.json",
+      "financial/maker-checks.json",
+      "financial/open-decisions.json",
+      "financial/policies.json",
+      "financial/research.json",
+      "financial/specification.md",
+      "financial/verify_hash_contract.py",
+      "financial/worked-examples.json"
+    ],
+    "forecasting": [
+      "forecasting/acceptance-cases.json",
+      "forecasting/contract-examples.json",
+      "forecasting/contracts.schema.json",
+      "forecasting/evaluation-protocol.json",
+      "forecasting/forecasting-specification.md",
+      "forecasting/golden-examples.json",
+      "forecasting/maker-checks.json",
+      "forecasting/model-catalogue.json",
+      "forecasting/open-decisions.json",
+      "forecasting/research-register.json",
+      "forecasting/task-catalogue.json",
+      "forecasting/timing-examples.json",
+      "forecasting/timing_checks.py"
+    ]
+  },
+  "counts": {
+    "financial_worked_examples": 15,
+    "scientific_worked_examples": 15,
+    "data_acceptance": 12,
+    "cost_acceptance": 16,
+    "financial_acceptance": 30,
+    "scientific_acceptance": 17
+  },
+  "planned_acceptance_total": 75,
+  "source_gaps": [
+    {
+      "source_gap": "FC-01",
+      "planning_issue": "MP-10",
+      "referenced_in_areas": [
+        "data",
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-02",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-03",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-04",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-05",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-06",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-07",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-08",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-09",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-10",
+      "planning_issue": "MP-22",
+      "referenced_in_areas": [
+        "financial",
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-11",
+      "planning_issue": "MP-22",
+      "referenced_in_areas": [
+        "financial"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-12",
+      "planning_issue": "MP-22",
+      "referenced_in_areas": [
+        "financial"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-13",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-14",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-15",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "FC-16",
+      "planning_issue": "MP-21",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-01",
+      "planning_issue": "MP-20",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-02",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-03",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-04",
+      "planning_issue": "MP-23",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-05",
+      "planning_issue": "MP-23",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-06",
+      "planning_issue": "MP-23",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-07",
+      "planning_issue": "MP-24",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-08",
+      "planning_issue": "MP-12",
+      "referenced_in_areas": [
+        "financial"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-09",
+      "planning_issue": "MP-11",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-10",
+      "planning_issue": "MP-29",
+      "referenced_in_areas": [
+        "data",
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-11",
+      "planning_issue": "MP-30",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-12",
+      "planning_issue": "MP-27",
+      "referenced_in_areas": [
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-13",
+      "planning_issue": "MP-27",
+      "referenced_in_areas": [
+        "data",
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "PL-14",
+      "planning_issue": "MP-30",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-01",
+      "planning_issue": "MP-11",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-02",
+      "planning_issue": "MP-28",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-03",
+      "planning_issue": "MP-28",
+      "referenced_in_areas": [
+        "financial"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-04",
+      "planning_issue": "MP-13",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-05",
+      "planning_issue": "MP-27",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-06",
+      "planning_issue": "MP-27",
+      "referenced_in_areas": [
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-07",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-08",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-09",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-10",
+      "planning_issue": "MP-26",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-11",
+      "planning_issue": "MP-26",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-12",
+      "planning_issue": "MP-26",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-13",
+      "planning_issue": "MP-27",
+      "referenced_in_areas": [
+        "data",
+        "costs"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-14",
+      "planning_issue": "MP-23",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-15",
+      "planning_issue": "MP-25",
+      "referenced_in_areas": [
+        "forecasting"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-16",
+      "planning_issue": "MP-28",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-17",
+      "planning_issue": "MP-11",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CT-18",
+      "planning_issue": "MP-30",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CD-01",
+      "planning_issue": "MP-20",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "CD-02",
+      "planning_issue": "MP-20",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "IR-01",
+      "planning_issue": "MP-20",
+      "referenced_in_areas": [],
+      "status": "outside_pack1_or_consolidation_followup",
+      "closed": false
+    },
+    {
+      "source_gap": "IR-02",
+      "planning_issue": "MP-12",
+      "referenced_in_areas": [
+        "financial"
+      ],
+      "status": "proposed_contract_detail_present_approval_or_proof_pending",
+      "closed": false
+    }
+  ],
+  "all_source_gaps_still_open": true,
+  "story_limit": "Thirty financial cases reference all 16 prior L1 drafts; actual implementation Jira keys/complete phase exits remain future readiness work."
+}

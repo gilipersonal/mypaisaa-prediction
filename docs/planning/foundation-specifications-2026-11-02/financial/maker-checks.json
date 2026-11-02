@@ -1,0 +1,107 @@
+{
+  "checked_on": "2026-11-02",
+  "status": "maker_document_checks_passed",
+  "independent_review": "round_1_findings_addressed_delta_review_not_run",
+  "application_implementation": "none",
+  "checks": [
+    {
+      "name": "JSON parse",
+      "result": "pass",
+      "files": 10,
+      "scope": "Companion JSON files excluding this provenance record"
+    },
+    {
+      "name": "JSON Schema 2020-12 metaschema",
+      "result": "pass"
+    },
+    {
+      "name": "Full synthetic wire samples validated against named definitions and date-time formats",
+      "result": "pass",
+      "records": 21
+    },
+    {
+      "name": "Contract/example/acceptance references",
+      "result": "pass",
+      "contracts": 18,
+      "examples": 15,
+      "acceptance_cases": 30
+    },
+    {
+      "name": "Baseline L1 story coverage",
+      "result": "pass",
+      "stories": 16
+    },
+    {
+      "name": "Money rejects binary JSON float and NaN literals",
+      "result": "pass"
+    },
+    {
+      "name": "Independent exact Fraction arithmetic and fixed expected cases",
+      "result": "pass",
+      "assertions": 18,
+      "details": {
+        "EX01_dates_exact_365": true,
+        "EX01_XNPV_zero": true,
+        "EX02_root_10": true,
+        "EX02_root_20": true,
+        "EX03_cash_NAV_XIRR": true,
+        "EX04_transfer_reinvestment": true,
+        "EX05_GBX_cash": true,
+        "EX06_FX_decomposition": true,
+        "EX07_distinct_trades": true,
+        "EX08_action_budget": true,
+        "EX09_strict_expiry": true,
+        "EX10_correction": true,
+        "EX11_basis": true,
+        "EX12_TWR_drawdown": true,
+        "EX13_benchmark": true,
+        "EX14_exposure_HHI": true,
+        "EX15_basis_vs_peak": true,
+        "AC28_rank_arithmetic": true
+      }
+    },
+    {
+      "name": "FIN-HASH-1 computed synthetic graph and mutation proof",
+      "result": "pass",
+      "command": "python3 docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py",
+      "optimized_command": "python3 -O docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py",
+      "coverage": [
+        "Three computed immutable leaf hashes, chunk, page and manifest root; named schema validation of every graph record",
+        "Inline and paged inventory modes with exact joins/counts/order",
+        "Leaf edit rejects old hashes and changes recomputed root",
+        "Delivery failure, retry scheduling and success leave sealed root unchanged",
+        "Unknown fields, root/delivery fields on intent, unknown version, incorrect page digest reference and binary float refused"
+      ],
+      "scope": "Offline synthetic document proof only; not backend/cloud/authentication/durability evidence"
+    },
+    {
+      "name": "FIN hash proof Ruff F and financial whitespace",
+      "result": "pass"
+    }
+  ],
+  "maker_fix": [
+    "Exact arithmetic caught a draft ranking total of 70.5; corrected to 71 before final checks.",
+    "Normalized wire listing references to DATA canonical UK-VOD-XLON-GBX and added a real-instrument alias crosswalk for UK/US/India.",
+    "Round-one FIN-12 findings: separate immutable EventIntent, after-root PublicationPointer, mutable DeliveryState and append-only DeliveryAttempt; specify exact acyclic FIN-HASH-1 content projections and add computed synthetic graph/mutation proof."
+  ],
+  "limits": [
+    "These are document/schema/arithmetic checks, not backend acceptance tests.",
+    "No DynamoDB transaction, OCR, provider, model, auth, UI, deployment, production ledger or recovery exercise ran.",
+    "Cross-record authorization, decimal bounds, no-negative-zero and cryptographic completeness are semantic requirements, not proven by shape validation.",
+    "contract-examples.json digests remain explicit placeholders. hash-graph-example.json separately supplies computed synthetic content digests only."
+  ],
+  "artifact_hashes": {
+    "acceptance.json": "026f4ef273185fe873cf309c6c8b1bb4af8adce49c7da1f442f6b0b979dc6113",
+    "contract-catalogue.json": "6d13812d1bdee4f645b8cd4b57a6a189dd947d7e40ac3825ffa7360eefa2884b",
+    "contract-examples.json": "2d1a9aa590316733366a1e25703e28aa2ca40b23872ca6c3d4c73b427882ee1c",
+    "contracts.schema.json": "628a0d2c3214049bceb25b2fa38fa08230e7e6a5433a7c69ae6e4ff6699352ae",
+    "hash-contract.json": "0bd7f366cbc692c046bfc606644d7a272d1049f9c12bb613ce1edd5878ffc3c3",
+    "hash-graph-example.json": "070ba4c88b8b7110e4bb0feff738950146bb54d79f8c6f35aabedee7b1514fac",
+    "open-decisions.json": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc",
+    "policies.json": "784d2defccc72f6fb4b6bfc4ebe407dfc935985090a586245e260fec6f5a7af6",
+    "research.json": "552d1a0dbfb16418b336925c332fc781b93098cc2b5bd30cdbda3af6f1f45e5d",
+    "specification.md": "a4a4392a5d11f5e26d1ca6623a55e70c05522f854eccaa84acf876ac0631b475",
+    "verify_hash_contract.py": "42f75e06875aad1b99815f6402bdf85170e3309c755a08842606b97de307e48f",
+    "worked-examples.json": "667b7c867918fb6d3a214bbcbc61ff438d52a66354ba39b69064beb443c9e3a1"
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "as_of": "2026-11-02",
+  "status": "proposed_specification_not_approved",
+  "work_refs": [
+    "MP-12",
+    "MP-22"
+  ],
+  "canonicalization": {
+    "algorithm": "UTF-8 RFC8785 canonical JSON of explicit schema version, exact ordered event payload, sources, mappings, selected/excluded row IDs, policy versions and expected revision; no floats; decimal lexemes remain strings",
+    "hash": "SHA-256",
+    "decimal_negative_zero": "rejected",
+    "lexeme_change": "new payload hash and new approval even when numerical value equal",
+    "event_order": "economic date, source/action dependency order, stable event ID only when economic ordering immaterial; unresolved material same-day order blocks review_ready"
+  },
+  "precision_proposal": {
+    "owner_decision": "FIN-OD-01",
+    "money_quantity_price_max_significant_digits": 28,
+    "money_quantity_price_max_fractional_digits": 12,
+    "FX_max_fractional_digits": 16,
+    "working_significant_digits": 50,
+    "presentation_rounding": "ROUND_HALF_EVEN",
+    "source_booked_cash": "preserve; never overwrite with rounded recomputation",
+    "residual": "calculation-only; deterministic largest absolute component then stable ID; never create ledger effects",
+    "booked_reconciliation_tolerance": "zero after declared source rounding; any difference reported"
+  },
+  "state_machines": {
+    "source": {
+      "received": [
+        "quarantined",
+        "validation_failed",
+        "cancelled"
+      ],
+      "quarantined": [
+        "extracting",
+        "validation_failed",
+        "cancelled"
+      ],
+      "extracting": [
+        "extracted",
+        "extraction_failed",
+        "cancelled"
+      ],
+      "extraction_failed": [
+        "quarantined",
+        "cancelled"
+      ],
+      "validation_failed": [
+        "cancelled"
+      ],
+      "extracted": [],
+      "cancelled": []
+    },
+    "draft": {
+      "draft": [
+        "needs_resolution",
+        "review_ready",
+        "cancelled"
+      ],
+      "needs_resolution": [
+        "draft",
+        "cancelled"
+      ],
+      "review_ready": [
+        "confirmed",
+        "cancelled"
+      ],
+      "confirmed": [
+        "staged",
+        "failed",
+        "cancelled"
+      ],
+      "staged": [
+        "published",
+        "failed",
+        "cancelled"
+      ],
+      "failed": [
+        "staged",
+        "cancelled"
+      ],
+      "published": [],
+      "cancelled": []
+    },
+    "manifest": {
+      "reserved": [
+        "staged",
+        "failed",
+        "cancelled"
+      ],
+      "staged": [
+        "sealing",
+        "failed",
+        "cancelled"
+      ],
+      "sealing": [
+        "complete",
+        "failed",
+        "cancelled"
+      ],
+      "complete": [
+        "published",
+        "failed",
+        "cancelled",
+        "staged"
+      ],
+      "published": [],
+      "failed": [
+        "staged",
+        "cancelled"
+      ],
+      "cancelled": []
+    },
+    "guards": [
+      "A needs_resolution edit creates a new immutable draft revision, never changes the old revision.",
+      "Retry from failed requires same immutable operation, valid/rebound exact approval, active fence and unchanged expected revision; terminal failure is not retryable.",
+      "Reprocessing validation_failed requires a new source-processing revision, not replacement of original bytes.",
+      "Cancellation and publication race conditionally on the same authoritative state; only one wins.",
+      "Published correction/reversal is a new draft/manifest/approval; published original remains published with supersession lineage.",
+      "The exceptional complete->staged recovery is only an expired/revoked-approval rebind of an unchanged payload: atomically advance fence, bind a new exact approval, retire old seal and record recovery audit. Reverify immutable content and reseal; old fence/seal cannot activate. A changed payload needs a new draft/operation key after cancelling old unfinished work."
+    ]
+  },
+  "publication": {
+    "serialization_scope": "owner + environment; one linear ledger head",
+    "max_service_transaction_actions": 100,
+    "max_service_transaction_item_bytes": 4194304,
+    "max_service_item_bytes": 409600,
+    "byte_budget_caveat": "preflight exact DynamoDB stored-item accounting and request constraints; values include attribute names/metadata, not just JSON file size",
+    "service_token_validity_minutes": 10,
+    "business_idempotency_retention": "retained financial ledger lifecycle; no TTL expiration shortcut",
+    "final_atomic_set": [
+      "conditional owner/environment ledger head advance",
+      "conditional complete manifest -> published, same fence and digest",
+      "business idempotency and durable receipt publication",
+      "conditional approval consumption with exact hash/version/expiry/assurance/revocation preconditions",
+      "activation audit",
+      "publication outbox pointer"
+    ],
+    "stage_chunk_atomic_set": [
+      "active-state and fence guard",
+      "immutable event/audit/intent records",
+      "immutable chunk completion hash/count"
+    ],
+    "readers": [
+      "API portfolio reads",
+      "event history/pagination",
+      "agents/private memory reads",
+      "metrics",
+      "forecast input snapshots",
+      "projections",
+      "exports",
+      "replay/rebuild",
+      "outbox dispatch",
+      "admin investigation"
+    ],
+    "reader_algorithm": [
+      "strongly pin head/revision",
+      "walk published manifest ancestry until known validated checkpoint",
+      "resolve complete immutable item set from manifest receipts in base store",
+      "verify counts/digests and owner/environment",
+      "materialize only pinned revision; return INTEGRITY_INCOMPLETE on missing expected content",
+      "bind pagination and caches to pinned revision, do not merge newer head"
+    ],
+    "forbidden": [
+      "publish each chunk",
+      "use GSI/Stream as complete ledger authority",
+      "interpret S3 object creation as financial commit",
+      "compensate blindly after response timeout",
+      "assert S3+DDB atomic transaction",
+      "mutate staged content after sealing",
+      "exclude reversed original AND sum inverse"
+    ],
+    "fencing": "monotonic token scoped to manifest; all chunk/seal/activation writes check token and state; lease clock alone cannot fence a stale worker",
+    "checkpoint": "optional immutable verified projection linked to full parent revision and digest; not correctness authority without rebuild proof",
+    "manifest_inventory": "Bounded inline header or immutable paged child manifests; every page/chunk count and digest checked before complete. No header/item may exceed service item limit.",
+    "chunk_reuse_on_recovery": "Previously immutable chunk content may be referenced by a new-fence recovery receipt after full count/digest verification; historical old-fence completion receipts remain evidence, not new activation authority.",
+    "content_hash_contract": "hash-contract.json FIN-HASH-1: exact acyclic leaf -> chunk -> optional page -> manifest projections; actual synthetic proof in hash-graph-example.json",
+    "delivery_records": "Only immutable EventIntent enters chunk content. After-root PublicationPointer, mutable DeliveryState and append-only DeliveryAttempt are separately keyed and never part of sealed content; all join owner/environment/commit/message and require published authority.",
+    "hash_exclusions": "Own digest fields excluded explicitly; manifest activation envelope state/resulting_revision/published_at excluded. Fence and approval_id included. No implied full-record hash. Unknown schema fields are refused."
+  },
+  "metric_eligibility": {
+    "common_required": [
+      "published intact ledger revision",
+      "authorized owner/environment",
+      "field-specific history and reconciliation",
+      "per-use verified entitlement",
+      "freshness/calendar policy satisfied",
+      "exact price/FX/action/adjustment versions",
+      "economic_at/known_at/ingested_at and cutoff",
+      "declared currency/boundary/method"
+    ],
+    "XIRR": [
+      "dated complete boundary cash flows or explicit opening valuation period",
+      "at least2 distinct dates, positive duration, both aggregated signs",
+      "complete eligible terminal NAV",
+      "root uniqueness certificate or ambiguous result",
+      "net fee/income/withholding treatment supported"
+    ],
+    "TWR": [
+      "valuation immediately before/after each boundary flow with supported timing",
+      "positive subperiod denominators",
+      "no interpolated substitute labelled exact TWR"
+    ],
+    "basis_loss": [
+      "positive known remaining basis and current value in same currency/boundary",
+      "approved analytical method or source-reported basis provenance"
+    ],
+    "complete_portfolio_risk": [
+      "complete eligible GBP NAV",
+      "complete required exposures and compatible paired return matrix",
+      "common-window/sample-size/calendar policy met",
+      "covariance finite, symmetric and positive semidefinite within declared numerical tolerance"
+    ],
+    "ranking": [
+      "allthree components eligible",
+      "approved normalization and threshold policy",
+      "exact task/horizon/currency/benchmark comparability",
+      "counterfactual portfolio impact and uncertainty"
+    ],
+    "unavailable_value": null,
+    "missing_score_policy": "abstain; no neutral substitution or automatic renormalization"
+  },
+  "flow_boundaries": {
+    "sign": "investor perspective: into measured investment negative, out positive",
+    "holding": {
+      "buy_with_fee": "negative",
+      "sale_net": "positive",
+      "net_distribution": "positive",
+      "linked_reinvestment": "positive income and negative acquisition; same day may net zero",
+      "terminal_holding_value": "positive once"
+    },
+    "account": {
+      "deposit": "negative",
+      "withdrawal": "positive",
+      "owned_account_transfer": "outgoing positive/incoming negative",
+      "buy_sell_retained_income_fees_FX": "internal; NAV captures effects",
+      "terminal_account_NAV": "positive once"
+    },
+    "portfolio": {
+      "outside_deposit": "negative",
+      "outside_withdrawal": "positive",
+      "internal_account_transfer": "zero after matched cancellation; transit valued once",
+      "buys_sells_retained_income_fees_withholding_internalFX": "internal; NAV captures effects",
+      "in_kind_crossing": "dated fair value required; otherwise unavailable",
+      "terminal_portfolio_NAV": "positive once"
+    }
+  },
+  "access_patterns": [
+    {
+      "id": "FIN-AP-01",
+      "query": "owner/environment+operation key -> manifest/receipt and payload conflict",
+      "consistency": "authoritative base strong read",
+      "index_need": "unique scoped business-operation lookup"
+    },
+    {
+      "id": "FIN-AP-02",
+      "query": "head and revision -> ordered published manifests/chunks/events",
+      "consistency": "strong head plus immutable base manifest joins",
+      "index_need": "revision ancestry and direct commit/chunk IDs"
+    },
+    {
+      "id": "FIN-AP-03",
+      "query": "account/listing economic-date history at pinned revision",
+      "consistency": "complete manifest-filtered paginated projection or authoritative replay",
+      "index_need": "account+economic date+stable sequence; revision cursor"
+    },
+    {
+      "id": "FIN-AP-04",
+      "query": "recorded-time changes, actor, denied operation, admin/export access",
+      "consistency": "durable audit with high-watermark and lag evidence",
+      "index_need": "owner/environment+recorded time; actor/operation retrieval"
+    },
+    {
+      "id": "FIN-AP-05",
+      "query": "event -> source/draft/approval/before-after/correction/dependencies/forecast lineage",
+      "consistency": "direct immutable IDs; completeness verified",
+      "index_need": "forward/reverse lineage and supersession references"
+    },
+    {
+      "id": "FIN-AP-06",
+      "query": "pending/failed/stale-fence manifest and unmatched upload receipt/object",
+      "consistency": "eventual discovery plus authoritative base validation",
+      "index_need": "state+last progress, scoped receipt inventory"
+    },
+    {
+      "id": "FIN-AP-07",
+      "query": "outbox pending messages and all delivery attempts by commit",
+      "consistency": "eventual discovery, strong published manifest validation",
+      "index_need": "delivery status+due time and commit linkage"
+    },
+    {
+      "id": "FIN-AP-08",
+      "query": "export snapshot at revision with lineage and omissions",
+      "consistency": "same pinned snapshot algorithm as all reads",
+      "index_need": "versioned generation and manifest-directed enumeration"
+    }
+  ],
+  "retention": {
+    "originals": "24-month renewable archive direction preserved; automatic deletion mechanics need separate policy",
+    "financial_audit_approval_idempotency": "duration and deletion consequences FIN-OD-08; never silently use operational TTL",
+    "deletion": "tombstone/evidence availability flags plus backups/restore erasure checks; no claim of complete retained source proof after deletion"
+  },
+  "export_required_fields": [
+    "schema/version",
+    "owner/environment",
+    "published ledger revision",
+    "economic and recorded timestamps",
+    "native currency/unit",
+    "event and correction lineage",
+    "source/checksum availability",
+    "approval/audit references",
+    "metric method/price/FX/policy versions",
+    "omissions and known missingness",
+    "content digest",
+    "private delivery/access expiry",
+    "creation/access/deletion audit"
+  ],
+  "approval_expiry_semantics": {
+    "clock": "trusted writer UTC immediately before each activation submission",
+    "validity": "server_now < expires_at",
+    "service_limitation": "DynamoDB cannot evaluate a current server-clock expression in the transaction. A pre-expiry submitted transaction may finish after expiry.",
+    "late_outcome": "Resolve receipt; record submission/completion time. Do not retry a new activation after expiry without renewed approval. Strict commit-before-expiry is unproved and requires a separate owner decision."
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "status": "proposed",
+  "independent_review": false,
+  "live_checks_executed": false,
+  "cases": [
+    {
+      "id": "COST-AT-01",
+      "spec_id": "COST-01",
+      "given": "Two accounts each assume a GBP 100 budget.",
+      "expected": "Aggregate admission denies multiplied budgets and credits.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-02",
+      "spec_id": "COST-02",
+      "given": "Seven horizons multiply the candidate cap.",
+      "expected": "One campaign scope and shared aggregate cap apply; unqualified challengers remain visibly deferred.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-03",
+      "spec_id": "COST-03",
+      "given": "Recalculate pinned rates and stated quantities.",
+      "expected": "Every line product and total matches model.json without a live API call.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-04",
+      "spec_id": "COST-04",
+      "given": "Grow 79 at GBP 0.80/USD and 20 percent tax.",
+      "expected": "Data alone is GBP 75.84, above planned operation.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-05",
+      "spec_id": "COST-05",
+      "given": "Reported USD 200 credit has no verified allocation.",
+      "expected": "Admissible credit is zero. MP-local reservations and delayed usage analytics cannot prove organisation-wide credit coverage; refuse Claude/online judge calls without trustworthy allocation and freshness proof.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-06",
+      "spec_id": "COST-06",
+      "given": "Two workers reserve the final GBP 0.05.",
+      "expected": "At most one succeeds atomically.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-07",
+      "spec_id": "COST-06",
+      "given": "A batch times out after provider acceptance.",
+      "expected": "Retain liability until reconciliation; do not duplicate the submission.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-08",
+      "spec_id": "COST-07",
+      "given": "The dashboard refreshes 100 times.",
+      "expected": "Read cached aggregates and make zero extra billing API calls.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-09",
+      "spec_id": "COST-07",
+      "given": "The report is 48 hours old and credit evidence 31 minutes old.",
+      "expected": "Show source and collection ages. A six-hour Anthropic usage report cannot establish a realtime credit balance or satisfy the separate proposed 30-minute allocation-proof requirement. Refuse optional credit-dependent admission without trustworthy proof.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-10",
+      "spec_id": "COST-08",
+      "given": "Uncontrolled stress quantities are requested.",
+      "expected": "Caps refuse excess; this does not authorise spending GBP 274.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-11",
+      "spec_id": "COST-09",
+      "given": "A region is priced but the assurance feature remains unproven.",
+      "expected": "Keep it a candidate; prove the required policy or deny sensitive actions.",
+      "evidence_kind": "live_proof_pending",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-12",
+      "spec_id": "COST-04",
+      "given": "A support USD 29 quote exists but current checkout is unverified.",
+      "expected": "Keep price conditional and do not close budget or licence feasibility.",
+      "evidence_kind": "live_proof_pending",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-13",
+      "spec_id": "COST-07",
+      "given": "DEC-025 (owner choice C03) confirms daily AWS billing collection and six-hour Anthropic usage/billing collection.",
+      "expected": "Use 24-hour AWS and 6-hour Anthropic schedules. The 120 AWS paginated requests/month are a conservative cap, such as 30 daily collections at up to 4 pages, with no dashboard-triggered billing calls.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-14",
+      "spec_id": "COST-06",
+      "given": "An unrelated application can spend shared organisation credits outside the MP-local ledger.",
+      "expected": "Mark cross-application allocation unenforced/unproven and keep admissible credit at zero; refuse dispatch. Do not claim that usage/cost analytics provide a realtime balance or modify another application.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-15",
+      "spec_id": "COST-04",
+      "given": "The proposed USD15 annual domain allowance is due once in an illustrative setup/renewal month; central Virginia with Claude blocked.",
+      "expected": "Keep 108 amortised monthly run-rate variants separate from 216 cash timing variants. Grow79 annual invoice cash is GBP108.88 and exceeds GBP100, versus ordinary-month GBP94.48; conditional Grow55 annual invoice cash is GBP60.88, below GBP70 with warning reached. Full due commitment replaces USD1.25 amortisation. No purchase, invoice date or subscription approval is implied.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-16",
+      "spec_id": "COST-06",
+      "given": "A selected fixed invoice is annual, or its amount/due month is unknown.",
+      "expected": "Reserve the full conservative cash liability in its due month before optional jobs; never admit against an amortised monthly equivalent or release on forecast expiry. Unknown invoice amount/timing blocks a new commitment until conservatively bounded and authorised. Settlement/effective cancellation replaces or releases the same liability without duplication.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-27",
+        "MP-29"
+      ]
+    }
+  ]
+}

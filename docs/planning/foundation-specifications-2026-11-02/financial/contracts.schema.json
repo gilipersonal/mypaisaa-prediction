@@ -1,0 +1,2897 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mypaisaa:financial:FIN-1.0",
+  "title": "Proposed financial wire contracts; data definitions only",
+  "$comment": "No deployed API. Cross-record invariants, precision, timestamps, authorization, hashes and publication guards are normative in policies.json; shape validation alone does not prove them. Numbers used for money/rates/units must be decimal strings.",
+  "$defs": {
+    "ScopeEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "owner_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "dev",
+            "prod"
+          ]
+        },
+        "schema_version": {
+          "type": "string",
+          "const": "FIN-1.0"
+        },
+        "is_synthetic": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "owner_id",
+        "environment",
+        "schema_version",
+        "is_synthetic"
+      ],
+      "title": "FIN-01 ScopeEnvelope"
+    },
+    "Money": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+        },
+        "currency": {
+          "type": "string",
+          "enum": [
+            "GBP",
+            "USD",
+            "INR"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "booked",
+            "reported",
+            "calculated",
+            "estimated"
+          ]
+        },
+        "source_literal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "amount",
+        "currency",
+        "quality",
+        "source_literal"
+      ],
+      "title": "FIN-02 Money"
+    },
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "source_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "deleted",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "source_id",
+        "source_version",
+        "sha256",
+        "locator",
+        "evidence_status"
+      ]
+    },
+    "ObservationTimes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "economic_at": {
+          "type": "string",
+          "description": "ISO date or date-time consistent with precision"
+        },
+        "time_precision": {
+          "type": "string",
+          "enum": [
+            "date",
+            "instant"
+          ]
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ingested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "known_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "vintage_class": {
+          "type": "string",
+          "enum": [
+            "prospective",
+            "verified_vintage",
+            "reconstructed"
+          ]
+        }
+      },
+      "required": [
+        "economic_at",
+        "time_precision",
+        "timezone",
+        "published_at",
+        "ingested_at",
+        "known_at",
+        "vintage_class"
+      ]
+    },
+    "SourceEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rights_record_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "allowed_use": {
+          "type": "string",
+          "enum": [
+            "ledger_valuation",
+            "derived_metric_display",
+            "benchmark_comparison",
+            "exposure_analysis"
+          ]
+        },
+        "entitlement": {
+          "type": "string",
+          "enum": [
+            "verified_allowed",
+            "denied",
+            "unknown"
+          ]
+        },
+        "freshness": {
+          "type": "string",
+          "enum": [
+            "fresh",
+            "expected_closed",
+            "stale",
+            "unknown"
+          ]
+        },
+        "quality": {
+          "type": "string",
+          "enum": [
+            "validated",
+            "estimated",
+            "conflicted",
+            "missing"
+          ]
+        },
+        "policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "rights_record_id",
+        "allowed_use",
+        "entitlement",
+        "freshness",
+        "quality",
+        "policy_version"
+      ]
+    },
+    "Issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "issuer_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "legal_name": {
+          "type": "string"
+        },
+        "lei": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "issuer_id",
+        "legal_name",
+        "lei",
+        "evidence"
+      ]
+    },
+    "Security": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "security_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "issuer_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "equity",
+            "ETF",
+            "fund"
+          ]
+        },
+        "share_class_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "isin": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}[A-Z0-9]{9}[0-9]$"
+        },
+        "class_currency": {
+          "type": "string",
+          "enum": [
+            "GBP",
+            "USD",
+            "INR"
+          ]
+        },
+        "income_policy": {
+          "type": "string",
+          "enum": [
+            "distributing",
+            "accumulating",
+            "not_applicable",
+            "unknown"
+          ]
+        },
+        "identity_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "security_id",
+        "issuer_id",
+        "kind",
+        "share_class_id",
+        "isin",
+        "class_currency",
+        "income_policy",
+        "identity_version"
+      ]
+    },
+    "InstrumentListing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listing_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "security_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "mic": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{4}$"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "quote_unit": {
+          "type": "string",
+          "enum": [
+            "GBP",
+            "GBX",
+            "USD",
+            "INR"
+          ]
+        },
+        "settlement_currency": {
+          "type": "string",
+          "enum": [
+            "GBP",
+            "USD",
+            "INR"
+          ]
+        },
+        "quote_to_currency_factor": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+        },
+        "calendar_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_to": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mapping_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "provider_aliases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "provider": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string"
+              },
+              "effective_from": {
+                "type": "string",
+                "format": "date"
+              },
+              "effective_to": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "provider",
+              "symbol",
+              "effective_from",
+              "effective_to"
+            ]
+          }
+        }
+      },
+      "required": [
+        "listing_id",
+        "security_id",
+        "mic",
+        "ticker",
+        "quote_unit",
+        "settlement_currency",
+        "quote_to_currency_factor",
+        "calendar_id",
+        "effective_from",
+        "effective_to",
+        "mapping_version",
+        "provider_aliases"
+      ],
+      "title": "FIN-03 InstrumentListing"
+    },
+    "InvestmentAccount": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "account_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "institution_alias": {
+          "type": "string"
+        },
+        "jurisdiction": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "wrapper_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "account_kind": {
+          "type": "string",
+          "enum": [
+            "brokerage",
+            "ISA",
+            "SIPP",
+            "demat",
+            "folio",
+            "other"
+          ]
+        },
+        "settlement_currencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "GBP",
+              "USD",
+              "INR"
+            ]
+          }
+        },
+        "protected_reference_token": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "tax_logic_applied": {
+          "const": false
+        }
+      },
+      "required": [
+        "scope",
+        "account_id",
+        "institution_alias",
+        "jurisdiction",
+        "wrapper_label",
+        "account_kind",
+        "settlement_currencies",
+        "protected_reference_token",
+        "version",
+        "tax_logic_applied"
+      ],
+      "title": "FIN-04 InvestmentAccount"
+    },
+    "CashLeg": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "leg_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "account_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "money": {
+          "$ref": "#/$defs/Money"
+        },
+        "cash_state": {
+          "type": "string",
+          "enum": [
+            "settled",
+            "receivable",
+            "payable",
+            "in_transit"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "principal",
+            "fee",
+            "income",
+            "withholding",
+            "external_flow",
+            "FX",
+            "transfer",
+            "cash_in_lieu"
+          ]
+        },
+        "boundary": {
+          "type": "string",
+          "enum": [
+            "external_portfolio",
+            "internal_portfolio",
+            "unresolved"
+          ]
+        },
+        "transfer_link": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "leg_id",
+        "account_id",
+        "money",
+        "cash_state",
+        "role",
+        "boundary",
+        "transfer_link"
+      ]
+    },
+    "QuantityLeg": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "leg_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "account_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "listing_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "units": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "acquisition",
+            "disposal",
+            "transfer",
+            "split_adjustment"
+          ]
+        },
+        "lot_reference": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "leg_id",
+        "account_id",
+        "listing_id",
+        "units",
+        "role",
+        "lot_reference"
+      ]
+    },
+    "LedgerEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "account_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "deposit",
+            "withdrawal",
+            "buy_record",
+            "sell_record",
+            "dividend",
+            "interest",
+            "fee",
+            "withholding",
+            "FX_conversion",
+            "transfer",
+            "split",
+            "cash_in_lieu",
+            "correction_inverse",
+            "correction_replacement",
+            "reversal",
+            "settlement"
+          ]
+        },
+        "economic_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "economic_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_precision": {
+          "type": "string",
+          "enum": [
+            "date",
+            "instant"
+          ]
+        },
+        "trade_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "settlement_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_sequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cash_legs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CashLeg"
+          }
+        },
+        "quantity_legs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/QuantityLeg"
+          }
+        },
+        "fee_detail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Money"
+          }
+        },
+        "deduction_detail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Money"
+          }
+        },
+        "cash_detail_mode": {
+          "type": "string",
+          "enum": [
+            "net_leg_includes_details",
+            "separate_posted_legs"
+          ]
+        },
+        "source_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "economic_identity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        },
+        "reverses_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "replaces_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action_link": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policy_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      },
+      "required": [
+        "scope",
+        "event_id",
+        "commit_id",
+        "account_ids",
+        "kind",
+        "economic_date",
+        "economic_at",
+        "time_precision",
+        "trade_date",
+        "settlement_date",
+        "source_sequence",
+        "recorded_at",
+        "cash_legs",
+        "quantity_legs",
+        "fee_detail",
+        "deduction_detail",
+        "cash_detail_mode",
+        "source_reference",
+        "economic_identity",
+        "evidence",
+        "reverses_event_id",
+        "replaces_event_id",
+        "action_link",
+        "policy_versions"
+      ],
+      "title": "FIN-05 LedgerEvent"
+    },
+    "SourceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "byte_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "storage_version_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "received",
+            "quarantined",
+            "extracting",
+            "extracted",
+            "validation_failed",
+            "extraction_failed",
+            "cancelled"
+          ]
+        },
+        "received_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retention_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "intake_method": {
+          "type": "string",
+          "enum": [
+            "CSV",
+            "Excel",
+            "PDF",
+            "screenshot",
+            "manual"
+          ]
+        },
+        "layout_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validation_report_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "source_id",
+        "version",
+        "sha256",
+        "media_type",
+        "byte_count",
+        "storage_version_ref",
+        "state",
+        "received_at",
+        "retention_policy",
+        "intake_method",
+        "layout_version",
+        "validation_report_ref"
+      ],
+      "title": "FIN-06 SourceReceipt"
+    },
+    "DraftRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "selected": {
+          "type": "boolean"
+        },
+        "event_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "disposition": {
+          "type": "string",
+          "enum": [
+            "add",
+            "true_duplicate",
+            "excluded",
+            "blocked",
+            "correction"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "row_id",
+        "selected",
+        "event_refs",
+        "disposition",
+        "reason",
+        "evidence"
+      ]
+    },
+    "ImportDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "import_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "draft_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "needs_resolution",
+            "review_ready",
+            "confirmed",
+            "staged",
+            "published",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "expected_ledger_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "catalogue_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "policy_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "account_mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "source_alias": {
+                "type": "string"
+              },
+              "account_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              }
+            },
+            "required": [
+              "source_alias",
+              "account_id"
+            ]
+          }
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DraftRow"
+          }
+        },
+        "event_set_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "validation_report_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "superseding_commit_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "scope",
+        "import_id",
+        "draft_revision",
+        "payload_sha256",
+        "state",
+        "expected_ledger_revision",
+        "source_versions",
+        "catalogue_version",
+        "policy_versions",
+        "account_mappings",
+        "rows",
+        "event_set_ref",
+        "validation_report_ref",
+        "superseding_commit_id",
+        "created_at"
+      ],
+      "title": "FIN-07 ImportDraft"
+    },
+    "OwnerApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "approval_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "import_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "draft_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "expected_ledger_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "operation": {
+          "type": "string",
+          "enum": [
+            "import",
+            "correction",
+            "reversal",
+            "baseline_rebase"
+          ]
+        },
+        "selected_rows_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "auth_context_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "assurance_policy_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "approved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "revoked_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consumed_by_commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "approval_id",
+        "import_id",
+        "draft_revision",
+        "payload_sha256",
+        "expected_ledger_revision",
+        "operation",
+        "selected_rows_sha256",
+        "auth_context_ref",
+        "assurance_policy_version",
+        "approved_at",
+        "expires_at",
+        "nonce",
+        "revoked_at",
+        "consumed_by_commit"
+      ],
+      "title": "FIN-08 OwnerApproval"
+    },
+    "ChunkReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chunk_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "fence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "audit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intent_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "item_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "serialized_item_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "storage_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      },
+      "required": [
+        "chunk_id",
+        "fence",
+        "event_count",
+        "audit_count",
+        "intent_count",
+        "item_count",
+        "serialized_item_bytes",
+        "content_sha256",
+        "storage_refs"
+      ]
+    },
+    "CommitManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "import_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "operation_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resulting_revision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parent_commit_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "reserved",
+            "staged",
+            "sealing",
+            "complete",
+            "published",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "chunks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChunkReceipt"
+          }
+        },
+        "expected_event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_audit_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_intent_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "approval_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supersedes_commit_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "chunk_inventory_mode": {
+          "type": "string",
+          "enum": [
+            "inline",
+            "paged"
+          ]
+        },
+        "chunk_page_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PageRef"
+          }
+        },
+        "expected_chunk_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expected_page_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hash_policy_version": {
+          "const": "FIN-HASH-1"
+        }
+      },
+      "required": [
+        "scope",
+        "commit_id",
+        "import_id",
+        "operation_key",
+        "payload_sha256",
+        "expected_revision",
+        "resulting_revision",
+        "parent_commit_id",
+        "fence",
+        "state",
+        "chunks",
+        "expected_event_count",
+        "expected_audit_count",
+        "expected_intent_count",
+        "manifest_sha256",
+        "approval_id",
+        "published_at",
+        "supersedes_commit_id",
+        "chunk_inventory_mode",
+        "chunk_page_refs",
+        "expected_chunk_count",
+        "expected_page_count",
+        "hash_policy_version"
+      ],
+      "title": "FIN-09 CommitManifest",
+      "description": "The FIN-HASH-1 immutable projection defined in hash-contract.json binds ordered chunks or ordered page ID/digest pairs and exact counts. Mutable activation envelope and own digest are excluded explicitly. Inline and paged inventories are mutually exclusive semantic modes."
+    },
+    "CommitReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "receipt_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "operation_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "published",
+            "failed",
+            "cancelled",
+            "outcome_unknown"
+          ]
+        },
+        "ledger_revision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retry_disposition": {
+          "type": "string",
+          "enum": [
+            "read_receipt",
+            "same_operation_retry",
+            "refresh_and_reapprove",
+            "none"
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "receipt_id",
+        "commit_id",
+        "operation_key",
+        "payload_sha256",
+        "status",
+        "ledger_revision",
+        "manifest_sha256",
+        "occurred_at",
+        "retry_disposition",
+        "error_code"
+      ],
+      "title": "FIN-10 CommitReceipt"
+    },
+    "AuditEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "audit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "actor_type": {
+          "type": "string",
+          "enum": [
+            "owner",
+            "writer",
+            "extractor",
+            "reconciler",
+            "admin"
+          ]
+        },
+        "actor_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "operation": {
+          "type": "string"
+        },
+        "target_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "commit_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        },
+        "approval_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "before_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "economic_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_digest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "integrity_anchor_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "integrity_claim": {
+          "type": "string",
+          "enum": [
+            "digest_only",
+            "externally_anchored",
+            "incomplete"
+          ]
+        },
+        "retention_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "scope",
+        "audit_id",
+        "actor_type",
+        "actor_ref",
+        "operation",
+        "target_refs",
+        "commit_id",
+        "source_refs",
+        "approval_id",
+        "before_ref",
+        "after_ref",
+        "reason",
+        "recorded_at",
+        "economic_date",
+        "previous_digest",
+        "content_sha256",
+        "integrity_anchor_ref",
+        "integrity_claim",
+        "retention_policy"
+      ],
+      "title": "FIN-11 AuditEvidence"
+    },
+    "OutboxRecord": {
+      "title": "FIN-12 OutboxRecord",
+      "description": "Typed transport family. Only EventIntent is sealed chunk content. PublicationPointer is created after root computation. DeliveryState is mutable and DeliveryAttempt append-only; both are outside financial content digests.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/EventIntent"
+        },
+        {
+          "$ref": "#/$defs/PublicationPointer"
+        },
+        {
+          "$ref": "#/$defs/DeliveryState"
+        },
+        {
+          "$ref": "#/$defs/DeliveryAttempt"
+        }
+      ]
+    },
+    "PositionObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "observation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "account_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "listing_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "times": {
+          "$ref": "#/$defs/ObservationTimes"
+        },
+        "reported_units": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reported_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reported_cost_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "history_complete": {
+          "type": "boolean"
+        },
+        "history_start": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "account_coverage": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "selected",
+            "unknown"
+          ]
+        },
+        "baseline_generation": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "superseded_in_generation": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reconciliation": {
+          "type": "string",
+          "enum": [
+            "matched",
+            "unresolved",
+            "not_compared"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "scope",
+        "observation_id",
+        "account_id",
+        "listing_id",
+        "times",
+        "reported_units",
+        "reported_value",
+        "reported_cost_basis",
+        "history_complete",
+        "history_start",
+        "account_coverage",
+        "baseline_generation",
+        "superseded_in_generation",
+        "reconciliation",
+        "evidence"
+      ],
+      "title": "FIN-13 PositionObservation"
+    },
+    "MetricResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "metric_result_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "metric": {
+          "type": "string"
+        },
+        "boundary": {
+          "type": "string",
+          "enum": [
+            "holding",
+            "account",
+            "portfolio"
+          ]
+        },
+        "boundary_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "GBP",
+                "USD",
+                "INR"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "ratio",
+            "annualized_ratio",
+            "currency",
+            "units",
+            "index",
+            "variance"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "partial",
+            "unavailable",
+            "ambiguous",
+            "nonconvergent",
+            "integrity_failed"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "method_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "policy_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ledger_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "valuation_cutoff": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "input_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+                  "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "denominator": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+                  "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "GBP_value",
+                "holdings_count",
+                "observations"
+              ]
+            },
+            "unknown_residual": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "unit",
+            "unknown_residual"
+          ]
+        },
+        "root_candidates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+            "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+          }
+        },
+        "npv_residual": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "uncertainty_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_eligibility_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "is_forecast": {
+          "const": false
+        }
+      },
+      "required": [
+        "scope",
+        "metric_result_id",
+        "metric",
+        "boundary",
+        "boundary_ref",
+        "currency",
+        "value",
+        "unit",
+        "status",
+        "reasons",
+        "method_version",
+        "policy_versions",
+        "start_date",
+        "end_date",
+        "as_of",
+        "ledger_revision",
+        "valuation_cutoff",
+        "input_refs",
+        "coverage",
+        "root_candidates",
+        "npv_residual",
+        "uncertainty_ref",
+        "source_eligibility_refs",
+        "is_forecast"
+      ],
+      "title": "FIN-14 MetricResult"
+    },
+    "FXQuote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "base_currency": {
+          "type": "string",
+          "enum": [
+            "GBP",
+            "USD",
+            "INR"
+          ]
+        },
+        "counter_currency": {
+          "const": "GBP"
+        },
+        "counter_per_base": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+        },
+        "times": {
+          "$ref": "#/$defs/ObservationTimes"
+        },
+        "source_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "eligibility": {
+          "$ref": "#/$defs/SourceEligibility"
+        },
+        "cross_leg_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      },
+      "required": [
+        "fx_id",
+        "base_currency",
+        "counter_currency",
+        "counter_per_base",
+        "times",
+        "source_version",
+        "eligibility",
+        "cross_leg_refs"
+      ],
+      "title": "FIN-15 FXQuote"
+    },
+    "AuditQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "query_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "event_lineage",
+            "recorded_changes",
+            "economic_history",
+            "commit_completeness",
+            "outbox_delivery",
+            "source_orphans",
+            "metric_inputs",
+            "supersession",
+            "export_access"
+          ]
+        },
+        "resource_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "pinned_revision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "from_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "to_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "query_id",
+        "kind",
+        "resource_refs",
+        "pinned_revision",
+        "from_date",
+        "to_date",
+        "cursor"
+      ],
+      "title": "FIN-16 AuditQuery"
+    },
+    "BenchmarkComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "comparison_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "boundary_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "ledger_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "benchmark_series_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "benchmark_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "currency": {
+          "const": "GBP"
+        },
+        "origin": {
+          "type": "string",
+          "format": "date"
+        },
+        "maturity": {
+          "type": "string",
+          "format": "date"
+        },
+        "flow_timing_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "distribution_convention": {
+          "type": "string",
+          "enum": [
+            "net_total_return",
+            "gross_total_return"
+          ]
+        },
+        "fee_assumption": {
+          "type": "string"
+        },
+        "synthetic_units": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+          "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+        },
+        "terminal_value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "implies_trades": {
+          "const": false
+        }
+      },
+      "required": [
+        "scope",
+        "comparison_id",
+        "boundary_ref",
+        "ledger_revision",
+        "benchmark_series_id",
+        "benchmark_version",
+        "currency",
+        "origin",
+        "maturity",
+        "flow_timing_policy",
+        "distribution_convention",
+        "fee_assumption",
+        "synthetic_units",
+        "terminal_value",
+        "eligible",
+        "reasons",
+        "implies_trades"
+      ],
+      "title": "FIN-17 BenchmarkComparison"
+    },
+    "PortfolioRisk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "risk_result_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "ledger_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "exposure_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "weight_basis": {
+          "const": "GBP_NAV"
+        },
+        "known_nav": {
+          "$ref": "#/$defs/Money"
+        },
+        "complete_nav": {
+          "type": "boolean"
+        },
+        "issuer_weights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "issuer_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "weight": {
+                "type": "string",
+                "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+                "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+              }
+            },
+            "required": [
+              "issuer_id",
+              "weight"
+            ]
+          }
+        },
+        "unknown_exposure_weight": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "window_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "common_observation_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "volatility": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "peak_drawdown": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis_loss": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+              "description": "Canonical finite decimal string; precision and no-negative-zero constraints require FIN-02 semantic validation."
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "scope",
+        "risk_result_id",
+        "ledger_revision",
+        "as_of",
+        "exposure_version",
+        "weight_basis",
+        "known_nav",
+        "complete_nav",
+        "issuer_weights",
+        "unknown_exposure_weight",
+        "window_policy",
+        "common_observation_count",
+        "volatility",
+        "peak_drawdown",
+        "basis_loss",
+        "status",
+        "reasons"
+      ],
+      "title": "FIN-18 PortfolioRisk"
+    },
+    "ManifestPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_id",
+        "commit_id",
+        "page_index",
+        "chunks",
+        "page_sha256"
+      ],
+      "properties": {
+        "page_id": {
+          "type": "string"
+        },
+        "commit_id": {
+          "type": "string"
+        },
+        "page_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "chunks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChunkReceipt"
+          }
+        },
+        "page_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "EventIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-INTENT-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "payload_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "consumer_dedup_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "payload_ref",
+        "consumer_dedup_key"
+      ]
+    },
+    "PublicationPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-POINTER-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "consumer_dedup_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "manifest_sha256",
+        "consumer_dedup_key"
+      ]
+    },
+    "DeliveryState": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-DELIVERY-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "staged",
+            "pending",
+            "delivered",
+            "delivery_failed"
+          ]
+        },
+        "attempt_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_attempt_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "status",
+        "attempt_count",
+        "last_attempt_at"
+      ]
+    },
+    "DeliveryAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "const": "FIN-ATTEMPT-1.0"
+        },
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "message_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "attempted_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "outcome": {
+          "enum": [
+            "delivered",
+            "delivery_failed"
+          ]
+        },
+        "error_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "record_type",
+        "scope",
+        "message_id",
+        "commit_id",
+        "attempt_id",
+        "attempt_number",
+        "attempted_at",
+        "outcome",
+        "error_code"
+      ]
+    },
+    "HashLeafRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_type": {
+          "enum": [
+            "LedgerEvent",
+            "AuditEvidence",
+            "EventIntent"
+          ]
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "record_type",
+        "record_id",
+        "sha256"
+      ]
+    },
+    "ChunkContent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/ScopeEnvelope"
+        },
+        "commit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chunk_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ordered_leaf_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/HashLeafRef"
+          }
+        }
+      },
+      "required": [
+        "scope",
+        "commit_id",
+        "chunk_id",
+        "ordered_leaf_refs"
+      ]
+    },
+    "PageRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "page_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "page_id",
+        "page_sha256"
+      ]
+    }
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "as_of": "2026-11-02",
+  "status": "primary_sources_browsed_for_specification",
+  "sources": [
+    {
+      "id": "SCI-R01",
+      "title": "Forecasting: Principles and Practice, toolbox",
+      "url": "https://otexts.com/fpp3/toolbox.html",
+      "authority": "author_textbook",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Rolling-origin evaluation can target multi-step errors.",
+      "MP_inference_or_choice": "SCI-05 chronological multi-horizon design; numeric blocks are MP proposals.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R02",
+      "title": "scikit-learn probability calibration",
+      "url": "https://scikit-learn.org/stable/modules/calibration.html",
+      "authority": "official_documentation",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Estimator/calibration fitting must use disjoint data; Brier/log loss combine calibration and discriminatory power.",
+      "MP_inference_or_choice": "SCI-05 chronological heldout calibration, SCI-06 reliability separate from proper loss.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R03",
+      "title": "scikit-learn TimeSeriesSplit",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+      "authority": "official_documentation",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Ordered splits support a configurable gap and assume equal-spaced samples for comparable durations.",
+      "MP_inference_or_choice": "SCI-05 explicit calendar/date grouping and interval purging beyond generic row gap.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R04",
+      "title": "Bailey, Borwein, Lopez de Prado and Zhu, Probability of Backtest Overfitting",
+      "url": "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+      "authority": "author_primary_paper",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Searching many backtested alternatives creates selection-overfitting risk.",
+      "MP_inference_or_choice": "SCI-05 bounded all-trial registry and test quarantine; no claim this protocol computes paper PBO.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R05",
+      "title": "Gibbs and Candes, Conformal Inference for Online Prediction with Arbitrary Distribution Shifts,2024",
+      "url": "https://jmlr.org/papers/v25/22-1218.html",
+      "authority": "primary_paper",
+      "verified_on": "2026-11-02",
+      "supported_claim": "A specified adaptive procedure addresses online prediction sets under shifting distributions.",
+      "MP_inference_or_choice": "SCI-06 generic intervals do not inherit procedure-specific guarantees; conformal is a separate candidate.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R06",
+      "title": "FRED series observations parameters",
+      "url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+      "authority": "official_documentation",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Real-time and vintage parameters support retrieval of historical releases.",
+      "MP_inference_or_choice": "SCI-03 provenance admission remains source-specific, not proof from field naming.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R07",
+      "title": "NYSE Holidays and Trading Hours",
+      "url": "https://www.nyse.com/markets/hours-calendars",
+      "authority": "official_exchange",
+      "verified_on": "2026-11-02",
+      "supported_claim": "2026 Thanksgiving is26Nov;27Nov is early close13:00ET.",
+      "MP_inference_or_choice": "SCI-G06 official schedule reference; other miniature calendars synthetic.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R08",
+      "title": "London Stock Exchange Business days",
+      "url": "https://www.londonstockexchange.com/equities-trading/business-days",
+      "authority": "official_exchange",
+      "verified_on": "2026-11-02",
+      "supported_claim": "LSE declares business-day exceptions and half-day closing processes.",
+      "MP_inference_or_choice": "SCI-01 freeze exact local calendar; no weekday-only assumption.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R09",
+      "title": "NSE Market Timings and Holidays",
+      "url": "https://www.nseindia.com/resources/exchange-communication-holidays",
+      "authority": "official_exchange",
+      "verified_on": "2026-11-02",
+      "supported_claim": "NSE publishes market timing and holiday resources.",
+      "MP_inference_or_choice": "SCI-01 India calendar capability required; synthetic case not a live schedule assertion.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R10",
+      "title": "scikit-learn Ridge",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html",
+      "authority": "official_documentation",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Ridge provides regularised linear least-squares.",
+      "MP_inference_or_choice": "SCI-04 candidate CPU family only; no financial edge asserted.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R11",
+      "title": "scikit-learn HistGradientBoostingRegressor",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html",
+      "authority": "official_documentation",
+      "verified_on": "2026-11-02",
+      "supported_claim": "The estimator supports mean and quantile regression losses.",
+      "MP_inference_or_choice": "SCI-04 bounded candidate; package/runtime/quality proof remains later.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    },
+    {
+      "id": "SCI-R12",
+      "title": "Forecasting: Principles and Practice, judgmental/scenario forecasts",
+      "url": "https://otexts.com/fpp3/judgmental.html",
+      "authority": "author_textbook",
+      "verified_on": "2026-11-02",
+      "supported_claim": "Scenario forecasts condition on possible futures and assumptions.",
+      "MP_inference_or_choice": "SCI-08 separates conditional3\u20135year scenarios from scored forecasts.",
+      "limitation": "Source supports method/capability only; no MP empirical performance or numerical threshold validation."
+    }
+  ],
+  "verification_notes": [
+    "Author-hosted Bailey PDF initial direct fetch timed out; subsequent primary-domain search returned paper title/authors/date and author directory citation. Claim limited to selection-overfit motivation, no numeric theorem invoked.",
+    "OTexts section URLs redirected to toolbox/judgmental chapter pages; canonical URLs retained.",
+    "scikit stable pages observed1.9.1 on research date; no dependency version installed or selected.",
+    "No provider or model calls; web reads only.",
+    "Review-fix timing protocols are MP engineering proposals: +15/+40/+60/+75 minute daily clocks require later owner/source/runtime proof; three earnings modes enforce point-in-time admission. Offline timing_checks.py validates artificial scenarios only, without new source reads, acquisition, model calls or empirical claims."
+  ],
+  "pinned_project_sources": [
+    {
+      "path": "../selected-directions.json",
+      "use": "ARC04/05/06/09 chosen directions, no whole architecture approval"
+    },
+    {
+      "path": "../source-pins.json",
+      "use": "PR9 head and reference hash pins"
+    },
+    {
+      "path": "/Users/arundutta/projects/mypaisaa-prediction/docs/planning/ma-reconciliation-2026-11-02/lanes/forecasting.json",
+      "use": "FC02\u201309/13\u201316 source gaps and retained F1\u2013F8"
+    },
+    {
+      "path": "/Users/arundutta/projects/mypaisaa-prediction/docs/planning/ma-reconciliation-2026-11-02/lanes/forecasting.md",
+      "use": "historical MA thresholds explicitly not inherited"
+    },
+    {
+      "path": "../../aws-options-2026-11-01/forecasting-source-register.json",
+      "use": "MA source requirement lineage, not implementation authority"
+    },
+    {
+      "path": "../../aws-options-2026-11-01/forecasting-scope.md",
+      "use": "standalone scope and current owner conflicts"
+    },
+    {
+      "path": "../../layered-development-2026-11-01/portfolio-import-examples.json",
+      "use": "real-ID artificial-value fixture contract"
+    }
+  ]
+}

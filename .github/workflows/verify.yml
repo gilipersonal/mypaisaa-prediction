@@ -62,6 +62,8 @@ jobs:
           python -m json.tool .codex/review-policy.json > /dev/null
           python -m json.tool .codex/review-document-baseline.json > /dev/null
           python -m json.tool .github/main-protection.json > /dev/null
+      - name: Check README navigation and local artwork
+        run: python docs/readme/check_readme.py
       # The real findings ledger and independent review still require approval.
 
   static-preview:

@@ -1,0 +1,140 @@
+{
+  "status": "proposed",
+  "executed_live_tests": false,
+  "independent_review": false,
+  "cases": [
+    {
+      "id": "DATA-AT-01",
+      "spec_id": "DATA-01",
+      "given": "Two listings share a local symbol but have different MICs.",
+      "expected": "Resolve only with an explicit listing identity; ambiguous input cannot create a holding.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-02",
+      "spec_id": "DATA-02",
+      "given": "Each of nine listing/source/plan rows is evaluated for six uses.",
+      "expected": "Unknown scope blocks use. Written evidence enables only the exact named scope.",
+      "evidence_kind": "offline_plus_vendor_evidence",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-03",
+      "spec_id": "DATA-03",
+      "given": "A correction arrives after a forecast origin.",
+      "expected": "Keep the original manifest immutable; restated evaluation creates a new version.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-04",
+      "spec_id": "DATA-04",
+      "given": "VOD is 125 GBX; a USD 201 value uses GBP 0.80 per USD.",
+      "expected": "Values are GBP 1.25 andGBP 160.80, with unit conversion applied once.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-05",
+      "spec_id": "DATA-05",
+      "given": "NAV is published late and has no traded bar fields.",
+      "expected": "Do not invent 30-minute prices; origins wait and cannot consume the NAV before known_at.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-06",
+      "spec_id": "DATA-06",
+      "given": "A DST mismatch week, half-day and holiday affect sessions. Proposed four-clock daily schedule and a source with nonzero collection latency.",
+      "expected": "Use the local versioned calendar; do not use fixed UTC offsets or holiday monitoring. Collection +15m and retry +40m can complete before frozen +60m cutoff; issue by +75m and strictly before next open. Late known_at is excluded without shifting cutoff; unsupported next-open schedule abstains.",
+      "evidence_kind": "offline_plus_calendar_proof",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "offline_specification_proof": "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check daily; ordinary/retry latency success, late ingestion/publication/issue and next-open conflict"
+    },
+    {
+      "id": "DATA-AT-07",
+      "spec_id": "DATA-07",
+      "given": "Two jobs concurrently request the last five credits.",
+      "expected": "At most one passes the combined atomic minute/day reservation.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-08",
+      "spec_id": "DATA-07",
+      "given": "A partial batch returns 429 and a request times out before 00:00 UTC.",
+      "expected": "Keep per-item outcomes and ambiguous liability; daily reset does not erase history.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-09",
+      "spec_id": "DATA-08",
+      "given": "A synthetic fixture runs while live mode is disabled.",
+      "expected": "Make zero network requests, preserve the mode label and make no live-proof claim.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-10",
+      "spec_id": "DATA-02",
+      "given": "Live receipts for the US, UK and India examples are requested.",
+      "expected": "Require actual account, named plan, listing, endpoint, intended-use grants, timestamp and delay evidence; these remain pending.",
+      "evidence_kind": "live_proof_pending",
+      "status": "live_proof_pending",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-11",
+      "spec_id": "DATA-04",
+      "given": "A split is announced before its effective date and a dividend is paid later.",
+      "expected": "Version adjustments as of the cutoff, record cash at the proper date and avoid total-return double counting.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-12",
+      "spec_id": "DATA-08",
+      "given": "A grant is revoked while backups and trained models exist.",
+      "expected": "Stop new use, invalidate affected derivations and apply the approved retention/disposition policy with protected decision evidence.",
+      "evidence_kind": "offline_plus_policy",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    }
+  ]
+}

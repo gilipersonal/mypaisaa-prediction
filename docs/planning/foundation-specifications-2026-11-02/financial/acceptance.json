@@ -1,0 +1,843 @@
+{
+  "as_of": "2026-11-02",
+  "status": "planned_acceptance_not_executed_backend_tests",
+  "baseline": "All 16 L1 stories have explicit trace below; baseline clauses are refined with discriminating cases, not claimed implemented or fully verified.",
+  "cases": [
+    {
+      "id": "FIN-AC-01",
+      "title": "Money/quote-unit arithmetic",
+      "baseline_story": "L1-S05",
+      "contract_refs": [
+        "FIN-02",
+        "FIN-03",
+        "FIN-05"
+      ],
+      "example_refs": [
+        "FIN-EX-05"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Given 12000 GBX, 2 units and a 1 GBP fee, normalize once to 120 GBP and publish -241 GBP only after approval. Refeeding normalized 120 GBP with the GBX factor is rejected.",
+      "required_evidence": "Exact decimal equality to expected price, gross and net; raw literal/factor retained.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S05"
+      ]
+    },
+    {
+      "id": "FIN-AC-02",
+      "title": "Precision, nonfinite values and residual",
+      "baseline_story": "L1-S05",
+      "contract_refs": [
+        "FIN-02"
+      ],
+      "example_refs": [
+        "FIN-EX-05"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Reject NaN, exponent strings, negative zero and precision beyond the approved bounds. Allocate 1.00 over three equal weights as 0.34/0.33/0.33 under the stable-ID tie break, preserving unrounded thirds in evidence.",
+      "required_evidence": "Residual 0.01 is not a posted fee; displayed components sum to 1.00 and source cash is unchanged.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S05"
+      ]
+    },
+    {
+      "id": "FIN-AC-03",
+      "title": "Issuer, share class, listing and alias distinction",
+      "baseline_story": "L1-S01",
+      "contract_refs": [
+        "FIN-03",
+        "FIN-04"
+      ],
+      "example_refs": [
+        "FIN-EX-05",
+        "FIN-EX-06",
+        "FIN-EX-11"
+      ],
+      "gap_refs": [
+        "FC-11"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "CNX1/GBP and CNDX/USD share ISIN IE00B53SZB19 but retain separate listing/MIC/quote contracts. A provider ticker rename changes the alias version without rewriting history.",
+      "required_evidence": "Issuer look-through consolidates economic exposure without collapsing listing currency records. Owner account and listing ambiguity blocks matching until resolved.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S01",
+        "L1-S04"
+      ]
+    },
+    {
+      "id": "FIN-AC-04",
+      "title": "Account namespace isolation",
+      "baseline_story": "L1-S15",
+      "contract_refs": [
+        "FIN-01",
+        "FIN-04",
+        "FIN-08"
+      ],
+      "example_refs": [
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "A dev request naming a prod owner/account and an extracted approved:true cannot publish or read prod records.",
+      "required_evidence": "No financial effect; privacy-safe denial audit; trusted server scope controls every lookup.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S15"
+      ]
+    },
+    {
+      "id": "FIN-AC-05",
+      "title": "All five sample-backed input paths",
+      "baseline_story": "L1-S03",
+      "contract_refs": [
+        "FIN-06",
+        "FIN-07"
+      ],
+      "example_refs": [
+        "FIN-EX-11"
+      ],
+      "gap_refs": [
+        "CT-03"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "CSV row/column, Excel sheet/cell, PDF page/region, screenshot region and manual field provenance produce immutable candidates through quarantine. Unsupported layouts and embedded malicious instructions remain nonauthoritative.",
+      "required_evidence": "Five synthetic layout fixtures, per-field evidence, parser/schema versions and no automatic publication; actual broker qualification stays separately pending.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S03"
+      ]
+    },
+    {
+      "id": "FIN-AC-06",
+      "title": "Hash-bound editing and selected subset",
+      "baseline_story": "L1-S06",
+      "contract_refs": [
+        "FIN-07",
+        "FIN-08"
+      ],
+      "example_refs": [
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Remove a selected row or alter an account mapping, source, policy or fee after approval. Attempt the old hash, then approve an explicit consistent subset with excluded rows shown.",
+      "required_evidence": "Old approval fails; no hidden drop; no sale without its history or unresolved transfer presented as income.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S06"
+      ]
+    },
+    {
+      "id": "FIN-AC-07",
+      "title": "Three duplicate identities",
+      "baseline_story": "L1-S07",
+      "contract_refs": [
+        "FIN-07",
+        "FIN-10"
+      ],
+      "example_refs": [
+        "FIN-EX-07"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Retry the same bytes, reprocess the same broker event in another format and submit two distinct stable references with equal values.",
+      "required_evidence": "One effect per economic ID; both distinct referenced trades preserved; reference-free collisions require duplicate review.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S07"
+      ]
+    },
+    {
+      "id": "FIN-AC-08",
+      "title": "Lifetime idempotency and conflict",
+      "baseline_story": "L1-S07",
+      "contract_refs": [
+        "FIN-09",
+        "FIN-10"
+      ],
+      "example_refs": [
+        "FIN-EX-07"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Retry a published operation after 20 minutes and after a service-token restart, then reuse its key with changed cash.",
+      "required_evidence": "Same receipt and ledger revision, no second financial application; changed payload returns IDEMPOTENCY_CONFLICT.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S07"
+      ]
+    },
+    {
+      "id": "FIN-AC-09",
+      "title": "Small transaction exact scope",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-08",
+        "FIN-09",
+        "FIN-10",
+        "FIN-11",
+        "FIN-12"
+      ],
+      "example_refs": [
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "CT-03"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Inject failure at every final transaction participant: approval consumption, receipt, manifest, head, audit and outbox.",
+      "required_evidence": "All required authoritative changes commit or none; no acknowledged financial effect without audit and outbox obligations.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08"
+      ]
+    },
+    {
+      "id": "FIN-AC-10",
+      "title": "Action, byte and item preflight",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-09"
+      ],
+      "example_refs": [
+        "FIN-EX-08"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Try 100 actions under 4 MB, 101 actions, an item over 400 KB, aggregate items over 4 MB and two actions targeting one item. Count attribute names and metadata in sizes.",
+      "required_evidence": "Only the size-valid case may proceed subject to other guards; others split or reject before submission. This pack itself makes no service call.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08"
+      ]
+    },
+    {
+      "id": "FIN-AC-11",
+      "title": "Large staging crash invisibility",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-09",
+        "FIN-10",
+        "FIN-12"
+      ],
+      "example_refs": [
+        "FIN-EX-08"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "For 1000 events, crash after seven chunks, during sealing, after complete and after activation before response. Exercise every declared reader class and pagination while a new revision publishes.",
+      "required_evidence": "Before activation all readers see revision 10 only; pinned revision 11 sees exactly 1000 new events. Same receipt on retry, no partial outbox, no mixed-revision progress/client result.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08",
+        "L1-S14"
+      ]
+    },
+    {
+      "id": "FIN-AC-12",
+      "title": "Fencing, cancellation and racing writers",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-08",
+        "FIN-09"
+      ],
+      "example_refs": [
+        "FIN-EX-09",
+        "FIN-EX-10"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Resume an old worker after its lease/fence was superseded; race two corrections against revision 11; race cancellation against publication.",
+      "required_evidence": "Stale fence cannot write a chunk, seal or publish. One correction wins; cancellation or publication wins once; the loser refreshes and reapproves.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08"
+      ]
+    },
+    {
+      "id": "FIN-AC-13",
+      "title": "Expiry and execution assurance",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-08",
+        "FIN-10"
+      ],
+      "example_refs": [
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Attempt activation at exact expiry, after revocation, with stale authentication or wrong environment. Retry an already published receipt after expiry.",
+      "required_evidence": "No new financial events on invalid approval; existing receipt returns without reapplication; draft confirmation cannot replace authenticated owner approval.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08"
+      ]
+    },
+    {
+      "id": "FIN-AC-14",
+      "title": "Ambiguous outcomes and bounded retries",
+      "baseline_story": "L1-S08",
+      "contract_refs": [
+        "FIN-09",
+        "FIN-10"
+      ],
+      "example_refs": [
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Lose the activation response both after success and before success, then retry a throttled operation under the same identity.",
+      "required_evidence": "Read the authoritative receipt first; no blind compensation/new key; persisted bounded backoff; explicit retryable versus terminal failure.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S08"
+      ]
+    },
+    {
+      "id": "FIN-AC-15",
+      "title": "S3/database orphan reconciliation",
+      "baseline_story": "L1-S02",
+      "contract_refs": [
+        "FIN-06",
+        "FIN-16"
+      ],
+      "example_refs": [
+        "FIN-EX-08",
+        "FIN-EX-09"
+      ],
+      "gap_refs": [
+        "CT-03"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Inject an S3 object without receipt, a receipt without object, wrong checksum and duplicate notifications.",
+      "required_evidence": "Orphan quarantine or blocked evidence persists; no financial publication or automatic deletion; identical receipt resolves idempotently; no S3+DDB atomicity claim.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S02"
+      ]
+    },
+    {
+      "id": "FIN-AC-16",
+      "title": "Replay and correction exact legs",
+      "baseline_story": "L1-S11",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-09",
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-10"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Correct a 1 GBP fee to 2 GBP using the linked inverse and replacement; rebuild from immutable events.",
+      "required_evidence": "Cash 798, units 2, net correction -1 cash and zero units; original preserved; old forecast still revision 11; do not both exclude the original and apply its inverse.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S11"
+      ]
+    },
+    {
+      "id": "FIN-AC-17",
+      "title": "Reversal dependency and baseline rebase",
+      "baseline_story": "L1-S11",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-13"
+      ],
+      "example_refs": [
+        "FIN-EX-11"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Reverse an acquisition after a later sale, and backfill two historical units against a two-unit snapshot.",
+      "required_evidence": "Reject inconsistent reversal unless its dependent correction set is approved. Backfill replaces the baseline once: two units, not four.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S11"
+      ]
+    },
+    {
+      "id": "FIN-AC-18",
+      "title": "Holding/account/portfolio flow boundaries",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-03",
+        "FIN-EX-04"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Apply the same deposit, buy, dividend, fee, reinvestment and internal-transfer facts at holding, account and portfolio boundaries. Settle a purchase using equal/opposite settled/payable legs.",
+      "required_evidence": "EX03 portfolio flows are -1000 and +1024 only; internal trades/income/fees are not contributions; account transfer signs oppose; reinvestment legs cancel on their linked date. Total NAV and external flows do not change at settlement; purchase fees are not posted again.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-19",
+      "title": "Unique and ambiguous XIRR golden cases",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-01",
+        "FIN-EX-02"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Evaluate exact 365-day 100→110 and 730-day [-100,230,-132] schedules.",
+      "required_evidence": "First case is 10% with zero NPV residual; second has 10% and 20% roots, null headline and ambiguous status. Never pick a root by guess.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-20",
+      "title": "Invalid roots and nonconvergence",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-02",
+        "FIN-EX-15"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Provide all-zero, one-sign, same-day nonzero-net, unknown-date and nonconventional/tangent-root schedules; force iteration-budget exhaustion.",
+      "required_evidence": "Specific unavailable, ambiguous or nonconvergent status; no NaN/zero fallback; a missing bracket does not certify that no root exists.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-21",
+      "title": "Dated FX and local/GBP decomposition",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-15"
+      ],
+      "example_refs": [
+        "FIN-EX-06"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Use two AAPL units, USD 100→110 and GBP-per-USD 0.8→0.75; substitute later-known or inverse rates in negative variants.",
+      "required_evidence": "GBP 160→165; local 10%, FX -6.25%, interaction -0.625%, GBP 3.125%; later-known or incorrectly oriented rates blocked.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-22",
+      "title": "No distribution double count",
+      "baseline_story": "L1-S09",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-14",
+        "FIN-17"
+      ],
+      "example_refs": [
+        "FIN-EX-03",
+        "FIN-EX-04",
+        "FIN-EX-13"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Ledger raw-price valuation includes retained dividend cash; benchmark total-return levels already reinvest income; fee detail is already included in the booked net cash leg.",
+      "required_evidence": "Count every dividend/fee effect once. Reject adjusted ledger prices plus retained-dividend addition, and separate posting of an already-included fee.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S09"
+      ]
+    },
+    {
+      "id": "FIN-AC-23",
+      "title": "TWR valuation sufficiency and withdrawal-safe drawdown",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-18"
+      ],
+      "example_refs": [
+        "FIN-EX-12"
+      ],
+      "gap_refs": [
+        "FC-11"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Measure 100→110, deposit 100, 210→189; also test 200→100 NAV after a 100 withdrawal. Omit flow-time valuation in a negative variant.",
+      "required_evidence": "TWR -1%; wealth path 100,110,99 has peak drawdown 10%. Withdrawal alone has zero market drawdown. Missing valuation withholds exact TWR and flow-adjusted drawdown.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-24",
+      "title": "In-kind transfers and same-date ordering",
+      "baseline_story": "L1-S09",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-04"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Move two units between owned accounts with and without transfer-date fair value; receive and sell on the same date with ambiguous material ordering.",
+      "required_evidence": "Portfolio units unchanged and transit valued once. Account XIRR unavailable without transfer fair value; unresolved material ordering blocks replay-dependent metrics.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S09"
+      ]
+    },
+    {
+      "id": "FIN-AC-25",
+      "title": "Missing history, price and cost basis",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-13",
+        "FIN-14"
+      ],
+      "example_refs": [
+        "FIN-EX-11",
+        "FIN-EX-15"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "A snapshot has two units and INR 200 value, unknown basis/history; another holding is unpriced. Reconcile a source cash/quantity disagreement without a plug.",
+      "required_evidence": "Known valuation survives; basis loss and XIRR unavailable. Known subtotal is not complete NAV; no fabricated opening trade or zero unknown holding; material unresolved discrepancy remains visible.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12",
+        "L1-S10"
+      ]
+    },
+    {
+      "id": "FIN-AC-26",
+      "title": "Cash-flow-matched benchmark comparability",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-17"
+      ],
+      "example_refs": [
+        "FIN-EX-13"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Invest hypothetical GBP 100 at benchmark level 100 and GBP 110 at 110, value at 121; test excessive withdrawal and absent flow-date level.",
+      "required_evidence": "Two notional units and GBP 242 terminal value; no orders. Pin task/date/currency/TR/fee convention; withhold absent mapping or unsupported date pairing.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-27",
+      "title": "Overlap, HHI, residual and covariance",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-18"
+      ],
+      "example_refs": [
+        "FIN-EX-14"
+      ],
+      "gap_refs": [
+        "FC-11"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Use GBP 20 direct AAPL, 50 in fund 1 and 30 in fund 2. Remove exposures or common returns and supply an indefinite covariance matrix.",
+      "required_evidence": "Issuer 55%, other 35%, unknown 10%; known overlap 0.8 with upper bound 1.0; partial HHI 0.425. No complete covariance-based risk from missing or invalid inputs.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-28",
+      "title": "Ranking weights without invented evidence",
+      "baseline_story": "L1-S12",
+      "contract_refs": [
+        "FIN-18"
+      ],
+      "example_refs": [
+        "FIN-EX-15"
+      ],
+      "gap_refs": [
+        "FC-12"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Set growth 80, protection missing and opportunity 60; then make all three eligible with protection 70 under an approved normalization.",
+      "required_evidence": "Missing protection abstains. Eligible arithmetic is 0.35×80+0.40×70+0.25×60=71. No action threshold, tax logic or trading authority follows.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S12"
+      ]
+    },
+    {
+      "id": "FIN-AC-29",
+      "title": "Immutable audit/integrity and pinned export",
+      "baseline_story": "L1-S13",
+      "contract_refs": [
+        "FIN-11",
+        "FIN-16"
+      ],
+      "example_refs": [
+        "FIN-EX-10",
+        "FIN-EX-15"
+      ],
+      "gap_refs": [
+        "IR-02"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "Export revision 12 while 13 publishes. Remove/alter an event, delete an original and restore an older backup during an isolated future recovery test. Compute a FIN-HASH-1 paged graph, mutate a leaf, and exercise delivery failure/retry/success independently of sealed content.",
+      "required_evidence": "Export pins revision 12, hashes and versions; altered/missing event fails integrity; deleted evidence is unavailable; restoration cannot silently resurrect it; no unanchored tamperproof claim. Exact versioned canonical projections recompute leaf→chunk→page→root without root references in intents or own-digest cycles. Leaf edits invalidate the old root; delivery state/attempt updates leave root unchanged. Unknown fields and unsupported versions are refused. Hash-contract helper proves these synthetic document properties only.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S13"
+      ]
+    },
+    {
+      "id": "FIN-AC-30",
+      "title": "Per-use rights, freshness and qualified release",
+      "baseline_story": "L1-S16",
+      "contract_refs": [
+        "FIN-06",
+        "FIN-14",
+        "FIN-15",
+        "FIN-18"
+      ],
+      "example_refs": [
+        "FIN-EX-06",
+        "FIN-EX-11",
+        "FIN-EX-14"
+      ],
+      "gap_refs": [
+        "FC-11"
+      ],
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "given_when": "At cutoff, use a fresh price with unknown rights, stale FX or a NAV published later. Compare calendar closure with an unexplained missing open-market observation.",
+      "required_evidence": "Withhold affected metrics with reasons before UI; preserve independent valid facts. Five sample-backed input paths remain required; synthetic success never certifies an actual broker/OCR release.",
+      "status": "specified_not_implemented",
+      "baseline_story_refs": [
+        "L1-S16"
+      ]
+    }
+  ],
+  "baseline_story_coverage": {
+    "L1-S01": [
+      "FIN-AC-03"
+    ],
+    "L1-S02": [
+      "FIN-AC-15"
+    ],
+    "L1-S03": [
+      "FIN-AC-05"
+    ],
+    "L1-S04": [
+      "FIN-AC-03"
+    ],
+    "L1-S05": [
+      "FIN-AC-01",
+      "FIN-AC-02"
+    ],
+    "L1-S06": [
+      "FIN-AC-06"
+    ],
+    "L1-S07": [
+      "FIN-AC-07",
+      "FIN-AC-08"
+    ],
+    "L1-S08": [
+      "FIN-AC-09",
+      "FIN-AC-10",
+      "FIN-AC-11",
+      "FIN-AC-12",
+      "FIN-AC-13",
+      "FIN-AC-14"
+    ],
+    "L1-S09": [
+      "FIN-AC-22",
+      "FIN-AC-24"
+    ],
+    "L1-S10": [
+      "FIN-AC-25"
+    ],
+    "L1-S11": [
+      "FIN-AC-16",
+      "FIN-AC-17"
+    ],
+    "L1-S12": [
+      "FIN-AC-18",
+      "FIN-AC-19",
+      "FIN-AC-20",
+      "FIN-AC-21",
+      "FIN-AC-23",
+      "FIN-AC-25",
+      "FIN-AC-26",
+      "FIN-AC-27",
+      "FIN-AC-28"
+    ],
+    "L1-S13": [
+      "FIN-AC-29"
+    ],
+    "L1-S14": [
+      "FIN-AC-11"
+    ],
+    "L1-S15": [
+      "FIN-AC-04"
+    ],
+    "L1-S16": [
+      "FIN-AC-30"
+    ]
+  }
+}

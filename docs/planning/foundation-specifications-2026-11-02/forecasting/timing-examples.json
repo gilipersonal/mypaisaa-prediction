@@ -1,0 +1,161 @@
+{
+  "status": "synthetic_offline_specification_proofs_not_application_or_provider_tests",
+  "observation_mode": "synthetic",
+  "real_holdings": false,
+  "live_observations": false,
+  "clock_policy": "task-catalogue.json#origin_policy/daily_clocks_proposed",
+  "event_policy": "model-catalogue.json#event_module_proposed/modes",
+  "calendar_notice": "Artificial UTC instants; no live exchange-calendar or source-finality claim. Before-open and after-close are synthetic relative to the stated daily origins.",
+  "daily_cases": [
+    {
+      "id": "ordinary_positive_latency",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-03T14:30:00Z",
+      "attempt": "collection_start",
+      "published_at": "2026-11-02T21:10:00Z",
+      "ingested_at": "2026-11-02T21:16:00Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "expected": "issued"
+    },
+    {
+      "id": "retry_positive_latency",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-03T14:30:00Z",
+      "attempt": "retry_start",
+      "published_at": "2026-11-02T21:35:00Z",
+      "ingested_at": "2026-11-02T21:42:00Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "expected": "issued"
+    },
+    {
+      "id": "late_ingestion",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-03T14:30:00Z",
+      "attempt": "retry_start",
+      "published_at": "2026-11-02T21:10:00Z",
+      "ingested_at": "2026-11-02T22:00:01Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "expected": "late_input_abstain"
+    },
+    {
+      "id": "late_publication",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-03T14:30:00Z",
+      "attempt": "collection_start",
+      "published_at": "2026-11-02T22:00:01Z",
+      "ingested_at": "2026-11-02T21:16:00Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "expected": "late_input_abstain"
+    },
+    {
+      "id": "late_issue",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-03T14:30:00Z",
+      "attempt": "collection_start",
+      "published_at": "2026-11-02T21:10:00Z",
+      "ingested_at": "2026-11-02T21:16:00Z",
+      "issued_at": "2026-11-02T22:15:01Z",
+      "expected": "missed_origin"
+    },
+    {
+      "id": "next_open_conflict",
+      "close": "2026-11-02T21:00:00Z",
+      "next_open": "2026-11-02T22:10:00Z",
+      "attempt": "collection_start",
+      "published_at": "2026-11-02T21:10:00Z",
+      "ingested_at": "2026-11-02T21:16:00Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "expected": "unsupported_schedule_abstain"
+    }
+  ],
+  "event_cases": [
+    {
+      "id": "prerelease_schedule",
+      "mode": "prerelease_daily_prediction",
+      "input_kind": "public_schedule",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-02T20:00:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "predictive_input_eligible"
+    },
+    {
+      "id": "schedule_published_later",
+      "mode": "prerelease_daily_prediction",
+      "input_kind": "public_schedule",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-02T22:01:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "future_input_rejected"
+    },
+    {
+      "id": "cutoff_after_release",
+      "mode": "prerelease_daily_prediction",
+      "input_kind": "public_schedule",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-02T20:00:00Z",
+      "release_known_at": "2026-11-02T21:30:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "not_prerelease_cutoff"
+    },
+    {
+      "id": "before_open_content_at_prior_close",
+      "mode": "prerelease_daily_prediction",
+      "input_kind": "public_release_fields",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-03T13:00:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "forbidden_feature"
+    },
+    {
+      "id": "late_after_close_content_at_prior_close",
+      "mode": "prerelease_daily_prediction",
+      "input_kind": "public_release_fields",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-02T23:00:00Z",
+      "release_known_at": "2026-11-02T23:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "forbidden_feature"
+    },
+    {
+      "id": "postrelease_earlier_origin",
+      "mode": "postrelease_daily_prediction",
+      "input_kind": "public_release_fields",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-03T22:00:00Z",
+      "input_known_at": "2026-11-03T13:00:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "earlier_origin_rejected"
+    },
+    {
+      "id": "postrelease_next_daily_origin",
+      "mode": "postrelease_daily_prediction",
+      "input_kind": "public_release_fields",
+      "origin_at": "2026-11-03T21:00:00Z",
+      "cutoff": "2026-11-03T22:00:00Z",
+      "input_known_at": "2026-11-03T13:00:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-03T21:00:00Z",
+      "expected": "predictive_input_eligible"
+    },
+    {
+      "id": "retrospective_prior_close",
+      "mode": "retrospective_event_study",
+      "input_kind": "public_release_fields",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "cutoff": "2026-11-02T22:00:00Z",
+      "input_known_at": "2026-11-03T13:00:00Z",
+      "release_known_at": "2026-11-03T13:00:00Z",
+      "target_start_at": "2026-11-02T21:00:00Z",
+      "expected": "descriptive_only"
+    }
+  ]
+}

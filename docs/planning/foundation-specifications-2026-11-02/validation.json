@@ -1,0 +1,34 @@
+{
+  "status": "maker_document_checks_passed",
+  "schema_definitions": {
+    "data": 6,
+    "financial": 35,
+    "forecasting": 15
+  },
+  "validated_positive_wire_records": 37,
+  "financial_worked_examples": 15,
+  "forecast_worked_examples": 15,
+  "financial_acceptance_cases": 30,
+  "forecast_acceptance_cases": 17,
+  "data_acceptance_cases": 12,
+  "cost_acceptance_cases": 16,
+  "cost_run_rate_variants": 108,
+  "cost_cash_variants": 216,
+  "computed_hash_graph_records": 9,
+  "acyclic_hash_delivery_proof": "passed",
+  "daily_clock_proofs": 6,
+  "event_availability_proofs": 9,
+  "owner_detail_decisions": 2,
+  "source_pr9_head": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+  "budget_status": "CONDITIONAL_UNPROVEN",
+  "architecture_baseline_approved": false,
+  "UX_authorised": false,
+  "implementation_authorised": false,
+  "independent_review": "round_1_completed_fixes_await_independent_verification",
+  "live_provider_model_AWS_calls": false,
+  "limitations": [
+    "Shape/math/provenance checks only; planned backend/live acceptance not executed.",
+    "No model fit, backtest, solver implementation, cloud proof or licence approval.",
+    "No complete architecture/UX readiness from these checks."
+  ]
+}

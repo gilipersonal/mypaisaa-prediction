@@ -1,0 +1,1047 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0.0",
+  "status": "proposed",
+  "$defs": {
+    "Observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_id",
+        "mode",
+        "environment",
+        "listing_id",
+        "data_kind",
+        "source",
+        "source_symbol",
+        "mapping_version",
+        "economic_at",
+        "effective_date",
+        "published_at",
+        "ingested_at",
+        "known_at",
+        "publication_evidence",
+        "revision_id",
+        "supersedes",
+        "normaliser_version",
+        "payload_sha256",
+        "entitlement_ids",
+        "calendar_version",
+        "adjustment_mode",
+        "quality_flags",
+        "payload"
+      ],
+      "properties": {
+        "observation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mode": {
+          "enum": [
+            "synthetic",
+            "live"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "ci",
+            "dev",
+            "prod"
+          ]
+        },
+        "listing_id": {
+          "type": "string"
+        },
+        "data_kind": {
+          "enum": [
+            "daily_ohlcv",
+            "quote",
+            "nav",
+            "fx"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "source_symbol": {
+          "type": "string"
+        },
+        "mapping_version": {
+          "type": "string"
+        },
+        "economic_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ingested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "known_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "publication_evidence": {
+          "enum": [
+            "provider_timestamp",
+            "archived_publication",
+            "unknown",
+            "simulated"
+          ]
+        },
+        "revision_id": {
+          "type": "string"
+        },
+        "supersedes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "normaliser_version": {
+          "type": "string"
+        },
+        "payload_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entitlement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "calendar_version": {
+          "type": "string"
+        },
+        "adjustment_mode": {
+          "enum": [
+            "raw",
+            "split_adjusted",
+            "total_return",
+            "not_applicable"
+          ]
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "data_kind": {
+                "const": "daily_ohlcv"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "open",
+                  "high",
+                  "low",
+                  "close",
+                  "currency",
+                  "quote_unit",
+                  "unit_factor",
+                  "interval_start",
+                  "interval_end",
+                  "volume"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "high": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "low": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "unit_factor": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "quote_unit": {
+                    "type": "string"
+                  },
+                  "interval_start": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "interval_end": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "volume": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data_kind": {
+                "const": "quote"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "currency",
+                  "quote_unit",
+                  "unit_factor"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "quote_unit": {
+                    "type": "string"
+                  },
+                  "unit_factor": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data_kind": {
+                "const": "nav"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "currency",
+                  "quote_unit",
+                  "unit_factor",
+                  "share_class_id"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "quote_unit": {
+                    "type": "string"
+                  },
+                  "unit_factor": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "share_class_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "data_kind": {
+                "const": "fx"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "base_currency",
+                  "counter_currency",
+                  "rate",
+                  "direction",
+                  "leg_ids"
+                ],
+                "properties": {
+                  "base_currency": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "counter_currency": {
+                    "const": "GBP"
+                  },
+                  "rate": {
+                    "type": "string",
+                    "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "direction": {
+                    "const": "counter_per_one_base"
+                  },
+                  "leg_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Entitlement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "entitlement_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "listing_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "data_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "dev",
+              "prod"
+            ]
+          }
+        },
+        "use": {
+          "enum": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export",
+            "anthropic_transmission"
+          ]
+        },
+        "decision": {
+          "enum": [
+            "granted",
+            "denied",
+            "unknown",
+            "expired",
+            "revoked"
+          ]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "max_retention_days": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "attribution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external_processor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewed_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "entitlement_id",
+        "source",
+        "plan",
+        "listing_ids",
+        "data_kinds",
+        "environments",
+        "use",
+        "decision",
+        "evidence_ids",
+        "valid_from",
+        "valid_until",
+        "max_retention_days",
+        "attribution",
+        "external_processor",
+        "reviewed_by"
+      ]
+    },
+    "QuotaReservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reservation_id": {
+          "type": "string"
+        },
+        "provider_scope": {
+          "type": "string"
+        },
+        "environment": {
+          "enum": [
+            "dev",
+            "prod"
+          ]
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "listing_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "estimated_weight": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minute_bucket": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "day_bucket_utc": {
+          "type": "string",
+          "format": "date"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "state": {
+          "enum": [
+            "reserved",
+            "dispatched",
+            "settled",
+            "ambiguous",
+            "released",
+            "expired"
+          ]
+        },
+        "actual_weight": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "idempotency_key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reservation_id",
+        "provider_scope",
+        "environment",
+        "endpoint",
+        "listing_ids",
+        "estimated_weight",
+        "minute_bucket",
+        "day_bucket_utc",
+        "expires_at",
+        "state",
+        "actual_weight",
+        "idempotency_key"
+      ]
+    },
+    "Listing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "listing_id": {
+          "type": "string"
+        },
+        "security_id": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "mic": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{4}$"
+        },
+        "country": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "quote_unit": {
+          "type": "string"
+        },
+        "unit_factor": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "identifier_evidence": {
+          "type": "string"
+        },
+        "coverage_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "listing_id",
+        "security_id",
+        "symbol",
+        "mic",
+        "country",
+        "currency",
+        "quote_unit",
+        "unit_factor",
+        "timezone",
+        "identifier_evidence",
+        "coverage_status"
+      ]
+    },
+    "SourceCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "listing_id": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "data_kind": {
+          "enum": [
+            "quote",
+            "daily_ohlcv",
+            "historical_ohlcv",
+            "nav",
+            "split",
+            "distribution",
+            "fx",
+            "fundamentals",
+            "exposure",
+            "news"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "ci",
+            "dev",
+            "prod"
+          ]
+        },
+        "mapping_version": {
+          "type": "string"
+        },
+        "entitlement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intervals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "delay_seconds": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "history_start": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "history_end": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "adjustment_mode": {
+          "enum": [
+            "raw",
+            "split_adjusted",
+            "total_return",
+            "not_applicable"
+          ]
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "credit_weight_per_symbol": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "quota_scope": {
+          "type": "string"
+        },
+        "proof_time": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "proof_expiry": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coverage_status": {
+          "enum": [
+            "candidate",
+            "evidence_pending",
+            "verified",
+            "enabled",
+            "degraded",
+            "suspended",
+            "expired",
+            "revoked",
+            "unsupported"
+          ]
+        },
+        "capability_id": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "source",
+        "plan",
+        "listing_id",
+        "endpoint",
+        "data_kind",
+        "environment",
+        "mapping_version",
+        "entitlement_ids",
+        "intervals",
+        "delay_seconds",
+        "history_start",
+        "history_end",
+        "adjustment_mode",
+        "timezone",
+        "credit_weight_per_symbol",
+        "quota_scope",
+        "proof_time",
+        "proof_expiry",
+        "coverage_status",
+        "capability_id",
+        "evidence_ids"
+      ]
+    },
+    "CorporateAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "listing_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "revision_id": {
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "synthetic",
+            "live"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "split",
+            "cash_distribution",
+            "symbol_change",
+            "delisting"
+          ]
+        },
+        "announced_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "known_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ingested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "supersedes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entitlement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "payload": {
+          "type": "object"
+        },
+        "ex_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "record_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "payment_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      },
+      "required": [
+        "action_id",
+        "listing_id",
+        "source",
+        "revision_id",
+        "mode",
+        "kind",
+        "announced_at",
+        "known_at",
+        "ingested_at",
+        "effective_date",
+        "supersedes",
+        "entitlement_ids",
+        "payload",
+        "ex_date",
+        "record_date",
+        "payment_date"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "split"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "new_units": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "old_units": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  }
+                },
+                "required": [
+                  "new_units",
+                  "old_units"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "cash_distribution"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "amount_per_unit": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{3}$"
+                  },
+                  "amount_basis": {
+                    "enum": [
+                      "gross",
+                      "net",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "amount_per_unit",
+                  "currency",
+                  "amount_basis"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "semantic_constraints": [
+    "known_at>=ingested_at; known_at>=published_at when published_at present",
+    "Forecast input known_at<=origin_cutoff; historical downloaded timestamps never forge point-in-time evidence",
+    "OHLC: low<=open,close<=high and low<=high; volume is null or nonnegative; price positive for these instrument kinds",
+    "GBX only with currency GBP and factor0.01; ISO native quote unit uses factor1",
+    "FX rate positive; counter GBP; base/counter cannot both GBP except explicit identity rate1",
+    "live prod must have nonempty currently granted entitlement_ids for intended use; synthetic cannot satisfy live proof",
+    "raw/split_adjusted/total_return manifests cannot be concatenated without versioned transform",
+    "supersedes points to same listing/data_kind/economic_at and older revision, without cycles",
+    "grant scope includes plan/listing/data_kind/environment/use, time, retention and any processor restrictions",
+    "atomic quota reservation changes minute and daily remaining together; ambiguity retains liability",
+    "payload_sha256 hashes UTF-8 canonical JSON payload with sorted keys and comma/colon separators, without whitespace.",
+    "SourceCapability is enabled only after listing, endpoint, quota, intended-use grants and proof freshness pass.",
+    "Split numerator/denominator are positive. Distribution amount_basis unknown blocks gross/net-sensitive calculations.",
+    "CorporateAction known_at is at least ingested_at and announced_at; ex-date and payment date are distinct."
+  ],
+  "capability_transitions": {
+    "candidate": [
+      "evidence_pending"
+    ],
+    "evidence_pending": [
+      "verified",
+      "suspended"
+    ],
+    "verified": [
+      "enabled",
+      "expired",
+      "revoked"
+    ],
+    "enabled": [
+      "degraded",
+      "suspended",
+      "expired",
+      "revoked"
+    ],
+    "degraded": [
+      "enabled",
+      "suspended",
+      "expired",
+      "revoked"
+    ],
+    "suspended": [
+      "evidence_pending"
+    ],
+    "expired": [
+      "evidence_pending"
+    ],
+    "revoked": [
+      "evidence_pending"
+    ]
+  },
+  "acquisition_transitions": {
+    "planned": [
+      "reserved",
+      "rights_blocked",
+      "quota_deferred",
+      "expired"
+    ],
+    "reserved": [
+      "dispatched",
+      "expired"
+    ],
+    "dispatched": [
+      "received",
+      "ambiguous",
+      "rejected",
+      "quota_deferred"
+    ],
+    "received": [
+      "validated",
+      "rejected"
+    ],
+    "validated": [
+      "persisted",
+      "rejected"
+    ],
+    "persisted": [
+      "eligible",
+      "rights_blocked"
+    ],
+    "eligible": [],
+    "ambiguous": [
+      "received",
+      "rejected",
+      "expired"
+    ],
+    "rejected": [],
+    "quota_deferred": [],
+    "rights_blocked": [],
+    "expired": []
+  },
+  "cross_lane_fields": {
+    "financial": "economic_at, known_at, decimal strings, quote unit, GBP per local unit, raw price plus distributions",
+    "forecasting": "origin cutoff, dataset manifest, immutable observation vintage, label transform, no future known_at inputs"
+  }
+}
