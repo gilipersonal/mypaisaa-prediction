@@ -30,4 +30,6 @@ fig.text(.025,.905,'Assumed £0.80/USD and 20% tax; Virginia candidate; dev + pr
 fig.text(.025,.035,'The £30 reserve is part of the £100 ceiling. Displayed Grow exceeds the operation plan. Lower-tier rights/availability need proof.\nNo model, subscription, region or live use is selected by this numerical illustration.',fontsize=9,color='#33443b')
 fig.subplots_adjust(left=.39,right=.97,top=.83,bottom=.29)
 fig.savefig(BASE/'cost-scenarios.svg',metadata={'Date':None});fig.savefig(BASE/'cost-scenarios.png',dpi=160,metadata={'Software':'Foundation specification document illustration'})
+svg=BASE/'cost-scenarios.svg'
+svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
 print(json.dumps({'cash_gbp':values,'source':'model.json','outputs':['cost-scenarios.svg','cost-scenarios.png'],'live_calls':False}))
