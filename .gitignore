@@ -21,3 +21,6 @@ DerivedData/
 data/*
 !data/.gitkeep
 *.sqlite*
+
+# Rendered scene HTML; rebuilt by docs/motion/build_motion.py
+docs/motion/src/

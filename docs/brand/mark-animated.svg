@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-labelledby="t">
+  <title id="t">Mypaisaa Prediction: a price line opens into a forecast fan, and the outcome lands inside it</title>
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16244A"/><stop offset="1" stop-color="#0B1329"/>
+    </linearGradient>
+    <linearGradient id="fan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F5A524" stop-opacity=".95"/><stop offset="1" stop-color="#F5A524" stop-opacity=".55"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .tile { animation: mp-tile .5s cubic-bezier(.2,.8,.2,1) both; transform-origin: 60px 60px; }
+    .hist { stroke-dasharray: 60; animation: mp-draw 1s .35s cubic-bezier(.65,0,.35,1) both; }
+    .now { animation: mp-pop .45s 1.25s cubic-bezier(.3,1.6,.5,1) both; transform-box: fill-box; transform-origin: center; }
+    .fan { animation: mp-fan .9s 1.5s cubic-bezier(.16,1,.3,1) both; transform-origin: 52px 68px; }
+    .med { animation: mp-fade .5s 1.9s ease-out both; }
+    .hit { animation: mp-pop .5s 2.35s cubic-bezier(.3,1.6,.5,1) both; transform-box: fill-box; transform-origin: center; }
+    .ring { animation: mp-ring 1s 2.45s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+    @keyframes mp-tile { from { opacity: 0; transform: scale(.86); } }
+    @keyframes mp-draw { from { stroke-dashoffset: 60; } }
+    @keyframes mp-pop { from { transform: scale(0); } }
+    @keyframes mp-fade { from { opacity: 0; } }
+    @keyframes mp-fan { from { transform: scaleX(0) scaleY(.2); opacity: 0; } }
+    @keyframes mp-ring { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } .ring { opacity: 0; } }
+  </style>
+  <g class="tile">
+    <rect x="4" y="4" width="112" height="112" rx="28" fill="url(#ink)"/>
+    <line x1="18" x2="102" y1="32" y2="32" stroke="#F7F2E8" stroke-opacity=".07" stroke-width="1"/><line x1="18" x2="102" y1="56" y2="56" stroke="#F7F2E8" stroke-opacity=".07" stroke-width="1"/><line x1="18" x2="102" y1="80" y2="80" stroke="#F7F2E8" stroke-opacity=".07" stroke-width="1"/>
+    <g class="fan">
+      <path d="M52 68 L90.3 35.9 A50 50 0 0 1 99.6 83.5 Z" fill="url(#fan)" opacity=".5"/>
+      <path d="M52 68 L97.7 47.7 A50 50 0 0 1 101.8 72.4 Z" fill="url(#fan)" opacity=".9"/>
+      <path d="M75.0 48.7 A30 30 0 0 1 81.5 73.2" fill="none" stroke="#0B1329" stroke-opacity=".35" stroke-width="1.2"/><path d="M82.6 42.3 A40 40 0 0 1 90.0 80.4" fill="none" stroke="#0B1329" stroke-opacity=".35" stroke-width="1.2"/>
+    </g>
+    <path class="med" d="M52 68 L101.4 60.2" fill="none" stroke="#F7F2E8" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round"/>
+    <path class="hist" d="M15 89 L27 78 L36 82 L45 70 L52 68" fill="none" stroke="#F7F2E8" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle class="now" cx="52" cy="68" r="6" fill="#F7F2E8" stroke="#0B1329" stroke-width="2.2"/>
+    <circle class="ring" cx="90.6" cy="59.0" r="5.5" fill="none" stroke="#3DDC97" stroke-width="2" opacity="0"/>
+    <circle class="hit" cx="90.6" cy="59.0" r="5.5" fill="#3DDC97" stroke="#0B1329" stroke-width="2"/>
+  </g>
+</svg>
