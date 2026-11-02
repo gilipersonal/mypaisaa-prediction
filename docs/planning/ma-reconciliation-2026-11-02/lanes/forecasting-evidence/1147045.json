@@ -1,0 +1,30 @@
+{
+  "id": "1147045",
+  "title": "📡 §5 to §7 · Prices, FX and the rules engine",
+  "version": 12,
+  "snapshotToken": "v:12",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "36c8e67cf0f6d8f94b844a6ca2e9bac11d730cd8b3c2720eb982fd3bb8886058",
+  "html_characters": 106233,
+  "headings": [
+    "🖼️ See it",
+    "5. Data layer",
+    "5.1 Price sources: one plugin per feed, a chain per kind, chosen by configuration",
+    "5.2 Look-through",
+    "5.3 FX, calendars, time",
+    "6. The analysis engine (deterministic, ported from the desk)",
+    "6.1 Indicators",
+    "6.2 Pillars (−2..+2 each)",
+    "6.3 The holder's cascade",
+    "6.4 Confidence score",
+    "6.5 Forecast ranges",
+    "7. Research cards (from the toolbelt, rebuilt for funds)",
+    "🧩 The stories that build it",
+    "🔗 The explainer pages",
+    "MyPaisa Market Agent"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147045",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

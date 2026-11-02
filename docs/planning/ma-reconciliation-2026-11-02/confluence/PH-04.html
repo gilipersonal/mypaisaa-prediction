@@ -1,0 +1,169 @@
+<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING PROPOSAL</span> MP-19 · <time datetime="2026-11-02">2 November 2026</time>. Architecture and UX unapproved; no implementation authority. MA concepts researched, not copied. Independent review not run.</p></div><p><strong>Planning specification · MP-19 · Proposed, not approved · No implementation authority</strong></p>
+<h2>Outcome and scope</h2>
+<p>Horizon/task/feature/model/outcome contracts
+F1–F8 and indicator specifications
+Walk-forward/ablation/shadow/promotion evidence plan</p>
+<p>Architecture areas: A05, A08, A09. Existing Jira epic crosswalk: MP-6. These are historical epic containers, not newly created phase epics.</p>
+<h2>Dependencies and readiness</h2>
+<p>Planning dependencies: PH-00, PH-03. Implementation dependencies: PH-03. Every phase also requires architecture baseline, complete UX and explicit build permission.</p>
+<p>The phase is blocked on architecture and UX. Its ordering does not permit implementation now. Native/web information contracts are specified together even where build work is grouped later.</p>
+<h2>Contracts to settle</h2>
+<ul>
+<li>ForecastTask</li>
+<li>DatasetManifest</li>
+<li>FeatureSetVersion</li>
+<li>EvaluationRun</li>
+<li>ModelVersion</li>
+<li>Prediction</li>
+<li>RealisedOutcome</li>
+<li>PromotionDecision</li>
+</ul>
+<p>Each contract needs owner/producer/consumer, version, units, validation, positive/error schemas, idempotency, authorisation, retention and audit/cost effects. Names here are a catalogue, not implemented schemas.</p>
+<h2>Open closure packages</h2>
+<table data-layout="wide">
+<thead>
+<tr>
+<th data-background="#DEEBFF">Gap</th>
+<th data-background="#DEEBFF">Decision or contract</th>
+<th data-background="#DEEBFF">Planning issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FC-02</td>
+<td>Define every forecast target and maturity contract</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-04</td>
+<td>Specify a bounded experiment and leakage-control protocol</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-05</td>
+<td>Fix the initial model catalogue without inventing model counts</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-06</td>
+<td>Make analog and event evidence horizon-aware</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-07</td>
+<td>Separate rule strength from calibrated forecast probability</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-08</td>
+<td>Design long-horizon investment inference independently of the four-week model</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-09</td>
+<td>Replace calendar-only practice gates with evidence and approval</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>FC-14</td>
+<td>Treat patterns as tested features rather than asserted alpha</td>
+<td>MP-21</td>
+</tr>
+<tr>
+<td>PL-07</td>
+<td>Separate SageMaker training from inference hosting</td>
+<td>MP-24</td>
+</tr>
+<tr>
+<td>CT-15</td>
+<td>Separate learning proposals, approved settings and memory</td>
+<td>MP-25</td>
+</tr>
+</tbody>
+</table>
+<h2>Story catalogue and planned acceptance</h2>
+<p>8 current local story drafts. An actual Jira implementation story and detailed readiness evidence are required before UX; the closure tickets above are planning work, not substitutes.</p>
+<h3>L4-S01 · Forecast tasks, calendars and mature labels</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Define next trading day,5/20 trading days and3/6/12months: target, total/price/excess return, currency, calendar target date, maturity and correction policy.</li>
+<li>Preserve3–5-year assumption-based scenarios separately; no score or maturity label implies future outcomes have already occurred.</li>
+<li>Each prediction pins as-of/cutoff/task/horizon/model/calibration/data/code and probability or interval interpretation.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: ForecastTask examples for every horizon/market; maturity/holiday/correction cases.</p>
+<h3>L4-S02 · Transparent rule and statistical baseline</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Specify the retained indicators/pillars, seeds/lookbacks and macro-basket completeness from forecasting-scope; NAV series do not receive fake candle features.</li>
+<li>Implement only after approval: known-answer rules plus naïve/trend and reproducible bootstrap/linear baselines with explicit uncertainty meaning.</li>
+<li>Distinguish rule strength from calibrated probabilities; preserve disabled/insufficient/no-clear-view states.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: Indicator and baseline contracts; per-kind golden fixtures; seeded replay report.</p>
+<h3>L4-S03 · Walk-forward backtest and leakage controls</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Use temporal walk-forward folds with horizon-aware purge/embargo and train-only transforms/calibration; deliberately leaky fixtures must fail.</li>
+<li>Record dataset hashes, code/feature/model versions, split dates, fees/spreads/income/FX, survivorship and history limits.</li>
+<li>Report calibration/error/coverage/turnover/growth/drawdown/sample intervals and benchmarks; decide objective trade-offs and evidence thresholds before promotion.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: F1/F2 replay specification; leakage negative cases; reproducibility and subgroup report.</p>
+<h3>L4-S04 · Risk regimes, analogs and event studies</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Preserve F3 regimes/volatility/downside and F4 analog/event modules with past-only smoothing, horizon-aware neighbour exclusion and uncertainty.</li>
+<li>Numerical code computes event count/spread/interval; overlapping outcomes and multiple testing are accounted for.</li>
+<li>Sparse/biased event data and missing point-in-time events yield low-evidence/unavailable states rather than a confident effect.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: F3/F4 schemas; analog overlap/leakage tests; market/event subgroup evidence.</p>
+<h3>L4-S05 · Directional and distribution challengers</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Preserve F5 tree/gradient challenger, direction/quantiles/calibration and interpretable drivers; conformal labels require demonstrated time-series coverage.</li>
+<li>Run R0 rules/statistical→M1 numerical→M2 LLM-structured features→M3 approved family ablations, measuring incremental cost and evidence.</li>
+<li>Choose A/B execution via PH00 ADR; no training calls or artefact promotion authorised by this story draft.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: Model adapter/evaluation pack; ablation and calibration plan; resource/cost estimate.</p>
+<h3>L4-S06 · Pattern detectors and contribution experiments</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Retain F8 candle/chart/technical detectors with hand-marked examples, confirmation lag, per-kind eligibility and false-discovery/out-of-sample controls.</li>
+<li>Retain F7 contribution/rebalance scenarios, protected positions/bands and fees, comparing downside improvement against lost growth.</li>
+<li>Scenario assumptions and owner decision journal remain explicit; no broker credential or executable order exists.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: F7/F8 contracts and golden examples; strategy replay; no-trading cases.</p>
+<h3>L4-S07 · Immutable forecast/outcome scorecards</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Append forecasts, revisions, mature outcomes and corrections; never overwrite unsuccessful predictions or score before maturity.</li>
+<li>Show proof/eligibility, horizon/holding/model/regime track record and30/90/365-day summaries with sample sufficiency and censoring.</li>
+<li>Durable audit and raw score evidence survive operational log expiry.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: Prediction/outcome schema; maturity/revision invariants; scorecard reconciliation.</p>
+<h3>L4-S08 · Challenger shadow, owner promotion and rollback</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Require baseline/mature-outcome evidence then shadow observation and explicit owner approval for every live model/calibration/strategy change.</li>
+<li>Agree per-horizon metric thresholds, effectively independent sample sufficiency, shadow duration, subgroup gates and probation; eight weeks does not validate 12 months.</li>
+<li>Pin previous compatible model/data/feature/calibration pointers; failed or drifted candidate stays disabled and rollback preserves audit.</li>
+</ul>
+<p>Contracts: ForecastTask, DatasetManifest, FeatureSetVersion, EvaluationRun, ModelVersion, Prediction, RealisedOutcome, PromotionDecision. Evidence/examples: Promotion evidence contract; approval/rejection/rollback walkthrough; immature-evidence rejection cases.</p>
+<h2>UX states to specify after architecture sign-off</h2>
+<ul>
+<li>Success, empty, loading, partial and unavailable; stale source and insufficient evidence.</li>
+<li>Permission denied, fresh authentication required, approval pending/expired/rejected and conflicting revision.</li>
+<li>Offline/reconnecting, delayed job, retry exhausted, partial commit and safe recovery.</li>
+<li>Privacy mode, keyboard/screen reader, light/dark and reduced-motion equivalents on web and Apple.</li>
+</ul>
+<h2>Audit, monitoring and cost acceptance</h2>
+<ul>
+<li>Record relevant actor/environment/business IDs, source/config/model versions and immutable approval/change/run evidence.</li>
+<li>Define signals for failure, lateness, duplicate handling, source age and reconciliation; redact private payloads from operational telemetry.</li>
+<li>Include source/provider, compute, storage, trace, retry and eval costs in the shared budget; no silent paid fallback.</li>
+</ul>
+<h2>Exit demonstration and failures</h2>
+<p>Every agreed horizon is in the product baseline; eligibility depends on mature evidence and never on synthetic success.</p>
+<p>The planned exit demonstration must run the phase user journey plus one permission failure, one stale/partial data case, one duplicate/reconnect/retry case and one recovery path with evidence. Scientific phases additionally prove temporal/data maturity invariants; no invented live accuracy.</p>
+<p>Failure/recovery intent: Keep challenger in shadow/disabled; revert to prior compatible approved baseline/model without rewriting historic outputs.</p>
+<p>No exit is currently certified. Deployment, live activation, model eligibility and owner approval are separate records.</p>
+<h2>Source and publication</h2>
+<p><a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/reconciliation-report.md">Current reconciliation</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/architecture-finalisation.md">Architecture decisions</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json">Gap register</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/documentation-structure.md">Documentation structure</a>. This local page is a publication proposal, not a published Confluence page.</p>

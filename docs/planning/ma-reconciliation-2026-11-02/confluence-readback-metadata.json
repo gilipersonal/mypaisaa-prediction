@@ -1,0 +1,106 @@
+[
+  {
+    "content_id": "4981720",
+    "title": "DRAFT | MP | MA concept reconciliation and researched gaps",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/4981720.html"
+  },
+  {
+    "content_id": "5799937",
+    "title": "DRAFT | MP | Architecture finalisation and sign-off",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5799937.html"
+  },
+  {
+    "content_id": "5832705",
+    "title": "DRAFT | MP | Architecture areas and phase documentation contract",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5832705.html"
+  },
+  {
+    "content_id": "5865473",
+    "title": "DRAFT | MP | PH-00 | Complete baseline and contract decisions",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5865473.html"
+  },
+  {
+    "content_id": "5668883",
+    "title": "DRAFT | MP | PH-01 | Standalone portfolio, all-method imports and source lineage",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5668883.html"
+  },
+  {
+    "content_id": "5865504",
+    "title": "DRAFT | MP | PH-02 | Identity, private runtime, audit and launch cost controls",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5865504.html"
+  },
+  {
+    "content_id": "5668914",
+    "title": "DRAFT | MP | PH-03 | Market data, performance and portfolio risk",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5668914.html"
+  },
+  {
+    "content_id": "4981787",
+    "title": "DRAFT | MP | PH-04 | Scientific baseline, full Forecaster and controlled learning",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/4981787.html"
+  },
+  {
+    "content_id": "5832730",
+    "title": "DRAFT | MP | PH-05 | Evidence research, agents, chat and evaluations",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5832730.html"
+  },
+  {
+    "content_id": "5799960",
+    "title": "DRAFT | MP | PH-06 | Web discovery, ranked actions, proof and briefings",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5799960.html"
+  },
+  {
+    "content_id": "5898241",
+    "title": "DRAFT | MP | PH-07 | Native Apple, offline and push",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5898241.html"
+  },
+  {
+    "content_id": "5832761",
+    "title": "DRAFT | MP | PH-08 | Operational acceptance and controlled personal launch",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5832761.html"
+  },
+  {
+    "content_id": "5701634",
+    "title": "DRAFT | MP | PH-09 | Versioned extensions and conditional future transfer",
+    "status": "current",
+    "space_id": "5145174",
+    "version": 2,
+    "readback_file": "confluence-readback/5701634.html"
+  }
+]

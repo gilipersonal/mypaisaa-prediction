@@ -1,0 +1,514 @@
+{
+  "as_of": "2026-11-02",
+  "sources": [
+    {
+      "id": "1540178",
+      "title": "Guardrails and evals: how the agents are guarded and tested",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540178",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Code-enforced permissions and confirmation, quarantined extraction, figure checks",
+        "Manifest coverage, T0/T1/T2, outcome-first scoring, human-calibrated judges"
+      ],
+      "body_sha256": "e1f0e373ff82302d5351a0435ab524df9c7536f886e0cf5e6c8fb083735ad019",
+      "body_characters": 113353,
+      "headings": [
+        "🎞️ The diagrams",
+        "23.1 The rules",
+        "23.2 Guardrails, strongest first",
+        "23.3 Offline evals: gated on change, never on a calendar",
+        "23.4 Online evals: every run checked by code, a few judged",
+        "23.5 Calibration and growth",
+        "23.6 What runs on a timer, and why",
+        "23.7 Cost",
+        "23.8 The stories",
+        "🧩 The stories"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1540178.json"
+    },
+    {
+      "id": "1671230",
+      "title": "🔭 §10 · Observability: one trace from the door to the model",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671230",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "RunRecord as protected operational evidence, cross-boundary trace/correlation",
+        "Model/tool spans, metrics, alarms, client evidence, privacy/retention/cost"
+      ],
+      "body_sha256": "6f22e0f2bdd3975c73816381fd1fe17c43a9488350acb8b69dbdcfb15fe5e75b",
+      "body_characters": 101765,
+      "headings": [
+        "🎬 See it move",
+        "10. Observability: what the agent did, what it cost, and one trace from the door to the model",
+        "10.1 The source of truth: the RunRecord",
+        "10.2 One trace, end to end",
+        "10.3 Instrumentation: OpenTelemetry on every Lambda",
+        "10.4 Model and tool spans: what Claude did, in the open conventions",
+        "10.5 Metrics, the dashboard and the saved queries",
+        "10.6 Alarms, and who hears them",
+        "10.7 The rest of AWS",
+        "10.8 The agent team (phase 18)",
+        "10.9 Privacy, retention and cost",
+        "10.10 The stories",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1671230.json"
+    },
+    {
+      "id": "1769473",
+      "title": "👥 §20 · The agent team",
+      "version": 14,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769473",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Logical agent responsibilities, versioned settings and owner ChangeRequest desk",
+        "Grading/calibration, bounded self-healing, team budgets, learning boundaries"
+      ],
+      "body_sha256": "667eb8c4eb67a769c863d6ae31a443d670fc086ba8c1c9aef8b950d812cdaa76",
+      "body_characters": 90462,
+      "headings": [
+        "🎬 See it move",
+        "20. The agent team: configured, approved, self-healing, self-learning (phase 18, later)",
+        "20.1 The agents",
+        "20.2 Settings: one store for every behaviour (E1, MA-129)",
+        "20.3 The admin desk: the owner&#39;s chat and the Admin center, the admin only (E2, MA-130)",
+        "20.4 The learning loop: grade daily, calibrate daily, change rules on evidence (E4 to E6, MA-132 to MA-134)",
+        "20.5 Self-healing (E7, MA-135)",
+        "20.6 Where the data lives",
+        "20.7 Budgets for the team (E8, MA-136)",
+        "20.8 Order",
+        "20.9 The household learns too: its forecasts graded each month, its needs learned from use (E9, E10; MA-276, MA-277)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1769473.json"
+    },
+    {
+      "id": "1442062",
+      "title": "💷 §15 · Cost, the Claude budget, caps and alerts",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442062",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Usage metering, tiered degradation and owner-configurable limits",
+        "Alert routing and recovery, provider-credit assumptions need MP replacement"
+      ],
+      "body_sha256": "fe77c69c627d072375c83b4c07c4af49dd098927b08a5ee4cbed28299ca1b0cb",
+      "body_characters": 81186,
+      "headings": [
+        "🖼️ See it",
+        "15. Cost (monthly, at $1.30 to £1)",
+        "15.1 The Claude budget and its ceiling",
+        "15.2 Caps and alerts, set by the admin in the Admin center (MA-137)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1442062.json"
+    },
+    {
+      "id": "1540282",
+      "title": "🔐 §4.5 · Identity, members and views",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540282",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Identity federation/passkeys, action-bound server-verified fresh authentication",
+        "Sessions/device revocation, linking/recovery, household roles must be adapted to personal MP"
+      ],
+      "body_sha256": "1d056edbdb9fe0b68e884d457f2e055ef0d7152f7d7b00babfe0cd1c6adf5808",
+      "body_characters": 55847,
+      "headings": [
+        "🎬 See it move",
+        "4.5 Identity, members and views",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Agent Journey"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1540282.json"
+    },
+    {
+      "id": "1147065",
+      "title": "🛡️ §14 · Security and privacy",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147065",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Least privilege, privacy, encrypted stores, untrusted source rendering",
+        "Security and incident cases as release evidence"
+      ],
+      "body_sha256": "34f5da5c107f8a40614b31fd3f125ce145f8ec2f51620ebcc52ea5f45f29e1fc",
+      "body_characters": 39521,
+      "headings": [
+        "🖼️ See it",
+        "14. Security and privacy",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1147065.json"
+    },
+    {
+      "id": "1736745",
+      "title": "🛠️ Flows · Running it: the Admin center, failures, the ladder and the month",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736745",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Owner-only Admin journey, server second check and audit",
+        "Failed-work replay, bounded spend ladder and contribution journey"
+      ],
+      "body_sha256": "938b9d08a1208db447b0a6658fc3acc7c2b7fe9e834ff2b7acda7b050e24e8ee",
+      "body_characters": 64693,
+      "headings": [
+        "11 · The Admin center, owner only",
+        "🛤️ The path",
+        "👀 What the owner sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "12 · When something fails",
+        "📌 The three queues",
+        "mypaisa-&lt;env&gt;-updates.fifo",
+        "mypaisa-&lt;env&gt;-outbox.fifo",
+        "mypaisa-&lt;env&gt;-work",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "13 · The Claude spend ladder in practice",
+        "📌 The steps",
+        "Normal",
+        "A heads-up",
+        "Savers",
+        "Essentials only",
+        "Templates only",
+        "🛤️ The path",
+        "📌 The guards under the ladder",
+        "👀 What the members see",
+        "🧩 Built by",
+        "14 · The first of the month: a contribution&#39;s check-in",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1736745.json"
+    },
+    {
+      "id": "1704057",
+      "title": "🏠 Inside MyPaisa: the admin's journey in nine steps",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704057",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Nine-step owner journey connecting onboarding, holdings, analytics and admin",
+        "Plain-language explanation and progressive evidence drill-down"
+      ],
+      "body_sha256": "4c57c22596b9bfc704ce7cafd72ec65f181eaf90d37490aa104afb784020c156",
+      "body_characters": 38521,
+      "headings": [
+        "🤝 The promises",
+        "The AI talks. Plain code does the maths. You approve every change.",
+        "Claude never makes a number",
+        "It cannot trade",
+        "Plain first, detail one tap away",
+        "New things only in the chat",
+        "🏢 The cast",
+        "Think of MyPaisa as a small, well-run office",
+        "You, the admin",
+        "The doors",
+        "The front desk",
+        "The in-tray and out-tray",
+        "The concierge",
+        "The calculator",
+        "The ledger",
+        "The filing cabinet",
+        "The back office",
+        "The postman",
+        "The live line",
+        "Claude",
+        "🚶 Nine steps, from the first screen to the chatbot at work",
+        "1 · Open the app and sign in",
+        "Behind the screen",
+        "2 · Set up in three questions",
+        "Behind the screen",
+        "3 · Invite the family",
+        "Behind the screen",
+        "4 · Add something by just saying it",
+        "Behind the screen",
+        "5 · Send a file or a screenshot",
+        "Behind the screen",
+        "6 · See the whole picture, and fix a figure where it shows",
+        "Behind the screen",
+        "7 · MyPaisa asks you, so you don&#39;t have to remember",
+        "Behind the screen",
+        "8 · Send a statement; the budget fills itself",
+        "Behind the screen",
+        "9 · Ask anything: the chatbot at work",
+        "Behind the screen"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1704057.json"
+    },
+    {
+      "id": "1736725",
+      "title": "✉️ Inside MyPaisa: one message, the agent team, the safety nets and a day",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736725",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Message flow, specialist responsibilities and admin approval",
+        "Safety nets, daily operation and failure-state narrative"
+      ],
+      "body_sha256": "17f1d662509a50e1a430cc6b9ff0082473a3ca351d14bf6bacfa2838fd9d74d2",
+      "body_characters": 57884,
+      "headings": [
+        "✉️ Watch a message travel through MyPaisa",
+        "❓ When you ask a question: 12 steps",
+        "📄 When you send a file: 9 steps",
+        "🔔 When MyPaisa asks you: 7 steps",
+        "🧯 When something fails: 6 steps",
+        "👥 Later, one concierge becomes a team of nine, and you are its manager",
+        "Concierge",
+        "Data steward",
+        "News scout",
+        "Analyst",
+        "Forecaster",
+        "Grader and tuner",
+        "Ops warden",
+        "Budget keeper",
+        "Admin desk",
+        "An agent asks; you approve with your face",
+        "🛟 What stops it going wrong",
+        "Guarded in code, tested on every change",
+        "A spending ceiling for the AI, with a ladder",
+        "Nothing is lost, everything is retried",
+        "An audit line for every change, chained",
+        "Things no part of MyPaisa can do",
+        "🏘️ Two copies on AWS, and one careful way to change them",
+        "Dev: the practice copy",
+        "Prod: the family&#39;s copy",
+        "Written down, checked, approved",
+        "☀️ Mostly quiet, on time, and there when you ask"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1736725.json"
+    },
+    {
+      "id": "294962",
+      "title": "Phase 8 · Audit, search and the Admin center at every door",
+      "version": 25,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294962",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Phase-8 admin/audit exit demonstration and per-story linkage",
+        "Explicit unresolved design and alert-routing questions, not an approved MP UI"
+      ],
+      "body_sha256": "72f64fda24a34b3076df59f193a68089e345dc392c5d8094fd9a118b8bbb1701",
+      "body_characters": 45844,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/294962.json"
+    },
+    {
+      "id": "197293",
+      "title": "Phase 18 · The agent team: configured, approved, self-healing, self-learning",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197293",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Phase-18 team configuration, approval, measured-learning and recovery stories",
+        "Source phase structure, estimated dates and household assumptions are not MP commitments"
+      ],
+      "body_sha256": "a3a35e83a8025fa0a55c63ae9b7a148f1d4912e82a97c985b0d5765a52008604",
+      "body_characters": 42923,
+      "headings": [
+        "The web app",
+        "The iOS app"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/197293.json"
+    },
+    {
+      "id": "328059",
+      "title": "Screens · Activity, Audit and files",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328059",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Activity/Audit/files across web and Apple screens",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "body_sha256": "6c85fdda36041887dffe185f1181fa48aa13536942acd87b56f449fa02feb14d",
+      "body_characters": 10895,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/328059.json"
+    },
+    {
+      "id": "197333",
+      "title": "Screens · The Admin center",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197333",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Admin controls and fresh authentication across web/Apple",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "body_sha256": "e4d1ad79c991f50b32b78a193bd1c6669020235429b5ee1d71934e76f446410e",
+      "body_characters": 15315,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/197333.json"
+    },
+    {
+      "id": "295022",
+      "title": "Screens · Registering and check-ins",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/295022",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Register/import/check-in proposal and confirmation journeys",
+        "Input uncertainty, amend/cancel state and provenance"
+      ],
+      "body_sha256": "ae14ee4bced8d20f60cb42dd7d03f99ef2ef413beb467ecca06817000c720a59",
+      "body_characters": 33988,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/295022.json"
+    },
+    {
+      "id": "1704077",
+      "title": "➕ Flows · Adding a holding and logging money",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704077",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Add a holding from evidence, validate and confirm",
+        "Changes audited with exact source and numerical parsing"
+      ],
+      "body_sha256": "79e5a1894336d39930e20b888994b91402e927645506bf72e576b7805995bd32",
+      "body_characters": 43239,
+      "headings": [
+        "03 · Adding a holding from a factsheet or a screenshot",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "04 · Logging money in plain words",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1704077.json"
+    },
+    {
+      "id": "1147105",
+      "title": "🔑 Flows · Joining and signing in",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147105",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Sign-in and linking journeys, recovery and server second check",
+        "Provider/passkey branches and revoked/expired challenge cases"
+      ],
+      "body_sha256": "ae8ea3aa59d03a970c0fce17665552597811c9155e4eb64baa1f8a85deb32bc4",
+      "body_characters": 52398,
+      "headings": [
+        "01 · Joining by invite",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "02 · Signing in with Apple, Google or a passkey",
+        "🛤️ The paths",
+        "📌 The session, the same behind every door",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1147105.json"
+    }
+  ],
+  "source_designs": [
+    {
+      "path": "docs/design/app-v1/Web v4 · Admin center.dc.html",
+      "sha256": "c87eda2f382fddb21062948d4ccdd196f91b8d55998fc59dfa2ec304c1d1050a",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/ios-v1/iPhone v4 · Admin center.dc.html",
+      "sha256": "2e73cda1469fa83a24f09e5500ced5d6da8c0ecdc51bad7ac234d0b8487feabf",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/app-v1/Web v4 · Audit, activity and files.dc.html",
+      "sha256": "f6d552abb978a70f1c483fbe83ce952177fc1bd494d3792094d666c8a0290440",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/ios-v1/iPhone v4 · Audit, activity and files.dc.html",
+      "sha256": "01537437e6c0bcb1a20cc0cc75bc9bdb396bfee932afb56237e75612a84bb043",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    }
+  ],
+  "scope": "Read-only MA source capture; hashes cover returned full HTML, not an independently rendered page."
+}

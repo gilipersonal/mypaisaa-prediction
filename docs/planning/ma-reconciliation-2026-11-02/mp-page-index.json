@@ -1,0 +1,411 @@
+{
+  "results": [
+    {
+      "content": {
+        "id": "5145394",
+        "type": "page",
+        "status": "current",
+        "title": "Architecture and decision records",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5145394/Architecture+and+decision+records",
+          "tinyui": "/x/MoNO"
+        }
+      },
+      "title": "Architecture and decision records",
+      "excerpt": "MP15-NOTICE-BEGIN:5145394:v1\nCurrent architecture direction and open decisions - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nArchitecture blueprint!--https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr",
+      "url": "/spaces/mypaisaapr/pages/5145394/Architecture+and+decision+records",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:39:17.000Z",
+      "friendlyLastModified": "yesterday at 10:39 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5014127",
+        "type": "page",
+        "status": "current",
+        "title": "Development, CI and Codex workflows",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5014127/Development+CI+and+Codex+workflows",
+          "tinyui": "/x/b4JM"
+        }
+      },
+      "title": "Development, CI and Codex workflows",
+      "excerpt": "MP15-NOTICE-BEGIN:5014127:v1\nLayered planning publication and evidence - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nPlanning index",
+      "url": "/spaces/mypaisaapr/pages/5014127/Development+CI+and+Codex+workflows",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:40:50.000Z",
+      "friendlyLastModified": "yesterday at 10:40 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5014267",
+        "type": "page",
+        "status": "current",
+        "title": "MP | Architecture blueprint",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5014267/MP+Architecture+blueprint",
+          "tinyui": "/x/_4JM"
+        }
+      },
+      "title": "MP | Architecture blueprint",
+      "excerpt": "The detailed AWS architecture: MP | AWS, Anthropic and SageMaker forecasting deep dive . Three native Lucid pages cover the UI to FastAPI/Lambda request path, EventBridge/SQS and DLQs, Haiku batches, SageMaker forecasts and monitoring. PROPOSED\nMP18-LINK:5014267:v1 · MP-18 · 1 Novem",
+      "url": "/spaces/mypaisaapr/pages/5014267/MP+Architecture+blueprint",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-02T00:02:57.000Z",
+      "friendlyLastModified": "about 8 hours ago",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "4981639",
+        "type": "page",
+        "status": "current",
+        "title": "MP | AWS, Anthropic and SageMaker forecasting deep dive",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/4981639/MP+AWS+Anthropic+and+SageMaker+forecasting+deep+dive",
+          "tinyui": "/x/hwNM"
+        }
+      },
+      "title": "MP | AWS, Anthropic and SageMaker forecasting deep dive",
+      "excerpt": "PROPOSED ARCHITECTURE\n 2026-11-01  · MP-18 · Three native Lucid drawings · 36 components per drawing · one coordinator and four proposed Claude task routes · two proposed SageMaker model families. No AWS application deployment or final architecture approval.\nMP-18 · 1 November 2026 · detailed design proposal\nThis document follows a holding and a market obser",
+      "url": "/spaces/mypaisaapr/pages/4981639/MP+AWS+Anthropic+and+SageMaker+forecasting+deep+dive",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-02T00:05:43.000Z",
+      "friendlyLastModified": "about 8 hours ago",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "4981438",
+        "type": "page",
+        "status": "current",
+        "title": "MP | Layered development planning - 1 November 2026",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/4981438/MP+Layered+development+planning+-+1+November+2026",
+          "tinyui": "/x/vgJM"
+        }
+      },
+      "title": "MP | Layered development planning - 1 November 2026",
+      "excerpt": "New MP-18 deep dive: MP | AWS, Anthropic and SageMaker forecasting deep dive . The request-to-outcome, event/queue and forecasting views now have native Lucid exports, a numbered connection key and detailed Confluence prose. PROPOSED\nMP18-LINK:4981438:v1 · MP-18 · 1 November 2026 so",
+      "url": "/spaces/mypaisaapr/pages/4981438/MP+Layered+development+planning+-+1+November+2026",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-02T00:03:00.000Z",
+      "friendlyLastModified": "about 8 hours ago",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5014255",
+        "type": "page",
+        "status": "current",
+        "title": "MP | Phased delivery plan and story map",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5014255/MP+Phased+delivery+plan+and+story+map",
+          "tinyui": "/x/74JM"
+        }
+      },
+      "title": "MP | Phased delivery plan and story map",
+      "excerpt": "PLANNING DRAFT\n Documentation independently reviewed through round 4 with no remaining blockers. End-to-end requirements, UX, network/training choices and implementation remain subject to owner approval.\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application im",
+      "url": "/spaces/mypaisaapr/pages/5014255/MP+Phased+delivery+plan+and+story+map",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:36:21.000Z",
+      "friendlyLastModified": "yesterday at 10:36 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "4981454",
+        "type": "page",
+        "status": "current",
+        "title": "MP | Portfolio and import specification",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/4981454/MP+Portfolio+and+import+specification",
+          "tinyui": "/x/zgJM"
+        }
+      },
+      "title": "MP | Portfolio and import specification",
+      "excerpt": "PLANNING DRAFT\n Documentation independently reviewed through round 4 with no remaining blockers. End-to-end requirements, UX, network/training choices and implementation remain subject to owner approval.\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application im",
+      "url": "/spaces/mypaisaapr/pages/4981454/MP+Portfolio+and+import+specification",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:36:08.000Z",
+      "friendlyLastModified": "yesterday at 10:36 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5014301",
+        "type": "page",
+        "status": "current",
+        "title": "MP | Technology stack and decision matrix",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5014301/MP+Technology+stack+and+decision+matrix",
+          "tinyui": "/x/HYNM"
+        }
+      },
+      "title": "MP | Technology stack and decision matrix",
+      "excerpt": "SageMaker and Anthropic integration map: MP | AWS, Anthropic and SageMaker forecasting deep dive . MP-18 proposes two initial CPU model families in SageMaker training, one code coordinator with four Claude task routes, and nonurgent Haiku batches. Exact runtime and model choices rem",
+      "url": "/spaces/mypaisaapr/pages/5014301/MP+Technology+stack+and+decision+matrix",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-02T00:02:58.000Z",
+      "friendlyLastModified": "about 8 hours ago",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5145345",
+        "type": "page",
+        "status": "current",
+        "title": "mypaisaa-prediction",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/overview",
+          "tinyui": "/x/AYNO"
+        }
+      },
+      "title": "mypaisaa-prediction",
+      "excerpt": "MP15-NOTICE-BEGIN:5145345:v1\nCurrent requirements and layered planning - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nThe current planning entry point is below. The rest of this homepage is preserved as histor",
+      "url": "/spaces/mypaisaapr/overview",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:38:37.000Z",
+      "friendlyLastModified": "yesterday at 10:38 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "4981241",
+        "type": "page",
+        "status": "current",
+        "title": "Product brief and knowledge base",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/4981241/Product+brief+and+knowledge+base",
+          "tinyui": "/x/_QFM"
+        }
+      },
+      "title": "Product brief and knowledge base",
+      "excerpt": "MP15-NOTICE-BEGIN:4981241:v1\nCurrent requirements baseline - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nPlanning index  · Portfoli",
+      "url": "/spaces/mypaisaapr/pages/4981241/Product+brief+and+knowledge+base",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:39:13.000Z",
+      "friendlyLastModified": "yesterday at 10:39 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5112476",
+        "type": "page",
+        "status": "current",
+        "title": "Roadmap and current implementation status",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5112476/Roadmap+and+current+implementation+status",
+          "tinyui": "/x/nAJO"
+        }
+      },
+      "title": "Roadmap and current implementation status",
+      "excerpt": "MP15-NOTICE-BEGIN:5112476:v1\nCurrent layered plan - proposed - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nLayered planning index",
+      "url": "/spaces/mypaisaapr/pages/5112476/Roadmap+and+current+implementation+status",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:39:21.000Z",
+      "friendlyLastModified": "yesterday at 10:39 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5112525",
+        "type": "page",
+        "status": "current",
+        "title": "Security, cost and operations",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5112525/Security+cost+and+operations",
+          "tinyui": "/x/zQJO"
+        }
+      },
+      "title": "Security, cost and operations",
+      "excerpt": "MP15-NOTICE-BEGIN:5112525:v1\nCurrent requirements delta - proposed implementation - 2026-11-01\nDRAFT planning · Documentation review completed through round 4; no remaining blocking findings · End-to-end requirements and UX unapproved · Application implementation not authorised.\nArchitecture and controls!--https://duttaarun2015.atlassian.net/wiki/spaces/mypa",
+      "url": "/spaces/mypaisaapr/pages/5112525/Security+cost+and+operations",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-11-01T22:41:42.000Z",
+      "friendlyLastModified": "yesterday at 10:41 PM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5145359",
+        "type": "page",
+        "subType": "live",
+        "subtype": "live",
+        "status": "current",
+        "title": "Template - How-to guide",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5145359/Template+-+How-to+guide",
+          "tinyui": "/x/D4NO"
+        }
+      },
+      "title": "Template - How-to guide",
+      "excerpt": "\\uD83D\\uDCD8\n Instructions\nHighlight important information in a panel like this one. To edit this panel&#39;s color or style, select one of the options in the menu.\n\\uD83D\\uDCCB\n Related articles",
+      "url": "/spaces/mypaisaapr/pages/5145359/Template+-+How-to+guide",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-live-page",
+      "lastModified": "2026-11-01T11:28:38.000Z",
+      "friendlyLastModified": "yesterday at 11:28 AM",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "5145372",
+        "type": "page",
+        "subType": "live",
+        "subtype": "live",
+        "status": "current",
+        "title": "Template - Troubleshooting article",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaapr/pages/5145372/Template+-+Troubleshooting+article",
+          "tinyui": "/x/HINO"
+        }
+      },
+      "title": "Template - Troubleshooting article",
+      "excerpt": "\\uD83E\\uDD14\n Problem\n\\uD83C\\uDF31\n Solution\nHighlight important information in a panel like this one. To edit this panel&#39;s color or style, select one of the options in the menu.\n\\uD83D\\uDCCE\n Related articles",
+      "url": "/spaces/mypaisaapr/pages/5145372/Template+-+Troubleshooting+article",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-prediction",
+        "displayUrl": "/spaces/mypaisaapr"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-live-page",
+      "lastModified": "2026-11-01T11:28:38.000Z",
+      "friendlyLastModified": "yesterday at 11:28 AM",
+      "score": 0
+    }
+  ],
+  "start": 0,
+  "limit": 100,
+  "size": 14,
+  "totalSize": 14,
+  "cqlQuery": "space = \"mypaisaapr\" AND type = page ORDER BY title",
+  "searchDuration": 385,
+  "archivedResultCount": 0,
+  "_links": {
+    "base": "https://duttaarun2015.atlassian.net/wiki",
+    "context": "/wiki"
+  }
+}

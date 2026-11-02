@@ -1,0 +1,1758 @@
+{
+  "issue": "MP-19",
+  "lane": "forecasting_and_portfolio",
+  "captured_at": "2026-11-02",
+  "status": "maker_planning_unreviewed_no_implementation",
+  "source_repository": {
+    "path": "/Users/arundutta/projects/mypaisa-agent",
+    "commit": "387fc38bdc99d77460b6b03d90e2637241e79d1e",
+    "read_sections": [
+      "ARCHITECTURE.md §§4,5-7,19,22",
+      "docs/design/app-v1/Web v4 · Forecast.dc.html",
+      "docs/design/figures/forecaster-v4.json"
+    ],
+    "limitations": [
+      "Read MA board HTML/figure source for content/state evidence, not a rendered visual/accessibility inspection."
+    ]
+  },
+  "sources": [
+    {
+      "id": "1704037",
+      "title": "🔮 §19 · The Forecaster",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704037",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "F1 known-at data",
+        "F2 walk-forward lab",
+        "F3 regime and downside",
+        "F4 analogs/events",
+        "F5 distributions",
+        "F6 proof",
+        "F7 contribution experiments",
+        "F8 technical patterns",
+        "practice/promotion/off-switch"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1704037.json",
+      "html_sha256": "17db59873688b403adde4c337613dc98b8b9d8138e94cf13d449599419a7755f"
+    },
+    {
+      "id": "1769493",
+      "title": "📈 The Market Agent, end to end",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769493",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "integrated market path",
+        "source chain",
+        "exposure-weighted news",
+        "two engines",
+        "learning and portfolio experiments",
+        "India adaptation"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1769493.json",
+      "html_sha256": "fa806ef01e3973db820126525569d11a431fb9882749114c0f234d9f5998f06b"
+    },
+    {
+      "id": "1147045",
+      "title": "📡 §5 to §7 · Prices, FX and the rules engine",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147045",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "per-kind provider adapters",
+        "look-through",
+        "FX/calendar contracts",
+        "deterministic indicators/pillars",
+        "stance cascade",
+        "heuristic strength",
+        "bootstrap distribution",
+        "research cards"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1147045.json",
+      "html_sha256": "36c8e67cf0f6d8f94b844a6ca2e9bac11d730cd8b3c2720eb982fd3bb8886058"
+    },
+    {
+      "id": "1442042",
+      "title": "🗂️ §4 · The holdings registry and the data model",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442042",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "listing/record/event identities",
+        "audited imports",
+        "typed instrument kinds",
+        "source provenance",
+        "dated FX and scoped ledger"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1442042.json",
+      "html_sha256": "44b36901da0261100d09a6883f604c2f1a37011b58dd0e0ae6394d45b438e2f8"
+    },
+    {
+      "id": "1671250",
+      "title": "🇮🇳 §22 · Indian markets",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671250",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "India instrument/account identities",
+        "CAS/broker import",
+        "NAV versus candles",
+        "local calendar and macro basket",
+        "INR/GBP"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1671250.json",
+      "html_sha256": "812c77e1e441a8b26602397859f866219ea1b510eb7deb69abacb3359b29d23e"
+    },
+    {
+      "id": "1409199",
+      "title": "🧮 §6.6 · The wealth maths",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1409199",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "dated-flow XIRR",
+        "missing-history refusal",
+        "portfolio/account scopes",
+        "wealth functions not all relevant to MP"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/1409199.json",
+      "html_sha256": "879f5dd30b2966e824f9677159f25d41cbf4c6a86f7717dc3e936aaf66099d41"
+    },
+    {
+      "id": "294982",
+      "title": "Phase 10 · Prices and the engine",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294982",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "price quality and source chains",
+        "known-answer rules tests",
+        "phase dependencies"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/294982.json",
+      "html_sha256": "5c2e3ff8d43122b0aeb5e44952ad371b60b6b6add0f225853e1c3d2767074a1f"
+    },
+    {
+      "id": "327999",
+      "title": "Phase 11 · Briefs, alerts, charts, technical mode",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327999",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "brief/alert/chart contracts",
+        "technical mode",
+        "delivery evidence"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/327999.json",
+      "html_sha256": "40a35444214c40116a4c7ba045dcf599022af7f7c6fefc60fde15476e6a4f337"
+    },
+    {
+      "id": "197233",
+      "title": "Phase 12 · Ask anything: research cards and scenarios",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197233",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "source-grounded research cards",
+        "scenario versus forecast distinction",
+        "portfolio comparison"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/197233.json",
+      "html_sha256": "9baac9a36e7ce419235990723877ea15fec7b582e0edccffed24d6db22628390"
+    },
+    {
+      "id": "66125",
+      "title": "Phase 13 · Track record and calibration",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66125",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "immutable calls",
+        "mature outcomes",
+        "reliability and calibration",
+        "review scorecards"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/66125.json",
+      "html_sha256": "61ece009d705f4aac89f72821e718a10096fa4542cd05e4b07370e31071cd708"
+    },
+    {
+      "id": "328019",
+      "title": "Phase 14 · News, events, sentiment (shadow)",
+      "version": 17,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328019",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "deduplicated news",
+        "sentiment shadow",
+        "tag quality sampling",
+        "no unsupported alert"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/328019.json",
+      "html_sha256": "9cdae94e4197ac4b80802933b4b9b5257bec407bb8e1beaa5690b427952657c4"
+    },
+    {
+      "id": "197253",
+      "title": "Phase 15 · Stances go live",
+      "version": 19,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197253",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "eligibility gate",
+        "protected positions",
+        "bounded suggestions",
+        "safe unavailable state"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/197253.json",
+      "html_sha256": "31184c9c9c6b2f7b8a04b21aa4bf39bbe1d84417ea01e4f237f1ce137bb3f1e5"
+    },
+    {
+      "id": "197273",
+      "title": "Phase 16 · New kinds of holding (when you add one)",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197273",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "extensible instrument kind",
+        "fundamental/valuation capability",
+        "source costs not inherited"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/197273.json",
+      "html_sha256": "74c8f13117c70b2a50c5d292162ba2a2a5a6a76b4eefcfbde4a3ab27ffb62c00"
+    },
+    {
+      "id": "328039",
+      "title": "Phase 17 · The Forecaster: a second engine beside the rules engine",
+      "version": 24,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328039",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "complete F1-F8 phase decomposition",
+        "model/strategy evidence",
+        "forecast proof and absent/stale states"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/328039.json",
+      "html_sha256": "44b96b7a49f7ed3b116336ee4b0152fb9b038edaec5daf3c4c21892ce79cfdc9"
+    },
+    {
+      "id": "197313",
+      "title": "Phase 19 · Indian markets and the existing Indian portfolio",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197313",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "Indian identities and imports",
+        "source/calendar/FX validation",
+        "market-specific gates"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/197313.json",
+      "html_sha256": "f90d99c956ec099252e11f9b279d0ab96ea49c6dd08bf415eec129f97dc9f385"
+    },
+    {
+      "id": "327979",
+      "title": "Phase 5 · Investments, priced",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327979",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ],
+      "concepts": [
+        "investment records and imports",
+        "dated cash flows",
+        "daily valuation",
+        "incomplete history",
+        "XIRR/holding evidence"
+      ],
+      "evidence_file": "lanes/forecasting-evidence/327979.json",
+      "html_sha256": "9e0cb0a3c4f45edf2904d3cb9fc0439ff83169c7af054130028fbb0e0df45b75"
+    }
+  ],
+  "concept_clauses": [
+    {
+      "id": "MA-1704037-FC-01",
+      "source_id": "1704037",
+      "concept": "F1 known-at data",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-02",
+      "source_id": "1704037",
+      "concept": "F2 walk-forward lab",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-03",
+      "source_id": "1704037",
+      "concept": "F3 regime and downside",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-04",
+      "source_id": "1704037",
+      "concept": "F4 analogs/events",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-05",
+      "source_id": "1704037",
+      "concept": "F5 distributions",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-06",
+      "source_id": "1704037",
+      "concept": "F6 proof",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-07",
+      "source_id": "1704037",
+      "concept": "F7 contribution experiments",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-08",
+      "source_id": "1704037",
+      "concept": "F8 technical patterns",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1704037-FC-09",
+      "source_id": "1704037",
+      "concept": "practice/promotion/off-switch",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-01",
+      "source_id": "1769493",
+      "concept": "integrated market path",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-02",
+      "source_id": "1769493",
+      "concept": "source chain",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-03",
+      "source_id": "1769493",
+      "concept": "exposure-weighted news",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-04",
+      "source_id": "1769493",
+      "concept": "two engines",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-05",
+      "source_id": "1769493",
+      "concept": "learning and portfolio experiments",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1769493-FC-06",
+      "source_id": "1769493",
+      "concept": "India adaptation",
+      "mp_gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-01",
+      "source_id": "1147045",
+      "concept": "per-kind provider adapters",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-02",
+      "source_id": "1147045",
+      "concept": "look-through",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-03",
+      "source_id": "1147045",
+      "concept": "FX/calendar contracts",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-04",
+      "source_id": "1147045",
+      "concept": "deterministic indicators/pillars",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-05",
+      "source_id": "1147045",
+      "concept": "stance cascade",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-06",
+      "source_id": "1147045",
+      "concept": "heuristic strength",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-07",
+      "source_id": "1147045",
+      "concept": "bootstrap distribution",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1147045-FC-08",
+      "source_id": "1147045",
+      "concept": "research cards",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1442042-FC-01",
+      "source_id": "1442042",
+      "concept": "listing/record/event identities",
+      "mp_gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1442042-FC-02",
+      "source_id": "1442042",
+      "concept": "audited imports",
+      "mp_gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1442042-FC-03",
+      "source_id": "1442042",
+      "concept": "typed instrument kinds",
+      "mp_gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1442042-FC-04",
+      "source_id": "1442042",
+      "concept": "source provenance",
+      "mp_gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1442042-FC-05",
+      "source_id": "1442042",
+      "concept": "dated FX and scoped ledger",
+      "mp_gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1671250-FC-01",
+      "source_id": "1671250",
+      "concept": "India instrument/account identities",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1671250-FC-02",
+      "source_id": "1671250",
+      "concept": "CAS/broker import",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1671250-FC-03",
+      "source_id": "1671250",
+      "concept": "NAV versus candles",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1671250-FC-04",
+      "source_id": "1671250",
+      "concept": "local calendar and macro basket",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1671250-FC-05",
+      "source_id": "1671250",
+      "concept": "INR/GBP",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1409199-FC-01",
+      "source_id": "1409199",
+      "concept": "dated-flow XIRR",
+      "mp_gap_ids": [
+        "FC-08",
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1409199-FC-02",
+      "source_id": "1409199",
+      "concept": "missing-history refusal",
+      "mp_gap_ids": [
+        "FC-08",
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1409199-FC-03",
+      "source_id": "1409199",
+      "concept": "portfolio/account scopes",
+      "mp_gap_ids": [
+        "FC-08",
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-1409199-FC-04",
+      "source_id": "1409199",
+      "concept": "wealth functions not all relevant to MP",
+      "mp_gap_ids": [
+        "FC-08",
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-294982-FC-01",
+      "source_id": "294982",
+      "concept": "price quality and source chains",
+      "mp_gap_ids": [],
+      "disposition": "reference_only",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-294982-FC-02",
+      "source_id": "294982",
+      "concept": "known-answer rules tests",
+      "mp_gap_ids": [],
+      "disposition": "reference_only",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-294982-FC-03",
+      "source_id": "294982",
+      "concept": "phase dependencies",
+      "mp_gap_ids": [],
+      "disposition": "reference_only",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327999-FC-01",
+      "source_id": "327999",
+      "concept": "brief/alert/chart contracts",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327999-FC-02",
+      "source_id": "327999",
+      "concept": "technical mode",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327999-FC-03",
+      "source_id": "327999",
+      "concept": "delivery evidence",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197233-FC-01",
+      "source_id": "197233",
+      "concept": "source-grounded research cards",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197233-FC-02",
+      "source_id": "197233",
+      "concept": "scenario versus forecast distinction",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197233-FC-03",
+      "source_id": "197233",
+      "concept": "portfolio comparison",
+      "mp_gap_ids": [
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-66125-FC-01",
+      "source_id": "66125",
+      "concept": "immutable calls",
+      "mp_gap_ids": [
+        "FC-04",
+        "FC-07",
+        "FC-09"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-66125-FC-02",
+      "source_id": "66125",
+      "concept": "mature outcomes",
+      "mp_gap_ids": [
+        "FC-04",
+        "FC-07",
+        "FC-09"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-66125-FC-03",
+      "source_id": "66125",
+      "concept": "reliability and calibration",
+      "mp_gap_ids": [
+        "FC-04",
+        "FC-07",
+        "FC-09"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-66125-FC-04",
+      "source_id": "66125",
+      "concept": "review scorecards",
+      "mp_gap_ids": [
+        "FC-04",
+        "FC-07",
+        "FC-09"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328019-FC-01",
+      "source_id": "328019",
+      "concept": "deduplicated news",
+      "mp_gap_ids": [
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328019-FC-02",
+      "source_id": "328019",
+      "concept": "sentiment shadow",
+      "mp_gap_ids": [
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328019-FC-03",
+      "source_id": "328019",
+      "concept": "tag quality sampling",
+      "mp_gap_ids": [
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328019-FC-04",
+      "source_id": "328019",
+      "concept": "no unsupported alert",
+      "mp_gap_ids": [
+        "FC-13"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197253-FC-01",
+      "source_id": "197253",
+      "concept": "eligibility gate",
+      "mp_gap_ids": [
+        "FC-09",
+        "FC-12"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197253-FC-02",
+      "source_id": "197253",
+      "concept": "protected positions",
+      "mp_gap_ids": [
+        "FC-09",
+        "FC-12"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197253-FC-03",
+      "source_id": "197253",
+      "concept": "bounded suggestions",
+      "mp_gap_ids": [
+        "FC-09",
+        "FC-12"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197253-FC-04",
+      "source_id": "197253",
+      "concept": "safe unavailable state",
+      "mp_gap_ids": [
+        "FC-09",
+        "FC-12"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197273-FC-01",
+      "source_id": "197273",
+      "concept": "extensible instrument kind",
+      "mp_gap_ids": [
+        "FC-05",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197273-FC-02",
+      "source_id": "197273",
+      "concept": "fundamental/valuation capability",
+      "mp_gap_ids": [
+        "FC-05",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197273-FC-03",
+      "source_id": "197273",
+      "concept": "source costs not inherited",
+      "mp_gap_ids": [
+        "FC-05",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328039-FC-01",
+      "source_id": "328039",
+      "concept": "complete F1-F8 phase decomposition",
+      "mp_gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328039-FC-02",
+      "source_id": "328039",
+      "concept": "model/strategy evidence",
+      "mp_gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-328039-FC-03",
+      "source_id": "328039",
+      "concept": "forecast proof and absent/stale states",
+      "mp_gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-16"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197313-FC-01",
+      "source_id": "197313",
+      "concept": "Indian identities and imports",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197313-FC-02",
+      "source_id": "197313",
+      "concept": "source/calendar/FX validation",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-197313-FC-03",
+      "source_id": "197313",
+      "concept": "market-specific gates",
+      "mp_gap_ids": [
+        "FC-01",
+        "FC-15"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327979-FC-01",
+      "source_id": "327979",
+      "concept": "investment records and imports",
+      "mp_gap_ids": [
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327979-FC-02",
+      "source_id": "327979",
+      "concept": "dated cash flows",
+      "mp_gap_ids": [
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327979-FC-03",
+      "source_id": "327979",
+      "concept": "daily valuation",
+      "mp_gap_ids": [
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327979-FC-04",
+      "source_id": "327979",
+      "concept": "incomplete history",
+      "mp_gap_ids": [
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    },
+    {
+      "id": "MA-327979-FC-05",
+      "source_id": "327979",
+      "concept": "XIRR/holding evidence",
+      "mp_gap_ids": [
+        "FC-10"
+      ],
+      "disposition": "adapt_to_mp_with_explicit_decisions",
+      "acceptance_complete": false
+    }
+  ],
+  "gaps": [
+    {
+      "id": "FC-01",
+      "title": "Resolve provider use rights and actual data coverage",
+      "ma_concept": "Free-first per-kind chains, optional paid fallback and ten-year history.",
+      "mp_evidence": "MP-10; docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-01; L3-S01; exact Grow tier and rights unresolved.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep Yahoo plus requested Grow as candidate sources. Require a per-listing/per-use rights matrix and fallback-to-daily/unavailable. Grow pricing/terms do not establish non-display ML rights for this use; request provider clarification. No paid upgrade or LLM transmission assumed.",
+      "decision_needed": "Approve verified source/tier/rights and taxed GBP recurring envelope, or choose reduced coverage before architecture freeze.",
+      "acceptance_criteria": [
+        "Record quote/NAV/history/actions/exposures/news capability, delay, cadence, credit weight and storage/training/derived-data/Anthropic-sharing permission per source.",
+        "Expose unsupported/stale states; no automatic provider upgrade.",
+        "Verify UK/US/India examples and compare full monthly costs against £70 operating allowance and £100 total ceiling."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1147045",
+        "1704037",
+        "1671250",
+        "197313"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms",
+        "https://github.com/ranaroussi/yfinance"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-02",
+      "title": "Define every forecast target and maturity contract",
+      "ma_concept": "One principal four-week horizon plus analog 5/20/60-day outcomes.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md ForecastTask/Horizon; L4-S01; selected horizons exist without fully agreed target formulas.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define daily as-of origins for next-day, 5-20 trading-day and 3/6/12-calendar-month tasks. Specify terminal total return versus within-horizon drawdown as separate targets; 3-5-year outputs are conditional scenarios. Thirty-minute monitoring never creates a fresh formal forecast by implication.",
+      "decision_needed": "Approve target catalogue, horizon list, origin cutoff, calendars, total-return convention and event thresholds.",
+      "acceptance_criteria": [
+        "Each task pins target equation/unit, origin/cutoff, calendar roll, maturity, canonical source, baseline and metrics.",
+        "Distinguish terminal loss from maximum drawdown, cost-basis loss and portfolio peak drawdown.",
+        "Fixtures cover holidays, split/dividend, delayed NAV, FX and stale origins."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-03",
+      "title": "Make historical datasets genuinely point in time",
+      "ma_concept": "F1 ten-year Parquet lake with known-at data and exposure maps.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F1; L3-S02; source vintage availability unproven.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Require three times for observations (economic, known-at/publication, ingestion), revision lineage and versioned universe/exposures. Current adjusted prices, macro revisions, constituents and LLM extraction cannot be silently projected into past origins.",
+      "decision_needed": "Approve first feature/data catalogue and classify sources as vintage-backed, lag-conservative, prospective-only or unavailable.",
+      "acceptance_criteria": [
+        "Dataset manifest records source/query/cutoff/content hashes, actions and universe/exposure versions.",
+        "Delisted/merged instruments and discontinued funds are addressed; missing history is explicit.",
+        "Contaminated or reconstructable-only features excluded from claimed historical edge; prospective evidence separate."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1704037",
+        "1769493",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-04",
+      "title": "Specify a bounded experiment and leakage-control protocol",
+      "ma_concept": "F2 walk-forward and last-two-year holdout.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F2; L4-S03; exact folds/search/selection limits open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Choose rolling/expanding chronological origins with label-interval purging and training-only transformations. Group instruments by common time boundaries, account for serial/cross-asset dependence, record all trials and limit search. Final holdout is untouched until a frozen candidate comparison.",
+      "decision_needed": "Approve fold schedule per horizon, search budget, selection loss, uncertainty method and final-test reuse policy.",
+      "acceptance_criteria": [
+        "Leakage challenge cases fail for revised macro, future constituents, overlapping labels and extraction hindsight.",
+        "All transforms/features/calibrators fit within permissible training data.",
+        "Report paired baseline deltas, effective sample limits, subgroup performance and experiment count, not a best backtest alone."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "66125"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-05",
+      "title": "Fix the initial model catalogue without inventing model counts",
+      "ma_concept": "F3-F5 mood/risk/analogs/direction described as several conceptual models.",
+      "mp_evidence": "docs/architecture-deep-dive.md proposes two CPU trainable families; no approved per-task model registry.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain deterministic rules/statistical benchmarks and propose two CPU trainable families: regularised linear/logistic baselines and gradient-boosted/quantile challengers. Regime definitions and analog/event engines are explicit modules. Exact class/task/horizon artefacts follow evidence, not one model per ticker. SageMaker selection is separate infrastructure decision.",
+      "decision_needed": "Approve candidate families, supported tasks, training cadence and bounded experiment count before final cost model.",
+      "acceptance_criteria": [
+        "Catalogue separates rules, statistics, learned estimators, calibration and explanations.",
+        "Each artefact has task/horizon/kind/eligible-universe/features/schema/dependencies/resource cap.",
+        "Do not claim one trained object serves every market/horizon or that two families equal only two artefacts."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "197273"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://scikit-learn.org/stable/modules/calibration.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-06",
+      "title": "Make analog and event evidence horizon-aware",
+      "ma_concept": "Thirty nearest neighbours excluding last20days; low-evidence label below8events.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md explicitly flags horizon-aware exclusion and sparse event caveat; L4-S04.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain analog explanations but exclude candidates whose target outcome was not known at the origin; overlap/effective sample and distances must be visible. Event windows and confounding need predeclared definitions; eight events is not proof of an edge.",
+      "decision_needed": "Approve analog feature/distance/window, weighting, de-overlap and sparse-evidence rules.",
+      "acceptance_criteria": [
+        "Separate descriptive historical associations from causal claims.",
+        "Report sample dates/count/effective dependence, similarity, outcomes/interval and coverage.",
+        "Events known after the prediction origin cannot select the study cohort."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-07",
+      "title": "Separate rule strength from calibrated forecast probability",
+      "ma_concept": "Heuristic confidence formula shown as percentage and daily map tuning.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md already separates rule strength and owner-approved calibration; L4-S02/L4-S05/L4-S08.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep rule strength as a labelled heuristic until its event definition and calibration evidence are approved. Calibrators train on held-out chronological predictions; evaluate proper scores, reliability and interval coverage/width by horizon and important subgroup. No daily live recalibration without owner permission.",
+      "decision_needed": "Approve calibration methods, loss functions, reliability bins/minimum evidence and rollback policy.",
+      "acceptance_criteria": [
+        "No rule percentage silently displayed as P(up).",
+        "Report Brier/log loss versus event base rates and range coverage plus sharpness; abstain where unsupported.",
+        "Calibration version and approval bind every released forecast; model and calibrator cannot silently diverge."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1147045",
+        "1704037",
+        "66125"
+      ],
+      "research_urls": [
+        "https://scikit-learn.org/stable/modules/calibration.html",
+        "https://jmlr.org/papers/v25/22-1218.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-08",
+      "title": "Design long-horizon investment inference independently of the four-week model",
+      "ma_concept": "MA emphasises four-week risk-first forecasting.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md adds3/6/12months and3-5year scenarios; target-specific evidence not complete.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use horizon-specific targets, data sufficiency and benchmarks. For long horizons consider simple valuation/fundamental/macro summaries only where licensed and truly known at time; compare against historical/constant-return and risk baselines. Scenarios use explicit contribution/return/inflation/FX assumptions, not fabricated confidence.",
+      "decision_needed": "Approve scope/inputs/benchmarks for each long horizon and what may remain unavailable pending evidence.",
+      "acceptance_criteria": [
+        "Keep all agreed horizons in requirements; do not replace them with20-day outputs.",
+        "Display evaluated forecasts versus conditional scenarios with different labels and provenance.",
+        "Account for few independent12-month outcomes and avoid claiming10years means thousands of independent yearly examples."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1409199"
+      ],
+      "research_urls": [
+        "https://www.nber.org/papers/w10483",
+        "https://www.nber.org/papers/w11468",
+        "https://otexts.com/fpp3/judgmental.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-09",
+      "title": "Replace calendar-only practice gates with evidence and approval",
+      "ma_concept": "Eight live weeks above base rate/rules, automatic switch-off after four weak weeks.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md explicitly supersedes eight-week proof and automatic promotion; L4-S08.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define task-specific shadow minimums using mature outcomes, effective independence, baseline deltas and confidence, plus owner promotion. Preapprove a narrow safety-disable route; distinguish data outage/model-ineligible from statistical deterioration.",
+      "decision_needed": "Approve entry/promotion/monitoring/pause/rollback criteria and evidence minimums by horizon.",
+      "acceptance_criteria": [
+        "Eight weeks cannot validate a12-month forecast.",
+        "Promotion references immutable data/model/calibration/evaluation evidence and previous safe version.",
+        "Safety disable preserves immutable forecasts and marks affected displays; return to live follows approved policy."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "197253",
+        "328039",
+        "66125"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-10",
+      "title": "Close realised-performance and benchmark accounting decisions",
+      "ma_concept": "Dated-flow XIRR from MA wealth maths.",
+      "mp_evidence": "docs/planning/layered-development-2026-11-01/portfolio-import-spec.md L1-Q01/Q05/Q06/Q10 and L3-S03 already capture unresolved semantics.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Reuse MP ledger boundary decisions; define portfolio/account/holding XIRR separately and benchmark contributions with matched dates/currencies. Retained dividends, reinvestment and transfers are not duplicate external flows. Add time-weighted comparison only when valuation evidence supports it; no extrapolated missing history.",
+      "decision_needed": "Approve rounding/residual tolerances, FX timing, terminal valuation, root ambiguity, benchmark and supported performance methods.",
+      "acceptance_criteria": [
+        "Golden cases include same-day, missing history, multiple roots, internal transfer, fees/dividends and FX.",
+        "Reconcile booked cash/cost basis separately from quote-adjusted total-return series.",
+        "State unavailable per metric and preserve working/provenance; XIRR never serves as predictive probability."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1409199",
+        "1442042",
+        "327979",
+        "1671250"
+      ],
+      "research_urls": [
+        "https://support.microsoft.com/en-gb/excel/functions/xirr-function"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-11",
+      "title": "Specify portfolio exposure and risk without false precision",
+      "ma_concept": "Look-through, HHI, overlap, currency and kind-specific driver maps.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-08; L3-S04 and L6-S02 are broad drafts.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define portfolio snapshots, weight basis, partial coverage, cash and cross-listed exposure before ranking. Separate instrument trading currency from underlying economic exposure and hedging. Estimate correlations/covariance on aligned eligible data with declared shrinkage/missingness and stress alternatives.",
+      "decision_needed": "Approve exposure completeness thresholds, risk windows and benchmark/weight conventions.",
+      "acceptance_criteria": [
+        "Double-listed securities and fund overlap do not double-count underlying economic risk.",
+        "Coverage residual and source age visible; absent exposure is not zero.",
+        "Show investment versus FX return effects and use partial-data abstention for unsupported portfolio-risk estimates."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1147045",
+        "1442042",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-12",
+      "title": "Make ranked actions a deterministic versioned decision policy",
+      "ma_concept": "Stance cascade, protected positions and contribution steering.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-03/CAP-09; owner weights growth35/protection40/opportunity25; detailed mapping open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define component eligibility/scaling and action semantics before combining scores. Growth/risk/benchmark evidence must be comparable or explicitly unavailable. Distinguish forecast probability, preference-weighted ranking and portfolio constraint; explain conflicts and ask owner for any change.",
+      "decision_needed": "Approve score normalisation, abstention/conflict policy, concentration/contribution constraints and recommendation wording.",
+      "acceptance_criteria": [
+        "Show component scores/weights/source/version and counterfactual portfolio impact.",
+        "Missing component does not silently earn neutral/full score; disclose approved renormalisation policy.",
+        "No trade execution, universal sell-everything instruction, tax-rule assumptions or autonomous contribution changes."
+      ],
+      "phase": "PH-06",
+      "source_ids": [
+        "1147045",
+        "197253",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.nber.org/papers/w10483"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-13",
+      "title": "Evaluate LLM-derived news factors separately from narrative quality",
+      "ma_concept": "Haiku batches tag stories and exposure code scores relevance.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md R0/M1/M2/M3 ablation ladder; L5-S01; exact schemas/datasets/usage rights open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Freeze extraction schema/entity links/source rights, publication/extraction times and model/prompt versions. Test extraction accuracy and downstream incremental predictive value separately. Historical extraction by a newer LLM is potentially hindsight-contaminated; prospective shadow is the default when contamination cannot be bounded.",
+      "decision_needed": "Approve factor catalogue, labelled extraction sample, provenance requirements, relevance floor and ablation criteria.",
+      "acceptance_criteria": [
+        "No live-risk dependency on a batch not guaranteed complete by deadline.",
+        "Every financial number and relevance weight computed from authorised typed inputs.",
+        "LLM judge cannot manufacture price ground truth or override promotion/admission controls."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1704037",
+        "328019",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/terms",
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-14",
+      "title": "Treat patterns as tested features rather than asserted alpha",
+      "ma_concept": "F8 candles/charts/technical features with per-holding event studies.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F8; L4-S06; full detector/confirmation specification pending.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Preserve pattern research concept but predefine detector, lag, confirmation, parameter grid and eligible kinds. Compare incremental effect against simple trend/risk baseline after multiple-testing controls and costs. NAV-only funds get only compatible line patterns.",
+      "decision_needed": "Approve initial bounded pattern set and promotion/retirement evidence; wider catalogue remains planned.",
+      "acceptance_criteria": [
+        "No look-ahead extrema or chart labelling using future bars.",
+        "Hand-marked detector cases separate from out-of-sample value tests.",
+        "Source-adjustment/corporate-action artefacts and thin trading do not create fake pattern signals."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-15",
+      "title": "Validate each market and instrument family before extension",
+      "ma_concept": "India market basket, free NAV and CAS; new kinds plugged into registry.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md initialUS/UK/India and futureAsia/Europe contracts; PH-09 broad.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Make exchange/session/calendar, corporate-action/unit/price semantics, entitlements, historical universe and test evidence explicit capabilities. India is part of initial requirements rather than a copied final phase. Each future market/theme/model follows approved extension checklist with separate source/cost validity.",
+      "decision_needed": "Approve v1 supported kinds, India NAV scope, exchange calendars and per-market readiness tests; defer unsupported families explicitly.",
+      "acceptance_criteria": [
+        "US/UK/India each has source/identity/FX/action/calendar/forecast evidence examples.",
+        "GBX versus GBP, NSE/BSE linkage, accumulation/distribution and direct/regular mutual-fund plans are distinct.",
+        "Future China/Taiwan/HK/Europe configuration cannot bypass rights or scientific gates."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1671250",
+        "197313",
+        "197273"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms"
+      ],
+      "implementation_authorised": false
+    },
+    {
+      "id": "FC-16",
+      "title": "Fix the forecast information contract before drawing screens",
+      "ma_concept": "Risk-first forecasts, proof page, model sheets and unavailable/in-practice states.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-10/CAP-16 and L6-S03; MA board choices not MP-approved.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Agree content/state and provenance contracts before UX. Preserve forecast/proof/track record plus disagreement, stale, insufficient history, no-clear-view, disabled, corrected-outcome and cost-paused states. Actual layout/style/options come later.",
+      "decision_needed": "Approve information hierarchy, action labels and required proof/state payloads; do not approve MA branding or mock values.",
+      "acceptance_criteria": [
+        "Each displayed number identifies task/as-of/source/model and whether evaluated, illustrative or scenario.",
+        "Proof contains dataset/fold/baseline/mature outcomes/eligibility and limitations, with accessible text alternatives.",
+        "Chat deep-links exact evidence context; offline/stale data cannot masquerade as fresh analysis."
+      ],
+      "phase": "PH-06",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "327999",
+        "197233"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://otexts.com/fpp3/judgmental.html"
+      ],
+      "implementation_authorised": false
+    }
+  ],
+  "research": [
+    {
+      "url": "https://twelvedata.com/pricing",
+      "title": "Twelve Data individual pricing",
+      "claim": "The current page lists Grow at $79 monthly with internal display, US real-time and global EOD coverage; it lists internal non-display under Ultra. This is not a per-instrument entitlement determination.",
+      "mp_implication": "Verify the exact Grow tier, exchange coverage and non-display/training/storage uses in writing before live use; do not infer UK/India intraday or silently upgrade."
+    },
+    {
+      "url": "https://twelvedata.com/terms",
+      "title": "Twelve Data terms, sections 2 and 3",
+      "claim": "Data processing, retention, display, non-display and third-party permissions depend on the subscribed rights and applicable source terms.",
+      "mp_implication": "Add a capability/use-rights register covering training, derived data, AWS storage and sending evidence to Anthropic; obtain clarification rather than treating this review as legal approval."
+    },
+    {
+      "url": "https://github.com/ranaroussi/yfinance",
+      "title": "yfinance maintainer README",
+      "claim": "The library is independent of Yahoo and directs users to Yahoo terms for actual data rights; library licensing does not establish market-data permission.",
+      "mp_implication": "Use Yahoo as a capability-checked research source, with explicit permitted use and failure/staleness handling; no uptime/history promise."
+    },
+    {
+      "url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+      "title": "FRED observations and vintage_dates",
+      "claim": "Observation requests can retrieve historical vintages or initial releases instead of only latest revisions.",
+      "mp_implication": "Store observation time, publication/known-at time and ingestion time; replay only data genuinely available at each origin."
+    },
+    {
+      "url": "https://otexts.com/fpp3/toolbox.html",
+      "title": "Forecasting: Principles and Practice, forecasting toolbox",
+      "claim": "Forecast accuracy should be evaluated at rolling origins using only earlier observations; multi-step evaluation must match the intended forecast task.",
+      "mp_implication": "Use chronological multi-horizon validation, matched baselines and horizon-specific metrics rather than random splits or one four-week gate."
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+      "title": "scikit-learn TimeSeriesSplit",
+      "claim": "The splitter supports ordered folds and a configurable gap, but is a generic splitter rather than a complete financial leakage policy.",
+      "mp_implication": "Specify label-interval purging and grouped-calendar alignment explicitly; a fixed gap is not proof that overlapping long-horizon labels are separated."
+    },
+    {
+      "url": "https://scikit-learn.org/stable/modules/calibration.html",
+      "title": "scikit-learn probability calibration",
+      "claim": "Calibrators should use independent predictions rather than fitting the training scores of the classifier.",
+      "mp_implication": "Fit calibrators only on chronological held-out/out-of-fold predictions inside the training process; protect the final test."
+    },
+    {
+      "url": "https://jmlr.org/papers/v25/22-1218.html",
+      "title": "Gibbs and Candes, Conformal Inference for Online Prediction with Arbitrary Distribution Shifts",
+      "claim": "The research studies adaptive prediction sets under distribution shift; its guarantees depend on the defined procedure and coverage target.",
+      "mp_implication": "Evaluate interval calibration, width and regime/horizon coverage; do not market generic conformal ranges as per-holding conditional guarantees."
+    },
+    {
+      "url": "https://www.nber.org/papers/w10483",
+      "title": "Goyal and Welch, equity premium prediction",
+      "claim": "Their historical study found weak out-of-sample performance for the examined predictors relative to a historical-average benchmark.",
+      "mp_implication": "Treat return predictability as an empirical hypothesis and retain simple baselines; this historical result is not a theorem that all present models fail."
+    },
+    {
+      "url": "https://www.nber.org/papers/w11468",
+      "title": "Campbell and Thompson, out-of-sample equity-premium prediction",
+      "claim": "Their study found that economically motivated restrictions can yield small useful out-of-sample gains, while long weak periods remain possible.",
+      "mp_implication": "Seek measured incremental usefulness with uncertainty; do not promise highly accurate direction or assume complexity creates an edge."
+    },
+    {
+      "url": "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+      "title": "Bailey et al., The Probability of Backtest Overfitting",
+      "claim": "Selecting among many backtested configurations can overfit even when the reported chosen configuration looks strong.",
+      "mp_implication": "Record all trials and selection rules, bound search and preserve untouched chronological evaluation; do not repeatedly tune to the same final holdout."
+    },
+    {
+      "url": "https://support.microsoft.com/en-gb/excel/functions/xirr-function",
+      "title": "Microsoft XIRR",
+      "claim": "XIRR estimates an annualised return from dated cash flows and uses a 365-day year convention.",
+      "mp_implication": "Specify cash-flow scope, terminal valuation, solver and ambiguity behaviour; it describes realised money-weighted performance, not forecast probability."
+    },
+    {
+      "url": "https://otexts.com/fpp3/judgmental.html",
+      "title": "Forecasting: Principles and Practice, judgmental/scenario forecasting",
+      "claim": "Structured judgment has defined uses and biases; forecasting tasks and assumptions should be documented and evaluated.",
+      "mp_implication": "Show 3-5-year conditional scenarios with explicit assumptions separately from statistically evaluated 3/6/12-month forecasts."
+    }
+  ],
+  "risks": [
+    "Page/concept reconciliation is not independent scientific validation or source acceptance-clause parity.",
+    "Provider rights, price/tax/FX and exact instrument coverage remain unresolved until owner/provider confirmation.",
+    "No empirical model fitting/backtest/paid calls ran; all scientific recommendations need measured evidence later.",
+    "Existing140source-story register preserves detailed original wording; these16gaps are planning work packages, not a new140story completion certificate."
+  ],
+  "recommended_signoff_order": [
+    "Resolve rights and cost feasibility first",
+    "Freeze target/calendars/accounting and data-provenance contracts",
+    "Approve bounded candidate/evaluation/abstention and model-change policy",
+    "Agree recommendation/information/state contracts",
+    "Decompose each phase into real linked MP stories and evidence before UX"
+  ]
+}

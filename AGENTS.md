@@ -6,6 +6,8 @@ Mypaisaa Prediction is a private research and decision-support tool. It must not
 
 ## First checks
 
+The owner requires researched architecture/contracts and the complete phase/story baseline to be agreed before UX begins, then complete end-to-end UX approval and explicit permission before application implementation. Use `docs/planning/ma-reconciliation-2026-11-02/README.md` for the current closure sequence. MA supplies concepts and documentation structure; do not blindly copy its scope, choices, versions, budgets or permissions.
+
 1. Read the relevant ADRs and the implementation plan before changing architecture.
 2. Keep credentials out of git, logs, fixtures, screenshots, and error messages.
 3. Run the focused test suite for every changed component, then the relevant static checks.
@@ -39,9 +41,9 @@ Mypaisaa Prediction is a private research and decision-support tool. It must not
 
 ## Infrastructure rules
 
-- Stay within the documented £50/month AWS target. Do not introduce an ALB, NAT Gateway, RDS, GPU compute, or a new paid managed service without revising the cost model and an ADR.
+- The current owner-confirmed ceiling is £100/month all-in across dev/prod AWS, market data and Claude/evaluations, with £70 planned operation and £30 reserve. It supersedes the historical £50 AWS-only target. Do not introduce an ALB, NAT Gateway, RDS, GPU compute, or a new paid managed service without revising the complete cost model and an ADR.
 - IaC changes are plan-only in this repository. Never apply, deploy, or make paid-service calls unless the user explicitly asks.
-- Prefer encrypted local PostgreSQL plus encrypted S3 backups for the personal-production phase. Test restore procedures before considering data protected.
+- Current planning prefers AWS Lambda, private S3 and DynamoDB subject to financial atomicity/access-pattern proof. Earlier local PostgreSQL topology is historical; final persistence, network and ML execution ADRs remain unselected. Test restore procedures before considering data protected.
 
 ## Definition of done
 

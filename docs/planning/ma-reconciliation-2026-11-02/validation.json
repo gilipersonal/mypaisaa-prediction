@@ -1,0 +1,18 @@
+{
+  "status": "maker_checks_passed",
+  "pages": 83,
+  "attachment_entries": 280,
+  "source_issues": 299,
+  "gaps": 52,
+  "decision_cards": 12,
+  "selected_directions": 12,
+  "architecture_baseline_approved": false,
+  "phases": 10,
+  "local_story_drafts": 64,
+  "confluence_bodies_prepared": 13,
+  "new_planning_tasks": 11,
+  "existing_planning_tasks_supplemented": 4,
+  "independent_review": "not_run",
+  "publication": "published_and_verified",
+  "implementation_authorised": false
+}

@@ -1,0 +1,18 @@
+{
+  "id": "327999",
+  "title": "Phase 11 · Briefs, alerts, charts, technical mode",
+  "version": 20,
+  "snapshotToken": "v:20",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "40a35444214c40116a4c7ba045dcf599022af7f7c6fefc60fde15476e6a4f337",
+  "html_characters": 29945,
+  "headings": [
+    "The web app",
+    "The iOS app",
+    "The design system"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327999",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

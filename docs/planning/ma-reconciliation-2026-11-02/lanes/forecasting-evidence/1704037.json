@@ -1,0 +1,29 @@
+{
+  "id": "1704037",
+  "title": "🔮 §19 · The Forecaster",
+  "version": 13,
+  "snapshotToken": "v:13",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "17db59873688b403adde4c337613dc98b8b9d8138e94cf13d449599419a7755f",
+  "html_characters": 65445,
+  "headings": [
+    "🖼️ See it",
+    "19. The Forecaster: a second engine beside the rules engine (phase 17, later)",
+    "19.1 What can and cannot be forecast",
+    "19.2 Data, as it was known on each day (F1, MA-119)",
+    "19.3 Matching news and events to the holdings (F1, F4; MA-119, MA-122)",
+    "19.4 The models (F3 to F5, MA-121 to MA-123)",
+    "19.5 The strategy layer: where the goal is won (F7, MA-125)",
+    "19.6 How it proves itself (F2, MA-120)",
+    "19.7 How it is shown (F6, MA-124)",
+    "19.8 Where it runs and what it costs",
+    "19.9 Order",
+    "🧩 The stories that build it",
+    "🔗 The explainer pages",
+    "MyPaisa Market Agent"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704037",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

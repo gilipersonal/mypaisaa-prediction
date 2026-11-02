@@ -1,0 +1,94 @@
+<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING PROPOSAL</span> MP-19 · <time datetime="2026-11-02">2 November 2026</time>. Architecture and UX unapproved; no implementation authority. MA concepts researched, not copied. Independent review not run.</p></div><p><strong>Planning specification · MP-19 · Proposed, not approved · No implementation authority</strong></p>
+<h2>Outcome and scope</h2>
+<p>SwiftUI/RN bridge and device matrix
+Offline/privacy/accessibility contracts
+Native and PWA push acceptance plan</p>
+<p>Architecture areas: A02, A07, A12. Existing Jira epic crosswalk: MP-8. These are historical epic containers, not newly created phase epics.</p>
+<h2>Dependencies and readiness</h2>
+<p>Planning dependencies: PH-00, PH-02, PH-06. Implementation dependencies: PH-02, PH-06. Every phase also requires architecture baseline, complete UX and explicit build permission.</p>
+<p>The phase is blocked on architecture and UX. Its ordering does not permit implementation now. Native/web information contracts are specified together even where build work is grouped later.</p>
+<h2>Contracts to settle</h2>
+<ul>
+<li>NativeBridge</li>
+<li>OfflineSnapshot</li>
+<li>PushSubscription</li>
+<li>DeepLink</li>
+<li>ClientState</li>
+</ul>
+<p>Each contract needs owner/producer/consumer, version, units, validation, positive/error schemas, idempotency, authorisation, retention and audit/cost effects. Names here are a catalogue, not implemented schemas.</p>
+<h2>Open closure packages</h2>
+<table data-layout="wide">
+<thead>
+<tr>
+<th data-background="#DEEBFF">Gap</th>
+<th data-background="#DEEBFF">Decision or contract</th>
+<th data-background="#DEEBFF">Planning issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PL-14</td>
+<td>Fix web/native ownership and offline/privacy contracts before UX</td>
+<td>MP-30</td>
+</tr>
+<tr>
+<td>CT-18</td>
+<td>Separate material investment alerts from operational incident routing</td>
+<td>MP-30</td>
+</tr>
+</tbody>
+</table>
+<h2>Story catalogue and planned acceptance</h2>
+<p>4 current local story drafts. An actual Jira implementation story and detailed readiness evidence are required before UX; the closure tickets above are planning work, not substitutes.</p>
+<h3>L7-S01 · Native SwiftUI within React Native shell</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Swift owns native views,persistence,widgets and secure-device integration; RN shell owns navigation/bridge contracts.</li>
+<li>Deliver approved adaptive dashboard,holdings,imports,forecast/proof,chat,cost and approval journeys across iPhone/iPad/Duo matrix.</li>
+<li>Test shared API/event and shell/native schema compatibility and discoverable error/recovery states.</li>
+</ul>
+<p>Contracts: NativeBridge, OfflineSnapshot, PushSubscription, DeepLink, ClientState. Evidence/examples: Bridge contract; device/OS acceptance matrix; native snapshots and contract results.</p>
+<h3>L7-S02 · Offline cache, privacy and accessibility</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Encrypt/cache only approved data,display per-record age,refetch after reconnect and revoke access/session caches appropriately.</li>
+<li>VoiceOver,Dynamic Type,reduced motion,focus/chart alternatives and large/adaptive layouts satisfy agreed acceptance.</li>
+<li>No confidential holdings appear on lockscreen,app snapshots or exported share content by default without approved settings.</li>
+</ul>
+<p>Contracts: NativeBridge, OfflineSnapshot, PushSubscription, DeepLink, ClientState. Evidence/examples: Offline/revoked-session tests; native accessibility walkthrough; privacy state matrix.</p>
+<h3>L7-S03 · PWA/native push and permission fallbacks</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Implement first-version app/chat,native and PWA push per verified OS/browser capability and user permission.</li>
+<li>Use durable outbox,dedup/deep links,quiet hours and neutral payloads; denied/background-disabled delivery remains visible in-app.</li>
+<li>Measure delivery limitations; do not promise instant OS delivery or infer no risk from silence.</li>
+</ul>
+<p>Contracts: NativeBridge, OfflineSnapshot, PushSubscription, DeepLink, ClientState. Evidence/examples: Supported-platform evidence; permission/quiet/duplicate/deep-link cases.</p>
+<h3>L7-S04 · Native capability backlog without hidden scope loss</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Specify widgets,share-sheet intake,search/deep links,Siri/AppIntents and long-job Live Activities with privacy,availability and cost constraints.</li>
+<li>Classify each capability launch-required or later activation by explicit owner choice; no silent removal of inherited scope.</li>
+<li>Keep Android product screens outside current agreed release scope; RN shell does not imply an Android UI.</li>
+</ul>
+<p>Contracts: NativeBridge, OfflineSnapshot, PushSubscription, DeepLink, ClientState. Evidence/examples: Capability/release decision table; platform fallback and privacy examples.</p>
+<h2>UX states to specify after architecture sign-off</h2>
+<ul>
+<li>Success, empty, loading, partial and unavailable; stale source and insufficient evidence.</li>
+<li>Permission denied, fresh authentication required, approval pending/expired/rejected and conflicting revision.</li>
+<li>Offline/reconnecting, delayed job, retry exhausted, partial commit and safe recovery.</li>
+<li>Privacy mode, keyboard/screen reader, light/dark and reduced-motion equivalents on web and Apple.</li>
+</ul>
+<h2>Audit, monitoring and cost acceptance</h2>
+<ul>
+<li>Record relevant actor/environment/business IDs, source/config/model versions and immutable approval/change/run evidence.</li>
+<li>Define signals for failure, lateness, duplicate handling, source age and reconciliation; redact private payloads from operational telemetry.</li>
+<li>Include source/provider, compute, storage, trace, retry and eval costs in the shared budget; no silent paid fallback.</li>
+</ul>
+<h2>Exit demonstration and failures</h2>
+<p>First-version native/PWA push fallbacks follow verified platform capability; advanced integrations need an explicit launch/later choice.</p>
+<p>The planned exit demonstration must run the phase user journey plus one permission failure, one stale/partial data case, one duplicate/reconnect/retry case and one recovery path with evidence. Scientific phases additionally prove temporal/data maturity invariants; no invented live accuracy.</p>
+<p>Failure/recovery intent: Revoke affected session/cache,fall back to in-app notices and stale-labelled read cache; no unsafe offline financial writes.</p>
+<p>No exit is currently certified. Deployment, live activation, model eligibility and owner approval are separate records.</p>
+<h2>Source and publication</h2>
+<p><a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/reconciliation-report.md">Current reconciliation</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/architecture-finalisation.md">Architecture decisions</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json">Gap register</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/documentation-structure.md">Documentation structure</a>. This local page is a publication proposal, not a published Confluence page.</p>

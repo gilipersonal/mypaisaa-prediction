@@ -34,8 +34,10 @@ In a trusted project checkout, use `/hooks` in Codex CLI to inspect and trust th
 
 ## AWS
 
-Retain the project AWS target below £50/month excluding Twelve Data and Claude. Prefer infrastructure as code, separate dev and production, review plans, cost and drift, and keep secrets out of code, state, logs and chat. No AWS mutation, deployment, paid-service call or automatic apply without the user's explicit request. Follow the active secret-handling instructions and the relevant AWS skill before secret work. Do not import another project's AWS account, region, names, or deployment permissions.
+Retain the current owner-confirmed £100/month all-in cash ceiling for dev/prod AWS, data and Claude/evaluations, with £70 planned operation and £30 reserve. This supersedes the historical £50 AWS-only target. Treat promotional credit as shared and unverified; no automatic uncovered paid fallback. Prefer infrastructure as code, separate dev and production, review plans, cost and drift, and keep secrets out of code, state, logs and chat. No AWS mutation, deployment, paid-service call or automatic apply without the user's explicit request. Follow the active secret-handling instructions and the relevant AWS skill before secret work. Do not import another project's AWS account, region, names, or deployment permissions.
 
 ## Tracking and decisions
+
+Before UX, settle the researched architecture, shared contracts and detailed phase/story structure under the current MP-19 closure pack. Prepare area/phase Confluence documentation and actual story acceptance/dependencies, keeping open decisions explicit. Do not copy MA architecture choices or permissions: assess concepts against MP owner discussions and current primary sources. Architecture approval, complete end-to-end UX approval and explicit application implementation permission are separate gates.
 
 Before working on an existing MP issue, read it and its acceptance criteria. Record meaningful evidence, tests and remaining gaps on the relevant issue when within scope. A follow-up needs an issue when the user requests tracking or it is necessary to complete the authorised workflow; do not create unrelated external records. A PR must name its issue; Done means complete and, for PR work, merged. Confluence pages are not automatically published or overwritten by a local edit.

@@ -1,0 +1,1140 @@
+{
+  "schema_version": "1.0",
+  "lane": "platform",
+  "tracking_issue": "MP-19",
+  "as_of": "2026-11-02",
+  "status": "maker_research_draft_unreviewed",
+  "scope": "Concept-level reconciliation of17MA platform pages plus relevant source architecture, research and MP documents; no implementation or final architecture approval.",
+  "sources": [
+    {
+      "id": "2622286",
+      "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2622286",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Layered stack",
+        "FastAPI REST versus streaming adapters",
+        "DynamoDB repository",
+        "Agent client loop",
+        "Telemetry cost model"
+      ],
+      "body_sha256": "20a9b2f60850bbf5e98a4980c6dbe7bcc1c1706f321b572676e5d55cf766e282",
+      "body_bytes": 167855,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "📡 1. End-to-end tracing, Request IDs & FastAPI observability",
+        "💷 2. Observability surfaces & £2.50/month cost analysis",
+        "🌐 3. Web front-end stack (SvelteKit 3, TanStack, shadcn-svelte)",
+        "📱 4. iOS app stack (React Native 0.88 shell + Swift 6 SwiftUI core)",
+        "🐍 5. Python 3.14 backend, FastAPI & DynamoDB vs DocumentDB",
+        "🤖 6. Agent loop architecture & framework comparison",
+        "📖 Full research, architecture & costing record (docs/RESEARCH.md §6)",
+        "6.1 End-to-end AWS monitoring, tracing, request IDs & LLM observability (including FastAPI REST APIs)",
+        "What is already planned in the repository (ARCHITECTURE.md §10)",
+        "How the FastAPI REST APIs (handlers/api and handlers/stream) fit into the trace and request-ID flow (MA-266)",
+        "Costing analysis for end-to-end AWS & LLM observability",
+        "6.2 Database architecture: why DynamoDB single-table (not Amazon DocumentDB) & which Python libraries to use (MA-265, MA-27, MA-28)",
+        "Are we doing Amazon DocumentDB? No — DynamoDB single-table + S3 Parquet + DuckDB",
+        "Which Python libraries to use for DynamoDB (src/mypaisa_agent/registry/)",
+        "6.3 Agent frameworks: options, trade-offs & recommendation (MA-265)",
+        "What MyPaisa's agent layer requires (ARCHITECTURE.md §8, §20, §23)",
+        "Comparison of the six agent framework options",
+        "Recommendation (MA-265)",
+        "6.4 Detailed four-layer implementation stack (MA-265, MA-266)",
+        "Layer 1: Web Front End (web/) — SvelteKit 3.1, TanStack, shadcn-svelte, Tailwind CSS 4.3",
+        "Layer 2: Native iOS App (ios/) — React Native 0.88 Bare Shell + Swift 6 SwiftUI Core",
+        "Layer 3: Python Backend (src/mypaisa_agent/) — Python 3.14, FastAPI, Pydantic v2, DynamoDB & DuckDB",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "1540302",
+      "title": "§18 · Environments, domains and delivery",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540302",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Environment separation",
+        "Identity and domains",
+        "Local synthetic mode",
+        "IaC and artifact promotion"
+      ],
+      "body_sha256": "3e6be17e985a926f10206762b0f7bfeb1bfd208cd2fbdfba19f7207c6476a21b",
+      "body_bytes": 116683,
+      "headings": [
+        "🖼️ See it",
+        "18. Environments, domains and delivery",
+        "18.1 Two environments, one account",
+        "18.2 Domains",
+        "18.3 Identity",
+        "18.4 Delivery",
+        "18.5 Hydrating prod: the Excel importer",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "2589543",
+      "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2589543",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Path-filtered CI",
+        "Security scans",
+        "Regression pyramid",
+        "Smoke and rollback"
+      ],
+      "body_sha256": "a1d770faa9f2141cb54eb2317c4e39dab462bb9b805e2634ec606c612a4d474b",
+      "body_bytes": 130355,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🚀 1. End-to-end CI/CD delivery pipeline (GitHub Actions, AWS CodeBuild arm64, ECR, dev & prod)",
+        "🛡️ 2. Seven-layer vulnerability scanning gate (MA-267)",
+        "🧪 3. Phase-progressive smoke suite, prod read-only safety & <5s auto-rollback (MA-268)",
+        "📐 4. Five-layer regression pyramid (Phases 0–20) & £0/month runner cost analysis (MA-269)",
+        "📖 Full architecture, phase-wise matrix & runner costing record (docs/RESEARCH.md §7)",
+        "7.1 Setup, tech-debt & testing stories (MA-267 to MA-272)",
+        "7.2 Seven-layer vulnerability scanning architecture (MA-267)",
+        "7.3 Phase-progressive smoke test suite & prod read-only safety (MA-268)",
+        "7.4 Five-layer regression test pyramid & phase-wise rollout matrix (Phases 0 to 20, MA-269)",
+        "The five regression layers (scripts/regression.py)",
+        "Phase-wise testing rollout matrix (Phases 0 to 20)",
+        "7.5 Deep cost analysis & runner alternatives for GitHub Actions vs AWS CodeBuild (MA-269, MA-272)",
+        "2026 GitHub Actions & AWS CodeBuild pricing mechanics",
+        "Monthly workload model (40 PRs / ~60 PR pushes + 25 merges to main + 30 nightly/weekly runs)",
+        "Comparison of the four runner strategies",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "3670133",
+      "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3670133",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Optional VPC perimeter",
+        "NAT and endpoint alternatives",
+        "DNS and egress controls",
+        "Network costs"
+      ],
+      "body_sha256": "17e198657b3b7dd80605a3ecf7f279abfb2986b3ae395e66acf2cbfd945f3751",
+      "body_bytes": 99865,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🏰 1. Dual-stack VPC topology, zero-egress Isolated subnets & front-door ingress lockdown (Layers 1 & 2)",
+        "🔐 2. Free S3 & DynamoDB Gateway Endpoints, three-way Data Perimeter & presigned S3 carve-out (Layer 3)",
+        "🛰️ 3. Walled-garden DNS + Graviton TLS-SNI egress proxy, private CodeBuild CI & four serverless VPC gotchas (Layers 4–7)",
+        "💷 4. Five-option us-east-1 costing comparison (Preferred Option 3) & five-step zero-lockout rollout",
+        "📖 Full blueprint, seven-layer architecture, serverless gotchas & five-option costing (docs/RESEARCH.md §9)",
+        "9.1 Scope & decision gate — optional, decided last after Phase 20 (MA-283, MA-284)",
+        "9.2 Layer 1 & Layer 2 — Dual-stack VPC topology, declarative blast-radius blocks & front-door ingress lockdown",
+        "Layer 1 — Isolated Dual-Stack VPCs & Three Subnet Classes per AZ",
+        "Layer 2 — Front-Door Ingress Lockdown (Zero Direct Public Compute)",
+        "9.3 Layer 3 — Private AWS service backbone & three-way AWS Data Perimeter",
+        "9.4 Layer 4 — Outbound (egress) lockdown, micro-segmentation & TLS-SNI / DNS walled garden",
+        "9.5 Layer 5, Layer 6 & Layer 7 — Private CI/CD, zero-bastion access, telemetry & four serverless VPC gotchas",
+        "Layer 5 — Private CI/CD Plane & Zero-Bastion Operator Access",
+        "Layer 6 — Network Telemetry, Threat Detection & Reachability Gates",
+        "Layer 7 — Four Serverless VPC Operational Gotchas Addressed Up Front",
+        "9.6 Safe five-step zero-lockout rollout order (when opted into after Phase 20)",
+        "9.7 Deterministic us-east-1 monthly & annual costing across all options ($1.30 = £1.00, 730 hrs/mo)",
+        "Unit rates in us-east-1 (highlighting hidden fixed charges)",
+        "Side-by-side comparison across all five VPC lockdown options (dev + prod combined)",
+        "🧩 The stories that record, join with or implement it"
+      ]
+    },
+    {
+      "id": "1442082",
+      "title": "📬 §21 · Queues and live delivery",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442082",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Queues",
+        "Idempotency",
+        "DLQ and replay",
+        "SSE order and resumption"
+      ],
+      "body_sha256": "28f8718e963d190170c7c5efb9e3c0d619730d2fcb027b45001cec496c77b1af",
+      "body_bytes": 55916,
+      "headings": [
+        "🎬 See it move",
+        "21. Queues: nothing lost, everything retried (MA-138)",
+        "21.1 The queues",
+        "21.2 Rules every consumer keeps",
+        "21.3 Dead-letter queues and replay",
+        "21.4 Cost",
+        "21.5 Live delivery over SSE",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "1671210",
+      "title": "🤖 §8 · The agent: one tool loop, its tools and its models",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671210",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Direct Anthropic client SDK",
+        "Tool loop",
+        "Pause/resume",
+        "Prompt cache",
+        "Numerical grounding"
+      ],
+      "body_sha256": "cd55c266d0d25cc2f5804b9975370f36c36056895afa17f005bc180766b9b9b5",
+      "body_bytes": 69329,
+      "headings": [
+        "🎬 See it move",
+        "8. The agent",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey"
+      ]
+    },
+    {
+      "id": "3899472",
+      "title": "🧠 §24 · Caching and memory for every agent",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3899472",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Stable prompt prefixes",
+        "Per-route caching",
+        "Memory scope and deletion",
+        "Context budgets"
+      ],
+      "body_sha256": "e4cacf20916dbb232062ed6e9bab5e29acfe7ec7967eff920e03f7e1ec55a077",
+      "body_bytes": 35683,
+      "headings": [
+        "24. Caching and memory for every agent (MA-285)",
+        "24.1 The prompt cache: on for every call, checked on every change",
+        "24.2 Memory notes: what an agent may keep",
+        "24.3 Whose notes, and who sees them",
+        "24.4 The agent team's notes (phase 18)",
+        "24.5 Within a run: kept lean, never edited",
+        "24.6 Within the budget",
+        "24.7 The stories",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "1671190",
+      "title": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671190",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "No trading",
+        "Deterministic numbers",
+        "System components",
+        "Account boundaries"
+      ],
+      "body_sha256": "96270030ef3bf1e098860453c7ea42fea13247156c51690ad28f8b9d5e615a19",
+      "body_bytes": 60163,
+      "headings": [
+        "🎬 See it move",
+        "1. The two rules, and two more",
+        "2. What it does, as the user sees it",
+        "3. System context",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Architecture v4"
+      ]
+    },
+    {
+      "id": "1703997",
+      "title": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703997",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Briefs and notifications",
+        "Push channels",
+        "Typed stack",
+        "Historical migration context"
+      ],
+      "body_sha256": "5051ba65a9e16fc1fe1742bb215cf5075200b36bc0249656c59d775d07fc5821",
+      "body_bytes": 105099,
+      "headings": [
+        "🎬 See it move",
+        "11. Notifications, news, calls",
+        "12. The road to MyPaisa, the wealth tracker",
+        "12.1 Any question, answered from a read-only SQL copy of the ledger (MA-104)",
+        "13. Tech stack (changes from v1 in bold)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "1147085",
+      "title": "🧩 Architecture v4: every part, the trace, the loop, the agents and the models",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147085",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "System inspector",
+        "Tracing journey",
+        "Nine logical roles",
+        "Storage",
+        "Spend ladder"
+      ],
+      "body_sha256": "080df25249f07be2e14fc7fc8a100d0df05e49d204d3129a22f7170f2b5ffc5f",
+      "body_bytes": 100431,
+      "headings": [
+        "🗺️ Every part on the map",
+        "🧵 One message is one trace, from the finger to the last word",
+        "🔁 One Claude tool loop, with code doing every sum",
+        "👥 Nine agents that never call each other",
+        "🧠 Three Claude models, each where it earns its cost",
+        "Opus 5.5",
+        "Sonnet 5.5",
+        "Haiku 5.5",
+        "🪜 The spend ladder",
+        "🍰 Each agent's share of the ceiling",
+        "🗄️ One table for state, one lake for the record, one store for secrets",
+        "The household",
+        "Records, as data",
+        "The conversation and delivery",
+        "Truth and money",
+        "Market side and the team",
+        "mypaisa-prod-lake",
+        "mypaisa-prod-documents",
+        "The dashboard site",
+        "Put by hand, never in state",
+        "Kept for",
+        "🚀 Terraform only, one image, prod after a person says yes",
+        "🛡️ Enforced in code, not in the prompt",
+        "Claude never produces a number",
+        "The app cannot trade",
+        "A policy gate before every tool call",
+        "Tested on change, watched live",
+        "One write service",
+        "Admin actions take a second check",
+        "Nothing is lost",
+        "Nothing private in CloudWatch"
+      ]
+    },
+    {
+      "id": "1671270",
+      "title": "🛰️ Five journeys through AWS, hop by hop",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671270",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Request journeys through AWS",
+        "Async joins",
+        "Failure and recovery paths"
+      ],
+      "body_sha256": "8fba8674b8d484f446691878999394c47f44191caba7c5d2363b581cd05dc65d",
+      "body_bytes": 52068,
+      "headings": [
+        "🗺️ Every hop a message makes, on the services that carry it",
+        "❓ A question: 10 steps",
+        "📄 A factsheet: 9 steps",
+        "✅ A check-in: 6 steps",
+        "🌅 The 07:15 brief: 8 steps",
+        "🧯 A failure and its replay: 8 steps"
+      ]
+    },
+    {
+      "id": "1703977",
+      "title": "🏗️ The Lucid drawings, and how they are made",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703977",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Native AWS Lucid views",
+        "Source and exports",
+        "Technical diagram governance"
+      ],
+      "body_sha256": "a98ef68e2a518def1bd791303f9774bbf79a6f574af1ab720ef356b24e8840b3",
+      "body_bytes": 20930,
+      "headings": [
+        "🖼️ System overview",
+        "🖼️ Environments, domains and delivery",
+        "🖼️ Identity and sign-in",
+        "🖼️ Queues, retries and replay",
+        "🖼️ Where the data lives",
+        "🖼️ The market agent and the learning loop",
+        "🖼️ The agent team, settings, caps and alerts",
+        "🔀 Adding a record (sequence)",
+        "🖼️ One trace from the door to the model",
+        "⚙️ How they are made",
+        "The sequence: adding a record, and correcting it in place"
+      ]
+    },
+    {
+      "id": "294942",
+      "title": "Phase 0 · Foundations at every door",
+      "version": 52,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294942",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Foundation work ordering",
+        "Agent/tool eval gates",
+        "Infrastructure and schema preparation"
+      ],
+      "body_sha256": "830474291e061c20297e82606fead7c9d420d12cdf22aca10a043675c909b133",
+      "body_bytes": 215302,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ]
+    },
+    {
+      "id": "327939",
+      "title": "Phase 1 · Talk: sign in and chat with the agent at every door",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327939",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Auth and chat phase",
+        "Activity first",
+        "Streaming",
+        "Agent guardrails and evals"
+      ],
+      "body_sha256": "6f34088cf0617717f325921977843ec387c7e7d51f642b99bda7a508f3d02b53",
+      "body_bytes": 131912,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ]
+    },
+    {
+      "id": "2818197",
+      "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2818197",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Local Maestro tests",
+        "Device coverage",
+        "Private TestFlight",
+        "Native CI cost"
+      ],
+      "body_sha256": "78c33696bb792f99cace519c858688c32d700e01e2b7db527a8efe507699338d",
+      "body_bytes": 144463,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🖥️ 1. Local Apple Silicon Maestro pool, MCP isolation & dual backend modes",
+        "🧬 2. React Native 0.88 Fabric + Swift 6 SwiftUI + Liquid Glass selector contract",
+        "📐 3. Four-sub-band iOS & iPadOS adaptive width & live rotation matrix (MA-240)",
+        "⚙️ 4. xcrun simctl system capability bridges & Phases 0–20 rollout at £0.00/month",
+        "✈️ 5. Private 90-day (3-month) TestFlight Internal Testing & evergreen beta lifecycle",
+        "📖 Full strategy, phase-wise plan & private 90-day TestFlight guide (docs/RESEARCH.md §8)",
+        "8.1 Local Apple Silicon architecture, Maestro MCP vs. CLI one-owner-per-device rule & cloned simulator pool",
+        "The \"one Maestro owner per device\" isolation rule",
+        "8.2 React Native 0.88 Fabric + Swift 6 SwiftUI + Liquid Glass accessibility & selector contract",
+        "8.3 iOS & iPadOS four-sub-band adaptive width, orientation & multitasking matrix",
+        "8.4 Dual backend modes: hermetic local FastAPI + SSE stub vs. live api-dev + X-Ray trace check",
+        "8.5 Native iOS & iPadOS system capability simulation playbook (xcrun simctl + Maestro)",
+        "8.6 .maestro/ workspace blueprint, tag taxonomy & concrete YAML flow templates",
+        "Concrete flow template 1 — iPad 4-sub-band width rule & live mid-draft rotation (p01_ipad_rotation_continuity.yaml)",
+        "Concrete flow template 2 — Admin Center Face ID second check (mismatch refusal then match & audit row)",
+        "8.7 Phase-wise Maestro rollout plan (Phases 0 to 20) & local-vs-CI cost analysis (£0.00/month)",
+        "Cost comparison: why full Maestro multi-simulator runs belong locally on Apple Silicon",
+        "8.8 Keeping MyPaisa installed for 3 months (and rolling indefinitely) via private TestFlight & household beta testing (MA-162, MA-164, MA-167)",
+        "Why TestFlight is the exact mechanism for a 3-month (90-day) untethered install",
+        "Four layers that keep the app 100% private (never on the public App Store)",
+        "Keeping the app installed for 3 months — and rolling seamlessly past 90 days with zero data loss",
+        "Structured household beta testing & zero-SDK diagnostics loop",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "4816897",
+      "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/4816897",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Playwright visual regression",
+        "ARIA snapshots",
+        "WCAG gates",
+        "Argos option"
+      ],
+      "body_sha256": "abb8eeacd894b11a82b9f6816285e371a1ee9a923162d1736fa698921f12eb84",
+      "body_bytes": 49923,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🔬 1. One Helper, Four Gates — auditAndCapture(page, name, opts) in web/e2e/helpers/a11y-visual.ts",
+        "☁️ 2. Argos CI Cloud Visual Diffing, ARIA YAML Tree Diffing & GitHub Check Run lifecycle",
+        "🛡️ 3. Five Cost Guardrails keeping Argos CI inside the 5,000/month Free Hobby tier at £0/month",
+        "📊 4. Monthly Snapshot Quota Math (3,600 / 5,000 = 72%) & Four-Option Cost Comparison",
+        "📖 Full architecture, fixture code, GitHub Actions workflow & costing record (docs/RESEARCH.md §10)",
+        "10.1 Architectural separation: repo-local board gates vs. cloud visual & ARIA regression on web/",
+        "10.2 Why @axe-core/playwright and Argos ariaSnapshot are paired in one helper (\"One Helper, Four Gates\")",
+        "10.3 Five cost and quota guardrails keeping Argos CI & GitHub Actions at £0.00/month",
+        "10.4 Monthly snapshot volume & cost comparison across configurations",
+        "🧩 The stories that record, join with or implement it"
+      ]
+    },
+    {
+      "id": "66145",
+      "title": "Phase 20 · The app beyond the chat: widgets, Siri, the share sheet, Live Activities",
+      "version": 19,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66145",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Widgets",
+        "Siri/App Intents",
+        "Share sheet",
+        "Long-job Live Activities"
+      ],
+      "body_sha256": "392a6c70992b69b8a9c6ae6e7d7f7c4368bb1a5cf9896987c72cab9122bf9f1e",
+      "body_bytes": 20150,
+      "headings": []
+    }
+  ],
+  "source_repository": {
+    "path": "/Users/arundutta/projects/mypaisa-agent",
+    "commit": "387fc38bdc99d77460b6b03d90e2637241e79d1e",
+    "sections": [
+      "ARCHITECTURE.md §§1–3,8,9,10,13,14,15,18,20,21,24",
+      "docs/RESEARCH.md technical stack and CI/VPC sections",
+      "Referenced design HTML source paths"
+    ]
+  },
+  "gaps": [
+    {
+      "id": "PL-01",
+      "title": "Remove conflicting current architecture authority",
+      "ma_concept": "MA has a central architecture, area pages, a plan and an explicit decisions/open-questions map.",
+      "mp_evidence": "MP current deep dive and ten-layer pack coexist with six-phase implementation-plan, bootstrap ADRs and contributor rules mentioning older storage, runtime and budget choices.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Make one versioned MP baseline the authority; preserve dated evidence as historical and replace conflicting current instructions. Add a decision precedence table and a source-to-phase-to-story crosswalk. Do not turn all ten layers into separately approved architectures.",
+      "decision_needed": "Approve baseline structure, decision owner and handling of superseded ADRs.",
+      "acceptance_criteria": [
+        "Every current instruction resolves to the same £100 all-in/direct Anthropic/DynamoDB-preferred direction.",
+        "Every unselected option is marked open with an owner and deciding evidence.",
+        "One current phase map has explicit historical epic crosswalk."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "1671190",
+        "1540302",
+        "294942"
+      ],
+      "research_urls": [],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-02",
+      "title": "Settle agent roles, SDK loop and memory authority",
+      "ma_concept": "MA separates deterministic responsibilities from LLM work and centralises tools, cache and scoped memory in a thin client runner.",
+      "mp_evidence": "MP proposes nine logical responsibilities but only four Claude task routes plus one code coordinator; production manifest is not agreed.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain one controlled Anthropic client runner; specify deterministic work separately from Claude routes, with role/tool/context/budget/eval contracts. Keep Haiku/Sonnet classes as candidates and pin evaluated IDs later. Memory notes must have source, expiry, taint and correction/deletion semantics and may never replace ledger facts or approved settings.",
+      "decision_needed": "Approve role-to-route catalogue, memory authority and per-route tool/budget limits; no automatic Opus route.",
+      "acceptance_criteria": [
+        "A table enumerates each responsibility, trigger, compute unit, model-if-any, tools, outputs and forbidden operations.",
+        "Ask/approve exits Lambda and resumes from a typed pending action rather than waiting for the owner.",
+        "Model/prompt/tool/memory-version changes identify affected safety suites and require appropriate approval."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1671210",
+        "3899472",
+        "1147085",
+        "327939"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-03",
+      "title": "Separate batch deadlines from live work and justify caching",
+      "ma_concept": "MA uses Haiku batches for news and overnight judging plus stable-prefix caching. Some MA prose also mentions batch-generated briefing narration.",
+      "mp_evidence": "MP correctly makes 07:30 briefing/material risk independent of a newly submitted batch, but exact batch schedule, retry and cache economics are not specified.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use batch only for nonurgent enrichment and bounded evals. Deadline-aware submission/polling and per-item state prevent delayed results from rewriting already-issued evidence. Cache eligible stable prefixes only when expected reuse pays its write premium; no artificial warming or guaranteed hit-rate assumption.",
+      "decision_needed": "Approve batch-eligible workloads, freshness cutoffs, late-result policy and per-route cache policy.",
+      "acceptance_criteria": [
+        "Pending batch liability is reserved once and reconciled by item/custom ID; unordered, expired and partial results have cases.",
+        "The briefing uses last-valid dated evidence, deterministic prose or pending labels when the batch misses its cutoff.",
+        "Cold-cache, no-cache, best-effort batch-hit and per-model-version cost cases are costed."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1671210",
+        "3899472",
+        "2622286"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-04",
+      "title": "Specify the authenticated SSE delivery contract and operating budget",
+      "ma_concept": "MA proposes Regional REST streaming through Python Web Adapter, durable event log and frequently polled live buffers.",
+      "mp_evidence": "MP has a local volatile sample stream and proposed separate streaming Lambda; durable contract and open-connection costs are not yet accepted.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep short commands/queries and durable jobs separate from observation. Recommend Regional REST API streaming with explicit Python Web Adapter compatibility, bounded stream lifetime, per-device/tab connection caps and event IDs. Replace the MA 200ms/1-second polling targets with a measured latency/cost envelope suited to personal use.",
+      "decision_needed": "Approve replay retention, latency target, auth/session approach, refresh/reconnect and polling cadence.",
+      "acceptance_criteria": [
+        "Specify handshake/auth, event schema, ordering, after-cursor, heartbeat, resync and logout/revocation behaviour.",
+        "Disconnect does not cancel an accepted job or trigger duplicate provider calls.",
+        "Cost scenario counts active device hours, Lambda GB-seconds, DynamoDB reads and reconnect bursts; no all-day stream assumed free."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442082",
+        "2622286",
+        "327939"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-05",
+      "title": "Define queue, outbox, replay and external-side-effect semantics",
+      "ma_concept": "MA puts handoffs through SQS and describes safe idempotent retries and replay.",
+      "mp_evidence": "MP proposed job/outbox and separate scheduler/worker DLQs are stronger than a blanket exactly-once claim but need a complete message catalogue.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use stable business IDs, durable claims/leases and an atomic application outbox. Standard SQS for independent work; FIFO only for ordering that is actually required, such as a conversation. Distinguish scheduler target failures from worker failures; quarantine permanent invalid inputs without infinite retries.",
+      "decision_needed": "Approve queue topology, ordering partitions, retention/replay authority and ambiguous-provider-call reconciliation.",
+      "acceptance_criteria": [
+        "Message table defines producer/consumer, schema, key, ordering, lease, visibility, max attempts, concurrency and failure destination.",
+        "Crash cases span before/after provider submission, database commit, outbox dispatch and acknowledgement; ambiguous paid calls are not blindly resubmitted.",
+        "Partial batch failure/FIFO order and stale or expired owner approvals have explicit cases."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442082",
+        "1671270",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html",
+        "https://docs.aws.amazon.com/prescriptive-guidance/latest/lambda-event-filtering-partial-batch-responses-for-sqs/best-practices-partial-batch-responses.html",
+        "https://docs.aws.amazon.com/scheduler/latest/UserGuide/configuring-schedule-dlq.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-06",
+      "title": "Choose one orchestration mechanism for cross-service jobs",
+      "ma_concept": "MA selects Step Functions plus EventBridge for its later team.",
+      "mp_evidence": "MP leaves Step Functions versus Lambda Durable Functions open, with a starter Python3.12 runtime and optional SageMaker jobs.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend Step Functions Standard for the proposed cross-service SageMaker/import/approval workflows because visual state and native service joins match the requested technical/admin evidence. Compare Lambda Durable Functions as the code-first alternative rather than adding both by default. State-machine payloads should carry opaque references, not private documents or credentials.",
+      "decision_needed": "Owner selects Step Functions versus Durable Functions after a representative failure/retry/wait/cost comparison.",
+      "acceptance_criteria": [
+        "One representative import and train-evaluate-approve journey is specified in both alternatives with equivalent guarantees.",
+        "Runtime/container/SDK/region evidence is explicit: managed durable Python3.13/3.14 are listed, while OCI images support additional versions; Python3.12 is not declared impossible.",
+        "Replay/timeout/cancellation state retention and sensitive-payload redaction are documented."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "1540302",
+        "2622286",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/with-step-functions.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-07",
+      "title": "Separate SageMaker training from inference hosting",
+      "ma_concept": "MA plans small Lambda training/inference with container fallback; MP explicitly requested a SageMaker architecture scenario.",
+      "mp_evidence": "MP two-family SageMaker diagram remains a proposal, not a final training or serving ADR.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend capped on-demand CPU SageMaker candidate training/evaluation, S3 model/evidence references and owner-approved portable Lambda inference where compatibility permits. Daily scheduled inference can run once per eligible universe/horizon then serve stored results. Keep Batch Transform or on-demand Serverless Inference as measured alternatives, with no always-on endpoint or provisioned concurrency by default.",
+      "decision_needed": "Approve managed training value, job cap/cadence and inference host after representative artifact/resource/cost evidence.",
+      "acceptance_criteria": [
+        "Model registry records artifact hash, data cutoff, splits, features, calibration and approval; it need not imply a paid always-on tracking server.",
+        "Serving estimates compare stored daily results/Lambda, Batch Transform and Serverless with loading/cold-start/egress/storage included.",
+        "Serverless exclusions are explicit: no VPC configuration, network isolation, data capture or Model Monitor; private-training controls do not automatically transfer."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "2622286",
+        "1147085",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/sagemaker/latest/dg/hosting-faqs.html",
+        "https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-08",
+      "title": "Prove financial visibility and audit atomicity before accepting DynamoDB keys",
+      "ma_concept": "MA uses a single-table document registry and transactions with audit history.",
+      "mp_evidence": "MP prefers DynamoDB but already notes large-import staging and a possible relational alternative; implementation-ready access/invariant specification is missing.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep typed financial entities independent of persistence and approve access patterns first. Recommend DynamoDB only if staged imports, corrections, audit/outbox and concurrent account writes have one consistent commit-visibility rule. Keep queryable Parquet evidence in S3; do not force all history into one growing item.",
+      "decision_needed": "Approve ledger/import atomicity and access pattern contract under existing MP-12, including whether a relational fallback is needed.",
+      "acceptance_criteria": [
+        "Model large imports beyond100 actions/4MB and persistent idempotency beyond the10-minute service token window.",
+        "Every reader/projection/export/replay honours the import commit marker; failed staging cannot change holdings.",
+        "Before/after audit, commit marker and outbox invariants are explicit and restore/rebuild cases link MP-13."
+      ],
+      "phase": "PH-01",
+      "source_ids": [
+        "2622286",
+        "1671190",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html"
+      ],
+      "existing_jira_issue": "MP-12",
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-09",
+      "title": "Design verified account linking and protected owner actions",
+      "ma_concept": "MA has per-environment Cognito, managed identity, device controls and a fresh second check for sensitive admin actions.",
+      "mp_evidence": "MP owner chose Apple, Google and passkeys with managed sign-in; recovery, federation linking, reauthentication and token/session architecture remain open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use Cognito managed sign-in and explicit verified linking to an owner identity; never merge users from email equality alone. Keep browser cookie/CSRF and native PKCE/token storage designs separate. Bind a fresh step-up proof to a specific sensitive action and its proposed values, with expiry and server checks.",
+      "decision_needed": "Resolve under MP-11: linking enrolment/recovery, step-up proof, devices, token revocation and two independent passkey recovery paths.",
+      "acceptance_criteria": [
+        "Document sign-in/link/recovery/revoke sequences for Apple, Google and local passkey identities, including lost-device/account cases.",
+        "Admin approvals bind owner, environment, action, payload hash and expiry; a generic logged-in session is insufficient.",
+        "Cross-environment tokens, stale approval, CSRF, linking takeover and native redirect interception have negative cases."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540302",
+        "327939",
+        "1671270"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html",
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html"
+      ],
+      "existing_jira_issue": "MP-11",
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-10",
+      "title": "Select account, region and network boundaries for MP rather than inheriting MA",
+      "ma_concept": "MA uses one named account/region and optional sophisticated VPC proxy/perimeter options.",
+      "mp_evidence": "MP still has N0/N1/N1-E alternatives, cheapest-suitable-region preference and no selected accounts/region/IaC.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend N0 for external Anthropic/data-facing Lambdas initially and only a justified N1 private job scope. Compare cheapest suitable regions on all required services, data residency and total egress/telemetry charges. Compare separate dev/prod accounts against strict same-account isolation without duplicating MA domains, CIDRs or proxies.",
+      "decision_needed": "Approve accounts, region, IaC and network option; VPN remains optional and does not substitute for auth.",
+      "acceptance_criteria": [
+        "A boundary matrix identifies IAM principals and permitted resources/actions per env and function.",
+        "Gateway endpoints are not an Anthropic internet path; public-subnet attachment alone gives Lambda neither public IP nor internet access.",
+        "Any NAT/interface endpoint/proxy/VPN has operations/failure/cost justification and does not appear enabled by diagram."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "3670133",
+        "1540302",
+        "1671190"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-11",
+      "title": "Define MP release evidence and security regression layers",
+      "ma_concept": "MA uses one build, dev validation, owner-approved prod promotion, rollback, path filtering and web/native/agent gates.",
+      "mp_evidence": "MP current CI verifies starter/tooling/docs and is not a production web/native/release pipeline.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Carry the gates and immutable-promotion concepts, not MA tool/version counts or automatic dev-apply permission. Recommend one IaC stack family, OIDC per environment, pinned builds/SBOM and artifact provenance; local/stub replay tests offline by default, paid evals separately capped and approved.",
+      "decision_needed": "Approve build/test/release matrix, IaC choice, vulnerability policy, browser/device service choice and Mac CI budget.",
+      "acceptance_criteria": [
+        "Matrix links changes to unit/contract/integration/numeric/security/agent/web/native checks and identifies which are offline versus paid.",
+        "One tested artifact is promoted with explicit prod approval and rollback evidence; source/data/schema/config changes have compatibility plans.",
+        "Scanner findings have severity/exploitability/exception expiry ownership; incomplete or budget-exhausted evals never become green."
+      ],
+      "phase": "PH-08",
+      "source_ids": [
+        "2589543",
+        "1540302",
+        "2818197",
+        "4816897",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.github.com/en/actions/concepts/security/openid-connect"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-12",
+      "title": "Specify trace joins and telemetry budgets without universal trace claims",
+      "ma_concept": "MA plans RunRecord, OTel/GenAI spans, client telemetry and CloudWatch investigations.",
+      "mp_evidence": "MP carries business correlation and short-lived telemetry but exact SDK/exporter/sampling/cardinality contracts are open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use durable business records as operational truth, with sampled OTel traces and explicit asynchronous links. A user action, a queue batch, a resumed approval and a stream session do not have to form one infinitely long parent-child trace. External provider internals are not observable solely because the SDK call is traced.",
+      "decision_needed": "Approve telemetry backend/sampling/redaction and per-env cost envelope, coordinated with admin/audit lane.",
+      "acceptance_criteria": [
+        "Define business/run/request/trace/span/message/provider IDs, propagation headers/attributes and link rules at every boundary.",
+        "Test redaction, context injection/forgery, sampled-out requests and multi-message batches; Activity remains complete when a span is absent.",
+        "Estimate dimensions, ingestion/query/retention/custom metrics/alarms rather than copying MA free-tier/£2.50 claims or assuming100% tracing."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "2622286",
+        "1147085",
+        "1671270"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html",
+        "https://aws.amazon.com/cloudwatch/pricing/"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-13",
+      "title": "Make cost admission conservative across concurrent work and shared credits",
+      "ma_concept": "MA has per-agent shares, model degradation and provider token metering.",
+      "mp_evidence": "MP already mandates£100 all-in,£70 operation/£30 reserve,£60/75/85 actions, per-env dashboard and no uncovered fallback; exact liabilities and allocations remain open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Reserve conservative maximum liability before paid submissions, track unknown/retrying/batch commitments and reconcile once. Keep gross, verified credit and cash separate, shared credit counted once across apps. Dashboard reads cached aggregates; bill reports remain delayed even if polled six-hourly/daily.",
+      "decision_needed": "Approve per-feature ceilings, staleness policy, allowed degradation and how shared/unknown credits affect admission.",
+      "acceptance_criteria": [
+        "Concurrent final-pence requests cannot each independently pass the same remaining budget.",
+        "Unknown credit/report availability refuses uncovered work; deterministic output remains available without silently upgrading paid routes.",
+        "Include source subscription, FX/tax assumptions, telemetry, builds, training, backups and collectors in baseline and stress recosts; no guarantee AWS billing instantly stops."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "2622286",
+        "3899472",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+        "https://aws.amazon.com/cloudwatch/pricing/"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    },
+    {
+      "id": "PL-14",
+      "title": "Fix web/native ownership and offline/privacy contracts before UX",
+      "ma_concept": "MA defines an adaptive web app, native SwiftUI core in an RN shell, device integrations and testable static/prototype journeys.",
+      "mp_evidence": "MP retained Swift/SwiftUI plus RN shell but has no approved bridge/runtime/device matrix; requested SvelteKit3 is not the existing React architecture Site.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend static SvelteKit PWA shell on S3/CloudFront with authenticated API data; add SSR only for a demonstrated need. Honour MP Swift ownership of native surfaces/cache/secure-device integration while RN owns navigation/bridge contracts. Define privacy-safe offline scope and durable reconnect independently for each platform.",
+      "decision_needed": "Approve supported OS/devices (including what Duo means), cache/offline/push capabilities, bridge ownership and exact compatible stack; defer visual design until these contracts are settled.",
+      "acceptance_criteria": [
+        "S3 static output does not imply SvelteKit server sessions/actions exist; session architecture is explicit.",
+        "Offline owner/data clearance, logout, expiry, stale results and app/service-worker update cases are specified.",
+        "Web and native have separate implementation stories using shared API/event contracts, not claims that one UI codebase is shared; widgets/Siri/share-sheet/LiveActivities are individually phased."
+      ],
+      "phase": "PH-07",
+      "source_ids": [
+        "1703997",
+        "2818197",
+        "66145",
+        "4816897"
+      ],
+      "research_urls": [
+        "https://svelte.dev/docs/kit/adapter-static"
+      ],
+      "existing_jira_issue": null,
+      "status": "planning_gap_open",
+      "implementation_authorised": false
+    }
+  ],
+  "research": [
+    {
+      "url": "https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html",
+      "title": "API Gateway response streaming",
+      "claim": "REST proxy streaming has integration and idle limits.",
+      "mp_implication": "Bound stream lifetime and validate authenticated Python path.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html",
+      "title": "Lambda response streaming",
+      "claim": "Python can stream using a custom runtime or Lambda Web Adapter.",
+      "mp_implication": "Do not assume the local ASGI stream or buffered adapter streams in Lambda.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+      "title": "Anthropic Message Batches",
+      "claim": "Asynchronous processing can take up to24hours; results require item matching and partial/expiry handling.",
+      "mp_implication": "Do not put immediate alerts or same-deadline fresh briefing evidence behind a new batch.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "title": "Anthropic prompt caching",
+      "claim": "Caching matches prefixes and supports5-minute/1-hour TTLs with route/model economics.",
+      "mp_implication": "Measure reuse and write/read cost; no guaranteed hit rate or warming.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html",
+      "title": "Lambda SQS integration",
+      "claim": "Event-source processing is at least once and partial batch handling is needed.",
+      "mp_implication": "Idempotency is an application invariant, including external ambiguities.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/lambda-event-filtering-partial-batch-responses-for-sqs/best-practices-partial-batch-responses.html",
+      "title": "Partial batch response best practices",
+      "claim": "Failed items must be distinguished; FIFO requires preserving order after failure.",
+      "mp_implication": "Define consumer-specific retry and quarantine cases.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html",
+      "title": "Lambda durable functions",
+      "claim": "Code-first checkpoints/waits and Step Functions provide different orchestration styles.",
+      "mp_implication": "Select one main orchestrator on representative workflow evidence.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html",
+      "title": "Durable runtime support",
+      "claim": "Managed Python3.13/3.14 and OCI images for additional runtime versions are supported.",
+      "mp_implication": "Do not reject all3.12 packaging on the basis of the managed-runtime list alone.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/with-step-functions.html",
+      "title": "Step Functions with Lambda",
+      "claim": "Visual cross-service orchestration includes native service joins.",
+      "mp_implication": "Its fit for SageMaker/approval workflow is a recommendation, not approval.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/sagemaker/latest/dg/hosting-faqs.html",
+      "title": "SageMaker hosting choices",
+      "claim": "Batch, asynchronous, serverless and real-time serving match different latency/workload shapes.",
+      "mp_implication": "Daily stored forecasts do not inherently need an always-on endpoint.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints.html",
+      "title": "SageMaker Serverless Inference",
+      "claim": "On-demand scales to zero but excludes VPC/network-isolation/data-capture/Model-Monitor features.",
+      "mp_implication": "Do not inherit private-training or managed-monitoring assumptions.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html",
+      "title": "DynamoDB transaction contract",
+      "claim": "A transaction is bounded by100actions/4MB and service request-token idempotency is time-limited.",
+      "mp_implication": "Large import atomicity requires explicit application design.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html",
+      "title": "Cognito authentication flows",
+      "claim": "Federation and local/passkey authentication have distinct flows and linking considerations.",
+      "mp_implication": "Specify the linked owner identity and recovery contract.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html",
+      "title": "Cognito account consolidation",
+      "claim": "Federated profiles can be linked to a local user; safe linking is a deliberate operation.",
+      "mp_implication": "Email equality alone is not an ownership proof.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html",
+      "title": "Lambda VPC connectivity",
+      "claim": "A public-subnet attachment alone does not grant a Lambda public IP/internet.",
+      "mp_implication": "Egress and optional private job boundaries must be specified/costed.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.github.com/en/actions/concepts/security/openid-connect",
+      "title": "GitHub OIDC",
+      "claim": "Workflow trust can exchange short-lived cloud credentials.",
+      "mp_implication": "Scope trust by repository/ref/environment instead of storing long-lived deploy keys.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html",
+      "title": "Lambda X-Ray",
+      "claim": "Sampling and asynchronous linked traces exist; traces are not a durable business event log.",
+      "mp_implication": "Define explicit joins and keep Activity evidence independent.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://aws.amazon.com/cloudwatch/pricing/",
+      "title": "CloudWatch pricing",
+      "claim": "Monitoring charges depend on selected signals, volume and feature use.",
+      "mp_implication": "Reprice MP telemetry; MA free-tier totals are not an MP quote.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+      "title": "Anthropic Usage and Cost Analytics",
+      "claim": "Historical usage/cost has account/API scope and reporting semantics.",
+      "mp_implication": "Use report timestamps and internal reservations rather than treating reports as live credit enforcement.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://svelte.dev/docs/kit/adapter-static",
+      "title": "SvelteKit static adapter",
+      "claim": "Static output is a deployment mode distinct from dynamic server execution.",
+      "mp_implication": "Pin rendering and session strategy before UX and deployment design.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/scheduler/latest/UserGuide/configuring-schedule-dlq.html",
+      "title": "Scheduler DLQ",
+      "claim": "Scheduler target failure can be sent to a configured standard SQS DLQ.",
+      "mp_implication": "Keep target invocation failure separate from downstream worker exhaustion.",
+      "checked_at": "2026-11-02",
+      "source_type": "primary_official_documentation"
+    }
+  ],
+  "risks": [
+    "Account entitlements, actual credit and source licences were not queried; no paid calls were made.",
+    "Source diagrams/animations/linked boards are references, not a visually verified MP UX baseline.",
+    "Exact technology versions in MA planning are not an installed MP stack or an independently verified compatibility set.",
+    "Cross-project AWS account names, domains, keys, resource paths, permissions and pricing assumptions are excluded.",
+    "All recommendations remain proposals until owner decisions and revised ADRs settle them."
+  ],
+  "checks": [
+    "All17assigned fullHTML reads returned current pages with recordedversions.",
+    "JSON roundtrip, unique gap IDs, source references and primary-source URLs checked locally.",
+    "No Jira/Confluence writes, git commits, model/data calls or application edits in this lane."
+  ]
+}
