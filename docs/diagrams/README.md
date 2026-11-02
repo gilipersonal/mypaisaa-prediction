@@ -13,6 +13,8 @@ performance, resource deployment or an automated planning-sync service.
 | Prediction-to-outcome lifecycle | [Draw.io](prediction-lifecycle.drawio) | [GIF](prediction-lifecycle.gif), [SVG](prediction-lifecycle.svg) | [PNG](prediction-lifecycle.png) |
 | Consent-gated delivery workflow | [Draw.io](delivery-workflow.drawio) | [GIF](delivery-workflow.gif), [SVG](delivery-workflow.svg) | [PNG](delivery-workflow.png) |
 
+The **current MP-18 technical views** extend the existing [Lucidchart document](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit) on pages 6–8: [request-to-outcome AWS](aws-e2e-2026-11-01/aws-request-topology.png), [EventBridge/SQS/Anthropic batches](aws-e2e-2026-11-01/aws-events-batching.png), and [SageMaker forecasting science](aws-e2e-2026-11-01/aws-forecasting-science.png). They are native exports with AWS 2024 service shapes, colour-coded bands, readable static defaults and a [numbered connection registry](aws-e2e-2026-11-01/connections.json). The [manifest](aws-e2e-2026-11-01/manifest.json) records IDs, version, image hashes, final canvas checks and preservation of the earlier five pages. The existing native page-5 VPC view remains the detailed physical-network companion. The separate [architecture atlas](https://mypaisaa-prediction.duttaarun2015.chatgpt.site/architecture/) is an opt-in animated explanatory companion; it predates these MP-18 technical exports and is not a live diagram sync.
+
 Open a `.drawio` file in [diagrams.net](https://app.diagrams.net/). The system and
 AWS `.drawio` files are editable **animation companions**, not replacements for
 their canonical Lucidchart documents. Lucidchart architecture uses native AWS 2024
@@ -49,8 +51,9 @@ publish forecasts. Quantitative preprocessing and calibration fit only inside
 each training fold; predictions are immutable, outcomes wait for maturity, and
 corrections append a superseding version.
 
-The AWS diagram expresses a target below £50/month excluding Twelve Data and
-Claude API. Regional prices and actual usage still require confirmation. Budget
+The **historical bootstrap AWS diagram** expresses a target below £50/month excluding Twelve Data and
+Claude API. The newer MP-18 design uses the confirmed £100 all-in planning ceiling,
+with SageMaker execution and full-scope pricing still unselected. Regional prices and actual usage still require confirmation. Budget
 alerts and investigation thresholds are not an enforced spending cap. No AWS
 account or selected region is implied.
 

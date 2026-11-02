@@ -10,6 +10,10 @@ The first production release serves one authenticated owner. It aggregates licen
 
 Current draft navigation: [pack index](planning/layered-development-2026-11-01/README.md) · [portfolio/import specification](planning/layered-development-2026-11-01/portfolio-import-spec.md) · [PH-00–PH-09 delivery plan](planning/layered-development-2026-11-01/phased-delivery-plan.md) · [architecture blueprint](planning/layered-development-2026-11-01/architecture-blueprint.md) · [technology matrix](planning/layered-development-2026-11-01/tech-stack-matrix.md). The blueprint carries detailed trust boundaries, workflow/persistence/streaming alternatives, readiness gates and the ADR backlog; the material below retains the earlier visual evidence with current-direction corrections. This local alignment remains **unreviewed** and does not update Confluence or run a formal plan-sync.
 
+The [MP-18 AWS and forecasting deep dive](architecture-deep-dive.md) adds three native Lucid views of request flow, EventBridge/SQS routing, MA-inspired Anthropic Haiku batches, bounded SageMaker training and operations. It proposes one code coordinator plus four Claude task routes and two initial trainable ML families; the exact runtime/model versions, topology and total cost remain approval gates. The diagrams do not supersede the accepted bootstrap ADRs or authorise an application build.
+
+The [corresponding Confluence page](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981639) was published as a child of the MP architecture blueprint with the three verified native exports. The architecture, stack and planning hubs contain bounded links to it; [the local receipt](diagrams/aws-e2e-2026-11-01/confluence-sync.json) records actual IDs and versions.
+
 ## Contents
 
 - [System boundaries and visual guides](#visual-guides)
@@ -24,6 +28,8 @@ Current draft navigation: [pack index](planning/layered-development-2026-11-01/R
 - [Delivery, evidence and known gaps](#delivery-evidence-and-known-gaps)
 
 ## Visual guides
+
+Current technical views: [AWS request path](diagrams/aws-e2e-2026-11-01/aws-request-topology.png) · [EventBridge/SQS/Haiku batch routing](diagrams/aws-e2e-2026-11-01/aws-events-batching.png) · [SageMaker forecasting science](diagrams/aws-e2e-2026-11-01/aws-forecasting-science.png) · [editable Lucid source](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit). These are proposed design snapshots with native service icons, numbered connectors and a [source/arrow registry](diagrams/aws-e2e-2026-11-01/manifest.json). The [existing network alternatives](planning/layered-development-2026-11-01/network-topology-options.md) continue to cover VPC, subnets, route tables, endpoints and conditional NAT in detail.
 
 The retained native Lucid system drawing is the editable **bootstrap** source for component and trust boundaries. It predates the complete expanded serverless/import/cost requirements and is not a verified diagram of the current blueprint. Its labels distinguish the starter from planned services; arrows show intended communication, not live telemetry.
 
