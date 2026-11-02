@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-02",
+  "status": "maker_checks_passed_readme_independent_review_not_run",
+  "scope": "MA-structured root README, local artwork, navigation, later-policy journal and Git delivery preparation",
+  "reference": {
+    "path": "/Users/arundutta/projects/mypaisa-agent/README.md",
+    "readme_sha256": "2c020a0511262de55b6383aebf1283f15030f86916cae21f5e23748c7c580d39",
+    "git_head": "7814f886c8d8b0fe22b7de6ed70256a19d53b804",
+    "other_project_changed": false
+  },
+  "root_readme_sha256": "efe2e85918c52a62d605d91d1a219682f166debaf87ea15c0ff3559d6f26fa86",
+  "gates": {
+    "backend_lock_and_frozen_environment": "pass Python3.12.14",
+    "backend_ruff": "pass",
+    "tooling_ruff_F": "pass",
+    "backend_tests": {
+      "passed": 2,
+      "existing_warning": "Starlette HTTPX TestClient deprecation"
+    },
+    "full_tooling_tests": {
+      "passed": 33,
+      "command": "uv run --no-project --with numpy==2.5.4 --with pandas==3.1.0 --with pandas-market-calendars==5.6.0 --with exchange-calendars==4.13.2 --with reportlab==4.4.9 --with pypdf==6.10.0 --with Pillow==12.3.0 python -m unittest discover -s tests -v"
+    },
+    "README_navigation": {
+      "local_and_anchor_references": 98,
+      "SVGs": 17,
+      "network_calls": false
+    },
+    "asset_regeneration": "byte-identical",
+    "workflow_lint": "actionlint1.7.12 pass",
+    "existing_site": "npm ci/build/check passed;19componentcontracts32joins5paths, source/nativehashes and Sitesidentity; no source/outputdiff",
+    "foundation": "37wire records,9hashgraph records,30workedexamples,108runrates216cashvariants,6daily9eventproofs;75planned application acceptance not executed",
+    "MA_reconciliation": "local validator passed;13priorpublished drafts only; no new external sync",
+    "maker_visuals": "1200pxlight,1200pxdarkstack,430pxlight; all images loaded, no document overflow in local preview"
+  },
+  "previews": [
+    {
+      "file": "docs/readme/previews/light.png",
+      "sha256": "1248105a8796b73a67b32df991758abbddc98bbc3ff1cbbd73663860928502b2",
+      "kind": "local Markdown maker rendering; not actual GitHub visual acceptance"
+    },
+    {
+      "file": "docs/readme/previews/dark-stack.png",
+      "sha256": "05c0b1e994d68bee50f21ffeb4bb27955603b170d674f3cd3134ae02d04912da",
+      "kind": "local Markdown maker rendering; not actual GitHub visual acceptance"
+    },
+    {
+      "file": "docs/readme/previews/mobile.png",
+      "sha256": "06af79cc90ba57204262dbe73813aa28921415fa28d31f03ba814bd826c64403",
+      "kind": "local Markdown maker rendering; not actual GitHub visual acceptance"
+    }
+  ],
+  "limitations": [
+    "Review round2/fullupdatedMP20ledger not authorised or run",
+    "New README/policyjournal independently unreviewed",
+    "Initial bare-Python full suite lacked pandas; corrected pinned dependency command passed all33",
+    "Local preview CSS approximates GitHub; does not prove actual GitHub/device accessibility",
+    "No Confluence/Sites/Lucid publication, cloud change, paid model/data call, architecture approval, UX or application implementation"
+  ],
+  "delivery_authority": {
+    "PR_creation_and_merge": "explicit current owner request",
+    "Jira_closure": "not requested; incomplete architecture acceptance stays open",
+    "direct_main_push": false,
+    "branch_deletion": false
+  }
+}

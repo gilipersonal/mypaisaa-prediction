@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="104" height="104" viewBox="0 0 104 104" role="img" aria-labelledby="title desc">
+  <title id="title">Mypaisaa Prediction</title>
+  <desc id="desc">Documentation mark: a compass and three evidence points around a bounded forecast band. Not observed market data.</desc>
+  <style>
+      .trace { stroke-dasharray:180; animation:reveal 1.6s ease-out 1 both; }
+      @keyframes reveal { from { stroke-dashoffset:180; } to { stroke-dashoffset:0; } }
+      @media (prefers-reduced-motion:reduce) { .trace { animation:none; } }
+    </style>
+  <rect x="2" y="2" width="100" height="100" rx="27" fill="#182a43"/>
+  <path d="M52 14 87 52 52 90 17 52Z" fill="none" stroke="#f5f2ec" stroke-opacity=".17" stroke-width="1.5"/>
+  <path d="M22 64 42 39 61 47 83 24 83 57 61 67 42 59 22 78Z" fill="#9184d9" fill-opacity=".25"/>
+  <path class="trace" d="M22 71 42 49 61 57 83 41" fill="none" stroke="#f5f2ec" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="22" cy="71" r="4.8" fill="#e57f68"/>
+  <circle cx="42" cy="49" r="4.8" fill="#dba451"/>
+  <circle cx="61" cy="57" r="4.8" fill="#5fae91"/>
+  <circle cx="83" cy="41" r="4.8" fill="#a194e2"/>
+  <path d="M52 14 48 24 56 24Z" fill="#e57f68"/>
+</svg>

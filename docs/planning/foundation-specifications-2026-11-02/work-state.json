@@ -14,7 +14,7 @@
     "MP-24",
     "MP-29"
   ],
-  "scope": "Foundation Specification Pack1: data/cost feasibility, financial ledger/performance and forecast qualification. Planning/documents/contracts/examples and separately approved round1 review only. No UX, application implementation, live provider calls, cloud changes, publication or PR creation.",
+  "scope": "Foundation Specification Pack1 planning/documents/contracts/examples, separately approved round1 review, and later owner-requested README refinement plus Git PR/merge delivery. No UX, application implementation, live provider calls, cloud changes or Confluence/Site/Lucid publication.",
   "status": "round_1_fixes_maker_checked_verification_pending",
   "owner_detail_receipts": [
     "FND-DEC-001",
@@ -24,8 +24,16 @@
   "UX_authorised": false,
   "implementation_authorised": false,
   "external_publication": "not_authorised_not_applied",
-  "PR_creation": "not_requested",
+  "PR_creation": "owner_requested_for_documentation_delivery",
   "independent_review": "round_1_completed_fixes_await_independent_verification",
   "review_rounds_completed": 1,
-  "next_round_approval": "required_separately"
+  "next_round_approval": "required_separately",
+  "git_delivery": {
+    "requested": "Refine README using MA structure; push through PR and merge all relevant work",
+    "source_checkpoint_pinned": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+    "integration": "MP-19 branch integrated without rewriting pinned source history",
+    "issue_closure": "not_requested; incomplete architecture acceptance remains open",
+    "architecture_approval": false,
+    "review_round_2": "not_authorised"
+  }
 }
