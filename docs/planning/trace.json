@@ -510,7 +510,7 @@
    "key": "MP-35",
    "summary": "Bring MA's skills, rules, hooks and CI practices to MP",
    "type": "Story",
-   "status": "In Progress",
+   "status": "In Review",
    "code": [
     ".claude/hooks/",
     ".claude/rules/",

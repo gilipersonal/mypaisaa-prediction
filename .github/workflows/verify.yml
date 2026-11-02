@@ -70,9 +70,10 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      # Three MP-16 checks run `uv run --with numpy pandas`, so the runner needs uv.
-      - name: Install pinned dependency manager
-        run: python -m pip install uv==0.12.9
+      # Three MP-16 checks run `uv run --with numpy pandas`, so the runner needs uv; two MP-20 checks import
+      # jsonschema (the version the foundation validator pins).
+      - name: Install the review checks' pinned tools
+        run: python -m pip install uv==0.12.9 jsonschema==4.25.1
       - name: Test the review runner, PR policy and check selection with synthetic fixtures
         run: |
           python -m unittest discover -s tests -p test_review_regress.py -v
