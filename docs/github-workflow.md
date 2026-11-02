@@ -14,7 +14,7 @@ Codex plan-sync and review permissions are unchanged. Offer independent review o
 
 Once an open PR is ready, Codex presents its link, current commit, linked MP issue, check results and review outcome, then offers `Merge PR, close MP-<number>, and switch to main` or `Keep PR open`, plus `Review first` when applicable. The combined choice authorises the named merge and issue closure in the running prompt. A merge-only instruction authorises only merging; a workflow-configuration request, PR request or review approval does not authorise those acts. Silence leaves the PR open. Branch deletion remains separate.
 
-Before merging, Codex checks the current PR head against the commit presented for consent, confirms the destination is `main`, verifies all seven named checks passed on that head, and confirms no blocking review findings remain. A changed head requires fresh checks and renewed consent. The merge uses the configured method and an expected-head guard, without auto-merge.
+Before merging, Codex checks the current PR head against the commit presented for consent, confirms the destination is `main`, verifies all nine named checks passed on that head, and confirms no blocking review findings remain. A changed head requires fresh checks and renewed consent. The merge uses the configured method and an expected-head guard, without auto-merge.
 
 After GitHub confirms the successful merge and the issue's acceptance criteria are complete, Codex records the merged PR URL and merge commit on the verified linked issue, discovers the available transition leading to Done and closes it when closure was included in consent. It checks the returned status rather than assuming success. An issue already Done needs no repeated transition. Ambiguous links, unfinished acceptance criteria or an unconfirmed merge leave the issue open. A Jira failure is reported as outstanding and does not prevent the safe local return below; merge, closure and local sync are reported separately.
 
@@ -22,14 +22,16 @@ After GitHub confirms the merge, Codex fetches `origin`, switches the clean loca
 
 ## CI coverage
 
-All seven named checks should be green before merging:
+All nine named checks should be green before merging:
 
 | Check | What it runs |
 | --- | --- |
 | Backend | Python 3.12, lock freshness, frozen development dependency installation, backend Ruff checks, Python tooling error checks and backend tests |
 | Docs | `docs/readme/check_readme.py`: links and anchors in README, ARCHITECTURE and TECH-STACK, the mark's SVGs and Reduce Motion fallbacks, every GIF's frames and still image, and the vendored badges |
-| Review tooling | Review-regression runner, PR-policy and check-selection tests with synthetic fixtures, including review-policy and history assertions |
-| Agent config | `scripts/check_agent_config.py`: Claude skill frontmatter, `.claude/rules/` links and named paths, `.claude/jira-flow.json`, Codex JSON syntax, and that `.github/main-protection.json` names exactly these jobs; then its tests and the Claude skill tests |
+| Review tooling | Review-regression runner, PR-policy and check-selection tests; the runner's self-test; every fixed finding in every ledger still holds (exit 3, only manual checks left, passes); every review state file is whole |
+| Plan sync | `scripts/plan_sync.py`: the Jira mirror in `docs/planning/trace.json`, the root documents, the phases and the Confluence pages agree; on a PR, every product file changed belongs to the branch's issue; plus its self-test |
+| Confluence receipts | `docs/confluence/build_pages.py`: every page is rendered from the repo, published, and read back whole; plus its self-test |
+| Agent config | `scripts/check_agent_config.py`: Claude skill frontmatter, `.claude/rules/` links and named paths, `.claude/jira-flow.json`, Codex JSON syntax, and that `.github/main-protection.json` names exactly these jobs; then its tests, the Claude skill tests and the hooks' self-test |
 | Static preview | Preview HTML language/title/viewport presence, local file references and same-page anchor targets |
 | Workflow lint | Checksum-verified actionlint 1.7.12 checks all workflow YAML and supported shell expressions |
 | Jira traceability | PR targets `main`; branch/title share an MP key; every included commit has an MP key |
@@ -44,7 +46,7 @@ Backend dependencies are recorded in `backend/uv.lock`. Update intentionally wit
 
 As checked on 2026-11-01, GitHub returned HTTP 403 for both branch-protection and ruleset APIs on this private repository, requesting a plan upgrade. **Server-side PR-only and required-check enforcement is not active.** Repository instructions and CI are in place; they do not prevent an administrator or another client from bypassing the process.
 
-The intended settings are versioned in `.github/main-protection.json`: require a PR, the seven named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. The repository stays private and no plan upgrade is authorised by this setup. GitHub documents plan availability at https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches.
+The intended settings are versioned in `.github/main-protection.json`: require a PR, the nine named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. The repository stays private and no plan upgrade is authorised by this setup. GitHub documents plan availability at https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches.
 
 After the owner enables a compatible GitHub plan, apply the saved policy with:
 

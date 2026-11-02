@@ -1,7 +1,7 @@
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": ["Backend", "Docs", "Review tooling", "Agent config", "Static preview", "Workflow lint", "Jira traceability"]
+    "contexts": ["Backend", "Docs", "Review tooling", "Agent config", "Plan sync", "Confluence receipts", "Static preview", "Workflow lint", "Jira traceability"]
   },
   "enforce_admins": true,
   "required_pull_request_reviews": {

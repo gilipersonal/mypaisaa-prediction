@@ -39,19 +39,26 @@ class SelectionTests(unittest.TestCase):
 
     def test_policy_journal_selects_foundation_pack(self):
         chosen, _ = names(["docs/planning/foundation-policy-discussion-2026-11-02.md"])
-        self.assertEqual(chosen, {"foundation-pack"})
+        self.assertEqual(chosen, {"foundation-pack", "plan-sync"})
 
     def test_claude_rules_select_their_policy_test(self):
         chosen, _ = names([".claude/rules/independent-review.md"])
-        self.assertEqual(chosen, {"claude-workflow", "agent-config"})
+        self.assertEqual(chosen, {"claude-workflow", "agent-config", "plan-sync"})
 
     def test_agent_config_follows_its_inputs(self):
         for path in (".codex/hooks.json", ".github/main-protection.json", "scripts/check_agent_config.py"):
             self.assertIn("agent-config", names([path])[0], path)
 
     def test_root_docs_brand_and_motion_select_the_docs_check(self):
-        for path in ("ARCHITECTURE.md", "TECH-STACK.md", "docs/brand/mark.svg", "docs/motion/budget.gif"):
+        for path in ("ARCHITECTURE.md", "TECH-STACK.md"):
+            self.assertEqual(names([path]), ({"readme", "plan-sync"}, []), path)
+        for path in ("docs/brand/mark.svg", "docs/motion/budget.gif"):
             self.assertEqual(names([path]), ({"readme"}, []), path)
+
+    def test_new_hooks_plan_sync_and_receipts_select_their_checks(self):
+        self.assertIn("claude-hooks", names([".claude/hooks/mp_hook.py"])[0])
+        self.assertIn("plan-sync", names(["docs/planning/trace.json"])[0])
+        self.assertIn("confluence-receipts", names(["docs/confluence/receipts/hub.json"])[0])
 
     def test_plain_docs_need_no_extra_check(self):
         self.assertEqual(names(["docs/architecture.md", "review/MP-20/round-1.md"]), (set(), []))

@@ -248,7 +248,7 @@ shows why.
 
 [![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
-<sub>Lucid page 7. Two accounts of the same shape, and the seven CI checks.</sub>
+<sub>Lucid page 7. Two accounts of the same shape, and the CI checks as they stood before MP-35 added Plan sync and Confluence receipts.</sub>
 
 ## 11. Clients
 

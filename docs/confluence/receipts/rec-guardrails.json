@@ -1,0 +1,13 @@
+{
+ "slug": "rec-guardrails",
+ "page_id": "6127782",
+ "version": 2,
+ "sent_sha256": "3eb2ea0183bc97d416baba7b12c3a522d30d3e46045ce349927577de4f70583c",
+ "readback_sha256": "6ba76fa7fec93bfd816e10003d050973b97789e9b020809ef0f2ace2c2229000",
+ "canonical_sha256": "ee8328b925d59e20f588928d57d028e20f3996835e0160e3ee3d19dc1b0c519f",
+ "parts": 51,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:36Z"
+}

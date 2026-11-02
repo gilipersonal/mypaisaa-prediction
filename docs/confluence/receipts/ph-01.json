@@ -1,0 +1,13 @@
+{
+ "slug": "ph-01",
+ "page_id": "6357115",
+ "version": 2,
+ "sent_sha256": "4eb88ee682484d3982ba9e93a6064d2c128091df3049055e134afc09d9c2cbb1",
+ "readback_sha256": "e754e5fe0476e5c3408de4627c55c00ec20c3c756b42a1ffee0db5b6db4880e1",
+ "canonical_sha256": "aaa495b9cfdca304f02fe4e8c95bcb2e07cd7af995cc2a5306de7697fd1b8b5f",
+ "parts": 708,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:37Z"
+}

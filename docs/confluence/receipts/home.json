@@ -1,0 +1,13 @@
+{
+ "slug": "home",
+ "page_id": "5145345",
+ "version": 4,
+ "sent_sha256": "c827dd924b5506148c592b2e2840c435626d52163e65516e3f52878387569cee",
+ "readback_sha256": "e58e0fdbb13922a36a86d5fddc2f58424d6744cd26a9cc5414846e8f69a917c0",
+ "canonical_sha256": "a207e75304854550033c8c69124a49c57ec02292cb39055200ac0d5ce5a36f22",
+ "parts": 45,
+ "verdict": "match",
+ "differences": [],
+ "id_checked": true,
+ "read_at": "2026-11-02T18:45:34Z"
+}

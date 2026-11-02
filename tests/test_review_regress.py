@@ -191,5 +191,111 @@ class ReviewRunnerTests(unittest.TestCase):
         self.assertFalse(has_gates(truncated, snapshots, fixed_rounds))
 
 
+class PortedRunnerTests(unittest.TestCase):
+    """MP-35: mypaisa-agent's formats and modes (--selftest, --every, --state) on synthetic ledgers."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        self.review = self.root / "review"
+
+    def write(self, key, entries=None, state=None):
+        folder = self.review if key == "LOCAL" else self.review / key
+        folder.mkdir(parents=True, exist_ok=True)
+        if entries is not None:
+            (folder / "fixed.json").write_text(json.dumps(entries), encoding="utf-8")
+        if state is not None:
+            (folder / "state.json").write_text(json.dumps(state), encoding="utf-8")
+
+    def cli(self, *args):
+        env = dict(os.environ, REVIEW_REGRESS_DIR=str(self.review))
+        return subprocess.run([sys.executable, str(SCRIPT), *args], capture_output=True, text=True, env=env,
+                              timeout=180)
+
+    def run_ma(self, entries):
+        self.write("MP-1", entries)
+        with contextlib.redirect_stdout(io.StringIO()) as out, contextlib.redirect_stderr(io.StringIO()):
+            code = runner.run(self.root, "MP-1")
+        return code, out.getvalue()
+
+    def test_selftest_passes(self):
+        result = self.cli("--selftest")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("0 wrong", result.stdout)
+
+    def test_ma_cmd_and_cmd_fails(self):
+        ok = {"id": "r1-1", "finding": "f", "check": {"type": "cmd", "run": "exit 0"}}
+        self.assertEqual(self.run_ma([ok])[0], 0)
+        self.assertEqual(self.run_ma([dict(ok, check={"type": "cmd", "run": "exit 4"})])[0], 1)
+        self.assertEqual(self.run_ma([dict(ok, check={"type": "cmd_fails", "argv": ["false"]})])[0], 0)
+        self.assertEqual(self.run_ma([dict(ok, check={"type": "cmd_fails", "argv": ["true"]})])[0], 1)
+        self.assertEqual(self.run_ma([dict(ok, check={"type": "cmd", "run": "true", "argv": ["true"]})])[0], 2)
+        self.assertEqual(self.run_ma([{"id": "r1-1", "check": {"type": "cmd", "run": "true"}}])[0], 2)
+
+    def test_ma_grep_across_lines_globs_and_missing(self):
+        (self.root / "docs").mkdir()
+        (self.root / "docs" / "a.md").write_text("Ask every\nround", encoding="utf-8")
+        (self.root / "docs" / "b.md").write_text("ask EVERY round", encoding="utf-8")
+        grep = {"type": "grep", "files": ["docs/*.md"], "pattern": r"ask\s+every\s+round", "ignore_case": True}
+        self.assertEqual(self.run_ma([{"id": "r1-1", "finding": "f", "check": grep}])[0], 0)
+        self.assertEqual(self.run_ma([{"id": "r1-1", "finding": "f", "check": dict(grep, ignore_case=False)}])[0], 1)
+        self.assertEqual(self.run_ma([{"id": "r1-1", "finding": "f", "check": dict(grep, present=False)}])[0], 1)
+        missing = {"type": "grep", "files": ["docs/*.txt"], "pattern": "x"}
+        self.assertEqual(self.run_ma([{"id": "r1-1", "finding": "f", "check": missing}])[0], 1)
+
+    def test_retired_entry_is_skipped_and_counted(self):
+        marker = self.root / "ran"
+        code, out = self.run_ma([{"id": "r1-1", "finding": "f", "retired": "target removed in MP-34",
+                                  "check": {"type": "cmd", "run": f"touch {marker}"}}])
+        self.assertEqual(code, 0)
+        self.assertFalse(marker.exists())
+        self.assertIn("RETIRED: r1-1 - target removed in MP-34", out)
+        self.assertIn("1 retired", out)
+
+    def test_every_runs_all_ledgers_without_approval(self):
+        self.write("LOCAL", [{"id": "R1-1", "check": {"type": "command", "argv": [sys.executable, "-c", "pass"]}}])
+        self.write("MP-2", [{"id": "r1-1", "finding": "f", "check": {"type": "cmd", "run": "true"}}])
+        self.write("MP-3", [{"id": "R1-1", "check": {"type": "manual", "what": "Inspect"}}])
+        result = self.cli("--every", "--jobs", "2")
+        self.assertEqual(result.returncode, 3, result.stdout + result.stderr)
+        for key in ("== LOCAL", "== MP-2", "== MP-3", "every ledger (3)"):
+            self.assertIn(key, result.stdout)
+        self.write("MP-2", [{"id": "r1-1", "finding": "f", "check": {"type": "cmd", "run": "false"}}])
+        self.assertEqual(self.cli("--every").returncode, 1)
+        self.write("MP-2", [{"id": "r1-1", "finding": "f", "check": {"type": "command", "argv": "false"}}])
+        self.assertEqual(self.cli("--every").returncode, 2)
+
+    def test_single_ledger_still_needs_approval(self):
+        self.write("MP-2", [{"id": "r1-1", "finding": "f", "check": {"type": "cmd", "run": "true"}}])
+        self.assertEqual(self.cli("MP-2").returncode, 2)
+        self.assertEqual(self.cli("MP-2", "--approved").returncode, 0)
+        self.assertEqual(self.cli("--every", "--approved").returncode, 0)
+
+    def test_state_validates_both_shapes(self):
+        mp = {"round_count": 1, "rounds": [{"round": 1, "reviewed_commit": "abcdef1", "gate_results": ["ok"]}]}
+        ma = {"rounds": 1, "reviewed_sha": "abcdef1", "history": [{"round": 1, "reviewed_sha": "abcdef1"}]}
+        for key, state in (("MP-4", mp), ("MP-5", ma), ("LOCAL", mp)):
+            with self.subTest(key=key):
+                self.write(key, [{"id": "R1-1", "finding": "f", "check": {"type": "manual", "what": "w"}}], state)
+                self.assertEqual(self.cli("--state", key).returncode, 0)
+        self.write("MP-6", [], dict(mp, round_count=2))
+        self.assertEqual(self.cli("--state", "MP-6").returncode, 1)
+        self.write("MP-7", [{"id": "R2-1", "finding": "f", "check": {"type": "manual", "what": "w"}}], mp)
+        self.assertEqual(self.cli("--state", "MP-7").returncode, 1)
+        self.write("MP-8", [], {"round_count": 1, "rounds": [{"round": 1, "manual_verification": [{"finding_id": "x"}],
+                                                              "reviewed_commit": "abcdef1"}]})
+        self.assertEqual(self.cli("--state", "MP-8").returncode, 1)
+        self.assertEqual(self.cli("--state", "../MP-1").returncode, 2)
+
+    def test_repository_state_files_are_valid(self):
+        review = SCRIPT.parent.parent / "review"
+        keys = ["LOCAL"] + sorted(p.parent.name for p in review.glob("*/state.json"))
+        for key in keys:
+            with self.subTest(key=key):
+                with contextlib.redirect_stdout(io.StringIO()) as out:
+                    self.assertEqual(runner.run_state(SCRIPT.parent.parent, key), 0, out.getvalue())
+
+
 if __name__ == "__main__":
     unittest.main()

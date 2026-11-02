@@ -9,13 +9,15 @@ Claude's version of `.agents/skills/mp-review-regression/SKILL.md`. Inside an ap
 
 1. **Show what will run.** Read `review/MP-<n>/fixed.json` and list each entry: its id, its type, and for commands the exact argv. Commands run with the owner's permissions, so flag anything unsafe or out of scope and leave it out only with the owner's say-so. Never silently skip an entry. A missing ledger means no checks are recorded; it is not a clean pass.
 2. **Run it, in parallel with the fast checks when both are wanted:**
-   - `python3 scripts/review_regress.py MP-<n> --approved`. `--approved` is an operator acknowledgement, not proof of consent.
+   - `python3 scripts/review_regress.py MP-<n> --approved --jobs 4`. `--approved` is an operator acknowledgement, not proof of consent. `--only <id,id>` re-checks named entries after a fix.
    - Optionally, in the same message, `python3 scripts/review_checks.py --base <base> --run`. Its checks are separate evidence, not ledger entries.
 
-   The runner executes entries one after another with a 60-second cap each. Keep entries small and behavioural, so the whole ledger stays fast enough to run every round.
+   Other modes need no `--approved`, because CI runs them on every PR (MP-35): `--every --jobs 4` runs every ledger under `review/` as one pool, `--state MP-<n>` validates the state file, and `--selftest` proves the runner's own refusals.
+
+   Each command runs in its own process group with a time limit (MP's `command` at most 60 s; mypaisa-agent's `cmd` 600 s by default); identical commands run once. Keep entries small and behavioural, so the whole ledger stays fast enough to run every round. Retired entries are skipped, printed and counted.
 3. **Read the exit code honestly:**
    - `0`: all automated checks passed, or no ledger exists (say which).
    - `1`: a check failed; fix it before any further review.
-   - `2`: malformed, unavailable or timed out; this is not a pass.
+   - `2`: malformed, unavailable, could not start or timed out; this is not a pass.
    - `3`: automated checks passed but manual items remain. A fresh verifier must clear every one (`.codex/review-policy.json`) before the next round.
 4. **Record** the command, exit code, counts and any manual evidence in `review/MP-<n>/state.json`.

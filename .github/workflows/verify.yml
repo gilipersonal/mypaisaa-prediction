@@ -37,7 +37,7 @@ jobs:
       - name: Lint backend
         run: uv run --project backend --frozen --extra dev ruff check backend
       - name: Check Python tooling for errors
-        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks
+        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence
       - name: Test backend
         run: uv run --project backend --frozen --extra dev pytest backend/tests -q
 
@@ -60,20 +60,40 @@ jobs:
   review-tooling:
     name: Review tooling
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          # Some fixed-finding checks compare with an older commit.
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
+      # Three MP-16 checks run `uv run --with numpy pandas`, so the runner needs uv.
+      - name: Install pinned dependency manager
+        run: python -m pip install uv==0.12.9
       - name: Test the review runner, PR policy and check selection with synthetic fixtures
         run: |
           python -m unittest discover -s tests -p test_review_regress.py -v
           python -m unittest discover -s tests -p test_pr_policy.py -v
           python -m unittest discover -s tests -p test_review_checks.py -v
-      # The real findings ledger and independent review still require approval.
+      - name: The regression runner's own cases
+        run: python3 scripts/review_regress.py --selftest
+      # Fixed stays fixed: every live check in every issue's ledger (owner, 2 Nov 2026, MP-35).
+      # Exit 3 means every check passed and only checks a person makes remain.
+      - name: Every fixed finding still holds
+        run: |
+          set +e
+          python3 scripts/review_regress.py --every --jobs 4
+          code=$?
+          if [ "$code" -ne 0 ] && [ "$code" -ne 3 ]; then exit "$code"; fi
+      - name: Every review state file is whole
+        run: |
+          for f in review/*/state.json; do
+            python3 scripts/review_regress.py --state "$(basename "$(dirname "$f")")"
+          done
+          if [ -f review/state.json ]; then python3 scripts/review_regress.py --state LOCAL; fi
 
   agent-config:
     name: Agent config
@@ -93,6 +113,55 @@ jobs:
           python -m unittest discover -s tests -p test_agent_config.py -v
           python -m unittest discover -s tests -p test_claude_review_skills.py -v
           python -m unittest discover -s tests -p test_claude_workflow_skills.py -v
+      - name: The PR gate and edit hooks still bite
+        run: |
+          python .claude/hooks/mp_hook.py selftest
+          python -m unittest discover -s tests -p test_mp_hook.py -v
+
+  plan-sync:
+    name: Plan sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          # The whole history: removed paths count as accounted for, and the PR is compared with its base.
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: The trace, the root documents, the phases and the Confluence pages agree
+        run: python3 scripts/plan_sync.py check
+      - name: Plan sync's own checks still bite
+        run: |
+          python3 scripts/plan_sync.py selftest
+          python3 -m unittest discover -s tests -p test_plan_sync.py -v
+      # A pull_request run checks out the PR's merge commit, detached: HEAD^1 is the base, and the
+      # issue key comes from the PR's head branch; with no key it fails closed.
+      - name: Every product file the PR changes belongs to its issue
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+        run: python3 scripts/plan_sync.py pr-files --base HEAD^1
+
+  confluence-receipts:
+    name: Confluence receipts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: A page that comes back cut short or changed is refused
+        run: |
+          python3 docs/confluence/build_pages.py selftest
+          python3 -m unittest discover -s tests -p test_confluence_receipts.py -v
+      - name: Every page is rendered from the repo, published and read back whole
+        run: python3 docs/confluence/build_pages.py check
 
   static-preview:
     name: Static preview
