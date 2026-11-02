@@ -1,0 +1,316 @@
+{
+  "issue": "MP-19",
+  "as_of": "2026-11-02",
+  "status": "writes_and_new_issue_parent_status_readback_verified",
+  "scope": "11 new planning tasks;4 existing planning issues supplemented by comments, no status/description replacement.",
+  "groups": [
+    {
+      "group_id": "data",
+      "jira_key": "MP-10",
+      "parent_requested": "MP-4",
+      "action": "reuse_evidence_comment",
+      "gap_ids": [
+        "FC-01"
+      ],
+      "response": {
+        "data": {
+          "message": "Comment added to MP-10 successfully",
+          "commentId": "12141",
+          "body": "MP-19 researched reconciliation evidence, 2 November 2026. This supplements the existing planning issue; historical content/status stays intact.\n\nPlanning outcome: Confirm data-use rights and affordable listing coverage.\n\nResearch and specification only. MA concepts are reference; current MP owner decisions control. No application/infrastructure implementation, paid calls or automatic promotion.\n\n## Decisions and acceptance\n\n### FC-01 - Resolve provider use rights and actual data coverage\n\nKeep Yahoo plus requested Grow as candidate sources. Require a per-listing/per-use rights matrix and fallback-to-daily/unavailable. Grow pricing/terms do not establish non-display ML rights for this use; request provider clarification. No paid upgrade or LLM transmission assumed.  \nOwner decision: Approve verified source/tier/rights and taxed GBP recurring envelope, or choose reduced coverage before architecture freeze.\n\n* Record quote/NAV/history/actions/exposures/news capability, delay, cadence, credit weight and storage/training/derived-data/Anthropic-sharing permission per source.\n* Expose unsupported/stale states; no automatic provider upgrade.\n* Verify UK/US/India examples and compare full monthly costs against £70 operating allowance and £100 total ceiling.\n\n## Evidence and completion\n\n* Record the exact decision, contracts, positive/negative/recovery acceptance and owner answer; remain open if unresolved.\n* Link MP-19 reconciliation, phase/story map and planned Confluence pages. No claim that a proposal is accepted or implemented.\n* Architecture and detailed phase/story baseline precede UX; full UX and separate owner permission precede build.\n\nLocal source: https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json  \nSources: https://github.com/ranaroussi/yfinance, https://twelvedata.com/pricing, https://twelvedata.com/terms",
+          "appliedContentFormat": "markdown",
+          "jsmCommentType": "publicComment"
+        }
+      }
+    },
+    {
+      "group_id": "identity",
+      "jira_key": "MP-11",
+      "parent_requested": "MP-4",
+      "action": "reuse_evidence_comment",
+      "gap_ids": [
+        "PL-09",
+        "CT-01",
+        "CT-17"
+      ],
+      "response": {
+        "data": {
+          "message": "Comment added to MP-11 successfully",
+          "commentId": "12142",
+          "body": "MP-19 researched reconciliation evidence, 2 November 2026. This supplements the existing planning issue; historical content/status stays intact.\n\nPlanning outcome: Settle managed identity, sessions and sensitive-action authentication.\n\nResearch and specification only. MA concepts are reference; current MP owner decisions control. No application/infrastructure implementation, paid calls or automatic promotion.\n\n## Decisions and acceptance\n\n### PL-09 - Design verified account linking and protected owner actions\n\nUse Cognito managed sign-in and explicit verified linking to an owner identity; never merge users from email equality alone. Keep browser cookie/CSRF and native PKCE/token storage designs separate. Bind a fresh step-up proof to a specific sensitive action and its proposed values, with expiry and server checks.  \nOwner decision: Resolve under MP-11: linking enrolment/recovery, step-up proof, devices, token revocation and two independent passkey recovery paths.\n\n* Document sign-in/link/recovery/revoke sequences for Apple, Google and local passkey identities, including lost-device/account cases.\n* Admin approvals bind owner, environment, action, payload hash and expiry; a generic logged-in session is insufficient.\n* Cross-environment tokens, stale approval, CSRF, linking takeover and native redirect interception have negative cases.\n\n### CT-01 - Define the owner-sensitive action and fresh-authentication policy\n\nKeep the agreed Cognito managed sign-in. Propose recent server-verified authentication for record-affecting import confirmation, deletion, replay, credential linking/recovery, budget expansion and model promotion. Verify actual Cognito step-up availability and plan before deciding the mechanism; a local biometric unlock grants no server authority.  \nOwner decision: Owner approves the sensitive-action matrix, freshness window, assurance requirements and recovery fallback.\n\n* Action matrix names read, propose, approve and execute permissions for every admin operation.\n* Server checks owner, environment, session status, assurance and authentication age immediately before execution.\n* Action challenge binds owner, environment, operation and exact target/payload hash; stale or reused proof fails.\n* Tests include local-biometric-only, forged client claim, refreshed-old authentication, cross-environment proof and unavailable step-up capability.\n\n### CT-17 - Specify personal identity linking, sessions and owner recovery\n\nDesign personal-owner recovery rather than household invites. Link only after verified control of both identities, use stable provider subjects rather than email equality and avoid unlinking the final usable path. Define web cookies/native secure storage and live-stream reauthorization.  \nOwner decision: Approve trusted origins/RP IDs, recovery inventory, session/stream revocation latency and loss-of-all-devices procedure.\n\n* Email collision cannot merge identities or grant access; linking/recovery changes require current owner authorization.\n* Revoked sessions cannot keep an SSE connection/data link indefinitely; explicit maximum delay is tested.\n* A lost device can be revoked using an independent verified path without disabling the only owner irrecoverably.\n* Dev/prod origin, issuer, audience, callback and passkey scope are explicit and fail on cross-environment tokens.\n\n## Evidence and completion\n\n* Record the exact decision, contracts, positive/negative/recovery acceptance and owner answer; remain open if unresolved.\n* Link MP-19 reconciliation, phase/story map and planned Confluence pages. No claim that a proposal is accepted or implemented.\n* Architecture and detailed phase/story baseline precede UX; full UX and separate owner permission precede build.\n\nLocal source: https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json  \nSources: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html, https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html, https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "appliedContentFormat": "markdown",
+          "jsmCommentType": "publicComment"
+        }
+      }
+    },
+    {
+      "group_id": "persistence",
+      "jira_key": "MP-12",
+      "parent_requested": "MP-4",
+      "action": "reuse_evidence_comment",
+      "gap_ids": [
+        "PL-08",
+        "IR-02"
+      ],
+      "response": {
+        "data": {
+          "message": "Comment added to MP-12 successfully",
+          "commentId": "12143",
+          "body": "MP-19 researched reconciliation evidence, 2 November 2026. This supplements the existing planning issue; historical content/status stays intact.\n\nPlanning outcome: Settle ledger, import and prediction write contracts.\n\nResearch and specification only. MA concepts are reference; current MP owner decisions control. No application/infrastructure implementation, paid calls or automatic promotion.\n\n## Decisions and acceptance\n\n### PL-08 - Prove financial visibility and audit atomicity before accepting DynamoDB keys\n\nKeep typed financial entities independent of persistence and approve access patterns first. Recommend DynamoDB only if staged imports, corrections, audit/outbox and concurrent account writes have one consistent commit-visibility rule. Keep queryable Parquet evidence in S3; do not force all history into one growing item.  \nOwner decision: Approve ledger/import atomicity and access pattern contract under existing MP-12, including whether a relational fallback is needed.\n\n* Model large imports beyond100 actions/4MB and persistent idempotency beyond the10-minute service token window.\n* Every reader/projection/export/replay honours the import commit marker; failed staging cannot change holdings.\n* Before/after audit, commit marker and outbox invariants are explicit and restore/rebuild cases link MP-13.\n\n## Evidence and completion\n\n* Record the exact decision, contracts, positive/negative/recovery acceptance and owner answer; remain open if unresolved.\n* Link MP-19 reconciliation, phase/story map and planned Confluence pages. No claim that a proposal is accepted or implemented.\n* Architecture and detailed phase/story baseline precede UX; full UX and separate owner permission precede build.\n\nLocal source: https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json  \nSources: https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html",
+          "appliedContentFormat": "markdown",
+          "jsmCommentType": "publicComment"
+        }
+      }
+    },
+    {
+      "group_id": "recovery",
+      "jira_key": "MP-13",
+      "parent_requested": "MP-4",
+      "action": "reuse_evidence_comment",
+      "gap_ids": [
+        "CT-04"
+      ],
+      "response": {
+        "data": {
+          "message": "Comment added to MP-13 successfully",
+          "commentId": "12144",
+          "body": "MP-19 researched reconciliation evidence, 2 November 2026. This supplements the existing planning issue; historical content/status stays intact.\n\nPlanning outcome: Settle retention, deletion, backup and restore evidence.\n\nResearch and specification only. MA concepts are reference; current MP owner decisions control. No application/infrastructure implementation, paid calls or automatic promotion.\n\n## Decisions and acceptance\n\n### CT-04 - Resolve retention, deletion and restored-copy policy\n\nRetain MP owner deletion rights rather than MA permanent-file assumptions. Specify S3 versions, parsed derivatives, caches, model-training datasets, evaluation labels, backups and provider batches independently. Restore must reapply deletion tombstones before data is made available.  \nOwner decision: Approve record-class duration, backup expiry/deletion limits, retained minimal tombstone data and policy for models trained on deleted sources.\n\n* Deleting a versioned original checks/removes the intended versions rather than only a delete marker.\n* Portal reports requested/in_progress/completed/partially_failed with affected stores and unavoidable residual retention.\n* Restored data cannot silently resurrect deleted originals or excluded evaluation cases.\n* Retention extensions and any irreversible lock require explicit owner decisions.\n\n## Evidence and completion\n\n* Record the exact decision, contracts, positive/negative/recovery acceptance and owner answer; remain open if unresolved.\n* Link MP-19 reconciliation, phase/story map and planned Confluence pages. No claim that a proposal is accepted or implemented.\n* Architecture and detailed phase/story baseline precede UX; full UX and separate owner permission precede build.\n\nLocal source: https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json  \nSources: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html, https://platform.claude.com/docs/en/build-with-claude/batch-processing, https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+          "appliedContentFormat": "markdown",
+          "jsmCommentType": "publicComment"
+        }
+      }
+    },
+    {
+      "group_id": "baseline",
+      "jira_key": "MP-20",
+      "parent_requested": "MP-4",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-01",
+        "CD-01",
+        "CD-02",
+        "IR-01"
+      ],
+      "response": {
+        "data": {
+          "id": "11331",
+          "key": "MP-20"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-4"
+    },
+    {
+      "group_id": "science",
+      "jira_key": "MP-21",
+      "parent_requested": "MP-6",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-15",
+        "FC-16"
+      ],
+      "response": {
+        "data": {
+          "id": "11332",
+          "key": "MP-21"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-6"
+    },
+    {
+      "group_id": "portfolio",
+      "jira_key": "MP-22",
+      "parent_requested": "MP-5",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "FC-10",
+        "FC-11",
+        "FC-12"
+      ],
+      "response": {
+        "data": {
+          "id": "11333",
+          "key": "MP-22"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-5"
+    },
+    {
+      "group_id": "workflows",
+      "jira_key": "MP-23",
+      "parent_requested": "MP-4",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "CT-14"
+      ],
+      "response": {
+        "data": {
+          "id": "11334",
+          "key": "MP-23"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-4"
+    },
+    {
+      "group_id": "ml-runtime",
+      "jira_key": "MP-24",
+      "parent_requested": "MP-6",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-07"
+      ],
+      "response": {
+        "data": {
+          "id": "11335",
+          "key": "MP-24"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-6"
+    },
+    {
+      "group_id": "anthropic",
+      "jira_key": "MP-25",
+      "parent_requested": "MP-7",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-02",
+        "PL-03",
+        "FC-13",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-15"
+      ],
+      "response": {
+        "data": {
+          "id": "11336",
+          "key": "MP-25"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-7"
+    },
+    {
+      "group_id": "evals",
+      "jira_key": "MP-26",
+      "parent_requested": "MP-7",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "response": {
+        "data": {
+          "id": "11337",
+          "key": "MP-26"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-7"
+    },
+    {
+      "group_id": "operations",
+      "jira_key": "MP-27",
+      "parent_requested": "MP-4",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-12",
+        "PL-13",
+        "CT-05",
+        "CT-06",
+        "CT-13"
+      ],
+      "response": {
+        "data": {
+          "id": "11338",
+          "key": "MP-27"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-4"
+    },
+    {
+      "group_id": "admin",
+      "jira_key": "MP-28",
+      "parent_requested": "MP-4",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "CT-02",
+        "CT-03",
+        "CT-16"
+      ],
+      "response": {
+        "data": {
+          "id": "11339",
+          "key": "MP-28"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-4"
+    },
+    {
+      "group_id": "cloud",
+      "jira_key": "MP-29",
+      "parent_requested": "MP-4",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-10"
+      ],
+      "response": {
+        "data": {
+          "id": "11340",
+          "key": "MP-29"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-4"
+    },
+    {
+      "group_id": "delivery",
+      "jira_key": "MP-30",
+      "parent_requested": "MP-9",
+      "action": "create_planning_task",
+      "gap_ids": [
+        "PL-11",
+        "PL-14",
+        "CT-18"
+      ],
+      "response": {
+        "data": {
+          "id": "11341",
+          "key": "MP-30"
+        }
+      },
+      "verified_status": "To Do",
+      "verified_parent": "MP-9"
+    }
+  ],
+  "additional_comments": [
+    {
+      "issue": "MP-20",
+      "comment_id": "12145",
+      "gap_id": "IR-01"
+    },
+    {
+      "issue": "MP-12",
+      "comment_id": "12146",
+      "gap_id": "IR-02"
+    }
+  ]
+}

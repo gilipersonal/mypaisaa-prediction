@@ -1,0 +1,865 @@
+{
+  "schema_version": "1.0",
+  "project": "mypaisaa-prediction",
+  "issue": "MP-19",
+  "as_of": "2026-11-02",
+  "status": "maker_draft_owner_answers_pending_unreviewed",
+  "purpose": "Dependency-ordered architecture decision packet carrying researched concepts from all three lanes; no blind MA copying.",
+  "fixed_constraints_not_reasked": [
+    "Standalone personal investment decision support; no trading and its own ledger.",
+    "US/UK/India initially; future markets/themes are versioned extensions.",
+    "All agreed short/medium/long horizons remain: daily formal forecasts plus30-minute supported quote/risk monitoring;3–5-year outputs are scenarios.",
+    "All five first-version import methods remain, with named sample-backed layout coverage and uncertain extraction review.",
+    "£100monthly all-in cash ceiling;£70planned operation/£30reserve;£60/75/85cash policy; reported shared$200Anthropic credit unverified and counted once; no uncovered paidfallback.",
+    "Direct Anthropic client-SDK loop on Lambda, with Claude hosted on Anthropic; not Bedrock/AgentSDK.",
+    "SvelteKit3adaptive PWA and Swift/SwiftUI inside RN shell; Apple/Google/passkeys through Cognito.",
+    "Owner approval before live model promotion; separate rules/ML/research views, disagreement and abstention.",
+    "Confirmed ranking weights35%growth/40%protection/25%opportunity remain, with eligibility/normalisation still to specify.",
+    "07:30Europe/London briefing;22:00–07:00quiet hours with explicitly approved critical exceptions.",
+    "Private encrypted original archive with renewable24-month default/owner deletion; operational logs14days/traces30days/run summaries90days; monthly/change-triggered exercises.",
+    "Cost visibility by environment/agent/model/feature directly in the main app; live estimates and delayed Anthropic6-hour/AWSdaily collection.",
+    "Actual holdings/samples arrive progressively; synthetic real-ID local/dev fixtures support planning now. No AWSdev loading now.",
+    "Requirements and architecture settled before UX; full UX and end-to-end baseline approved before application implementation."
+  ],
+  "cards": [
+    {
+      "id": "ARC-01",
+      "title": "Source rights and full-budget feasibility",
+      "question": "Which source-rights resolution route should anchor the v1 capability and cost matrix?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [],
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-15",
+        "CT-13",
+        "PL-13"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Keep Yahoo/Grow candidates with explicit per-use gates (Recommended)",
+          "recommended": true,
+          "approach": "Retain the requested source mixture as candidates. Obtain written clarification of storage, derived features, historical training/non-display, LLM transmission and display rights for each use/listing. Plan source adapters and daily/unavailable states now; activate no unsupported use.",
+          "impact_tradeoff": "Preserves the preferred providers and the £100 ceiling, but some forecasting capabilities may remain gated if Grow cannot supply the required rights within budget."
+        },
+        {
+          "id": "B",
+          "label": "Compare licensed alternatives before fixing the source plan",
+          "recommended": false,
+          "approach": "Research alternative licences/quotes for the missing named uses alongside Yahoo/Grow, without subscribing. Present any change in source or promised scope for owner approval within the same £100 ceiling.",
+          "impact_tradeoff": "Adds procurement/research effort but may resolve training rights and cross-market coverage sooner; no new paid source or larger budget is approved by the choice."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "FC-01",
+          "FC-03",
+          "FC-15",
+          "CT-13",
+          "PL-13"
+        ],
+        "primary_urls": [
+          "https://twelvedata.com/pricing",
+          "https://twelvedata.com/terms",
+          "https://github.com/ranaroussi/yfinance",
+          "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+          "https://otexts.com/fpp3/toolbox.html",
+          "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+          "https://aws.amazon.com/cloudwatch/pricing/"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose the rights-resolution route and document target versus eligible capabilities for US/UK/India; keep every agreed horizon and import method represented."
+        ],
+        "before_build": [
+          "Approve adapter contracts, minimum data/history semantics, point-in-time provenance, conservative recurring costs and unsupported-state acceptance cases."
+        ],
+        "before_activation": [
+          "Verify actual account/tier/exchange rights and applicable licences for each enabled use; recost subscriptions, FX/tax, Claude, AWS, evals and reserve. If infeasible, return to the owner rather than silently cutting scope."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-02",
+      "title": "Ledger, imports and write ownership",
+      "question": "Which persistence boundary should the detailed ledger/import specification adopt?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-01"
+      ],
+      "gap_ids": [
+        "PL-08",
+        "CT-02",
+        "CT-03",
+        "FC-10",
+        "IR-02"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "DynamoDB with staged immutable imports (Recommended)",
+          "recommended": true,
+          "approach": "Keep the preferred DynamoDB operational core and encrypted S3 originals. One application write service owns ledger changes, audit/outbox and owner-approved commit visibility; agents may create typed drafts but never commit financial records directly. Define access patterns and large-import staging before keys.",
+          "impact_tradeoff": "Fits the requested serverless stack, but all readers/projections must honour the same commit marker and investigation queries need explicit indexes."
+        },
+        {
+          "id": "B",
+          "label": "Relational ledger with AWS serverless services around it",
+          "recommended": false,
+          "approach": "Keep S3, Lambda and the same draft/approval/write-service ownership, but compare a managed relational ledger for financial transactions and query-intensive audit. Select it only after its AWS cost and connectivity fit are accepted.",
+          "impact_tradeoff": "Simplifies some multi-row/query invariants but adds connection, network and recurring-cost concerns. This explicitly changes the preferred storage direction and may fail the budget fit."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-08",
+          "CT-02",
+          "CT-03",
+          "FC-10"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+          "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html",
+          "https://support.microsoft.com/en-gb/excel/functions/xirr-function"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose the persistence direction and approve the domain/write boundary under existing MP-12.",
+          "Decide owner export formats and optional file interchange separately from MA retirement; no live coupling or cutover is implied."
+        ],
+        "before_build": [
+          "Specify financial precision, XIRR/root/FX/cash-flow conventions, duplicate identity, concurrent corrections, atomic audit/outbox and import visibility including beyond DynamoDB transaction limits."
+        ],
+        "before_activation": [
+          "Run approved crash/replay/restore proofs and reconcile staged or orphaned objects before real ledger data is accepted."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-03",
+      "title": "Durable workflow orchestration",
+      "question": "Where should long-lived import, training, approval and recovery workflow state be defined?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-02"
+      ],
+      "gap_ids": [
+        "PL-05",
+        "PL-06",
+        "CT-02",
+        "CT-14"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Step Functions Standard (Recommended)",
+          "recommended": true,
+          "approach": "Use a small set of explicit cross-service state machines for import and train/evaluate/approve flows; SQS buffers work and Scheduler provides clocks. Store opaque evidence references in workflow state.",
+          "impact_tradeoff": "Matches visual/admin investigation and native SageMaker joins; state-transition/history charges and state-machine contracts need costing."
+        },
+        {
+          "id": "B",
+          "label": "Lambda Durable Functions",
+          "recommended": false,
+          "approach": "Use checkpointed Python workflow code with durable steps/waits and typed continuation references. Keep queue, idempotency and external ambiguity contracts equivalent.",
+          "impact_tradeoff": "Keeps orchestration beside business logic, but runtime/container/SDK/region fit, replay discipline and inspection experience need explicit evidence."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-05",
+          "PL-06",
+          "CT-02",
+          "CT-14"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html",
+          "https://docs.aws.amazon.com/prescriptive-guidance/latest/lambda-event-filtering-partial-batch-responses-for-sqs/best-practices-partial-batch-responses.html",
+          "https://docs.aws.amazon.com/scheduler/latest/UserGuide/configuring-schedule-dlq.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/with-step-functions.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+          "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Select one primary orchestrator and agree accepted/pending/approved/executing/failed/reconcile-required/cancelled state meanings."
+        ],
+        "before_build": [
+          "Approve retries, leases, ordering, scheduler-versus-worker DLQs, side-effect ambiguity, stale approvals, cancellation and retention. Verify packaging support rather than equating managed-runtime listings with all container support."
+        ],
+        "before_activation": [
+          "Exercise duplicate delivery, crash boundaries, expired approvals and denied cross-environment replay; no exactly-once external-call claim."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-04",
+      "title": "ML training and serving execution",
+      "question": "Which bounded AWS execution approach should carry the same scientific protocol?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-01",
+        "ARC-03"
+      ],
+      "gap_ids": [
+        "PL-07",
+        "FC-05",
+        "FC-09"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Selective SageMaker training, portable serving (Recommended)",
+          "recommended": true,
+          "approach": "Use capped on-demand CPU SageMaker candidate training/evaluation where its managed evidence is useful; export approved artefacts for Lambda inference and store daily forecast results. Keep no always-on endpoint by default.",
+          "impact_tradeoff": "Follows the requested SageMaker direction while limiting idle cost; container/job setup and artifact compatibility still need proof."
+        },
+        {
+          "id": "B",
+          "label": "Bounded portable AWS training jobs",
+          "recommended": false,
+          "approach": "Use reproducible Lambda jobs while within resource limits and a bounded AWS container job when they are exceeded; keep artefact registry/evidence in the same contracts. Revisit SageMaker only when its operational benefit is demonstrated.",
+          "impact_tradeoff": "Can reduce service surface for a small dataset, but the project must own more job lifecycle and experiment-evidence plumbing."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-07",
+          "FC-05",
+          "FC-09"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/sagemaker/latest/dg/hosting-faqs.html",
+          "https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints.html",
+          "https://otexts.com/fpp3/toolbox.html",
+          "https://scikit-learn.org/stable/modules/calibration.html",
+          "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose the execution direction and separate training, calibration, inference and serving responsibilities."
+        ],
+        "before_build": [
+          "Approve job caps/cadence, artifact format, model/data/version record, resource envelopes and workflow cancellation/recovery; keep exact model counts evidence-based."
+        ],
+        "before_activation": [
+          "Benchmark representative approved workloads and full cost. If Serverless Inference is considered, explicitly handle its VPC/network-isolation/data-capture/Model-Monitor exclusions."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-05",
+      "title": "Forecast experiments, probability calibration and recommendations",
+      "question": "How broadly should the first scientific qualification programme search for an edge?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-01",
+        "ARC-02",
+        "ARC-04"
+      ],
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-16",
+        "CT-15"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Baselines first, bounded challengers (Recommended)",
+          "recommended": true,
+          "approach": "Freeze task/horizon/known-at/outcome contracts first. Establish rules, historical/risk and simple linear/logistic baselines, then qualify a bounded gradient-boosted/quantile challenger and individually justified news/pattern/analog factors.",
+          "impact_tradeoff": "Gives clearer incremental-value and leakage evidence within the budget; advanced modules may stay in shadow or unavailable longer while outcomes mature."
+        },
+        {
+          "id": "B",
+          "label": "Qualify the wider feature/model set together",
+          "recommended": false,
+          "approach": "Evaluate regime, risk, analog/event, boosted/quantile and bounded LLM-derived/pattern feature candidates in the initial programme using a predeclared search budget and identical strict temporal validation.",
+          "impact_tradeoff": "May discover useful interactions earlier, but increases data needs, selection bias controls, experiment cost and the explanation burden."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "FC-02",
+          "FC-04",
+          "FC-05",
+          "FC-06",
+          "FC-07",
+          "FC-08",
+          "FC-09",
+          "FC-11",
+          "FC-12",
+          "FC-13",
+          "FC-14",
+          "FC-16",
+          "CT-15"
+        ],
+        "primary_urls": [
+          "https://otexts.com/fpp3/toolbox.html",
+          "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+          "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+          "https://scikit-learn.org/stable/modules/calibration.html",
+          "https://jmlr.org/papers/v25/22-1218.html",
+          "https://www.nber.org/papers/w10483",
+          "https://www.nber.org/papers/w11468",
+          "https://otexts.com/fpp3/judgmental.html",
+          "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+          "https://twelvedata.com/terms",
+          "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+          "https://inspect.aisi.org.uk/scoring.html"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose experiment breadth; approve target/interval/risk meanings and the distinction between rule strength, calibrated probability, preference ranking and scenario. Keep agreed horizons and confirmed 35/40/25 ranking weights unchanged."
+        ],
+        "before_build": [
+          "Approve horizon-specific folds/purge, data vintages, benchmark/cash-flow/FX conventions, calibration/proper losses, ablations, multiple-testing/search limits, sparse evidence and action eligibility. No new threshold is implied by either option."
+        ],
+        "before_activation": [
+          "Use mature independent outcomes and prospective shadow where historical contamination cannot be bounded; present evidence for owner model promotion. Define any safety-disable/rollback authority separately."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-06",
+      "title": "Anthropic route, memory, cache and batch boundaries",
+      "question": "How should Claude responsibilities be packaged while retaining the agreed direct SDK loop?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "gap_ids": [
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-12",
+        "CT-15",
+        "FC-13"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Shared bounded runner with scoped task routes (Recommended)",
+          "recommended": true,
+          "approach": "Use one typed Anthropic client-runner library with a small evaluated task-route catalogue and per-route context/tool/cost/eval policy. Keep deterministic analyst/grader/budget/ops responsibilities explicit; use Haiku/Sonnet classes only where justified.",
+          "impact_tradeoff": "Reduces duplicated loop/policy code, but route isolation, tool narrowing and memory scope must be tested carefully."
+        },
+        {
+          "id": "B",
+          "label": "Separate task workers using the same runner library",
+          "recommended": false,
+          "approach": "Package research/extraction/explanation routes into independent Lambda workers with distinct IAM and queues, while reusing the same SDK/policy/evidence library and model-class evaluation.",
+          "impact_tradeoff": "Provides stronger deployment/permission separation, but adds queue, configuration, monitoring and release joins for a personal app."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-02",
+          "PL-03",
+          "CT-07",
+          "CT-08",
+          "CT-09",
+          "CT-12",
+          "CT-15",
+          "FC-13"
+        ],
+        "primary_urls": [
+          "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+          "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+          "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+          "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+          "https://inspect.aisi.org.uk/scoring.html",
+          "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+          "https://twelvedata.com/terms",
+          "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+          "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Approve the role/route catalogue and public/private outbound-context boundary; nine logical responsibilities do not become nine LLMs by default."
+        ],
+        "before_build": [
+          "Pin evaluated models/prompts/tools/effort, claim-grounding and fail-closed policy. Specify sourced/tainted/revisable memory, cache eligibility/economics and deadline-aware batch item reconciliation."
+        ],
+        "before_activation": [
+          "Verify permitted provider handling and actual credit. Immediate alerts and fresh 07:30 briefing delivery must not depend on a newly submitted batch; no automatic paid fallback or cache warming."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-07",
+      "title": "Identity, session recovery and action-bound step-up",
+      "question": "Which server-verifiable fresh-authentication path should protect sensitive owner actions?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-02",
+        "ARC-06"
+      ],
+      "gap_ids": [
+        "PL-09",
+        "CT-01",
+        "CT-02",
+        "CT-17"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Cognito assurance-based step-up where supported (Recommended)",
+          "recommended": true,
+          "approach": "Design sensitive actions around Cognito server-verified authentication freshness/assurance claims and an action-bound challenge, subject to current plan/region/rollout support. Use an explicitly verified fresh-sign-in path when that assurance capability is unavailable.",
+          "impact_tradeoff": "Can give a clearer assurance contract, but actual feature availability and Apple/Google/passkey behaviour must be validated before the UX promises it."
+        },
+        {
+          "id": "B",
+          "label": "Fresh managed sign-in for each protected action class",
+          "recommended": false,
+          "approach": "Start with an explicit Cognito managed-login reauthentication sequence, verified server-side and bound to the exact action/environment/payload/expiry; add richer assurance-level policy later.",
+          "impact_tradeoff": "Simpler initial feature dependency, but may require more sign-in interactions and still needs proof of freshness rather than token refresh alone."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-09",
+          "CT-01",
+          "CT-02",
+          "CT-17"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose the protected-action mechanism under MP-11 and approve sensitive-action classes, verified account linking and recovery journeys. Apple, Google, passkeys and the agreed recovery redundancy remain required in both options."
+        ],
+        "before_build": [
+          "Define cookie/CSRF versus native PKCE/secure-storage boundaries, account linking by verified control, session/device revocation and approval payload/version binding. Local biometric unlock alone grants no server authority."
+        ],
+        "before_activation": [
+          "Verify actual Cognito feature compatibility and exercise lost-device, final-method unlink, stale approval, revoked session and cross-environment token cases."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-08",
+      "title": "Admin scope, audit integrity, retention and recovery",
+      "question": "How much administration depth should be specified for the first UX baseline?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-02",
+        "ARC-03",
+        "ARC-07"
+      ],
+      "gap_ids": [
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-14",
+        "CT-16",
+        "CT-18",
+        "PL-12"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "All admin domains with a defined launch minimum (Recommended)",
+          "recommended": true,
+          "approach": "Specify Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery and Identity/Devices now. Within each, identify required launch controls and later investigation depth; preserve full traceability from the first useful layer.",
+          "impact_tradeoff": "Makes the whole structure explicit before UX while keeping the initial screen/action set bounded. Detailed later controls remain tracked rather than silently dropped."
+        },
+        {
+          "id": "B",
+          "label": "Full investigation and administration UX before first build",
+          "recommended": false,
+          "approach": "Design all identified admin investigation, comparison, recovery and configuration workflows as part of the initial complete UX baseline, then phase their implementation.",
+          "impact_tradeoff": "Provides more end-to-end interaction detail up front, but lengthens UX preparation and requires resolving more policies before product work can start."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "CT-03",
+          "CT-04",
+          "CT-05",
+          "CT-14",
+          "CT-16",
+          "CT-18",
+          "PL-12"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html",
+          "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+          "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://inspect.aisi.org.uk/scoring.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html",
+          "https://aws.amazon.com/cloudwatch/pricing/"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Approve domain/navigation/action boundaries, the privileged threat model and minimal protected evidence. Keep confirmed 24-month renewable original archive, owner deletion, telemetry retention and monthly/change-triggered exercises unchanged."
+        ],
+        "before_build": [
+          "Resolve record-class retention/deletion, S3 versions/derivatives/provider copies/training data/labels/backups, restore tombstones, audit integrity claims, RPO/RTO, replay authority and separate financial-versus-operational alert classes."
+        ],
+        "before_activation": [
+          "Demonstrate isolated restore, reapplication of deletions, lineage integrity and denied recovery actions; verify push permission/channel behaviour and approved critical quiet-hour exceptions."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-09",
+      "title": "Guardrails and evaluation harness",
+      "question": "Which harness should organise the same required safety, regression and capability evidence?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-05",
+        "ARC-06",
+        "ARC-07",
+        "ARC-08"
+      ],
+      "gap_ids": [
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "FC-13",
+        "PL-11"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Inspect AI with typed deterministic checks (Recommended)",
+          "recommended": true,
+          "approach": "Use an Inspect AI evaluation harness for tagged cases, transcripts and deterministic/model scoring, integrated with offline replays and the MP manifests. Keep runtime guardrails in application policy code, independent of the evaluation harness.",
+          "impact_tradeoff": "Reuses established evaluation structure and rescore workflows, but adds a dependency and requires careful privacy, budget and adapter contracts."
+        },
+        {
+          "id": "B",
+          "label": "Project-owned pytest-based evaluation harness",
+          "recommended": false,
+          "approach": "Use typed test/replay fixtures and custom result records in the existing Python test ecosystem; implement model-judge and replay/scoring integrations explicitly.",
+          "impact_tradeoff": "Keeps the dependency surface smaller, but MP must maintain equivalent case taxonomy, rescoring, trial aggregation, provenance and report tooling."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "CT-07",
+          "CT-08",
+          "CT-09",
+          "CT-10",
+          "CT-11",
+          "CT-12",
+          "FC-13",
+          "PL-11"
+        ],
+        "primary_urls": [
+          "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+          "https://inspect.aisi.org.uk/scoring.html",
+          "https://inspect.aisi.org.uk/scoring-workflow.html",
+          "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+          "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+          "https://twelvedata.com/terms",
+          "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+          "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+          "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Select the harness and approve failure taxonomy, runtime policy boundaries and required unknown/refused/incomplete UI states."
+        ],
+        "before_build": [
+          "Specify change-triggered offline T0, bounded affected-route live T1 and model/release qualification T2; choose trial counts, failure limits and judge eligibility from risk and budget rather than importing MA numbers. Human labels/uncertainty and incident-to-regression handling are explicit; predictive ML evaluation remains separate."
+        ],
+        "before_activation": [
+          "Run live evaluations only under separately approved spend; budget exhaustion or missing evidence is incomplete, never green. Calibrated judges remain advisory until the agreed held-out evidence supports their role."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-10",
+      "title": "Client rendering and shared contracts",
+      "question": "Which web rendering boundary should the UX specifications assume?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-02",
+        "ARC-07",
+        "ARC-08",
+        "ARC-09"
+      ],
+      "gap_ids": [
+        "PL-04",
+        "PL-14",
+        "FC-16",
+        "CT-16",
+        "CT-17",
+        "CT-18"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Static SvelteKit PWA plus authenticated API (Recommended)",
+          "recommended": true,
+          "approach": "Use a static SvelteKit shell on private S3/CloudFront and explicit authenticated API/session contracts. Keep Swift/SwiftUI surfaces and native cache/device responsibilities within the agreed RN navigation/typed-bridge shell.",
+          "impact_tradeoff": "Fits the low-idle-cost plan and clear backend boundary, but private page data, offline handling and session checks must be designed explicitly rather than assumed server-rendered."
+        },
+        {
+          "id": "B",
+          "label": "SvelteKit server rendering on an AWS runtime",
+          "recommended": false,
+          "approach": "Add an AWS-hosted SvelteKit server for approved server-rendered/session use cases while retaining FastAPI as the domain API and the same Swift/RN ownership.",
+          "impact_tradeoff": "Can support server-side rendering and session flows directly, but adds a runtime, deployment/security joins and cost to justify."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-04",
+          "PL-14",
+          "FC-16",
+          "CT-16",
+          "CT-17",
+          "CT-18"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html",
+          "https://svelte.dev/docs/kit/adapter-static",
+          "https://otexts.com/fpp3/toolbox.html",
+          "https://otexts.com/fpp3/judgmental.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://inspect.aisi.org.uk/scoring.html",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Select rendering mode and freeze typed API/event/action/error/proof contracts plus supported web/Apple device capabilities, including a precise interpretation of Duo. Both options retain SvelteKit3 and Swift/SwiftUI+RN as requested."
+        ],
+        "before_build": [
+          "Define offline privacy/clearance, stale/unavailable/in-practice states, resumable SSE/auth refresh, service-worker/app updates, push and native bridge versioning. Separate shared contracts from separate web/native implementation stories."
+        ],
+        "before_activation": [
+          "Verify actual browser/OS push/offline/secure-storage and accessibility behaviour on supported devices; the existing React architecture Site remains a separate documentation artifact."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-11",
+      "title": "Environment isolation, region, compatibility and whole-system recost",
+      "question": "Which environment-isolation direction should the final deployment comparison assume?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-03",
+        "ARC-04",
+        "ARC-06",
+        "ARC-07",
+        "ARC-09",
+        "ARC-10"
+      ],
+      "gap_ids": [
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "CT-06",
+        "CT-13",
+        "FC-01"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "One account with strictly separated dev/prod resources (Recommended)",
+          "recommended": true,
+          "approach": "Compare suitable regions and start with distinct environment resources/identities/IAM/write authority in one account; customer-VPC-unattached external API Lambdas are the initial candidate. Optional private jobs get a separately justified network scope.",
+          "impact_tradeoff": "Reduces account administration and shared-service duplication, but same-account privileged blast radius and shared quotas require explicit controls and acceptance."
+        },
+        {
+          "id": "B",
+          "label": "Separate dev/prod AWS accounts",
+          "recommended": false,
+          "approach": "Use separate accounts and environment-scoped OIDC deployment roles, with consolidated cost visibility and the same least-complex initial networking direction.",
+          "impact_tradeoff": "Stronger account-level isolation, but adds organisational setup, cross-account operations and potentially duplicated service/free-tier/cost assumptions to check."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-10",
+          "PL-11",
+          "PL-12",
+          "PL-13",
+          "CT-06",
+          "CT-13",
+          "FC-01"
+        ],
+        "primary_urls": [
+          "https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html",
+          "https://docs.github.com/en/actions/concepts/security/openid-connect",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html",
+          "https://aws.amazon.com/cloudwatch/pricing/",
+          "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+          "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/",
+          "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+          "https://twelvedata.com/pricing",
+          "https://twelvedata.com/terms",
+          "https://github.com/ranaroussi/yfinance"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Choose the isolation direction and documented network boundaries. Keep cheapest suitable region selection evidence-based; do not inherit MA account IDs, domains, CIDRs, proxies, IaC or permissions."
+        ],
+        "before_build": [
+          "Approve the exact compatible runtime/SDK/adapter/framework/architecture matrix and one IaC tool, immutable artifact promotion, vulnerability exceptions, rollback and offline/live gate selection. Reprice baseline/stress including active stream hours, reads, telemetry cardinality, trials, backups and collectors."
+        ],
+        "before_activation": [
+          "Verify actual region availability, service quotas, pricing, entitlements and credit scope; obtain deployment authority separately. If any choice fails compatibility or the £70 operating envelope plus £30 reserve, reopen the affected decision before proceeding."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    },
+    {
+      "id": "ARC-12",
+      "title": "Architecture and phase-document freeze",
+      "question": "Which canonical documentation structure should be the approved handoff into UX?",
+      "status": "owner_answer_pending",
+      "owner_answer": null,
+      "depends_on": [
+        "ARC-01",
+        "ARC-02",
+        "ARC-03",
+        "ARC-04",
+        "ARC-05",
+        "ARC-06",
+        "ARC-07",
+        "ARC-08",
+        "ARC-09",
+        "ARC-10",
+        "ARC-11"
+      ],
+      "gap_ids": [
+        "PL-01",
+        "FC-16",
+        "CT-16",
+        "PL-11",
+        "CD-01",
+        "CD-02",
+        "IR-01"
+      ],
+      "options": [
+        {
+          "id": "A",
+          "label": "Architecture areas plus linked phase pages and story catalogue (Recommended)",
+          "recommended": true,
+          "approach": "Follow MA's useful organisation: one architecture map; detailed domain/technical area specs and journeys; a decision/contract register; one phase page per MP layer; and individual stories linked to sources, contracts, cases and planned UX states.",
+          "impact_tradeoff": "Keeps reusable architecture decisions in one place while making each phase complete and navigable. Links and versioned publication receipts need disciplined maintenance."
+        },
+        {
+          "id": "B",
+          "label": "Phase-contained specifications with a shared contract register",
+          "recommended": false,
+          "approach": "Make each MP phase page the main reading unit containing its relevant architecture, journey and acceptance detail; keep cross-phase contracts/ADRs central and link repeated concepts rather than copy them.",
+          "impact_tradeoff": "Provides a phase-by-phase reading path, but cross-cutting admin/security/eval requirements need especially careful ownership and cross-phase consistency checks."
+        }
+      ],
+      "evidence": {
+        "gap_register": "lanes/*.json",
+        "gap_ids": [
+          "PL-01",
+          "FC-16",
+          "CT-16",
+          "PL-11"
+        ],
+        "primary_urls": [
+          "https://otexts.com/fpp3/toolbox.html",
+          "https://otexts.com/fpp3/judgmental.html",
+          "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+          "https://inspect.aisi.org.uk/scoring.html",
+          "https://docs.github.com/en/actions/concepts/security/openid-connect"
+        ]
+      },
+      "gates": {
+        "before_ux": [
+          "Approve one phase/dependency map and document ownership/naming; every gap has a disposition, owner and explicit deferred activation condition. Architecture decisions are either answered or clearly block the freeze. No UX starts merely because this packet exists.",
+          "Explicitly decide optional first-party UI personalisation scope; default to stable owner-configurable ordering. No MA autonomous layout or alert-policy learning is silently imported."
+        ],
+        "before_build": [
+          "Create/read back approved phasewise MP Confluence pages and actual Jira stories with acceptance criteria, source/contract/test/UX links, dependencies and readiness labels. Inspect referenced rich visuals before accepting them as UX specifications. Preserve historical docs and superseded IDs."
+        ],
+        "before_activation": [
+          "After separately approved complete UX/prototype and all layer/release evidence, obtain implementation and later deployment/spend authority. Documentation, Jira Done and diagram publication alone never certify a working system."
+        ]
+      },
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+    }
+  ],
+  "limits": [
+    "These twelve grouped decisions do not replace the detailed gap register or turn unsupplied thresholds into defaults.",
+    "Architecture selection and empirical proof are separate gates; real data rights can remain activation gates only when the pre-UX design honestly supports the resulting unavailable states.",
+    "No option is selected automatically. An owner answer changes a direction only; unresolved parameters and acceptance evidence must still be completed.",
+    "No paid research, live evaluation, cloud mutation, application implementation or publication is run by this file."
+  ]
+}

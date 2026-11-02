@@ -1,0 +1,27 @@
+{
+  "id": "1442042",
+  "title": "🗂️ §4 · The holdings registry and the data model",
+  "version": 15,
+  "snapshotToken": "v:15",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "44b36901da0261100d09a6883f604c2f1a37011b58dd0e0ae6394d45b438e2f8",
+  "html_characters": 162477,
+  "headings": [
+    "🖼️ See it",
+    "4. State: the holdings registry",
+    "4.1 Entities (DynamoDB, single table)",
+    "4.2 Adding a holding, from the chat",
+    "4.3 Kind profiles",
+    "4.4 Worked example: today's holdings",
+    "4.6 The audit log",
+    "4.7 Money in any currency, checked against the holding (MA-156)",
+    "4.8 The dynamic structure (kinds, records, events, views)",
+    "🧩 The stories that build it",
+    "🔗 The explainer pages",
+    "MyPaisa Architecture v4"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442042",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

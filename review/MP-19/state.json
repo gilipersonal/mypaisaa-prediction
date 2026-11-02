@@ -1,0 +1,20 @@
+{
+  "issue": "MP-19",
+  "round_count": 0,
+  "status": "maker_gates_complete_review_not_run",
+  "review_approval": "not_requested_yet",
+  "scope": "MA concept reconciliation, research, documentation/phase/story structure, current-rule corrections and Jira evidence; prepared Confluence bodies only",
+  "lanes_proposed": [
+    "Quantitative/data/source rights and scientific acceptance",
+    "AWS/Anthropic/security/operations/evaluation contracts",
+    "Source/story/Jira/publication trace and approval boundaries"
+  ],
+  "gates": [
+    "MP-19 offline evidence/reference/phase/publication validator",
+    "Ruff backend and Python F checks",
+    "Backend starter tests",
+    "Repository synthetic-fixture/tooling unit tests"
+  ],
+  "review_regression": "real MP-19 ledger not run; separate round approval required",
+  "implementation_authorised": false
+}

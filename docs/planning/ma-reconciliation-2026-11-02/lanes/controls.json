@@ -1,0 +1,1061 @@
+{
+  "issue": "MP-19",
+  "as_of": "2026-11-02",
+  "status": "Maker-authored researched reconciliation; not independently reviewed; no implementation",
+  "source_repository_commit": "387fc38bdc99d77460b6b03d90e2637241e79d1e",
+  "sources": [
+    {
+      "id": "1540178",
+      "title": "Guardrails and evals: how the agents are guarded and tested",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540178",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Code-enforced permissions and confirmation, quarantined extraction, figure checks",
+        "Manifest coverage, T0/T1/T2, outcome-first scoring, human-calibrated judges"
+      ],
+      "body_sha256": "e1f0e373ff82302d5351a0435ab524df9c7536f886e0cf5e6c8fb083735ad019",
+      "body_characters": 113353,
+      "headings": [
+        "🎞️ The diagrams",
+        "23.1 The rules",
+        "23.2 Guardrails, strongest first",
+        "23.3 Offline evals: gated on change, never on a calendar",
+        "23.4 Online evals: every run checked by code, a few judged",
+        "23.5 Calibration and growth",
+        "23.6 What runs on a timer, and why",
+        "23.7 Cost",
+        "23.8 The stories",
+        "🧩 The stories"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1540178.json"
+    },
+    {
+      "id": "1671230",
+      "title": "🔭 §10 · Observability: one trace from the door to the model",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671230",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "RunRecord as protected operational evidence, cross-boundary trace/correlation",
+        "Model/tool spans, metrics, alarms, client evidence, privacy/retention/cost"
+      ],
+      "body_sha256": "6f22e0f2bdd3975c73816381fd1fe17c43a9488350acb8b69dbdcfb15fe5e75b",
+      "body_characters": 101765,
+      "headings": [
+        "🎬 See it move",
+        "10. Observability: what the agent did, what it cost, and one trace from the door to the model",
+        "10.1 The source of truth: the RunRecord",
+        "10.2 One trace, end to end",
+        "10.3 Instrumentation: OpenTelemetry on every Lambda",
+        "10.4 Model and tool spans: what Claude did, in the open conventions",
+        "10.5 Metrics, the dashboard and the saved queries",
+        "10.6 Alarms, and who hears them",
+        "10.7 The rest of AWS",
+        "10.8 The agent team (phase 18)",
+        "10.9 Privacy, retention and cost",
+        "10.10 The stories",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1671230.json"
+    },
+    {
+      "id": "1769473",
+      "title": "👥 §20 · The agent team",
+      "version": 14,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769473",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Logical agent responsibilities, versioned settings and owner ChangeRequest desk",
+        "Grading/calibration, bounded self-healing, team budgets, learning boundaries"
+      ],
+      "body_sha256": "667eb8c4eb67a769c863d6ae31a443d670fc086ba8c1c9aef8b950d812cdaa76",
+      "body_characters": 90462,
+      "headings": [
+        "🎬 See it move",
+        "20. The agent team: configured, approved, self-healing, self-learning (phase 18, later)",
+        "20.1 The agents",
+        "20.2 Settings: one store for every behaviour (E1, MA-129)",
+        "20.3 The admin desk: the owner&#39;s chat and the Admin center, the admin only (E2, MA-130)",
+        "20.4 The learning loop: grade daily, calibrate daily, change rules on evidence (E4 to E6, MA-132 to MA-134)",
+        "20.5 Self-healing (E7, MA-135)",
+        "20.6 Where the data lives",
+        "20.7 Budgets for the team (E8, MA-136)",
+        "20.8 Order",
+        "20.9 The household learns too: its forecasts graded each month, its needs learned from use (E9, E10; MA-276, MA-277)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1769473.json"
+    },
+    {
+      "id": "1442062",
+      "title": "💷 §15 · Cost, the Claude budget, caps and alerts",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442062",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Usage metering, tiered degradation and owner-configurable limits",
+        "Alert routing and recovery, provider-credit assumptions need MP replacement"
+      ],
+      "body_sha256": "fe77c69c627d072375c83b4c07c4af49dd098927b08a5ee4cbed28299ca1b0cb",
+      "body_characters": 81186,
+      "headings": [
+        "🖼️ See it",
+        "15. Cost (monthly, at $1.30 to £1)",
+        "15.1 The Claude budget and its ceiling",
+        "15.2 Caps and alerts, set by the admin in the Admin center (MA-137)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1442062.json"
+    },
+    {
+      "id": "1540282",
+      "title": "🔐 §4.5 · Identity, members and views",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540282",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Identity federation/passkeys, action-bound server-verified fresh authentication",
+        "Sessions/device revocation, linking/recovery, household roles must be adapted to personal MP"
+      ],
+      "body_sha256": "1d056edbdb9fe0b68e884d457f2e055ef0d7152f7d7b00babfe0cd1c6adf5808",
+      "body_characters": 55847,
+      "headings": [
+        "🎬 See it move",
+        "4.5 Identity, members and views",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Agent Journey"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1540282.json"
+    },
+    {
+      "id": "1147065",
+      "title": "🛡️ §14 · Security and privacy",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147065",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Least privilege, privacy, encrypted stores, untrusted source rendering",
+        "Security and incident cases as release evidence"
+      ],
+      "body_sha256": "34f5da5c107f8a40614b31fd3f125ce145f8ec2f51620ebcc52ea5f45f29e1fc",
+      "body_characters": 39521,
+      "headings": [
+        "🖼️ See it",
+        "14. Security and privacy",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1147065.json"
+    },
+    {
+      "id": "1736745",
+      "title": "🛠️ Flows · Running it: the Admin center, failures, the ladder and the month",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736745",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Owner-only Admin journey, server second check and audit",
+        "Failed-work replay, bounded spend ladder and contribution journey"
+      ],
+      "body_sha256": "938b9d08a1208db447b0a6658fc3acc7c2b7fe9e834ff2b7acda7b050e24e8ee",
+      "body_characters": 64693,
+      "headings": [
+        "11 · The Admin center, owner only",
+        "🛤️ The path",
+        "👀 What the owner sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "12 · When something fails",
+        "📌 The three queues",
+        "mypaisa-&lt;env&gt;-updates.fifo",
+        "mypaisa-&lt;env&gt;-outbox.fifo",
+        "mypaisa-&lt;env&gt;-work",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "13 · The Claude spend ladder in practice",
+        "📌 The steps",
+        "Normal",
+        "A heads-up",
+        "Savers",
+        "Essentials only",
+        "Templates only",
+        "🛤️ The path",
+        "📌 The guards under the ladder",
+        "👀 What the members see",
+        "🧩 Built by",
+        "14 · The first of the month: a contribution&#39;s check-in",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1736745.json"
+    },
+    {
+      "id": "1704057",
+      "title": "🏠 Inside MyPaisa: the admin's journey in nine steps",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704057",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Nine-step owner journey connecting onboarding, holdings, analytics and admin",
+        "Plain-language explanation and progressive evidence drill-down"
+      ],
+      "body_sha256": "4c57c22596b9bfc704ce7cafd72ec65f181eaf90d37490aa104afb784020c156",
+      "body_characters": 38521,
+      "headings": [
+        "🤝 The promises",
+        "The AI talks. Plain code does the maths. You approve every change.",
+        "Claude never makes a number",
+        "It cannot trade",
+        "Plain first, detail one tap away",
+        "New things only in the chat",
+        "🏢 The cast",
+        "Think of MyPaisa as a small, well-run office",
+        "You, the admin",
+        "The doors",
+        "The front desk",
+        "The in-tray and out-tray",
+        "The concierge",
+        "The calculator",
+        "The ledger",
+        "The filing cabinet",
+        "The back office",
+        "The postman",
+        "The live line",
+        "Claude",
+        "🚶 Nine steps, from the first screen to the chatbot at work",
+        "1 · Open the app and sign in",
+        "Behind the screen",
+        "2 · Set up in three questions",
+        "Behind the screen",
+        "3 · Invite the family",
+        "Behind the screen",
+        "4 · Add something by just saying it",
+        "Behind the screen",
+        "5 · Send a file or a screenshot",
+        "Behind the screen",
+        "6 · See the whole picture, and fix a figure where it shows",
+        "Behind the screen",
+        "7 · MyPaisa asks you, so you don&#39;t have to remember",
+        "Behind the screen",
+        "8 · Send a statement; the budget fills itself",
+        "Behind the screen",
+        "9 · Ask anything: the chatbot at work",
+        "Behind the screen"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1704057.json"
+    },
+    {
+      "id": "1736725",
+      "title": "✉️ Inside MyPaisa: one message, the agent team, the safety nets and a day",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736725",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Message flow, specialist responsibilities and admin approval",
+        "Safety nets, daily operation and failure-state narrative"
+      ],
+      "body_sha256": "17f1d662509a50e1a430cc6b9ff0082473a3ca351d14bf6bacfa2838fd9d74d2",
+      "body_characters": 57884,
+      "headings": [
+        "✉️ Watch a message travel through MyPaisa",
+        "❓ When you ask a question: 12 steps",
+        "📄 When you send a file: 9 steps",
+        "🔔 When MyPaisa asks you: 7 steps",
+        "🧯 When something fails: 6 steps",
+        "👥 Later, one concierge becomes a team of nine, and you are its manager",
+        "Concierge",
+        "Data steward",
+        "News scout",
+        "Analyst",
+        "Forecaster",
+        "Grader and tuner",
+        "Ops warden",
+        "Budget keeper",
+        "Admin desk",
+        "An agent asks; you approve with your face",
+        "🛟 What stops it going wrong",
+        "Guarded in code, tested on every change",
+        "A spending ceiling for the AI, with a ladder",
+        "Nothing is lost, everything is retried",
+        "An audit line for every change, chained",
+        "Things no part of MyPaisa can do",
+        "🏘️ Two copies on AWS, and one careful way to change them",
+        "Dev: the practice copy",
+        "Prod: the family&#39;s copy",
+        "Written down, checked, approved",
+        "☀️ Mostly quiet, on time, and there when you ask"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1736725.json"
+    },
+    {
+      "id": "294962",
+      "title": "Phase 8 · Audit, search and the Admin center at every door",
+      "version": 25,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294962",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Phase-8 admin/audit exit demonstration and per-story linkage",
+        "Explicit unresolved design and alert-routing questions, not an approved MP UI"
+      ],
+      "body_sha256": "72f64fda24a34b3076df59f193a68089e345dc392c5d8094fd9a118b8bbb1701",
+      "body_characters": 45844,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/294962.json"
+    },
+    {
+      "id": "197293",
+      "title": "Phase 18 · The agent team: configured, approved, self-healing, self-learning",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197293",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Phase-18 team configuration, approval, measured-learning and recovery stories",
+        "Source phase structure, estimated dates and household assumptions are not MP commitments"
+      ],
+      "body_sha256": "a3a35e83a8025fa0a55c63ae9b7a148f1d4912e82a97c985b0d5765a52008604",
+      "body_characters": 42923,
+      "headings": [
+        "The web app",
+        "The iOS app"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/197293.json"
+    },
+    {
+      "id": "328059",
+      "title": "Screens · Activity, Audit and files",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328059",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Activity/Audit/files across web and Apple screens",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "body_sha256": "6c85fdda36041887dffe185f1181fa48aa13536942acd87b56f449fa02feb14d",
+      "body_characters": 10895,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/328059.json"
+    },
+    {
+      "id": "197333",
+      "title": "Screens · The Admin center",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197333",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Admin controls and fresh authentication across web/Apple",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "body_sha256": "e4d1ad79c991f50b32b78a193bd1c6669020235429b5ee1d71934e76f446410e",
+      "body_characters": 15315,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/197333.json"
+    },
+    {
+      "id": "295022",
+      "title": "Screens · Registering and check-ins",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/295022",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Register/import/check-in proposal and confirmation journeys",
+        "Input uncertainty, amend/cancel state and provenance"
+      ],
+      "body_sha256": "ae14ee4bced8d20f60cb42dd7d03f99ef2ef413beb467ecca06817000c720a59",
+      "body_characters": 33988,
+      "headings": [],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/295022.json"
+    },
+    {
+      "id": "1704077",
+      "title": "➕ Flows · Adding a holding and logging money",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704077",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Add a holding from evidence, validate and confirm",
+        "Changes audited with exact source and numerical parsing"
+      ],
+      "body_sha256": "79e5a1894336d39930e20b888994b91402e927645506bf72e576b7805995bd32",
+      "body_characters": 43239,
+      "headings": [
+        "03 · Adding a holding from a factsheet or a screenshot",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "04 · Logging money in plain words",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1704077.json"
+    },
+    {
+      "id": "1147105",
+      "title": "🔑 Flows · Joining and signing in",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147105",
+      "read_depth": "full_html_semantic_read",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ],
+      "concepts": [
+        "Sign-in and linking journeys, recovery and server second check",
+        "Provider/passkey branches and revoked/expired challenge cases"
+      ],
+      "body_sha256": "ae8ea3aa59d03a970c0fce17665552597811c9155e4eb64baa1f8a85deb32bc4",
+      "body_characters": 52398,
+      "headings": [
+        "01 · Joining by invite",
+        "🛤️ The path",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "02 · Signing in with Apple, Google or a passkey",
+        "🛤️ The paths",
+        "📌 The session, the same behind every door",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "raw_snapshot_path": "/private/tmp/mp19-source-cache/controls/1147105.json"
+    }
+  ],
+  "source_designs": [
+    {
+      "path": "docs/design/app-v1/Web v4 · Admin center.dc.html",
+      "sha256": "c87eda2f382fddb21062948d4ccdd196f91b8d55998fc59dfa2ec304c1d1050a",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/ios-v1/iPhone v4 · Admin center.dc.html",
+      "sha256": "2e73cda1469fa83a24f09e5500ced5d6da8c0ecdc51bad7ac234d0b8487feabf",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/app-v1/Web v4 · Audit, activity and files.dc.html",
+      "sha256": "f6d552abb978a70f1c483fbe83ce952177fc1bd494d3792094d666c8a0290440",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    },
+    {
+      "path": "docs/design/ios-v1/iPhone v4 · Audit, activity and files.dc.html",
+      "sha256": "01537437e6c0bcb1a20cc0cc75bc9bdb396bfee932afb56237e75612a84bb043",
+      "read_depth": "source_html_semantics_and_states",
+      "limitation": "No visual screenshot or animation review performed; MA layout/approved design is not imported as MP approval."
+    }
+  ],
+  "gaps": [
+    {
+      "id": "CT-01",
+      "title": "Define the owner-sensitive action and fresh-authentication policy",
+      "ma_concept": "MA second check and owner-only admin routes",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/product-requirements.md DEC-037 and audit-observability-requirements.md section3 specify managed sign-in and sensitive actions; exact assurance/challenge policy remains open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Keep the agreed Cognito managed sign-in. Propose recent server-verified authentication for record-affecting import confirmation, deletion, replay, credential linking/recovery, budget expansion and model promotion. Verify actual Cognito step-up availability and plan before deciding the mechanism; a local biometric unlock grants no server authority.",
+      "decision_needed": "Owner approves the sensitive-action matrix, freshness window, assurance requirements and recovery fallback.",
+      "acceptance_criteria": [
+        "Action matrix names read, propose, approve and execute permissions for every admin operation.",
+        "Server checks owner, environment, session status, assurance and authentication age immediately before execution.",
+        "Action challenge binds owner, environment, operation and exact target/payload hash; stale or reused proof fails.",
+        "Tests include local-biometric-only, forged client claim, refreshed-old authentication, cross-environment proof and unavailable step-up capability."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540282",
+        "1147105",
+        "197333"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html"
+      ]
+    },
+    {
+      "id": "CT-02",
+      "title": "Specify the approval and configuration-change state machine",
+      "ma_concept": "MA PendingAction and ChangeRequest with evidence, impact and second check",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-13 and AgentManifest; audit-observability-requirements.md sections2–3 describe confirmation but no common detailed approval contract.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use draft → validated → awaiting_owner → approved → executing → succeeded/failed/reconcile_required. Rejected, expired or cancelled proposals terminate without execution. Pin the exact proposal and expected prior config/ledger version; separate viewing a card, approving it and completing the operation.",
+      "decision_needed": "Approve proposal expiry, allowed bounded automatic adjustments, rollback policy and which operations require a second confirmation.",
+      "acceptance_criteria": [
+        "Approval evidence includes actor, target environment, prior/new version, payload hash, reason, affected forecasts, cost estimate and rollback plan.",
+        "Changed inputs or stale prior version invalidate approval and require a new proposal.",
+        "Concurrent approve/reject and duplicate execution produce at most one effective state transition.",
+        "An approval failure or timeout leaves no silent partial financial/config update."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1769473",
+        "1736745",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ]
+    },
+    {
+      "id": "CT-03",
+      "title": "Define durable business audit contracts and integrity claims",
+      "ma_concept": "MA immutable audit rows, source attachments and RunRecord joins",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections2–4 already gives detailed upload/change lineage; portfolio-import-spec.md defines ledger joins.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Separate durable financial/approval/source audit from expiring operational logs. Define atomic ledger/audit/outbox boundaries and detect missing/altered events. An append-only API is not by itself tamper-proof against privileged administrators.",
+      "decision_needed": "Approve required audit record classes, privileged threat model, integrity-check mechanism and evidence retention.",
+      "acceptance_criteria": [
+        "Every committed change links event/revision, original hash/version, actor, reason, confirmation and prior/superseding revision.",
+        "Injected failure between financial commit, audit and outbox cannot leave an unreported inconsistency.",
+        "Integrity exercises detect a removed or altered event and report coverage; gaps are not certified intact.",
+        "Source access, denied actions and administrative changes have appropriate privacy-safe evidence."
+      ],
+      "phase": "PH-01",
+      "source_ids": [
+        "328059",
+        "1704077",
+        "294962",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+      ]
+    },
+    {
+      "id": "CT-04",
+      "title": "Resolve retention, deletion and restored-copy policy",
+      "ma_concept": "MA originals/audit retention and protected evidence views",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections2,6 defines24-month renewable originals and operational14/30/90days, but remaining class matrix is open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Retain MP owner deletion rights rather than MA permanent-file assumptions. Specify S3 versions, parsed derivatives, caches, model-training datasets, evaluation labels, backups and provider batches independently. Restore must reapply deletion tombstones before data is made available.",
+      "decision_needed": "Approve record-class duration, backup expiry/deletion limits, retained minimal tombstone data and policy for models trained on deleted sources.",
+      "acceptance_criteria": [
+        "Deleting a versioned original checks/removes the intended versions rather than only a delete marker.",
+        "Portal reports requested/in_progress/completed/partially_failed with affected stores and unavoidable residual retention.",
+        "Restored data cannot silently resurrect deleted originals or excluded evaluation cases.",
+        "Retention extensions and any irreversible lock require explicit owner decisions."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1147065",
+        "328059",
+        "1671230",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html",
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention"
+      ]
+    },
+    {
+      "id": "CT-05",
+      "title": "Specify run lifecycle evidence that survives crashes",
+      "ma_concept": "MA per-function RunRecord with checks and Activity drill-down",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section4 and architecture-deep-dive.md monitoring describe correlations; terminal-only writes are insufficient for crashed workers.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Create accepted/started and terminal lifecycle evidence or equivalent durable job state, plus timeout reconciliation. Run summaries are not the only source for durable forecast and approval truth.",
+      "decision_needed": "Approve timeout/stuck-run thresholds, the run summary schema and protected content-versus-metadata policy.",
+      "acceptance_criteria": [
+        "Accepted jobs and started runs remain discoverable if a worker crashes before writing completion.",
+        "A reconciler distinguishes missing, timed_out, cancelled, partial and ambiguous_external_outcome.",
+        "Activity links the exact config/model/source versions, guard decisions, attempts and cost reservation.",
+        "Completion is never inferred solely from a successful queue acknowledgement or stream close."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1671230",
+        "1736725",
+        "1736745"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ]
+    },
+    {
+      "id": "CT-06",
+      "title": "Validate asynchronous trace joins and budgeted telemetry",
+      "ma_concept": "MA one door-to-model trace, full instrumentation and saved investigations",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections4–6 already rejects unproved automatic propagation and unsampled-is-free assumptions.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use stable business IDs as the durable join; adopt parent/child spans or span links according to asynchronous lifecycle and replay. Pin OTel convention/version and test every integration. Budget sampling, cardinality, queries and retention separately.",
+      "decision_needed": "Choose the minimum launch signal set, trace sampling strategy, correlation fields and measured observability allowance.",
+      "acceptance_criteria": [
+        "A synthetic UI→API→queue→worker→Anthropic/batch→storage→push example resolves through protected business IDs even after traces expire.",
+        "Replay gets a new attempt/run and linked trace, not the original successful span rewritten.",
+        "Trace headers are validated; client-provided baggage cannot inject identities, secrets or unbounded attributes.",
+        "Leak tests cover raw prompts, holdings amounts, filenames, signed URLs, account identifiers and model/tool arguments."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1671230",
+        "1736725"
+      ],
+      "research_urls": [
+        "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/",
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ]
+    },
+    {
+      "id": "CT-07",
+      "title": "Freeze a typed agent/tool capability manifest",
+      "ma_concept": "MA one manifest drives runtime policy and eval coverage",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md AgentManifest and CAP-14 capture the concept; no final tool catalogue/side-effect matrix exists.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Declare roles independently from LLM routes. Runtime policy checks tool, owner/environment scope, schema/ranges, side effect, current approval, repetition, remaining time/cost and untrusted-content state. Fail closed when policy is unavailable.",
+      "decision_needed": "Approve the v1 roles/tools, permitted read/draft actions, external research surface and numerical-service ownership.",
+      "acceptance_criteria": [
+        "No model prompt or agent message can grant a new tool, secret access, trade capability, budget or promotion authority.",
+        "Each entry maps to at least one negative safety case and useful capability/regression case.",
+        "Policy applies to every application-side tool invocation and rechecks permission before committing.",
+        "Provider-hosted tools are constrained at request admission because application middleware cannot intercept every internal action."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1769473"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-08",
+      "title": "Define quarantine and public/private research boundaries",
+      "ma_concept": "MA no-tool extractor and restrictions after untrusted text",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and audit requirements describe quarantine; detailed route/context and egress contracts are pending.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Treat PDFs, screenshots, merchant/issuer text, web results and agent notes as untrusted data. Use no-tool structured extraction and validate fields/provenance; keep public research requests free of holdings quantities/private documents. Carry taint through summaries and memory. Test residual misinformation even when exfiltration is blocked.",
+      "decision_needed": "Approve minimum outbound context by route, whether any optional classifier is justified and what happens when evidence is suspicious.",
+      "acceptance_criteria": [
+        "Poisoned PDF/image/OCR/news/tool-result cases cannot cause a prohibited tool, disclosure or record mutation.",
+        "Structured output does not automatically count as truthful; schema validity, source references and field plausibility are checked separately.",
+        "Outbound tool URLs/arguments are policy-controlled and sensitive context cannot enter public web research.",
+        "A screening refusal, timeout or no verdict is not an allow decision; safe extraction/abstention remains available."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1704077",
+        "295022"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks"
+      ]
+    },
+    {
+      "id": "CT-09",
+      "title": "Specify numerical and evidence grounding by claim type",
+      "ma_concept": "MA figure check, refusal and template fallback",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and PRD contextual-chat requirement retain numerical grounding; final claim schema is not defined.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Ground rendered financial claims in typed tools and exact snapshot/as-of/version references. Verify amount, currency/unit, sign, horizon and uncertainty label; matching a number somewhere in context is insufficient. Scientific probabilities and scenarios have separate eligibility checks.",
+      "decision_needed": "Approve allowed financial claim types, numeric tolerances, citation freshness and safe failure/fallback experience.",
+      "acceptance_criteria": [
+        "Contradicted/stale values, wrong currency/unit, invented probability and swapped horizons fail even when the number exists in another tool output.",
+        "Figures derived from multiple values are calculated by deterministic services with formula versions.",
+        "Every recommendation can open its exact evidence context without a new unsupported reconstruction.",
+        "Failed grounding abstains or uses an approved deterministic template within the budget; retries are bounded."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1736725"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-10",
+      "title": "Define MP T0/T1/T2 with coverage and incomplete outcomes",
+      "ma_concept": "MA path-triggered offline eval tiers and synthetic case manifest",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and testing section retain T0/T1/T2 at umbrella level; MP CI does not implement those product evals.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Propose T0 offline deterministic replays on relevant changes; T1 bounded live tests for affected agent/tool/prompt/SDK routes; T2 full affected qualification for model/routing/release changes. Select case/trial counts from failure risk and budget rather than copying MA3/5 trials or dollar caps. Keep ML temporal validation separate.",
+      "decision_needed": "Approve harness, v1 case inventory, coverage triggers, per-run/month limits and which unresolved failures block a release.",
+      "acceptance_criteria": [
+        "Case metadata links requirement, phase/story, agent/tool, threat or capability, fixture version and expected state invariants.",
+        "A changed tool without mapped tests blocks readiness; unsupported dynamic plug-ins cannot bypass coverage.",
+        "Budget exhaustion, missing model access, timeout and invalid fixtures report incomplete/error rather than pass.",
+        "Original answer outputs and appended scorer versions remain auditable, and no live API is called by ordinary unit tests."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "197293"
+      ],
+      "research_urls": [
+        "https://inspect.aisi.org.uk/scoring-workflow.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-11",
+      "title": "Calibrate judges using independent labels and uncertainty",
+      "ma_concept": "MA advisory judges, monthly owner calibration and labelled regression cases",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/product-requirements.md and forecasting-scope.md require human-calibrated judging but contain no approved eligibility protocol.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use a separate binary/ordinal rubric per failure mode plus unknown, independent held-out owner labels and confidence intervals for false positives/negatives. Report strata such as extraction, research, financial explanation and market. Remain advisory while evidence is insufficient.",
+      "decision_needed": "Approve severity-specific error tolerance, sampling mix, recalibration cadence and sufficient evidence; MA50pass/50fail and0.8 are reference values only.",
+      "acceptance_criteria": [
+        "Judge calibration labels are separate from judge prompt development and repeat examples cannot inflate sample count.",
+        "Low sample size or a changed judge/model/rubric resets eligibility or triggers requalification.",
+        "Sample both suspicious and apparently successful runs, record selection probabilities and avoid presenting oversampled-failure rates as population rates.",
+        "Judge disagreement routes to owner review; an LLM judge cannot certify numerical truth or model predictive performance."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1769473"
+      ],
+      "research_urls": [
+        "https://inspect.aisi.org.uk/scoring-workflow.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-12",
+      "title": "Resolve evaluation privacy and batch-result evidence",
+      "ma_concept": "MA AWS-held eval transcripts and overnight Haiku batch judges",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section6 separates provider retention; exact live-transcript eligibility is open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Start with synthetic/redacted fixtures. Actual portfolio transcripts need a separately documented minimum payload and provider feature/retention assessment. Asynchronous judging is nonurgent, item-versioned and reconciled; archive only necessary protected evidence, not indiscriminate full prompts.",
+      "decision_needed": "Approve real-data evaluation eligibility, provider batch use, transcript/label retention and deletion semantics.",
+      "acceptance_criteria": [
+        "Register which data leaves AWS for each model API feature, purpose and account arrangement.",
+        "Partial/expired/cancelled batch items stay distinct from successful judge coverage and retain original run references.",
+        "Late results cannot overwrite newer adjudication, labels or decisions.",
+        "Synthetic regression cases preserve failure shape without retaining real account details; owner confirms release to the case corpus."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention"
+      ]
+    },
+    {
+      "id": "CT-13",
+      "title": "Specify conservative cost admission and billing reconciliation",
+      "ma_concept": "MA metering and spend ladder with admin caps",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections1,7 already provides detailed MP-specific policy; stale root rules still mention the old£50 target.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Preserve confirmed£100all-in,£70operation+£30reserve and£60/75/85cash thresholds. Allocate evals, monitors, retries, cache writes and batches within the same envelope. Reserve before external work, carry ambiguous liabilities and distinguish pre-credit reported cost from cash/verified credit.",
+      "decision_needed": "Approve feature/environment/eval suballocations, stale/unknown-credit thresholds and emergency minimum functions; resolve conflicting root rules.",
+      "acceptance_criteria": [
+        "Shared credits are counted once and cannot be assumed available to MP merely because the account has promotional entitlement.",
+        "Two concurrent requests cannot each spend the same remaining allowance.",
+        "Dashboard uses cached reports with source age and reconciliation status; polling cadence is not guaranteed provider freshness.",
+        "Permission/budget failure sends no uncovered request and does not silently switch to paid fallback."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442062",
+        "1736745",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api"
+      ]
+    },
+    {
+      "id": "CT-14",
+      "title": "Bound self-healing, replay and recovery authority",
+      "ma_concept": "MA ops warden, incidents, DLQ replay and automatic rollback bands",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections3,7 and layered recovery joins preserve owner control but lack per-action recovery contracts.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Automatically retry only explicitly idempotent work within approved bounds. New external calls, financial reprocessing, broad replay, deleting evidence or increasing spend require current policy/approval. Use isolated restore plus reconciliation before switching authority.",
+      "decision_needed": "Approve incident classes, automatic recovery allowlist, replay limits, RPO/RTO and operator escalation path.",
+      "acceptance_criteria": [
+        "Replay preserves original business id and generates new attempt/trace links; duplicates cannot double-commit or double-notify.",
+        "Replays recheck current owner permissions, source retention/deletion and latest applicable config.",
+        "Restore exercise proves ledger/audit/source/model joins and deletion tombstones, not just object availability.",
+        "No app agent can grant infrastructure permissions or perform an unapproved production apply."
+      ],
+      "phase": "PH-08",
+      "source_ids": [
+        "1736745",
+        "1769473",
+        "294962"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+      ]
+    },
+    {
+      "id": "CT-15",
+      "title": "Separate learning proposals, approved settings and memory",
+      "ma_concept": "MA versioned settings, bounded tuning, agent notes and owner ChangeRequests",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-13/15 and ablation/promotion rules retain the concepts; exact policy bands are unresolved.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use read-only defaults; propose rather than mutate model/prompt/rule/budget settings. Distinguish evaluated numerical calibration, research notes and user preferences. Memory is sourced/tainted/revisable and cannot become ledger truth or authority.",
+      "decision_needed": "Approve any automatic safe adjustments, owner promotion scope, memory classes, forgetting and poisoning controls.",
+      "acceptance_criteria": [
+        "Every proposed model/rule/prompt change pins mature outcome evidence and relevant safety/eval/cost impact.",
+        "A note or summary cannot overwrite source data, outcomes, thresholds or an approved configuration.",
+        "Drift or insufficient mature evidence triggers abstention/shadow/disable according to policy, never autonomous promotion.",
+        "Version rollback preserves original forecast and outcome history."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1769473",
+        "197293",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-16",
+      "title": "Define admin information architecture and launch-minimum controls before UX",
+      "ma_concept": "MA cross-device Admin, Activity, Audit and Files board structure",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section3 lists eight portal areas; current MP phase map remains umbrella-level outside detailed L1.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Prepare an MP admin domain map covering Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery, Identity/Devices. Keep owner-only personal scope; do not import household-member administration or copy MA board styling.",
+      "decision_needed": "Approve launch-minimum versus later depth, navigation/domain boundaries and action permissions before screen design.",
+      "acceptance_criteria": [
+        "Every launch-sensitive action has a defined path, observable pending/failure/cancel/rejected state and evidence drill-down.",
+        "Read-only cost/audit access is distinct from controls that change budgets, data or model state.",
+        "Mobile and web workflows share backend contracts but have separately specified recovery/privacy/accessibility states.",
+        "Phase pages cite actual MP stories/contracts and clearly distinguish planned UI from implemented functionality."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "197333",
+        "328059",
+        "294962",
+        "197293"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ]
+    },
+    {
+      "id": "CT-17",
+      "title": "Specify personal identity linking, sessions and owner recovery",
+      "ma_concept": "MA multi-provider links, devices, revocation and two independent sign-in paths",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/DEC-037/038 retains Cognito managed login, verified linking, Apple/Google/passkeys and two independent paths; detailed recovery remains open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Design personal-owner recovery rather than household invites. Link only after verified control of both identities, use stable provider subjects rather than email equality and avoid unlinking the final usable path. Define web cookies/native secure storage and live-stream reauthorization.",
+      "decision_needed": "Approve trusted origins/RP IDs, recovery inventory, session/stream revocation latency and loss-of-all-devices procedure.",
+      "acceptance_criteria": [
+        "Email collision cannot merge identities or grant access; linking/recovery changes require current owner authorization.",
+        "Revoked sessions cannot keep an SSE connection/data link indefinitely; explicit maximum delay is tested.",
+        "A lost device can be revoked using an independent verified path without disabling the only owner irrecoverably.",
+        "Dev/prod origin, issuer, audience, callback and passkey scope are explicit and fail on cross-environment tokens."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540282",
+        "1147105",
+        "1147065"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html"
+      ]
+    },
+    {
+      "id": "CT-18",
+      "title": "Separate material investment alerts from operational incident routing",
+      "ma_concept": "MA alert router, quiet hours, cooldowns, recovery and budget ladder",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/DEC-032/033 and audit-observability-requirements.md section5 approve07:30London,22:00–07:00quiet hours and defined exceptions; severity/cooldowns remain open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Maintain separate financial-risk, system-security, data-quality, billing and job-failure alert classes with correlation/dedup, explicit evidence and recovery state. Product push channels remain native/PWA plus app/chat; additional operator email is a choice.",
+      "decision_needed": "Approve material/critical conditions, quiet-hour exceptions, grouping/cooldowns, emergency channel and weekend briefing.",
+      "acceptance_criteria": [
+        "A downstream outage produces one incident with linked symptoms rather than one push per failed component.",
+        "Risk alerts use eligible as-of data; unavailable providers cannot generate a confident all-clear.",
+        "Push provider acceptance is labelled delivery attempt/acceptance, not proof the owner read it.",
+        "Alert policy edits are versioned/audited; recovery notifications link the incident and do not erase prior failures."
+      ],
+      "phase": "PH-07",
+      "source_ids": [
+        "1442062",
+        "1736745",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ]
+    }
+  ],
+  "research": [
+    {
+      "id": "R-CT-01",
+      "url": "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+      "title": "Cognito authentication levels with ACR and AMR claims",
+      "claim": "Current AWS documentation describes assurance/freshness claims for step-up, with gradual rollout and Essentials/Plus plan requirements. Token refresh does not reset authentication time.",
+      "mp_implication": "Verify actual user-pool support and cost. Specify server action binding and freshness; do not copy MA custom authentication or rely on local Face ID."
+    },
+    {
+      "id": "R-CT-02",
+      "url": "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+      "title": "Anthropic prompt-injection mitigations",
+      "claim": "Anthropic recommends treating retrieved content as untrusted, explicit provenance, constrained permissions and adversarial tests. Screening is one possible layer rather than an authorization boundary.",
+      "mp_implication": "Use no-tool extraction and a policy-enforced split between private portfolio computation and public-source research; do not promise injection immunity or add a paid classifier to every read without evidence."
+    },
+    {
+      "id": "R-CT-03",
+      "url": "https://inspect.aisi.org.uk/scoring-workflow.html",
+      "title": "Inspect scoring workflow",
+      "claim": "Inspect supports deferred scoring, rescoring existing outputs and appending new scores alongside old ones.",
+      "mp_implication": "Keep versioned generated answers and scorer versions separate; compare judges without regenerating all answers or overwriting original evaluation evidence."
+    },
+    {
+      "id": "R-CT-04",
+      "url": "https://inspect.aisi.org.uk/scoring.html",
+      "title": "Inspect scoring and metrics",
+      "claim": "Inspect distinguishes deterministic and model grading and supports grouped metrics and uncertainty-aware analysis.",
+      "mp_implication": "Adopt the harness concept provisionally, with task-specific scorers, safety invariants and evaluated judge agreement rather than a universal LLM quality score."
+    },
+    {
+      "id": "R-CT-05",
+      "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/",
+      "title": "OpenTelemetry GenAI spans",
+      "claim": "GenAI telemetry has semantic conventions for operations, models and usage; content capture requires explicit privacy treatment and versioned instrumentation assumptions.",
+      "mp_implication": "Record metadata by default, with separate protected business evidence and synthetic-only diagnostics. Do not place full portfolio prompts or outputs in general tracing."
+    },
+    {
+      "id": "R-CT-06",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html",
+      "title": "Deleting S3 object versions",
+      "claim": "A simple deletion of a versioned S3 object creates a delete marker; permanently removing a specific version requires version-aware deletion. Noncurrent versions also incur storage charges.",
+      "mp_implication": "Owner deletion needs explicit versions, derivative and restore semantics, not a successful simple DELETE response."
+    },
+    {
+      "id": "R-CT-07",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+      "title": "Anthropic batch processing",
+      "claim": "Asynchronous batches store inputs/outputs during processing and provide results for a limited period, currently up to29 days after creation. Items have independent outcomes and batches may take up to24 hours.",
+      "mp_implication": "Describe provider retention honestly; use minimal/synthetic judge payloads and bounded nonurgent judging, with stale/expired results excluded from successful coverage."
+    },
+    {
+      "id": "R-CT-08",
+      "url": "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+      "title": "Anthropic Usage and Cost Analytics API",
+      "claim": "Current beta analytics reports refresh timestamps and pre-credit cost values; documentation describes typical4-hour and possible24-hour delay plus revisions.",
+      "mp_implication": "Retain live reservations and estimated charges, and separate reported cost from verified credit/cash liability. Six-hour polling is not a six-hour freshness guarantee."
+    },
+    {
+      "id": "R-CT-09",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+      "title": "Lambda SQS partial batch and retry handling",
+      "claim": "Batch failure can cause successful items to reappear; partial batch responses reduce unnecessary retries, and FIFO handlers need ordering-aware failure handling.",
+      "mp_implication": "Replay is a controlled business operation with stable idempotency keys and current permission/deletion checks, not merely a queue redrive button."
+    },
+    {
+      "id": "R-CT-10",
+      "url": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+      "title": "Anthropic API data retention",
+      "claim": "Retention depends on API features, model and account arrangements; AWS-side storage policy alone does not define provider retention.",
+      "mp_implication": "Require a feature-by-feature outbound-data and retention register before approving use of actual statements or production evaluation transcripts."
+    }
+  ],
+  "risks": [
+    "MA is conceptual and planned in many areas; its completed documentation/design issues are not proof of runtime capability.",
+    "Full semantic reading and source-board inspection do not establish visual/animation parity.",
+    "No MA numerical judge gates, budgets, sampling ratios, auth implementations or household permissions become approved MP decisions.",
+    "The18control contracts are proposed planning closure work; product guardrails/evals, admin and monitoring are not implemented by this deliverable."
+  ],
+  "coverage_summary": {
+    "pages_full_html_read": 16,
+    "source_boards_semantically_read": 4,
+    "control_contract_gaps": 18,
+    "coverage_level": "All18families exist as requirements or concepts in MP; closure needs explicit contracts, decisions and acceptance cases. No absence is inferred from a missing implementation."
+  }
+}

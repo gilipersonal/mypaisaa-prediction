@@ -1,5 +1,7 @@
 # Architecture
 
+**Current baseline preparation, 2 November 2026:** [MP-19 reconciliation](planning/ma-reconciliation-2026-11-02/README.md) evaluates MA concepts against MP discussions and current primary sources. Its [decision sequence](planning/ma-reconciliation-2026-11-02/architecture-finalisation.md) and [area/phase structure](planning/ma-reconciliation-2026-11-02/documentation-structure.md) identify what must be agreed before UX. Recommendations are not accepted ADRs; the architecture remains unapproved. Existing diagrams and earlier snapshots below retain their dated status. No application implementation is authorised.
+
 ## Scope
 
 The first production release serves one authenticated owner. It aggregates licensed market data and portfolio records, runs reproducible research/prediction jobs, presents the resulting evidence in web and native mobile clients, and records what happened after every forecast horizon. It is not a brokerage or execution system.

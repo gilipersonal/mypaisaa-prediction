@@ -1,5 +1,11 @@
 # Implementation plan and milestones
 
+## Current planning authority - 2 November 2026
+
+The [MP-19 architecture reconciliation and finalisation pack](planning/ma-reconciliation-2026-11-02/README.md) is the current planning entry point. It preserves PH-00–PH-09 from the layered draft and uses MP-4–MP-9 as a historical epic crosswalk. The six phases and Jira status snapshots below are retained history, not a competing current execution roadmap or fresh status check. MP-15/16/17/18 are completed documentation/fixture deliveries; they do not certify product phase exits.
+
+The owner requires the researched architecture, contracts and complete phase/story structure to be settled before UX starts. Follow the [decision sequence](planning/ma-reconciliation-2026-11-02/architecture-finalisation.md), then complete detailed phase Confluence pages and actual implementation stories with acceptance/dependencies before the UX gate. Local phase drafts and grouped planning tickets are preparation; unallocated story keys and umbrella acceptance remain explicit gaps. Full end-to-end UX approval and separate owner permission still gate application implementation. Nothing in this plan authorises AWS provisioning, paid calls or model promotion.
+
 ## Current implementation status
 
 **As of 1 November 2026:** the backend implements a health endpoint and a local sample SSE stream. The static Sites preview illustrates the product concept; it is not the planned SvelteKit PWA. Web, native Swift, React Native and infrastructure directories are placeholders without executable app or infrastructure definitions.

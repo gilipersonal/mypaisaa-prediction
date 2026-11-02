@@ -1,0 +1,17 @@
+{
+  "id": "327979",
+  "title": "Phase 5 · Investments, priced",
+  "version": 16,
+  "snapshotToken": "v:16",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "9e0cb0a3c4f45edf2904d3cb9fc0439ff83169c7af054130028fbb0e0df45b75",
+  "html_characters": 32848,
+  "headings": [
+    "The web app",
+    "The iOS app"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327979",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

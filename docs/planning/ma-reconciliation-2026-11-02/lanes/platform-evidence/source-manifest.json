@@ -1,0 +1,567 @@
+{
+  "as_of": "2026-11-02",
+  "sources": [
+    {
+      "id": "2622286",
+      "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2622286",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Layered stack",
+        "FastAPI REST versus streaming adapters",
+        "DynamoDB repository",
+        "Agent client loop",
+        "Telemetry cost model"
+      ],
+      "body_sha256": "20a9b2f60850bbf5e98a4980c6dbe7bcc1c1706f321b572676e5d55cf766e282",
+      "body_bytes": 167855,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "📡 1. End-to-end tracing, Request IDs & FastAPI observability",
+        "💷 2. Observability surfaces & £2.50/month cost analysis",
+        "🌐 3. Web front-end stack (SvelteKit 3, TanStack, shadcn-svelte)",
+        "📱 4. iOS app stack (React Native 0.88 shell + Swift 6 SwiftUI core)",
+        "🐍 5. Python 3.14 backend, FastAPI & DynamoDB vs DocumentDB",
+        "🤖 6. Agent loop architecture & framework comparison",
+        "📖 Full research, architecture & costing record (docs/RESEARCH.md §6)",
+        "6.1 End-to-end AWS monitoring, tracing, request IDs & LLM observability (including FastAPI REST APIs)",
+        "What is already planned in the repository (ARCHITECTURE.md §10)",
+        "How the FastAPI REST APIs (handlers/api and handlers/stream) fit into the trace and request-ID flow (MA-266)",
+        "Costing analysis for end-to-end AWS & LLM observability",
+        "6.2 Database architecture: why DynamoDB single-table (not Amazon DocumentDB) & which Python libraries to use (MA-265, MA-27, MA-28)",
+        "Are we doing Amazon DocumentDB? No — DynamoDB single-table + S3 Parquet + DuckDB",
+        "Which Python libraries to use for DynamoDB (src/mypaisa_agent/registry/)",
+        "6.3 Agent frameworks: options, trade-offs & recommendation (MA-265)",
+        "What MyPaisa's agent layer requires (ARCHITECTURE.md §8, §20, §23)",
+        "Comparison of the six agent framework options",
+        "Recommendation (MA-265)",
+        "6.4 Detailed four-layer implementation stack (MA-265, MA-266)",
+        "Layer 1: Web Front End (web/) — SvelteKit 3.1, TanStack, shadcn-svelte, Tailwind CSS 4.3",
+        "Layer 2: Native iOS App (ios/) — React Native 0.88 Bare Shell + Swift 6 SwiftUI Core",
+        "Layer 3: Python Backend (src/mypaisa_agent/) — Python 3.14, FastAPI, Pydantic v2, DynamoDB & DuckDB",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "1540302",
+      "title": "§18 · Environments, domains and delivery",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540302",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Environment separation",
+        "Identity and domains",
+        "Local synthetic mode",
+        "IaC and artifact promotion"
+      ],
+      "body_sha256": "3e6be17e985a926f10206762b0f7bfeb1bfd208cd2fbdfba19f7207c6476a21b",
+      "body_bytes": 116683,
+      "headings": [
+        "🖼️ See it",
+        "18. Environments, domains and delivery",
+        "18.1 Two environments, one account",
+        "18.2 Domains",
+        "18.3 Identity",
+        "18.4 Delivery",
+        "18.5 Hydrating prod: the Excel importer",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "2589543",
+      "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2589543",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Path-filtered CI",
+        "Security scans",
+        "Regression pyramid",
+        "Smoke and rollback"
+      ],
+      "body_sha256": "a1d770faa9f2141cb54eb2317c4e39dab462bb9b805e2634ec606c612a4d474b",
+      "body_bytes": 130355,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🚀 1. End-to-end CI/CD delivery pipeline (GitHub Actions, AWS CodeBuild arm64, ECR, dev & prod)",
+        "🛡️ 2. Seven-layer vulnerability scanning gate (MA-267)",
+        "🧪 3. Phase-progressive smoke suite, prod read-only safety & <5s auto-rollback (MA-268)",
+        "📐 4. Five-layer regression pyramid (Phases 0–20) & £0/month runner cost analysis (MA-269)",
+        "📖 Full architecture, phase-wise matrix & runner costing record (docs/RESEARCH.md §7)",
+        "7.1 Setup, tech-debt & testing stories (MA-267 to MA-272)",
+        "7.2 Seven-layer vulnerability scanning architecture (MA-267)",
+        "7.3 Phase-progressive smoke test suite & prod read-only safety (MA-268)",
+        "7.4 Five-layer regression test pyramid & phase-wise rollout matrix (Phases 0 to 20, MA-269)",
+        "The five regression layers (scripts/regression.py)",
+        "Phase-wise testing rollout matrix (Phases 0 to 20)",
+        "7.5 Deep cost analysis & runner alternatives for GitHub Actions vs AWS CodeBuild (MA-269, MA-272)",
+        "2026 GitHub Actions & AWS CodeBuild pricing mechanics",
+        "Monthly workload model (40 PRs / ~60 PR pushes + 25 merges to main + 30 nightly/weekly runs)",
+        "Comparison of the four runner strategies",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "3670133",
+      "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3670133",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Optional VPC perimeter",
+        "NAT and endpoint alternatives",
+        "DNS and egress controls",
+        "Network costs"
+      ],
+      "body_sha256": "17e198657b3b7dd80605a3ecf7f279abfb2986b3ae395e66acf2cbfd945f3751",
+      "body_bytes": 99865,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🏰 1. Dual-stack VPC topology, zero-egress Isolated subnets & front-door ingress lockdown (Layers 1 & 2)",
+        "🔐 2. Free S3 & DynamoDB Gateway Endpoints, three-way Data Perimeter & presigned S3 carve-out (Layer 3)",
+        "🛰️ 3. Walled-garden DNS + Graviton TLS-SNI egress proxy, private CodeBuild CI & four serverless VPC gotchas (Layers 4–7)",
+        "💷 4. Five-option us-east-1 costing comparison (Preferred Option 3) & five-step zero-lockout rollout",
+        "📖 Full blueprint, seven-layer architecture, serverless gotchas & five-option costing (docs/RESEARCH.md §9)",
+        "9.1 Scope & decision gate — optional, decided last after Phase 20 (MA-283, MA-284)",
+        "9.2 Layer 1 & Layer 2 — Dual-stack VPC topology, declarative blast-radius blocks & front-door ingress lockdown",
+        "Layer 1 — Isolated Dual-Stack VPCs & Three Subnet Classes per AZ",
+        "Layer 2 — Front-Door Ingress Lockdown (Zero Direct Public Compute)",
+        "9.3 Layer 3 — Private AWS service backbone & three-way AWS Data Perimeter",
+        "9.4 Layer 4 — Outbound (egress) lockdown, micro-segmentation & TLS-SNI / DNS walled garden",
+        "9.5 Layer 5, Layer 6 & Layer 7 — Private CI/CD, zero-bastion access, telemetry & four serverless VPC gotchas",
+        "Layer 5 — Private CI/CD Plane & Zero-Bastion Operator Access",
+        "Layer 6 — Network Telemetry, Threat Detection & Reachability Gates",
+        "Layer 7 — Four Serverless VPC Operational Gotchas Addressed Up Front",
+        "9.6 Safe five-step zero-lockout rollout order (when opted into after Phase 20)",
+        "9.7 Deterministic us-east-1 monthly & annual costing across all options ($1.30 = £1.00, 730 hrs/mo)",
+        "Unit rates in us-east-1 (highlighting hidden fixed charges)",
+        "Side-by-side comparison across all five VPC lockdown options (dev + prod combined)",
+        "🧩 The stories that record, join with or implement it"
+      ]
+    },
+    {
+      "id": "1442082",
+      "title": "📬 §21 · Queues and live delivery",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442082",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Queues",
+        "Idempotency",
+        "DLQ and replay",
+        "SSE order and resumption"
+      ],
+      "body_sha256": "28f8718e963d190170c7c5efb9e3c0d619730d2fcb027b45001cec496c77b1af",
+      "body_bytes": 55916,
+      "headings": [
+        "🎬 See it move",
+        "21. Queues: nothing lost, everything retried (MA-138)",
+        "21.1 The queues",
+        "21.2 Rules every consumer keeps",
+        "21.3 Dead-letter queues and replay",
+        "21.4 Cost",
+        "21.5 Live delivery over SSE",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "1671210",
+      "title": "🤖 §8 · The agent: one tool loop, its tools and its models",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671210",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Direct Anthropic client SDK",
+        "Tool loop",
+        "Pause/resume",
+        "Prompt cache",
+        "Numerical grounding"
+      ],
+      "body_sha256": "cd55c266d0d25cc2f5804b9975370f36c36056895afa17f005bc180766b9b9b5",
+      "body_bytes": 69329,
+      "headings": [
+        "🎬 See it move",
+        "8. The agent",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey"
+      ]
+    },
+    {
+      "id": "3899472",
+      "title": "🧠 §24 · Caching and memory for every agent",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3899472",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Stable prompt prefixes",
+        "Per-route caching",
+        "Memory scope and deletion",
+        "Context budgets"
+      ],
+      "body_sha256": "e4cacf20916dbb232062ed6e9bab5e29acfe7ec7967eff920e03f7e1ec55a077",
+      "body_bytes": 35683,
+      "headings": [
+        "24. Caching and memory for every agent (MA-285)",
+        "24.1 The prompt cache: on for every call, checked on every change",
+        "24.2 Memory notes: what an agent may keep",
+        "24.3 Whose notes, and who sees them",
+        "24.4 The agent team's notes (phase 18)",
+        "24.5 Within a run: kept lean, never edited",
+        "24.6 Within the budget",
+        "24.7 The stories",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "1671190",
+      "title": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671190",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "No trading",
+        "Deterministic numbers",
+        "System components",
+        "Account boundaries"
+      ],
+      "body_sha256": "96270030ef3bf1e098860453c7ea42fea13247156c51690ad28f8b9d5e615a19",
+      "body_bytes": 60163,
+      "headings": [
+        "🎬 See it move",
+        "1. The two rules, and two more",
+        "2. What it does, as the user sees it",
+        "3. System context",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Architecture v4"
+      ]
+    },
+    {
+      "id": "1703997",
+      "title": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703997",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Briefs and notifications",
+        "Push channels",
+        "Typed stack",
+        "Historical migration context"
+      ],
+      "body_sha256": "5051ba65a9e16fc1fe1742bb215cf5075200b36bc0249656c59d775d07fc5821",
+      "body_bytes": 105099,
+      "headings": [
+        "🎬 See it move",
+        "11. Notifications, news, calls",
+        "12. The road to MyPaisa, the wealth tracker",
+        "12.1 Any question, answered from a read-only SQL copy of the ledger (MA-104)",
+        "13. Tech stack (changes from v1 in bold)",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa"
+      ]
+    },
+    {
+      "id": "1147085",
+      "title": "🧩 Architecture v4: every part, the trace, the loop, the agents and the models",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147085",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "System inspector",
+        "Tracing journey",
+        "Nine logical roles",
+        "Storage",
+        "Spend ladder"
+      ],
+      "body_sha256": "080df25249f07be2e14fc7fc8a100d0df05e49d204d3129a22f7170f2b5ffc5f",
+      "body_bytes": 100431,
+      "headings": [
+        "🗺️ Every part on the map",
+        "🧵 One message is one trace, from the finger to the last word",
+        "🔁 One Claude tool loop, with code doing every sum",
+        "👥 Nine agents that never call each other",
+        "🧠 Three Claude models, each where it earns its cost",
+        "Opus 5.5",
+        "Sonnet 5.5",
+        "Haiku 5.5",
+        "🪜 The spend ladder",
+        "🍰 Each agent's share of the ceiling",
+        "🗄️ One table for state, one lake for the record, one store for secrets",
+        "The household",
+        "Records, as data",
+        "The conversation and delivery",
+        "Truth and money",
+        "Market side and the team",
+        "mypaisa-prod-lake",
+        "mypaisa-prod-documents",
+        "The dashboard site",
+        "Put by hand, never in state",
+        "Kept for",
+        "🚀 Terraform only, one image, prod after a person says yes",
+        "🛡️ Enforced in code, not in the prompt",
+        "Claude never produces a number",
+        "The app cannot trade",
+        "A policy gate before every tool call",
+        "Tested on change, watched live",
+        "One write service",
+        "Admin actions take a second check",
+        "Nothing is lost",
+        "Nothing private in CloudWatch"
+      ]
+    },
+    {
+      "id": "1671270",
+      "title": "🛰️ Five journeys through AWS, hop by hop",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671270",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Request journeys through AWS",
+        "Async joins",
+        "Failure and recovery paths"
+      ],
+      "body_sha256": "8fba8674b8d484f446691878999394c47f44191caba7c5d2363b581cd05dc65d",
+      "body_bytes": 52068,
+      "headings": [
+        "🗺️ Every hop a message makes, on the services that carry it",
+        "❓ A question: 10 steps",
+        "📄 A factsheet: 9 steps",
+        "✅ A check-in: 6 steps",
+        "🌅 The 07:15 brief: 8 steps",
+        "🧯 A failure and its replay: 8 steps"
+      ]
+    },
+    {
+      "id": "1703977",
+      "title": "🏗️ The Lucid drawings, and how they are made",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703977",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Native AWS Lucid views",
+        "Source and exports",
+        "Technical diagram governance"
+      ],
+      "body_sha256": "a98ef68e2a518def1bd791303f9774bbf79a6f574af1ab720ef356b24e8840b3",
+      "body_bytes": 20930,
+      "headings": [
+        "🖼️ System overview",
+        "🖼️ Environments, domains and delivery",
+        "🖼️ Identity and sign-in",
+        "🖼️ Queues, retries and replay",
+        "🖼️ Where the data lives",
+        "🖼️ The market agent and the learning loop",
+        "🖼️ The agent team, settings, caps and alerts",
+        "🔀 Adding a record (sequence)",
+        "🖼️ One trace from the door to the model",
+        "⚙️ How they are made",
+        "The sequence: adding a record, and correcting it in place"
+      ]
+    },
+    {
+      "id": "294942",
+      "title": "Phase 0 · Foundations at every door",
+      "version": 52,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294942",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Foundation work ordering",
+        "Agent/tool eval gates",
+        "Infrastructure and schema preparation"
+      ],
+      "body_sha256": "830474291e061c20297e82606fead7c9d420d12cdf22aca10a043675c909b133",
+      "body_bytes": 215302,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ]
+    },
+    {
+      "id": "327939",
+      "title": "Phase 1 · Talk: sign in and chat with the agent at every door",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327939",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Auth and chat phase",
+        "Activity first",
+        "Streaming",
+        "Agent guardrails and evals"
+      ],
+      "body_sha256": "6f34088cf0617717f325921977843ec387c7e7d51f642b99bda7a508f3d02b53",
+      "body_bytes": 131912,
+      "headings": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ]
+    },
+    {
+      "id": "2818197",
+      "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2818197",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Local Maestro tests",
+        "Device coverage",
+        "Private TestFlight",
+        "Native CI cost"
+      ],
+      "body_sha256": "78c33696bb792f99cace519c858688c32d700e01e2b7db527a8efe507699338d",
+      "body_bytes": 144463,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🖥️ 1. Local Apple Silicon Maestro pool, MCP isolation & dual backend modes",
+        "🧬 2. React Native 0.88 Fabric + Swift 6 SwiftUI + Liquid Glass selector contract",
+        "📐 3. Four-sub-band iOS & iPadOS adaptive width & live rotation matrix (MA-240)",
+        "⚙️ 4. xcrun simctl system capability bridges & Phases 0–20 rollout at £0.00/month",
+        "✈️ 5. Private 90-day (3-month) TestFlight Internal Testing & evergreen beta lifecycle",
+        "📖 Full strategy, phase-wise plan & private 90-day TestFlight guide (docs/RESEARCH.md §8)",
+        "8.1 Local Apple Silicon architecture, Maestro MCP vs. CLI one-owner-per-device rule & cloned simulator pool",
+        "The \"one Maestro owner per device\" isolation rule",
+        "8.2 React Native 0.88 Fabric + Swift 6 SwiftUI + Liquid Glass accessibility & selector contract",
+        "8.3 iOS & iPadOS four-sub-band adaptive width, orientation & multitasking matrix",
+        "8.4 Dual backend modes: hermetic local FastAPI + SSE stub vs. live api-dev + X-Ray trace check",
+        "8.5 Native iOS & iPadOS system capability simulation playbook (xcrun simctl + Maestro)",
+        "8.6 .maestro/ workspace blueprint, tag taxonomy & concrete YAML flow templates",
+        "Concrete flow template 1 — iPad 4-sub-band width rule & live mid-draft rotation (p01_ipad_rotation_continuity.yaml)",
+        "Concrete flow template 2 — Admin Center Face ID second check (mismatch refusal then match & audit row)",
+        "8.7 Phase-wise Maestro rollout plan (Phases 0 to 20) & local-vs-CI cost analysis (£0.00/month)",
+        "Cost comparison: why full Maestro multi-simulator runs belong locally on Apple Silicon",
+        "8.8 Keeping MyPaisa installed for 3 months (and rolling indefinitely) via private TestFlight & household beta testing (MA-162, MA-164, MA-167)",
+        "Why TestFlight is the exact mechanism for a 3-month (90-day) untethered install",
+        "Four layers that keep the app 100% private (never on the public App Store)",
+        "Keeping the app installed for 3 months — and rolling seamlessly past 90 days with zero data loss",
+        "Structured household beta testing & zero-SDK diagnostics loop",
+        "🧩 The stories that build it"
+      ]
+    },
+    {
+      "id": "4816897",
+      "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/4816897",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Playwright visual regression",
+        "ARIA snapshots",
+        "WCAG gates",
+        "Argos option"
+      ],
+      "body_sha256": "abb8eeacd894b11a82b9f6816285e371a1ee9a923162d1736fa698921f12eb84",
+      "body_bytes": 49923,
+      "headings": [
+        "🎞️ Block diagrams (animated)",
+        "🔬 1. One Helper, Four Gates — auditAndCapture(page, name, opts) in web/e2e/helpers/a11y-visual.ts",
+        "☁️ 2. Argos CI Cloud Visual Diffing, ARIA YAML Tree Diffing & GitHub Check Run lifecycle",
+        "🛡️ 3. Five Cost Guardrails keeping Argos CI inside the 5,000/month Free Hobby tier at £0/month",
+        "📊 4. Monthly Snapshot Quota Math (3,600 / 5,000 = 72%) & Four-Option Cost Comparison",
+        "📖 Full architecture, fixture code, GitHub Actions workflow & costing record (docs/RESEARCH.md §10)",
+        "10.1 Architectural separation: repo-local board gates vs. cloud visual & ARIA regression on web/",
+        "10.2 Why @axe-core/playwright and Argos ariaSnapshot are paired in one helper (\"One Helper, Four Gates\")",
+        "10.3 Five cost and quota guardrails keeping Argos CI & GitHub Actions at £0.00/month",
+        "10.4 Monthly snapshot volume & cost comparison across configurations",
+        "🧩 The stories that record, join with or implement it"
+      ]
+    },
+    {
+      "id": "66145",
+      "title": "Phase 20 · The app beyond the chat: widgets, Siri, the share sheet, Live Activities",
+      "version": 19,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66145",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ],
+      "concepts": [
+        "Widgets",
+        "Siri/App Intents",
+        "Share sheet",
+        "Long-job Live Activities"
+      ],
+      "body_sha256": "392a6c70992b69b8a9c6ae6e7d7f7c4368bb1a5cf9896987c72cab9122bf9f1e",
+      "body_bytes": 20150,
+      "headings": []
+    }
+  ],
+  "raw_cache": "/private/tmp/mp19-platform-sources",
+  "note": "Raw responses are an untracked temporary read cache; the tracked evidence contains hashes, versions, concepts and source links, not copied MA architecture bodies."
+}
