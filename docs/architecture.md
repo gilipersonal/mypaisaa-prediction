@@ -60,7 +60,7 @@ These are current intended responsibilities; exact adapters, schemas and service
 | Web | Discovery first, separate holdings, chat, proof and launch costs | SvelteKit 3, officially available but not installed; static shell versus SSR open |
 | Mobile | native device experience and shared navigation contracts | Swift-native surfaces in React Native shell |
 | Identity | Managed sign-in and verified owner linking/recovery | Cognito with Apple/Google/passkeys; two independent passkey paths and sensitive-action design required |
-| Operations/costs | Audit, per-environment usage/billing, durable jobs, telemetry, recovery | AWS serverless preference; launch cost/admission controls; workflow and full-scope pricing open |
+| Operations/costs | Audit, per-environment usage/billing, durable jobs, telemetry, recovery | AWS serverless preference; launch cost/admission controls; Python Lambda Durable Functions selected; runtime/replay/full-scope cost proofs open |
 
 ## Data flow
 
@@ -138,7 +138,7 @@ The precise iPhone/iPad/“Duo” device/OS matrix, bridge versions and secure o
 
 ## Proposed AWS deployment
 
-**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. Option A portable ML jobs versus B selective SageMaker jobs is unselected, with no continuously provisioned endpoint assumed. Workflow choice (Durable Functions versus Step Functions), region, identity tier, data-store fit and stream fan-out require evidence and an ADR. Private dev/prod authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
+**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. Option A portable ML jobs versus B selective SageMaker jobs is unselected, with no continuously provisioned endpoint assumed. Lambda Durable Functions with Python is selected in ARC-03; runtime/replay/cost proofs, region, identity tier, data-store fit and stream fan-out require evidence and detailed ADR reconciliation. Private dev/prod authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
 
 **Historical accepted bootstrap footprint, retained for traceability:**
 

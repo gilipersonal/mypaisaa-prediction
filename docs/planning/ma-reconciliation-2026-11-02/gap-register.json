@@ -32,6 +32,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
       "planning_group": "data",
       "jira_key": "MP-10"
     },
@@ -60,6 +67,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -89,6 +97,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -119,6 +134,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -148,6 +164,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -176,6 +193,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -205,6 +223,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -235,6 +254,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -265,6 +285,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -294,6 +315,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
       "planning_group": "portfolio",
       "jira_key": "MP-22"
     },
@@ -323,6 +351,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "portfolio",
       "jira_key": "MP-22"
     },
@@ -352,6 +381,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "portfolio",
       "jira_key": "MP-22"
     },
@@ -382,6 +412,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -411,6 +442,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -440,6 +472,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -470,6 +509,7 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
+      "owner_directions": [],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -497,6 +537,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -527,6 +568,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -558,6 +600,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -588,6 +631,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "workflows",
       "jira_key": "MP-23"
     },
@@ -619,6 +663,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
       "planning_group": "workflows",
       "jira_key": "MP-23"
     },
@@ -650,6 +701,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
       "planning_group": "workflows",
       "jira_key": "MP-23"
     },
@@ -680,6 +738,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "ml-runtime",
       "jira_key": "MP-24"
     },
@@ -709,6 +768,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
       "planning_group": "persistence",
       "jira_key": "MP-12"
     },
@@ -739,6 +805,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "identity",
       "jira_key": "MP-11"
     },
@@ -768,6 +835,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "cloud",
       "jira_key": "MP-29"
     },
@@ -799,6 +867,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "delivery",
       "jira_key": "MP-30"
     },
@@ -829,6 +898,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -859,6 +929,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -889,6 +966,7 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
+      "owner_directions": [],
       "planning_group": "delivery",
       "jira_key": "MP-30"
     },
@@ -919,6 +997,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "identity",
       "jira_key": "MP-11"
     },
@@ -950,6 +1029,18 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        },
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
       "planning_group": "admin",
       "jira_key": "MP-28"
     },
@@ -981,6 +1072,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
       "planning_group": "admin",
       "jira_key": "MP-28"
     },
@@ -1014,6 +1112,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "recovery",
       "jira_key": "MP-13"
     },
@@ -1044,6 +1143,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -1074,6 +1174,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -1104,6 +1205,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -1134,6 +1236,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -1164,6 +1267,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -1194,6 +1298,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "evals",
       "jira_key": "MP-26"
     },
@@ -1224,6 +1329,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "evals",
       "jira_key": "MP-26"
     },
@@ -1254,6 +1360,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "evals",
       "jira_key": "MP-26"
     },
@@ -1284,6 +1391,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -1315,6 +1429,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
       "planning_group": "workflows",
       "jira_key": "MP-23"
     },
@@ -1346,6 +1467,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "anthropic",
       "jira_key": "MP-25"
     },
@@ -1378,6 +1500,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "admin",
       "jira_key": "MP-28"
     },
@@ -1408,6 +1531,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "identity",
       "jira_key": "MP-11"
     },
@@ -1438,6 +1562,7 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "delivery",
       "jira_key": "MP-30"
     },
@@ -1465,6 +1590,7 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1493,6 +1619,7 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1527,6 +1654,7 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [],
       "planning_group": "baseline",
       "jira_key": "MP-20"
     },
@@ -1562,6 +1690,13 @@
       "research_urls": [],
       "status": "open_planning_contract",
       "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
       "planning_group": "persistence",
       "jira_key": "MP-12"
     }

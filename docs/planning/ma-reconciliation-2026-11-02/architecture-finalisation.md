@@ -30,6 +30,8 @@ Choose clocks, routing and execution deliberately: EventBridge Scheduler for tim
 
 **Recommended:** a lean event/queue core with explicit durable job/outbox records; use a state-machine service only for workflows that need it and pass compatibility/cost review. **Alternative:** one supported durable workflow runtime after its packaging, checkpoint, replay, observability and billing semantics are proven. Do not introduce both frameworks without a distinct requirement.
 
+**Owner direction recorded on 2 November 2026 (ARC-03): Lambda Durable Functions with Python workflows is selected.** The alternatives above retain the decision-time comparison; the owner selection now controls. Runtime, replay, failure and cost proofs remain open.
+
 ## 4. Agree the ML and Anthropic contracts
 
 Retain one server-controlled Anthropic client-SDK loop and bounded task routes. Define the logical role catalogue separately from the number of LLM calls, deployed workers or trained models. Pin route/model/prompt/schema/budget/eval versions at release. Code computes financial quantities; LLM extraction is versioned evidence and must earn incremental predictive value through an ablation.

@@ -77,6 +77,8 @@ On 2 November 2026 the owner selected ARC-01 option A: retain Yahoo/Grow as pref
 
 ARC-02 subsequently selected DynamoDB + S3 and one controlled backend financial write service. Exact financial/approval/query/import/recovery contracts remain open; the owner has not approved the complete architecture.
 
+ARC-03 subsequently selected Lambda Durable Functions with Python workflows, superseding the maker Step Functions recommendation. SQS/Scheduler/business-record boundaries remain; runtime/replay/external-effect/cost evidence stays open.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

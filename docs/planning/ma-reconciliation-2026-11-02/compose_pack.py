@@ -34,6 +34,12 @@ extra=read(BASE/'source-issue-reconciliation.json')['additional_decisions']
 for g in extra:
  gaps.append(dict(g,lane='coordinator',ma_concept='Relevant shared concept found in expanded live MA issue capture.',mp_evidence='source-issue-reconciliation.json; candidate scope, not an owner-approved feature.',disposition='explicit_scope_decision',phase=g['phase_ids'][0],source_ids=[],research_urls=[],status='open_planning_contract',implementation_authorised=False))
 
+
+# Owner choices control active direction; research recommendations remain provenance.
+selected_cards=[c for c in read(BASE/'decision-cards.json')['cards'] if c['owner_answer'] is not None]
+for gap in gaps:
+ gap['owner_directions']=[{'card_id':c['id'],'option_id':c['owner_answer']['option_id'],'meaning':c['owner_answer']['meaning']} for c in selected_cards if gap['id'] in c['gap_ids']]
+
 group_specs=[
  ('data','MP-10','MP-4','Confirm data-use rights and affordable listing coverage',['FC-01']),
  ('identity','MP-11','MP-4','Settle managed identity, sessions and sensitive-action authentication',['PL-09','CT-01','CT-17']),

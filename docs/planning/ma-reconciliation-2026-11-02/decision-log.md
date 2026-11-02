@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-03, durable workflow orchestration.
+Next: ARC-04, ML training and serving execution.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -27,3 +27,13 @@ DynamoDB is the selected direction for operational records; originals remain enc
 Before final sign-off, specify access patterns, financial precision and XIRR/FX conventions, duplicate identity, concurrent corrections, large-import staging/visibility, required audit queries, recovery/reconciliation and owner exports. S3 and DynamoDB do not form one atomic transaction. Keep PL-08, CT-02/03, FC-10 and IR-02 open until their own evidence/decisions are complete. Existing PostgreSQL ADRs remain historical pending explicit reconciliation.
 
 This records the chosen storage/write direction, not completed schemas, passed integrity tests, provisioning, or approval of the whole architecture.
+
+## ARC-03: Python durable workflow orchestration
+
+The owner selected option B: **Lambda Durable Functions with Python workflows**. This is the primary orchestration direction and supersedes the maker's original Step Functions Standard recommendation. A later Step Functions exception needs its own requirement, cost and owner decision.
+
+SQS remains responsible for buffering/backpressure and EventBridge Scheduler for timed triggers. DynamoDB business/approval/audit records remain authoritative for product state; durable checkpoints and execution history do not replace long-term business evidence. Keep external I/O in controlled steps and reconcile ambiguous paid calls or started training jobs instead of blindly repeating them after a crash.
+
+Before build, prove runtime/container/SDK and regional compatibility; step naming/versioning and deterministic replay; owner approval expiry/version binding; idempotency beyond provider token windows; retries, cancellation, leases and cross-environment replay denial; redacted history retention, async API handoff, telemetry and complete cost. The existing Python 3.12 starter is not certified by this direction, but OCI support means it is not rejected solely from a managed-runtime table. No SDK, runtime or application code is changed now.
+
+Primary documentation checked on 2 November 2026: [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) and [runtime/OCI support](https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html). The records and gaps PL-05/06 and CT-02/14 remain open until their contracts and evidence are complete.
