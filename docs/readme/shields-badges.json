@@ -1,0 +1,154 @@
+{
+  "source": "Shields.io static badges",
+  "documentation": "https://shields.io/badges/static-badge",
+  "fetched_on": "2026-11-02",
+  "style": "flat",
+  "height_px": 20,
+  "records": [
+    {
+      "id": "stage",
+      "label": "status",
+      "message": "planning",
+      "color": "c98a54",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/status-planning-c98a54?style=flat",
+      "file": "badges/stage.svg",
+      "sha256": "256803044d0cc07664e80e20dca7c6d5291ad260f0e9ae377488c5695fb9fe23"
+    },
+    {
+      "id": "budget",
+      "label": "budget",
+      "message": "\u00a3100 all-in",
+      "color": "5faf7d",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/budget-%C2%A3100%20all--in-5faf7d?style=flat",
+      "file": "badges/budget.svg",
+      "sha256": "f252678ff0a249f7b2bedfcc6b2851a8a5633c4591ed6ab854901f345af5ebd6"
+    },
+    {
+      "id": "scope",
+      "label": "scope",
+      "message": "private \u00b7 no trading",
+      "color": "47756a",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/scope-private%20%C2%B7%20no%20trading-47756a?style=flat",
+      "file": "badges/scope.svg",
+      "sha256": "cf5e664b68d5f5f7ded72d3d9a9317fa2fb15d97c4cd9fe01ecde8ea485cec3f"
+    },
+    {
+      "id": "ci",
+      "label": "CI",
+      "message": "5 checks",
+      "color": "596b84",
+      "logo": "githubactions",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/CI-5%20checks-596b84?style=flat&logo=githubactions&logoColor=white",
+      "file": "badges/ci.svg",
+      "sha256": "78b08eb40a0bab42cc3149b6097ba4ab6001a93668b5d02530146922448ca6fe"
+    },
+    {
+      "id": "python",
+      "label": "Python",
+      "message": "3.12+",
+      "color": "3776AB",
+      "logo": "python",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat&logo=python&logoColor=white",
+      "file": "badges/python.svg",
+      "sha256": "eaecb3d6905baa837193eac66085bbccab20fdb249a15739f848e7cc50b09fbb"
+    },
+    {
+      "id": "api",
+      "label": "FastAPI",
+      "message": "Lambda",
+      "color": "009688",
+      "logo": "fastapi",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/FastAPI-Lambda-009688?style=flat&logo=fastapi&logoColor=white",
+      "file": "badges/api.svg",
+      "sha256": "4e25f45ac2349903bf4afae877a72fab7bbec37120ed5da1380a421c2397c85a"
+    },
+    {
+      "id": "web",
+      "label": "SvelteKit 3",
+      "message": "PWA",
+      "color": "FF3E00",
+      "logo": "svelte",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/SvelteKit%203-PWA-FF3E00?style=flat&logo=svelte&logoColor=white",
+      "file": "badges/web.svg",
+      "sha256": "3152fc779c5c4e8df9dc4ed34cf6c8676a614fd94bb2d7697bba6a85d8c96441"
+    },
+    {
+      "id": "apple",
+      "label": "SwiftUI + React Native",
+      "message": "iOS \u00b7 iPadOS",
+      "color": "F05138",
+      "logo": "swift",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/SwiftUI%20%2B%20React%20Native-iOS%20%C2%B7%20iPadOS-F05138?style=flat&logo=swift&logoColor=white",
+      "file": "badges/apple.svg",
+      "sha256": "9eccece32dac27ddfd77a9373797981efc6a4cce5bb05fb9b1daca54929e3e90"
+    },
+    {
+      "id": "claude",
+      "label": "Claude",
+      "message": "Anthropic SDK",
+      "color": "9184d9",
+      "logo": "anthropic",
+      "embedded_logo": true,
+      "source_url": "https://img.shields.io/badge/Claude-Anthropic%20SDK-9184d9?style=flat&logo=anthropic&logoColor=white",
+      "file": "badges/claude.svg",
+      "sha256": "4cdd8e6745a0ccd9fb54bc4397c1b78a00b43b0786fca52d68491ce8a7dc5ca8"
+    },
+    {
+      "id": "durable",
+      "label": "AWS Lambda",
+      "message": "Durable",
+      "color": "c77700",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/AWS%20Lambda-Durable-c77700?style=flat",
+      "file": "badges/durable.svg",
+      "sha256": "44bd118da5d3faea9a49a8f1a443220a94fcb6df712f97179d734bd87c338e26"
+    },
+    {
+      "id": "records",
+      "label": "DynamoDB",
+      "message": "+ S3",
+      "color": "4053D6",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/DynamoDB-%2B%20S3-4053D6?style=flat",
+      "file": "badges/records.svg",
+      "sha256": "6937d61a716ef9ab1a819f290d5f6edabe22d9a52fe11a776dacac0853079d4a"
+    },
+    {
+      "id": "ml",
+      "label": "SageMaker",
+      "message": "CPU training",
+      "color": "28786b",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/SageMaker-CPU%20training-28786b?style=flat",
+      "file": "badges/ml.svg",
+      "sha256": "424e81b23371af9152fc650bb0bbd6b2e2d83ce6ba1519b3b468753c1553b99b"
+    },
+    {
+      "id": "evals",
+      "label": "Inspect AI",
+      "message": "evals",
+      "color": "7655a5",
+      "logo": null,
+      "embedded_logo": false,
+      "source_url": "https://img.shields.io/badge/Inspect%20AI-evals-7655a5?style=flat",
+      "file": "badges/evals.svg",
+      "sha256": "e53e26c648f82076e7ce9bbdae44f1f266de5cc5407d43f923b6f3c3014265e7"
+    }
+  ],
+  "runtime_network_requests": false,
+  "notes": "Source snapshots are checked in. Logos are embedded by Shields; technology labels are not live deployment claims. No broken private-repository status badge is copied."
+}

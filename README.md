@@ -1,8 +1,10 @@
 <div align="center">
 
 <picture>
+  <source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="docs/readme/mark-static-dark.svg">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/mark-static.svg">
   <source media="(prefers-color-scheme: dark)" srcset="docs/readme/mark-dark.svg">
-  <img src="docs/readme/mark.svg" width="104" height="104" alt="Mypaisaa Prediction: a compass, three evidence points and a bounded forecast band">
+  <img src="docs/readme/mark.svg" width="96" height="96" alt="Mypaisaa Prediction Forecast Coin: navy pound coin, traced orbit and coral prediction point">
 </picture>
 
 # Mypaisaa Prediction
@@ -17,7 +19,7 @@ Rules and XIRR establish financial facts. ML tests numerical forecasts. Claude r
 <a href="#what-this-project-is"><img src="docs/readme/badges/scope.svg" alt="Personal use; no trade execution"></a>
 <a href="https://github.com/gilipersonal/mypaisaa-prediction/actions/workflows/verify.yml"><img src="docs/readme/badges/ci.svg" alt="Five CI checks; open Actions for results"></a>
 
-**Intended stack — product capabilities remain planned unless stated otherwise**
+<sub>Selected stack · product capabilities remain planned unless stated otherwise</sub>
 
 <a href="#tech-stack"><img src="docs/readme/badges/python.svg" alt="Python 3.12 and later"></a>
 <a href="#tech-stack"><img src="docs/readme/badges/api.svg" alt="FastAPI on AWS Lambda"></a>
@@ -288,4 +290,4 @@ uv run --no-project --with numpy==2.5.4 --with pandas==3.1.0 \
 
 Work on actual `MP-<number>-<slug>` branches through PRs to **`main`**. Read [AGENTS.md](AGENTS.md), [autoship](.agents/skills/autoship/SKILL.md) and [review optimisation](docs/review-optimisation.md). Each independent-review round and named regression run requires explicit approval. PR, merge and Jira closure follow current-request permissions; a documentation merge does not close unfinished architecture acceptance.
 
-The local mark/badges are documentation artwork, not an approved product design system. The mark animates once and honours reduced motion where supported; [static variants and source](docs/readme/) are retained. Significant architecture remains native Lucid; dated exports and animation companions retain their status labels.
+The MP documentation mark uses a short, staged SVG animation and honours reduced motion where supported. [Replay the light/dark motion study](docs/readme/logo-preview.html), or use the [static mark](docs/readme/mark-static.svg). Technology badges use compact Shields snapshots with embedded brand logos; [sources and generation](docs/readme/) are retained. This documentation treatment does not approve the product design system. Significant architecture remains native Lucid; dated exports and animation companions retain their status labels.

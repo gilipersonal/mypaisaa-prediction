@@ -1,0 +1,124 @@
+{
+  "scope": "Maker verification; not independent review",
+  "frames": [
+    {
+      "time_ms": 0,
+      "sha256": "c799f02c8f3f02a3ec9183d575eea367a61cfe5c972f882f2368c75491e891d1",
+      "orbit_matrices": [
+        "matrix(-0.422618, 0.906308, -0.906308, -0.422618, 0, 0)",
+        "matrix(-0.422618, 0.906308, -0.906308, -0.422618, 0, 0)",
+        "matrix(-0.422618, 0.906308, -0.906308, -0.422618, 0, 0)",
+        "matrix(-0.422618, 0.906308, -0.906308, -0.422618, 0, 0)"
+      ]
+    },
+    {
+      "time_ms": 650,
+      "sha256": "2986a09523ce38a5481093098a74a6517e37479f462b359e1f08bc4f62b25c6e",
+      "orbit_matrices": [
+        "matrix(0.643259, -0.765648, 0.765648, 0.643259, 0, 0)",
+        "matrix(0.643259, -0.765648, 0.765648, 0.643259, 0, 0)",
+        "matrix(0.643259, -0.765648, 0.765648, 0.643259, 0, 0)",
+        "matrix(0.643259, -0.765648, 0.765648, 0.643259, 0, 0)"
+      ]
+    },
+    {
+      "time_ms": 1300,
+      "sha256": "045828f3cbf53d0c6ff7c168b9ebd359e9a439720735f97429089d5ae0c51224",
+      "orbit_matrices": [
+        "matrix(0.998234, -0.0593966, 0.0593966, 0.998234, 0, 0)",
+        "matrix(0.998234, -0.0593966, 0.0593966, 0.998234, 0, 0)",
+        "matrix(0.998234, -0.0593966, 0.0593966, 0.998234, 0, 0)",
+        "matrix(0.998234, -0.0593966, 0.0593966, 0.998234, 0, 0)"
+      ]
+    },
+    {
+      "time_ms": 2300,
+      "sha256": "c1df80fe3983d354058ce30d4ddb1aef56c2f1c07ae47fb1da59437f72e0c10d",
+      "orbit_matrices": [
+        "matrix(1, 0, 0, 1, 0, 0)",
+        "matrix(1, 0, 0, 1, 0, 0)",
+        "matrix(1, 0, 0, 1, 0, 0)",
+        "matrix(1, 0, 0, 1, 0, 0)"
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "width": 1200,
+      "documentWidth": 1185,
+      "badImages": 0,
+      "badgeHeights": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "logo_source": "file:///Users/arundutta/projects/mypaisaa-prediction-worktrees/MP-20-readme-logo-badges/docs/readme/mark-static.svg",
+      "name": "readme-light",
+      "sha256": "9dc56c40f2f63a61d9ba58c1cadc3a5a8bc7a26bb9218a2806ad6a68bcd83c90"
+    },
+    {
+      "width": 1200,
+      "documentWidth": 1185,
+      "badImages": 0,
+      "badgeHeights": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "logo_source": "file:///Users/arundutta/projects/mypaisaa-prediction-worktrees/MP-20-readme-logo-badges/docs/readme/mark-static-dark.svg",
+      "name": "readme-dark",
+      "sha256": "ae924497de7ddcebc1bad145bf235b5a5efd0887cfb753f72ec4649be9c00136"
+    },
+    {
+      "width": 430,
+      "documentWidth": 430,
+      "badImages": 0,
+      "badgeHeights": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "logo_source": "file:///Users/arundutta/projects/mypaisaa-prediction-worktrees/MP-20-readme-logo-badges/docs/readme/mark-static.svg",
+      "name": "readme-mobile",
+      "sha256": "d0a7267c430ed385b7f108208fde3bfe558ad237d1f60ffda405ab5fae36c47d"
+    }
+  ],
+  "live_animation_tracks": 14,
+  "replay_controls": "normal and half speed passed",
+  "reduced_motion": {
+    "animations": 0,
+    "replayDisabled": true,
+    "slowDisabled": true
+  },
+  "external_svg_image_motion": "distinct early/final pixels in README img element"
+}
