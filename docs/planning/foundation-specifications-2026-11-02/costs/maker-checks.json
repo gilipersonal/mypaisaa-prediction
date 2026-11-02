@@ -1,0 +1,82 @@
+{
+  "checked_date": "2026-11-02",
+  "status": "maker_checks_passed",
+  "independent_review": false,
+  "live_provider_calls": false,
+  "aws_account_calls": false,
+  "model_calls": false,
+  "checks": [
+    {
+      "name": "JSON parse",
+      "result": "passed",
+      "files": 12
+    },
+    {
+      "name": "Draft2020-12 schema structure and type validation",
+      "result": "passed",
+      "instances": {
+        "Observation": 4,
+        "Listing": 3,
+        "SourceCapability": 1,
+        "CorporateAction": 1
+      },
+      "negative_type_shape_mutations_rejected": 5
+    },
+    {
+      "name": "Explicit ISO timestamp/date parsing, order, bar bounds, canonical hashes, lifecycle closure and decimal examples",
+      "result": "passed",
+      "invalid_timestamp_rejected": true
+    },
+    {
+      "name": "Per-listing/source six-use entitlement matrix",
+      "result": "passed",
+      "rows": 9,
+      "unknown_cells": 54
+    },
+    {
+      "name": "Cost line products, token bands, aggregates, FX/tax/card/policy variants and training units",
+      "result": "passed",
+      "region_workload_scenarios": 6,
+      "cash_variants": 108,
+      "baseline_shared_training_instance_hours": 12
+    },
+    {
+      "name": "Concrete line units and price/assumption evidence references",
+      "result": "passed"
+    },
+    {
+      "name": "DEC-025 daily AWS and six-hour Anthropic collection; conservative120-page monthly cap",
+      "result": "passed"
+    },
+    {
+      "name": "Organisation-wide allocation is unproven; local reservations and usage analytics cannot establish available credit; current admissible credit zero",
+      "result": "passed"
+    },
+    {
+      "name": "Pinned source checkout file hashes unchanged",
+      "result": "passed",
+      "count": 6
+    }
+  ],
+  "limitations": [
+    "No runtime service, provider account, licence grant, personal ledger, scientific evaluation or independent review was exercised.",
+    "Public prices and synthetic contracts do not prove live feasibility.",
+    "JSON Schema format annotations were supplemented with explicit standard-library timestamp/date parsing because optional RFC3339 format support was unavailable."
+  ],
+  "checker": "costs/validate_specifications.py",
+  "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+  "integration_correction": {
+    "decision_ref": "DEC-025",
+    "billing_collection_hours": {
+      "AWS": 24,
+      "Anthropic": 6
+    },
+    "monthly_paginated_page_cap": 120,
+    "current_admissible_credit_usd": 0,
+    "proposed_credit_proof_max_age_minutes": 30,
+    "org_wide_allocation_status": "live_proof_pending",
+    "price_evidence_sha256": "011eb2d90be975b9b1669f0e0fa655b3f58b8731905a356a24278786e22e10b7",
+    "helper_sha256": "17fa10b61de627737d4cc1bf696c393a5713f42d4f0b575cc895c82920b84a54",
+    "source_pin_count": 6
+  }
+}

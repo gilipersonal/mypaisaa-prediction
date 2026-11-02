@@ -1,0 +1,96 @@
+{
+  "checked_date": "2026-11-02",
+  "scope": "Public primary sources only; no market-data APIs.",
+  "sources": [
+    {
+      "id": "RES-DATA-01",
+      "url": "https://twelvedata.com/pricing",
+      "title": "Individual pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Basic advertises 8/minute and 800/day with a non-display label. Grow advertises internal display; the displayed 377-credit option is USD 79/month.",
+      "implication": "Scope each intended use separately; Basic UK/India coverage and Grow NAV are not proven.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-02",
+      "url": "https://twelvedata.com/terms",
+      "title": "Terms of use; updated 1 January 2026",
+      "checked_date": "2026-11-02",
+      "claim": "Tier, third-party and permitted-retention restrictions apply.",
+      "implication": "Obtain scoped evidence before activation; a plan label is not a full training licence.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-03",
+      "url": "https://support.twelvedata.com/en/articles/5615854-credits",
+      "title": "Credits; dated 16 October 2025",
+      "checked_date": "2026-11-02",
+      "claim": "Credits use endpoint weight multiplied by symbols. Basic daily allowance resets at 00:00 UTC.",
+      "implication": "Reserve shared minute/day quotas atomically and account for weighted batches.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-04",
+      "url": "https://github.com/ranaroussi/yfinance",
+      "title": "yfinance project documentation",
+      "checked_date": "2026-11-02",
+      "claim": "The project distinguishes its software from Yahoo data rights and disclaims Yahoo affiliation.",
+      "implication": "The software licence does not grant rights to market data.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-05",
+      "url": "https://investor.apple.com/faq/default.aspx",
+      "title": "Apple investor FAQ",
+      "checked_date": "2026-11-02",
+      "claim": "Apple states that AAPL trades on Nasdaq.",
+      "implication": "Use as identity evidence only; no observed quote or personal holding is claimed.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-06",
+      "url": "https://www.londonstockexchange.com/en/news/article/VOD/holding-s-in-company/17847150",
+      "title": "Vodafone holding announcement;21 October 2026",
+      "checked_date": "2026-11-02",
+      "claim": "The LSE announcement identifies Vodafone and ISIN GB 00 BH 4 HKS 39.",
+      "implication": "Verify the provider quote unit separately; the GBX fixture mapping is explicit and simulated.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-07",
+      "url": "https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_207709_30102026213255_iXBRL_WEB.html",
+      "title": "Reliance integrated filing;30 October 2026",
+      "checked_date": "2026-11-02",
+      "claim": "The filing lists RELIANCE, ISIN INE 002 A 01018 and INR presentation currency.",
+      "implication": "Use as India identity evidence only; provider mapping and use grants remain pending.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-08",
+      "url": "https://www.amfiindia.com/uploads/Reviewoftimelimitfordisclosureof_NAV_f5ebc65062.pdf",
+      "title": "NAV disclosure time-limit circular",
+      "checked_date": "2026-11-02",
+      "claim": "NAV valuation date and publication can differ for overseas schemes.",
+      "implication": "Use a per-fund publication policy rather than one universal deadline.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-09",
+      "url": "https://support.twelvedata.com/en/articles/5203360-batch-api-requests",
+      "title": "Batch API requests",
+      "checked_date": "2026-11-02",
+      "claim": "Each symbol consumes its endpoint weight even in one HTTP batch.",
+      "implication": "Three weight-one symbols need three credits.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-DATA-10",
+      "url": "https://help.yahoo.com/kb/SLN2310.html",
+      "title": "Yahoo Finance data-usage help",
+      "checked_date": "2026-11-02",
+      "claim": "The help fetch returned 429 and the terms fetch returned 999 in this pass.",
+      "implication": "No Yahoo data-use grant was verified from these failed reads.",
+      "status": "live_proof_pending"
+    }
+  ]
+}

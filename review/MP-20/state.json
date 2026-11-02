@@ -1,0 +1,32 @@
+{
+  "issue": "MP-20",
+  "deliverable": "Foundation Specification Pack1",
+  "round_count": 0,
+  "status": "maker_draft_review_permission_pending",
+  "review_approval": null,
+  "independent_review": "not_run",
+  "real_fixed_findings_ledger": "not_run",
+  "proposed_lanes": [
+    "Data/source rights, quotas and quantitative cost feasibility",
+    "Financial contracts, ledger publication, formulas and worked examples",
+    "Forecast science, qualification and cross-lane interfaces"
+  ],
+  "gates": [
+    "Offline JSON/schema/negative format/record validation",
+    "Exact financial/scientific example arithmetic",
+    "108 cost scenarios and confirmed collection schedules",
+    "Pinned source/provenance and local-link checks",
+    "Ruff F and git whitespace",
+    "Cost plot maker visual inspection"
+  ],
+  "limits": [
+    "No backend/live/scientific-evaluator/identity/cloud acceptance executed",
+    "No complete budget or licence feasibility proof",
+    "No complete baseline/UX/build approval",
+    "PR9 checkpoint remains unchanged; this is a separate main-based branch"
+  ],
+  "owner_detail_receipts": [
+    "FND-DEC-001",
+    "FND-DEC-002"
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "as_of": "2026-11-02",
+  "owner_confirmed_choices": [
+    "DynamoDB operational records and private encrypted S3 originals",
+    "One controlled backend financial writer; agents draft and owner confirms exact payload",
+    "Separate dev/prod accounts",
+    "GBP portfolio presentation with local detail",
+    "CSV, Excel, PDF, screenshot and manual inputs in v1; sample-backed supported layouts",
+    "Append-only corrections",
+    "Growth 35%, protection 40%, opportunity 25%",
+    "Portfolio-risk priority; peak drawdown and cost-basis loss separately",
+    "1/5/10/20 trading sessions; 3/6/12 calendar months; 3–5-year scenarios",
+    "Calendar-month anniversaries roll to preceding valid local session/valuation date; score on canonical availability",
+    "£100 aggregate all-in: £70 operating, £30 reserve"
+  ],
+  "decisions": [
+    {
+      "id": "FIN-OD-01",
+      "topic": "Numeric precision, rounding and reconciliation",
+      "proposal": "Propose 28 significant and 12 fractional digits for money/quantity/price, 16 fractional for FX, 50 working digits, half-even presentation and exact source reconciliation. Record calculated allocation residuals explicitly.",
+      "consequence_if_unresolved": "Reject unsupported precision with field evidence; qualify instrument/source bounds before freezing.",
+      "contract_refs": [
+        "FIN-02",
+        "FIN-05"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-02",
+      "topic": "Approval lifetime and subset policy",
+      "proposal": "Propose 15 minutes with strict server_now < expires_at and sensitive-action assurance. Permit a logically consistent explicit subset only with a new hash and disclosed exclusions. Define expiry at trusted-writer transaction submission; completion can occur later because DynamoDB has no server-clock condition. Strict completion-before-expiry needs a different proved control.",
+      "consequence_if_unresolved": "Drafting can continue; activation requires an agreed expiry, assurance and subset policy.",
+      "contract_refs": [
+        "FIN-07",
+        "FIN-08"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-03",
+      "topic": "Trade/settlement and baseline rebase",
+      "proposal": "Propose trade-date exposure with receivable/payable until supported settlement, nonadditive observations and an owner-confirmed backfill cutover generation.",
+      "consequence_if_unresolved": "Never guess settlement. Unsupported negative/margin positions and material reconciliation conflicts block affected metrics.",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-13"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-04",
+      "topic": "Numerical XIRR solver policy",
+      "proposal": "Propose bounded (-0.999999,100] search, uniqueness certificate or abstention, rate tolerance 1e-10 and NPV tolerance max(1e-8 currency units,1e-12×sum absolute flows). Measure a finite resource budget before implementation.",
+      "consequence_if_unresolved": "No headline rate under ambiguity or nonconvergence. A grid cannot certify full-domain uniqueness.",
+      "contract_refs": [
+        "FIN-14"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-05",
+      "topic": "Analytical basis and benchmark mapping",
+      "proposal": "Use source-supported basis first; analytical FIFO only after approval, labelled separately from tax basis. Choose per-market/kind benchmark mapping, TR convention, fees, flow timing and missing-session policy.",
+      "consequence_if_unresolved": "Basis gain or benchmark may remain unavailable without blocking independently supported valuation.",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-17"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-06",
+      "topic": "Risk windows and source freshness",
+      "proposal": "Propose 126 common return sessions, minimum 100 valid observations and a 252-session sensitivity; no zero fill and a common complete covariance matrix. Price/NAV/FX age limits join the data specification.",
+      "consequence_if_unresolved": "Coverage and close-time alignment need evidence. No full-risk claim from partial holdings or arbitrary covariance repair.",
+      "contract_refs": [
+        "FIN-15",
+        "FIN-18"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-07",
+      "topic": "Ranking normalization, thresholds and ties",
+      "proposal": "Keep owner weights 35/40/25. Propose all three components required and normalization to [0,100] only after evaluation. No action threshold is selected.",
+      "consequence_if_unresolved": "Do not classify an action until normalization, tie handling and thresholds have evidence and owner agreement.",
+      "contract_refs": [
+        "FIN-18"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    },
+    {
+      "id": "FIN-OD-08",
+      "topic": "Audit integrity, retention, export expiry and physical design",
+      "proposal": "Agree financial/audit/approval/idempotency retention and private export expiry; choose independently protected integrity anchors and restore-erasure proof. Prove access patterns and costs before DDB key/index selection.",
+      "consequence_if_unresolved": "Cannot certify tamper resistance or complete original availability; build waits for visibility/recovery proof.",
+      "contract_refs": [
+        "FIN-09",
+        "FIN-11",
+        "FIN-16"
+      ],
+      "status": "owner_pending",
+      "approved": false,
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    }
+  ]
+}

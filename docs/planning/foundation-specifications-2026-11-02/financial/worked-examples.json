@@ -1,0 +1,643 @@
+{
+  "as_of": "2026-11-02",
+  "status": "hand_worked_specification_not_engine_results",
+  "examples": [
+    {
+      "id": "FIN-EX-01",
+      "title": "Unique annual XIRR",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-14"
+      ],
+      "input": {
+        "flows": [
+          {
+            "date": "2025-01-01",
+            "GBP": "-100"
+          },
+          {
+            "date": "2026-01-01",
+            "GBP": "110",
+            "kind": "terminal_NAV"
+          }
+        ],
+        "day_offsets": [
+          0,
+          365
+        ]
+      },
+      "expected": {
+        "status": "available",
+        "annualized_ratio": "0.10",
+        "npv_residual_GBP": "0",
+        "root_count": 1
+      },
+      "hand_working": [
+        "-100 + 110/(1+0.10) = 0; dates are exactly 365 days apart.",
+        "A single negative initial flow and later positive terminal flow establish a unique root for r > -1."
+      ]
+    },
+    {
+      "id": "FIN-EX-02",
+      "title": "Multiple valid XIRR roots",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-14"
+      ],
+      "input": {
+        "day_offsets": [
+          0,
+          365,
+          730
+        ],
+        "GBP_flows": [
+          "-100",
+          "230",
+          "-132"
+        ]
+      },
+      "expected": {
+        "status": "ambiguous",
+        "value": null,
+        "root_candidates": [
+          "0.10",
+          "0.20"
+        ],
+        "residuals_GBP": [
+          "0",
+          "0"
+        ],
+        "automatic_guess_selection": false
+      },
+      "hand_working": [
+        "Multiply NPV by (1+r)^2: -100(1+r)^2 + 230(1+r) - 132 = -100r^2 + 30r - 2.",
+        "Factor as -100(r-0.1)(r-0.2); both 10% and 20% are valid roots."
+      ]
+    },
+    {
+      "id": "FIN-EX-03",
+      "title": "Portfolio deposit, buy, net dividend, fee and retained cash",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-14"
+      ],
+      "input": {
+        "account": "fictional-UK-A",
+        "listing": "XLON:VOD",
+        "events": [
+          {
+            "kind": "deposit",
+            "GBP_cash": "1000"
+          },
+          {
+            "kind": "buy_record",
+            "units": "2",
+            "unit_price_GBP": "100",
+            "fee_GBP": "1",
+            "net_GBP_cash": "-201"
+          },
+          {
+            "kind": "dividend",
+            "gross_GBP": "10",
+            "withholding_GBP": "2",
+            "net_GBP_cash": "8"
+          },
+          {
+            "kind": "fee",
+            "GBP_cash": "-3"
+          }
+        ],
+        "terminal_price_GBP": "110",
+        "day_offsets": [
+          0,
+          365
+        ],
+        "settlement_subcase": {
+          "pre_settlement_settled_GBP": "1000",
+          "pre_settlement_payable_GBP": "-201",
+          "settlement_legs": [
+            {
+              "cash_state": "settled",
+              "GBP": "-201"
+            },
+            {
+              "cash_state": "payable",
+              "GBP": "201"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "cash_GBP": "804",
+        "holding_value_GBP": "220",
+        "NAV_GBP": "1024",
+        "portfolio_external_flows_GBP": [
+          "-1000",
+          "1024"
+        ],
+        "portfolio_XIRR": "0.024",
+        "holding_acquisition_flow_GBP": "-201",
+        "holding_distribution_flow_GBP": "8",
+        "extra_portfolio_dividend_flow_GBP": "0",
+        "settlement_subcase": {
+          "post_settlement_settled_GBP": "799",
+          "post_settlement_payable_GBP": "0",
+          "combined_cash_before_GBP": "799",
+          "combined_cash_after_GBP": "799",
+          "NAV_effect_GBP": "0",
+          "external_flow_GBP": "0",
+          "extra_fee_GBP": "0"
+        }
+      },
+      "hand_working": [
+        "1000 - 201 + 8 - 3 = 804 GBP cash; 2 × 110 = 220 GBP holding; total NAV = 1024 GBP.",
+        "Gross dividend 10 minus withholding 2 equals net cash 8; post the net cash once, retaining gross/deduction detail.",
+        "All amounts and events are simulated; they are not actual Vodafone distributions or owner holdings.",
+        "Before settlement, 1000 settled plus -201 payable equals 799 cash; after settlement, 799 settled plus zero payable remains 799. Fee is already in the original -201 net purchase."
+      ]
+    },
+    {
+      "id": "FIN-EX-04",
+      "title": "Reinvestment and internal transfer boundaries",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-14"
+      ],
+      "input": {
+        "opening_GBP_cash_A": "100",
+        "opening_GBP_cash_B": "0",
+        "income_net_GBP": "10",
+        "reinvestment_purchase_GBP": "10",
+        "transfer_GBP": "40",
+        "reinvestment_price_GBP": "5"
+      },
+      "expected": {
+        "A_cash_GBP": "60",
+        "B_cash_GBP": "40",
+        "reinvested_units": "2",
+        "portfolio_NAV_GBP": "110",
+        "portfolio_transfer_external_flow_GBP": "0",
+        "A_account_transfer_XIRR_flow_GBP": "40",
+        "B_account_transfer_XIRR_flow_GBP": "-40",
+        "holding_reinvestment_flows_GBP": [
+          "10",
+          "-10"
+        ],
+        "unmatched_variant_status": "unresolved_transfer_withhold_affected_return"
+      },
+      "hand_working": [
+        "Account A: 100+10-10-40 = 60; account B: 40; reinvested holding: 2×5=10; portfolio NAV=110.",
+        "Account A transfer out is a positive investor flow and B transfer in is negative. Portfolio external transfer flow is zero."
+      ]
+    },
+    {
+      "id": "FIN-EX-05",
+      "title": "GBX converted once before cash posting",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-02",
+        "FIN-03",
+        "FIN-05"
+      ],
+      "input": {
+        "listing": "XLON:VOD",
+        "quote_unit": "GBX",
+        "raw_quote": "12000",
+        "factor_GBP_per_GBX": "0.01",
+        "quantity": "2",
+        "fee_GBP": "1"
+      },
+      "expected": {
+        "normalized_price_GBP": "120",
+        "gross_GBP": "240",
+        "cash_delta_GBP": "-241",
+        "quantity_delta": "2",
+        "double_conversion_result_rejected": "-3.40"
+      },
+      "hand_working": [
+        "12000×0.01=120 GBP; 120×2=240 GBP; -(240+1)=-241 GBP.",
+        "All prices are simulated; this does not assert an actual Vodafone quote."
+      ]
+    },
+    {
+      "id": "FIN-EX-06",
+      "title": "Dated USD valuation and multiplicative GBP return",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-15"
+      ],
+      "input": {
+        "listing": "XNAS:AAPL",
+        "units": "2",
+        "start_price_USD": "100",
+        "end_price_USD": "110",
+        "start_FX_GBP_per_USD": "0.8",
+        "end_FX_GBP_per_USD": "0.75",
+        "start_date": "2025-01-01",
+        "end_date": "2026-01-01",
+        "flows": "none",
+        "fx_observation_dates": [
+          "2025-01-01",
+          "2026-01-01"
+        ],
+        "known_at_before_each_cutoff": true
+      },
+      "expected": {
+        "start_GBP": "160",
+        "end_GBP": "165",
+        "local_return": "0.10",
+        "FX_return": "-0.0625",
+        "interaction": "-0.00625",
+        "GBP_return": "0.03125",
+        "annual_XIRR": "0.03125"
+      },
+      "hand_working": [
+        "2×100×0.8=160 GBP; 2×110×0.75=165 GBP.",
+        "1.10×0.9375-1=0.03125; 0.10-0.0625-0.00625=0.03125."
+      ]
+    },
+    {
+      "id": "FIN-EX-07",
+      "title": "Idempotency survives service-token expiry and distinct equal trades",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-07",
+        "FIN-09",
+        "FIN-10"
+      ],
+      "input": {
+        "operation_key": "fictional-op7",
+        "payload_hash_identity": "same_payload_H7",
+        "first_published_at": "2026-11-02T10:00:00Z",
+        "retry_at": "2026-11-02T10:20:01Z",
+        "same_day_trades": [
+          {
+            "source_ref": "broker-fictional-7a",
+            "units": "2",
+            "GBP_cash": "-100"
+          },
+          {
+            "source_ref": "broker-fictional-7b",
+            "units": "2",
+            "GBP_cash": "-100"
+          }
+        ]
+      },
+      "expected": {
+        "logical_publications": 1,
+        "same_receipt": true,
+        "total_units": "4",
+        "total_cash_GBP": "-200",
+        "changed_payload_same_key": "IDEMPOTENCY_CONFLICT",
+        "without_stable_refs": "needs_duplicate_review"
+      },
+      "hand_working": [
+        "20 minutes 1 second exceeds the service token window, but the durable business receipt still returns the original result.",
+        "Two distinct stable broker references mean 2+2 units and -100-100 GBP cash; equal amounts do not merge events."
+      ]
+    },
+    {
+      "id": "FIN-EX-08",
+      "title": "Large staging crash and readers pinned to revision",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-09",
+        "FIN-10",
+        "FIN-11",
+        "FIN-12"
+      ],
+      "input": {
+        "expected_revision": 10,
+        "event_count": 1000,
+        "chunk_count": 20,
+        "events_per_chunk": 50,
+        "event_audit_intent_items_per_chunk": 150,
+        "crash_after_completed_chunks": 7,
+        "chunk_action_budget_policy": "Subdivide 150 record actions before any transaction submission.",
+        "next_published_revision": 11
+      },
+      "expected": {
+        "oversized_chunk_plan": "rejected_before_submission",
+        "revised_max_events_per_chunk": 30,
+        "revised_record_actions_per_chunk": 90,
+        "revised_overhead_actions_example": 2,
+        "revised_total_actions_example": 92,
+        "partial_staging_visible_events": 0,
+        "revision_10_reader_visible_new_events": 0,
+        "revision_11_reader_visible_new_events": 1000,
+        "missing_expected_item_result": "INTEGRITY_INCOMPLETE",
+        "outbox_before_publication": 0,
+        "published_commits": 1
+      },
+      "hand_working": [
+        "50 events with three record actions each already require 150 actions, exceeding 100.",
+        "30×3 record actions plus one fence check and one chunk receipt give 92 actions; item and aggregate byte budgets must still pass.",
+        "Seven completed chunks do not publish anything. Resume immutable staging and publish one head revision."
+      ]
+    },
+    {
+      "id": "FIN-EX-09",
+      "title": "Expired approval, cancellation and ambiguous timeout",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-08",
+        "FIN-09",
+        "FIN-10"
+      ],
+      "input": {
+        "approved_at": "2026-11-02T10:00:00Z",
+        "expires_at": "2026-11-02T10:15:00Z",
+        "attempt_at": "2026-11-02T10:15:00Z",
+        "outcome_unknown_variant": "Activation response was lost.",
+        "cancel_variant": "Cancellation wins the conditional state change before publication."
+      },
+      "expected": {
+        "expires_at_inclusive_denial": true,
+        "expired_new_publication_events": 0,
+        "timeout_action": "read_same_operation_receipt_strongly",
+        "published_timeout_variant": "Return the original receipt even if approval has since expired.",
+        "cancelled_variant_events": 0,
+        "postpublication_cancel": "requires_new_correction_approval"
+      },
+      "hand_working": [
+        "Eligibility requires server_now < expires_at; equality fails.",
+        "A timeout does not prove failure. Read the same operation receipt before retrying; do not invent a compensating operation."
+      ]
+    },
+    {
+      "id": "FIN-EX-10",
+      "title": "Concurrent fee correction and append-only replay",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-05",
+        "FIN-08",
+        "FIN-09",
+        "FIN-14"
+      ],
+      "input": {
+        "opening_cash_GBP": "1000",
+        "original_buy": {
+          "event_id": "fictional-buy10",
+          "units": "2",
+          "gross_GBP": "200",
+          "fee_GBP": "1",
+          "cash_GBP": "-201"
+        },
+        "corrections": [
+          {
+            "expected_revision": 11,
+            "new_fee_GBP": "2"
+          },
+          {
+            "expected_revision": 11,
+            "new_fee_GBP": "3"
+          }
+        ],
+        "winning_new_fee_GBP": "2"
+      },
+      "expected": {
+        "winning_revision": 12,
+        "inverse_units": "-2",
+        "inverse_cash_GBP": "201",
+        "replacement_units": "2",
+        "replacement_cash_GBP": "-202",
+        "net_correction_units": "0",
+        "net_correction_cash_GBP": "-1",
+        "current_units": "2",
+        "current_cash_GBP": "798",
+        "loser": "STALE_REVISION_REPREVIEW_REAPPROVE",
+        "original_event_preserved": true,
+        "prior_forecast_revision": 11
+      },
+      "hand_working": [
+        "1000-201=799 GBP; 799+201-202=798 GBP.",
+        "Replay original plus inverse plus replacement. Excluding the original as well would produce an incorrect position."
+      ]
+    },
+    {
+      "id": "FIN-EX-11",
+      "title": "Snapshot with unknown history then nonadditive backfill",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-13",
+        "FIN-14"
+      ],
+      "input": {
+        "snapshot": {
+          "listing": "XNSE:RELIANCE",
+          "units": "2",
+          "value_INR": "200",
+          "cost_basis": null,
+          "history_complete": false
+        },
+        "later_accepted_history": [
+          {
+            "kind": "buy_record",
+            "units": "2",
+            "gross_INR": "180",
+            "fee_INR": "2"
+          }
+        ],
+        "same_date_price_INR": "100"
+      },
+      "expected": {
+        "snapshot_value_INR": "200",
+        "snapshot_XIRR": null,
+        "snapshot_XIRR_reason": "missing_dated_flows",
+        "snapshot_basis_loss": null,
+        "new_generation_units": "2",
+        "doublecounted_units_rejected": "4",
+        "analytical_basis_INR": "182",
+        "unrealized_gain_INR": "18",
+        "rebase_requires_approval": true
+      },
+      "hand_working": [
+        "Two history units replace the opening baseline generation; do not add them to the two snapshot units.",
+        "2×100=200 INR; 200-(180+2)=18 INR analytical gain, not an annual return."
+      ]
+    },
+    {
+      "id": "FIN-EX-12",
+      "title": "TWR and withdrawal-safe peak drawdown",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-18"
+      ],
+      "input": {
+        "opening_NAV_GBP": "100",
+        "before_deposit_NAV_GBP": "110",
+        "deposit_GBP": "100",
+        "after_deposit_NAV_GBP": "210",
+        "terminal_NAV_GBP": "189",
+        "withdrawal_variant": {
+          "before_withdrawal_GBP": "200",
+          "withdrawal_GBP": "100",
+          "after_withdrawal_GBP": "100"
+        }
+      },
+      "expected": {
+        "first_subperiod_return": "0.10",
+        "second_subperiod_return": "-0.10",
+        "TWR": "-0.01",
+        "wealth_index": [
+          "100",
+          "110",
+          "99"
+        ],
+        "maximum_drawdown": "0.10",
+        "withdrawal_variant_market_drawdown": "0",
+        "missing_flow_time_valuation_variant": "unavailable_TWR_and_flow_adjusted_drawdown"
+      },
+      "hand_working": [
+        "110/100-1=0.10; 189/210-1=-0.10; 1.1×0.9-1=-0.01.",
+        "Wealth index 100→110→99 has drawdown 1-99/110=0.10.",
+        "NAV 200→100 after a 100 withdrawal has no investment loss. Its raw 50% drop is not market drawdown."
+      ]
+    },
+    {
+      "id": "FIN-EX-13",
+      "title": "Cash-flow-matched benchmark is hypothetical",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-17"
+      ],
+      "input": {
+        "benchmark_total_return_levels": [
+          "100",
+          "110",
+          "121"
+        ],
+        "external_contributions_GBP": [
+          "100",
+          "110"
+        ],
+        "contribution_level_indices": [
+          0,
+          1
+        ],
+        "end_level_index": 2,
+        "benchmark_currency": "GBP",
+        "fees_assumed": "0"
+      },
+      "expected": {
+        "notional_unit_additions": [
+          "1",
+          "1"
+        ],
+        "notional_terminal_units": "2",
+        "benchmark_terminal_value_GBP": "242",
+        "broker_orders": 0,
+        "missing_middle_level_variant": "Withhold unless an approved missing-session rule applies.",
+        "withdrawal_exceeds_units_variant": "unavailable"
+      },
+      "hand_working": [
+        "100/100=1 notional unit; 110/110=1 additional unit; 2×121=242 GBP terminal value.",
+        "The total-return index includes income. Adding dividend cash again would double-count it."
+      ]
+    },
+    {
+      "id": "FIN-EX-14",
+      "title": "Look-through residual, overlap and concentration",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-18"
+      ],
+      "input": {
+        "portfolio_GBP_NAV": "100",
+        "direct_AAPL_GBP": "20",
+        "fund_1_GBP": "50",
+        "fund_2_GBP": "30",
+        "fund_1_weights": {
+          "AAPL": "0.4",
+          "other_issuer": "0.4",
+          "unknown": "0.2"
+        },
+        "fund_2_weights": {
+          "AAPL": "0.5",
+          "other_issuer": "0.5"
+        }
+      },
+      "expected": {
+        "AAPL_economic_weight": "0.55",
+        "other_issuer_weight": "0.35",
+        "unknown_weight": "0.10",
+        "fund_known_overlap": "0.8",
+        "overlap_upper_bound": "1.0",
+        "known_only_HHI": "0.425",
+        "complete_HHI": null,
+        "missing_covariance_observation_variant": "withhold_complete_portfolio_volatility"
+      },
+      "hand_working": [
+        "AAPL exposure: 0.20+0.50×0.40+0.30×0.50=0.55; other issuer: 0.50×0.40+0.30×0.50=0.35; residual:0.50×0.20=0.10.",
+        "Known overlap min(0.4,0.5)+min(0.4,0.5)=0.8. Unknown leaves could raise the upper bound to 1.0.",
+        "Known-only HHI: 0.55²+0.35²=0.425. Unknown exposure cannot be treated as zero."
+      ]
+    },
+    {
+      "id": "FIN-EX-15",
+      "title": "Basis loss, unavailable score, same-day solver and export",
+      "is_synthetic": true,
+      "classification": "All accounts, observations, dates, holdings, cash flows and amounts are fictional; instrument identifiers alone are public real examples.",
+      "contract_refs": [
+        "FIN-14",
+        "FIN-16",
+        "FIN-18"
+      ],
+      "input": {
+        "remaining_basis_GBP": "120",
+        "current_value_GBP": "90",
+        "historical_wealth_peak": "100",
+        "current_wealth_index": "90",
+        "component_scores": {
+          "growth": "80",
+          "protection": null,
+          "opportunity": "60"
+        },
+        "same_day_flows_GBP": [
+          "-100",
+          "110"
+        ],
+        "missing_price_variant": {
+          "known_value_GBP": "90",
+          "unknown_position_value": null
+        },
+        "export_revision": 12
+      },
+      "expected": {
+        "basis_loss": "0.25",
+        "peak_drawdown": "0.10",
+        "weighted_score": null,
+        "ranking_status": "abstain_missing_protection",
+        "same_day_XIRR": null,
+        "same_day_status": "unavailable_zero_duration",
+        "known_subtotal_GBP": "90",
+        "complete_NAV": null,
+        "export_must_pin_revision": 12,
+        "export_creation_access_deletion_audited": true
+      },
+      "hand_working": [
+        "(120-90)/120=0.25 basis loss; 1-90/100=0.10 peak drawdown; these measure different things.",
+        "Neutral protection 50 would fabricate evidence: the resulting 0.35×80+0.40×50+0.25×60=63 is forbidden.",
+        "Same-day NPV is 10 for every rate, so there is no annualized XIRR solution."
+      ]
+    }
+  ]
+}

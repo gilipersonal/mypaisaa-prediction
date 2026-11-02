@@ -1,0 +1,448 @@
+{
+  "status": "synthetic_hand_worked_specification_not_application_pass",
+  "schema_version": "1",
+  "as_of": "2026-11-02",
+  "instrument_identity_source": "read-only /Users/arundutta/projects/mypaisaa-prediction/data/synthetic-v1/local/instruments.json and pinned portfolio-import-examples.json",
+  "data_policy": "Real instrument identities; all amounts, paths, revisions and fault events artificial. No provider observations or owner holdings. Dates are artificial except official G06 holiday/early close.",
+  "examples": [
+    {
+      "id": "SCI-G01",
+      "title": "Return, peak drawdown and origin excursion differ",
+      "instrument_ids": [
+        "XNAS:AAPL"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "wealth_path": [
+          "100",
+          "120",
+          "90",
+          "110"
+        ],
+        "delta": "0.20",
+        "alpha": "0.20",
+        "terminal_tau": "0.05"
+      },
+      "expected": {
+        "terminal_return": "0.10",
+        "maximum_drawdown_daily_path": "0.25",
+        "origin_adverse_excursion": "0.10",
+        "up_event": 1,
+        "MDD_event": 1,
+        "MAE_event": 0,
+        "terminal_loss_event": 0
+      },
+      "hand_working": "R=110/100-1=.10; D=1-90/120=.25; A=1-90/100=.10.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G02",
+      "title": "FX reverses positive native return",
+      "instrument_ids": [
+        "XNAS:MSFT"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "native_TRI": [
+          "100",
+          "110"
+        ],
+        "GBP_per_USD": [
+          "0.80",
+          "0.72"
+        ]
+      },
+      "expected": {
+        "local_return": "0.10",
+        "FX_return": "-0.10",
+        "GBP_return": "-0.01",
+        "GBP_wealth": [
+          "80",
+          "79.20"
+        ],
+        "up_GBP": 0
+      },
+      "hand_working": "(1.10*.90)-1=-.01; interaction .10*-.10=-.01.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G03",
+      "title": "Split causes no wealth loss",
+      "instrument_ids": [
+        "XNAS:NVDA"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "raw_price_before": "100",
+        "raw_price_after": "50",
+        "split_new_units_per_old": "2",
+        "origin_units": "1",
+        "distribution": "0"
+      },
+      "expected": {
+        "terminal_return": "0",
+        "up_event": 0,
+        "naive_raw_price_return_rejected": "-0.50"
+      },
+      "hand_working": "1*100=2*50=100. Split-normalised index is100\u2192100.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G04",
+      "title": "Dividend is counted once",
+      "instrument_ids": [
+        "XNYS:JPM"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_price": "100",
+        "ex_date_price": "98",
+        "cash_distribution_per_old_unit": "2",
+        "terminal_equals_ex_date": true
+      },
+      "expected": {
+        "gross_total_return": "0",
+        "price_only_return": "-0.02",
+        "ledger_distribution": "2",
+        "double_counted_total_return_rejected": "0.02"
+      },
+      "hand_working": "Self-financing wealth=98+2=100; reinvestment gives100/98units worth100. TRI already includes distribution.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G05",
+      "title": "GBX normalization not a hundredfold FX move",
+      "instrument_ids": [
+        "XLON:CNX1"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_quote_GBX": "10000",
+        "terminal_quote_GBX": "11000",
+        "GBX_per_GBP": "100",
+        "GBP_per_GBP": "1"
+      },
+      "expected": {
+        "origin_GBP": "100",
+        "terminal_GBP": "110",
+        "terminal_return": "0.10"
+      },
+      "hand_working": "10000/100=100;11000/100=110.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G06",
+      "title": "US holiday next session and half-day close",
+      "instrument_ids": [
+        "ARCX:SPY"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_session": "2026-11-25",
+        "horizon_sessions": 1,
+        "calendar_excerpt": [
+          {
+            "date": "2026-11-26",
+            "state": "closed_Thanksgiving"
+          },
+          {
+            "date": "2026-11-27",
+            "state": "early_close",
+            "close_local": "13:00 America/New_York"
+          }
+        ],
+        "origin_TRI": "100",
+        "maturity_TRI": "101"
+      },
+      "expected": {
+        "maturity_session": "2026-11-27",
+        "terminal_return": "0.01",
+        "maturity_at": "2026-11-27T18:00:00Z"
+      },
+      "hand_working": "Thanksgiving is not counted; next actual session is Nov27 at13:00 ET.",
+      "requirements": "SCI-01",
+      "calendar_evidence": "https://www.nyse.com/markets/hours-calendars"
+    },
+    {
+      "id": "SCI-G07",
+      "title": "Cross-market sessions stay local",
+      "instrument_ids": [
+        "XNSE:RELIANCE",
+        "XLON:CNX1",
+        "ARCX:SPY"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "synthetic_calendar_sessions": {
+          "XNSE": [
+            "2026-01-23",
+            "2026-01-27"
+          ],
+          "XLON": [
+            "2026-01-23",
+            "2026-01-26"
+          ],
+          "ARCX": [
+            "2026-01-23",
+            "2026-01-26"
+          ]
+        },
+        "origin": "2026-01-23",
+        "horizon_sessions": 1
+      },
+      "expected": {
+        "maturities": {
+          "XNSE:RELIANCE": "2026-01-27",
+          "XLON:CNX1": "2026-01-26",
+          "ARCX:SPY": "2026-01-26"
+        },
+        "cross_asset_split_unit": "UTC_origin_date_block"
+      },
+      "hand_working": "Count supplied local session arrays, not common weekdays; this artificial calendar is not a production exchange assertion.",
+      "requirements": "SCI-01"
+    },
+    {
+      "id": "SCI-G08",
+      "title": "Month-end clamp and leap day",
+      "instrument_ids": [
+        "XLON:AZN"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_session": "2024-02-29",
+        "horizon_calendar_months": 12,
+        "synthetic_valid_sessions": [
+          "2025-02-27",
+          "2025-02-28"
+        ],
+        "roll": "clamp_then_preceding"
+      },
+      "expected": {
+        "unrolled_date": "2025-02-28",
+        "maturity_session": "2025-02-28",
+        "equivalent_252_sessions": false
+      },
+      "hand_working": "2025 has no Feb29; clamp to Feb28 then use supplied valid date. A calendar month is not a fixed session count.",
+      "requirements": "SCI-01"
+    },
+    {
+      "id": "SCI-G09",
+      "title": "Delayed NAV keeps economic date and price type",
+      "instrument_ids": [
+        "ARCX:SPY"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "product_kind": "ETF",
+        "synthetic_source_profile": "FUND_NAV_only_not_product_claim",
+        "task_price_type": "FUND_NAV",
+        "origin_effective_date": "2026-10-30",
+        "origin_NAV": "100",
+        "origin_published_at": "2026-11-02T10:00:00Z",
+        "origin_ingested_at": "2026-11-02T10:02:00Z",
+        "requested_current_economic_date": "2026-11-02"
+      },
+      "expected": {
+        "known_at": "2026-11-02T10:02:00Z",
+        "valuation_date_remains": "2026-10-30",
+        "fresh_Nov02_origin": "abstain_stale_origin",
+        "MARKET_CLOSE_grading": "prohibited",
+        "OHLC_patterns": "unsupported"
+      },
+      "hand_working": "Real ETF identity; artificial partial source profile. A publication date cannot relabel Friday NAV as Monday NAV. This does not claim SPY is a NAV-only product.",
+      "requirements": "SCI-01_SCI-03"
+    },
+    {
+      "id": "SCI-G10",
+      "title": "Future macro revision excluded",
+      "instrument_ids": [
+        "XNSE:TCS"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "cutoff": "2026-06-01T15:00:00Z",
+        "feature_observation_date": "2026-03-31",
+        "first_release_value": "2.0",
+        "first_release_known_at": "2026-05-01T10:00:00Z",
+        "revision_value": "2.4",
+        "revision_known_at": "2026-06-02T10:00:00Z"
+      },
+      "expected": {
+        "admitted_value": "2.0",
+        "revision_admitted": false
+      },
+      "hand_working": "Economic observation date precedes cutoff but revised information does not.",
+      "requirements": "SCI-03"
+    },
+    {
+      "id": "SCI-G11",
+      "title": "Long label overlap purged",
+      "instrument_ids": [
+        "XNAS:AAPL",
+        "XNAS:MSFT"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "training_origin": "2025-12-31",
+        "training_maturity": "2026-12-31",
+        "training_outcome_known_at": "2027-01-04T10:00:00Z",
+        "validation_boundary": "2026-07-01T00:00:00Z",
+        "horizon_months": 12
+      },
+      "expected": {
+        "training_row_admitted": false,
+        "other_ticker_same_date_escape": false
+      },
+      "hand_working": "The label spans validation and is unknown at boundary; twenty-row gap cannot repair twelve-month overlap.",
+      "requirements": "SCI-05"
+    },
+    {
+      "id": "SCI-G12",
+      "title": "Canonical correction appends outcome and score",
+      "instrument_ids": [
+        "XNAS:AAPL"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "prediction_id": "synthetic-P12",
+        "origin_TRI": "100",
+        "p_up": "0.70",
+        "first_terminal_TRI": "90",
+        "corrected_terminal_TRI": "110",
+        "first_outcome_id": "synthetic-O12-v1",
+        "corrected_outcome_id": "synthetic-O12-v2"
+      },
+      "expected": {
+        "first_return": "-0.10",
+        "first_up": 0,
+        "first_Brier": "0.49",
+        "corrected_return": "0.10",
+        "corrected_up": 1,
+        "corrected_Brier": "0.09",
+        "prediction_mutates": false,
+        "first_score_retained": true,
+        "supersedes": "synthetic-O12-v1"
+      },
+      "hand_working": "(.70-0)^2=.49;(.70-1)^2=.09. Distinct truth-policy cohorts retain both.",
+      "requirements": "SCI-02"
+    },
+    {
+      "id": "SCI-G13",
+      "title": "Missed cutoff cannot backdate daily origin",
+      "instrument_ids": [
+        "XNSE:INFY"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_at": "2026-11-02T10:00:00Z",
+        "data_cutoff": "2026-11-02T11:00:00Z",
+        "price_ingested_at": "2026-11-02T11:05:00Z",
+        "next_open_at": "2026-11-03T03:45:00Z",
+        "job_finished_at": "2026-11-03T04:00:00Z"
+      },
+      "expected": {
+        "late_price_admitted": false,
+        "forecast_status": "missed_origin",
+        "backdate_allowed": false
+      },
+      "hand_working": "Both cutoff and issuance deadline fail. Timestamps are artificial, not NSE schedule assertions.",
+      "requirements": "SCI-01"
+    },
+    {
+      "id": "SCI-G14",
+      "title": "Hypothetical delisting never disappears from study",
+      "instrument_ids": [
+        "XNAS:AMZN"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "hypothetical_fault_not_actual_event": true,
+        "origin_wealth": "100",
+        "endpoint_missing_after_simulated_delisting": true,
+        "verified_proceeds": null
+      },
+      "expected": {
+        "outcome_status": "delisted_unresolved",
+        "return": null,
+        "zero_return_imputed": false,
+        "removed_from_universe": false
+      },
+      "hand_working": "No evidenced proceeds means no terminal label. If separately evidenced proceeds were20, R would be-.80; if zero, R=-1.00. Neither is inferred here.",
+      "requirements": "SCI-02_SCI-03"
+    },
+    {
+      "id": "SCI-G15",
+      "title": "Benchmark probability differs from up and cost-basis loss",
+      "instrument_ids": [
+        "XLON:CNX1",
+        "ARCX:SPY"
+      ],
+      "mode": "synthetic",
+      "is_synthetic": true,
+      "amounts_are_observed": false,
+      "real_holdings": false,
+      "inputs": {
+        "origin_TRI": "100",
+        "terminal_TRI": "102",
+        "benchmark_origin_TRI": "100",
+        "benchmark_terminal_TRI": "103",
+        "same_currency_and_endpoints": true,
+        "ledger_cost_basis_GBP": "120",
+        "current_value_GBP": "102"
+      },
+      "expected": {
+        "terminal_return": "0.02",
+        "up_event": 1,
+        "benchmark_return": "0.03",
+        "excess_return": "-0.01",
+        "excess_event": 0,
+        "cost_basis_loss_fraction": "0.15",
+        "cost_basis_loss_is_MDD": false
+      },
+      "hand_working": "R=.02;Rb=.03;E=-.01. Cost-basis loss=(120-102)/120=.15 needs ledger scope; not forecast path drawdown.",
+      "requirements": "SCI-02"
+    }
+  ]
+}

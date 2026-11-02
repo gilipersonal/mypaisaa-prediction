@@ -1,0 +1,74 @@
+{
+  "status": "prepared_not_published",
+  "pages": [
+    {
+      "title": "DRAFT | MP | Foundation Specification Pack1",
+      "parent_id": "4981438",
+      "space": "mypaisaapr",
+      "source": "README.md",
+      "source_sha256": "94cf28ce8b07b7a6e28d5d0252a9079aad5d4473eb28f9b8e30c48e57ffacad5",
+      "body": "publication/01.html",
+      "body_sha256": "81ad0b871424de794afa1d4a29c60ed9f2328eb0a0ab444f1091b9d0e1475f61",
+      "content_id": null,
+      "status": "prepared_not_published"
+    },
+    {
+      "title": "DRAFT | MP | A04 source capabilities and acquisition contracts",
+      "parent_id": "5145394",
+      "space": "mypaisaapr",
+      "source": "data/specification.md",
+      "source_sha256": "b4c1dc12a8a46711aa52864ff0482884920b3b0241df2c3f4bab996ac5b0f2d3",
+      "body": "publication/02.html",
+      "body_sha256": "787b08466e83385c79021cff2e0ac4b19ff2fc213b901ea5d7aebd5786cb658e",
+      "content_id": null,
+      "status": "prepared_not_published"
+    },
+    {
+      "title": "DRAFT | MP | A03 ledger and financial calculation contracts",
+      "parent_id": "5145394",
+      "space": "mypaisaapr",
+      "source": "financial/specification.md",
+      "source_sha256": "f9880134cb172935a2d3ecbf078c91aefbff3f8bb10596bd52b969506544d645",
+      "body": "publication/03.html",
+      "body_sha256": "14d25350ef2cc073a368478281652094cbaf16f47d27d5608b35c79f5e19bc76",
+      "content_id": null,
+      "status": "prepared_not_published"
+    },
+    {
+      "title": "DRAFT | MP | A05 forecasting tasks and qualification contracts",
+      "parent_id": "5145394",
+      "space": "mypaisaapr",
+      "source": "forecasting/forecasting-specification.md",
+      "source_sha256": "d03748e8f57d402ddeaa8fb88fe8be75a9c27d97e82ceb4bf8b7ce788e014a36",
+      "body": "publication/04.html",
+      "body_sha256": "3f721040ef5c827cc4bbd6d7fbe94fa398e031b5fe577ab95627cb8a2368dc83",
+      "content_id": null,
+      "status": "prepared_not_published"
+    },
+    {
+      "title": "DRAFT | MP | A10 foundation cost feasibility and reservations",
+      "parent_id": "5145394",
+      "space": "mypaisaapr",
+      "source": "costs/specification.md",
+      "source_sha256": "523319f46ec0608f0f631686af0f60abaec40582ad0d36e279ac12eaef3a9d51",
+      "body": "publication/05.html",
+      "body_sha256": "9124ba3146cc445db77752bb63fab52b7455577cb6acb90294117ccb670b8271",
+      "content_id": null,
+      "status": "prepared_not_published"
+    }
+  ],
+  "new_pages": 5,
+  "attachments_proposed": [
+    {
+      "source": "costs/cost-scenarios.png",
+      "bytes": 146109,
+      "sha256": "2394590ce0209f0079be4f45a5924fd3d2727f55289b0bd0e0593f523bbc79fd",
+      "target_page": "Foundation Specification Pack1 index",
+      "marker": "FOUNDATION-COST-FIGURE",
+      "status": "not_uploaded"
+    }
+  ],
+  "existing_page_edits": [],
+  "permission": "No Confluence/Site/Lucid write or sharing change authorised. Before publication recheck actual MP space instructions, parents and collisions, obtain exact scope approval, resolve marker with real returned media IDs, then read back.",
+  "limitations": "These are local rich reading proposals; native architecture diagram changes and scientific/backend/live proof are not performed."
+}

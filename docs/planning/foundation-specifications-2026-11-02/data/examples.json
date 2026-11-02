@@ -1,0 +1,288 @@
+{
+  "status": "proposed",
+  "notice": "Real independently sourced instrument identifiers. Every observation, price, action, timestamp, calendar and FX rate is simulated, not a holding or live-data claim; the simulated AAPL split is fictional.",
+  "observations": [
+    {
+      "observation_id": "SIM-OBS-01",
+      "mode": "synthetic",
+      "environment": "ci",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "data_kind": "daily_ohlcv",
+      "source": "synthetic_fixture",
+      "source_symbol": "AAPL",
+      "mapping_version": "sim-1",
+      "economic_at": "2026-10-30T20:00:00Z",
+      "effective_date": "2026-10-30",
+      "published_at": "2026-10-30T20:00:00Z",
+      "ingested_at": "2026-10-30T21:00:00Z",
+      "known_at": "2026-10-30T21:00:00Z",
+      "publication_evidence": "simulated",
+      "revision_id": "1",
+      "supersedes": null,
+      "normaliser_version": "proposal-1",
+      "payload_sha256": "7d5cffb6b96f6a50f0f0e69d0133f07cbacab109240e28c2feeb214b80f1a768",
+      "entitlement_ids": [],
+      "calendar_version": "sim-calendar-2026",
+      "adjustment_mode": "raw",
+      "quality_flags": [
+        "simulated_not_market_data"
+      ],
+      "payload": {
+        "open": "200.00",
+        "high": "202.00",
+        "low": "198.00",
+        "close": "201.00",
+        "currency": "USD",
+        "quote_unit": "USD",
+        "unit_factor": "1",
+        "interval_start": "2026-10-30T13:30:00Z",
+        "interval_end": "2026-10-30T20:00:00Z",
+        "volume": null
+      }
+    },
+    {
+      "observation_id": "SIM-OBS-02",
+      "mode": "synthetic",
+      "environment": "ci",
+      "listing_id": "UK-VOD-XLON-GBX",
+      "data_kind": "daily_ohlcv",
+      "source": "synthetic_fixture",
+      "source_symbol": "VOD",
+      "mapping_version": "sim-1",
+      "economic_at": "2026-10-30T16:30:00Z",
+      "effective_date": "2026-10-30",
+      "published_at": "2026-10-30T16:30:00Z",
+      "ingested_at": "2026-10-30T17:30:00Z",
+      "known_at": "2026-10-30T17:30:00Z",
+      "publication_evidence": "simulated",
+      "revision_id": "1",
+      "supersedes": null,
+      "normaliser_version": "proposal-1",
+      "payload_sha256": "866d5baab74d0c4ccda596fffdb045d33999670c049842ff172926aa89178c9f",
+      "entitlement_ids": [],
+      "calendar_version": "sim-calendar-2026",
+      "adjustment_mode": "raw",
+      "quality_flags": [
+        "simulated_not_market_data"
+      ],
+      "payload": {
+        "open": "124.00",
+        "high": "126.00",
+        "low": "123.00",
+        "close": "125.00",
+        "currency": "GBP",
+        "quote_unit": "GBX",
+        "unit_factor": "0.01",
+        "interval_start": "2026-10-30T08:00:00Z",
+        "interval_end": "2026-10-30T16:30:00Z",
+        "volume": null
+      }
+    },
+    {
+      "observation_id": "SIM-OBS-03",
+      "mode": "synthetic",
+      "environment": "ci",
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "data_kind": "daily_ohlcv",
+      "source": "synthetic_fixture",
+      "source_symbol": "RELIANCE",
+      "mapping_version": "sim-1",
+      "economic_at": "2026-10-30T10:00:00Z",
+      "effective_date": "2026-10-30",
+      "published_at": "2026-10-30T10:00:00Z",
+      "ingested_at": "2026-10-30T11:00:00Z",
+      "known_at": "2026-10-30T11:00:00Z",
+      "publication_evidence": "simulated",
+      "revision_id": "1",
+      "supersedes": null,
+      "normaliser_version": "proposal-1",
+      "payload_sha256": "aeb99309800bbcc4d7c54df6544ef94ca2650b61d3f8e90ec494a7209a24d024",
+      "entitlement_ids": [],
+      "calendar_version": "sim-calendar-2026",
+      "adjustment_mode": "raw",
+      "quality_flags": [
+        "simulated_not_market_data"
+      ],
+      "payload": {
+        "open": "1400.00",
+        "high": "1420.00",
+        "low": "1390.00",
+        "close": "1410.00",
+        "currency": "INR",
+        "quote_unit": "INR",
+        "unit_factor": "1",
+        "interval_start": "2026-10-30T03:45:00Z",
+        "interval_end": "2026-10-30T10:00:00Z",
+        "volume": null
+      }
+    },
+    {
+      "observation_id": "SIM-FX-01",
+      "mode": "synthetic",
+      "environment": "ci",
+      "listing_id": "FX-USD-GBP",
+      "data_kind": "fx",
+      "source": "synthetic_fixture",
+      "source_symbol": "USD/GBP",
+      "mapping_version": "sim-1",
+      "economic_at": "2026-10-30T20:00:00Z",
+      "effective_date": "2026-10-30",
+      "published_at": "2026-10-30T20:00:00Z",
+      "ingested_at": "2026-10-30T21:00:00Z",
+      "known_at": "2026-10-30T21:00:00Z",
+      "publication_evidence": "simulated",
+      "revision_id": "1",
+      "supersedes": null,
+      "normaliser_version": "proposal-1",
+      "payload_sha256": "1eb9154143c4b17249db94fe96752e9833c66e9b8e6d4b885f1e57fc35caadd0",
+      "entitlement_ids": [],
+      "calendar_version": "sim-calendar-2026",
+      "adjustment_mode": "not_applicable",
+      "quality_flags": [
+        "simulated_not_market_data"
+      ],
+      "payload": {
+        "base_currency": "USD",
+        "counter_currency": "GBP",
+        "rate": "0.80",
+        "direction": "counter_per_one_base",
+        "leg_ids": []
+      }
+    }
+  ],
+  "derived_examples": [
+    {
+      "id": "SIM-DERIVED-01",
+      "contract": "DATA-04",
+      "input_id": "SIM-OBS-02",
+      "formula": "125.00*0.01",
+      "expected_value": "1.2500",
+      "currency": "GBP"
+    },
+    {
+      "id": "SIM-DERIVED-02",
+      "contract": "DATA-04",
+      "input_ids": [
+        "SIM-OBS-01",
+        "SIM-FX-01"
+      ],
+      "formula": "201.00*0.80",
+      "expected_value": "160.8000",
+      "currency": "GBP"
+    }
+  ],
+  "negative_cases": [
+    {
+      "id": "NEG-DATA-01",
+      "mutation": "Treat VOD 125.00 GBX as GBP 125.00.",
+      "expected": "reject_unit_mismatch",
+      "contract": "DATA-04"
+    },
+    {
+      "id": "NEG-DATA-02",
+      "mutation": "Infer RELIANCE coverage on Basic from global marketing.",
+      "expected": "rights_or_coverage_blocked",
+      "contract": "DATA-02"
+    },
+    {
+      "id": "NEG-DATA-03",
+      "mutation": "Use NAV effective 30 October but published 2 November in the 30 October origin.",
+      "expected": "reject_future_known_at",
+      "contract": "DATA-03"
+    },
+    {
+      "id": "NEG-DATA-04",
+      "mutation": "Bill a three-symbol batch as one credit.",
+      "expected": "reject_under_reservation",
+      "contract": "DATA-07"
+    },
+    {
+      "id": "NEG-DATA-05",
+      "mutation": "Train using a Grow internal-display label without a verified non-display grant.",
+      "expected": "rights_blocked_not_assumed_prohibited",
+      "contract": "DATA-02"
+    },
+    {
+      "id": "NEG-DATA-06",
+      "mutation": "Add a cash dividend to an already total-return series.",
+      "expected": "reject_double_distribution",
+      "contract": "DATA-04"
+    },
+    {
+      "id": "NEG-DATA-07",
+      "mutation": "Release a timed-out request reservation before the provider outcome is known.",
+      "expected": "retain_ambiguous_liability",
+      "contract": "DATA-07"
+    },
+    {
+      "id": "NEG-DATA-08",
+      "mutation": "Copy a synthetic price into a live production receipt.",
+      "expected": "reject_mode_mismatch",
+      "contract": "DATA-08"
+    },
+    {
+      "id": "NEG-DATA-09",
+      "mutation": "Display a cached raw quote after its use grant expires.",
+      "expected": "rights_blocked_even_cache_hit",
+      "contract": "DATA-02"
+    },
+    {
+      "id": "NEG-DATA-10",
+      "mutation": "Backdate historical backfill known_at to the bar date.",
+      "expected": "reject_forged_pit",
+      "contract": "DATA-03"
+    }
+  ],
+  "capabilities": [
+    {
+      "capability_id": "SIM-CAP-01",
+      "source": "synthetic_fixture",
+      "plan": "fixture",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "endpoint": "fixture/daily",
+      "data_kind": "daily_ohlcv",
+      "environment": "ci",
+      "mapping_version": "sim-1",
+      "entitlement_ids": [],
+      "intervals": [
+        "1day"
+      ],
+      "delay_seconds": 0,
+      "history_start": "2026-10-30",
+      "history_end": "2026-10-30",
+      "adjustment_mode": "raw",
+      "timezone": "America/New_York",
+      "credit_weight_per_symbol": 0,
+      "quota_scope": "synthetic_no_network",
+      "proof_time": null,
+      "proof_expiry": null,
+      "coverage_status": "candidate",
+      "evidence_ids": [
+        "RES-DATA-05"
+      ]
+    }
+  ],
+  "corporate_actions": [
+    {
+      "action_id": "SIM-ACTION-01",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "mode": "synthetic",
+      "source": "synthetic_fixture",
+      "kind": "split",
+      "announced_at": "2026-10-29T15:00:00Z",
+      "known_at": "2026-10-29T15:01:00Z",
+      "ingested_at": "2026-10-29T15:01:00Z",
+      "ex_date": "2026-11-02",
+      "effective_date": "2026-11-02",
+      "record_date": null,
+      "payment_date": null,
+      "revision_id": "1",
+      "supersedes": null,
+      "entitlement_ids": [],
+      "payload": {
+        "new_units": "2",
+        "old_units": "1"
+      }
+    }
+  ]
+}

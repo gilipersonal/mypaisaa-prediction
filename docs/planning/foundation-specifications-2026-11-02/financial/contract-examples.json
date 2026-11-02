@@ -1,0 +1,609 @@
+{
+  "as_of": "2026-11-02",
+  "classification": "Entirely synthetic shape examples, not production ledger or outputs. All aaaa digest fields are deliberately illustrative placeholders and are NOT computed cryptographic evidence. References may denote separately retained records. Eligibility/authentication labels are fictional; no real rights or authentication has been verified.",
+  "records": [
+    {
+      "schema": "ScopeEnvelope",
+      "contract_ref": "FIN-01",
+      "value": {
+        "owner_id": "fictional-owner",
+        "environment": "dev",
+        "schema_version": "FIN-1.0",
+        "is_synthetic": true
+      }
+    },
+    {
+      "schema": "Money",
+      "contract_ref": "FIN-02",
+      "value": {
+        "amount": "-201",
+        "currency": "GBP",
+        "quality": "booked",
+        "source_literal": "-201.00"
+      }
+    },
+    {
+      "schema": "InstrumentListing",
+      "contract_ref": "FIN-03",
+      "value": {
+        "listing_id": "UK-VOD-XLON-GBX",
+        "security_id": "public-GB00BH4HKS39",
+        "mic": "XLON",
+        "ticker": "VOD",
+        "quote_unit": "GBX",
+        "settlement_currency": "GBP",
+        "quote_to_currency_factor": "0.01",
+        "calendar_id": "fictional-XLON-2026",
+        "effective_from": "2026-01-01",
+        "effective_to": null,
+        "mapping_version": "fictional-map1",
+        "provider_aliases": [
+          {
+            "provider": "synthetic",
+            "symbol": "VOD.L",
+            "effective_from": "2026-01-01",
+            "effective_to": null
+          }
+        ]
+      }
+    },
+    {
+      "schema": "InvestmentAccount",
+      "contract_ref": "FIN-04",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "account_id": "fictional-UK-A",
+        "institution_alias": "FICTIONAL BROKER",
+        "jurisdiction": "GB",
+        "wrapper_label": "Owner-reported ISA label; no tax inference",
+        "account_kind": "ISA",
+        "settlement_currencies": [
+          "GBP"
+        ],
+        "protected_reference_token": null,
+        "version": "v1",
+        "tax_logic_applied": false
+      }
+    },
+    {
+      "schema": "LedgerEvent",
+      "contract_ref": "FIN-05",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "event_id": "fictional-buy",
+        "commit_id": "fictional-commit",
+        "account_ids": [
+          "fictional-UK-A"
+        ],
+        "kind": "buy_record",
+        "economic_date": "2026-10-30",
+        "economic_at": null,
+        "time_precision": "date",
+        "trade_date": "2026-10-30",
+        "settlement_date": null,
+        "source_sequence": 1,
+        "recorded_at": "2026-11-02T10:00:00Z",
+        "cash_legs": [
+          {
+            "leg_id": "cash1",
+            "account_id": "fictional-UK-A",
+            "money": {
+              "amount": "-201",
+              "currency": "GBP",
+              "quality": "booked",
+              "source_literal": "-201.00"
+            },
+            "cash_state": "payable",
+            "role": "principal",
+            "boundary": "internal_portfolio",
+            "transfer_link": null
+          }
+        ],
+        "quantity_legs": [
+          {
+            "leg_id": "units1",
+            "account_id": "fictional-UK-A",
+            "listing_id": "UK-VOD-XLON-GBX",
+            "units": "2",
+            "role": "acquisition",
+            "lot_reference": "fictional-lot"
+          }
+        ],
+        "fee_detail": [
+          {
+            "amount": "1",
+            "currency": "GBP",
+            "quality": "booked",
+            "source_literal": "1.00"
+          }
+        ],
+        "deduction_detail": [],
+        "cash_detail_mode": "net_leg_includes_details",
+        "source_reference": "fictional-txn1",
+        "economic_identity": "fictional-UK-A:fictional-txn1",
+        "evidence": [
+          {
+            "source_id": "fictional-source",
+            "source_version": "v1",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "locator": "Transactions!G2",
+            "evidence_status": "available"
+          }
+        ],
+        "reverses_event_id": null,
+        "replaces_event_id": null,
+        "action_link": null,
+        "policy_versions": [
+          "fictional-accounting1"
+        ]
+      }
+    },
+    {
+      "schema": "SourceReceipt",
+      "contract_ref": "FIN-06",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "source_id": "fictional-source",
+        "version": "v1",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "byte_count": 1024,
+        "storage_version_ref": "fictional-encrypted-private-object-version",
+        "state": "extracted",
+        "received_at": "2026-11-02T10:00:00Z",
+        "retention_policy": "owner-renewable-original-policy-pending",
+        "intake_method": "Excel",
+        "layout_version": "fictional-layout1",
+        "validation_report_ref": "fictional-validation"
+      }
+    },
+    {
+      "schema": "ImportDraft",
+      "contract_ref": "FIN-07",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "import_id": "fictional-import",
+        "draft_revision": 1,
+        "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "state": "published",
+        "expected_ledger_revision": 10,
+        "source_versions": [
+          "fictional-source:v1"
+        ],
+        "catalogue_version": "fictional-catalogue1",
+        "policy_versions": [
+          "fictional-accounting1"
+        ],
+        "account_mappings": [
+          {
+            "source_alias": "A",
+            "account_id": "fictional-UK-A"
+          }
+        ],
+        "rows": [
+          {
+            "row_id": "row2",
+            "selected": true,
+            "event_refs": [
+              "fictional-buy"
+            ],
+            "disposition": "add",
+            "reason": null,
+            "evidence": [
+              {
+                "source_id": "fictional-source",
+                "source_version": "v1",
+                "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "locator": "Transactions!G2",
+                "evidence_status": "available"
+              }
+            ]
+          }
+        ],
+        "event_set_ref": "fictional-eventset",
+        "validation_report_ref": "fictional-validation",
+        "superseding_commit_id": null,
+        "created_at": "2026-11-02T10:00:00Z"
+      }
+    },
+    {
+      "schema": "OwnerApproval",
+      "contract_ref": "FIN-08",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "approval_id": "fictional-approval",
+        "import_id": "fictional-import",
+        "draft_revision": 1,
+        "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expected_ledger_revision": 10,
+        "operation": "import",
+        "selected_rows_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "auth_context_ref": "fictional-server-verified-context",
+        "assurance_policy_version": "fictional-auth-policy1",
+        "approved_at": "2026-11-02T10:00:00Z",
+        "expires_at": "2026-11-02T10:15:00Z",
+        "nonce": "fictional-nonce",
+        "revoked_at": null,
+        "consumed_by_commit": "fictional-commit"
+      }
+    },
+    {
+      "schema": "CommitManifest",
+      "contract_ref": "FIN-09",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "commit_id": "fictional-commit",
+        "import_id": "fictional-import",
+        "operation_key": "fictional-operation",
+        "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expected_revision": 10,
+        "resulting_revision": 11,
+        "parent_commit_id": "fictional-parent10",
+        "fence": 3,
+        "state": "published",
+        "chunks": [
+          {
+            "chunk_id": "fictional-chunk1",
+            "fence": 3,
+            "event_count": 1,
+            "audit_count": 1,
+            "intent_count": 1,
+            "item_count": 3,
+            "serialized_item_bytes": 2048,
+            "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "storage_refs": [
+              "fictional-buy",
+              "fictional-event-audit",
+              "fictional-event-intent"
+            ]
+          }
+        ],
+        "expected_event_count": 1,
+        "expected_audit_count": 1,
+        "expected_intent_count": 1,
+        "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "approval_id": "fictional-approval",
+        "published_at": "2026-11-02T10:01:00Z",
+        "supersedes_commit_id": null,
+        "chunk_inventory_mode": "inline",
+        "chunk_page_refs": [],
+        "expected_chunk_count": 1
+      }
+    },
+    {
+      "schema": "CommitReceipt",
+      "contract_ref": "FIN-10",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "receipt_id": "fictional-receipt",
+        "commit_id": "fictional-commit",
+        "operation_key": "fictional-operation",
+        "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "published",
+        "ledger_revision": 11,
+        "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "occurred_at": "2026-11-02T10:01:00Z",
+        "retry_disposition": "none",
+        "error_code": null
+      }
+    },
+    {
+      "schema": "AuditEvidence",
+      "contract_ref": "FIN-11",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "audit_id": "fictional-event-audit",
+        "actor_type": "writer",
+        "actor_ref": "fictional-writer-service",
+        "operation": "publish_owner_confirmed_import",
+        "target_refs": [
+          "fictional-buy"
+        ],
+        "commit_id": "fictional-commit",
+        "source_refs": [
+          {
+            "source_id": "fictional-source",
+            "source_version": "v1",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "locator": "Transactions!G2",
+            "evidence_status": "available"
+          }
+        ],
+        "approval_id": "fictional-approval",
+        "before_ref": "fictional-r10",
+        "after_ref": "fictional-r11",
+        "reason": "Owner confirmed row2 of fictional statement.",
+        "recorded_at": "2026-11-02T10:01:00Z",
+        "economic_date": "2026-10-30",
+        "previous_digest": null,
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "integrity_anchor_ref": null,
+        "integrity_claim": "digest_only",
+        "retention_policy": "owner-policy-pending"
+      }
+    },
+    {
+      "schema": "OutboxRecord",
+      "contract_ref": "FIN-12",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "message_id": "fictional-event-intent",
+        "commit_id": "fictional-commit",
+        "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "kind": "event_intent",
+        "payload_ref": "fictional-buy",
+        "status": "pending",
+        "attempt_count": 0,
+        "last_attempt_at": null,
+        "consumer_dedup_key": "fictional-commit:fictional-buy:published"
+      }
+    },
+    {
+      "schema": "PositionObservation",
+      "contract_ref": "FIN-13",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "observation_id": "fictional-observation",
+        "account_id": "fictional-UK-A",
+        "listing_id": "UK-VOD-XLON-GBX",
+        "times": {
+          "economic_at": "2026-10-30",
+          "time_precision": "date",
+          "timezone": "Europe/London",
+          "published_at": "2026-10-30T17:00:00Z",
+          "ingested_at": "2026-11-02T10:00:00Z",
+          "known_at": "2026-11-02T10:00:00Z",
+          "vintage_class": "prospective"
+        },
+        "reported_units": "2",
+        "reported_value": {
+          "amount": "200",
+          "currency": "GBP",
+          "quality": "reported",
+          "source_literal": "200.00"
+        },
+        "reported_cost_basis": null,
+        "history_complete": false,
+        "history_start": null,
+        "account_coverage": "selected",
+        "baseline_generation": null,
+        "superseded_in_generation": null,
+        "reconciliation": "not_compared",
+        "evidence": [
+          {
+            "source_id": "fictional-source",
+            "source_version": "v1",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "locator": "Transactions!G2",
+            "evidence_status": "available"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "MetricResult",
+      "contract_ref": "FIN-14",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "metric_result_id": "fictional-metric",
+        "metric": "since_purchase_XIRR",
+        "boundary": "holding",
+        "boundary_ref": "UK-VOD-XLON-GBX",
+        "currency": "GBP",
+        "value": null,
+        "unit": "annualized_ratio",
+        "status": "unavailable",
+        "reasons": [
+          "missing dated acquisition history"
+        ],
+        "method_version": "FIN-XIRR-proposed1",
+        "policy_versions": [
+          "FIN-OD-04-pending"
+        ],
+        "start_date": "2026-10-30",
+        "end_date": "2026-10-30",
+        "as_of": "2026-11-02T10:00:00Z",
+        "ledger_revision": 11,
+        "valuation_cutoff": "2026-11-02T10:00:00Z",
+        "input_refs": [
+          "fictional-observation"
+        ],
+        "coverage": {
+          "numerator": null,
+          "denominator": null,
+          "unit": "observations",
+          "unknown_residual": true
+        },
+        "root_candidates": [],
+        "npv_residual": null,
+        "uncertainty_ref": null,
+        "source_eligibility_refs": [
+          "fictional-rights"
+        ],
+        "is_forecast": false
+      }
+    },
+    {
+      "schema": "FXQuote",
+      "contract_ref": "FIN-15",
+      "value": {
+        "fx_id": "fictional-usd-gbp",
+        "base_currency": "USD",
+        "counter_currency": "GBP",
+        "counter_per_base": "0.75",
+        "times": {
+          "economic_at": "2026-10-30",
+          "time_precision": "date",
+          "timezone": "Europe/London",
+          "published_at": "2026-10-30T17:00:00Z",
+          "ingested_at": "2026-11-02T10:00:00Z",
+          "known_at": "2026-11-02T10:00:00Z",
+          "vintage_class": "prospective"
+        },
+        "source_version": "fictional-FX1",
+        "eligibility": {
+          "rights_record_id": "fictional-rights",
+          "allowed_use": "ledger_valuation",
+          "entitlement": "verified_allowed",
+          "freshness": "fresh",
+          "quality": "validated",
+          "policy_version": "fictional-freshness-v1"
+        },
+        "cross_leg_refs": []
+      }
+    },
+    {
+      "schema": "AuditQuery",
+      "contract_ref": "FIN-16",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "query_id": "fictional-query",
+        "kind": "event_lineage",
+        "resource_refs": [
+          "fictional-buy"
+        ],
+        "pinned_revision": 11,
+        "from_date": null,
+        "to_date": null,
+        "cursor": null
+      }
+    },
+    {
+      "schema": "BenchmarkComparison",
+      "contract_ref": "FIN-17",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "comparison_id": "fictional-benchmark",
+        "boundary_ref": "fictional-portfolio",
+        "ledger_revision": 11,
+        "benchmark_series_id": "fictional-GBP-TR-index",
+        "benchmark_version": "v1",
+        "currency": "GBP",
+        "origin": "2025-01-01",
+        "maturity": "2026-01-01",
+        "flow_timing_policy": "fictional-level-at-flow1",
+        "distribution_convention": "net_total_return",
+        "fee_assumption": "Zero simulated fee; not a claim about investable benchmark costs.",
+        "synthetic_units": "2",
+        "terminal_value": {
+          "amount": "242",
+          "currency": "GBP",
+          "quality": "calculated",
+          "source_literal": null
+        },
+        "eligible": true,
+        "reasons": [],
+        "implies_trades": false
+      }
+    },
+    {
+      "schema": "PortfolioRisk",
+      "contract_ref": "FIN-18",
+      "value": {
+        "scope": {
+          "owner_id": "fictional-owner",
+          "environment": "dev",
+          "schema_version": "FIN-1.0",
+          "is_synthetic": true
+        },
+        "risk_result_id": "fictional-risk",
+        "ledger_revision": 11,
+        "as_of": "2026-11-02T10:00:00Z",
+        "exposure_version": "fictional-exposure1",
+        "weight_basis": "GBP_NAV",
+        "known_nav": {
+          "amount": "100",
+          "currency": "GBP",
+          "quality": "calculated",
+          "source_literal": null
+        },
+        "complete_nav": true,
+        "issuer_weights": [
+          {
+            "issuer_id": "public-Apple",
+            "weight": "0.55"
+          },
+          {
+            "issuer_id": "fictional-other-issuer",
+            "weight": "0.35"
+          }
+        ],
+        "unknown_exposure_weight": "0.10",
+        "window_policy": "FIN-OD-06-pending",
+        "common_observation_count": 0,
+        "volatility": null,
+        "peak_drawdown": null,
+        "basis_loss": null,
+        "status": "partial",
+        "reasons": [
+          "10% unknown look-through exposure; no paired return history"
+        ]
+      }
+    }
+  ]
+}

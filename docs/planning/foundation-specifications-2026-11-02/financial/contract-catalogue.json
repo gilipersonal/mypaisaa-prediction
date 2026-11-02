@@ -1,0 +1,270 @@
+{
+  "as_of": "2026-11-02",
+  "status": "proposed_not_approved",
+  "implementation_authorised": false,
+  "contracts": [
+    {
+      "id": "FIN-01",
+      "name": "ScopeEnvelope",
+      "schema_ref": "contracts.schema.json#/$defs/ScopeEnvelope",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-02",
+      "name": "Money",
+      "schema_ref": "contracts.schema.json#/$defs/Money",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-03",
+      "name": "InstrumentListing",
+      "schema_ref": "contracts.schema.json#/$defs/InstrumentListing",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-04",
+      "name": "InvestmentAccount",
+      "schema_ref": "contracts.schema.json#/$defs/InvestmentAccount",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-05",
+      "name": "LedgerEvent",
+      "schema_ref": "contracts.schema.json#/$defs/LedgerEvent",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-06",
+      "name": "SourceReceipt",
+      "schema_ref": "contracts.schema.json#/$defs/SourceReceipt",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-07",
+      "name": "ImportDraft",
+      "schema_ref": "contracts.schema.json#/$defs/ImportDraft",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-08",
+      "name": "OwnerApproval",
+      "schema_ref": "contracts.schema.json#/$defs/OwnerApproval",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-09",
+      "name": "CommitManifest",
+      "schema_ref": "contracts.schema.json#/$defs/CommitManifest",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "CT-03"
+      ]
+    },
+    {
+      "id": "FIN-10",
+      "name": "CommitReceipt",
+      "schema_ref": "contracts.schema.json#/$defs/CommitReceipt",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08"
+      ]
+    },
+    {
+      "id": "FIN-11",
+      "name": "AuditEvidence",
+      "schema_ref": "contracts.schema.json#/$defs/AuditEvidence",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "CT-03",
+        "IR-02"
+      ]
+    },
+    {
+      "id": "FIN-12",
+      "name": "OutboxRecord",
+      "schema_ref": "contracts.schema.json#/$defs/OutboxRecord",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-13",
+      "name": "PositionObservation",
+      "schema_ref": "contracts.schema.json#/$defs/PositionObservation",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-14",
+      "name": "MetricResult",
+      "schema_ref": "contracts.schema.json#/$defs/MetricResult",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-15",
+      "name": "FXQuote",
+      "schema_ref": "contracts.schema.json#/$defs/FXQuote",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-16",
+      "name": "AuditQuery",
+      "schema_ref": "contracts.schema.json#/$defs/AuditQuery",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "PL-08",
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-17",
+      "name": "BenchmarkComparison",
+      "schema_ref": "contracts.schema.json#/$defs/BenchmarkComparison",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "FC-10"
+      ]
+    },
+    {
+      "id": "FIN-18",
+      "name": "PortfolioRisk",
+      "schema_ref": "contracts.schema.json#/$defs/PortfolioRisk",
+      "work_refs": [
+        "MP-12",
+        "MP-22"
+      ],
+      "gap_refs": [
+        "FC-11",
+        "FC-12"
+      ]
+    }
+  ],
+  "listing_identity_crosswalk": [
+    {
+      "listing_id": "UK-VOD-XLON-GBX",
+      "worked_shorthand": "XLON:VOD",
+      "mic": "XLON",
+      "ticker": "VOD",
+      "isin": "GB00BH4HKS39",
+      "quote_unit": "GBX",
+      "settlement_currency": "GBP",
+      "identity_classification": "real_public_instrument; fixture financial observations are synthetic"
+    },
+    {
+      "listing_id": "US-AAPL-XNAS-USD",
+      "worked_shorthand": "XNAS:AAPL",
+      "mic": "XNAS",
+      "ticker": "AAPL",
+      "isin": "US0378331005",
+      "quote_unit": "USD",
+      "settlement_currency": "USD",
+      "identity_classification": "real_public_instrument; fixture financial observations are synthetic"
+    },
+    {
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "worked_shorthand": "XNSE:RELIANCE",
+      "mic": "XNSE",
+      "ticker": "RELIANCE",
+      "isin": "INE002A01018",
+      "quote_unit": "INR",
+      "settlement_currency": "INR",
+      "identity_classification": "real_public_instrument; fixture financial observations are synthetic"
+    }
+  ]
+}

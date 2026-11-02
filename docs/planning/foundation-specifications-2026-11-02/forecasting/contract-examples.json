@@ -1,0 +1,320 @@
+{
+  "schema_version": "1",
+  "status": "synthetic_wire_examples_not_authority_or_empirical_evidence",
+  "schema_path": "contracts.schema.json",
+  "notice": "Seven complete wire-shaped schema instances. All observations, dates, probabilities, availability and states are fabricated. Shape validity grants no rights, qualification, deployment, promotion, source truth or owner approval. No actual prediction or portfolio result is claimed.",
+  "digest_placeholder": {
+    "value": "0000000000000000000000000000000000000000000000000000000000000000",
+    "meaning": "64-zero synthetic placeholders required to exercise digest field shape; not hashes of real observations, approvals or artefacts."
+  },
+  "identity_crosswalk": [
+    {
+      "schema_instrument_id": "US-AAPL-XNAS-USD",
+      "data_canonical_listing_id": "US-AAPL-XNAS-USD",
+      "legacy_synthetic_catalogue_id": "XNAS:AAPL",
+      "MIC": "XNAS",
+      "symbol": "AAPL",
+      "source": "../data/catalogue.json",
+      "relationship": "same Nasdaq USD listing; issuer identifier in records is an artificial internal crosswalk key, not a new security"
+    }
+  ],
+  "assumptions": {
+    "price_type": "MARKET_CLOSE",
+    "origin_native_TRI": "100",
+    "terminal_native_TRI": "110",
+    "origin_GBP_per_USD": "0.80",
+    "terminal_GBP_per_USD": "0.80",
+    "GBP_wealth_origin": "80",
+    "GBP_wealth_terminal": "88",
+    "terminal_return": "0.10",
+    "up_event": 1,
+    "probability_up": "0.70",
+    "Brier": "0.09",
+    "simulated_calendar_sessions": [
+      "2026-11-02",
+      "2026-11-03"
+    ],
+    "eligibility": "Synthetic wire-generation scope only, never production eligibility. PromotionRecord rejects this unqualified candidate.",
+    "not_a_financial_MetricResult": true
+  },
+  "records": {
+    "ForecastTask": {
+      "task_id": "synthetic-wire-UP-GBP-S01",
+      "version": "synthetic-v1",
+      "status": "proposed",
+      "target": "up_event",
+      "equation_version": "SCI-02-U-strict-positive-v1",
+      "horizon": {
+        "unit": "valuation_session",
+        "value": 1,
+        "calendar_id": "XNAS-synthetic-calendar",
+        "calendar_version": "synthetic-v1",
+        "roll_policy": "next-listed-session"
+      },
+      "eligible_kinds": [
+        "equity"
+      ],
+      "price_type": "MARKET_CLOSE",
+      "return_basis": "gross_self_financing_total_return",
+      "return_currency": "GBP",
+      "fx_policy": "synthetic-GBP-per-USD-at-or-before-close-v1",
+      "corporate_action_policy": "synthetic-no-actions-v1",
+      "origin_policy": "synthetic-close-plus60minutes-v1",
+      "outcome_policy": "synthetic-first-available-v1",
+      "benchmark_mapping": null,
+      "event_threshold": "0",
+      "event_boundary": "strictly_greater_than",
+      "metrics": [
+        "Brier",
+        "log_loss",
+        "reliability_curve"
+      ],
+      "owner_decision_ids": [],
+      "canonical_source_policy": "synthetic-generator-market-close-only-no-provider-authority"
+    },
+    "Prediction": {
+      "lineage": {
+        "record_id": "synthetic-wire-prediction",
+        "schema_version": "1",
+        "created_at": "2026-11-02T22:05:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "prediction_id": "synthetic-wire-P1",
+      "task_id": "synthetic-wire-UP-GBP-S01",
+      "task_version": "synthetic-v1",
+      "instrument_id": "US-AAPL-XNAS-USD",
+      "economic_entity_id": "synthetic-crosswalk-issuer-Apple-Inc",
+      "origin_session": "2026-11-02",
+      "origin_at": "2026-11-02T21:00:00Z",
+      "data_cutoff": "2026-11-02T22:00:00Z",
+      "issued_at": "2026-11-02T22:05:00Z",
+      "maturity_session": "2026-11-03",
+      "maturity_at": "2026-11-03T21:00:00Z",
+      "model_artifact_id": "synthetic-wire-unqualified-toy-artifact",
+      "model_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "calibrator_version": "synthetic-wire-calibrator-not-real-evidence",
+      "feature_schema": "synthetic-features-v1",
+      "dataset_manifest_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "eligibility_id": "synthetic-wire-E1",
+      "inputs": [
+        {
+          "observation_id": "synthetic-wire-origin-close",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-02T21:00:00Z",
+          "published_at": "2026-11-02T21:30:00Z",
+          "ingested_at": "2026-11-02T21:31:00Z",
+          "known_at": "2026-11-02T21:31:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        },
+        {
+          "observation_id": "synthetic-wire-origin-GBP-per-USD",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-02T21:00:00Z",
+          "published_at": "2026-11-02T21:01:00Z",
+          "ingested_at": "2026-11-02T21:02:00Z",
+          "known_at": "2026-11-02T21:02:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        }
+      ],
+      "quantiles": [],
+      "probabilities": [
+        {
+          "event_id": "U=1[R>0]",
+          "value": "0.70",
+          "calibrator_version": "synthetic-wire-calibrator-not-real-evidence"
+        }
+      ],
+      "output_status": "issued",
+      "reason_codes": [
+        "SYNTHETIC_WIRE_SIMULATION_ONLY"
+      ],
+      "ledger_revision": null,
+      "origin_timezone": "America/New_York"
+    },
+    "Outcome": {
+      "lineage": {
+        "record_id": "synthetic-wire-outcome",
+        "schema_version": "1",
+        "created_at": "2026-11-03T22:00:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "outcome_id": "synthetic-wire-O1",
+      "prediction_id": "synthetic-wire-P1",
+      "task_id": "synthetic-wire-UP-GBP-S01",
+      "task_version": "synthetic-v1",
+      "status": "mature",
+      "economic_maturity_at": "2026-11-03T21:00:00Z",
+      "outcome_known_at": "2026-11-03T21:31:00Z",
+      "canonical_policy_version": "synthetic-first-available-v1",
+      "price_type": "MARKET_CLOSE",
+      "observation_refs": [
+        {
+          "observation_id": "synthetic-wire-origin-close",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-02T21:00:00Z",
+          "published_at": "2026-11-02T21:30:00Z",
+          "ingested_at": "2026-11-02T21:31:00Z",
+          "known_at": "2026-11-02T21:31:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        },
+        {
+          "observation_id": "synthetic-wire-origin-GBP-per-USD",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-02T21:00:00Z",
+          "published_at": "2026-11-02T21:01:00Z",
+          "ingested_at": "2026-11-02T21:02:00Z",
+          "known_at": "2026-11-02T21:02:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        },
+        {
+          "observation_id": "synthetic-wire-terminal-close",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-03T21:00:00Z",
+          "published_at": "2026-11-03T21:30:00Z",
+          "ingested_at": "2026-11-03T21:31:00Z",
+          "known_at": "2026-11-03T21:31:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        },
+        {
+          "observation_id": "synthetic-wire-terminal-GBP-per-USD",
+          "revision_id": "synthetic-v1",
+          "source_id": "synthetic-generator-no-provider",
+          "event_at": "2026-11-03T21:00:00Z",
+          "published_at": "2026-11-03T21:01:00Z",
+          "ingested_at": "2026-11-03T21:02:00Z",
+          "known_at": "2026-11-03T21:02:00Z",
+          "availability_quality": "prospective_only",
+          "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "observation_mode": "synthetic"
+        }
+      ],
+      "label_interval_start": "2026-11-02T21:00:00Z",
+      "label_interval_end": "2026-11-03T21:00:00Z",
+      "terminal_return": "0.10",
+      "benchmark_return": null,
+      "excess_return": null,
+      "maximum_drawdown_daily_path": null,
+      "origin_adverse_excursion": null,
+      "binary_event_value": 1,
+      "first_available_outcome_id": "synthetic-wire-O1"
+    },
+    "Score": {
+      "lineage": {
+        "record_id": "synthetic-wire-score",
+        "schema_version": "1",
+        "created_at": "2026-11-03T22:01:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "score_id": "synthetic-wire-S1",
+      "prediction_id": "synthetic-wire-P1",
+      "outcome_id": "synthetic-wire-O1",
+      "outcome_revision_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "metric_id": "Brier",
+      "metric_version": "squared-probability-error-v1",
+      "value": "0.09",
+      "baseline_prediction_id": null,
+      "cohort_manifest_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "truth_policy": "first_available"
+    },
+    "Eligibility": {
+      "lineage": {
+        "record_id": "synthetic-wire-eligibility",
+        "schema_version": "1",
+        "created_at": "2026-11-02T22:00:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "eligibility_id": "synthetic-wire-E1",
+      "as_of": "2026-11-02T22:00:00Z",
+      "task_id": "synthetic-wire-UP-GBP-S01",
+      "task_version": "synthetic-v1",
+      "artifact_id": "synthetic-wire-unqualified-toy-artifact",
+      "market": "US",
+      "kind": "equity",
+      "instrument_id": "US-AAPL-XNAS-USD",
+      "state": "eligible",
+      "checks": [
+        {
+          "name": "synthetic_wire_generation",
+          "state": "pass",
+          "evidence_refs": [
+            "contract-examples.json#assumptions"
+          ],
+          "reason": "Permits this fabricated wire illustration only. Does not establish live source rights, scientific qualification, runtime eligibility or owner approval."
+        }
+      ],
+      "reason_codes": [
+        "SYNTHETIC_WIRE_SIMULATION_ONLY"
+      ],
+      "expires_at": "2026-11-03T14:30:00Z"
+    },
+    "PromotionRecord": {
+      "lineage": {
+        "record_id": "synthetic-wire-rejection",
+        "schema_version": "1",
+        "created_at": "2026-11-04T10:00:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "promotion_id": "synthetic-wire-PR1",
+      "artifact_id": "synthetic-wire-unqualified-toy-artifact",
+      "calibrator_version": "synthetic-wire-calibrator-not-real-evidence",
+      "from_state": "candidate",
+      "to_state": "rejected",
+      "task_scope": [
+        "synthetic-wire-UP-GBP-S01@synthetic-v1"
+      ],
+      "market_kind_scope": [
+        "US/equity"
+      ],
+      "protocol_version": "SCI-05-proposed-v1",
+      "evidence_manifest_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "owner_approval_id": null,
+      "safety_disable_policy_id": null,
+      "previous_eligible_artifact_id": null,
+      "valid_until": "2026-11-04T10:00:00Z",
+      "reason": "Synthetic illustration only: candidate lacks real qualification evidence and has no promotion authority."
+    },
+    "Scenario": {
+      "lineage": {
+        "record_id": "synthetic-wire-scenario",
+        "schema_version": "1",
+        "created_at": "2026-11-02T22:06:00Z",
+        "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "supersedes": null,
+        "execution_mode": "synthetic"
+      },
+      "scenario_id": "synthetic-wire-SC3",
+      "label": "conditional_scenario_not_scored_forecast",
+      "years": 3,
+      "assumption_manifest_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "return_currency": "GBP",
+      "financial_policy_version": "synthetic-contribution-assumptions-v1-not-ledger-performance",
+      "probability": null,
+      "owner_approval_id": null
+    }
+  }
+}

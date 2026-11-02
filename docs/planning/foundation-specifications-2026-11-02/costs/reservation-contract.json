@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "status": "proposed",
+  "task_refs": [
+    "MP-27",
+    "MP-29"
+  ],
+  "fields": {
+    "reservation_id": "Unique immutable ID",
+    "scope": "Owner, month, environment, route and job",
+    "idempotency_key": "Same external effect cannot reserve twice",
+    "price_snapshot": "Provider, model, region, rate version and checked time",
+    "worst_case_gross_usd": "Decimal: inputs, maximum outputs, tools, cache writes, retries and batch liability",
+    "verified_credit_allocation_id": "Nullable. When absent, optional Claude dispatch is refused.",
+    "reserved_credit_usd": "Decimal. MP-local reservation against a proven allocated slice only; zero admissible credit until trustworthy organisation-wide allocation and freshness are established.",
+    "fx_bound_gbp_per_usd": "Decimal conservative conversion with source age",
+    "tax_card_bounds": "Decimal fractions, linked to invoice evidence or explicit assumptions",
+    "worst_case_cash_gbp": "Decimal cash liability after verified eligible credit",
+    "state": "reserved/dispatched/ambiguous/settled/cancel_pending/released",
+    "external_request_id": "Nullable provider receipt binding",
+    "reconciled_at": "Nullable instant",
+    "expires_at": "Admission expiry; not proof that external billing stopped",
+    "org_wide_credit_allocation_proof": "Required, currently unproven evidence of a cooperative or otherwise enforceable allocation and coverage despite other applications. MP-local records cannot control unrelated spending."
+  },
+  "transitions": {
+    "reserved": [
+      "dispatched",
+      "released"
+    ],
+    "dispatched": [
+      "settled",
+      "ambiguous",
+      "cancel_pending"
+    ],
+    "ambiguous": [
+      "settled",
+      "cancel_pending"
+    ],
+    "cancel_pending": [
+      "settled",
+      "released"
+    ],
+    "settled": [],
+    "released": []
+  },
+  "invariants": [
+    "Global, environment and route reservations change atomically under concurrency.",
+    "Without sufficient verified credit, refuse optional Claude regardless of cash headroom.",
+    "Cross-application exclusion of consumed, reserved and uncertain credits is a required organisation-wide cooperative/enforceable capability, currently unproven. MP-local reservations alone cannot provide it; without trustworthy allocation and freshness proof, refuse optional Claude dispatch.",
+    "Settlement replaces reservation liability; it does not double-count the same expense.",
+    "Fixed subscriptions remain committed until cancellation is effective.",
+    "Counterfactual full-function no-credit costs are not permitted paid-call forecasts.",
+    "Expiry, scope, freshness or coverage failure denies model dispatch.",
+    "Emergency policy does not bypass owner authority or the GBP100 aggregate envelope."
+  ],
+  "credit_proof_boundary": {
+    "status": "live_proof_pending",
+    "current_admissible_credit_usd": 0,
+    "mp_local_ledger_controls_other_apps": false,
+    "usage_cost_report_is_realtime_credit_balance": false,
+    "credit_balance_api_assumed": false,
+    "other_projects_changed": false,
+    "anthropic_usage_billing_collection_hours": 6,
+    "proposed_credit_allocation_proof_max_age_minutes": 30,
+    "distinction": "Usage/billing collection cadence is separate from the proposed admission-proof freshness bound. If trustworthy proof cannot be obtained, deny dispatch."
+  }
+}

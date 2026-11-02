@@ -1,0 +1,342 @@
+{
+  "checked_date": "2026-11-02",
+  "scope": "Public primary sources and public offer files only. No AWS account, data-provider API or model calls.",
+  "sources": [
+    {
+      "id": "RES-COST-01",
+      "url": "https://twelvedata.com/pricing",
+      "title": "Twelve Data personal pricing",
+      "checked_date": "2026-11-02",
+      "claim": "The current Grow card displays USD 79/month at 377 credits/minute.",
+      "implication": "Exact subscription, listing coverage and use rights remain unverified.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-02",
+      "url": "https://support.twelvedata.com/en/articles/5335783-trial",
+      "title": "Trial; dated 18 August 2026",
+      "checked_date": "2026-11-02",
+      "claim": "The support article reports Grow 55 starting at USD 29/month.",
+      "implication": "Treat the lower price as conditional pending current purchase and rights confirmation.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-03",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "title": "Claude API pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Current Haiku 5.5 short-prompt and Sonnet 5.5 rates provide illustrative bands.",
+      "implication": "No route model is selected; evaluate suitability and reserve eligible credit before calls.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-04",
+      "url": "https://docs.aws.amazon.com/general/latest/gr/sagemaker.html",
+      "title": "SageMaker AI endpoints and quotas",
+      "checked_date": "2026-11-02",
+      "claim": "Training endpoints are listed in Virginia, Ireland and London.",
+      "implication": "Actual account quotas, instance availability and packaging still need proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-05",
+      "url": "https://docs.aws.amazon.com/general/latest/gr/cognito.html",
+      "title": "Cognito endpoints and quotas",
+      "checked_date": "2026-11-02",
+      "claim": "User-pool endpoints are listed in all three candidate regions.",
+      "implication": "The required assurance feature, tier and rollout need separate proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-06",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
+      "title": "Lambda quotas",
+      "checked_date": "2026-11-02",
+      "claim": "The Durable section explicitly names Virginia and Ireland.",
+      "implication": "This is service availability evidence, not account quota or runtime proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-07",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/04/lambda-durable-functions-16-new-regions/",
+      "title": "Durable expansion;22 April 2026",
+      "checked_date": "2026-11-02",
+      "claim": "The expansion includes London and states Python 3.13/3.14 support.",
+      "implication": "Verify the exact selected runtime, SDK and packaging before implementation.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-08",
+      "url": "https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/",
+      "title": "Cost Explorer pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Primary-view requests cost USD 0.01 each; custom views may charge per source.",
+      "implication": "Budget paginated collector calls; dashboard refresh reads cached totals.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-09",
+      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html",
+      "title": "Cost Explorer guide",
+      "checked_date": "2026-11-02",
+      "claim": "Billing refreshes at least daily; upstream data can arrive later than 24 hours.",
+      "implication": "Use reservations and explicit report age rather than promising realtime billing.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-10",
+      "url": "https://aws.amazon.com/cloudwatch/pricing/",
+      "title": "CloudWatch pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Logs, metrics, recorded traces and trace queries have separate billing units.",
+      "implication": "Bound dimensions and price both ingestion and retrieval.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-11",
+      "url": "https://aws.amazon.com/cloudfront/pricing/pay-as-you-go/",
+      "title": "CloudFront pay as you go pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Viewer geography affects delivery prices.",
+      "implication": "Use UK/Europe reference prices without deducting unverified free allowances.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-12",
+      "url": "https://aws.amazon.com/codebuild/pricing/",
+      "title": "CodeBuild pricing",
+      "checked_date": "2026-11-02",
+      "claim": "The small on-demand EC 2 example uses USD 0.005/minute.",
+      "implication": "US reference only; regional build rate and CI selection need confirmation.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-13",
+      "url": "https://aws.amazon.com/route53/pricing/",
+      "title": "Route 53 pricing",
+      "checked_date": "2026-11-02",
+      "claim": "A hosted zone costs USD 0.50/month and standard queries USD 0.40/million.",
+      "implication": "Price two zones and registration separately.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-14",
+      "url": "https://aws.amazon.com/cognito/pricing/",
+      "title": "Cognito pricing",
+      "checked_date": "2026-11-02",
+      "claim": "The Essentials reference is USD 0.015/MAU; messaging charges can apply.",
+      "implication": "No free-tier deduction; exact assurance tier remains to be proven.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-15",
+      "url": "https://aws.amazon.com/kms/pricing/",
+      "title": "KMS pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Customer keys cost USD 1/month plus requests; rotation versions can add fees.",
+      "implication": "Proposed two-key baseline needs recosting for extra versions or keys.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-16",
+      "url": "https://aws.amazon.com/athena/pricing/",
+      "title": "Athena pricing",
+      "checked_date": "2026-11-02",
+      "claim": "SQL reference pricing is USD 5/TB, with minimum scans and adjacent S 3/catalog costs.",
+      "implication": "Optional reconciliation scans are capped; no always-on analytics service is assumed.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-17",
+      "url": "https://aws.amazon.com/eventbridge/pricing/",
+      "title": "EventBridge pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Scheduler reference pricing is USD 1/million invocations after allowances.",
+      "implication": "Ancillary estimate includes schedules; free allowances are not multiplied.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-18",
+      "url": "https://aws.amazon.com/sqs/pricing/",
+      "title": "SQS pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Payload size and request volume affect costs.",
+      "implication": "Exact queue volume and regional charges remain in the explicit ancillary estimate.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-19",
+      "url": "https://aws.amazon.com/lambda/pricing/",
+      "title": "Lambda pricing",
+      "checked_date": "2026-11-02",
+      "claim": "Compute, requests, Durable operations/state and streaming data are separate dimensions.",
+      "implication": "Include active stream waiting time and resumed invocations.",
+      "status": "source_verified"
+    }
+  ],
+  "offer_evidence_file": "public-price-evidence.json",
+  "offer_sources": [
+    {
+      "id": "RES-OFFER-01",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/us-east-1/index.json",
+      "title": "AWS public AWSLambda offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-30 T 23:42:55 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-02",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/eu-west-1/index.json",
+      "title": "AWS public AWSLambda offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-30 T 23:42:55 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-03",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AWSLambda/current/eu-west-2/index.json",
+      "title": "AWS public AWSLambda offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-30 T 23:42:55 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-04",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/us-east-1/index.json",
+      "title": "AWS public AmazonSageMaker offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-29 T 16:50:09 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-05",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/eu-west-1/index.json",
+      "title": "AWS public AmazonSageMaker offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-29 T 16:50:09 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-06",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonSageMaker/current/eu-west-2/index.json",
+      "title": "AWS public AmazonSageMaker offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-29 T 16:50:09 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-07",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/us-east-1/index.json",
+      "title": "AWS public AmazonDynamoDB offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-09-11 T 12:44:22 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-08",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/eu-west-1/index.json",
+      "title": "AWS public AmazonDynamoDB offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-09-11 T 12:44:22 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-09",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonDynamoDB/current/eu-west-2/index.json",
+      "title": "AWS public AmazonDynamoDB offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-09-11 T 12:44:22 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-10",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/us-east-1/index.json",
+      "title": "AWS public AmazonS 3 offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-15 T 17:35:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-11",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-west-1/index.json",
+      "title": "AWS public AmazonS 3 offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-15 T 17:35:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-12",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/eu-west-2/index.json",
+      "title": "AWS public AmazonS 3 offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-15 T 17:35:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-13",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/us-east-1/index.json",
+      "title": "AWS public AmazonCloudWatch offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-07 T 11:55:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-14",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-west-1/index.json",
+      "title": "AWS public AmazonCloudWatch offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-07 T 11:55:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-15",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonCloudWatch/current/eu-west-2/index.json",
+      "title": "AWS public AmazonCloudWatch offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-07 T 11:55:40 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-16",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/us-east-1/index.json",
+      "title": "AWS public AmazonApiGateway offer for us-east-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-13 T 00:30:44 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-17",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/eu-west-1/index.json",
+      "title": "AWS public AmazonApiGateway offer for eu-west-1",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-13 T 00:30:44 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    },
+    {
+      "id": "RES-OFFER-18",
+      "url": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonApiGateway/current/eu-west-2/index.json",
+      "title": "AWS public AmazonApiGateway offer for eu-west-2",
+      "checked_date": "2026-11-02",
+      "claim": "Selected on-demand rates; published 2026-10-13 T 00:30:44 Z",
+      "implication": "Reprice stated quantities. Price publication is not account or runtime availability proof.",
+      "status": "source_verified"
+    }
+  ]
+}

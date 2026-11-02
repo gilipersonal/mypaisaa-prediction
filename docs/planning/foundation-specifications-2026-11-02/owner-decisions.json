@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-02",
+  "architecture_baseline_approved": false,
+  "UX_authorised": false,
+  "implementation_authorised": false,
+  "decisions": [
+    {
+      "id": "FND-DEC-001",
+      "status": "owner_confirmed",
+      "topic": "Exact short forecast horizon points",
+      "answer": "5, 10 and 20 trading days",
+      "source": "Owner reply call_2cb2ddf953b645fabda086f47fa78431",
+      "meaning": "Use next-day plus 5/10/20-session formal forecast points; retain 3/6/12-month forecasts and separate 3–5-year scenarios. Quote/risk cadence stays 30 minutes where eligible. Exact monthly roll, targets, model catalogue and eligibility policies remain open."
+    },
+    {
+      "id": "FND-DEC-002",
+      "status": "owner_confirmed",
+      "topic": "Calendar-month target dates",
+      "answer": "Calendar months; roll back to valid date",
+      "source": "Owner reply call_5afa82d07ebb4411b646c22cd7dda788",
+      "meaning": "3/6/12-month forecasts use calendar-month anniversaries, rolling back to the preceding valid session or valuation date when closed. Score only when canonical target-date value is available. This does not choose exact origin cutoffs, publication lag policy, thresholds or numerical model parameters."
+    }
+  ]
+}

@@ -1,0 +1,666 @@
+{
+  "schema_version": "1.0.0",
+  "status": "proposed",
+  "architecture_approved": false,
+  "task_refs": [
+    "MP-10",
+    "MP-20",
+    "MP-27",
+    "MP-29"
+  ],
+  "gap_refs": [
+    "FC-01",
+    "PL-10",
+    "PL-13",
+    "CT-13"
+  ],
+  "requirement_refs": [
+    "ARC-01",
+    "ARC-11"
+  ],
+  "listings": [
+    {
+      "listing_id": "US-AAPL-XNAS-USD",
+      "security_id": "APPLE-ORDINARY",
+      "symbol": "AAPL",
+      "mic": "XNAS",
+      "country": "US",
+      "currency": "USD",
+      "quote_unit": "USD",
+      "unit_factor": "1",
+      "timezone": "America/New_York",
+      "identifier_evidence": "RES-DATA-05",
+      "coverage_status": "live_proof_pending"
+    },
+    {
+      "listing_id": "UK-VOD-XLON-GBX",
+      "security_id": "GB00BH4HKS39",
+      "symbol": "VOD",
+      "mic": "XLON",
+      "country": "GB",
+      "currency": "GBP",
+      "quote_unit": "GBX",
+      "unit_factor": "0.01",
+      "timezone": "Europe/London",
+      "identifier_evidence": "RES-DATA-06",
+      "coverage_status": "live_proof_pending"
+    },
+    {
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "security_id": "INE002A01018",
+      "symbol": "RELIANCE",
+      "mic": "XNSE",
+      "country": "IN",
+      "currency": "INR",
+      "quote_unit": "INR",
+      "unit_factor": "1",
+      "timezone": "Asia/Kolkata",
+      "identifier_evidence": "RES-DATA-07",
+      "coverage_status": "live_proof_pending"
+    }
+  ],
+  "uses": [
+    "storage_backup",
+    "training_evaluation",
+    "non_display_inference",
+    "internal_display",
+    "derived_display_export",
+    "anthropic_transmission"
+  ],
+  "entitlement_matrix": [
+    {
+      "matrix_id": "RIGHT-01",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "source": "yahoo",
+      "plan": "unverified_personal",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-02",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "source": "twelvedata",
+      "plan": "Grow_option_pending",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-03",
+      "listing_id": "US-AAPL-XNAS-USD",
+      "source": "twelvedata",
+      "plan": "Basic",
+      "environment": "dev",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-04",
+      "listing_id": "UK-VOD-XLON-GBX",
+      "source": "yahoo",
+      "plan": "unverified_personal",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-05",
+      "listing_id": "UK-VOD-XLON-GBX",
+      "source": "twelvedata",
+      "plan": "Grow_option_pending",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-06",
+      "listing_id": "UK-VOD-XLON-GBX",
+      "source": "twelvedata",
+      "plan": "Basic",
+      "environment": "dev",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-07",
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "source": "yahoo",
+      "plan": "unverified_personal",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-08",
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "source": "twelvedata",
+      "plan": "Grow_option_pending",
+      "environment": "prod",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    },
+    {
+      "matrix_id": "RIGHT-09",
+      "listing_id": "IN-RELIANCE-XNSE-INR",
+      "source": "twelvedata",
+      "plan": "Basic",
+      "environment": "dev",
+      "data_kind": "daily_ohlcv",
+      "uses": {
+        "storage_backup": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "training_evaluation": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "non_display_inference": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "internal_display": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "derived_display_export": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        },
+        "anthropic_transmission": {
+          "decision": "unknown",
+          "evidence_ids": [],
+          "valid_until": null,
+          "max_retention_days": null
+        }
+      },
+      "runtime_policy": "deny_until_scope_verified",
+      "status": "live_proof_pending",
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+    }
+  ],
+  "source_candidates": [
+    {
+      "source": "yahoo",
+      "plan": "unverified_personal",
+      "direction_status": "owner_confirmed",
+      "rights_status": "live_proof_pending",
+      "software_licence_not_data_licence": true,
+      "endpoint_quota": null
+    },
+    {
+      "source": "twelvedata",
+      "plan": "Basic",
+      "direction_status": "owner_confirmed",
+      "public_label": "Internal non-display usage",
+      "source_status": "source_verified",
+      "account_status": "live_proof_pending",
+      "credits_per_minute": 8,
+      "credits_per_day": 800,
+      "reset": "00:00:00Z",
+      "uk_india_coverage_proven": false
+    },
+    {
+      "source": "twelvedata",
+      "plan": "Grow",
+      "direction_status": "owner_confirmed",
+      "public_label": "Internal display data access",
+      "source_status": "source_verified",
+      "account_status": "live_proof_pending",
+      "selected_credit_option": null,
+      "nav_coverage_proven": false
+    }
+  ],
+  "capability_record_required": [
+    "source",
+    "plan",
+    "listing_id",
+    "endpoint",
+    "data_kind",
+    "environment",
+    "mapping_version",
+    "entitlement_ids",
+    "intervals",
+    "delay_seconds",
+    "history_start",
+    "history_end",
+    "adjustment_mode",
+    "timezone",
+    "credit_weight_per_symbol",
+    "quota_scope",
+    "proof_time",
+    "proof_expiry",
+    "coverage_status"
+  ],
+  "data_kinds": [
+    "quote",
+    "daily_ohlcv",
+    "historical_ohlcv",
+    "nav",
+    "split",
+    "distribution",
+    "fx",
+    "fundamentals",
+    "exposure",
+    "news"
+  ],
+  "specifications": [
+    {
+      "id": "DATA-01",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Catalogue identity"
+    },
+    {
+      "id": "DATA-02",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Per-use entitlement"
+    },
+    {
+      "id": "DATA-03",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Observation and time"
+    },
+    {
+      "id": "DATA-04",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Units FX and actions"
+    },
+    {
+      "id": "DATA-05",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Price versus NAV"
+    },
+    {
+      "id": "DATA-06",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Daily origins and monitoring"
+    },
+    {
+      "id": "DATA-07",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Quota and fetch discipline"
+    },
+    {
+      "id": "DATA-08",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ],
+      "section": "Lifecycle modes and acceptance"
+    }
+  ],
+  "owner_decisions": [
+    {
+      "id": "DATA-DEC-01",
+      "status": "live_proof_pending",
+      "decision": "Per-listing/provider/plan use-right evidence and contract retention; no unknown grant enabled."
+    },
+    {
+      "id": "DATA-DEC-02",
+      "status": "proposed",
+      "decision": "Approve proposed close/NAV/FX freshness and cache/retry tolerances."
+    },
+    {
+      "id": "DATA-DEC-03",
+      "status": "live_proof_pending",
+      "decision": "Actual holdings and fund share classes deferred; extend catalogue after owner supplies approved identifiers."
+    },
+    {
+      "id": "DATA-DEC-04",
+      "status": "proposed",
+      "decision": "Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records."
+    }
+  ]
+}

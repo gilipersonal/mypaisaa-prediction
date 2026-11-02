@@ -1,0 +1,84 @@
+{
+  "checked_on": "2026-11-02",
+  "status": "maker_document_checks_passed",
+  "independent_review": "not_run_not_authorised",
+  "application_implementation": "none",
+  "checks": [
+    {
+      "name": "JSON parse",
+      "result": "pass",
+      "files": 8
+    },
+    {
+      "name": "JSON Schema 2020-12 metaschema",
+      "result": "pass"
+    },
+    {
+      "name": "Full synthetic wire samples validated against named definitions and date-time formats",
+      "result": "pass",
+      "records": 18
+    },
+    {
+      "name": "Contract/example/acceptance references",
+      "result": "pass",
+      "contracts": 18,
+      "examples": 15,
+      "acceptance_cases": 30
+    },
+    {
+      "name": "Baseline L1 story coverage",
+      "result": "pass",
+      "stories": 16
+    },
+    {
+      "name": "Money rejects binary JSON float and NaN literals",
+      "result": "pass"
+    },
+    {
+      "name": "Independent exact Fraction arithmetic and fixed expected cases",
+      "result": "pass",
+      "assertions": 18,
+      "details": {
+        "EX01_dates_exact_365": true,
+        "EX01_XNPV_zero": true,
+        "EX02_root_10": true,
+        "EX02_root_20": true,
+        "EX03_cash_NAV_XIRR": true,
+        "EX04_transfer_reinvestment": true,
+        "EX05_GBX_cash": true,
+        "EX06_FX_decomposition": true,
+        "EX07_distinct_trades": true,
+        "EX08_action_budget": true,
+        "EX09_strict_expiry": true,
+        "EX10_correction": true,
+        "EX11_basis": true,
+        "EX12_TWR_drawdown": true,
+        "EX13_benchmark": true,
+        "EX14_exposure_HHI": true,
+        "EX15_basis_vs_peak": true,
+        "AC28_rank_arithmetic": true
+      }
+    }
+  ],
+  "maker_fix": [
+    "Exact arithmetic caught a draft ranking total of 70.5; corrected to 71 before final checks.",
+    "Normalized wire listing references to DATA canonical UK-VOD-XLON-GBX and added a real-instrument alias crosswalk for UK/US/India."
+  ],
+  "limits": [
+    "These are document/schema/arithmetic checks, not backend acceptance tests.",
+    "No DynamoDB transaction, OCR, provider, model, auth, UI, deployment, production ledger or recovery exercise ran.",
+    "Cross-record authorization, decimal bounds, no-negative-zero and cryptographic completeness are semantic requirements, not proven by shape validation.",
+    "Synthetic sample digest fields are explicit placeholders; no cryptographic content proof claimed."
+  ],
+  "artifact_hashes": {
+    "acceptance.json": "36e030a6afe4d23f7d80501cc12fc077f0f4cc1945b7c281bead6ab7622dfa26",
+    "contract-catalogue.json": "5ffb6ee5541441e2e8481b88a896d5e4497887038f8c70b7d3a28f9f64798aad",
+    "contract-examples.json": "d011f1810c5c229efdfce27bd42ba2bc01c62d4b5032f87baaa52cd7d68b8f8c",
+    "contracts.schema.json": "90874cd01cadaed8cde6d1fdeded75f39b8587c74329f6a8f84c526e28cecf1a",
+    "open-decisions.json": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc",
+    "policies.json": "1748cf8580782a604f95ac9450bd86bda460e4c0edeec9a719d007b65e8c35d6",
+    "research.json": "552d1a0dbfb16418b336925c332fc781b93098cc2b5bd30cdbda3af6f1f45e5d",
+    "specification.md": "f9880134cb172935a2d3ecbf078c91aefbff3f8bb10596bd52b969506544d645",
+    "worked-examples.json": "667b7c867918fb6d3a214bbcbc61ff438d52a66354ba39b69064beb443c9e3a1"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "as_of": "2026-11-02",
+  "method": "Primary documentation webpages only; no data API, account, AWS resource, training or paid-service calls. No source price copied into fixtures.",
+  "records": [
+    {
+      "id": "FIN-R-01",
+      "title": "DynamoDB transaction API",
+      "url": "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Up to 100 actions, 4 MB aggregate, 400 KB per item; 10 minute token validity; no duplicate item targets within one transaction.",
+      "MP_implication": "Budget all metadata/audit/outbox; durable operation receipts and staged visibility for large imports; no short-token lifetime idempotency claim.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-02",
+      "title": "DynamoDB read consistency",
+      "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Tables support strongly consistent reads; GSI and Streams reads are eventually consistent.",
+      "MP_implication": "Strong head/manifest base joins establish completeness; eventual discovery may lag without exposing a partial ledger.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-03",
+      "title": "S3 event notifications",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Notifications are designed for at least once delivery.",
+      "MP_implication": "Idempotent receipt handling and orphan reconciliation; no upload-as-financial-commit or cross-service atomicity claim.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-04",
+      "title": "Microsoft XIRR",
+      "url": "https://support.microsoft.com/en-gb/excel/functions/xirr-function",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Nonperiodic dated cash-flow IRR uses a 365-day year; both signs required; iterative solver can fail.",
+      "MP_implication": "Explicit actual/365 schedule and eligibility; MP adds uniqueness/multiple-root and numerical residual policy, not an Excel guess as authority.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-05",
+      "title": "Microsoft XNPV",
+      "url": "https://support.microsoft.com/en-gb/excel/functions/xnpv-function",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Dated nonperiodic cash flows are discounted relative to starting date using a 365-day year.",
+      "MP_implication": "Use XNPV equation for hand-worked root residual; dates/rates/currency remain explicit.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-06",
+      "title": "CFA Institute GIPS handbook",
+      "url": "https://www.gipsstandards.org/standards/gips-standards-for-firms/gips-standards-handbook-for-firms/",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "TWR methodology addresses external flows and geometrically links subperiod returns; valuation quality affects accuracy.",
+      "MP_implication": "MP exact TWR requires supported flow-boundary valuations; approximation separately named; no GIPS compliance claim.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-07",
+      "title": "iShares issuer security/listings",
+      "url": "https://www.ishares.com/uk/individual/en/products/253741/ishares-nasdaq-100-ucits-etf?locale=en_GB",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "ISIN IE00B53SZB19 has London CNX1 GBP and CNDX USD listings; share class is USD accumulating.",
+      "MP_implication": "Separate security/class/listing/currency; no assumption this is owner ETF; no actual distributions invented for this accumulating example.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-08",
+      "title": "NSE Reliance listing",
+      "url": "https://www.nseindia.com/get-quote/equity/RELIANCE/Reliance-Industries-Limited",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "RELIANCE identifies Reliance Industries Limited with ISIN INE002A01018.",
+      "MP_implication": "Public identity used only; fictional two-unit observation and 200 INR value are not real market/owner data.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-09",
+      "title": "Apple investor FAQ",
+      "url": "https://investor.apple.com/faq/",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Apple states its common stock trades on Nasdaq under AAPL.",
+      "MP_implication": "AAPL real identity only; simulated USD quotes / GBP FX used for exact independent arithmetic.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-10",
+      "title": "LSE Vodafone listing",
+      "url": "https://www.londonstockexchange.com/en/quote/equity/VOD/vodafone-group-plc",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "VOD listing identifies ISIN GB00BH4HKS39 and MIC XLON; exchange distinguishes minor-unit quoted trade values from major currencies.",
+      "MP_implication": "GBX/GBP unit normalization belongs in the listing contract; simulated 12000 GBX example is not live quote evidence.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-11",
+      "title": "London Stock Exchange business days",
+      "url": "https://www.londonstockexchange.com/en/resources/markets-products/business-days",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Exchange publishes venue business-day/nontrading-day information.",
+      "MP_implication": "Version venue calendar and distinguish expected closure from missing fresh quote; calendar-month roll direction is an owner choice FND-DEC-002, not dictated by exchange.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-12",
+      "title": "Python Decimal",
+      "url": "https://docs.python.org/3/library/decimal.html",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Decimal supports explicit precision and rounding contexts.",
+      "MP_implication": "Decimal machinery does not choose MP precision/tolerance; FIN-OD-01 proposes those values.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    },
+    {
+      "id": "FIN-R-13",
+      "title": "JSON canonicalization RFC8785",
+      "url": "https://www.rfc-editor.org/rfc/rfc8785",
+      "checked_on": "2026-11-02",
+      "authority": "primary",
+      "claim": "Defines deterministic JSON serialization for cryptographic use.",
+      "MP_implication": "Drafts hash a versioned canonical payload; decimal financial values remain strings; authentication is separate.",
+      "distinction": "Source fact constrains design; proposed MP defaults need owner agreement."
+    }
+  ]
+}

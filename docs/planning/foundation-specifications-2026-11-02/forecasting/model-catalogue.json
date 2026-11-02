@@ -1,0 +1,247 @@
+{
+  "pack": "foundation-specifications-2026-11-02",
+  "lane": "forecasting",
+  "status": "proposed_maker_checked_unreviewed",
+  "implementation_authorised": false,
+  "as_of": "2026-11-02",
+  "id": "SCI-04",
+  "families": [
+    {
+      "id": "R0",
+      "kind": "rules_statistical_baselines",
+      "members": [
+        "deterministic_holder_rules_unmapped_strength",
+        "zero_terminal_return",
+        "trailing_event_rate",
+        "historical_empirical_return_distribution",
+        "block_path_empirical_risk"
+      ],
+      "proposed_history_observations": [
+        252,
+        756
+      ],
+      "training": "No learned alpha estimator; window selection still consumes trials.",
+      "mandatory_comparison": true
+    },
+    {
+      "id": "R1",
+      "kind": "regularised_CPU",
+      "estimators": [
+        "ridge_terminal_return",
+        "logistic_each_binary_event"
+      ],
+      "proposed_initial_configs": [
+        {
+          "ridge_alpha": "1",
+          "logistic_C": "0.1"
+        },
+        {
+          "ridge_alpha": "10",
+          "logistic_C": "1"
+        },
+        {
+          "ridge_alpha": "100",
+          "logistic_C": "10"
+        }
+      ],
+      "distribution": "residual quantiles only if qualified, separate calibrated event heads",
+      "max_features_proposed": 40
+    },
+    {
+      "id": "R2",
+      "kind": "bounded_boosted_CPU_challenger",
+      "estimators": [
+        "hist_gradient_boosted_mean",
+        "hist_gradient_boosted_quantile",
+        "hist_gradient_boosted_event_classifier"
+      ],
+      "proposed_initial_configs": [
+        {
+          "max_leaf_nodes": 7,
+          "learning_rate": "0.05",
+          "max_iter": 100
+        },
+        {
+          "max_leaf_nodes": 15,
+          "learning_rate": "0.05",
+          "max_iter": 100
+        },
+        {
+          "max_leaf_nodes": 15,
+          "learning_rate": "0.05",
+          "max_iter": 200
+        }
+      ],
+      "max_features_proposed": 40,
+      "quantiles": [
+        "0.1",
+        "0.5",
+        "0.9"
+      ],
+      "prohibition": "No autoML/unbounded Bayesian search; package/version/portable runtime proof later."
+    }
+  ],
+  "modules": [
+    {
+      "id": "F1",
+      "name": "provenance_lake",
+      "type": "deterministic",
+      "role": "all observations/canonical revisions/known-at manifests"
+    },
+    {
+      "id": "F2",
+      "name": "qualification_lab",
+      "type": "protocol",
+      "role": "date-aligned temporal folds, all trials and immutable evidence"
+    },
+    {
+      "id": "F3",
+      "name": "regime_risk",
+      "type": "hybrid_module",
+      "role": "trailing summaries plus separately qualified event probabilities"
+    },
+    {
+      "id": "F4",
+      "name": "analog_event",
+      "type": "statistical_module",
+      "role": "lagged distances and mature event outcomes, noncausal associations"
+    },
+    {
+      "id": "F5",
+      "name": "direction_range",
+      "type": "output_module",
+      "role": "exact tasks, calibrated event outputs and distributions"
+    },
+    {
+      "id": "F6",
+      "name": "proof",
+      "type": "audit_module",
+      "role": "immutable predictions/outcomes/scores/eligibility/promotion"
+    },
+    {
+      "id": "F7",
+      "name": "contribution_experiments",
+      "type": "simulation_module",
+      "role": "matched cash-flow comparison, no trades"
+    },
+    {
+      "id": "F8",
+      "name": "patterns",
+      "type": "feature_module",
+      "role": "causal detectors, compatible observation kinds only"
+    }
+  ],
+  "patterns_proposed": [
+    {
+      "id": "PAT-MA-20-60",
+      "rule": "Crossing of trailing completed-bar 20 and 60 valuation-session means; timestamp last input availability",
+      "applicability": "line_series"
+    },
+    {
+      "id": "PAT-RANGE-20",
+      "rule": "Current completed close strictly above prior20 completed closes maximum or below minimum; current excluded from prior window",
+      "applicability": "line_series"
+    }
+  ],
+  "analogs_proposed": {
+    "maximum_neighbours": 20,
+    "features": "same declared lagged block scaled within fit region",
+    "distance": "Euclidean on training-standardised features; weights frozen",
+    "admission": "candidate label interval fully matured and outcome known before current cutoff",
+    "dependence": "group overlapping intervals/economic entities; show effective evidence; no event-count guarantee",
+    "initial_features": [
+      "trailing20total_return",
+      "trailing60total_return",
+      "trailing20logreturn_std",
+      "trailing60daily_path_MDD"
+    ],
+    "candidate_origin_lookback_sessions": 756,
+    "scope": "same approved market-kind pool and return basis; across-instrument extension separately declared",
+    "weights": "equal among selected eligible neighbours",
+    "tie_break": "ascending distance, then most recent origin, then instrument_id",
+    "de_overlap": "greedy nearest-first selection rejects candidate whose label interval overlaps a selected candidate from same economic entity; cross-entity/date dependence still reported",
+    "sparse": "show descriptive cases and unknown precision; no calibrated probability claim without qualification"
+  },
+  "calibrators": [
+    {
+      "method": "sigmoid",
+      "status": "proposed_initial",
+      "fit": "chronological heldout predictions only",
+      "live_mutation": false
+    },
+    {
+      "method": "isotonic_or_conformal",
+      "status": "retained_separate_campaign_not_initial_default"
+    }
+  ],
+  "artefact_key_fields": [
+    "family",
+    "task_id_version",
+    "horizon",
+    "return_currency",
+    "market_kind_scope",
+    "universe_manifest",
+    "feature_schema",
+    "training_cutoff",
+    "fold",
+    "calibrator_version",
+    "dependency_lock",
+    "content_hash"
+  ],
+  "counts": "Two learned families are not two artefacts and not one per ticker. Scope and qualification determine artefacts.",
+  "llm_factors": {
+    "hosting": "Anthropic",
+    "route": "separate Lambda route workers shared typed client SDK",
+    "required": [
+      "source_id",
+      "source_published_at",
+      "extracted_at",
+      "known_at",
+      "entity_id",
+      "schema_version",
+      "model_version",
+      "prompt_version",
+      "rights_evidence",
+      "replay_contamination_status"
+    ],
+    "historical_hindsight_default": "prospective_only",
+    "extraction_evaluation": "Inspect AI + deterministic extraction labels",
+    "prediction_evaluation": "independent SCI-06 proper scores and ablations"
+  },
+  "source_gaps": [
+    "FC-05",
+    "FC-06",
+    "FC-13",
+    "FC-14"
+  ],
+  "contracts": [
+    "CT-15"
+  ],
+  "delivery_tasks": [
+    "MP-21",
+    "MP-24"
+  ],
+  "regime_module_proposed": {
+    "id": "F3-REG-v1",
+    "status": "proposed_not_activated",
+    "trend": "trailing60valuation-session TRI return >0 up,<0 down,=0 flat",
+    "volatility": "sample standard deviation trailing20 log returns; do not annualise with fixed252 for NAV without approved schedule",
+    "high_volatility": "above80thpercentile of trailingvol20 observed within fit partition; threshold frozen for inference",
+    "missing": "no regime if required eligible observations absent",
+    "use": "descriptive stratum/feature; not probability or causal market state"
+  },
+  "event_module_proposed": {
+    "id": "F4-EVENT-v1",
+    "initial_event_kind": "scheduled_earnings_release_equity_only",
+    "status": "retained_proposed_source_rights_and_labelled_releases_required",
+    "event_origin": "last eligible completed valuation before evidenced release_known_at; after-close release cannot enter earlier-origin predictor",
+    "features": "declared public release fields only, no future surprise-consensus reconstruction",
+    "outcome_windows_sessions": [
+      5,
+      20
+    ],
+    "outcomes": "separate terminal total return and arithmetic benchmark excess; same currency/endpoints",
+    "confounding": "display overlapping releases/market events and calendar/sector comparators; association not causation",
+    "search": "event-kind/window definitions predeclared and consume trials; no post-result cohort selection"
+  }
+}

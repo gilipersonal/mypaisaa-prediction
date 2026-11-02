@@ -1,0 +1,41 @@
+{
+  "status": "maker_checks_passed_not_independent_review",
+  "checked_on": "2026-11-02",
+  "checks": {
+    "JSON_parse": "10 JSON files passed including this receipt",
+    "schema": "Draft202012Validator.check_schema, internal refs and seven complete wire instances passed against exact $defs and root oneOf",
+    "real_ID_fixture_contract": "15 cases passed against existing synthetic real-ID catalogue",
+    "Decimal_hand_arithmetic": "8 numeric golden cases recomputed and passed",
+    "horizon_catalogue": "7 retained horizons; FND-DEC-001/002 receipts reflected",
+    "compute_envelope": "92 scalar example <=96/campaign;192/month and2campaigns acrossdevprod;12instanceh/24vCPUh;8GiB actual instance/4GiB process target",
+    "acceptance_ID_uniqueness": "17 cases passed",
+    "source_gap_trace": "FC02\u201309/13\u201316 covered",
+    "source_file_links": "all pinned local references resolve",
+    "material_owner_choices": "6 pending; confirmed horizon receipts separate",
+    "wire_instance_count": 7,
+    "decimal_schema_regression": "Five finite positive/negative decimal strings accepted; malformed/nonfinite/exponent/leading-zero strings rejected. Corrected over-escaped decimal pattern exposed by wire-instance gate.",
+    "timestamp_schema_regression": "All instance date-time values checked with explicit strict timezone-aware ISO/RFC3339-subset regex+stdlib datetime via registered FormatChecker. Invalid string, missing timezone and impossible calendar date rejected. Optional jsonschema date-time checker is absent, so bare FormatChecker is insufficient.",
+    "wire_equations": "Synthetic GBP total return and Brier arithmetic passed; DATA US-AAPL-XNAS-USD listing crosswalk explicit"
+  },
+  "not_run": [
+    "model_fitting",
+    "backtests",
+    "application_tests",
+    "provider_calls",
+    "AWS_jobs",
+    "LLM_evaluations",
+    "independent_review"
+  ],
+  "artifact_sha256": {
+    "acceptance-cases.json": "376726c139cd3ea092e2c1281c5e40959c2d0b3bba64bac8f32f675be13916ba",
+    "contract-examples.json": "5a3fb4e092f7fb870edb511e5d4d2d1d26c2daad0e87949d04a544466c01d4fc",
+    "contracts.schema.json": "e53c2ebb985efd8cf540d4501a1d1d85052ddd6bf12d28a4e5fddf2bef8cf774",
+    "evaluation-protocol.json": "0b62a0b828e7626aee9d1aad124810ca71c0d45643efdd80bc2cfe6df9707cca",
+    "forecasting-specification.md": "d03748e8f57d402ddeaa8fb88fe8be75a9c27d97e82ceb4bf8b7ce788e014a36",
+    "golden-examples.json": "1f1ed7353ddba364ab1f9a818dc1028ce682ef43bab5e18a1d9da72be70896e2",
+    "model-catalogue.json": "dbc2f3129b129a39b5f75a5276db7ba8e21abd8480c84d4a568717dabe2bcf3e",
+    "open-decisions.json": "dbefa5ddf9bdac59114390111be62c531d5bc277651d0936e4ca4ab120f94c7a",
+    "research-register.json": "99ffd626e8ac236c21cb7856396be9f2b021802bafbe5b4b8cdd9e2187ea146a",
+    "task-catalogue.json": "12772847683abb7439cef1289be4fe47959ecddac9b4b536cf0bd3823c9e27c9"
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "status": "owner_confirmed_policy_snapshot_not_full_baseline_approval",
+  "date": "2026-11-02",
+  "source_register": "docs/planning/aws-options-2026-11-01/product-decisions.json",
+  "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+  "precedence": [
+    "Current explicit owner foundation replies",
+    "Twelve selected architecture directions",
+    "Later DEC023–041 supersede earlier embedded pending values",
+    "Historical source/MA documents provide evidence, not new authority"
+  ],
+  "cash": {
+    "monthly_aggregate_gbp": "100",
+    "planned_operation_gbp": "70",
+    "reserve_gbp": "30",
+    "warn_reduce_pause_gbp": [
+      "60",
+      "75",
+      "85"
+    ],
+    "scope": "Combined MP dev/prod AWS, data and Claude/evals; no multiplied credit pools.",
+    "uncovered_calls": "Refuse; no automatic paid fallback.",
+    "source_ids": [
+      "DEC-023",
+      "DEC-024",
+      "DEC-026"
+    ]
+  },
+  "cost_collection": {
+    "internal_usage_estimates": "live",
+    "billing_collection_hours": {
+      "AWS": 24,
+      "Anthropic": 6
+    },
+    "provider_reports_delayed": true,
+    "dashboard_uses_cached_billing": true,
+    "credit_report_is_not_allocation_proof": true,
+    "source_ids": [
+      "DEC-022",
+      "DEC-025"
+    ]
+  },
+  "observed_risk_alerts": {
+    "portfolio_warn_severe": [
+      "0.10",
+      "0.20"
+    ],
+    "holding_warn_severe": [
+      "0.15",
+      "0.25"
+    ],
+    "basis": [
+      "peak decline",
+      "cost basis loss"
+    ],
+    "portfolio_risk_priority": true,
+    "forecast_event_thresholds_not_implied": true,
+    "source_ids": [
+      "DEC-007",
+      "DEC-027"
+    ]
+  },
+  "ranking": {
+    "growth": "0.35",
+    "protection": "0.40",
+    "benchmark_opportunity": "0.25",
+    "normalisation_and_eligibility": "still proposed",
+    "source_ids": [
+      "DEC-017",
+      "DEC-028"
+    ]
+  },
+  "currency": {
+    "overview": "GBP",
+    "local_detail": true,
+    "source_ids": [
+      "DEC-029"
+    ]
+  },
+  "delivery": {
+    "briefing_time": "07:30",
+    "timezone": "Europe/London",
+    "quiet_hours": [
+      "22:00",
+      "07:00"
+    ],
+    "critical_exceptions": "Only explicitly approved conditions.",
+    "channels": [
+      "app/chat",
+      "native push",
+      "PWA push"
+    ],
+    "source_ids": [
+      "DEC-012",
+      "DEC-032",
+      "DEC-033"
+    ]
+  },
+  "retention": {
+    "original_archive_months": 24,
+    "renewable_owner_extension_deletion": true,
+    "automatic_deletion_authorised": false,
+    "operational_log_days": 14,
+    "rich_trace_days": 30,
+    "run_summary_days": 90,
+    "business_evidence_retention": "separate policy pending",
+    "exercise_schedule": "monthly plus relevant changes",
+    "source_ids": [
+      "DEC-034",
+      "DEC-035",
+      "DEC-036"
+    ]
+  },
+  "identity": {
+    "managed_Cognito": [
+      "Apple",
+      "Google",
+      "passkeys"
+    ],
+    "verified_linking": true,
+    "recovery": "two independent passkey paths plus verified provider links",
+    "protected_actions": "ARC07 assurance/freshness, exact policy pending",
+    "source_ids": [
+      "DEC-037",
+      "DEC-038"
+    ]
+  },
+  "import_and_inputs": {
+    "methods": [
+      "CSV",
+      "Excel",
+      "PDF/statement",
+      "screenshot",
+      "manual"
+    ],
+    "layout_scope": "sample-backed plus generic templates",
+    "incomplete_history": "allow holding, flag gaps, withhold metrics needing missing facts",
+    "actual_samples": "progressively later; synthetic real-ID fixtures do not wait for them",
+    "source_ids": [
+      "DEC-005",
+      "DEC-014",
+      "DEC-039",
+      "DEC-041"
+    ]
+  },
+  "forecasts": {
+    "formal_frequency": "daily",
+    "supported_monitor_minutes": 30,
+    "horizons_sessions": [
+      1,
+      5,
+      10,
+      20
+    ],
+    "horizons_calendar_months": [
+      3,
+      6,
+      12
+    ],
+    "month_roll": "preceding valid local session or valuation date",
+    "scenario_years": [
+      3,
+      5
+    ],
+    "model_promotion": "offline qualification then shadow then owner approval",
+    "source_ids": [
+      "DEC-001",
+      "DEC-019",
+      "DEC-031",
+      "FND-DEC-001",
+      "FND-DEC-002"
+    ]
+  },
+  "not_approved": [
+    "complete architecture baseline",
+    "UX start",
+    "application implementation",
+    "runtime installation",
+    "live provider/model/cloud calls",
+    "automatic cash fallback",
+    "external publication",
+    "PR/merge/issue closure"
+  ]
+}

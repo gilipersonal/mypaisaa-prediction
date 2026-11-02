@@ -1,0 +1,1106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mypaisaa.invalid/specification/SCI-contracts-v1.schema.json",
+  "title": "SCI immutable forecasting records - specification only",
+  "$comment": "No network resolver required; $id is a schema identifier, not a service. Decimal strings need semantic range and equation checks. JSON Schema alone cannot enforce temporal/financial invariants.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ForecastTask"
+    },
+    {
+      "$ref": "#/$defs/Prediction"
+    },
+    {
+      "$ref": "#/$defs/Outcome"
+    },
+    {
+      "$ref": "#/$defs/Score"
+    },
+    {
+      "$ref": "#/$defs/Eligibility"
+    },
+    {
+      "$ref": "#/$defs/PromotionRecord"
+    },
+    {
+      "$ref": "#/$defs/Scenario"
+    }
+  ],
+  "$defs": {
+    "Decimal": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Horizon": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "enum": [
+            "valuation_session",
+            "calendar_month"
+          ]
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "calendar_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calendar_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "roll_policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "unit",
+        "value",
+        "calendar_id",
+        "calendar_version",
+        "roll_policy"
+      ]
+    },
+    "Lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "supersedes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "execution_mode": {
+          "enum": [
+            "synthetic",
+            "recorded_permitted",
+            "live"
+          ]
+        }
+      },
+      "required": [
+        "record_id",
+        "schema_version",
+        "created_at",
+        "content_hash",
+        "supersedes",
+        "execution_mode"
+      ]
+    },
+    "InputReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ingested_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "known_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "availability_quality": {
+          "enum": [
+            "vintage_backed",
+            "lag_conservative",
+            "prospective_only",
+            "unavailable"
+          ]
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "observation_mode": {
+          "enum": [
+            "synthetic",
+            "observed",
+            "derived",
+            "scenario"
+          ]
+        }
+      },
+      "required": [
+        "observation_id",
+        "revision_id",
+        "source_id",
+        "event_at",
+        "published_at",
+        "ingested_at",
+        "known_at",
+        "availability_quality",
+        "hash",
+        "observation_mode"
+      ]
+    },
+    "ForecastTask": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "owner_approved",
+            "retired"
+          ]
+        },
+        "target": {
+          "enum": [
+            "terminal_return_distribution",
+            "up_event",
+            "benchmark_excess_event",
+            "daily_path_max_drawdown_event",
+            "origin_adverse_excursion_event",
+            "terminal_loss_event"
+          ]
+        },
+        "equation_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "horizon": {
+          "$ref": "#/$defs/Horizon"
+        },
+        "eligible_kinds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "price_type": {
+          "enum": [
+            "MARKET_CLOSE",
+            "FUND_NAV"
+          ]
+        },
+        "return_basis": {
+          "enum": [
+            "gross_self_financing_total_return"
+          ]
+        },
+        "return_currency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fx_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "corporate_action_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "benchmark_mapping": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "event_threshold": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "event_boundary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "owner_decision_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "canonical_source_policy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Frozen source/type/action/revision selection and dispute policy; no after-outcome cherry picking"
+        }
+      },
+      "required": [
+        "task_id",
+        "version",
+        "status",
+        "target",
+        "equation_version",
+        "horizon",
+        "eligible_kinds",
+        "price_type",
+        "return_basis",
+        "return_currency",
+        "fx_policy",
+        "corporate_action_policy",
+        "origin_policy",
+        "outcome_policy",
+        "benchmark_mapping",
+        "event_threshold",
+        "event_boundary",
+        "metrics",
+        "owner_decision_ids",
+        "canonical_source_policy"
+      ]
+    },
+    "Quantile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "return": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        }
+      },
+      "required": [
+        "level",
+        "return"
+      ]
+    },
+    "Probability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "calibrator_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "event_id",
+        "value",
+        "calibrator_version"
+      ]
+    },
+    "Prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "prediction_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instrument_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "economic_entity_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_session": {
+          "type": "string",
+          "format": "date"
+        },
+        "origin_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data_cutoff": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "maturity_session": {
+          "type": "string",
+          "format": "date"
+        },
+        "maturity_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "model_artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "calibrator_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "feature_schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dataset_manifest_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "eligibility_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InputReference"
+          },
+          "minItems": 1
+        },
+        "quantiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Quantile"
+          }
+        },
+        "probabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Probability"
+          }
+        },
+        "output_status": {
+          "enum": [
+            "issued",
+            "abstained",
+            "missed_origin"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "ledger_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin_timezone": {
+          "type": "string",
+          "minLength": 1,
+          "description": "IANA exchange/valuation timezone; verify known calendar zone semantically"
+        }
+      },
+      "required": [
+        "lineage",
+        "prediction_id",
+        "task_id",
+        "task_version",
+        "instrument_id",
+        "economic_entity_id",
+        "origin_session",
+        "origin_at",
+        "data_cutoff",
+        "issued_at",
+        "maturity_session",
+        "maturity_at",
+        "model_artifact_id",
+        "model_hash",
+        "calibrator_version",
+        "feature_schema",
+        "dataset_manifest_hash",
+        "eligibility_id",
+        "inputs",
+        "quantiles",
+        "probabilities",
+        "output_status",
+        "reason_codes",
+        "ledger_revision",
+        "origin_timezone"
+      ]
+    },
+    "Outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "outcome_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prediction_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "mature",
+            "missing_terminal",
+            "missing_path",
+            "missing_fx",
+            "benchmark_unavailable",
+            "disputed_action",
+            "delisted_unresolved",
+            "amended"
+          ]
+        },
+        "economic_maturity_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "outcome_known_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "canonical_policy_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "price_type": {
+          "enum": [
+            "MARKET_CLOSE",
+            "FUND_NAV"
+          ]
+        },
+        "observation_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InputReference"
+          }
+        },
+        "label_interval_start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "label_interval_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "terminal_return": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "benchmark_return": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excess_return": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maximum_drawdown_daily_path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin_adverse_excursion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "binary_event_value": {
+          "enum": [
+            0,
+            1,
+            null
+          ]
+        },
+        "first_available_outcome_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "lineage",
+        "outcome_id",
+        "prediction_id",
+        "task_id",
+        "task_version",
+        "status",
+        "economic_maturity_at",
+        "outcome_known_at",
+        "canonical_policy_version",
+        "price_type",
+        "observation_refs",
+        "label_interval_start",
+        "label_interval_end",
+        "terminal_return",
+        "benchmark_return",
+        "excess_return",
+        "maximum_drawdown_daily_path",
+        "origin_adverse_excursion",
+        "binary_event_value",
+        "first_available_outcome_id"
+      ]
+    },
+    "Score": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "score_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prediction_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome_revision_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "metric_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "baseline_prediction_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cohort_manifest_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "truth_policy": {
+          "enum": [
+            "first_available",
+            "latest_amended_as_of"
+          ]
+        }
+      },
+      "required": [
+        "lineage",
+        "score_id",
+        "prediction_id",
+        "outcome_id",
+        "outcome_revision_hash",
+        "metric_id",
+        "metric_version",
+        "value",
+        "baseline_prediction_id",
+        "cohort_manifest_hash",
+        "truth_policy"
+      ]
+    },
+    "EligibilityCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "pass",
+            "fail",
+            "unknown"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "state",
+        "evidence_refs",
+        "reason"
+      ]
+    },
+    "Eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "eligibility_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "market": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instrument_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "enum": [
+            "eligible",
+            "abstain",
+            "paused",
+            "unknown"
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EligibilityCheck"
+          },
+          "minItems": 1
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "lineage",
+        "eligibility_id",
+        "as_of",
+        "task_id",
+        "task_version",
+        "artifact_id",
+        "market",
+        "kind",
+        "instrument_id",
+        "state",
+        "checks",
+        "reason_codes",
+        "expires_at"
+      ]
+    },
+    "PromotionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "promotion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calibrator_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "from_state": {
+          "enum": [
+            "candidate",
+            "offline_qualified",
+            "shadow",
+            "owner_approved",
+            "probation",
+            "active",
+            "paused",
+            "rolled_back",
+            "rejected"
+          ]
+        },
+        "to_state": {
+          "enum": [
+            "candidate",
+            "offline_qualified",
+            "shadow",
+            "owner_approved",
+            "probation",
+            "active",
+            "paused",
+            "rolled_back",
+            "rejected"
+          ]
+        },
+        "task_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "market_kind_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "protocol_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_manifest_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "owner_approval_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "safety_disable_policy_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_eligible_artifact_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lineage",
+        "promotion_id",
+        "artifact_id",
+        "calibrator_version",
+        "from_state",
+        "to_state",
+        "task_scope",
+        "market_kind_scope",
+        "protocol_version",
+        "evidence_manifest_hash",
+        "owner_approval_id",
+        "safety_disable_policy_id",
+        "previous_eligible_artifact_id",
+        "valid_until",
+        "reason"
+      ]
+    },
+    "Scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lineage": {
+          "$ref": "#/$defs/Lineage"
+        },
+        "scenario_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "const": "conditional_scenario_not_scored_forecast"
+        },
+        "years": {
+          "enum": [
+            3,
+            5
+          ]
+        },
+        "assumption_manifest_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "return_currency": {
+          "type": "string",
+          "minLength": 1
+        },
+        "financial_policy_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probability": {
+          "type": "null"
+        },
+        "owner_approval_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "lineage",
+        "scenario_id",
+        "label",
+        "years",
+        "assumption_manifest_hash",
+        "return_currency",
+        "financial_policy_version",
+        "probability",
+        "owner_approval_id"
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-02",
+  "primary_issue": "MP-20",
+  "source_pr": 9,
+  "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
+  "git_base": "68ad1bf630d1a83f9d2c9179adcbb7894ac2e44a",
+  "worktree": "/Users/arundutta/projects/mypaisaa-prediction-worktrees/MP-20-foundation-specifications",
+  "branch": "MP-20-foundation-specifications",
+  "related_issues": [
+    "MP-10",
+    "MP-12",
+    "MP-21",
+    "MP-22",
+    "MP-24",
+    "MP-29"
+  ],
+  "scope": "Foundation Specification Pack1: data/cost feasibility, financial ledger/performance and forecast qualification. Planning/documents/contracts/examples only. No UX, application implementation, live provider calls, cloud changes, review, publication or PR creation.",
+  "status": "maker_draft_ready_unreviewed",
+  "owner_detail_receipts": [
+    "FND-DEC-001",
+    "FND-DEC-002"
+  ],
+  "architecture_baseline_approved": false,
+  "UX_authorised": false,
+  "implementation_authorised": false,
+  "external_publication": "not_authorised_not_applied",
+  "PR_creation": "not_requested",
+  "independent_review": "permission_pending"
+}

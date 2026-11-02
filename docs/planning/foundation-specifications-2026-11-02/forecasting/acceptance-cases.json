@@ -1,0 +1,330 @@
+{
+  "status": "data_only_acceptance_specification_not_executed_tests",
+  "cases": [
+    {
+      "id": "SCI-01-AC01",
+      "requirement": "SCI-01",
+      "title": "Task/clocks/maturity",
+      "given": "A registered exact task and listing calendar",
+      "when": "Freeze origin/cutoff/issue/maturity; count supplied calendars; delay publication without moving economic date",
+      "then": "Match horizon/calendar; cutoff leak and missed deadline abstain; no NAV/market mixing",
+      "source_gaps": [
+        "FC-02",
+        "FC-08",
+        "FC-15"
+      ],
+      "golden_examples": [
+        "SCI-G06",
+        "SCI-G07",
+        "SCI-G08",
+        "SCI-G09",
+        "SCI-G13"
+      ],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-02-AC01",
+      "requirement": "SCI-02",
+      "title": "Targets/ground truth",
+      "given": "Positive wealth inputs plus declared action/FX revisions",
+      "when": "Compute each declared equation and append amended outcomes/scores",
+      "then": "R/Pup/excess/MDD/MAE/terminal_loss/cost_basis_loss remain distinct; original evidence retained",
+      "source_gaps": [
+        "FC-02",
+        "FC-07",
+        "FC-16"
+      ],
+      "golden_examples": [
+        "SCI-G01",
+        "SCI-G02",
+        "SCI-G03",
+        "SCI-G04",
+        "SCI-G05",
+        "SCI-G12",
+        "SCI-G14",
+        "SCI-G15"
+      ],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-03-AC01",
+      "requirement": "SCI-03",
+      "title": "PIT admission",
+      "given": "Source manifest, membership/exposures and publication evidence",
+      "when": "Attempt future macro, constituents, action-vintage or historical LLM insertion",
+      "then": "Exclude contaminated blocks or classify prospective_only; known_at field alone insufficient",
+      "source_gaps": [
+        "FC-03",
+        "FC-13",
+        "FC-15"
+      ],
+      "golden_examples": [
+        "SCI-G09",
+        "SCI-G10",
+        "SCI-G14"
+      ],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-04-AC01",
+      "requirement": "SCI-04",
+      "title": "Modules/models",
+      "given": "Declared catalogue and observation capability",
+      "when": "Try NAV candle detector, future-confirmed extrema, immature analog, unknown fallback feature block",
+      "then": "Reject; F1-F8 retained; family count never treated as artifact count",
+      "source_gaps": [
+        "FC-05",
+        "FC-06",
+        "FC-13",
+        "FC-14"
+      ],
+      "golden_examples": [],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-05-AC01",
+      "requirement": "SCI-05",
+      "title": "Leakage/search",
+      "given": "Dated all-asset folds and full label intervals",
+      "when": "Try random row split, full-dataset scaler, test-selected model or twenty-row gap for yearly label",
+      "then": "Reject; inner preprocessing and calibration respect purged chronological boundaries",
+      "source_gaps": [
+        "FC-04",
+        "FC-08"
+      ],
+      "golden_examples": [
+        "SCI-G11"
+      ],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-06-AC01",
+      "requirement": "SCI-06",
+      "title": "Scoring/evidence",
+      "given": "Frozen experiment with matched baselines",
+      "when": "Compute proper scores, calibration, quantile coverage/width and block uncertainty; count all trials/abstentions",
+      "then": "No loss-only calibration claim, no independence multiplication, no yearly maturity after eight weeks",
+      "source_gaps": [
+        "FC-07",
+        "FC-08",
+        "FC-13",
+        "FC-14"
+      ],
+      "golden_examples": [
+        "SCI-G01",
+        "SCI-G12",
+        "SCI-G15"
+      ],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-07-AC01",
+      "requirement": "SCI-07",
+      "title": "Eligibility/promotion",
+      "given": "Candidate with scope-specific evidence and owner approval binding",
+      "when": "Tuner attempts live calibration/promotion; corrupt hash or revoked rights triggers only authorised safety pause",
+      "then": "Deny unauthorised changes; append pause; rollback only eligible approved artifact",
+      "source_gaps": [
+        "FC-09",
+        "FC-15",
+        "FC-16"
+      ],
+      "golden_examples": [],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-08-AC01",
+      "requirement": "SCI-08",
+      "title": "Scenarios",
+      "given": "Versioned 3/5-year assumptions",
+      "when": "Attempt scenario probability or score as12month forecast",
+      "then": "Reject invented probability; explicit conditional scenario and financial assumptions",
+      "source_gaps": [
+        "FC-08",
+        "FC-16"
+      ],
+      "golden_examples": [],
+      "later_test_status": "not_run_specification_only",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ],
+      "contract": "CT-15"
+    },
+    {
+      "id": "SCI-04-AC02",
+      "requirement": "SCI-04",
+      "title": "Analog causal admission",
+      "given": "A20session historical analog with origin ten sessions before current cutoff",
+      "when": "Attempt to include unknown full outcome",
+      "then": "Exclude regardless of nearest distance; show raw vs effective neighbour count",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-05-AC03",
+      "requirement": "SCI-05",
+      "title": "All fits spend one project cap",
+      "given": "A92fit scalar campaign and attempt three quantile heads",
+      "when": "Attempt replay retries/newheads/devprod campaign",
+      "then": "Count all learnedfits including R1linear/logit baselines; stop at96percampaign,192permonth and two campaigns acrossdev/prod; never multiply bysevenhorizons silently.",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-05-AC04",
+      "requirement": "SCI-05",
+      "title": "Final holdout spent after tuning",
+      "given": "A final test was opened and candidate failed",
+      "when": "Change threshold or select model after viewing outcomes",
+      "then": "Register spent test and failure; obtain truly untouched/new mature test before new confirmatory claim",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-06-AC05",
+      "requirement": "SCI-06",
+      "title": "No free evidence by abstention",
+      "given": "Model issues only on easy subgroup",
+      "when": "Report issued-only score without coverage",
+      "then": "Reject incomplete report; baseline paired subset plus full-set coverage and subgroup failures required",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-07-AC06",
+      "requirement": "SCI-07",
+      "title": "Seven-horizon retained issuance states",
+      "given": "Confirmed1/5/10/20sessions and3/6/12months",
+      "when": "Candidate long target not qualified",
+      "then": "Expose rules labelled heuristic, eligible transparent baseline if qualified, else in_practice/pending/unavailable by output; no invented probability or dropped horizon",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-03-AC07",
+      "requirement": "SCI-03",
+      "title": "Rights fail closed",
+      "given": "History view permitted but training/Anthropic sharing unknown",
+      "when": "Attempt training or LLM extraction",
+      "then": "Block that use; source/display permission does not imply training/sharing",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-06-AC08",
+      "requirement": "SCI-06",
+      "title": "Extraction does not prove predictive value",
+      "given": "Inspect AI source-faithful news extraction result",
+      "when": "Promote numerical model without matched prospective ablation",
+      "then": "Deny; extraction quality and predictive incremental value are separate",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-02-AC09",
+      "requirement": "SCI-02",
+      "title": "Incomplete path cannot label MDD",
+      "given": "Terminal close known but interior valuation missing",
+      "when": "Attempt complete-path risk truth",
+      "then": "Return can mature if eligible; MDD/MAE outcome missing_path unless approved complete evidence; no interpolate safe path",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    },
+    {
+      "id": "SCI-01-AC10",
+      "requirement": "SCI-01",
+      "title": "Calendar correction append only",
+      "given": "Calendar revision changes already-frozen session schedule",
+      "when": "Recompute old maturity silently",
+      "then": "Reject; append amendment/provenance and preserve original prediction maturity",
+      "later_test_status": "not_run_specification_only",
+      "contract": "CT-15",
+      "delivery_tasks": [
+        "MP-21",
+        "MP-24"
+      ]
+    }
+  ],
+  "mandatory_semantic_invariants": [
+    "origin_at<=data_cutoff<=issued_at<next_session_open for issued records",
+    "known_at<=data_cutoff for every prospective input",
+    "mature Outcome known_at>=economic_maturity_at and all required observations available",
+    "Prediction task versions/price basis/currency/benchmark equal Outcome task context",
+    "probabilities in[0,1]; quantile levels strictly increasing and predicted returns nondecreasing",
+    "no duplicate immutable record_id with changed content hash",
+    "promotion active requires exact unexpired owner approval and eligible scope",
+    "event thresholds and inclusivity match task version",
+    "all output types independently eligible; missing component not silently renormalised",
+    "Decimal schema must accept0.70 and-0.10 but reject NaN/Infinity/exponent/leading-zero malformed forms",
+    "Date-time instance validation must actively check formats, rejecting missing timezone/impossible dates; jsonschema FormatChecker may lack optional date-time handler"
+  ],
+  "parse_does_not_prove_semantics": true
+}

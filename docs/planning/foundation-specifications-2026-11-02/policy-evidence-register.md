@@ -1,0 +1,50 @@
+# Proposed policy bundles and evidence still needed
+
+**MP-20 · Maker draft · Only the two foundation horizon replies are newly owner-confirmed**
+
+The source twelve directions are fixed constraints. This register separates confirmed intent, policy proposals and proof gaps. It is not a request to approve every field separately; the owner can assess a readable coherent baseline once engineering defaults and their consequences are presented. Material changes or conflicts return as concise choices.
+
+## Confirmed during this package
+
+- **FND-DEC-001:** 5, 10 and 20 trading days. Use next-day plus 5/10/20-session formal forecast points; retain 3/6/12-month forecasts and separate 3–5-year scenarios. Quote/risk cadence stays 30 minutes where eligible. Exact monthly roll, targets, model catalogue and eligibility policies remain open.
+- **FND-DEC-002:** Calendar months; roll back to valid date. 3/6/12-month forecasts use calendar-month anniversaries, rolling back to the preceding valid session or valuation date when closed. Score only when canonical target-date value is available. This does not choose exact origin cutoffs, publication lag policy, thresholds or numerical model parameters.
+
+## Policy bundles for the baseline decision
+
+| Group | Current proposal | Consequence/evidence |
+| --- | --- | --- |
+| FIN-OD-01 · Numeric precision, rounding and reconciliation | Propose 28 significant and 12 fractional digits for money/quantity/price, 16 fractional for FX, 50 working digits, half-even presentation and exact source reconciliation. Record calculated allocation residuals explicitly. | Reject unsupported precision with field evidence; qualify instrument/source bounds before freezing. |
+| FIN-OD-02 · Approval lifetime and subset policy | Propose 15 minutes with strict server_now < expires_at and sensitive-action assurance. Permit a logically consistent explicit subset only with a new hash and disclosed exclusions. Define expiry at trusted-writer transaction submission; completion can occur later because DynamoDB has no server-clock condition. Strict completion-before-expiry needs a different proved control. | Drafting can continue; activation requires an agreed expiry, assurance and subset policy. |
+| FIN-OD-03 · Trade/settlement and baseline rebase | Propose trade-date exposure with receivable/payable until supported settlement, nonadditive observations and an owner-confirmed backfill cutover generation. | Never guess settlement. Unsupported negative/margin positions and material reconciliation conflicts block affected metrics. |
+| FIN-OD-04 · Numerical XIRR solver policy | Propose bounded (-0.999999,100] search, uniqueness certificate or abstention, rate tolerance 1e-10 and NPV tolerance max(1e-8 currency units,1e-12×sum absolute flows). Measure a finite resource budget before implementation. | No headline rate under ambiguity or nonconvergence. A grid cannot certify full-domain uniqueness. |
+| FIN-OD-05 · Analytical basis and benchmark mapping | Use source-supported basis first; analytical FIFO only after approval, labelled separately from tax basis. Choose per-market/kind benchmark mapping, TR convention, fees, flow timing and missing-session policy. | Basis gain or benchmark may remain unavailable without blocking independently supported valuation. |
+| FIN-OD-06 · Risk windows and source freshness | Propose 126 common return sessions, minimum 100 valid observations and a 252-session sensitivity; no zero fill and a common complete covariance matrix. Price/NAV/FX age limits join the data specification. | Coverage and close-time alignment need evidence. No full-risk claim from partial holdings or arbitrary covariance repair. |
+| FIN-OD-07 · Ranking normalization, thresholds and ties | Keep owner weights 35/40/25. Propose all three components required and normalization to [0,100] only after evaluation. No action threshold is selected. | Do not classify an action until normalization, tie handling and thresholds have evidence and owner agreement. |
+| FIN-OD-08 · Audit integrity, retention, export expiry and physical design | Agree financial/audit/approval/idempotency retention and private export expiry; choose independently protected integrity anchors and restore-erasure proof. Prove access patterns and costs before DDB key/index selection. | Cannot certify tamper resistance or complete original availability; build waits for visibility/recovery proof. |
+| SCI-D01 · Daily origin, next-day interpretation and availability tolerances | Use next eligible local session, close+60minute proposed deadline, per-source NAV schedule, explicit bounded FX age; monthly anniversary roll already confirmed FND-DEC-002. | Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate. |
+| SCI-D02 · Target events, thresholds and benchmark mapping | Keep terminal distributions/up/excess/MDD/MAE/loss separate. Choose risk thresholds by horizon and owner use; approve market/kind total-return benchmark mapping and GBP primary basis. | 5% short/10% long are illustrations only; exact choices define labels and usefulness. |
+| SCI-D03 · Qualification evidence and effect/precision policy | Approve proposed chronological folds, purging,24month final test, block uncertainty, provisional2%primary-loss hurdle/95%pairedinterval and80%coverage±5pp only after pilot precision evidence. | Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable. |
+| SCI-D04 · Bounded models, feature ladder and campaign capacity | Start R0 then R1/R2, causal20/60MA and20range patterns,20analogs maximum, prospective-only LLM factors when hindsight cannot be bounded. Max2campaigns/month acrossdevprod;96totalfits/campaign and admitted money/resources. | Every extra head/ablation consumes capacity; all horizons retained while qualification is staged. |
+| SCI-D05 · Promotion, probation, safety disable and return authority | Owner binds each promotion/calibrator/task scope. Separately preapprove deterministic safety pauses; no tuner promotion, live calibration or automatic resume. Define probation maturity/monitoring evidence by task. | Safety disable authority is not acceptance of automatic learning or rollback to ineligible versions. |
+| SCI-D06 · Conditional3–5year scenario assumptions | Separate nominal/real/FX/contribution/fee/dividend assumptions with3and5year outputs, no invented probabilities. | Scenario outputs are conditional arithmetic, not a long-horizon accuracy promise. |
+
+The exact trial counts, solver limits, numeric tolerances, availability windows, case thresholds, initial model/feature inventory and recovery authority are proposals; reference research supports methods, not automatic MP empirical qualification. Application runtime guards and numerical performance remain independent evidence tracks.
+
+## External/deferred proof gates
+
+- **Current provider price and rights:** reconcile displayed Grow377 $79 and support-reported Grow55 $29, including term/current availability and every intended use/listing. All 54 use-right cells in the representative nine-row matrix remain unverified. Basic dev coverage/rights and any retained/derived data or transmission to Anthropic need their own evidence.
+- **Tax/FX/payment:** the central £0.80/USD and 20% tax are scenario assumptions, not a live exchange quote or invoice determination. Adverse/no-tax sensitivities are not permission to choose a favourable assumption.
+- **Actual Claude credit:** user-reported shared $200 is unknown and counted once. No verified allocation means uncovered calls are refused, not paid. The full-function no-credit row is a counterfactual funding requirement, not an executable plan.
+- **Whole-system fit:** under the central displayed-tier blocked-Claude scenario the cost is about £95.68 in the Virginia candidate, above the £70 operation plan; conditional lower-tier arithmetic is not a feasible licensed source proof. Keep the £100 ceiling and £30 reserve. Apple membership, exchange/add-on/SMS and material network/hosting changes remain unselected/unpriced and require recosting.
+- **Region/account/runtime/workload:** public prices do not certify actual account/tier/rollout, quotas, memory/artefact compatibility, end-to-end streaming, concurrency, training duration or region suitability. No region is selected by the lowest illustrative total.
+- **Real inputs:** owner holdings/listings and samples arrive progressively. They do not block this synthetic specification draft; live capability/layout/forecast eligibility requires their later evidence.
+- **Source-side withdrawal/deletion:** specify effects on archives, derivative datasets, features, models, labels, backups and retained audit evidence before accepting the detailed privacy/recovery baseline.
+
+## Cross-lane decision joins
+
+- DATA freshness and SCI origin/grace/replay policies must resolve together; one source arriving late cannot become a backdated forecast input.
+- FIN analytical/FX/benchmark conventions and SCI target contracts must agree before combining scores; cost-basis loss, MDD, MAE, terminal loss and preference ranks remain distinct.
+- FIN approval lifetime is currently proposed at trusted-writer transaction submission; strict completion-before-expiry is not a proven DynamoDB server-clock predicate.
+- SCI campaign/fit/CPU caps are subordinate to shared cost admission. Proposed internal money allocations are ceilings, not independent spendable pots or automatic permission to use cash for uncovered calls.
+
+[Financial choices](financial/open-decisions.json) · [Scientific choices](forecasting/open-decisions.json) · [Data capability proposals](data/catalogue.json) · [Quantitative cost model](costs/model.json)

@@ -1,0 +1,83 @@
+{
+  "status": "owner_pending_except_confirmed_receipts",
+  "owner_confirmed": [
+    {
+      "id": "FND-DEC-001",
+      "scope": "5/10/20tradingday horizons alongside nextday3/6/12months and separate3\u20135yearscenarios",
+      "received_on": "2026-11-02"
+    },
+    {
+      "id": "FND-DEC-002",
+      "scope": "3/6/12 calendar-month anniversaries, preceding valid local session/valuation date ifclosed; canonical availability gates scoring",
+      "received_on": "2026-11-02"
+    }
+  ],
+  "material_choices": [
+    {
+      "id": "SCI-D01",
+      "topic": "Daily origin, next-day interpretation and availability tolerances",
+      "recommendation": "Use next eligible local session, close+60minute proposed deadline, per-source NAV schedule, explicit bounded FX age; monthly anniversary roll already confirmed FND-DEC-002.",
+      "why_owner_material": "Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate.",
+      "requirements": [
+        "SCI-01",
+        "SCI-03"
+      ],
+      "status": "owner_pending"
+    },
+    {
+      "id": "SCI-D02",
+      "topic": "Target events, thresholds and benchmark mapping",
+      "recommendation": "Keep terminal distributions/up/excess/MDD/MAE/loss separate. Choose risk thresholds by horizon and owner use; approve market/kind total-return benchmark mapping and GBP primary basis.",
+      "why_owner_material": "5% short/10% long are illustrations only; exact choices define labels and usefulness.",
+      "requirements": [
+        "SCI-02",
+        "SCI-06"
+      ],
+      "status": "owner_pending"
+    },
+    {
+      "id": "SCI-D03",
+      "topic": "Qualification evidence and effect/precision policy",
+      "recommendation": "Approve proposed chronological folds, purging,24month final test, block uncertainty, provisional2%primary-loss hurdle/95%pairedinterval and80%coverage\u00b15pp only after pilot precision evidence.",
+      "why_owner_material": "Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable.",
+      "requirements": [
+        "SCI-05",
+        "SCI-06"
+      ],
+      "status": "owner_pending"
+    },
+    {
+      "id": "SCI-D04",
+      "topic": "Bounded models, feature ladder and campaign capacity",
+      "recommendation": "Start R0 then R1/R2, causal20/60MA and20range patterns,20analogs maximum, prospective-only LLM factors when hindsight cannot be bounded. Max2campaigns/month acrossdevprod;96totalfits/campaign and admitted money/resources.",
+      "why_owner_material": "Every extra head/ablation consumes capacity; all horizons retained while qualification is staged.",
+      "requirements": [
+        "SCI-04",
+        "SCI-05"
+      ],
+      "status": "owner_pending"
+    },
+    {
+      "id": "SCI-D05",
+      "topic": "Promotion, probation, safety disable and return authority",
+      "recommendation": "Owner binds each promotion/calibrator/task scope. Separately preapprove deterministic safety pauses; no tuner promotion, live calibration or automatic resume. Define probation maturity/monitoring evidence by task.",
+      "why_owner_material": "Safety disable authority is not acceptance of automatic learning or rollback to ineligible versions.",
+      "requirements": [
+        "SCI-07"
+      ],
+      "status": "owner_pending"
+    },
+    {
+      "id": "SCI-D06",
+      "topic": "Conditional3\u20135year scenario assumptions",
+      "recommendation": "Separate nominal/real/FX/contribution/fee/dividend assumptions with3and5year outputs, no invented probabilities.",
+      "why_owner_material": "Scenario outputs are conditional arithmetic, not a long-horizon accuracy promise.",
+      "requirements": [
+        "SCI-08"
+      ],
+      "status": "owner_pending"
+    }
+  ],
+  "routine_defaults": "Immutable typed records, decimal strings, explicit provenance/versions, real-ID synthetic fixtures and no-network specification checks proposed without separate questions.",
+  "activation_authorised": false
+}

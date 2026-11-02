@@ -1,0 +1,177 @@
+{
+  "pack": "foundation-specifications-2026-11-02",
+  "lane": "forecasting",
+  "status": "proposed_maker_checked_unreviewed",
+  "implementation_authorised": false,
+  "as_of": "2026-11-02",
+  "id": "SCI-05",
+  "approval_status": "SCI-D03_D04_D05_owner_pending",
+  "split": {
+    "type": "expanding_origin",
+    "cross_asset_group": "common UTC origin-date blocks, local timestamps retained; economic_entity grouping",
+    "random_rows": false,
+    "short": {
+      "min_estimator_fit_months": 36,
+      "calibration_months": 6,
+      "outer_folds": 4,
+      "outer_origin_block_months": 3
+    },
+    "long": {
+      "min_estimator_fit_months": 60,
+      "calibration_months": 24,
+      "outer_folds": 4,
+      "outer_origin_block_months": 12
+    },
+    "final_test_mature_origin_months": 24,
+    "history_insufficient": "exploratory_or_unavailable; do not silently reduce required folds",
+    "purge": "Earlier label interval cannot intersect protected next-partition origin/outcome region; earlier outcome_known_at must be strictly before next boundary.",
+    "embargo": "exact task horizon plus one eligible valuation session before boundary; add actual publication lag; if later training rows ever allowed, embargo post-validation origins at least horizon",
+    "inner": "three chronological splits wholly within fit region, purged at their boundaries; transformations fit inside each inner fit",
+    "calibration": "selected estimator held fixed, sigmoid trained on separate purged chronological calibration block",
+    "final_test": "quarantine all outcomes/access; one frozen candidate submission; any tuning afterwards marks test spent; new final test requires untouched or newly mature data"
+  },
+  "search_caps": {
+    "campaigns_per_month": 2,
+    "scope_per_campaign": "one declared task x horizon x market-kind group; all scopes retained but no all-horizon monthly implication",
+    "initial_distinct_configurations": 6,
+    "illustrative_fit_schedule": {
+      "inner_search_6_configs_x3_inner_x4_outer": 72,
+      "two_family_outer_refits_x4": 8,
+      "two_family_outer_calibrators_x4": 8,
+      "two_final_refits_and_calibrators": 4,
+      "total": 92
+    },
+    "rule": "Any extra target head, quantile head, ablation or seed consumes remaining fit capacity or separate campaign; illustrative 92-fit schedule is for one scalar target, not six targets at once. Stop rather than exceed.",
+    "all_trials_required_fields": [
+      "trial_id",
+      "parent_campaign",
+      "task_scope",
+      "data_manifest_hash",
+      "features",
+      "parameters",
+      "seed",
+      "folds",
+      "started_at",
+      "stopped_at",
+      "status",
+      "failure_or_cancel_reason",
+      "metric_results",
+      "compute_cost",
+      "selection_decision",
+      "final_test_accesses"
+    ],
+    "max_learned_configurations_catalogue": 24,
+    "max_learned_fits_per_campaign_including_all_stages": 96,
+    "max_learned_fits_per_month_across_dev_prod": 192,
+    "configuration_bound_meaning": "At most24declared learned configuration alternatives, sixinitially. R1linear/logisticbaselines count. Actually evaluated candidates/folds/heads must fit96cap;24isnot24xallfolds permission. All configurations and inner search declared before outer results.",
+    "illustrative_fit_schedule_note": "FinalfourfitsmeanonefrozenR1learnedbaselineandonepreselectedR2challenger, eachwithrefit/calibrator; finaloutcomesdonotselectwhichfamilywins. Scalarcontinuousheadswithoutcalibrationmayusefewerfits; capneverforcesunneededcalibrators."
+  },
+  "resource_caps_proposed": {
+    "jobs_per_campaign": 3,
+    "sequential": true,
+    "requested_vcpu_per_job": 2,
+    "wallclock_hours_per_job": 2,
+    "input_GiB": 2,
+    "portable_artifact_MiB": 100,
+    "maximum_vcpu_hours_per_month": 24,
+    "actual_billable_minimum": "whole compatible instance billed;4GiB is process target, not provider instance size",
+    "deployment": "selective SageMaker training/eval; approved portable Lambda inference; stored daily forecasts; no endpoint",
+    "orchestrator": "Python Lambda Durable Functions",
+    "money_gate": "all-in GBP100; operation70/reserve30 across whole system; actual shared USD200 credits unverified; no uncovered fallback",
+    "process_working_set_target_GiB": 4,
+    "candidate_billable_instance": "ml.m5.large,2vCPU8GiB; data/cost lane pricing candidate, runtime/dependency proof pending",
+    "actual_billable_instance_memory_GiB": 8,
+    "max_billable_instance_hours_per_campaign": 6,
+    "max_billable_instance_hours_per_month_across_dev_prod": 12
+  },
+  "metrics": {
+    "binary": {
+      "primary": "Brier",
+      "secondary": "log_loss",
+      "diagnostic": [
+        "reliability_curve_with_counts_and_uncertainty",
+        "event_base_rate",
+        "issuance_coverage"
+      ],
+      "log_reporting_epsilon": "0.000001",
+      "score_alone_proves_calibration": false
+    },
+    "distribution": {
+      "primary": "mean_pinball_q10_q50_q90",
+      "secondary": [
+        "central_80_coverage",
+        "central_80_width",
+        "median_MAE"
+      ],
+      "CRPS": "only if coherent full CDF"
+    },
+    "paired_comparison": "candidate and strongest eligible baseline on identical issued origin set; also report full-set and abstention effects"
+  },
+  "uncertainty_proposed": {
+    "method": "moving_block_bootstrap_whole_cross_asset_date_blocks",
+    "replicates": 2000,
+    "base_block_length": "at least task horizon",
+    "sensitivity_multipliers": [
+      1,
+      2
+    ],
+    "under_20_nonoverlapping_blocks": "exploratory_uncertainty_no_automatic_evidence_claim",
+    "independence_claim": false,
+    "report": [
+      "date_count",
+      "mature_label_count",
+      "instruments",
+      "economic_entities",
+      "nonoverlapping_blocks",
+      "cross_asset_dependence",
+      "block_sensitivity",
+      "trial_count"
+    ]
+  },
+  "qualification_proposed": {
+    "relative_primary_loss_improvement": "0.02",
+    "paired_confidence_level": "0.95",
+    "paired_interval": "must favour improvement; multiplicity/trial registry and final-test quarantine still required",
+    "central80_coverage_absolute_tolerance": "0.05",
+    "threshold_rationale": "provisional complexity/cost hurdle and coverage usability; owner and pilot precision approval required before holdout access",
+    "minimum_cases_guarantee": null,
+    "per_market_kind": "separate evidence, fail or abstain unsupported subgroups",
+    "shadow": "mature task-specific prospective outcomes and uncertainty sufficient for approved precision; no eight-week yearly validation",
+    "multiplicity": "Exactlyoneprimaryconfirmatoryclaimpercampaign. Ifmclaimsarejointlyusedforonepromotion, predeclarefamilyanduseBonferroniintervallevel1-0.05/m, reportallclaims/trials. Blockbootstrapcoverageisapproximate; noexactfamilywisefinite-sampleguaranteeclaimed."
+  },
+  "ablations": [
+    "R0",
+    "R1_or_R2_without_optional_blocks",
+    "plus_patterns",
+    "plus_vintage_news",
+    "plus_LLM_factors",
+    "approved_combinations"
+  ],
+  "contribution_comparators": [
+    "do_nothing_current_allocation",
+    "matched_date_currency_benchmark_contributions",
+    "simple_fixed_allocation"
+  ],
+  "contribution_costs": "same flow dates/dividends/fees/slippage assumptions; gross and cost-adjusted separate; financial lane XIRR conventions",
+  "promotion_states": [
+    "candidate",
+    "offline_qualified",
+    "shadow",
+    "owner_approved",
+    "probation",
+    "active",
+    "paused",
+    "rolled_back",
+    "rejected"
+  ],
+  "promotion": "owner binding exact artifact/calibrator/task/evidence/scope/expiry; tuner only creates candidates",
+  "safety_disable": "only separately owner-preapproved deterministic rules; no auto promotion/resume/recalibration",
+  "source_gaps": [
+    "FC-04",
+    "FC-07",
+    "FC-08",
+    "FC-09",
+    "FC-13",
+    "FC-14"
+  ]
+}
