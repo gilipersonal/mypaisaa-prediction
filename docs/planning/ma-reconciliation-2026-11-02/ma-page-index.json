@@ -1,0 +1,2343 @@
+{
+  "results": [
+    {
+      "content": {
+        "id": "1540302",
+        "type": "page",
+        "status": "current",
+        "title": "§18 · Environments, domains and delivery",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1540302/18+Environments+domains+and+delivery",
+          "tinyui": "/x/zoAX"
+        }
+      },
+      "title": "§18 · Environments, domains and delivery",
+      "excerpt": "🚀 §18 · Environments, domains and delivery\nDev and prod in one account, the domains, identity per environment, Terraform only with prod through CI, and hydrating prod with the Excel importer.\n§18\n §18.1\n §18.2\n §18.3\n §18.4\n §18.5\n6 sections\nARCHITECTURE.md as written, in full, below.\n45 stories\nCite these sections, in phases 0, 1, 2, 3, 9, 18, 19, 20.\n3 pi",
+      "url": "/spaces/mypaisaaag/pages/1540302/18+Environments+domains+and+delivery",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:15:12.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1409219",
+        "type": "page",
+        "status": "current",
+        "title": "§9 · The two doors: the iOS app and the web app",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1409219/9+The+two+doors+the+iOS+app+and+the+web+app",
+          "tinyui": "/x/w4AV"
+        }
+      },
+      "title": "§9 · The two doors: the iOS app and the web app",
+      "excerpt": "📱 §9 · The two doors: the iOS app and the web app\nThe shell, the chat and the size classes, the cards, the dashboard inside the app, the web app in a browser, and the iOS app&#39;s build: a React Native shell with a native SwiftUI core.\n§9\n §9.1\n §9.2\n §9.3\n §9.4\n §9.5\n6 sections\nARCHITECTURE.md as written, in full, below.\n84 stories\nCite these sections, in pha",
+      "url": "/spaces/mypaisaaag/pages/1409219/9+The+two+doors+the+iOS+app+and+the+web+app",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:49.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671250",
+        "type": "page",
+        "status": "current",
+        "title": "🇮🇳 §22 · Indian markets",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671250/22+Indian+markets",
+          "tinyui": "/x/UoAZ"
+        }
+      },
+      "title": "🇮🇳 §22 · Indian markets",
+      "excerpt": "🇮🇳 §22 · Indian markets\nIndian shares, ETFs and mutual funds beside the UK ones: free sources first, the existing portfolio imported once, accounts and currency, and the engine and the Forecaster for India.\n§22\n §22.1\n §22.2\n §22.3\n §22.4\n §22.5\n6 sections\nARCHITECTURE.md as written, in full, below.\n7 stories\nCite these sections, in phases 0, 2, 9, 19.\n1 p",
+      "url": "/spaces/mypaisaaag/pages/1671250/22+Indian+markets",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:05.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1736765",
+        "type": "page",
+        "status": "current",
+        "title": "🇮🇳 Flows · India in the picture",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1736765/Flows+India+in+the+picture",
+          "tinyui": "/x/PYAa"
+        }
+      },
+      "title": "🇮🇳 Flows · India in the picture",
+      "excerpt": "🇮🇳 India in the picture\n4 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n15 · Money in any currency, checked against the holdin",
+      "url": "/spaces/mypaisaaag/pages/1736765/Flows+India+in+the+picture",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:50:38.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1736725",
+        "type": "page",
+        "status": "current",
+        "title": "✉️ Inside MyPaisa: one message, the agent team, the safety nets and a day",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1736725/Inside+MyPaisa+one+message+the+agent+team+the+safety+nets+and+a+day",
+          "tinyui": "/x/FYAa"
+        }
+      },
+      "title": "✉️ Inside MyPaisa: one message, the agent team, the safety nets and a day",
+      "excerpt": "✉️ Inside MyPaisa, the rest of the way\nOne message played through the system in four tours, the agent team of phase 18 and the admin&#39;s approval, what stops it going wrong, the two homes on AWS, and a day with MyPaisa.\nFrom inside-mypaisa.html  (MA-239).\n✉️ Watch a mes",
+      "url": "/spaces/mypaisaaag/pages/1736725/Inside+MyPaisa+one+message+the+agent+team+the+safety+nets+and+a+day",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T18:16:57.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1736705",
+        "type": "page",
+        "status": "current",
+        "title": "✍️ §4.9 to §4.10 · Commitments, check-ins and writing",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1736705/4.9+to+4.10+Commitments+check-ins+and+writing",
+          "tinyui": "/x/AYAa"
+        }
+      },
+      "title": "✍️ §4.9 to §4.10 · Commitments, check-ins and writing",
+      "excerpt": "✍️ §4.9 to §4.10 · Commitments, check-ins and writing\nThe promises the household keeps (EMIs, SIPs, bills, maturities), the check-ins code decides on, and the one way anything is written: create in the chat, correct in place.\n§4.9\n §4.10\n2 sections\nARCHITECTURE.md as written, in full, below.\n16 stories\nCite these sections, in phases 0, 1, 2, 3, 4, 5, 6, 7, 9",
+      "url": "/spaces/mypaisaaag/pages/1736705/4.9+to+4.10+Commitments+check-ins+and+writing",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:33.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1704077",
+        "type": "page",
+        "status": "current",
+        "title": "➕ Flows · Adding a holding and logging money",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1704077/Flows+Adding+a+holding+and+logging+money",
+          "tinyui": "/x/jQAa"
+        }
+      },
+      "title": "➕ Flows · Adding a holding and logging money",
+      "excerpt": "➕ Adding a holding and logging money\n2 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n03 · Adding a holding from a factsheet or a",
+      "url": "/spaces/mypaisaaag/pages/1704077/Flows+Adding+a+holding+and+logging+money",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T00:57:15.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1704097",
+        "type": "page",
+        "status": "current",
+        "title": "🌅 Flows · The market's day: the brief and an alert",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1704097/Flows+The+market+s+day+the+brief+and+an+alert",
+          "tinyui": "/x/oQAa"
+        }
+      },
+      "title": "🌅 Flows · The market&#39;s day: the brief and an alert",
+      "excerpt": "🌅 The market&#39;s day: the brief and an alert\n2 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n05 · The 07:15 morning brief, end to",
+      "url": "/spaces/mypaisaaag/pages/1704097/Flows+The+market+s+day+the+brief+and+an+alert",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T07:34:36.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1703977",
+        "type": "page",
+        "status": "current",
+        "title": "🏗️ The Lucid drawings, and how they are made",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1703977/The+Lucid+drawings+and+how+they+are+made",
+          "tinyui": "/x/KQAa"
+        }
+      },
+      "title": "🏗️ The Lucid drawings, and how they are made",
+      "excerpt": "🏗️ The architecture, drawn in Lucid on AWS shapes\nNine drawings: eight views made by a generator and one sequence. Each is kept in the repo as a PNG, embedded in ARCHITECTURE.md where its section explains it, and open as a live Lucid document (MA-141, redrawn for v4 on MA-225, the trace added on MA-236).\n🖼️ System overview\nSystem overview\n§3\n explained on",
+      "url": "/spaces/mypaisaaag/pages/1703977/The+Lucid+drawings+and+how+they+are+made",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T00:40:20.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671170",
+        "type": "page",
+        "status": "current",
+        "title": "🏛️ The architecture, area by area",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671170/The+architecture+area+by+area",
+          "tinyui": "/x/AoAZ"
+        }
+      },
+      "title": "🏛️ The architecture, area by area",
+      "excerpt": "🏛️ ARCHITECTURE.md, area by area, in full\nEvery section of ARCHITECTURE.md  is on exactly one page below, as written, with its tables, its decisions and the Lucid drawings where the text puts them. The map says which page holds which section.\nArchitecture v4: from a tap at either do",
+      "url": "/spaces/mypaisaaag/pages/1671170/The+architecture+area+by+area",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T19:22:02.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1704057",
+        "type": "page",
+        "status": "current",
+        "title": "🏠 Inside MyPaisa: the admin's journey in nine steps",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1704057/Inside+MyPaisa+the+admin+s+journey+in+nine+steps",
+          "tinyui": "/x/eQAa"
+        }
+      },
+      "title": "🏠 Inside MyPaisa: the admin&#39;s journey in nine steps",
+      "excerpt": "🏠 From the first tap to a team of agents keeping the family&#39;s money.\nMyPaisa is a private money assistant for one household. You talk to it in a chat, on the iPhone, the iPad or in a browser. It keeps everything the family owns and owes in the UK and India, asks when something is due, and explains what moved. This page follows the household&#39;s admin from the",
+      "url": "/spaces/mypaisaaag/pages/1704057/Inside+MyPaisa+the+admin+s+journey+in+nine+steps",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T18:16:54.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1442122",
+        "type": "page",
+        "status": "current",
+        "title": "🏡 Flows · The household's whole wealth, by talking",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1442122/Flows+The+household+s+whole+wealth+by+talking",
+          "tinyui": "/x/SgEW"
+        }
+      },
+      "title": "🏡 Flows · The household&#39;s whole wealth, by talking",
+      "excerpt": "🏡 The household&#39;s whole wealth, by talking\n6 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n19 · Registering anything by talking",
+      "url": "/spaces/mypaisaaag/pages/1442122/Flows+The+household+s+whole+wealth+by+talking",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:41:11.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1769473",
+        "type": "page",
+        "status": "current",
+        "title": "👥 §20 · The agent team",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1769473/20+The+agent+team",
+          "tinyui": "/x/AQAb"
+        }
+      },
+      "title": "👥 §20 · The agent team",
+      "excerpt": "👥 §20 · The agent team\nNine agents that never call each other: one store for every setting, the admin desk, the learning loop, self-healing, where the data lives and the team&#39;s budgets.\n§20\n §20.1\n §20.2\n §20.3\n §20.4\n §20.5\n §20.6\n §20.7\n §20.8\n §20.9\n10 sections\nARCHITECTURE.md as written, in full, below.\n24 stories\nCite these sections, in phases 0, 7, 9,",
+      "url": "/spaces/mypaisaaag/pages/1769473/20+The+agent+team",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:17:59.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1147125",
+        "type": "page",
+        "status": "current",
+        "title": "💬 Flows · Asking, and seeing it at every door",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1147125/Flows+Asking+and+seeing+it+at+every+door",
+          "tinyui": "/x/9YAR"
+        }
+      },
+      "title": "💬 Flows · Asking, and seeing it at every door",
+      "excerpt": "💬 Asking, and seeing it at every door\n4 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n07 · Asking a question in chat\nAsk in pla",
+      "url": "/spaces/mypaisaaag/pages/1147125/Flows+Asking+and+seeing+it+at+every+door",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T00:55:49.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1442062",
+        "type": "page",
+        "status": "current",
+        "title": "💷 §15 · Cost, the Claude budget, caps and alerts",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1442062/15+Cost+the+Claude+budget+caps+and+alerts",
+          "tinyui": "/x/DgEW"
+        }
+      },
+      "title": "💷 §15 · Cost, the Claude budget, caps and alerts",
+      "excerpt": "💷 §15 · Cost, the Claude budget, caps and alerts\nThe monthly cost at $1.30 to £1, the Claude budget and its ceiling with the spend ladder, and the caps and alerts the admin sets in the Admin center.\n§15\n §15.1\n §15.2\n3 sections\nARCHITECTURE.md as written, in full, below.\n26 stories\nCite these sections, in phases 0, 1, 8, 11, 17, 18, 20.\n2 pictures\n1 still,",
+      "url": "/spaces/mypaisaaag/pages/1442062/15+Cost+the+Claude+budget+caps+and+alerts",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:50.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1769493",
+        "type": "page",
+        "status": "current",
+        "title": "📈 The Market Agent, end to end",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1769493/The+Market+Agent+end+to+end",
+          "tinyui": "/x/FQAb"
+        }
+      },
+      "title": "📈 The Market Agent, end to end",
+      "excerpt": "📈 MyPaisa Market Agent\nHow MyPaisa reads the market for one household, end to end: a rules engine anyone can check by hand, a Forecaster that learns from ten years of history and sits beside it, and a small team of agents that grade, calibrate and repair both every day. The UK holdings come first; from phase 19 the household&#39;s Indian mutual funds, shares an",
+      "url": "/spaces/mypaisaaag/pages/1769493/The+Market+Agent+end+to+end",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:41:57.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1703937",
+        "type": "page",
+        "status": "current",
+        "title": "📘 The record: the whole architecture and every journey",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1703937/The+record+the+whole+architecture+and+every+journey",
+          "tinyui": "/x/AQAa"
+        }
+      },
+      "title": "📘 The record: the whole architecture and every journey",
+      "excerpt": "📘 The whole architecture, and every journey, in one place\nEverything MyPaisa is designed to be, recorded in full: ARCHITECTURE.md section by section, the five journeys that play through AWS hop by hop, the admin&#39;s nine steps in plain words, the twenty-four agent flows, the market agent, the first journeys, and the Lucid drawings. Nothing is built yet; this",
+      "url": "/spaces/mypaisaaag/pages/1703937/The+record+the+whole+architecture+and+every+journey",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-29T18:35:23.000Z",
+      "friendlyLastModified": "Oct 29, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1704017",
+        "type": "page",
+        "status": "current",
+        "title": "📜 §16 to §17 · The decisions and the open questions",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1704017/16+to+17+The+decisions+and+the+open+questions",
+          "tinyui": "/x/UQAa"
+        }
+      },
+      "title": "📜 §16 to §17 · The decisions and the open questions",
+      "excerpt": "📜 §16 to §17 · The decisions and the open questions\nEvery architecture decision with its reason, and the questions still open.\n§16\n §17\n2 sections\nARCHITECTURE.md as written, in full, below.\n19 stories\nCite these sections, in phases 0, 1, 8, 16, 17, 18.\n0 pictures\nThe text alone.\n📖 Contents\n16. Decisions (v2)\nDecision\nChoice\nReason\nEngine\nPort the desk&#39;s m",
+      "url": "/spaces/mypaisaaag/pages/1704017/16+to+17+The+decisions+and+the+open+questions",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T11:32:45.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1769513",
+        "type": "page",
+        "status": "current",
+        "title": "📟 The first journeys, on the Telegram bot (kept for reference)",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1769513/The+first+journeys+on+the+Telegram+bot+kept+for+reference",
+          "tinyui": "/x/KQAb"
+        }
+      },
+      "title": "📟 The first journeys, on the Telegram bot (kept for reference)",
+      "excerpt": "📟 How a layman uses the bot, scene by scene\nEight journeys through the Telegram bot, played on a phone. Each one shows what you tap, what comes back, and what happens behind it. Nothing technical appears unless you ask; when you do, it is one tap away. These are mock-ups of the design; nothing is built yet.\nKept for reference. Eight user journeys on a phone",
+      "url": "/spaces/mypaisaaag/pages/1769513/The+first+journeys+on+the+Telegram+bot+kept+for+reference",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T00:40:33.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1147045",
+        "type": "page",
+        "status": "current",
+        "title": "📡 §5 to §7 · Prices, FX and the rules engine",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1147045/5+to+7+Prices+FX+and+the+rules+engine",
+          "tinyui": "/x/pYAR"
+        }
+      },
+      "title": "📡 §5 to §7 · Prices, FX and the rules engine",
+      "excerpt": "📡 §5 to §7 · Prices, FX and the rules engine\nOne plugin per price feed, a chain per kind, look-through, FX and calendars, then the deterministic engine: indicators, pillars, the holder&#39;s cascade, confidence and forecast ranges, and the research cards.\n§5\n §5.1\n §5.2\n §5.3\n §6\n §6.1\n §6.2\n §6.3\n §6.4\n §6.5\n §7\n11 sections\nARCHITECTURE.md as written, in full,",
+      "url": "/spaces/mypaisaaag/pages/1147045/5+to+7+Prices+FX+and+the+rules+engine",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:06.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1442082",
+        "type": "page",
+        "status": "current",
+        "title": "📬 §21 · Queues and live delivery",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1442082/21+Queues+and+live+delivery",
+          "tinyui": "/x/IgEW"
+        }
+      },
+      "title": "📬 §21 · Queues and live delivery",
+      "excerpt": "📬 §21 · Queues and live delivery\nNothing lost, everything retried: the three queues, the rules every consumer keeps, dead-letter queues and replay, and live delivery over SSE.\n§21\n §21.1\n §21.2\n §21.3\n §21.4\n §21.5\n6 sections\nARCHITECTURE.md as written, in full, below.\n19 stories\nCite these sections, in phases 0, 1, 8, 18.\n3 pictures\n2 animated, captured fr",
+      "url": "/spaces/mypaisaaag/pages/1442082/21+Queues+and+live+delivery",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:02.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1540282",
+        "type": "page",
+        "status": "current",
+        "title": "🔐 §4.5 · Identity, members and views",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1540282/4.5+Identity+members+and+views",
+          "tinyui": "/x/uoAX"
+        }
+      },
+      "title": "🔐 §4.5 · Identity, members and views",
+      "excerpt": "🔐 §4.5 · Identity, members and views\nSigning in with Apple, Google or a passkey, the household and its members, invites, the second check, sessions and what each member may see.\n§4.5\n1 section\nARCHITECTURE.md as written, in full, below.\n19 stories\nCite these sections, in phases 0, 1, 2, 7, 8.\n3 pictures\n2 animated, captured from the explainer pages; 1 Lucid",
+      "url": "/spaces/mypaisaaag/pages/1540282/4.5+Identity+members+and+views",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:29.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1147105",
+        "type": "page",
+        "status": "current",
+        "title": "🔑 Flows · Joining and signing in",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1147105/Flows+Joining+and+signing+in",
+          "tinyui": "/x/4YAR"
+        }
+      },
+      "title": "🔑 Flows · Joining and signing in",
+      "excerpt": "🔑 Joining and signing in\n2 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n01 · Joining by invite\nThe owner types /invite in the",
+      "url": "/spaces/mypaisaaag/pages/1147105/Flows+Joining+and+signing+in",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-29T15:26:31.000Z",
+      "friendlyLastModified": "Oct 29, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1703997",
+        "type": "page",
+        "status": "current",
+        "title": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1703997/11+to+13+Notifications+the+road+from+the+wealth+tracker+and+the+stack",
+          "tinyui": "/x/PQAa"
+        }
+      },
+      "title": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack",
+      "excerpt": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack\nBriefs, alerts and check-ins by push; the road from the old wealth tracker to MyPaisa with any question answered from a read-only SQL copy; and the tech stack.\n§11\n §12\n §12.1\n §13\n4 sections\nARCHITECTURE.md as written, in full, below.\n39 stories\nCite these sections, in phases 0,",
+      "url": "/spaces/mypaisaaag/pages/1703997/11+to+13+Notifications+the+road+from+the+wealth+tracker+and+the+stack",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:57.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671230",
+        "type": "page",
+        "status": "current",
+        "title": "🔭 §10 · Observability: one trace from the door to the model",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671230/10+Observability+one+trace+from+the+door+to+the+model",
+          "tinyui": "/x/PoAZ"
+        }
+      },
+      "title": "🔭 §10 · Observability: one trace from the door to the model",
+      "excerpt": "🔭 §10 · Observability: one trace from the door to the model\nThe RunRecord, one OpenTelemetry trace end to end, the model and tool spans, the metrics, the alarms and who hears them, and the agent team&#39;s view.\n§10\n §10.1\n §10.2\n §10.3\n §10.4\n §10.5\n §10.6\n §10.7\n §10.8\n §10.9\n §10.10\n11 sections\nARCHITECTURE.md as written, in full, below.\n23 stories\nCite thes",
+      "url": "/spaces/mypaisaaag/pages/1671230/10+Observability+one+trace+from+the+door+to+the+model",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:53.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1704037",
+        "type": "page",
+        "status": "current",
+        "title": "🔮 §19 · The Forecaster",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1704037/19+The+Forecaster",
+          "tinyui": "/x/ZQAa"
+        }
+      },
+      "title": "🔮 §19 · The Forecaster",
+      "excerpt": "🔮 §19 · The Forecaster\nA second engine beside the rules engine: what can and cannot be forecast, data as it was known each day, news matched to holdings, the models, the strategy layer and how it proves itself.\n§19\n §19.1\n §19.2\n §19.3\n §19.4\n §19.5\n §19.6\n §19.7\n §19.8\n §19.9\n10 sections\nARCHITECTURE.md as written, in full, below.\n16 stories\nCite these sec",
+      "url": "/spaces/mypaisaaag/pages/1704037/19+The+Forecaster",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:15:15.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1442042",
+        "type": "page",
+        "status": "current",
+        "title": "🗂️ §4 · The holdings registry and the data model",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1442042/4+The+holdings+registry+and+the+data+model",
+          "tinyui": "/x/_gAW"
+        }
+      },
+      "title": "🗂️ §4 · The holdings registry and the data model",
+      "excerpt": "🗂️ §4 · The holdings registry and the data model\nOne DynamoDB table of entities, kinds as data, records as documents and their history as events, the audit log, and money in any currency checked against the holding.\n§4\n §4.1\n §4.2\n §4.3\n §4.4\n §4.6\n §4.7\n §4.8\n8 sections\nARCHITECTURE.md as written, in full, below.\n41 stories\nCite these sections, in phases 0",
+      "url": "/spaces/mypaisaaag/pages/1442042/4+The+holdings+registry+and+the+data+model",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:40.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671210",
+        "type": "page",
+        "status": "current",
+        "title": "🤖 §8 · The agent: one tool loop, its tools and its models",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671210/8+The+agent+one+tool+loop+its+tools+and+its+models",
+          "tinyui": "/x/KoAZ"
+        }
+      },
+      "title": "🤖 §8 · The agent: one tool loop, its tools and its models",
+      "excerpt": "🤖 §8 · The agent: one tool loop, its tools and its models\nThe concierge&#39;s Claude tool loop: the cached prefix, the strict tools, the guided flows, which model answers what, and how a run is bounded.\n§8\n1 section\nARCHITECTURE.md as written, in full, below.\n31 stories\nCite these sections, in phases 0, 1, 2, 4, 5, 7, 9, 11, 12, 13.\n2 pictures\n1 animated and 1",
+      "url": "/spaces/mypaisaaag/pages/1671210/8+The+agent+one+tool+loop+its+tools+and+its+models",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:05.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "3899472",
+        "type": "page",
+        "status": "current",
+        "title": "🧠 §24 · Caching and memory for every agent",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/3899472/24+Caching+and+memory+for+every+agent",
+          "tinyui": "/x/UIA7"
+        }
+      },
+      "title": "🧠 §24 · Caching and memory for every agent",
+      "excerpt": "🧠 §24 · Caching and memory for every agent\nEvery agent gets both from the one runner: each call cached in one frozen order with a lifetime per route and checks that catch a broken cache, and Claude&#39;s memory tool on MyPaisa&#39;s own store, a member&#39;s notes theirs alone, never a figure, a record, a setting or a secret.\n§24\n §24.1\n §24.2\n §24.3\n §24.4\n §24.5\n §24",
+      "url": "/spaces/mypaisaaag/pages/3899472/24+Caching+and+memory+for+every+agent",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-29T19:00:52.000Z",
+      "friendlyLastModified": "Oct 29, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1147085",
+        "type": "page",
+        "status": "current",
+        "title": "🧩 Architecture v4: every part, the trace, the loop, the agents and the models",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1147085/Architecture+v4+every+part+the+trace+the+loop+the+agents+and+the+models",
+          "tinyui": "/x/zYAR"
+        }
+      },
+      "title": "🧩 Architecture v4: every part, the trace, the loop, the agents and the models",
+      "excerpt": "🧩 Every part of Architecture v4\nThe system map&#39;s parts as its inspector describes them, one message as an OpenTelemetry trace, the concierge&#39;s tool loop and its tools, the nine agents with the kind of agent each is and the model it uses, the three Claude models and the spend ladder, where the data lives, delivery and the guardrails.\nFrom architecture-v4.htm",
+      "url": "/spaces/mypaisaaag/pages/1147085/Architecture+v4+every+part+the+trace+the+loop+the+agents+and+the+models",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T19:26:51.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671190",
+        "type": "page",
+        "status": "current",
+        "title": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671190/1+to+3+The+rules+what+MyPaisa+does+and+the+system+around+it",
+          "tinyui": "/x/FoAZ"
+        }
+      },
+      "title": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it",
+      "excerpt": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it\nThe four rules every flow keeps, what the household sees, and the system context: the two doors, the AWS account, the Anthropic API and the free data sources.\n§1\n §2\n §3\n3 sections\nARCHITECTURE.md as written, in full, below.\n20 stories\nCite these sections, in phases 0, 1, 2, 8, 11, 12, 15.",
+      "url": "/spaces/mypaisaaag/pages/1671190/1+to+3+The+rules+what+MyPaisa+does+and+the+system+around+it",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:17:30.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1442102",
+        "type": "page",
+        "status": "current",
+        "title": "🧭 The Agent Journey: twenty-four flows end to end",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1442102/The+Agent+Journey+twenty-four+flows+end+to+end",
+          "tinyui": "/x/NgEW"
+        }
+      },
+      "title": "🧭 The Agent Journey: twenty-four flows end to end",
+      "excerpt": "🧭 MyPaisa Agent Journey\n26 Oct 2026 · MA-141, India added in MA-155, the iOS app in MA-161, re-phased in MA-186, the whole wealth&#39;s flows in MA-226 · design only, nothing is built yet\nHow a household uses MyPaisa, one flow at a time: what the member does in the MyPaisa app on an iPhone or an iPad, or in the web app in a browser, the path it takes through th",
+      "url": "/spaces/mypaisaaag/pages/1442102/The+Agent+Journey+twenty-four+flows+end+to+end",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T23:51:21.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1703957",
+        "type": "page",
+        "status": "current",
+        "title": "🧭 The journeys, end to end",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1703957/The+journeys+end+to+end",
+          "tinyui": "/x/FQAa"
+        }
+      },
+      "title": "🧭 The journeys, end to end",
+      "excerpt": "🧭 Every journey, end to end\nThe journeys MyPaisa was designed through, from the explainer pages in docs/design/, with their own words, their data and their animations: what the member taps, what comes back, and what happens behind it on AWS and in Claude.\nOne message through MyPaisa: you ask a question (Inside MyPaisa)\nPage\nFrom\nHolds\nWhat\n🛰️ Five journeys",
+      "url": "/spaces/mypaisaaag/pages/1703957/The+journeys+end+to+end",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T18:16:52.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1409199",
+        "type": "page",
+        "status": "current",
+        "title": "🧮 §6.6 · The wealth maths",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1409199/6.6+The+wealth+maths",
+          "tinyui": "/x/r4AV"
+        }
+      },
+      "title": "🧮 §6.6 · The wealth maths",
+      "excerpt": "🧮 §6.6 · The wealth maths\nNet worth, XIRR, the budget, the month close and the Projection: the maths of phases 2 to 7, ported from the wealth tracker and computed by code.\n§6.6\n1 section\nARCHITECTURE.md as written, in full, below.\n17 stories\nCite these sections, in phases 0, 3, 4, 5, 6, 7, 9.\n2 pictures\n2 animated, captured from the explainer pages.\n🎬 See",
+      "url": "/spaces/mypaisaaag/pages/1409199/6.6+The+wealth+maths",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:02.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1736745",
+        "type": "page",
+        "status": "current",
+        "title": "🛠️ Flows · Running it: the Admin center, failures, the ladder and the month",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1736745/Flows+Running+it+the+Admin+center+failures+the+ladder+and+the+month",
+          "tinyui": "/x/KYAa"
+        }
+      },
+      "title": "🛠️ Flows · Running it: the Admin center, failures, the ladder and the month",
+      "excerpt": "🛠️ Running it: the Admin center, failures, the ladder and the month\n4 of the Agent Journey&#39;s flows, each as a numbered path across five lanes (the member, the app, AWS, Claude and external data), the screens the member sees, the safeguards on the path and the Jira stories that build it.\nMember\n App and web app\n AWS\n Claude\n External data\n A note\n11 · The Ad",
+      "url": "/spaces/mypaisaaag/pages/1736745/Flows+Running+it+the+Admin+center+failures+the+ladder+and+the+month",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-29T15:24:26.000Z",
+      "friendlyLastModified": "Oct 29, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1147065",
+        "type": "page",
+        "status": "current",
+        "title": "🛡️ §14 · Security and privacy",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1147065/14+Security+and+privacy",
+          "tinyui": "/x/uYAR"
+        }
+      },
+      "title": "🛡️ §14 · Security and privacy",
+      "excerpt": "🛡️ §14 · Security and privacy\nWhat is enforced in code, what never leaves the account, privacy mode, secrets, and what a member&#39;s data is used for.\n§14\n1 section\nARCHITECTURE.md as written, in full, below.\n16 stories\nCite these sections, in phases 0, 1, 2, 12, 20.\n2 pictures\n2 still, captured from the explainer pages.\n🖼️ See it\nEnforced in code, not in the",
+      "url": "/spaces/mypaisaaag/pages/1147065/14+Security+and+privacy",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:47.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1671270",
+        "type": "page",
+        "status": "current",
+        "title": "🛰️ Five journeys through AWS, hop by hop",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1671270/Five+journeys+through+AWS+hop+by+hop",
+          "tinyui": "/x/ZoAZ"
+        }
+      },
+      "title": "🛰️ Five journeys through AWS, hop by hop",
+      "excerpt": "🛰️ From a tap at either door to Claude and back, on AWS, in one trace.\nThe household&#39;s wealth agent end to end: the iOS app and the web app, the AWS services between them, the concierge&#39;s tool loop on the Anthropic API, the nine agents of the team, and which Claude model each piece uses. Pick a journey below and press play to watch it move through the syste",
+      "url": "/spaces/mypaisaaag/pages/1671270/Five+journeys+through+AWS+hop+by+hop",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-28T19:25:11.000Z",
+      "friendlyLastModified": "Oct 28, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "2589543",
+        "type": "page",
+        "status": "current",
+        "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/2589543/CI+CD+vulnerability+scanning+smoke+and+regression+architecture",
+          "tinyui": "/x/Z4Mn"
+        }
+      },
+      "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+      "excerpt": "Arun, 28 Oct 2026 (MA-267 to MA-272): the end-to-end GitHub Actions + AWS CodeBuild arm64 + ECR delivery pipeline for dev and prod, the seven-layer open-source vulnerability scanning gate, the phase-progressive smoke runner (scripts/smoke.py) with prod read-only safety and under-five-second Lambda :live alias rollback, the five-layer regression pyramid (scri",
+      "url": "/spaces/mypaisaaag/pages/2589543/CI+CD+vulnerability+scanning+smoke+and+regression+architecture",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T23:59:53.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "327919",
+        "type": "page",
+        "status": "current",
+        "title": "Design decisions and the UX choices kept",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/327919/Design+decisions+and+the+UX+choices+kept",
+          "tinyui": "/x/7wAF"
+        }
+      },
+      "title": "Design decisions and the UX choices kept",
+      "excerpt": "Every design round ends in a decision record in the repo: the request in Arun&#39;s words, the options drawn, the one recommended and why, and the pick. Picked boards are the spec (plan-sync rule 4); the options not picked stay drawn as the record. Each tab holds a record&#39;s request, options, boards and pick; the full record is linked.\n🃏 Every pick at a glance\n✅",
+      "url": "/spaces/mypaisaaag/pages/327919/Design+decisions+and+the+UX+choices+kept",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:50:50.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "294922",
+        "type": "page",
+        "status": "current",
+        "title": "Explainers, the prototype and the architecture drawings",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/294922/Explainers+the+prototype+and+the+architecture+drawings",
+          "tinyui": "/x/CoAE"
+        }
+      },
+      "title": "Explainers, the prototype and the architecture drawings",
+      "excerpt": "The pages and drawings that explain MyPaisa end to end. The Claude pages are private to Arun&#39;s Claude account and open after signing in to claude.ai; the Lucid drawings open in Lucid.\n📖 The explainer pages\nKept in the repo as inside-mypaisa.html  (the whole architect",
+      "url": "/spaces/mypaisaaag/pages/294922/Explainers+the+prototype+and+the+architecture+drawings",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T23:53:58.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "1540178",
+        "type": "page",
+        "status": "current",
+        "title": "Guardrails and evals: how the agents are guarded and tested",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/1540178/Guardrails+and+evals+how+the+agents+are+guarded+and+tested",
+          "tinyui": "/x/UoAX"
+        }
+      },
+      "title": "Guardrails and evals: how the agents are guarded and tested",
+      "excerpt": "Arun, 27 Oct 2026 (MA-245): guardrails and an evals strategy for agents that are highly dynamic and will grow. What an agent must never do is made impossible in code; every change is tested before it merges, never on a timer; every live run is checked by code and a few are judged overnight; the admin calibrates the judges monthly and on every change. The sou",
+      "url": "/spaces/mypaisaaag/pages/1540178/Guardrails+and+evals+how+the+agents+are+guarded+and+tested",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:47.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66065",
+        "type": "page",
+        "status": "current",
+        "title": "How the plan, Jira, the designs, Confluence and the code stay in step",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66065/How+the+plan+Jira+the+designs+Confluence+and+the+code+stay+in+step",
+          "tinyui": "/x/EQIB"
+        }
+      },
+      "title": "How the plan, Jira, the designs, Confluence and the code stay in step",
+      "excerpt": "Arun, 24 Oct 2026 (MA-155): &quot;All the design and jira planned phase items should be in sync so that when I start the work it does [not] drift.&quot; And on 26 Oct 2026 (MA-228): the Confluence documents, the Jira stories, the Claude designs and the code stay the same. The rule is .claude/rules/plan-sync.md!--https://github.com/gilipersonal/mypaisa-agent/blob/main/",
+      "url": "/spaces/mypaisaaag/pages/66065/How+the+plan+Jira+the+designs+Confluence+and+the+code+stay+in+step",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T22:47:04.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "2818197",
+        "type": "page",
+        "status": "current",
+        "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/2818197/Local+iOS+and+iPadOS+Maestro+testing+and+private+TestFlight+beta+plan",
+          "tinyui": "/x/lQAr"
+        }
+      },
+      "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+      "excerpt": "Arun, 29 Oct 2026 (MA-167, MA-273, MA-274): the local iOS and iPadOS testing strategy on Apple Silicon with Maestro (scripts/maestro_local.py, five cloned simulators guarded by flock so automated runs never collide with interactive Maestro MCP sessions, one shared mp.* ID schema across Playwright and SwiftUI, four adaptive width sub-bands and live rotation a",
+      "url": "/spaces/mypaisaaag/pages/2818197/Local+iOS+and+iPadOS+Maestro+testing+and+private+TestFlight+beta+plan",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:27.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197090",
+        "type": "page",
+        "status": "current",
+        "title": "MyPaisa: the build plan",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197090/MyPaisa+the+build+plan",
+          "tinyui": "/x/4gED"
+        }
+      },
+      "title": "MyPaisa: the build plan",
+      "excerpt": "MyPaisa keeps one household&#39;s whole wealth across the UK and India, registered and kept through a chat, with no forms: what the family owns and owes, each member&#39;s income and spending, a Projection of where it is heading, and later a market agent for the investments. Every phase ships at both doors at once: the web app (a SvelteKit 3 PWA at dashboard.mypaisa",
+      "url": "/spaces/mypaisaaag/pages/197090/MyPaisa+the+build+plan",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:19.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197044",
+        "type": "page",
+        "status": "current",
+        "title": "mypaisaa-agent",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/overview",
+          "tinyui": "/x/tAED"
+        }
+      },
+      "title": "mypaisaa-agent",
+      "excerpt": "MyPaisa&#39;s build plan, phase by phase and screen by screen. One household&#39;s whole wealth across the UK and India, kept through a chat at every door: the web app and the iOS app.\nStart at MyPaisa: the build plan , or go straight to the roadmap!--https://duttaarun2015.atlassian.net/wiki",
+      "url": "/spaces/mypaisaaag/overview",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:42:43.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "3670133",
+        "type": "page",
+        "status": "current",
+        "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/3670133/Optional+AWS+VPC+enterprise+lockdown+data+perimeter+and+costing",
+          "tinyui": "/x/dQA4"
+        }
+      },
+      "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+      "excerpt": "Arun, 29 Oct 2026 (MA-283, MA-284): optional end-of-roadmap AWS VPC enterprise lockdown and seven-layer data perimeter across dev and prod in us-east-1 (enable_vpc_lockdown = false by default; serverless IAM/tag isolation at £3.50/month stands across Phases 0 to 20, and whether to turn VPC lockdown on is decided last, after Phase 20). Records all five costin",
+      "url": "/spaces/mypaisaaag/pages/3670133/Optional+AWS+VPC+enterprise+lockdown+data+perimeter+and+costing",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:29.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "294942",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 0 · Foundations at every door",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/294942/Phase+0+Foundations+at+every+door",
+          "tinyui": "/x/HoAE"
+        }
+      },
+      "title": "Phase 0 · Foundations at every door",
+      "excerpt": "🧱 Foundations and talk · epic  · In progress\n · 2026-11-02  to 2027-01-05\n49.75 build days, 40 working days · 74 stories, 9 with screens\nExit demo. terraform plan runs clean for dev and prod from CI through OIDC; the gates run on every PR, the web gates on every PR that touches web/ and the iOS gates on every PR that touches ios/; the budget exists; dev&#39;s C",
+      "url": "/spaces/mypaisaaag/pages/294942/Phase+0+Foundations+at+every+door",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:15.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "327939",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 1 · Talk: sign in and chat with the agent at every door",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/327939/Phase+1+Talk+sign+in+and+chat+with+the+agent+at+every+door",
+          "tinyui": "/x/AwEF"
+        }
+      },
+      "title": "Phase 1 · Talk: sign in and chat with the agent at every door",
+      "excerpt": "💬 Foundations and talk · epic  · Not started\n · 2027-01-06  to 2027-05-12\n109 build days, 88 working days · 45 stories, 17 with screens\nExit demo. you and your wife are members, each signed in on your own iPhone with your own Apple or Google account, and in a browser on the laptop and on a phone; each of you talks to MyPaisa at all three doors, and a reply",
+      "url": "/spaces/mypaisaaag/pages/327939/Phase+1+Talk+sign+in+and+chat+with+the+agent+at+every+door",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:21.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "294982",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 10 · Prices and the engine",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/294982/Phase+10+Prices+and+the+engine",
+          "tinyui": "/x/RoAE"
+        }
+      },
+      "title": "Phase 10 · Prices and the engine",
+      "excerpt": "⚙️ The market side · epic  · Not started\n · 2028-01-14  to 2028-02-09\n23 build days, 19 working days · 11 stories, 0 with screens\nExit demo. five trading days of signals landing by 07:10 that match a manual spot check; the desk&#39;s own test cases pass on the port.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nyfinance, Twelve Data, screens",
+      "url": "/spaces/mypaisaaag/pages/294982/Phase+10+Prices+and+the+engine",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:51:09.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "327999",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 11 · Briefs, alerts, charts, technical mode",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/327999/Phase+11+Briefs+alerts+charts+technical+mode",
+          "tinyui": "/x/PwEF"
+        }
+      },
+      "title": "Phase 11 · Briefs, alerts, charts, technical mode",
+      "excerpt": "📰 The market side · epic  · Not started\n · 2028-02-10  to 2028-02-29\n17 build days, 14 working days · 9 stories, 8 with screens\nExit demo. two weeks of briefs; no alert fires twice in its cooldown; a layman reads the top of a card and understands it without the bottom.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nThe Anthropic client r",
+      "url": "/spaces/mypaisaaag/pages/327999/Phase+11+Briefs+alerts+charts+technical+mode",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:19.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197233",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 12 · Ask anything: research cards and scenarios",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197233/Phase+12+Ask+anything+research+cards+and+scenarios",
+          "tinyui": "/x/cQID"
+        }
+      },
+      "title": "Phase 12 · Ask anything: research cards and scenarios",
+      "excerpt": "❓ The market side · epic  · Not started\n · 2028-03-01  to 2028-03-22\n19 build days, 16 working days · 9 stories, 8 with screens\nExit demo. ten real questions answered with sources; the overlap review on your two funds shows the shared holdings and currency exposure.\nMA-63 , still to draw: the holding-profi",
+      "url": "/spaces/mypaisaaag/pages/197233/Phase+12+Ask+anything+research+cards+and+scenarios",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:39.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66125",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 13 · Track record and calibration",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66125/Phase+13+Track+record+and+calibration",
+          "tinyui": "/x/TQIB"
+        }
+      },
+      "title": "Phase 13 · Track record and calibration",
+      "excerpt": "🎯 The market side · epic  · Not started\n · 2028-03-23  to 2028-04-06\n13 build days, 11 working days · 6 stories, 3 with screens\nExit demo. four Saturday reviews delivered; the reliability table shows whether 70% means 70%.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nOverlap and Scorecard work at every door: iPhone, iPad, the foldable",
+      "url": "/spaces/mypaisaaag/pages/66125/Phase+13+Track+record+and+calibration",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:42.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "328019",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 14 · News, events, sentiment (shadow)",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/328019/Phase+14+News+events+sentiment+shadow",
+          "tinyui": "/x/UwEF"
+        }
+      },
+      "title": "Phase 14 · News, events, sentiment (shadow)",
+      "excerpt": "🗞️ The market side · epic  · Not started\n · 2028-04-07  to 2028-04-19\n8 build days, 7 working days · 4 stories, 1 with screens\nExit demo. three weeks of indices; 30 scored articles spot-checked.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nThe news job collects and de-duplicates articles about what you hold\nStory\n2\nTo Do\nnone\n§11\nEach",
+      "url": "/spaces/mypaisaaag/pages/328019/Phase+14+News+events+sentiment+shadow",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:45.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197253",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 15 · Stances go live",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197253/Phase+15+Stances+go+live",
+          "tinyui": "/x/hQID"
+        }
+      },
+      "title": "Phase 15 · Stances go live",
+      "excerpt": "🚦 The market side · epic  · Not started\n · 2028-04-20  to 2028-04-25\n5 build days, 4 working days · 3 stories, 1 with screens\nExit demo. the gate passes, or the review says why it has not and stances stay in the Saturday review.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nThe go-live gate checks in code that stances beat the baseline",
+      "url": "/spaces/mypaisaaag/pages/197253/Phase+15+Stances+go+live",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:48.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197273",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 16 · New kinds of holding (when you add one)",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197273/Phase+16+New+kinds+of+holding+when+you+add+one",
+          "tinyui": "/x/mQID"
+        }
+      },
+      "title": "Phase 16 · New kinds of holding (when you add one)",
+      "excerpt": "🧩 The market side · epic  · Not started\n · built when a new kind is added\n5 build days, 4 working days · 2 stories, 1 with screens\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nAn iShares ETF from Monzo&#39;s &quot;Build your own&quot; range is added and priced like the funds\nStory\n2\nTo Do\nnone\n§4.3, §5.1\nA share gets valuation and earnings cards, wi",
+      "url": "/spaces/mypaisaaag/pages/197273/Phase+16+New+kinds+of+holding+when+you+add+one",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:51:56.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "328039",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 17 · The Forecaster: a second engine beside the rules engine",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/328039/Phase+17+The+Forecaster+a+second+engine+beside+the+rules+engine",
+          "tinyui": "/x/ZwEF"
+        }
+      },
+      "title": "Phase 17 · The Forecaster: a second engine beside the rules engine",
+      "excerpt": "🔮 The market side · epic  · In progress\n · 2028-04-26  to 2028-06-06\n35 build days, 28 working days · 10 stories, 2 with screens\nExit demo. over ten years of walk-forward tests and 8 live weeks, the risk forecasts beat the base rate; the steered contributions cut the worst fall and the time underwater against buy-and-hold, within the growth trade-off you se",
+      "url": "/spaces/mypaisaaag/pages/328039/Phase+17+The+Forecaster+a+second+engine+beside+the+rules+engine",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:14:51.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197293",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 18 · The agent team: configured, approved, self-healing, self-learning",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197293/Phase+18+The+agent+team+configured+approved+self-healing+self-learning",
+          "tinyui": "/x/rQID"
+        }
+      },
+      "title": "Phase 18 · The agent team: configured, approved, self-healing, self-learning",
+      "excerpt": "🤖 The market side · epic  · In progress\n · 2028-06-07  to 2028-07-06\n27 build days, 22 working days · 12 stories, 4 with screens\nExit demo. a month in which every change was either inside its band or approved by the admin, every prediction was graded, calibration stayed within tolerance, every failure was repaired or raised, and spend stayed inside the $200",
+      "url": "/spaces/mypaisaaag/pages/197293/Phase+18+The+agent+team+configured+approved+self-healing+self-learning",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:39.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197313",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 19 · Indian markets and the existing Indian portfolio",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197313/Phase+19+Indian+markets+and+the+existing+Indian+portfolio",
+          "tinyui": "/x/wQID"
+        }
+      },
+      "title": "Phase 19 · Indian markets and the existing Indian portfolio",
+      "excerpt": "🇮🇳 The market side · epic  · Not started\n · 2028-07-07  to 2028-07-24\n14 build days, 12 working days · 4 stories, 2 with screens\nExit demo. a member sends their CAS and broker export, taps Confirm once, and the Indian holdings with their history appear in the brief and on the dashboard in INR and GBP, with the files they came from open from the Audit page.",
+      "url": "/spaces/mypaisaaag/pages/197313/Phase+19+Indian+markets+and+the+existing+Indian+portfolio",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:42.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197173",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 2 · The first record: one dynamic structure, one write path",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197173/Phase+2+The+first+record+one+dynamic+structure+one+write+path",
+          "tinyui": "/x/NQID"
+        }
+      },
+      "title": "Phase 2 · The first record: one dynamic structure, one write path",
+      "excerpt": "🗂️ The whole wealth · epic  · Not started\n · 2027-05-13  to 2027-07-08\n49.5 build days, 40 working days · 18 stories, 11 with screens\nExit demo. you type &quot;£5,000 in Monzo savings&quot; on the iPhone; MyPaisa asks whose it is and shows the Confirm card, and on Confirm the net worth on the laptop&#39;s dashboard moves with no reload; you correct the figure in place on",
+      "url": "/spaces/mypaisaaag/pages/197173/Phase+2+The+first+record+one+dynamic+structure+one+write+path",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:13:19.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66145",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 20 · The app beyond the chat: widgets, Siri, the share sheet, Live Activities",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66145/Phase+20+The+app+beyond+the+chat+widgets+Siri+the+share+sheet+Live+Activities",
+          "tinyui": "/x/YQIB"
+        }
+      },
+      "title": "Phase 20 · The app beyond the chat: widgets, Siri, the share sheet, Live Activities",
+      "excerpt": "📱 The market side · epic  · Not started\n · 2028-07-25  to 2028-08-03\n10 build days, 8 working days · 5 stories, 4 with screens\nExit demo. the widget on your Lock Screen shows the household&#39;s day without opening the app, and hides it when privacy mode is on.\nStory\nWhat it delivers\nType\nDays\nStatus\nDesign\nBoards\nArchitecture\nA Home Screen and Lock Screen widg",
+      "url": "/spaces/mypaisaaag/pages/66145/Phase+20+The+app+beyond+the+chat+widgets+Siri+the+share+sheet+Live+Activities",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:50:07.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "327959",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 3 · Deposits, policies and four currencies",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/327959/Phase+3+Deposits+policies+and+four+currencies",
+          "tinyui": "/x/FwEF"
+        }
+      },
+      "title": "Phase 3 · Deposits, policies and four currencies",
+      "excerpt": "🏦 The whole wealth · epic  · Not started\n · 2027-07-09  to 2027-07-29\n18 build days, 15 working days · 6 stories, 3 with screens\nExit demo. you register an SBI fixed deposit and a UK saver, a sentence each; both accrue to the penny and their maturities show on the dashboard; the currency switch shows the household in pounds, rupees in lakh and crore, dollar",
+      "url": "/spaces/mypaisaaag/pages/327959/Phase+3+Deposits+policies+and+four+currencies",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:13:22.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66085",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 4 · Debts and check-ins",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66085/Phase+4+Debts+and+check-ins",
+          "tinyui": "/x/JQIB"
+        }
+      },
+      "title": "Phase 4 · Debts and check-ins",
+      "excerpt": "🧾 The whole wealth · epic  · Not started\n · 2027-07-30  to 2027-08-20\n19 build days, 16 working days · 6 stories, 5 with screens\nExit demo. you register an HDFC car loan from a sentence; MyPaisa computes the EMI, the schedule and the end date; when the EMI falls due the check-in card asks whether it was paid, and one tap on Paid records it at every door; &quot;P",
+      "url": "/spaces/mypaisaaag/pages/66085/Phase+4+Debts+and+check-ins",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:04.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "327979",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 5 · Investments, priced",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/327979/Phase+5+Investments+priced",
+          "tinyui": "/x/KwEF"
+        }
+      },
+      "title": "Phase 5 · Investments, priced",
+      "excerpt": "📈 The whole wealth · epic  · Not started\n · 2027-08-23  to 2027-09-17\n23 build days, 19 working days · 9 stories, 6 with screens\nExit demo. an ISA fund, an Indian mutual fund and a share are registered through the chat and priced every day; each shows its XIRR with its working, or, with no history, the agent asks for past transactions or an estimate.\nStory",
+      "url": "/spaces/mypaisaaag/pages/327979/Phase+5+Investments+priced",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:06.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66105",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 6 · Budget: statements and monthly check-ins",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66105/Phase+6+Budget+statements+and+monthly+check-ins",
+          "tinyui": "/x/OQIB"
+        }
+      },
+      "title": "Phase 6 · Budget: statements and monthly check-ins",
+      "excerpt": "🧮 The whole wealth · epic  · Not started\n · 2027-09-20  to 2027-10-01\n12.5 build days, 10 working days · 3 stories, 3 with screens\nExit demo. you send a bank statement in the chat; it comes back categorised, transfers recognised, uncertain lines in amber, for one Confirm; the Budget screen shows plan against actual.\nMA-96!--https://duttaarun2015.atlassian.n",
+      "url": "/spaces/mypaisaaag/pages/66105/Phase+6+Budget+statements+and+monthly+check-ins",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:48:47.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197193",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 7 · Projection",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197193/Phase+7+Projection",
+          "tinyui": "/x/SQID"
+        }
+      },
+      "title": "Phase 7 · Projection",
+      "excerpt": "🔭 The whole wealth · epic  · Not started\n · 2027-10-04  to 2027-11-03\n28 build days, 23 working days · 7 stories, 5 with screens\nExit demo. the Projection screen shows the fan with its milestones; you ask a what-if and see an unsaved scenario; as the admin you say &quot;£4,000 a month from Jan 2029 for my kid&#39;s schooling&quot;, answer the agent&#39;s questions, confirm,",
+      "url": "/spaces/mypaisaaag/pages/197193/Phase+7+Projection",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:09.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "294962",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 8 · Audit, search and the Admin center at every door",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/294962/Phase+8+Audit+search+and+the+Admin+center+at+every+door",
+          "tinyui": "/x/MoAE"
+        }
+      },
+      "title": "Phase 8 · Audit, search and the Admin center at every door",
+      "excerpt": "🛡️ The whole wealth · epic  · In progress\n · 2027-11-04  to 2027-12-06\n28 build days, 23 working days · 13 stories, 13 with screens\nExit demo. you open the Admin center on your iPhone, on the laptop and in a phone&#39;s browser; moving the ceiling asks for the second check and leaves an audit row; the Audit screen shows the change you just made, with who and wh",
+      "url": "/spaces/mypaisaaag/pages/294962/Phase+8+Audit+search+and+the+Admin+center+at+every+door",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:13.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197213",
+        "type": "page",
+        "status": "current",
+        "title": "Phase 9 · The whole dashboard, and the old wealth tracker retired",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197213/Phase+9+The+whole+dashboard+and+the+old+wealth+tracker+retired",
+          "tinyui": "/x/XQID"
+        }
+      },
+      "title": "Phase 9 · The whole dashboard, and the old wealth tracker retired",
+      "excerpt": "🏠 The whole wealth · epic  · Not started\n · 2027-12-07  to 2028-01-13\n26 build days, 21 working days · 7 stories, 6 with screens\nExit demo. the household&#39;s whole wealth is on prod, every figure entered through the chat, statements or the Excel importer, and corrected in place where needed; each closed month graded against its Budget forecast; mypaisapp.com",
+      "url": "/spaces/mypaisaaag/pages/197213/Phase+9+The+whole+dashboard+and+the+old+wealth+tracker+retired",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:18:16.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197112",
+        "type": "page",
+        "status": "current",
+        "title": "Roadmap: the journey from phase 0 to phase 20",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197112/Roadmap+the+journey+from+phase+0+to+phase+20",
+          "tinyui": "/x/_AED"
+        }
+      },
+      "title": "Roadmap: the journey from phase 0 to phase 20",
+      "excerpt": "Every story is estimated in build days in docs/roadmap.json , and the dates are worked out from those estimates. PLAN.md&#39;s Timeline and each phase epic&#39;s due date in Jira show the same dates. To move a date, change an estimate there and run python3 scripts/roadmap.py write.\n🗺️ The",
+      "url": "/spaces/mypaisaaag/pages/197112/Roadmap+the+journey+from+phase+0+to+phase+20",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T10:43:11.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "328059",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Activity, Audit and files",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/328059/Screens+Activity+Audit+and+files",
+          "tinyui": "/x/ewEF"
+        }
+      },
+      "title": "Screens · Activity, Audit and files",
+      "excerpt": "What the agent did and what it cost, every change with who and when, and the file behind it.\nOpen the board file  · MyPaisa iOS v1\niPhone v4 · Audit, activity and files: 3 boards\nBoard\nState\nStories\nPhase\niPhone · Au",
+      "url": "/spaces/mypaisaaag/pages/328059/Screens+Activity+Audit+and+files",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:13:55.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66185",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Assets and debts",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66185/Screens+Assets+and+debts",
+          "tinyui": "/x/iQIB"
+        }
+      },
+      "title": "Screens · Assets and debts",
+      "excerpt": "Every record the household owns or owes, one asset and one loan, the event timeline, XIRR with its working, and a figure corrected in place.\nOpen the board file  · MyPaisa app v1\nWeb v4 · Assets and debts: 16 boards\nBoard\nState\nStor",
+      "url": "/spaces/mypaisaaag/pages/66185/Screens+Assets+and+debts",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T19:18:08.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "295042",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Budget and statements",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/295042/Screens+Budget+and+statements",
+          "tinyui": "/x/goAE"
+        }
+      },
+      "title": "Screens · Budget and statements",
+      "excerpt": "Each member&#39;s income, a plan per category, plan against actual, statements read and categorised, and the month closed on the 1st.\nOpen the board file  · MyPaisa app v1\nWeb v4 · Budget: 10 boards\nBoard\nState\nStories\nPhase\nBrowser · Budget\nplanned",
+      "url": "/spaces/mypaisaaag/pages/295042/Screens+Budget+and+statements",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T19:16:30.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66165",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Home and the dashboard",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66165/Screens+Home+and+the+dashboard",
+          "tinyui": "/x/dQIB"
+        }
+      },
+      "title": "Screens · Home and the dashboard",
+      "excerpt": "Net worth first, across the UK and India: the Overview in the browser, Home on iPhone and iPad, the consolidated 1a whole-wealth options and market/India views across every door (MA-279), and the livelier chart options (MA-295).\nOpen the board file!--https://github.com/gilipersonal/mypaisa-agent/blob/main/docs/design/app-v1/Web%20v4%20%C2%B7%20Dashboard.dc.h",
+      "url": "/spaces/mypaisaaag/pages/66165/Screens+Home+and+the+dashboard",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:19:52.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "66205",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Projection, Budget forecast and the stock Forecaster",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/66205/Screens+Projection+Budget+forecast+and+the+stock+Forecaster",
+          "tinyui": "/x/nQIB"
+        }
+      },
+      "title": "Screens · Projection, Budget forecast and the stock Forecaster",
+      "excerpt": "The Projection of the household&#39;s net worth over the years (the fan, its milestones and the editable assumptions), its Plans and Budget forecast tabs, a plan made in the admin&#39;s chat with the budget rearranged on Confirm (MA-264&#39;s options, Arun&#39;s picks 1a, 2a and 3a, and their states), and the Forecaster&#39;s view of a holding on the market side across web and",
+      "url": "/spaces/mypaisaaag/pages/66205/Screens+Projection+Budget+forecast+and+the+stock+Forecaster",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:52.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "295022",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Registering and check-ins",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/295022/Screens+Registering+and+check-ins",
+          "tinyui": "/x/boAE"
+        }
+      },
+      "title": "Screens · Registering and check-ins",
+      "excerpt": "Anything new is created in the chat: a sentence, a screenshot or a statement, the questions only for what is missing, a Confirm card and the audit row. Check-ins ask when a payment, a maturity or a valuation is due, and one tap records it.\nOpen the board file!--https://github.com/gilipersonal/mypaisa-agent/blob/main/docs/design/ios-v1/iPhone%20v4%20%C2%B7%20",
+      "url": "/spaces/mypaisaaag/pages/295022/Screens+Registering+and+check-ins",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:13:52.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "295002",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · Shell, chat and sign-in",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/295002/Screens+Shell+chat+and+sign-in",
+          "tinyui": "/x/WoAE"
+        }
+      },
+      "title": "Screens · Shell, chat and sign-in",
+      "excerpt": "The frame every screen sits in and the conversation that drives it: the web app&#39;s chat beside the page, the iPhone&#39;s tabs, the iPad and foldable layouts, signing in, You and the settings.\nOpen the board file  · MyPaisa app v1\nWeb v4 ·",
+      "url": "/spaces/mypaisaaag/pages/295002/Screens+Shell+chat+and+sign-in",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:19:47.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197333",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · The Admin center",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197333/Screens+The+Admin+center",
+          "tinyui": "/x/1QID"
+        }
+      },
+      "title": "Screens · The Admin center",
+      "excerpt": "The owner&#39;s controls, behind the second check: people and their devices, the Claude and AWS caps, alerts and replay.\nOpen the board file  · MyPaisa app v1\nWeb v4 · Admin center: 4 boards\nBoard\nState\nStories\nPhase\nBrowser · Admin · People,",
+      "url": "/spaces/mypaisaaag/pages/197333/Screens+The+Admin+center",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:13:58.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197353",
+        "type": "page",
+        "status": "current",
+        "title": "Screens · The design system, the mark and the iOS kit",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197353/Screens+The+design+system+the+mark+and+the+iOS+kit",
+          "tinyui": "/x/6QID"
+        }
+      },
+      "title": "Screens · The design system, the mark and the iOS kit",
+      "excerpt": "Warm ledger (MA-101): the tokens, the components, the chart style and its three redesign options (MA-295), the mark (MA-103), the iOS kit on Liquid Glass (MA-161) and the options for a colourful icon for each kind of holding, asset and debt (MA-241).\nOpen the board file!--https://github.com/gilipersonal/mypaisa-agent/blob/main/docs/design/ds-v1/Foundations.d",
+      "url": "/spaces/mypaisaaag/pages/197353/Screens+The+design+system+the+mark+and+the+iOS+kit",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T12:06:13.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197153",
+        "type": "page",
+        "status": "current",
+        "title": "Screens, area by area",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197153/Screens+area+by+area",
+          "tinyui": "/x/IQID"
+        }
+      },
+      "title": "Screens, area by area",
+      "excerpt": "Every board a story cites, area by area. A board is picked when Arun chose it in a design round (it is the spec), planned when it is drawn ahead of its story and goes through its own options round when the story starts, and superseded when a later decision replaced it.\nArea\nFiles\nBoards\nPicked\nPlanned\nShell, chat and sign-in!--https://duttaarun2015.atlassian",
+      "url": "/spaces/mypaisaaag/pages/197153/Screens+area+by+area",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T19:16:45.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "2622286",
+        "type": "page",
+        "status": "current",
+        "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/2622286/Tech+stack+FastAPI+DynamoDB+agents+and+end-to-end+observability",
+          "tinyui": "/x/TgMo"
+        }
+      },
+      "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+      "excerpt": "Arun, 28 Oct 2026 (MA-265, MA-266): end-to-end AWS monitoring, tracing and LLM/API observability (including the FastAPI REST and SSE APIs) with a full monthly costing analysis, together with the detailed implementation stack across all four layers: the web front end (SvelteKit 3, TanStack, shadcn-svelte), the native iOS app (React Native 0.88 shell and Swift",
+      "url": "/spaces/mypaisaaag/pages/2622286/Tech+stack+FastAPI+DynamoDB+agents+and+end-to-end+observability",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-30T23:59:53.000Z",
+      "friendlyLastModified": "Oct 30, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197058",
+        "type": "page",
+        "subType": "live",
+        "subtype": "live",
+        "status": "current",
+        "title": "Template - How-to guide",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197058/Template+-+How-to+guide",
+          "tinyui": "/x/wgED"
+        }
+      },
+      "title": "Template - How-to guide",
+      "excerpt": "\\uD83D\\uDCD8\n Instructions\nHighlight important information in a panel like this one. To edit this panel&#39;s color or style, select one of the options in the menu.\n\\uD83D\\uDCCB\n Related articles",
+      "url": "/spaces/mypaisaaag/pages/197058/Template+-+How-to+guide",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-live-page",
+      "lastModified": "2026-10-26T20:17:35.000Z",
+      "friendlyLastModified": "Oct 26, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197071",
+        "type": "page",
+        "subType": "live",
+        "subtype": "live",
+        "status": "current",
+        "title": "Template - Troubleshooting article",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197071/Template+-+Troubleshooting+article",
+          "tinyui": "/x/zwED"
+        }
+      },
+      "title": "Template - Troubleshooting article",
+      "excerpt": "\\uD83E\\uDD14\n Problem\n\\uD83C\\uDF31\n Solution\nHighlight important information in a panel like this one. To edit this panel&#39;s color or style, select one of the options in the menu.\n\\uD83D\\uDCCE\n Related articles",
+      "url": "/spaces/mypaisaaag/pages/197071/Template+-+Troubleshooting+article",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-live-page",
+      "lastModified": "2026-10-26T20:17:35.000Z",
+      "friendlyLastModified": "Oct 26, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "197133",
+        "type": "page",
+        "status": "current",
+        "title": "The phases, one page each",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/197133/The+phases+one+page+each",
+          "tinyui": "/x/DQID"
+        }
+      },
+      "title": "The phases, one page each",
+      "excerpt": "One page per phase, in build order. Each has the phase epic, every story with its estimate, status and design state, the screens it builds at each door, the plan as PLAN.md writes it, and the epic live from Jira.\nTo filter every story at once, by phase, door, status or design state, open the story explorer!--https://duttaarun2015.atlassian.net/wiki/spaces/my",
+      "url": "/spaces/mypaisaaag/pages/197133/The+phases+one+page+each",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T09:56:34.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    },
+    {
+      "content": {
+        "id": "4816897",
+        "type": "page",
+        "status": "current",
+        "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+        "childTypes": {},
+        "macroRenderedOutput": {},
+        "restrictions": {},
+        "_links": {
+          "webui": "/spaces/mypaisaaag/pages/4816897/Web+visual+regression+ARIA+snapshot+diffing+and+WCAG+2.2+AA+accessibility+pipeline+with+Argos+CI",
+          "tinyui": "/x/AYBJ"
+        }
+      },
+      "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+      "excerpt": "Arun, 30 Oct 2026 (MA-194, MA-269): the SvelteKit 3 (web/) visual regression, ARIA accessibility tree diffing and fail-closed WCAG 2.2 Level A &amp; AA accessibility pipeline in GitHub Actions with Playwright 1.64, @axe-core/playwright 4.14 and Argos CI (@argos-ci/playwright 6.4). Every primary web route passes one shared auditAndCapture(page, name, opts) fixtur",
+      "url": "/spaces/mypaisaaag/pages/4816897/Web+visual+regression+ARIA+snapshot+diffing+and+WCAG+2.2+AA+accessibility+pipeline+with+Argos+CI",
+      "resultGlobalContainer": {
+        "title": "mypaisaa-agent",
+        "displayUrl": "/spaces/mypaisaaag"
+      },
+      "breadcrumbs": [],
+      "entityType": "content",
+      "iconCssClass": "aui-icon content-type-page",
+      "lastModified": "2026-10-31T09:56:28.000Z",
+      "friendlyLastModified": "Oct 31, 2026",
+      "score": 0
+    }
+  ],
+  "start": 0,
+  "limit": 100,
+  "size": 83,
+  "totalSize": 83,
+  "cqlQuery": "space = \"mypaisaaag\" AND type = page ORDER BY title",
+  "searchDuration": 327,
+  "archivedResultCount": 0,
+  "_links": {
+    "base": "https://duttaarun2015.atlassian.net/wiki",
+    "context": "/wiki"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "1671250",
+  "title": "🇮🇳 §22 · Indian markets",
+  "version": 6,
+  "snapshotToken": "v:6",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "812c77e1e441a8b26602397859f866219ea1b510eb7deb69abacb3359b29d23e",
+  "html_characters": 31369,
+  "headings": [
+    "🖼️ See it",
+    "22. Indian markets: shares, ETFs and mutual funds (phase 19, later)",
+    "22.1 Sources, free first (IN1, MA-151)",
+    "22.2 The existing Indian portfolio, imported once (IN2, MA-152)",
+    "22.3 Accounts, currency and suggestions (IN3, MA-153)",
+    "22.4 The engine and the Forecaster (IN4, MA-154)",
+    "22.5 Cost and order",
+    "🧩 The stories that build it",
+    "🔗 The explainer pages",
+    "MyPaisa Market Agent",
+    "MyPaisa Agent Journey"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671250",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

@@ -1,0 +1,102 @@
+<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING PROPOSAL</span> MP-19 · <time datetime="2026-11-02">2 November 2026</time>. Architecture and UX unapproved; no implementation authority. MA concepts researched, not copied. Independent review not run.</p></div><p><strong>Planning specification · MP-19 · Proposed, not approved · No implementation authority</strong></p>
+<h2>Outcome and scope</h2>
+<p>Record-class recovery/retention runbook
+Security/scientific/cost/UX gate report
+Release evidence,admin requirements and owner runbook</p>
+<p>Architecture areas: A08, A09, A10, A11, A12. Existing Jira epic crosswalk: MP-9. These are historical epic containers, not newly created phase epics.</p>
+<h2>Dependencies and readiness</h2>
+<p>Planning dependencies: PH-00, PH-01, PH-02, PH-03, PH-04, PH-05, PH-06, PH-07. Implementation dependencies: PH-01, PH-02, PH-03, PH-04, PH-05, PH-06, PH-07. Every phase also requires architecture baseline, complete UX and explicit build permission.</p>
+<p>The phase is blocked on architecture and UX. Its ordering does not permit implementation now. Native/web information contracts are specified together even where build work is grouped later.</p>
+<h2>Contracts to settle</h2>
+<ul>
+<li>ReleaseEvidence</li>
+<li>RecoveryExercise</li>
+<li>IncidentRecord</li>
+<li>ReplayRequest</li>
+<li>DeletionTombstone</li>
+</ul>
+<p>Each contract needs owner/producer/consumer, version, units, validation, positive/error schemas, idempotency, authorisation, retention and audit/cost effects. Names here are a catalogue, not implemented schemas.</p>
+<h2>Open closure packages</h2>
+<table data-layout="wide">
+<thead>
+<tr>
+<th data-background="#DEEBFF">Gap</th>
+<th data-background="#DEEBFF">Decision or contract</th>
+<th data-background="#DEEBFF">Planning issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PL-11</td>
+<td>Define MP release evidence and security regression layers</td>
+<td>MP-30</td>
+</tr>
+<tr>
+<td>CT-14</td>
+<td>Bound self-healing, replay and recovery authority</td>
+<td>MP-23</td>
+</tr>
+</tbody>
+</table>
+<h2>Story catalogue and planned acceptance</h2>
+<p>5 current local story drafts. An actual Jira implementation story and detailed readiness evidence are required before UX; the closure tickets above are planning work, not substitutes.</p>
+<h3>L8-S01 · Release readiness and reconciled actual-input onboarding</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Require approved full baseline/UX,per-layer acceptance and whole-product contracts/evidence; no Jira status proves release readiness.</li>
+<li>Actual holdings/listings/documents may be added progressively; verify identity,source entitlements and named layout coverage before their real use, retaining unsupported review/manual paths.</li>
+<li>No live claims or training accuracy derives from synthetic fixtures; no deployment/spend follows automatically from draft approval.</li>
+</ul>
+<p>Contracts: ReleaseEvidence, RecoveryExercise, IncidentRecord, ReplayRequest, DeletionTombstone. Evidence/examples: Release trace/coverage matrix; named-live-universe and layout sign-off; remaining-gap decision.</p>
+<h3>L8-S02 · Restore, rollback and monthly audit exercises</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Agree RPO/RTO by record class,perform monthly focused exercises plus relevant storage/import/audit change checks.</li>
+<li>Restore original versions,ledger,audit,outcomes,approval and model pointers into isolated recovery target and reconcile counts/hashes/financial balances.</li>
+<li>Exercise rollback of app/contracts/model/calibration and failed import reversal; no destructive restore into production or automatic expiry deletion.</li>
+</ul>
+<p>Contracts: ReleaseEvidence, RecoveryExercise, IncidentRecord, ReplayRequest, DeletionTombstone. Evidence/examples: Recovery runbook and approved targets; isolated restore report; source-to-record reconciliation.</p>
+<h3>L8-S03 · Resilience, incidents and bounded self-recovery</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Test queue/DLQ/replay limits,out-of-order conversation events,market outage,missed forecast,expired source access and stalled collector.</li>
+<li>Self-recovery uses approved bounded actions only; no agent may edit infrastructure or buy a provider.</li>
+<li>Correlate alert→incident→run→source/model evidence; avoid hidden lost events behind a healthy service health endpoint.</li>
+</ul>
+<p>Contracts: ReleaseEvidence, RecoveryExercise, IncidentRecord, ReplayRequest, DeletionTombstone. Evidence/examples: Failure injection matrix; replay/idempotency audit; missed-job and billing-stale alerts.</p>
+<h3>L8-S04 · Whole-release security, scientific and cost gates</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Run relevant API/schema/ledger/scientific/no-leakage/agent/accessibility/native/offline/privacy/security gates before any separately approved independent review.</li>
+<li>Demonstrate full launch usage and budget fallbacks within £100 aggregate,including dev/prod/evals/collectors/SSE/backups/builds and unverified/no credit cases.</li>
+<li>Review blockers,non-blocking issues and rollback readiness; live model gate remains separate from application release approval.</li>
+</ul>
+<p>Contracts: ReleaseEvidence, RecoveryExercise, IncidentRecord, ReplayRequest, DeletionTombstone. Evidence/examples: Risk-based gate report; per-market/horizon coverage; aggregate cost and credit failure evidence.</p>
+<h3>L8-S05 · Owner operations and admin requirements</h3>
+<p>State: umbrella_requires_decomposition; actual implementation Jira key not allocated. Dependencies: see phase gates.</p>
+<ul>
+<li>Capture admin requirements now: uploads/versions,ledger updates,runs/tools/models/evals,health,cost and approvals; owner designs the full portal later.</li>
+<li>Ship required audit/owner controls in approved launch UX; later portal styling does not defer main-dashboard cost visibility or critical recovery controls.</li>
+<li>Retain pause switches,incident escalation,monthly evidence review and documented owner procedures.</li>
+</ul>
+<p>Contracts: ReleaseEvidence, RecoveryExercise, IncidentRecord, ReplayRequest, DeletionTombstone. Evidence/examples: Admin requirements/permission inventory; launch-versus-later UX decision; operations walkthrough.</p>
+<h2>UX states to specify after architecture sign-off</h2>
+<ul>
+<li>Success, empty, loading, partial and unavailable; stale source and insufficient evidence.</li>
+<li>Permission denied, fresh authentication required, approval pending/expired/rejected and conflicting revision.</li>
+<li>Offline/reconnecting, delayed job, retry exhausted, partial commit and safe recovery.</li>
+<li>Privacy mode, keyboard/screen reader, light/dark and reduced-motion equivalents on web and Apple.</li>
+</ul>
+<h2>Audit, monitoring and cost acceptance</h2>
+<ul>
+<li>Record relevant actor/environment/business IDs, source/config/model versions and immutable approval/change/run evidence.</li>
+<li>Define signals for failure, lateness, duplicate handling, source age and reconciliation; redact private payloads from operational telemetry.</li>
+<li>Include source/provider, compute, storage, trace, retry and eval costs in the shared budget; no silent paid fallback.</li>
+</ul>
+<h2>Exit demonstration and failures</h2>
+<p>Release approval and deployment/spending authority are separate; existing MP status and this draft certify neither.</p>
+<p>The planned exit demonstration must run the phase user journey plus one permission failure, one stale/partial data case, one duplicate/reconnect/retry case and one recovery path with evidence. Scientific phases additionally prove temporal/data maturity invariants; no invented live accuracy.</p>
+<p>Failure/recovery intent: Pause optional work,schedules or affected feature; replay only bounded idempotent jobs;restore isolated target and reconcile before switch.</p>
+<p>No exit is currently certified. Deployment, live activation, model eligibility and owner approval are separate records.</p>
+<h2>Source and publication</h2>
+<p><a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/reconciliation-report.md">Current reconciliation</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/architecture-finalisation.md">Architecture decisions</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/gap-register.json">Gap register</a> · <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/MP-19-ma-planning-reconciliation/docs/planning/ma-reconciliation-2026-11-02/documentation-structure.md">Documentation structure</a>. This local page is a publication proposal, not a published Confluence page.</p>

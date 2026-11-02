@@ -1,0 +1,1686 @@
+{
+  "as_of": "2026-11-02",
+  "scope": "Metadata inventory only; attachment contents not all inspected. Referenced local design source is authoritative for concepts.",
+  "pagination_complete": true,
+  "total": 280,
+  "attachments": [
+    {
+      "id": "att720897",
+      "type": "attachment",
+      "title": "screens-system-kind-icons.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F720897%2Fscreens-system-kind-icons.jpg"
+    },
+    {
+      "id": "att66322",
+      "type": "attachment",
+      "title": "lucid-06-market-agent.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F66322%2Flucid-06-market-agent.png"
+    },
+    {
+      "id": "att66316",
+      "type": "attachment",
+      "title": "screens-system-telegram-kit-controls.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F66316%2Fscreens-system-telegram-kit-controls.jpg"
+    },
+    {
+      "id": "att66310",
+      "type": "attachment",
+      "title": "screens-system-components-2.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F66310%2Fscreens-system-components-2.jpg"
+    },
+    {
+      "id": "att66304",
+      "type": "attachment",
+      "title": "screens-register-iphone-v4-register.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295022&preview=%2F295022%2F66304%2Fscreens-register-iphone-v4-register.jpg"
+    },
+    {
+      "id": "att66298",
+      "type": "attachment",
+      "title": "screens-home-iphone-v4-home.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F66298%2Fscreens-home-iphone-v4-home.jpg"
+    },
+    {
+      "id": "att66292",
+      "type": "attachment",
+      "title": "screens-home-web-v4-dashboard.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F66292%2Fscreens-home-web-v4-dashboard.jpg"
+    },
+    {
+      "id": "att66286",
+      "type": "attachment",
+      "title": "screens-shell-ipad-and-foldable.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F66286%2Fscreens-shell-ipad-and-foldable.jpg"
+    },
+    {
+      "id": "att66280",
+      "type": "attachment",
+      "title": "screens-shell-iphone-settings.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F66280%2Fscreens-shell-iphone-settings.jpg"
+    },
+    {
+      "id": "att66274",
+      "type": "attachment",
+      "title": "screens-shell-browser-2.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F66274%2Fscreens-shell-browser-2.jpg"
+    },
+    {
+      "id": "att66267",
+      "type": "attachment",
+      "title": "screens-shell-web-v4-shell-and-chat.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F66267%2Fscreens-shell-web-v4-shell-and-chat.jpg"
+    },
+    {
+      "id": "att66261",
+      "type": "attachment",
+      "title": "phase-17-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328039&preview=%2F328039%2F66261%2Fphase-17-web.jpg"
+    },
+    {
+      "id": "att66255",
+      "type": "attachment",
+      "title": "phase-11-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327999&preview=%2F327999%2F66255%2Fphase-11-web.jpg"
+    },
+    {
+      "id": "att66249",
+      "type": "attachment",
+      "title": "phase-09-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197213&preview=%2F197213%2F66249%2Fphase-09-web.jpg"
+    },
+    {
+      "id": "att66243",
+      "type": "attachment",
+      "title": "phase-08-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294962&preview=%2F294962%2F66243%2Fphase-08-web.jpg"
+    },
+    {
+      "id": "att66237",
+      "type": "attachment",
+      "title": "phase-04-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66085&preview=%2F66085%2F66237%2Fphase-04-ios.jpg"
+    },
+    {
+      "id": "att66231",
+      "type": "attachment",
+      "title": "phase-03-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327959&preview=%2F327959%2F66231%2Fphase-03-ios.jpg"
+    },
+    {
+      "id": "att66225",
+      "type": "attachment",
+      "title": "phase-02-system.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197173&preview=%2F197173%2F66225%2Fphase-02-system.jpg"
+    },
+    {
+      "id": "att5145086",
+      "type": "attachment",
+      "title": "screens-home-iphone-v4-market-holdings-and-india.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F5145086%2Fscreens-home-iphone-v4-market-holdings-and-india.jpg"
+    },
+    {
+      "id": "att5145078",
+      "type": "attachment",
+      "title": "screens-audit-web-v4-audit-activity-and-files.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328059&preview=%2F328059%2F5145078%2Fscreens-audit-web-v4-audit-activity-and-files.jpg"
+    },
+    {
+      "id": "att5145074",
+      "type": "attachment",
+      "title": "screens-home-web-v4-market-holdings-and-india.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F5145074%2Fscreens-home-web-v4-market-holdings-and-india.jpg"
+    },
+    {
+      "id": "att5145066",
+      "type": "attachment",
+      "title": "screens-shell-iphone-v4-sign-in-and-invite.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5145066%2Fscreens-shell-iphone-v4-sign-in-and-invite.jpg"
+    },
+    {
+      "id": "att5145062",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-forecast.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F5145062%2Fscreens-projection-web-v4-forecast.jpg"
+    },
+    {
+      "id": "att5145054",
+      "type": "attachment",
+      "title": "screens-shell-iphone-v4-chat-and-guided-flows.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5145054%2Fscreens-shell-iphone-v4-chat-and-guided-flows.jpg"
+    },
+    {
+      "id": "att5145050",
+      "type": "attachment",
+      "title": "screens-home-web-v4-consolidated-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F5145050%2Fscreens-home-web-v4-consolidated-options.jpg"
+    },
+    {
+      "id": "att5145044",
+      "type": "attachment",
+      "title": "phase-19-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197313&preview=%2F197313%2F5145044%2Fphase-19-ios.jpg"
+    },
+    {
+      "id": "att5112273",
+      "type": "attachment",
+      "title": "screens-admin-iphone-v4-admin-center.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197333&preview=%2F197333%2F5112273%2Fscreens-admin-iphone-v4-admin-center.jpg"
+    },
+    {
+      "id": "att5112267",
+      "type": "attachment",
+      "title": "screens-admin-web-v4-admin-center.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197333&preview=%2F197333%2F5112267%2Fscreens-admin-web-v4-admin-center.jpg"
+    },
+    {
+      "id": "att5112261",
+      "type": "attachment",
+      "title": "screens-shell-web-v4-login-invite-and-responsive.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5112261%2Fscreens-shell-web-v4-login-invite-and-responsive.jpg"
+    },
+    {
+      "id": "att5112252",
+      "type": "attachment",
+      "title": "phase-14-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328019&preview=%2F328019%2F5112252%2Fphase-14-web.jpg"
+    },
+    {
+      "id": "att5013928",
+      "type": "attachment",
+      "title": "screens-shell-ipad-v4-adaptive-shell-and-foldable.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5013928%2Fscreens-shell-ipad-v4-adaptive-shell-and-foldable.jpg"
+    },
+    {
+      "id": "att5013922",
+      "type": "attachment",
+      "title": "screens-shell-iphone-v4-you-and-settings.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5013922%2Fscreens-shell-iphone-v4-you-and-settings.jpg"
+    },
+    {
+      "id": "att5013914",
+      "type": "attachment",
+      "title": "screens-audit-iphone-v4-audit-activity-and-files.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328059&preview=%2F328059%2F5013914%2Fscreens-audit-iphone-v4-audit-activity-and-files.jpg"
+    },
+    {
+      "id": "att5013910",
+      "type": "attachment",
+      "title": "screens-home-iphone-v4-consolidated-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F5013910%2Fscreens-home-iphone-v4-consolidated-options.jpg"
+    },
+    {
+      "id": "att5013901",
+      "type": "attachment",
+      "title": "screens-register-web-v4-register.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295022&preview=%2F295022%2F5013901%2Fscreens-register-web-v4-register.jpg"
+    },
+    {
+      "id": "att5013891",
+      "type": "attachment",
+      "title": "screens-shell-web-v4-chat-and-guided-flows.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F5013891%2Fscreens-shell-web-v4-chat-and-guided-flows.jpg"
+    },
+    {
+      "id": "att5013887",
+      "type": "attachment",
+      "title": "phase-18-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197293&preview=%2F197293%2F5013887%2Fphase-18-ios.jpg"
+    },
+    {
+      "id": "att5013872",
+      "type": "attachment",
+      "title": "phase-15-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197253&preview=%2F197253%2F5013872%2Fphase-15-ios.jpg"
+    },
+    {
+      "id": "att4981064",
+      "type": "attachment",
+      "title": "phase-15-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197253&preview=%2F197253%2F4981064%2Fphase-15-web.jpg"
+    },
+    {
+      "id": "att4816930",
+      "type": "attachment",
+      "title": "04-quota-math-scenarios.gif",
+      "url": "/pages/viewpageattachments.action?pageId=4816897&preview=%2F4816897%2F4816930%2F04-quota-math-scenarios.gif"
+    },
+    {
+      "id": "att4816924",
+      "type": "attachment",
+      "title": "03-five-cost-guardrails.gif",
+      "url": "/pages/viewpageattachments.action?pageId=4816897&preview=%2F4816897%2F4816924%2F03-five-cost-guardrails.gif"
+    },
+    {
+      "id": "att4816918",
+      "type": "attachment",
+      "title": "01-one-helper-four-gates.gif",
+      "url": "/pages/viewpageattachments.action?pageId=4816897&preview=%2F4816897%2F4816918%2F01-one-helper-four-gates.gif"
+    },
+    {
+      "id": "att4784130",
+      "type": "attachment",
+      "title": "02-argos-cloud-diff-aria.gif",
+      "url": "/pages/viewpageattachments.action?pageId=4816897&preview=%2F4816897%2F4784130%2F02-argos-cloud-diff-aria.gif"
+    },
+    {
+      "id": "att4260013",
+      "type": "attachment",
+      "title": "screens-home-iphone-v4-chart-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F4260013%2Fscreens-home-iphone-v4-chart-options.jpg"
+    },
+    {
+      "id": "att4227280",
+      "type": "attachment",
+      "title": "screens-system-chart-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F4227280%2Fscreens-system-chart-options.jpg"
+    },
+    {
+      "id": "att4030667",
+      "type": "attachment",
+      "title": "screens-home-web-v4-chart-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F4030667%2Fscreens-home-web-v4-chart-options.jpg"
+    },
+    {
+      "id": "att3801183",
+      "type": "attachment",
+      "title": "04-five-option-cost-rollout.gif",
+      "url": "/pages/viewpageattachments.action?pageId=3670133&preview=%2F3670133%2F3801183%2F04-five-option-cost-rollout.gif"
+    },
+    {
+      "id": "att3801177",
+      "type": "attachment",
+      "title": "03-egress-dns-sni-ci.gif",
+      "url": "/pages/viewpageattachments.action?pageId=3670133&preview=%2F3670133%2F3801177%2F03-egress-dns-sni-ci.gif"
+    },
+    {
+      "id": "att3801171",
+      "type": "attachment",
+      "title": "02-three-way-data-perimeter.gif",
+      "url": "/pages/viewpageattachments.action?pageId=3670133&preview=%2F3670133%2F3801171%2F02-three-way-data-perimeter.gif"
+    },
+    {
+      "id": "att3670153",
+      "type": "attachment",
+      "title": "01-vpc-topology-ingress.gif",
+      "url": "/pages/viewpageattachments.action?pageId=3670133&preview=%2F3670133%2F3670153%2F01-vpc-topology-ingress.gif"
+    },
+    {
+      "id": "att328200",
+      "type": "attachment",
+      "title": "lucid-07-agents-caps.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F328200%2Flucid-07-agents-caps.png"
+    },
+    {
+      "id": "att328194",
+      "type": "attachment",
+      "title": "lucid-04-queues.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F328194%2Flucid-04-queues.png"
+    },
+    {
+      "id": "att328188",
+      "type": "attachment",
+      "title": "lucid-03-identity.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F328188%2Flucid-03-identity.png"
+    },
+    {
+      "id": "att328182",
+      "type": "attachment",
+      "title": "screens-system-telegram-kit.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F328182%2Fscreens-system-telegram-kit.jpg"
+    },
+    {
+      "id": "att328176",
+      "type": "attachment",
+      "title": "screens-system-components.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F328176%2Fscreens-system-components.jpg"
+    },
+    {
+      "id": "att328170",
+      "type": "attachment",
+      "title": "screens-admin-iphone-admin.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197333&preview=%2F197333%2F328170%2Fscreens-admin-iphone-admin.jpg"
+    },
+    {
+      "id": "att328164",
+      "type": "attachment",
+      "title": "screens-assets-ipad-v4-budget-assets-and-debts.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66185&preview=%2F66185%2F328164%2Fscreens-assets-ipad-v4-budget-assets-and-debts.jpg"
+    },
+    {
+      "id": "att328157",
+      "type": "attachment",
+      "title": "screens-register-iphone-v4-check-ins.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295022&preview=%2F295022%2F328157%2Fscreens-register-iphone-v4-check-ins.jpg"
+    },
+    {
+      "id": "att328151",
+      "type": "attachment",
+      "title": "screens-home-responsive.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F328151%2Fscreens-home-responsive.jpg"
+    },
+    {
+      "id": "att328145",
+      "type": "attachment",
+      "title": "phase-18-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197293&preview=%2F197293%2F328145%2Fphase-18-web.jpg"
+    },
+    {
+      "id": "att328139",
+      "type": "attachment",
+      "title": "phase-13-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66125&preview=%2F66125%2F328139%2Fphase-13-ios.jpg"
+    },
+    {
+      "id": "att328133",
+      "type": "attachment",
+      "title": "phase-12-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197233&preview=%2F197233%2F328133%2Fphase-12-web.jpg"
+    },
+    {
+      "id": "att328127",
+      "type": "attachment",
+      "title": "phase-11-system.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327999&preview=%2F327999%2F328127%2Fphase-11-system.jpg"
+    },
+    {
+      "id": "att328121",
+      "type": "attachment",
+      "title": "phase-11-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327999&preview=%2F327999%2F328121%2Fphase-11-ios.jpg"
+    },
+    {
+      "id": "att328115",
+      "type": "attachment",
+      "title": "phase-09-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197213&preview=%2F197213%2F328115%2Fphase-09-ios.jpg"
+    },
+    {
+      "id": "att328109",
+      "type": "attachment",
+      "title": "phase-08-system.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294962&preview=%2F294962%2F328109%2Fphase-08-system.jpg"
+    },
+    {
+      "id": "att328103",
+      "type": "attachment",
+      "title": "phase-08-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294962&preview=%2F294962%2F328103%2Fphase-08-ios.jpg"
+    },
+    {
+      "id": "att328097",
+      "type": "attachment",
+      "title": "phase-06-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66105&preview=%2F66105%2F328097%2Fphase-06-ios.jpg"
+    },
+    {
+      "id": "att328091",
+      "type": "attachment",
+      "title": "phase-05-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327979&preview=%2F327979%2F328091%2Fphase-05-web.jpg"
+    },
+    {
+      "id": "att328085",
+      "type": "attachment",
+      "title": "phase-01-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327939&preview=%2F327939%2F328085%2Fphase-01-web.jpg"
+    },
+    {
+      "id": "att328079",
+      "type": "attachment",
+      "title": "phase-00-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294942&preview=%2F294942%2F328079%2Fphase-00-web.jpg"
+    },
+    {
+      "id": "att3276804",
+      "type": "attachment",
+      "title": "market-s12.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F3276804%2Fmarket-s12.png"
+    },
+    {
+      "id": "att3244259",
+      "type": "attachment",
+      "title": "phase-17-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328039&preview=%2F328039%2F3244259%2Fphase-17-ios.jpg"
+    },
+    {
+      "id": "att3211277",
+      "type": "attachment",
+      "title": "market-s12.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671250&preview=%2F1671250%2F3211277%2Fmarket-s12.png"
+    },
+    {
+      "id": "att3178497",
+      "type": "attachment",
+      "title": "05-private-testflight-90day-beta.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2818197&preview=%2F2818197%2F3178497%2F05-private-testflight-90day-beta.gif"
+    },
+    {
+      "id": "att3047462",
+      "type": "attachment",
+      "title": "02-rn-swiftui-fabric-selectors.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2818197&preview=%2F2818197%2F3047462%2F02-rn-swiftui-fabric-selectors.gif"
+    },
+    {
+      "id": "att2981984",
+      "type": "attachment",
+      "title": "04-simctl-capabilities-phases.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2818197&preview=%2F2818197%2F2981984%2F04-simctl-capabilities-phases.gif"
+    },
+    {
+      "id": "att295165",
+      "type": "attachment",
+      "title": "journey.png",
+      "url": "/pages/viewpageattachments.action?pageId=197112&preview=%2F197112%2F295165%2Fjourney.png"
+    },
+    {
+      "id": "att295159",
+      "type": "attachment",
+      "title": "screens-system-telegram-kit-images.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F295159%2Fscreens-system-telegram-kit-images.jpg"
+    },
+    {
+      "id": "att295153",
+      "type": "attachment",
+      "title": "screens-system-logo.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F295153%2Fscreens-system-logo.jpg"
+    },
+    {
+      "id": "att295147",
+      "type": "attachment",
+      "title": "screens-system-ios-kit.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F295147%2Fscreens-system-ios-kit.jpg"
+    },
+    {
+      "id": "att295141",
+      "type": "attachment",
+      "title": "screens-system-mypaisa-ds-v1.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F295141%2Fscreens-system-mypaisa-ds-v1.jpg"
+    },
+    {
+      "id": "att295135",
+      "type": "attachment",
+      "title": "screens-admin-admin-center-3.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197333&preview=%2F197333%2F295135%2Fscreens-admin-admin-center-3.jpg"
+    },
+    {
+      "id": "att295129",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-projection.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F295129%2Fscreens-projection-iphone-v4-projection.jpg"
+    },
+    {
+      "id": "att295123",
+      "type": "attachment",
+      "title": "screens-budget-iphone-v4-budget.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295042&preview=%2F295042%2F295123%2Fscreens-budget-iphone-v4-budget.jpg"
+    },
+    {
+      "id": "att295117",
+      "type": "attachment",
+      "title": "screens-assets-iphone-v4-assets-and-debts.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66185&preview=%2F66185%2F295117%2Fscreens-assets-iphone-v4-assets-and-debts.jpg"
+    },
+    {
+      "id": "att295110",
+      "type": "attachment",
+      "title": "screens-home-wealth.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F295110%2Fscreens-home-wealth.jpg"
+    },
+    {
+      "id": "att295104",
+      "type": "attachment",
+      "title": "screens-shell-iphone-sign-in.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F295104%2Fscreens-shell-iphone-sign-in.jpg"
+    },
+    {
+      "id": "att295098",
+      "type": "attachment",
+      "title": "screens-shell-iphone-chat.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F295098%2Fscreens-shell-iphone-chat.jpg"
+    },
+    {
+      "id": "att295092",
+      "type": "attachment",
+      "title": "phase-14-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328019&preview=%2F328019%2F295092%2Fphase-14-ios.jpg"
+    },
+    {
+      "id": "att295086",
+      "type": "attachment",
+      "title": "phase-13-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66125&preview=%2F66125%2F295086%2Fphase-13-web.jpg"
+    },
+    {
+      "id": "att295080",
+      "type": "attachment",
+      "title": "phase-06-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66105&preview=%2F66105%2F295080%2Fphase-06-web.jpg"
+    },
+    {
+      "id": "att295074",
+      "type": "attachment",
+      "title": "phase-05-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327979&preview=%2F327979%2F295074%2Fphase-05-ios.jpg"
+    },
+    {
+      "id": "att295068",
+      "type": "attachment",
+      "title": "phase-00-system.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294942&preview=%2F294942%2F295068%2Fphase-00-system.jpg"
+    },
+    {
+      "id": "att295062",
+      "type": "attachment",
+      "title": "phase-00-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=294942&preview=%2F294942%2F295062%2Fphase-00-ios.jpg"
+    },
+    {
+      "id": "att2949375",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-forecast.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2949375%2Fscreens-projection-iphone-v4-forecast.jpg"
+    },
+    {
+      "id": "att294916",
+      "type": "attachment",
+      "title": "roadmap.png",
+      "url": "/pages/viewpageattachments.action?pageId=197090&preview=%2F197090%2F294916%2Froadmap.png"
+    },
+    {
+      "id": "att2884077",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-forecaster-proof-and-chat.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2884077%2Fscreens-projection-iphone-v4-forecaster-proof-and-chat.jpg"
+    },
+    {
+      "id": "att2883910",
+      "type": "attachment",
+      "title": "03-ios-ipados-4band-matrix.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2818197&preview=%2F2818197%2F2883910%2F03-ios-ipados-4band-matrix.gif"
+    },
+    {
+      "id": "att2883903",
+      "type": "attachment",
+      "title": "01-local-maestro-pool-mcp-cli.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2818197&preview=%2F2818197%2F2883903%2F01-local-maestro-pool-mcp-cli.gif"
+    },
+    {
+      "id": "att2622419",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-plans-in-the-chat-2a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2622419%2Fscreens-projection-web-v4-plans-in-the-chat-2a-states.jpg"
+    },
+    {
+      "id": "att2622413",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-budget-forecast-1a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2622413%2Fscreens-projection-iphone-v4-budget-forecast-1a-states.jpg"
+    },
+    {
+      "id": "att2622407",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-plans-tab.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2622407%2Fscreens-projection-iphone-v4-plans-tab.jpg"
+    },
+    {
+      "id": "att2622315",
+      "type": "attachment",
+      "title": "03-frontend-sveltekit-stack.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2622315%2F03-frontend-sveltekit-stack.gif"
+    },
+    {
+      "id": "att2622309",
+      "type": "attachment",
+      "title": "02-observability-surfaces-cost.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2622309%2F02-observability-surfaces-cost.gif"
+    },
+    {
+      "id": "att2589701",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-plans-in-the-chat-2a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2589701%2Fscreens-projection-iphone-v4-plans-in-the-chat-2a-states.jpg"
+    },
+    {
+      "id": "att2589695",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-budget-forecast-1a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2589695%2Fscreens-projection-web-v4-budget-forecast-1a-states.jpg"
+    },
+    {
+      "id": "att2589689",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-budget-forecast.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2589689%2Fscreens-projection-iphone-v4-budget-forecast.jpg"
+    },
+    {
+      "id": "att2589569",
+      "type": "attachment",
+      "title": "03-smoke-and-rollback.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2589543&preview=%2F2589543%2F2589569%2F03-smoke-and-rollback.gif"
+    },
+    {
+      "id": "att2589563",
+      "type": "attachment",
+      "title": "01-cicd-pipeline-dev-prod.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2589543&preview=%2F2589543%2F2589563%2F01-cicd-pipeline-dev-prod.gif"
+    },
+    {
+      "id": "att2589509",
+      "type": "attachment",
+      "title": "06-agent-framework-architecture.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2589509%2F06-agent-framework-architecture.gif"
+    },
+    {
+      "id": "att2523947",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-plans-in-the-chat.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2523947%2Fscreens-projection-iphone-v4-plans-in-the-chat.jpg"
+    },
+    {
+      "id": "att2523941",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-budget-forecast.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2523941%2Fscreens-projection-web-v4-budget-forecast.jpg"
+    },
+    {
+      "id": "att2523867",
+      "type": "attachment",
+      "title": "04-regression-pyramid-and-costs.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2589543&preview=%2F2589543%2F2523867%2F04-regression-pyramid-and-costs.gif"
+    },
+    {
+      "id": "att2523786",
+      "type": "attachment",
+      "title": "05-backend-fastapi-dynamodb.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2523786%2F05-backend-fastapi-dynamodb.gif"
+    },
+    {
+      "id": "att2523780",
+      "type": "attachment",
+      "title": "04-ios-rn-swiftui-stack.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2523780%2F04-ios-rn-swiftui-stack.gif"
+    },
+    {
+      "id": "att2523774",
+      "type": "attachment",
+      "title": "01-e2e-trace-fastapi.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2622286&preview=%2F2622286%2F2523774%2F01-e2e-trace-fastapi.gif"
+    },
+    {
+      "id": "att2392948",
+      "type": "attachment",
+      "title": "screens-projection-iphone-v4-plans-tab-3a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2392948%2Fscreens-projection-iphone-v4-plans-tab-3a-states.jpg"
+    },
+    {
+      "id": "att2392942",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-plans-tab-3a-states.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2392942%2Fscreens-projection-web-v4-plans-tab-3a-states.jpg"
+    },
+    {
+      "id": "att2392936",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-plans-tab.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2392936%2Fscreens-projection-web-v4-plans-tab.jpg"
+    },
+    {
+      "id": "att2392930",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-plans-in-the-chat.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F2392930%2Fscreens-projection-web-v4-plans-in-the-chat.jpg"
+    },
+    {
+      "id": "att2392810",
+      "type": "attachment",
+      "title": "02-vulnerability-7-gates.gif",
+      "url": "/pages/viewpageattachments.action?pageId=2589543&preview=%2F2589543%2F2392810%2F02-vulnerability-7-gates.gif"
+    },
+    {
+      "id": "att197943",
+      "type": "attachment",
+      "title": "09-observability.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F197943%2F09-observability.png"
+    },
+    {
+      "id": "att197530",
+      "type": "attachment",
+      "title": "lucid-08-add-holding-sequence.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F197530%2Flucid-08-add-holding-sequence.png"
+    },
+    {
+      "id": "att197524",
+      "type": "attachment",
+      "title": "lucid-05-data.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F197524%2Flucid-05-data.png"
+    },
+    {
+      "id": "att197518",
+      "type": "attachment",
+      "title": "lucid-02-environments.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F197518%2Flucid-02-environments.png"
+    },
+    {
+      "id": "att197512",
+      "type": "attachment",
+      "title": "lucid-01-overview.png",
+      "url": "/pages/viewpageattachments.action?pageId=294922&preview=%2F294922%2F197512%2Flucid-01-overview.png"
+    },
+    {
+      "id": "att197506",
+      "type": "attachment",
+      "title": "screens-system-foundations.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197353&preview=%2F197353%2F197506%2Fscreens-system-foundations.jpg"
+    },
+    {
+      "id": "att197500",
+      "type": "attachment",
+      "title": "screens-admin-admin-center-2.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197333&preview=%2F197333%2F197500%2Fscreens-admin-admin-center-2.jpg"
+    },
+    {
+      "id": "att197493",
+      "type": "attachment",
+      "title": "screens-audit-audit-and-files.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328059&preview=%2F328059%2F197493%2Fscreens-audit-audit-and-files.jpg"
+    },
+    {
+      "id": "att197487",
+      "type": "attachment",
+      "title": "screens-audit-iphone-audit-and-activity.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=328059&preview=%2F328059%2F197487%2Fscreens-audit-iphone-audit-and-activity.jpg"
+    },
+    {
+      "id": "att197481",
+      "type": "attachment",
+      "title": "screens-projection-forecast.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F197481%2Fscreens-projection-forecast.jpg"
+    },
+    {
+      "id": "att197475",
+      "type": "attachment",
+      "title": "screens-projection-web-v4-projection.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66205&preview=%2F66205%2F197475%2Fscreens-projection-web-v4-projection.jpg"
+    },
+    {
+      "id": "att197469",
+      "type": "attachment",
+      "title": "screens-budget-web-v4-budget.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295042&preview=%2F295042%2F197469%2Fscreens-budget-web-v4-budget.jpg"
+    },
+    {
+      "id": "att197463",
+      "type": "attachment",
+      "title": "screens-assets-web-v4-assets-and-debts.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66185&preview=%2F66185%2F197463%2Fscreens-assets-web-v4-assets-and-debts.jpg"
+    },
+    {
+      "id": "att197457",
+      "type": "attachment",
+      "title": "screens-register-web-v4-check-ins.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295022&preview=%2F295022%2F197457%2Fscreens-register-web-v4-check-ins.jpg"
+    },
+    {
+      "id": "att197451",
+      "type": "attachment",
+      "title": "screens-home-india.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F197451%2Fscreens-home-india.jpg"
+    },
+    {
+      "id": "att197445",
+      "type": "attachment",
+      "title": "screens-home-browser.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F197445%2Fscreens-home-browser.jpg"
+    },
+    {
+      "id": "att197439",
+      "type": "attachment",
+      "title": "screens-home-iphone-dashboard.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66165&preview=%2F66165%2F197439%2Fscreens-home-iphone-dashboard.jpg"
+    },
+    {
+      "id": "att197433",
+      "type": "attachment",
+      "title": "screens-shell-shell-options.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=295002&preview=%2F295002%2F197433%2Fscreens-shell-shell-options.jpg"
+    },
+    {
+      "id": "att197427",
+      "type": "attachment",
+      "title": "phase-19-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197313&preview=%2F197313%2F197427%2Fphase-19-web.jpg"
+    },
+    {
+      "id": "att197421",
+      "type": "attachment",
+      "title": "phase-12-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197233&preview=%2F197233%2F197421%2Fphase-12-ios.jpg"
+    },
+    {
+      "id": "att197415",
+      "type": "attachment",
+      "title": "phase-07-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197193&preview=%2F197193%2F197415%2Fphase-07-ios.jpg"
+    },
+    {
+      "id": "att197409",
+      "type": "attachment",
+      "title": "phase-07-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197193&preview=%2F197193%2F197409%2Fphase-07-web.jpg"
+    },
+    {
+      "id": "att197403",
+      "type": "attachment",
+      "title": "phase-04-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=66085&preview=%2F66085%2F197403%2Fphase-04-web.jpg"
+    },
+    {
+      "id": "att197397",
+      "type": "attachment",
+      "title": "phase-03-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327959&preview=%2F327959%2F197397%2Fphase-03-web.jpg"
+    },
+    {
+      "id": "att197391",
+      "type": "attachment",
+      "title": "phase-02-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197173&preview=%2F197173%2F197391%2Fphase-02-ios.jpg"
+    },
+    {
+      "id": "att197385",
+      "type": "attachment",
+      "title": "phase-02-web.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=197173&preview=%2F197173%2F197385%2Fphase-02-web.jpg"
+    },
+    {
+      "id": "att197379",
+      "type": "attachment",
+      "title": "phase-01-system.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327939&preview=%2F327939%2F197379%2Fphase-01-system.jpg"
+    },
+    {
+      "id": "att197373",
+      "type": "attachment",
+      "title": "phase-01-ios.jpg",
+      "url": "/pages/viewpageattachments.action?pageId=327939&preview=%2F327939%2F197373%2Fphase-01-ios.jpg"
+    },
+    {
+      "id": "att197034",
+      "type": "attachment",
+      "title": "mypaisaaag",
+      "url": "/spaces/mypaisaaag"
+    },
+    {
+      "id": "att1770116",
+      "type": "attachment",
+      "title": "06-growth.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1770116%2F06-growth.gif"
+    },
+    {
+      "id": "att1769729",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-trace.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1769729%2Frec-j-v4-parts--v4-trace.gif"
+    },
+    {
+      "id": "att1769723",
+      "type": "attachment",
+      "title": "rec-j-v4--v4-failure.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671270&preview=%2F1671270%2F1769723%2Frec-j-v4--v4-failure.gif"
+    },
+    {
+      "id": "att1769717",
+      "type": "attachment",
+      "title": "rec-j-market--market-s12.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1769717%2Frec-j-market--market-s12.png"
+    },
+    {
+      "id": "att1769711",
+      "type": "attachment",
+      "title": "rec-j-market--market-s9.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1769711%2Frec-j-market--market-s9.png"
+    },
+    {
+      "id": "att1769705",
+      "type": "attachment",
+      "title": "rec-j-market--market-s7.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1769705%2Frec-j-market--market-s7.png"
+    },
+    {
+      "id": "att1769699",
+      "type": "attachment",
+      "title": "rec-j-market--market-s4.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1769699%2Frec-j-market--market-s4.png"
+    },
+    {
+      "id": "att1769693",
+      "type": "attachment",
+      "title": "rec-j-market--market-map.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1769693%2Frec-j-market--market-map.png"
+    },
+    {
+      "id": "att1769687",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-tour-fail.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1769687%2Frec-j-inside-more--inside-tour-fail.gif"
+    },
+    {
+      "id": "att1769681",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-8.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769681%2Frec-j-inside--inside-step-8.gif"
+    },
+    {
+      "id": "att1769675",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-7.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769675%2Frec-j-inside--inside-step-7.gif"
+    },
+    {
+      "id": "att1769669",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-4.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769669%2Frec-j-inside--inside-step-4.gif"
+    },
+    {
+      "id": "att1769663",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-3.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769663%2Frec-j-inside--inside-step-3.gif"
+    },
+    {
+      "id": "att1769657",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-2.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769657%2Frec-j-inside--inside-step-2.gif"
+    },
+    {
+      "id": "att1769651",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-1.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769651%2Frec-j-inside--inside-step-1.gif"
+    },
+    {
+      "id": "att1769645",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-hero.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1769645%2Frec-j-inside--inside-hero.png"
+    },
+    {
+      "id": "att1769630",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-checkin.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1769630%2Frec-j-flows-wealth--flow-checkin.png"
+    },
+    {
+      "id": "att1769624",
+      "type": "attachment",
+      "title": "rec-j-flows-see--flow-ipad.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147125&preview=%2F1147125%2F1769624%2Frec-j-flows-see--flow-ipad.png"
+    },
+    {
+      "id": "att1769618",
+      "type": "attachment",
+      "title": "rec-j-flows-see--flow-dashboard.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147125&preview=%2F1147125%2F1769618%2Frec-j-flows-see--flow-dashboard.png"
+    },
+    {
+      "id": "att1769612",
+      "type": "attachment",
+      "title": "rec-j-flows-run--flow-ladder.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736745&preview=%2F1736745%2F1769612%2Frec-j-flows-run--flow-ladder.png"
+    },
+    {
+      "id": "att1769606",
+      "type": "attachment",
+      "title": "rec-j-flows-run--flow-admin.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736745&preview=%2F1736745%2F1769606%2Frec-j-flows-run--flow-admin.png"
+    },
+    {
+      "id": "att1769600",
+      "type": "attachment",
+      "title": "rec-j-flows-join--flow-invite.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147105&preview=%2F1147105%2F1769600%2Frec-j-flows-join--flow-invite.png"
+    },
+    {
+      "id": "att1769594",
+      "type": "attachment",
+      "title": "rec-j-flows-india--flow-india-day.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736765&preview=%2F1736765%2F1769594%2Frec-j-flows-india--flow-india-day.png"
+    },
+    {
+      "id": "att1769587",
+      "type": "attachment",
+      "title": "rec-j-flows-india--flow-india-import.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736765&preview=%2F1736765%2F1769587%2Frec-j-flows-india--flow-india-import.png"
+    },
+    {
+      "id": "att1769581",
+      "type": "attachment",
+      "title": "rec-arch--v4-hero.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671170&preview=%2F1671170%2F1769581%2Frec-arch--v4-hero.png"
+    },
+    {
+      "id": "att1769575",
+      "type": "attachment",
+      "title": "rec-a-security--inside-safety.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147065&preview=%2F1147065%2F1769575%2Frec-a-security--inside-safety.png"
+    },
+    {
+      "id": "att1769569",
+      "type": "attachment",
+      "title": "rec-a-registry--lucid-08-add-holding-sequence.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442042&preview=%2F1442042%2F1769569%2Frec-a-registry--lucid-08-add-holding-sequence.png"
+    },
+    {
+      "id": "att1769563",
+      "type": "attachment",
+      "title": "rec-a-queues--v4-failure.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1442082&preview=%2F1442082%2F1769563%2Frec-a-queues--v4-failure.gif"
+    },
+    {
+      "id": "att1769557",
+      "type": "attachment",
+      "title": "rec-a-identity--lucid-03-identity.png",
+      "url": "/pages/viewpageattachments.action?pageId=1540282&preview=%2F1540282%2F1769557%2Frec-a-identity--lucid-03-identity.png"
+    },
+    {
+      "id": "att1769551",
+      "type": "attachment",
+      "title": "rec-a-delivery--lucid-02-environments.png",
+      "url": "/pages/viewpageattachments.action?pageId=1540302&preview=%2F1540302%2F1769551%2Frec-a-delivery--lucid-02-environments.png"
+    },
+    {
+      "id": "att1769545",
+      "type": "attachment",
+      "title": "rec-a-cost--v4-models.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442062&preview=%2F1442062%2F1769545%2Frec-a-cost--v4-models.png"
+    },
+    {
+      "id": "att1769539",
+      "type": "attachment",
+      "title": "rec-a-agent--v4-models.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671210&preview=%2F1671210%2F1769539%2Frec-a-agent--v4-models.png"
+    },
+    {
+      "id": "att1769533",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-08-add-holding-sequence.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1769533%2Frec-drawings--lucid-08-add-holding-sequence.png"
+    },
+    {
+      "id": "att1737078",
+      "type": "attachment",
+      "title": "05-judges-calibrated.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1737078%2F05-judges-calibrated.gif"
+    },
+    {
+      "id": "att1737072",
+      "type": "attachment",
+      "title": "02-policy-gate.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1737072%2F02-policy-gate.gif"
+    },
+    {
+      "id": "att1736858",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-team.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1736858%2Frec-j-v4-parts--v4-team.gif"
+    },
+    {
+      "id": "att1736852",
+      "type": "attachment",
+      "title": "rec-j-market--market-s5.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1736852%2Frec-j-market--market-s5.png"
+    },
+    {
+      "id": "att1736846",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-tour-file.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1736846%2Frec-j-inside-more--inside-tour-file.gif"
+    },
+    {
+      "id": "att1736840",
+      "type": "attachment",
+      "title": "rec-j-flows-india--flow-inr.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736765&preview=%2F1736765%2F1736840%2Frec-j-flows-india--flow-inr.png"
+    },
+    {
+      "id": "att1736834",
+      "type": "attachment",
+      "title": "rec-j-flows-add--flow-holding.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704077&preview=%2F1704077%2F1736834%2Frec-j-flows-add--flow-holding.png"
+    },
+    {
+      "id": "att1736828",
+      "type": "attachment",
+      "title": "rec-j-first--first-phone.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1769513&preview=%2F1769513%2F1736828%2Frec-j-first--first-phone.gif"
+    },
+    {
+      "id": "att1736822",
+      "type": "attachment",
+      "title": "rec-a-wealth--inside-step-9.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1409199&preview=%2F1409199%2F1736822%2Frec-a-wealth--inside-step-9.gif"
+    },
+    {
+      "id": "att1736816",
+      "type": "attachment",
+      "title": "rec-a-team--lucid-05-data.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769473&preview=%2F1769473%2F1736816%2Frec-a-team--lucid-05-data.png"
+    },
+    {
+      "id": "att1736810",
+      "type": "attachment",
+      "title": "rec-a-rules--inside-cast.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671190&preview=%2F1671190%2F1736810%2Frec-a-rules--inside-cast.png"
+    },
+    {
+      "id": "att1736804",
+      "type": "attachment",
+      "title": "rec-a-registry--v4-state.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442042&preview=%2F1442042%2F1736804%2Frec-a-registry--v4-state.png"
+    },
+    {
+      "id": "att1736798",
+      "type": "attachment",
+      "title": "rec--v4-question.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1703937&preview=%2F1703937%2F1736798%2Frec--v4-question.gif"
+    },
+    {
+      "id": "att1736791",
+      "type": "attachment",
+      "title": "rec--mark.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1703937&preview=%2F1703937%2F1736791%2Frec--mark.gif"
+    },
+    {
+      "id": "att1736785",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-07-agents-caps.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1736785%2Frec-drawings--lucid-07-agents-caps.png"
+    },
+    {
+      "id": "att1704399",
+      "type": "attachment",
+      "title": "04-watched-live.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1704399%2F04-watched-live.gif"
+    },
+    {
+      "id": "att1704393",
+      "type": "attachment",
+      "title": "03-tested-on-change.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1704393%2F03-tested-on-change.gif"
+    },
+    {
+      "id": "att1704386",
+      "type": "attachment",
+      "title": "01-fences.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540178&preview=%2F1540178%2F1704386%2F01-fences.gif"
+    },
+    {
+      "id": "att1704225",
+      "type": "attachment",
+      "title": "rec-journeys--inside-tour-ask.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1703957&preview=%2F1703957%2F1704225%2Frec-journeys--inside-tour-ask.gif"
+    },
+    {
+      "id": "att1704219",
+      "type": "attachment",
+      "title": "rec-j-v4--v4-question.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671270&preview=%2F1671270%2F1704219%2Frec-j-v4--v4-question.gif"
+    },
+    {
+      "id": "att1704213",
+      "type": "attachment",
+      "title": "rec-j-market--market-s10.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1704213%2Frec-j-market--market-s10.png"
+    },
+    {
+      "id": "att1704207",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-day.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1704207%2Frec-j-inside-more--inside-day.png"
+    },
+    {
+      "id": "att1704201",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-safety.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1704201%2Frec-j-inside-more--inside-safety.png"
+    },
+    {
+      "id": "att1704195",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-tour-ask.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1704195%2Frec-j-inside-more--inside-tour-ask.gif"
+    },
+    {
+      "id": "att1704189",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-9.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1704189%2Frec-j-inside--inside-step-9.gif"
+    },
+    {
+      "id": "att1704183",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-6.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1704183%2Frec-j-inside--inside-step-6.gif"
+    },
+    {
+      "id": "att1704177",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-step-5.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1704177%2Frec-j-inside--inside-step-5.gif"
+    },
+    {
+      "id": "att1704171",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-month-close.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1704171%2Frec-j-flows-wealth--flow-month-close.png"
+    },
+    {
+      "id": "att1704165",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-register.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1704165%2Frec-j-flows-wealth--flow-register.png"
+    },
+    {
+      "id": "att1704159",
+      "type": "attachment",
+      "title": "rec-j-flows-join--flow-signin.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147105&preview=%2F1147105%2F1704159%2Frec-j-flows-join--flow-signin.png"
+    },
+    {
+      "id": "att1704153",
+      "type": "attachment",
+      "title": "rec-a-wealth--inside-step-6.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1409199&preview=%2F1409199%2F1704153%2Frec-a-wealth--inside-step-6.gif"
+    },
+    {
+      "id": "att1704147",
+      "type": "attachment",
+      "title": "rec-a-team--v4-team.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1769473&preview=%2F1769473%2F1704147%2Frec-a-team--v4-team.gif"
+    },
+    {
+      "id": "att1704141",
+      "type": "attachment",
+      "title": "rec-a-rules--lucid-01-overview.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671190&preview=%2F1671190%2F1704141%2Frec-a-rules--lucid-01-overview.png"
+    },
+    {
+      "id": "att1704135",
+      "type": "attachment",
+      "title": "rec-a-delivery--inside-homes.png",
+      "url": "/pages/viewpageattachments.action?pageId=1540302&preview=%2F1540302%2F1704135%2Frec-a-delivery--inside-homes.png"
+    },
+    {
+      "id": "att1704129",
+      "type": "attachment",
+      "title": "rec-a-cost--lucid-07-agents-caps.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442062&preview=%2F1442062%2F1704129%2Frec-a-cost--lucid-07-agents-caps.png"
+    },
+    {
+      "id": "att1704123",
+      "type": "attachment",
+      "title": "rec-a-apps--inside-step-4.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1409219&preview=%2F1409219%2F1704123%2Frec-a-apps--inside-step-4.gif"
+    },
+    {
+      "id": "att1704117",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-04-queues.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1704117%2Frec-drawings--lucid-04-queues.png"
+    },
+    {
+      "id": "att1671470",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-loop.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1671470%2Frec-j-v4-parts--v4-loop.gif"
+    },
+    {
+      "id": "att1671464",
+      "type": "attachment",
+      "title": "rec-j-v4--v4-brief.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671270&preview=%2F1671270%2F1671464%2Frec-j-v4--v4-brief.gif"
+    },
+    {
+      "id": "att1671458",
+      "type": "attachment",
+      "title": "rec-j-v4--v4-file.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671270&preview=%2F1671270%2F1671458%2Frec-j-v4--v4-file.gif"
+    },
+    {
+      "id": "att1671452",
+      "type": "attachment",
+      "title": "rec-j-market--market-s13.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1671452%2Frec-j-market--market-s13.png"
+    },
+    {
+      "id": "att1671446",
+      "type": "attachment",
+      "title": "rec-j-market--market-s11.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1671446%2Frec-j-market--market-s11.png"
+    },
+    {
+      "id": "att1671440",
+      "type": "attachment",
+      "title": "rec-j-market--market-s6.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1671440%2Frec-j-market--market-s6.png"
+    },
+    {
+      "id": "att1671434",
+      "type": "attachment",
+      "title": "rec-j-market--market-s3.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1671434%2Frec-j-market--market-s3.png"
+    },
+    {
+      "id": "att1671428",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-homes.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1671428%2Frec-j-inside-more--inside-homes.png"
+    },
+    {
+      "id": "att1671422",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-tour-checkin.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1671422%2Frec-j-inside-more--inside-tour-checkin.gif"
+    },
+    {
+      "id": "att1671416",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-projection.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1671416%2Frec-j-flows-wealth--flow-projection.png"
+    },
+    {
+      "id": "att1671410",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-statement.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1671410%2Frec-j-flows-wealth--flow-statement.png"
+    },
+    {
+      "id": "att1671404",
+      "type": "attachment",
+      "title": "rec-j-flows-wealth--flow-correct.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442122&preview=%2F1442122%2F1671404%2Frec-j-flows-wealth--flow-correct.png"
+    },
+    {
+      "id": "att1671398",
+      "type": "attachment",
+      "title": "rec-j-flows-see--flow-web.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147125&preview=%2F1147125%2F1671398%2Frec-j-flows-see--flow-web.png"
+    },
+    {
+      "id": "att1671392",
+      "type": "attachment",
+      "title": "rec-j-flows-see--flow-ask.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147125&preview=%2F1147125%2F1671392%2Frec-j-flows-see--flow-ask.png"
+    },
+    {
+      "id": "att1671386",
+      "type": "attachment",
+      "title": "rec-j-flows-india--flow-currency.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736765&preview=%2F1736765%2F1671386%2Frec-j-flows-india--flow-currency.png"
+    },
+    {
+      "id": "att1671380",
+      "type": "attachment",
+      "title": "rec-j-flows-day--flow-alert.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704097&preview=%2F1704097%2F1671380%2Frec-j-flows-day--flow-alert.png"
+    },
+    {
+      "id": "att1671374",
+      "type": "attachment",
+      "title": "rec-j-flows-day--flow-brief.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704097&preview=%2F1704097%2F1671374%2Frec-j-flows-day--flow-brief.png"
+    },
+    {
+      "id": "att1671368",
+      "type": "attachment",
+      "title": "rec-arch--lucid-01-overview.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671170&preview=%2F1671170%2F1671368%2Frec-arch--lucid-01-overview.png"
+    },
+    {
+      "id": "att1671362",
+      "type": "attachment",
+      "title": "rec-a-writing--v4-file.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736705&preview=%2F1736705%2F1671362%2Frec-a-writing--v4-file.gif"
+    },
+    {
+      "id": "att1671356",
+      "type": "attachment",
+      "title": "rec-a-team--inside-agents.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1769473&preview=%2F1769473%2F1671356%2Frec-a-team--inside-agents.gif"
+    },
+    {
+      "id": "att1671350",
+      "type": "attachment",
+      "title": "rec-a-rules--v4-question.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671190&preview=%2F1671190%2F1671350%2Frec-a-rules--v4-question.gif"
+    },
+    {
+      "id": "att1671344",
+      "type": "attachment",
+      "title": "rec-a-queues--lucid-04-queues.png",
+      "url": "/pages/viewpageattachments.action?pageId=1442082&preview=%2F1442082%2F1671344%2Frec-a-queues--lucid-04-queues.png"
+    },
+    {
+      "id": "att1671338",
+      "type": "attachment",
+      "title": "rec-a-queues--inside-tour-fail.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1442082&preview=%2F1442082%2F1671338%2Frec-a-queues--inside-tour-fail.gif"
+    },
+    {
+      "id": "att1671332",
+      "type": "attachment",
+      "title": "rec-a-observability--lucid-09-observability.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671230&preview=%2F1671230%2F1671332%2Frec-a-observability--lucid-09-observability.png"
+    },
+    {
+      "id": "att1671326",
+      "type": "attachment",
+      "title": "rec-a-observability--v4-trace.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671230&preview=%2F1671230%2F1671326%2Frec-a-observability--v4-trace.gif"
+    },
+    {
+      "id": "att1671320",
+      "type": "attachment",
+      "title": "rec-a-notify--inside-step-7.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1703997&preview=%2F1703997%2F1671320%2Frec-a-notify--inside-step-7.gif"
+    },
+    {
+      "id": "att1671314",
+      "type": "attachment",
+      "title": "rec-a-identity--inside-step-3.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540282&preview=%2F1540282%2F1671314%2Frec-a-identity--inside-step-3.gif"
+    },
+    {
+      "id": "att1671308",
+      "type": "attachment",
+      "title": "rec-a-forecaster--market-s6.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704037&preview=%2F1704037%2F1671308%2Frec-a-forecaster--market-s6.png"
+    },
+    {
+      "id": "att1671302",
+      "type": "attachment",
+      "title": "rec-a-engine--market-s3.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147045&preview=%2F1147045%2F1671302%2Frec-a-engine--market-s3.png"
+    },
+    {
+      "id": "att1671296",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-05-data.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1671296%2Frec-drawings--lucid-05-data.png"
+    },
+    {
+      "id": "att1671290",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-03-identity.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1671290%2Frec-drawings--lucid-03-identity.png"
+    },
+    {
+      "id": "att1540377",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-state.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1540377%2Frec-j-v4-parts--v4-state.png"
+    },
+    {
+      "id": "att1540371",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-models.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1540371%2Frec-j-v4-parts--v4-models.png"
+    },
+    {
+      "id": "att1540365",
+      "type": "attachment",
+      "title": "rec-j-market--market-s8.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1540365%2Frec-j-market--market-s8.png"
+    },
+    {
+      "id": "att1540359",
+      "type": "attachment",
+      "title": "rec-j-market--market-s1.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1540359%2Frec-j-market--market-s1.png"
+    },
+    {
+      "id": "att1540353",
+      "type": "attachment",
+      "title": "rec-j-inside--inside-cast.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704057&preview=%2F1704057%2F1540353%2Frec-j-inside--inside-cast.png"
+    },
+    {
+      "id": "att1540347",
+      "type": "attachment",
+      "title": "rec-j-flows-run--flow-monthly.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736745&preview=%2F1736745%2F1540347%2Frec-j-flows-run--flow-monthly.png"
+    },
+    {
+      "id": "att1540341",
+      "type": "attachment",
+      "title": "rec-j-flows-add--flow-money.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704077&preview=%2F1704077%2F1540341%2Frec-j-flows-add--flow-money.png"
+    },
+    {
+      "id": "att1540335",
+      "type": "attachment",
+      "title": "rec-a-forecaster--lucid-06-market-agent.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704037&preview=%2F1704037%2F1540335%2Frec-a-forecaster--lucid-06-market-agent.png"
+    },
+    {
+      "id": "att1540329",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-06-market-agent.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1540329%2Frec-drawings--lucid-06-market-agent.png"
+    },
+    {
+      "id": "att1540322",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-02-environments.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1540322%2Frec-drawings--lucid-02-environments.png"
+    },
+    {
+      "id": "att1442166",
+      "type": "attachment",
+      "title": "rec-j-v4--v4-checkin.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671270&preview=%2F1671270%2F1442166%2Frec-j-v4--v4-checkin.gif"
+    },
+    {
+      "id": "att1442160",
+      "type": "attachment",
+      "title": "rec-j-market--market-s2.png",
+      "url": "/pages/viewpageattachments.action?pageId=1769493&preview=%2F1769493%2F1442160%2Frec-j-market--market-s2.png"
+    },
+    {
+      "id": "att1442154",
+      "type": "attachment",
+      "title": "rec-a-forecaster--market-s5.png",
+      "url": "/pages/viewpageattachments.action?pageId=1704037&preview=%2F1704037%2F1442154%2Frec-a-forecaster--market-s5.png"
+    },
+    {
+      "id": "att1442148",
+      "type": "attachment",
+      "title": "rec-a-agent--v4-loop.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1671210&preview=%2F1671210%2F1442148%2Frec-a-agent--v4-loop.gif"
+    },
+    {
+      "id": "att1442142",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-09-observability.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1442142%2Frec-drawings--lucid-09-observability.png"
+    },
+    {
+      "id": "att1409269",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-rules.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1409269%2Frec-j-v4-parts--v4-rules.png"
+    },
+    {
+      "id": "att1409263",
+      "type": "attachment",
+      "title": "rec-j-v4-parts--v4-delivery.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147085&preview=%2F1147085%2F1409263%2Frec-j-v4-parts--v4-delivery.png"
+    },
+    {
+      "id": "att1409257",
+      "type": "attachment",
+      "title": "rec-a-writing--v4-checkin.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736705&preview=%2F1736705%2F1409257%2Frec-a-writing--v4-checkin.gif"
+    },
+    {
+      "id": "att1409251",
+      "type": "attachment",
+      "title": "rec-a-india--market-s12.png",
+      "url": "/pages/viewpageattachments.action?pageId=1671250&preview=%2F1671250%2F1409251%2Frec-a-india--market-s12.png"
+    },
+    {
+      "id": "att1409245",
+      "type": "attachment",
+      "title": "rec-a-identity--inside-step-1.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1540282&preview=%2F1540282%2F1409245%2Frec-a-identity--inside-step-1.gif"
+    },
+    {
+      "id": "att1409239",
+      "type": "attachment",
+      "title": "rec-drawings--lucid-01-overview.png",
+      "url": "/pages/viewpageattachments.action?pageId=1703977&preview=%2F1703977%2F1409239%2Frec-drawings--lucid-01-overview.png"
+    },
+    {
+      "id": "att1147169",
+      "type": "attachment",
+      "title": "rec-j-inside-more--inside-agents.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1736725&preview=%2F1736725%2F1147169%2Frec-j-inside-more--inside-agents.gif"
+    },
+    {
+      "id": "att1147163",
+      "type": "attachment",
+      "title": "rec-j-flows-run--flow-failure.png",
+      "url": "/pages/viewpageattachments.action?pageId=1736745&preview=%2F1736745%2F1147163%2Frec-j-flows-run--flow-failure.png"
+    },
+    {
+      "id": "att1147157",
+      "type": "attachment",
+      "title": "rec-a-security--v4-rules.png",
+      "url": "/pages/viewpageattachments.action?pageId=1147065&preview=%2F1147065%2F1147157%2Frec-a-security--v4-rules.png"
+    },
+    {
+      "id": "att1147151",
+      "type": "attachment",
+      "title": "rec-a-delivery--v4-delivery.png",
+      "url": "/pages/viewpageattachments.action?pageId=1540302&preview=%2F1540302%2F1147151%2Frec-a-delivery--v4-delivery.png"
+    },
+    {
+      "id": "att1147145",
+      "type": "attachment",
+      "title": "rec-a-apps--inside-step-5.gif",
+      "url": "/pages/viewpageattachments.action?pageId=1409219&preview=%2F1409219%2F1147145%2Frec-a-apps--inside-step-5.gif"
+    },
+    {
+      "id": "197767",
+      "type": "database",
+      "title": "Story explorer: every story, filterable",
+      "url": "/spaces/mypaisaaag/database/197767"
+    },
+    {
+      "title": "mypaisaa-agent",
+      "url": "/spaces/mypaisaaag"
+    }
+  ]
+}

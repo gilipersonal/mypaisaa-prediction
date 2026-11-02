@@ -2,6 +2,8 @@
 
 **MP-18 · 1 November 2026 · detailed design proposal**
 
+**Later owner decisions, 2 November 2026:** [ARC-02–04](planning/ma-reconciliation-2026-11-02/decision-log.md) select DynamoDB/S3, Python Lambda Durable Functions and capped SageMaker CPU training/evaluation with portable Lambda inference. The text and native diagrams below retain their MP-18 proposal context; detailed compatibility, cost and scientific proofs remain open. No diagram re-export or Confluence publication occurred with these decisions.
+
 This document follows a holding and a market observation from the device through an authenticated AWS API, durable work queues, numerical forecasts, Claude research, notifications and outcome scoring. It is an architecture design for the separate personal Mypaisaa Prediction application. The only running product backend remains the FastAPI health/sample SSE starter. No AWS resources or ML/agent product services were deployed by this work.
 
 The latest request asks to show **SageMaker AI** as the proposed ML execution service and to adapt the **Haiku batching** idea from mypaisa-agent. Those are diagram directions, not a final production ADR or a validated £100/month bill. The existing A/B evaluation of portable jobs versus selective SageMaker and N0/N1/N1-E network options remains open until measured cost and compatibility evidence supports a choice. The app never places trades.

@@ -1,0 +1,17 @@
+{
+  "id": "328019",
+  "title": "Phase 14 · News, events, sentiment (shadow)",
+  "version": 17,
+  "snapshotToken": "v:17",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "9cdae94e4197ac4b80802933b4b9b5257bec407bb8e1beaa5690b427952657c4",
+  "html_characters": 15551,
+  "headings": [
+    "The web app",
+    "The iOS app"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328019",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

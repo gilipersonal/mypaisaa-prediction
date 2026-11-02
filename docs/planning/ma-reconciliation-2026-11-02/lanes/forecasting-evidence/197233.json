@@ -1,0 +1,17 @@
+{
+  "id": "197233",
+  "title": "Phase 12 · Ask anything: research cards and scenarios",
+  "version": 22,
+  "snapshotToken": "v:22",
+  "body_format": "html",
+  "limitations": [],
+  "read_at": "2026-11-02",
+  "html_sha256": "9baac9a36e7ce419235990723877ea15fec7b582e0edccffed24d6db22628390",
+  "html_characters": 29822,
+  "headings": [
+    "The web app",
+    "The iOS app"
+  ],
+  "source_url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197233",
+  "evidence_scope": "Full HTML read; compact source/version/hash/headings record. Embedded image/board visual contents not certified."
+}

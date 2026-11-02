@@ -1,0 +1,3061 @@
+{
+  "as_of": "2026-11-02",
+  "status": "proposed_unapproved",
+  "implementation_authorised": false,
+  "phases": [
+    {
+      "id": "PH-00",
+      "title": "Complete baseline and contract decisions",
+      "status": "draft_planning_only",
+      "planning_dependencies": [],
+      "implementation_dependencies": [],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Whole-product requirement/decision trace",
+        "Versioned shared contracts and approval boundary",
+        "UX/state inventory and local prototype acceptance plan"
+      ],
+      "exit_gate": "Complete draft layers now; whole baseline and UX still need owner approval.",
+      "failure_or_rollback": "Keep unresolved choices explicit; no application implementation or external writes.",
+      "story_ids": [
+        "L0-S01",
+        "L0-S02",
+        "L0-S03",
+        "L0-S04",
+        "L0-S05"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A01",
+        "A02",
+        "A05",
+        "A09",
+        "A12"
+      ],
+      "contract_catalogue": [
+        "RequirementTrace",
+        "DecisionRecord",
+        "ArchitectureBaseline",
+        "StoryReadiness"
+      ],
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-4"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-01",
+      "title": "Standalone portfolio, all-method imports and source lineage",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-02"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "portfolio-import-spec.md (coordinator-owned draft)",
+        "portfolio-import-stories.json (coordinator-owned detailed L1 stories)",
+        "Ledger/import/identity/reconciliation/performance-sufficiency contracts"
+      ],
+      "exit_gate": "All CSV/Excel/PDF/screenshot/manual methods remain first-version requirements; supported layouts have sample-backed coverage and uncertain values require confirmation.",
+      "failure_or_rollback": "Quarantine uncertain extraction; retain originals; reverse confirmed imports through audited ledger events, never silent deletion.",
+      "story_ids": [
+        "L1-S01",
+        "L1-S02",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15",
+        "L1-S16"
+      ],
+      "implementation_authorised": false,
+      "delegated_story_source": {
+        "path": "portfolio-import-stories.json",
+        "status": "coordinator_owned_local_draft_present_not_approved",
+        "story_ids": [
+          "L1-S01",
+          "L1-S02",
+          "L1-S03",
+          "L1-S04",
+          "L1-S05",
+          "L1-S06",
+          "L1-S07",
+          "L1-S08",
+          "L1-S09",
+          "L1-S10",
+          "L1-S11",
+          "L1-S12",
+          "L1-S13",
+          "L1-S14",
+          "L1-S15",
+          "L1-S16"
+        ],
+        "spec_path": "portfolio-import-spec.md",
+        "contracts_path": "portfolio-import-contracts.json",
+        "examples_path": "portfolio-import-examples.json"
+      },
+      "architecture_areas": [
+        "A03",
+        "A09",
+        "A11"
+      ],
+      "contract_catalogue": [
+        "ScopeEnvelope",
+        "InstrumentListing",
+        "InvestmentAccount",
+        "SourceDocument",
+        "ImportDraft",
+        "LedgerCommit",
+        "AuditEvent"
+      ],
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-5"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-02",
+      "title": "Identity, private runtime, audit and launch cost controls",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-00"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Identity/recovery threat model",
+        "Storage/API/SSE/job and retention contracts",
+        "Main-dashboard cost/credit admission specifications"
+      ],
+      "exit_gate": "Foundation safeguards and cost attribution must precede paid jobs, real documents and external activation.",
+      "failure_or_rollback": "Fail closed for unknown paid-call coverage; stop optional work; retain durable state and deterministic reads.",
+      "story_ids": [
+        "L2-S01",
+        "L2-S02",
+        "L2-S03",
+        "L2-S04",
+        "L2-S05",
+        "L2-S06"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A02",
+        "A07",
+        "A08",
+        "A10",
+        "A11"
+      ],
+      "contract_catalogue": [
+        "IdentitySession",
+        "SensitiveAction",
+        "ApprovalRequest",
+        "JobRecord",
+        "OutboxEvent",
+        "RunRecord",
+        "CostReservation"
+      ],
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-4"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-03",
+      "title": "Market data, performance and portfolio risk",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-02"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Instrument/source capability matrix",
+        "Point-in-time data and schedule contracts",
+        "Financial/risk/benchmark definitions and golden cases"
+      ],
+      "exit_gate": "Synthetic mappings can be specified now; live listing/rights/pricing evidence is required only before live activation.",
+      "failure_or_rollback": "Display stale/partial status,fall back to eligible daily analysis,suppress unsupported alerts and preserve last trusted values.",
+      "story_ids": [
+        "L3-S01",
+        "L3-S02",
+        "L3-S03",
+        "L3-S04",
+        "L3-S05"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A03",
+        "A04",
+        "A07"
+      ],
+      "contract_catalogue": [
+        "SourceCapability",
+        "MarketObservation",
+        "FXObservation",
+        "PerformanceResult",
+        "ExposureSnapshot",
+        "BenchmarkComparison"
+      ],
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-5"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-04",
+      "title": "Scientific baseline, full Forecaster and controlled learning",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-03"
+      ],
+      "implementation_dependencies": [
+        "PH-03"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Horizon/task/feature/model/outcome contracts",
+        "F1–F8 and indicator specifications",
+        "Walk-forward/ablation/shadow/promotion evidence plan"
+      ],
+      "exit_gate": "Every agreed horizon is in the product baseline; eligibility depends on mature evidence and never on synthetic success.",
+      "failure_or_rollback": "Keep challenger in shadow/disabled; revert to prior compatible approved baseline/model without rewriting historic outputs.",
+      "story_ids": [
+        "L4-S01",
+        "L4-S02",
+        "L4-S03",
+        "L4-S04",
+        "L4-S05",
+        "L4-S06",
+        "L4-S07",
+        "L4-S08"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A05",
+        "A08",
+        "A09"
+      ],
+      "contract_catalogue": [
+        "ForecastTask",
+        "DatasetManifest",
+        "FeatureSetVersion",
+        "EvaluationRun",
+        "ModelVersion",
+        "Prediction",
+        "RealisedOutcome",
+        "PromotionDecision"
+      ],
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-6"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-05",
+      "title": "Evidence research, agents, chat and evaluations",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-02",
+        "PH-03"
+      ],
+      "implementation_dependencies": [
+        "PH-02",
+        "PH-03"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Direct client-SDK loop/tool manifests",
+        "Evidence/cards/conversation/memory contracts",
+        "T0/T1/T2,online and human evaluation plan"
+      ],
+      "exit_gate": "LLM research stays grounded/read-only; numerical models and realised-outcome validation remain separate.",
+      "failure_or_rollback": "Abort bounded loop,deny tools,quarantine tainted material and return deterministic/abstaining views with a run audit.",
+      "story_ids": [
+        "L5-S01",
+        "L5-S02",
+        "L5-S03",
+        "L5-S04",
+        "L5-S05",
+        "L5-S06"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A06",
+        "A08",
+        "A09"
+      ],
+      "contract_catalogue": [
+        "AgentManifest",
+        "ToolContract",
+        "EvidenceBundle",
+        "ClaimReference",
+        "ConversationContext",
+        "BatchItem",
+        "EvalResult",
+        "EvalLabel",
+        "MemoryNote"
+      ],
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-7"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-06",
+      "title": "Web discovery, ranked actions, proof and briefings",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-03",
+        "PH-04",
+        "PH-05"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Approved local PWA design and state inventory",
+        "Ranking/eligibility/briefing/alert contracts",
+        "Web journey and accessibility acceptance pack"
+      ],
+      "exit_gate": "Launch includes discovery-first web,all import methods,priority cost view,chat,all horizon sections and honest disabled/unavailable states.",
+      "failure_or_rollback": "Hide no uncertainty; disable ineligible ranked claims and paid analysis,retain ledger/audit/cost/freshness access.",
+      "story_ids": [
+        "L6-S01",
+        "L6-S02",
+        "L6-S03",
+        "L6-S04",
+        "L6-S05"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A04",
+        "A05",
+        "A06",
+        "A09",
+        "A10",
+        "A12"
+      ],
+      "contract_catalogue": [
+        "DiscoveryResult",
+        "RecommendationPolicy",
+        "RankedAction",
+        "ForecastView",
+        "Briefing",
+        "NotificationIntent"
+      ],
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-7"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-07",
+      "title": "Native Apple, offline and push",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-02",
+        "PH-06"
+      ],
+      "implementation_dependencies": [
+        "PH-02",
+        "PH-06"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "SwiftUI/RN bridge and device matrix",
+        "Offline/privacy/accessibility contracts",
+        "Native and PWA push acceptance plan"
+      ],
+      "exit_gate": "First-version native/PWA push fallbacks follow verified platform capability; advanced integrations need an explicit launch/later choice.",
+      "failure_or_rollback": "Revoke affected session/cache,fall back to in-app notices and stale-labelled read cache; no unsafe offline financial writes.",
+      "story_ids": [
+        "L7-S01",
+        "L7-S02",
+        "L7-S03",
+        "L7-S04"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A02",
+        "A07",
+        "A12"
+      ],
+      "contract_catalogue": [
+        "NativeBridge",
+        "OfflineSnapshot",
+        "PushSubscription",
+        "DeepLink",
+        "ClientState"
+      ],
+      "gap_ids": [
+        "PL-14",
+        "CT-18"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-8"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-08",
+      "title": "Operational acceptance and controlled personal launch",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00",
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-07"
+      ],
+      "implementation_dependencies": [
+        "PH-01",
+        "PH-02",
+        "PH-03",
+        "PH-04",
+        "PH-05",
+        "PH-06",
+        "PH-07"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Record-class recovery/retention runbook",
+        "Security/scientific/cost/UX gate report",
+        "Release evidence,admin requirements and owner runbook"
+      ],
+      "exit_gate": "Release approval and deployment/spending authority are separate; existing MP status and this draft certify neither.",
+      "failure_or_rollback": "Pause optional work,schedules or affected feature; replay only bounded idempotent jobs;restore isolated target and reconcile before switch.",
+      "story_ids": [
+        "L8-S01",
+        "L8-S02",
+        "L8-S03",
+        "L8-S04",
+        "L8-S05"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A08",
+        "A09",
+        "A10",
+        "A11",
+        "A12"
+      ],
+      "contract_catalogue": [
+        "ReleaseEvidence",
+        "RecoveryExercise",
+        "IncidentRecord",
+        "ReplayRequest",
+        "DeletionTombstone"
+      ],
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "existing_epic_crosswalk": [
+        "MP-9"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "PH-09",
+      "title": "Versioned extensions and conditional future transfer",
+      "status": "draft_planning_only",
+      "planning_dependencies": [
+        "PH-00"
+      ],
+      "implementation_dependencies": [
+        "PH-08"
+      ],
+      "entry_requirements": [
+        "Layer requirements,contracts,local stories,UX states and acceptance evidence defined",
+        "Full end-to-end baseline and UX approval before any application implementation"
+      ],
+      "deliverables": [
+        "Market/theme/model/agent extension admission pack",
+        "Conditional MA interchange/parity/cutover boundary"
+      ],
+      "exit_gate": "Future markets and families remain retained scope with per-extension evidence and owner approval; no implied budget increase.",
+      "failure_or_rollback": "Deactivate extension and roll back version pointer while preserving history; no MA retirement without separately approved cutover.",
+      "story_ids": [
+        "L9-S01",
+        "L9-S02",
+        "L9-S03",
+        "L9-S04"
+      ],
+      "implementation_authorised": false,
+      "architecture_areas": [
+        "A01",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "contract_catalogue": [
+        "MarketProfile",
+        "InstrumentKind",
+        "ThemeMembership",
+        "PluginCompatibility",
+        "ExtensionApproval"
+      ],
+      "gap_ids": [],
+      "existing_epic_crosswalk": [
+        "MP-9"
+      ],
+      "readiness": "blocked_on_architecture_and_UX"
+    }
+  ],
+  "stories": [
+    {
+      "id": "L0-S01",
+      "title": "Reconcile full scope and approval boundary",
+      "phase_id": "PH-00",
+      "acceptance": [
+        "Trace DEC-001–041, CAP-01–19 and the 140 captured source stories to planned phases, preserving differences from historical source wording.",
+        "Record current health/sample SSE/static preview separately from planned product capabilities; actual holdings and documents remain deferred.",
+        "Obtain an explicit full end-to-end requirements and UX decision after all layers have specifications, contracts, local stories and reviewed design options; a phase draft or fixture pass is insufficient."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-19"
+      ],
+      "evidence": [
+        "Decision-to-phase matrix; open-choice register; owner approval record or explicit unapproved status"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L0-S02",
+      "title": "Select architecture and cost assumptions",
+      "phase_id": "PH-00",
+      "acceptance": [
+        "Compare active A lean AWS training versus B selective SageMaker training without declaring either selected; both retain Lambda and the direct Anthropic client-SDK loop.",
+        "Price full launch scope across dev/prod/data/models/evals/builds/storage/notifications and fixed subscriptions within £70 planned plus £30 reserve; record unverified credit as unverified.",
+        "Resolve or explicitly escalate old local-PostgreSQL/host assumptions and the historical £50 AWS target through approved ADRs; no cloud changes follow from a draft."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "evidence": [
+        "Option ADR draft; dated price/rights assumptions; full-scope cash stress case with no usable credit"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L0-S03",
+      "title": "Freeze shared versioned contracts and state semantics",
+      "phase_id": "PH-00",
+      "acceptance": [
+        "Define instrument/listing, money/FX, timestamps/known-at, event, ledger, forecast/task/horizon, model, agent, strategy and evaluation contracts with version/error/compatibility rules.",
+        "Define contract owners and change review; every record links relevant schema/data/code versions and no-trading authority.",
+        "Specify durable-state recovery independently of SSE delivery and preserve additive correction semantics."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-01",
+        "CAP-08",
+        "CAP-09",
+        "CAP-12",
+        "CAP-18"
+      ],
+      "evidence": [
+        "Schema examples; compatibility and migration cases; contract ownership table"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L0-S04",
+      "title": "Approve cross-client product flows",
+      "phase_id": "PH-00",
+      "acceptance": [
+        "Cover discovery-first dashboard, separate holdings/imports, per-horizon forecasts/proof, research/chat, action journal, cost visibility, owner approvals and privacy/recovery flows.",
+        "Document loading/empty/error/stale/offline/no-model/disagreement/abstention states and accessibility on web, iPhone, iPad and adaptive Duo layouts.",
+        "Verify the requested SvelteKit 3 version against current official availability before choosing packages; do not imply it is installed. Agree native/device support and local design/prototype before any authorised Sites sync."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-10",
+        "CAP-16",
+        "CAP-17"
+      ],
+      "evidence": [
+        "Local user-flow and state inventory; design options and explicit selection; version/device evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L0-S05",
+      "title": "Define synthetic acceptance coverage and future real-sample intake",
+      "phase_id": "PH-00",
+      "acceptance": [
+        "Index existing local/dev synthetic 30-real-ID packs and PDF/PNG/expected-import/operations companions; mark prices, accounts, transactions and outcomes synthetic.",
+        "Identify missing Excel, malformed/blurred/rotated/protected/hostile documents and add to planned coverage; existing clean fixtures do not prove parser robustness or forecast accuracy.",
+        "Allow actual screenshots/PDFs to arrive progressively through later private intake; no current planning exit requires them."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Fixture coverage matrix; deferred real-sample register; labelled expected outputs"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-10",
+        "FC-11",
+        "FC-12",
+        "FC-13",
+        "FC-14",
+        "FC-15",
+        "FC-16",
+        "PL-01",
+        "PL-02",
+        "PL-03",
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-09",
+        "PL-10",
+        "PL-11",
+        "PL-12",
+        "PL-13",
+        "PL-14",
+        "CT-01",
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-13",
+        "CT-14",
+        "CT-15",
+        "CT-16",
+        "CT-17",
+        "CT-18",
+        "CD-01",
+        "CD-02",
+        "IR-01",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S01",
+      "title": "Cognito identity and owner recovery",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Specify managed Apple/Google/passkey sign-in and server-verified account linking; email similarity alone cannot merge identities.",
+        "Define two independent passkey paths, verified provider links, lost-device/recovery proof, session revocation and sensitive-action reauthentication.",
+        "Demonstrate denied cross-environment/cross-owner access and audit recovery/link changes without exposing identity tokens."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-13",
+        "CAP-14",
+        "CAP-16"
+      ],
+      "evidence": [
+        "Threat model and auth contracts; recovery/linking negative scenarios; eventual web/native integration results"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S02",
+      "title": "Private durable storage and job contracts",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Specify isolated dev/prod identities and encrypted storage with least privilege; synthetic dev cannot write production.",
+        "Specify conditional ledger/audit/outbox writes and S3 hash/manifest publication boundaries; uploaded bytes and database pointers are not one transaction.",
+        "Retries use idempotency keys, bounded backoff and quarantine; no duplicate financial side effect after timeout/replay."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-12",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Access-pattern model; write-failure matrix; planned idempotency/fault-injection cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S03",
+      "title": "Launch dashboard cost meter and reconciliation",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Main dashboard shows dev/prod/local API/shared-unallocated costs with provider/agent/model/feature/service drill-down and source age.",
+        "Separate live estimates from delayed billing and gross usage from credit applied/cash; Anthropic billing collection every 6 hours, AWS daily, bounded and cached.",
+        "Unknown shared credit stays unknown and is never multiplied per environment; show collector failures and reconciliation discrepancies."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-12",
+        "CAP-13",
+        "CAP-16"
+      ],
+      "evidence": [
+        "Cost event and allocation schemas; dashboard states; stale/unknown/adjusted-bill synthetic cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S04",
+      "title": "Enforce discretionary spending admission",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Evaluate forecast monthly cash against £60 warning/£75 reduced optional work/£85 pause-new-optional-paid thresholds while retaining £100 total ceiling and £70+£30 plan.",
+        "Use bounded reservations/limits for concurrent jobs; refuse uncovered or unverifiable Claude calls and pause optional calls at agreed low-credit conditions without paid fallback.",
+        "Show uncertainty from delayed AWS billing; approval thresholds are not claimed to provide an instantaneous universal AWS shutoff. Keep deterministic essential views available."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Admission state table; concurrent-reservation and unknown-credit cases; full-workload stress budget"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S05",
+      "title": "Authenticated API and resumable SSE",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Version authenticated APIs and short-lived heartbeat-enabled SSE; use durable event IDs/cursor recovery where supported, refetch durable records after gaps.",
+        "Define reconnect/token-expiry/ordering/dedup/backpressure and multi-tab/background rules; no secrets or durable financial truth solely in a stream.",
+        "Cost active connections and validate selected API/Lambda streaming compatibility before implementation; starter unauthenticated volatile SSE is not production evidence."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-12",
+        "CAP-16"
+      ],
+      "evidence": [
+        "API/event examples; disconnect/expired-session cases; streaming compatibility and cost evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L2-S06",
+      "title": "Telemetry, evidence separation and original archive",
+      "phase_id": "PH-02",
+      "acceptance": [
+        "Plan logs 14 days, rich traces 30, run summaries 90 subject to measured cost; maintain distinct durable financial/forecast/approval/source audit lifecycles.",
+        "Plan encrypted private S3 originals with renewable 24-month retention and owner extension/deletion controls; define versions/derivatives/backups and no automatic expiry deletion yet.",
+        "Redact document contents, holdings, tokens and prompts from operational telemetry; correlation IDs link to access-controlled evidence."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-09",
+        "CAP-12",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Record-class retention table; redaction cases; source-to-ledger/model audit examples"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-09",
+        "PL-12",
+        "PL-13",
+        "CT-01",
+        "CT-02",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-13",
+        "CT-17"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L3-S01",
+      "title": "Instrument identity, entitlement and cadence",
+      "phase_id": "PH-03",
+      "acceptance": [
+        "Support initial UK/US/India 20–30 real-ID synthetic instruments, preserving issuer/security/listing/venue, GBP/GBX/local currencies and NAV versus OHLC semantics.",
+        "Before live activation, resolve owner identities and source rights/history/latency/storage for Yahoo plus exact Twelve Data Grow tier; then propose the balanced research watchlist for owner approval.",
+        "Record source capability by listing; 30-minute risk/quote refresh only where supported, otherwise daily labelled analysis and suppressed unsupported intraday alerts; no paid provider addition without approval."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-01",
+        "CAP-18"
+      ],
+      "evidence": [
+        "Listing/capability matrix; entitlement evidence before live; ambiguous/dual-listing/GBX/NAV cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L3-S02",
+      "title": "Point-in-time ingestion and data health",
+      "phase_id": "PH-03",
+      "acceptance": [
+        "Pin source publication/observation/ingestion/known-at times, corporate actions, FX/calendar versions and quality flags.",
+        "Backfill toward ten years or inception where entitled; gaps/revisions/partial exposure history remain explicit and cannot be replaced by current constituents.",
+        "Handle provider disagreement, missing bars, market holidays/half-days/DST, quota failures and safe daily fallback with provenance."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-01",
+        "CAP-05",
+        "CAP-06"
+      ],
+      "evidence": [
+        "Provider contract fixtures; ingestion/revision/gap cases; per-market coverage report"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L3-S03",
+      "title": "Ledger performance, XIRR and benchmarks",
+      "phase_id": "PH-03",
+      "acceptance": [
+        "Consume approved L1 ledger/read/sufficiency contracts; compute XIRR and holdings only where required cash flows and prices exist, otherwise show supported partial analysis.",
+        "Specify GBP overview/local detail, FX date, fees/income/corporate-action and return conventions; choose holding, blended-portfolio and global equity benchmarks.",
+        "Use decimal money and independent known-answer reconciliation cases; never infer transactions from a holdings snapshot to manufacture XIRR."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-03"
+      ],
+      "evidence": [
+        "L1 contract join cases; financial golden fixtures; benchmark methodology approval"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L3-S04",
+      "title": "Portfolio exposure and risk facts",
+      "phase_id": "PH-03",
+      "acceptance": [
+        "Show portfolio/holding decline from peak and loss versus cost basis separately with explicit windows and missing-data eligibility.",
+        "Retain confirmed portfolio 10%/20% and holding 15%/25% warning/severe defaults as configurable, requiring agreed measurement/portfolio-priority weights.",
+        "Compute exposure/overlap/HHI/currency and scenario facts only from dated evidence; label provisional proxy or missing holdings exposure."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-03",
+        "CAP-06",
+        "CAP-08"
+      ],
+      "evidence": [
+        "Risk formula/window decision; concentration/loss golden fixtures; incomplete-cost/exposure cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L3-S05",
+      "title": "Daily and market-aware refresh orchestration",
+      "phase_id": "PH-03",
+      "acceptance": [
+        "Separate daily formal forecast readiness from supported 30-minute quote/risk schedules and broader daily research refresh.",
+        "Define per-market completion/watermark and last-success/next-due states; retries cannot create duplicate forecasts or hide missed jobs.",
+        "Budget batching, source quota, catch-up and throttled loops before enabling schedules."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-01",
+        "CAP-12"
+      ],
+      "evidence": [
+        "Market schedule examples; closed-market/missed-run cases; quota/cost envelope"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-10",
+        "FC-11",
+        "FC-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S01",
+      "title": "Forecast tasks, calendars and mature labels",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Define next trading day,5/20 trading days and3/6/12months: target, total/price/excess return, currency, calendar target date, maturity and correction policy.",
+        "Preserve3–5-year assumption-based scenarios separately; no score or maturity label implies future outcomes have already occurred.",
+        "Each prediction pins as-of/cutoff/task/horizon/model/calibration/data/code and probability or interval interpretation."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-05",
+        "CAP-09",
+        "CAP-10",
+        "CAP-18"
+      ],
+      "evidence": [
+        "ForecastTask examples for every horizon/market; maturity/holiday/correction cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S02",
+      "title": "Transparent rule and statistical baseline",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Specify the retained indicators/pillars, seeds/lookbacks and macro-basket completeness from forecasting-scope; NAV series do not receive fake candle features.",
+        "Implement only after approval: known-answer rules plus naïve/trend and reproducible bootstrap/linear baselines with explicit uncertainty meaning.",
+        "Distinguish rule strength from calibrated probabilities; preserve disabled/insufficient/no-clear-view states."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-02",
+        "CAP-04",
+        "CAP-05"
+      ],
+      "evidence": [
+        "Indicator and baseline contracts; per-kind golden fixtures; seeded replay report"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S03",
+      "title": "Walk-forward backtest and leakage controls",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Use temporal walk-forward folds with horizon-aware purge/embargo and train-only transforms/calibration; deliberately leaky fixtures must fail.",
+        "Record dataset hashes, code/feature/model versions, split dates, fees/spreads/income/FX, survivorship and history limits.",
+        "Report calibration/error/coverage/turnover/growth/drawdown/sample intervals and benchmarks; decide objective trade-offs and evidence thresholds before promotion."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-04",
+        "CAP-05",
+        "CAP-09",
+        "CAP-14"
+      ],
+      "evidence": [
+        "F1/F2 replay specification; leakage negative cases; reproducibility and subgroup report"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S04",
+      "title": "Risk regimes, analogs and event studies",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Preserve F3 regimes/volatility/downside and F4 analog/event modules with past-only smoothing, horizon-aware neighbour exclusion and uncertainty.",
+        "Numerical code computes event count/spread/interval; overlapping outcomes and multiple testing are accounted for.",
+        "Sparse/biased event data and missing point-in-time events yield low-evidence/unavailable states rather than a confident effect."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-05",
+        "CAP-06"
+      ],
+      "evidence": [
+        "F3/F4 schemas; analog overlap/leakage tests; market/event subgroup evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S05",
+      "title": "Directional and distribution challengers",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Preserve F5 tree/gradient challenger, direction/quantiles/calibration and interpretable drivers; conformal labels require demonstrated time-series coverage.",
+        "Run R0 rules/statistical→M1 numerical→M2 LLM-structured features→M3 approved family ablations, measuring incremental cost and evidence.",
+        "Choose A/B execution via PH00 ADR; no training calls or artefact promotion authorised by this story draft."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-05",
+        "CAP-09",
+        "CAP-18"
+      ],
+      "evidence": [
+        "Model adapter/evaluation pack; ablation and calibration plan; resource/cost estimate"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S06",
+      "title": "Pattern detectors and contribution experiments",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Retain F8 candle/chart/technical detectors with hand-marked examples, confirmation lag, per-kind eligibility and false-discovery/out-of-sample controls.",
+        "Retain F7 contribution/rebalance scenarios, protected positions/bands and fees, comparing downside improvement against lost growth.",
+        "Scenario assumptions and owner decision journal remain explicit; no broker credential or executable order exists."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-03",
+        "CAP-05",
+        "CAP-09"
+      ],
+      "evidence": [
+        "F7/F8 contracts and golden examples; strategy replay; no-trading cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S07",
+      "title": "Immutable forecast/outcome scorecards",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Append forecasts, revisions, mature outcomes and corrections; never overwrite unsuccessful predictions or score before maturity.",
+        "Show proof/eligibility, horizon/holding/model/regime track record and30/90/365-day summaries with sample sufficiency and censoring.",
+        "Durable audit and raw score evidence survive operational log expiry."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-09",
+        "CAP-10"
+      ],
+      "evidence": [
+        "Prediction/outcome schema; maturity/revision invariants; scorecard reconciliation"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L4-S08",
+      "title": "Challenger shadow, owner promotion and rollback",
+      "phase_id": "PH-04",
+      "acceptance": [
+        "Require baseline/mature-outcome evidence then shadow observation and explicit owner approval for every live model/calibration/strategy change.",
+        "Agree per-horizon metric thresholds, effectively independent sample sufficiency, shadow duration, subgroup gates and probation; eight weeks does not validate 12 months.",
+        "Pin previous compatible model/data/feature/calibration pointers; failed or drifted candidate stays disabled and rollback preserves audit."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-09",
+        "CAP-13",
+        "CAP-18"
+      ],
+      "evidence": [
+        "Promotion evidence contract; approval/rejection/rollback walkthrough; immature-evidence rejection cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "PL-07",
+        "CT-15"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S01",
+      "title": "Evidence ingestion and structured LLM factors",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Capture citations/content hashes/publication/known-at/extraction times and rights for news/filings/events/exposures; deduplicate and quarantine untrusted material.",
+        "Version extraction prompt/model/schema/confidence and tag possible hindsight in retrospective article extraction.",
+        "News sentiment/factors remain shadow until prospective or justified point-in-time ablation evidence permits approved use."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-06",
+        "CAP-07",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Evidence/factor contracts; source injection and time-contamination cases; citation audit"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S02",
+      "title": "Bounded direct Anthropic client-SDK agent runtime",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Specify official Python client-SDK loop on Lambda, direct Claude-hosted inference and typed validated tool results; do not use Anthropic Agent SDK subprocess runtime.",
+        "Nine reference responsibilities have allowlisted read-only scopes, budgets, timeout/turn/token caps and durable continuation/cancellation; roles need not all invoke an LLM.",
+        "Agents cannot trade, fetch secrets, alter ledger truth, edit model weights or promote themselves; budget admission precedes calls including evaluations."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-07",
+        "CAP-13",
+        "CAP-14"
+      ],
+      "evidence": [
+        "AgentManifest/tool schemas; denied-tool/timeout/continuation cases; cost trace"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S03",
+      "title": "Contextual chat and research cards",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Retain stance/profile/overlap/benchmark/bull-bear/scenario/valuation/earnings cards and shared cross-device conversation context.",
+        "Bound bull/bear to two arguments plus adjudication; source claims and numerics resolve to permitted evidence and deterministic calculators.",
+        "Chat cannot bypass forecast eligibility or fabricate missing prices/history; technical detail/glossary expand from concise answers."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-07",
+        "CAP-10",
+        "CAP-16"
+      ],
+      "evidence": [
+        "Card/conversation API examples; citation/numerical/abstention cases; UX context walkthrough"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S04",
+      "title": "Layered safety and quality evaluations",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Specify T0 deterministic checks,T1 bounded model cases,T2 end-to-end capability/safety cases plus online checks, sampled judges and owner calibration.",
+        "Test prompt injection, identity/privacy/cross-env leakage, ungrounded numbers, citation failures, no-trading and budget exhaustion; LLM judges do not replace realised outcomes.",
+        "Keep eval provenance/cost and human disagreement; approve release thresholds before activation."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-14",
+        "CAP-09"
+      ],
+      "evidence": [
+        "Evaluation pack and adversarial corpus; gate thresholds; human-calibration protocol"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S05",
+      "title": "Owner settings, approvals and scope controls",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Version schemas/ranges for risk/ranking/agent settings; show proposed impact,evidence,cost and rollback before sensitive approval.",
+        "Record verified owner decisions and reject stale/replayed approvals; denied requests cannot retry endlessly.",
+        "A configuration change cannot grant broader tools, sources, budgets or infrastructure authority."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-13",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Approval/settings state machine; stale/replay and privilege-boundary cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L5-S06",
+      "title": "Scoped memory and cache economics",
+      "phase_id": "PH-05",
+      "acceptance": [
+        "Keep owner-visible scoped notes, correction/forget controls, taint and source audit; notes cannot replace ledger values or approved settings.",
+        "Bound context and cache stable prefixes only within privacy scopes; measure savings and all cache costs.",
+        "Deletion/correction policy covers note derivatives without deleting required durable financial audit evidence."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-15",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Memory/cache schemas and retention join; isolation/forgetting cases; cache cost evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-13",
+        "PL-02",
+        "PL-03",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L6-S01",
+      "title": "Discovery-first web dashboard with launch cost visibility",
+      "phase_id": "PH-06",
+      "acceptance": [
+        "Adaptive accessible PWA opens on discovery/market view with main-dashboard costs, freshness, eligibility and separate holdings navigation.",
+        "Search/filter/saved watchlists include unowned candidates, peers/benchmarks/themes and impact on current overlap.",
+        "Use approved local design/package baseline; static Sites concept does not count as the PWA."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-16",
+        "CAP-17",
+        "CAP-08"
+      ],
+      "evidence": [
+        "Web state matrix and local design selection; eventual accessibility/visual evidence; cost join cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L6-S02",
+      "title": "Transparent ranked actions and disagreement",
+      "phase_id": "PH-06",
+      "acceptance": [
+        "Show add/hold/pause/trim/rebalance with holdings/candidate distinction,reasons,uncertainty,portfolio impact and horizon.",
+        "Apply eligibility/abstention before the combined 35% growth/40% protection/25% opportunity ranking, with component scores and agreed normalization/tie/action bands.",
+        "Expose rules,ML and LLM-assisted views separately; disagreement and unavailable inputs cannot be hidden by a single score."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-03",
+        "CAP-10",
+        "CAP-17"
+      ],
+      "evidence": [
+        "Ranking formula/action-band approval; missing/conflicting/tied case matrix; deterministic reference outputs"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L6-S03",
+      "title": "Balanced horizon proof and scenario experience",
+      "phase_id": "PH-06",
+      "acceptance": [
+        "Show nextday/5/20days, 3/6/12 months and separate 3–5-year scenario sections with cutoff,uncertainty,eligibility and evidence.",
+        "F6 side-by-side explanation, fan/range charts, regime/analog/event/pattern sheets and model/track-record proof remain accessible.",
+        "No-model/in-practice/disabled/stale/unavailable states work in chart and text alternatives; simple/technical modes preserve material uncertainty."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-05",
+        "CAP-10",
+        "CAP-16"
+      ],
+      "evidence": [
+        "Per-horizon state inventory; accessibility text alternatives; forecast/proof API join evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L6-S04",
+      "title": "Daily brief, risk alerts and decision journal",
+      "phase_id": "PH-06",
+      "acceptance": [
+        "Action-first summary 07:30 Europe/London with per-market timestamps, priorities,risks,changes and upcoming events; quiet hours 22:00–07:00.",
+        "Define material/critical thresholds,weekends,cooldown,dedup and denied-push fallback; immediate means after detection using available cadence.",
+        "Retain in-app/chat alerts,wrap/reflection requirements and I-acted journal; no alert executes an action."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-11",
+        "CAP-09"
+      ],
+      "evidence": [
+        "Notification/briefing state table; DST/quiet/missed/duplicate cases; privacy-safe payload examples"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L6-S05",
+      "title": "Web import, audit and recovery journey joins",
+      "phase_id": "PH-06",
+      "acceptance": [
+        "Consume detailed L1 preview/confirm/reversal/partial-history flows without diverging from canonical ledger contracts.",
+        "Join source→ledger→risk→forecast→action→outcome→audit with clear error/stale/permission states.",
+        "Cross-client deep links retrieve durable authorized state; offline mode labels cached ages and blocks unsafe writes."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-12",
+        "CAP-16"
+      ],
+      "evidence": [
+        "L1 story trace links; full journey walkthrough; offline/reconnect/error scenarios"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "FC-12",
+        "FC-16"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L7-S01",
+      "title": "Native SwiftUI within React Native shell",
+      "phase_id": "PH-07",
+      "acceptance": [
+        "Swift owns native views,persistence,widgets and secure-device integration; RN shell owns navigation/bridge contracts.",
+        "Deliver approved adaptive dashboard,holdings,imports,forecast/proof,chat,cost and approval journeys across iPhone/iPad/Duo matrix.",
+        "Test shared API/event and shell/native schema compatibility and discoverable error/recovery states."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-16"
+      ],
+      "evidence": [
+        "Bridge contract; device/OS acceptance matrix; native snapshots and contract results"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-14",
+        "CT-18"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L7-S02",
+      "title": "Offline cache, privacy and accessibility",
+      "phase_id": "PH-07",
+      "acceptance": [
+        "Encrypt/cache only approved data,display per-record age,refetch after reconnect and revoke access/session caches appropriately.",
+        "VoiceOver,Dynamic Type,reduced motion,focus/chart alternatives and large/adaptive layouts satisfy agreed acceptance.",
+        "No confidential holdings appear on lockscreen,app snapshots or exported share content by default without approved settings."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-16",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Offline/revoked-session tests; native accessibility walkthrough; privacy state matrix"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-14",
+        "CT-18"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L7-S03",
+      "title": "PWA/native push and permission fallbacks",
+      "phase_id": "PH-07",
+      "acceptance": [
+        "Implement first-version app/chat,native and PWA push per verified OS/browser capability and user permission.",
+        "Use durable outbox,dedup/deep links,quiet hours and neutral payloads; denied/background-disabled delivery remains visible in-app.",
+        "Measure delivery limitations; do not promise instant OS delivery or infer no risk from silence."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-11",
+        "CAP-16"
+      ],
+      "evidence": [
+        "Supported-platform evidence; permission/quiet/duplicate/deep-link cases"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-14",
+        "CT-18"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L7-S04",
+      "title": "Native capability backlog without hidden scope loss",
+      "phase_id": "PH-07",
+      "acceptance": [
+        "Specify widgets,share-sheet intake,search/deep links,Siri/AppIntents and long-job Live Activities with privacy,availability and cost constraints.",
+        "Classify each capability launch-required or later activation by explicit owner choice; no silent removal of inherited scope.",
+        "Keep Android product screens outside current agreed release scope; RN shell does not imply an Android UI."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-16"
+      ],
+      "evidence": [
+        "Capability/release decision table; platform fallback and privacy examples"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-14",
+        "CT-18"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L8-S01",
+      "title": "Release readiness and reconciled actual-input onboarding",
+      "phase_id": "PH-08",
+      "acceptance": [
+        "Require approved full baseline/UX,per-layer acceptance and whole-product contracts/evidence; no Jira status proves release readiness.",
+        "Actual holdings/listings/documents may be added progressively; verify identity,source entitlements and named layout coverage before their real use, retaining unsupported review/manual paths.",
+        "No live claims or training accuracy derives from synthetic fixtures; no deployment/spend follows automatically from draft approval."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-14",
+        "CAP-19"
+      ],
+      "evidence": [
+        "Release trace/coverage matrix; named-live-universe and layout sign-off; remaining-gap decision"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L8-S02",
+      "title": "Restore, rollback and monthly audit exercises",
+      "phase_id": "PH-08",
+      "acceptance": [
+        "Agree RPO/RTO by record class,perform monthly focused exercises plus relevant storage/import/audit change checks.",
+        "Restore original versions,ledger,audit,outcomes,approval and model pointers into isolated recovery target and reconcile counts/hashes/financial balances.",
+        "Exercise rollback of app/contracts/model/calibration and failed import reversal; no destructive restore into production or automatic expiry deletion."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-08",
+        "CAP-09",
+        "CAP-12"
+      ],
+      "evidence": [
+        "Recovery runbook and approved targets; isolated restore report; source-to-record reconciliation"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L8-S03",
+      "title": "Resilience, incidents and bounded self-recovery",
+      "phase_id": "PH-08",
+      "acceptance": [
+        "Test queue/DLQ/replay limits,out-of-order conversation events,market outage,missed forecast,expired source access and stalled collector.",
+        "Self-recovery uses approved bounded actions only; no agent may edit infrastructure or buy a provider.",
+        "Correlate alert→incident→run→source/model evidence; avoid hidden lost events behind a healthy service health endpoint."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-12",
+        "CAP-13",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Failure injection matrix; replay/idempotency audit; missed-job and billing-stale alerts"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L8-S04",
+      "title": "Whole-release security, scientific and cost gates",
+      "phase_id": "PH-08",
+      "acceptance": [
+        "Run relevant API/schema/ledger/scientific/no-leakage/agent/accessibility/native/offline/privacy/security gates before any separately approved independent review.",
+        "Demonstrate full launch usage and budget fallbacks within £100 aggregate,including dev/prod/evals/collectors/SSE/backups/builds and unverified/no credit cases.",
+        "Review blockers,non-blocking issues and rollback readiness; live model gate remains separate from application release approval."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-14",
+        "CAP-16",
+        "CAP-09"
+      ],
+      "evidence": [
+        "Risk-based gate report; per-market/horizon coverage; aggregate cost and credit failure evidence"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L8-S05",
+      "title": "Owner operations and admin requirements",
+      "phase_id": "PH-08",
+      "acceptance": [
+        "Capture admin requirements now: uploads/versions,ledger updates,runs/tools/models/evals,health,cost and approvals; owner designs the full portal later.",
+        "Ship required audit/owner controls in approved launch UX; later portal styling does not defer main-dashboard cost visibility or critical recovery controls.",
+        "Retain pause switches,incident escalation,monthly evidence review and documented owner procedures."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-12",
+        "CAP-13"
+      ],
+      "evidence": [
+        "Admin requirements/permission inventory; launch-versus-later UX decision; operations walkthrough"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-11",
+        "CT-14"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L9-S01",
+      "title": "Validated market and instrument extensions",
+      "phase_id": "PH-09",
+      "acceptance": [
+        "Use versioned MarketProfile/InstrumentKind/DataSource contracts for mainland China,Taiwan,Hong Kong and continental Europe as later scope.",
+        "Check venue/calendar/currency/dual-listing mappings,rights,history,delay and budget; unsupported handlers need tested code and approved deployment.",
+        "Each market/kind receives contract,replay,shadow and owner activation evidence; avoid projecting US-only validation across markets."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-18",
+        "CAP-01"
+      ],
+      "evidence": [
+        "Extension admission checklist; hypothetical region/kind cases; incremental cost/rights evidence before activation"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L9-S02",
+      "title": "Themes, segments and bounded broad-universe research",
+      "phase_id": "PH-09",
+      "acceptance": [
+        "Version dated many-to-many theme membership and sources; distinguish marketing labels from measured economic exposures.",
+        "Use batched daily quantitative screening and a bounded LLM shortlist; compare themes/peers/benchmarks and holdings overlap.",
+        "Historical theme studies use historical constituents; expanded universe/data/model load must fit approved aggregate cost."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-17",
+        "CAP-18",
+        "CAP-06"
+      ],
+      "evidence": [
+        "Theme/screen contracts; look-ahead/overlap cases; bounded workload plan"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L9-S03",
+      "title": "New features, model families and horizons",
+      "phase_id": "PH-09",
+      "acceptance": [
+        "Version FeatureSet/ModelAdapter/ForecastTask/Strategy/AgentManifest/EvaluationPack schemas and supported capability matrix.",
+        "New computation requires tested trusted code,resource costing,ablation/mature outcomes/shadow evidence and owner promotion.",
+        "No arbitrary runtime code/plugin download or self-authorized model/tool/budget expansion."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-18",
+        "CAP-09",
+        "CAP-14"
+      ],
+      "evidence": [
+        "Plugin compatibility suite plan; admission/rejection examples; owner rollout protocol"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L9-S04",
+      "title": "Optional MA interchange and eventual retirement boundary",
+      "phase_id": "PH-09",
+      "acceptance": [
+        "No shared live database or required MA API; any optional export/import needs an approved versioned file contract and reconciliation.",
+        "Before any later MA advanced-Forecaster retirement,refresh source/code/runtime inventory,prove agreed parity/history preservation,recovery and explicit cutover scope.",
+        "MA rules,tracking and XIRR remain; no MA page/issue/source/runtime change is authorized by this plan or its MP story mapping."
+      ],
+      "contracts": [],
+      "depends_on": [],
+      "requirements": [
+        "CAP-19",
+        "CAP-08"
+      ],
+      "evidence": [
+        "Boundary ADR; conditional parity/cutover checklist; explicit not-authorized record"
+      ],
+      "granularity": "umbrella_requires_decomposition",
+      "jira_key": null,
+      "gap_ids": [],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S01",
+      "title": "Owner-scoped accounts and listing identities",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Stable security/share-class and listing identities distinguish venue, trading currency and quote units; aliases are effective-dated.",
+        "ISIN/name-only ambiguity produces candidate matches for owner confirmation, never a guessed listing.",
+        "Owner/environment scope is enforced at every read/write and account mapping; fixture IDs remain real and private actual holdings stay deferred.",
+        "Account/wrapper labels retain source context without implementing unverified tax rules."
+      ],
+      "contracts": [
+        "ScopeEnvelope",
+        "InstrumentListing",
+        "InvestmentAccount"
+      ],
+      "depends_on": [
+        "L1-S15"
+      ],
+      "requirements": [
+        "DEC-003",
+        "DEC-029",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E02",
+        "L1-E03"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S02",
+      "title": "Private validated upload intake",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Byte limits, magic type, checksum, archive/page/pixel/runtime checks and quarantine status precede extraction; exact limit values need approval.",
+        "Original bytes/version and an upload record exist before processing; an object-created notification cannot mark a ledger import committed.",
+        "Repeated/out-of-order upload notifications and orphaned objects reconcile idempotently; rejected uploads have a visible reason.",
+        "Protected originals remain private; upload authorization is scoped/short-lived and app-side single-use semantics are enforced rather than assumed from a signed URL."
+      ],
+      "contracts": [
+        "SourceDocument",
+        "ScopeEnvelope"
+      ],
+      "depends_on": [
+        "L1-S13",
+        "L1-S15"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-020",
+        "DEC-034",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E01"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S03",
+      "title": "Versioned extraction for every agreed method",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Deterministic parsers handle supported layouts; document/image LLM extraction is bounded, tool-free and produces validated typed proposals with source locations.",
+        "Every field records raw/normalized values, parser/model/schema version and page/sheet/row/cell evidence; missing data remains missing.",
+        "Cells/macros/formulas/links and document instructions are untrusted; no script/formula/network execution is needed to import a workbook.",
+        "Generic fixtures are distinguished from validated broker layouts; encrypted PDFs are unlocked only through the approved secure local flow, never a logged/model password."
+      ],
+      "contracts": [
+        "ExtractionCandidate",
+        "SourceDocument"
+      ],
+      "depends_on": [
+        "L1-S02"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E01",
+        "L1-E03"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S04",
+      "title": "Instrument and account matching",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Matching uses verified identifiers plus venue/currency/share-class context and preserves confidence/evidence.",
+        "Unknown/ambiguous matches block only dependent rows until explicit mapping; choosing a mapping creates a new draft revision.",
+        "A factsheet alone can describe a candidate instrument but cannot invent owner units, cost or purchase history.",
+        "A mapping/template reused later is versioned and scoped; it cannot silently turn one listing into another because a ticker or name looks similar."
+      ],
+      "contracts": [
+        "InstrumentListing",
+        "ExtractionCandidate",
+        "ImportDraft"
+      ],
+      "depends_on": [
+        "L1-S01",
+        "L1-S03"
+      ],
+      "requirements": [
+        "DEC-003",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E02",
+        "L1-E03"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S05",
+      "title": "Exact normalization of money, dates and events",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Finite decimal strings and explicit units are used; GBX converts to GBP exactly once, and unknown fees/currencies are not silently zero/defaulted.",
+        "Source booked net amounts, unit prices, fees/withholding and FX execution/reference rates remain distinguishable and reconcile under an approved tolerance.",
+        "Trade/effective, settlement, observed/available and recorded times have explicit meanings; date-only input is not invented into a precise UTC instant.",
+        "Each supported event has validated cash/quantity legs; transfers/FX/splits preserve economic boundaries and never sum unlike units."
+      ],
+      "contracts": [
+        "Money",
+        "LedgerEvent",
+        "PositionObservation"
+      ],
+      "depends_on": [
+        "L1-S04"
+      ],
+      "requirements": [
+        "DEC-007",
+        "DEC-014",
+        "DEC-029",
+        "DEC-039"
+      ],
+      "evidence": [
+        "L1-E02",
+        "L1-E06",
+        "L1-E07"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S06",
+      "title": "Preview, guided edits and explicit subset selection",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Preview shows every accepted/blocked/duplicate/excluded row, account and instrument mapping, before/after values, errors and metric eligibility.",
+        "An edit/subset/mapping/parser change creates a new canonical draft hash and invalidates earlier approval.",
+        "The default partial-file policy remains an owner choice; any approved subset is independently consistent, explicit and traceable.",
+        "Confirm/Edit/Cancel/resume/stale/expired states have accessible web/native acceptance scenarios; document content cannot self-approve."
+      ],
+      "contracts": [
+        "ImportDraft",
+        "ReconciliationResult"
+      ],
+      "depends_on": [
+        "L1-S05",
+        "L1-S07"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-014",
+        "DEC-016"
+      ],
+      "evidence": [
+        "L1-E01",
+        "L1-E03",
+        "L1-E09"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S07",
+      "title": "Business deduplication and replay-safe identity",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "File identity, source row identity and economic-event identity are separate, scoped and versioned.",
+        "Stable provider/account transaction references suppress true replays; two genuine same-date/same-amount trades with distinct IDs remain two events.",
+        "Without sufficient reference evidence, a near/exact-content collision is reviewed rather than automatically discarded or inserted.",
+        "Reprocessing with a new parser does not bypass economic dedup; a changed fact becomes a correction proposal, not a second original trade."
+      ],
+      "contracts": [
+        "ImportDraft",
+        "LedgerEvent",
+        "CommitReceipt"
+      ],
+      "depends_on": [
+        "L1-S05"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-021",
+        "DEC-039"
+      ],
+      "evidence": [
+        "L1-E04",
+        "L1-E05"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S08",
+      "title": "Owner approval and atomic visible commit",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Approval binds owner/environment, canonical selected rows, draft hash and expected ledger revision with server-verified authentication and expiry.",
+        "Concurrent/stale/expired/wrong-scope requests refuse mutation; an ambiguous timeout resolves through the existing durable receipt.",
+        "A successful logical commit couples financial changes, required audit and outbox obligations; staged work is invisible to all consumers until a valid activation marker.",
+        "Large workbooks use a proven bounded/fenced staging design or another approved atomic-visibility strategy; transaction item/byte limits include metadata/audit and cannot be treated as row counts."
+      ],
+      "contracts": [
+        "OwnerApproval",
+        "CommitReceipt",
+        "LedgerEvent",
+        "AuditEvidence"
+      ],
+      "depends_on": [
+        "L1-S06",
+        "L1-S13",
+        "L1-S15"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-021",
+        "DEC-037"
+      ],
+      "evidence": [
+        "L1-E04",
+        "L1-E09",
+        "L1-E10"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S09",
+      "title": "Deterministic ledger replay and versioned projections",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Rebuilding from the same committed events/policy versions produces identical projections; caches are not financial truth.",
+        "Trade/settlement and transfer ordering is explicit; unresolved ties or unsupported margin/short behaviour are surfaced rather than guessed.",
+        "Failed/staged/superseded work cannot leak into active holdings, metrics, agent context or read APIs.",
+        "A later complete history reconciles with an opening observation and activates a new baseline/window, never adds the same units twice."
+      ],
+      "contracts": [
+        "LedgerEvent",
+        "CommitReceipt",
+        "PositionObservation"
+      ],
+      "depends_on": [
+        "L1-S08"
+      ],
+      "requirements": [
+        "DEC-014",
+        "DEC-021"
+      ],
+      "evidence": [
+        "L1-E06",
+        "L1-E07",
+        "L1-E11"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S10",
+      "title": "Cash, units and valuation reconciliation",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Cash/quantity/fees/FX/unit/date/coverage differences are classified with source and derived values and an approved tolerance.",
+        "An unexplained difference cannot be cleared by an invented plug trade or silent overwrite.",
+        "Price and FX timestamps/availability/quality accompany totals; an unpriced holding leaves a partial total and visible missing coverage.",
+        "Owner resolution records the reason and source and creates a new revision when financial facts change."
+      ],
+      "contracts": [
+        "ReconciliationResult",
+        "MetricResult"
+      ],
+      "depends_on": [
+        "L1-S09"
+      ],
+      "requirements": [
+        "DEC-014",
+        "DEC-029"
+      ],
+      "evidence": [
+        "L1-E01",
+        "L1-E02",
+        "L1-E08"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S11",
+      "title": "Corrections, reversal and baseline rebase",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Corrections and import-level reversal are separate preview/approval operations linked to original events and sources.",
+        "Dependent later events and observations are assessed before reversal; a bulk delete cannot leave impossible quantities or remove audit history.",
+        "Recomputed views are versioned/restated while issued forecasts and their input revisions remain historically identifiable.",
+        "A repeated correction/reversal request returns the same result and does not reapply its effects."
+      ],
+      "contracts": [
+        "LedgerEvent",
+        "ImportDraft",
+        "AuditEvidence"
+      ],
+      "depends_on": [
+        "L1-S08",
+        "L1-S09"
+      ],
+      "requirements": [
+        "DEC-021",
+        "DEC-039"
+      ],
+      "evidence": [
+        "L1-E11"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S12",
+      "title": "Incomplete holdings and eligible performance measures",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Missing purchase history/fees/FX is represented as per-measure insufficiency, not fabricated transactions or a zero return.",
+        "Holding/account/portfolio XIRR uses its own defined flow boundary, dated signs, terminal valuation and FX convention; internal portfolio trades/dividends/transfers are not external contributions.",
+        "Solver failure, ambiguous multiple roots, same-day-only histories or incomplete terminal valuation return an explicit unavailable/ambiguous result with evidence.",
+        "Known-answer and invariant examples verify monetary residuals and rate tolerances with correct units; synthetic outcomes never prove predictive skill."
+      ],
+      "contracts": [
+        "PositionObservation",
+        "MetricResult"
+      ],
+      "depends_on": [
+        "L1-S09",
+        "L1-S10"
+      ],
+      "requirements": [
+        "DEC-007",
+        "DEC-011",
+        "DEC-014",
+        "DEC-029"
+      ],
+      "evidence": [
+        "L1-E03",
+        "L1-E06",
+        "L1-E07",
+        "L1-E12"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S13",
+      "title": "Originals, audit, retention and recovery lineage",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Every authoritative change carries durable source/actor/approval/commit links; required business lineage is unsampled and separate from short-lived operational telemetry.",
+        "Original retention is renewable24months with owner extension/deletion, without assuming automatic expiry or irreversible Object Lock.",
+        "A source-deletion request and backup restore cannot resurrect content; remaining evidence joins expose deleted/unavailable source state honestly.",
+        "Synthetic missing/altered-audit-event exercises are detected using the approved threat model/anchoring design; a hash chain alone is not described as tamper-proof."
+      ],
+      "contracts": [
+        "SourceDocument",
+        "AuditEvidence"
+      ],
+      "depends_on": [
+        "L1-S15",
+        "L1-S01"
+      ],
+      "requirements": [
+        "DEC-020",
+        "DEC-021",
+        "DEC-034",
+        "DEC-035",
+        "DEC-036"
+      ],
+      "evidence": [
+        "L1-E01",
+        "L1-E10",
+        "L1-E11"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S14",
+      "title": "Scoped portfolio reads, progress and accessible clients",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "Paginated reads serve owner/account/instrument/date/status access patterns with version/cursor and quality metadata; no unbounded table scan is the default.",
+        "SSE reconnect/resume and durable GET recovery cannot lose commit truth or repeat a mutation; starter volatile SSE is not claimed production-ready.",
+        "Private values appear only in authorized app views; privacy mode, VoiceOver, responsive/iPad layout and offline/stale states are specified before implementation.",
+        "Read-only agents cite the same committed version/evidence; a notification or model summary cannot become an alternative ledger."
+      ],
+      "contracts": [
+        "DomainNotification",
+        "MetricResult",
+        "CommitReceipt"
+      ],
+      "depends_on": [
+        "L1-S09",
+        "L1-S12",
+        "L1-S15"
+      ],
+      "requirements": [
+        "DEC-009",
+        "DEC-018",
+        "DEC-021",
+        "DEC-029",
+        "DEC-030"
+      ],
+      "evidence": [
+        "L1-E08",
+        "L1-E09"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S15",
+      "title": "Owner/environment isolation and bounded processing costs",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "API/worker/source-access/commit paths recheck owner/environment and prevent fixture loading into live data; no trading or broker execution credentials exist.",
+        "Signed source links, raw fields/prompts/passwords/account numbers and holdings values do not enter general telemetry or push previews.",
+        "Extraction/retry/queue work has bounded file/time/token/concurrency reservations and idempotent usage accounting; unknown credit pauses uncovered model calls.",
+        "Import activity links to the main per-env Claude/AWS cost dashboard; collectors remain cached/scheduled, with no paid billing call per UI refresh."
+      ],
+      "contracts": [
+        "ScopeEnvelope",
+        "OwnerApproval",
+        "SourceDocument"
+      ],
+      "depends_on": [],
+      "requirements": [
+        "DEC-022",
+        "DEC-023",
+        "DEC-024",
+        "DEC-025",
+        "DEC-026",
+        "DEC-037",
+        "DEC-038",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E09",
+        "L1-E10"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    },
+    {
+      "id": "L1-S16",
+      "title": "Layer acceptance and later real-sample qualification",
+      "phase_id": "PH-01",
+      "acceptance": [
+        "All declared L1 examples pass across local/dev with real identifiers and simulated observations; source originals/golden records remain intact.",
+        "Fault injection covers duplicate delivery, stale approvals, crash-midstage, ambiguous commit response, source tampering, cross-scope access and deletion-after-restore.",
+        "Generic PDF/PNG/CSV foundations are accurately labelled; missing Excel/real-broker/photographed-image cases remain visible until filled and tested.",
+        "Implementation readiness requires approved unresolved choices, source/data rights before live use, tested supported layouts, complete UX and trace from requirements to evidence; phase status or a diagram alone cannot certify completion."
+      ],
+      "contracts": [
+        "SourceDocument",
+        "ImportDraft",
+        "CommitReceipt",
+        "MetricResult",
+        "AuditEvidence"
+      ],
+      "depends_on": [
+        "L1-S01",
+        "L1-S02",
+        "L1-S03",
+        "L1-S04",
+        "L1-S05",
+        "L1-S06",
+        "L1-S07",
+        "L1-S08",
+        "L1-S09",
+        "L1-S10",
+        "L1-S11",
+        "L1-S12",
+        "L1-S13",
+        "L1-S14",
+        "L1-S15"
+      ],
+      "requirements": [
+        "DEC-005",
+        "DEC-014",
+        "DEC-021",
+        "DEC-039",
+        "DEC-041"
+      ],
+      "evidence": [
+        "L1-E01",
+        "L1-E02",
+        "L1-E03",
+        "L1-E04",
+        "L1-E05",
+        "L1-E06",
+        "L1-E07",
+        "L1-E08",
+        "L1-E09",
+        "L1-E10",
+        "L1-E11",
+        "L1-E12"
+      ],
+      "granularity": "detailed_draft_pending_decisions_and_UX",
+      "jira_key": null,
+      "gap_ids": [
+        "PL-08",
+        "CT-03",
+        "IR-02"
+      ],
+      "implementation_authorised": false,
+      "readiness": "blocked_on_architecture_and_UX"
+    }
+  ],
+  "story_count": 64,
+  "counts": {
+    "detailed_import_drafts": 16,
+    "umbrella_drafts": 48
+  },
+  "readiness_limit": "Detailed import drafts and 48 umbrellas are not certified ready; decompose/allocate target Jira stories before UX. Existing PH identifiers preserved."
+}

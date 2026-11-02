@@ -1,0 +1,2159 @@
+{
+  "as_of": "2026-11-02",
+  "page_count": 83,
+  "page_inventory_complete": true,
+  "source_pages": [
+    {
+      "id": "1540302",
+      "title": "§18 · Environments, domains and delivery",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540302",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "3e6be17e985a926f10206762b0f7bfeb1bfd208cd2fbdfba19f7207c6476a21b",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-01",
+        "PL-06",
+        "PL-09",
+        "PL-10",
+        "PL-11"
+      ],
+      "concepts": [
+        "Environment separation",
+        "Identity and domains",
+        "Local synthetic mode",
+        "IaC and artifact promotion"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1409219",
+      "title": "§9 · The two doors: the iOS app and the web app",
+      "version": 28,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1409219",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "d791719392062451b47e46a15dd5764310bbd43fce152bdf72cca3b79d96a373",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "🎬 See it move",
+        "9. The iOS app",
+        "9.1 The shell, the chat and the size classes",
+        "9.2 Example cards",
+        "9.3 The dashboard, inside the app",
+        "9.4 The web app: the dashboard and the Admin center in a browser",
+        "9.5 The iOS app&#39;s build: a React Native shell with a native SwiftUI core",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Agent Journey"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1671250",
+      "title": "🇮🇳 §22 · Indian markets",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671250",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "812c77e1e441a8b26602397859f866219ea1b510eb7deb69abacb3359b29d23e",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-01",
+        "FC-10",
+        "FC-15"
+      ],
+      "concepts": [
+        "India instrument/account identities",
+        "CAS/broker import",
+        "NAV versus candles",
+        "local calendar and macro basket",
+        "INR/GBP"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1736765",
+      "title": "🇮🇳 Flows · India in the picture",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736765",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "65f238a3f241b3a71caf551444586633073151c0efa635cc3d19c8f7a91aa438",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "15 · Money in any currency, checked against the holding",
+        "📌 What the member types, and what MyPaisa does",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "16 · Importing the existing Indian portfolio, once",
+        "📌 The files to send",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1736725",
+      "title": "✉️ Inside MyPaisa: one message, the agent team, the safety nets and a day",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736725",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "17f1d662509a50e1a430cc6b9ff0082473a3ca351d14bf6bacfa2838fd9d74d2",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-05",
+        "CT-06",
+        "CT-09"
+      ],
+      "concepts": [
+        "Message flow, specialist responsibilities and admin approval",
+        "Safety nets, daily operation and failure-state narrative"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1736705",
+      "title": "✍️ §4.9 to §4.10 · Commitments, check-ins and writing",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736705",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "ca7c4d5a8d91eda78d36d2f3fdd64a5cc2e18a488c191e731bcb4375edd844ab",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Household commitments excluded; contribution reminders and safe writes considered separately.",
+      "gap_ids": [],
+      "concepts": [
+        "🎬 See it move",
+        "4.9 Commitments and check-ins",
+        "4.10 Writing: create in the chat, correct in place",
+        "🧩 The stories that build it",
+        "🔗 The explainer pages",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1704077",
+      "title": "➕ Flows · Adding a holding and logging money",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704077",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "79e5a1894336d39930e20b888994b91402e927645506bf72e576b7805995bd32",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-03",
+        "CT-08"
+      ],
+      "concepts": [
+        "Add a holding from evidence, validate and confirm",
+        "Changes audited with exact source and numerical parsing"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1704097",
+      "title": "🌅 Flows · The market's day: the brief and an alert",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704097",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "b94b22e316371a507a7b6fb16980d3779aac85b80c2c279860956656bc083246",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "05 · The 07:15 morning brief, end to end",
+        "📌 The morning, by the clock",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "06 · A red alert after the US close",
+        "📌 The gates, all in code",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1703977",
+      "title": "🏗️ The Lucid drawings, and how they are made",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703977",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "a98ef68e2a518def1bd791303f9774bbf79a6f574af1ab720ef356b24e8840b3",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-02"
+      ],
+      "concepts": [
+        "Native AWS Lucid views",
+        "Source and exports",
+        "Technical diagram governance"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1671170",
+      "title": "🏛️ The architecture, area by area",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671170",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "431f062b29238fb810a3c24970904aa5767c449ff30dc723461af9e2c90d9f2a",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [],
+      "concepts": [
+        "🗺️ The map of the sections",
+        "🌐 The system, at a glance",
+        "📜 Before section 1: what MyPaisa is"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1704057",
+      "title": "🏠 Inside MyPaisa: the admin's journey in nine steps",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704057",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "4c57c22596b9bfc704ce7cafd72ec65f181eaf90d37490aa104afb784020c156",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "Nine-step owner journey connecting onboarding, holdings, analytics and admin",
+        "Plain-language explanation and progressive evidence drill-down"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1442122",
+      "title": "🏡 Flows · The household's whole wealth, by talking",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442122",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "fdc10e51f5f394a835fbc8bae82fb52cf3306a1751d717f4185a3192592881ff",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Whole-wealth domain scope excluded; generic confirm/correct/import/approval concepts retained.",
+      "gap_ids": [],
+      "concepts": [
+        "19 · Registering anything by talking",
+        "🛤️ The paths",
+        "👀 What the members see",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "20 · Correcting a figure in place",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "21 · A check-in: the agent asks, one tap records it",
+        "🛤️ The path"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1769473",
+      "title": "👥 §20 · The agent team",
+      "version": 14,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769473",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "667eb8c4eb67a769c863d6ae31a443d670fc086ba8c1c9aef8b950d812cdaa76",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-02",
+        "CT-07",
+        "CT-11",
+        "CT-14",
+        "CT-15"
+      ],
+      "concepts": [
+        "Logical agent responsibilities, versioned settings and owner ChangeRequest desk",
+        "Grading/calibration, bounded self-healing, team budgets, learning boundaries"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1147125",
+      "title": "💬 Flows · Asking, and seeing it at every door",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147125",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "a15da151837c8a65e53e40b46be3d05f7780bb9842e0156fffbcb785f8b3643b",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "07 · Asking a question in chat",
+        "📌 Chat memory: keep it all, send little",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "08 · The dashboard in the app",
+        "🛤️ The path",
+        "👀 What the member sees",
+        "🛡️ Safeguards on this path",
+        "🧩 Built by",
+        "09 · On the iPad: reading Home while asking about it"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1442062",
+      "title": "💷 §15 · Cost, the Claude budget, caps and alerts",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442062",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "fe77c69c627d072375c83b4c07c4af49dd098927b08a5ee4cbed28299ca1b0cb",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-13",
+        "CT-18"
+      ],
+      "concepts": [
+        "Usage metering, tiered degradation and owner-configurable limits",
+        "Alert routing and recovery, provider-credit assumptions need MP replacement"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1769493",
+      "title": "📈 The Market Agent, end to end",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769493",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "fa806ef01e3973db820126525569d11a431fb9882749114c0f234d9f5998f06b",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-03",
+        "FC-06",
+        "FC-11",
+        "FC-12",
+        "FC-13"
+      ],
+      "concepts": [
+        "integrated market path",
+        "source chain",
+        "exposure-weighted news",
+        "two engines",
+        "learning and portfolio experiments",
+        "India adaptation"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1703937",
+      "title": "📘 The record: the whole architecture and every journey",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703937",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "57cf49009f2cd38ab264f3fd6adafa4987a6abd3398b0469cad0f51c97f2beac",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [],
+      "concepts": [
+        "🏛️ The architecture",
+        "🧭 The journeys",
+        "🏗️ The drawings",
+        "🎨 How to read it",
+        "✨ The live, interactive pages",
+        "Inside MyPaisa",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey",
+        "MyPaisa Market Agent",
+        "MyPaisa Guardrails and Evals",
+        "📚 Every page of the record"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1704017",
+      "title": "📜 §16 to §17 · The decisions and the open questions",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704017",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "60d5818c7cd0caef2202de8801824fa2cd2826f73721c6c8f9652f3469b60f8e",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-01"
+      ],
+      "concepts": [
+        "16. Decisions (v2)",
+        "17. Open questions",
+        "🧩 The stories that build it"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1769513",
+      "title": "📟 The first journeys, on the Telegram bot (kept for reference)",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1769513",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "228120c045ad095a9eda3fa7c9aa7dc133bc7efcb3ac98d343c2351dad817e2e",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Retired Telegram journey is historical only; retain no Telegram runtime requirement.",
+      "gap_ids": [],
+      "concepts": [
+        "📱 First open",
+        "📱 Add a holding",
+        "📱 Morning brief",
+        "📱 Ask why",
+        "📱 Should I add?",
+        "📱 Red alert",
+        "📱 Saturday review",
+        "📱 Settings by chatting",
+        "🗓️ A week in the life",
+        "🗓️ The first months",
+        "🗓️ Rules every journey keeps"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1147045",
+      "title": "📡 §5 to §7 · Prices, FX and the rules engine",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147045",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "36c8e67cf0f6d8f94b844a6ca2e9bac11d730cd8b3c2720eb982fd3bb8886058",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-07",
+        "FC-11",
+        "FC-12",
+        "FC-14"
+      ],
+      "concepts": [
+        "per-kind provider adapters",
+        "look-through",
+        "FX/calendar contracts",
+        "deterministic indicators/pillars",
+        "stance cascade",
+        "heuristic strength",
+        "bootstrap distribution",
+        "research cards"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1442082",
+      "title": "📬 §21 · Queues and live delivery",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442082",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "28f8718e963d190170c7c5efb9e3c0d619730d2fcb027b45001cec496c77b1af",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-04",
+        "PL-05"
+      ],
+      "concepts": [
+        "Queues",
+        "Idempotency",
+        "DLQ and replay",
+        "SSE order and resumption"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1540282",
+      "title": "🔐 §4.5 · Identity, members and views",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540282",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "1d056edbdb9fe0b68e884d457f2e055ef0d7152f7d7b00babfe0cd1c6adf5808",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-01",
+        "CT-17"
+      ],
+      "concepts": [
+        "Identity federation/passkeys, action-bound server-verified fresh authentication",
+        "Sessions/device revocation, linking/recovery, household roles must be adapted to personal MP"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1147105",
+      "title": "🔑 Flows · Joining and signing in",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147105",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "ae8ea3aa59d03a970c0fce17665552597811c9155e4eb64baa1f8a85deb32bc4",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-01",
+        "CT-17"
+      ],
+      "concepts": [
+        "Sign-in and linking journeys, recovery and server second check",
+        "Provider/passkey branches and revoked/expired challenge cases"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1703997",
+      "title": "🔔 §11 to §13 · Notifications, the road from the wealth tracker, and the stack",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703997",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "5051ba65a9e16fc1fe1742bb215cf5075200b36bc0249656c59d775d07fc5821",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-14"
+      ],
+      "concepts": [
+        "Briefs and notifications",
+        "Push channels",
+        "Typed stack",
+        "Historical migration context"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1671230",
+      "title": "🔭 §10 · Observability: one trace from the door to the model",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671230",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "6f22e0f2bdd3975c73816381fd1fe17c43a9488350acb8b69dbdcfb15fe5e75b",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-06",
+        "CT-12",
+        "CT-13",
+        "CT-18"
+      ],
+      "concepts": [
+        "RunRecord as protected operational evidence, cross-boundary trace/correlation",
+        "Model/tool spans, metrics, alarms, client evidence, privacy/retention/cost"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1704037",
+      "title": "🔮 §19 · The Forecaster",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1704037",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "17db59873688b403adde4c337613dc98b8b9d8138e94cf13d449599419a7755f",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-01",
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-13",
+        "FC-14",
+        "FC-16"
+      ],
+      "concepts": [
+        "F1 known-at data",
+        "F2 walk-forward lab",
+        "F3 regime and downside",
+        "F4 analogs/events",
+        "F5 distributions",
+        "F6 proof",
+        "F7 contribution experiments",
+        "F8 technical patterns",
+        "practice/promotion/off-switch"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1442042",
+      "title": "🗂️ §4 · The holdings registry and the data model",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442042",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "44b36901da0261100d09a6883f604c2f1a37011b58dd0e0ae6394d45b438e2f8",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-10",
+        "FC-11"
+      ],
+      "concepts": [
+        "listing/record/event identities",
+        "audited imports",
+        "typed instrument kinds",
+        "source provenance",
+        "dated FX and scoped ledger"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1671210",
+      "title": "🤖 §8 · The agent: one tool loop, its tools and its models",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671210",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "cd55c266d0d25cc2f5804b9975370f36c36056895afa17f005bc180766b9b9b5",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-02",
+        "PL-03"
+      ],
+      "concepts": [
+        "Direct Anthropic client SDK",
+        "Tool loop",
+        "Pause/resume",
+        "Prompt cache",
+        "Numerical grounding"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "3899472",
+      "title": "🧠 §24 · Caching and memory for every agent",
+      "version": 2,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3899472",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "e4cacf20916dbb232062ed6e9bab5e29acfe7ec7967eff920e03f7e1ec55a077",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-02",
+        "PL-03",
+        "PL-13"
+      ],
+      "concepts": [
+        "Stable prompt prefixes",
+        "Per-route caching",
+        "Memory scope and deletion",
+        "Context budgets"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1147085",
+      "title": "🧩 Architecture v4: every part, the trace, the loop, the agents and the models",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147085",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "080df25249f07be2e14fc7fc8a100d0df05e49d204d3129a22f7170f2b5ffc5f",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-02",
+        "PL-05",
+        "PL-06",
+        "PL-07",
+        "PL-12",
+        "PL-13"
+      ],
+      "concepts": [
+        "System inspector",
+        "Tracing journey",
+        "Nine logical roles",
+        "Storage",
+        "Spend ladder"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1671190",
+      "title": "🧭 §1 to §3 · The rules, what MyPaisa does, and the system around it",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671190",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "96270030ef3bf1e098860453c7ea42fea13247156c51690ad28f8b9d5e615a19",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-01",
+        "PL-08",
+        "PL-10"
+      ],
+      "concepts": [
+        "No trading",
+        "Deterministic numbers",
+        "System components",
+        "Account boundaries"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "1442102",
+      "title": "🧭 The Agent Journey: twenty-four flows end to end",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1442102",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "2e0953516a567881ca7ef95f4e55c1129c9a84cf3d240616ac45ac9585e16e79",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "📏 Four rules every flow keeps",
+        "Claude never produces a number",
+        "The app cannot trade",
+        "Summary first, detail on tap",
+        "Create in the chat, correct in place",
+        "📖 How to read a flow",
+        "Member",
+        "App and web app",
+        "AWS",
+        "Claude",
+        "External data",
+        "🛡️ The safeguards, in one place"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1703957",
+      "title": "🧭 The journeys, end to end",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1703957",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "c671024860c272e90dbe522806a2053ad979e178aebc491e99c9423f711d7587",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [],
+      "concepts": [
+        "✨ The live pages",
+        "Inside MyPaisa",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey",
+        "MyPaisa Market Agent",
+        "MyPaisa Guardrails and Evals"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1409199",
+      "title": "🧮 §6.6 · The wealth maths",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1409199",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "879f5dd30b2966e824f9677159f25d41cbf4c6a86f7717dc3e936aaf66099d41",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-08",
+        "FC-10"
+      ],
+      "concepts": [
+        "dated-flow XIRR",
+        "missing-history refusal",
+        "portfolio/account scopes",
+        "wealth functions not all relevant to MP"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "1736745",
+      "title": "🛠️ Flows · Running it: the Admin center, failures, the ladder and the month",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1736745",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "938b9d08a1208db447b0a6658fc3acc7c2b7fe9e834ff2b7acda7b050e24e8ee",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-02",
+        "CT-05",
+        "CT-13",
+        "CT-14",
+        "CT-18"
+      ],
+      "concepts": [
+        "Owner-only Admin journey, server second check and audit",
+        "Failed-work replay, bounded spend ladder and contribution journey"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1147065",
+      "title": "🛡️ §14 · Security and privacy",
+      "version": 10,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1147065",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "34f5da5c107f8a40614b31fd3f125ce145f8ec2f51620ebcc52ea5f45f29e1fc",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-04",
+        "CT-17"
+      ],
+      "concepts": [
+        "Least privilege, privacy, encrypted stores, untrusted source rendering",
+        "Security and incident cases as release evidence"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "1671270",
+      "title": "🛰️ Five journeys through AWS, hop by hop",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1671270",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "8fba8674b8d484f446691878999394c47f44191caba7c5d2363b581cd05dc65d",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-05",
+        "PL-09",
+        "PL-12"
+      ],
+      "concepts": [
+        "Request journeys through AWS",
+        "Async joins",
+        "Failure and recovery paths"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "2589543",
+      "title": "CI/CD, vulnerability scanning, smoke and regression architecture",
+      "version": 12,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2589543",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "a1d770faa9f2141cb54eb2317c4e39dab462bb9b805e2634ec606c612a4d474b",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-11"
+      ],
+      "concepts": [
+        "Path-filtered CI",
+        "Security scans",
+        "Regression pyramid",
+        "Smoke and rollback"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "327919",
+      "title": "Design decisions and the UX choices kept",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327919",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "d565f07bcb09c1ecec1ef2d0929c28106b918b9f925d91365a258d37a7aadf79",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-02"
+      ],
+      "concepts": [
+        "🃏 Every pick at a glance",
+        "📜 The records",
+        "MA-193: the whole-wealth screens at every door, and a clickable prototype",
+        "The request, in Arun&#39;s words (26 Oct 2026)",
+        "The boards (Claude Design)",
+        "The options",
+        "Points to settle",
+        "The pick",
+        "MA-161: MyPaisa becomes one native iOS app",
+        "The request",
+        "What changes, in one table",
+        "Three shells for Arun&#39;s pick (Shell options.dc.html)"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "294922",
+      "title": "Explainers, the prototype and the architecture drawings",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294922",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "d8db3ea4b88116b7b411efc32618fff0023df3b34a1f785e280f1711f49b664d",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-02"
+      ],
+      "concepts": [
+        "📖 The explainer pages",
+        "Inside MyPaisa",
+        "MyPaisa Architecture v4",
+        "MyPaisa Agent Journey",
+        "MyPaisa Market Agent",
+        "MyPaisa Guardrails and Evals",
+        "🖱️ The clickable prototype",
+        "🏗️ The architecture drawings"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "1540178",
+      "title": "Guardrails and evals: how the agents are guarded and tested",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/1540178",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "e1f0e373ff82302d5351a0435ab524df9c7536f886e0cf5e6c8fb083735ad019",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-02",
+        "CT-04",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "CT-15"
+      ],
+      "concepts": [
+        "Code-enforced permissions and confirmation, quarantined extraction, figure checks",
+        "Manifest coverage, T0/T1/T2, outcome-first scoring, human-calibrated judges"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "66065",
+      "title": "How the plan, Jira, the designs, Confluence and the code stay in step",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66065",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "e793a9ce40ab8540d889f92b4fcd7f995aab1e89c24f425b46deb5a0c54e4a5d",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-01"
+      ],
+      "concepts": [
+        "📒 The five records",
+        "🔁 What keeps them the same",
+        "🆕 New work"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "2818197",
+      "title": "Local iOS and iPadOS Maestro testing and private TestFlight beta plan",
+      "version": 8,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2818197",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "78c33696bb792f99cace519c858688c32d700e01e2b7db527a8efe507699338d",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-11",
+        "PL-14"
+      ],
+      "concepts": [
+        "Local Maestro tests",
+        "Device coverage",
+        "Private TestFlight",
+        "Native CI cost"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "197090",
+      "title": "MyPaisa: the build plan",
+      "version": 43,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197090",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "b96fb5e1752e5835ef29e501fa2f30dc449b791fb2f3b90a62de5369cccab5ba",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-01"
+      ],
+      "concepts": [
+        "21 phases",
+        "263 stories",
+        "345 boards",
+        "🗺️ The journey",
+        "🧭 Where to look",
+        "Roadmap",
+        "The phases",
+        "Screens",
+        "Design decisions",
+        "Explainers",
+        "Staying in step",
+        "Guardrails and evals"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197044",
+      "title": "mypaisaa-agent",
+      "version": 15,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197044",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "3b225ae2d61c7c08f2e627a48a11c405b7baf0b0d28dd3d50a0f30bb3d9a090b",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [],
+      "concepts": [
+        "Search this space",
+        "Recently updated"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "3670133",
+      "title": "Optional AWS VPC enterprise lockdown, data perimeter and costing",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/3670133",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "17e198657b3b7dd80605a3ecf7f279abfb2986b3ae395e66acf2cbfd945f3751",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-10"
+      ],
+      "concepts": [
+        "Optional VPC perimeter",
+        "NAT and endpoint alternatives",
+        "DNS and egress controls",
+        "Network costs"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "294942",
+      "title": "Phase 0 · Foundations at every door",
+      "version": 52,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294942",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "830474291e061c20297e82606fead7c9d420d12cdf22aca10a043675c909b133",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-01",
+        "PL-07",
+        "PL-08",
+        "PL-11"
+      ],
+      "concepts": [
+        "Foundation work ordering",
+        "Agent/tool eval gates",
+        "Infrastructure and schema preparation"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "327939",
+      "title": "Phase 1 · Talk: sign in and chat with the agent at every door",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327939",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "6f34088cf0617717f325921977843ec387c7e7d51f642b99bda7a508f3d02b53",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-02",
+        "PL-04",
+        "PL-09"
+      ],
+      "concepts": [
+        "Auth and chat phase",
+        "Activity first",
+        "Streaming",
+        "Agent guardrails and evals"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "294982",
+      "title": "Phase 10 · Prices and the engine",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294982",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "5c2e3ff8d43122b0aeb5e44952ad371b60b6b6add0f225853e1c3d2767074a1f",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "price quality and source chains",
+        "known-answer rules tests",
+        "phase dependencies"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "327999",
+      "title": "Phase 11 · Briefs, alerts, charts, technical mode",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327999",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "40a35444214c40116a4c7ba045dcf599022af7f7c6fefc60fde15476e6a4f337",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-16"
+      ],
+      "concepts": [
+        "brief/alert/chart contracts",
+        "technical mode",
+        "delivery evidence"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "197233",
+      "title": "Phase 12 · Ask anything: research cards and scenarios",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197233",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "9baac9a36e7ce419235990723877ea15fec7b582e0edccffed24d6db22628390",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-16"
+      ],
+      "concepts": [
+        "source-grounded research cards",
+        "scenario versus forecast distinction",
+        "portfolio comparison"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "66125",
+      "title": "Phase 13 · Track record and calibration",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66125",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "61ece009d705f4aac89f72821e718a10096fa4542cd05e4b07370e31071cd708",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-04",
+        "FC-07",
+        "FC-09"
+      ],
+      "concepts": [
+        "immutable calls",
+        "mature outcomes",
+        "reliability and calibration",
+        "review scorecards"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "328019",
+      "title": "Phase 14 · News, events, sentiment (shadow)",
+      "version": 17,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328019",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "9cdae94e4197ac4b80802933b4b9b5257bec407bb8e1beaa5690b427952657c4",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-13"
+      ],
+      "concepts": [
+        "deduplicated news",
+        "sentiment shadow",
+        "tag quality sampling",
+        "no unsupported alert"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "197253",
+      "title": "Phase 15 · Stances go live",
+      "version": 19,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197253",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "31184c9c9c6b2f7b8a04b21aa4bf39bbe1d84417ea01e4f237f1ce137bb3f1e5",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-09",
+        "FC-12"
+      ],
+      "concepts": [
+        "eligibility gate",
+        "protected positions",
+        "bounded suggestions",
+        "safe unavailable state"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "197273",
+      "title": "Phase 16 · New kinds of holding (when you add one)",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197273",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "74c8f13117c70b2a50c5d292162ba2a2a5a6a76b4eefcfbde4a3ab27ffb62c00",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-05",
+        "FC-15"
+      ],
+      "concepts": [
+        "extensible instrument kind",
+        "fundamental/valuation capability",
+        "source costs not inherited"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "328039",
+      "title": "Phase 17 · The Forecaster: a second engine beside the rules engine",
+      "version": 24,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328039",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "44b96b7a49f7ed3b116336ee4b0152fb9b038edaec5daf3c4c21892ce79cfdc9",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-02",
+        "FC-04",
+        "FC-05",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-16"
+      ],
+      "concepts": [
+        "complete F1-F8 phase decomposition",
+        "model/strategy evidence",
+        "forecast proof and absent/stale states"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "197293",
+      "title": "Phase 18 · The agent team: configured, approved, self-healing, self-learning",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197293",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "a3a35e83a8025fa0a55c63ae9b7a148f1d4912e82a97c985b0d5765a52008604",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-10",
+        "CT-15",
+        "CT-16"
+      ],
+      "concepts": [
+        "Phase-18 team configuration, approval, measured-learning and recovery stories",
+        "Source phase structure, estimated dates and household assumptions are not MP commitments"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "197313",
+      "title": "Phase 19 · Indian markets and the existing Indian portfolio",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197313",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "f90d99c956ec099252e11f9b279d0ab96ea49c6dd08bf415eec129f97dc9f385",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-01",
+        "FC-15"
+      ],
+      "concepts": [
+        "Indian identities and imports",
+        "source/calendar/FX validation",
+        "market-specific gates"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "197173",
+      "title": "Phase 2 · The first record: one dynamic structure, one write path",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197173",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "c0fcbefcf2e1d9a99f5b663c9ebbfbe87aeb8c8752f34e59ba5502a198295e86",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app",
+        "The design system"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "66145",
+      "title": "Phase 20 · The app beyond the chat: widgets, Siri, the share sheet, Live Activities",
+      "version": 19,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66145",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "392a6c70992b69b8a9c6ae6e7d7f7c4368bb1a5cf9896987c72cab9122bf9f1e",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-14"
+      ],
+      "concepts": [
+        "Widgets",
+        "Siri/App Intents",
+        "Share sheet",
+        "Long-job Live Activities"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "327959",
+      "title": "Phase 3 · Deposits, policies and four currencies",
+      "version": 17,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327959",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "d8a47956d732b009ee3c7abf5e7207b1b4c1ae1e06c080d5806cf0cb73ef60d2",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Deposits/policies/whole-wealth accrual not MP scope; retain financial precision and currency concepts only.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "66085",
+      "title": "Phase 4 · Debts and check-ins",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66085",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "dd36c8ae38fc7da555cdfb7e2bab91245ba697ded98e4e8aefedadb30e29537e",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Household debts/EMI workflows excluded; reuse only generic confirmation/notification safeguards.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "327979",
+      "title": "Phase 5 · Investments, priced",
+      "version": 16,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/327979",
+      "lane": "forecasting",
+      "read_depth": "full_html_and_relevant_repository_text",
+      "body_sha256": "9e0cb0a3c4f45edf2904d3cb9fc0439ff83169c7af054130028fbb0e0df45b75",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "FC-10"
+      ],
+      "concepts": [
+        "investment records and imports",
+        "dated cash flows",
+        "daily valuation",
+        "incomplete history",
+        "XIRR/holding evidence"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded image/board visual contents not certified by this text read; historical designs remain reference, not approved MP UX."
+      ]
+    },
+    {
+      "id": "66105",
+      "title": "Phase 6 · Budget: statements and monthly check-ins",
+      "version": 17,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66105",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "d0bc461971ee2f3f949abb3a1a42966e709a63e398c01dfb30c931a8c4ec4f49",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Household spending budget is excluded; import confirmation/lineage concepts assessed separately.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197193",
+      "title": "Phase 7 · Projection",
+      "version": 21,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197193",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "c721f94e0c6eca3620913ade2c9d6c0b6449b4bcf6c00ad6c388900cabf5fcfa",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Household net-worth projection is not an investment forecast; scenario distinctions retained.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "294962",
+      "title": "Phase 8 · Audit, search and the Admin center at every door",
+      "version": 25,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/294962",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "72f64fda24a34b3076df59f193a68089e345dc392c5d8094fd9a118b8bbb1701",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-03",
+        "CT-14",
+        "CT-16"
+      ],
+      "concepts": [
+        "Phase-8 admin/audit exit demonstration and per-story linkage",
+        "Explicit unresolved design and alert-routing questions, not an approved MP UI"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "197213",
+      "title": "Phase 9 · The whole dashboard, and the old wealth tracker retired",
+      "version": 22,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197213",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "4ecdc5610156010bb3eb3ba24fc876c7772146f92fc6845b1005a0f91b743505",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [
+        "The web app",
+        "The iOS app"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197112",
+      "title": "Roadmap: the journey from phase 0 to phase 20",
+      "version": 20,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197112",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "436a6833bcaa757fa29dd54ea4d14822919cabb84b10606e90dbef9494d90360",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [],
+      "concepts": [
+        "🗺️ The journey",
+        "🚩 Milestones",
+        "📅 Phase by phase",
+        "🧮 How the dates are worked out",
+        "🙋 Your tasks, and when each is needed",
+        "🔗 In Jira"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "328059",
+      "title": "Screens · Activity, Audit and files",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/328059",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "6c85fdda36041887dffe185f1181fa48aa13536942acd87b56f449fa02feb14d",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-03",
+        "CT-04",
+        "CT-16"
+      ],
+      "concepts": [
+        "Activity/Audit/files across web and Apple screens",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "66185",
+      "title": "Screens · Assets and debts",
+      "version": 5,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66185",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "06d754293b558d72bb6c346c8714290fbbc26bdb4fcea2c6a763bdf7eb3f9ca9",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Debt/whole-wealth screens not copied; investment identity/detail concepts retained.",
+      "gap_ids": [],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "295042",
+      "title": "Screens · Budget and statements",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/295042",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "edd7f1e59197574c9f237fe4a83ba6483ec1ca17c02e380953649958464b6d25",
+      "disposition": "adapt_shared_concepts_only",
+      "reason": "Budget screen designs not copied; generic source-review states only.",
+      "gap_ids": [],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "66165",
+      "title": "Screens · Home and the dashboard",
+      "version": 13,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66165",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "c7372ad87b758f319fef1f96f842192e6b339c3f9366fcc9289fdf2bd3c78e18",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "66205",
+      "title": "Screens · Projection, Budget forecast and the stock Forecaster",
+      "version": 14,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/66205",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "7d09271cf6999a6f7e891d9f97129192de09ff7f874504896bbe4cac85320b6a",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "295022",
+      "title": "Screens · Registering and check-ins",
+      "version": 6,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/295022",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "ae14ee4bced8d20f60cb42dd7d03f99ef2ef413beb467ecca06817000c720a59",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-08"
+      ],
+      "concepts": [
+        "Register/import/check-in proposal and confirmation journeys",
+        "Input uncertainty, amend/cancel state and provenance"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "295002",
+      "title": "Screens · Shell, chat and sign-in",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/295002",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "393426f9f707b0a6ac922b9bc59b80b55b2a2452652321343d7fd46869d7c680",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197333",
+      "title": "Screens · The Admin center",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197333",
+      "lane": "controls",
+      "read_depth": "full_html_semantic_read",
+      "body_sha256": "e4d1ad79c991f50b32b78a193bd1c6669020235429b5ee1d71934e76f446410e",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CT-01",
+        "CT-16"
+      ],
+      "concepts": [
+        "Admin controls and fresh authentication across web/Apple",
+        "Source board links and story/phase associations retained in rich HTML"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Native media and animation pixels were not visually reviewed; rich HTML links and related local source boards were inspected where relevant."
+      ]
+    },
+    {
+      "id": "197353",
+      "title": "Screens · The design system, the mark and the iOS kit",
+      "version": 11,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197353",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "5df145411a0d4adec2b73291db34a8d62766fa70e6025bb04854047c169ecfc7",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "CD-02"
+      ],
+      "concepts": [],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197153",
+      "title": "Screens, area by area",
+      "version": 14,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197153",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "abeedf5c25b6924a142cc4ac0c9df432310c0f0d634171356d504ba330f472b6",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [
+        "CD-02"
+      ],
+      "concepts": [
+        "The boards"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "2622286",
+      "title": "Tech stack, FastAPI, DynamoDB, agents and end-to-end observability",
+      "version": 7,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/2622286",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "20a9b2f60850bbf5e98a4980c6dbe7bcc1c1706f321b572676e5d55cf766e282",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-03",
+        "PL-04",
+        "PL-06",
+        "PL-07",
+        "PL-08",
+        "PL-12",
+        "PL-13"
+      ],
+      "concepts": [
+        "Layered stack",
+        "FastAPI REST versus streaming adapters",
+        "DynamoDB repository",
+        "Agent client loop",
+        "Telemetry cost model"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    },
+    {
+      "id": "197058",
+      "title": "Template - How-to guide",
+      "version": 1,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197058",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "b97c7d5860496ed3d30ede74f649085c25e14e7e84b51f6db9c9a3bdfa7fa54c",
+      "disposition": "out_of_scope_template",
+      "reason": "Generic how-to template has no product requirements.",
+      "gap_ids": [],
+      "concepts": [
+        "\\uD83D\\uDCD8 Instructions",
+        "\\uD83D\\uDCCB Related articles"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197071",
+      "title": "Template - Troubleshooting article",
+      "version": 1,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197071",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "7092bed2c0956a14e76e344a7d4800bae05e04116ff89908287c8d537698ae14",
+      "disposition": "out_of_scope_template",
+      "reason": "Generic troubleshooting template has no product requirements.",
+      "gap_ids": [],
+      "concepts": [
+        "\\uD83E\\uDD14 Problem",
+        "\\uD83C\\uDF31 Solution",
+        "\\uD83D\\uDCCE Related articles"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "197133",
+      "title": "The phases, one page each",
+      "version": 34,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/197133",
+      "lane": "coordinator",
+      "read_depth": "full_html_retrieved_rich_visual_not_certified",
+      "body_sha256": "f111c8c842e58372e9813ab00ebb8a9022d558b8d3b89857690a6b6fd42988f1",
+      "disposition": "reference_navigation_and_structure",
+      "reason": "Use as source map and documentation structure; no inherited dates, estimates, approval or implementation status.",
+      "gap_ids": [
+        "CD-01"
+      ],
+      "concepts": [
+        "Foundations and talk",
+        "The whole wealth",
+        "The market side"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Full HTML text and references inspected; embedded images, animation and boards not certified by retrieval. Source examples/estimates are not MP decisions."
+      ]
+    },
+    {
+      "id": "4816897",
+      "title": "Web visual regression, ARIA snapshot diffing and WCAG 2.2 AA accessibility pipeline with Argos CI",
+      "version": 4,
+      "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaaag/pages/4816897",
+      "lane": "platform",
+      "read_depth": "Full HTML fetched; platform-relevant prose/tables and linked architecture source inspected. This is concept-level reconciliation, not proof that every story clause or visual state was individually checked.",
+      "body_sha256": "abb8eeacd894b11a82b9f6816285e371a1ee9a923162d1736fa698921f12eb84",
+      "disposition": "relevant_adapt",
+      "reason": "Reconcile relevant concepts against MP scope and researched gaps; do not adopt source choices by default.",
+      "gap_ids": [
+        "PL-11",
+        "PL-14"
+      ],
+      "concepts": [
+        "Playwright visual regression",
+        "ARIA snapshots",
+        "WCAG gates",
+        "Argos option"
+      ],
+      "visual_status": "native_pixels_not_comprehensively_verified",
+      "acceptance_parity": "concept_disposition_recorded; detailed target story acceptance remains a closure gate",
+      "limitations": [
+        "Embedded images, animations and design boards were not visually rendered in this lane.",
+        "Macro bodies and historical Jira statuses do not prove current runtime implementation."
+      ]
+    }
+  ],
+  "attachment_metadata": "ma-attachment-index.json",
+  "story_database": "ma-story-explorer.csv",
+  "scope_limit": "All indexed page identities disposed; no claim of full native visual or sentence-level acceptance parity."
+}

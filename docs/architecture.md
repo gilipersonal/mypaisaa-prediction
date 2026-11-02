@@ -1,12 +1,16 @@
 # Architecture
 
+**Current baseline preparation, 2 November 2026:** [MP-19 reconciliation](planning/ma-reconciliation-2026-11-02/README.md) evaluates MA concepts against MP discussions and current primary sources. Its [decision sequence](planning/ma-reconciliation-2026-11-02/architecture-finalisation.md) and [area/phase structure](planning/ma-reconciliation-2026-11-02/documentation-structure.md) identify what must be agreed before UX. Recommendations are not accepted ADRs; the architecture remains unapproved. Existing diagrams and earlier snapshots below retain their dated status. No application implementation is authorised.
+
+**Published planning snapshot:** [MP-19 draft index and all twelve directions](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720), [finalisation draft](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5799937), and [documentation/phase structure](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5832705). All 13 new pages are labelled planning drafts; full architecture/UX/build approval remains pending. Existing architecture hubs and native diagram snapshots were preserved.
+
 ## Scope
 
 The first production release serves one authenticated owner. It aggregates licensed market data and portfolio records, runs reproducible research/prediction jobs, presents the resulting evidence in web and native mobile clients, and records what happened after every forecast horizon. It is not a brokerage or execution system.
 
 **Status: planned architecture with a runnable backend starter.** As of **1 November 2026**, health and a local sample SSE stream exist, alongside an illustrative static preview. Authentication, persistence, providers, quantitative/research jobs, PWA/native clients and production infrastructure remain pending. The [implementation status](implementation-plan.md#current-implementation-status) and [technology inventory](tech-stack.md) record this boundary.
 
-**Current direction, still draft:** the expanded standalone app includes its own ledger/imports/rules/XIRR, ML forecasts and LLM-derived factors/research. [DEC-001–041](planning/aws-options-2026-11-01/product-decisions.json) supersede earlier conflicting proposals; full end-to-end requirements and UX agreement still gate application implementation. DEC-041 allows synthetic local/dev fixture preparation now, with actual holdings/screenshots/PDFs later and no AWS loading. Lambda/S3/DynamoDB are preferred, direct Anthropic client SDK replaces Agent SDK, Yahoo Finance + Twelve Data Grow are selected, and £100 all-in replaces the earlier £50 AWS-only envelope. ML execution A/B and the detailed deployment design remain unselected. Accepted bootstrap ADR status is preserved pending explicit reconciliation.
+**Current direction, still draft:** the expanded standalone app includes its own ledger/imports/rules/XIRR, ML forecasts and LLM-derived factors/research. [DEC-001–041](planning/aws-options-2026-11-01/product-decisions.json) supersede earlier conflicting proposals; full end-to-end requirements and UX agreement still gate application implementation. DEC-041 allows synthetic local/dev fixture preparation now, with actual holdings/screenshots/PDFs later and no AWS loading. Lambda/S3/DynamoDB are preferred, direct Anthropic client SDK replaces Agent SDK, Yahoo Finance + Twelve Data Grow are selected, and £100 all-in replaces the earlier £50 AWS-only envelope. ARC-04 now selects capped SageMaker CPU training/evaluation with portable Lambda inference; detailed deployment, compatibility and cost evidence remain unresolved. Accepted bootstrap ADR status is preserved pending explicit reconciliation.
 
 Current draft navigation: [pack index](planning/layered-development-2026-11-01/README.md) · [portfolio/import specification](planning/layered-development-2026-11-01/portfolio-import-spec.md) · [PH-00–PH-09 delivery plan](planning/layered-development-2026-11-01/phased-delivery-plan.md) · [architecture blueprint](planning/layered-development-2026-11-01/architecture-blueprint.md) · [technology matrix](planning/layered-development-2026-11-01/tech-stack-matrix.md). The blueprint carries detailed trust boundaries, workflow/persistence/streaming alternatives, readiness gates and the ADR backlog; the material below retains the earlier visual evidence with current-direction corrections. This local alignment remains **unreviewed** and does not update Confluence or run a formal plan-sync.
 
@@ -41,7 +45,9 @@ The retained native Lucid system drawing is the editable **bootstrap** source fo
 
 [Static system companion](diagrams/system-architecture.png) · [Text fallback](../README.md#architecture-at-a-glance) · [Sources and motion alternatives](diagrams/README.md). GIFs loop; use the static exports when needed. Blue identifies clients, teal API/records, amber data, purple quantitative work, rose research/consent and navy operations; the labels explain every role without depending on colour.
 
-The later [editable A/B planning Lucidchart](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit), [Plan A native export](planning/aws-options-2026-11-01/option-a-lucid.png) and [Plan B native export](planning/aws-options-2026-11-01/option-b-lucid.png) show the active alternatives; Plan C is retired. These prior exports are manually maintained and need an approved update for all new blueprint details. No external diagram write or new paid feature was performed here.
+The later [editable A/B planning Lucidchart](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit), [Plan A native export](planning/aws-options-2026-11-01/option-a-lucid.png) and [Plan B native export](planning/aws-options-2026-11-01/option-b-lucid.png) retain the historical comparison; ARC-04 selects selective SageMaker training with portable Lambda inference. Plan C is retired. These prior exports are manually maintained and need an approved update for all new blueprint details. No external diagram write or new paid feature was performed here.
+
+**Admin baseline (ARC-08):** specify all identified admin domains, policies and contracts now; design their complete journeys after architecture agreement and before the first build. Implementation may be phased. Retention/deletion, protected actions, audit integrity and recovery objectives still need detailed resolution.
 
 ## Logical components
 
@@ -51,14 +57,15 @@ These are current intended responsibilities; exact adapters, schemas and service
 | --- | --- | --- |
 | API | Authenticated commands, read models, bounded SSE, schema validation and job admission | Modular FastAPI codebase on Lambda; streaming adapter/integration proof required |
 | Ingestion | Provider normalisation, quality checks, idempotent writes | scheduled Python jobs |
-| Research/chat | Cited retrieval, structured factor extraction, specialist evidence and contextual conversation | Official Anthropic client SDK with explicit bounded tool loop on Lambda; Claude runs on Anthropic |
+| Research/chat | Cited retrieval, structured factor extraction, specialist evidence and contextual conversation | Separate Lambda workers per Claude task route, sharing the bounded Anthropic client-SDK runner (ARC-06); Claude runs on Anthropic |
 | Quant engine | feature creation, training, validation, calibration, scoring | Python, scikit-learn-compatible pipelines |
-| Ledger | Own transactions, holdings, cash, all v1 imports, rules/XIRR, reconciliation | Storage-neutral contracts; DynamoDB preferred subject to atomicity/access-pattern proof; earlier PostgreSQL ADR awaiting reconciliation |
+| Agent evaluation | Tagged scenarios, transcripts, deterministic/model scoring, replay/rescore and reports | Inspect AI selected ARC-09; runtime policy, pytest and numerical forecast validation remain separate; detailed proof pending |
+| Ledger | Own transactions, holdings, cash, all v1 imports, rules/XIRR, reconciliation | DynamoDB selected in ARC-02; one controlled write service; atomicity/access-pattern proof pending and earlier PostgreSQL ADR awaiting reconciliation |
 | Prediction registry | Immutable forecast, model, data cutoff, mature outcome and approval records | Durable append-only records plus private artefacts; exact schema/store decision open |
-| Web | Discovery first, separate holdings, chat, proof and launch costs | SvelteKit 3, officially available but not installed; static shell versus SSR open |
+| Web | Discovery first, separate holdings, chat, proof and launch costs | Static SvelteKit 3 shell/assets on S3/CloudFront with authenticated FastAPI, selected ARC-10; not implemented |
 | Mobile | native device experience and shared navigation contracts | Swift-native surfaces in React Native shell |
-| Identity | Managed sign-in and verified owner linking/recovery | Cognito with Apple/Google/passkeys; two independent passkey paths and sensitive-action design required |
-| Operations/costs | Audit, per-environment usage/billing, durable jobs, telemetry, recovery | AWS serverless preference; launch cost/admission controls; workflow and full-scope pricing open |
+| Identity | Managed sign-in and verified owner linking/recovery | Cognito Apple/Google/passkeys; ARC-07 selects assurance/freshness checks with verified fresh-sign-in fallback; recovery and exact action-policy proof pending |
+| Operations/costs | Audit, per-environment usage/billing, durable jobs, telemetry, recovery | AWS serverless preference; launch cost/admission controls; Python Lambda Durable Functions selected; runtime/replay/full-scope cost proofs open |
 
 ## Data flow
 
@@ -136,7 +143,7 @@ The precise iPhone/iPad/“Duo” device/OS matrix, bridge versions and secure o
 
 ## Proposed AWS deployment
 
-**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. Option A portable ML jobs versus B selective SageMaker jobs is unselected, with no continuously provisioned endpoint assumed. Workflow choice (Durable Functions versus Step Functions), region, identity tier, data-store fit and stream fan-out require evidence and an ADR. Private dev/prod authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
+**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. ARC-04 selects capped SageMaker CPU training/evaluation with portable approved Lambda inference and stored daily forecasts, with no continuously provisioned endpoint assumed. Lambda Durable Functions with Python is selected in ARC-03; runtime/replay/cost proofs, region, identity tier, data-store fit and stream fan-out require evidence and detailed ADR reconciliation. Separate dev/prod workload accounts with consolidated billing are selected in ARC-11; exact account arrangements remain pending. Private environment authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
 
 **Historical accepted bootstrap footprint, retained for traceability:**
 

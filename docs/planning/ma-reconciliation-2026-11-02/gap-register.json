@@ -1,0 +1,2277 @@
+{
+  "as_of": "2026-11-02",
+  "issue": "MP-19",
+  "status": "researched_proposals_not_owner_approved",
+  "gap_count": 52,
+  "gaps": [
+    {
+      "id": "FC-01",
+      "title": "Resolve provider use rights and actual data coverage",
+      "ma_concept": "Free-first per-kind chains, optional paid fallback and ten-year history.",
+      "mp_evidence": "MP-10; docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-01; L3-S01; exact Grow tier and rights unresolved.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep Yahoo plus requested Grow as candidate sources. Require a per-listing/per-use rights matrix and fallback-to-daily/unavailable. Grow pricing/terms do not establish non-display ML rights for this use; request provider clarification. No paid upgrade or LLM transmission assumed.",
+      "decision_needed": "Approve verified source/tier/rights and taxed GBP recurring envelope, or choose reduced coverage before architecture freeze.",
+      "acceptance_criteria": [
+        "Record quote/NAV/history/actions/exposures/news capability, delay, cadence, credit weight and storage/training/derived-data/Anthropic-sharing permission per source.",
+        "Expose unsupported/stale states; no automatic provider upgrade.",
+        "Verify UK/US/India examples and compare full monthly costs against £70 operating allowance and £100 total ceiling."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1147045",
+        "1704037",
+        "1671250",
+        "197313"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms",
+        "https://github.com/ranaroussi/yfinance"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "data",
+      "jira_key": "MP-10"
+    },
+    {
+      "id": "FC-02",
+      "title": "Define every forecast target and maturity contract",
+      "ma_concept": "One principal four-week horizon plus analog 5/20/60-day outcomes.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md ForecastTask/Horizon; L4-S01; selected horizons exist without fully agreed target formulas.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define daily as-of origins for next-day, 5-20 trading-day and 3/6/12-calendar-month tasks. Specify terminal total return versus within-horizon drawdown as separate targets; 3-5-year outputs are conditional scenarios. Thirty-minute monitoring never creates a fresh formal forecast by implication.",
+      "decision_needed": "Approve target catalogue, horizon list, origin cutoff, calendars, total-return convention and event thresholds.",
+      "acceptance_criteria": [
+        "Each task pins target equation/unit, origin/cutoff, calendar roll, maturity, canonical source, baseline and metrics.",
+        "Distinguish terminal loss from maximum drawdown, cost-basis loss and portfolio peak drawdown.",
+        "Fixtures cover holidays, split/dividend, delayed NAV, FX and stale origins."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-03",
+      "title": "Make historical datasets genuinely point in time",
+      "ma_concept": "F1 ten-year Parquet lake with known-at data and exposure maps.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F1; L3-S02; source vintage availability unproven.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Require three times for observations (economic, known-at/publication, ingestion), revision lineage and versioned universe/exposures. Current adjusted prices, macro revisions, constituents and LLM extraction cannot be silently projected into past origins.",
+      "decision_needed": "Approve first feature/data catalogue and classify sources as vintage-backed, lag-conservative, prospective-only or unavailable.",
+      "acceptance_criteria": [
+        "Dataset manifest records source/query/cutoff/content hashes, actions and universe/exposure versions.",
+        "Delisted/merged instruments and discontinued funds are addressed; missing history is explicit.",
+        "Contaminated or reconstructable-only features excluded from claimed historical edge; prospective evidence separate."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1704037",
+        "1769493",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-04",
+      "title": "Specify a bounded experiment and leakage-control protocol",
+      "ma_concept": "F2 walk-forward and last-two-year holdout.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F2; L4-S03; exact folds/search/selection limits open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Choose rolling/expanding chronological origins with label-interval purging and training-only transformations. Group instruments by common time boundaries, account for serial/cross-asset dependence, record all trials and limit search. Final holdout is untouched until a frozen candidate comparison.",
+      "decision_needed": "Approve fold schedule per horizon, search budget, selection loss, uncertainty method and final-test reuse policy.",
+      "acceptance_criteria": [
+        "Leakage challenge cases fail for revised macro, future constituents, overlapping labels and extraction hindsight.",
+        "All transforms/features/calibrators fit within permissible training data.",
+        "Report paired baseline deltas, effective sample limits, subgroup performance and experiment count, not a best backtest alone."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "66125"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-05",
+      "title": "Fix the initial model catalogue without inventing model counts",
+      "ma_concept": "F3-F5 mood/risk/analogs/direction described as several conceptual models.",
+      "mp_evidence": "docs/architecture-deep-dive.md proposes two CPU trainable families; no approved per-task model registry.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain deterministic rules/statistical benchmarks and propose two CPU trainable families: regularised linear/logistic baselines and gradient-boosted/quantile challengers. Regime definitions and analog/event engines are explicit modules. Exact class/task/horizon artefacts follow evidence, not one model per ticker. SageMaker selection is separate infrastructure decision.",
+      "decision_needed": "Approve candidate families, supported tasks, training cadence and bounded experiment count before final cost model.",
+      "acceptance_criteria": [
+        "Catalogue separates rules, statistics, learned estimators, calibration and explanations.",
+        "Each artefact has task/horizon/kind/eligible-universe/features/schema/dependencies/resource cap.",
+        "Do not claim one trained object serves every market/horizon or that two families equal only two artefacts."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "197273"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://scikit-learn.org/stable/modules/calibration.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        },
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-06",
+      "title": "Make analog and event evidence horizon-aware",
+      "ma_concept": "Thirty nearest neighbours excluding last20days; low-evidence label below8events.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md explicitly flags horizon-aware exclusion and sparse event caveat; L4-S04.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain analog explanations but exclude candidates whose target outcome was not known at the origin; overlap/effective sample and distances must be visible. Event windows and confounding need predeclared definitions; eight events is not proof of an edge.",
+      "decision_needed": "Approve analog feature/distance/window, weighting, de-overlap and sparse-evidence rules.",
+      "acceptance_criteria": [
+        "Separate descriptive historical associations from causal claims.",
+        "Report sample dates/count/effective dependence, similarity, outcomes/interval and coverage.",
+        "Events known after the prediction origin cannot select the study cohort."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-07",
+      "title": "Separate rule strength from calibrated forecast probability",
+      "ma_concept": "Heuristic confidence formula shown as percentage and daily map tuning.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md already separates rule strength and owner-approved calibration; L4-S02/L4-S05/L4-S08.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep rule strength as a labelled heuristic until its event definition and calibration evidence are approved. Calibrators train on held-out chronological predictions; evaluate proper scores, reliability and interval coverage/width by horizon and important subgroup. No daily live recalibration without owner permission.",
+      "decision_needed": "Approve calibration methods, loss functions, reliability bins/minimum evidence and rollback policy.",
+      "acceptance_criteria": [
+        "No rule percentage silently displayed as P(up).",
+        "Report Brier/log loss versus event base rates and range coverage plus sharpness; abstain where unsupported.",
+        "Calibration version and approval bind every released forecast; model and calibrator cannot silently diverge."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1147045",
+        "1704037",
+        "66125"
+      ],
+      "research_urls": [
+        "https://scikit-learn.org/stable/modules/calibration.html",
+        "https://jmlr.org/papers/v25/22-1218.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-08",
+      "title": "Design long-horizon investment inference independently of the four-week model",
+      "ma_concept": "MA emphasises four-week risk-first forecasting.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md adds3/6/12months and3-5year scenarios; target-specific evidence not complete.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use horizon-specific targets, data sufficiency and benchmarks. For long horizons consider simple valuation/fundamental/macro summaries only where licensed and truly known at time; compare against historical/constant-return and risk baselines. Scenarios use explicit contribution/return/inflation/FX assumptions, not fabricated confidence.",
+      "decision_needed": "Approve scope/inputs/benchmarks for each long horizon and what may remain unavailable pending evidence.",
+      "acceptance_criteria": [
+        "Keep all agreed horizons in requirements; do not replace them with20-day outputs.",
+        "Display evaluated forecasts versus conditional scenarios with different labels and provenance.",
+        "Account for few independent12-month outcomes and avoid claiming10years means thousands of independent yearly examples."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1409199"
+      ],
+      "research_urls": [
+        "https://www.nber.org/papers/w10483",
+        "https://www.nber.org/papers/w11468",
+        "https://otexts.com/fpp3/judgmental.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-09",
+      "title": "Replace calendar-only practice gates with evidence and approval",
+      "ma_concept": "Eight live weeks above base rate/rules, automatic switch-off after four weak weeks.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md explicitly supersedes eight-week proof and automatic promotion; L4-S08.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define task-specific shadow minimums using mature outcomes, effective independence, baseline deltas and confidence, plus owner promotion. Preapprove a narrow safety-disable route; distinguish data outage/model-ineligible from statistical deterioration.",
+      "decision_needed": "Approve entry/promotion/monitoring/pause/rollback criteria and evidence minimums by horizon.",
+      "acceptance_criteria": [
+        "Eight weeks cannot validate a12-month forecast.",
+        "Promotion references immutable data/model/calibration/evaluation evidence and previous safe version.",
+        "Safety disable preserves immutable forecasts and marks affected displays; return to live follows approved policy."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "197253",
+        "328039",
+        "66125"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        },
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-10",
+      "title": "Close realised-performance and benchmark accounting decisions",
+      "ma_concept": "Dated-flow XIRR from MA wealth maths.",
+      "mp_evidence": "docs/planning/layered-development-2026-11-01/portfolio-import-spec.md L1-Q01/Q05/Q06/Q10 and L3-S03 already capture unresolved semantics.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Reuse MP ledger boundary decisions; define portfolio/account/holding XIRR separately and benchmark contributions with matched dates/currencies. Retained dividends, reinvestment and transfers are not duplicate external flows. Add time-weighted comparison only when valuation evidence supports it; no extrapolated missing history.",
+      "decision_needed": "Approve rounding/residual tolerances, FX timing, terminal valuation, root ambiguity, benchmark and supported performance methods.",
+      "acceptance_criteria": [
+        "Golden cases include same-day, missing history, multiple roots, internal transfer, fees/dividends and FX.",
+        "Reconcile booked cash/cost basis separately from quote-adjusted total-return series.",
+        "State unavailable per metric and preserve working/provenance; XIRR never serves as predictive probability."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1409199",
+        "1442042",
+        "327979",
+        "1671250"
+      ],
+      "research_urls": [
+        "https://support.microsoft.com/en-gb/excel/functions/xirr-function"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
+      "planning_group": "portfolio",
+      "jira_key": "MP-22"
+    },
+    {
+      "id": "FC-11",
+      "title": "Specify portfolio exposure and risk without false precision",
+      "ma_concept": "Look-through, HHI, overlap, currency and kind-specific driver maps.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-08; L3-S04 and L6-S02 are broad drafts.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define portfolio snapshots, weight basis, partial coverage, cash and cross-listed exposure before ranking. Separate instrument trading currency from underlying economic exposure and hedging. Estimate correlations/covariance on aligned eligible data with declared shrinkage/missingness and stress alternatives.",
+      "decision_needed": "Approve exposure completeness thresholds, risk windows and benchmark/weight conventions.",
+      "acceptance_criteria": [
+        "Double-listed securities and fund overlap do not double-count underlying economic risk.",
+        "Coverage residual and source age visible; absent exposure is not zero.",
+        "Show investment versus FX return effects and use partial-data abstention for unsupported portfolio-risk estimates."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1147045",
+        "1442042",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "portfolio",
+      "jira_key": "MP-22"
+    },
+    {
+      "id": "FC-12",
+      "title": "Make ranked actions a deterministic versioned decision policy",
+      "ma_concept": "Stance cascade, protected positions and contribution steering.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-03/CAP-09; owner weights growth35/protection40/opportunity25; detailed mapping open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Define component eligibility/scaling and action semantics before combining scores. Growth/risk/benchmark evidence must be comparable or explicitly unavailable. Distinguish forecast probability, preference-weighted ranking and portfolio constraint; explain conflicts and ask owner for any change.",
+      "decision_needed": "Approve score normalisation, abstention/conflict policy, concentration/contribution constraints and recommendation wording.",
+      "acceptance_criteria": [
+        "Show component scores/weights/source/version and counterfactual portfolio impact.",
+        "Missing component does not silently earn neutral/full score; disclose approved renormalisation policy.",
+        "No trade execution, universal sell-everything instruction, tax-rule assumptions or autonomous contribution changes."
+      ],
+      "phase": "PH-06",
+      "source_ids": [
+        "1147045",
+        "197253",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://www.nber.org/papers/w10483"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "portfolio",
+      "jira_key": "MP-22"
+    },
+    {
+      "id": "FC-13",
+      "title": "Evaluate LLM-derived news factors separately from narrative quality",
+      "ma_concept": "Haiku batches tag stories and exposure code scores relevance.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md R0/M1/M2/M3 ablation ladder; L5-S01; exact schemas/datasets/usage rights open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Freeze extraction schema/entity links/source rights, publication/extraction times and model/prompt versions. Test extraction accuracy and downstream incremental predictive value separately. Historical extraction by a newer LLM is potentially hindsight-contaminated; prospective shadow is the default when contamination cannot be bounded.",
+      "decision_needed": "Approve factor catalogue, labelled extraction sample, provenance requirements, relevance floor and ablation criteria.",
+      "acceptance_criteria": [
+        "No live-risk dependency on a batch not guaranteed complete by deadline.",
+        "Every financial number and relevance weight computed from authorised typed inputs.",
+        "LLM judge cannot manufacture price ground truth or override promotion/admission controls."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1704037",
+        "328019",
+        "1769493"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/terms",
+        "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        },
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "FC-14",
+      "title": "Treat patterns as tested features rather than asserted alpha",
+      "ma_concept": "F8 candles/charts/technical features with per-holding event studies.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md F8; L4-S06; full detector/confirmation specification pending.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Preserve pattern research concept but predefine detector, lag, confirmation, parameter grid and eligible kinds. Compare incremental effect against simple trend/risk baseline after multiple-testing controls and costs. NAV-only funds get only compatible line patterns.",
+      "decision_needed": "Approve initial bounded pattern set and promotion/retirement evidence; wider catalogue remains planned.",
+      "acceptance_criteria": [
+        "No look-ahead extrema or chart labelling using future bars.",
+        "Hand-marked detector cases separate from out-of-sample value tests.",
+        "Source-adjustment/corporate-action artefacts and thin trading do not create fake pattern signals."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "1147045"
+      ],
+      "research_urls": [
+        "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf",
+        "https://otexts.com/fpp3/toolbox.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-15",
+      "title": "Validate each market and instrument family before extension",
+      "ma_concept": "India market basket, free NAV and CAS; new kinds plugged into registry.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md initialUS/UK/India and futureAsia/Europe contracts; PH-09 broad.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Make exchange/session/calendar, corporate-action/unit/price semantics, entitlements, historical universe and test evidence explicit capabilities. India is part of initial requirements rather than a copied final phase. Each future market/theme/model follows approved extension checklist with separate source/cost validity.",
+      "decision_needed": "Approve v1 supported kinds, India NAV scope, exchange calendars and per-market readiness tests; defer unsupported families explicitly.",
+      "acceptance_criteria": [
+        "US/UK/India each has source/identity/FX/action/calendar/forecast evidence examples.",
+        "GBX versus GBP, NSE/BSE linkage, accumulation/distribution and direct/regular mutual-fund plans are distinct.",
+        "Future China/Taiwan/HK/Europe configuration cannot bypass rights or scientific gates."
+      ],
+      "phase": "PH-03",
+      "source_ids": [
+        "1671250",
+        "197313",
+        "197273"
+      ],
+      "research_urls": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "FC-16",
+      "title": "Fix the forecast information contract before drawing screens",
+      "ma_concept": "Risk-first forecasts, proof page, model sheets and unavailable/in-practice states.",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-10/CAP-16 and L6-S03; MA board choices not MP-approved.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Agree content/state and provenance contracts before UX. Preserve forecast/proof/track record plus disagreement, stale, insufficient history, no-clear-view, disabled, corrected-outcome and cost-paused states. Actual layout/style/options come later.",
+      "decision_needed": "Approve information hierarchy, action labels and required proof/state payloads; do not approve MA branding or mock values.",
+      "acceptance_criteria": [
+        "Each displayed number identifies task/as-of/source/model and whether evaluated, illustrative or scenario.",
+        "Proof contains dataset/fold/baseline/mature outcomes/eligibility and limitations, with accessible text alternatives.",
+        "Chat deep-links exact evidence context; offline/stale data cannot masquerade as fresh analysis."
+      ],
+      "phase": "PH-06",
+      "source_ids": [
+        "1704037",
+        "328039",
+        "327999",
+        "197233"
+      ],
+      "research_urls": [
+        "https://otexts.com/fpp3/toolbox.html",
+        "https://otexts.com/fpp3/judgmental.html"
+      ],
+      "implementation_authorised": false,
+      "lane": "forecasting",
+      "status": "open_planning_contract",
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "science",
+      "jira_key": "MP-21"
+    },
+    {
+      "id": "PL-01",
+      "title": "Remove conflicting current architecture authority",
+      "ma_concept": "MA has a central architecture, area pages, a plan and an explicit decisions/open-questions map.",
+      "mp_evidence": "MP current deep dive and ten-layer pack coexist with six-phase implementation-plan, bootstrap ADRs and contributor rules mentioning older storage, runtime and budget choices.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Make one versioned MP baseline the authority; preserve dated evidence as historical and replace conflicting current instructions. Add a decision precedence table and a source-to-phase-to-story crosswalk. Do not turn all ten layers into separately approved architectures.",
+      "decision_needed": "Approve baseline structure, decision owner and handling of superseded ADRs.",
+      "acceptance_criteria": [
+        "Every current instruction resolves to the same £100 all-in/direct Anthropic/DynamoDB-preferred direction.",
+        "Every unselected option is marked open with an owner and deciding evidence.",
+        "One current phase map has explicit historical epic crosswalk."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "1671190",
+        "1540302",
+        "294942"
+      ],
+      "research_urls": [],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "baseline",
+      "jira_key": "MP-20"
+    },
+    {
+      "id": "PL-02",
+      "title": "Settle agent roles, SDK loop and memory authority",
+      "ma_concept": "MA separates deterministic responsibilities from LLM work and centralises tools, cache and scoped memory in a thin client runner.",
+      "mp_evidence": "MP proposes nine logical responsibilities but only four Claude task routes plus one code coordinator; production manifest is not agreed.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Retain one controlled Anthropic client runner; specify deterministic work separately from Claude routes, with role/tool/context/budget/eval contracts. Keep Haiku/Sonnet classes as candidates and pin evaluated IDs later. Memory notes must have source, expiry, taint and correction/deletion semantics and may never replace ledger facts or approved settings.",
+      "decision_needed": "Approve role-to-route catalogue, memory authority and per-route tool/budget limits; no automatic Opus route.",
+      "acceptance_criteria": [
+        "A table enumerates each responsibility, trigger, compute unit, model-if-any, tools, outputs and forbidden operations.",
+        "Ask/approve exits Lambda and resumes from a typed pending action rather than waiting for the owner.",
+        "Model/prompt/tool/memory-version changes identify affected safety suites and require appropriate approval."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1671210",
+        "3899472",
+        "1147085",
+        "327939"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "PL-03",
+      "title": "Separate batch deadlines from live work and justify caching",
+      "ma_concept": "MA uses Haiku batches for news and overnight judging plus stable-prefix caching. Some MA prose also mentions batch-generated briefing narration.",
+      "mp_evidence": "MP correctly makes 07:30 briefing/material risk independent of a newly submitted batch, but exact batch schedule, retry and cache economics are not specified.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use batch only for nonurgent enrichment and bounded evals. Deadline-aware submission/polling and per-item state prevent delayed results from rewriting already-issued evidence. Cache eligible stable prefixes only when expected reuse pays its write premium; no artificial warming or guaranteed hit-rate assumption.",
+      "decision_needed": "Approve batch-eligible workloads, freshness cutoffs, late-result policy and per-route cache policy.",
+      "acceptance_criteria": [
+        "Pending batch liability is reserved once and reconciled by item/custom ID; unordered, expired and partial results have cases.",
+        "The briefing uses last-valid dated evidence, deterministic prose or pending labels when the batch misses its cutoff.",
+        "Cold-cache, no-cache, best-effort batch-hit and per-model-version cost cases are costed."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1671210",
+        "3899472",
+        "2622286"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "PL-04",
+      "title": "Specify the authenticated SSE delivery contract and operating budget",
+      "ma_concept": "MA proposes Regional REST streaming through Python Web Adapter, durable event log and frequently polled live buffers.",
+      "mp_evidence": "MP has a local volatile sample stream and proposed separate streaming Lambda; durable contract and open-connection costs are not yet accepted.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep short commands/queries and durable jobs separate from observation. Recommend Regional REST API streaming with explicit Python Web Adapter compatibility, bounded stream lifetime, per-device/tab connection caps and event IDs. Replace the MA 200ms/1-second polling targets with a measured latency/cost envelope suited to personal use.",
+      "decision_needed": "Approve replay retention, latency target, auth/session approach, refresh/reconnect and polling cadence.",
+      "acceptance_criteria": [
+        "Specify handshake/auth, event schema, ordering, after-cursor, heartbeat, resync and logout/revocation behaviour.",
+        "Disconnect does not cancel an accepted job or trigger duplicate provider calls.",
+        "Cost scenario counts active device hours, Lambda GB-seconds, DynamoDB reads and reconnect bursts; no all-day stream assumed free."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442082",
+        "2622286",
+        "327939"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/apigateway/latest/developerguide/response-transfer-mode.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "workflows",
+      "jira_key": "MP-23"
+    },
+    {
+      "id": "PL-05",
+      "title": "Define queue, outbox, replay and external-side-effect semantics",
+      "ma_concept": "MA puts handoffs through SQS and describes safe idempotent retries and replay.",
+      "mp_evidence": "MP proposed job/outbox and separate scheduler/worker DLQs are stronger than a blanket exactly-once claim but need a complete message catalogue.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use stable business IDs, durable claims/leases and an atomic application outbox. Standard SQS for independent work; FIFO only for ordering that is actually required, such as a conversation. Distinguish scheduler target failures from worker failures; quarantine permanent invalid inputs without infinite retries.",
+      "decision_needed": "Approve queue topology, ordering partitions, retention/replay authority and ambiguous-provider-call reconciliation.",
+      "acceptance_criteria": [
+        "Message table defines producer/consumer, schema, key, ordering, lease, visibility, max attempts, concurrency and failure destination.",
+        "Crash cases span before/after provider submission, database commit, outbox dispatch and acknowledgement; ambiguous paid calls are not blindly resubmitted.",
+        "Partial batch failure/FIFO order and stale or expired owner approvals have explicit cases."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442082",
+        "1671270",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html",
+        "https://docs.aws.amazon.com/prescriptive-guidance/latest/lambda-event-filtering-partial-batch-responses-for-sqs/best-practices-partial-batch-responses.html",
+        "https://docs.aws.amazon.com/scheduler/latest/UserGuide/configuring-schedule-dlq.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
+      "planning_group": "workflows",
+      "jira_key": "MP-23"
+    },
+    {
+      "id": "PL-06",
+      "title": "Choose one orchestration mechanism for cross-service jobs",
+      "ma_concept": "MA selects Step Functions plus EventBridge for its later team.",
+      "mp_evidence": "MP leaves Step Functions versus Lambda Durable Functions open, with a starter Python3.12 runtime and optional SageMaker jobs.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend Step Functions Standard for the proposed cross-service SageMaker/import/approval workflows because visual state and native service joins match the requested technical/admin evidence. Compare Lambda Durable Functions as the code-first alternative rather than adding both by default. State-machine payloads should carry opaque references, not private documents or credentials.",
+      "decision_needed": "Owner selects Step Functions versus Durable Functions after a representative failure/retry/wait/cost comparison.",
+      "acceptance_criteria": [
+        "One representative import and train-evaluate-approve journey is specified in both alternatives with equivalent guarantees.",
+        "Runtime/container/SDK/region evidence is explicit: managed durable Python3.13/3.14 are listed, while OCI images support additional versions; Python3.12 is not declared impossible.",
+        "Replay/timeout/cancellation state retention and sensitive-payload redaction are documented."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "1540302",
+        "2622286",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/with-step-functions.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        }
+      ],
+      "planning_group": "workflows",
+      "jira_key": "MP-23"
+    },
+    {
+      "id": "PL-07",
+      "title": "Separate SageMaker training from inference hosting",
+      "ma_concept": "MA plans small Lambda training/inference with container fallback; MP explicitly requested a SageMaker architecture scenario.",
+      "mp_evidence": "MP two-family SageMaker diagram remains a proposal, not a final training or serving ADR.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend capped on-demand CPU SageMaker candidate training/evaluation, S3 model/evidence references and owner-approved portable Lambda inference where compatibility permits. Daily scheduled inference can run once per eligible universe/horizon then serve stored results. Keep Batch Transform or on-demand Serverless Inference as measured alternatives, with no always-on endpoint or provisioned concurrency by default.",
+      "decision_needed": "Approve managed training value, job cap/cadence and inference host after representative artifact/resource/cost evidence.",
+      "acceptance_criteria": [
+        "Model registry records artifact hash, data cutoff, splits, features, calibration and approval; it need not imply a paid always-on tracking server.",
+        "Serving estimates compare stored daily results/Lambda, Batch Transform and Serverless with loading/cold-start/egress/storage included.",
+        "Serverless exclusions are explicit: no VPC configuration, network isolation, data capture or Model Monitor; private-training controls do not automatically transfer."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "2622286",
+        "1147085",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/sagemaker/latest/dg/hosting-faqs.html",
+        "https://docs.aws.amazon.com/sagemaker/latest/dg/serverless-endpoints.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        }
+      ],
+      "planning_group": "ml-runtime",
+      "jira_key": "MP-24"
+    },
+    {
+      "id": "PL-08",
+      "title": "Prove financial visibility and audit atomicity before accepting DynamoDB keys",
+      "ma_concept": "MA uses a single-table document registry and transactions with audit history.",
+      "mp_evidence": "MP prefers DynamoDB but already notes large-import staging and a possible relational alternative; implementation-ready access/invariant specification is missing.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep typed financial entities independent of persistence and approve access patterns first. Recommend DynamoDB only if staged imports, corrections, audit/outbox and concurrent account writes have one consistent commit-visibility rule. Keep queryable Parquet evidence in S3; do not force all history into one growing item.",
+      "decision_needed": "Approve ledger/import atomicity and access pattern contract under existing MP-12, including whether a relational fallback is needed.",
+      "acceptance_criteria": [
+        "Model large imports beyond100 actions/4MB and persistent idempotency beyond the10-minute service token window.",
+        "Every reader/projection/export/replay honours the import commit marker; failed staging cannot change holdings.",
+        "Before/after audit, commit marker and outbox invariants are explicit and restore/rebuild cases link MP-13."
+      ],
+      "phase": "PH-01",
+      "source_ids": [
+        "2622286",
+        "1671190",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TransactWriteItems.html"
+      ],
+      "existing_jira_issue": "MP-12",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
+      "planning_group": "persistence",
+      "jira_key": "MP-12"
+    },
+    {
+      "id": "PL-09",
+      "title": "Design verified account linking and protected owner actions",
+      "ma_concept": "MA has per-environment Cognito, managed identity, device controls and a fresh second check for sensitive admin actions.",
+      "mp_evidence": "MP owner chose Apple, Google and passkeys with managed sign-in; recovery, federation linking, reauthentication and token/session architecture remain open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use Cognito managed sign-in and explicit verified linking to an owner identity; never merge users from email equality alone. Keep browser cookie/CSRF and native PKCE/token storage designs separate. Bind a fresh step-up proof to a specific sensitive action and its proposed values, with expiry and server checks.",
+      "decision_needed": "Resolve under MP-11: linking enrolment/recovery, step-up proof, devices, token revocation and two independent passkey recovery paths.",
+      "acceptance_criteria": [
+        "Document sign-in/link/recovery/revoke sequences for Apple, Google and local passkey identities, including lost-device/account cases.",
+        "Admin approvals bind owner, environment, action, payload hash and expiry; a generic logged-in session is insufficient.",
+        "Cross-environment tokens, stale approval, CSRF, linking takeover and native redirect interception have negative cases."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540302",
+        "327939",
+        "1671270"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html",
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html"
+      ],
+      "existing_jira_issue": "MP-11",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-07",
+          "option_id": "A",
+          "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        }
+      ],
+      "planning_group": "identity",
+      "jira_key": "MP-11"
+    },
+    {
+      "id": "PL-10",
+      "title": "Select account, region and network boundaries for MP rather than inheriting MA",
+      "ma_concept": "MA uses one named account/region and optional sophisticated VPC proxy/perimeter options.",
+      "mp_evidence": "MP still has N0/N1/N1-E alternatives, cheapest-suitable-region preference and no selected accounts/region/IaC.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend N0 for external Anthropic/data-facing Lambdas initially and only a justified N1 private job scope. Compare cheapest suitable regions on all required services, data residency and total egress/telemetry charges. Compare separate dev/prod accounts against strict same-account isolation without duplicating MA domains, CIDRs or proxies.",
+      "decision_needed": "Approve accounts, region, IaC and network option; VPN remains optional and does not substitute for auth.",
+      "acceptance_criteria": [
+        "A boundary matrix identifies IAM principals and permitted resources/actions per env and function.",
+        "Gateway endpoints are not an Anthropic internet path; public-subnet attachment alone gives Lambda neither public IP nor internet access.",
+        "Any NAT/interface endpoint/proxy/VPN has operations/failure/cost justification and does not appear enabled by diagram."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "3670133",
+        "1540302",
+        "1671190"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "cloud",
+      "jira_key": "MP-29"
+    },
+    {
+      "id": "PL-11",
+      "title": "Define MP release evidence and security regression layers",
+      "ma_concept": "MA uses one build, dev validation, owner-approved prod promotion, rollback, path filtering and web/native/agent gates.",
+      "mp_evidence": "MP current CI verifies starter/tooling/docs and is not a production web/native/release pipeline.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Carry the gates and immutable-promotion concepts, not MA tool/version counts or automatic dev-apply permission. Recommend one IaC stack family, OIDC per environment, pinned builds/SBOM and artifact provenance; local/stub replay tests offline by default, paid evals separately capped and approved.",
+      "decision_needed": "Approve build/test/release matrix, IaC choice, vulnerability policy, browser/device service choice and Mac CI budget.",
+      "acceptance_criteria": [
+        "Matrix links changes to unit/contract/integration/numeric/security/agent/web/native checks and identifies which are offline versus paid.",
+        "One tested artifact is promoted with explicit prod approval and rollback evidence; source/data/schema/config changes have compatibility plans.",
+        "Scanner findings have severity/exploitability/exception expiry ownership; incomplete or budget-exhausted evals never become green."
+      ],
+      "phase": "PH-08",
+      "source_ids": [
+        "2589543",
+        "1540302",
+        "2818197",
+        "4816897",
+        "294942"
+      ],
+      "research_urls": [
+        "https://docs.github.com/en/actions/concepts/security/openid-connect"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "delivery",
+      "jira_key": "MP-30"
+    },
+    {
+      "id": "PL-12",
+      "title": "Specify trace joins and telemetry budgets without universal trace claims",
+      "ma_concept": "MA plans RunRecord, OTel/GenAI spans, client telemetry and CloudWatch investigations.",
+      "mp_evidence": "MP carries business correlation and short-lived telemetry but exact SDK/exporter/sampling/cardinality contracts are open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Use durable business records as operational truth, with sampled OTel traces and explicit asynchronous links. A user action, a queue batch, a resumed approval and a stream session do not have to form one infinitely long parent-child trace. External provider internals are not observable solely because the SDK call is traced.",
+      "decision_needed": "Approve telemetry backend/sampling/redaction and per-env cost envelope, coordinated with admin/audit lane.",
+      "acceptance_criteria": [
+        "Define business/run/request/trace/span/message/provider IDs, propagation headers/attributes and link rules at every boundary.",
+        "Test redaction, context injection/forgery, sampled-out requests and multi-message batches; Activity remains complete when a span is absent.",
+        "Estimate dimensions, ingestion/query/retention/custom metrics/alarms rather than copying MA free-tier/£2.50 claims or assuming100% tracing."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "2622286",
+        "1147085",
+        "1671270"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html",
+        "https://aws.amazon.com/cloudwatch/pricing/"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "operations",
+      "jira_key": "MP-27"
+    },
+    {
+      "id": "PL-13",
+      "title": "Make cost admission conservative across concurrent work and shared credits",
+      "ma_concept": "MA has per-agent shares, model degradation and provider token metering.",
+      "mp_evidence": "MP already mandates£100 all-in,£70 operation/£30 reserve,£60/75/85 actions, per-env dashboard and no uncovered fallback; exact liabilities and allocations remain open.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Reserve conservative maximum liability before paid submissions, track unknown/retrying/batch commitments and reconcile once. Keep gross, verified credit and cash separate, shared credit counted once across apps. Dashboard reads cached aggregates; bill reports remain delayed even if polled six-hourly/daily.",
+      "decision_needed": "Approve per-feature ceilings, staleness policy, allowed degradation and how shared/unknown credits affect admission.",
+      "acceptance_criteria": [
+        "Concurrent final-pence requests cannot each independently pass the same remaining budget.",
+        "Unknown credit/report availability refuses uncovered work; deterministic output remains available without silently upgrading paid routes.",
+        "Include source subscription, FX/tax assumptions, telemetry, builds, training, backups and collectors in baseline and stress recosts; no guarantee AWS billing instantly stops."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "2622286",
+        "3899472",
+        "1147085"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api",
+        "https://aws.amazon.com/cloudwatch/pricing/"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "operations",
+      "jira_key": "MP-27"
+    },
+    {
+      "id": "PL-14",
+      "title": "Fix web/native ownership and offline/privacy contracts before UX",
+      "ma_concept": "MA defines an adaptive web app, native SwiftUI core in an RN shell, device integrations and testable static/prototype journeys.",
+      "mp_evidence": "MP retained Swift/SwiftUI plus RN shell but has no approved bridge/runtime/device matrix; requested SvelteKit3 is not the existing React architecture Site.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Recommend static SvelteKit PWA shell on S3/CloudFront with authenticated API data; add SSR only for a demonstrated need. Honour MP Swift ownership of native surfaces/cache/secure-device integration while RN owns navigation/bridge contracts. Define privacy-safe offline scope and durable reconnect independently for each platform.",
+      "decision_needed": "Approve supported OS/devices (including what Duo means), cache/offline/push capabilities, bridge ownership and exact compatible stack; defer visual design until these contracts are settled.",
+      "acceptance_criteria": [
+        "S3 static output does not imply SvelteKit server sessions/actions exist; session architecture is explicit.",
+        "Offline owner/data clearance, logout, expiry, stale results and app/service-worker update cases are specified.",
+        "Web and native have separate implementation stories using shared API/event contracts, not claims that one UI codebase is shared; widgets/Siri/share-sheet/LiveActivities are individually phased."
+      ],
+      "phase": "PH-07",
+      "source_ids": [
+        "1703997",
+        "2818197",
+        "66145",
+        "4816897"
+      ],
+      "research_urls": [
+        "https://svelte.dev/docs/kit/adapter-static"
+      ],
+      "existing_jira_issue": null,
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "lane": "platform",
+      "owner_directions": [
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "delivery",
+      "jira_key": "MP-30"
+    },
+    {
+      "id": "CT-01",
+      "title": "Define the owner-sensitive action and fresh-authentication policy",
+      "ma_concept": "MA second check and owner-only admin routes",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/product-requirements.md DEC-037 and audit-observability-requirements.md section3 specify managed sign-in and sensitive actions; exact assurance/challenge policy remains open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Keep the agreed Cognito managed sign-in. Propose recent server-verified authentication for record-affecting import confirmation, deletion, replay, credential linking/recovery, budget expansion and model promotion. Verify actual Cognito step-up availability and plan before deciding the mechanism; a local biometric unlock grants no server authority.",
+      "decision_needed": "Owner approves the sensitive-action matrix, freshness window, assurance requirements and recovery fallback.",
+      "acceptance_criteria": [
+        "Action matrix names read, propose, approve and execute permissions for every admin operation.",
+        "Server checks owner, environment, session status, assurance and authentication age immediately before execution.",
+        "Action challenge binds owner, environment, operation and exact target/payload hash; stale or reused proof fails.",
+        "Tests include local-biometric-only, forged client claim, refreshed-old authentication, cross-environment proof and unavailable step-up capability."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540282",
+        "1147105",
+        "197333"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-07",
+          "option_id": "A",
+          "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        }
+      ],
+      "planning_group": "identity",
+      "jira_key": "MP-11"
+    },
+    {
+      "id": "CT-02",
+      "title": "Specify the approval and configuration-change state machine",
+      "ma_concept": "MA PendingAction and ChangeRequest with evidence, impact and second check",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-13 and AgentManifest; audit-observability-requirements.md sections2–3 describe confirmation but no common detailed approval contract.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use draft → validated → awaiting_owner → approved → executing → succeeded/failed/reconcile_required. Rejected, expired or cancelled proposals terminate without execution. Pin the exact proposal and expected prior config/ledger version; separate viewing a card, approving it and completing the operation.",
+      "decision_needed": "Approve proposal expiry, allowed bounded automatic adjustments, rollback policy and which operations require a second confirmation.",
+      "acceptance_criteria": [
+        "Approval evidence includes actor, target environment, prior/new version, payload hash, reason, affected forecasts, cost estimate and rollback plan.",
+        "Changed inputs or stale prior version invalidate approval and require a new proposal.",
+        "Concurrent approve/reject and duplicate execution produce at most one effective state transition.",
+        "An approval failure or timeout leaves no silent partial financial/config update."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1769473",
+        "1736745",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        },
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        },
+        {
+          "card_id": "ARC-07",
+          "option_id": "A",
+          "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        }
+      ],
+      "planning_group": "admin",
+      "jira_key": "MP-28"
+    },
+    {
+      "id": "CT-03",
+      "title": "Define durable business audit contracts and integrity claims",
+      "ma_concept": "MA immutable audit rows, source attachments and RunRecord joins",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections2–4 already gives detailed upload/change lineage; portfolio-import-spec.md defines ledger joins.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Separate durable financial/approval/source audit from expiring operational logs. Define atomic ledger/audit/outbox boundaries and detect missing/altered events. An append-only API is not by itself tamper-proof against privileged administrators.",
+      "decision_needed": "Approve required audit record classes, privileged threat model, integrity-check mechanism and evidence retention.",
+      "acceptance_criteria": [
+        "Every committed change links event/revision, original hash/version, actor, reason, confirmation and prior/superseding revision.",
+        "Injected failure between financial commit, audit and outbox cannot leave an unreported inconsistency.",
+        "Integrity exercises detect a removed or altered event and report coverage; gaps are not certified intact.",
+        "Source access, denied actions and administrative changes have appropriate privacy-safe evidence."
+      ],
+      "phase": "PH-01",
+      "source_ids": [
+        "328059",
+        "1704077",
+        "294962",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        },
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        }
+      ],
+      "planning_group": "admin",
+      "jira_key": "MP-28"
+    },
+    {
+      "id": "CT-04",
+      "title": "Resolve retention, deletion and restored-copy policy",
+      "ma_concept": "MA originals/audit retention and protected evidence views",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections2,6 defines24-month renewable originals and operational14/30/90days, but remaining class matrix is open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Retain MP owner deletion rights rather than MA permanent-file assumptions. Specify S3 versions, parsed derivatives, caches, model-training datasets, evaluation labels, backups and provider batches independently. Restore must reapply deletion tombstones before data is made available.",
+      "decision_needed": "Approve record-class duration, backup expiry/deletion limits, retained minimal tombstone data and policy for models trained on deleted sources.",
+      "acceptance_criteria": [
+        "Deleting a versioned original checks/removes the intended versions rather than only a delete marker.",
+        "Portal reports requested/in_progress/completed/partially_failed with affected stores and unavoidable residual retention.",
+        "Restored data cannot silently resurrect deleted originals or excluded evaluation cases.",
+        "Retention extensions and any irreversible lock require explicit owner decisions."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1147065",
+        "328059",
+        "1671230",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html",
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        }
+      ],
+      "planning_group": "recovery",
+      "jira_key": "MP-13"
+    },
+    {
+      "id": "CT-05",
+      "title": "Specify run lifecycle evidence that survives crashes",
+      "ma_concept": "MA per-function RunRecord with checks and Activity drill-down",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section4 and architecture-deep-dive.md monitoring describe correlations; terminal-only writes are insufficient for crashed workers.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Create accepted/started and terminal lifecycle evidence or equivalent durable job state, plus timeout reconciliation. Run summaries are not the only source for durable forecast and approval truth.",
+      "decision_needed": "Approve timeout/stuck-run thresholds, the run summary schema and protected content-versus-metadata policy.",
+      "acceptance_criteria": [
+        "Accepted jobs and started runs remain discoverable if a worker crashes before writing completion.",
+        "A reconciler distinguishes missing, timed_out, cancelled, partial and ambiguous_external_outcome.",
+        "Activity links the exact config/model/source versions, guard decisions, attempts and cost reservation.",
+        "Completion is never inferred solely from a successful queue acknowledgement or stream close."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1671230",
+        "1736725",
+        "1736745"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        }
+      ],
+      "planning_group": "operations",
+      "jira_key": "MP-27"
+    },
+    {
+      "id": "CT-06",
+      "title": "Validate asynchronous trace joins and budgeted telemetry",
+      "ma_concept": "MA one door-to-model trace, full instrumentation and saved investigations",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections4–6 already rejects unproved automatic propagation and unsampled-is-free assumptions.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use stable business IDs as the durable join; adopt parent/child spans or span links according to asynchronous lifecycle and replay. Pin OTel convention/version and test every integration. Budget sampling, cardinality, queries and retention separately.",
+      "decision_needed": "Choose the minimum launch signal set, trace sampling strategy, correlation fields and measured observability allowance.",
+      "acceptance_criteria": [
+        "A synthetic UI→API→queue→worker→Anthropic/batch→storage→push example resolves through protected business IDs even after traces expire.",
+        "Replay gets a new attempt/run and linked trace, not the original successful span rewritten.",
+        "Trace headers are validated; client-provided baggage cannot inject identities, secrets or unbounded attributes.",
+        "Leak tests cover raw prompts, holdings amounts, filenames, signed URLs, account identifiers and model/tool arguments."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1671230",
+        "1736725"
+      ],
+      "research_urls": [
+        "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/",
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "operations",
+      "jira_key": "MP-27"
+    },
+    {
+      "id": "CT-07",
+      "title": "Freeze a typed agent/tool capability manifest",
+      "ma_concept": "MA one manifest drives runtime policy and eval coverage",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md AgentManifest and CAP-14 capture the concept; no final tool catalogue/side-effect matrix exists.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Declare roles independently from LLM routes. Runtime policy checks tool, owner/environment scope, schema/ranges, side effect, current approval, repetition, remaining time/cost and untrusted-content state. Fail closed when policy is unavailable.",
+      "decision_needed": "Approve the v1 roles/tools, permitted read/draft actions, external research surface and numerical-service ownership.",
+      "acceptance_criteria": [
+        "No model prompt or agent message can grant a new tool, secret access, trade capability, budget or promotion authority.",
+        "Each entry maps to at least one negative safety case and useful capability/regression case.",
+        "Policy applies to every application-side tool invocation and rechecks permission before committing.",
+        "Provider-hosted tools are constrained at request admission because application middleware cannot intercept every internal action."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1769473"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "CT-08",
+      "title": "Define quarantine and public/private research boundaries",
+      "ma_concept": "MA no-tool extractor and restrictions after untrusted text",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and audit requirements describe quarantine; detailed route/context and egress contracts are pending.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Treat PDFs, screenshots, merchant/issuer text, web results and agent notes as untrusted data. Use no-tool structured extraction and validate fields/provenance; keep public research requests free of holdings quantities/private documents. Carry taint through summaries and memory. Test residual misinformation even when exfiltration is blocked.",
+      "decision_needed": "Approve minimum outbound context by route, whether any optional classifier is justified and what happens when evidence is suspicious.",
+      "acceptance_criteria": [
+        "Poisoned PDF/image/OCR/news/tool-result cases cannot cause a prohibited tool, disclosure or record mutation.",
+        "Structured output does not automatically count as truthful; schema validity, source references and field plausibility are checked separately.",
+        "Outbound tool URLs/arguments are policy-controlled and sensitive context cannot enter public web research.",
+        "A screening refusal, timeout or no verdict is not an allow decision; safe extraction/abstention remains available."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1704077",
+        "295022"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "CT-09",
+      "title": "Specify numerical and evidence grounding by claim type",
+      "ma_concept": "MA figure check, refusal and template fallback",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and PRD contextual-chat requirement retain numerical grounding; final claim schema is not defined.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Ground rendered financial claims in typed tools and exact snapshot/as-of/version references. Verify amount, currency/unit, sign, horizon and uncertainty label; matching a number somewhere in context is insufficient. Scientific probabilities and scenarios have separate eligibility checks.",
+      "decision_needed": "Approve allowed financial claim types, numeric tolerances, citation freshness and safe failure/fallback experience.",
+      "acceptance_criteria": [
+        "Contradicted/stale values, wrong currency/unit, invented probability and swapped horizons fail even when the number exists in another tool output.",
+        "Figures derived from multiple values are calculated by deterministic services with formula versions.",
+        "Every recommendation can open its exact evidence context without a new unsupported reconstruction.",
+        "Failed grounding abstains or uses an approved deterministic template within the budget; retries are bounded."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1736725"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "CT-10",
+      "title": "Define MP T0/T1/T2 with coverage and incomplete outcomes",
+      "ma_concept": "MA path-triggered offline eval tiers and synthetic case manifest",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-14 and testing section retain T0/T1/T2 at umbrella level; MP CI does not implement those product evals.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Propose T0 offline deterministic replays on relevant changes; T1 bounded live tests for affected agent/tool/prompt/SDK routes; T2 full affected qualification for model/routing/release changes. Select case/trial counts from failure risk and budget rather than copying MA3/5 trials or dollar caps. Keep ML temporal validation separate.",
+      "decision_needed": "Approve harness, v1 case inventory, coverage triggers, per-run/month limits and which unresolved failures block a release.",
+      "acceptance_criteria": [
+        "Case metadata links requirement, phase/story, agent/tool, threat or capability, fixture version and expected state invariants.",
+        "A changed tool without mapped tests blocks readiness; unsupported dynamic plug-ins cannot bypass coverage.",
+        "Budget exhaustion, missing model access, timeout and invalid fixtures report incomplete/error rather than pass.",
+        "Original answer outputs and appended scorer versions remain auditable, and no live API is called by ordinary unit tests."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "197293"
+      ],
+      "research_urls": [
+        "https://inspect.aisi.org.uk/scoring-workflow.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "evals",
+      "jira_key": "MP-26"
+    },
+    {
+      "id": "CT-11",
+      "title": "Calibrate judges using independent labels and uncertainty",
+      "ma_concept": "MA advisory judges, monthly owner calibration and labelled regression cases",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/product-requirements.md and forecasting-scope.md require human-calibrated judging but contain no approved eligibility protocol.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use a separate binary/ordinal rubric per failure mode plus unknown, independent held-out owner labels and confidence intervals for false positives/negatives. Report strata such as extraction, research, financial explanation and market. Remain advisory while evidence is insufficient.",
+      "decision_needed": "Approve severity-specific error tolerance, sampling mix, recalibration cadence and sufficient evidence; MA50pass/50fail and0.8 are reference values only.",
+      "acceptance_criteria": [
+        "Judge calibration labels are separate from judge prompt development and repeat examples cannot inflate sample count.",
+        "Low sample size or a changed judge/model/rubric resets eligibility or triggers requalification.",
+        "Sample both suspicious and apparently successful runs, record selection probabilities and avoid presenting oversampled-failure rates as population rates.",
+        "Judge disagreement routes to owner review; an LLM judge cannot certify numerical truth or model predictive performance."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1769473"
+      ],
+      "research_urls": [
+        "https://inspect.aisi.org.uk/scoring-workflow.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "evals",
+      "jira_key": "MP-26"
+    },
+    {
+      "id": "CT-12",
+      "title": "Resolve evaluation privacy and batch-result evidence",
+      "ma_concept": "MA AWS-held eval transcripts and overnight Haiku batch judges",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section6 separates provider retention; exact live-transcript eligibility is open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Start with synthetic/redacted fixtures. Actual portfolio transcripts need a separately documented minimum payload and provider feature/retention assessment. Asynchronous judging is nonurgent, item-versioned and reconciled; archive only necessary protected evidence, not indiscriminate full prompts.",
+      "decision_needed": "Approve real-data evaluation eligibility, provider batch use, transcript/label retention and deletion semantics.",
+      "acceptance_criteria": [
+        "Register which data leaves AWS for each model API feature, purpose and account arrangement.",
+        "Partial/expired/cancelled batch items stay distinct from successful judge coverage and retain original run references.",
+        "Late results cannot overwrite newer adjudication, labels or decisions.",
+        "Synthetic regression cases preserve failure shape without retaining real account details; owner confirms release to the case corpus."
+      ],
+      "phase": "PH-05",
+      "source_ids": [
+        "1540178",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+        "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
+      "planning_group": "evals",
+      "jira_key": "MP-26"
+    },
+    {
+      "id": "CT-13",
+      "title": "Specify conservative cost admission and billing reconciliation",
+      "ma_concept": "MA metering and spend ladder with admin caps",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections1,7 already provides detailed MP-specific policy; stale root rules still mention the old£50 target.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Preserve confirmed£100all-in,£70operation+£30reserve and£60/75/85cash thresholds. Allocate evals, monitors, retries, cache writes and batches within the same envelope. Reserve before external work, carry ambiguous liabilities and distinguish pre-credit reported cost from cash/verified credit.",
+      "decision_needed": "Approve feature/environment/eval suballocations, stale/unknown-credit thresholds and emergency minimum functions; resolve conflicting root rules.",
+      "acceptance_criteria": [
+        "Shared credits are counted once and cannot be assumed available to MP merely because the account has promotional entitlement.",
+        "Two concurrent requests cannot each spend the same remaining allowance.",
+        "Dashboard uses cached reports with source age and reconciliation status; polling cadence is not guaranteed provider freshness.",
+        "Permission/budget failure sends no uncovered request and does not silently switch to paid fallback."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1442062",
+        "1736745",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-01",
+          "option_id": "A",
+          "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "operations",
+      "jira_key": "MP-27"
+    },
+    {
+      "id": "CT-14",
+      "title": "Bound self-healing, replay and recovery authority",
+      "ma_concept": "MA ops warden, incidents, DLQ replay and automatic rollback bands",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md sections3,7 and layered recovery joins preserve owner control but lack per-action recovery contracts.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Automatically retry only explicitly idempotent work within approved bounds. New external calls, financial reprocessing, broad replay, deleting evidence or increasing spend require current policy/approval. Use isolated restore plus reconciliation before switching authority.",
+      "decision_needed": "Approve incident classes, automatic recovery allowlist, replay limits, RPO/RTO and operator escalation path.",
+      "acceptance_criteria": [
+        "Replay preserves original business id and generates new attempt/trace links; duplicates cannot double-commit or double-notify.",
+        "Replays recheck current owner permissions, source retention/deletion and latest applicable config.",
+        "Restore exercise proves ledger/audit/source/model joins and deletion tombstones, not just object availability.",
+        "No app agent can grant infrastructure permissions or perform an unapproved production apply."
+      ],
+      "phase": "PH-08",
+      "source_ids": [
+        "1736745",
+        "1769473",
+        "294962"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
+        "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-03",
+          "option_id": "B",
+          "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        },
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        }
+      ],
+      "planning_group": "workflows",
+      "jira_key": "MP-23"
+    },
+    {
+      "id": "CT-15",
+      "title": "Separate learning proposals, approved settings and memory",
+      "ma_concept": "MA versioned settings, bounded tuning, agent notes and owner ChangeRequests",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/forecasting-scope.md CAP-13/15 and ablation/promotion rules retain the concepts; exact policy bands are unresolved.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Use read-only defaults; propose rather than mutate model/prompt/rule/budget settings. Distinguish evaluated numerical calibration, research notes and user preferences. Memory is sourced/tainted/revisable and cannot become ledger truth or authority.",
+      "decision_needed": "Approve any automatic safe adjustments, owner promotion scope, memory classes, forgetting and poisoning controls.",
+      "acceptance_criteria": [
+        "Every proposed model/rule/prompt change pins mature outcome evidence and relevant safety/eval/cost impact.",
+        "A note or summary cannot overwrite source data, outcomes, thresholds or an approved configuration.",
+        "Drift or insufficient mature evidence triggers abstention/shadow/disable according to policy, never autonomous promotion.",
+        "Version rollback preserves original forecast and outcome history."
+      ],
+      "phase": "PH-04",
+      "source_ids": [
+        "1769473",
+        "197293",
+        "1540178"
+      ],
+      "research_urls": [
+        "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-05",
+          "option_id": "A",
+          "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        },
+        {
+          "card_id": "ARC-06",
+          "option_id": "B",
+          "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        }
+      ],
+      "planning_group": "anthropic",
+      "jira_key": "MP-25"
+    },
+    {
+      "id": "CT-16",
+      "title": "Define admin information architecture and launch-minimum controls before UX",
+      "ma_concept": "MA cross-device Admin, Activity, Audit and Files board structure",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/audit-observability-requirements.md section3 lists eight portal areas; current MP phase map remains umbrella-level outside detailed L1.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Prepare an MP admin domain map covering Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery, Identity/Devices. Keep owner-only personal scope; do not import household-member administration or copy MA board styling.",
+      "decision_needed": "Approve launch-minimum versus later depth, navigation/domain boundaries and action permissions before screen design.",
+      "acceptance_criteria": [
+        "Every launch-sensitive action has a defined path, observable pending/failure/cancel/rejected state and evidence drill-down.",
+        "Read-only cost/audit access is distinct from controls that change budgets, data or model state.",
+        "Mobile and web workflows share backend contracts but have separately specified recovery/privacy/accessibility states.",
+        "Phase pages cite actual MP stories/contracts and clearly distinguish planned UI from implemented functionality."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "197333",
+        "328059",
+        "294962",
+        "197293"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html",
+        "https://inspect.aisi.org.uk/scoring.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        },
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "admin",
+      "jira_key": "MP-28"
+    },
+    {
+      "id": "CT-17",
+      "title": "Specify personal identity linking, sessions and owner recovery",
+      "ma_concept": "MA multi-provider links, devices, revocation and two independent sign-in paths",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/DEC-037/038 retains Cognito managed login, verified linking, Apple/Google/passkeys and two independent paths; detailed recovery remains open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Design personal-owner recovery rather than household invites. Link only after verified control of both identities, use stable provider subjects rather than email equality and avoid unlinking the final usable path. Define web cookies/native secure storage and live-stream reauthorization.",
+      "decision_needed": "Approve trusted origins/RP IDs, recovery inventory, session/stream revocation latency and loss-of-all-devices procedure.",
+      "acceptance_criteria": [
+        "Email collision cannot merge identities or grant access; linking/recovery changes require current owner authorization.",
+        "Revoked sessions cannot keep an SSE connection/data link indefinitely; explicit maximum delay is tested.",
+        "A lost device can be revoked using an independent verified path without disabling the only owner irrecoverably.",
+        "Dev/prod origin, issuer, audience, callback and passkey scope are explicit and fail on cross-environment tokens."
+      ],
+      "phase": "PH-02",
+      "source_ids": [
+        "1540282",
+        "1147105",
+        "1147065"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-07",
+          "option_id": "A",
+          "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "identity",
+      "jira_key": "MP-11"
+    },
+    {
+      "id": "CT-18",
+      "title": "Separate material investment alerts from operational incident routing",
+      "ma_concept": "MA alert router, quiet hours, cooldowns, recovery and budget ladder",
+      "mp_evidence": "docs/planning/aws-options-2026-11-01/DEC-032/033 and audit-observability-requirements.md section5 approve07:30London,22:00–07:00quiet hours and defined exceptions; severity/cooldowns remain open.",
+      "coverage": "partial_specification",
+      "disposition": "adapt_concept_research_and_owner_decision",
+      "recommendation": "Maintain separate financial-risk, system-security, data-quality, billing and job-failure alert classes with correlation/dedup, explicit evidence and recovery state. Product push channels remain native/PWA plus app/chat; additional operator email is a choice.",
+      "decision_needed": "Approve material/critical conditions, quiet-hour exceptions, grouping/cooldowns, emergency channel and weekend briefing.",
+      "acceptance_criteria": [
+        "A downstream outage produces one incident with linked symptoms rather than one push per failed component.",
+        "Risk alerts use eligible as-of data; unavailable providers cannot generate a confident all-clear.",
+        "Push provider acceptance is labelled delivery attempt/acceptance, not proof the owner read it.",
+        "Alert policy edits are versioned/audited; recovery notifications link the incident and do not erase prior failures."
+      ],
+      "phase": "PH-07",
+      "source_ids": [
+        "1442062",
+        "1736745",
+        "1671230"
+      ],
+      "research_urls": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html"
+      ],
+      "lane": "controls",
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-08",
+          "option_id": "B",
+          "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
+      "planning_group": "delivery",
+      "jira_key": "MP-30"
+    },
+    {
+      "id": "CD-01",
+      "title": "Freeze the canonical MP baseline and detailed story trace",
+      "lane": "coordinator",
+      "ma_concept": "One source per record, area specifications and a phase/story/design trace.",
+      "mp_evidence": "Ten phase drafts coexist with a historical six-phase implementation plan; 48 non-import stories are umbrella drafts.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Keep PH identifiers, assign one current authority and explicitly supersede bootstrap conflicts. Decompose every relevant acceptance into MP contracts/tests and actual Jira stories before UX starts; retain MA provenance without copying dates or permissions.",
+      "decision_needed": "Approve architecture baseline structure, epic crosswalk and story readiness protocol.",
+      "acceptance_criteria": [
+        "Record versioned requirements, ADRs, contracts, phase/story links and source dispositions; no local draft ID is presented as Jira.",
+        "All implementation stories have specific positive/negative acceptance, data/authority contracts, state inventory and dependency evidence before the UX gate.",
+        "Architecture, complete UX and explicit build permission have separate owner approvals."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "66065",
+        "197090",
+        "197133",
+        "1704017"
+      ],
+      "research_urls": [],
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "baseline",
+      "jira_key": "MP-20"
+    },
+    {
+      "id": "CD-02",
+      "title": "Track rich-source limitations and MP visual evidence",
+      "lane": "coordinator",
+      "ma_concept": "Source design boards and native Lucid/static/motion explainers accompany architecture and phase records.",
+      "mp_evidence": "Current MA text and board references inspected; all native media/animation pixels have not been certified. MP has existing native Lucid and Site exports.",
+      "disposition": "adapt_and_specify",
+      "recommendation": "Maintain a separate evidence state for source text, board semantics and actual visual inspection. Reuse MP native diagrams as proposed, update only for selected architecture and preserve exact versions/hashes. Create MP UX after baseline approval, not copied MA boards.",
+      "decision_needed": "Approve required architecture/phase visual set and source-review boundaries.",
+      "acceptance_criteria": [
+        "Every significant component and interface has a readable technical view with native AWS components and trust boundaries.",
+        "Each visual records source, version, export hash and current/proposed status; reduced-motion/static alternatives retained.",
+        "Uninspected referenced material remains visible as a limitation; no complete visual-parity claim."
+      ],
+      "phase": "PH-00",
+      "source_ids": [
+        "1703977",
+        "294922",
+        "197153",
+        "197353",
+        "327919"
+      ],
+      "research_urls": [],
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "baseline",
+      "jira_key": "MP-20"
+    },
+    {
+      "id": "IR-01",
+      "title": "Decide whether usage-based UI personalisation belongs in MP",
+      "source_keys": [
+        "MA-277"
+      ],
+      "existing_gap_ids": [
+        "CT-15",
+        "CT-16",
+        "PL-14"
+      ],
+      "phase_ids": [
+        "PH-00",
+        "PH-06"
+      ],
+      "recommendation": "Default to static owner-configurable ordering until owner explicitly approves bounded personalisation; do not inherit autonomous reordering.",
+      "decision_needed": "Whether taps/corrections/mutes may influence presentation order, and with what consent/retention/reset controls.",
+      "acceptance_criteria": [
+        "Only first-party owner signals; untrusted documents/news cannot teach preferences.",
+        "Visible learned settings, reset/opt-out and retention; no automatic records/forecasts/ranking/alert-policy changes.",
+        "Deidentify and separately approve any corrected import promoted into an evaluation case."
+      ],
+      "lane": "coordinator",
+      "ma_concept": "Relevant shared concept found in expanded live MA issue capture.",
+      "mp_evidence": "source-issue-reconciliation.json; candidate scope, not an owner-approved feature.",
+      "disposition": "explicit_scope_decision",
+      "phase": "PH-00",
+      "source_ids": [],
+      "research_urls": [],
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-12",
+          "option_id": "A",
+          "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
+        }
+      ],
+      "planning_group": "baseline",
+      "jira_key": "MP-20"
+    },
+    {
+      "id": "IR-02",
+      "title": "Decide export and cross-app retirement boundaries",
+      "source_keys": [
+        "MA-97",
+        "MA-105"
+      ],
+      "existing_gap_ids": [
+        "FC-10",
+        "PL-08",
+        "CT-04"
+      ],
+      "phase_ids": [
+        "PH-01",
+        "PH-09"
+      ],
+      "recommendation": "Treat owner export/reproducibility as a candidate MP contract; do not inherit DNS handover, wealth-tracker retirement or automatic migration.",
+      "decision_needed": "Required ledger/forecast/audit export formats and any optional MA file interchange.",
+      "acceptance_criteria": [
+        "Exports pin schema/as-of/provenance and respect owner/environment isolation.",
+        "Creation/access/deletion is audited; no public object URL by default.",
+        "Named later cutover approval precedes any MA job/resource/issue/history retirement."
+      ],
+      "lane": "coordinator",
+      "ma_concept": "Relevant shared concept found in expanded live MA issue capture.",
+      "mp_evidence": "source-issue-reconciliation.json; candidate scope, not an owner-approved feature.",
+      "disposition": "explicit_scope_decision",
+      "phase": "PH-01",
+      "source_ids": [],
+      "research_urls": [],
+      "status": "open_planning_contract",
+      "implementation_authorised": false,
+      "owner_directions": [
+        {
+          "card_id": "ARC-02",
+          "option_id": "A",
+          "meaning": "DynamoDB operational records and encrypted S3 originals selected as the storage direction. One backend write service owns owner-confirmed financial changes and corresponding audit/outbox evidence; agents may prepare drafts but cannot commit directly. Access patterns, precision, concurrency, large imports, query fit, recovery and export decisions remain open. No build or full architecture approval."
+        }
+      ],
+      "planning_group": "persistence",
+      "jira_key": "MP-12"
+    }
+  ],
+  "planning_groups": [
+    {
+      "id": "data",
+      "existing_jira_key": "MP-10",
+      "jira_key": "MP-10",
+      "parent": "MP-4",
+      "title": "Confirm data-use rights and affordable listing coverage",
+      "gap_ids": [
+        "FC-01"
+      ],
+      "action": "reuse_evidence_comment",
+      "implementation_authorised": false
+    },
+    {
+      "id": "identity",
+      "existing_jira_key": "MP-11",
+      "jira_key": "MP-11",
+      "parent": "MP-4",
+      "title": "Settle managed identity, sessions and sensitive-action authentication",
+      "gap_ids": [
+        "PL-09",
+        "CT-01",
+        "CT-17"
+      ],
+      "action": "reuse_evidence_comment",
+      "implementation_authorised": false
+    },
+    {
+      "id": "persistence",
+      "existing_jira_key": "MP-12",
+      "jira_key": "MP-12",
+      "parent": "MP-4",
+      "title": "Settle ledger, import and prediction write contracts",
+      "gap_ids": [
+        "PL-08",
+        "IR-02"
+      ],
+      "action": "reuse_evidence_comment",
+      "implementation_authorised": false
+    },
+    {
+      "id": "recovery",
+      "existing_jira_key": "MP-13",
+      "jira_key": "MP-13",
+      "parent": "MP-4",
+      "title": "Settle retention, deletion, backup and restore evidence",
+      "gap_ids": [
+        "CT-04"
+      ],
+      "action": "reuse_evidence_comment",
+      "implementation_authorised": false
+    },
+    {
+      "id": "baseline",
+      "existing_jira_key": null,
+      "jira_key": "MP-20",
+      "parent": "MP-4",
+      "title": "Freeze the researched architecture and phase/story baseline",
+      "gap_ids": [
+        "PL-01",
+        "CD-01",
+        "CD-02",
+        "IR-01"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "science",
+      "existing_jira_key": null,
+      "jira_key": "MP-21",
+      "parent": "MP-6",
+      "title": "Specify forecast tasks, scientific evaluation and model eligibility",
+      "gap_ids": [
+        "FC-02",
+        "FC-03",
+        "FC-04",
+        "FC-05",
+        "FC-06",
+        "FC-07",
+        "FC-08",
+        "FC-09",
+        "FC-14",
+        "FC-15",
+        "FC-16"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "portfolio",
+      "existing_jira_key": null,
+      "jira_key": "MP-22",
+      "parent": "MP-5",
+      "title": "Specify performance, exposure and ranked investment decisions",
+      "gap_ids": [
+        "FC-10",
+        "FC-11",
+        "FC-12"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "workflows",
+      "existing_jira_key": null,
+      "jira_key": "MP-23",
+      "parent": "MP-4",
+      "title": "Choose durable workflows and define API queue replay semantics",
+      "gap_ids": [
+        "PL-04",
+        "PL-05",
+        "PL-06",
+        "CT-14"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "ml-runtime",
+      "existing_jira_key": null,
+      "jira_key": "MP-24",
+      "parent": "MP-6",
+      "title": "Select bounded AWS ML training and forecast serving architecture",
+      "gap_ids": [
+        "PL-07"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "anthropic",
+      "existing_jira_key": null,
+      "jira_key": "MP-25",
+      "parent": "MP-7",
+      "title": "Specify bounded Anthropic research tools batches and memory",
+      "gap_ids": [
+        "PL-02",
+        "PL-03",
+        "FC-13",
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-15"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "evals",
+      "existing_jira_key": null,
+      "jira_key": "MP-26",
+      "parent": "MP-7",
+      "title": "Specify offline online and human-calibrated agent evaluations",
+      "gap_ids": [
+        "CT-10",
+        "CT-11",
+        "CT-12"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "operations",
+      "existing_jira_key": null,
+      "jira_key": "MP-27",
+      "parent": "MP-4",
+      "title": "Specify run evidence telemetry and conservative cost admission",
+      "gap_ids": [
+        "PL-12",
+        "PL-13",
+        "CT-05",
+        "CT-06",
+        "CT-13"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "admin",
+      "existing_jira_key": null,
+      "jira_key": "MP-28",
+      "parent": "MP-4",
+      "title": "Specify owner admin approvals audit and launch controls",
+      "gap_ids": [
+        "CT-02",
+        "CT-03",
+        "CT-16"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "cloud",
+      "existing_jira_key": null,
+      "jira_key": "MP-29",
+      "parent": "MP-4",
+      "title": "Choose MP environment region network and all-in cloud envelope",
+      "gap_ids": [
+        "PL-10"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    },
+    {
+      "id": "delivery",
+      "existing_jira_key": null,
+      "jira_key": "MP-30",
+      "parent": "MP-9",
+      "title": "Specify client compatibility release regression and alert delivery",
+      "gap_ids": [
+        "PL-11",
+        "PL-14",
+        "CT-18"
+      ],
+      "action": "create_planning_task",
+      "implementation_authorised": false
+    }
+  ]
+}
