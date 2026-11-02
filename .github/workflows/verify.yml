@@ -56,6 +56,8 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_review_regress.py -v
           python -m unittest discover -s tests -p test_pr_policy.py -v
+          python -m unittest discover -s tests -p test_review_checks.py -v
+          python -m unittest discover -s tests -p test_claude_review_skills.py -v
       - name: Validate Codex and protection JSON configuration
         run: |
           python -m json.tool .codex/hooks.json > /dev/null
