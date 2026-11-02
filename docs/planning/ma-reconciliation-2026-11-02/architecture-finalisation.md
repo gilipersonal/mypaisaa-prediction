@@ -58,6 +58,8 @@ Specify offline T0 replays, change-triggered live T1, model-change T2, online de
 
 **Owner direction recorded on 2 November 2026 (ARC-08): specify all identified admin domains and policies now, and design their full journeys after architecture agreement but before first application build.** Detailed admin UX is not deferred behind the first implementation phase; implementation itself can remain phased. Exact retention/deletion/recovery/approval policies still need resolution.
 
+**Owner direction recorded on 2 November 2026 (ARC-09): Inspect AI with typed deterministic checks organises agent evaluations.** Runtime guards stay in application code, pytest serves ordinary tests and numerical ML validation stays separate. Exact cases/scorers/thresholds/adapters, privacy and live-eval budgets remain open; no evaluation is run by this choice.
+
 ## 6. Approve the architecture baseline
 
 The sign-off bundle must contain the component/ownership catalogue; decided ADRs with rejected alternatives; API/event/data/agent contracts; source entitlements and cost envelope; threat/action/retention/recovery policies; scientific/eval plan; detailed phase dependencies and stories; technical Lucid diagrams with provenance; and a reconciled gap register.

@@ -212,6 +212,31 @@
         "issue": "MP-28",
         "comment_id": "12157"
       }
+    },
+    {
+      "card_id": "ARC-09",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Inspect AI + deterministic checks (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision9, call_d74495e8a3a24affa87c5c0ac5e55ff2",
+        "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+      },
+      "open_gap_ids": [
+        "CT-07",
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-11",
+        "CT-12",
+        "FC-13",
+        "PL-11"
+      ],
+      "jira_evidence": {
+        "issue": "MP-26",
+        "comment_id": "12158"
+      }
     }
   ]
 }

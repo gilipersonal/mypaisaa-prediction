@@ -89,6 +89,8 @@ ARC-07 subsequently selected server-verified Cognito assurance/freshness with a 
 
 ARC-08 subsequently selected full identified admin journeys before first build: policies/contracts during architecture preparation, complete UX after architecture agreement, phased implementation only after approval. Confirmed retention/deletion and launch main-dashboard cost scope remain; detailed policy and recovery evidence stays open.
 
+ARC-09 subsequently selected Inspect AI with typed MP-specific deterministic checks for agent evaluations; runtime guards, pytest and numerical forecasting validation retain distinct responsibilities. Exact eval/privacy/CI/budget contracts remain open, and no eval or model call is authorised by the choice.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

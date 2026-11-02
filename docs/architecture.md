@@ -57,6 +57,7 @@ These are current intended responsibilities; exact adapters, schemas and service
 | Ingestion | Provider normalisation, quality checks, idempotent writes | scheduled Python jobs |
 | Research/chat | Cited retrieval, structured factor extraction, specialist evidence and contextual conversation | Separate Lambda workers per Claude task route, sharing the bounded Anthropic client-SDK runner (ARC-06); Claude runs on Anthropic |
 | Quant engine | feature creation, training, validation, calibration, scoring | Python, scikit-learn-compatible pipelines |
+| Agent evaluation | Tagged scenarios, transcripts, deterministic/model scoring, replay/rescore and reports | Inspect AI selected ARC-09; runtime policy, pytest and numerical forecast validation remain separate; detailed proof pending |
 | Ledger | Own transactions, holdings, cash, all v1 imports, rules/XIRR, reconciliation | DynamoDB selected in ARC-02; one controlled write service; atomicity/access-pattern proof pending and earlier PostgreSQL ADR awaiting reconciliation |
 | Prediction registry | Immutable forecast, model, data cutoff, mature outcome and approval records | Durable append-only records plus private artefacts; exact schema/store decision open |
 | Web | Discovery first, separate holdings, chat, proof and launch costs | SvelteKit 3, officially available but not installed; static shell versus SSR open |

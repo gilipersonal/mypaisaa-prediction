@@ -486,6 +486,11 @@
           "card_id": "ARC-06",
           "option_id": "B",
           "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
         }
       ],
       "planning_group": "anthropic",
@@ -978,7 +983,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
       "planning_group": "delivery",
       "jira_key": "MP-30"
     },
@@ -1355,6 +1366,11 @@
           "card_id": "ARC-06",
           "option_id": "B",
           "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
         }
       ],
       "planning_group": "anthropic",
@@ -1392,6 +1408,11 @@
           "card_id": "ARC-06",
           "option_id": "B",
           "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
         }
       ],
       "planning_group": "anthropic",
@@ -1429,6 +1450,11 @@
           "card_id": "ARC-06",
           "option_id": "B",
           "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
         }
       ],
       "planning_group": "anthropic",
@@ -1461,7 +1487,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
       "planning_group": "evals",
       "jira_key": "MP-26"
     },
@@ -1492,7 +1524,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        }
+      ],
       "planning_group": "evals",
       "jira_key": "MP-26"
     },
@@ -1528,6 +1566,11 @@
           "card_id": "ARC-06",
           "option_id": "B",
           "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        },
+        {
+          "card_id": "ARC-09",
+          "option_id": "A",
+          "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
         }
       ],
       "planning_group": "evals",

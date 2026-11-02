@@ -638,8 +638,14 @@
       "id": "ARC-09",
       "title": "Guardrails and evaluation harness",
       "question": "Which harness should organise the same required safety, regression and capability evidence?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Inspect AI + deterministic checks (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision9, call_d74495e8a3a24affa87c5c0ac5e55ff2",
+        "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+      },
       "depends_on": [
         "ARC-05",
         "ARC-06",

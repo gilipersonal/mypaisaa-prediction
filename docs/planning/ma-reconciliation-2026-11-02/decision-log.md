@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-09, guardrails and evaluation harness.
+Next: ARC-10, client rendering and shared contracts.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-09.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-10.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -83,3 +83,11 @@ The owner selected option B: **Full admin journeys before first build.** Specify
 Include Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Configuration, Costs/Budgets, Incidents/Recovery and Identity/Devices. Cover normal investigation and comparison; approvals/rejections; source inspection/reprocessing/correction; configuration changes; cost reconciliation; stale/conflicting/expired/denied actions; failures, replay, restore/rollback and deletion. Cost monitoring remains directly accessible from the main app, not solely in admin.
 
 Retain the renewable 24-month original archive with owner extension/deletion, operational logs 14 days/traces 30 days/run summaries 90 days and monthly/change-triggered exercises. Detailed record/provider/backup retention and deletion semantics, audit-integrity claims, recovery objectives, action/notification classes and replay/rollback authority remain open. This choice does not perform UX design, delete data, run recovery jobs, or approve the whole architecture/build. Associated CT/PL gaps stay open until their own decisions and evidence are complete.
+
+## ARC-09: Inspect AI and typed deterministic agent evaluation
+
+The owner selected option A: **Inspect AI + deterministic checks.** Use Inspect AI to organise tagged scenarios, replay/transcript records, deterministic and calibrated model scoring, rescoring and reports. MP supplies its own typed cases/adapters/scorers and versioned agent/tool manifests. Application policy code enforces runtime permissions, grounding and financial authority; pytest remains for unit/integration/offline tests. Chronological numerical ML validation remains separate.
+
+Specify no-network T0, change-triggered bounded affected-route T1, model/release qualification T2, online code checks, budgeted sampled judges, held-out human calibration and permanent incident regression cases. Choose trials, thresholds, sample/uncertainty rules and judge eligibility from MP risk and cost evidence, not MA defaults. Missing evidence, failed runs or exhausted budget are incomplete, never green. Reuse stored outputs for rescoring only when inputs/semantics/privacy permit.
+
+Exact harness/version, adapters, coverage, scoring/eligibility/abstention rules, retention/redaction, local/CI execution permissions, approved live-call spend and admin evidence remain open. Selecting the harness does not install it, run any evaluations, make model calls, authorise independent review or implement a feature. CT/FC/PL proof gaps remain open until their own specifications/evidence are complete.
