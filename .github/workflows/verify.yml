@@ -41,8 +41,8 @@ jobs:
       - name: Test backend
         run: uv run --project backend --frozen --extra dev pytest backend/tests -q
 
-  codex-tooling:
-    name: Codex tooling
+  docs:
+    name: Docs
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -52,22 +52,45 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      - name: Test runner and PR policy using synthetic fixtures
+      - name: Check the root documents, the mark and the motion GIFs
+        run: python docs/readme/check_readme.py
+
+  review-tooling:
+    name: Review tooling
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Test the review runner, PR policy and check selection with synthetic fixtures
         run: |
           python -m unittest discover -s tests -p test_review_regress.py -v
           python -m unittest discover -s tests -p test_pr_policy.py -v
           python -m unittest discover -s tests -p test_review_checks.py -v
+      # The real findings ledger and independent review still require approval.
+
+  agent-config:
+    name: Agent config
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Check Claude skills, rules and Jira flow, Codex JSON and branch-protection names
+        run: python scripts/check_agent_config.py
+      - name: Test the agent-config check and the Claude skills
+        run: |
+          python -m unittest discover -s tests -p test_agent_config.py -v
           python -m unittest discover -s tests -p test_claude_review_skills.py -v
           python -m unittest discover -s tests -p test_claude_workflow_skills.py -v
-      - name: Validate Codex and protection JSON configuration
-        run: |
-          python -m json.tool .codex/hooks.json > /dev/null
-          python -m json.tool .codex/review-policy.json > /dev/null
-          python -m json.tool .codex/review-document-baseline.json > /dev/null
-          python -m json.tool .github/main-protection.json > /dev/null
-      - name: Check README navigation and local artwork
-        run: python docs/readme/check_readme.py
-      # The real findings ledger and independent review still require approval.
 
   static-preview:
     name: Static preview

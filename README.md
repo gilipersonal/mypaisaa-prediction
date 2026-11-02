@@ -97,7 +97,7 @@ cannot change a number, publish a forecast, move money or trade.
 
 | Status | What |
 | --- | --- |
-| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, five CI checks |
+| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, seven CI checks |
 | **Owner-selected** | Twelve architecture directions (ARC-01 to ARC-12), the horizons, and twelve policy answers from 2 November 2026 |
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
 | **Not built** | Sign-in, the ledger and imports, live data, models, agents, the web app, the Apple app, and all AWS infrastructure |
@@ -186,8 +186,8 @@ python3 scripts/review_checks.py --base origin/main --run
 
 The first runs the backend gates. The second checks these three documents' links, the mark's SVGs and
 reduced-motion fallbacks, and every GIF's frames and still image. The third picks and runs the checks for whatever
-a branch changed. CI runs five checks on every pull request (Backend, Codex tooling, Static preview, Workflow lint,
-Jira traceability). It deploys nothing.
+a branch changed. CI runs seven checks on every pull request (Backend, Docs, Review tooling, Agent config, Static preview,
+Workflow lint, Jira traceability). It deploys nothing.
 
 ## How work is done here
 

@@ -128,7 +128,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | --- | --- | --- |
 | Tests | pytest **8.4.2**, httpx **0.28.1** | Implemented for the starter |
 | Lint | Ruff **0.17.3** | Implemented |
-| CI | GitHub Actions: Backend, Codex tooling, Static preview, Workflow lint, Jira traceability | Implemented |
+| CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Static preview, Workflow lint, Jira traceability | Implemented |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
 | Infrastructure as code | Plan-only; CDK or CloudFormation still to choose | Open |
 
