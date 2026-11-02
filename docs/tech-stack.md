@@ -80,6 +80,8 @@ Current confirmed cash planning is **£100/month all-in**, **£70 operation + £
 
 **ARC-06 owner direction:** each Claude task route uses a separate Lambda worker with distinct permissions, sharing the bounded Anthropic client-SDK runner library. Exact route/worker/model counts, IAM/queue/context/memory/cache/batch/eval contracts and full cost remain open; no runtime is installed or deployed.
 
+**ARC-11 owner direction:** separate dev/prod AWS workload accounts under consolidated billing, with environment-specific write/deployment authority and one aggregate £100 all-in budget. Account/role/region/network/runtime/IaC and complete cost proofs remain open; no accounts or resources have been created.
+
 ## Build and verification boundaries
 
 Current CI covers **Backend, Codex tooling, Static preview, Workflow lint and Jira traceability**. The preview check is structural; it does not certify an operational PWA, browser accessibility or investment functionality. Web, Swift and React Native builds/tests must be added with their first executable manifests. [GitHub delivery and CI](github-workflow.md) records the procedure and existing evidence; this document does not assert a fresh test pass.

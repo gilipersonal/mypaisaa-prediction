@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-11, environment isolation, region/compatibility and complete cost.
+Next: ARC-12, canonical architecture, phase and story documentation structure.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-11.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-12.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -99,3 +99,11 @@ The owner selected option A: **Static SvelteKit PWA + authenticated FastAPI.** S
 Retain adaptive web, native Swift/SwiftUI within RN, shared typed API/event/action/error/proof contracts, live updates and bounded SSE. The architecture Site is a documentation artifact, not the product PWA. Static hosting does not prove private-cache behaviour or fast startup; measure first paint/interactive budgets, choose suitable non-sensitive prerendering and specify loading/stale/unauthorised/offline states.
 
 Session/cookie/CSRF/native PKCE boundaries, cache/service-worker privacy and logout clearing, reconnect/expiry/replay, app updates/push, bridge/device/Duo compatibility and accessibility remain open. This choice starts no UI implementation, hosting setup, runtime installation or cloud deployment and does not approve the complete baseline.
+
+## ARC-11: separate dev and production AWS workload accounts
+
+The owner selected option B: **Separate dev/prod AWS accounts** under consolidated billing. Keep environment-specific resources, identities, deployment roles and write authority. Development agents, synthetic imports, tests and CI must not have routine production write access. Central MP cost visibility uses scoped account/resource attribution and read-only collection rather than broad operational authority. Actual account identities and any existing management account remain to inspect only when separately authorised.
+
+The £100 monthly all-in cash ceiling remains one combined MP envelope across dev/prod AWS, data and Claude/evaluations: £70 planned operation plus £30 reserve. Organizations itself has no additional service fee; actual services, duplication, builds, telemetry, backups and collectors are still billed. Do not multiply AWS free-tier benefits or provider credit pools by account/environment. Account separation does not create a universal instant spend cap.
+
+Choose the cheapest suitable region only after confirming selected service/runtime availability, supported networking and actual complete prices. Exact account/organisation/roles, OIDC/IaC promotion, N0/N1/N1-E network choices, runtime/SDK/adapter matrix, quotas, recovery and cost/stress evidence remain open. No account creation, billing/organisation change, secret work, provisioning, paid call or full architecture approval follows from this selection.

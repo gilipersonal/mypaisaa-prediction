@@ -795,8 +795,14 @@
       "id": "ARC-11",
       "title": "Environment isolation, region, compatibility and whole-system recost",
       "question": "Which environment-isolation direction should the final deployment comparison assume?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "B",
+        "label": "Separate dev/prod AWS accounts (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision11, call_bfbd4f35cfa048d2ab7165339ed42c25",
+        "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+      },
       "depends_on": [
         "ARC-03",
         "ARC-04",

@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 10 directions selected; 2 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 11 directions selected; 1 owner answer pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -37,7 +37,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | B selected; evidence pending |
 | [ARC-09](#arc-09) | Guardrails and evaluation harness | ARC-05, ARC-06, ARC-07, ARC-08 | A selected; evidence pending |
 | [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | A selected; evidence pending |
-| [ARC-11](#arc-11) | Environment isolation, region, compatibility and whole-system recost | ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10 | Owner answer pending |
+| [ARC-11](#arc-11) | Environment isolation, region, compatibility and whole-system recost | ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10 | B selected; evidence pending |
 | [ARC-12](#arc-12) | Architecture and phase-document freeze | ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11 | Owner answer pending |
 
 <a id="arc-01"></a>
@@ -276,7 +276,7 @@ Primary sources: [source 1](https://docs.aws.amazon.com/apigateway/latest/develo
 
 Which environment-isolation direction should the final deployment comparison assume?
 
-**Owner answer: pending.** The current maker recommendation is B for stronger dev/prod isolation; the initial A recommendation remains in JSON history. Organizations itself has no additional service charge, while actual resource duplication and operational effort require costing. The £100 envelope stays aggregate. Dependencies: ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10.
+**Owner answer: B selected on 2 November 2026 — separate dev/prod AWS workload accounts under consolidated billing.** Exact account/roles/region/network/compatibility and cost proofs remain open. The current maker recommendation is B for stronger dev/prod isolation; the initial A recommendation remains in JSON history. Organizations itself has no additional service charge, while actual resource duplication and operational effort require costing. The £100 envelope stays aggregate. Dependencies: ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

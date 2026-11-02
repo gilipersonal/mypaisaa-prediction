@@ -141,7 +141,7 @@ The precise iPhone/iPad/“Duo” device/OS matrix, bridge versions and secure o
 
 ## Proposed AWS deployment
 
-**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. ARC-04 selects capped SageMaker CPU training/evaluation with portable approved Lambda inference and stored daily forecasts, with no continuously provisioned endpoint assumed. Lambda Durable Functions with Python is selected in ARC-03; runtime/replay/cost proofs, region, identity tier, data-store fit and stream fan-out require evidence and detailed ADR reconciliation. Private dev/prod authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
+**Current direction:** Lambda/S3/DynamoDB preferred, with CloudFront/Route 53/API Gateway and Cognito; full topology remains draft. ARC-04 selects capped SageMaker CPU training/evaluation with portable approved Lambda inference and stored daily forecasts, with no continuously provisioned endpoint assumed. Lambda Durable Functions with Python is selected in ARC-03; runtime/replay/cost proofs, region, identity tier, data-store fit and stream fan-out require evidence and detailed ADR reconciliation. Separate dev/prod workload accounts with consolidated billing are selected in ARC-11; exact account arrangements remain pending. Private environment authority, audit and cost foundations precede ledger implementation; synthetic dev packs remain prepared locally until cloud loading is separately authorised.
 
 **Historical accepted bootstrap footprint, retained for traceability:**
 

@@ -39,7 +39,7 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | Identity/API | Cognito managed Apple/Google/passkeys; FastAPI on Lambda; authenticated HTTPS and bounded resumable SSE |
 | Data/records | Yahoo Finance + Twelve Data Grow; private S3 evidence; DynamoDB selected in ARC-02; ledger-fit and integrity proofs pending |
 | Science/research | Rules/XIRR plus ML and structured LLM factors; separate Claude route workers with a shared Anthropic client-SDK runner; immutable predictions and mature outcomes |
-| Operations | Separate dev/prod authority; launch cost/audit visibility; £100 all-in planning envelope; Lambda Durable Functions selected for orchestration; selective SageMaker training with portable Lambda inference selected |
+| Operations | Separate dev/prod AWS workload accounts under consolidated billing (ARC-11); launch cost/audit visibility; £100 all-in planning envelope; Lambda Durable Functions selected for orchestration; selective SageMaker training with portable Lambda inference selected |
 
 The [new blueprint](docs/planning/layered-development-2026-11-01/architecture-blueprint.md) describes the target options and trust boundaries. The original accepted single-host/PostgreSQL ADR remains a **bootstrap baseline awaiting reconciliation**, not the chosen architecture for the expanded requirements. No deployed production footprint is claimed. Significant architecture drawings use Lucidchart with native technology components.
 

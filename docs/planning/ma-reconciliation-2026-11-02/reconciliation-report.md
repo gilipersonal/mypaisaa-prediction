@@ -93,6 +93,8 @@ ARC-09 subsequently selected Inspect AI with typed MP-specific deterministic che
 
 ARC-10 subsequently selected the static SvelteKit PWA shell/assets on S3/CloudFront with authenticated FastAPI. Exact session/cache/offline/streaming/startup/native contracts remain open, with no UI implementation or deployment authorised.
 
+ARC-11 subsequently selected separate dev/prod AWS workload accounts under consolidated billing. The £100 all-in envelope stays aggregate; exact accounts, region/network/runtime/IaC/recovery and complete cost evidence remain open. No account/organisation/billing changes are authorised.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

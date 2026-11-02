@@ -37,6 +37,11 @@
           "card_id": "ARC-01",
           "option_id": "A",
           "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
         }
       ],
       "planning_group": "data",
@@ -962,7 +967,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
       "planning_group": "cloud",
       "jira_key": "MP-29"
     },
@@ -999,6 +1010,11 @@
           "card_id": "ARC-09",
           "option_id": "A",
           "meaning": "Use Inspect AI with typed MP-specific deterministic checks for agent scenarios, transcripts, scoring/rescoring and reports. Runtime guardrails stay in application policy code; pytest stays for unit/integration/offline tests; numerical prediction validation remains separate. T0/T1/T2, online/human judging, exact cases/trials/thresholds/version/adapters/privacy/cost/CI policies remain to specify. No evaluation execution, install, model call, independent review or build approval."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
         }
       ],
       "planning_group": "delivery",
@@ -1036,6 +1052,11 @@
           "card_id": "ARC-08",
           "option_id": "B",
           "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
         }
       ],
       "planning_group": "operations",
@@ -1073,6 +1094,11 @@
           "card_id": "ARC-01",
           "option_id": "A",
           "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
         }
       ],
       "planning_group": "operations",
@@ -1347,7 +1373,13 @@
       "lane": "controls",
       "status": "open_planning_contract",
       "implementation_authorised": false,
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        }
+      ],
       "planning_group": "operations",
       "jira_key": "MP-27"
     },
@@ -1625,6 +1657,11 @@
           "card_id": "ARC-01",
           "option_id": "A",
           "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+        },
+        {
+          "card_id": "ARC-11",
+          "option_id": "B",
+          "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
         }
       ],
       "planning_group": "operations",
