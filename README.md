@@ -6,7 +6,7 @@ Personal investment intelligence: its own portfolio ledger/imports, rules, XIRR,
 
 As of **1 November 2026**, the runnable product code consists of FastAPI health and sample SSE routes. The static site is an illustrative preview. Authentication, durable records, providers, models, agents and web/native product apps remain planned. [Current status and roadmap](docs/implementation-plan.md#current-implementation-status) separates those states explicitly.
 
-**Current planning direction:** [DEC-001–041](docs/planning/aws-options-2026-11-01/product-decisions.json) and the [layered development pack](docs/planning/layered-development-2026-11-01/README.md) capture the later owner decisions. Complete end-to-end requirements and UX agreement still gate application implementation. DEC-041 authorises realistic synthetic **local/dev fixture preparation only**; actual holdings/PDFs/screenshots arrive later, and no fixtures are loaded into AWS. Direct Anthropic client SDK on Lambda and Yahoo Finance + Twelve Data Grow replace the earlier Agent SDK/feed assumptions. The £100 all-in envelope replaces the earlier £50 AWS-only planning target; the final architecture and ML options A/B remain unselected.
+**Current planning direction:** [DEC-001–041](docs/planning/aws-options-2026-11-01/product-decisions.json) and the [layered development pack](docs/planning/layered-development-2026-11-01/README.md) capture the later owner decisions. Complete end-to-end requirements and UX agreement still gate application implementation. DEC-041 authorises realistic synthetic **local/dev fixture preparation only**; actual holdings/PDFs/screenshots arrive later, and no fixtures are loaded into AWS. Direct Anthropic client SDK on Lambda and Yahoo Finance + Twelve Data Grow replace the earlier Agent SDK/feed assumptions. The £100 all-in envelope replaces the earlier £50 AWS-only planning target; ARC-02/03/04 now select DynamoDB/S3, Python Lambda Durable Functions and selective SageMaker CPU training with portable Lambda inference. Detailed proofs and the complete architecture baseline remain unapproved.
 
 | Read next | What it answers |
 | --- | --- |
@@ -39,7 +39,7 @@ As of **1 November 2026**, the runnable product code consists of FastAPI health 
 | Identity/API | Cognito managed Apple/Google/passkeys; FastAPI on Lambda; authenticated HTTPS and bounded resumable SSE |
 | Data/records | Yahoo Finance + Twelve Data Grow; private S3 evidence; DynamoDB selected in ARC-02; ledger-fit and integrity proofs pending |
 | Science/research | Rules/XIRR plus ML and structured LLM factors; direct Anthropic client SDK loop; immutable predictions and mature outcomes |
-| Operations | Separate dev/prod authority; launch cost/audit visibility; £100 all-in planning envelope; Lambda Durable Functions selected for orchestration; ML execution A/B open |
+| Operations | Separate dev/prod authority; launch cost/audit visibility; £100 all-in planning envelope; Lambda Durable Functions selected for orchestration; selective SageMaker training with portable Lambda inference selected |
 
 The [new blueprint](docs/planning/layered-development-2026-11-01/architecture-blueprint.md) describes the target options and trust boundaries. The original accepted single-host/PostgreSQL ADR remains a **bootstrap baseline awaiting reconciliation**, not the chosen architecture for the expanded requirements. No deployed production footprint is claimed. Significant architecture drawings use Lucidchart with native technology components.
 
@@ -61,7 +61,7 @@ The native Lucid export below preserves the **historical accepted bootstrap** si
 
 [Open the historical AWS Lucidchart](https://lucid.app/lucidchart/f9a80493-7f58-44c1-b201-e97034a1398c/edit) · [Diagram sources, snapshots and motion alternatives](docs/diagrams/README.md). GIFs loop; use the static images if motion is distracting. The table above remains a readable fallback.
 
-[Current editable A/B planning comparison](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit) · [Plan A native export](docs/planning/aws-options-2026-11-01/option-a-lucid.png) · [Plan B native export](docs/planning/aws-options-2026-11-01/option-b-lucid.png). A/B remain unselected; C is retired. These manually saved exports need an approved update for the complete new blueprint and do not demonstrate deployed services or automatic synchronization.
+[Current editable A/B planning comparison](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit) · [Plan A native export](docs/planning/aws-options-2026-11-01/option-a-lucid.png) · [Plan B native export](docs/planning/aws-options-2026-11-01/option-b-lucid.png). A/B exports retain the historical comparison; ARC-04 now selects selective SageMaker training with portable Lambda inference. C is retired. These manually saved exports need an approved update for the complete new blueprint and do not demonstrate deployed services or automatic synchronization.
 
 ## Start here tomorrow
 

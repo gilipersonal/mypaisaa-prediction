@@ -40,7 +40,7 @@ Retain one server-controlled Anthropic client-SDK loop and bounded task routes. 
 
 For ML, decide the first trainable families, task/horizon artefact policy, retraining trigger and cost ceiling. Evaluate pooled simple baselines before more complex challengers. Define point-in-time features, chronological splits, horizon-aware purging, untouched evaluation periods, calibration and uncertainty. Models enter shadow and require owner promotion. Long-horizon labels cannot mature faster because forecasts are refreshed daily.
 
-**Recommended:** selective short-lived SageMaker CPU training/evaluation with portable approved inference when feasible. **Alternative:** bounded AWS job execution without SageMaker if the measured workload/cost justifies it. Always-on endpoints, GPUs and provider-claimed accuracy are not assumed. Exact selection remains open.
+**Recommended:** selective short-lived SageMaker CPU training/evaluation with portable approved inference when feasible. **Alternative:** bounded AWS job execution without SageMaker if the measured workload/cost justifies it. Always-on endpoints, GPUs and provider-claimed accuracy are not assumed. **ARC-04 owner direction, 2 November 2026:** selective SageMaker CPU training/evaluation with portable Lambda inference is selected. Job limits, artefact/runtime fit and complete cost/scientific evidence remain open.
 
 ## 5. Set admin, safety, eval and operating policies
 

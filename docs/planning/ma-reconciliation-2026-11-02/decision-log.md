@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-04, ML training and serving execution.
+Next: ARC-05, forecast experiment breadth and scientific qualification.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -37,3 +37,11 @@ SQS remains responsible for buffering/backpressure and EventBridge Scheduler for
 Before build, prove runtime/container/SDK and regional compatibility; step naming/versioning and deterministic replay; owner approval expiry/version binding; idempotency beyond provider token windows; retries, cancellation, leases and cross-environment replay denial; redacted history retention, async API handoff, telemetry and complete cost. The existing Python 3.12 starter is not certified by this direction, but OCI support means it is not rejected solely from a managed-runtime table. No SDK, runtime or application code is changed now.
 
 Primary documentation checked on 2 November 2026: [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) and [runtime/OCI support](https://docs.aws.amazon.com/lambda/latest/dg/durable-supported-runtimes.html). The records and gaps PL-05/06 and CT-02/14 remain open until their contracts and evidence are complete.
+
+## ARC-04: selective SageMaker training and portable forecast inference
+
+The owner selected option A: **Selective SageMaker training + portable Lambda inference.** Use capped on-demand CPU jobs for candidate training/evaluation, approved versioned artefacts in S3 and Lambda inference only where the model/runtime/resource fit is demonstrated. Store formal daily forecast results for clients to read; do not train or refit on each app request. No always-on inference endpoint is assumed.
+
+Lambda Durable Functions with Python coordinates job submission, completion, evaluation, shadow evidence and owner approvals. It must reconcile job identity after interruption/replay. Claude models remain hosted on Anthropic, under the separately bounded research loop.
+
+Exact model families/tasks/horizon artefacts, job/training caps and cadence, dependency/serialisation safety, resource limits, region, serving latency, cancellation, restore and complete dev/prod cost remain open. If a model cannot fit the Lambda envelope, present a costed serving alternative for a separate owner decision. Keep PL-07 and FC-05/09 open until their own specifications and evidence pass. Model promotion still requires owner approval; selecting an execution service does not establish predictive quality or authorise a paid job.

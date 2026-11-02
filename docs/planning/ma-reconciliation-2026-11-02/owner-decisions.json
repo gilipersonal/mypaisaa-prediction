@@ -82,6 +82,26 @@
         "issue": "MP-23",
         "comment_id": "12151"
       }
+    },
+    {
+      "card_id": "ARC-04",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Selective SageMaker training + portable Lambda inference (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision4, call_5db1e80f68f9402884ff4dfbbd42a2bf",
+        "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+      },
+      "open_gap_ids": [
+        "PL-07",
+        "FC-05",
+        "FC-09"
+      ],
+      "jira_evidence": {
+        "issue": "MP-24",
+        "comment_id": "12152"
+      }
     }
   ]
 }

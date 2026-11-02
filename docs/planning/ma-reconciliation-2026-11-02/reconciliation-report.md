@@ -79,6 +79,8 @@ ARC-02 subsequently selected DynamoDB + S3 and one controlled backend financial 
 
 ARC-03 subsequently selected Lambda Durable Functions with Python workflows, superseding the maker Step Functions recommendation. SQS/Scheduler/business-record boundaries remain; runtime/replay/external-effect/cost evidence stays open.
 
+ARC-04 subsequently selected capped SageMaker CPU training/evaluation with portable approved Lambda inference and stored daily results. Exact model/job/artefact/cost/scientific evidence remains open; this does not authorise a job or an always-on endpoint.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

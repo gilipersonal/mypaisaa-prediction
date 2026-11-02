@@ -164,7 +164,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -285,7 +291,13 @@
       "implementation_authorised": false,
       "lane": "forecasting",
       "status": "open_planning_contract",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        }
+      ],
       "planning_group": "science",
       "jira_key": "MP-21"
     },
@@ -738,7 +750,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-04",
+          "option_id": "A",
+          "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        }
+      ],
       "planning_group": "ml-runtime",
       "jira_key": "MP-24"
     },

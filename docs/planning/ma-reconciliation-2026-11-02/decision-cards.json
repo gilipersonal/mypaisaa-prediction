@@ -242,8 +242,14 @@
       "id": "ARC-04",
       "title": "ML training and serving execution",
       "question": "Which bounded AWS execution approach should carry the same scientific protocol?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Selective SageMaker training + portable Lambda inference (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision4, call_5db1e80f68f9402884ff4dfbbd42a2bf",
+        "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+      },
       "depends_on": [
         "ARC-01",
         "ARC-03"
