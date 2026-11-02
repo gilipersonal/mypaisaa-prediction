@@ -1,8 +1,8 @@
 {
   "issue": "MP-19",
   "round_count": 0,
-  "status": "maker_gates_complete_review_not_run",
-  "review_approval": "not_requested_yet",
+  "status": "unreviewed_owner_decisions_in_progress",
+  "review_approval": "declined_for_now_owner_chose_architecture_decisions",
   "scope": "MA concept reconciliation, research, documentation/phase/story structure, current-rule corrections and Jira evidence; prepared Confluence bodies only",
   "lanes_proposed": [
     "Quantitative/data/source rights and scientific acceptance",

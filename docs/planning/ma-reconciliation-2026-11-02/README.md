@@ -12,6 +12,8 @@ The owner authorised reconciliation of all relevant MA planning, with gaps captu
 4. [Phase specifications](phases): PH-00–PH-09 with current draft stories, contracts, dependencies and acceptance evidence.
 5. [Source coverage](source-coverage.json), [gap register](gap-register.json), [Jira receipt](jira-receipt.json) and [publication proposal](confluence-publication-proposal.json).
 
+[Owner decision log](decision-log.md): ARC-01 option A selected; rights, coverage and cost proof remain open. Eleven further architecture decisions are pending.
+
 ## Authority and evidence
 
 MA is read-only research. Its existing household features, dates, estimates, feed rights, accounts, model IDs, numeric gates and permissions are not inherited. Current MP decisions take precedence: standalone owner ledger, no trading; US/UK/India; daily formal forecasts plus supported 30-minute monitoring; next-day, 5–20-day and 3/6/12-month horizons with separate 3–5-year scenarios; direct Anthropic client SDK on Lambda; £100 all-in cash envelope and no uncovered automatic paid fallback. SageMaker and network alternatives remain proposals until an explicit decision is recorded.

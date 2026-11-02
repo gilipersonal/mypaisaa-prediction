@@ -41,7 +41,15 @@ assert set().union(*(set(c['gap_ids']) for c in cards))==gids
 for card in cards:
  assert len(card['options'])==2 and card['options'][0]['recommended']
  assert '(Recommended)' in card['options'][0]['label']
- assert card['owner_answer'] is None
+ answer=card['owner_answer']
+ if answer is None:assert card['status']=='owner_answer_pending'
+ else:
+  assert answer['option_id'] in {o['id'] for o in card['options']}
+  assert answer['recorded_on'] and answer['source'] and answer['meaning']
+  assert card['status']=='owner_direction_selected_evidence_pending'
+answers=read(BASE/'owner-decisions.json')
+assert not answers['architecture_baseline_approved'] and not answers['implementation_authorised']
+assert {x['card_id'] for x in answers['decisions']}=={c['id'] for c in cards if c['owner_answer'] is not None}
 phase=read(BASE/'phase-story-baseline.json');assert len(phase['phases'])==10 and len(phase['stories'])==64
 unique([s['id'] for s in phase['stories']]);pids={p['id'] for p in phase['phases']}
 visited=set();pending={p['id']:set(p['implementation_dependencies']) for p in phase['phases']}

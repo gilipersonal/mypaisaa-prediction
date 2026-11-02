@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | All owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 1 direction selected; 11 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -27,7 +27,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 
 | Card | Decision | Dependencies | Status |
 | --- | --- | --- | --- |
-| [ARC-01](#arc-01) | Source rights and full-budget feasibility | First | Owner answer pending |
+| [ARC-01](#arc-01) | Source rights and full-budget feasibility | First | A selected; evidence pending |
 | [ARC-02](#arc-02) | Ledger, imports and write ownership | ARC-01 | Owner answer pending |
 | [ARC-03](#arc-03) | Durable workflow orchestration | ARC-02 | Owner answer pending |
 | [ARC-04](#arc-04) | ML training and serving execution | ARC-01, ARC-03 | Owner answer pending |
@@ -45,7 +45,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 
 Which source-rights resolution route should anchor the v1 capability and cost matrix?
 
-**Owner answer: pending.** Dependencies: none.
+**Owner answer: A selected on 2 November 2026 — keep Yahoo/Grow, verify uses and investigate documented gaps.** Coverage, rights and complete cost evidence remain pending. This is a direction decision, not activation or full architecture approval. Dependencies: none.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

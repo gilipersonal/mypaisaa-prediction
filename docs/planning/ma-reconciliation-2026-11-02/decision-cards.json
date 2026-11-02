@@ -3,7 +3,7 @@
   "project": "mypaisaa-prediction",
   "issue": "MP-19",
   "as_of": "2026-11-02",
-  "status": "maker_draft_owner_answers_pending_unreviewed",
+  "status": "owner_decisions_in_progress_unreviewed",
   "purpose": "Dependency-ordered architecture decision packet carrying researched concepts from all three lanes; no blind MA copying.",
   "fixed_constraints_not_reasked": [
     "Standalone personal investment decision support; no trading and its own ledger.",
@@ -26,8 +26,14 @@
       "id": "ARC-01",
       "title": "Source rights and full-budget feasibility",
       "question": "Which source-rights resolution route should anchor the v1 capability and cost matrix?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Keep Yahoo/Grow; verify uses and investigate gaps (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision 1, call_a9fb61df13c0420cb65c12f1b5972650",
+        "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+      },
       "depends_on": [],
       "gap_ids": [
         "FC-01",

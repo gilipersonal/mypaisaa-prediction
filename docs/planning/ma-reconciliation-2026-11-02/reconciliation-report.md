@@ -71,6 +71,10 @@ The [ten phase specifications](phases) retain PH-00–PH-09 and compile **64 loc
 
 Thirteen substantive Confluence page bodies are prepared locally: reconciliation, architecture sign-off, documentation structure and one page for every phase. They target the existing MP hubs and do not replace rich content. The [publication proposal](confluence-publication-proposal.json) is **not applied**. Existing Confluence and Lucid/Site snapshots remain unchanged by this reconciliation. Native MP diagrams stay proposed until choices are settled and corresponding exports are updated.
 
+## Owner direction recorded after this research
+
+On 2 November 2026 the owner selected ARC-01 option A: retain Yahoo/Grow as preferred candidates, verify each use and investigate alternatives for documented gaps. Rights, listing coverage and full-budget evidence remain pending; no gap is closed by selecting this direction. See the [decision log](decision-log.md). The owner chose to retain drafts and discuss decisions before review/publication/PR.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

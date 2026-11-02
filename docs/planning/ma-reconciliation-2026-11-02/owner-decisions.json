@@ -1,0 +1,30 @@
+{
+  "as_of": "2026-11-02",
+  "architecture_baseline_approved": false,
+  "UX_authorised": false,
+  "implementation_authorised": false,
+  "decisions": [
+    {
+      "card_id": "ARC-01",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Keep Yahoo/Grow; verify uses and investigate gaps (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision 1, call_a9fb61df13c0420cb65c12f1b5972650",
+        "meaning": "Preferred candidate direction selected. Per-listing coverage and storage/training/derived-display/Anthropic-sharing rights and full-budget evidence remain unresolved. Research alternatives for documented gaps only. No paid upgrade or activation authorised."
+      },
+      "open_gap_ids": [
+        "FC-01",
+        "FC-03",
+        "FC-15",
+        "CT-13",
+        "PL-13"
+      ],
+      "jira_evidence": {
+        "issue": "MP-10",
+        "comment_id": "12148"
+      }
+    }
+  ]
+}
