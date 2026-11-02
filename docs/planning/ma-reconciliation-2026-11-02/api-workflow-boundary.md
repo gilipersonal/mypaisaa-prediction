@@ -27,7 +27,7 @@ A bounded hybrid remains a credible alternative: Durable Functions owns Python a
 
 Step Functions supports SageMaker training/processing/transform `.sync` job integration. A hybrid is technically supported, but it is not automatically cheaper or required by FastAPI. Compare measured workflow volumes, transitions versus durable operations/checkpoint storage, polling, retries and support effort. No budget fit is certified here.
 
-The owner's recorded ARC-03 choice remains Lambda Durable Functions. Asking about hybrid is discussion, not consent to replace that choice or deploy both. ARC-05 experiment breadth discussion can resume once the owner is comfortable with this boundary.
+After this discussion the owner explicitly reaffirmed ARC-03: keep Lambda Durable Functions primary. Ordinary API Lambdas host FastAPI, and Step Functions is not part of the initial architecture direction. Any later ML-specific hybrid requires a demonstrated benefit and a separate decision. ARC-05 experiment breadth is the next pending card.
 
 ## Primary sources checked
 

@@ -91,7 +91,7 @@ Primary sources: [source 1](https://docs.aws.amazon.com/amazondynamodb/latest/AP
 
 Where should long-lived import, training, approval and recovery workflow state be defined?
 
-**Owner answer: B selected on 2 November 2026 — Lambda Durable Functions with Python workflows.** The owner choice supersedes the original Step Functions recommendation; compatibility, replay, cost and recovery evidence remain open. Dependencies: ARC-02.
+**Owner answer: B selected on 2 November 2026 — Lambda Durable Functions with Python workflows.** The owner reaffirmed Durable Functions primary after the FastAPI/hybrid discussion; ordinary Lambda hosts FastAPI and no Step Functions is added initially. The owner choice supersedes the original Step Functions recommendation; compatibility, replay, cost and recovery evidence remain open. Dependencies: ARC-02.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

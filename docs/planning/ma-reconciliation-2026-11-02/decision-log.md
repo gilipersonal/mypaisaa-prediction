@@ -45,3 +45,7 @@ The owner selected option A: **Selective SageMaker training + portable Lambda in
 Lambda Durable Functions with Python coordinates job submission, completion, evaluation, shadow evidence and owner approvals. It must reconcile job identity after interruption/replay. Claude models remain hosted on Anthropic, under the separately bounded research loop.
 
 Exact model families/tasks/horizon artefacts, job/training caps and cadence, dependency/serialisation safety, resource limits, region, serving latency, cancellation, restore and complete dev/prod cost remain open. If a model cannot fit the Lambda envelope, present a costed serving alternative for a separate owner decision. Keep PL-07 and FC-05/09 open until their own specifications and evidence pass. Model promotion still requires owner approval; selecting an execution service does not establish predictive quality or authorise a paid job.
+
+## ARC-03 reaffirmation after FastAPI/hybrid clarification
+
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. Next remains ARC-05, model experiment breadth and qualification.

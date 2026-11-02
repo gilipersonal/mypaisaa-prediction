@@ -70,7 +70,13 @@
         "label": "Lambda Durable Functions with Python workflows",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision3, call_05c334b9e81044c49fe0bd4c36005dfe",
-        "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval."
+        "meaning": "Use Lambda Durable Functions with Python as primary orchestration; supersedes the maker Step Functions Standard recommendation. Retain SQS buffering, EventBridge Scheduler clocks and DynamoDB business/approval records. Runtime/OCI/SDK/region/cost, deterministic replay, external effects, cancellation and recovery require proof. No default Step Functions deployment, build or full baseline approval.",
+        "reaffirmation": {
+          "recorded_on": "2026-11-02",
+          "source": "Owner reply to FastAPI/hybrid clarification, call_a47cfcc9de014354bee16cbbd06e44c2",
+          "answer": "Keep Durable Functions primary (Recommended)",
+          "scope": "Ordinary Lambda hosts FastAPI. Durable Functions owns background workflows. No Step Functions in the initial architecture; reconsider only for a justified workflow with a separate owner decision."
+        }
       },
       "open_gap_ids": [
         "PL-05",
@@ -81,6 +87,10 @@
       "jira_evidence": {
         "issue": "MP-23",
         "comment_id": "12151"
+      },
+      "reaffirmation_jira_evidence": {
+        "issue": "MP-23",
+        "comment_id": "12153"
       }
     },
     {
