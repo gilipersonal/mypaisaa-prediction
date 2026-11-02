@@ -1,0 +1,52 @@
+{
+ "hub": [
+  "docs/motion/forecast-lifecycle.gif"
+ ],
+ "record": [
+  "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png"
+ ],
+ "rec-system": [
+  "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png",
+  "docs/motion/system-flow.gif"
+ ],
+ "rec-ledger": [
+  "docs/motion/import-approval.gif",
+  "docs/diagrams/mp-architecture-2026-11-02/05-importing-a-statement.png",
+  "docs/diagrams/mp-architecture-2026-11-02/08-records.png"
+ ],
+ "rec-forecast": [
+  "docs/diagrams/mp-architecture-2026-11-02/03-forecast-pipeline.png",
+  "docs/motion/daily-window.gif",
+  "docs/motion/learning-loop.gif"
+ ],
+ "rec-claude": [
+  "docs/motion/claude-routes.gif",
+  "docs/diagrams/mp-architecture-2026-11-02/04-claude-routes-batching.png"
+ ],
+ "rec-identity": [
+  "docs/diagrams/mp-architecture-2026-11-02/06-identity-step-up.png"
+ ],
+ "rec-guardrails": [
+  "docs/diagrams/mp-architecture-2026-11-02/02-who-may-do-what.png"
+ ],
+ "rec-delivery": [
+  "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png"
+ ],
+ "rec-cost": [
+  "docs/motion/budget.gif"
+ ],
+ "journeys": [
+  "docs/motion/system-flow.gif",
+  "docs/motion/import-approval.gif",
+  "docs/motion/daily-window.gif",
+  "docs/motion/claude-routes.gif",
+  "docs/motion/learning-loop.gif"
+ ],
+ "roadmap": [
+  "docs/motion/roadmap.gif",
+  "docs/diagrams/mp-architecture-2026-11-02/09-the-road.png"
+ ],
+ "drawings": [
+  "docs/motion/logo-intro.gif"
+ ]
+}

@@ -24,3 +24,4 @@ data/*
 
 # Rendered scene HTML; rebuilt by docs/motion/build_motion.py
 docs/motion/src/
+docs/confluence/.confluence.lock

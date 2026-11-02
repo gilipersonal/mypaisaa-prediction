@@ -67,38 +67,15 @@ while pending:
 for story in phase['stories']:
  assert story['phase_id'] in pids and story['acceptance'] and not story['implementation_authorised']
  assert story['jira_key'] is None and story['readiness']=='blocked_on_architecture_and_UX'
-pub=read(BASE/'confluence-publication-proposal.json');assert len(pub['pages'])==13
-for page in pub['pages']:
- assert page['source_sha256']==sha(BASE/page['local_source'])
- assert page['body_sha256']==sha(BASE/page['body_file'])
- body=(BASE/page['body_file']).read_text()
- assert '<div data-type="panel-warning">' in body and 'not run' in body
- assert not any(s in body for s in ['<ac:','<ri:','file:///','<html','<body','{{'])
- assert page['content_id'] is None and page['status']=='prepared_not_published'
+# MP-34 removed the prepared Confluence bodies, proposal, receipts and readbacks; git history keeps them.
 for path in BASE.rglob('*.md'):
  for target in re.findall(r'\[[^\]]*\]\(([^)]+)\)',path.read_text()):
   if target.startswith(('http:','https:','#')):continue
   assert (path.parent/target.split('#',1)[0]).resolve().exists(),f'broken link {path}:{target}'
-for name in ['README.md','docs/architecture.md','docs/tech-stack.md','docs/implementation-plan.md']:
+for name in ['README.md','ARCHITECTURE.md','docs/implementation-plan.md']:
  assert 'ma-reconciliation-2026-11-02' in (ROOT/name).read_text()
 receipt=read(BASE/'jira-receipt.json');assert len(receipt['groups'])==15
 assert len([x for x in receipt['groups'] if x['action']=='create_planning_task'])==11
 assert all(x.get('verified_parent')==x['parent_requested'] and x.get('verified_status')=='To Do' for x in receipt['groups'] if x['action']=='create_planning_task')
-publication='not_applied'
-publication_receipt=BASE/'confluence-publication-receipt.json'
-if publication_receipt.exists():
- live=read(publication_receipt)
- publication=live['status']
- if publication=='published_and_verified':
-  evidence=read(BASE/'confluence-publication-validation.json')
-  assert evidence['status']=='publication_readback_passed' and evidence['published_pages']==13
-  assert evidence['selected_decision_rows_verified']==156
-  assert len(live['pages'])==13 and not live['preexisting_pages_edited']
-  assert all(x['same_version'] and x['canonical_body_preserved'] for x in live['parent_preservation'])
-  for page in live['pages']:
-   assert page['content_status']=='current' and page['planning_status']=='draft' and page['decisions_verified']==12
-   assert page['readback_artifact_sha256']==sha(BASE/page['readback_file'])
-  assert not live['architecture_baseline_approved'] and not live['UX_authorised'] and not live['implementation_authorised']
-
-result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'selected_directions':len(answers['decisions']),'architecture_baseline_approved':answers['architecture_baseline_approved'],'phases':10,'local_story_drafts':64,'confluence_bodies_prepared':13,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','publication':publication,'implementation_authorised':False}
+result={'status':'maker_checks_passed','pages':83,'attachment_entries':280,'source_issues':299,'gaps':52,'decision_cards':12,'selected_directions':len(answers['decisions']),'architecture_baseline_approved':answers['architecture_baseline_approved'],'phases':10,'local_story_drafts':64,'new_planning_tasks':11,'existing_planning_tasks_supplemented':4,'independent_review':'not_run','implementation_authorised':False}
 (BASE/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

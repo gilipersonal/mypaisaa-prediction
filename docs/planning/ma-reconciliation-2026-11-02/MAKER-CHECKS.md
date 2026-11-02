@@ -2,7 +2,7 @@
 
 **2 November 2026 · MP-19 · Historical pre-publication maker checks, not independent review**
 
-Later owner-authorised publication: all 13 planning-draft pages were published and read back; current evidence is in `confluence-publication-validation.json` and `confluence-publication-receipt.json`. The earlier statements below describe the pre-publication snapshot. No UX or application implementation followed.
+Later owner-authorised publication: all 13 planning-draft pages were published and read back; that evidence (`confluence-publication-validation.json` and `confluence-publication-receipt.json`) was removed in MP-34 and remain in git history. The earlier statements below describe the pre-publication snapshot. No UX or application implementation followed.
 
 The affected work is planning/documentation, Codex product-authority corrections, offline compilation/validation tools and tracker evidence. No application, AWS, model or provider integration changed.
 

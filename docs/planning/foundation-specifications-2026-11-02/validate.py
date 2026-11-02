@@ -171,14 +171,7 @@ assert model['assumptions']['baseline_training_instance_hours_dev_plus_prod']==1
 fixed=read(BASE/'fixed-policies.json')
 assert fixed['cost_collection']['billing_collection_hours']=={'AWS':24,'Anthropic':6}
 assert model['assumptions']['billing_collection_hours']==fixed['cost_collection']['billing_collection_hours']
-proposal=read(BASE/'publication-proposal.json')
-assert proposal['status']=='prepared_not_published' and proposal['new_pages']==5 and len(proposal['pages'])==5
-for page in proposal['pages']:
- assert page['content_id'] is None and page['status']=='prepared_not_published'
- assert sha(BASE/page['source'])==page['source_sha256']
- assert sha(BASE/page['body'])==page['body_sha256']
-for asset in proposal['attachments_proposed']:
- assert sha(BASE/asset['source'])==asset['sha256'] and asset['status']=='not_uploaded'
+# MP-34 removed the prepared Confluence publication bodies and their proposal; git history keeps them.
 
 
 contracts={r['id'] for r in read(BASE/'financial/contract-catalogue.json')['contracts']}

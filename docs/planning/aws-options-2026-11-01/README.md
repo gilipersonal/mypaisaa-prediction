@@ -105,8 +105,6 @@ Do not copy the reference's 200 ms DynamoDB polling for this workload. Market st
 
 ## 4. Plan A: lean AWS jobs
 
-![Plan A native Lucid service flows](option-a-lucid.png)
-
 **Best when:** the first priority is the simplest inexpensive scientific baseline, and you are comfortable owning the training orchestration and model metadata in application code.
 
 1. EventBridge schedules per-market refresh work. Lambda fetches and validates provider snapshots, writes versioned raw/canonical records, then updates the latest quote view. Daily bars trigger daily forecast jobs once complete.
@@ -125,8 +123,6 @@ Do not copy the reference's 200 ms DynamoDB polling for this workload. Market st
 **Cash budget envelope while eligible Claude usage is covered by the stated credit:** **£60/month**, leaving **£40 reserve**, under the explicit assumptions in section 9. This is an allowance-based planning envelope, not a quoted bill.
 
 ## 5. Plan B: selective SageMaker for the ML lifecycle
-
-![Plan B native Lucid service flows](option-b-lucid.png)
 
 **Best when:** reproducible ML experiments, explicit model versions and auditable approvals are central to the product. **Recommended for your stated goal.**
 

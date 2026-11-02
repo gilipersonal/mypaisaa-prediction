@@ -1,0 +1,173 @@
+{
+  "document_id": "65667c0c-9413-4c63-863d-a60b6e67ba26",
+  "document_url": "https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit",
+  "document_title": "Mypaisaa Prediction: architecture and design (MP-34)",
+  "document_version": 388,
+  "page_count": 9,
+  "export_date_utc": "2026-11-02",
+  "jira": "MP-34",
+  "status": "Owner-selected directions (ARC-01 to ARC-12, ARC-06b) and policy answers drawn as proposed design; pages 2, 8 and 9 are PROPOSED. Nothing is deployed: only the FastAPI health/SSE starter and CI exist",
+  "source": "lucid_spec.py writes spec.json (Lucid Standard Import, created with use_assisted_layout false); regenerate and re-import rather than editing exports",
+  "spec_sha256": "f1d70dacbc059ce830cd9c31673541bcaa6f68fc43af4b6bb744ddeab70ef94b",
+  "supersedes": [
+    {
+      "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
+      "intended_title": "SUPERSEDED - use 65667c0c-9413-4c63-863d-a60b6e67ba26 (MP-34)",
+      "rename": "not done: Lucid returned 403 (connector session has canEdit false on this document); rename by hand"
+    },
+    {
+      "document_id": "3ac220d1-225e-43ea-ac44-361d0c369e69",
+      "intended_title": "SUPERSEDED - use 65667c0c-9413-4c63-863d-a60b6e67ba26 (MP-34)",
+      "rename": "not done: Lucid returned 403 (connector session has canEdit false on this document); rename by hand"
+    },
+    {
+      "document_id": "f9a80493-7f58-44c1-b201-e97034a1398c",
+      "intended_title": "SUPERSEDED - use 65667c0c-9413-4c63-863d-a60b6e67ba26 (MP-34)",
+      "rename": "not done: Lucid returned 403 (connector session has canEdit false on this document); rename by hand"
+    },
+    {
+      "document_id": "29e99586-9d0b-42d3-9a80-c81e3a1e345f",
+      "intended_title": "SUPERSEDED - use 65667c0c-9413-4c63-863d-a60b6e67ba26 (MP-34)",
+      "rename": "not done: Lucid returned 403 (connector session has canEdit false on this document); rename by hand"
+    }
+  ],
+  "superseded_drafts": [
+    {
+      "document_id": "5d25abce-ccdb-4987-8a17-d0a88c293fe9",
+      "reason": "first import: clipped tables, labels struck by band borders, overflowing entity boxes; renamed SUPERSEDED draft"
+    },
+    {
+      "document_id": "3c9cd986-10ed-40ff-9730-89e3cd7bee3e",
+      "reason": "second import: page 1 labels crossed by the account border, page 7 line grazing a label; renamed SUPERSEDED draft"
+    }
+  ],
+  "pages": [
+    {
+      "page_number": 1,
+      "title": "1 The system on AWS",
+      "filename": "01-system-on-aws.png",
+      "native": true,
+      "nativeAwsIcons": 17,
+      "connectors": 18,
+      "dimensions": [
+        2240,
+        1472
+      ],
+      "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713",
+      "bytes": 242742
+    },
+    {
+      "page_number": 2,
+      "title": "2 Who may do what",
+      "filename": "02-who-may-do-what.png",
+      "native": true,
+      "nativeAwsIcons": 0,
+      "connectors": 0,
+      "dimensions": [
+        1900,
+        696
+      ],
+      "sha256": "12cf3bbac05e1c808c326a13512516df33eed6fbe2511ade18ed0c90de38b092",
+      "bytes": 44560
+    },
+    {
+      "page_number": 3,
+      "title": "3 The forecast pipeline",
+      "filename": "03-forecast-pipeline.png",
+      "native": true,
+      "nativeAwsIcons": 7,
+      "connectors": 21,
+      "dimensions": [
+        2420,
+        1756
+      ],
+      "sha256": "913bfd9c1f24c898326b69bc1def3633f6a9e6ef77b9b591e286aee00f8671ed",
+      "bytes": 302418
+    },
+    {
+      "page_number": 4,
+      "title": "4 Claude routes and batching",
+      "filename": "04-claude-routes-batching.png",
+      "native": true,
+      "nativeAwsIcons": 7,
+      "connectors": 11,
+      "dimensions": [
+        2260,
+        2066
+      ],
+      "sha256": "dd1ebf14d102233d0593c2f8a81ea4c33f43d4c3e96bf100fad14db4b2c7b532",
+      "bytes": 307058
+    },
+    {
+      "page_number": 5,
+      "title": "5 Importing a statement",
+      "filename": "05-importing-a-statement.png",
+      "native": true,
+      "nativeAwsIcons": 0,
+      "connectors": 12,
+      "dimensions": [
+        2780,
+        1606
+      ],
+      "sha256": "55a7b91a4bc5f9f68f53a74e3748c3ebdbc6d904e19bb53cc5466358082bc6d6",
+      "bytes": 193889
+    },
+    {
+      "page_number": 6,
+      "title": "6 Identity and step-up",
+      "filename": "06-identity-step-up.png",
+      "native": true,
+      "nativeAwsIcons": 5,
+      "connectors": 14,
+      "dimensions": [
+        2140,
+        1236
+      ],
+      "sha256": "e139c9ed7f322cdc7988aa0fea39561de0c66f384ecba680b830341f0820480c",
+      "bytes": 163359
+    },
+    {
+      "page_number": 7,
+      "title": "7 Environments and delivery",
+      "filename": "07-environments-delivery.png",
+      "native": true,
+      "nativeAwsIcons": 16,
+      "connectors": 7,
+      "dimensions": [
+        2030,
+        1626
+      ],
+      "sha256": "991598846762543498131a3a174b953f2357a60272c61681d09ec6ff4fcbab65",
+      "bytes": 188229
+    },
+    {
+      "page_number": 8,
+      "title": "8 Records",
+      "filename": "08-records.png",
+      "native": true,
+      "nativeAwsIcons": 0,
+      "connectors": 12,
+      "dimensions": [
+        2050,
+        1520
+      ],
+      "sha256": "d63df1a21abf84f7660737ae77fb00d1e9b5da89927c4de9fcfdab754f8ac831",
+      "bytes": 287638
+    },
+    {
+      "page_number": 9,
+      "title": "9 The road",
+      "filename": "09-the-road.png",
+      "native": true,
+      "nativeAwsIcons": 0,
+      "connectors": 14,
+      "dimensions": [
+        2160,
+        1256
+      ],
+      "sha256": "89d6a6946c89653c7c0547ae342f27772e1def79a1cbba1d2bd43522a847a3fc",
+      "bytes": 163202
+    }
+  ],
+  "sync": "manual: exports are snapshots of the Lucid document at the version above; Lucid edits do not reach the repo until re-exported"
+}

@@ -44,37 +44,6 @@ details{margin:16px 0;border:1px solid var(--line);border-radius:8px;padding:16p
 @media print{.sidebar,.controls,.skip{display:none}.shell{display:block;padding:0}.sheet{border:0;padding:0}.table-scroll{overflow:visible}body{font-size:10pt;background:white}h2,h3{break-after:avoid}.workflow,.diagram{break-inside:avoid}details{break-inside:avoid}}
 """
 
-SCRIPT = """
-(()=>{const img=document.getElementById('workflow-image');const button=document.getElementById('workflow-toggle');if(!img||!button)return;const motion=matchMedia('(prefers-reduced-motion: reduce)');const status=document.getElementById('workflow-status');let playing=false;
-const stop=()=>{playing=false;img.src='visuals/import-workflow.png';button.setAttribute('aria-pressed','false');button.textContent='Play illustrative workflow';status.textContent='Static workflow. Financial visibility begins only after a valid commit.';};
-const preference=()=>{stop();button.disabled=motion.matches;if(motion.matches)status.textContent='Reduced motion enabled. Static workflow remains available.';};
-button.addEventListener('click',()=>{if(motion.matches)return;if(playing){stop();return;}playing=true;img.src='visuals/import-workflow.gif';button.setAttribute('aria-pressed','true');button.textContent='Pause animation';status.textContent='Illustrative animation of planned behaviour; no import or live telemetry is running.';});motion.addEventListener('change',preference);addEventListener('pagehide',stop);preference();})();
-"""
-
-
-def workflow() -> str:
-    return '''<section class="workflow" aria-label="Planned import process"><h3>From source file to an auditable financial record</h3><p class="caption">Proposed process companion. Every stage retains source, status and cost evidence. This is documentation, not an app screen.</p><img id="workflow-image" src="visuals/import-workflow.png" alt="Receive, validate, extract, match, owner review, commit with audit, then durable receipt and reconciliation"><div class="controls"><button id="workflow-toggle" type="button" aria-pressed="false">Play illustrative workflow</button><a href="visuals/import-workflow.svg">Accessible SVG</a><a href="visuals/import-workflow.drawio">Editable process source</a></div><p class="caption" id="workflow-status" aria-live="polite">Static workflow.</p><noscript><p class="caption">Static workflow is available without JavaScript.</p></noscript></section>'''
-
-
-def native_diagrams() -> str:
-    cards = []
-    for option, label in [('a', 'A: portable ML jobs'), ('b', 'B: selective SageMaker')]:
-        src = f'../aws-options-2026-11-01/option-{option}-lucid.png'
-        cards.append(f'<figure class="diagram"><h3>Proposed {label}</h3><a href="{src}"><img src="{src}" alt="Native Lucidchart export of proposed architecture option {option.upper()}" loading="lazy"></a><figcaption class="caption">Initial planning snapshot; final training/runtime choices and detailed topology remain open.</figcaption></figure>')
-    return '<section aria-label="Existing native Lucid architecture snapshots"><h2>Native Lucidchart planning references</h2><p><a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">Editable Lucidchart source</a> · <a href="../aws-options-2026-11-01/diagram-manifest.json">Source/export manifest</a></p><div class="grid gap-6 native-grid">'+''.join(cards)+'</div></section>'
-
-
-def chart(name: str, title: str, description: str) -> str:
-    return f'<figure class="diagram"><h3>{escape(title)}</h3><a href="visuals/{name}.png"><img src="visuals/{name}.png" alt="{escape(description)}" loading="lazy"></a><figcaption class="caption">{escape(description)} · <a href="visuals/{name}.svg">Accessible SVG</a> · <a href="visuals/{name}.drawio">Editable draw.io source</a></figcaption></figure>'
-
-
-def detailed_architecture() -> str:
-    image = BASE/'visuals/mp-system-architecture-native.png'
-    if not image.exists():
-        return ''
-    return '<section><h2>Detailed proposed MP system</h2><p>Native Lucidchart export with AWS components and labelled logical boundaries. Training/workflow choices and full-scope costs remain open.</p><figure class="diagram"><a href="visuals/mp-system-architecture-native.png"><img src="visuals/mp-system-architecture-native.png" alt="Detailed proposed Mypaisaa Prediction architecture with private clients, bounded APIs/jobs, source and ledger data, models, agents and cost visibility" loading="lazy"></a><figcaption class="caption"><a href="https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit">Editable Lucidchart document</a> · <a href="visuals/architecture-lucid-manifest.json">Native export/source manifest</a></figcaption></figure></section>'
-
-
 def story_appendix() -> str:
     data = json.loads((BASE/'portfolio-import-stories.json').read_text())
     cards = []
@@ -116,18 +85,9 @@ def render() -> None:
         extra = ''
         if source == 'README.md':
             extra = '<div class="grid gap-6 metrics"><div class="metric"><strong>10</strong><span>planned phases</span></div><div class="metric"><strong>64</strong><span>local draft stories</span></div><div class="metric"><strong>12</strong><span>synthetic acceptance cases</span></div><div class="metric"><strong>Pending</strong><span>end-to-end approval</span></div></div>'
-        if source in {'README.md','portfolio-import-spec.md'}:
-            extra += workflow()
         appendix = story_appendix() if source=='portfolio-import-spec.md' else ''
-        if source in {'README.md','phased-delivery-plan.md'}:
-            appendix += chart('phase-dependencies', 'Planning and implementation prerequisites', 'Exact draft prerequisite matrices. They do not plot dates, progress or completed implementation.')
-        if source in {'README.md','tech-stack-matrix.md'}:
-            appendix += chart('budget-envelope', 'The confirmed cash planning envelope', 'DEC-023: £70 planned operation plus £30 reserve within £100; resource prices and actual spend are not plotted.')
-        if source in {'README.md','architecture-blueprint.md','tech-stack-matrix.md'}:
-            appendix += detailed_architecture() + native_diagrams()
-        if source in {'README.md','architecture-blueprint.md','tech-stack-matrix.md','network-topology-options.md'}:
-            appendix += '<section><h2>Detailed AWS network options</h2><figure class="diagram"><a href="visuals/mp-network-options-native.png"><img src="visuals/mp-network-options-native.png" alt="Native Lucidchart network options showing N0, two-AZ N1 private subnets and endpoints, and conditional NAT egress" loading="lazy"></a><figcaption class="caption">Proposed network choices, not provisioned resources. <a href="visuals/network-lucid-manifest.json">Native source and validation</a></figcaption></figure></section>'
-        page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | {escape(label)}</title><link rel="icon" href="data:,"><style>{CSS}</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections">{navigation}</nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p>{main_title}<div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div>{extra}{body}{appendix}<footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div><script>{SCRIPT}</script></body></html>'''
+        # MP-34 removed the Codex diagrams, charts and workflow animation; they remain in git history.
+        page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MP | {escape(label)}</title><link rel="icon" href="data:,"><style>{CSS}</style></head><body><a class="skip" href="#main">Skip to document</a><div class="grid gap-6 shell"><aside class="sidebar"><p class="brand">MYPAISAA PREDICTION / MP</p><nav aria-label="Planning documents and sections">{navigation}</nav></aside><main class="sheet rounded-lg" id="main"><p class="eyebrow">Requirements and architecture / 1 November 2026</p>{main_title}<div class="status"><p class="font-semibold">Draft documentation · Independent review pending</p><p class="text-sm">Synthetic local/dev phase. End-to-end requirements, UX and architecture choices remain unapproved. No product deployment or Confluence publication has occurred.</p></div>{extra}{body}{appendix}<footer class="footer">MP private planning pack. Planned behaviour, version evidence and current starter status are distinct. Canonical architecture diagrams use Lucidchart; this reading format does not imply automatic sync.</footer></main></div></body></html>'''
         receipt_path = BASE / 'sync-receipt.json'
         if receipt_path.exists():
             receipt = json.loads(receipt_path.read_text())
@@ -136,7 +96,7 @@ def render() -> None:
                 current_banner = '<div class="status"><p class="font-semibold">MP documentation published · Round 4: no blockers</p><p class="text-sm">Five new pages, six hub updates, eight visuals and eleven Jira descriptions were verified. <a href="SYNC-COMPLETED.md">Current completion record</a> · <a href="sync-receipt.json">Publication receipt</a>. Text below preserves the reviewed preparation state, including its historical pending labels. End-to-end requirements, UX and architecture choices remain unapproved; no application deployment occurred.</p></div>'
                 page = page.replace(old_banner, current_banner)
         (BASE/output).write_text(page)
-    print(f'Rendered {len(DOCUMENTS)} offline reading pages with static-first workflow and native Lucid references.')
+    print(f'Rendered {len(DOCUMENTS)} offline reading pages.')
 
 
 if __name__ == '__main__':

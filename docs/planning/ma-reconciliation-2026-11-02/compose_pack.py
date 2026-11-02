@@ -1,14 +1,11 @@
 """Compile documentation proposals only. Does not write to external services.
 
-Render with: uv run --no-project --with markdown-it-py==4.0.0 python <this file>
+Run with: python3 <this file>
 """
 from __future__ import annotations
 import hashlib
-import html
 import json
-import re
 from pathlib import Path
-from markdown_it import MarkdownIt
 
 BASE=Path(__file__).resolve().parent
 ROOT=BASE.parents[2]
@@ -131,27 +128,5 @@ for group in groups:
  payloads.append(dict(group,description='\n'.join(body),labels=['planning','ma-reconciliation','architecture-baseline']))
 write(BASE/'jira-write-proposal.json',{'issue':'MP-19','scope':'11 new planning tasks plus evidence comments on MP-10–MP-13; no status/description replacement or closure','groups':payloads})
 
-# Rich Confluence bodies, exact targets, source hashes. No publisher/API writes.
-md=MarkdownIt('commonmark',{'html':False}).enable('table')
-publication=[]
-docs=[('reconciliation-report.md','MP | MA concept reconciliation and researched gaps','4981438'),('architecture-finalisation.md','MP | Architecture finalisation and sign-off','5145394'),('documentation-structure.md','MP | Architecture areas and phase documentation contract','4981438')]
-docs += [(f'phases/{p["id"]}.md',f'MP | {p["id"]} | {p["title"]}','5014255') for p in phases]
-(BASE/'confluence').mkdir(exist_ok=True)
-if not (BASE/'confluence-publication-proposal.json').exists():write(BASE/'confluence-publication-proposal.json',{'status':'preparing_not_published','pages':[]})
-for filename,title,parent in docs:
- path=BASE/filename
- if not path.exists():continue
- body=md.render(path.read_text().split('\n',1)[1])
- body=body.replace('<th>','<th data-background="#DEEBFF">').replace('<table>','<table data-layout="wide">')
- def link(m):
-  target=html.unescape(m[1]);
-  if target.startswith(('https://','http://','#')):return m[0]
-  file=(path.parent/target.split('#',1)[0]).resolve()
-  if not file.is_relative_to(ROOT) or not file.exists():raise ValueError(f'Broken link {path}:{target}')
-  return 'href="'+GITHUB+html.escape(str(file.relative_to(ROOT)))+'"'
- body=re.sub('href="([^"]+)"',link,body)
- panel='<div data-type="panel-warning"><p><span data-type="status" data-color="yellow">PLANNING PROPOSAL</span> MP-19 · <time datetime="2026-11-02">2 November 2026</time>. Architecture and UX unapproved; no implementation authority. MA concepts researched, not copied. Independent review not run.</p></div>'
- output=BASE/'confluence'/(Path(filename).stem+'.html');output.write_text(panel+body)
- publication.append({'title':title,'action':'create_only_if_exact_title_absent','space_key':'mypaisaapr','parent_id':parent,'local_source':filename,'source_sha256':digest(path),'body_file':str(output.relative_to(BASE)),'body_sha256':digest(output),'content_id':None,'status':'prepared_not_published'})
-write(BASE/'confluence-publication-proposal.json',{'issue':'MP-19','status':'prepared_not_published','snapshot_role':'prepublication_source_payloads','actual_publication_receipt':'confluence-publication-receipt.json','space':'mypaisaapr','scope':'13 substantive new reading pages under existing MP hubs; no move/delete/replacement/attachment/sharing changes. Recheck exact-title collisions and parent versions at publication.','pages':publication,'existing_page_updates':[],'review':'not_run','independent_review_required_choice':'Ask owner at end; this generator does not authorise or run review.'})
-print(json.dumps({'pages':len(coverage),'gaps':len(gaps),'planning_groups':len(groups),'phases':len(phases),'local_stories':len(stories),'publication_bodies':len(publication)}))
+# MP-34 removed the Confluence page bodies and publication proposal this script used to prepare.
+print(json.dumps({'pages':len(coverage),'gaps':len(gaps),'planning_groups':len(groups),'phases':len(phases),'local_stories':len(stories)}))

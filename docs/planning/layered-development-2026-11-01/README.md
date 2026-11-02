@@ -24,23 +24,19 @@ This pack expands the owner's confirmed direction into a detailed portfolio/impo
 
 ## Illustrative workflow and native architecture references
 
-The reading hub contains an explicit-play import-process companion, with a static accessible alternative. It illustrates intended behaviour, not a running import or approved product-screen design. The supporting editable process source is [draw.io XML](visuals/import-workflow.drawio), with [SVG](visuals/import-workflow.svg), [PNG](visuals/import-workflow.png) and [GIF](visuals/import-workflow.gif) exports and a [manifest](visuals/manifest.json).
+The import-process animation, the phase and budget charts, and the Lucid PNG exports and manifests this pack used to link were removed from the repo in MP-34 (git history keeps them). Current diagrams are listed in [docs/diagrams](../../diagrams/README.md).
 
-AWS/significant architecture remains in [the existing editable Lucidchart comparison](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit). Its [Plan A native export](../aws-options-2026-11-01/option-a-lucid.png) and [Plan B native export](../aws-options-2026-11-01/option-b-lucid.png) are dated planning snapshots, not evidence of deployment or final topology approval. The old AgentCore option is retired. New detailed physical/data/trust-boundary diagrams follow the unresolved architecture decisions; no alternate tool is presented as their canonical replacement.
+AWS/significant architecture remains in [the existing editable Lucidchart comparison](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit). Its Plan A and Plan B pages are dated planning snapshots, not evidence of deployment or final topology approval. The old AgentCore option is retired. New detailed physical/data/trust-boundary diagrams follow the unresolved architecture decisions; no alternate tool is presented as their canonical replacement.
 
 ## Detailed current MP system diagram
 
-A new detailed **proposed** logical system page was authored in the existing Lucidchart document: page 4, `jvMISWi7AU3v`, document version 2703. It includes native AWS components, data/approval/agent boundaries and launch cost visibility while keeping training/workflow choices explicit. [Native PNG](visuals/mp-system-architecture-native.png) · [Actual canvas source](visuals/mp-system-architecture-source.json) · [Export and validation manifest](visuals/architecture-lucid-manifest.json). The original A/B/C pages were preserved; no sharing permissions or AWS resources changed.
+A new detailed **proposed** logical system page was authored in the existing Lucidchart document: page 4, `jvMISWi7AU3v`, document version 2703. It includes native AWS components, data/approval/agent boundaries and launch cost visibility while keeping training/workflow choices explicit. The original A/B/C pages were preserved; no sharing permissions or AWS resources changed.
 
 ## Technical VPC and egress options
 
-The [network appendix](network-topology-options.md) compares N0 without customer-VPC attachment, optional N1 two-AZ private jobs with S3/DynamoDB gateway endpoints, and conditional N1-E NAT/public egress. It covers route tables, ENIs, security-group limits, service/endpoint policies, private-job bootstrap paths, failure cases and cost formulas. None is selected or provisioned. [Native Lucid page-5 PNG](visuals/mp-network-options-native.png) · [Network provenance](visuals/network-lucid-manifest.json).
+The [network appendix](network-topology-options.md) compares N0 without customer-VPC attachment, optional N1 two-AZ private jobs with S3/DynamoDB gateway endpoints, and conditional N1-E NAT/public egress. It covers route tables, ENIs, security-group limits, service/endpoint policies, private-job bootstrap paths, failure cases and cost formulas. None is selected or provisioned.
 
 ## Phase and budget charts
-
-The [phase dependency chart](visuals/phase-dependencies.png) distinguishes planning prerequisites from implementation prerequisites directly from the story map. It shows no delivery dates or completion percentages. [Accessible SVG](visuals/phase-dependencies.svg) · [Editable draw.io chart](visuals/phase-dependencies.drawio).
-
-The [planning budget chart](visuals/budget-envelope.png) shows only the owner-confirmed £70 operating envelope and £30 reserve within £100. It is not actual spend or a price quotation. [Accessible SVG](visuals/budget-envelope.svg) · [Editable draw.io chart](visuals/budget-envelope.drawio). Source and validation evidence are in [the chart manifest](visuals/planning-chart-manifest.json).
 
 ## Delivery and authority boundaries
 

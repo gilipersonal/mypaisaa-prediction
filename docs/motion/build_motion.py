@@ -450,6 +450,366 @@ def logo_intro() -> tuple[str, int, int, float, float]:
     return page(w, h, end, body), w, h, end + 0.5, 5.0
 
 
+# ---------------------------------------------------------------- shared by the planning scenes
+
+
+def packet(d: str, t: float, dur: float, size: int = 12, col: str = C["paper"], glow: str = C["saffron"]) -> str:
+    """A dot that travels along an SVG path, visible only while it moves."""
+    return (
+        f'<div class="window" style="--at:{t}s;--dur:{dur}s"><div class="move" style="offset-path:path(\'{d}\');--at:{t}s;--dur:{dur}s;'
+        f'width:{size}px;height:{size}px;border-radius:{size / 2}px;background:{col};box-shadow:0 0 0 3px {glow}55,0 0 12px {glow}"></div></div>'
+    )
+
+
+def card3(x: float, y: float, w: float, h: float, title: str, lines: list[str], col: str, t: float, chip: str = "") -> str:
+    """A card with an accent bar, a title and up to two muted lines."""
+    out = (
+        f'<g class="rise" {at(t)}><rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{C["surface"]}" stroke="{C["line"]}"/>'
+        f'<rect x="{x}" y="{y + 14}" width="4" height="{h - 28}" rx="2" fill="{C[col]}"/>'
+        f'<text x="{x + 18}" y="{y + 28}" fill="{C["text"]}" font-size="15" font-weight="650">{title}</text>'
+    )
+    for i, line in enumerate(lines):
+        out += f'<text x="{x + 18}" y="{y + 48 + i * 17}" fill="{C["muted"]}" font-size="12">{line}</text>'
+    if chip:
+        out += (
+            f'<rect x="{x + w - 62}" y="{y + 14}" width="50" height="18" rx="9" fill="{C["violet"]}"/>'
+            f'<text x="{x + w - 37}" y="{y + 27}" text-anchor="middle" fill="{C["bg"]}" font-size="10" font-weight="800" letter-spacing=".8">{chip}</text>'
+        )
+    return out + "</g>"
+
+
+# ---------------------------------------------------------------- 7. the roadmap
+
+ROAD_PHASES = [  # shortened from docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json
+    ("PH-00", "Baseline and contracts"),
+    ("PH-01", "Portfolio and imports"),
+    ("PH-02", "Identity, audit, cost"),
+    ("PH-03", "Market data and risk"),
+    ("PH-04", "Forecaster and learning"),
+    ("PH-05", "Research, agents, chat"),
+    ("PH-06", "Web, actions, briefings"),
+    ("PH-07", "Native Apple and push"),
+    ("PH-08", "Acceptance and launch"),
+    ("PH-09", "Versioned extensions"),
+]
+ROAD_GATES = ["Architecture sign-off", "Full UX design", "UX approval", "Permission to build"]
+
+
+def roadmap() -> tuple[str, int, int, float, float]:
+    w, h = 1200, 620
+    ya, yb, yc, r = 170, 330, 490, 80
+    xs, xr, xl, xe = 70, 1060, 140, 940
+    road = f"M{xs} {ya} L{xr} {ya} A{r} {r} 0 0 1 {xr} {yb} L{xl} {yb} A{r} {r} 0 0 0 {xl} {yc} L{xe} {yc}"
+    arc = math.pi * r
+    total = (xr - xs) + arc + (xr - xl) + arc + (xe - xl)
+    t_road, d_road = 0.4, 3.2
+
+    def when(x: float, row: int) -> float:
+        if row == 0:
+            d = x - xs
+        elif row == 1:
+            d = (xr - xs) + arc + (xr - x)
+        else:
+            d = (xr - xs) + arc + (xr - xl) + arc + (x - xl)
+        return round(t_road + d_road * d / total, 2)
+
+    stops = [(150, 0, ROAD_PHASES[0])]
+    stops += [(x, 1, p) for x, p in zip([1000, 820, 640, 460, 280], ROAD_PHASES[1:6])]
+    stops += [(x, 2, p) for x, p in zip([280, 460, 640, 820], ROAD_PHASES[6:])]
+    ys = [ya, yb, yc]
+    nodes = ""
+    for x, row, (pid, title) in stops:
+        y, t = ys[row], when(x, row)
+        here = pid == "PH-00"
+        ring_col = C["mint"] if here else C["sky"]
+        nodes += (
+            f'<g class="pop" {at(t)}><circle cx="{x}" cy="{y}" r="11" fill="{C["mint"] if here else C["surface"]}" stroke="{ring_col}" stroke-width="2.5"/></g>'
+            f'<g class="rise" {at(t + 0.05)}><text x="{x}" y="{y + 40}" text-anchor="middle" class="mono" fill="{ring_col}" font-size="12" font-weight="700">{pid}</text>'
+            f'<text x="{x}" y="{y + 58}" text-anchor="middle" fill="{C["text"]}" font-size="13" font-weight="600">{title}</text></g>'
+        )
+    gates = ""
+    for i, (x, label) in enumerate(zip([340, 520, 700, 880], ROAD_GATES)):
+        t, lit = when(x, 0), 4.0 + i * 0.6
+        diamond = f'<rect x="{x - 13}" y="{ya - 13}" width="26" height="26" rx="4" transform="rotate(45 {x} {ya})"'
+        gates += (
+            f'<g class="pop" {at(t)}>{diamond} fill="{C["bg"]}" stroke="{C["saffron"]}" stroke-width="2.5"/>'
+            f'<text x="{x}" y="{ya + 5}" text-anchor="middle" fill="{C["saffron"]}" font-size="13" font-weight="800">{i + 1}</text></g>'
+            f'<g class="window" {at(lit, 1.0)}>{diamond} fill="{C["saffron"]}"/>'
+            f'<text x="{x}" y="{ya + 5}" text-anchor="middle" fill="{C["bg"]}" font-size="13" font-weight="800">{i + 1}</text></g>'
+            f'<circle cx="{x}" cy="{ya}" r="14" fill="none" stroke="{C["saffron"]}" stroke-width="2" class="ring" {at(lit)}/>'
+            f'<g class="rise" {at(t + 0.05)}><text x="{x}" y="{ya + 40}" text-anchor="middle" fill="{C["saffron"]}" font-size="11" font-weight="700" letter-spacing="1.5">OWNER GATE {i + 1}</text>'
+            f'<text x="{x}" y="{ya + 58}" text-anchor="middle" fill="{C["text"]}" font-size="13" font-weight="600">{label}</text></g>'
+        )
+    t_here = 4.0 + 4 * 0.6 + 0.4
+    body = f"""
+<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
+  {kicker(60, 50, "THE ROADMAP · NO DATES", "Ten phases, and four owner gates before any build")}
+  <path d="{road}" pathLength="1" class="drawlin" {at(t_road, d_road)} fill="none" stroke="{C['raised']}" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="{road}" class="fade" {at(t_road + d_road, .6)} fill="none" stroke="{C['paper']}" stroke-opacity=".22" stroke-width="2" stroke-dasharray="10 12"/>
+  <text x="60" y="284" class="fade" {at(1.4)} fill="{C['muted']}" font-size="11" font-weight="700" letter-spacing="1.5">BUILD PHASES · EACH ONE WAITS FOR GATE 4</text>
+  {gates}{nodes}
+  <circle cx="150" cy="{ya}" r="12" fill="none" stroke="{C['mint']}" stroke-width="2" class="ring" {at(t_here + 0.1)}/>
+  <circle cx="150" cy="{ya}" r="12" fill="none" stroke="{C['mint']}" stroke-width="2" class="ring" {at(t_here + 1.3)}/>
+  <g class="rise" {at(t_here)}>
+    <rect x="35" y="104" width="230" height="30" rx="15" fill="{C['mint']}"/>
+    <path d="M141 133 L150 145 L159 133 Z" fill="{C['mint']}"/>
+    <text x="150" y="124" text-anchor="middle" fill="{C['bg']}" font-size="13" font-weight="700">We are here: PH-00 · planning</text>
+  </g>
+  <g class="rise" {at(t_here + 0.4)}>
+    <text x="60" y="598" fill="{C['text']}" font-size="14" font-weight="700">Nothing is built until all four gates pass, in order.<tspan dx="14" fill="{C['muted']}" font-size="13" font-weight="400">Each gate is the owner's explicit decision. No phase has a date.</tspan></text>
+  </g>
+</svg>"""
+    end = t_here + 3.0
+    return page(w, h, end, body), w, h, end + 0.5, t_here + 2.4
+
+
+# ---------------------------------------------------------------- 8. importing a statement
+
+
+def import_approval() -> tuple[str, int, int, float, float]:
+    w, h = 1200, 600
+    steps = [  # title, detail, time the step lights
+        ("Statement file", "PDF, CSV or screenshot", 0.8),
+        ("Private S3", "quarantined original", 1.5),
+        ("Claude extraction", "no tools · a draft only", 2.2),
+        ("Proposal", "you review every row", 3.0),
+        ("You approve", "exact content, 15 min", 5.2),
+        ("One writer", "the controlled writer", 6.8),
+        ("Ledger + audit", "appended, never edited", 7.6),
+    ]
+    x0, dx, y = 110, 980 / 6, 150
+    rail = (
+        f'<rect x="{x0}" y="{y - 2}" width="980" height="4" rx="2" fill="{C["line"]}" class="fade" {at(0.3)}/>'
+    )
+    for i, (title, detail, t) in enumerate(steps):
+        x = x0 + i * dx
+        if i < len(steps) - 1:
+            rail += f'<rect x="{x}" y="{y - 2}" width="{dx}" height="4" rx="2" fill="{C["saffron"]}" class="growlin" {at(t, steps[i + 1][2] - t)}/>'
+        col = C["mint"] if i >= 4 else C["saffron"]
+        rail += (
+            f'<g class="rise" {at(0.3 + i * 0.06)}><circle cx="{x}" cy="{y}" r="14" fill="{C["raised"]}" stroke="{C["line"]}" stroke-width="1.5"/>'
+            f'<text x="{x}" y="{y + 5}" text-anchor="middle" fill="{C["muted"]}" font-size="13" font-weight="700">{i + 1}</text>'
+            f'<text x="{x}" y="{y + 40}" text-anchor="middle" fill="{C["text"]}" font-size="14" font-weight="700">{title}</text>'
+            f'<text x="{x}" y="{y + 58}" text-anchor="middle" fill="{C["muted"]}" font-size="12">{detail}</text></g>'
+            f'<g class="fade" {at(t, .3)}><circle cx="{x}" cy="{y}" r="14" fill="{col}"/>'
+            f'<text x="{x}" y="{y + 5}" text-anchor="middle" fill="{C["bg"]}" font-size="13" font-weight="800">{i + 1}</text></g>'
+            f'<circle cx="{x}" cy="{y}" r="14" fill="none" stroke="{col}" stroke-width="2" class="ring" {at(t)}/>'
+        )
+    rows = [("Buy 12 units of Fund A", "trade"), ("Cash out £1,104.00", "cash"), ("Broker fee £1.50", "fee")]
+    prop = ""
+    for i, (label, kind) in enumerate(rows):
+        ry = 304 + i * 36
+        prop += (
+            f'<g class="rise" {at(3.3 + i * 0.15)}><rect x="96" y="{ry}" width="424" height="30" rx="8" fill="{C["raised"]}"/>'
+            f'<text x="112" y="{ry + 20}" fill="{C["text"]}" font-size="13">{label}</text>'
+            f'<text x="504" y="{ry + 20}" text-anchor="end" fill="{C["muted"]}" font-size="12">{kind}</text></g>'
+            f'<text x="440" y="{ry + 20}" text-anchor="end" fill="{C["mint"]}" font-size="12" font-weight="700" class="fade" {at(7.4 + i * 0.12)}>written ✓</text>'
+        )
+    t_commit = 6.8
+    ledger = ""
+    for i, (label, kind) in enumerate(rows):
+        ly = 334 + i * 28
+        ledger += (
+            f'<g class="rise" {at(t_commit + 0.6 + i * 0.12)}><circle cx="866" cy="{ly - 4}" r="4" fill="{C["mint"]}"/>'
+            f'<text x="880" y="{ly}" fill="{C["text"]}" font-size="13">{label}</text></g>'
+        )
+    dots = "".join(packet(f"M548 {316 + i * 8} L832 {314 + i * 10}", t_commit + i * 0.12, 0.8, 11, C["paper"], C["mint"]) for i in range(3))
+    body = f"""
+<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
+  {kicker(60, 50, "IMPORTING A STATEMENT", "Nothing is written until you approve it")}
+  {rail}
+  <g class="fade" {at(3.1)} fill="{C['muted']}" font-size="11" font-weight="700" letter-spacing="1.5">
+    <text x="60" y="268">THE PROPOSAL YOU REVIEW · #7c1e</text>
+    <text x="685" y="268" text-anchor="middle">YOU APPROVE</text>
+    <text x="840" y="268">WHAT IS WRITTEN</text>
+  </g>
+  <rect x="60" y="282" width="480" height="240" rx="14" fill="{C['surface']}" stroke="{C['line']}" class="fade" {at(3.1)}/>
+  {prop}
+  <path d="M86 306 L80 306 L80 404 L86 404" fill="none" stroke="{C['mint']}" stroke-width="2.5" stroke-linecap="round" class="fade" {at(4.1)}/>
+  <text x="96" y="430" fill="{C['mint']}" font-size="12" font-weight="700" class="fade" {at(4.1)}>Group A, complete: the trade, its cash and its fee go together</text>
+  <g class="rise" {at(4.5)}>
+    <rect x="96" y="444" width="424" height="30" rx="8" fill="none" stroke="{C['saffron']}" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="112" y="464" fill="{C['text']}" font-size="13">Transfer in · amount unreadable</text>
+    <text x="504" y="464" text-anchor="end" fill="{C['saffron']}" font-size="12" font-weight="700">unresolved</text>
+  </g>
+  <text x="96" y="502" fill="{C['muted']}" font-size="12" class="fade" {at(4.7)}>Stays pending and visible. It is never dropped or guessed.</text>
+  <rect x="96" y="444" width="424" height="30" rx="8" fill="{C['saffron']}" fill-opacity=".16" class="window" {at(t_commit + 1.2, 1.6)}/>
+
+  <circle cx="685" cy="384" r="44" fill="none" stroke="{C['line']}" stroke-width="7" class="fade" {at(3.1)}/>
+  <circle cx="685" cy="384" r="44" fill="none" stroke="{C['saffron']}" stroke-width="7" stroke-linecap="round" pathLength="1" transform="rotate(-90 685 384)" class="drawlin" {at(4.9, 0.9)}/>
+  <text x="685" y="384" text-anchor="middle" fill="{C['text']}" font-size="20" font-weight="800" class="fade" {at(4.9)}>15 min</text>
+  <text x="685" y="402" text-anchor="middle" fill="{C['muted']}" font-size="11" class="fade" {at(4.9)}>to start</text>
+  <g class="fade" {at(5.2)}>
+    <text x="685" y="452" text-anchor="middle" fill="{C['text']}" font-size="13" font-weight="600">this exact proposal</text>
+    <text x="685" y="470" text-anchor="middle" fill="{C['muted']}" font-size="12">a change needs a fresh yes</text>
+  </g>
+  <g class="pop" {at(5.9)}>
+    <rect x="625" y="484" width="120" height="26" rx="13" fill="{C['mint']}"/>
+    <text x="685" y="501" text-anchor="middle" fill="{C['bg']}" font-size="12" font-weight="700">Approved</text>
+  </g>
+  <g class="fade" {at(t_commit)}><line x1="552" x2="826" y1="324" y2="324" stroke="{C['mint']}" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="4 5"/>
+  <text x="685" y="312" text-anchor="middle" fill="{C['muted']}" font-size="12">one controlled writer</text></g>
+
+  <rect x="840" y="282" width="300" height="130" rx="14" fill="{C['surface']}" stroke="{C['line']}" class="fade" {at(3.1)}/>
+  <rect x="840" y="282" width="300" height="130" rx="14" fill="none" stroke="{C['mint']}" stroke-width="2" class="fade" {at(t_commit + 0.6, .3)}/>
+  <text x="858" y="300" fill="{C['mint']}" font-size="11" font-weight="700" letter-spacing="1.5" class="fade" {at(3.1)}>LEDGER</text>
+  {ledger}
+  <rect x="840" y="424" width="300" height="98" rx="14" fill="{C['surface']}" stroke="{C['line']}" class="fade" {at(3.1)}/>
+  <text x="858" y="444" fill="{C['violet']}" font-size="11" font-weight="700" letter-spacing="1.5" class="fade" {at(3.1)}>AUDIT</text>
+  <g class="rise" {at(t_commit + 1.3)}>
+    <text x="858" y="470" class="mono" fill="{C['text']}" font-size="12">proposal #7c1e · group A</text>
+    <text x="858" y="490" class="mono" fill="{C['text']}" font-size="12">approved by owner · 1 writer</text>
+    <text x="858" y="510" class="mono" fill="{C['saffron']}" font-size="12">1 entry still pending</text>
+  </g>
+  <text x="60" y="570" fill="{C['muted']}" font-size="12" class="fade" {at(t_commit + 1.8)}>Illustrative entries · POLICY-001 and POLICY-005 · planned behaviour, not built</text>
+</svg>{dots}"""
+    end = t_commit + 4.2
+    return page(w, h, end, body), w, h, end + 0.5, t_commit + 3.2
+
+
+# ---------------------------------------------------------------- 9. Claude routes, batch and live
+
+
+def claude_routes() -> tuple[str, int, int, float, float]:
+    w, h = 1200, 620
+    cy = 212  # centre line of the batch lane's cards
+    chips, dots = "", ""
+    kinds = [C["sky"], C["paper"], C["violet"]]
+    cells = [(c, r) for r in range(6) for c in range(3)]
+    for i, (c, r) in enumerate(cells):
+        x, y = 66 + c * 52, 158 + r * 18
+        chips += f'<rect x="{x}" y="{y}" width="42" height="11" rx="3" fill="{kinds[(c + r) % 3]}" opacity=".75" class="pop" {at(0.7 + i * 0.04)}/>'
+    for i, (c, r) in enumerate(cells[::2]):
+        x, y = 66 + c * 52 + 21, 158 + r * 18 + 5
+        dots += packet(f"M{x} {y} L250 {cy}", 1.8 + i * 0.07, 0.6, 9)
+    for i in range(8):
+        dots += packet(f"M430 {cy - 21 + i * 6} L490 {cy}", 3.0 + i * 0.06, 0.5, 9)
+    for i in range(3):
+        dots += packet(f"M690 {cy - 8 + i * 8} L750 {cy}", 4.0 + i * 0.15, 0.5, 11, C["paper"], C["violet"])
+    for i in range(3):
+        dots += packet(f"M{570 + i * 20} 254 L{560 + i * 30} 300", 3.9 + i * 0.1, 0.6, 8, C["muted"], C["muted"])
+    dots += packet(f"M930 {cy} L1000 {cy}", 5.1, 0.6, 12, C["paper"], C["violet"])
+    dots += packet("M1075 254 L1075 380", 6.3, 0.7, 12, C["paper"], C["mint"])
+    outs = [("07:30 briefing", 370), ("Explanations", 408), ("Chat: ask why", 446)]
+    for i, (_, oy) in enumerate(outs):
+        dots += packet(f"M1000 422 L940 {oy + 15}", 7.2 + i * 0.12, 0.5, 10, C["paper"], C["mint"])
+    out_cards = "".join(
+        f'<g class="rise" {at(0.9 + i * 0.05)}><rect x="760" y="{oy}" width="180" height="30" rx="15" fill="{C["surface"]}" stroke="{C["line"]}"/>'
+        f'<text x="850" y="{oy + 20}" text-anchor="middle" fill="{C["text"]}" font-size="13" font-weight="600">{label}</text></g>'
+        f'<rect x="760" y="{oy}" width="180" height="30" rx="15" fill="none" stroke="{C["mint"]}" stroke-width="2" class="fade" {at(7.7 + i * 0.12, .3)}/>'
+        for i, (label, oy) in enumerate(outs)
+    )
+    lit = "".join(
+        f'<rect x="{x - 3}" y="{y - 3}" width="{cw + 6}" height="{ch + 6}" rx="14" fill="none" stroke="{C[col]}" stroke-width="2" class="fade" {at(t, .3)}/>'
+        for x, y, cw, ch, col, t in [
+            (250, 170, 180, 84, "saffron", 2.4), (490, 170, 200, 84, "sky", 3.5), (750, 170, 180, 84, "violet", 4.5),
+            (1000, 170, 150, 84, "mint", 5.7), (1000, 380, 150, 84, "mint", 6.9),
+        ]
+    )
+    links = "".join(
+        f'<path d="{d}" pathLength="1" class="draw" {at(0.8, .6)} fill="none" stroke="{C["line"]}" stroke-width="2"/>'
+        for d in [f"M430 {cy} L490 {cy}", f"M690 {cy} L750 {cy}", f"M930 {cy} L1000 {cy}", "M1075 254 L1075 380",
+                  "M1000 422 L940 385", "M1000 422 L940 423", "M1000 422 L940 461"]
+    )
+    pills = [("Batches cost half price on every token", 40, 300, "line", "text"),
+             ("Results within 24 hours", 356, 214, "line", "text"),
+             ("Claude never produces a forecast number", 586, 330, "rose", "rose")]
+    strip = "".join(
+        f'<g class="rise" {at(8.4 + i * 0.2)}><rect x="{x}" y="530" width="{pw}" height="34" rx="17" fill="{C["surface"]}" stroke="{C[stroke]}"/>'
+        f'<text x="{x + pw / 2}" y="552" text-anchor="middle" fill="{C[tc]}" font-size="13" font-weight="700">{label}</text></g>'
+        for i, (label, x, pw, stroke, tc) in enumerate(pills)
+    )
+    body = f"""
+<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
+  {kicker(60, 50, "CLAUDE ROUTES · OPTION A", "Read overnight in batches, answer live")}
+  <g class="fade" {at(0.3)}>
+    <rect x="40" y="110" width="1130" height="200" rx="18" fill="none" stroke="{C['line']}" stroke-dasharray="2 6"/>
+    <text x="64" y="138" fill="{C['violet']}" font-size="12" font-weight="700" letter-spacing="1.5">OVERNIGHT · BATCH LANE</text>
+    <rect x="40" y="330" width="1130" height="172" rx="18" fill="none" stroke="{C['line']}" stroke-dasharray="2 6"/>
+    <text x="64" y="358" fill="{C['mint']}" font-size="12" font-weight="700" letter-spacing="1.5">LIVE LANE · AT 07:30 AND WHEN YOU ASK</text>
+  </g>
+  {links}{chips}
+  <text x="66" y="284" fill="{C['muted']}" font-size="12" class="fade" {at(1.4)}>News, filings, calendar · hundreds a day</text>
+  {card3(250, 170, 180, 84, "Haiku 5.5", ["triage: tags every item", "cheap, reads everything"], "saffron", 0.5, "BATCH")}
+  {card3(490, 170, 200, 84, "Code, not Claude", ["picks the material items", "on holdings or watchlist"], "sky", 0.6)}
+  {card3(750, 170, 180, 84, "Opus 5.5", ["event analysis", "at most 3 a day"], "violet", 0.7, "BATCH")}
+  {card3(1000, 170, 150, 84, "Event record", ["stored and cited", "point-in-time"], "mint", 0.8)}
+  {card3(1000, 380, 150, 84, "Sonnet 5.5", ["answers live", "quotes the record"], "mint", 0.9)}
+  <text x="590" y="284" text-anchor="middle" fill="{C['muted']}" font-size="12" class="fade" {at(4.1)}>the rest wait a day or are dropped, with a reason</text>
+  {out_cards}{lit}
+  <circle cx="1075" cy="{cy}" r="16" fill="none" stroke="{C['mint']}" stroke-width="2" class="ring" {at(5.7)}/>
+  <g class="rise" {at(7.0)}>
+    <text x="64" y="404" fill="{C['text']}" font-size="15" font-weight="700">The briefing never waits on a new batch.</text>
+    <text x="64" y="428" fill="{C['muted']}" font-size="13">It and chat use the last stored analyses instead of redoing them.</text>
+    <text x="64" y="450" fill="{C['muted']}" font-size="13">If a batch fails, the last dated evidence stays and the update is marked pending.</text>
+  </g>
+  {strip}
+</svg>{dots}"""
+    end = 11.0
+    return page(w, h, end, body), w, h, end + 0.5, 10.0
+
+
+# ---------------------------------------------------------------- 10. the daily window
+
+
+def daily_window() -> tuple[str, int, int, float, float]:
+    w, h = 1100, 420
+    x0, k, ya = 100, 10.6, 185  # px per minute after the close
+    t0, speed = 1.2, 15.0  # the playhead covers 15 minutes a second
+
+    def X(m: float) -> float:
+        return x0 + m * k
+
+    def T(m: float) -> float:
+        return round(t0 + m / speed, 2)
+
+    segs = [(15, 40, "collecting", "sky"), (40, 60, "retrying", "violet"), (60, 75, "models run", "saffron")]
+    bars = "".join(
+        f'<rect x="{X(a)}" y="{ya - 11}" width="{(b - a) * k}" height="22" rx="5" fill="{C[col]}" class="growlin" {at(T(a), (b - a) / speed)}/>'
+        f'<text x="{X(a) + 16}" y="{ya + 4}" fill="{C["bg"]}" font-size="11.5" font-weight="700" class="fade" {at(T(a) + 0.3)}>{label}</text>'
+        for a, b, label, col in segs
+    )
+    marks = [(0, "Close", "the exchange closes", "paper"), (15, "Collect", "ordinary collection", "sky"),
+             (40, "Retry", "for missing data", "violet"), (60, "Cutoff", "inputs frozen", "saffron"),
+             (75, "Issued", "before the next open", "mint")]
+    ticks = ""
+    for m, title, sub, col in marks:
+        x, t = X(m), T(m)
+        strong = m in (60, 75)
+        ticks += (
+            f'<g class="pop" {at(t)}><circle cx="{x}" cy="{ya}" r="{8 if strong else 6}" fill="{C[col]}" stroke="{C["bg"]}" stroke-width="3"/></g>'
+            f'<g class="rise" {at(t)}><text x="{x}" y="{ya - 26}" text-anchor="middle" class="mono" fill="{C[col]}" font-size="13" font-weight="700">{"+" + str(m) + " min" if m else "0"}</text>'
+            f'<text x="{x}" y="{ya + 40}" text-anchor="middle" fill="{C["text"]}" font-size="14" font-weight="700">{title}</text>'
+            f'<text x="{x}" y="{ya + 58}" text-anchor="middle" fill="{C["muted"]}" font-size="12">{sub}</text></g>'
+        )
+        if strong:
+            ticks += f'<circle cx="{x}" cy="{ya}" r="9" fill="none" stroke="{C[col]}" stroke-width="2" class="ring" {at(t)}/>'
+    light = ""
+    for i in range(9):
+        lx, t = 100 + i * 110, 1.0 + i * 0.6
+        light += (
+            f'<g class="pop" {at(t)}><circle cx="{lx}" cy="352" r="5" fill="{C["sky"]}" fill-opacity=".7"/></g>'
+            f'<circle cx="{lx}" cy="352" r="5" fill="none" stroke="{C["sky"]}" stroke-opacity=".6" stroke-width="1.5" class="ring" {at(t)}/>'
+        )
+    body = f"""
+<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
+  {kicker(60, 50, "THE DAILY FORECAST WINDOW", "From the close to issued forecasts in 75 minutes")}
+  <line x1="{X(0)}" x2="{X(86)}" y1="{ya}" y2="{ya}" stroke="{C['line']}" stroke-width="4" stroke-linecap="round" pathLength="1" class="draw" {at(0.3, .7)}/>
+  {bars}
+  <line x1="{X(60)}" x2="{X(60)}" y1="{ya - 18}" y2="{ya + 18}" stroke="{C['saffron']}" stroke-width="3" class="fade" {at(T(60))}/>
+  <g class="window" {at(t0 - 0.1, 75 / speed + 0.7)}><g style="animation:sweep {75 / speed}s linear {t0}s both"><line x1="{X(0)}" x2="{X(0)}" y1="{ya - 16}" y2="{ya + 16}" stroke="{C['paper']}" stroke-width="2"/></g></g>
+  {ticks}
+  <text x="{X(0)}" y="284" fill="{C['muted']}" font-size="12" class="fade" {at(T(75) + 0.4)}>If data misses the cutoff, the forecast abstains. The cutoff never moves and nothing is backdated. A selected policy, still to be verified.</text>
+  <text x="100" y="330" fill="{C['muted']}" font-size="11" font-weight="700" letter-spacing="1.5" class="fade" {at(0.8)}>A SEPARATE, LIGHTER LANE</text>
+  <line x1="100" x2="1000" y1="352" y2="352" stroke="{C['line']}" stroke-width="2" stroke-dasharray="3 6" class="fade" {at(0.8)}/>
+  {light}
+  <text x="100" y="388" fill="{C['text']}" font-size="13" class="fade" {at(1.2)}>Quote and risk checks every 30 minutes, on their own clock. <tspan fill="{C['sky']}" font-weight="700">They never produce a formal forecast.</tspan></text>
+</svg>"""
+    css = f"@keyframes sweep {{ from {{ transform: translateX(0); }} to {{ transform: translateX({75 * k}px); }} }}"
+    end = T(75) + 3.2
+    return page(w, h, end, body, css), w, h, end + 0.5, T(75) + 2.2
+
+
 SCENES = {
     "forecast-lifecycle": forecast_lifecycle,
     "system-flow": system_flow,
@@ -457,6 +817,10 @@ SCENES = {
     "stack-build": stack_build,
     "budget": budget,
     "logo-intro": logo_intro,
+    "roadmap": roadmap,
+    "import-approval": import_approval,
+    "claude-routes": claude_routes,
+    "daily-window": daily_window,
 }
 FPS = 15
 

@@ -51,7 +51,7 @@ Update accepted/draft/superseded ADRs explicitly, including older PostgreSQL, Ag
 
 Refresh the existing native Lucid technical views after detailed boundaries settle, with actual versions/hashes and unchanged historical pages preserved. Maintain colourful static/optional-motion companions and accessibility. Native visual inspection is distinct from an HTML text read.
 
-Prepare exact bounded MP Confluence changes for the area specifications, phase pages and index. The 13 planning-draft pages have now been published and verified; see the [publication receipt](confluence-publication-receipt.json). The complete detailed area structure may require an explicitly approved revised publication scope. Recheck collisions, current rich content and parent IDs, then obtain the exact publication approval before writing. Record actual versions/attachments/readback. Update Jira and local source evidence together; no automatic two-way synchronization is claimed.
+Prepare exact bounded MP Confluence changes for the area specifications, phase pages and index. The 13 planning-draft pages have now been published and verified; the publication receipt was removed in MP-34 and remain in git history. The complete detailed area structure may require an explicitly approved revised publication scope. Recheck collisions, current rich content and parent IDs, then obtain the exact publication approval before writing. Record actual versions/attachments/readback. Update Jira and local source evidence together; no automatic two-way synchronization is claimed.
 
 ## 6. Separate the approvals
 
