@@ -1,8 +1,10 @@
 # ARC-06b: Claude models, effort, caching and batching
 
-**Status: Proposed, awaiting the owner's answer (MP-32, 2 November 2026).** This card follows ARC-06, which fixed *how*
-Claude is called and left *which model* and *which pricing tier* open. Answering it activates nothing: under the
-credit policy MP makes zero Claude calls until the shared credit is verified, and no paid fallback is allowed.
+**Status: Owner-selected. Option A, all routes, chosen on 2 November 2026 (MP-32).** This card follows ARC-06, which
+fixed *how* Claude is called and left *which model* and *which pricing tier* open. The answer activates nothing: under
+the credit policy MP makes zero Claude calls until the shared credit is verified, and no paid fallback is allowed.
+Each route still has to pass its evaluation before it is switched on, and Opus keeps event analysis only if it beats
+Sonnet there.
 
 **Revision 2, same day:** the owner asked where Opus fits, given the news and events to analyse. The first version
 had no route for deep event analysis, only for tagging. This revision adds that route and recomputes every option.
@@ -74,7 +76,7 @@ is treated as batchable; live extraction is a few documents a month and barely m
 | Option | Models | Live or batch | Normal month | Busy month |
 | --- | --- | --- | --- | --- |
 | Today's model (no event analysis, all live) | Haiku-class economy, Sonnet-class standard | All live | $4.78 (£4.58) | $91.75 (£88.08) |
-| **A. Haiku triage, Opus event analysis, Sonnet conversation, batch what can wait (Recommended)** | Haiku 5.5: triage, factors, extraction. Opus 5.5: event analysis. Sonnet 5.5: chat, explanations, briefing, eval judges. | Triage, event analysis, factors and eval judges batched; the rest live | $8.59 (£8.24) | $74.88 (£71.88) |
+| **A. Haiku triage, Opus event analysis, Sonnet conversation, batch what can wait (Recommended; selected)** | Haiku 5.5: triage, factors, extraction. Opus 5.5: event analysis. Sonnet 5.5: chat, explanations, briefing, eval judges. | Triage, event analysis, factors and eval judges batched; the rest live | $8.59 (£8.24) | $74.88 (£71.88) |
 | A-lite. As A, with Sonnet for event analysis | As A, Sonnet 5.5 in place of Opus | As A | $6.09 (£5.84) | $72.38 (£69.48) |
 | B. Sonnet everywhere | Sonnet 5.5 on every route | As A | $9.65 (£9.26) | $108.00 (£103.68) |
 | C. Haiku everywhere | Haiku 5.5 on every route, chat included | As A | $0.48 (£0.46) | $5.40 (£5.18) |
@@ -137,4 +139,4 @@ is recorded here with the date and exact wording, and ARCHITECTURE.md and TECH-S
 
 | Date | Answer | Scope |
 | --- | --- | --- |
-| | Pending | |
+| 2 November 2026 | "A, all routes" | Every route in the table above: Haiku 5.5 for triage, factors and extraction; Opus 5.5 for event analysis, batched and capped at three a day in prod; Sonnet 5.5 for chat, explanations, the briefing and eval judges; batching, caching, effort and batch-lane rules as listed under "What the recommendation includes". It does not decide the refusal fallback, the chat caps or the open items above. |
