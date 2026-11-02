@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-10, client rendering and shared contracts.
+Next: ARC-11, environment isolation, region/compatibility and complete cost.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-10.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-11.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -91,3 +91,11 @@ The owner selected option A: **Inspect AI + deterministic checks.** Use Inspect 
 Specify no-network T0, change-triggered bounded affected-route T1, model/release qualification T2, online code checks, budgeted sampled judges, held-out human calibration and permanent incident regression cases. Choose trials, thresholds, sample/uncertainty rules and judge eligibility from MP risk and cost evidence, not MA defaults. Missing evidence, failed runs or exhausted budget are incomplete, never green. Reuse stored outputs for rescoring only when inputs/semantics/privacy permit.
 
 Exact harness/version, adapters, coverage, scoring/eligibility/abstention rules, retention/redaction, local/CI execution permissions, approved live-call spend and admin evidence remain open. Selecting the harness does not install it, run any evaluations, make model calls, authorise independent review or implement a feature. CT/FC/PL proof gaps remain open until their own specifications/evidence are complete.
+
+## ARC-10: static SvelteKit PWA and authenticated FastAPI
+
+The owner selected option A: **Static SvelteKit PWA + authenticated FastAPI.** Serve prebuilt interactive shell/assets through CloudFront from a private S3 origin. Fetch private data and submit commands through authenticated FastAPI on ordinary API Lambdas; there is no separate SvelteKit SSR runtime in the selected direction. Keep financial records and secrets out of the public build. Origin access control protects S3, while Cognito and API authorisation protect owner data/actions.
+
+Retain adaptive web, native Swift/SwiftUI within RN, shared typed API/event/action/error/proof contracts, live updates and bounded SSE. The architecture Site is a documentation artifact, not the product PWA. Static hosting does not prove private-cache behaviour or fast startup; measure first paint/interactive budgets, choose suitable non-sensitive prerendering and specify loading/stale/unauthorised/offline states.
+
+Session/cookie/CSRF/native PKCE boundaries, cache/service-worker privacy and logout clearing, reconnect/expiry/replay, app updates/push, bridge/device/Duo compatibility and accessibility remain open. This choice starts no UI implementation, hosting setup, runtime installation or cloud deployment and does not approve the complete baseline.

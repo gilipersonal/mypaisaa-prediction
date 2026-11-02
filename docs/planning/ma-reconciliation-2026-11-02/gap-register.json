@@ -600,6 +600,11 @@
           "card_id": "ARC-05",
           "option_id": "A",
           "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
         }
       ],
       "planning_group": "science",
@@ -735,7 +740,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
       "planning_group": "workflows",
       "jira_key": "MP-23"
     },
@@ -1094,7 +1105,13 @@
       "status": "open_planning_contract",
       "implementation_authorised": false,
       "lane": "platform",
-      "owner_directions": [],
+      "owner_directions": [
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        }
+      ],
       "planning_group": "delivery",
       "jira_key": "MP-30"
     },
@@ -1733,6 +1750,11 @@
           "card_id": "ARC-08",
           "option_id": "B",
           "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
         }
       ],
       "planning_group": "admin",
@@ -1770,6 +1792,11 @@
           "card_id": "ARC-07",
           "option_id": "A",
           "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
         }
       ],
       "planning_group": "identity",
@@ -1807,6 +1834,11 @@
           "card_id": "ARC-08",
           "option_id": "B",
           "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+        },
+        {
+          "card_id": "ARC-10",
+          "option_id": "A",
+          "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
         }
       ],
       "planning_group": "delivery",

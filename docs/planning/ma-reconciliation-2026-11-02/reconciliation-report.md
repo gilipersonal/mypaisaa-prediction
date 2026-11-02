@@ -91,6 +91,8 @@ ARC-08 subsequently selected full identified admin journeys before first build: 
 
 ARC-09 subsequently selected Inspect AI with typed MP-specific deterministic checks for agent evaluations; runtime guards, pytest and numerical forecasting validation retain distinct responsibilities. Exact eval/privacy/CI/budget contracts remain open, and no eval or model call is authorised by the choice.
 
+ARC-10 subsequently selected the static SvelteKit PWA shell/assets on S3/CloudFront with authenticated FastAPI. Exact session/cache/offline/streaming/startup/native contracts remain open, with no UI implementation or deployment authorised.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.

@@ -237,6 +237,29 @@
         "issue": "MP-26",
         "comment_id": "12158"
       }
+    },
+    {
+      "card_id": "ARC-10",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Static SvelteKit PWA + authenticated FastAPI (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision10, call_1634cf059af44442bc65aae7a993c72f",
+        "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+      },
+      "open_gap_ids": [
+        "PL-04",
+        "PL-14",
+        "FC-16",
+        "CT-16",
+        "CT-17",
+        "CT-18"
+      ],
+      "jira_evidence": {
+        "issue": "MP-30",
+        "comment_id": "12159"
+      }
     }
   ]
 }

@@ -32,6 +32,8 @@ Choose clocks, routing and execution deliberately: EventBridge Scheduler for tim
 
 **Owner direction recorded on 2 November 2026 (ARC-03): Lambda Durable Functions with Python workflows is selected.** The alternatives above retain the decision-time comparison; the owner selection now controls. Runtime, replay, failure and cost proofs remain open.
 
+**Owner direction recorded on 2 November 2026 (ARC-10): static SvelteKit PWA shell/assets on S3/CloudFront with authenticated FastAPI is selected.** No separate SvelteKit SSR runtime is assumed; session, cache/offline privacy, startup performance, streaming and native contracts still need proof.
+
 ## 4. Agree the ML and Anthropic contracts
 
 Retain one server-controlled Anthropic client-SDK loop and bounded task routes. Define the logical role catalogue separately from the number of LLM calls, deployed workers or trained models. Pin route/model/prompt/schema/budget/eval versions at release. Code computes financial quantities; LLM extraction is versioned evidence and must earn incremental predictive value through an ablation.

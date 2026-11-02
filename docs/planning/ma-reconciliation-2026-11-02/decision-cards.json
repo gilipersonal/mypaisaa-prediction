@@ -719,8 +719,14 @@
       "id": "ARC-10",
       "title": "Client rendering and shared contracts",
       "question": "Which web rendering boundary should the UX specifications assume?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Static SvelteKit PWA + authenticated FastAPI (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision10, call_1634cf059af44442bc65aae7a993c72f",
+        "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+      },
       "depends_on": [
         "ARC-02",
         "ARC-07",
@@ -810,18 +816,18 @@
       ],
       "options": [
         {
-          "id": "A",
-          "label": "One account with strictly separated dev/prod resources (Recommended)",
+          "id": "B",
+          "label": "Separate dev/prod AWS accounts (Recommended)",
           "recommended": true,
-          "approach": "Compare suitable regions and start with distinct environment resources/identities/IAM/write authority in one account; customer-VPC-unattached external API Lambdas are the initial candidate. Optional private jobs get a separately justified network scope.",
-          "impact_tradeoff": "Reduces account administration and shared-service duplication, but same-account privileged blast radius and shared quotas require explicit controls and acceptance."
+          "approach": "Use separate accounts and environment-scoped OIDC deployment roles, with consolidated cost visibility and the same least-complex initial networking direction.",
+          "impact_tradeoff": "Stronger account-level isolation, with extra organisational/role/deployment administration. Organizations itself has no additional service charge; resource usage and any duplicated services still need aggregate costing. Free-tier/credit benefits must not be assumed per account."
         },
         {
-          "id": "B",
-          "label": "Separate dev/prod AWS accounts",
+          "id": "A",
+          "label": "One account with strictly separated dev/prod resources",
           "recommended": false,
-          "approach": "Use separate accounts and environment-scoped OIDC deployment roles, with consolidated cost visibility and the same least-complex initial networking direction.",
-          "impact_tradeoff": "Stronger account-level isolation, but adds organisational setup, cross-account operations and potentially duplicated service/free-tier/cost assumptions to check."
+          "approach": "Compare suitable regions and start with distinct environment resources/identities/IAM/write authority in one account; customer-VPC-unattached external API Lambdas are the initial candidate. Optional private jobs get a separately justified network scope.",
+          "impact_tradeoff": "Reduces account administration and shared-service duplication, but same-account privileged blast radius and shared quotas require explicit controls and acceptance."
         }
       ],
       "evidence": {
@@ -845,7 +851,10 @@
           "https://docs.aws.amazon.com/lambda/latest/dg/services-sqs-errorhandling.html",
           "https://twelvedata.com/pricing",
           "https://twelvedata.com/terms",
-          "https://github.com/ranaroussi/yfinance"
+          "https://github.com/ranaroussi/yfinance",
+          "https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/benefits-of-using-multiple-aws-accounts.html",
+          "https://docs.aws.amazon.com/organizations/latest/userguide/pricing.html",
+          "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-effective.html"
         ]
       },
       "gates": {
@@ -859,7 +868,17 @@
           "Verify actual region availability, service quotas, pricing, entitlements and credit scope; obtain deployment authority separately. If any choice fails compatibility or the £70 operating envelope plus £30 reserve, reopen the affected decision before proceeding."
         ]
       },
-      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details.",
+      "recommendation_history": [
+        {
+          "recommended_option": "A",
+          "basis": "Initial maker pack prioritised one-account administration for a personal app."
+        },
+        {
+          "recommended_option": "B",
+          "basis": "Revised before asking ARC-11: separate dev/prod accounts better contain experimental agent/eval/import access to production holdings. AWS documents environment isolation and no additional Organizations service charge; actual resource costs and operational overhead remain. No owner selection yet."
+        }
+      ]
     },
     {
       "id": "ARC-12",

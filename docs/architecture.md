@@ -60,7 +60,7 @@ These are current intended responsibilities; exact adapters, schemas and service
 | Agent evaluation | Tagged scenarios, transcripts, deterministic/model scoring, replay/rescore and reports | Inspect AI selected ARC-09; runtime policy, pytest and numerical forecast validation remain separate; detailed proof pending |
 | Ledger | Own transactions, holdings, cash, all v1 imports, rules/XIRR, reconciliation | DynamoDB selected in ARC-02; one controlled write service; atomicity/access-pattern proof pending and earlier PostgreSQL ADR awaiting reconciliation |
 | Prediction registry | Immutable forecast, model, data cutoff, mature outcome and approval records | Durable append-only records plus private artefacts; exact schema/store decision open |
-| Web | Discovery first, separate holdings, chat, proof and launch costs | SvelteKit 3, officially available but not installed; static shell versus SSR open |
+| Web | Discovery first, separate holdings, chat, proof and launch costs | Static SvelteKit 3 shell/assets on S3/CloudFront with authenticated FastAPI, selected ARC-10; not implemented |
 | Mobile | native device experience and shared navigation contracts | Swift-native surfaces in React Native shell |
 | Identity | Managed sign-in and verified owner linking/recovery | Cognito Apple/Google/passkeys; ARC-07 selects assurance/freshness checks with verified fresh-sign-in fallback; recovery and exact action-policy proof pending |
 | Operations/costs | Audit, per-environment usage/billing, durable jobs, telemetry, recovery | AWS serverless preference; launch cost/admission controls; Python Lambda Durable Functions selected; runtime/replay/full-scope cost proofs open |

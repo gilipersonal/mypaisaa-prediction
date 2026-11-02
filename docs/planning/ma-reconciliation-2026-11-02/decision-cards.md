@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 9 directions selected; 3 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 10 directions selected; 2 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -36,7 +36,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-07](#arc-07) | Identity, session recovery and action-bound step-up | ARC-02, ARC-06 | A selected; evidence pending |
 | [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | B selected; evidence pending |
 | [ARC-09](#arc-09) | Guardrails and evaluation harness | ARC-05, ARC-06, ARC-07, ARC-08 | A selected; evidence pending |
-| [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | Owner answer pending |
+| [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | A selected; evidence pending |
 | [ARC-11](#arc-11) | Environment isolation, region, compatibility and whole-system recost | ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10 | Owner answer pending |
 | [ARC-12](#arc-12) | Architecture and phase-document freeze | ARC-01, ARC-02, ARC-03, ARC-04, ARC-05, ARC-06, ARC-07, ARC-08, ARC-09, ARC-10, ARC-11 | Owner answer pending |
 
@@ -253,7 +253,7 @@ Primary sources: [source 1](https://platform.claude.com/docs/en/test-and-evaluat
 
 Which web rendering boundary should the UX specifications assume?
 
-**Owner answer: pending.** Dependencies: ARC-02, ARC-07, ARC-08, ARC-09.
+**Owner answer: A selected on 2 November 2026 — static SvelteKit PWA with authenticated FastAPI.** Hosting mode is selected; performance/session/cache/offline/SSE/native contracts remain open. Dependencies: ARC-02, ARC-07, ARC-08, ARC-09.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
@@ -276,12 +276,12 @@ Primary sources: [source 1](https://docs.aws.amazon.com/apigateway/latest/develo
 
 Which environment-isolation direction should the final deployment comparison assume?
 
-**Owner answer: pending.** Dependencies: ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10.
+**Owner answer: pending.** The current maker recommendation is B for stronger dev/prod isolation; the initial A recommendation remains in JSON history. Organizations itself has no additional service charge, while actual resource duplication and operational effort require costing. The £100 envelope stays aggregate. Dependencies: ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
-| **A. One account with strictly separated dev/prod resources (Recommended)** | Compare suitable regions and start with distinct environment resources/identities/IAM/write authority in one account; customer-VPC-unattached external API Lambdas are the initial candidate. Optional private jobs get a separately justified network scope. | Reduces account administration and shared-service duplication, but same-account privileged blast radius and shared quotas require explicit controls and acceptance. |
-| **B. Separate dev/prod AWS accounts** | Use separate accounts and environment-scoped OIDC deployment roles, with consolidated cost visibility and the same least-complex initial networking direction. | Stronger account-level isolation, but adds organisational setup, cross-account operations and potentially duplicated service/free-tier/cost assumptions to check. |
+| **B. Separate dev/prod AWS accounts (Recommended)** | Use separate accounts and environment-scoped OIDC deployment roles, with consolidated cost visibility and the same least-complex initial networking direction. | Stronger account-level isolation, but adds organisational setup, cross-account operations and potentially duplicated service/free-tier/cost assumptions to check. |
+| **A. One account with strictly separated dev/prod resources** | Compare suitable regions and start with distinct environment resources/identities/IAM/write authority in one account; customer-VPC-unattached external API Lambdas are the initial candidate. Optional private jobs get a separately justified network scope. | Reduces account administration and shared-service duplication, but same-account privileged blast radius and shared quotas require explicit controls and acceptance. |
 
 Evidence: PL-10, PL-11, PL-12, PL-13, CT-06, CT-13, FC-01 in [forecasting](lanes/forecasting.json), [controls](lanes/controls.json) and [platform](lanes/platform.json).
 
@@ -295,6 +295,9 @@ Primary sources: [source 1](https://docs.aws.amazon.com/lambda/latest/dg/configu
 
 
 <a id="arc-12"></a>
+
+Primary account/isolation research: [AWS environment isolation](https://docs.aws.amazon.com/whitepapers/latest/organizing-your-aws-environment/benefits-of-using-multiple-aws-accounts.html), [Organizations pricing](https://docs.aws.amazon.com/organizations/latest/userguide/pricing.html), [consolidated billing benefits](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-effective.html).
+
 ## ARC-12 — Architecture and phase-document freeze
 
 Which canonical documentation structure should be the approved handoff into UX?
