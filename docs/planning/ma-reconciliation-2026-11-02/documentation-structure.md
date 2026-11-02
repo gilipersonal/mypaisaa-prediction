@@ -48,6 +48,8 @@ Every phase page must contain: user outcome, in/out scope, dependencies, archite
 
 The [phase specifications](phases) compile the existing 64 local story drafts with new gap links. Detailed acceptance is retained; stories remain unready where decisions or UX are missing. The existing six epics MP-4–MP-9 are crosswalk containers. A future epic-per-phase reorganisation needs an explicit agreed mapping and should preserve issue history, not create a second competing roadmap.
 
+**ARC-08 owner direction:** all identified admin investigation/configuration/approval/audit/cost/identity/recovery journeys receive complete UX before first application build. Their policies/contracts must be specified before that UX; final operations phases verify controls already planned from foundations. This does not start UX now.
+
 ## Story readiness contract
 
 Every implementation story needs an actual Jira key and local stable ID; parent/phase; user outcome; sources and MP-specific adaptation; precise positive/negative acceptance; producer/consumer contracts; units and error semantics; code ownership; data/privacy/authority boundaries; UX states/platforms; test fixtures and expected results; failure/recovery; telemetry/audit/cost events; dependencies; estimate/uncertainty; rollback and release evidence. Port work is explicit when shared contracts cannot supply the client implementation.

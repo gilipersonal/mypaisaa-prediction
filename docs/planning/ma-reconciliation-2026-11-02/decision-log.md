@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-08, admin scope, audit integrity, retention and recovery.
+Next: ARC-09, guardrails and evaluation harness.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-08.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-09.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -75,3 +75,11 @@ The owner selected option A: **Cognito assurance and freshness checks**. The bac
 Retain managed Apple/Google/passkey sign-in, verified identity linking and the agreed recovery redundancy. Bind each approval to the exact owner/environment/action/payload/current record or configuration version/expiry. Recheck authority and applicability at execution, including after a durable wait. Local Face ID unlock, a refreshed token or an open app alone is not fresh server authorisation. Persist opaque evidence references, never live authentication tokens, in workflow/audit state.
 
 Cognito tier/region/rollout and Apple/Google/passkey behaviour, pricing, sensitive-action classes, assurance/freshness policy, session/device revocation, lost-device recovery, cookie/CSRF and native PKCE/storage still need specification/proof. No exact time window or assurance level is approved by this direction. PL-09 and CT-01/02/17 remain open. No account/user-pool/client setup, purchase or application implementation is authorised.
+
+## ARC-08: full admin journeys before first build
+
+The owner selected option B: **Full admin journeys before first build.** Specify all identified admin policies/contracts and state semantics during architecture preparation; after architecture agreement, design the complete admin journeys within the end-to-end UX baseline before any application implementation. Implementation can be phased after the full baseline and UX are approved.
+
+Include Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Configuration, Costs/Budgets, Incidents/Recovery and Identity/Devices. Cover normal investigation and comparison; approvals/rejections; source inspection/reprocessing/correction; configuration changes; cost reconciliation; stale/conflicting/expired/denied actions; failures, replay, restore/rollback and deletion. Cost monitoring remains directly accessible from the main app, not solely in admin.
+
+Retain the renewable 24-month original archive with owner extension/deletion, operational logs 14 days/traces 30 days/run summaries 90 days and monthly/change-triggered exercises. Detailed record/provider/backup retention and deletion semantics, audit-integrity claims, recovery objectives, action/notification classes and replay/rollback authority remain open. This choice does not perform UX design, delete data, run recovery jobs, or approve the whole architecture/build. Associated CT/PL gaps stay open until their own decisions and evidence are complete.

@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 7 directions selected; 5 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 8 directions selected; 4 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -34,7 +34,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-05](#arc-05) | Forecast experiments, probability calibration and recommendations | ARC-01, ARC-02, ARC-04 | A selected; evidence pending |
 | [ARC-06](#arc-06) | Anthropic route, memory, cache and batch boundaries | ARC-03, ARC-05 | B selected; evidence pending |
 | [ARC-07](#arc-07) | Identity, session recovery and action-bound step-up | ARC-02, ARC-06 | A selected; evidence pending |
-| [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | Owner answer pending |
+| [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | B selected; evidence pending |
 | [ARC-09](#arc-09) | Guardrails and evaluation harness | ARC-05, ARC-06, ARC-07, ARC-08 | Owner answer pending |
 | [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | Owner answer pending |
 | [ARC-11](#arc-11) | Environment isolation, region, compatibility and whole-system recost | ARC-03, ARC-04, ARC-06, ARC-07, ARC-09, ARC-10 | Owner answer pending |
@@ -206,7 +206,7 @@ Primary sources: [source 1](https://docs.aws.amazon.com/cognito/latest/developer
 
 How much administration depth should be specified for the first UX baseline?
 
-**Owner answer: pending.** The maker recommendation is now B, aligned with the owner requirement for complete end-to-end UX before implementation. The initial pack recommended A; that recommendation is retained in the JSON history. No UX design starts before architecture agreement. Dependencies: ARC-02, ARC-03, ARC-07.
+**Owner answer: B selected on 2 November 2026 — full admin journeys before the first build.** Policies/contracts precede architecture sign-off; complete UX follows that agreement; implementation remains phased. The maker recommendation is now B, aligned with the owner requirement for complete end-to-end UX before implementation. The initial pack recommended A; that recommendation is retained in the JSON history. No UX design starts before architecture agreement. Dependencies: ARC-02, ARC-03, ARC-07.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |

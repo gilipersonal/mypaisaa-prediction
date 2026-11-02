@@ -45,6 +45,8 @@ The retained native Lucid system drawing is the editable **bootstrap** source fo
 
 The later [editable A/B planning Lucidchart](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit), [Plan A native export](planning/aws-options-2026-11-01/option-a-lucid.png) and [Plan B native export](planning/aws-options-2026-11-01/option-b-lucid.png) retain the historical comparison; ARC-04 selects selective SageMaker training with portable Lambda inference. Plan C is retired. These prior exports are manually maintained and need an approved update for all new blueprint details. No external diagram write or new paid feature was performed here.
 
+**Admin baseline (ARC-08):** specify all identified admin domains, policies and contracts now; design their complete journeys after architecture agreement and before the first build. Implementation may be phased. Retention/deletion, protected actions, audit integrity and recovery objectives still need detailed resolution.
+
 ## Logical components
 
 These are current intended responsibilities; exact adapters, schemas and service topology remain proposed. See the [current implementation status](implementation-plan.md#current-implementation-status) for what exists today and the [full matrix](planning/layered-development-2026-11-01/tech-stack-matrix.md) for alternatives and costs.

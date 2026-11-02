@@ -188,6 +188,30 @@
         "issue": "MP-11",
         "comment_id": "12156"
       }
+    },
+    {
+      "card_id": "ARC-08",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "B",
+        "label": "Full admin journeys before first build (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision8, call_aff832db6269412aabc56a31308ef12c",
+        "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+      },
+      "open_gap_ids": [
+        "CT-03",
+        "CT-04",
+        "CT-05",
+        "CT-14",
+        "CT-16",
+        "CT-18",
+        "PL-12"
+      ],
+      "jira_evidence": {
+        "issue": "MP-28",
+        "comment_id": "12157"
+      }
     }
   ]
 }

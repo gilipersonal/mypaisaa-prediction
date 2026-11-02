@@ -551,8 +551,14 @@
       "id": "ARC-08",
       "title": "Admin scope, audit integrity, retention and recovery",
       "question": "How much administration depth should be specified for the first UX baseline?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "B",
+        "label": "Full admin journeys before first build (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision8, call_aff832db6269412aabc56a31308ef12c",
+        "meaning": "Specify all identified admin domains/policies/contracts now; after architecture agreement, design complete admin investigation, comparison, configuration, approval, failure and recovery journeys within the full UX baseline before first application build. Implementation remains phased. Preserve confirmed retention/deletion and main-app cost visibility; exact policies/RPO/RTO/integrity/recovery proofs remain open. No UX execution, deletion, restore, paid call or build approval."
+      },
       "depends_on": [
         "ARC-02",
         "ARC-03",
