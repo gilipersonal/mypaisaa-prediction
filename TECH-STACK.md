@@ -69,7 +69,8 @@ feature exists.
 | Client | Official Anthropic Python SDK, explicit tool loop | The server decides every step; nothing autonomous | Owner-selected (ARC-06) |
 | Routes | One Lambda worker per task route, one shared runner | Each route keeps its own context, tools and budget | Owner-selected |
 | Evaluation | Inspect AI plus deterministic checks | Replays and scored scenarios before any live check | Owner-selected (ARC-09) |
-| Models and batching | Still to choose and evaluate | Exact IDs, batch and cache use are not copied from MA | Open |
+| Models | Haiku 5.5 (`claude-haiku-5-5`) for triage, model inputs and extraction; Opus 5.5 (`claude-opus-5-5`) for up to three event analyses a day; Sonnet 5.5 (`claude-sonnet-5-5`) for chat, explanations, the briefing and eval grading | Each layer gets the model its job needs; Opus only where judgment matters, at batch price | Owner-selected (ARC-06b) |
+| Batching and caching | Message Batches for triage, event analysis, model inputs and eval grading; 5-minute prompt caching on every route | Half price on work no one waits for; discounts stack | Owner-selected (ARC-06b) |
 
 ## 4. The web app
 
@@ -165,8 +166,8 @@ window for sign-in, ledger reads, audit and recovery.
 ### What moves the number
 
 - **The data plan.** Grow at $79 is £75.84 on its own, more than the whole operating plan. It decides the month.
-- **Claude.** The baseline token allocation is about $4.78 gross a month including $2 of evaluations. Chat volume,
-  research depth and live evals move it most.
+- **Claude.** With the chosen models (ARC-06b) a normal month is about $8.59 (£8.24), most of the £10 allocation:
+  Opus event analysis is about $5 of it, kept there by a cap of three a day. Live chat moves it most in a busy month.
 - **Streaming.** One held SSE connection for a month costs about $21.60 of Lambda time before requests; design for
   short streams and re-reads.
 - **Training.** Capped by campaign, fit count and instance-hours, and admitted against the budget before it starts.

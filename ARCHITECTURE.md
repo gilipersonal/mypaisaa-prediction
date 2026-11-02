@@ -159,7 +159,14 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 Claude runs on Anthropic, called through the official Python client SDK in an explicit, server-controlled loop: not
 Bedrock, and not the Agent SDK. Each task route (extraction, research, structured factors, explanations and
 briefings, chat) is its own Lambda worker sharing one bounded runner, so each keeps its own context, tools and
-budget. Exact model IDs, the number of routes and batch and cache policies are still to be specified and evaluated.
+budget.
+
+**Models per route (ARC-06b, Owner-selected 2 November 2026):** Haiku 5.5 triages every news, filing and calendar
+item and prepares model inputs; Opus 5.5 analyses at most three material events a day; Sonnet 5.5 answers chat, writes
+explanations and the 07:30 briefing, and grades evaluations. Triage, event analysis, model inputs and eval grading run
+overnight through the Message Batches API at half price; anything a person waits for runs live. Each route must pass
+its evaluation before it is switched on, and Opus keeps event analysis only if it beats Sonnet there.
+[The card](docs/planning/claude-models-and-batching-2026-11-02.md) has the costs and rules.
 
 [![Who may do what, Lucid page 2: a table of five actors against six actions, with refusals shaded rose](docs/diagrams/mp-system-2026-11-02/02-who-may-do-what.png)](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
 
@@ -238,6 +245,7 @@ shows why.
 | ARC-10 | Client rendering | Static SvelteKit PWA with authenticated FastAPI |
 | ARC-11 | Environments | Separate dev and prod AWS accounts |
 | ARC-12 | Documentation freeze | Architecture-area specs linked to phases and stories |
+| ARC-06b | Claude models and batching | Haiku triage, Opus event analysis, Sonnet live; batch what can wait (2 November 2026) |
 
 The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) holds each answer's exact scope.
 
@@ -248,7 +256,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Cost fit:** the £100 ceiling with Grow at $79 does not fit an invoice month; the cheaper tier is unverified.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, listing rights per market, and the Region.
-- **Model IDs and routes** for Claude, and the evaluation budgets.
+- **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
+  model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
 - **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work.
 
 ## 14. Diagram sources
