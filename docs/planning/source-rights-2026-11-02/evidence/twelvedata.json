@@ -1,0 +1,683 @@
+{
+  "lane": "twelvedata",
+  "checked": "2026-11-02",
+  "fx_and_tax": "USD to GBP at £0.80/$ and 20% VAT, per the cost specification; not the owner's actual tax status",
+  "plans": [
+    {
+      "name": "Basic",
+      "credits_per_min": 8,
+      "price_usd_month": 0,
+      "price_usd_month_if_annual": null,
+      "annual_invoice_usd": null,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 0.0,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": null,
+      "daily_limit": "800/day, resets 00:00 UTC",
+      "usage_label": "Internal non-display usage for testing, evaluation or development only; no display, no external sharing, no production systems",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Free; international markets only via trial symbols; Terms 2.3(l) forbids commercial use of free tier."
+    },
+    {
+      "name": "Grow 55",
+      "credits_per_min": 55,
+      "price_usd_month": 29,
+      "price_usd_month_if_annual": 24,
+      "annual_invoice_usd": 288,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 27.84,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 276.48,
+      "daily_limit": "none",
+      "usage_label": "Internal display data access: view-only; pricing card says the data cannot be programmatically processed, stored, transformed or redistributed",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "$29 appears on the official pricing page as the 55-credit dropdown option (embedded tier data code monthly-55), in its schema.org offer, in pricing.md and llms.txt ('Grow from $29/mo'), and in the Trial support article (modified 18 Aug 2026). The rendered default Grow card shows $79 because the 377 option is pre-selected; the comparison header also shows $79/month beside '55+'."
+    },
+    {
+      "name": "Grow 144",
+      "credits_per_min": 144,
+      "price_usd_month": 49,
+      "price_usd_month_if_annual": 41,
+      "annual_invoice_usd": 492,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 47.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 472.32,
+      "daily_limit": "none",
+      "usage_label": "Internal display data access: view-only; pricing card says the data cannot be programmatically processed, stored, transformed or redistributed",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Price $49 (yearly $41/month) from embedded tier data code monthly-144 and pricing.md."
+    },
+    {
+      "name": "Grow 377",
+      "credits_per_min": 377,
+      "price_usd_month": 79,
+      "price_usd_month_if_annual": 66,
+      "annual_invoice_usd": 792,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 75.84,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 760.32,
+      "daily_limit": "none",
+      "usage_label": "Internal display data access: view-only; pricing card says the data cannot be programmatically processed, stored, transformed or redistributed",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Default card selection."
+    },
+    {
+      "name": "Pro 610",
+      "credits_per_min": 610,
+      "price_usd_month": 99,
+      "price_usd_month_if_annual": 82,
+      "annual_invoice_usd": 984,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 95.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 944.64,
+      "daily_limit": "none",
+      "usage_label": "Inherits Grow ('Everything from Grow, plus'); no separate usage label on the card. Support article: Pro allows programmatic API use for internal AI assistants",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Pro 987",
+      "credits_per_min": 987,
+      "price_usd_month": 149,
+      "price_usd_month_if_annual": 124,
+      "annual_invoice_usd": 1488,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 143.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 1428.48,
+      "daily_limit": "none",
+      "usage_label": "Inherits Grow ('Everything from Grow, plus'); no separate usage label on the card. Support article: Pro allows programmatic API use for internal AI assistants",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Pro 1597",
+      "credits_per_min": 1597,
+      "price_usd_month": 229,
+      "price_usd_month_if_annual": 191,
+      "annual_invoice_usd": 2292,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 219.84,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 2200.32,
+      "daily_limit": "none",
+      "usage_label": "Inherits Grow ('Everything from Grow, plus'); no separate usage label on the card. Support article: Pro allows programmatic API use for internal AI assistants",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Ultra 2584",
+      "credits_per_min": 2584,
+      "price_usd_month": 329,
+      "price_usd_month_if_annual": 274,
+      "annual_invoice_usd": 3288,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 315.84,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 3156.48,
+      "daily_limit": "none",
+      "usage_label": "Internal non-display data access: programmatic processing, analysis, system integration and internal display; no redistribution",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Cheapest individual option whose label grants programmatic (non-display) processing. Trial article: Ultra 'unlocks ... complete data coverage for India'."
+    },
+    {
+      "name": "Ultra 4181",
+      "credits_per_min": 4181,
+      "price_usd_month": 499,
+      "price_usd_month_if_annual": 416,
+      "annual_invoice_usd": 4992,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 479.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 4792.32,
+      "daily_limit": "none",
+      "usage_label": "Internal non-display data access: programmatic processing, analysis, system integration and internal display; no redistribution",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Ultra 10946",
+      "credits_per_min": 10946,
+      "price_usd_month": 999,
+      "price_usd_month_if_annual": 832,
+      "annual_invoice_usd": 9984,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 959.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 9584.64,
+      "daily_limit": "none",
+      "usage_label": "Internal non-display data access: programmatic processing, analysis, system integration and internal display; no redistribution",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Venture 610 (business)",
+      "credits_per_min": 610,
+      "price_usd_month": 149,
+      "price_usd_month_if_annual": 124,
+      "annual_invoice_usd": 1488,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 143.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": 1428.48,
+      "daily_limit": "none",
+      "usage_label": "External display data access (business); support article: Venture permits temporary caching and portfolio calculations",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing-business",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Business plans are for companies; not the natural fit for a single private owner. Business buyers with a VAT number get no VAT added (Terms 5.5(c))."
+    },
+    {
+      "name": "Venture 1597 (business)",
+      "credits_per_min": 1597,
+      "price_usd_month": 299,
+      "price_usd_month_if_annual": null,
+      "annual_invoice_usd": null,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 287.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": null,
+      "daily_limit": "none",
+      "usage_label": "as Venture 610",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing-business",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Venture 2584 (business)",
+      "credits_per_min": 2584,
+      "price_usd_month": 499,
+      "price_usd_month_if_annual": null,
+      "annual_invoice_usd": null,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 479.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": null,
+      "daily_limit": "none",
+      "usage_label": "as Venture 610",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing-business",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    },
+    {
+      "name": "Enterprise (business)",
+      "credits_per_min": 10946,
+      "price_usd_month": 1099,
+      "price_usd_month_if_annual": null,
+      "annual_invoice_usd": null,
+      "billing": "monthly or annual (annual billed yearly in advance, about 17% cheaper)",
+      "gbp_month_incl_20pct_vat_at_0_80": 1055.04,
+      "gbp_annual_invoice_incl_20pct_vat_at_0_80": null,
+      "daily_limit": "none",
+      "usage_label": "External distribution",
+      "per_user": "not priced per seat; one account, credentials may not be shared (Terms 2.3(m)); individual plans are for individuals only",
+      "source": [
+        "https://twelvedata.com/pricing-business",
+        "https://twelvedata.com/pricing.md"
+      ],
+      "checked": "2026-11-02",
+      "note": ""
+    }
+  ],
+  "uses": [
+    {
+      "use": "storage_backup",
+      "plan_scope": "Grow",
+      "status": "forbidden",
+      "evidence": "Grow card: data may be displayed but 'cannot be programmatically processed, stored, transformed, or redistributed'. Terms 2.2(a) licenses storing for Internal Use only 'as otherwise permitted by your Subscription Tier'; 2.3(g) bars storing beyond timeframes in the Documentation (none found in the docs read).",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true,
+      "other_plans": "Basic: dev/testing only. Ultra: programmatic processing granted; storage itself not named on the card but Terms 2.2(a) allows store for Internal Use: needs_confirmation, likely permitted."
+    },
+    {
+      "use": "training_evaluation",
+      "plan_scope": "Grow",
+      "status": "forbidden",
+      "evidence": "Training needs programmatic processing and transformation, which the Grow label excludes. Terms say nothing about machine learning. Derived Data (Terms 1, 2.2(c), 6.2) may be created if it cannot be reverse-engineered, and the customer keeps rights to it.",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms",
+        "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true,
+      "other_plans": "Basic: evaluation in development only, never production models. Ultra: 'programmatic processing, analysis': training not named, needs_confirmation."
+    },
+    {
+      "use": "non_display_monitoring",
+      "plan_scope": "Grow",
+      "status": "forbidden",
+      "evidence": "Non-Display Use (Terms 1) is allowed 'only as permitted by your subscription tier' (2.2(d)). On individual pricing only Basic (dev only) and Ultra carry a non-display label; Grow is display-only.",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true,
+      "other_plans": "Ultra: permitted. Pro: not labelled non-display; support article allows 'programmatic API use for internal AI assistants': needs_confirmation."
+    },
+    {
+      "use": "raw_display_to_owner",
+      "plan_scope": "Grow",
+      "status": "permitted",
+      "evidence": "Grow grants internal display ('view-only access for internal use within your applications and dashboards'). Individual plans are for personal or internal use. No attribution needed for internal or private use.",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage",
+        "https://support.twelvedata.com/en/articles/12647398-attribution-guidelines-for-using-twelve-data"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": false,
+      "other_plans": "Basic: forbidden (cannot be displayed to users, not production). Pro and Ultra: permitted."
+    },
+    {
+      "use": "derived_display_or_export",
+      "plan_scope": "Grow",
+      "status": "needs_confirmation",
+      "evidence": "Terms permit Derived Data that cannot be reverse-engineered and the customer keeps rights in it (2.2(c), 6.2), but Grow's label forbids transforming data, which is how derived data is made. Export to any third party is Redistribution (Terms 1, 2.3(b)) unless the derived data cannot reconstruct the original; public display of derived data needs attribution.",
+      "source": [
+        "https://twelvedata.com/terms",
+        "https://twelvedata.com/pricing",
+        "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage",
+        "https://support.twelvedata.com/en/articles/12647398-attribution-guidelines-for-using-twelve-data"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true,
+      "other_plans": "Ultra: derived display to the owner very likely permitted; export of derived data outside the owner needs confirmation."
+    },
+    {
+      "use": "anthropic_prompt_transmission",
+      "plan_scope": "Grow",
+      "status": "needs_confirmation",
+      "evidence": "Terms are silent on AI providers. Redistribution means 'provision of Data to third parties' and is forbidden without an add-on or agreement; Authorized Users include contractors and computerised systems authorised by the customer, which may or may not cover a processor such as Anthropic. Support article says Pro allows programmatic API use for internal AI assistants (implying Grow does not). Twelve Data's own docs promote its MCP server for connecting Claude, which shows intent but grants no right.",
+      "source": [
+        "https://twelvedata.com/terms",
+        "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage",
+        "https://twelvedata.com/docs/llms/ai/mcp-server.md"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true,
+      "other_plans": "Pro: internal AI assistants named as allowed; Ultra: likely; both still need written confirmation that sending raw or derived values to Anthropic's API is not redistribution."
+    },
+    {
+      "use": "redistribution",
+      "plan_scope": "all individual plans",
+      "status": "forbidden",
+      "evidence": "Terms 2.2(e), 2.3(b), 2.4, 17.1(f)(g); individual plans forbid redistribution and commercial display to third parties.",
+      "source": [
+        "https://twelvedata.com/terms",
+        "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": false
+    },
+    {
+      "use": "retention_after_cancel",
+      "plan_scope": "all",
+      "status": "forbidden",
+      "evidence": "On termination all access ends and the customer must delete all Data (12.5(b)); within 30 days, with certification on request (16.2). Audit-trail data may be kept for compliance (16.2(c)); Derived Data rights stay with the customer (6.2). Retention is also limited to the subscription's permitted duration (16.1). Cancelling stops renewal; access runs to the end of the paid period.",
+      "source": [
+        "https://twelvedata.com/terms",
+        "https://twelvedata.com/pricing"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true
+    },
+    {
+      "use": "attribution",
+      "plan_scope": "all",
+      "status": "permitted",
+      "evidence": "Attribution ('Data provided by Twelve Data') is required for public display, redistribution, publications or external APIs; not required for internal or private use.",
+      "source": [
+        "https://support.twelvedata.com/en/articles/12647398-attribution-guidelines-for-using-twelve-data"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": false
+    },
+    {
+      "use": "exchange_fees_non_professional",
+      "plan_scope": "all",
+      "status": "needs_confirmation",
+      "evidence": "Terms 3.1 and 3.3: third-party data may need separate agreements, exchange fees or professional rates, and the customer warrants it is qualified. Professional Use is defined (Terms 1). Add-ons are labelled non-professional or internal (for example Cboe Europe $300/yr non-professional). No public statement says LSE, NSE or BSE EOD on Grow carries an exchange fee or a declaration.",
+      "source": [
+        "https://twelvedata.com/terms",
+        "https://twelvedata.com/pricing"
+      ],
+      "checked": "2026-11-02",
+      "needs_confirmation": true
+    }
+  ],
+  "coverage": [
+    {
+      "market": "US (NYSE, Nasdaq)",
+      "kind": "stocks and ETFs",
+      "plan_min": "Basic (rights: dev only); Grow for production display",
+      "delay": "Real-time (OTC EOD)",
+      "history": "Daily from 1 Jan 1980; intraday from 15 Dec 2022",
+      "source": [
+        "https://twelvedata.com/exchanges/xnys",
+        "https://twelvedata.com/exchanges/xnas",
+        "https://twelvedata.com/exchanges"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "UK (LSE, XLON)",
+      "kind": "stocks and ETFs",
+      "plan_min": "Grow (Venture for business)",
+      "delay": "EOD",
+      "history": "Not stated for XLON. Stocks page says daily history starts at each market's earliest records 'up to 1980'; Trial article says Grow lacks 'deep historical data' and Pro depth is below Ultra. Unquantified.",
+      "source": [
+        "https://twelvedata.com/exchanges/xlon",
+        "https://twelvedata.com/stocks",
+        "https://support.twelvedata.com/en/articles/5335783-trial"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "UK (LSE, XLON)",
+      "kind": "investment trusts",
+      "plan_min": "Presumed Grow (listed on XLON); not stated",
+      "delay": "EOD",
+      "history": "unknown",
+      "source": [
+        "https://twelvedata.com/exchanges/xlon",
+        "https://twelvedata.com/docs/llms/market-data/time-series.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "API types include Closed-end Fund and Trust; per-symbol plan is returned by /stocks or /etfs with show_plan=true (needs an API key, not called)."
+    },
+    {
+      "market": "UK (LSE)",
+      "kind": "GBX pence quote unit",
+      "plan_min": "n/a",
+      "delay": "n/a",
+      "history": "n/a",
+      "source": [
+        "https://twelvedata.com/markets/273470/stock/lse/data/historical-data",
+        "https://twelvedata.com/docs/llms/market-data/time-series.md"
+      ],
+      "checked": "2026-11-02",
+      "note": "Twelve Data's LSE pages show prices in 'GBp' (pence); time_series and eod return a currency field. Whether every LSE ETF or trust is quoted GBp or GBP, and the exact code string, must be read per listing."
+    },
+    {
+      "market": "UK (AIM, Cboe UK)",
+      "kind": "stocks",
+      "plan_min": "AIM: Grow (EOD). Cboe Europe/UK real-time: paid add-on (from $300/yr non-professional)",
+      "delay": "EOD / real-time add-on",
+      "history": "unknown",
+      "source": [
+        "https://twelvedata.com/exchanges",
+        "https://twelvedata.com/pricing"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "India (NSE, XNSE)",
+      "kind": "stocks",
+      "plan_min": "Grow (Venture for business); Trial article says Ultra unlocks 'complete data coverage for India'",
+      "delay": "EOD",
+      "history": "Not stated; Grow lacks 'deep historical data'",
+      "source": [
+        "https://twelvedata.com/exchanges/xnse",
+        "https://support.twelvedata.com/en/articles/5335783-trial"
+      ],
+      "checked": "2026-11-02",
+      "note": "Exchange page shows trading days as Su-Th, which is wrong for NSE; MP must use its own calendars."
+    },
+    {
+      "market": "India (BSE, XBOM)",
+      "kind": "stocks",
+      "plan_min": "Grow (Venture for business); same Ultra completeness caveat",
+      "delay": "EOD",
+      "history": "Not stated",
+      "source": [
+        "https://twelvedata.com/exchanges/xbom",
+        "https://support.twelvedata.com/en/articles/5335783-trial"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "India",
+      "kind": "mutual fund NAVs",
+      "plan_min": "conflicting: compare table ticks mutual fund 'Market data' on every plan; Pro card lists 'Mutual funds NAV'; mutual-funds page says from $329/month (Ultra); Ultra gives 'complete data coverage for India'",
+      "delay": "Daily NAV after publication",
+      "history": "'years of historical values' (unquantified)",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/mutual-funds",
+        "https://support.twelvedata.com/en/articles/5335783-trial"
+      ],
+      "checked": "2026-11-02",
+      "note": "Indian funds appear under BSE with Morningstar-style ids in Twelve Data's site search results; no AMFI scheme-code mapping is documented. Unverified."
+    },
+    {
+      "market": "UK",
+      "kind": "fund NAVs (OEICs, unit trusts)",
+      "plan_min": "same conflict as above (Basic tick / Pro card / Ultra page)",
+      "delay": "Daily NAV",
+      "history": "unquantified",
+      "source": [
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/mutual-funds"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "FX",
+      "kind": "GBP/USD, GBP/INR, USD/INR",
+      "plan_min": "Basic",
+      "delay": "Real-time",
+      "history": "'20+ years of history available on free plans'",
+      "source": [
+        "https://twelvedata.com/exchanges",
+        "https://twelvedata.com/llms.txt",
+        "https://twelvedata.com/docs/llms/currencies/exchange-rate.md"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "market": "All",
+      "kind": "corporate actions (splits, dividends)",
+      "plan_min": "Grow",
+      "delay": "n/a",
+      "history": "Dividends 'last 10+ years' per endpoint description; splits range up to 'full'",
+      "source": [
+        "https://twelvedata.com/docs/llms/fundamentals/dividends.md",
+        "https://twelvedata.com/docs/llms/fundamentals/splits.md",
+        "https://twelvedata.com/exchanges/xnse"
+      ],
+      "checked": "2026-11-02",
+      "note": "time_series default adjust=splits; MP must request adjust=none for raw closes and keep actions separately."
+    }
+  ],
+  "credit_estimate": {
+    "assumptions": "22 eligible session days a month (upper bound across US/UK/India); 4 FX pairs fetched daily with one retry; one /market_state call per market group a day; Design A pulls /dividends and /splits for every listing every day; Design B polls /last_change for dividends and splits filtered by 5 MICs (XNYS, XNAS, XLON, XNSE, XBOM) then pulls only changed listings at 20 credits, assuming about 4 dividend events per listing a year. Retry counted at worst case (every listing retried).",
+    "weights": {
+      "/time_series (1day)": "1 per symbol",
+      "/eod": "1 per symbol",
+      "/quote": "1 per symbol",
+      "/price": "1 per symbol",
+      "/exchange_rate": "1 per symbol",
+      "/currency_conversion": "1 per symbol",
+      "/dividends": "20 per symbol, Grow+",
+      "/splits": "20 per symbol, Grow+",
+      "/dividends_calendar": "40 per symbol, Grow+",
+      "/splits_calendar": "40 per symbol, Grow+",
+      "/last_change/{endpoint}": "1 per request (covers dividends, splits)",
+      "/earliest_timestamp": "1 per request",
+      "/market_state": "1 per request",
+      "/exchange_schedule": "100 per request, Ultra+",
+      "/api_usage": "1 per request",
+      "/mutual_funds/world/summary": "200 per request, Ultra+",
+      "/mutual_funds/world": "1000 per request, Ultra+",
+      "/profile": "10 per symbol, Grow+",
+      "/income_statement": "100 per symbol"
+    },
+    "estimates": [
+      {
+        "listings": 20,
+        "session_days_per_month": 22,
+        "daily_bars": 440,
+        "one_retry_worst_case": 440,
+        "fx_4_pairs_with_retry": 176,
+        "market_state_metadata": 88,
+        "design_A_actions_daily_full_pull": 17600,
+        "design_A_total": 18744,
+        "design_A_peak_day": 852,
+        "design_B_actions_change_detected": 360,
+        "design_B_total": 1504,
+        "design_B_peak_day_excl_event_fetches": 62,
+        "design_B_assumed_action_events_per_month": 7
+      },
+      {
+        "listings": 30,
+        "session_days_per_month": 22,
+        "daily_bars": 660,
+        "one_retry_worst_case": 660,
+        "fx_4_pairs_with_retry": 176,
+        "market_state_metadata": 88,
+        "design_A_actions_daily_full_pull": 26400,
+        "design_A_total": 27984,
+        "design_A_peak_day": 1272,
+        "design_B_actions_change_detected": 420,
+        "design_B_total": 2004,
+        "design_B_peak_day_excl_event_fetches": 82,
+        "design_B_assumed_action_events_per_month": 10
+      }
+    ],
+    "one_time_backfill_30_listings": {
+      "time_series_outputsize_5000": 30,
+      "dividends_and_splits_range_full": 1200,
+      "earliest_timestamp": 30,
+      "fx_backfill": 4,
+      "total": 1264,
+      "minutes_at_55_per_min": 23
+    },
+    "monitoring_30min_us_only": {
+      "note": "DATA-06 monitoring is separate. On Grow, UK and India are EOD only, so intraday monitoring applies to US listings; 13 slots a day (10:00 to 16:00 ET) x listings x 22 days at 1 credit per /quote.",
+      "us_10_listings_month": 2860
+    },
+    "against_limits": {
+      "Basic": "Daily core of Design B (about 62 to 82 credits a day) fits 8/min and 800/day numerically, but Basic has no /dividends or /splits, no UK or India (trial symbols only) and is licensed for development only, never production.",
+      "Grow 55": "No daily cap. Peak minute is the daily close batch (20 to 30 credits) under 55. Design A's 800 to 1,200 action credits a day need at least 15 to 22 minutes at 55/min and must be scheduled outside the +15 to +60 minute daily-origin window; Design B needs under 2 minutes. Theoretical monthly capacity about 2.4 million credits, so credits are not the constraint: licence and coverage are.",
+      "correction_to_DATA_07": "DATA-07's illustrative 400 credits a day counts 20 action checks at weight 1. The documented weight is 20 per symbol for each of /dividends and /splits (Grow and above), so daily full checks cost 40 credits per listing and are unavailable on Basic."
+    },
+    "source": [
+      "https://support.twelvedata.com/en/articles/5615854-credits",
+      "https://twelvedata.com/pricing",
+      "https://twelvedata.com/docs/llms/fundamentals/dividends.md",
+      "https://twelvedata.com/docs/llms/fundamentals/splits.md",
+      "https://twelvedata.com/docs/llms/fundamentals/last-changes.md",
+      "https://twelvedata.com/docs/llms/market-data/time-series.md"
+    ],
+    "checked": "2026-11-02"
+  },
+  "grow55_29_visibility": {
+    "appears": [
+      "Official pricing page: Grow credit dropdown option '55 API + 8 trial WS' maps to $29 monthly / $24 per month yearly (embedded tier data, checkout code monthly-55)",
+      "Official pricing page schema.org offer: Grow $29, 55 requests per minute",
+      "pricing.md (linked from the pricing page for AI agents): Grow $29/mo 55 credits",
+      "llms.txt: 'Grow from $29/mo'",
+      "Trial support article, modified 18 Aug 2026: 'starting at $29/month'"
+    ],
+    "does_not_appear": [
+      "Default rendered Grow card: shows $79 with 377 credits pre-selected",
+      "Comparison table header: '$79/month' above '55+' credits",
+      "Credits support article (16 Oct 2025): no prices"
+    ],
+    "source": [
+      "https://twelvedata.com/pricing",
+      "https://twelvedata.com/pricing.md",
+      "https://twelvedata.com/llms.txt",
+      "https://support.twelvedata.com/en/articles/5335783-trial",
+      "https://support.twelvedata.com/en/articles/5615854-credits"
+    ],
+    "checked": "2026-11-02"
+  },
+  "answer": {
+    "cheapest_confirmed_plan": null,
+    "statement": "No Twelve Data plan is publicly confirmed to cover US, UK and India daily data with MP's needed rights within the £100 ceiling. Grow 55 ($29, about £27.84 with VAT) covers US, LSE, NSE and BSE daily data and corporate actions, but its public label forbids programmatic processing, storage and transformation. The cheapest individual tier whose label grants programmatic non-display use is Ultra 2,584 at $329 a month (about £315.84 with VAT, or $3,288 a year up front, about £3,156.48), and its storage, training and Anthropic rights are still not named.",
+    "top_unknowns": [
+      "Whether Grow or Pro permits storage, ML training and non-display processing for a single private owner, despite the Grow 'view-only' label",
+      "Daily history depth and completeness for LSE, NSE and BSE on Grow (ten years needed; Grow lacks 'deep historical data'; India complete only on Ultra)",
+      "Whether sending raw or derived values to Anthropic in prompts is permitted or counts as redistribution"
+    ]
+  },
+  "vendor_questions": [
+    "For an individual on Grow (55 credits), may I store daily EOD bars indefinitely in my own private cloud database and backups, given the pricing card says Grow data 'cannot be programmatically processed, stored, transformed, or redistributed'? If not, which individual tier is the cheapest that allows it?",
+    "On Grow or Pro, may I compute features and train and evaluate my own forecasting models on the data, and keep the trained models after cancelling?",
+    "On Grow or Pro, may an automated job read prices without a person viewing them (non-display monitoring of staleness and thresholds), or is that Ultra only?",
+    "May I send small extracts of raw prices, or only derived values, to Anthropic's API inside prompts for my own private analysis? Is Anthropic, as my processor, an Authorized User or a third party under Terms 1 and 2.3(b)?",
+    "How many years of daily history does Grow (and Pro) return for XLON, XNSE and XBOM stocks and ETFs? Is ten years available on Grow?",
+    "Trial article says Ultra 'unlocks ... complete data coverage for India'. Which Indian instruments or history are missing on Grow?",
+    "Which plan returns UK fund NAVs (OEICs, unit trusts) and Indian mutual fund NAVs, and can Indian funds be found by AMFI scheme code or ISIN? Your compare table ticks mutual fund market data on Basic, the Pro card lists NAV, and the mutual funds page says from $329.",
+    "Are LSE investment trusts and LSE-listed ETFs all on Grow, and is every LSE price in GBp (pence)? What exact currency code is returned?",
+    "Do LSE, NSE or BSE EOD prices on Grow carry any exchange fee or require a non-professional declaration?",
+    "Does /last_change for dividends and splits work for XLON, XNSE and XBOM, and do /dividends and /splits cover those exchanges on Grow?",
+    "For a UK individual, do you charge 20% UK VAT, and is the invoice in USD only? On annual billing, is the full year charged on the start date?",
+    "After cancellation, Terms 16.2 requires deleting Data within 30 days. Does this cover forecasts and model artefacts derived from the data, and audit records of predictions that quote the close used?"
+  ],
+  "owner_questions": [
+    "MP needs storage, training and non-display monitoring. Publicly, only Ultra ($329 a month, about £316 with VAT) grants programmatic use on individual pricing. Do you want me to send the vendor questions (needs your yes), or treat Twelve Data as development-only until Twelve Data confirms in writing?",
+    "Is MP strictly personal use by you as an individual, with no company, client or MA business involvement? This decides Individual versus Business (Venture from $149) pricing and VAT.",
+    "If Grow is confirmed for your uses, monthly ($29) or annual ($288 up front, about £276 with VAT in the invoice month)?",
+    "Are UK and Indian fund NAVs in scope for the first production release? Today they may need Pro or Ultra, which breaks the £100 ceiling with Twelve Data alone.",
+    "Will your card add a foreign-currency fee on USD charges? COST-04 uses 0% at central and 3% as a sensitivity."
+  ]
+}

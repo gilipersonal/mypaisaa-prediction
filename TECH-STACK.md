@@ -127,8 +127,8 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Service | Role | Status |
 | --- | --- | --- |
 | Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified |
-| Yahoo Finance | Prices and history | Owner-selected; permitted use to verify |
-| Twelve Data Grow | Prices across US, UK and India | Owner-selected; Basic ($0) considered for dev; nothing bought |
+| Yahoo Finance | Prices and history | Owner-selected (ARC-01); its published terms forbid automated collection, so the adapter stays disabled ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)) |
+| Twelve Data Grow | Prices across US, UK and India | Owner-selected; Basic ($0) considered for dev; nothing bought. Grow is labelled view-only on the pricing page, so storage, training and automated use need Twelve Data's written answer (MP-10) |
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
