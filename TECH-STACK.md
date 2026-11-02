@@ -1,0 +1,196 @@
+<div align="center">
+
+<img src="docs/brand/mark-small.svg" width="40" height="40" alt="Mypaisaa Prediction mark">
+
+# Mypaisaa Prediction: Tech stack and cost
+
+**What each layer uses, why, how far it has got, and what it costs to run.**
+
+[README](README.md) · [Architecture](ARCHITECTURE.md)
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="docs/motion/stack-build.gif" width="860" alt="Animation: eight layers stack up from quality and delivery at the bottom to clients at the top; the API and CI layers are marked as running, the rest as owner-selected">
+
+<sub>The stack as selected on 2 November 2026. Green runs today; grey is chosen, not built. <a href="docs/motion/stack-build.png">Still image</a>.</sub>
+
+</div>
+
+Status labels follow [ARCHITECTURE.md](ARCHITECTURE.md): **Implemented** means code in this repository that runs;
+**Owner-selected** means chosen and not built. A version in `backend/uv.lock` proves what resolves, not that a
+feature exists.
+
+## Contents
+
+1. [Application (Python)](#1-application-python)
+2. [Forecasting and data science](#2-forecasting-and-data-science)
+3. [Claude](#3-claude)
+4. [The web app](#4-the-web-app)
+5. [The Apple app](#5-the-apple-app)
+6. [AWS services](#6-aws-services)
+7. [Services outside AWS](#7-services-outside-aws)
+8. [Quality and delivery](#8-quality-and-delivery)
+9. [Monthly cost](#9-monthly-cost)
+10. [Left over from earlier plans](#10-left-over-from-earlier-plans)
+
+## 1. Application (Python)
+
+| Piece | Choice | Why | Status |
+| --- | --- | --- | --- |
+| Language | Python 3.12+ | One language for the API, the workflows, the data work and the models | Implemented |
+| HTTP API | FastAPI **0.162.0** on Starlette **1.10.0** | Typed routes, Pydantic at the boundary, small enough for Lambda | Implemented (health, sample SSE) |
+| Schemas and settings | Pydantic **2.14.2**, pydantic-settings **2.16.2** | Validate every request, response and provider payload | Implemented |
+| Server-sent events | sse-starlette **2.4.1** | One-way notices with heartbeats | Sample implemented; auth and replay pending |
+| Local server | Uvicorn **0.54.0** | Runs the starter on a laptop | Implemented |
+| On AWS | Lambda with a streaming adapter | Pay per request; nothing idles | Owner-selected; streaming proof pending |
+| Workflows | Lambda Durable Functions in Python | Long imports, approvals and jobs that survive restarts, in the same language | Owner-selected (ARC-03) |
+| Packaging | uv **0.12.9** with a frozen lock | Reproducible installs, the same in CI | Implemented |
+
+## 2. Forecasting and data science
+
+| Piece | Choice | Why | Status |
+| --- | --- | --- | --- |
+| Arrays and frames | NumPy, pandas | Standard, fast enough on CPU | In the optional `ml` extra, unused |
+| Models | scikit-learn-style pipelines: ridge, logistic, histogram gradient boosting, quantile | Strong baselines that run on CPU and explain themselves | Owner-selected (ARC-05) |
+| Training | SageMaker CPU jobs, at most 2 campaigns a month, 96 fits and 6 instance-hours each | Bursty training without an always-on server | Owner-selected (ARC-04) |
+| Serving | Approved artefacts run in a Lambda; forecasts stored daily | No endpoint to pay for between runs | Owner-selected (ARC-04) |
+| Validation | Walk-forward with purge and embargo, fold-local fitting, calibration | Time series never split at random | Specified |
+| Calendars | pandas-market-calendars, exchange-calendars | Correct sessions for US, UK and India | Used by the synthetic fixtures |
+
+## 3. Claude
+
+| Piece | Choice | Why | Status |
+| --- | --- | --- | --- |
+| Model host | Anthropic API | Direct access to current Claude models | Owner-selected |
+| Client | Official Anthropic Python SDK, explicit tool loop | The server decides every step; nothing autonomous | Owner-selected (ARC-06) |
+| Routes | One Lambda worker per task route, one shared runner | Each route keeps its own context, tools and budget | Owner-selected |
+| Evaluation | Inspect AI plus deterministic checks | Replays and scored scenarios before any live check | Owner-selected (ARC-09) |
+| Models and batching | Still to choose and evaluate | Exact IDs, batch and cache use are not copied from MA | Open |
+
+## 4. The web app
+
+| Piece | Choice | Why | Status |
+| --- | --- | --- | --- |
+| Framework | SvelteKit 3, prebuilt and static | Fast, small, no server to run for the shell | Owner-selected (ARC-10) |
+| Hosting | S3 and CloudFront | Cheap static hosting with a private origin | Owner-selected |
+| Data | Authenticated calls to FastAPI; SSE for notices | Durable state is always a normal read | Owner-selected |
+| Install | PWA with Web Push | Works on a laptop, an iPad or a phone | Owner-selected |
+
+The React and Vite project in `site/` is a documentation presentation, not the product app.
+
+## 5. The Apple app
+
+| Piece | Choice | Why | Status |
+| --- | --- | --- | --- |
+| Screens | Swift and SwiftUI on iOS and iPadOS | Native feel, widgets, Keychain, notifications, large screens | Owner-selected |
+| Shell | React Native | Shared navigation and typed bridges, room for other platforms | Owner-selected |
+| Device matrix | Still to agree | Versions, foldables and offline behaviour need design first | Open |
+
+## 6. AWS services
+
+| Service | Role in MP | Status |
+| --- | --- | --- |
+| CloudFront, S3 | Serve the PWA | Owner-selected |
+| API Gateway | HTTPS and the SSE stream | Owner-selected |
+| Cognito | Apple, Google and passkey sign-in, step-up for sensitive actions | Owner-selected (ARC-07) |
+| Lambda | The API, data workers, Claude route workers, inference | Owner-selected |
+| Lambda Durable Functions | Imports, approvals, daily forecast runs | Owner-selected (ARC-03) |
+| EventBridge Scheduler | The daily runs and the 30-minute checks | Owner-selected |
+| SQS and dead-letter queues | Buffered, retried, replayable work | Owner-selected |
+| DynamoDB | The ledger, forecasts, outcomes and audit | Owner-selected (ARC-02) |
+| S3 (private) | Source files, model artefacts, evidence | Owner-selected (ARC-02) |
+| SageMaker | Capped CPU training and evaluation jobs | Owner-selected (ARC-04) |
+| CloudWatch, X-Ray, CloudTrail | Logs, metrics, traces, API audit | Proposed |
+| Secrets Manager | Provider and Anthropic keys | Proposed |
+| Two accounts | Dev and prod, same shape, one bill | Owner-selected (ARC-11) |
+
+Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, always-on endpoints.
+
+## 7. Services outside AWS
+
+| Service | Role | Status |
+| --- | --- | --- |
+| Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified |
+| Yahoo Finance | Prices and history | Owner-selected; permitted use to verify |
+| Twelve Data Grow | Prices across US, UK and India | Owner-selected; Basic ($0) considered for dev; nothing bought |
+| GitHub and Actions | Code, pull requests, CI | Implemented |
+| Jira and Confluence | Work tracking and published plans | Implemented |
+| Lucidchart | Architecture diagrams | Implemented |
+
+## 8. Quality and delivery
+
+| Piece | Choice | Status |
+| --- | --- | --- |
+| Tests | pytest **8.4.2**, httpx **0.28.1** | Implemented for the starter |
+| Lint | Ruff **0.17.3** | Implemented |
+| CI | GitHub Actions: Backend, Codex tooling, Static preview, Workflow lint, Jira traceability | Implemented |
+| Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
+| Infrastructure as code | Plan-only; CDK or CloudFormation still to choose | Open |
+
+## 9. Monthly cost
+
+<div align="center">
+
+<img src="docs/motion/budget.gif" width="860" alt="Animation: a £100 bar fills with data £30, AWS £22, Claude £10 and £8 for uncertainty, with a £30 reserve; warn, reduce and pause marks at £60, £75 and £85; three scenario bars grow to £94.48, £108.88 and £60.88">
+
+<sub>The ceiling, the plan and three draft scenarios. <a href="docs/motion/budget.png">Still image</a>.</sub>
+
+</div>
+
+**The ceiling** is £100 a month all-in: dev and prod AWS, market data, Claude and evaluations. It is planned as £70 of
+operation and £30 of reserve. Optional work gets a warning at £60, is reduced at £75 and paused at £85, keeping a small
+window for sign-in, ledger reads, audit and recovery.
+
+**The proposed split of the £70** (ceilings, not separate pots):
+
+| Part | Up to |
+| --- | --- |
+| Market data | £30 |
+| AWS, both accounts | £22 |
+| Claude and evaluations | £10 |
+| Forecast and price uncertainty | £8 |
+
+**The draft scenarios** at £0.80 to the dollar and 20% tax, in a Virginia candidate Region with Claude blocked:
+
+| Scenario | Cash in the month |
+| --- | --- |
+| Twelve Data Grow at $79, an ordinary month | £94.48 |
+| Grow at $79, the month the yearly domain renews | £108.88 (over the ceiling) |
+| Grow at $55 if it is offered on the needed terms, that month | £60.88 (at the warning) |
+
+### What moves the number
+
+- **The data plan.** Grow at $79 is £75.84 on its own, more than the whole operating plan. It decides the month.
+- **Claude.** The baseline token allocation is about $4.78 gross a month including $2 of evaluations. Chat volume,
+  research depth and live evals move it most.
+- **Streaming.** One held SSE connection for a month costs about $21.60 of Lambda time before requests; design for
+  short streams and re-reads.
+- **Training.** Capped by campaign, fit count and instance-hours, and admitted against the budget before it starts.
+
+### Guard rails
+
+- Cash is counted in the month an invoice is due, never amortised. An unknown amount blocks a new commitment.
+- No paid fallback switches on by itself, and no feature is cut silently to save money.
+- Hard caps on requests, concurrency, timeouts and retention, because budget alerts arrive late.
+- Nothing is bought, applied or deployed without an explicit request.
+
+Source: [the cost specification](docs/planning/foundation-specifications-2026-11-02/costs/specification.md) and
+[its model](docs/planning/foundation-specifications-2026-11-02/costs/model.json). These are planning scenarios, not
+invoices.
+
+## 10. Left over from earlier plans
+
+`backend/pyproject.toml` still lists optional extras from before the directions were chosen. They resolve in the
+lock but are not the selected stack and should not be installed for new work:
+
+| Extra | Packages (locked) | Superseded by |
+| --- | --- | --- |
+| `data` | SQLAlchemy 2.1.6, asyncpg 0.32.0, Alembic 1.20.1 | DynamoDB (ARC-02) |
+| `agents` | claude-agent-sdk 0.2.176 | The Anthropic client SDK with an explicit loop (ARC-06) |
+| `ml` | NumPy 2.5.4, pandas 2.3.3, scikit-learn 1.9.1 | Still the likely libraries; versions to be re-chosen at build time |
+
+The single Lightsail host, PostgreSQL and the £50 AWS-only budget in the early ADRs are history.

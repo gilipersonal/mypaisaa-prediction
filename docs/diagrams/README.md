@@ -4,6 +4,15 @@
 sequence. Moving connectors are explanatory animation, not live traffic, model
 performance, resource deployment or an automated planning-sync service.
 
+## Current: the system on AWS (MP-31, 2 November 2026)
+
+[`mp-system-2026-11-02/`](mp-system-2026-11-02/) holds the current native Lucid views, drawn from the selected
+directions ARC-01 to ARC-12: [the system on AWS](mp-system-2026-11-02/01-system-on-aws.png) with numbered flows, and
+[who may do what](mp-system-2026-11-02/02-who-may-do-what.png). The [Lucid document](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
+was imported from [`lucid_spec.py`](mp-system-2026-11-02/lucid_spec.py); the [manifest](mp-system-2026-11-02/manifest.json)
+records its version and the exports' hashes. [ARCHITECTURE.md](../../ARCHITECTURE.md) explains them, and the
+animations it uses are built in [`docs/motion/`](../motion/README.md). Everything below is earlier work, kept for history.
+
 ## Editable sources and viewing formats
 
 | Diagram | Canonical editable source | Animated companion | Static alternative |

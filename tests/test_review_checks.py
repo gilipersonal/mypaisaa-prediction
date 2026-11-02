@@ -45,6 +45,10 @@ class SelectionTests(unittest.TestCase):
         chosen, _ = names([".claude/rules/independent-review.md"])
         self.assertEqual(chosen, {"claude-workflow"})
 
+    def test_root_docs_brand_and_motion_select_the_docs_check(self):
+        for path in ("ARCHITECTURE.md", "TECH-STACK.md", "docs/brand/mark.svg", "docs/motion/budget.gif"):
+            self.assertEqual(names([path]), ({"readme"}, []), path)
+
     def test_plain_docs_need_no_extra_check(self):
         self.assertEqual(names(["docs/architecture.md", "review/MP-20/round-1.md"]), (set(), []))
 
