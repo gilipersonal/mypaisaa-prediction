@@ -43,7 +43,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_claude_rules_select_their_policy_test(self):
         chosen, _ = names([".claude/rules/independent-review.md"])
-        self.assertEqual(chosen, {"claude-review-skills"})
+        self.assertEqual(chosen, {"claude-workflow"})
 
     def test_plain_docs_need_no_extra_check(self):
         self.assertEqual(names(["docs/architecture.md", "review/MP-20/round-1.md"]), (set(), []))
