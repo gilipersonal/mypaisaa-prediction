@@ -1,0 +1,515 @@
+{
+  "source_baseline": "2e6439858de7b5e4209adab91491c5846e215cb4",
+  "handover_branch": "MP-20-claude-handover",
+  "date": "2026-11-02",
+  "files": [
+    {
+      "path": ".agents/skills/autoship/SKILL.md",
+      "bytes": 5254,
+      "sha256": "72ea06aa7b2529222e57c838614f8432af1aabc703126d77086335770a3b6644",
+      "git_blob_at_baseline": "b94ec434d500649031b8107099fd12a25ff1c9ec"
+    },
+    {
+      "path": ".agents/skills/mp-architecture-diagrams/SKILL.md",
+      "bytes": 3482,
+      "sha256": "bb03458e480943d84cc9f19147b358792a26448cf81f2668c28969901ad7241a",
+      "git_blob_at_baseline": "14b19d0c1bd02f6b80e15587ae6fa3321f5d8fcf"
+    },
+    {
+      "path": ".agents/skills/mp-design-first/SKILL.md",
+      "bytes": 1593,
+      "sha256": "a735697c1a24a2cd56ebcc2910048116af4c125a4578e875d86e15bf89543d9c",
+      "git_blob_at_baseline": "212b52563a8939d6a1782f70c0161c9b21bbe415"
+    },
+    {
+      "path": ".agents/skills/mp-independent-review/SKILL.md",
+      "bytes": 3682,
+      "sha256": "6bde60f915530a1e3bd26d842587a227ed536484ee86697ac801caa8106e1892",
+      "git_blob_at_baseline": "84eb91593afe121c2ddbb6bcedda35030a2c2d43"
+    },
+    {
+      "path": ".agents/skills/mp-plan-sync/SKILL.md",
+      "bytes": 2940,
+      "sha256": "eedea6730be67921eb7ab8139a5f0b9cd6d261f05cc81412a833263f32ecbc83",
+      "git_blob_at_baseline": "9915c6e5d33fc6e4ccf79a5651ce013505a986f7"
+    },
+    {
+      "path": ".agents/skills/mp-review-regression/SKILL.md",
+      "bytes": 1812,
+      "sha256": "311b265eaedded623bb3f205752fe208cedeac8675076e7827a9f8c7a45d0399",
+      "git_blob_at_baseline": "a73e00f8b59469d7a4ec6bb0aadbd7a70fcb4541"
+    },
+    {
+      "path": ".claude/jira/taxonomy.md",
+      "bytes": 953,
+      "sha256": "d834d355e4b2cf37ef85e92eea7bb5e568573be04c39488e92b386e9842d084a",
+      "git_blob_at_baseline": "f0830e8d8d2a5b121339119eff2f29c4cc685b2e"
+    },
+    {
+      "path": ".claude/jira-flow.json",
+      "bytes": 1226,
+      "sha256": "d6b008b18fc612747a301eb0dcd80063181882d66e1463e5368c35e6ea2d87f5",
+      "git_blob_at_baseline": "df83a76cbe05ece1cfa86fec06062c8a2daf3599"
+    },
+    {
+      "path": ".claude/rules/jira-flow.md",
+      "bytes": 1660,
+      "sha256": "59979cdb4b5a086c8d18677a20eafbce2a401c62e7315812cb0ed9d732f57f5b",
+      "git_blob_at_baseline": "110f475cef403b8087d6a5989e9fe8a995431540"
+    },
+    {
+      "path": ".claude/skills/autoship/SKILL.md",
+      "bytes": 303,
+      "sha256": "81a405236e94d9144a669eea07b37f4e68043053bbb7ab057c745844fbf51e72",
+      "git_blob_at_baseline": "6b33ccbc7837054453b0956f9960a2e04a8ac938"
+    },
+    {
+      "path": ".codex/hooks/workflow_reminder.py",
+      "bytes": 1040,
+      "sha256": "8d9a348507da101dd0ea28f9dad200e0b6c244f9c97d77739f0d3e14cae34923",
+      "git_blob_at_baseline": "e4bab75d6e99a7fe384ff87120b0a91370a3bfb9"
+    },
+    {
+      "path": ".codex/hooks.json",
+      "bytes": 344,
+      "sha256": "fabad6c6b7d68869420ca971c24114fd384385b824da1afb1f94c15e487d198f",
+      "git_blob_at_baseline": "4d963e13ab69e540fc8fc124a9d8932c75dc98ce"
+    },
+    {
+      "path": ".codex/review-document-baseline.json",
+      "bytes": 176,
+      "sha256": "fc6d5dd8bb4ce452efca9dada46eed5a01d38bfe879509393e83b8528adc9bd7",
+      "git_blob_at_baseline": "19a03da61b9ad727b60c13ccc288ada03bd0c68d"
+    },
+    {
+      "path": ".codex/review-policy.json",
+      "bytes": 237,
+      "sha256": "278a991cc9eae1afe02069f4152ec04748ef14a7425a7556243484ead9804249",
+      "git_blob_at_baseline": "6fd7bc88960173238a315d3e22d960db002625c7"
+    },
+    {
+      "path": ".codex/rules/architecture-diagrams.md",
+      "bytes": 2390,
+      "sha256": "1bb3198c44983753c4d5b7753caed19043737a971a1a029d8847b74369655d16",
+      "git_blob_at_baseline": "f94b10d371ee78aa50af4d12f01ff1e0830d94af"
+    },
+    {
+      "path": ".codex/rules/plan-sync.md",
+      "bytes": 3349,
+      "sha256": "506b023b666ab7878860c52b1ba7b4a057a0b3dcc914b0e7ec5fe13f91db22c9",
+      "git_blob_at_baseline": "40ebf7b5f11d829fb8c443400d5a7849e8d8f972"
+    },
+    {
+      "path": ".codex/rules/review-checklist.md",
+      "bytes": 4798,
+      "sha256": "a89fe4c9f166cf3bb04d32c45f0f9ab7d80da0959d8c8c563de0ec5163026fa7",
+      "git_blob_at_baseline": "244db14b773de4998111eed40f7cee3da163e60f"
+    },
+    {
+      "path": ".codex/rules/review-ledger.md",
+      "bytes": 3515,
+      "sha256": "d99f73afacd625c43c3f56dd98db0527e20118371b25df0e76174c8cd6f9c6dd",
+      "git_blob_at_baseline": "9fdd902b7aeaf238b0adb34aef6bfd5cf07fdf1f"
+    },
+    {
+      "path": ".codex/rules/workflow.md",
+      "bytes": 8287,
+      "sha256": "9292c3692d01efcac6cac70891244dfba0163ff45dc64d224f9348f1e6199e88",
+      "git_blob_at_baseline": "61f2e9fe26e214908b10b6f2c76a69b4a9bdf400"
+    },
+    {
+      "path": ".github/main-protection.json",
+      "bytes": 471,
+      "sha256": "62bb26e9644baaf517bf98dedce273f8d7f249b2dba1a994e82a3bda290c965c",
+      "git_blob_at_baseline": "012a64547648577dac3125f0ede581c0d332552d"
+    },
+    {
+      "path": ".github/workflows/jira-key.yml",
+      "bytes": 880,
+      "sha256": "50313a830c5239ebe0df0b3b95014152629da6736b0705b36b6a8573095cad98",
+      "git_blob_at_baseline": "1c089f5b5740f7705285aaefc71c0bbe0933a7d2"
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "bytes": 4254,
+      "sha256": "7cf2d2fdd056e6bb7493072f8093c6adcf815a40cca37298856fbaf2879d4d82",
+      "git_blob_at_baseline": "b12782b00e25dffb85cab993c5ca584919525fb8"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 6880,
+      "sha256": "5f9f0fd5b69befaf8f7aa0131812d9189c921ddcdc869dfd8c459037ceb5b3e8",
+      "git_blob_at_baseline": "8f91ca543cc3fdc69b9c88dd2b84c4322336c995"
+    },
+    {
+      "path": "README.md",
+      "bytes": 29863,
+      "sha256": "713f5ed9634088612222c2430cdfe1da0226bea8285f60d74495eca61b9a9e40",
+      "git_blob_at_baseline": "ef41f431542d65ae94c0306258f1759de8efb5b0"
+    },
+    {
+      "path": "backend/app/main.py",
+      "bytes": 688,
+      "sha256": "a046f7b7a884c7dd4649e4fd51531e5cc0d1713eeeafd2651fb40bf16798d661",
+      "git_blob_at_baseline": "06fd41aa7ebcfda6b202b1717ebc828b0e849283"
+    },
+    {
+      "path": "backend/pyproject.toml",
+      "bytes": 927,
+      "sha256": "1a43082f2ea9853787cc85577f0a5a9e2b0c0da684c6f659b42a9eac366add40",
+      "git_blob_at_baseline": "6e2d737dd1b560de0fe32e802aba96d825eeb8cc"
+    },
+    {
+      "path": "backend/uv.lock",
+      "bytes": 392678,
+      "sha256": "c7e4476d2ebca0fa458649a13fcbe90b961526aa00e309e0b396aba4a09e9820",
+      "git_blob_at_baseline": "ece9bb8bc9d1a70f15946b687c0e0c89dcc41a48"
+    },
+    {
+      "path": "docs/adr/0001-modular-monolith-and-sse.md",
+      "bytes": 840,
+      "sha256": "f66c9475bceb5d8421307e3fb58b2fd913d662fb7accbc973e345f8fb05c790a",
+      "git_blob_at_baseline": "eebb52659c2b5563bb41c2d8c14347c1d59c8155"
+    },
+    {
+      "path": "docs/adr/0002-append-only-prediction-ledger.md",
+      "bytes": 722,
+      "sha256": "8e3079577d3076481ab2c4521e9a3d61674906b8fc07974ff46ba0f8583012dc",
+      "git_blob_at_baseline": "e5f380551448ae3e1958a3a2bd8f3dcdbe845fbf"
+    },
+    {
+      "path": "docs/adr/0003-purged-walk-forward-validation.md",
+      "bytes": 693,
+      "sha256": "372cf0a7119cb8560d937b573fe9b1388ce52ffb938712cd216975072e6ac0dd",
+      "git_blob_at_baseline": "1ee625bdc0239526037802846fa0142d903861de"
+    },
+    {
+      "path": "docs/adr/0004-swift-native-inside-rn-shell.md",
+      "bytes": 712,
+      "sha256": "26acb98cd4ae1112abd3b3d48bb7d2db51a9664233809d202639bffe3a1effa6",
+      "git_blob_at_baseline": "eea4474d9406d82c01c6124cf6ba4a3c6b087b74"
+    },
+    {
+      "path": "docs/adr/0005-bounded-claude-research-agents.md",
+      "bytes": 784,
+      "sha256": "7ac9cea2bae748a6edaf42b90d7d4c3a6782761d5bcc9cbd773e8a8e1409b7b8",
+      "git_blob_at_baseline": "2dfd51050303c5c768753adab23f4a7d3559e95a"
+    },
+    {
+      "path": "docs/adr/0006-budget-first-aws-shape.md",
+      "bytes": 733,
+      "sha256": "42cb5fe88c97e55d5836e724ec8d029733159dfeea1524bef3628d8f15badd84",
+      "git_blob_at_baseline": "d9f4e91e4e5d4350723e2a9403e5e40049f984fe"
+    },
+    {
+      "path": "docs/architecture.md",
+      "bytes": 27456,
+      "sha256": "13483817b7b8e89be993a1f0a85d729140c32c08768a2317a3af03115740f67c",
+      "git_blob_at_baseline": "a58f1ef39ae5cdd6c2cb907f4d1f79418c72ddd2"
+    },
+    {
+      "path": "docs/diagrams/README.md",
+      "bytes": 7319,
+      "sha256": "267b72cf05b3f3e0143cb1e88998b73b555604a85709210ad29d5245ddb4883e",
+      "git_blob_at_baseline": "821a01079e2def3bedfd55ef5e5ab7d74f4cba9e"
+    },
+    {
+      "path": "docs/diagrams/aws-e2e-2026-11-01/manifest.json",
+      "bytes": 2436,
+      "sha256": "2754036c6dddec7f22dbeb6da3e43c89a42314ea5a063717b0a72594a848d4fd",
+      "git_blob_at_baseline": "56b915fbce81b637bc1e36ed02a5873d81ff7f3d"
+    },
+    {
+      "path": "docs/github-workflow.md",
+      "bytes": 7452,
+      "sha256": "f9a509f745585edf7b3a57aff5b0aeb88cbb365cc97a9f4b5d08a326842dd45b",
+      "git_blob_at_baseline": "543f0dd33d74af87b577967cca99c8242ab4f460"
+    },
+    {
+      "path": "docs/implementation-plan.md",
+      "bytes": 10720,
+      "sha256": "b76b4a6501f053d5e520133d471079f452274c7e730bde4fc7f6bc27b9ec1739",
+      "git_blob_at_baseline": "ccfd4655316a0380a834df243ce3de4454a91978"
+    },
+    {
+      "path": "docs/knowledge-base.md",
+      "bytes": 16458,
+      "sha256": "e604a0fdc704c7e4d7092cc478fb9e6a7e289427a345f61ac2713d6e7ac5f0f6",
+      "git_blob_at_baseline": "2c65378a33f98b49b0251ed9e9b5422919d91dcf"
+    },
+    {
+      "path": "docs/planning/aws-options-2026-11-01/product-decisions.json",
+      "bytes": 27095,
+      "sha256": "9ae091f67435cb41b3005d06d4588357b5bf45ed34070ea4b7a3530806f81b6c",
+      "git_blob_at_baseline": "77634e02834ff7c30d5bf905839f41cd14432712"
+    },
+    {
+      "path": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "bytes": 25118,
+      "sha256": "c7829afd940d3a002dedb1557d21fcab812d94683abfcc88fe1429c6b6bf539e",
+      "git_blob_at_baseline": "ffdb638837161b5d0f3887b9871a71ce020e0e52"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/README.md",
+      "bytes": 7912,
+      "sha256": "872005c552f92e3952d848085f8f9dc2a4ffc137ddfe6f71cf4781e7dc6275a5",
+      "git_blob_at_baseline": "934fe7f174c13efdf08e413420183dd4da7a3f36"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/costs/specification.md",
+      "bytes": 21474,
+      "sha256": "d3abf5cf638719351851d30580e2cd2277b170f06db4db3254e1b7d9d4a3c346",
+      "git_blob_at_baseline": "3bda0ec6f9e311da0cb1939845467c206d7ac6ac"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/data/specification.md",
+      "bytes": 13954,
+      "sha256": "3bad14971cc26404777d470351f0f3e2efaa08476fb6cc1abed8a0dfc281f790",
+      "git_blob_at_baseline": "80b7863858c405758a028810576b55e33c702f82"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/financial/specification.md",
+      "bytes": 30140,
+      "sha256": "a4a4392a5d11f5e26d1ca6623a55e70c05522f854eccaa84acf876ac0631b475",
+      "git_blob_at_baseline": "0e58c2ebd03bca6a3fc6cb2efd2aeda4474ad4db"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/forecasting/forecasting-specification.md",
+      "bytes": 38625,
+      "sha256": "a1d6833dc5f868112022b7f1e22056b12a1a850b5163d52f045668bd97481633",
+      "git_blob_at_baseline": "45eb38521b631c8e7f6bbb83739da3f61735b4b8"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/owner-decisions.json",
+      "bytes": 1243,
+      "sha256": "0e42f4f9311c0a93a51d15398d9faf73064a01d47ae2bdc9cefae630d54c4e55",
+      "git_blob_at_baseline": "3cef68f3366c0c46090a1fa10c6aa7b86b6b0ec7"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/policy-evidence-register.md",
+      "bytes": 10398,
+      "sha256": "ad32dbf1785fdd46747c25562f5943c4634a997c83218cb1683049ee21c55068",
+      "git_blob_at_baseline": "22000cafc9afd60f91aad4878e122ce08e6cd21f"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/publication-proposal.json",
+      "bytes": 3215,
+      "sha256": "3d3bfa1578b940111263dd576f038195a0180d26a1c7bce3b4e288b512fd560e",
+      "git_blob_at_baseline": "73aaea48ef3cd4d3f090bd280a028687a796bca7"
+    },
+    {
+      "path": "docs/planning/foundation-specifications-2026-11-02/source-pins.json",
+      "bytes": 2488,
+      "sha256": "b9df0f2bd7f04e3453b1d1e9e9ff74211f05f16770c71c0536b97437b70336a0",
+      "git_blob_at_baseline": "be062ad77b521c76eed16c4c82d93b7d44fabc9a"
+    },
+    {
+      "path": "docs/planning/future-architecture-sites-ux-direction-2026-11-02.md",
+      "bytes": 12070,
+      "sha256": "ef7aa4f1cc9b1ee279dd33faad143a7d1cb1a2d989ca8d970958e0857037b4e9",
+      "git_blob_at_baseline": "2222db9c7560d3e591e045bb47f2511feec6ac93"
+    },
+    {
+      "path": "docs/planning/layered-development-2026-11-01/README.md",
+      "bytes": 9813,
+      "sha256": "4adadced8a7743b9d675a7f1b92dca123d405acae4eb103645c1b2fd447c1d0a",
+      "git_blob_at_baseline": "f052fdac4b7603181a6fb272825a9189bdfb6326"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/README.md",
+      "bytes": 7125,
+      "sha256": "c76e10c5410cfbc61daa6c0187e84786712c12735bce7b3618b67713501d705c",
+      "git_blob_at_baseline": "2a5dd504a03ff5a197b4d2262fdf40a082f95cf2"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/api-workflow-boundary.md",
+      "bytes": 4753,
+      "sha256": "770903186ae4011d1961011dd17074dfb38ed822c7d984725b593c584bf4fdf3",
+      "git_blob_at_baseline": "e12ab3cee70ccb9a320d8d62a8f4645f74af7eee"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/baseline-completion-plan.md",
+      "bytes": 8315,
+      "sha256": "b8bb48582744184f95bc5a7650e562f0bae1e16d06ac1c8a2b8d190de45955f4",
+      "git_blob_at_baseline": "eddd026de0bd2e51bede2219af4ae22ad8709081"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/confluence-page-ids.json",
+      "bytes": 17454,
+      "sha256": "aeef9dac61cf546be971d8226b1469674d4bacfa06dd3583b99cb6f8a5657b6f",
+      "git_blob_at_baseline": "83e95e9265dca107f7d92fbe38c0830012654f39"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/confluence-publication-receipt.json",
+      "bytes": 19476,
+      "sha256": "7e94348962ce79b8612a4141337bcca0a0b1d4b9c6f09e94a2fc40bd091020e6",
+      "git_blob_at_baseline": "1621f7ae933cb90d0a7345cfe31073e12d6f27e9"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/confluence-publication-validation.json",
+      "bytes": 6700,
+      "sha256": "16278f33eddacb9ad2888759700e79c24eb5287357670a0e85ace72592e20ebe",
+      "git_blob_at_baseline": "e014603894289a12a245a8bff56d9c7123df0b69"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/direction-summary.md",
+      "bytes": 3204,
+      "sha256": "5690a43754b0ecad23c304d21fda2839059eaa46420ebc6d2c14cb08687b1301",
+      "git_blob_at_baseline": "fb6e13bfe18d5265ff4097a53ac35ba8664cc711"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/gap-register.json",
+      "bytes": 145696,
+      "sha256": "501943d0eb56ce371be8139d92082a75770264e629cdef86a6c8201421967d18",
+      "git_blob_at_baseline": "1c4cbd63719062fb13f6a21ceedc4cf7fac95b63"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/jira-receipt.json",
+      "bytes": 17317,
+      "sha256": "0499a54ee291c039fe2e0b5e0cda43614402e9ca1e44e6eec8ffd5b6e16f39db",
+      "git_blob_at_baseline": "a4f9eebc4486719a9911b7dea9265470e6e1b88e"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json",
+      "bytes": 100977,
+      "sha256": "90ad3b5d596fccc337398603a55d7c3a986294faaa6e464d4881167c5e7adb12",
+      "git_blob_at_baseline": "de012374b3e5b0f0837eefb4128fe7ff10699f3f"
+    },
+    {
+      "path": "docs/planning/ma-reconciliation-2026-11-02/source-coverage.json",
+      "bytes": 101058,
+      "sha256": "92c2e95d9e83da1a5760cdc46c793f2ba22a6f1dec75ce60823f03b64bce8641",
+      "git_blob_at_baseline": "1763e579b4c0e928e8392370d0a28d0f3622097c"
+    },
+    {
+      "path": "docs/readme/README.md",
+      "bytes": 3648,
+      "sha256": "4019791444ce6e06e481638457e50a947e0d0b31e129a362e0def97d0de59643",
+      "git_blob_at_baseline": "0b7f2d73ecc0a2f438a501ae7a2be7dc6f2e8ec6"
+    },
+    {
+      "path": "docs/readme/logo-preview.html",
+      "bytes": 10308,
+      "sha256": "d678d344509f718bc8b63fd89256f55b0f38075756590e38710e2292aaaef8de",
+      "git_blob_at_baseline": "9b7ed65c125e75952bb0c79edcf1751503692612"
+    },
+    {
+      "path": "docs/readme/shields-badges.json",
+      "bytes": 5516,
+      "sha256": "63fec088d310b6a41df33ac0a07aef2f393969b5f43532fc4dcca2b2f09678f1",
+      "git_blob_at_baseline": "9649c6931542083e7c56a1ddcdadd62c120020d2"
+    },
+    {
+      "path": "docs/readme/verification.json",
+      "bytes": 3449,
+      "sha256": "f811c03eb5f1227a3708896e5e00674a8d8070143fcf1c2c9384921400ff7466",
+      "git_blob_at_baseline": "5d5dc99c38848f1e08a90efd3b30c162e8391b89"
+    },
+    {
+      "path": "docs/review-optimisation.md",
+      "bytes": 4718,
+      "sha256": "ebeffb0a8ba88f4e05914845ec4a05dd38dea14113d08c26b0cbe59b52c8c7b3",
+      "git_blob_at_baseline": "140cca84676f6f9817224a268a81ae320426f6ca"
+    },
+    {
+      "path": "docs/synthetic-import-samples.md",
+      "bytes": 5072,
+      "sha256": "6b00ae7e621020ac161b4c9c723caa6f7f0db3a498f20fe7917d7e99cb37d6e5",
+      "git_blob_at_baseline": "209b3a6438c15979555dd99f727eb34fe56faaab"
+    },
+    {
+      "path": "docs/synthetic-test-data.md",
+      "bytes": 7924,
+      "sha256": "e54f6fee691edb9df806e8a8d67f0440b698a17385566221054e8b3acc252a26",
+      "git_blob_at_baseline": "ecc87e8091c27bdd71a27f0d995bb2dc718a86eb"
+    },
+    {
+      "path": "docs/tech-stack.md",
+      "bytes": 22001,
+      "sha256": "dccf75b88db153adc58779c575de499777abc7833d4668ca9d718868f730e21f",
+      "git_blob_at_baseline": "90722f4834975dc9ac9bc76fad02f33895be632b"
+    },
+    {
+      "path": "review/MP-20/fixed.json",
+      "bytes": 1951,
+      "sha256": "9aa4da9b8db96a3bc21136a0f99af545f2edcb00cf8f4db9979f187f19762542",
+      "git_blob_at_baseline": "43741977730a5d59a4483fc6e07778285404040d"
+    },
+    {
+      "path": "review/MP-20/round-1.md",
+      "bytes": 3360,
+      "sha256": "ccb7313d4eb116a082515b824314f941f691d75a727f6b02ad474ae8521011f2",
+      "git_blob_at_baseline": "7b332ebd6a589bd5701cef2538e8dc4dd213b53e"
+    },
+    {
+      "path": "review/MP-20/state.json",
+      "bytes": 7503,
+      "sha256": "23cd58057f66c654570a93f5247557b852b9d3518fcbab51ace6231f81e757f3",
+      "git_blob_at_baseline": "746a430c087881f211ca961e9c2c89e1714872ef"
+    },
+    {
+      "path": "scripts/check_pr.py",
+      "bytes": 1883,
+      "sha256": "48353735043fa8b23568427019c098b6e58086ced84702b77e4e7a52c2566ce7",
+      "git_blob_at_baseline": "d11eefbd93e059a3ec1ad9c31f471e03f39d5c8d"
+    },
+    {
+      "path": "scripts/review_regress.py",
+      "bytes": 5860,
+      "sha256": "1356145baed630ecfac104d77384cebd5598bc70329e488f737efe685179e22e",
+      "git_blob_at_baseline": "28a94e1fa0bcfe1e6717ee43c69d57d9d66b9461"
+    },
+    {
+      "path": "site/.openai/hosting.json",
+      "bytes": 106,
+      "sha256": "f5bc97cbc281cb6857bb5f9576dd28898f174e6dc5c8b28e699e23637bd00297",
+      "git_blob_at_baseline": "f7998380320d4d1c77e985dd01e71b24aba76a3b"
+    },
+    {
+      "path": "site/package-lock.json",
+      "bytes": 31354,
+      "sha256": "9288b9c3dd080f8f0c2e96db578b95adb174f8c448fbf2fbe55a43e5cfd992e7",
+      "git_blob_at_baseline": "b917ab310ded257b424396c06adc0584952f5adf"
+    },
+    {
+      "path": "site/package.json",
+      "bytes": 636,
+      "sha256": "b1e160b499d7a9f4d7c4da968b1d24ee9ff38b3f423893d61cd314a8edcd4094",
+      "git_blob_at_baseline": "b3429f15cfe7bf4174e188b1a88653cf53a91e03"
+    },
+    {
+      "path": "tests/test_pr_policy.py",
+      "bytes": 1526,
+      "sha256": "e0589f805996c69d82d8e554a1b1e0b33803033c9b704a98d27cc4bc4be3f77d",
+      "git_blob_at_baseline": "b450623bb045a0615cc10c3a0766ee19c8ef4096"
+    },
+    {
+      "path": "tests/test_review_regress.py",
+      "bytes": 11059,
+      "sha256": "fba6914a7aac2c7b418e4d87caee060c0ffaa5a6f8c9d462bc0aa85f51fcb782",
+      "git_blob_at_baseline": "713a96ca834f7abe07369e3ac5f8090638969a9a"
+    }
+  ],
+  "memory_sources": [
+    {
+      "path": "/Users/arundutta/.codex/memories/extensions/ad_hoc/notes/20261101T151106927818Z-mypaisaa-requirements-first.md",
+      "sha256": "cf809208524080ab0bd637ffa8bef2cfe11883d063a59eea014244557b7dceae",
+      "transfer": "curated in chapter05; original global file not copied or modified"
+    },
+    {
+      "path": "/Users/arundutta/.codex/memories/extensions/ad_hoc/notes/20261101T155840258088Z-mypaisaa-long-term-investing.md",
+      "sha256": "e1607414908eb65f23c0ef066d8e8b1a712b8204aa649c151dac90ab4a2d78bb",
+      "transfer": "curated in chapter05; original global file not copied or modified"
+    },
+    {
+      "path": "/Users/arundutta/.codex/memories/extensions/ad_hoc/notes/20261102T115010Z-mp-future-lucid-sites-ux-direction.md",
+      "sha256": "aacf03f8f3dcf9f00faa2ca756537f4204d428efa409f4169bdcbf7f7984c6d9",
+      "transfer": "curated in chapter05; original global file not copied or modified"
+    }
+  ],
+  "limitations": [
+    "Snapshot hashes detect later differences; do not automatically revert legitimate changes.",
+    "Only relevant explicit memory notes were read, not global config, credentials or unrelated project memory.",
+    "Handover authoring is not independent review or approved baseline/Claude migration."
+  ]
+}

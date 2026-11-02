@@ -1,0 +1,589 @@
+{
+  "captured_on": "2026-11-02",
+  "timezone": "Europe/London",
+  "scope": "Read-only inventory and page summaries for handover; no formal plan-sync, external writes or complete body/macro parity audit.",
+  "site": "https://duttaarun2015.atlassian.net",
+  "cloud_id": "81c51173-bbea-4905-bbc5-1a880fa348bb",
+  "jira": {
+    "query": "project = MP ORDER BY key ASC",
+    "isLast": true,
+    "count": 30,
+    "issues": [
+      {
+        "key": "MP-1",
+        "title": "Configure Codex workflows and GitHub CI",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T12:43:26.531+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-1"
+      },
+      {
+        "key": "MP-2",
+        "title": "Close the linked Jira issue after an approved PR merge",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T12:46:06.940+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-2"
+      },
+      {
+        "key": "MP-3",
+        "title": "Synchronise product plans, Jira roadmap and Confluence knowledge base",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T14:52:19.553+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-3"
+      },
+      {
+        "key": "MP-4",
+        "title": "Foundation and guardrails",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:47.412+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-4"
+      },
+      {
+        "key": "MP-5",
+        "title": "Trusted data and portfolio ledger",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:49.531+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-5"
+      },
+      {
+        "key": "MP-6",
+        "title": "Prediction baseline and scientific controls",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:51.563+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-6"
+      },
+      {
+        "key": "MP-7",
+        "title": "Research and decision support",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:53.625+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-7"
+      },
+      {
+        "key": "MP-8",
+        "title": "Native Apple experience",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:55.756+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-8"
+      },
+      {
+        "key": "MP-9",
+        "title": "Production hardening",
+        "status": "To Do",
+        "type": "Epic",
+        "updated": "2026-11-01T22:43:57.807+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-9"
+      },
+      {
+        "key": "MP-10",
+        "title": "Confirm personal-use data licences and instrument policies",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:49.703+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-10"
+      },
+      {
+        "key": "MP-11",
+        "title": "Design personal authentication and API access controls",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:21:22.700+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-11"
+      },
+      {
+        "key": "MP-12",
+        "title": "Define portfolio and prediction persistence schemas",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:50.303+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-12"
+      },
+      {
+        "key": "MP-13",
+        "title": "Plan encrypted backups and restore verification",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T08:31:39.218+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-13"
+      },
+      {
+        "key": "MP-14",
+        "title": "Record requirements-first development and local design decisions",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T15:14:15.423+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-14"
+      },
+      {
+        "key": "MP-15",
+        "title": "Compare AWS architecture and ML plans within the all-in monthly budget",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T22:56:25.848+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-15"
+      },
+      {
+        "key": "MP-16",
+        "title": "Create realistic synthetic US UK India local and dev test data",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T18:44:31.842+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-16"
+      },
+      {
+        "key": "MP-17",
+        "title": "Create cinematic end-to-end architecture atlas on the private Site",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-01T23:26:37.683+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-17"
+      },
+      {
+        "key": "MP-18",
+        "title": "Document the complete AWS, SageMaker and Anthropic architecture",
+        "status": "Done",
+        "type": "Task",
+        "updated": "2026-11-02T08:03:32.239+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-18"
+      },
+      {
+        "key": "MP-19",
+        "title": "Reconcile MA concepts and research MP architecture before UX",
+        "status": "In Review",
+        "type": "Task",
+        "updated": "2026-11-02T13:02:25.360+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-19"
+      },
+      {
+        "key": "MP-20",
+        "title": "Freeze the researched architecture and phase/story baseline",
+        "status": "In Review",
+        "type": "Task",
+        "updated": "2026-11-02T13:35:01.803+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-20"
+      },
+      {
+        "key": "MP-21",
+        "title": "Specify forecast tasks, scientific evaluation and model eligibility",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:50.786+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-21"
+      },
+      {
+        "key": "MP-22",
+        "title": "Specify performance, exposure and ranked investment decisions",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:51.178+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-22"
+      },
+      {
+        "key": "MP-23",
+        "title": "Choose durable workflows and define API queue replay semantics",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:07:31.835+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-23"
+      },
+      {
+        "key": "MP-24",
+        "title": "Select bounded AWS ML training and forecast serving architecture",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:51.656+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-24"
+      },
+      {
+        "key": "MP-25",
+        "title": "Specify bounded Anthropic research tools batches and memory",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:16:53.725+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-25"
+      },
+      {
+        "key": "MP-26",
+        "title": "Specify offline online and human-calibrated agent evaluations",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:31:36.030+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-26"
+      },
+      {
+        "key": "MP-27",
+        "title": "Specify run evidence telemetry and conservative cost admission",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T08:31:48.317+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-27"
+      },
+      {
+        "key": "MP-28",
+        "title": "Specify owner admin approvals audit and launch controls",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:28:51.646+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-28"
+      },
+      {
+        "key": "MP-29",
+        "title": "Choose MP environment region network and all-in cloud envelope",
+        "status": "In Progress",
+        "type": "Task",
+        "updated": "2026-11-02T11:45:52.128+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-29"
+      },
+      {
+        "key": "MP-30",
+        "title": "Specify client compatibility release regression and alert delivery",
+        "status": "To Do",
+        "type": "Task",
+        "updated": "2026-11-02T09:34:50.185+0000",
+        "url": "https://duttaarun2015.atlassian.net/browse/MP-30"
+      }
+    ]
+  },
+  "confluence": {
+    "space": "mypaisaapr",
+    "query": "type = page AND space = \"mypaisaapr\" ORDER BY title ASC",
+    "count": 27,
+    "totalSize": 27,
+    "no_next_page": true,
+    "pages": [
+      {
+        "id": "5145394",
+        "title": "Architecture and decision records",
+        "status": "current",
+        "version": 5,
+        "snapshotToken": "v:5",
+        "updated": "2026-11-01T22:39:17.418Z",
+        "excerpt": "MP15-NOTICE-BEGIN:5145394:v1 Current architecture direction and open decisions - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. Architecture ",
+        "wordCount": 1246,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145394"
+      },
+      {
+        "id": "5014127",
+        "title": "Development, CI and Codex workflows",
+        "status": "current",
+        "version": 6,
+        "snapshotToken": "v:6",
+        "updated": "2026-11-01T22:40:50.414Z",
+        "excerpt": "MP15-NOTICE-BEGIN:5014127:v1 Layered planning publication and evidence - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. Planning index &middo",
+        "wordCount": 1425,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014127"
+      },
+      {
+        "id": "5832705",
+        "title": "DRAFT | MP | Architecture areas and phase documentation contract",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:00.184Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 6b7673a8d91a panel_c1 The sel",
+        "wordCount": 1597,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5832705"
+      },
+      {
+        "id": "5799937",
+        "title": "DRAFT | MP | Architecture finalisation and sign-off",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:57:58.056Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note fc781e114df6 panel_c1 The sel",
+        "wordCount": 2057,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5799937"
+      },
+      {
+        "id": "4981720",
+        "title": "DRAFT | MP | MA concept reconciliation and researched gaps",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:57:21.871Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 9c20efa938fb panel_c1 The sel",
+        "wordCount": 2705,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720"
+      },
+      {
+        "id": "5865473",
+        "title": "DRAFT | MP | PH-00 | Complete baseline and contract decisions",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:02.286Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 1bad4fdd53eb panel_c1 The sel",
+        "wordCount": 1932,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5865473"
+      },
+      {
+        "id": "5668883",
+        "title": "DRAFT | MP | PH-01 | Standalone portfolio, all-method imports and source lineage",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:04.487Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 04e9f0e36051 panel_c1 The sel",
+        "wordCount": 2526,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5668883"
+      },
+      {
+        "id": "5865504",
+        "title": "DRAFT | MP | PH-02 | Identity, private runtime, audit and launch cost controls",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:06.815Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note d92fcf471755 panel_c1 The sel",
+        "wordCount": 1620,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5865504"
+      },
+      {
+        "id": "5668914",
+        "title": "DRAFT | MP | PH-03 | Market data, performance and portfolio risk",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:08.627Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 7099c7bc15c2 panel_c1 The sel",
+        "wordCount": 1440,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5668914"
+      },
+      {
+        "id": "4981787",
+        "title": "DRAFT | MP | PH-04 | Scientific baseline, full Forecaster and controlled learning",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:10.892Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 7d667400b537 panel_c1 The sel",
+        "wordCount": 1702,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981787"
+      },
+      {
+        "id": "5832730",
+        "title": "DRAFT | MP | PH-05 | Evidence research, agents, chat and evaluations",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:12.796Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 3534a29afadf panel_c1 The sel",
+        "wordCount": 1554,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5832730"
+      },
+      {
+        "id": "5799960",
+        "title": "DRAFT | MP | PH-06 | Web discovery, ranked actions, proof and briefings",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:14.625Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 2cb5e2d90c06 panel_c1 The sel",
+        "wordCount": 1373,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5799960"
+      },
+      {
+        "id": "5898241",
+        "title": "DRAFT | MP | PH-07 | Native Apple, offline and push",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:16.344Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 54666d8468d5 panel_c1 The sel",
+        "wordCount": 1278,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5898241"
+      },
+      {
+        "id": "5832761",
+        "title": "DRAFT | MP | PH-08 | Operational acceptance and controlled personal launch",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:18.463Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note e3df105e0de7 panel_c1 The sel",
+        "wordCount": 1395,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5832761"
+      },
+      {
+        "id": "5701634",
+        "title": "DRAFT | MP | PH-09 | Versioned extensions and conditional future transfer",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T09:58:20.568Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow &middot; MP-19. All twelve broad directions selected; detailed architecture baseline unapproved. No UX or implementation yet. No cloud setup, paid model/data calls, deployment or model promotion authorised. Independent review not run. note 4c54d93d3f36 panel_c1 The sel",
+        "wordCount": 1262,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5701634"
+      },
+      {
+        "id": "5014267",
+        "title": "MP | Architecture blueprint",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T00:02:57.123Z",
+        "excerpt": "panel_c1 The detailed AWS architecture: MP | AWS, Anthropic and SageMaker forecasting deep dive . Three native Lucid pages cover the UI to FastAPI/Lambda request path, EventBridge/SQS and DLQs, Haiku batches, SageMaker forecasts and monitoring. PROPOSED Yellow MP18-LINK:5014267:v1 &middot; MP-18 &mi",
+        "wordCount": 6669,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014267"
+      },
+      {
+        "id": "4981639",
+        "title": "MP | AWS, Anthropic and SageMaker forecasting deep dive",
+        "status": "current",
+        "version": 3,
+        "snapshotToken": "v:3",
+        "updated": "2026-11-02T00:05:43.293Z",
+        "excerpt": "panel_c1 PROPOSED ARCHITECTURE Yellow &middot; MP-18 &middot; Three native Lucid drawings &middot; 36 components per drawing &middot; one coordinator and four proposed Claude task routes &middot; two proposed SageMaker model families. No AWS application deployment or final architecture approval. MP-",
+        "wordCount": 3093,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981639"
+      },
+      {
+        "id": "4981438",
+        "title": "MP | Layered development planning - 1 November 2026",
+        "status": "current",
+        "version": 3,
+        "snapshotToken": "v:3",
+        "updated": "2026-11-02T00:03:00.394Z",
+        "excerpt": "panel_c1 New MP-18 deep dive: MP | AWS, Anthropic and SageMaker forecasting deep dive . The request-to-outcome, event/queue and forecasting views now have native Lucid exports, a numbered connection key and detailed Confluence prose. PROPOSED Yellow MP18-LINK:4981438:v1 &middot; MP-18 &middot; 1 Nov",
+        "wordCount": 1774,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981438"
+      },
+      {
+        "id": "5014255",
+        "title": "MP | Phased delivery plan and story map",
+        "status": "current",
+        "version": 1,
+        "snapshotToken": "v:1",
+        "updated": "2026-11-01T22:36:21.641Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow Documentation independently reviewed through round 4 with no remaining blockers. End-to-end requirements, UX, network/training choices and implementation remain subject to owner approval. DRAFT planning &middot; Documentation review completed through round 4; no remain",
+        "wordCount": 10520,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014255"
+      },
+      {
+        "id": "4981454",
+        "title": "MP | Portfolio and import specification",
+        "status": "current",
+        "version": 1,
+        "snapshotToken": "v:1",
+        "updated": "2026-11-01T22:36:08.109Z",
+        "excerpt": "panel_c1 PLANNING DRAFT Yellow Documentation independently reviewed through round 4 with no remaining blockers. End-to-end requirements, UX, network/training choices and implementation remain subject to owner approval. DRAFT planning &middot; Documentation review completed through round 4; no remain",
+        "wordCount": 9491,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981454"
+      },
+      {
+        "id": "5014301",
+        "title": "MP | Technology stack and decision matrix",
+        "status": "current",
+        "version": 2,
+        "snapshotToken": "v:2",
+        "updated": "2026-11-02T00:02:58.850Z",
+        "excerpt": "panel_c1 SageMaker and Anthropic integration map: MP | AWS, Anthropic and SageMaker forecasting deep dive . MP-18 proposes two initial CPU model families in SageMaker training, one code coordinator with four Claude task routes, and nonurgent Haiku batches. Exact runtime and model choices remain open",
+        "wordCount": 2567,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5014301"
+      },
+      {
+        "id": "5145345",
+        "title": "mypaisaa-prediction",
+        "status": "current",
+        "version": 3,
+        "snapshotToken": "v:3",
+        "updated": "2026-11-01T22:38:37.601Z",
+        "excerpt": "MP15-NOTICE-BEGIN:5145345:v1 Current requirements and layered planning - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. The current planning ",
+        "wordCount": 633,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145345"
+      },
+      {
+        "id": "4981241",
+        "title": "Product brief and knowledge base",
+        "status": "current",
+        "version": 4,
+        "snapshotToken": "v:4",
+        "updated": "2026-11-01T22:39:13.498Z",
+        "excerpt": "MP15-NOTICE-BEGIN:4981241:v1 Current requirements baseline - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. Planning index &middot; Portfolio",
+        "wordCount": 2361,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981241"
+      },
+      {
+        "id": "5112476",
+        "title": "Roadmap and current implementation status",
+        "status": "current",
+        "version": 3,
+        "snapshotToken": "v:3",
+        "updated": "2026-11-01T22:39:21.021Z",
+        "excerpt": "MP15-NOTICE-BEGIN:5112476:v1 Current layered plan - proposed - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. Layered planning index &middot;",
+        "wordCount": 1110,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112476"
+      },
+      {
+        "id": "5112525",
+        "title": "Security, cost and operations",
+        "status": "current",
+        "version": 4,
+        "snapshotToken": "v:4",
+        "updated": "2026-11-01T22:41:42.656Z",
+        "excerpt": "MP15-NOTICE-BEGIN:5112525:v1 Current requirements delta - proposed implementation - DRAFT planning &middot; Documentation review completed through round 4; no remaining blocking findings &middot; End-to-end requirements and UX unapproved &middot; Application implementation not authorised. Architectu",
+        "wordCount": 1329,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5112525"
+      },
+      {
+        "id": "5145359",
+        "title": "Template - How-to guide",
+        "version": 1,
+        "snapshotToken": "d1:3",
+        "updated": "2026-11-01T13:48:01.920Z",
+        "excerpt": "Explain what this how-to article is for. For example, you might write an article to teach people at your company how to set up a corporate email account or file an expense report. &nbsp;Instructions Create a step-by-step guide: Add steps that are simple and self-contained Add illustrations to instru",
+        "wordCount": 117,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145359",
+        "status": "current",
+        "status_source": "searchConfluence content.status; summary endpoint omitted status"
+      },
+      {
+        "id": "5145372",
+        "title": "Template - Troubleshooting article",
+        "version": 1,
+        "snapshotToken": "d1:1",
+        "updated": "2026-11-01T14:02:01.871Z",
+        "excerpt": "&nbsp;Problem Add a short description of the problem. &nbsp;Solution Describe how someone would solve the problem in a short, step-by-step guide: Add steps that are simple and self-contained Add illustrations to instructions by typing /image Stick to 3-5 steps per task to avoid overloading readers H",
+        "wordCount": 99,
+        "detail": "summary",
+        "url": "https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/5145372",
+        "status": "current",
+        "status_source": "searchConfluence content.status; summary endpoint omitted status"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-02",
+  "status": "handover_maker_document_checks_passed",
+  "source_baseline": "2e6439858de7b5e4209adab91491c5846e215cb4",
+  "chapters": 6,
+  "entrypoint": "CLAUDE_HANDOVER.md",
+  "word_count_including_tables": 10913,
+  "local_markdown_links_checked": 118,
+  "source_files_hashed_and_matched_to_baseline": 81,
+  "Jira_issues_in_live_summary_inventory": 30,
+  "Confluence_pages_with_live_summary_and_version": 27,
+  "prior_13_draft_pages_version_2_confirmed": true,
+  "merged_PRs_in_live_inventory": 11,
+  "project_skills_inventoried": 6,
+  "host_capabilities_file_presence_only": 22,
+  "owner_policy_receipts": 12,
+  "JSON_syntax": "passed",
+  "code_fences_and_whitespace": "passed",
+  "credential_shape_scan": "no matches in new handover files; not a comprehensive secrets audit",
+  "runtime_or_Claude_configuration_changes": false,
+  "source_content_changed": false,
+  "independent_review": "not_run",
+  "real_fixed_findings_ledger": "not_run",
+  "formal_plan_sync": "not_run",
+  "Confluence_Jira_publication_or_status_changes": "none",
+  "application_tests": "not rerun: only new handover documents/metadata; no runtime changes",
+  "limitations": [
+    "Page summaries and versions, not full body/macro/attachment parity",
+    "Capability file/tool presence is not Claude installation or authenticated service health",
+    "Global memory notes are historical and selectively reconciled; no global memory/configuration export",
+    "Source hashes detect future drift and do not authorise reverting legitimate edits",
+    "All architecture/UX/implementation and external write gates remain separate"
+  ],
+  "single_file_transfer": {
+    "path": "docs/handover/claude-2026-11-02/TRANSFER_PACK.md",
+    "bytes": 151351,
+    "source_appendices": 15,
+    "chapters_included": 6,
+    "sha256": "abf52193662a50e5fbd2e2e93ee2c5ecbc3e5e62d9daa650eedebc5305dc84ac",
+    "readable_without_local_memory_files": true
+  }
+}

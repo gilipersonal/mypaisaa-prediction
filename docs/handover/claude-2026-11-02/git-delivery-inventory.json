@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-02",
+  "repository": "gilipersonal/mypaisaa-prediction",
+  "read_only": true,
+  "pull_requests": [
+    {
+      "headRefName": "MP-20-readme-logo-badges",
+      "mergeCommit": {
+        "oid": "2e6439858de7b5e4209adab91491c5846e215cb4"
+      },
+      "mergedAt": "2026-11-02T13:32:51Z",
+      "number": 11,
+      "state": "MERGED",
+      "title": "[MP-20] Match MA badges and animate the Forecast Coin",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/11"
+    },
+    {
+      "headRefName": "MP-20-foundation-specifications",
+      "mergeCommit": {
+        "oid": "79fea2df48c97497632b7bebdb89b9e3b0046e23"
+      },
+      "mergedAt": "2026-11-02T12:59:33Z",
+      "number": 10,
+      "state": "MERGED",
+      "title": "[MP-20] Present the architecture, tech stack and planning knowledge",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/10"
+    },
+    {
+      "headRefName": "MP-19-ma-planning-reconciliation",
+      "mergeCommit": {
+        "oid": "b962a741b1b0a45a7845befda81781032d085751"
+      },
+      "mergedAt": "2026-11-02T12:59:10Z",
+      "number": 9,
+      "state": "MERGED",
+      "title": "[MP-19] Reconcile MA concepts and publish architecture planning drafts",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/9"
+    },
+    {
+      "headRefName": "MP-18-aws-architecture-deep-dive",
+      "mergeCommit": {
+        "oid": "68ad1bf630d1a83f9d2c9179adcbb7894ac2e44a"
+      },
+      "mergedAt": "2026-11-02T08:03:02Z",
+      "number": 8,
+      "state": "MERGED",
+      "title": "[MP-18] Document AWS, Anthropic and SageMaker forecasting architecture",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/8"
+    },
+    {
+      "headRefName": "MP-17-architecture-atlas",
+      "mergeCommit": {
+        "oid": "a1bf42f63a2b25f19b57c89c798fdfbbef439ded"
+      },
+      "mergedAt": "2026-11-01T23:26:14Z",
+      "number": 7,
+      "state": "MERGED",
+      "title": "[MP-17] Add the cinematic architecture atlas to the private Site",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/7"
+    },
+    {
+      "headRefName": "MP-15-requirements-decisions",
+      "mergeCommit": {
+        "oid": "71f393306235b9b68f890ad63b45f74dceb9687b"
+      },
+      "mergedAt": "2026-11-01T22:56:15Z",
+      "number": 6,
+      "state": "MERGED",
+      "title": "[MP-15] Capture layered plans, synthetic fixtures and MP sync",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/6"
+    },
+    {
+      "headRefName": "MP-16-synthetic-test-data",
+      "mergeCommit": {
+        "oid": "082972bf25fccf03ff72563257d5f7dd07f39c95"
+      },
+      "mergedAt": "2026-11-01T18:43:40Z",
+      "number": 5,
+      "state": "MERGED",
+      "title": "[MP-16] Add reviewed US UK India synthetic test data",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/5"
+    },
+    {
+      "headRefName": "MP-14-requirements-first-decisions",
+      "mergeCommit": {
+        "oid": "9461fe53e6e72efcb0510136b64906adffaedb22"
+      },
+      "mergedAt": "2026-11-01T15:14:02Z",
+      "number": 4,
+      "state": "MERGED",
+      "title": "[MP-14] Record requirements-first development decisions",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/4"
+    },
+    {
+      "headRefName": "MP-3-plan-sync",
+      "mergeCommit": {
+        "oid": "9ecf9124bd5c4d25168f78443b2368c2bccb8a38"
+      },
+      "mergedAt": "2026-11-01T14:51:19Z",
+      "number": 3,
+      "state": "MERGED",
+      "title": "[MP-3] Synchronise roadmap and visual architecture knowledge base",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/3"
+    },
+    {
+      "headRefName": "MP-2-close-jira-after-merge",
+      "mergeCommit": {
+        "oid": "d0e0c1441a6ff952eb64b47c3f10017f227431af"
+      },
+      "mergedAt": "2026-11-01T12:45:58Z",
+      "number": 2,
+      "state": "MERGED",
+      "title": "[MP-2] Close linked Jira after an approved PR merge",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/2"
+    },
+    {
+      "headRefName": "MP-1-codex-workflows",
+      "mergeCommit": {
+        "oid": "27fa39214797f8ca762f218e4529d625a70d1530"
+      },
+      "mergedAt": "2026-11-01T12:41:46Z",
+      "number": 1,
+      "state": "MERGED",
+      "title": "[MP-1] Configure Codex workflows and main-based GitHub CI",
+      "url": "https://github.com/gilipersonal/mypaisaa-prediction/pull/1"
+    }
+  ]
+}

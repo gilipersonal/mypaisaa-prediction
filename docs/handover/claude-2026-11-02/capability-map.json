@@ -1,0 +1,138 @@
+{
+  "date": "2026-11-02",
+  "scope": "Relevant host/global capabilities, not a list of modified MP project skills. File presence only; no global configuration or secrets read or copied.",
+  "capabilities": [
+    {
+      "name": "ui-ux-pro-max",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/ui-ux-pro-max/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "brand",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/brand/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "design",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/design/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "ThreeUI",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/threeui-community-local/threeui-community/0.1.0/skills/threeui/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "Remotion",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/claude-cowork/remotion/4.0.528/skills/remotion-best-practices/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "Impeccable",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/impeccable/impeccable/4.8.0/skills/impeccable/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "Sites",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "Maestro",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/maestro/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "stray-sweep",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/stray-sweep/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aitmpl",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aitmpl/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-serverless",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-serverless/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-auth",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-auth/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-iam",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-iam/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-storage",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-storage/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-observability",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-observability/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-billing-and-cost-management",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-billing-and-cost-management/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-sdk-python-usage",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-sdk-python-usage/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "aws-ai-ml",
+      "codex_local_reference": "/Users/arundutta/.agents/skills/aws-ai-ml/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "jira-flow:plan",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/jira-flow/jira-flow/0.1.2/skills/plan/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "jira-flow:track",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/jira-flow/jira-flow/0.1.2/skills/track/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "jira-flow:pr",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/jira-flow/jira-flow/0.1.2/skills/pr/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    },
+    {
+      "name": "jira-flow:ship",
+      "codex_local_reference": "/Users/arundutta/.codex/plugins/cache/jira-flow/jira-flow/0.1.2/skills/ship/SKILL.md",
+      "file_present_at_capture": true,
+      "Claude_installation_or_authorisation": "not established by this inventory"
+    }
+  ]
+}
