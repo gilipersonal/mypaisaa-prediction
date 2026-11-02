@@ -485,8 +485,14 @@
       "id": "ARC-07",
       "title": "Identity, session recovery and action-bound step-up",
       "question": "Which server-verifiable fresh-authentication path should protect sensitive owner actions?",
-      "status": "owner_answer_pending",
-      "owner_answer": null,
+      "status": "owner_direction_selected_evidence_pending",
+      "owner_answer": {
+        "option_id": "A",
+        "label": "Cognito assurance and freshness checks (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision7, call_cedccedd1b25426fa82d632a0224da7e",
+        "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+      },
       "depends_on": [
         "ARC-02",
         "ARC-06"
@@ -563,18 +569,18 @@
       ],
       "options": [
         {
-          "id": "A",
-          "label": "All admin domains with a defined launch minimum (Recommended)",
-          "recommended": true,
-          "approach": "Specify Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery and Identity/Devices now. Within each, identify required launch controls and later investigation depth; preserve full traceability from the first useful layer.",
-          "impact_tradeoff": "Makes the whole structure explicit before UX while keeping the initial screen/action set bounded. Detailed later controls remain tracked rather than silently dropped."
-        },
-        {
           "id": "B",
-          "label": "Full investigation and administration UX before first build",
-          "recommended": false,
+          "label": "Full investigation and administration UX before first build (Recommended)",
+          "recommended": true,
           "approach": "Design all identified admin investigation, comparison, recovery and configuration workflows as part of the initial complete UX baseline, then phase their implementation.",
           "impact_tradeoff": "Provides more end-to-end interaction detail up front, but lengthens UX preparation and requires resolving more policies before product work can start."
+        },
+        {
+          "id": "A",
+          "label": "All admin domains with a defined launch minimum",
+          "recommended": false,
+          "approach": "Specify Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery and Identity/Devices now. Within each, identify required launch controls and later investigation depth; preserve full traceability from the first useful layer.",
+          "impact_tradeoff": "Makes the whole structure explicit before UX while keeping the initial screen/action set bounded. Detailed later controls remain tracked rather than silently dropped."
         }
       ],
       "evidence": {
@@ -610,7 +616,17 @@
           "Demonstrate isolated restore, reapplication of deletions, lineage integrity and denied recovery actions; verify push permission/channel behaviour and approved critical quiet-hour exceptions."
         ]
       },
-      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details."
+      "decision_semantics": "Selecting an option authorises recording a proposed architecture direction only. It does not run paid proofs, implement/deploy, promote a model, alter data, or settle unlisted numerical policy details.",
+      "recommendation_history": [
+        {
+          "recommended_option": "A",
+          "basis": "Initial maker pack proposed full domain structure with bounded launch UX."
+        },
+        {
+          "recommended_option": "B",
+          "basis": "Revised before asking ARC-08 to align with the owner requirement for complete end-to-end UX before first implementation. All admin journeys specified now and designed after architecture agreement; implementation remains phased. No owner choice recorded yet."
+        }
+      ]
     },
     {
       "id": "ARC-09",

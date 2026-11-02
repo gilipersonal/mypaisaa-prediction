@@ -54,6 +54,8 @@ Separate financial/source evidence from operational logs and sampled traces. Com
 
 Specify offline T0 replays, change-triggered live T1, model-change T2, online deterministic checks, budgeted sampled judging and human judge calibration. Separate safety blocking criteria from quality/capability indicators and ML prediction scores. MA's trial counts and judge thresholds are inputs to assess, not automatic MP approval.
 
+**Owner direction recorded on 2 November 2026 (ARC-07): use Cognito assurance/freshness checks for sensitive actions, with verified fresh sign-in when the assurance feature is unavailable.** Exact action policy, linking/recovery/session behaviour and actual capability/cost proof remain open.
+
 ## 6. Approve the architecture baseline
 
 The sign-off bundle must contain the component/ownership catalogue; decided ADRs with rejected alternatives; API/event/data/agent contracts; source entitlements and cost envelope; threat/action/retention/recovery policies; scientific/eval plan; detailed phase dependencies and stories; technical Lucid diagrams with provenance; and a reconciled gap register.

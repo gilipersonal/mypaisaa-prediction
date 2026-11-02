@@ -1,6 +1,6 @@
 # Architecture decisions to settle before UX
 
-**MP-19 | 2 November 2026 | Maker planning draft | 6 directions selected; 6 owner answers pending**
+**MP-19 | 2 November 2026 | Maker planning draft | 7 directions selected; 5 owner answers pending**
 
 These cards combine the forecasting, controls and platform research. MA contributes concepts and a useful documentation structure. MP's own requirements, rights, budget and scientific evidence decide the result. Choose directions in dependency order; neither a recommendation nor a saved document is approval.
 
@@ -33,7 +33,7 @@ The cards deliberately distinguish **architecture decisions before UX**, **speci
 | [ARC-04](#arc-04) | ML training and serving execution | ARC-01, ARC-03 | A selected; evidence pending |
 | [ARC-05](#arc-05) | Forecast experiments, probability calibration and recommendations | ARC-01, ARC-02, ARC-04 | A selected; evidence pending |
 | [ARC-06](#arc-06) | Anthropic route, memory, cache and batch boundaries | ARC-03, ARC-05 | B selected; evidence pending |
-| [ARC-07](#arc-07) | Identity, session recovery and action-bound step-up | ARC-02, ARC-06 | Owner answer pending |
+| [ARC-07](#arc-07) | Identity, session recovery and action-bound step-up | ARC-02, ARC-06 | A selected; evidence pending |
 | [ARC-08](#arc-08) | Admin scope, audit integrity, retention and recovery | ARC-02, ARC-03, ARC-07 | Owner answer pending |
 | [ARC-09](#arc-09) | Guardrails and evaluation harness | ARC-05, ARC-06, ARC-07, ARC-08 | Owner answer pending |
 | [ARC-10](#arc-10) | Client rendering and shared contracts | ARC-02, ARC-07, ARC-08, ARC-09 | Owner answer pending |
@@ -183,7 +183,7 @@ Primary sources: [source 1](https://platform.claude.com/docs/en/build-with-claud
 
 Which server-verifiable fresh-authentication path should protect sensitive owner actions?
 
-**Owner answer: pending.** Dependencies: ARC-02, ARC-06.
+**Owner answer: A selected on 2 November 2026 — Cognito assurance and freshness checks.** Verified fresh sign-in is the fallback only when it meets the action policy; exact policy and actual tier/provider compatibility/cost remain open. Dependencies: ARC-02, ARC-06.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
@@ -206,12 +206,12 @@ Primary sources: [source 1](https://docs.aws.amazon.com/cognito/latest/developer
 
 How much administration depth should be specified for the first UX baseline?
 
-**Owner answer: pending.** Dependencies: ARC-02, ARC-03, ARC-07.
+**Owner answer: pending.** The maker recommendation is now B, aligned with the owner requirement for complete end-to-end UX before implementation. The initial pack recommended A; that recommendation is retained in the JSON history. No UX design starts before architecture agreement. Dependencies: ARC-02, ARC-03, ARC-07.
 
 | Option | Approach | Impact and trade-off |
 | --- | --- | --- |
-| **A. All admin domains with a defined launch minimum (Recommended)** | Specify Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery and Identity/Devices now. Within each, identify required launch controls and later investigation depth; preserve full traceability from the first useful layer. | Makes the whole structure explicit before UX while keeping the initial screen/action set bounded. Detailed later controls remain tracked rather than silently dropped. |
-| **B. Full investigation and administration UX before first build** | Design all identified admin investigation, comparison, recovery and configuration workflows as part of the initial complete UX baseline, then phase their implementation. | Provides more end-to-end interaction detail up front, but lengthens UX preparation and requires resolving more policies before product work can start. |
+| **B. Full investigation and administration UX before first build (Recommended)** | Design all identified admin investigation, comparison, recovery and configuration workflows as part of the initial complete UX baseline, then phase their implementation. | Provides more end-to-end interaction detail up front, but lengthens UX preparation and requires resolving more policies before product work can start. |
+| **A. All admin domains with a defined launch minimum** | Specify Files/Imports, Audit, Runs/Health, Agents/Models/Evals, Approvals/Config, Costs/Budgets, Incidents/Recovery and Identity/Devices now. Within each, identify required launch controls and later investigation depth; preserve full traceability from the first useful layer. | Makes the whole structure explicit before UX while keeping the initial screen/action set bounded. Detailed later controls remain tracked rather than silently dropped. |
 
 Evidence: CT-03, CT-04, CT-05, CT-14, CT-16, CT-18, PL-12 in [forecasting](lanes/forecasting.json), [controls](lanes/controls.json) and [platform](lanes/platform.json).
 
@@ -225,6 +225,7 @@ Primary sources: [source 1](https://docs.aws.amazon.com/AmazonS3/latest/userguid
 
 
 <a id="arc-09"></a>
+
 ## ARC-09 — Guardrails and evaluation harness
 
 Which harness should organise the same required safety, regression and capability evidence?

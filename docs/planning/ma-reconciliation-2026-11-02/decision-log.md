@@ -12,7 +12,7 @@ This settles the research/design direction only. Actual entitlements, affordabil
 
 Review/publication/PR status: the owner chose to keep drafts and discuss decisions first. Independent review, Confluence publication and PR creation remain pending.
 
-Next: ARC-07, identity, session recovery and action-bound fresh authentication.
+Next: ARC-08, admin scope, audit integrity, retention and recovery.
 
 ## ARC-01 dev refinement: Twelve Data Basic/Free
 
@@ -48,7 +48,7 @@ Exact model families/tasks/horizon artefacts, job/training caps and cadence, dep
 
 ## ARC-03 reaffirmation after FastAPI/hybrid clarification
 
-The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-07.
+The owner reaffirmed **Keep Durable Functions primary** on 2 November 2026. FastAPI runs on ordinary API Lambdas; Python Durable Functions runs background workflows. Step Functions is not included in the initial direction. A later ML-specific hybrid requires a demonstrated benefit, ownership/integration/cost evidence and another owner decision. This does not change the four selected direction cards or satisfy their open proof gates. ARC-05 was subsequently selected below; next is now ARC-08.
 
 ## ARC-05: baselines first, then bounded challengers
 
@@ -67,3 +67,11 @@ Lambda runs the client loop; Claude model inference remains on Anthropic. The ta
 Untrusted-file extraction remains isolated and tool-free; public research and private portfolio context have explicit outbound boundaries. Memory is scoped, sourced and revisable and cannot become financial truth or policy. Cache eligibility/economics and nonurgent batch deadlines/privacy must be measured. Immediate alerts and fresh briefings cannot depend on a just-submitted batch.
 
 Separate workers share one project budget and the actual provider allowances; each worker does not gain a separate credit pool. Global cost admission/rate coordination must prevent parallel overspend. Agents have no direct financial commit or model-promotion authority. Exact IAM/queue design, manifest, model IDs, limits, memory retention, eval coverage and full operating cost remain open. No deployment, paid call or complete architecture approval is implied.
+
+## ARC-07: Cognito authentication assurance and freshness
+
+The owner selected option A: **Cognito assurance and freshness checks**. The backend evaluates authentication strength/freshness for each sensitive action and requests step-up when existing evidence is insufficient. If actual Cognito assurance support is unavailable, an explicitly verified fresh-sign-in path must meet the same action policy; protected actions fail closed if adequate proof cannot be obtained.
+
+Retain managed Apple/Google/passkey sign-in, verified identity linking and the agreed recovery redundancy. Bind each approval to the exact owner/environment/action/payload/current record or configuration version/expiry. Recheck authority and applicability at execution, including after a durable wait. Local Face ID unlock, a refreshed token or an open app alone is not fresh server authorisation. Persist opaque evidence references, never live authentication tokens, in workflow/audit state.
+
+Cognito tier/region/rollout and Apple/Google/passkey behaviour, pricing, sensitive-action classes, assurance/freshness policy, session/device revocation, lost-device recovery, cookie/CSRF and native PKCE/storage still need specification/proof. No exact time window or assurance level is approved by this direction. PL-09 and CT-01/02/17 remain open. No account/user-pool/client setup, purchase or application implementation is authorised.

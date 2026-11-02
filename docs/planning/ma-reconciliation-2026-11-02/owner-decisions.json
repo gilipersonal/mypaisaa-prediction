@@ -167,6 +167,27 @@
         "issue": "MP-25",
         "comment_id": "12155"
       }
+    },
+    {
+      "card_id": "ARC-07",
+      "status": "owner_direction_selected_evidence_pending",
+      "answer": {
+        "option_id": "A",
+        "label": "Cognito assurance and freshness checks (Recommended)",
+        "recorded_on": "2026-11-02",
+        "source": "Owner reply to architecture decision7, call_cedccedd1b25426fa82d632a0224da7e",
+        "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+      },
+      "open_gap_ids": [
+        "PL-09",
+        "CT-01",
+        "CT-02",
+        "CT-17"
+      ],
+      "jira_evidence": {
+        "issue": "MP-11",
+        "comment_id": "12156"
+      }
     }
   ]
 }

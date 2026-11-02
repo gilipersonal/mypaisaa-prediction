@@ -85,6 +85,8 @@ ARC-05 subsequently selected baselines-first qualification followed by bounded c
 
 ARC-06 subsequently selected separate Lambda workers per Claude task route, sharing the bounded runner library. This supersedes the maker consolidation recommendation; route/worker counts, IAM/context/tool/memory/batch/eval and complete cost evidence remain open.
 
+ARC-07 subsequently selected server-verified Cognito assurance/freshness with a verified fresh-sign-in fallback meeting the same action policy. Exact sensitive-action, identity/session/recovery and actual feature/cost proofs remain open.
+
 ## Recommended path to a settled architecture
 
 1. **Feasibility:** resolve the source-use matrix and all-in operating envelope first.
