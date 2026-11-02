@@ -43,7 +43,11 @@ class SelectionTests(unittest.TestCase):
 
     def test_claude_rules_select_their_policy_test(self):
         chosen, _ = names([".claude/rules/independent-review.md"])
-        self.assertEqual(chosen, {"claude-workflow"})
+        self.assertEqual(chosen, {"claude-workflow", "agent-config"})
+
+    def test_agent_config_follows_its_inputs(self):
+        for path in (".codex/hooks.json", ".github/main-protection.json", "scripts/check_agent_config.py"):
+            self.assertIn("agent-config", names([path])[0], path)
 
     def test_root_docs_brand_and_motion_select_the_docs_check(self):
         for path in ("ARCHITECTURE.md", "TECH-STACK.md", "docs/brand/mark.svg", "docs/motion/budget.gif"):
