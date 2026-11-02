@@ -18,11 +18,8 @@
     "costs": [
       "costs/acceptance.json",
       "costs/check_cash_timing.py",
-      "costs/cost-scenarios.png",
-      "costs/cost-scenarios.svg",
       "costs/maker-checks.json",
       "costs/model.json",
-      "costs/plot_scenarios.py",
       "costs/public-price-evidence.json",
       "costs/research.json",
       "costs/reservation-contract.json",

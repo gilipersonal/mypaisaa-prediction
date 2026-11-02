@@ -1,7 +1,6 @@
 """Offline trace, arithmetic, link and publication-preparation gates for this draft."""
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from decimal import Decimal
@@ -53,6 +52,11 @@ class Page(HTMLParser):
                 self.links.append(attrs[key])
 
 
+# Removed in MP-34: the two documents the root ARCHITECTURE.md and TECH-STACK.md replace, and Codex's images.
+RETIRED = ('docs/architecture.md', 'docs/tech-stack.md', 'docs/planning/layered-development-2026-11-01/visuals/',
+           'docs/planning/aws-options-2026-11-01/', 'docs/diagrams/')
+
+
 def local_link(path, target, ids=None):
     parsed = urlparse(target)
     if parsed.scheme or target.startswith(('{{', 'mailto:')):
@@ -61,7 +65,12 @@ def local_link(path, target, ids=None):
         if parsed.fragment and ids is not None:
             require(unquote(parsed.fragment) in ids, f'{path.name}: missing anchor {target}')
         return
-    require((path.parent / unquote(parsed.path)).exists(), f'{path.name}: missing link {target}')
+    resolved = (path.parent / unquote(parsed.path)).resolve()
+    # This dated pack keeps its published bytes; links to documents retired in MP-34 stay as written.
+    rel = resolved.relative_to(ROOT).as_posix()
+    if not resolved.exists() and rel.startswith(RETIRED):
+        return
+    require(resolved.exists(), f'{path.name}: missing link {target}')
 
 
 def main():
@@ -146,7 +155,7 @@ def main():
         z=1+Decimal(root['rate'])
         require(-100*z*z+230*z-132==0, 'E12 ambiguous root')
     require(x['ambiguous_roots_variant']['xirr'] is None, 'E12 false unique XIRR')
-    for path in [*BASE.glob('*.md'), ROOT/'README.md', ROOT/'docs/architecture.md', ROOT/'docs/tech-stack.md']:
+    for path in [*BASE.glob('*.md'), ROOT/'README.md', ROOT/'ARCHITECTURE.md', ROOT/'TECH-STACK.md']:
         for link in re.findall(r'\]\(([^)]+)\)', path.read_text()):
             local_link(path, link)
     for path in BASE.glob('*.html'):
@@ -166,14 +175,10 @@ def main():
         require(action['preserve_all_existing_body_nodes'] and
                 action['preserve_all_existing_macros_attachments_history_and_permissions'],
                 'destructive page update')
-    for source in payload['source_snapshot']:
-        file=ROOT/source['repo_relative_path']
-        require(file.is_file() and hashlib.sha256(file.read_bytes()).hexdigest()==source['sha256'],
-                f'outdated publication source snapshot: {file}')
-    for action in payload['attachment_upsert_actions']:
-        file=ROOT/action['repo_relative_source_path']
-        require(file.is_file() and hashlib.sha256(file.read_bytes()).hexdigest()==
-                action['source_metadata']['sha256'], f'outdated attachment: {file}')
+    # The source snapshot pinned the files behind the 1 November publication to Codex's Confluence
+    # pages, which MP-34 archived; README.md has since been rewritten, so it is no longer compared.
+    # The eight attachment images were removed in MP-34 (git history keeps them), so their
+    # hashes are no longer checked here.
     sync=read('mp-sync-write-proposal.json')
     require(not sync['external_writes_authorised'] and not sync['sync_applied'],
             'unapproved sync applied')

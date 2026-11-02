@@ -13,9 +13,9 @@ Start the read lanes the scope needs **in one message**, either as parallel tool
 
 | Lane | Reads |
 | --- | --- |
-| Local plan | `README.md`, `docs/architecture.md` and `docs/tech-stack.md` (always together); the active pack under `docs/planning/`; owner receipts (`foundation-policy-discussion-*.md`, `owner-decisions.json`, `direction-summary.md`) |
+| Local plan | `README.md`, `ARCHITECTURE.md` and `TECH-STACK.md` at the root (always together); the active pack under `docs/planning/`; owner receipts (`foundation-policy-discussion-*.md`, `owner-decisions.json`, `direction-summary.md`) |
 | Jira | `mcp__atlassian__searchJiraIssuesUsingJql` for `project = MP`, then the issues in scope: description, acceptance, comments, status and links |
-| Confluence | `mcp__atlassian__getConfluenceContent` for the pages in `docs/planning/ma-reconciliation-2026-11-02/confluence-page-ids.json` plus the local publication receipts. Compare meaning, not markup, and note any rich macros or media. |
+| Confluence | `mcp__atlassian__getConfluenceContent` for the pages listed in `docs/confluence/confluence.json`. Compare meaning, not markup, and note any rich macros or media. |
 | Diagrams | `docs/diagrams/README.md` and its manifests (document IDs, versions, hashes); read the live Lucid source only if it's in scope (see `mp-architecture-diagrams`) |
 
 Compare only what the scope names, and keep these distinct:

@@ -54,6 +54,8 @@ jobs:
           python-version: '3.12'
       - name: Check the root documents, the mark and the motion GIFs
         run: python docs/readme/check_readme.py
+      - name: Validate the reconciliation pack and the documents that link to it
+        run: python docs/planning/ma-reconciliation-2026-11-02/validate.py
 
   review-tooling:
     name: Review tooling

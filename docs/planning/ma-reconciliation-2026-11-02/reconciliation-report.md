@@ -69,7 +69,7 @@ Eleven new **planning tasks** MP-20–MP-30 carry the grouped closure contracts;
 
 The [ten phase specifications](phases) retain PH-00–PH-09 and compile **64 local story drafts**: 16 more detailed import drafts and 48 umbrellas. Each shows contracts, dependencies, open gaps, acceptance and future UX states. Their actual implementation Jira keys remain unallocated. Detailed decomposition and real issue creation are required before the pre-UX phase/story gate; the new planning tickets do not stand in for that work.
 
-Thirteen substantive Confluence page bodies are prepared locally: reconciliation, architecture sign-off, documentation structure and one page for every phase. They target the existing MP hubs and do not replace rich content. The [publication proposal](confluence-publication-proposal.json) is **not applied**. Existing Confluence and Lucid/Site snapshots remain unchanged by this reconciliation. Native MP diagrams stay proposed until choices are settled and corresponding exports are updated.
+Thirteen substantive Confluence page bodies are prepared locally: reconciliation, architecture sign-off, documentation structure and one page for every phase. They target the existing MP hubs and do not replace rich content. The publication proposal (since removed in MP-34 and remain in git history) was **not applied** at the time of this report. Existing Confluence and Lucid/Site snapshots remain unchanged by this reconciliation. Native MP diagrams stay proposed until choices are settled and corresponding exports are updated.
 
 ## Owner direction recorded after this research
 

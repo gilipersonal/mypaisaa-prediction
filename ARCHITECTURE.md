@@ -6,7 +6,7 @@
 
 **Proposed architecture, from the owner-selected directions ARC-01 to ARC-12 (2 November 2026). Nothing here is deployed.**
 
-[README](README.md) · [Tech stack](TECH-STACK.md) · [Lucid: the system on AWS](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
+[README](README.md) · [Tech stack](TECH-STACK.md) · [Lucid: the system on AWS](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
 </div>
 
@@ -49,9 +49,9 @@
 
 ## 2. The system on AWS
 
-[![The system on AWS, Lucid page 1: two doors, CloudFront, Cognito, API Gateway, FastAPI on Lambda, DynamoDB, the Scheduler, SQS, durable workflows, Claude route workers, data workers, private S3, SageMaker and an inference Lambda, with numbered flows](docs/diagrams/mp-system-2026-11-02/01-system-on-aws.png)](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
+[![The system on AWS, Lucid page 1: two doors, CloudFront, Cognito, API Gateway, FastAPI on Lambda, DynamoDB, the Scheduler, SQS, durable workflows, Claude route workers, data workers, private S3, SageMaker and an inference Lambda, with numbered flows](docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
-<sub>Lucid page 1, native AWS 2024 shapes. [Open it in Lucid](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit) · [manifest](docs/diagrams/mp-system-2026-11-02/manifest.json) · [the script that drew it](docs/diagrams/mp-system-2026-11-02/lucid_spec.py).</sub>
+<sub>Lucid page 1 of 9, native AWS 2024 shapes. [Open it in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [manifest](docs/diagrams/mp-architecture-2026-11-02/manifest.json) · [the script that drew it](docs/diagrams/mp-architecture-2026-11-02/lucid_spec.py).</sub>
 
 The shape is serverless and small on purpose: nothing runs when nobody is asking, which is how a £100 all-in month
 stays possible. Two AWS accounts, dev and prod, have the same shape (ARC-11). There is no NAT Gateway, load balancer,
@@ -81,6 +81,11 @@ RDS or always-on endpoint; any of those needs a costed ADR first.
 
 The numbers in brackets match the numbered flows on the Lucid page.
 
+[![Importing a statement, Lucid page 5: the lanes from owner to ledger](docs/diagrams/mp-architecture-2026-11-02/05-importing-a-statement.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 5. Importing a statement, lane by lane.</sub>
+
+
 | Journey | Path | What holds |
 | --- | --- | --- |
 | **Open the app** | Door → CloudFront and S3 (1) → Cognito sign-in (2) → API Gateway (3) → FastAPI (4) → DynamoDB (5) | Reads pin one complete published version of the ledger and forecasts. SSE carries short notices only; the client then re-reads durable state. |
@@ -89,7 +94,7 @@ The numbers in brackets match the numbered flows on the Lucid page.
 | **Ask why** | Door → API → Claude route worker → Anthropic API (9) → read-only tools over DynamoDB → answer | Every figure in the answer comes from a tool result. Source text is data, never an instruction. |
 
 The daily window, chosen 2 November 2026 and still to be proven against real sources, runs from the market close:
-collection by +15 minutes, retries to +40, a fixed cutoff at +60, forecasts issued at +75. Quote and risk checks every
+collection starts at +15 minutes, a retry for missing data starts at +40, the cutoff freezes at +60, and forecasts are issued by +75. Quote and risk checks every
 30 minutes are a separate, lighter path and never produce a formal forecast.
 
 ## 4. Components
@@ -111,6 +116,11 @@ collection by +15 minutes, retries to +40, a fixed cutoff at +60, forecasts issu
 Every record carries its source, its timestamps and a version. Market observations store the provider, the symbol
 mapping, the source time, the ingestion time and quality flags, and are validated before they are kept.
 
+[![The core records, Lucid page 8](docs/diagrams/mp-architecture-2026-11-02/08-records.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 8. The data model. PROPOSED.</sub>
+
+
 | Record | Holds |
 | --- | --- |
 | Instrument | Internal ID, asset class, provider symbols, exchange, currency, active state |
@@ -126,6 +136,11 @@ mapping, the source time, the ingestion time and quality flags, and are validate
 | Cost record | Request, environment, feature, model, reserved and actual spend, price and FX version, reconciliation |
 
 ## 6. Forecasting
+
+[![The forecast pipeline, Lucid page 3: data, cutoff, features, walk-forward training on SageMaker, the registry, shadow, owner promotion, daily inference and outcome scoring](docs/diagrams/mp-architecture-2026-11-02/03-forecast-pipeline.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 3. From data to a scored outcome.</sub>
+
 
 **What is forecast.** Each target, horizon, currency and market kind is its own task with its own eligibility:
 the next day, 5, 10 and 20 trading days, and 3, 6 and 12 calendar months. A month anniversary that is not a trading
@@ -156,6 +171,11 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 
 ## 7. Claude and the agents
 
+[![Claude routes and the batch lane, Lucid page 4](docs/diagrams/mp-architecture-2026-11-02/04-claude-routes-batching.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 4. Which route runs which model, live or batched.</sub>
+
+
 Claude runs on Anthropic, called through the official Python client SDK in an explicit, server-controlled loop: not
 Bedrock, and not the Agent SDK. Each task route (extraction, research, structured factors, explanations and
 briefings, chat) is its own Lambda worker sharing one bounded runner, so each keeps its own context, tools and
@@ -168,7 +188,7 @@ overnight through the Message Batches API at half price; anything a person waits
 its evaluation before it is switched on, and Opus keeps event analysis only if it beats Sonnet there.
 [The card](docs/planning/claude-models-and-batching-2026-11-02.md) has the costs and rules.
 
-[![Who may do what, Lucid page 2: a table of five actors against six actions, with refusals shaded rose](docs/diagrams/mp-system-2026-11-02/02-who-may-do-what.png)](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit)
+[![Who may do what, Lucid page 2: a table of five actors against six actions, with refusals shaded rose](docs/diagrams/mp-architecture-2026-11-02/02-who-may-do-what.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
 <sub>Lucid page 2. Authority is enforced in code, not asked of a prompt.</sub>
 
@@ -200,6 +220,11 @@ durable replay.
 
 ## 9. Identity, security and retention
 
+[![Identity and step-up, Lucid page 6](docs/diagrams/mp-architecture-2026-11-02/06-identity-step-up.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 6. Sign-in, recovery and step-up.</sub>
+
+
 - **Sign-in:** Cognito with Apple, Google and passkeys, verified owner linking and two independent recovery paths.
   Sensitive actions need a fresh, strong sign-in (ARC-07).
 - **Approvals:** a financial approval allows 15 minutes to start the exact commit; an export link allows new
@@ -220,6 +245,10 @@ The ceiling is £100 a month all-in, planned as £70 of operation and a £30 res
 work at £75 and pausing it at £85. These controls cannot stop every AWS charge instantly, so hard caps on requests,
 concurrency, timeouts and retention back them. The draft numbers do not yet fit; [TECH-STACK.md](TECH-STACK.md#9-monthly-cost)
 shows why.
+
+[![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
+
+<sub>Lucid page 7. Two accounts of the same shape, and the seven CI checks.</sub>
 
 ## 11. Clients
 
@@ -264,8 +293,7 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 
 | Diagram | Source | Exports |
 | --- | --- | --- |
-| The system on AWS; Who may do what | [Lucid](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit), drawn from [`lucid_spec.py`](docs/diagrams/mp-system-2026-11-02/lucid_spec.py) | [Page 1](docs/diagrams/mp-system-2026-11-02/01-system-on-aws.png), [page 2](docs/diagrams/mp-system-2026-11-02/02-who-may-do-what.png), [manifest](docs/diagrams/mp-system-2026-11-02/manifest.json) |
+| Nine pages: the system on AWS, who may do what, the forecast pipeline, Claude routes and batching, importing a statement, identity and step-up, environments and delivery, records, the road | [Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit), drawn from [`lucid_spec.py`](docs/diagrams/mp-architecture-2026-11-02/lucid_spec.py) | PNGs and the [manifest](docs/diagrams/mp-architecture-2026-11-02/manifest.json) in [`docs/diagrams/mp-architecture-2026-11-02/`](docs/diagrams/mp-architecture-2026-11-02/) |
 | The animations on this page | [`docs/motion/build_motion.py`](docs/motion/build_motion.py) | GIFs and stills in [`docs/motion/`](docs/motion/) |
-| Earlier views (MP-18, the bootstrap host, A/B plans) | [Lucid](https://lucid.app/lucidchart/02218133-613a-4b78-aea4-e0dba26db386/edit) | [`docs/diagrams/`](docs/diagrams/README.md), kept for history |
 
 Exports are snapshots; an edit in Lucid reaches the repo only when it is exported again and the manifest updated.

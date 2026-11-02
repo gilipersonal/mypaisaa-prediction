@@ -29,7 +29,7 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 <a href="TECH-STACK.md"><img src="docs/readme/badges/ml.svg" alt="SageMaker CPU training"></a>
 <a href="TECH-STACK.md"><img src="docs/readme/badges/evals.svg" alt="Inspect AI evaluations"></a>
 
-**[Architecture](ARCHITECTURE.md) · [Tech stack](TECH-STACK.md) · [AWS architecture in Lucid](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit) · [Jira board](https://duttaarun2015.atlassian.net/jira/software/projects/MP/boards/167/backlog) · [Confluence](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720)**
+**[Architecture](ARCHITECTURE.md) · [Tech stack](TECH-STACK.md) · [AWS architecture in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [Jira board](https://duttaarun2015.atlassian.net/jira/software/projects/MP/boards/167/backlog) · [Confluence](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720)**
 
 </div>
 
@@ -112,7 +112,7 @@ operating plan. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
 | --- | --- |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | How MP is built: the system on AWS, the journeys through it, the records, forecasting science, Claude's authority, security, and the twelve selected directions. With the Lucid diagrams and animations. |
 | [TECH-STACK.md](TECH-STACK.md) | The stack layer by layer with the reason for each choice and its status, the locked versions of what runs today, and the monthly cost against the £100 ceiling. |
-| [The AWS architecture in Lucid](https://lucid.app/lucidchart/29e99586-9d0b-42d3-9a80-c81e3a1e345f/edit) · [source](docs/diagrams/mp-system-2026-11-02/) | Two native pages on AWS 2024 shapes: the system with numbered flows, and who may do what. Exports and manifest in the repo. |
+| [The AWS architecture in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [source](docs/diagrams/mp-architecture-2026-11-02/) | Two native pages on AWS 2024 shapes: the system with numbered flows, and who may do what. Exports and manifest in the repo. |
 | [Policy answers, 2 Nov 2026](docs/planning/foundation-policy-discussion-2026-11-02.md) | The owner's twelve later decisions: daily clocks, approvals, backfill, experiment ceilings, retention. |
 | [Foundation Pack 1](docs/planning/foundation-specifications-2026-11-02/README.md) | Data, financial and forecast contracts, schemas, worked examples and the cost model. |
 | [Selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md) | ARC-01 to ARC-12 and their boundaries. |
@@ -144,7 +144,7 @@ Ten phases, each with a gate. These are planning layers, not dates.
 | --- | --- |
 | [`backend/`](backend/) | The FastAPI starter, its lock file and tests. Its optional `data` and `agents` extras are left over from earlier plans and are not the selected stack. |
 | [`docs/planning/`](docs/planning/) | Owner decisions, research, contracts, the phase and story drafts, and synthetic proofs. |
-| [`docs/diagrams/`](docs/diagrams/) | Lucid exports with their manifests, and earlier diagram packs kept for history. |
+| [`docs/diagrams/`](docs/diagrams/) | Lucid exports with the scripts that draw them and their manifests. |
 | [`docs/brand/`](docs/brand/) · [`docs/motion/`](docs/motion/) | The mark and the documentation animations, each with the script that builds it. |
 | [`scripts/`](scripts/) · [`tests/`](tests/) | Synthetic-data generators, review and PR tooling, and their tests. |
 | [`site/`](site/) | A static concept and architecture presentation. It is documentation, not the product app. |

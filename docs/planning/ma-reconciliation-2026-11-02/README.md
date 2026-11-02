@@ -8,7 +8,7 @@ The owner authorised reconciliation of all relevant MA planning, with gaps captu
 
 The owner authorised publication of the 13 pages after the twelve direction choices were recorded. All are now published as clearly labelled **PLANNING DRAFT** pages at version 2. [Open the decision/publication index](https://duttaarun2015.atlassian.net/wiki/spaces/mypaisaapr/pages/4981720). Every page includes all twelve selected directions; no final baseline, UX or implementation approval is implied. Independent review has not run.
 
-[Publication receipt](confluence-publication-receipt.json) · [Readback validation](confluence-publication-validation.json) · [Page map](confluence-page-ids.json). These actual records supersede earlier local-only/publication-pending statements in pre-publication source snapshots. Existing parent pages, native Lucid/Site snapshots and sharing settings were preserved. No PR, merge or issue closure is included.
+The publication receipt, readback validation, page map and prepared page bodies were removed in MP-34 and remain in git history; the replacement Confluence pages are built from `docs/confluence/`. Existing parent pages, native Lucid/Site snapshots and sharing settings were preserved. No PR, merge or issue closure is included.
 
 ## Read in this order
 
@@ -16,7 +16,7 @@ The owner authorised publication of the 13 pages after the twelve direction choi
 2. [Architecture finalisation sequence](architecture-finalisation.md): decisions and evidence required before UX.
 3. [Documentation and story structure](documentation-structure.md): the canonical area map, phase tree and readiness contract.
 4. [Phase specifications](phases): PH-00–PH-09 with current draft stories, contracts, dependencies and acceptance evidence.
-5. [Source coverage](source-coverage.json), [gap register](gap-register.json), [Jira receipt](jira-receipt.json) and [publication proposal](confluence-publication-proposal.json).
+5. [Source coverage](source-coverage.json), [gap register](gap-register.json) and [Jira receipt](jira-receipt.json).
 
 [Owner decision log](decision-log.md): ARC-01 option A selected, including [Twelve Data Free for dev](dev-data-policy.md); rights, coverage and cost proof remain open. ARC-02 selects DynamoDB + S3 and one controlled financial write service, with integrity/access/recovery proofs open. ARC-03 selects Lambda Durable Functions with Python workflows; replay, runtime and cost proofs remain open. ARC-04 selects capped SageMaker CPU training/evaluation with portable Lambda inference; resource, scientific and cost proof remains open. ARC-05 selects baselines-first qualification with bounded challengers; detailed scientific contracts and evidence remain open. ARC-06 selects separate Lambda workers for each Claude task route, reusing a shared bounded runner library; role/IAM/model/context/cost detail remains open. ARC-07 selects Cognito assurance/freshness for sensitive actions with verified fresh-sign-in fallback; exact policies and provider/tier/cost proof remain open. ARC-08 requires all identified admin journeys to be specified now and fully designed after architecture agreement, before first build; detailed policy/recovery proofs remain open. ARC-09 selects Inspect AI with MP-specific deterministic checks, separate from runtime guardrails/pytest/numerical validation; detailed eval/privacy/budget proof remains open. ARC-10 selects a static SvelteKit PWA shell on S3/CloudFront with authenticated FastAPI; session/cache/offline/performance/client proofs remain open. ARC-11 selects separate dev/prod workload accounts with consolidated billing and one combined £100 envelope; account/region/network/compatibility/cost proof remains open. ARC-12 selects central architecture-area specifications linked to phase pages and stories. All 12 broad direction choices are recorded; the detailed architecture baseline and UX remain unapproved.
 
@@ -36,9 +36,9 @@ This pack follows MA's useful organisation: architecture areas, technical and us
 
 - Research and documentation may proceed; no product code, provisioning, live data import, paid provider call or model promotion is authorised.
 - Architecture baseline approval is distinct from UX approval. UX starts only after architecture/contracts/phase structure are agreed. Implementation starts only after the complete UX and end-to-end baseline are approved and the owner explicitly authorises build work.
-- The local preparation payloads are retained historical proposals; the receipt above records the 13-page owner-authorised publication. Existing parent pages, Lucid diagrams and the Site are not silently replaced or auto-synchronised.
+- The local preparation payloads and publication receipt were removed in MP-34 and remain in git history. Existing parent pages, Lucid diagrams and the Site are not silently replaced or auto-synchronised.
 - Independent review, PR creation, merge and issue closure keep their separate project consent gates.
 
 ## Reproducible checks
 
-Run `python3 docs/planning/ma-reconciliation-2026-11-02/validate.py` to check the pack's source coverage, IDs, cross-references, phase graph and prepared publication bodies. This is a maker consistency check. It cannot establish scientific validity, licence entitlement, cloud cost, owner approval or independent review.
+Run `python3 docs/planning/ma-reconciliation-2026-11-02/validate.py` to check the pack's source coverage, IDs, cross-references, and phase graph. This is a maker consistency check. It cannot establish scientific validity, licence entitlement, cloud cost, owner approval or independent review.

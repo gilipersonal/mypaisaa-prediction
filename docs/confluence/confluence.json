@@ -1,0 +1,352 @@
+{
+ "space": {
+  "key": "mypaisaapr",
+  "id": "5145174",
+  "home": "5145345"
+ },
+ "pages": {
+  "home": {
+   "id": "5145345",
+   "version": 4,
+   "sha256": "c827dd924b5506148c592b2e2840c435626d52163e65516e3f52878387569cee"
+  },
+  "hub": {
+   "id": "6127641",
+   "version": 2,
+   "sha256": "52b91a601a2a84a27aabfe8acbd0df574420f211a4eb07c54483f0e2c32d2064"
+  },
+  "record": {
+   "id": "6127662",
+   "version": 2,
+   "sha256": "d905828dedc84e47ec19b6bc6724197722485900fdcb2b8825d239b3eeb2fed2"
+  },
+  "journeys": {
+   "id": "6127682",
+   "version": 2,
+   "sha256": "4d869cd369d949de07274b8a7a263b5a689d4a4efccc388e10890d334567bf1f"
+  },
+  "roadmap": {
+   "id": "6127702",
+   "version": 2,
+   "sha256": "10d33a43078b1156e27fe6ee03f89e527b96930704271bd10ec4830b94a68885"
+  },
+  "phases": {
+   "id": "6127722",
+   "version": 2,
+   "sha256": "c63724a786ba9ab7e565a7678101909aef8af26b81e2178e7bfb79041f30806a"
+  },
+  "screens": {
+   "id": "6488109",
+   "version": 2,
+   "sha256": "319c74648532d668fac77976f430929e42b0b200b1a6e5c61730f63d7460f445"
+  },
+  "drawings": {
+   "id": "6357015",
+   "version": 2,
+   "sha256": "5f41c799aceedd07cdf6a40e8c4e48fb182672889007141faa0107052f972eec"
+  },
+  "sync": {
+   "id": "6389776",
+   "version": 2,
+   "sha256": "cc1a34823941ee46563ae4f3e22b11436d3fcb38a6b541da9c47b3a5b14cb3ae"
+  },
+  "rec-rules": {
+   "id": "6291509",
+   "version": 2,
+   "sha256": "d03c067ca0b22dadc5aeed5141032d752af55200f482fdbcaa9befa0e57d9331"
+  },
+  "rec-system": {
+   "id": "6389796",
+   "version": 2,
+   "sha256": "0530ea24715468305e87c398dbfeb9d3747d9ce6867166c81ad9ea22d30c7ada"
+  },
+  "rec-data": {
+   "id": "6357035",
+   "version": 2,
+   "sha256": "5fff6ef2ffcc47fc6998197dd6249665ae500af7e13570f679c3b24fba2b6fd2"
+  },
+  "rec-ledger": {
+   "id": "6389816",
+   "version": 2,
+   "sha256": "343758bebeca44f3f4011e66938fa16aee87712c27729ff68e3e688388bcac0c"
+  },
+  "rec-forecast": {
+   "id": "6127742",
+   "version": 2,
+   "sha256": "ad5c59eda4f58ad7625df5417e2f13c9b42b1c9acbfd0af5fd5f900512427ce5"
+  },
+  "rec-claude": {
+   "id": "6127762",
+   "version": 2,
+   "sha256": "999480222d811785216b689ecb313ec058a91007182e598a57a342f2cdae2432"
+  },
+  "rec-identity": {
+   "id": "6389836",
+   "version": 2,
+   "sha256": "eac1023c00430f545241801a80a5949cf69b24f56afec0ff970b4c00d1862c32"
+  },
+  "rec-admin": {
+   "id": "6357055",
+   "version": 2,
+   "sha256": "29e774d3f97a2dfc7dbb4d2a353434cdc752964949cc6b16231dadc414b0e52d"
+  },
+  "rec-guardrails": {
+   "id": "6127782",
+   "version": 2,
+   "sha256": "3eb2ea0183bc97d416baba7b12c3a522d30d3e46045ce349927577de4f70583c"
+  },
+  "rec-clients": {
+   "id": "6094861",
+   "version": 2,
+   "sha256": "670e7be5570ef6d517103a9caaf39f38494340dce216e14a4baef9b78541ef1d"
+  },
+  "rec-delivery": {
+   "id": "6094881",
+   "version": 2,
+   "sha256": "6c5adadf58b8034cb7c5f5e8d00df2afbb0cadaf6e0720468abe1a4dfb7e1a44"
+  },
+  "rec-cost": {
+   "id": "6291529",
+   "version": 2,
+   "sha256": "d65c7a070fee1409706897c793f3069ed4250b5f2e9c4be533ba910cd97427a0"
+  },
+  "rec-observability": {
+   "id": "6357075",
+   "version": 2,
+   "sha256": "f23549dafb985c8326b95526a0fbcf64a463224f13e34c322692486269680db4"
+  },
+  "rec-decisions": {
+   "id": "6357095",
+   "version": 2,
+   "sha256": "5c74565b1b2394c7b3dd94f58cd6ff81733cec0ca7b6cd583d5578068e69984a"
+  },
+  "ph-00": {
+   "id": "6488129",
+   "version": 2,
+   "sha256": "ac8f855f2893cd6171801cf486cf440e396e072f6efe4b35e9eeafee355aff61"
+  },
+  "ph-01": {
+   "id": "6357115",
+   "version": 2,
+   "sha256": "4eb88ee682484d3982ba9e93a6064d2c128091df3049055e134afc09d9c2cbb1"
+  },
+  "ph-02": {
+   "id": "6094901",
+   "version": 2,
+   "sha256": "878705ba594848cfc8d7b8669d43c12cada451da04e0a2aa45c934d46f2bfdc5"
+  },
+  "ph-03": {
+   "id": "6291549",
+   "version": 2,
+   "sha256": "d4acdd50942e13d8b8ccb5535bd6652b68f288202a13019d2583892bc238cc45"
+  },
+  "ph-04": {
+   "id": "6127802",
+   "version": 2,
+   "sha256": "5269acb5a21a1e2b9385fad9fc8f90e031b86363387d0e4159f77ed6929d5dcc"
+  },
+  "ph-05": {
+   "id": "6291569",
+   "version": 2,
+   "sha256": "ddbb6a67fbb42281ffbcdf099a6b0d969efc1823d17e450a2178f5ac7e81697b"
+  },
+  "ph-06": {
+   "id": "6389856",
+   "version": 2,
+   "sha256": "692c347bba424b64d13d36105d43d6dcb532be1ad0ccbe2f47629af1bccbd62a"
+  },
+  "ph-07": {
+   "id": "6291589",
+   "version": 2,
+   "sha256": "321a5d0c7a358070305e43c2c813fa37c02609e8c7ca040af3873120ac299f49"
+  },
+  "ph-08": {
+   "id": "6291609",
+   "version": 2,
+   "sha256": "3faec1e70aa319bc3a6f2f8bc08aa856a7bf4c86f3f5395d4a482209e459c2df"
+  },
+  "ph-09": {
+   "id": "6094921",
+   "version": 2,
+   "sha256": "97512bf968801664fd0c507cc33d72c841a1c805797f48087052ecd40a766ba5"
+  }
+ },
+ "media": {
+  "hub": {
+   "docs/motion/forecast-lifecycle.gif": {
+    "id": "8c605659-8956-4ae9-a113-c0c7247f6d02",
+    "collection": "contentId-6127641",
+    "attachment": "att6291503"
+   }
+  },
+  "rec-cost": {
+   "docs/motion/budget.gif": {
+    "id": "e938d979-d9d9-4c4d-b8d7-34da5ff55915",
+    "collection": "contentId-6291529",
+    "attachment": "att6127882"
+   }
+  },
+  "drawings": {
+   "docs/motion/logo-intro.gif": {
+    "id": "ab35c7e7-c4bc-423a-be51-f5caf6d01162",
+    "collection": "contentId-6357015",
+    "attachment": "att6357236"
+   }
+  },
+  "roadmap": {
+   "docs/motion/roadmap.gif": {
+    "id": "11bcc4fa-0466-4b03-82de-b6f9c1fc82ed",
+    "collection": "contentId-6127702",
+    "attachment": "att6357235"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/09-the-road.png": {
+    "id": "c9843408-451a-47c0-ad7a-9a7fab113393",
+    "collection": "contentId-6127702",
+    "attachment": "att6127936"
+   }
+  },
+  "rec-claude": {
+   "docs/motion/claude-routes.gif": {
+    "id": "00804a1a-6958-4ee4-8c1f-99bf220dce09",
+    "collection": "contentId-6127762",
+    "attachment": "att6488215"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/04-claude-routes-batching.png": {
+    "id": "2b68b62d-3d4b-435b-9616-b2c597a8de8d",
+    "collection": "contentId-6127762",
+    "attachment": "att6291781"
+   }
+  },
+  "rec-forecast": {
+   "docs/motion/daily-window.gif": {
+    "id": "7e7e4e92-11b2-4781-8986-f449b7d2035f",
+    "collection": "contentId-6127742",
+    "attachment": "att6291696"
+   },
+   "docs/motion/learning-loop.gif": {
+    "id": "778d0360-4520-4d4c-aa70-62664aded9d6",
+    "collection": "contentId-6127742",
+    "attachment": "att6389958"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/03-forecast-pipeline.png": {
+    "id": "c642b4d5-9375-4a0a-a9cd-d54aaee77dc1",
+    "collection": "contentId-6127742",
+    "attachment": "att6291785"
+   }
+  },
+  "rec-ledger": {
+   "docs/motion/import-approval.gif": {
+    "id": "805c6ccc-fe6c-4eee-8d91-14694aa1fe3f",
+    "collection": "contentId-6389816",
+    "attachment": "att6357243"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/05-importing-a-statement.png": {
+    "id": "67844d56-2e96-4d99-a055-b0a7873f2068",
+    "collection": "contentId-6389816",
+    "attachment": "att6095077"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/08-records.png": {
+    "id": "45c68c0a-add0-4fc6-8184-888b968291d8",
+    "collection": "contentId-6389816",
+    "attachment": "att6095089"
+   }
+  },
+  "rec-system": {
+   "docs/motion/system-flow.gif": {
+    "id": "7e4b4e62-6114-43af-98c0-bbb6f7bceacb",
+    "collection": "contentId-6389796",
+    "attachment": "att6488219"
+   },
+   "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
+    "id": "96b734d1-1243-46f9-8c63-4c70c6c98b51",
+    "collection": "contentId-6389796",
+    "attachment": "att6095081"
+   }
+  },
+  "journeys": {
+   "docs/motion/import-approval.gif": {
+    "id": "b843ec94-ea80-4d6b-9b33-fdf4b694c9ec",
+    "collection": "contentId-6127682",
+    "attachment": "att6291702"
+   },
+   "docs/motion/daily-window.gif": {
+    "id": "3419f24c-561f-43c6-92d8-7b7bb2151ede",
+    "collection": "contentId-6127682",
+    "attachment": "att6357253"
+   },
+   "docs/motion/claude-routes.gif": {
+    "id": "fa41db33-595f-4938-a6b1-2c0188f34261",
+    "collection": "contentId-6127682",
+    "attachment": "att6291708"
+   },
+   "docs/motion/learning-loop.gif": {
+    "id": "02ec75cd-d3d7-4e95-a02e-daabec76e40d",
+    "collection": "contentId-6127682",
+    "attachment": "att6291714"
+   },
+   "docs/motion/system-flow.gif": {
+    "id": "efb0a42f-371b-4170-880a-39a7f614c2bc",
+    "collection": "contentId-6127682"
+   }
+  },
+  "rec-guardrails": {
+   "docs/diagrams/mp-architecture-2026-11-02/02-who-may-do-what.png": {
+    "id": "785adb7f-70c5-4a42-86db-b7f5245e7e31",
+    "collection": "contentId-6127782",
+    "attachment": "att6291777"
+   }
+  },
+  "rec-delivery": {
+   "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png": {
+    "id": "c7a5f7f3-768d-4be7-87d5-fb0e04fe8e63",
+    "collection": "contentId-6094881",
+    "attachment": "att6390028"
+   }
+  },
+  "record": {
+   "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
+    "id": "c9cd3f06-1f1c-4a58-b70c-3cfb68577798",
+    "collection": "contentId-6127662",
+    "attachment": "att6127940"
+   }
+  },
+  "rec-identity": {
+   "docs/diagrams/mp-architecture-2026-11-02/06-identity-step-up.png": {
+    "id": "a4357060-96f6-456d-81b3-f56b71254184",
+    "collection": "contentId-6389836",
+    "attachment": "att6390024"
+   }
+  }
+ },
+ "archived_codex_pages": {
+  "date": "2026-11-02",
+  "jira": "MP-34",
+  "reason": "Owner asked for Codex's documentation to be thrown away; archived, so recoverable from the space archive",
+  "ids": [
+   "4981241",
+   "5145394",
+   "5112476",
+   "5014127",
+   "5112525",
+   "4981438",
+   "4981454",
+   "5014255",
+   "5014267",
+   "5014301",
+   "4981639",
+   "4981720",
+   "5799937",
+   "5832705",
+   "5865473",
+   "5668883",
+   "5865504",
+   "5668914",
+   "4981787",
+   "5832730",
+   "5799960",
+   "5898241",
+   "5832761",
+   "5701634"
+  ]
+ }
+}
