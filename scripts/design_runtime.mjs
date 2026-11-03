@@ -9,12 +9,13 @@
 // what a viewer would get:
 //   - contrast: every visible text's real colour on its real ground (backgrounds composited up the tree, gradient
 //     stops taken at their worst, ancestors' opacity applied), at full brightness and at 20%, against the text tier
-//     (4.5:1 and 3:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
+//     (7:1 and 3.5:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
 //   - motion: every running animation's animated properties (transform, opacity, clip-path, stroke-dashoffset,
 //     visibility; short paint-only transitions), through the arrivals, a scroll of the whole page, every tab and
 //     segment in reach and a theme switch;
 //   - smoothness: frame times through the same, with Chrome's CPU slowed four times (the budget: 95% of frames
 //     within 20 ms, no long animation frame over 50 ms after load, layout shift under 0.02);
+//   - every icon on whole pixels and pointing at a real symbol, including icons a script builds;
 //   - no horizontal page scroll, no console errors.
 // The 20% model is the gate's: (0.2 L1 + 0.05) / (0.2 L2 + 0.05). A disabled control (:disabled, aria-disabled) and
 // text a page marks data-contrast-exempt must still reach 3:1 at full brightness, and are not held to 20%. It needs playwright-core and the
@@ -240,11 +241,15 @@ async function measurePage(pw, engine, file, theme, width) {
     for (const t of texts) {
       if (t.unmeasured) { if (!t.exempt) issues.push(`unmeasured text "${t.text}" (${t.el}): ${t.unmeasured}`); continue; }
       if (t.exempt) { if (t.full < 3) issues.push(`exempt text "${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1, under 3:1 even at full brightness`); continue; }
-      if (t.full < 4.5 || t.dim < 3) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs 4.5 and 3)`);
+      if (t.full < 7 || t.dim < 3.5) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs 7 and 3.5)`);
       if (t.size < 10.95) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least 11)`);
       if (t.weight < 400) issues.push(`"${t.text}" (${t.el}) has weight ${t.weight} (at least 400)`);
       if (!worst || t.dim < worst.dim) worst = t;
     }
+    const soft = await page.evaluate(() => [...document.querySelectorAll('svg.i')].filter((s) => { const r = s.getBoundingClientRect(); return r.width && r.height && (r.width % 1 || r.height % 1); }).slice(0, 8).map((s) => { const r = s.getBoundingClientRect(); return `${r.width}x${r.height}`; }));
+    for (const x of soft) issues.push(`an icon renders at a fractional size (${x}); icons sit on whole pixels`);
+    const dangling = await page.evaluate(() => [...new Set([...document.querySelectorAll('use')].map((u) => u.getAttribute('href') || u.getAttribute('xlink:href')).filter((h) => h && h.startsWith('#') && !document.querySelector(h)))]);
+    for (const h of dangling) issues.push(`an icon points at ${h}, which has no symbol, so it draws nothing`);
     res.worstText = worst && { text: worst.text, el: worst.el, full: +worst.full.toFixed(2), dim: +worst.dim.toFixed(2) };
     for (const e of errors) issues.push(`console: ${e.slice(0, 200)}`);
     await ctx.close();

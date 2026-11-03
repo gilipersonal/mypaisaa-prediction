@@ -1,0 +1,34 @@
+/* MP-62 round 3: the tokens both hybrids share, word for word. Paste the LIGHT lines into bare :root and the DARK lines
+   into both dark blocks; identity tokens (forecast, bands, outcome, scenario, hero-mark, hero-band, ai) stay each page's. */
+
+/* LIGHT: cold daylight. Apple's grouped ground and white cards, Monzo's ink, no warm paper. */
+--mp-canvas: #FFFFFF; --mp-bg: #F2F4F8; --mp-surface: #FFFFFF; --mp-surface-2: #F0F3F7;
+--mp-line: #DCE1E8; --mp-edge: #BFC7D3;
+--mp-ink: #050A14; --mp-ink-2: #3A4250; --mp-ink-3: #454D5C;
+--mp-hero: #0A1A33; --mp-hero-2: #12264A; --mp-hero-ink: #FFFFFF; --mp-hero-ink-2: #DCE3EE; --mp-hero-up: #8FF0B9;
+--mp-accent: #0A1A33; --mp-on-accent: #FFFFFF;
+--mp-up: #07592F; --mp-down: #3A4250;
+--mp-alert: #9B0C28; --mp-alert-bg: #FEEFF1; --mp-on-alert: #FFFFFF;
+--mp-warn: #7A3E00; --mp-warn-bg: #FFF3E0; --mp-ok: #07592F; --mp-ok-bg: #E8F6EE; --mp-info: #1A45A8; --mp-info-bg: #EEF3FF;
+--mp-chart-grid: #E3E7ED; --mp-track: #AEB6C2; --mp-focus: #0A5BD3;
+--mp-seg-on: #0A1A33; --mp-seg-on-ink: #FFFFFF; --mp-glass: rgba(255, 255, 255, 0.97);
+--mp-elev-1: 0 1px 2px rgba(5, 10, 20, 0.06); --mp-elev-2: 0 2px 8px rgba(5, 10, 20, 0.10); --mp-elev-3: 0 8px 24px rgba(5, 10, 20, 0.14);
+--mp-lip: inset 0 0 0 0 transparent;
+
+/* DARK: ink. The Klarna app's violet-black ground, surfaces one step lighter, pure white words. */
+--mp-canvas: #0A0720; --mp-bg: #0A0720; --mp-surface: #161230; --mp-surface-2: #221C45;
+--mp-line: #2C2558; --mp-edge: #4F4780;
+--mp-ink: #FFFFFF; --mp-ink-2: #ECEAF6; --mp-ink-3: #DEDBEC;
+--mp-hero: #241C52; --mp-hero-2: #2D2462; --mp-hero-ink: #FFFFFF; --mp-hero-ink-2: #E6E3F5; --mp-hero-up: #9AF5C2;
+--mp-accent: #F5F3FF; --mp-on-accent: #0A0720;
+--mp-up: #86EFB0; --mp-down: #ECEAF6;
+--mp-alert: #FFC7D1; --mp-alert-bg: #2E0E22; --mp-on-alert: #1A0509;
+--mp-warn: #FFD28A; --mp-warn-bg: #2B1E08; --mp-ok: #86EFB0; --mp-ok-bg: #0E2A1E; --mp-info: #C9D9FF; --mp-info-bg: #161E42;
+--mp-chart-grid: #2A2450; --mp-track: #5F5894; --mp-focus: #C9D9FF;
+--mp-seg-on: #F5F3FF; --mp-seg-on-ink: #0A0720; --mp-glass: rgba(22, 18, 48, 0.94);
+--mp-elev-1: 0 1px 2px rgba(0, 0, 0, 0.50); --mp-elev-2: 0 2px 8px rgba(0, 0, 0, 0.55); --mp-elev-3: 0 8px 24px rgba(0, 0, 0, 0.60);
+--mp-lip: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+/* BOTH THEMES, on bare :root: shape. Tighter than round 2, and every edge is drawn. */
+--mp-r-ctl: 8px; --mp-r-row: 12px; --mp-r-btn: 12px; --mp-r-card: 16px; --mp-r-hero: 20px; --mp-r-sheet: 20px; --mp-r-pill: 999px;
+--mp-hair: 1px;   /* and @media (min-resolution: 2dppx) { :root { --mp-hair: 0.5px; } } */

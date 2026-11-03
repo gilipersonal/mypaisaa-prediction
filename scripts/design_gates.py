@@ -11,7 +11,8 @@ screen brightness level. Check all these features really careful. Smoothness is 
 Contrast. For two colours of relative luminance L1 > L2, WCAG 2.2's ratio (L1 + 0.05) / (L2 + 0.05) at full
 brightness, and (0.2 L1 + 0.05) / (0.2 L2 + 0.05) at 20%: the panel's light falls to a fifth while the room's
 reflected light (the 0.05) stays. It is MA-181's 25% model made stricter. Each pair must meet its tier at both:
-body 7 and 4.5, text 4.5 and 3, ui 3 and 1.8, presence 1.5 and 1.25. The pairs are the token contract's (CORE) plus
+body 7 and 4.5, text 7 and 3.5 (raised in round 3: "the font colour contrasts can be made more better"), ui 3 and
+1.8, presence 1.5 and 1.25. The pairs are the token contract's (CORE) plus
 those each page declares in its `mp-design-gates` JSON block, and labels on glass are measured on the glass composited
 over each named backdrop. Colours composite in sRGB, as browsers paint them.
 
@@ -20,6 +21,12 @@ never says `all` (nor leaves its property out, which means all); paint-only tran
 nothing loops forever or more than six times; glass blurs at most 24 px, only on the control layer, with a reduced
 transparency fallback; a reduced motion block exists; big boards use content-visibility; no scroll handlers or
 intervals; Web Animations never move layout. Text is at least 11 px and weight 400.
+
+Sharpness (round 3: "Take special care of the icons, and the edges, they need to be sharp"). No soft edge: no text
+shadow, no blur filter, no radial bloom, no zero-offset halo, no shadow blurred past 24 px. Icons are the shared inline
+SVG sprite, never an icon font or a Unicode glyph, drawn with square caps and mitred joins, and every reference
+resolves. One system: both pages carry docs/design/reviews/MP-62/shared/ word for word (tokens.css, icons.svg,
+claude.html), so the hybrids can differ only in identity.
 
 The gate fails closed: a missing page, theme block, token or JSON block, a colour it cannot read, a dark block that
 differs from its twin, or a measured token set anywhere but the three theme blocks is a failure, not a skip. It reads
@@ -38,27 +45,30 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/MP-62/hybrid-b/index.html")
 DIM = 0.2
-LIMITS = {"body": (7.0, 4.5), "text": (4.5, 3.0), "ui": (3.0, 1.8), "presence": (1.5, 1.25)}
+LIMITS = {"body": (7.0, 4.5), "text": (7.0, 3.5), "ui": (3.0, 1.8), "presence": (1.5, 1.25)}
+SHARED = ROOT / "docs/design/reviews/MP-62/shared"
 
-CONTRACT = ("bg", "surface", "surface-2", "line", "ink", "ink-2", "ink-3", "hero", "hero-2", "hero-ink", "hero-ink-2",
+CONTRACT = ("canvas", "bg", "surface", "surface-2", "line", "edge", "ink", "ink-2", "ink-3", "hero", "hero-2", "hero-ink", "hero-ink-2",
             "hero-up", "hero-mark", "hero-band", "accent", "on-accent", "up", "down", "alert", "alert-bg", "on-alert",
             "warn", "warn-bg", "ok", "ok-bg", "info", "info-bg", "forecast", "band-80", "band-50", "outcome",
-            "scenario", "chart-grid", "track", "focus", "seg-on", "seg-on-ink", "glass")
+            "scenario", "ai", "chart-grid", "track", "focus", "seg-on", "seg-on-ink", "glass")
 
 
 def _core() -> list[tuple[str, str, str]]:
-    p = [("body", f, b) for f, b in (("ink", "surface"), ("ink", "bg"), ("ink", "surface-2"), ("hero-ink", "hero"),
+    p = [("body", f, b) for f, b in (("ink", "surface"), ("ink", "bg"), ("ink", "surface-2"), ("ink", "canvas"), ("hero-ink", "hero"),
                                      ("hero-ink", "hero-2"), ("on-accent", "accent"), ("seg-on-ink", "seg-on"))]
-    p += [("text", f, b) for f in ("ink-2", "ink-3") for b in ("surface", "bg", "surface-2")]
+    p += [("text", f, b) for f in ("ink-2", "ink-3") for b in ("surface", "bg", "surface-2", "canvas")]
     p += [("text", f, b) for f in ("hero-ink-2", "hero-up") for b in ("hero", "hero-2")]
     p += [("text", f, b) for f in ("accent", "up", "down", "forecast") for b in ("surface", "bg")]
     p += [("text", "alert", "surface"), ("text", "alert", "alert-bg"), ("text", "on-alert", "alert")]
     p += [("text", f, b) for f in ("warn", "ok", "info") for b in ("surface", f"{f}-bg")]
     p += [("ui", "forecast", "band-80+surface"), ("ui", "forecast", "band-50+band-80+surface"),
           ("ui", "outcome", "surface"), ("ui", "outcome", "band-80+surface"), ("ui", "scenario", "surface"),
-          ("ui", "focus", "surface"), ("ui", "focus", "bg"), ("ui", "hero-mark", "hero"),
+          ("ui", "focus", "surface"), ("ui", "focus", "bg"), ("ui", "ai", "surface"), ("ui", "ai", "bg"),
+          ("ui", "hero-mark", "hero"),
           ("ui", "hero-mark", "hero-band+hero")]
     p += [("presence", "track", b) for b in ("surface", "bg", "surface-2")]
+    p += [("presence", "edge", "bg"), ("presence", "edge", "surface")]
     p += [("presence", "band-80+surface", "surface"), ("presence", "band-50+band-80+surface", "band-80+surface"),
           ("presence", "hero-band+hero", "hero"), ("presence", "seg-on", "surface-2")]
     return [(t, "mp-" + "+mp-".join(f.split("+")), "mp-" + "+mp-".join(b.split("+"))) for t, f, b in p]
@@ -74,7 +84,7 @@ PAINT_OK = {"color", "background-color", "border-color", "outline-color", "box-s
             "text-decoration-color", "outline-offset"}
 EASING = {"ease", "linear", "ease-in", "ease-out", "ease-in-out", "step-start", "step-end", "allow-discrete", "normal"}
 WILL_CHANGE_OK = {"transform", "opacity", "auto", "clip-path"}
-MAX_PAINT_MS, MAX_BLUR_PX, MAX_ITERATIONS, MIN_FONT_PX, MIN_WEIGHT = 200, 24, 6, 11, 400
+MAX_PAINT_MS, MAX_BLUR_PX, MAX_ITERATIONS, MIN_FONT_PX, MIN_WEIGHT, MAX_SHADOW_BLUR = 200, 24, 6, 11, 400, 24
 HOSTS = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
 LAYOUT_KEYS = ("left", "top", "right", "bottom", "width", "height", "margin", "padding", "inset", "fontSize",
                "backgroundPosition", "filter", "backdropFilter", "boxShadow", "flexBasis")
@@ -295,6 +305,7 @@ def contrast(css: str, gates: dict | None) -> tuple[list[str], list[tuple]]:
     for t in CONTRACT:
         if f"--mp-{t}" not in light:
             fails.append(f"--mp-{t} is not defined on :root (the token contract)")
+    fails += one_system(light, dmedia)
     pairs = list(CORE)
     for p in gates.get("pairs", []):
         if not (isinstance(p, list) and len(p) == 3 and p[0] in LIMITS and all(isinstance(x, str) for x in p)):
@@ -523,6 +534,104 @@ def script_checks(script: str) -> list[str]:
     return fails
 
 
+def shared_tokens() -> tuple[dict, dict, dict]:
+    """(light, dark, both) from shared/tokens.css, the values both hybrids must carry word for word."""
+    text = re.sub(r"/\*.*?\*/", lambda m: m.group(0) if m.group(0).startswith(("/* LIGHT", "/* DARK", "/* BOTH")) else "",
+                  (SHARED / "tokens.css").read_text(), flags=re.S)
+    light, rest = text.split("/* DARK", 1)
+    dark, both = rest.split("/* BOTH", 1)
+    read = lambda t: {k: " ".join(v.split()) for k, v in re.findall(r"(--mp-[\w-]+):\s*([^;]+);", t)}
+    return read(light), read(dark), read(both)
+
+
+def one_system(light: dict, dark: dict) -> list[str]:
+    fails = []
+    try:
+        s_light, s_dark, s_both = shared_tokens()
+    except (OSError, ValueError) as e:
+        return [f"shared/tokens.css cannot be read ({e})"]
+    for name, want, have in (("light", {**s_light, **s_both}, light), ("dark", {**s_light, **s_both, **s_dark}, {**light, **dark})):
+        for k, v in want.items():
+            if " ".join(have.get(k, "").split()).lower() != v.lower():
+                fails.append(f"{name}: {k} is '{have.get(k)}', which differs from shared/tokens.css ('{v}')")
+    return fails
+
+
+def shadow_problems(sel: str, value: str) -> list[str]:
+    out = []
+    for layer in split_top(value, ","):
+        toks = split_top(layer, " ")
+        nums = [float(re.sub(r"px$", "", t)) for t in toks if re.fullmatch(r"-?\d*\.?\d+(px)?", t)]
+        if len(nums) >= 3 and nums[2] > 0:
+            if nums[0] == 0 and nums[1] == 0:
+                out.append(f"'{sel}' has a soft halo ('{layer}'): a shadow needs an offset, and an edge stays sharp")
+            if nums[2] > MAX_SHADOW_BLUR:
+                out.append(f"'{sel}' blurs a shadow {nums[2]:g} px ('{layer}'); at most {MAX_SHADOW_BLUR}")
+    return out
+
+
+def sharpness(css: str) -> list[str]:
+    fails = []
+    for sel, body, enc in rules(css):
+        for k, v in decls(body):
+            lv = v.lower()
+            if k == "text-shadow" and lv != "none":
+                fails.append(f"'{sel}' sets a text shadow, which blurs the glyph's edge")
+            if k in ("filter", "-webkit-filter") and "blur(" in lv:
+                fails.append(f"'{sel}' sets a blur filter, which softens every edge under it")
+            if "radial-gradient(" in lv:
+                fails.append(f"'{sel}' uses a radial gradient, a bloom with no edge; draw a sharp facet instead")
+            if k == "box-shadow" or k.startswith("--mp-elev"):
+                fails += shadow_problems(sel, v)
+    return fails
+
+
+def sprite_of(text: str) -> str | None:
+    m = re.search(r'<svg id="mp-icons".*?</svg>', text, flags=re.S)
+    return " ".join(m.group(0).split()) if m else None
+
+
+def claude_of(text: str) -> str | None:
+    m = re.search(r"<!-- mp-claude:start -->.*?<!-- mp-claude:end -->", text, flags=re.S)
+    return m.group(0) if m else None
+
+
+def icons_and_claude(html: str, css: str) -> list[str]:
+    fails = []
+    if re.search(r"Material[ +]Symbols|Material[ +]Icons", html):
+        fails.append("an icon font is loaded; fonts blur at small sizes, so icons come from the shared SVG sprite")
+    if re.search(r"""<[a-z]+[^>]*class=["'](?:[^"']*\s)?ms(?:\s[^"']*)?["']""", html):
+        fails.append("a leftover icon-font span (class ms): with no font it prints its name as a word")
+    for g in ("▲", "▼", "✓", "✔", "✕", "✖", "⚠"):
+        if g in html:
+            fails.append(f"the Unicode glyph {g} stands in for an icon; use the sprite")
+    try:
+        want_sprite, want_claude = (SHARED / "icons.svg").read_text(), (SHARED / "claude.html").read_text()
+    except OSError as e:
+        return fails + [f"a shared file cannot be read ({e})"]
+    have = sprite_of(html)
+    ids = set(re.findall(r'<symbol id="i-([a-z0-9-]+)"', want_sprite))
+    if have is None:
+        fails.append("the shared icon sprite <svg id=\"mp-icons\"> is not in the page")
+    elif have != sprite_of(want_sprite):
+        fails.append("the page's icon sprite differs from shared/icons.svg")
+    for ref in sorted(set(re.findall(r"#i-([a-z0-9-]+)", html))):
+        if ref not in ids:
+            fails.append(f"#i-{ref} has no symbol in the sprite")
+    icon_rules = [dict(decls(b)) for sel, b, _ in rules(css) if ".i" in norm_sel(sel)]
+    if not any(r.get("stroke-linecap") == "square" and r.get("stroke-linejoin") == "miter" for r in icon_rules):
+        fails.append("no .i rule sets square caps and mitred joins, so icons would render soft")
+    block = claude_of(html)
+    if block is None:
+        fails.append("no Claude component between the mp-claude markers")
+    elif block != claude_of(want_claude):
+        fails.append("the page's Claude component differs from shared/claude.html")
+    for k in ("--cl-s1", "--cl-s2", "--cl-s3"):
+        if f"{k}:" not in css.replace(f"{k}: ", f"{k}:"):
+            fails.append(f"{k}, a shape of the Claude mark, is not set")
+    return fails
+
+
 def markup(html: str) -> list[str]:
     fails = []
     if not re.search(r"<title>[^<]+</title>", html[:8192], re.I):
@@ -554,7 +663,7 @@ def check_page(html: str) -> tuple[list[str], list[tuple]]:
     try:
         css, script, gates = page_parts(html)
         cfails, rows = contrast(css, gates)
-        return markup(html) + cfails + motion(css, script), rows
+        return markup(html) + cfails + motion(css, script) + sharpness(css) + icons_and_claude(html, css), rows
     except Fail as e:
         return [str(e)], []
 
@@ -591,46 +700,41 @@ def report(path: str) -> int:
 
 # ---------------------------------------------------------------- selftest
 
-GOOD_LIGHT = {
-    "bg": "#F5F5F3", "surface": "#FFFFFF", "surface-2": "#F4F4F2", "line": "#E2E2DE", "ink": "#0B0D12",
-    "ink-2": "#3F4450", "ink-3": "#555B68", "hero": "#10192E", "hero-2": "#1B2742", "hero-ink": "#FFFFFF",
-    "hero-ink-2": "#C9D1E0", "hero-up": "#8EF0B4", "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)",
-    "accent": "#13265C", "on-accent": "#FFFFFF", "up": "#0E6B3B", "down": "#3F4450", "alert": "#A1102F",
-    "alert-bg": "#FBE6EA", "on-alert": "#FFFFFF", "warn": "#7A4300", "warn-bg": "#FCEFD9", "ok": "#0E6B3B",
-    "ok-bg": "#E3F3E8", "info": "#1D4FB0", "info-bg": "#E6EDFB", "forecast": "#7A4300",
-    "band-80": "rgba(245, 165, 36, 0.57)", "band-50": "rgba(196, 108, 0, 0.48)", "outcome": "#0E6B3B",
-    "scenario": "#5B3FB0", "chart-grid": "#E6E6E2", "track": "#B8BBC2", "focus": "#1D4FB0", "seg-on": "#0B0D12",
-    "seg-on-ink": "#FFFFFF", "glass": "rgba(255, 255, 255, 0.96)",
+IDENTITY_LIGHT = {
+    "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)", "forecast": "#6B3F00",
+    "band-80": "rgba(245, 165, 36, 0.57)", "band-50": "rgba(196, 108, 0, 0.48)", "outcome": "#07592F",
+    "scenario": "#4A2FA0", "ai": "#B85F00",
 }
-GOOD_DARK = {
-    "bg": "#07090D", "surface": "#11151C", "surface-2": "#1A1F28", "line": "#2A303B", "ink": "#FBFCFD",
-    "ink-2": "#D4D9E1", "ink-3": "#BCC3CE", "hero": "#0D1526", "hero-2": "#16213A", "hero-ink": "#FFFFFF",
-    "hero-ink-2": "#C9D1E0", "hero-up": "#8EF0B4", "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)",
-    "accent": "#F4F6FA", "on-accent": "#07090D", "up": "#6FE3A0", "down": "#D4D9E1", "alert": "#FFB8C6",
-    "alert-bg": "#3A1724", "on-alert": "#1A0509", "warn": "#FFC46B", "warn-bg": "#33240A", "ok": "#6FE3A0",
-    "ok-bg": "#0F2A1A", "info": "#BCD0FF", "info-bg": "#16223F", "forecast": "#FFC46B",
-    "band-80": "rgba(255, 181, 71, 0.34)", "band-50": "rgba(255, 181, 71, 0.28)", "outcome": "#6FE3A0",
-    "scenario": "#C7B5FF", "chart-grid": "#20262F", "track": "#5A6372", "focus": "#BCD0FF", "seg-on": "#F4F6FA",
-    "seg-on-ink": "#07090D", "glass": "rgba(17, 21, 28, 0.94)",
+IDENTITY_DARK = {
+    "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)", "forecast": "#FFD27A",
+    "band-80": "rgba(255, 181, 71, 0.34)", "band-50": "rgba(255, 181, 71, 0.31)", "outcome": "#86EFB0",
+    "scenario": "#D3C6FF", "ai": "#FFC24D",
 }
 
 
 def good_page() -> str:
-    def block(d):
-        return " ".join(f"--mp-{k}: {v};" for k, v in d.items())
+    s_light, s_dark, s_both = shared_tokens()
+    def block(*ds):
+        out = []
+        for d in ds:
+            out += [f"{k if k.startswith('--') else '--mp-' + k}: {v};" for k, v in d.items()]
+        return " ".join(out)
+    light, dark = block(s_light, s_both, IDENTITY_LIGHT), block(s_dark, IDENTITY_DARK)
     gates = {"pairs": [["text", "mp-ink-2", "mp-chip-bg"]],
              "glass": {"fill": "mp-glass", "backdrops": ["mp-bg", "mp-surface", "mp-hero", "mp-accent"],
                        "labels": [["body", "mp-ink"], ["text", "mp-ink-2"]]}}
     return f"""<title>Selftest page</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
 <style>
-:root {{ {block(GOOD_LIGHT)} --mp-chip-bg: #EEF0F3; --mo-fast: 180ms; --blur: 18px; color-scheme: light; }}
-@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ {block(GOOD_DARK)} --mp-chip-bg: #232933; color-scheme: dark; }} }}
-:root[data-theme="dark"] {{ {block(GOOD_DARK)} --mp-chip-bg: #232933; color-scheme: dark; }}
-body {{ background: var(--mp-bg); color: var(--mp-ink); font: 400 17px/22px Inter, sans-serif; }}
+:root {{ {light} --mp-chip-bg: #F6F8FB; --mo-fast: 180ms; --blur: 18px; --cl-s1: polygon(0 50%, 100% 8%, 100% 36%); --cl-s2: polygon(0 50%, 100% 40%, 100% 60%); --cl-s3: polygon(0 50%, 100% 64%, 100% 92%); color-scheme: light; }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ {dark} --mp-chip-bg: #1A1538; color-scheme: dark; }} }}
+:root[data-theme="dark"] {{ {dark} --mp-chip-bg: #1A1538; color-scheme: dark; }}
+body {{ background: var(--mp-canvas); color: var(--mp-ink); font: 400 17px/22px Inter, sans-serif; }}
 .cap {{ font-size: 12px; font-weight: 500; }}
+.i {{ width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }}
 .btn {{ transition: transform var(--mo-fast) ease, background-color 150ms linear; }}
 .btn:active {{ transform: scale(0.97); }}
+.card {{ box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge), var(--mp-elev-1); }}
 .tabbar {{ background: var(--mp-glass); backdrop-filter: blur(var(--blur)) saturate(1.8); }}
 .board {{ content-visibility: auto; contain-intrinsic-size: auto 900px; }}
 .skel {{ animation: pulse 1.3s ease-in-out 3 both; }}
@@ -641,7 +745,9 @@ body {{ background: var(--mp-bg); color: var(--mp-ink); font: 400 17px/22px Inte
 @media (prefers-reduced-transparency: reduce) {{ .tabbar {{ background: var(--mp-surface); backdrop-filter: none; }} }}
 </style>
 <script type="application/json" id="mp-design-gates">{json.dumps(gates)}</script>
-<div class="board"><svg viewBox="0 0 10 10"><text font-size="12">x</text></svg></div>
+{(SHARED / "icons.svg").read_text()}
+<div class="board"><svg class="i"><use href="#i-home"/></svg><svg viewBox="0 0 10 10"><text font-size="12">x</text></svg></div>
+{(SHARED / "claude.html").read_text()}
 <script>
 const io = new IntersectionObserver(() => {{}});
 lens.animate([{{ transform: 'translateX(0)' }}, {{ transform: 'translateX(40px)' }}], {{ duration: 340 }});
@@ -659,28 +765,28 @@ def _sub(old: str, new: str, count: int = 1):
 
 MUTATIONS = {
     "missing-token": (_sub("--mp-seg-on-ink: #FFFFFF;", ""), "--mp-seg-on-ink is not defined on :root"),
-    "dark-blocks-differ": (_sub("--mp-ink: #FBFCFD;", "--mp-ink: #FFFFFF;"), "the two dark blocks differ"),
+    "dark-blocks-differ": (_sub("--mp-ink: #FFFFFF;", "--mp-ink: #FAFAFA;"), "the two dark blocks differ"),
     "stray-token": (_sub(".cap {", ".hero { --mp-ink: #777777; } .cap {"), "outside the three theme blocks"),
     "stray-in-media": (_sub("@media (prefers-reduced-transparency: reduce) {",
                             "@media (min-width: 900px) { .x { --mp-surface: #CCCCCC; } } @media (prefers-reduced-transparency: reduce) {"),
                        "inside @media (min-width: 900px)"),
-    "unreadable-colour": (_sub("--mp-ink-3: #555B68;", "--mp-ink-3: color-mix(in srgb, #000 50%, #fff);"),
+    "unreadable-colour": (_sub("--mp-ink-3: #454D5C;", "--mp-ink-3: color-mix(in srgb, #000 50%, #fff);"),
                           "cannot read the colour"),
-    "fails-only-at-20": (_sub("--mp-surface-2: #F4F4F2;", "--mp-surface-2: #EDEDEA;"),
+    "fails-only-at-20": (_sub("--mp-surface-2: #F0F3F7;", "--mp-surface-2: #E8ECF2;"),
                          "light: body mp-ink on mp-surface-2"),
-    "dark-body-dim": (_sub("--mp-ink: #FBFCFD;", "--mp-ink: #E6E9EE;", 2), "dark: body mp-ink on mp-surface"),
-    "white-segment": (_sub("--mp-seg-on: #0B0D12;", "--mp-seg-on: #FFFFFF;"),
+    "dark-body-dim": (_sub("--mp-ink: #FFFFFF;", "--mp-ink: #E6E9EE;", 2), "dark: body mp-ink on mp-surface"),
+    "white-segment": (_sub("--mp-seg-on: #0A1A33;", "--mp-seg-on: #FFFFFF;"),
                       "presence mp-seg-on on mp-surface-2"),
     "unknown-declared": (_sub('"mp-chip-bg"]', '"mp-chip-nope"]'), "--mp-chip-nope is not defined"),
     "bad-tier": (_sub('[["text", "mp-ink-2", "mp-chip-bg"]]', '[["bold", "mp-ink-2", "mp-chip-bg"]]'),
                  "is not [tier, foreground, ground]"),
     "no-json": (_sub('id="mp-design-gates"', 'id="other"'), "no mp-design-gates JSON block"),
     "bad-json": (_sub('{"pairs"', '{pairs'), "not valid JSON"),
-    "thin-glass": (_sub("--mp-glass: rgba(255, 255, 255, 0.96);", "--mp-glass: rgba(255, 255, 255, 0.30);"),
+    "thin-glass": (_sub("--mp-glass: rgba(255, 255, 255, 0.97);", "--mp-glass: rgba(255, 255, 255, 0.30);"),
                    "on mp-glass+mp-hero"),
     "glass-missing-hero": (_sub('"mp-hero", "mp-accent"', '"mp-accent"'), "glass backdrops must include mp-hero"),
     "translucent-ground": (_sub('"mp-chip-bg"]', '"mp-band-80"]'), "is not opaque"),
-    "var-cycle": (_sub("--mp-ink-3: #555B68;", "--mp-ink-3: var(--mp-ink-3);"), "refers to itself"),
+    "var-cycle": (_sub("--mp-ink-3: #454D5C;", "--mp-ink-3: var(--mp-ink-3);"), "refers to itself"),
     "no-reduced-transparency": (_sub("@media (prefers-reduced-transparency: reduce)", "@media (min-width: 1px)"),
                                 "no @media (prefers-reduced-transparency: reduce) fallback"),
     "blur-30": (_sub("--blur: 18px;", "--blur: 30px;"), "blurs 30 px"),
@@ -697,7 +803,7 @@ MUTATIONS = {
     "infinite": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out infinite both"), "loops forever"),
     "infinite-upper": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out INFINITE both"), "loops forever"),
     "ten-times": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out 10 both"), "repeats 10 times"),
-    "no-reduced-motion": (_sub("@media (prefers-reduced-motion: reduce)", "@media (min-width: 2px)"),
+    "no-reduced-motion": (_sub("@media (prefers-reduced-motion: reduce)", "@media (min-width: 2px)", 9),
                           "no @media (prefers-reduced-motion: reduce) block"),
     "font-10": (_sub(".cap { font-size: 12px;", ".cap { font-size: 10px;"), "text at 10 px"),
     "font-shorthand-10": (_sub("font: 400 17px/22px", "font: 400 10px/22px"), "text at 10 px"),
@@ -716,6 +822,29 @@ MUTATIONS = {
     "body-tag": (_sub('<div class="board">', '<body><div class="board">'), "a <body> tag"),
     "no-title": (_sub("<title>Selftest page</title>", ""), "no <title>"),
     "unclosed-css": (_sub("@keyframes draw {", "@keyframes draw { {"), "cannot be read"),
+    "warm-paper-ground": (_sub("--mp-bg: #F2F4F8;", "--mp-bg: #F6F4F1;"), "differs from shared/tokens.css"),
+    "weak-secondary-text": (_sub("--mp-ink-2: #3A4250;", "--mp-ink-2: #5A6270;"), "light: text mp-ink-2 on"),
+    "weak-dark-text": (_sub("--mp-ink-3: #DEDBEC;", "--mp-ink-3: #B5B1C8;", 2), "dark: text mp-ink-3 on"),
+    "no-ai-colour": (_sub("--mp-ai: #B85F00;", ""), "--mp-ai is not defined on :root"),
+    "faint-edge": (_sub("--mp-edge: #BFC7D3;", "--mp-edge: #E9EDF2;"), "presence mp-edge on mp-bg"),
+    "icon-font": (_sub("family=Inter&", "family=Material+Symbols+Rounded&"), "an icon font is loaded"),
+    "leftover-icon-span": (_sub('<div class="board">', '<div class="board"><span class="ms" aria-hidden="true">lock</span>'),
+                           "leftover icon-font span"),
+    "leftover-span-classes": (_sub('<div class="board">', '<div class="board"><span class="x ms y">lock</span>'),
+                              "leftover icon-font span"),
+    "sprite-edited": (_sub('<symbol id="i-home"', '<symbol id="i-house"'), "differs from shared/icons.svg"),
+    "dangling-icon": (_sub('<use href="#i-home"/>', '<use href="#i-nope"/>'), "#i-nope has no symbol"),
+    "soft-icon": (_sub("stroke-linecap: square; stroke-linejoin: miter;", "stroke-linecap: round; stroke-linejoin: round;"),
+                  "square caps and mitred joins"),
+    "unicode-arrow": (_sub('<div class="board">', '<div class="board">▲'), "the Unicode glyph ▲"),
+    "claude-edited": (_sub("Why is NVIDIA ranked Trim?", "Why is NVIDIA ranked Hold?"), "differs from shared/claude.html"),
+    "claude-removed": (_sub("<!-- mp-claude:start -->", "<!-- removed -->"), "no Claude component"),
+    "no-mark-shape": (_sub("--cl-s2: polygon(0 50%, 100% 40%, 100% 60%); ", ""), "--cl-s2"),
+    "halo": (_sub(".cap {", ".tile { box-shadow: 0 0 24px rgba(255, 0, 0, 0.5); } .cap {"), "a soft halo"),
+    "wide-shadow": (_sub(".cap {", ".tile { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2); } .cap {"), "blurs a shadow 48 px"),
+    "text-shadow": (_sub(".cap {", ".fig { text-shadow: 0 1px 2px #000; } .cap {"), "text shadow"),
+    "blur-filter": (_sub(".cap {", ".bloom { filter: blur(12px); } .cap {"), "a blur filter"),
+    "radial-bloom": (_sub(".cap {", ".tile { background: radial-gradient(circle, #f0f, #00f); } .cap {"), "radial gradient"),
 }
 
 

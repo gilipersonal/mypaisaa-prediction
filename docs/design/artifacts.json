@@ -41,18 +41,18 @@
    "jira": "MP-62"
   },
   {
-   "slug": "ds-hybrid-a-fan",
-   "source": "docs/design/reviews/MP-62/hybrid-a/index.html",
-   "artifact_url": "https://claude.ai/artifact/VQpqwidcqYQsA55WkPpyvL",
-   "published_sha256": "e461775050d173802393107b60aef54cf88dea0d454fd6605647abac4487e9d9",
+   "slug": "ds-hybrid-b-prism",
+   "source": "docs/design/reviews/MP-62/hybrid-b/index.html",
+   "artifact_url": "https://claude.ai/artifact/BqFU9xdCb6rjsj43y67BzE",
+   "published_sha256": "86777b27775a3ac936be773806152695f382536fe8dc2fa6ab83e12d9398be57",
    "published_at": "2026-11-03",
    "jira": "MP-62"
   },
   {
-   "slug": "ds-hybrid-b-prism",
-   "source": "docs/design/reviews/MP-62/hybrid-b/index.html",
-   "artifact_url": "https://claude.ai/artifact/BqFU9xdCb6rjsj43y67BzE",
-   "published_sha256": "7350d5b7768590d84c5bbf4267cb3b29f3db8ac9303f804eda02ab28af1d86a3",
+   "slug": "ds-hybrid-a-fan",
+   "source": "docs/design/reviews/MP-62/hybrid-a/index.html",
+   "artifact_url": "https://claude.ai/artifact/VQpqwidcqYQsA55WkPpyvL",
+   "published_sha256": "86001d732b5c5ea170815603f80115a9f916aa420759cbd4e7302bb7bc43cec0",
    "published_at": "2026-11-03",
    "jira": "MP-62"
   }
