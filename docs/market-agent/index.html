@@ -524,14 +524,14 @@ footer p { max-width: 90ch; }
 <header class="hero">
   <p class="over">MyPrediction · design explainer · the market side · planning stage: directions chosen, nothing built</p>
   <h1>MyPrediction <i>Market</i> Agent</h1>
-  <p class="lede">How MyPrediction reads the market for one owner, end to end: a rules baseline anyone can check by hand, numerical models that forecast in ranges beside it, and Claude to triage the news and explain, never to make a number. US, UK and Indian shares and ETFs from the start, 20 to 30 listings first, for long-term investing. Each forecast is frozen when it is made and graded only after its horizon has passed.</p>
+  <p class="lede">How MyPrediction reads the market for one owner, end to end: a rules baseline anyone can check by hand, numerical models that forecast in ranges beside it and learn from about ten years of history where the source allows, code that grades every matured forecast each day and corrects its calibration within bands the owner approves, and Claude to triage the news and explain, never to make a number. US, UK and Indian shares and ETFs from the start, 20 to 30 listings first, for long-term investing. Each forecast is frozen when it is made and graded only after its horizon has passed.</p>
   <div class="goal">
     <div><q>My target is to minimize loss and grow money over time steadily.</q><small>The owner. Every part below is judged against this goal: fewer deep falls first, steady growth second. The combined score weighs protection 40, growth 35 and opportunity 25, and only when all three have evidence (POLICY-006).</small></div>
   </div>
   <div class="tiles">
     <div class="tile"><h3>The rules baseline</h3><span class="hk">R0 · PH-04 · L4-S02 · PROPOSED</span><p>Fixed, transparent rules: indicators, four pillars, the holder's cascade and a labelled rule strength. It calls ADD (shown as Buy), HOLD, PAUSE, TRIM, REBALANCE, and BUY or WATCH for a candidate. Every model has to beat it.</p></div>
     <div class="tile"><h3>The Forecaster</h3><span class="hk">R1, R2 · F1 to F8 · ARC-05 · OWNER-SELECTED</span><p>Ranges, not single numbers, from the next day to 12 months. Regularised models first, then bounded boosted challengers, each qualified per task on walk-forward evidence and promoted only by the owner.</p></div>
-    <div class="tile"><h3>Claude and the agents</h3><span class="hk">ARC-06, ARC-06b · PH-05 · OWNER-SELECTED</span><p>Haiku triages the news, Opus analyses at most three events a day, Sonnet explains and writes the 07:30 brief. Agents cite and explain; they cannot change a number, publish a forecast or trade.</p></div>
+    <div class="tile"><h3>The team and the loop</h3><span class="hk">ARC-06, ARC-06b · bounded self-correction · OWNER-SELECTED</span><p>Code grades every matured forecast daily, adjusts calibration and weights inside owner-approved bands with automatic rollback, and repairs the pipeline; anything outside a band goes to the owner. Haiku triages, Opus reads at most three events a day, Sonnet explains. Agents cannot change a number or trade.</p></div>
     <div class="tile"><h3>Three markets from the start</h3><span class="hk">US, UK, India · PH-03 · L3-S01</span><p>20 to 30 shares and ETFs first, on Twelve Data Grow 55 with Yahoo Finance alongside, in GBP, USD and INR, each listing checked for rights and freshness before it goes live.</p></div>
   </div>
   <p class="disclaim">Personal decision support for one owner, not regulated advice, and never tax advice. It never trades, holds no broker credentials, and every decision stays with the owner. Nothing on this page is built or deployed: only CI and a FastAPI starter run today, on a laptop. Every figure marked Illustrative is made up to show a shape: none is a real balance, a real price or a result.</p>
@@ -567,8 +567,8 @@ footer p { max-width: 90ch; }
 
 <section class="sec" id="map" aria-labelledby="map-h">
   <header class="sh"><span class="num">0</span><div><p class="over">The whole market side in one drawing</p><h2 id="map-h">From the sources to a card the owner reads</h2><div class="keys"><span class="key">OWNER-SELECTED · ARC-01 to ARC-12, ARC-06b</span><span class="ph">PROPOSED · the detailed baseline, PH-00</span></div></div></header>
-  <p class="intro">After each eligible close (New York, London, and NSE and BSE in India) <span class="aws">EventBridge Scheduler</span> starts the day's run: collection at +15 minutes, one retry at +40, the cutoff frozen at +60 and forecasts issued by +75 (POLICY-002). Jobs wait on <span class="aws">SQS</span> with dead-letter queues, and a Python <span class="aws">Lambda Durable Functions</span> workflow carries the run through the workers. <span class="aws">SageMaker</span> trains in capped CPU campaigns; only artefacts the owner has approved run in the inference Lambda. The records live in <span class="aws">DynamoDB</span> and private <span class="aws">S3</span>. The result reaches the owner in the PWA and the Apple app, with push outside quiet hours and a 07:30 London brief. Claude triages, analyses a few events and explains; code makes every number.</p>
-  <div class="scrollx" role="img" aria-label="Proposed architecture of the market side, nothing deployed. Sources (Twelve Data Grow 55 in prod, Twelve Data Basic in dev, Yahoo Finance, the owner's own statements, and proposed macro and news sources) feed the data workers. EventBridge Scheduler starts each close's run and the 30-minute checks; jobs wait on SQS work queues, with dead-letter queues. Lambda workers run data collection, the durable daily workflow, the rules baseline, approved-model inference, grading after the horizon, and the brief and alerts. Claude route workers call the Anthropic API: Haiku 5.5 triage and model inputs in batch, Opus 5.5 event analysis capped at three a day in batch, Sonnet 5.5 chat, explanations and the brief live. Workers read and write DynamoDB records and private S3; SageMaker trains from S3 with network isolation. DynamoDB feeds FastAPI behind API Gateway and Cognito, and push with the 07:30 brief; both reach the two doors, the SvelteKit PWA and the SwiftUI app in a React Native shell. The owner decides and approves promotions, restarts, paid sources and rule changes; MP cannot trade.">
+  <p class="intro">After each eligible close (New York, London, and NSE and BSE in India) <span class="aws">EventBridge Scheduler</span> starts the day's run: collection at +15 minutes, one retry at +40, the cutoff frozen at +60 and forecasts issued by +75 (POLICY-002). Jobs wait on <span class="aws">SQS</span> with dead-letter queues, and a Python <span class="aws">Lambda Durable Functions</span> workflow carries the run through the workers. <span class="aws">SageMaker</span> trains in capped CPU campaigns; only artefacts the owner has approved run in the inference Lambda. The records live in <span class="aws">DynamoDB</span> and private <span class="aws">S3</span>. The result reaches the owner in the PWA and the Apple app, with push outside quiet hours and a 07:30 London brief. Code, never a Claude agent, grades every matured forecast after each close and adjusts calibration and weights inside bands the owner approves in advance, rolling back on its own if scores worsen (bounded self-correction, owner, 3 Nov 2026). Claude triages, analyses a few events and explains; code makes every number.</p>
+  <div class="scrollx" role="img" aria-label="Proposed architecture of the market side, nothing deployed. Sources (Twelve Data Grow 55 in prod, Twelve Data Basic in dev, Yahoo Finance, the owner's own statements, and proposed macro and news sources) feed the data workers. EventBridge Scheduler starts each close's run and the 30-minute checks; jobs wait on SQS work queues, with dead-letter queues. Lambda workers run data collection, the durable daily workflow, the rules baseline, approved-model inference with challengers in shadow, daily grading and calibration within owner-approved bands, and the brief and alerts. Claude route workers call the Anthropic API: Haiku 5.5 triage and model inputs in batch, Opus 5.5 event analysis capped at three a day in batch, Sonnet 5.5 chat, explanations and the brief live. Workers read and write DynamoDB records and private S3; SageMaker trains from S3 with network isolation. DynamoDB feeds FastAPI behind API Gateway and Cognito, and push with the 07:30 brief; both reach the two doors, the SvelteKit PWA and the SwiftUI app in a React Native shell. The owner decides and approves promotions, changes outside a band, restarts, paid sources and rule changes; MP cannot trade.">
     <svg class="dg" viewBox="0 0 1180 690" style="min-width:960px" aria-hidden="true" focusable="false">
       <!-- A: sources -->
       <rect class="box" x="16" y="40" width="196" height="560" rx="16"/>
@@ -645,9 +645,9 @@ footer p { max-width: 90ch; }
         <rect class="hb2" x="498" y="198" width="222" height="40" rx="10"/>
         <text class="i ht" x="512" y="215">rules baseline R0: a stance</text><text class="k hk" x="512" y="231">L4-S02 · PROPOSED</text>
         <rect class="hb2" x="498" y="248" width="222" height="40" rx="10"/>
-        <text class="i ht" x="512" y="265">inference λ: approved only</text><text class="k hk" x="512" y="281">ARC-04 · L4-S05</text>
+        <text class="i ht" x="512" y="265">inference λ; shadow challengers</text><text class="k hk" x="512" y="281">ARC-04 · L4-S05, L4-S08</text>
         <rect class="hb2" x="498" y="298" width="222" height="40" rx="10"/>
-        <text class="i ht" x="512" y="315">grade after the horizon</text><text class="k hk" x="512" y="331">L4-S07 · scorecards</text>
+        <text class="i ht" x="512" y="315">grade daily; calibrate in bands</text><text class="k hk" x="512" y="331">L4-S07 · bounded · OWNER-SELECTED</text>
         <rect class="hb2" x="498" y="348" width="222" height="40" rx="10"/>
         <text class="i ht" x="512" y="365">brief, alerts, 30-min checks</text><text class="k hk" x="512" y="381">L6-S04 · L3-S05</text>
       </g>
@@ -673,7 +673,7 @@ footer p { max-width: 90ch; }
       <text class="m" x="786" y="156">Prediction · Outcome</text>
       <text class="m" x="786" y="178">ModelRun · FeatureSet</text>
       <text class="m" x="786" y="200">ResearchItem · Audit</text>
-      <text class="m" x="786" y="222">CostRecord</text>
+      <text class="m" x="786" y="222">CostRecord · Calibration</text>
       <text class="k" x="786" y="242">ARC-02 · OWNER-SELECTED</text>
       <rect class="boxa" x="770" y="276" width="196" height="224" rx="16"/>
       <text class="t" x="786" y="302">S3, private</text>
@@ -726,7 +726,7 @@ footer p { max-width: 90ch; }
       <!-- approvals strip -->
       <rect class="box2" x="248" y="636" width="916" height="40" rx="10"/>
       <text class="t" x="264" y="661">Owner approvals</text>
-      <text class="s" x="396" y="661">a model's promotion, a restart after a pause, any paid source or rule change; no agent can approve</text>
+      <text class="s" x="396" y="661">a model's promotion, anything outside a band, a restart after a pause, a paid source or a rule change; no agent can approve</text>
       <path class="ar d" d="M1082,484 L1082,634" marker-end="url(#ah)"/>
     </svg>
   </div>
@@ -806,8 +806,12 @@ footer p { max-width: 90ch; }
         <tr><td>Indian mutual funds the owner holds</td><td>One NAV a day per scheme</td><td>The owner's own consolidated account statements (CAS). AMFI's files only with AMFI's written permission, which has not been asked for</td><td><span class="ph">PROPOSED</span></td></tr>
         <tr><td>UK funds (OEICs)</td><td>One NAV a day, no candles</td><td>None chosen: Grow 55 carries no fund NAVs. EODHD's fund listings were found and not chosen</td><td><span class="ph mp-alertchip">OPEN</span></td></tr>
         <tr><td>Calendars</td><td>Each listing's sessions, holidays and half-days, versioned</td><td>MP's own calendars (pandas-market-calendars, exchange-calendars). Twelve Data's NSE page lists Sunday to Thursday, which is wrong</td><td><span class="ph">PROPOSED</span></td></tr>
-        <tr><td>Economy and market stress</td><td>Policy rates, yields, inflation, each as first published; volatility indices</td><td>FRED with its ALFRED archive; the Bank of England; rights unverified</td><td><span class="ph">PROPOSED</span></td></tr>
-        <tr><td>World events and news</td><td>Stories and filings on the holdings, their countries and sectors</td><td>GDELT, publishers' feeds and filings; rights unverified</td><td><span class="ph">PROPOSED</span></td></tr>
+        <tr><td>Event calendars</td><td>Central-bank decisions, inflation releases, the holdings' earnings dates, elections; for India, the RBI's policy dates, inflation releases and results season</td><td>The central banks' and statistics offices' published calendars; issuers' scheduled releases; official election calendars. Rights unverified</td><td><span class="ph">PROPOSED · adapted from MA</span></td></tr>
+        <tr><td>Economy</td><td>Policy rates, 2-year and 10-year yields, real yields, inflation, unemployment, each as first published</td><td>FRED with its ALFRED archive; the Bank of England; the ECB; ONS. India: the RBI's policy rate and yields, MOSPI's inflation. Rights unverified</td><td><span class="ph">PROPOSED</span></td></tr>
+        <tr><td>Market stress</td><td>VIX, high-yield and investment-grade credit spreads, the dollar index; India VIX and daily foreign portfolio investor flows</td><td>FRED; published index levels; NSDL for the flows. Rights unverified</td><td><span class="ph">PROPOSED · adapted from MA</span></td></tr>
+        <tr><td>Commodity drivers</td><td>Gold, silver, Brent and WTI prices, for the drivers of commodity ETCs</td><td>Twelve Data or Yahoo where they carry them; the US Energy Information Administration (EIA) for Brent and WTI. Rights unverified</td><td><span class="ph">PROPOSED · adapted from MA</span></td></tr>
+        <tr><td>World events and news</td><td>Stories and filings on the holdings, their countries and sectors; daily event counts and tone by country and theme; the geopolitical risk index</td><td>GDELT, with its India coverage; the Caldara and Iacoviello GPR index; publishers' feeds and filings, the Indian ones (Economic Times, Mint, Business Standard) among them; rights unverified</td><td><span class="ph">PROPOSED</span></td></tr>
+        <tr><td>Fund and ETF look-through</td><td>Each fund's or ETF's holdings, countries, sectors and currencies, with their dates</td><td>The issuers' holdings files and factsheets; Indian fund houses' monthly portfolio disclosures, which SEBI requires. Rights unverified</td><td><span class="ph">PROPOSED · adapted from MA</span></td></tr>
         <tr><td>NSE and BSE exchange files</td><td>End-of-day bhavcopy</td><td>Not used: NSE forbids automated collection, BSE forbids reproduction</td><td><span class="chip mp-watch">Not used</span></td></tr>
       </tbody>
     </table>
@@ -824,6 +828,7 @@ footer p { max-width: 90ch; }
         <li><strong>Alpha Vantage</strong>: the clearest personal research grant, free at 25 calls a day; BSE but not NSE.</li>
         <li><strong>Twelve Data Pro 610</strong>, $99 a month: compared and not chosen, because it breaks £100 every month.</li>
         <li>A paid feed is never a silent fallback. If a source fails, the listing drops to daily or shows unavailable.</li>
+        <li>Before asking, data health tries the paid source's free key on that listing and records what comes back. A paid feed not needed for 60 days is proposed for cancellation. <span class="ph">PROPOSED · adapted from MA</span></li>
       </ul>
     </div>
     <div class="tgchat" aria-label="Illustrative request in the MyPrediction app's chat, asking the owner about a paid source">
@@ -872,9 +877,10 @@ footer p { max-width: 90ch; }
       <p class="small">Code keeps the record honest; no Claude call is needed for it.</p>
       <ul class="list small">
         <li><strong>Fails over</strong> within the chain when a source answers nothing or stale data, and labels the value with the source that answered.</li>
-        <li><strong>Watches</strong> freshness, gaps, credit use, and disagreement between Twelve Data and Yahoo on one listing. The threshold for a disagreement is <span class="ph mp-alertchip">OPEN</span>.</li>
+        <li><strong>Watches</strong> freshness, gaps, credit use, and disagreement between Twelve Data and Yahoo on one listing. The threshold for a disagreement is <span class="ph mp-alertchip">OPEN</span>; MA listed closes more than 0.2% apart, a missing day or a late correction, and 0.2% is the starting proposal.</li>
         <li><strong>Repairs</strong> a gap on the next run where the source allows it, and labels what it could not fill. A stale series is left out of scoring.</li>
         <li><strong>Abstains</strong> rather than guess: a listing whose inputs miss the frozen cutoff shows <code>waiting_data</code> or <code>abstained</code> with its reason, such as <code>stale_input</code>.</li>
+        <li><strong>Raises</strong> a feed that stays stale as an alert in the app, and an alarm when every source for a listing has failed for two days. <span class="ph">PROPOSED · adapted from MA</span></li>
         <li><strong>Asks</strong> the owner for a new or reordered source, any paid feed, or a change to a source's terms.</li>
       </ul>
     </div>
@@ -901,7 +907,7 @@ footer p { max-width: 90ch; }
         <span class="chip mp-neutral">EMA 20 / 50 / 200</span><span class="chip mp-neutral">Wilder RSI-14</span><span class="chip mp-neutral">MACD 12/26/9, histogram slope</span>
         <span class="chip mp-neutral">TRIX-15, 9-day EMA signal</span><span class="chip mp-neutral">Bollinger 20/2, %B</span><span class="chip mp-neutral">slopes vs 5 bars</span>
         <span class="chip mp-neutral">bars since below EMA20</span><span class="chip mp-neutral">ATR-14</span><span class="chip mp-neutral">realised vol, 20-day and EWMA</span>
-        <span class="chip mp-neutral">its historical percentile</span><span class="chip mp-neutral">drawdown from 1-year high</span><span class="chip mp-neutral">12-1 momentum</span><span class="chip mp-neutral">proxy-vs-NAV gap</span>
+        <span class="chip mp-neutral">its 3-year percentile</span><span class="chip mp-neutral">drawdown from 1-year high</span><span class="chip mp-neutral">12-1 momentum</span><span class="chip mp-neutral">proxy-vs-NAV gap</span>
       </div>
       <p class="small ink2" style="margin-top:12px">Golden fixtures cover every indicator: a constant series' EMA, a monotonic RSI, MACD equal to EMA12 minus EMA26, a flat %B. The wider technical set (ADX, stochastics, channels) belongs to F8 and is tested before any use.</p>
     </div>
@@ -932,7 +938,7 @@ footer p { max-width: 90ch; }
 
   <div class="card" style="margin-top:16px">
     <h3>The holder's cascade</h3>
-    <p class="small ink2">It accumulates with care. Adverse macro and elevated risk tighten the framing and lower the strength; they never change the pillar numbers. Protected holdings, top-up and rebalancing bounds and the owner's preferences constrain every suggestion. These are research outputs, never orders. Wording and thresholds are <span class="ph">PROPOSED</span>.</p>
+    <p class="small ink2">It accumulates with care. Adverse macro and elevated risk tighten the framing and lower the strength; they never change the pillar numbers. Protected holdings, top-up and rebalancing bounds and the owner's preferences constrain every suggestion. These are research outputs, never orders. Sentiment may tilt the action one notch, only when the price pillars do not contradict it and only once the news factor has qualified; news alone never triggers a red alert (<span class="ph">PROPOSED · adapted from MA</span>). Wording and thresholds are <span class="ph">PROPOSED</span>.</p>
     <div class="tscroll">
       <table class="tbl">
         <thead><tr><th>Call</th><th>When</th><th>What it tells the owner</th></tr></thead>
@@ -957,9 +963,9 @@ footer p { max-width: 90ch; }
         <li><strong>Agreement</strong>: +0.05 for each pillar pointing the same way, −0.05 for each against.</li>
         <li><strong>Persistence</strong>: bars the state has held, 0 for 1 bar up to +0.10 for 10 or more.</li>
         <li><strong>Quality</strong>: −0.10 for partial components, stale or provisional data, or a proxy gap over 1%.</li>
-        <li><strong>History</strong>: the hit rate of past calls in the same state, once enough mature outcomes exist, pulling the score toward it.</li>
+        <li><strong>History</strong>: the hit rate of past calls in the same state, once 20 or more mature outcomes exist, pulling the score toward it.</li>
       </ul>
-      <p class="cap">The formula and the 55% "no clear view" line are design inputs carried from MA, <span class="ph">PROPOSED</span>.</p>
+      <p class="cap">The formula, the 20-outcome history term and the 55% "no clear view" line are design inputs carried from MA, <span class="ph">PROPOSED</span>.</p>
     </div>
     <div class="card">
       <h3>How a PAUSE reaches 64%</h3>
@@ -974,7 +980,7 @@ footer p { max-width: 90ch; }
       </div>
       <div class="cscale" role="img" aria-label="Rule strength scale from 0 to 100%: below 55% is no clear view, above 95% is never reached; this call sits at 64%."><span class="z no"></span><span class="z cap"></span><span class="mk2" style="left:64%"></span></div>
       <div class="cscale-l" aria-hidden="true"><span style="left:0">"no clear view" below 55%</span><span style="left:64%;transform:translateX(-50%);top:18px" class="acc">64%</span><span style="right:0">cap 95%</span></div>
-      <p class="cap"><span class="illus">Illustrative</span>Shown as rule strength, never as P(up). Only a mapping fitted on held-out mature outcomes, and approved by the owner, may turn it into a probability (FC-07). There is no daily live recalibration.</p>
+      <p class="cap"><span class="illus">Illustrative</span>Shown as rule strength, never as P(up). Only a mapping fitted on held-out mature outcomes, and approved by the owner, may turn it into a probability (FC-07). Once approved, code grades that mapping daily and adjusts it only inside the owner's bands, with automatic rollback (<span class="key">OWNER-SELECTED</span>, section 7). As in MA, a reliability table by bucket is the weekly report.</p>
     </div>
   </div>
 
@@ -990,6 +996,9 @@ footer p { max-width: 90ch; }
         <div class="wk ok"><b>✓</b>1d</div><div class="wk ok"><b>✓</b>5d</div><div class="wk ok"><b>✓</b>10d</div><div class="wk ok"><b>✓</b>20d</div><div class="wk ok"><b>✓</b>3m</div><div class="wk"><b>·</b>6m</div><div class="wk"><b>·</b>12m</div>
       </div>
       <p class="cap"><span class="illus">Illustrative</span>Refreshing daily does not mature a 12-month outcome: it needs a year of waiting per forecast.</p>
+      <p class="small" style="margin-top:12px">MA's go-live gate stays on the table for the short horizons: the rules reach weekday cards only after beating the baseline for 8 consecutive weeks, checked in code and reported weekly, and a miss in any week starts the count again. Whether MP adopts it as a minimum is <span class="ph mp-alertchip">OPEN</span> (FC-09).</p>
+      <div class="weeks" role="img" aria-label="Illustrative 8-week gate: weeks 1 to 5 beat the baseline, weeks 6 to 8 still to come."><div class="wk ok"><b>✓</b>W1</div><div class="wk ok"><b>✓</b>W2</div><div class="wk ok"><b>✓</b>W3</div><div class="wk ok"><b>✓</b>W4</div><div class="wk ok"><b>✓</b>W5</div><div class="wk"><b>·</b>W6</div><div class="wk"><b>·</b>W7</div><div class="wk"><b>·</b>W8</div></div>
+      <p class="cap"><span class="illus">Illustrative</span>Eight weeks can show that a short-horizon task works; it cannot validate a 12-month one.</p>
     </div>
   </div>
 </section>
@@ -1001,18 +1010,18 @@ footer p { max-width: 90ch; }
   <div class="g4">
     <div class="card"><p class="over">Fund or ETF · as each issuer publishes</p><h3>Look-through</h3><p class="small">Its top holdings, countries, sectors and currencies, from the factsheet and the holdings file. An Indian fund's comes from its fund house's monthly portfolio disclosure. Absent exposure is not zero.</p></div>
     <div class="card"><p class="over">Share · each quarter's results</p><h3>The company and its web</h3><p class="small">The company, its sector, its main markets, and its main suppliers and rivals where the evidence names them.</p></div>
-    <div class="card"><p class="over">Commodity ETC · a fixed list, reviewed yearly</p><h3>Its drivers</h3><p class="small"><strong>Gold</strong>: real yields, the dollar, central-bank buying, geopolitical stress. <strong>Silver</strong>: gold's drivers and industrial demand. <strong>Oil</strong>: OPEC+ decisions, stockpiles, world growth.</p></div>
+    <div class="card"><p class="over">Commodity ETC · a fixed list, reviewed yearly</p><h3>Its drivers</h3><p class="small"><strong>Gold</strong>: real yields, the dollar, central-bank buying, geopolitical stress. <strong>Silver</strong>: gold's drivers and industrial demand. <strong>Oil</strong>: OPEC+ decisions, stockpiles, supply from the Middle East and Russia, world growth.</p></div>
     <div class="card"><p class="over">Cash · with the rate</p><h3>Its rate and currency</h3><p class="small">Pounds are touched by the Bank of England's rate, dollars by the Fed's, rupees by the RBI's.</p></div>
   </div>
   <ol class="flow" style="--n:5">
     <li><h4>Items in</h4><p>News, filings and calendar items, each with its publisher, published, known and retrieved times. Untrusted text, deduplicated and quarantined.</p><div class="chips"><span class="aws">SQS work queue</span></div></li>
-    <li><h4>Haiku tags each item</h4><p>Instruments, countries, sectors and central banks named; event type; direction; novelty. Checked on a labelled sample in Inspect AI.</p><div class="chips"><span class="aws">Claude Haiku 5.5, Batches</span></div></li>
+    <li><h4>Haiku tags each item</h4><p>Instruments, countries, sectors and central banks named; event type; direction; novelty. Checked weekly on a labelled sample in Inspect AI (weekly, as in MA: <span class="ph">PROPOSED</span>).</p><div class="chips"><span class="aws">Claude Haiku 5.5, Batches</span></div></li>
     <li><h4>Code scores relevance</h4><p>An item's weight on a holding is the holding's exposure to the entities it names.</p></li>
     <li><h4>Code picks the few</h4><p>A floor drops the faint. At most three material items a day go to Opus: what changed, why it matters, what would prove it wrong, with citations.</p><div class="chips"><span class="aws">Claude Opus 5.5, Batches</span><span class="aws">DynamoDB</span></div></li>
     <li class="hl"><h4>Where matches go</h4><p>The F4 event studies, the 07:30 brief and chat, where Sonnet quotes a stored analysis instead of redoing it. A news factor reaches a forecast only once it has shown it adds accuracy.</p></li>
   </ol>
 
-  <div class="g3">
+  <div class="g2">
     <div class="card ex">
       <p class="over">Worked example 1</p>
       <h3>A chip-export story reaches a NASDAQ ETF</h3>
@@ -1047,6 +1056,17 @@ footer p { max-width: 90ch; }
       </div>
       <p class="cap"><span class="illus">Illustrative</span>Through real yields and the dollar. Pound cash answers to the Bank of England, not the Fed.</p>
     </div>
+    <div class="card ex">
+      <p class="over">Worked example 4 · restored from MA</p>
+      <h3>An OPEC+ cut reaches an oil holding</h3>
+      <div class="ex-path"><span class="chip mp-neutral">OPEC+ agrees a deeper cut</span><span class="arr">→</span><span class="chip mp-neutral">commodity: oil</span><span class="chip mp-neutral">OPEC+ decision</span></div>
+      <div role="img" aria-label="Illustrative: an oil ETC if held is reached through its first driver, OPEC+ decisions; a FTSE 100 ETF through its 11% in energy; a NASDAQ 100 ETF 1%, below the floor and dropped." style="display:grid;gap:8px">
+        <div class="xr"><span>Oil ETC, if held</span><div class="xt"><i class="xb" style="width:100%"></i><i class="xfloor" style="left:10%"></i></div><span class="xv">1st driver</span></div>
+        <div class="xr"><span>FTSE 100 ETF (energy)</span><div class="xt"><i class="xb" style="width:36.7%"></i><i class="xfloor" style="left:10%"></i></div><span class="xv">11%</span></div>
+        <div class="xr drop"><span>NASDAQ 100, dropped</span><div class="xt"><i class="xb" style="width:3.3%"></i><i class="xfloor" style="left:10%"></i></div><span class="xv">1%</span></div>
+      </div>
+      <p class="cap"><span class="illus">Illustrative</span>A commodity is reached through its driver list; OPEC+ decisions are oil's first driver. The event kind is owner-selected; the driver list is <span class="ph">PROPOSED</span>.</p>
+    </div>
   </div>
   <div class="card" style="margin-top:16px">
     <p class="over">In the 07:30 brief · illustrative</p>
@@ -1061,14 +1081,16 @@ footer p { max-width: 90ch; }
 </section>
 <section class="sec" id="s5" aria-labelledby="s5-h">
   <header class="sh"><span class="num">5</span><div><p class="over">The Forecaster's models</p><h2 id="s5-h">Risk first, direction last, baselines before all of it</h2><div class="keys"><span class="key">OWNER-SELECTED · ARC-05</span><span class="ph">PROPOSED · SCI-04</span><span class="ph">PH-04 · L4-S04 to L4-S06</span><span class="ph">MP-21</span></div></div></header>
-  <p class="intro">The Forecaster sits beside the transparent rules, which are its first baseline. The owner chose the order (ARC-05): baselines first, then bounded challengers. Each target, horizon, currency and market kind is its own task: next day, 5, 10 and 20 trading days, and 3, 6 and 12 calendar months. Each task earns its place on walk-forward evidence. Code makes every number. Claude Haiku files each day's news and filings into typed inputs, and Claude Sonnet explains the result. US, UK and Indian listings start on the same terms, and a task with thin evidence abstains with its reason. Nothing here is trained or built yet: the modules below are proposed specifications (SCI-04), and every figure is illustrative.</p>
+  <p class="intro">The Forecaster sits beside the transparent rules, which are its first baseline. The owner chose the order (ARC-05): baselines first, then bounded challengers. Each target, horizon, currency and market kind is its own task: next day, 5, 10 and 20 trading days, and 3, 6 and 12 calendar months. Each task earns its place on walk-forward evidence over about ten years of history, where the source allows. Code makes every number. Claude Haiku files each day's news and filings into typed inputs, and Claude Sonnet explains the result. US, UK and Indian listings start on the same terms, and a task with thin evidence abstains with its reason. Nothing here is trained or built yet: the modules below are proposed specifications (SCI-04), and every figure is illustrative.</p>
 
   <div class="gm">
     <div class="card model">
       <div class="mh"><h3>1 · Regime</h3><span class="ph">F3 · PROPOSED</span></div>
       <dl><dt>Asks</dt><dd>Is this listing in a rising or falling spell, and is its volatility high or normal?</dd>
       <dt>Method</dt><dd>A deterministic description: the sign of the trailing 60-session total return, and trailing 20-session volatility against an 80th-percentile threshold fitted only inside the training window. No regime when the window is incomplete.</dd>
-      <dt>Status</dt><dd><span class="ph">PROPOSED</span> A description, never a probability or a cause.</dd></dl>
+      <dt>Status</dt><dd><span class="ph">PROPOSED</span> A description, never a probability or a cause.</dd>
+      <dt>Later rung</dt><dd>MA's market mood: a regime model over cross-asset features (equal against cap weight, credit spreads, small against large caps, shares against bonds, the yield curve, per market) that names the market calm and rising, choppy, stressed or falling with a probability, smoothed so it does not flip daily, and forecasts the next 20 trading days' mood. <span class="ph">PROPOSED · adapted from MA</span>: a challenger that qualifies like any other.</dd>
+      <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Good, MA's expectation; to be proven"><i class="on"></i><i class="on"></i><i class="on"></i><span>Good, MA's expectation; to be proven</span></span></dd></dl>
       <p class="tiny ink3" style="margin:12px 0 0">Raw daily read</p>
       <div class="moodstrip" role="img" aria-label="Raw daily read, illustrative: the regime flips often from day to day."><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-fall"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-stress"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-stress"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-fall"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-fall"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-stress"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-stress"></i><i class="m-calm"></i><i class="m-fall"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-fall"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-fall"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-chop"></i><i class="m-chop"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-calm"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-calm"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-fall"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-fall"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-calm"></i><i class="m-chop"></i><i class="m-stress"></i><i class="m-fall"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-stress"></i><i class="m-fall"></i><i class="m-stress"></i></div>
       <p class="tiny ink3" style="margin:8px 0 0">Smoothed, past days only, as shown</p>
@@ -1078,9 +1100,10 @@ footer p { max-width: 90ch; }
     </div>
     <div class="card model">
       <div class="mh"><h3>2 · Drawdown risk</h3><span class="ph">F3 · PROPOSED</span></div>
-      <dl><dt>Asks</dt><dd>What is the chance of a fall of 5% or more from a peak within the next 20 trading days?</dd>
-      <dt>Method</dt><dd>The trailing event rate first (R0). Then, only if they qualify, a regularised logistic classifier (R1) or a bounded boosted-tree classifier (R2), with a sigmoid calibration map. A drawdown is its own task: a return range does not imply it.</dd>
-      <dt>Status</dt><dd><span class="ph">PROPOSED</span> The 5% threshold is an example; the owner chooses each threshold (SCI-D02, OPEN).</dd></dl>
+      <dl><dt>Asks</dt><dd>How rough will the next 5, 10 and 20 trading days and 3 months be for this listing, and what is the chance of a fall of 5% or more from a peak within the next 20 trading days?</dd>
+      <dt>Method</dt><dd>The trailing event rate first (R0). Then, only if they qualify, a regularised logistic classifier (R1) or a bounded boosted-tree classifier (R2), with a sigmoid calibration map. A drawdown is its own task: a return range does not imply it. Roughness, restored from MA: a volatility forecast, from trailing and EWMA volatility first, then a volatility model and boosted trees combined and calibrated (<span class="ph">PROPOSED · adapted from MA</span>).</dd>
+      <dt>Status</dt><dd><span class="ph">PROPOSED</span> The 5% threshold is an example; the owner chooses each threshold (SCI-D02, OPEN).</dd>
+      <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Good, MA's expectation; to be proven"><i class="on"></i><i class="on"></i><i class="on"></i><span>Good, MA's expectation; to be proven</span></span></dd></dl>
       <div class="mp-chartbox " style="height:190px;" role="img" aria-label="Illustrative chart of the chance of a 5% drawdown within the next 20 trading days, over 120 trading days: near its base rate of 12% for most of the period, rising to 21% in the last three weeks."><svg viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><line class="k-grid" x1="0" x2="600" y1="130" y2="130"/><line class="k-grid" x1="0" x2="600" y1="70" y2="70"/><line class="k-grid" x1="0" x2="600" y1="10" y2="10"/><line class="k-axis" x1="0" x2="600" y1="190" y2="190"/><line class="k-base" x1="0" x2="560" y1="118" y2="118"/><path class="k-area" d="M0,123.1 L4.7,121.3 L9.4,122.5 L14.1,121.2 L18.8,118.6 L23.5,118.1 L28.2,114.6 L32.9,118.6 L37.6,119 L42.4,121.4 L47.1,123.4 L51.8,123.3 L56.5,122.1 L61.2,120.7 L65.9,119.4 L70.6,113.8 L75.3,113.3 L80,119.5 L84.7,119.3 L89.4,121.4 L94.1,122.7 L98.8,118.8 L103.5,119.9 L108.2,125.5 L112.9,123.5 L117.6,123.7 L122.4,126.2 L127.1,127.4 L131.8,127.5 L136.5,125.9 L141.2,125.8 L145.9,124.4 L150.6,118.6 L155.3,121.4 L160,123.5 L164.7,123.5 L169.4,119.9 L174.1,122.1 L178.8,118 L183.5,122.2 L188.2,124.7 L192.9,123.9 L197.6,125.5 L202.4,126.1 L207.1,123.6 L211.8,121 L216.5,120.7 L221.2,121.5 L225.9,117.7 L230.6,117.5 L235.3,119 L240,116.2 L244.7,119.8 L249.4,119.7 L254.1,118.2 L258.8,119 L263.5,121 L268.2,120.1 L272.9,121.8 L277.6,123.2 L282.4,125.4 L287.1,120.8 L291.8,122.3 L296.5,118.9 L301.2,118.4 L305.9,119.7 L310.6,118.2 L315.3,118.2 L320,118.5 L324.7,122.9 L329.4,122.2 L334.1,119.5 L338.8,118.6 L343.5,116.5 L348.2,113.6 L352.9,114.3 L357.6,110.7 L362.4,117.3 L367.1,118.9 L371.8,126.2 L376.5,122.7 L381.2,122 L385.9,117.2 L390.6,119.2 L395.3,125.1 L400,120.6 L404.7,124.3 L409.4,126.9 L414.1,125.9 L418.8,123 L423.5,123.9 L428.2,122.6 L432.9,127.3 L437.6,121.1 L442.4,121.2 L447.1,120.8 L451.8,119.3 L456.5,119.3 L461.2,119.2 L465.9,122.1 L470.6,122.2 L475.3,119.9 L480,115.9 L484.7,115.2 L489.4,113.4 L494.1,110.7 L498.8,107.2 L503.5,104.8 L508.2,103.6 L512.9,102.6 L517.6,96.6 L522.4,93.7 L527.1,91.5 L531.8,79.7 L536.5,77.1 L541.2,74.6 L545.9,73.8 L550.6,75.6 L555.3,70.3 L560,64 L560,190 L0,190 Z"/><path class="k-line" d="M0,123.1 L4.7,121.3 L9.4,122.5 L14.1,121.2 L18.8,118.6 L23.5,118.1 L28.2,114.6 L32.9,118.6 L37.6,119 L42.4,121.4 L47.1,123.4 L51.8,123.3 L56.5,122.1 L61.2,120.7 L65.9,119.4 L70.6,113.8 L75.3,113.3 L80,119.5 L84.7,119.3 L89.4,121.4 L94.1,122.7 L98.8,118.8 L103.5,119.9 L108.2,125.5 L112.9,123.5 L117.6,123.7 L122.4,126.2 L127.1,127.4 L131.8,127.5 L136.5,125.9 L141.2,125.8 L145.9,124.4 L150.6,118.6 L155.3,121.4 L160,123.5 L164.7,123.5 L169.4,119.9 L174.1,122.1 L178.8,118 L183.5,122.2 L188.2,124.7 L192.9,123.9 L197.6,125.5 L202.4,126.1 L207.1,123.6 L211.8,121 L216.5,120.7 L221.2,121.5 L225.9,117.7 L230.6,117.5 L235.3,119 L240,116.2 L244.7,119.8 L249.4,119.7 L254.1,118.2 L258.8,119 L263.5,121 L268.2,120.1 L272.9,121.8 L277.6,123.2 L282.4,125.4 L287.1,120.8 L291.8,122.3 L296.5,118.9 L301.2,118.4 L305.9,119.7 L310.6,118.2 L315.3,118.2 L320,118.5 L324.7,122.9 L329.4,122.2 L334.1,119.5 L338.8,118.6 L343.5,116.5 L348.2,113.6 L352.9,114.3 L357.6,110.7 L362.4,117.3 L367.1,118.9 L371.8,126.2 L376.5,122.7 L381.2,122 L385.9,117.2 L390.6,119.2 L395.3,125.1 L400,120.6 L404.7,124.3 L409.4,126.9 L414.1,125.9 L418.8,123 L423.5,123.9 L428.2,122.6 L432.9,127.3 L437.6,121.1 L442.4,121.2 L447.1,120.8 L451.8,119.3 L456.5,119.3 L461.2,119.2 L465.9,122.1 L470.6,122.2 L475.3,119.9 L480,115.9 L484.7,115.2 L489.4,113.4 L494.1,110.7 L498.8,107.2 L503.5,104.8 L508.2,103.6 L512.9,102.6 L517.6,96.6 L522.4,93.7 L527.1,91.5 L531.8,79.7 L536.5,77.1 L541.2,74.6 L545.9,73.8 L550.6,75.6 L555.3,70.3 L560,64"/></svg><span class="cl l halo" style="left:0.67%;top:5.00%">30%</span><span class="cl l halo" style="left:0.67%;top:35.00%">20%</span><span class="cl l halo" style="left:0.67%;top:65.00%">10%</span><span class="cl c c-ink2 halo" style="left:50.00%;top:46.00%">base rate 12%</span><span class="cl r c-acc halo" style="left:92.00%;top:26.00%">21% now</span><i class="cd cd-line" style="left:93.33%;top:32.00%"></i></div><div class="mp-chartaxis " aria-hidden="true"><span class="a0" style="left:0.00%">June</span><span class="a1" style="left:100.00%">23 Oct</span></div>
       <p class="cap"><span class="illus">Illustrative</span>Apple: the chance of a 5% drawdown within 20 trading days, now 21% against a base rate of 12%.</p>
     </div>
@@ -1088,7 +1111,8 @@ footer p { max-width: 90ch; }
       <div class="mh"><h3>3 · Similar days</h3><span class="ph">F4 · PROPOSED</span></div>
       <dl><dt>Asks</dt><dd>What followed the 20 days since 2015 most like today, after 5 and 20 trading days and 3 months?</dd>
       <dt>Method</dt><dd>Nearest neighbours on trailing 20 and 60-session returns, 20-session volatility and 60-session drawdown, scaled inside the training window. At most 20 neighbours, searched over every eligible session since 2015, about ten years (owner, 3 November 2026), so 2020 and 2022 are in the pool. Where a listing's history is shorter, the search uses what there is and says so. A case counts only if its whole outcome was known before today's cutoff, and overlapping windows of the same company are dropped.</dd>
-      <dt>Status</dt><dd><span class="ph">PROPOSED</span> Easy to explain. Descriptive cases, not a calibrated chance, until it qualifies.</dd></dl>
+      <dt>Status</dt><dd><span class="ph">PROPOSED</span> Easy to explain. Descriptive cases, not a calibrated chance, until it qualifies. MA used 30 neighbours and outcomes after 5, 20 and 60 days; the count is a tried configuration, so 30 stays a candidate.</dd>
+      <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Good, and easy to explain"><i class="on"></i><i class="on"></i><i class="on"></i><span>Good, and easy to explain</span></span></dd></dl>
       <div class="mp-chartbox " style="height:210px;" role="img" aria-label="Illustrative strip chart: for each of the 20 most similar days since 2015, what followed after 5 and 20 trading days and 3 months. Higher after 5 days: 13 of 20; after 20 days: 13 of 20; after 3 months: 18 of 20. The coral tick marks the middle."><svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true" focusable="false"><line class="k-grid" x1="0" x2="600" y1="172.5" y2="172.5"/><line class="k-grid" x1="0" x2="600" y1="47.5" y2="47.5"/><line class="k-axis" x1="0" x2="600" y1="110" y2="110"/><line class="k-medtick" x1="94" x2="186" y1="104.9" y2="104.9"/><line class="k-medtick" x1="284" x2="376" y1="95" y2="95"/><line class="k-medtick" x1="474" x2="566" y1="84.7" y2="84.7"/></svg><i class="cd cd-s" style="left:23.03%;top:48.87%"></i><i class="cd cd-s" style="left:18.68%;top:45.98%"></i><i class="cd cd-s" style="left:28.26%;top:52.29%"></i><i class="cd cd-s" style="left:27.48%;top:46.74%"></i><i class="cd cd-s" style="left:23.87%;top:42.83%"></i><i class="cd cd-s" style="left:21.07%;top:46.34%"></i><i class="cd cd-s" style="left:27.97%;top:38.50%"></i><i class="cd cd-s" style="left:24.15%;top:55.18%"></i><i class="cd cd-s" style="left:27.67%;top:48.69%"></i><i class="cd cd-s" style="left:27.28%;top:53.96%"></i><i class="cd cd-s" style="left:23.43%;top:54.49%"></i><i class="cd cd-s" style="left:22.36%;top:50.40%"></i><i class="cd cd-s" style="left:24.45%;top:47.64%"></i><i class="cd cd-s" style="left:22.55%;top:46.29%"></i><i class="cd cd-s" style="left:19.49%;top:45.68%"></i><i class="cd cd-s" style="left:21.12%;top:33.92%"></i><i class="cd cd-s" style="left:26.88%;top:43.27%"></i><i class="cd cd-s" style="left:18.16%;top:60.02%"></i><i class="cd cd-s" style="left:18.19%;top:47.75%"></i><i class="cd cd-s" style="left:24.77%;top:53.40%"></i><i class="cd cd-s" style="left:54.37%;top:60.81%"></i><i class="cd cd-s" style="left:50.88%;top:30.39%"></i><i class="cd cd-s" style="left:53.66%;top:54.62%"></i><i class="cd cd-s" style="left:60.23%;top:32.35%"></i><i class="cd cd-s" style="left:53.09%;top:42.47%"></i><i class="cd cd-s" style="left:49.44%;top:50.85%"></i><i class="cd cd-s" style="left:49.84%;top:38.72%"></i><i class="cd cd-s" style="left:51.26%;top:43.89%"></i><i class="cd cd-s" style="left:58.22%;top:45.72%"></i><i class="cd cd-s" style="left:53.44%;top:65.43%"></i><i class="cd cd-s" style="left:52.62%;top:46.52%"></i><i class="cd cd-s" style="left:50.43%;top:35.76%"></i><i class="cd cd-s" style="left:60.46%;top:41.07%"></i><i class="cd cd-s" style="left:54.14%;top:34.43%"></i><i class="cd cd-s" style="left:51.69%;top:27.97%"></i><i class="cd cd-s" style="left:50.01%;top:42.07%"></i><i class="cd cd-s" style="left:49.96%;top:21.64%"></i><i class="cd cd-s" style="left:51.24%;top:67.22%"></i><i class="cd cd-s" style="left:57.00%;top:50.59%"></i><i class="cd cd-s" style="left:51.03%;top:80.43%"></i><i class="cd cd-s" style="left:84.81%;top:42.63%"></i><i class="cd cd-s" style="left:88.44%;top:21.87%"></i><i class="cd cd-s" style="left:90.06%;top:22.06%"></i><i class="cd cd-s" style="left:88.28%;top:38.63%"></i><i class="cd cd-s" style="left:90.23%;top:43.35%"></i><i class="cd cd-s" style="left:86.98%;top:7.39%"></i><i class="cd cd-s" style="left:88.42%;top:31.54%"></i><i class="cd cd-s" style="left:88.77%;top:65.61%"></i><i class="cd cd-s" style="left:84.04%;top:27.75%"></i><i class="cd cd-s" style="left:91.46%;top:40.52%"></i><i class="cd cd-s" style="left:91.84%;top:43.05%"></i><i class="cd cd-s" style="left:81.84%;top:29.21%"></i><i class="cd cd-s" style="left:92.01%;top:38.75%"></i><i class="cd cd-s" style="left:91.90%;top:7.39%"></i><i class="cd cd-s" style="left:88.57%;top:39.40%"></i><i class="cd cd-s" style="left:81.50%;top:38.38%"></i><i class="cd cd-s" style="left:91.19%;top:19.01%"></i><i class="cd cd-s" style="left:82.45%;top:55.77%"></i><i class="cd cd-s" style="left:91.98%;top:22.15%"></i><i class="cd cd-s" style="left:88.56%;top:45.03%"></i><span class="cl l halo" style="left:0.67%;top:21.59%">+10%</span><span class="cl l halo" style="left:0.67%;top:78.41%">−10%</span></div><div class="mp-chartaxis " aria-hidden="true"><span class="" style="left:23.33%">5 days: +0.8%</span><span class="" style="left:55.00%">20 days: +2.4%</span><span class="" style="left:86.67%">3 months: +4.1%</span></div>
       <p class="cap"><span class="illus">Illustrative</span>Each dot is one similar day; the coral tick is the middle, its value under each column. Higher afterwards: 13, 13 and 18 of the 20.</p>
     </div>
@@ -1097,7 +1121,8 @@ footer p { max-width: 90ch; }
       <dl><dt>Asks</dt><dd>How did this holding move after past rate surprises, inflation surprises, tariffs, conflict, earnings misses, OPEC+ decisions and elections, in the US, UK and India?</dd>
       <dt>Method</dt><dd>Event studies over 5 and 20 sessions: the middle move, its spread, the number of cases and an interval. All seven event kinds are in the first event wave (owner, 3 November 2026). Each event is dated by when it became known, each kind qualifies on its own evidence before it informs a forecast, and a study of past events never feeds a forecast made before the next one. Association, not cause.</dd>
       <dt>Sources</dt><dd>Rates: the Fed (FRED/ALFRED), the Bank of England and the RBI. Inflation: FRED/ALFRED, ONS and MOSPI. Tariffs and conflict: GDELT and the GPR index. OPEC+: EIA prices and OPEC statements. Elections: official calendars. Earnings: issuers' scheduled releases. <span class="ph">PROPOSED</span> each source's rights to be checked.</dd>
-      <dt>Status</dt><dd><span class="key">OWNER-SELECTED</span> the event kinds. <span class="ph">PROPOSED</span> the method. Thin evidence is shown as thin: no fixed case count.</dd></dl>
+      <dt>Status</dt><dd><span class="key">OWNER-SELECTED</span> the event kinds. <span class="ph">PROPOSED</span> the method. Thin evidence is shown as thin: fewer than 8 cases is flagged low evidence, as in MA, a display flag and not a qualification threshold. A kind with a single case since 2015, such as a pandemic, is shown only as low evidence, never as a pattern (<span class="ph">PROPOSED · adapted from MA</span>).</dd>
+      <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Fair"><i class="on"></i><i class="on"></i><i></i><span>Fair</span></span></dd></dl>
       <div class="ev" role="img" aria-label="Illustrative event studies for one holding, 20 trading days after each kind of event: rate surprise minus 2.1% from 14 cases; inflation surprise minus 1.4% from 22; tariffs minus 2.6% from 11; conflict minus 1.2% from 9; earnings miss minus 0.6% from 31; OPEC+ decision minus 0.2% from 16; election plus 0.8% from 6 cases, low evidence.">
         <div class="ev-r"><span>Rate surprise<small>14 cases</small></span><div class="ev-t"><i class="ev-z" style="left:60%"></i><i class="ev-w" style="left:30%;width:18%"></i><i class="ev-d" style="left:39%"></i></div><span class="ev-v">−2.1%</span></div>
         <div class="ev-r"><span>Inflation surprise<small>22 cases</small></span><div class="ev-t"><i class="ev-z" style="left:60%"></i><i class="ev-w" style="left:40%;width:12%"></i><i class="ev-d" style="left:46%"></i></div><span class="ev-v">−1.4%</span></div>
@@ -1115,8 +1140,9 @@ footer p { max-width: 90ch; }
     <div class="mh"><h3>5 · Direction and range</h3><span class="ph">F5 · PROPOSED</span></div>
     <div class="g2" style="margin-top:4px">
       <dl><dt>Asks</dt><dd>For each horizon: the chance of being up, the likely range (10th, 50th and 90th percentile, an 80% central interval, not a guaranteed bound), and the main drivers.</dd>
-      <dt>Method</dt><dd>A rung at a time. R0: the zero-return baseline and the historical return distribution. R1: ridge regression for returns and logistic classifiers for events. R2: histogram gradient-boosted mean, quantile and event models. A sigmoid map, fitted on its own chronological block, calibrates each event. Conformal intervals are retained but not the first choice. Each version is a <code>ModelVersion</code> record with its test scores.</dd>
-      <dt>Status</dt><dd><span class="ph">PROPOSED</span> The least reliable piece; it does the least.</dd></dl>
+      <dt>Method</dt><dd>A rung at a time. R0: the zero-return baseline and the historical return distribution. R1: ridge regression for returns and logistic classifiers for events. R2: histogram gradient-boosted mean, quantile and event models. A sigmoid map, fitted on its own chronological block, calibrates each event. Conformal intervals are retained but not the first choice. As in MA, the R2 model may combine the other modules' outputs (regime, risk, similar days, event studies, patterns) and the matched news as inputs, each admitted only when an ablation shows it adds value (SCI-06; <span class="ph">PROPOSED · adapted from MA</span>). It is refitted on a monthly schedule inside the two campaigns a month, and each refit is a new candidate for the owner. Each version is a <code>ModelVersion</code> record with its test scores.</dd>
+      <dt>Status</dt><dd><span class="ph">PROPOSED</span> The least reliable piece; it does the least.</dd>
+      <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Modest, the least reliable piece"><i class="on"></i><i></i><i></i><span>Modest, the least reliable piece</span></span></dd></dl>
       <div>
         <p class="small ink2" style="margin:8px 0 0">Main drivers, Apple, 20 trading days: from a base rate of 57% for being up to 52% today.</p>
         <div class="drv" role="img" aria-label="Illustrative drivers of the chance of being up: momentum fading minus 4 points, US yields rising minus 3, earnings in six days minus 2, range breakout lower minus 2, calm credit spreads plus 3, similar days mostly higher plus 2, sector strength plus 1.">
@@ -1135,16 +1161,17 @@ footer p { max-width: 90ch; }
   <div class="card model" style="margin-top:16px">
     <div class="mh"><h3>6 · Patterns</h3><span class="ph">F8 · PROPOSED</span></div>
     <dl><dt>Asks</dt><dd>Is a simple chart pattern on this listing today, and what followed it before?</dd>
-    <dt>Method</dt><dd>Two causal detectors first, on completed bars only: the trailing 20-session average crossing the 60-session average, and a close above or below the prior 20 sessions' range. Each pattern's effect is measured as an event study, point in time. Candlestick patterns stay retained requirements, not yet active. A fund priced once a day never gets candle features. Whether a detector is correct and whether it adds predictive value are two separate checks.</dd>
-    <dt>Status</dt><dd><span class="ph">PROPOSED</span> Shown only where its event study shows an edge; every extra detector uses up trial budget.</dd></dl>
-    <p class="cap"><span class="illus">Illustrative</span>Apple: the 20-session average crossed below the 60-session average on Wed 14 Oct. After such crossings in the last three years, it was lower 20 days later in 6 of 9 cases.</p>
+    <dt>Method</dt><dd>Two causal detectors first, on completed bars only: the trailing 20-session average crossing the 60-session average, and a close above or below the prior 20 sessions' range. Each pattern's effect is measured as an event study, point in time. The rest of MA's catalogue follows in later waves, each detector costing trial budget: candlestick patterns (engulfing, hammer and shooting star, doji, morning and evening star, inside bars) and chart patterns (support and resistance, breakouts, double tops and bottoms, head and shoulders, trend channels), with ADX, stochastics, on-balance volume, Ichimoku, and Donchian and Keltner channels as features of the risk and direction models (<span class="ph">PROPOSED · adapted from MA</span>). A fund priced once a day never gets candle features. Whether a detector is correct and whether it adds predictive value are two separate checks.</dd>
+    <dt>Status</dt><dd><span class="ph">PROPOSED</span> Shown only where its event study shows an edge; every extra detector uses up trial budget.</dd>
+    <dt>Trust</dt><dd><span class="trust" aria-label="Expected trust: Fair, and shown only where a pattern shows an edge"><i class="on"></i><i class="on"></i><i></i><span>Fair, and shown only where a pattern shows an edge</span></span></dd></dl>
+    <p class="cap"><span class="illus">Illustrative</span>Apple: the 20-session average crossed below the 60-session average on Wed 14 Oct. After such crossings since 2015, it was lower 20 days later in 6 of 9 cases. A later-wave example, as in MA: support near −1% held in 9 of 14 tests.</p>
   </div>
 
   <h3 style="margin-top:28px">How they combine and are calibrated</h3>
   <ol class="flow" style="--n:5">
     <li><h4>Inputs freeze at the cutoff</h4><p>Prices, events and features known by close +60 minutes, each stamped with when it became known. Regime, risk, similar days, events and patterns are computed from them.</p><div class="chips"><span class="aws">S3 lake</span></div></li>
-    <li><h4>Task models</h4><p>For each task and horizon: the R0 baseline, then any R1 or R2 model the owner has promoted.</p><div class="chips"><span class="aws">Lambda inference</span></div></li>
-    <li><h4>Calibration map</h4><p>Raw chances become calibrated ones, so a 70% means about 70%. The map is frozen with its model; daily scoring never changes it.</p></li>
+    <li><h4>Task models</h4><p>For each task and horizon: the R0 baseline, then any R1 or R2 model the owner has promoted. The direction model may take the other modules' outputs and the matched news as inputs.</p><div class="chips"><span class="aws">Lambda inference</span></div></li>
+    <li><h4>Calibration map</h4><p>Raw chances become calibrated ones, so a 70% means about 70%. Code grades the map daily on matured forecasts and adjusts it only inside the owner's bands, on probation, with automatic rollback (section 7).</p></li>
     <li><h4>One Prediction record</h4><p>Chance up, chance of a 5% drawdown, range q10, q50 and q90, regime, similar days, events, drivers, cutoff, model and calibrator versions. Issued by close +75.</p><div class="chips"><span class="aws">DynamoDB</span></div></li>
     <li class="hl"><h4>Sonnet explains</h4><p>It writes the "Why?" in plain words from the frozen record. It never changes a number.</p><div class="chips"><span class="key">Claude Sonnet</span></div></li>
   </ol>
@@ -1153,13 +1180,14 @@ footer p { max-width: 90ch; }
       <h3>Said vs seen</h3>
       <p class="small ink2">A reliability chart. The dashed diagonal is perfect: said equals seen. Hollow dots: a model before calibration, too sure of itself at both ends. Filled dots: after, on the diagonal.</p>
       <div class="mp-chartbox sq" style="" role="img" aria-label="Illustrative reliability chart: before calibration, a model that says 90% is right about 78% of the time and one that says 10% about 22% (hollow dots); after calibration the filled dots sit on the diagonal, where said equals seen."><svg viewBox="0 0 300 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><line class="k-grid" x1="85" x2="85" y1="20" y2="280"/><line class="k-grid" x1="20" x2="280" y1="215" y2="215"/><line class="k-grid" x1="150" x2="150" y1="20" y2="280"/><line class="k-grid" x1="20" x2="280" y1="150" y2="150"/><line class="k-grid" x1="215" x2="215" y1="20" y2="280"/><line class="k-grid" x1="20" x2="280" y1="85" y2="85"/><line class="k-base" x1="20.0" y1="280.0" x2="280.0" y2="20.0"/><rect class="k-frame" x="20" y="20" width="260" height="260"/></svg><i class="cd cd-hollow" style="left:15.33%;top:70.21%"></i><i class="cd cd-fill" style="left:15.33%;top:85.70%"></i><i class="cd cd-hollow" style="left:24.00%;top:67.52%"></i><i class="cd cd-fill" style="left:24.00%;top:75.77%"></i><i class="cd cd-hollow" style="left:32.67%;top:60.69%"></i><i class="cd cd-fill" style="left:32.67%;top:69.52%"></i><i class="cd cd-hollow" style="left:41.33%;top:56.79%"></i><i class="cd cd-fill" style="left:41.33%;top:59.84%"></i><i class="cd cd-hollow" style="left:50.00%;top:51.86%"></i><i class="cd cd-fill" style="left:50.00%;top:51.32%"></i><i class="cd cd-hollow" style="left:58.67%;top:44.82%"></i><i class="cd cd-fill" style="left:58.67%;top:41.78%"></i><i class="cd cd-hollow" style="left:67.33%;top:39.44%"></i><i class="cd cd-fill" style="left:67.33%;top:32.01%"></i><i class="cd cd-hollow" style="left:76.00%;top:32.75%"></i><i class="cd cd-fill" style="left:76.00%;top:28.99%"></i><i class="cd cd-hollow" style="left:84.67%;top:23.67%"></i><i class="cd cd-fill" style="left:84.67%;top:15.94%"></i><span class="cl c c-ink2 tiny b" style="left:50.00%;top:99.33%">said</span><span class="cl c c-ink2 tiny vr" style="left:2.00%;top:50.00%">seen</span></div>
-      <p class="cap"><span class="illus">Illustrative</span>Drawn only from held-out folds and matured outcomes, with the count in each bucket (section 7).</p>
+      <p class="cap"><span class="illus">Illustrative</span>Drawn only from held-out folds and matured outcomes, with the count in each bucket, and graded daily (section 7).</p>
     </div>
     <div class="card">
       <h3>Where it runs</h3>
       <ul class="list small">
         <li>Daily forecasts run in a <span class="aws">Lambda</span> from approved, versioned artefacts, coordinated by Lambda Durable Functions in Python. No always-on endpoint.</li>
         <li>Training runs in capped <span class="aws">SageMaker</span> CPU jobs: at most two campaigns a month across dev and prod, each one declared task, horizon and market group, with up to 96 fits and 6 instance-hours (POLICY-008, OWNER-SELECTED). Baselines run in ordinary compute.</li>
+        <li>Daily grading and the in-band calibration adjustments are deterministic code in an ordinary Lambda: no training job and no agent. A one-off backfill of event history (GDELT, rights unverified) would run as a capped job, as in MA (<span class="ph">PROPOSED</span>).</li>
         <li>Artefacts sit in private S3, behind <code>ModelVersion</code> records: task, horizon, training cutoff, folds, calibrator, scores and state.</li>
         <li>The 12 training instance-hours a month cost about $1.38 at the Virginia ml.m5.large rate of $0.115 an hour. Claude routes are priced in the cost model, inside the £100 all-in ceiling.</li>
       </ul>
@@ -1170,7 +1198,7 @@ footer p { max-width: 90ch; }
 <!-- 6 -->
 <section class="sec" id="s6" aria-labelledby="s6-h">
   <header class="sh"><span class="num">6</span><div><p class="over">Side by side</p><h2 id="s6-h">Rules and models in one card, and one page per listing</h2><div class="keys"><span class="ph">PROPOSED · F6</span><span class="ph">PH-06 · L6-S02, L6-S03</span><span class="ph">OPEN · screens not designed</span></div></div></header>
-  <p class="intro">The rules' call and the models' view sit together, each with its own proof. When they disagree, the card says so. When the evidence is thin, MP abstains and names the reason: no clear view, too little history, stale input, or a paused model. A challenger the owner has not promoted is labelled "in practice" and appears only on the listing's Forecast page. Cards reach the owner in the MP app's chat, in the PWA, and in the 07:30 London briefing, never during quiet hours from 22:00 to 07:00. US, UK and Indian listings get the same card from the start. Both views are designed in the UX phase, before any build.</p>
+  <p class="intro">The rules' call and the models' view sit together, each with its own proof. When they disagree, the card says so. When the evidence is thin, MP abstains and names the reason: no clear view, too little history, stale input, or a paused model. A challenger the owner has not promoted is labelled "in practice" and appears only on the listing's Forecast page. Cards reach the owner in the MP app's chat, in the PWA, and in the 07:30 London briefing, never during quiet hours from 22:00 to 07:00. US, UK and Indian listings get the same card from the start. In MA the model view reached the daily card only after 8 live weeks beating both the base rate and the rules; whether MP keeps that as a minimum beside the owner's promotion is <span class="ph mp-alertchip">OPEN</span> (FC-09). Both views are designed in the UX phase, before any build.</p>
   <div class="tgwrap">
     <div class="tgchat" aria-label="Card in the MP app's chat, illustrative figures">
       <div class="tg-head"><span class="tg-av">MP</span><div>MyPrediction<small>app chat · illustrative</small></div></div>
@@ -1183,7 +1211,7 @@ footer p { max-width: 90ch; }
           <span class="in">Chance of a 5% drawdown</span><span>21%  <span class="tg-sub">(base rate 12%)</span></span>
           <span class="in">Likely range, 80%</span><span>−7% … +6%</span>
           <span class="in">Regime</span><span>Falling, since 5 Oct</span>
-          <span class="in">Similar days</span><span>20 in 3 years; 13 ended higher</span>
+          <span class="in">Similar days</span><span>20 since 2015; 13 ended higher</span>
           <span class="in">Main drivers</span><span>momentum fading, US yields rising, earnings in 6 days</span>
         </div>
         <div class="tg-quote">As of the 23 Oct close. Cutoff 22:00, issued 22:15 London; held for quiet hours. Model R1 v2, active.</div>
@@ -1230,9 +1258,9 @@ footer p { max-width: 90ch; }
           </div>
           <div class="card">
             <h4>Regime</h4>
-            <div class="moodrow" role="img" aria-label="Regime timeline, illustrative: rising with normal volatility in August, rising with high volatility in September, falling since 5 October. A description of the past, not a forecast."><span class="mseg m-calm" style="left:0.00%;width:23.96%"></span><span class="mseg m-chop" style="left:23.96%;width:26.04%"></span><span class="mseg m-stress" style="left:50.00%;width:15.62%"></span></div>
-            <div class="mlegend"><span><i class="sw m-calm"></i>Rising, normal volatility</span><span><i class="sw m-chop"></i>Rising, high volatility</span><span><i class="sw m-stress"></i>Falling, since 5 Oct</span></div>
-            <p class="cap">A description of the trailing 60 sessions. MP does not forecast the regime.</p>
+            <div class="moodrow" role="img" aria-label="Regime timeline, illustrative: rising with normal volatility in August, rising with high volatility in September, falling since 5 October, a description of the past; then, if MA's mood forecast qualifies, the next 20 trading days: falling 71%."><span class="mseg m-calm" style="left:0.00%;width:23.96%"></span><span class="mseg m-chop" style="left:23.96%;width:26.04%"></span><span class="mseg m-stress" style="left:50.00%;width:15.62%"></span><span class="mseg m-next" style="left:65.62%;width:20.83%"></span></div>
+            <div class="mlegend"><span><i class="sw m-calm"></i>Rising, normal volatility</span><span><i class="sw m-chop"></i>Rising, high volatility</span><span><i class="sw m-stress"></i>Falling, since 5 Oct</span><span><i class="sw m-next"></i>Next 20 days, if it qualifies: falling 71%</span></div>
+            <p class="cap">A description of the trailing 60 sessions. A forecast of the next 20 days' mood, as in MA, appears only if that challenger qualifies and the owner promotes it (<span class="ph">PROPOSED · adapted from MA</span>).</p>
           </div>
           <div class="card">
             <h4>Similar days, drawn over today's chart</h4>
@@ -1241,6 +1269,22 @@ footer p { max-width: 90ch; }
           </div>
         </div>
         <div class="wp-col">
+          <div class="card">
+            <h4>Event impacts, 20 trading days after</h4>
+            <div class="tscroll" style="box-shadow:none;margin-top:6px">
+              <table class="tbl">
+                <thead><tr><th>Event</th><th class="n">Cases</th><th class="n">After</th></tr></thead>
+                <tbody>
+                  <tr><td>Tariffs</td><td class="n">11</td><td class="n">−2.6%</td></tr>
+                  <tr><td>Rate surprise</td><td class="n">14</td><td class="n">−2.1%</td></tr>
+                  <tr><td>Inflation surprise</td><td class="n">22</td><td class="n">−1.4%</td></tr>
+                  <tr><td>Conflict</td><td class="n">9</td><td class="n">−1.2%</td></tr>
+                  <tr><td>Election<br><span class="chip mp-neutral" style="font-size:11px;padding:0 6px">low evidence</span></td><td class="n">6</td><td class="n">+0.8%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="cap">Restored from MA's page; the same studies as section 5. Association, not cause.</p>
+          </div>
           <div class="card">
             <h4>Earnings, after each release</h4>
             <div class="tscroll" style="box-shadow:none;margin-top:6px">
@@ -1276,6 +1320,9 @@ footer p { max-width: 90ch; }
               <div class="wk ok"><b>✓</b>1d</div><div class="wk ok"><b>✓</b>5d</div><div class="wk ok"><b>✓</b>10d</div><div class="wk ok"><b>✓</b>20d</div><div class="wk"><b>·</b>3m</div><div class="wk miss"><b>·</b>6m</div><div class="wk miss"><b>·</b>12m</div><div class="wk miss"><b>~</b>3–5y</div>
             </div>
             <p class="cap">Ticked: an eligible model or baseline. 3 months: in practice. 6 and 12 months: waiting for mature outcomes, with the baseline shown. 3 to 5 years: scenarios, never scored.</p>
+            <p class="small ink2" style="margin:12px 0 0">20 days, a challenger in practice: live weeks beating both the base rate and the rules</p>
+            <div class="weeks" role="img" aria-label="Illustrative live weeks for a 20-day challenger: five weeks beat both the base rate and the rules, three to go."><div class="wk ok"><b>✓</b>W1</div><div class="wk ok"><b>✓</b>W2</div><div class="wk ok"><b>✓</b>W3</div><div class="wk ok"><b>✓</b>W4</div><div class="wk ok"><b>✓</b>W5</div><div class="wk"><b>·</b>W6</div><div class="wk"><b>·</b>W7</div><div class="wk"><b>·</b>W8</div></div>
+            <p class="cap">MA's 8-week minimum, for the short horizons only; whether MP adopts it is <span class="ph mp-alertchip">OPEN</span> (FC-09).</p>
           </div>
         </div>
       </div>
@@ -1287,16 +1334,17 @@ footer p { max-width: 90ch; }
 
 <!-- 7 -->
 <section class="sec" id="s7" aria-labelledby="s7-h">
-  <header class="sh"><span class="num">7</span><div><p class="over">The learning loop</p><h2 id="s7-h">Freeze, wait, score, propose, and only the owner promotes</h2><div class="keys"><span class="key">OWNER-SELECTED · owner promotes</span><span class="ph">PROPOSED · SCI-07</span><span class="ph">PH-04 · L4-S07, L4-S08</span></div></div></header>
-  <p class="intro">Learning here is controlled. Every forecast is frozen as it was made, with its cutoff and the versions of its task, data, features, model and calibrator. It is scored only after its horizon has passed and its outcome is published. A tuner may propose a better candidate. It cannot promote itself, and it cannot change live calibration. The owner approves every promotion, with the evidence beside it. Research agents may summarise and cite sources; they cannot change model weights, publish a forecast, read secrets or trade.</p>
+  <header class="sh"><span class="num">7</span><div><p class="over">The learning loop, daily</p><h2 id="s7-h">Grade every day, correct within bands, and only the owner promotes</h2><div class="keys"><span class="key">OWNER-SELECTED · bounded self-correction, 3 Nov 2026</span><span class="key">OWNER-SELECTED · owner promotes</span><span class="ph mp-alertchip">OPEN · band sizes</span><span class="ph">PROPOSED · SCI-07</span><span class="ph">PH-04 · L4-S07, L4-S08</span></div></div></header>
+  <p class="intro">Learning here is bounded (owner, 3 November 2026). Every forecast is frozen as it was made, with its cutoff and the versions of its task, data, features, model and calibrator, and graded only after its horizon has passed and its outcome is published. After each close, code, never a Claude agent, grades every forecast that has matured and makes small calibration and weighting adjustments by itself, inside bands the owner approves in advance; an adjustment that makes the scores worse is rolled back on its own. New models, new features, new rules and anything outside a band still wait for the owner, and the automatic safety pause (POLICY-003) stays. The band sizes are <span class="ph mp-alertchip">OPEN</span>: the owner approves them before go-live. Research agents may summarise and cite sources; they cannot change model weights, publish a forecast, read secrets or trade.</p>
   <ol class="flow" style="--n:6">
     <li><h4>Freeze it as made</h4><p>Every rules call and forecast, with its cutoff and versions. Append-only: never rewritten.</p><div class="chips"><span class="aws">DynamoDB</span><span class="aws">S3</span></div></li>
-    <li><h4>Wait for the horizon</h4><p>Next day, 5, 10 or 20 sessions, or 3, 6 or 12 months, and the outcome's publication. A 12-month forecast waits a year.</p></li>
-    <li><h4>Score it</h4><p>Realised return, hit or miss, Brier score, log loss, pinball loss, inside its range or not. A late correction adds a new <code>Outcome</code> and <code>Score</code>; both survive.</p><div class="chips"><span class="aws">DynamoDB</span></div></li>
-    <li><h4>Propose</h4><p>A campaign may fit a new candidate or calibrator, inside the monthly caps. It is only a candidate.</p></li>
-    <li><h4>Shadow</h4><p>The candidate forecasts beside the live model, frozen and scored the same way, with no authority.</p></li>
-    <li class="hl"><h4>The owner approves</h4><p>Approval binds the exact artefact, calibrator, tasks, scope, evidence, expiry and the previous safe version.</p></li>
+    <li><h4>Grade after each close</h4><p>Every forecast whose horizon has passed and whose outcome is published: realised return, hit or miss, Brier, log loss, pinball loss, inside its range or not. A late correction adds a new <code>Outcome</code> and <code>Score</code>; both survive.</p><div class="chips"><span class="aws">DynamoDB</span></div></li>
+    <li><h4>Adjust within bands</h4><p>Code refits the calibration map and the weights that combine the views on a rolling window. A change is used only if it does better on the held-back part, only where a bucket has enough cases, and only inside its band.</p><div class="chips"><span class="aws">Lambda</span></div></li>
+    <li><h4>Probation</h4><p>Each adjustment is watched for a set number of trading days. One that does worse is rolled back on its own to the last good map.</p></li>
+    <li><h4>Report</h4><p>A line in Activity each day, the scoreboard in the weekly review, and a monthly note on what changed and why.</p></li>
+    <li class="hl"><h4>Outside a band: the owner</h4><p>A new model, feature or rule, or any change beyond its band, becomes a request with its evidence. Only the owner approves.</p></li>
   </ol>
+  <p class="cap">Daily grading, in-band adjustment and automatic rollback are <span class="key">OWNER-SELECTED</span>. MA's settings, at most 2 points per bucket a day and 10 trading days of probation, are the starting proposal; the band sizes and the probation length are <span class="ph mp-alertchip">OPEN</span> until the owner approves them before go-live.</p>
 
   <div class="g2">
     <div class="card">
@@ -1317,17 +1365,17 @@ footer p { max-width: 90ch; }
       <p class="cap"><code>Score</code> records roll up per model, listing, horizon and regime over 30, 90 and 365 days, with the sample size and what is still waiting to mature.</p>
     </div>
     <div class="card">
-      <h3>Calibration is frozen with its model</h3>
-      <div class="mp-chartbox " style="height:190px;" role="img" aria-label="Illustrative chart: the served calibration map for the 70% bucket stays at 70% while a refitted candidate map at 64% runs in shadow; the served map changes to 64% only on the day the owner approves the candidate."><svg viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="k-band" x="89.1" y="0" width="316.4" height="200"/><line class="k-grid" x1="0" x2="600" y1="170.4" y2="170.4"/><line class="k-grid" x1="0" x2="600" y1="139.1" y2="139.1"/><line class="k-grid" x1="0" x2="600" y1="107.8" y2="107.8"/><line class="k-grid" x1="0" x2="600" y1="76.5" y2="76.5"/><line class="k-grid" x1="0" x2="600" y1="45.3" y2="45.3"/><path class="k-alt" d="M89.1,139.1 L405.5,139.1"/><path class="k-line" d="M10,45.3 L405.5,45.3 L405.5,139.1 L590,139.1"/></svg><span class="cl l halo" style="left:0.67%;top:22.64%">70%</span><span class="cl l halo" style="left:0.67%;top:53.91%">66%</span><span class="cl l halo" style="left:0.67%;top:85.18%">62%</span><span class="cl l c-acc halo" style="left:16.5%;top:13.5%">served map, frozen</span><span class="cl c c-ink2 halo" style="left:41%;top:78%">candidate in shadow: 64%</span><span class="cl l c-acc halo" style="left:69.5%;top:60%">after approval</span></div><div class="mp-chartaxis " aria-hidden="true"><span class="" style="left:14.85%">candidate fitted</span><span class="" style="left:67.58%">owner approves</span><span class="a1" style="left:100.00%">illustrative</span></div>
-      <p class="cap"><span class="illus">Illustrative</span>The 70% bucket of one model. The served map stays at 70% while a refitted candidate, at 64%, runs in shadow. It changes only when the owner promotes the candidate.</p>
+      <h3>Calibration moves a little, then waits</h3>
+      <div class="mp-chartbox " style="height:190px;" role="img" aria-label="Illustrative chart: the refit says the 70% bucket is really seen 64% of the time; the live map moves from 70 to 64 two points a day over three days, then serves ten trading days of probation, and would step back to 70 on its own if it did worse. The band sizes are MA's, shown for illustration."><svg viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="k-band" x="141.8" y="0" width="263.6" height="200"/><line class="k-grid" x1="0" x2="600" y1="170.4" y2="170.4"/><line class="k-grid" x1="0" x2="600" y1="139.1" y2="139.1"/><line class="k-grid" x1="0" x2="600" y1="107.8" y2="107.8"/><line class="k-grid" x1="0" x2="600" y1="76.5" y2="76.5"/><line class="k-grid" x1="0" x2="600" y1="45.3" y2="45.3"/><line class="k-base" x1="62.7" x2="590" y1="139.1" y2="139.1"/><path class="k-line" d="M10,45.3 L89.1,45.3 L89.1,76.5 L115.5,76.5 L115.5,107.8 L141.8,107.8 L141.8,139.1 L590,139.1"/><path class="k-alt" d="M405.5,139.1 L405.5,45.3 L590,45.3"/></svg><span class="cl l halo" style="left:0.67%;top:22.64%">70%</span><span class="cl l halo" style="left:0.67%;top:53.91%">66%</span><span class="cl l halo" style="left:0.67%;top:85.18%">62%</span><span class="cl l c-acc halo" style="left:24.97%;top:41.40%">−2 a day: MA's band</span><span class="cl c c-ink2 halo" style="left:45.61%;top:80.49%">10 days on probation</span></div><div class="mp-chartaxis " aria-hidden="true"><span class="a0" style="left:1.67%">day 0</span><span class="" style="left:14.85%">refit</span><span class="" style="left:67.58%">probation ends</span><span class="a1" style="left:100.00%">day 22</span></div>
+      <p class="cap"><span class="illus">Illustrative</span>The 70% bucket of one model, with MA's band: the refit says 70% is really seen 64% of the time, so the map steps down 2 points a day, then serves 10 trading days of probation. The dotted line shows the automatic rollback that would follow a worse probation. A move bigger than the band waits for the owner.</p>
     </div>
   </div>
 
   <div class="g2">
     <div class="card">
-      <h3>Challengers: offline evidence, then shadow</h3>
-      <p class="small">A challenger first passes the qualification lab on held-out years (section 9). It then runs in shadow until enough of its own forecasts have matured. One that beats the strongest simple baseline by more than a margin, with an interval that favours it and no subgroup made worse, becomes a promotion request to the owner, with the scores side by side.</p>
-      <p class="small">The owner decides in the app's chat or on the admin Approvals page, in the app or the PWA, after a fresh, strong sign-in checked by the server. Deciding in one place updates the others. The previous version stays pinned as the safe one, and a rollback is the owner's call too.</p>
+      <h3>Challengers: held-out years, then shadow</h3>
+      <p class="small">A challenger first passes the qualification lab on held-out years (section 9). It then runs in shadow until enough of its own forecasts have matured. One that beats the strongest simple baseline by more than a margin, with an interval that favours it and no subgroup made worse, becomes a promotion request to the owner, with the scores side by side. As in MA, the monthly refit, other parameters and rule thresholds within their ranges are challengers too; the in-band loop never applies them. MA also required 8 live weeks; that minimum is <span class="ph mp-alertchip">OPEN</span> (FC-09).</p>
+      <p class="small">The owner decides in the app's chat or on the admin Approvals page, in the app or the PWA, after a fresh, strong sign-in checked by the server. Deciding in one place updates the others. The previous version stays pinned as the safe one. In MA a promoted model that slipped was restored on its own; in MP a model rollback is the owner's call today (POLICY-003), and whether to automate it is <span class="ph mp-alertchip">OPEN</span>.</p>
     </div>
     <div class="tgchat" aria-label="Illustrative promotion request in the owner's chat in the MP app">
       <div class="tg-head"><span class="tg-av">MP</span><div>MyPrediction<small>admin chat · illustrative</small></div></div>
@@ -1337,8 +1385,8 @@ footer p { max-width: 90ch; }
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h3>Why nothing is retuned daily</h3>
-    <p class="small">A day's outcomes are mostly noise, and a system that chases yesterday learns noise. Scores accumulate every day; calibration and structure change only through a new candidate, its evidence and the owner's approval. That is how accuracy, and above all honest confidence, can grow over the years.</p>
+    <h3>Why the rules themselves are not retuned daily</h3>
+    <p class="small">A day's outcomes are mostly noise, and a system that chases yesterday learns noise. Calibration and weighting move a little every day, inside their bands; structure (models, features and rules) moves only on weeks of evidence and the owner's approval. That is how accuracy, and above all honest confidence, can grow over the years.</p>
     <div class="mp-chartbox " style="height:190px;" role="img" aria-label="Illustrative chart over 160 trading days: the hit rate of one day's matured 5-day forecasts across five listings jumps between 0% and 100%, while the 90-day hit rate stays close to 60%."><svg viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><line class="k-grid" x1="0" x2="600" y1="190" y2="190"/><line class="k-grid" x1="0" x2="600" y1="100" y2="100"/><line class="k-grid" x1="0" x2="600" y1="10" y2="10"/><path class="k-jag" d="M0,154 L3.8,46 L7.5,46 L11.3,82 L15.1,118 L18.9,46 L22.6,82 L26.4,82 L30.2,118 L34,154 L37.7,46 L41.5,82 L45.3,82 L49.1,46 L52.8,46 L56.6,154 L60.4,46 L64.2,82 L67.9,190 L71.7,118 L75.5,118 L79.2,82 L83,46 L86.8,46 L90.6,82 L94.3,46 L98.1,118 L101.9,46 L105.7,82 L109.4,46 L113.2,10 L117,82 L120.8,118 L124.5,82 L128.3,82 L132.1,82 L135.8,10 L139.6,118 L143.4,82 L147.2,82 L150.9,82 L154.7,46 L158.5,10 L162.3,82 L166,46 L169.8,10 L173.6,82 L177.4,82 L181.1,82 L184.9,118 L188.7,10 L192.5,46 L196.2,118 L200,118 L203.8,46 L207.5,118 L211.3,154 L215.1,46 L218.9,82 L222.6,46 L226.4,46 L230.2,46 L234,118 L237.7,82 L241.5,118 L245.3,46 L249.1,46 L252.8,46 L256.6,46 L260.4,118 L264.2,82 L267.9,82 L271.7,82 L275.5,82 L279.2,82 L283,118 L286.8,46 L290.6,82 L294.3,46 L298.1,46 L301.9,10 L305.7,118 L309.4,82 L313.2,82 L317,82 L320.8,82 L324.5,82 L328.3,82 L332.1,118 L335.8,118 L339.6,82 L343.4,154 L347.2,82 L350.9,118 L354.7,82 L358.5,154 L362.3,10 L366,82 L369.8,46 L373.6,46 L377.4,82 L381.1,46 L384.9,46 L388.7,46 L392.5,118 L396.2,46 L400,46 L403.8,82 L407.5,154 L411.3,82 L415.1,46 L418.9,82 L422.6,118 L426.4,118 L430.2,82 L434,118 L437.7,82 L441.5,10 L445.3,82 L449.1,154 L452.8,82 L456.6,118 L460.4,82 L464.2,118 L467.9,82 L471.7,82 L475.5,46 L479.2,118 L483,46 L486.8,82 L490.6,10 L494.3,46 L498.1,118 L501.9,118 L505.7,82 L509.4,118 L513.2,82 L517,82 L520.8,118 L524.5,82 L528.3,82 L532.1,154 L535.8,118 L539.6,82 L543.4,46 L547.2,10 L550.9,82 L554.7,82 L558.5,82 L562.3,82 L566,154 L569.8,82 L573.6,46 L577.4,154 L581.1,10 L584.9,82 L588.7,46 L592.5,46 L596.2,10 L600,118"/><path class="k-line" d="M0,83.2 L3.8,82.4 L7.5,82 L11.3,82 L15.1,82.4 L18.9,82.4 L22.6,81.6 L26.4,81.6 L30.2,82.4 L34,83.2 L37.7,83.2 L41.5,83.6 L45.3,84 L49.1,83.6 L52.8,82.8 L56.6,84 L60.4,84 L64.2,84 L67.9,85.6 L71.7,86.4 L75.5,86.4 L79.2,86 L83,85.6 L86.8,84.8 L90.6,85.2 L94.3,85.2 L98.1,86 L101.9,86.4 L105.7,86 L109.4,85.2 L113.2,84.8 L117,84.4 L120.8,84.4 L124.5,84 L128.3,84.4 L132.1,84.4 L135.8,83.2 L139.6,82.8 L143.4,83.2 L147.2,82.4 L150.9,82.4 L154.7,82 L158.5,81.2 L162.3,82 L166,82 L169.8,80.8 L173.6,80.4 L177.4,80 L181.1,80 L184.9,80.4 L188.7,79.6 L192.5,79.2 L196.2,79.6 L200,80 L203.8,80 L207.5,80.4 L211.3,81.2 L215.1,80.8 L218.9,80.8 L222.6,80 L226.4,79.6 L230.2,79.2 L234,79.2 L237.7,79.6 L241.5,80 L245.3,80 L249.1,79.2 L252.8,79.6 L256.6,78.8 L260.4,79.2 L264.2,78.8 L267.9,78.8 L271.7,79.2 L275.5,79.6 L279.2,79.2 L283,79.6 L286.8,79.2 L290.6,79.2 L294.3,78 L298.1,77.6 L301.9,76.8 L305.7,77.6 L309.4,78 L313.2,78.4 L317,78.4 L320.8,77.6 L324.5,77.6 L328.3,77.6 L332.1,77.6 L335.8,78 L339.6,77.2 L343.4,78.4 L347.2,78.8 L350.9,79.2 L354.7,78.8 L358.5,80 L362.3,79.2 L366,79.2 L369.8,78.4 L373.6,77.2 L377.4,77.6 L381.1,77.2 L384.9,76.8 L388.7,76.8 L392.5,77.6 L396.2,76.4 L400,76.4 L403.8,76.4 L407.5,76 L411.3,75.6 L415.1,74.8 L418.9,74.8 L422.6,75.6 L426.4,76.4 L430.2,76.4 L434,77.2 L437.7,76.8 L441.5,76.4 L445.3,76.4 L449.1,77.6 L452.8,78.4 L456.6,78.8 L460.4,78.4 L464.2,78.8 L467.9,78.8 L471.7,78.8 L475.5,79.2 L479.2,79.2 L483,78.8 L486.8,78.8 L490.6,78 L494.3,78 L498.1,79.2 L501.9,79.6 L505.7,80 L509.4,81.2 L513.2,81.2 L517,81.2 L520.8,81.6 L524.5,81.2 L528.3,82 L532.1,83.2 L535.8,83.2 L539.6,82.8 L543.4,82.8 L547.2,81.6 L550.9,80.8 L554.7,81.2 L558.5,81.2 L562.3,81.6 L566,82.8 L569.8,83.2 L573.6,82.4 L577.4,83.2 L581.1,82 L584.9,82.4 L588.7,82.4 L592.5,82.4 L596.2,82 L600,82"/></svg><span class="cl l halo" style="left:0.67%;top:5.00%">100%</span><span class="cl l halo" style="left:0.67%;top:50.00%">50%</span><span class="cl l halo" style="left:0.67%;top:95.00%">0%</span><span class="cl r c-acc halo" style="left:99.00%;top:33.00%">90-day hit rate: 60%</span></div><div class="mp-chartaxis " aria-hidden="true"><span class="a0" style="left:0.00%">160 trading days</span><span class="a1" style="left:100.00%">illustrative</span></div>
     <p class="cap"><span class="illus">Illustrative</span>Grey: the hit rate of one day's matured 5-day forecasts across five listings. Coral: the same over 90 days.</p>
   </div>
@@ -1352,6 +1400,9 @@ footer p { max-width: 90ch; }
     <div class="card">
       <h3>The rules it keeps</h3>
       <ul class="rules">
+        <li><span><strong>Contributions always continue.</strong> Money keeps going in every month; the question is only where. <span class="ph">PROPOSED · adapted from MA</span></span></li>
+        <li><span><strong>New money tilts away from stress</strong>: from listings in a falling, high-volatility regime or with a high chance of a deep fall. <span class="ph">PROPOSED · adapted from MA</span></span></li>
+        <li><span><strong>A trend filter</strong>: a listing below its long-run trend gets less new money until the trend turns. F7 designs the rule and the lab tests it. <span class="ph">PROPOSED · adapted from MA</span></span></li>
         <li><span><strong>All three or no combined score.</strong> Growth 35%, protection 40%, opportunity 25% (POLICY-006, OWNER-SELECTED). A missing component is never zero and never reweighted: the score is withheld, and the parts that are supported are shown.</span></li>
         <li><span><strong>Disagreement stays visible.</strong> The rules, the models and Claude-assisted research appear separately; one score never hides a conflict.</span></li>
         <li><span><strong>Abstain when the evidence is thin</strong>, with the reason.</span></li>
@@ -1406,6 +1457,26 @@ footer p { max-width: 90ch; }
       <div class="band-l" aria-hidden="true"><span style="left:0;transform:none">0%</span><span style="left:37.5%">15%</span><span style="left:50%;top:26px">target 20%</span><span style="left:62.5%">25%</span><span style="left:100%;transform:translateX(-100%)">40%</span></div>
     </div>
   </div>
+  <div class="card" style="margin-top:16px">
+    <p class="over">First of the month · restored from MA · illustrative</p>
+    <h3>Suggested split of this month's contribution, rules beside models</h3>
+    <div class="split" role="img" aria-label="Illustrative suggested split. Rules: Nasdaq 100 ETF 30%, Apple 0% because of PAUSE, Vodafone 30%, Reliance 40% because of ADD. Models: Nasdaq 100 ETF 40%, Apple 0%, Vodafone 45%, Reliance 15% because of its high chance of a deep fall.">
+      <div class="split-r"><span>Rules</span><div class="split-b"><i class="hb-nq" style="width:30%"></i><i class="hb-rb" style="width:30%"></i><i class="hb-ag" style="width:40%"></i></div></div>
+      <div class="split-r"><span>Models</span><div class="split-b"><i class="hb-nq" style="width:40%"></i><i class="hb-rb" style="width:45%"></i><i class="hb-ag" style="width:15%"></i></div></div>
+    </div>
+    <div class="tscroll" style="box-shadow:none">
+      <table class="tbl">
+        <thead><tr><th>Listing</th><th class="n">Rules</th><th class="n">Models</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sw hb-nq"></span> Nasdaq 100 ETF</td><td class="n">30%</td><td class="n">40%</td></tr>
+          <tr><td><span class="sw hb-bal"></span> Apple <span class="chip mp-pause" style="font-size:11px;padding:0 6px">PAUSE</span></td><td class="n">0%</td><td class="n">0%</td></tr>
+          <tr><td><span class="sw hb-rb"></span> Vodafone</td><td class="n">30%</td><td class="n">45%</td></tr>
+          <tr><td><span class="sw hb-ag"></span> Reliance <span class="chip mp-add" style="font-size:11px;padding:0 6px">ADD</span></td><td class="n">40%</td><td class="n">15%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap"><span class="illus">Illustrative</span>Both columns add to 100%: the contribution continues. The models move money away from Reliance's high chance of a deep fall, where the rules see a rebound (section 6). In MA this split showed on the first-of-the-month contribution prompt after its shadow run. In MP it is <span class="ph">PROPOSED · adapted from MA</span>, and whether it is shown live is <span class="ph mp-alertchip">OPEN</span>.</p>
+  </div>
   <div class="g2">
     <div class="card">
       <h3>The drawdown budget</h3>
@@ -1439,7 +1510,7 @@ footer p { max-width: 90ch; }
   <div class="g2">
     <div class="card">
       <h3>The qualification lab</h3>
-      <p class="small">It replays each day without future information, from frozen data manifests, starting with the R0 rules and baselines. It includes fees, fund pricing timing, income, FX and monthly contributions. It reports growth, the worst fall, the worst year, time below a previous high, volatility, calibration and sample counts. It compares against doing nothing, fixed-date benchmark contributions and a simple fixed allocation.</p>
+      <p class="small">It replays each day without future information, from frozen data manifests, starting with the R0 rules and baselines. It includes fees, fund pricing timing, income, FX and monthly contributions. It reports growth, the worst fall, the worst year, time below a previous high, volatility, calibration and sample counts. It compares against doing nothing, fixed-date benchmark contributions, a simple fixed allocation and, as in MA, a simple trend rule (<span class="ph">PROPOSED</span>).</p>
       <div class="tscroll" style="box-shadow:none">
         <table class="tbl">
           <thead><tr><th>First report: the R0 baselines</th><th class="n">Status</th></tr></thead>
@@ -1485,6 +1556,7 @@ footer p { max-width: 90ch; }
             <tr><td>Honest ranges</td><td>Coverage within 5 points of 80%</td></tr>
             <tr><td>No group made worse</td><td>Per market, kind, horizon and regime</td></tr>
             <tr><td>Enough evidence</td><td>Under 20 separate blocks is exploratory only</td></tr>
+            <tr><td>Live minimum, short horizons</td><td>MA's rule: 8 live weeks beating both the base rate and the rules, a miss restarting the count. <span class="ph mp-alertchip">OPEN</span> (FC-09)</td></tr>
           </tbody>
         </table>
       </div>
@@ -1492,14 +1564,15 @@ footer p { max-width: 90ch; }
     </div>
     <div class="card">
       <h3>Pause, never self-promotion</h3>
-      <p class="small">On a safety trigger the owner approved in advance (a bad artefact hash, revoked rights, corrupt or missing inputs, the budget ceiling), the affected scope pauses itself and the owner is told. Only that scope stops. A restart or a rollback needs the owner's approval, and only to a version that is still eligible (POLICY-003, OWNER-SELECTED). A slipping score raises an alert; it is not a safety trigger.</p>
-      <div class="states" role="img" aria-label="Model states: candidate, then offline qualified, then shadow, then owner approved, then probation, then active. Any issuing state can be paused or rolled back; a failed candidate is rejected.">
+      <p class="small">On a safety trigger the owner approved in advance (a bad artefact hash, revoked rights, corrupt or missing inputs, the budget ceiling), the affected scope pauses itself and the owner is told. Only that scope stops. A restart or a rollback needs the owner's approval, and only to a version that is still eligible (POLICY-003, OWNER-SELECTED). Today a slipping score raises an alert; it is not a safety trigger. MA's switch-off, a model whose live record is worse than the base rate for four weeks turning itself off, is a candidate trigger: whether a statistical slip joins the advance-approved triggers is <span class="ph mp-alertchip">OPEN</span>. Separately, a calibration or weighting adjustment that makes scores worse rolls back on its own (<span class="key">OWNER-SELECTED</span>, section 7).</p>
+      <div class="states" role="img" aria-label="Model states: candidate, then offline qualified, then shadow, then owner approved, then probation, then active, calibrated daily within its bands; a scheduled refit goes back to candidate. Any issuing state can be paused or rolled back; a failed candidate is rejected.">
         <span class="st"><b>candidate</b><small>fitted in a campaign</small></span><span class="arr">→</span>
         <span class="st"><b>offline qualified</b><small>passed the lab</small></span><span class="arr">→</span>
         <span class="st"><b>shadow</b><small>scored, not shown</small></span><span class="arr">→</span>
         <span class="st"><b>owner approved</b><small>with its evidence</small></span><span class="arr">→</span>
         <span class="st"><b>probation</b><small>watched closely</small></span><span class="arr">→</span>
-        <span class="st"><b>active</b><small>until paused</small></span>
+        <span class="st"><b>active</b><small>calibrated within bands</small></span><span class="arr">→</span>
+        <span class="st"><b>refit</b><small>monthly, back to candidate</small></span>
       </div>
       <p class="cap">Any issuing state can be paused or rolled back; a failed candidate is rejected and its result kept. PROPOSED (SCI-D05, OPEN).</p>
     </div>
@@ -1514,7 +1587,7 @@ footer p { max-width: 90ch; }
     <li><h4>Retry</h4><p>At +40, one retry for a missing close, inside the day's existing credit allocation.</p></li>
     <li><h4>Freeze</h4><p>At +60 the cutoff freezes. A late answer can never move it.</p></li>
     <li><h4>Forecast</h4><p>By +75, approved artefacts only; otherwise <code>waiting_data</code> or <code>abstained</code>.</p></li>
-    <li><h4>Score</h4><p>Only forecasts whose horizon has passed, against a published outcome.</p></li>
+    <li><h4>Grade and calibrate</h4><p>Only forecasts whose horizon has passed, against a published outcome; then calibration and weights adjusted inside their bands, on probation.</p></li>
     <li class="hl"><h4>07:30 brief</h4><p>Reads the stored latest origins; anything late is labelled stale. It never waits on a new batch.</p></li>
   </ol>
   <p class="cap">Each step is a durable checkpoint: a replay resumes from the last one instead of starting again. Calls to outside services sit in their own controlled steps, so an ambiguous paid call or a started training job is reconciled, never blindly repeated. The clocks are POLICY-002 (owner-selected, still to be proven against real sources).</p>
@@ -1608,20 +1681,43 @@ footer p { max-width: 90ch; }
         <li>A stuck run found by the reconciler and closed as timed out.</li>
         <li>An affected forecast scope paused on an advance-approved trigger, and the owner told (POLICY-003).</li>
         <li>Optional work reduced at £75 and paused at £85 (section 11).</li>
+        <li>A calibration or weighting adjustment that made scores worse rolled back to its last good version.</li>
+        <li>A missed scheduled run caught up; a forecast whose cutoff has passed abstains instead.</li>
+        <li>A dead-lettered job replayed by code, at most 3 times, once its cause is healthy (MA's limit).</li>
+        <li>A step that still fails skipped, its output labelled stale; the rest of the run goes on.</li>
       </ul>
-      <p class="small ink2"><span class="ph">PROPOSED</span> except POLICY-003, which is <span class="key">OWNER-SELECTED</span>.</p>
+      <p class="small ink2"><span class="ph">PROPOSED</span>, the last three adapted from MA, except POLICY-003 and the in-band rollback, which are <span class="key">OWNER-SELECTED</span>.</p>
     </div>
     <div class="card">
       <h3>Raised to the owner</h3>
       <p class="small">Everything else is an <span class="chip mp-alertchip">Incident</span> in Admin, with what happened, what was tried and the choices. A downstream outage is one incident with its symptoms linked, not ten messages.</p>
-      <p class="small">Only the owner can approve: a new paid call, reprocessing financial records, a broad replay, deleting evidence, more spend, restarting a paused scope, promoting a model, or switching to a restored copy.</p>
+      <p class="small">Only the owner can approve: a new paid call, reprocessing financial records, a broad replay, deleting evidence, more spend, restarting a paused scope, promoting a model, a calibration or weighting change beyond its band, or switching to a restored copy. A brief that has not gone out by 07:45 is an incident of its own, as in MA (<span class="ph">PROPOSED</span>).</p>
       <p class="small ink2">Every AWS change, recovery included, goes through Terraform; drift is reported, never fixed by hand. Investment alerts never use the operations channel.</p>
     </div>
     <div class="card">
       <h3>What agents may and may not do</h3>
       <div class="chips"><span class="chip mp-okchip">summarise and cite</span><span class="chip mp-okchip">triage</span><span class="chip mp-okchip">extract into drafts</span><span class="chip mp-okchip">explain</span></div>
       <p class="small">Agents cannot write the ledger, publish or change a forecast, change model weights or calibration, promote a model, read secrets, grant infrastructure permissions or trade. File and tool output is untrusted data, never an instruction.</p>
-      <p class="small ink2">There is no LLM operations warden: retries, grading, budgets and recovery are deterministic code. Authority is enforced in code, not asked of a prompt (AGENTS.md, ARC-06).</p>
+      <p class="small ink2">There is no LLM operations warden: retries, grading, in-band calibration, budgets and recovery are deterministic code. Authority is enforced in code, not asked of a prompt (AGENTS.md, ARC-06).</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>MA's agent team, role by role, in MP</h3>
+    <p class="small ink2">MA's team graded, calibrated, repaired and asked the admin for anything outside its band. MP keeps every role. Most become deterministic code; Claude keeps only the reading and the words.</p>
+    <div class="tscroll">
+      <table class="tbl wide">
+        <thead><tr><th>Role in MA</th><th>In MP</th><th>What it may do alone</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Grader</td><td>Code, after each close</td><td>Grade every matured forecast and keep the scoreboard</td><td><span class="key">OWNER-SELECTED</span></td></tr>
+          <tr><td>Tuner, the calibrator</td><td>Deterministic code, never an agent</td><td>Small calibration and weighting adjustments inside owner-approved bands, with probation and automatic rollback</td><td><span class="key">OWNER-SELECTED</span> · bands <span class="ph mp-alertchip">OPEN</span></td></tr>
+          <tr><td>Challengers</td><td>Capped SageMaker campaigns, then shadow</td><td>Fit and score candidates; never promote one</td><td><span class="key">OWNER-SELECTED</span> · ARC-05, POLICY-008</td></tr>
+          <tr><td>Data steward</td><td>Data health code</td><td>Fail over, fill gaps, label stale, abstain, alert; ask the owner for any source or paid feed</td><td><span class="ph">PROPOSED</span> · DATA-06, DATA-07</td></tr>
+          <tr><td>News scout</td><td>Haiku triage and Opus event routes; code does the matching</td><td>Tag, extract and analyse, with citations; never set a number</td><td><span class="key">OWNER-SELECTED</span> · ARC-06b</td></tr>
+          <tr><td>Ops warden, the repairer</td><td>Retries, the reconciler and bounded replay, in code</td><td>Retry, replay a job up to 3 times, close stuck runs, raise incidents</td><td><span class="ph">PROPOSED</span> · CT-05</td></tr>
+          <tr><td>Explainer and concierge</td><td>The Sonnet route</td><td>Write the "Why?", the chat answers and the 07:30 brief from stored results</td><td><span class="key">OWNER-SELECTED</span> · ARC-06b</td></tr>
+          <tr><td>Admin desk</td><td>The owner's Approvals page, in the app and the PWA</td><td>Nothing alone: it carries the owner's decisions</td><td><span class="ph">PROPOSED</span> · L5-S05</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1673,6 +1769,7 @@ footer p { max-width: 90ch; }
         <tr><td>SSM Parameter Store SecureString secrets</td><td>£0, no per-secret fee</td><td>AWS</td></tr>
         <tr><td>The domain, mypaisapp.com</td><td>£0 in MP; renewed outside it</td><td>none</td></tr>
         <tr><td>GitHub Actions</td><td>£0 planned; about £3 at worst</td><td>the free allowance</td></tr>
+        <tr><td>Daily grading and in-band calibration: ordinary Lambda runs, no training job</td><td>inside the AWS figure</td><td>AWS</td></tr>
         <tr><td>Not in the model yet: Terraform state buckets; internet data out</td><td>a few pence; about $0.16</td><td>AWS</td></tr>
         <tr><td><strong>Total, Claude off</strong></td><td><strong>£46.48</strong></td><td>under £70 every month</td></tr>
         <tr><td><strong>Total, Claude option A</strong></td><td><strong>£54.73</strong></td><td>under £70 every month</td></tr>
@@ -1727,6 +1824,8 @@ footer p { max-width: 90ch; }
           <tr><td>UK funds</td><td><span class="ph">OPEN</span> no central official UK NAV source; not on Grow 55</td><td>Each fund manager publishes its own; none selected</td><td>Twelve Data Pro: over budget</td></tr>
           <tr><td>FX: GBP, USD and INR</td><td>Twelve Data FX</td><td>Pinned to the valuation cutoff, with its age</td><td>none</td></tr>
           <tr><td>Economy and news</td><td><span class="ph">PROPOSED</span> FRED, the Bank of England, GDELT and similar free sources</td><td>Rights unverified</td><td>Anything without verified rights</td></tr>
+          <tr><td>Look-through of funds and ETFs</td><td><span class="ph">PROPOSED</span> issuers' holdings files and factsheets; Indian fund houses' monthly portfolio disclosures</td><td>Rights unverified</td><td>Anything without verified rights</td></tr>
+          <tr><td>Indian economy, stress and news</td><td><span class="ph">PROPOSED</span> the RBI's policy rate and yields, MOSPI's inflation, India VIX, NSDL's foreign portfolio flows; Economic Times, Mint and Business Standard feeds; GDELT's India coverage</td><td>FRED's India series; rights unverified</td><td>Anything without verified rights</td></tr>
         </tbody>
       </table>
     </div>
@@ -1742,6 +1841,35 @@ footer p { max-width: 90ch; }
     <li class="hl"><h4>07:30 the brief</h4><p>Each market's latest eligible origin, without pretending they closed together; stale and delayed labelled.</p></li>
   </ol>
   <p class="cap">The 30-minute quote and risk checks run separately during each listing's session, from delayed quotes labelled delayed. They never make a formal forecast. A daily-only listing gets daily status, and a fund gets NAV publication monitoring.</p>
+
+  <h3 style="margin-top:28px">The rules and the models on each market</h3>
+  <div class="g2">
+    <div class="card">
+      <p class="over">The macro pillar · restored from MA</p>
+      <h3>The India basket, beside the US and UK ones</h3>
+      <p class="small">A listing's macro pillar reads the baskets it is exposed to, weighted by its look-through, as for every holding (section 3).</p>
+      <ul class="list small">
+        <li>The Nifty 50 against Indian government bonds</li>
+        <li>India VIX</li>
+        <li>The rupee against the dollar</li>
+        <li>Foreign portfolio investor flows, from NSDL each day</li>
+        <li>The RBI's policy rate</li>
+      </ul>
+      <p class="small ink2">The calendars add the RBI's policy dates, India's inflation releases, NSE holidays and results season. Golden tests cover the basket. <span class="ph">PROPOSED · adapted from MA</span>, rights unverified.</p>
+    </div>
+    <div class="card">
+      <h3>Indian news, matched by code</h3>
+      <p class="small">Indian publishers' feeds (Economic Times, Mint, Business Standard), company filings and GDELT's India coverage go through the same steps as every item (section 4): Haiku tags each one in a batch, code weighs it against each listing's exposure map, and a floor drops the faint. News alone never raises a risk alert. <span class="ph">PROPOSED · adapted from MA</span>, rights unverified.</p>
+      <h3 style="margin-top:16px">The same gates on every market</h3>
+      <div class="states" role="img" aria-label="A US, UK or Indian listing's forecast: qualified in the lab on held-out years, then in practice in shadow, then promoted by the owner, then active and calibrated daily within its bands, and paused on an approved safety trigger.">
+        <span class="st"><b>lab</b><small>held-out years, walk-forward</small></span><span class="arr">→</span>
+        <span class="st"><b>in practice</b><small>shadow, on its Forecast page</small></span><span class="arr">→</span>
+        <span class="st"><b>owner approved</b><small>with its evidence</small></span><span class="arr">→</span>
+        <span class="st"><b>active</b><small>calibrated within bands</small></span><span class="arr">→</span>
+        <span class="st"><b>paused</b><small>on an approved trigger</small></span>
+      </div>
+    </div>
+  </div>
 
   <h3 style="margin-top:28px">Units, currency and FX in the picture</h3>
   <div class="g2">
@@ -1871,11 +1999,15 @@ footer p { max-width: 90ch; }
     <div class="gate"><h4>PH-04 · after PH-03</h4>
       <div class="story f"><b>Rule and statistical baselines</b><small>Before any challenger</small><span class="key">L4-S02</span></div>
       <div class="story f"><b>Walk-forward with leakage controls</b><small>Purge and embargo sized to the horizon</small><span class="key">L4-S03</span></div>
-      <div class="story f"><b>Shadow, owner promotion, rollback</b><small>Controlled learning</small><span class="key">L4-S08</span></div>
+      <div class="story f"><b>Regimes, analogs and event studies</b><small>F3 and F4: seven event kinds, similar days since 2015</small><span class="key">L4-S04</span></div>
+      <div class="story f"><b>Challengers, patterns and contributions</b><small>F5, F8 and F7</small><span class="key">L4-S05 · L4-S06</span></div>
+      <div class="story f"><b>Daily grading and bounded calibration</b><small>Scorecards; in-band adjustment, automatic rollback</small><span class="key">L4-S07</span></div>
+      <div class="story f"><b>Shadow, owner promotion, rollback</b><small>Anything outside a band</small><span class="key">L4-S08</span></div>
     </div>
   </div>
   <div class="road">
     <div class="gate"><h4>PH-05 · after PH-02 and PH-03</h4>
+      <div class="story i"><b>News and structured LLM factors</b><small>Triage, exposure matching, at most three events a day</small><span class="key">L5-S01</span></div>
       <div class="story i"><b>A bounded Claude runtime</b><small>The Anthropic client SDK, one worker per route</small><span class="key">L5-S02</span></div>
       <div class="story i"><b>Chat, research cards and evaluations</b><small>Inspect AI with deterministic checks</small><span class="key">L5-S03 · L5-S04</span></div>
     </div>
@@ -1897,12 +2029,12 @@ footer p { max-width: 90ch; }
       <div class="story i"><b>New features, models and horizons</b><small>No implied budget increase</small><span class="key">L9-S03</span></div>
     </div>
   </div>
-  <p class="cap">Draft exits, from the phase baseline: PH-01, every import method works end to end and uncertain values need confirmation. PH-04, every agreed horizon is in the baseline, and eligibility rests on mature evidence, never on synthetic success. PH-05, research stays grounded and read-only, separate from the numerical models. PH-08, release approval and authority to deploy or spend are separate. PH-09, each new market or model family needs its own evidence and the owner's approval. All of it is <span class="ph">PROPOSED</span> and unapproved.</p>
+  <p class="cap">Draft exits, from the phase baseline: PH-01, every import method works end to end and uncertain values need confirmation. PH-04, every agreed horizon is in the baseline, and eligibility rests on mature evidence, never on synthetic success. PH-05, research stays grounded and read-only, separate from the numerical models. PH-08, release approval and authority to deploy or spend are separate. PH-09, each new market or model family needs its own evidence and the owner's approval. Adapted from MA's exits: PH-04, over walk-forward tests and shadow, the risk forecasts beat the base rate, and the steered contributions cut the worst fall and the time below a previous high against buy-and-hold, within the growth the owner is willing to give up; PH-08, a month in which every adjustment stayed inside its band or was approved, every matured forecast was graded, and spend stayed inside £100. All of it is <span class="ph">PROPOSED</span> and unapproved.</p>
 </section>
 
 <footer>
-  <p><strong>Sources.</strong> MP's <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/README.md">README</a>, <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/ARCHITECTURE.md">ARCHITECTURE</a> and <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/TECH-STACK.md">TECH-STACK</a>; the selected directions and owner decision log (ARC-01 to ARC-12, ARC-06b, and the answers of 2 and 3 Nov 2026); the phase and story baseline (PH-00 to PH-09); the twelve policy answers (POLICY-001 to POLICY-012); the foundation specifications (DATA-03 to DATA-07, COST-01, FIN-04, FIN-15); the gap register (CT-05, CT-14, PL-05); the source-rights pack (MP-10) and the region, network and envelope pack (MP-29). Where this page and those documents differ, the documents win.</p>
-  <p>This page's design was adopted from MA's Market Agent explainer on 3 Nov 2026 (MP-37) and rewritten to MP's own decisions. Every figure on this page is illustrative unless it names its source; no real holding, balance, price, rate or result is shown, and nothing here promises accuracy. Nothing described here is built or deployed: what runs today is CI and a local FastAPI starter.</p>
+  <p><strong>Sources.</strong> MP's <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/README.md">README</a>, <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/ARCHITECTURE.md">ARCHITECTURE</a> and <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/TECH-STACK.md">TECH-STACK</a>; the selected directions and owner decision log (ARC-01 to ARC-12, ARC-06b, and the answers of 2 and 3 Nov 2026, bounded self-correction among them); the phase and story baseline (PH-00 to PH-09); the twelve policy answers (POLICY-001 to POLICY-012); the foundation specifications (DATA-03 to DATA-07, COST-01, FIN-04, FIN-15); the gap register (CT-05, CT-14, PL-05); the source-rights pack (MP-10) and the region, network and envelope pack (MP-29). Where this page and those documents differ, the documents win.</p>
+  <p>This page's design was adopted from MA's Market Agent explainer on 3 Nov 2026 (MP-37) and rewritten to MP's own decisions. Features marked "adapted from MA" were restored from MA's page on 3 Nov 2026 at the owner's request; they are proposals until the owner approves them. Every figure on this page is illustrative unless it names its source; no real holding, balance, price, rate or result is shown, and nothing here promises accuracy. Nothing described here is built or deployed: what runs today is CI and a local FastAPI starter.</p>
   <p>Mypaisaa Prediction is personal decision support for one owner. It is not regulated financial advice and not tax advice. It suggests and explains; it never trades, holds no broker credentials, and every decision stays with the owner.</p>
 </footer>
 
