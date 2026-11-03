@@ -7,6 +7,14 @@
    "published_sha256": "3c98a569a22aa7f11cb938a292227eeb39cbb4db60b88dbc9e51073def41b6f1",
    "published_at": "2026-11-03",
    "jira": "MP-37"
+  },
+  {
+   "slug": "architecture-explainer",
+   "source": "docs/architecture-explainer/index.html",
+   "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
+   "published_sha256": "b3d6569e40e8c4bbd3d854db8bea76ea2e3f40c89f94cb0914155148b4f45e26",
+   "published_at": "2026-11-03",
+   "jira": "MP-38"
   }
  ]
 }

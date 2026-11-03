@@ -1,0 +1,442 @@
+<title>MyPrediction Architecture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one long scroll of short chapters, each led by a moving picture; dark ink by default, MP's brand colours.
+   Colour: ink ground, paper text, saffron = the forecast fan, mint = the scored outcome, sky = data,
+   violet = Claude, rose = safety and limits. Type: Bricolage Grotesque display, Figtree body, JetBrains Mono labels. */
+:root {
+  --bg: #F7F2E8; --surface: #FFFFFF; --surface-2: #EFE8DA; --line: #DDD3C1;
+  --ink: #16244A; --ink-2: #3D4A6B; --ink-3: #555E77; --on-accent: #FFFFFF;
+  --saffron: #8A5300; --saffron-soft: rgba(245, 165, 36, 0.22);
+  --mint: #0A6E44; --mint-soft: rgba(61, 220, 151, 0.22);
+  --sky: #1A5FA8; --sky-soft: rgba(94, 176, 255, 0.20);
+  --violet: #5A3CC4; --violet-soft: rgba(166, 139, 255, 0.22);
+  --rose: #A82A42; --rose-soft: rgba(255, 122, 144, 0.20);
+  --hero: #0B1329; --hero-2: #16244A; --hero-ink: #F7F2E8; --hero-ink-2: #B8C0D6;
+  --hero-saffron: #F5A524; --hero-mint: #3DDC97; --hero-sky: #5EB0FF;
+  --shadow: 0 1px 2px rgba(22, 36, 74, 0.06), 0 10px 30px rgba(22, 36, 74, 0.08);
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body: "Figtree", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1329; --surface: #131E40; --surface-2: #1A2852; --line: #2A3A6A;
+    --ink: #EEF1F8; --ink-2: #B8C0D6; --ink-3: #8F9BBA; --on-accent: #0B1329;
+    --saffron: #F5A524; --saffron-soft: rgba(245, 165, 36, 0.18);
+    --mint: #3DDC97; --mint-soft: rgba(61, 220, 151, 0.16);
+    --sky: #5EB0FF; --sky-soft: rgba(94, 176, 255, 0.16);
+    --violet: #B7A1FF; --violet-soft: rgba(166, 139, 255, 0.16);
+    --rose: #FF7A90; --rose-soft: rgba(255, 122, 144, 0.16);
+    --hero: #070D1E; --hero-2: #131E40;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1329; --surface: #131E40; --surface-2: #1A2852; --line: #2A3A6A;
+  --ink: #EEF1F8; --ink-2: #B8C0D6; --ink-3: #8F9BBA; --on-accent: #0B1329;
+  --saffron: #F5A524; --saffron-soft: rgba(245, 165, 36, 0.18);
+  --mint: #3DDC97; --mint-soft: rgba(61, 220, 151, 0.16);
+  --sky: #5EB0FF; --sky-soft: rgba(94, 176, 255, 0.16);
+  --violet: #B7A1FF; --violet-soft: rgba(166, 139, 255, 0.16);
+  --rose: #FF7A90; --rose-soft: rgba(255, 122, 144, 0.16);
+  --hero: #070D1E; --hero-2: #131E40;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 64px; }
+.frame { max-width: 1080px; margin: 0 auto; }
+h1, h2, h3 { margin: 0; text-wrap: balance; font-family: var(--display); }
+h2 { font-size: clamp(28px, 4.4vw, 40px); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-size: 20px; line-height: 1.25; font-weight: 600; }
+p { margin: 10px 0 0; max-width: 64ch; }
+a { color: var(--sky); text-underline-offset: 3px; }
+a:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; border-radius: 4px; }
+.eyebrow { font: 500 12px/16px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; }
+.lede { font-size: 19px; line-height: 1.55; color: var(--ink-2); }
+.muted { color: var(--ink-3); font-size: 14px; line-height: 1.5; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font: 500 11px/16px var(--mono); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+.tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.t-chosen { color: var(--sky); background: var(--sky-soft); }
+.t-proposed { color: var(--saffron); background: var(--saffron-soft); }
+.t-live { color: var(--mint); background: var(--mint-soft); }
+.t-limit { color: var(--rose); background: var(--rose-soft); }
+
+/* hero */
+.hero { background: radial-gradient(120% 90% at 85% 10%, var(--hero-2), var(--hero) 62%); color: var(--hero-ink); border-radius: 28px; padding: clamp(22px, 4vw, 44px); display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+@media (min-width: 900px) { .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; } }
+.hero .eyebrow { color: var(--hero-ink-2); }
+.hero h1 { font-size: clamp(44px, 8vw, 80px); line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; }
+.hero h1 span { color: var(--hero-saffron); }
+.hero .lede { color: var(--hero-ink-2); }
+.hero .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hero .pill { padding: 6px 12px; border-radius: 999px; background: rgba(247, 242, 232, 0.08); color: var(--hero-ink); font: 600 14px/20px var(--body); box-shadow: inset 0 0 0 1px rgba(247, 242, 232, 0.14); }
+.hero .pill b { color: var(--hero-saffron); font-weight: 700; }
+.fan { width: 100%; height: auto; display: block; }
+.fan text { font-family: var(--mono); font-size: 12px; fill: var(--hero-ink-2); }
+.fan .hist { fill: none; stroke: var(--hero-ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 520; animation: draw 2.2s ease-out both; }
+.fan .cone { fill: var(--hero-saffron); opacity: 0.16; transform-origin: 300px 150px; animation: breathe 4s ease-in-out infinite; }
+.fan .cone2 { fill: var(--hero-saffron); opacity: 0.30; transform-origin: 300px 150px; animation: breathe 4s ease-in-out infinite reverse; }
+.fan .mid { fill: none; stroke: var(--hero-saffron); stroke-width: 2.5; stroke-dasharray: 6 6; animation: march 1.4s linear infinite; }
+.fan .now { fill: var(--hero-ink); }
+.fan .ring { fill: none; stroke: var(--hero-saffron); stroke-width: 2; transform-origin: 300px 150px; animation: ring 2.4s ease-out infinite; }
+.fan .hit { fill: var(--hero-mint); animation: land 4s ease-in-out infinite; }
+.fan .grid { stroke: rgba(184, 192, 214, 0.14); stroke-width: 1; }
+
+@keyframes draw { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
+@keyframes breathe { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1, 1.08); } }
+@keyframes march { to { stroke-dashoffset: -24; } }
+@keyframes ring { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes land { 0%, 55% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(-6px); } 85%, 100% { transform: translateY(0); opacity: 1; } }
+
+/* sections */
+.sec { margin-top: 72px; scroll-margin-top: 24px; }
+.sec > header { display: grid; gap: 4px; margin-bottom: 20px; }
+.grid4 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.grid3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.card { background: var(--surface); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); min-width: 0; }
+.card p { font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+.ch { display: flex; gap: 12px; align-items: center; }
+.icon { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; }
+.icon svg { width: 22px; height: 22px; }
+.i-sky { background: var(--sky-soft); color: var(--sky); } .i-saffron { background: var(--saffron-soft); color: var(--saffron); }
+.i-violet { background: var(--violet-soft); color: var(--violet); } .i-mint { background: var(--mint-soft); color: var(--mint); }
+.i-rose { background: var(--rose-soft); color: var(--rose); }
+.never { margin-top: 14px; display: flex; gap: 14px; align-items: center; padding: 16px 18px; border-radius: 18px; background: var(--rose-soft); color: var(--ink); }
+.never b { color: var(--rose); }
+.never svg { flex: none; width: 30px; height: 30px; color: var(--rose); }
+
+/* horizons strip */
+.horizons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hz { padding: 8px 12px; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 14px/18px var(--body); }
+.hz small { display: block; font: 500 11px/14px var(--mono); color: var(--ink-3); letter-spacing: 0.04em; text-transform: uppercase; }
+.hz.core { box-shadow: inset 0 0 0 2px var(--saffron); }
+.hz.scn { background: transparent; box-shadow: inset 0 0 0 1px var(--line); border-style: dashed; color: var(--ink-2); }
+
+/* the journey */
+.journey { background: var(--surface); border-radius: 24px; padding: clamp(16px, 3vw, 28px); box-shadow: var(--shadow); }
+.track { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.track svg { display: block; width: 100%; min-width: 760px; height: auto; }
+.track text { font-family: var(--body); }
+.st-t { font-size: 15px; font-weight: 700; fill: var(--ink); }
+.st-s { font-size: 12.5px; fill: var(--ink-2); }
+.st-n { font: 700 13px var(--display); fill: #0B1329; }
+.road { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+.road-live { fill: none; stroke: url(#rainbow); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 14 18; animation: flow 1.6s linear infinite; }
+.traveller { fill: var(--saffron); filter: drop-shadow(0 0 6px rgba(245, 165, 36, 0.7)); }
+@keyframes flow { to { stroke-dashoffset: -64; } }
+.hint { display: none; margin: 8px 0 0; font-size: 13px; color: var(--ink-3); }
+@media (max-width: 799px) { .hint { display: block; } }
+
+/* inside */
+.inside { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .inside { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; } }
+.stack svg { display: block; width: 100%; height: auto; }
+.layer { stroke-width: 1.5; }
+.lt { font: 700 15px var(--body); fill: var(--ink); }
+.ls { font: 400 12.5px var(--body); fill: var(--ink-2); }
+.lm { font: 500 11.5px var(--mono); fill: var(--ink-3); letter-spacing: 0.04em; }
+.pulse { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 4 10; animation: up 1.2s linear infinite; }
+@keyframes up { to { stroke-dashoffset: -28; } }
+.legend { display: grid; gap: 10px; }
+.legend .row { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 12px; align-items: start; }
+.legend .sw { width: 14px; height: 14px; border-radius: 4px; margin-top: 5px; }
+.legend b { display: block; font-size: 15px; }
+.legend span { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+
+/* who does what */
+.roles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.role { border-radius: 18px; padding: 18px; min-width: 0; }
+.role h3 { font-size: 22px; }
+.role p { font-size: 15px; margin-top: 6px; }
+.r-code { background: var(--sky-soft); } .r-code h3 { color: var(--sky); }
+.r-model { background: var(--saffron-soft); } .r-model h3 { color: var(--saffron); }
+.r-claude { background: var(--violet-soft); } .r-claude h3 { color: var(--violet); }
+.r-you { background: var(--mint-soft); } .r-you h3 { color: var(--mint); }
+.role p { color: var(--ink); }
+
+/* learning loop */
+.loopwrap { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); align-items: center; }
+@media (min-width: 860px) { .loopwrap { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); } }
+.loop svg { width: 100%; max-width: 360px; height: auto; display: block; margin: 0 auto; }
+.loop text { font-family: var(--body); }
+.lp-t { font-size: 13px; font-weight: 700; fill: var(--ink); }
+.orbit { transform-origin: 180px 180px; animation: spin 9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; counter-increment: s; }
+.steps li::before { content: counter(s); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 800 14px var(--display); background: var(--surface-2); color: var(--ink); }
+.steps b { display: block; }
+.steps span { color: var(--ink-2); font-size: 15px; }
+.steps li.auto::before { background: var(--mint-soft); color: var(--mint); }
+.steps li.you::before { background: var(--saffron-soft); color: var(--saffron); }
+
+/* promises */
+.promise { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: start; }
+.promise .tick { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--mint-soft); color: var(--mint); }
+.promise .tick svg { width: 18px; height: 18px; }
+.promise b { display: block; font-size: 16px; }
+.promise span { font-size: 15px; color: var(--ink-2); }
+
+/* budget */
+.budget { background: var(--surface); border-radius: 24px; padding: clamp(18px, 3vw, 28px); box-shadow: var(--shadow); }
+.bigrow { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; }
+.big { font: 800 clamp(44px, 7vw, 64px)/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.bar { position: relative; height: 44px; margin-top: 26px; border-radius: 12px; background: var(--surface-2); overflow: visible; }
+.seg { position: absolute; top: 0; bottom: 0; transform-origin: left center; animation: grow 1.4s cubic-bezier(.2,.8,.2,1) both; }
+.seg span { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font: 600 12px/1 var(--body); color: var(--on-accent); white-space: nowrap; }
+.s-data { left: 0; width: 27.84%; background: var(--saffron); border-radius: 12px 0 0 12px; }
+.s-cloud { left: 27.84%; width: 18.64%; background: var(--sky); animation-delay: .25s; }
+.s-ai { left: 46.48%; width: 8.24%; background: var(--violet); animation-delay: .5s; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.mark { position: absolute; top: -10px; bottom: -10px; width: 2px; background: var(--ink-3); }
+.mark.cap { background: var(--rose); width: 3px; }
+.marks { position: relative; height: 38px; font: 500 11px/14px var(--mono); color: var(--ink-3); }
+.marks span { position: absolute; top: 8px; transform: translateX(-50%); white-space: nowrap; }
+.marks span.capl { color: var(--rose); font-weight: 700; transform: translateX(-100%); }
+.keyrow { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 6px; font-size: 14px; color: var(--ink-2); }
+.keyrow i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+
+/* where it stands */
+.path { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); counter-reset: g; }
+.gate { position: relative; background: var(--surface); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.gate .num { font: 800 13px/1 var(--mono); color: var(--ink-3); }
+.gate h3 { font-size: 17px; margin-top: 8px; }
+.gate p { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+.gate.now { box-shadow: inset 0 0 0 2px var(--saffron), var(--shadow); }
+.gate.now .num { color: var(--saffron); }
+.here { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font: 600 12px/16px var(--mono); color: var(--saffron); text-transform: uppercase; letter-spacing: 0.06em; }
+.here::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.25; } }
+
+footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
+footer p { max-width: 90ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+  .fan .hist { stroke-dashoffset: 0; }
+  .traveller-g { display: none; }
+}
+</style>
+
+<div class="wrap">
+<div class="frame">
+
+<header class="hero">
+  <div>
+    <p class="eyebrow">Mypaisaa Prediction · how it works</p>
+    <h1>My<span>Prediction</span></h1>
+    <p class="lede">A private forecaster for one person's shares, funds and ETFs in the US, the UK and India. Every day it shows what might happen next, how sure it is, and why. Then it checks itself against what really happened, and gets better.</p>
+    <div class="pills">
+      <span class="pill">Ranges, <b>never one number</b></span>
+      <span class="pill">Scored <b>after the fact</b></span>
+      <span class="pill"><b>Never</b> trades</span>
+    </div>
+    <p class="muted" style="color:var(--hero-ink-2);margin-top:16px">Status: planned and designed, not built yet. Only a small test server and the project's checks run today.</p>
+  </div>
+  <svg class="fan" viewBox="0 0 520 300" role="img" aria-label="Animated forecast fan: a price line runs up to today, then a saffron cone of possible futures spreads out to the right, widest further ahead, with a dashed middle path. A green dot shows where the price later really landed, inside the cone.">
+    <line class="grid" x1="20" x2="500" y1="60" y2="60"/><line class="grid" x1="20" x2="500" y1="150" y2="150"/><line class="grid" x1="20" x2="500" y1="240" y2="240"/>
+    <path class="cone" d="M300 150 L500 40 L500 262 Z"/>
+    <path class="cone2" d="M300 150 L500 92 L500 206 Z"/>
+    <path class="mid" d="M300 150 L500 140"/>
+    <polyline class="hist" points="20,214 48,200 76,206 104,180 132,188 160,166 188,172 216,150 244,158 272,140 300,150"/>
+    <circle class="ring" cx="300" cy="150" r="9"/>
+    <circle class="now" cx="300" cy="150" r="6"/>
+    <circle class="hit" cx="470" cy="126" r="7"/>
+    <text x="22" y="284">the past</text>
+    <text x="284" y="284">today</text>
+    <text x="512" y="284" text-anchor="end">possible futures</text>
+    <text x="458" y="108" text-anchor="end" style="fill:var(--hero-mint)">what happened</text>
+  </svg>
+</header>
+
+<section class="sec" id="does" aria-labelledby="does-h">
+  <header><p class="eyebrow">What it does for you</p><h2 id="does-h">Four jobs, done every day</h2></header>
+  <div class="grid4">
+    <div class="card"><div class="ch"><div class="icon i-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div><h3>Watches your money</h3></div><p>Your holdings and a watchlist, 20 to 30 to start, priced after each market closes and checked every 30 minutes while markets are open.</p></div>
+    <div class="card"><div class="ch"><div class="icon i-saffron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 18 12 12l9-8M12 12l9 0M12 12l9 8"/></svg></div><h3>Forecasts in ranges</h3></div><p>Not "it will go up". It says where the price is likely to land and how wide the uncertainty is, for each time ahead below.</p></div>
+    <div class="card"><div class="ch"><div class="icon i-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div><h3>Explains in plain words</h3></div><p>A 07:30 morning briefing and a chat that answers "why?". Claude writes the words; the numbers come from the maths.</p></div>
+    <div class="card"><div class="ch"><div class="icon i-mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div><h3>Keeps score and learns</h3></div><p>Every forecast is frozen when it is made and marked against reality later. The track record is always on show.</p></div>
+  </div>
+  <div class="horizons" aria-label="Forecast horizons">
+    <span class="hz"><small>short</small>Next day</span>
+    <span class="hz"><small>short</small>1 week</span>
+    <span class="hz"><small>short</small>2 weeks</span>
+    <span class="hz"><small>short</small>1 month</span>
+    <span class="hz core"><small>long-term core</small>3 months</span>
+    <span class="hz core"><small>long-term core</small>6 months</span>
+    <span class="hz core"><small>long-term core</small>12 months</span>
+    <span class="hz scn"><small>what-if, not a forecast</small>3 and 5 years</span>
+  </div>
+  <p class="muted">Short ranges help with timing; the 3, 6 and 12-month forecasts are the heart of it, because MyPrediction is built for long-term investing. The 3 and 5-year views are scenarios (good, middle, bad), never predictions.</p>
+  <div class="never"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 6l12 12"/></svg><div><b>It never trades.</b> It holds no broker login, places no orders and is not financial advice. It suggests add, hold, pause, trim or rebalance, with reasons; you decide.</div></div>
+</section>
+
+<section class="sec" id="journey" aria-labelledby="journey-h">
+  <header><p class="eyebrow">One forecast's journey</p><h2 id="journey-h">From a closing price to a scored forecast</h2></header>
+  <div class="journey">
+    <div class="track">
+      <svg viewBox="0 0 960 300" role="img" aria-label="An animated path through eight steps: one, collect prices after each market closes; two, freeze the inputs; three, forecast a range; four, explain it; five, the 07:30 briefing reaches your phone; six, wait for the time ahead to pass; seven, score it against what happened; eight, learn and adjust. A glowing dot travels along the path and starts again.">
+        <defs>
+          <linearGradient id="rainbow" x1="0" x2="1">
+            <stop offset="0" stop-color="#5EB0FF"/><stop offset="0.35" stop-color="#F5A524"/><stop offset="0.6" stop-color="#A68BFF"/><stop offset="1" stop-color="#3DDC97"/>
+          </linearGradient>
+        </defs>
+        <path id="jp" class="road" d="M60 90 H360 C420 90 420 210 480 210 H900"/>
+        <path class="road-live" d="M60 90 H360 C420 90 420 210 480 210 H900"/>
+        <g class="traveller-g"><circle class="traveller" r="9"><animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#jp"/></animateMotion></circle></g>
+        <g>
+          <circle cx="60" cy="90" r="16" fill="#5EB0FF"/><text class="st-n" x="60" y="95" text-anchor="middle">1</text>
+          <text class="st-t" x="36" y="44">Collect</text><text class="st-s" x="36" y="62">prices after each close</text>
+          <circle cx="160" cy="90" r="16" fill="#5EB0FF"/><text class="st-n" x="160" y="95" text-anchor="middle">2</text>
+          <text class="st-t" x="136" y="138">Freeze</text><text class="st-s" x="136" y="156">lock what was known</text>
+          <circle cx="260" cy="90" r="16" fill="#F5A524"/><text class="st-n" x="260" y="95" text-anchor="middle">3</text>
+          <text class="st-t" x="236" y="44">Forecast</text><text class="st-s" x="236" y="62">a range, not a guess</text>
+          <circle cx="360" cy="90" r="16" fill="#A68BFF"/><text class="st-n" x="360" y="95" text-anchor="middle">4</text>
+          <text class="st-t" x="336" y="138">Explain</text><text class="st-s" x="336" y="156">in plain words</text>
+          <circle cx="540" cy="210" r="16" fill="#A68BFF"/><text class="st-n" x="540" y="215" text-anchor="middle">5</text>
+          <text class="st-t" x="516" y="164">07:30 brief</text><text class="st-s" x="516" y="182">on your phone</text>
+          <circle cx="660" cy="210" r="16" fill="#8F9BBA"/><text class="st-n" x="660" y="215" text-anchor="middle">6</text>
+          <text class="st-t" x="636" y="258">Wait</text><text class="st-s" x="636" y="276">for the time to pass</text>
+          <circle cx="780" cy="210" r="16" fill="#3DDC97"/><text class="st-n" x="780" y="215" text-anchor="middle">7</text>
+          <text class="st-t" x="756" y="164">Score</text><text class="st-s" x="756" y="182">against reality</text>
+          <circle cx="900" cy="210" r="16" fill="#3DDC97"/><text class="st-n" x="900" y="215" text-anchor="middle">8</text>
+          <text class="st-t" x="820" y="258">Learn</text><text class="st-s" x="820" y="276">and adjust, within limits</text>
+        </g>
+      </svg>
+    </div>
+    <p class="hint">Swipe sideways to follow the whole path.</p>
+    <p class="muted">Markets close at different times: India in the London morning, the UK at 16:30 and the US around 21:00. Each listing gets its forecast shortly after its own close. A late or missing price is shown as late or missing, never hidden.</p>
+  </div>
+</section>
+
+<section class="sec" id="inside" aria-labelledby="inside-h">
+  <header><p class="eyebrow">What is inside</p><h2 id="inside-h">Five layers behind two apps</h2></header>
+  <div class="inside">
+    <div class="card stack">
+      <svg viewBox="0 0 560 470" role="img" aria-label="A stack of five layers from top to bottom. Your apps: a web app and an iPhone and iPad app. The front door: sign-in with Apple, Google or a passkey. The brain: the service that runs the daily jobs. Beside it, the forecasting models and Claude. The vault: records that are never rewritten. Outside, market data from Twelve Data and Yahoo Finance. Animated dashes show requests flowing between the layers.">
+        <rect class="layer" x="20" y="16" width="520" height="64" rx="16" fill="var(--mint-soft)" stroke="var(--mint)"/>
+        <text class="lt" x="40" y="44">Your apps</text><text class="ls" x="40" y="64">a web app on any screen, and an iPhone and iPad app</text>
+        <rect class="layer" x="20" y="104" width="520" height="56" rx="16" fill="var(--rose-soft)" stroke="var(--rose)"/>
+        <text class="lt" x="40" y="130">The front door</text><text class="ls" x="40" y="149">sign in with Apple, Google or a passkey</text>
+        <rect class="layer" x="20" y="184" width="300" height="96" rx="16" fill="var(--sky-soft)" stroke="var(--sky)"/>
+        <text class="lt" x="40" y="212">The brain</text><text class="ls" x="40" y="232">runs the daily jobs on a timer,</text><text class="ls" x="40" y="250">retries what fails, does all the maths</text>
+        <text class="lm" x="40" y="270">API · DAILY WORKFLOWS</text>
+        <rect class="layer" x="340" y="184" width="200" height="44" rx="14" fill="var(--saffron-soft)" stroke="var(--saffron)"/>
+        <text class="lt" x="356" y="211">Forecast models</text>
+        <rect class="layer" x="340" y="236" width="200" height="44" rx="14" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text class="lt" x="356" y="263">Claude, the explainer</text>
+        <rect class="layer" x="20" y="304" width="520" height="64" rx="16" fill="var(--surface-2)" stroke="var(--line)"/>
+        <text class="lt" x="40" y="332">The vault</text><text class="ls" x="40" y="352">your holdings, every forecast and every score, never rewritten</text>
+        <rect class="layer" x="20" y="392" width="520" height="62" rx="16" fill="none" stroke="var(--ink-3)" stroke-dasharray="6 6"/>
+        <text class="lt" x="40" y="420">Outside, read-only</text><text class="ls" x="40" y="440">market prices from Twelve Data and Yahoo Finance</text>
+        <path class="pulse" stroke="var(--mint)" d="M120 80 V104"/>
+        <path class="pulse" stroke="var(--rose)" d="M120 160 V184"/>
+        <path class="pulse" stroke="var(--saffron)" d="M320 206 H340"/>
+        <path class="pulse" stroke="var(--violet)" d="M320 258 H340"/>
+        <path class="pulse" stroke="var(--sky)" d="M120 280 V304"/>
+        <path class="pulse" stroke="var(--ink-3)" d="M440 392 V368"/>
+      </svg>
+    </div>
+    <div class="legend">
+      <div class="row"><i class="sw" style="background:var(--mint)"></i><div><b>Two doors</b><span>A web app that works on a laptop, tablet or phone, and a native iPhone and iPad app. Both show the same forecasts.</span></div></div>
+      <div class="row"><i class="sw" style="background:var(--rose)"></i><div><b>A locked front door</b><span>Only the owner gets in. Sensitive actions ask you to sign in again.</span></div></div>
+      <div class="row"><i class="sw" style="background:var(--sky)"></i><div><b>A brain that only wakes when needed</b><span>It runs on Amazon's cloud in pay-per-use pieces, so nothing sits idle costing money. Long jobs pick up where they left off after a hiccup.</span></div></div>
+      <div class="row"><i class="sw" style="background:var(--saffron)"></i><div><b>Forecast models</b><span>Simple rules first, then smarter maths that must prove it is better. Trained twice a month at most, on a capped budget.</span></div></div>
+      <div class="row"><i class="sw" style="background:var(--violet)"></i><div><b>Claude</b><span>Three Claude models with three jobs: a fast one sorts the news, a deep one studies big events (up to three a day), and a balanced one writes the briefing and answers your questions.</span></div></div>
+      <div class="row"><i class="sw" style="background:var(--ink-3)"></i><div><b>A vault that keeps every promise</b><span>A forecast is never edited after the fact. A correction is a new version, so the score can always be checked.</span></div></div>
+      <p class="muted" style="margin:4px 0 0"><span class="tag t-chosen">owner-chosen</span> Amazon Web Services in Virginia, two separate accounts for testing and real use, no always-on servers, and infrastructure written as code (Terraform).</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="who" aria-labelledby="who-h">
+  <header><p class="eyebrow">Who does what</p><h2 id="who-h">Four parts, four jobs, no overlap</h2></header>
+  <div class="roles">
+    <div class="role r-code"><h3>Code</h3><p>Does every sum: prices, currencies, values, scores. The same inputs always give the same answer.</p></div>
+    <div class="role r-model"><h3>Models</h3><p>Forecast the ranges and the chances, from about ten years of history, events and similar past days.</p></div>
+    <div class="role r-claude"><h3>Claude</h3><p>Reads the news, tags it, and explains forecasts in plain words. It never makes up a number.</p></div>
+    <div class="role r-you"><h3>You</h3><p>Decide everything that matters: what to buy or sell, which new model goes live, and the limits it learns within.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="learn" aria-labelledby="learn-h">
+  <header><p class="eyebrow">How it gets smarter</p><h2 id="learn-h">It corrects itself, inside limits you set</h2></header>
+  <div class="loopwrap">
+    <div class="loop">
+      <svg viewBox="0 0 360 360" role="img" aria-label="A circular loop of four stages, forecast, wait, score and adjust, with a glowing dot orbiting round it. In the middle: within your limits.">
+        <circle cx="180" cy="180" r="130" fill="none" stroke="var(--line)" stroke-width="10"/>
+        <circle cx="180" cy="180" r="130" fill="none" stroke="var(--mint)" stroke-width="10" stroke-dasharray="120 696" stroke-linecap="round" class="orbit"/>
+        <g class="orbit"><circle cx="180" cy="50" r="10" fill="var(--saffron)"/></g>
+        <circle cx="180" cy="180" r="74" fill="var(--mint-soft)"/>
+        <text class="lp-t" x="180" y="174" text-anchor="middle">within</text>
+        <text class="lp-t" x="180" y="194" text-anchor="middle">your limits</text>
+        <rect x="140" y="30" width="80" height="26" rx="13" fill="var(--saffron)"/><text class="lp-t" x="180" y="48" text-anchor="middle" style="fill:#0B1329">forecast</text>
+        <rect x="270" y="167" width="70" height="26" rx="13" fill="var(--surface-2)" stroke="var(--line)"/><text class="lp-t" x="305" y="185" text-anchor="middle">wait</text>
+        <rect x="145" y="304" width="70" height="26" rx="13" fill="var(--mint)"/><text class="lp-t" x="180" y="322" text-anchor="middle" style="fill:#0B1329">score</text>
+        <rect x="16" y="167" width="80" height="26" rx="13" fill="var(--sky)"/><text class="lp-t" x="56" y="185" text-anchor="middle" style="fill:#0B1329">adjust</text>
+      </svg>
+    </div>
+    <ol class="steps">
+      <li><div><b>Every forecast is marked</b><span>When its time is up, each forecast is compared with what really happened: was the real price inside the range, and was it as sure as it should have been?</span></div></li>
+      <li class="auto"><div><b>Small fixes happen by themselves</b><span>If it has been a little over-confident or under-confident, ordinary code nudges its settings, but only within limits you approve in advance. If the next scores get worse, the nudge is undone automatically.</span></div></li>
+      <li class="you"><div><b>Big changes wait for you</b><span>A new model, a new kind of signal or anything outside your limits is tested on years of past data, then runs quietly beside the live one, and only goes live when you say yes.</span></div></li>
+      <li><div><b>It stops itself if something looks wrong</b><span>If a safety alarm you agreed in advance goes off, that forecast pauses and you are told. It restarts only with your yes.</span></div></li>
+    </ol>
+  </div>
+  <p class="muted"><span class="tag t-chosen">owner-chosen</span> bounded self-correction, 3 November 2026. <span class="tag t-proposed">to set</span> the size of the limits, before launch. Claude never changes a model; only code does, inside the limits.</p>
+</section>
+
+<section class="sec" id="promises" aria-labelledby="promises-h">
+  <header><p class="eyebrow">Promises it keeps</p><h2 id="promises-h">Honest by design</h2></header>
+  <div class="grid3">
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Uncertainty is always shown</b><span>Every forecast carries its range, its time ahead, when it was made and how good its record is.</span></div></div>
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>It can say "not sure"</b><span>When the evidence is thin, it holds back rather than guess.</span></div></div>
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Stale data is labelled</b><span>A late price or a provider problem is shown on screen, never hidden behind a spinner.</span></div></div>
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>History is never rewritten</b><span>A forecast is frozen the moment it is made, so the track record cannot be flattered.</span></div></div>
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Your data stays yours</b><span>Private to the owner, no passwords to brokers, and secrets never in logs or screenshots.</span></div></div>
+    <div class="card promise"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Quiet at night</b><span>No alerts between 22:00 and 07:00; anything that waits arrives with the 07:30 briefing.</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="cost" aria-labelledby="cost-h">
+  <header><p class="eyebrow">What it costs to run</p><h2 id="cost-h">About £55 a month, under a hard £100 ceiling</h2></header>
+  <div class="budget">
+    <div class="bigrow"><span class="big">£54.73</span><span class="muted">a typical month with Claude switched on (£46.48 without), for everything: market data, the cloud and Claude.</span></div>
+    <div class="bar" role="img" aria-label="Bar out of £100: market data £27.84, cloud £18.64, Claude £8.24, total £54.73. Marks at £60 warn, £75 cut back, £85 pause optional work, and £100 the ceiling.">
+      <div class="seg s-data"><span>Data £27.84</span></div>
+      <div class="seg s-cloud"><span>Cloud £18.64</span></div>
+      <div class="seg s-ai"><span>Claude</span></div>
+      <i class="mark" style="left:60%"></i><i class="mark" style="left:75%"></i><i class="mark" style="left:85%"></i><i class="mark cap" style="left:calc(100% - 3px)"></i>
+    </div>
+    <div class="marks" aria-hidden="true"><span style="left:60%">£60 warn</span><span style="left:75%">£75 cut back</span><span style="left:85%">£85 pause</span><span class="capl" style="left:100%">£100 ceiling</span></div>
+    <div class="keyrow"><span><i style="background:var(--saffron)"></i>Market data (Twelve Data Grow, $29)</span><span><i style="background:var(--sky)"></i>Amazon cloud, both accounts</span><span><i style="background:var(--violet)"></i>Claude, £8.24</span></div>
+    <p class="muted">As spending climbs it warns at £60, cuts optional work at £75 and pauses it at £85. The one planned exception is the yearly Apple developer fee, if the iPhone app needs it. Figures are planning estimates at £0.80 to the dollar plus 20% tax.</p>
+  </div>
+</section>
+
+<section class="sec" id="stands" aria-labelledby="stands-h">
+  <header><p class="eyebrow">Where it stands</p><h2 id="stands-h">Five gates before it goes live</h2></header>
+  <div class="path">
+    <div class="gate now"><span class="num">01</span><h3>Plan the architecture</h3><p>The parts, the rules and the costs, written down and chosen.</p><span class="here">we are here</span></div>
+    <div class="gate"><span class="num">02</span><h3>Owner signs it off</h3><p>The whole plan approved at one exact version.</p></div>
+    <div class="gate"><span class="num">03</span><h3>Design every screen</h3><p>Every journey drawn and approved before any building.</p></div>
+    <div class="gate"><span class="num">04</span><h3>Permission to build</h3><p>A separate, explicit yes.</p></div>
+    <div class="gate"><span class="num">05</span><h3>Prove, then launch</h3><p>Forecasts run in practice and earn trust before they count.</p></div>
+  </div>
+  <p class="muted"><span class="tag t-live">running today</span> the project's automatic checks and a tiny test server. <span class="tag t-chosen">owner-chosen</span> the directions on this page. <span class="tag t-proposed">proposed</span> the details still to approve. Nothing here is deployed.</p>
+</section>
+
+<footer>
+  <p>MyPrediction (Mypaisaa Prediction) is personal decision support for one owner. It is not regulated financial advice or tax advice. It never trades and holds no broker credentials. Forecasts are uncertain; past results do not promise future ones.</p>
+  <p>Sources: the project's <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/README.md">README</a>, <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/ARCHITECTURE.md">ARCHITECTURE</a>, <a href="https://github.com/gilipersonal/mypaisaa-prediction/blob/main/TECH-STACK.md">TECH-STACK</a> and the owner's decision log, as of 3 November 2026. The picture of the fan is illustrative, not a real price. Made for Jira MP-38.</p>
+</footer>
+
+</div>
+</div>
