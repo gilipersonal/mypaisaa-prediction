@@ -209,5 +209,14 @@ any data source.
     local builds that expire after seven days. Free builds cannot use Apple push notifications, TestFlight or Sign in
     with Apple, so phone notifications come through the web app's Web Push until then.
 11. **The rules-versus-models contribution split:** shown live from launch, labelled experimental.
+12. **Yahoo stays for India too:** delayed intraday prices for the 30-minute checks and a cross-check, beside Twelve
+    Data's end-of-day prices.
+13. **The live trial for long horizons:** the 8 weeks check that a model runs cleanly and is calibrated on what has
+    matured; years of walk-forward history carry the accuracy evidence for the 3, 6 and 12-month horizons. The owner
+    still approves.
+14. **What counts as slipping:** the live model scores worse than the previous approved one for 4 weeks running, on
+    matured forecasts. That triggers the automatic revert.
+15. **Restart after a pause:** reverting to the previous approved model is automatic; restarting a paused forecast or
+    switching forward still needs the owner's yes (POLICY-003 stands).
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

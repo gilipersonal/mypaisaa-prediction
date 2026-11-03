@@ -531,7 +531,7 @@ footer p { max-width: 90ch; }
   <div class="tiles">
     <div class="tile"><h3>The rules baseline</h3><span class="hk">R0 · PH-04 · L4-S02 · PROPOSED</span><p>Fixed, transparent rules: indicators, four pillars, the holder's cascade and a labelled rule strength. It calls ADD (shown as Buy), HOLD, PAUSE, TRIM, REBALANCE, and BUY or WATCH for a candidate. Every model has to beat it.</p></div>
     <div class="tile"><h3>The Forecaster</h3><span class="hk">R1, R2 · F1 to F8 · ARC-05 · OWNER-SELECTED</span><p>Ranges, not single numbers, from the next day to 12 months. Regularised models first, then bounded boosted challengers, each qualified per task on walk-forward evidence and promoted only by the owner.</p></div>
-    <div class="tile"><h3>The team and the loop</h3><span class="hk">ARC-06, ARC-06b · bounded self-correction · OWNER-SELECTED</span><p>Code grades every matured forecast daily, adjusts calibration and weights inside owner-approved limits with automatic rollback, and repairs the pipeline; anything larger goes to the owner. A promoted model that slips reverts by itself. Haiku triages, Opus reads at most three events a day, Sonnet explains. Agents cannot change a number or trade.</p></div>
+    <div class="tile"><h3>The team and the loop</h3><span class="hk">ARC-06, ARC-06b · bounded self-correction · OWNER-SELECTED</span><p>Code grades every matured forecast daily, adjusts calibration and weights inside owner-approved limits with automatic rollback, and repairs the pipeline; anything larger goes to the owner. A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts by itself. Haiku triages, Opus reads at most three events a day, Sonnet explains. Agents cannot change a number or trade.</p></div>
     <div class="tile"><h3>Three markets from the start</h3><span class="hk">US, UK, India · PH-03 · L3-S01</span><p>20 to 30 shares and ETFs first, on Twelve Data Grow 55 with Yahoo Finance alongside, in GBP, USD and INR, each listing checked for rights and freshness before it goes live. More can be added later from chat, on the owner's confirm.</p></div>
   </div>
   <p class="disclaim">Personal decision support for one owner, not regulated advice, and never tax advice. It never trades, holds no broker credentials, and every decision stays with the owner. Nothing on this page is built or deployed: only CI and a FastAPI starter run today, on a laptop. Every figure marked Illustrative is made up to show a shape: none is a real balance, a real price or a result.</p>
@@ -800,7 +800,7 @@ footer p { max-width: 90ch; }
       <tbody>
         <tr><td>US shares and ETFs</td><td>Daily open, high, low, close and volume; real-time on Grow; daily history from 1980</td><td>Twelve Data Grow 55, then Yahoo Finance as a cross-check</td><td><span class="key">OWNER-SELECTED</span></td></tr>
         <tr><td>London shares and ETFs</td><td>End-of-day bars in pence (GBp), the unit read per listing (DATA-04)</td><td>Twelve Data Grow 55, end of day; Yahoo for delayed intraday prices and a cross-check</td><td><span class="key">OWNER-SELECTED</span></td></tr>
-        <tr><td>NSE and BSE shares and ETFs</td><td>End-of-day bars in rupees</td><td>Twelve Data Grow 55, end of day; Yahoo <code>.NS</code> and <code>.BO</code> for delayed intraday prices and a cross-check</td><td><span class="key">OWNER-SELECTED</span></td></tr>
+        <tr><td>NSE and BSE shares and ETFs</td><td>End-of-day bars in rupees</td><td>Twelve Data Grow 55, end of day; Yahoo <code>.NS</code> and <code>.BO</code> for delayed intraday prices for the 30-minute checks and a cross-check (owner, 3 Nov 2026)</td><td><span class="key">OWNER-SELECTED</span></td></tr>
         <tr><td>Splits and dividends</td><td>Each listing's corporate actions, so total returns are right</td><td>Twelve Data Grow 55 (20 credits a symbol, Grow only)</td><td><span class="key">OWNER-SELECTED</span></td></tr>
         <tr><td>FX</td><td>Pounds per unit of dollar and rupee, with the actual FX time kept</td><td>Twelve Data real-time FX, then Yahoo</td><td><span class="key">OWNER-SELECTED</span></td></tr>
         <tr><td>Indian mutual funds the owner holds</td><td>One NAV a day per scheme</td><td>The holdings statements the owner supplies (CAS); all other market data comes from Twelve Data. AMFI's files only with AMFI's written permission, which has not been asked for</td><td><span class="key">OWNER-SELECTED</span></td></tr>
@@ -991,14 +991,14 @@ footer p { max-width: 90ch; }
     </div>
     <div class="card">
       <h3>Evidence per task, an 8-week live trial, then the owner</h3>
-      <p class="small">The rules and the models run on the same eligible dates and are graded on mature outcomes, task by task. A challenger runs in shadow until it beats the baseline with its uncertainty and coverage, and for 8 weeks in shadow beating both the base rate and the rules, before it can be promoted with the owner's yes (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026, FC-09; L4-S08). Until a horizon has evidence it shows as in practice or pending, with reasons.</p>
+      <p class="small">The rules and the models run on the same eligible dates and are graded on mature outcomes, task by task. A challenger runs in shadow until it beats the baseline with its uncertainty and coverage, and for 8 weeks in shadow beating both the base rate and the rules, before it can be promoted with the owner's yes (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026, FC-09; L4-S08). For the long horizons, the 8 weeks check that a model runs cleanly and is calibrated on what has matured; years of walk-forward history carry the accuracy evidence for the 3, 6 and 12-month horizons, and the owner still approves (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). Until a horizon has evidence it shows as in practice or pending, with reasons.</p>
       <div class="weeks" style="grid-template-columns:repeat(7, minmax(0, 1fr))" role="img" aria-label="Illustrative maturity by horizon: next day, 5, 10 and 20 trading days and 3 months have mature outcomes to grade; 6 and 12 months are still waiting.">
         <div class="wk ok"><b>✓</b>1d</div><div class="wk ok"><b>✓</b>5d</div><div class="wk ok"><b>✓</b>10d</div><div class="wk ok"><b>✓</b>20d</div><div class="wk ok"><b>✓</b>3m</div><div class="wk"><b>·</b>6m</div><div class="wk"><b>·</b>12m</div>
       </div>
       <p class="cap"><span class="illus">Illustrative</span>Refreshing daily does not mature a 12-month outcome: it needs a year of waiting per forecast.</p>
       <p class="small" style="margin-top:12px">The 8 weeks are checked in code and reported weekly. As in MA, a missed week would start the count again (<span class="ph">PROPOSED · adapted from MA</span>). MA also held the rules themselves back from weekday cards until they had beaten the baseline for 8 consecutive weeks; whether MP applies that to the rules baseline is <span class="ph mp-alertchip">OPEN</span>.</p>
       <div class="weeks" role="img" aria-label="Illustrative 8-week live trial: weeks 1 to 5 beat both the base rate and the rules, weeks 6 to 8 still to come."><div class="wk ok"><b>✓</b>W1</div><div class="wk ok"><b>✓</b>W2</div><div class="wk ok"><b>✓</b>W3</div><div class="wk ok"><b>✓</b>W4</div><div class="wk ok"><b>✓</b>W5</div><div class="wk"><b>·</b>W6</div><div class="wk"><b>·</b>W7</div><div class="wk"><b>·</b>W8</div></div>
-      <p class="cap"><span class="illus">Illustrative</span>Eight weeks can show that a short-horizon task works; it cannot validate a 12-month one.</p>
+      <p class="cap"><span class="illus">Illustrative</span>Eight weeks can show that a short-horizon task works. For a 12-month task they check clean running and calibration on what has matured; walk-forward history carries the accuracy evidence.</p>
     </div>
   </div>
 </section>
@@ -1375,11 +1375,11 @@ footer p { max-width: 90ch; }
     <div class="card">
       <h3>Challengers: held-out years, then shadow</h3>
       <p class="small">A challenger first passes the qualification lab on held-out years (section 9). It then runs in shadow until enough of its own forecasts have matured. One that beats the strongest simple baseline by more than a margin, with an interval that favours it and no subgroup made worse, becomes a promotion request to the owner, with the scores side by side. As in MA, the monthly refit, other parameters and rule thresholds within their ranges are challengers too; the in-band loop never applies them. Before any promotion it spends 8 weeks in shadow beating both the base rate and the rules (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026, FC-09).</p>
-      <p class="small">The owner decides in the app's chat or on the admin Approvals page, in the app or the PWA, after a fresh, strong sign-in checked by the server. Deciding in one place updates the others. The previous version stays pinned as the safe one. A promoted model that slips reverts by itself to the previous approved model and the owner is notified; switching forward again needs the owner's yes (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026).</p>
+      <p class="small">The owner decides in the app's chat or on the admin Approvals page, in the app or the PWA, after a fresh, strong sign-in checked by the server. Deciding in one place updates the others. The previous version stays pinned as the safe one. A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts by itself to it and the owner is notified; switching forward again needs the owner's yes (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026).</p>
     </div>
     <div class="tgchat" aria-label="Illustrative promotion request in the owner's chat in the MP app">
       <div class="tg-head"><span class="tg-av">MP</span><div>MyPrediction<small>admin chat · illustrative</small></div></div>
-      <div class="tg-bub"><b>Promotion request</b><br>Promote the 20-day drawdown-risk challenger R2 v3 over R1 v2?<br><span class="tg-sub">Scope: US equities, 20 trading days.<br>Held-out final test, Brier: v3 0.162, v2 0.171 (5% lower; 95% block interval favours v3)<br>Range coverage: 79%. No subgroup worse.<br>Shadow: 8 weeks beating both the base rate and the rules; 41 mature forecasts.<br>Cost: none extra. Undo: v2 stays pinned; if v3 slips, it reverts to v2 by itself and tells you.<br>Expires in 7 days.</span><div class="tg-time">09:30</div></div>
+      <div class="tg-bub"><b>Promotion request</b><br>Promote the 20-day drawdown-risk challenger R2 v3 over R1 v2?<br><span class="tg-sub">Scope: US equities, 20 trading days.<br>Held-out final test, Brier: v3 0.162, v2 0.171 (5% lower; 95% block interval favours v3)<br>Range coverage: 79%. No subgroup worse.<br>Shadow: 8 weeks beating both the base rate and the rules; 41 mature forecasts.<br>Cost: none extra. Undo: v2 stays pinned; if v3 scores worse than v2 for 4 weeks running on matured forecasts, it reverts to v2 by itself and tells you.<br>Expires in 7 days.</span><div class="tg-time">09:30</div></div>
       <div class="tg-btns two"><span class="tg-btn">Approve</span><span class="tg-btn">Reject</span><span class="tg-btn">Why?</span><span class="tg-btn">Later</span></div>
     </div>
   </div>
@@ -1505,8 +1505,8 @@ footer p { max-width: 90ch; }
 
 <!-- 9 -->
 <section class="sec" id="s9" aria-labelledby="s9-h">
-  <header class="sh"><span class="num">9</span><div><p class="over">How it proves itself</p><h2 id="s9-h">A lab first, shadow next, the owner's approval, and a pause</h2><div class="keys"><span class="ph">PROPOSED · SCI-05, SCI-06, SCI-07</span><span class="ph">OPEN · SCI-D03, SCI-D05</span><span class="key">OWNER-SELECTED · POLICY-003</span><span class="key">OWNER-SELECTED · 8-week trial, automatic revert, 3 Nov 2026</span><span class="ph">PH-04 · L4-S03, L4-S08</span></div></div></header>
-  <p class="intro">Nothing is shown because it sounds clever. A model earns its place in the qualification lab on held-out years, then in shadow on its own matured forecasts, then by the owner's approval. It can lose it again. Each task, horizon and market group passes on its own record, so an Indian listing, a UK fund and a US share each earn their place separately. The owner set the live trial at 8 weeks in shadow, beating both the base rate and the rules, before a model can be promoted with the owner's yes. Eight weeks of shadow is useful operational evidence, but it cannot validate a 12-month forecast.</p>
+  <header class="sh"><span class="num">9</span><div><p class="over">How it proves itself</p><h2 id="s9-h">A lab first, shadow next, the owner's approval, and a pause</h2><div class="keys"><span class="ph">PROPOSED · SCI-05, SCI-06, SCI-07</span><span class="ph">OPEN · SCI-D03, SCI-D05</span><span class="key">OWNER-SELECTED · POLICY-003</span><span class="key">OWNER-SELECTED · 8-week trial, long horizons, slip rule, automatic revert, 3 Nov 2026</span><span class="ph">PH-04 · L4-S03, L4-S08</span></div></div></header>
+  <p class="intro">Nothing is shown because it sounds clever. A model earns its place in the qualification lab on held-out years, then in shadow on its own matured forecasts, then by the owner's approval. It can lose it again. Each task, horizon and market group passes on its own record, so an Indian listing, a UK fund and a US share each earn their place separately. The owner set the live trial at 8 weeks in shadow, beating both the base rate and the rules, before a model can be promoted with the owner's yes. For the long horizons, the 8 weeks check that a model runs cleanly and is calibrated on what has matured; years of walk-forward history carry the accuracy evidence for the 3, 6 and 12-month horizons. The owner still approves (owner, 3 Nov 2026).</p>
   <div class="g2">
     <div class="card">
       <h3>The qualification lab</h3>
@@ -1556,7 +1556,7 @@ footer p { max-width: 90ch; }
             <tr><td>Honest ranges</td><td>Coverage within 5 points of 80%</td></tr>
             <tr><td>No group made worse</td><td>Per market, kind, horizon and regime</td></tr>
             <tr><td>Enough evidence</td><td>Under 20 separate blocks is exploratory only</td></tr>
-            <tr><td>Live trial</td><td>8 weeks in shadow beating both the base rate and the rules, then the owner's yes. <span class="key">OWNER-SELECTED</span> (FC-09)</td></tr>
+            <tr><td>Live trial</td><td>8 weeks in shadow beating both the base rate and the rules, then the owner's yes. For 3, 6 and 12 months the 8 weeks check clean running and calibration on what has matured; years of walk-forward history carry the accuracy evidence. <span class="key">OWNER-SELECTED</span> (FC-09; 3 Nov 2026)</td></tr>
           </tbody>
         </table>
       </div>
@@ -1564,8 +1564,8 @@ footer p { max-width: 90ch; }
     </div>
     <div class="card">
       <h3>Pause and revert, never self-promotion</h3>
-      <p class="small">On a safety trigger the owner approved in advance (a bad artefact hash, revoked rights, corrupt or missing inputs, the budget ceiling), the affected scope pauses itself and the owner is told. Only that scope stops. A restart needs the owner's approval, and only to a version that is still eligible (POLICY-003, OWNER-SELECTED). A promoted model that slips reverts by itself to the previous approved model and the owner is notified; switching forward again needs the owner's yes (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). What counts as a slip is <span class="ph mp-alertchip">OPEN</span>; MA's switch-off, a live record worse than the base rate for four weeks, is the starting proposal. Separately, a calibration or weighting adjustment that makes scores worse rolls back on its own (<span class="key">OWNER-SELECTED</span>, section 7).</p>
-      <div class="states" role="img" aria-label="Model states: candidate, then offline qualified, then shadow for 8 weeks, then owner approved, then probation, then active, calibrated daily within its bands; a scheduled refit goes back to candidate. Any issuing state can be paused; a promoted model that slips reverts by itself to the previous approved one; a failed candidate is rejected.">
+      <p class="small">On a safety trigger the owner approved in advance (a bad artefact hash, revoked rights, corrupt or missing inputs, the budget ceiling), the affected scope pauses itself and the owner is told. Only that scope stops. A promoted model slips when it scores worse than the previous approved one for 4 weeks running, on matured forecasts; that triggers the automatic revert to the previous approved model, and the owner is notified (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). This replaces MA's proposal, a live record worse than the base rate for four weeks. Reverting to the previous approved model is automatic; restarting a paused forecast, or switching forward again, still needs the owner's yes, and only to a version that is still eligible. POLICY-003 stands (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). Separately, a calibration or weighting adjustment that makes scores worse rolls back on its own (<span class="key">OWNER-SELECTED</span>, section 7).</p>
+      <div class="states" role="img" aria-label="Model states: candidate, then offline qualified, then shadow for 8 weeks, then owner approved, then probation, then active, calibrated daily within its bands; a scheduled refit goes back to candidate. Any issuing state can be paused; a promoted model that scores worse than the previous approved one for 4 weeks running reverts by itself to it; a failed candidate is rejected.">
         <span class="st"><b>candidate</b><small>fitted in a campaign</small></span><span class="arr">→</span>
         <span class="st"><b>offline qualified</b><small>passed the lab</small></span><span class="arr">→</span>
         <span class="st"><b>shadow</b><small>8 weeks, scored, not shown</small></span><span class="arr">→</span>
@@ -1574,7 +1574,7 @@ footer p { max-width: 90ch; }
         <span class="st"><b>active</b><small>calibrated within bands</small></span><span class="arr">→</span>
         <span class="st"><b>refit</b><small>monthly, back to candidate</small></span>
       </div>
-      <p class="cap">Any issuing state can be paused. A promoted model that slips reverts by itself to the previous approved one, and switching forward needs the owner (OWNER-SELECTED). A failed candidate is rejected and its result kept. The rest of the state machine is PROPOSED (SCI-D05, OPEN).</p>
+      <p class="cap">Any issuing state can be paused. A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts by itself to it; restarting a paused forecast or switching forward needs the owner (OWNER-SELECTED, 3 Nov 2026). A failed candidate is rejected and its result kept. The rest of the state machine is PROPOSED (SCI-D05, OPEN).</p>
     </div>
   </div>
 </section>
@@ -1682,7 +1682,7 @@ footer p { max-width: 90ch; }
         <li>An affected forecast scope paused on an advance-approved trigger, and the owner told (POLICY-003).</li>
         <li>Optional work reduced at £75 and paused at £85 (section 11).</li>
         <li>A calibration or weighting adjustment that made scores worse rolled back to its last good version.</li>
-        <li>A promoted model that slipped reverted to the previous approved model, and the owner told.</li>
+        <li>A promoted model that scored worse than the previous approved one for 4 weeks running reverted to it, and the owner told.</li>
         <li>A missed scheduled run caught up; a forecast whose cutoff has passed abstains instead.</li>
         <li>A dead-lettered job replayed by code, at most 3 times, once its cause is healthy (MA's limit).</li>
         <li>A step that still fails skipped, its output labelled stale; the rest of the run goes on.</li>
@@ -1831,8 +1831,8 @@ footer p { max-width: 90ch; }
     <div class="card">
       <p class="over">India · INR</p>
       <h3>NSE and BSE at end of day</h3>
-      <p class="small">Grow has NSE and BSE at end of day; Yahoo gives delayed intraday prices and a cross-check. Indian mutual fund NAVs are not on Grow 55: the owner supplies the holdings statements, and all other market data comes from Twelve Data (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). Whether that answer also retires the Yahoo cross-check for India is <span class="ph mp-alertchip">OPEN</span>.</p>
-      <div class="chips"><span class="chip mp-neutral">Grow 55 EOD</span><span class="chip mp-neutral">Yahoo delayed</span><span class="chip mp-neutral">CAS for held funds</span></div>
+      <p class="small">Grow has NSE and BSE at end of day; Yahoo gives delayed intraday prices and a cross-check. Indian mutual fund NAVs are not on Grow 55: the owner supplies the holdings statements, and all other market data comes from Twelve Data (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026). Yahoo stays for India too: delayed intraday prices for the 30-minute checks and a cross-check, alongside Twelve Data's end-of-day prices (<span class="key">OWNER-SELECTED</span>, 3 Nov 2026).</p>
+      <div class="chips"><span class="chip mp-neutral">Grow 55 EOD</span><span class="chip mp-neutral">Yahoo delayed and cross-check</span><span class="chip mp-neutral">CAS for held funds</span></div>
       <p class="cap">NSE and BSE close at 15:30 IST: 10:00 in London in winter, 11:00 in British Summer Time. Twelve Data's NSE page lists Sunday to Thursday as trading days, which is wrong; MP's own calendars are the authority.</p>
     </div>
   </div>
@@ -1846,7 +1846,7 @@ footer p { max-width: 90ch; }
         <tbody>
           <tr><td>US shares and ETFs</td><td>Grow 55: real time, daily history from 1980</td><td>Yahoo cross-check; Basic in dev</td><td>none</td></tr>
           <tr><td>LSE shares, ETFs and trusts</td><td>Grow 55 end of day, in GBX</td><td>Yahoo delayed intraday; Basic in dev</td><td>none</td></tr>
-          <tr><td>NSE and BSE shares and ETFs</td><td>Grow 55 end of day</td><td>Yahoo delayed intraday; Basic in dev</td><td>The exchanges' own files: NSE forbids automated collection; BSE forbids reproduction</td></tr>
+          <tr><td>NSE and BSE shares and ETFs</td><td>Grow 55 end of day</td><td>Yahoo delayed intraday and cross-check; Basic in dev</td><td>The exchanges' own files: NSE forbids automated collection; BSE forbids reproduction</td></tr>
           <tr><td>Indian mutual funds</td><td>The holdings statements the owner supplies (CAS), for funds held <span class="key">OWNER-SELECTED</span></td><td>AMFI's official NAV files, only with AMFI's written permission, which has not been asked</td><td>Mirrors of AMFI data, which inherit AMFI's terms</td></tr>
           <tr><td>UK funds</td><td><span class="key">OWNER-SELECTED</span> Grow 55, tested by API in its first month; if it does not cover them, the owner's own statements</td><td>Each fund manager publishes its own; none selected</td><td>Twelve Data Pro: over budget</td></tr>
           <tr><td>FX: GBP, USD and INR</td><td>Twelve Data FX</td><td>Pinned to the valuation cutoff, with its age</td><td>none</td></tr>
