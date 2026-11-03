@@ -551,7 +551,9 @@
     "SCI-D10",
     "DATA-DEC-15",
     "COST-Q4"
-   ]
+   ],
+   "fix_commit": "7c06458a805249609a9b545e290019c66f0c6a98",
+   "post_fix_gates": "review_checks --broader: all pass except confluence-receipts (republish pending the owner's yes) and the synthetic-data tests (pandas, pdftoppm unavailable locally); actionlint 1.7.12 pass; MP-20 ledger 25/25; every ledger 46/46; plan_sync selftest 51/51; backend pytest pass"
   }
  ],
  "fixed_findings_current_ledger": {
