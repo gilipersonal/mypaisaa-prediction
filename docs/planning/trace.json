@@ -1731,7 +1731,7 @@
    "key": "MP-177",
    "summary": "Record the owner's answers that unblock the UX design",
    "type": "Task",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
    "code": [
     "ARCHITECTURE.md",
