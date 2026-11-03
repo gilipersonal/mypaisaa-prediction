@@ -201,217 +201,253 @@
    "docs/motion/forecast-lifecycle.gif": {
     "id": "8c605659-8956-4ae9-a113-c0c7247f6d02",
     "collection": "contentId-6127641",
-    "attachment": "att6291503"
+    "attachment": "att6291503",
+    "sha256": "8154f4d533fc2bc0c81c70d3b64caa9f933822f392a4bc3b69f85f2db04d5277"
    }
   },
   "rec-cost": {
    "docs/motion/budget.gif": {
     "id": "27c74122-afb0-4d56-8770-f202f49ac30c",
     "collection": "contentId-6291529",
-    "attachment": "att6127882"
+    "attachment": "att6127882",
+    "sha256": "048c468c592a717065ca7ee7e2fffca9ff1f7ccf37771c1faf15c09afc77b18e"
    }
   },
   "drawings": {
    "docs/motion/logo-intro.gif": {
     "id": "ab35c7e7-c4bc-423a-be51-f5caf6d01162",
     "collection": "contentId-6357015",
-    "attachment": "att6357236"
+    "attachment": "att6357236",
+    "sha256": "9f72138c018428df3d740196b96e79abac0538a0bdd80c09f5767ed27a4d8e43"
    }
   },
   "roadmap": {
    "docs/motion/roadmap.gif": {
     "id": "11bcc4fa-0466-4b03-82de-b6f9c1fc82ed",
     "collection": "contentId-6127702",
-    "attachment": "att6357235"
+    "attachment": "att6357235",
+    "sha256": "5d7c35aa63a4fe831fca127d9ad2f2c96d2cc423fbf2959d4ba687e92f2a91c9"
    },
    "docs/diagrams/mp-architecture-2026-11-02/09-the-road.png": {
     "id": "c9843408-451a-47c0-ad7a-9a7fab113393",
     "collection": "contentId-6127702",
-    "attachment": "att6127936"
+    "attachment": "att6127936",
+    "sha256": "89d6a6946c89653c7c0547ae342f27772e1def79a1cbba1d2bd43522a847a3fc"
    }
   },
   "rec-claude": {
    "docs/motion/claude-routes.gif": {
     "id": "00804a1a-6958-4ee4-8c1f-99bf220dce09",
     "collection": "contentId-6127762",
-    "attachment": "att6488215"
+    "attachment": "att6488215",
+    "sha256": "bc544f3a86b8d2a0072959fb130104865f0059600f019e4440737f0dda310660"
    },
    "docs/diagrams/mp-architecture-2026-11-02/04-claude-routes-batching.png": {
     "id": "2b68b62d-3d4b-435b-9616-b2c597a8de8d",
     "collection": "contentId-6127762",
-    "attachment": "att6291781"
+    "attachment": "att6291781",
+    "sha256": "dd1ebf14d102233d0593c2f8a81ea4c33f43d4c3e96bf100fad14db4b2c7b532"
    }
   },
   "rec-forecast": {
    "docs/motion/daily-window.gif": {
     "id": "7e7e4e92-11b2-4781-8986-f449b7d2035f",
     "collection": "contentId-6127742",
-    "attachment": "att6291696"
+    "attachment": "att6291696",
+    "sha256": "ae0c251a59a47008ee07dfd15fb997734ee0cff16295e64f534bd0df49cea180"
    },
    "docs/motion/learning-loop.gif": {
     "id": "778d0360-4520-4d4c-aa70-62664aded9d6",
     "collection": "contentId-6127742",
-    "attachment": "att6389958"
+    "attachment": "att6389958",
+    "sha256": "bc88a12787c2118cc5e4ee2016d2948cf1630bfc38511c378f053c9bc2e0ffab"
    },
    "docs/diagrams/mp-architecture-2026-11-02/03-forecast-pipeline.png": {
     "id": "c642b4d5-9375-4a0a-a9cd-d54aaee77dc1",
     "collection": "contentId-6127742",
-    "attachment": "att6291785"
+    "attachment": "att6291785",
+    "sha256": "913bfd9c1f24c898326b69bc1def3633f6a9e6ef77b9b591e286aee00f8671ed"
    }
   },
   "rec-ledger": {
    "docs/motion/import-approval.gif": {
     "id": "805c6ccc-fe6c-4eee-8d91-14694aa1fe3f",
     "collection": "contentId-6389816",
-    "attachment": "att6357243"
+    "attachment": "att6357243",
+    "sha256": "f321318a8f76e9279d5a0243896c999360a03d6b8acf09ead07be35952d0c4d6"
    },
    "docs/diagrams/mp-architecture-2026-11-02/05-importing-a-statement.png": {
     "id": "67844d56-2e96-4d99-a055-b0a7873f2068",
     "collection": "contentId-6389816",
-    "attachment": "att6095077"
+    "attachment": "att6095077",
+    "sha256": "55a7b91a4bc5f9f68f53a74e3748c3ebdbc6d904e19bb53cc5466358082bc6d6"
    },
    "docs/diagrams/mp-architecture-2026-11-02/08-records.png": {
     "id": "45c68c0a-add0-4fc6-8184-888b968291d8",
     "collection": "contentId-6389816",
-    "attachment": "att6095089"
+    "attachment": "att6095089",
+    "sha256": "d63df1a21abf84f7660737ae77fb00d1e9b5da89927c4de9fcfdab754f8ac831"
    }
   },
   "rec-system": {
    "docs/motion/system-flow.gif": {
     "id": "7e4b4e62-6114-43af-98c0-bbb6f7bceacb",
     "collection": "contentId-6389796",
-    "attachment": "att6488219"
+    "attachment": "att6488219",
+    "sha256": "fb1bb9a6d38e319639e04e12b18d1aff08cf49ae34e94177fa29315bfc4f7464"
    },
    "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
     "id": "96b734d1-1243-46f9-8c63-4c70c6c98b51",
     "collection": "contentId-6389796",
-    "attachment": "att6095081"
+    "attachment": "att6095081",
+    "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713"
    }
   },
   "journeys": {
    "docs/motion/import-approval.gif": {
     "id": "b843ec94-ea80-4d6b-9b33-fdf4b694c9ec",
     "collection": "contentId-6127682",
-    "attachment": "att6291702"
+    "attachment": "att6291702",
+    "sha256": "f321318a8f76e9279d5a0243896c999360a03d6b8acf09ead07be35952d0c4d6"
    },
    "docs/motion/daily-window.gif": {
     "id": "3419f24c-561f-43c6-92d8-7b7bb2151ede",
     "collection": "contentId-6127682",
-    "attachment": "att6357253"
+    "attachment": "att6357253",
+    "sha256": "ae0c251a59a47008ee07dfd15fb997734ee0cff16295e64f534bd0df49cea180"
    },
    "docs/motion/claude-routes.gif": {
     "id": "fa41db33-595f-4938-a6b1-2c0188f34261",
     "collection": "contentId-6127682",
-    "attachment": "att6291708"
+    "attachment": "att6291708",
+    "sha256": "bc544f3a86b8d2a0072959fb130104865f0059600f019e4440737f0dda310660"
    },
    "docs/motion/learning-loop.gif": {
     "id": "02ec75cd-d3d7-4e95-a02e-daabec76e40d",
     "collection": "contentId-6127682",
-    "attachment": "att6291714"
+    "attachment": "att6291714",
+    "sha256": "bc88a12787c2118cc5e4ee2016d2948cf1630bfc38511c378f053c9bc2e0ffab"
    },
    "docs/motion/system-flow.gif": {
     "id": "efb0a42f-371b-4170-880a-39a7f614c2bc",
-    "collection": "contentId-6127682"
+    "collection": "contentId-6127682",
+    "sha256": "fb1bb9a6d38e319639e04e12b18d1aff08cf49ae34e94177fa29315bfc4f7464"
    }
   },
   "rec-guardrails": {
    "docs/diagrams/mp-architecture-2026-11-02/02-who-may-do-what.png": {
     "id": "785adb7f-70c5-4a42-86db-b7f5245e7e31",
     "collection": "contentId-6127782",
-    "attachment": "att6291777"
+    "attachment": "att6291777",
+    "sha256": "12cf3bbac05e1c808c326a13512516df33eed6fbe2511ade18ed0c90de38b092"
    }
   },
   "rec-delivery": {
    "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png": {
     "id": "c7a5f7f3-768d-4be7-87d5-fb0e04fe8e63",
     "collection": "contentId-6094881",
-    "attachment": "att6390028"
+    "attachment": "att6390028",
+    "sha256": "991598846762543498131a3a174b953f2357a60272c61681d09ec6ff4fcbab65"
    }
   },
   "record": {
    "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
     "id": "c9cd3f06-1f1c-4a58-b70c-3cfb68577798",
     "collection": "contentId-6127662",
-    "attachment": "att6127940"
+    "attachment": "att6127940",
+    "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713"
    }
   },
   "rec-identity": {
    "docs/diagrams/mp-architecture-2026-11-02/06-identity-step-up.png": {
     "id": "a4357060-96f6-456d-81b3-f56b71254184",
     "collection": "contentId-6389836",
-    "attachment": "att6390024"
+    "attachment": "att6390024",
+    "sha256": "e139c9ed7f322cdc7988aa0fea39561de0c66f384ecba680b830341f0820480c"
    }
   },
   "rec-stack": {
    "docs/motion/stack-build.gif": {
     "id": "ef53ba80-166a-4fdd-951b-7c8ae8092237",
     "collection": "contentId-6128065",
-    "attachment": "att6095207"
+    "attachment": "att6095207",
+    "sha256": "a503e896b567332986332660951d5cb02a0e1c730f235786f923fed71591b95e"
    },
    "docs/diagrams/mp-quality-2026-11-02/01-stack-end-to-end.png": {
     "id": "12dfc2e7-05b2-4691-936b-dc1aed8743b9",
     "collection": "contentId-6128065",
-    "attachment": "att6128898"
+    "attachment": "att6128898",
+    "sha256": "08aa68ada61a3ac97143fdf045f9b01ef68cc480c7c4307b147de2bc1eca96d0"
    }
   },
   "rec-web-quality": {
    "docs/motion/a11y-pipeline.gif": {
     "id": "6eda6c97-baff-44fe-bd60-6f65fad7d7db",
     "collection": "contentId-6095187",
-    "attachment": "att6292702"
+    "attachment": "att6292702",
+    "sha256": "747aa003b94bb22463f8e0db41170e158ccf99863df79bb9e9957d7500b70553"
    },
    "docs/diagrams/mp-quality-2026-11-02/06-web-quality.png": {
     "id": "3c93b114-375e-4dd0-bb79-059cc1d984af",
     "collection": "contentId-6095187",
-    "attachment": "att6292708"
+    "attachment": "att6292708",
+    "sha256": "ad4ece1a5e13d3c65e9276efea601912c88b2fe47954956997e452d4f4229cb4"
    }
   },
   "rec-observability": {
    "docs/motion/trace-journey.gif": {
     "id": "c8deecdf-f71d-48b5-be23-a2b8055e0e38",
     "collection": "contentId-6357075",
-    "attachment": "att6390861"
+    "attachment": "att6390861",
+    "sha256": "27af7f0cb03e2ecbd4825e61f7847cfccc9f8ae49cb110645834bda495ed1912"
    },
    "docs/diagrams/mp-quality-2026-11-02/02-one-trace.png": {
     "id": "8d615421-7797-43b0-857d-1285284d5cf3",
     "collection": "contentId-6357075",
-    "attachment": "att6390869"
+    "attachment": "att6390869",
+    "sha256": "5e935c17b75e2befffd64f09bd6e0b56d71a25152e92e390268f56a991bff49b"
    }
   },
   "rec-perimeter": {
    "docs/motion/perimeter-layers.gif": {
     "id": "8576eb6a-80f5-4fe3-9067-fb76bad99470",
     "collection": "contentId-6390123",
-    "attachment": "att6096169"
+    "attachment": "att6096169",
+    "sha256": "58b7f4e873960383690c4b2c8880da002f6940089b4716380181dfca2e01acb5"
    },
    "docs/diagrams/mp-quality-2026-11-02/05-perimeter.png": {
     "id": "ed08f3ab-bd3b-476f-a165-1786bd250cef",
     "collection": "contentId-6390123",
-    "attachment": "att6096183"
+    "attachment": "att6096183",
+    "sha256": "d3e845bed7bfa1b4f0cb36043a6a8ad40356a08863bd5b0562262fd01d13609b"
    }
   },
   "rec-apple-testing": {
    "docs/motion/device-matrix.gif": {
     "id": "a2ab98b5-5a79-4106-b32e-49332fe1f122",
     "collection": "contentId-6291956",
-    "attachment": "att6390857"
+    "attachment": "att6390857",
+    "sha256": "e886e309d664b0275f5ca76057679737c53a821de2a08fb805d491f816993e83"
    },
    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
     "id": "616a229f-62ed-4c36-bb2e-dc88885613da",
     "collection": "contentId-6291956",
-    "attachment": "att6128904"
+    "attachment": "att6128904",
+    "sha256": "cb87618475b6746172810299d5ecc5d7933af45de8d556a7ca257ef46eac3d97"
    }
   },
   "rec-testing": {
    "docs/motion/delivery-pipeline.gif": {
     "id": "a1382d6d-6b1c-4fec-9167-db000c343252",
     "collection": "contentId-6291936",
-    "attachment": "att6096173"
+    "attachment": "att6096173",
+    "sha256": "47ee54da36105708d1f0e31230e510528878f495c466e97e4a09746b6c4b1d45"
    },
    "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png": {
     "id": "79530317-4ac9-4838-aad9-f245cc167da5",
     "collection": "contentId-6291936",
-    "attachment": "att6390873"
+    "attachment": "att6390873",
+    "sha256": "f83f6613de0caffffc9f8e0378bcd84775848df7673e30417674a9c18866d277"
    }
   }
  },

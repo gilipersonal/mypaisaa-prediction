@@ -3,7 +3,9 @@
   "status": "proposed",
   "task_refs": [
     "MP-27",
-    "MP-29"
+    "MP-29",
+    "MP-20",
+    "MP-39"
   ],
   "fields": {
     "reservation_id": "Unique immutable ID",
@@ -53,7 +55,9 @@
     "Counterfactual full-function no-credit costs are not permitted paid-call forecasts.",
     "Expiry, scope, freshness or coverage failure denies model dispatch.",
     "Emergency policy does not bypass owner authority or the GBP100 aggregate envelope.",
-    "A full fixed annual invoice is encumbered in its due month before optional jobs. Amortised run rates never replace invoice-month cash; release only on confirmed settlement or effective cancellation. Unknown amount or due date blocks a new commitment until conservatively bounded and authorised."
+    "A full fixed annual invoice is encumbered in its due month before optional jobs. Amortised run rates never replace invoice-month cash; release only on confirmed settlement or effective cancellation. Unknown amount or due date blocks a new commitment until conservatively bounded and authorised.",
+    "Exactly one exception exists: the Apple Developer Program fee in its due month, if the owner buys it. It never extends to another fee, another month or the rest of that month's lines.",
+    "The top-5 scan spends at most GBP5 a month from the same aggregate month; exceeding the cap refuses the scan work rather than raising the cap."
   ],
   "credit_proof_boundary": {
     "status": "live_proof_pending",
@@ -72,6 +76,16 @@
     "reserve_full_due_fixed_commitments": true,
     "release_only_after_confirmed_settlement_or_cancellation": true,
     "unknown_due_date_or_invoice_blocks_new_commitment": true,
-    "scope": "Both workload accounts, data, model/evaluation and selected ancillary fixed invoices share the aggregate month. Reserve a full selected annual invoice in its due month; projected monthly savings or amortisation do not reduce its liability. Unknown timing/amount needs a conservative approved bound before new commitment."
+    "scope": "Both workload accounts, data, model/evaluation and selected ancillary fixed invoices share the aggregate month. Reserve a full selected annual invoice in its due month; projected monthly savings or amortisation do not reduce its liability. Unknown timing/amount needs a conservative approved bound before new commitment.",
+    "exception_month": {
+      "fee": "apple_developer_program",
+      "months_per_year": 1,
+      "other_lines_must_fit": true,
+      "status": "conditional_not_bought",
+      "rule": "Owner, 2 Nov 2026: the Apple Developer Program fee (USD99 a membership year) may take its due month above GBP100, for this fee only. Owner, 3 Nov 2026: not bought for now. If bought, the full fee is reserved in its due month, never amortised; every other line in that month must still fit the ceiling and thresholds, and no other fee or month may use the exception."
+    },
+    "scan_allowance_max_gbp": "5",
+    "scan_allowance_rule": "Owner, 3 Nov 2026 (MP-39 item 19): the ~150-name scan and its top-5 explanations may add up to GBP5 a month. It is a reserved cap inside the same month, not a separate pot: a scan reservation that would take the month's scan spend past GBP5 is refused, and it does not relax the Claude credit rule.",
+    "domain_line": "Removed (owner, 3 Nov 2026): mypaisapp.com is renewed outside MP, so no domain commitment is reserved."
   }
 }

@@ -605,7 +605,7 @@ def rec_observability(s: str) -> str:
                 ["X-Ray traces read", "$0.50 per million", "30,000", "10,000", "$0.020"],
                 ["<strong>Total</strong>", "", "", "", "<strong>$4.94, about £4.74</strong>"]])
             + cols(card("bar_chart", "#DEEBFF", "Against the £22",
-                        "About a fifth of the £22 AWS share. It is already counted inside the cost model's AWS total of $20.67 (£19.84), which leaves £2.16. "
+                        "About a fifth of the £22 AWS share. It is already counted inside the cost model's AWS total of $19.42 (£18.64), which leaves £3.36. "
                         "Custom metrics are three quarters of it: dropping dev's four saves about £1.15."),
                    card("gift", "#E3FCEF", "What is free",
                         "Powertools, OpenTelemetry and the ADOT layer are free; they add a few cents of Lambda time by estimate. A CloudWatch free tier would lower the total, but is not counted."))
@@ -746,8 +746,8 @@ def rec_testing(s: str) -> str:
                 ["3. Deploy to dev", "GitHub OIDC into a dev-only role that trusts <code>main</code> and the release workflow, nothing else; "
                  "no stored AWS keys", lozenge("proposed")],
                 ["4. Dev smoke", "The full synthetic profile below", lozenge("proposed")],
-                ["5. Owner approves", "The owner promotes that exact sha256. How the approval is enforced is open (see the warning below)",
-                 lozenge("open")],
+                ["5. Owner approves", "The owner promotes that exact sha256 by starting a release workflow only the owner can start "
+                 "(route A below, owner-selected 3 November 2026)", lozenge("selected")],
                 ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11)", lozenge("selected")],
                 ["7. Prod smoke, then keep or roll back", "Read-only checks; a failure moves the alias back", lozenge("proposed")],
                 ["IaC", "Terraform only, from day one: every AWS change goes through Terraform (owner, 3 November 2026). Plan-only until an apply is asked for", lozenge("selected")],
@@ -756,8 +756,8 @@ def rec_testing(s: str) -> str:
             + panel("warning", "#FFFAE6",
                     "<p><strong>The Free plan cannot hold the prod gate.</strong> On a private repo, GitHub's required reviewers and wait "
                     "timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner approves in a protected "
-                    "environment&quot; cannot be built on today's plan. Options:</p>"
-                    + ul(["<strong>A, free:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
+                    "environment&quot; cannot be built on today's plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen.</p>"
+                    + ul(["<strong>A, free, owner-selected:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
                           "that trusts only <code>main</code> and that workflow file. The org has one member today.",
                           "<strong>B:</strong> GitHub Team, $4 a user a month (about £3.84): branch protection and environment secrets, still no "
                           "required reviewers on a private repo.",
@@ -835,7 +835,7 @@ def rec_testing(s: str) -> str:
 
             + "<h2>❓ To decide</h2>"
             + panel("hourglass", "#FFFAE6", ul([
-                "How prod approval is enforced on GitHub Free: A, B, C or D above, and the wording of the AWS rule. PL-11 (MP-30)",
+                "The wording of the AWS rule for route A, the release workflow only the owner can start (owner-selected 3 November 2026). PL-11 (MP-30)",
                                 "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
                 "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
@@ -1076,12 +1076,11 @@ def rec_perimeter(s: str) -> str:
                 ["L3 Managed lockdown", "$36.73", "$73.23", "$109.77 (£105.38)", "$120.75 (£115.92)"],
                 ["L4 Strict lockdown", "$65.98", "$131.68", "$197.43 (£189.53)", "$217.17 (£208.48)"]])
             + table(["Against the budget", "Virginia", "London"], [
-                ["Baseline AWS, both accounts (cost specification)", "£19.84", "£20.31"],
-                ["Left in the £22 AWS share", "£2.16", "£1.69"],
+                ["Baseline AWS, both accounts (cost specification)", "£18.64", "£19.11"],
+                ["Left in the £22 AWS share", "£3.36", "£2.89"],
                 ["Cheapest paid step: L2 with one zone in each account", "£14.12", "£15.02"],
-                ["A Grow $79 ordinary month, plus L2 (dev 1 zone, prod 2 zones)", "£94.48 + £21.19 = £115.67, over the £100 ceiling", "£94.95 + £22.53 = £117.48, over the ceiling"],
-                ["A Grow $29 month if offered, plus the same L2", "£46.48 + £21.19 = £67.67, past the £60 warning", "£46.95 + £22.53 = £69.48, past the warning"]])
-            + ul(["The baseline leaves about £2 of the £22 AWS share, so every paid step overruns it. L3 and L4 alone pass the £100 ceiling, whatever data plan is chosen.",
+                ["The ordinary month (Grow 55, Claude off), plus L2 (dev 1 zone, prod 2 zones)", "£46.48 + £21.19 = £67.67, past the £60 warning", "£46.95 + £22.53 = £69.48, past the warning"]])
+            + ul(["The baseline leaves about £3 of the £22 AWS share, so every paid step overruns it. L3 and L4 alone pass the £100 ceiling, whatever data plan is chosen.",
                   "The floor is fixed: a NAT Gateway or an endpoint bills every hour it exists, busy or idle.",
                   "Not priced here: a DNS firewall, AWS WAF, GuardDuty, flow logs and a network firewall. Each is its own costed decision.",
                   "Not offered: IPv6-only egress through a free egress-only gateway. It works only if every destination answers on IPv6, which is unverified."])
@@ -1461,6 +1460,22 @@ def receipt_problems(pages_manifest: dict, slugs: list[str], receipts_dir: Path)
     return problems
 
 
+def media_problems(needed: dict, media: dict, root: Path) -> list[str]:
+    """Every attachment a page needs is uploaded, and is the file as it is now: a changed export under the same name
+    is re-uploaded, so the check fails on a hash that differs or is missing (MP-20)."""
+    problems = []
+    for slug, paths in needed.items():
+        for path in paths:
+            rec = media.get(slug, {}).get(path)
+            if rec is None:
+                problems.append(f"{slug}: {path} not attached")
+            elif not (root / path).is_file():
+                problems.append(f"{slug}: {path} is attached but missing from the repo")
+            elif rec.get("sha256") != hashlib.sha256((root / path).read_bytes()).hexdigest():
+                problems.append(f"{slug}: {path} changed since it was attached; re-upload it")
+    return problems
+
+
 def check() -> int:
     write()
     problems = []
@@ -1471,10 +1486,7 @@ def check() -> int:
             problems.append(f"{page['slug']}: not created")
         elif rec.get("sha256") != sent:
             problems.append(f"{page['slug']}: changed since it was published")
-    for slug, paths in MEDIA_NEEDED.items():
-        for path in paths:
-            if path not in M["media"].get(slug, {}):
-                problems.append(f"{slug}: {path} not attached")
+    problems += media_problems(MEDIA_NEEDED, M["media"], ROOT)
     problems += receipt_problems(M["pages"], [p["slug"] for p in PAGES], RECEIPTS)
     for p in problems:
         print("PENDING:", p)

@@ -1,5 +1,5 @@
 {
-  "status": "owner_pending_except_confirmed_receipts",
+  "status": "consolidated_2026-11-03: SCI-D05 closed by owner answers; SCI-D01/D03/D04/D06 partly answered; SCI-D02/D07/D08/D09 owner_pending",
   "owner_confirmed": [
     {
       "id": "FND-DEC-001",
@@ -22,7 +22,11 @@
         "SCI-01",
         "SCI-03"
       ],
-      "status": "owner_pending"
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-002"
+      ],
+      "still_open": "Source finality and runtime proof for the clocks, per-source NAV publication schedule and FX freshness tolerance."
     },
     {
       "id": "SCI-D02",
@@ -33,7 +37,9 @@
         "SCI-02",
         "SCI-06"
       ],
-      "status": "owner_pending"
+      "status": "owner_pending",
+      "answered_by": [],
+      "still_open": "Unchanged: risk thresholds by horizon, market/kind benchmark mapping and GBP primary basis."
     },
     {
       "id": "SCI-D03",
@@ -44,7 +50,11 @@
         "SCI-05",
         "SCI-06"
       ],
-      "status": "owner_pending"
+      "status": "partly_answered",
+      "answered_by": [
+        "SCI-OA-04"
+      ],
+      "still_open": "The 8-week shadow trial and long-horizon reliance on walk-forward history are settled. Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle, 95% paired interval and 80% coverage tolerance, and whether that hurdle also applies to the trial."
     },
     {
       "id": "SCI-D04",
@@ -55,7 +65,13 @@
         "SCI-04",
         "SCI-05"
       ],
-      "status": "owner_pending"
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-008",
+        "SCI-OA-01",
+        "SCI-OA-02"
+      ],
+      "still_open": "Campaign ceilings, the seven-kind event wave and the since-2015 analog history are settled. Still open: the remaining model and feature catalogue, per-kind event windows and comparators, and the staging order of qualification campaigns within the ceiling."
     },
     {
       "id": "SCI-D05",
@@ -65,7 +81,15 @@
       "requirements": [
         "SCI-07"
       ],
-      "status": "owner_pending"
+      "status": "closed_owner_answered_2026-11-03",
+      "answered_by": [
+        "POLICY-003",
+        "SCI-OA-03",
+        "SCI-OA-04",
+        "SCI-OA-05",
+        "SCI-OA-06"
+      ],
+      "still_open": "Promotion, probation, automatic revert, restart and self-correction authority are settled. The remaining detail (exact safety triggers and the worse-week scoring rule) moves to SCI-D07."
     },
     {
       "id": "SCI-D06",
@@ -75,9 +99,168 @@
       "requirements": [
         "SCI-08"
       ],
-      "status": "owner_pending"
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-004"
+      ],
+      "still_open": "Specific template values, calculation conventions and evidence for the scenario assumptions."
+    },
+    {
+      "id": "SCI-D07",
+      "topic": "Worse-week scoring rule and exact safety triggers",
+      "recommendation": "A bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope; a week with no matured paired forecasts neither counts nor breaks a run; probation reverts after 2 bad weeks running. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval.",
+      "why_owner_material": "Weekly samples are small and noisy: the rule sets how often a sound model is reverted, and whether 2 probation weeks must run consecutively.",
+      "requirements": [
+        "SCI-06",
+        "SCI-07"
+      ],
+      "status": "owner_pending",
+      "arises_from": [
+        "SCI-OA-05",
+        "SCI-OA-06",
+        "POLICY-003"
+      ]
+    },
+    {
+      "id": "SCI-D08",
+      "topic": "Gold and silver (XAU/USD, XAG/USD) valuation conventions",
+      "recommendation": "Choose one daily valuation instant and source for each spot quote, a calendar of valuation days, and whether a new price type is added to ForecastTask; until then these listings are unavailable_with_reason for formal tasks.",
+      "why_owner_material": "Spot metals have no exchange close, so the daily clocks, maturity and GBP conversion need a declared instant.",
+      "requirements": [
+        "SCI-01",
+        "SCI-02"
+      ],
+      "status": "owner_pending",
+      "arises_from": [
+        "SCI-OA-07"
+      ]
+    },
+    {
+      "id": "SCI-D09",
+      "topic": "Top-5 ranking inputs, ETF segment structure and cadence",
+      "recommendation": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier.",
+      "why_owner_material": "Which horizons feed growth, protection and opportunity, and one ETF list versus three, change what the owner sees.",
+      "requirements": [
+        "SCI-07"
+      ],
+      "status": "owner_pending",
+      "arises_from": [
+        "SCI-OA-07"
+      ]
     }
   ],
   "routine_defaults": "Immutable typed records, decimal strings, explicit provenance/versions, real-ID synthetic fixtures and no-network specification checks proposed without separate questions.",
-  "activation_authorised": false
+  "activation_authorised": false,
+  "owner_answers_2026_11_03": [
+    {
+      "id": "SCI-OA-01",
+      "scope": "All seven event kinds in the first event wave (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+, elections), US/UK/India; each dated by when it became known, qualifying on its own evidence, source rights checked. Replaces earnings-first.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, event and analog answers",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D04"
+      ]
+    },
+    {
+      "id": "SCI-OA-02",
+      "scope": "Similar-days (F4 analog) history since 2015, about ten years, replacing the proposed 756-session lookback; shorter histories use what there is and say so. R0 252/756 windows unchanged.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, event and analog answers",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D04"
+      ]
+    },
+    {
+      "id": "SCI-OA-03",
+      "scope": "Bounded self-correction by code, never an agent: probabilities move at most 5 percentage points a week, a signal's weight at most 10% a month, automatic rollback if scores worsen; anything larger, new models, features or rules need the owner; POLICY-003 pause stays.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, event and analog answers and 3 Nov round item 4",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D05"
+      ]
+    },
+    {
+      "id": "SCI-OA-04",
+      "scope": "8-week shadow trial beating base rate and rules before owner promotion; an unscoreable week pauses the count; long horizons rely on walk-forward history for accuracy, the 8 weeks check clean running and calibration; rules changes take the same trial.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round items 5, 13, 16, 17",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D03",
+        "SCI-D05"
+      ]
+    },
+    {
+      "id": "SCI-OA-05",
+      "scope": "Probation: a newly promoted model's first 4 live weeks; reverts after 2 bad weeks instead of 4.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round item 18",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D05"
+      ]
+    },
+    {
+      "id": "SCI-OA-06",
+      "scope": "Slipping = worse than the previous approved model for 4 weeks running on matured forecasts; automatic revert to the previous approved model with owner notification; switching forward and restarting a paused forecast need the owner (POLICY-003 stands).",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round items 6, 14, 15",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D05"
+      ]
+    },
+    {
+      "id": "SCI-OA-07",
+      "scope": "Holdings plus the top 5 per segment (US large caps, US tech, India Nifty 50, India midcap, ETFs US/UK/India, gold and silver as XAU/USD and XAG/USD; no UK FTSE segment) by the 35/40/25 combined score when all three components are eligible; discovery universe about 150 names on end-of-day data; additions from chat: Claude proposes, code checks coverage and credits, owner confirms; scan may add up to GBP 5 a month.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, event and analog answers and 3 Nov round items 1, 2, 3, 19",
+      "received_on": "2026-11-03",
+      "decides": []
+    },
+    {
+      "id": "SCI-OA-08",
+      "scope": "Rules-versus-models contribution split shown live from launch, labelled experimental.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round item 11",
+      "received_on": "2026-11-03",
+      "decides": []
+    },
+    {
+      "id": "SCI-OA-09",
+      "scope": "An F7 contribution policy is shown live, labelled experimental, only after beating simple rules for 8 weeks in replay and shadow, with the owner's yes.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round item 20",
+      "received_on": "2026-11-03",
+      "decides": []
+    }
+  ],
+  "policy_receipts_2026_11_02": [
+    {
+      "id": "POLICY-002",
+      "scope": "Ordinary daily clocks +15/+40/+60/+75 minutes, subject to source and processing verification",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "SCI-D01"
+      ]
+    },
+    {
+      "id": "POLICY-003",
+      "scope": "Automatic pause of the affected scope on an advance-approved safety trigger, owner notified; restart needs the owner",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "SCI-D05"
+      ]
+    },
+    {
+      "id": "POLICY-004",
+      "scope": "Downside, central and upside 3/5-year templates plus editable assumptions; values still need approval",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "SCI-D06"
+      ]
+    },
+    {
+      "id": "POLICY-008",
+      "scope": "At most two campaigns a month across dev and prod; 96 fits and 6 instance-hours each, 192 and 12 a month",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "SCI-D04"
+      ]
+    }
+  ]
 }

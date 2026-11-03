@@ -116,7 +116,7 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | Telemetry budget | 14-day JSON logs, a small set of custom metrics and alarms: about $4.94 a month, already inside the AWS estimate | Proposed (MP-36) |
 | SSM Parameter Store (SecureString) | Provider and Anthropic keys; no per-secret fee | Owner-selected 3 Nov 2026 (MP-29) |
 | Two accounts | Dev and prod, same shape, one bill | Owner-selected (ARC-11) |
-| AWS Organizations (all features), SCPs and RCPs | Guard rails across the dev and prod accounts; the management account runs nothing | Proposed (MP-36) |
+| AWS Organizations (all features) and a cost-guard SCP | Guard rails across the dev and prod accounts; the management account runs nothing. Resource control policies and a Region allowlist were not adopted | Owner-selected 3 Nov 2026 (MP-29) |
 | KMS, S3 Block Public Access, IAM Access Analyzer (external access) | A customer key per account; no public buckets; outside sharing flagged | Proposed (MP-36) |
 | VPC lockdown | None by default; optional private subnets and endpoints, costed and decided at PH-08 | Proposed (MP-36) |
 

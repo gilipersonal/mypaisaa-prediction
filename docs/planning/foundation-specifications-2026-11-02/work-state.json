@@ -35,5 +35,15 @@
     "issue_closure": "not_requested; incomplete architecture acceptance remains open",
     "architecture_approval": false,
     "review_round_2": "not_authorised"
+  },
+  "mp20_consolidation": {
+    "date": "2026-11-03",
+    "branch": "MP-20-baseline-consolidation",
+    "owner_choice": "One consolidation pass and one sign-off at one exact version, with an independent review round before the owner signs (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 21).",
+    "scope": "Fold the owner answers of 2 and 3 Nov 2026 into the pack: data, costs, forecasting and the root records. Root records point to the decision log rather than duplicating it.",
+    "status": "maker_edits_in_progress_review_needs_owner_yes",
+    "architecture_baseline_approved": false,
+    "external_publication": "not_authorised_not_applied",
+    "review_round": "not_started; the owner is asked at the end of the work"
   }
 }

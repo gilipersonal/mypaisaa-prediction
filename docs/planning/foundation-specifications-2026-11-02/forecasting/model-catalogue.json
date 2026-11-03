@@ -4,6 +4,8 @@
   "status": "proposed_maker_checked_unreviewed",
   "implementation_authorised": false,
   "as_of": "2026-11-02",
+  "consolidated_on": "2026-11-03",
+  "consolidation_note": "MP-20 consolidation: owner decisions of 3 Nov 2026 folded in where marked; everything else remains proposed.",
   "id": "SCI-04",
   "families": [
     {
@@ -21,7 +23,8 @@
         756
       ],
       "training": "No learned alpha estimator; window selection still consumes trials.",
-      "mandatory_comparison": true
+      "mandatory_comparison": true,
+      "history_note": "R0 trailing windows 252/756 unchanged; the since-2015 similar-days decision applies only to the F4 analog candidate search (owner, 2026-11-03)."
     },
     {
       "id": "R1",
@@ -104,7 +107,7 @@
       "id": "F4",
       "name": "analog_event",
       "type": "statistical_module",
-      "role": "lagged distances and mature event outcomes, noncausal associations"
+      "role": "lagged distances and mature event outcomes, noncausal associations; first event wave covers all seven event kinds, each qualifying on its own evidence (owner, 2026-11-03)"
     },
     {
       "id": "F5",
@@ -122,7 +125,7 @@
       "id": "F7",
       "name": "contribution_experiments",
       "type": "simulation_module",
-      "role": "matched cash-flow comparison, no trades"
+      "role": "matched cash-flow comparison, no trades; a policy is shown live, labelled experimental, only after beating simple comparator rules for 8 weeks in replay and shadow, with the owner's yes (owner, 2026-11-03)"
     },
     {
       "id": "F8",
@@ -155,7 +158,16 @@
       "trailing20logreturn_std",
       "trailing60daily_path_MDD"
     ],
-    "candidate_origin_lookback_sessions": 756,
+    "candidate_origin_lookback_sessions": null,
+    "candidate_origin_lookback_sessions_note": "Superseded: the proposed 756-session lookback is replaced by candidate_origin_window (owner, 2026-11-03).",
+    "candidate_origin_window": {
+      "start": "first eligible session on or after 2015-01-01 (about ten years)",
+      "end": "latest candidate whose full label interval matured and whose outcome was known before the current cutoff",
+      "decision": "Similar-days history since 2015 (owner, 2026-11-03)",
+      "short_history": "use the eligible history there is, disclose its start date and candidate count; never pad from another listing",
+      "within_qualification_fold": "candidates restricted to that fold's fit region",
+      "source_dependency": "history availability and rights per source remain data-lane gates"
+    },
     "scope": "same approved market-kind pool and return basis; across-instrument extension separately declared",
     "weights": "equal among selected eligible neighbours",
     "tie_break": "ascending distance, then most recent origin, then instrument_id",
@@ -172,8 +184,46 @@
     {
       "method": "isotonic_or_conformal",
       "status": "retained_separate_campaign_not_initial_default"
+    },
+    {
+      "method": "bounded_self_correction_overlay",
+      "status": "owner_selected_2026-11-03_not_implemented",
+      "fit": "deterministic code from matured forecasts; base calibrator stays frozen",
+      "live_mutation": "bounded_overlay_only",
+      "policy": "bounded_self_correction"
     }
   ],
+  "bounded_self_correction": {
+    "id": "BSC-v1",
+    "status": "owner_selected_2026-11-03_bands_set_implementation_not_authorised",
+    "actor": "deterministic code; never a Claude agent or research agent",
+    "cadence": "grades every matured forecast daily",
+    "may_adjust": [
+      "calibration overlay on issued probabilities",
+      "signal weights in the rules and model combination"
+    ],
+    "may_not_adjust": [
+      "learned estimator parameters",
+      "features",
+      "rules (indicators, pillars, thresholds)",
+      "model or artefact choice",
+      "task definitions",
+      "the bands themselves"
+    ],
+    "bands": {
+      "probability_shift_max_percentage_points_per_week": 5,
+      "week_reading": "any rolling seven days (proposed)",
+      "signal_weight_change_max_fraction_per_month": "0.10",
+      "weight_reading": "relative to the signal's current weight, within a calendar month (proposed reading; owner to confirm at sign-off)"
+    },
+    "outside_band": "waits for the owner",
+    "rollback": "automatic if scores worsen; the adjusted version is scored against the unadjusted version on later matured forecasts (proposed)",
+    "records": "append-only versioned overlay; Prediction.calibrator_version names the base calibrator and overlay version; a dedicated wire record is left to the next schema revision",
+    "fit_cap": "overlay updates are deterministic, not campaign fits, and do not spend the 96/192 fit caps; each is logged (proposed)",
+    "shadow_candidates": "run the same bounded code so the trial tests what would run live (proposed)",
+    "safety_pause": "POLICY-003 automatic pause unchanged",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (bounded self-correction) and 3 Nov round item 4"
+  },
   "artefact_key_fields": [
     "family",
     "task_id_version",
@@ -232,14 +282,16 @@
   },
   "event_module_proposed": {
     "id": "F4-EVENT-v1",
-    "initial_event_kind": "scheduled_earnings_release_equity_only",
-    "status": "retained_proposed_source_rights_and_labelled_releases_required",
+    "initial_event_kind": "first_wave_all_seven_kinds",
+    "initial_event_kind_note": "Superseded: scheduled_earnings_release_equity_only first; replaced by all seven kinds in the first wave (owner, 2026-11-03).",
+    "status": "retained_proposed_source_rights_and_labelled_events_required; first-wave scope owner_selected_2026-11-03",
     "event_origin": "Mode-specific: prerelease uses scheduled daily origin before release; postrelease uses a subsequent eligible daily origin after release_known_at; prior-close event-study origin is retrospective description only.",
     "features": "Pre-release public schedule only if known by cutoff; public release fields only in postrelease daily mode with a later eligible origin/cutoff. Descriptive study content never qualifies predictive features.",
     "outcome_windows_sessions": [
       5,
       20
     ],
+    "outcome_windows_note": "5/20-session windows were proposed for earnings; each kind predeclares its own windows and comparators before its qualification campaign, and those choices consume trials.",
     "outcomes": "separate terminal total return and arithmetic benchmark excess; same currency/endpoints",
     "confounding": "display overlapping releases/market events and calendar/sector comparators; association not causation",
     "search": "event-kind/window definitions predeclared and consume trials; no post-result cohort selection",
@@ -273,6 +325,147 @@
         "predictive_qualification_eligible": false,
         "use": "association/context only; do not supply this study as admissible predictive factor or promote from its results"
       }
+    },
+    "first_wave_event_kinds": [
+      {
+        "id": "EV-RATE",
+        "kind": "rate_surprise",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "scheduled_policy_decisions; unscheduled moves postrelease only",
+        "applicable_modes": [
+          "prerelease_daily_prediction",
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Surprise measured against an expectation known by the cutoff; without an admissible expectation the announcement alone is used and disclosed."
+      },
+      {
+        "id": "EV-INFL",
+        "kind": "inflation_surprise",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "scheduled_statistical_releases",
+        "applicable_modes": [
+          "prerelease_daily_prediction",
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Vintage-correct release values and expectations known by the cutoff; revisions never enter an earlier feature set."
+      },
+      {
+        "id": "EV-TARIFF",
+        "kind": "tariffs",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "unscheduled_announcements",
+        "applicable_modes": [
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Dated by when the announcement became known; a later scheduled effective date is a separate known fact."
+      },
+      {
+        "id": "EV-CONFLICT",
+        "kind": "conflict",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "unscheduled",
+        "applicable_modes": [
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Dated by when it became known; association only, confounding disclosed."
+      },
+      {
+        "id": "EV-EARN",
+        "kind": "earnings",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "scheduled_releases",
+        "applicable_modes": [
+          "prerelease_daily_prediction",
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Equity listings only; the original three-mode design."
+      },
+      {
+        "id": "EV-OPEC",
+        "kind": "opec_plus_decision",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "scheduled_meetings; extraordinary meetings postrelease only",
+        "applicable_modes": [
+          "prerelease_daily_prediction",
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "Commodity and energy-linked exposure declared per task."
+      },
+      {
+        "id": "EV-ELECT",
+        "kind": "elections",
+        "markets": [
+          "US",
+          "UK",
+          "India"
+        ],
+        "schedule": "scheduled_polling_dates; results postrelease",
+        "applicable_modes": [
+          "prerelease_daily_prediction",
+          "postrelease_daily_prediction",
+          "retrospective_event_study"
+        ],
+        "qualification": "own evidence, own predeclared windows and comparators, own trial registry entries; informs no forecast before it passes",
+        "source_rights": "each source checked before use; none approved here",
+        "status": "first_wave_in_scope_not_qualified",
+        "notes": "The prerelease mode may use only the public election date; results enter postrelease."
+      }
+    ],
+    "event_wave_rules": {
+      "decision": "All seven event kinds in the first event wave, US/UK/India (owner, 2026-11-03)",
+      "dating": "each event dated by when it became known (known_at), never by its later effective date",
+      "unscheduled_kinds": "no prerelease mode: no public schedule exists before the cutoff",
+      "claude_role": "ARC-06b: Haiku triage and extraction; Opus analysis of at most three material events a day; typed dated factors, never price truth; historical extraction defaults to prospective_only",
+      "capacity": "qualification staged inside two campaigns a month (POLICY-008) and the ARC-05 order; all seven in scope, none informs a forecast before its own evidence passes",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers"
     }
   }
 }

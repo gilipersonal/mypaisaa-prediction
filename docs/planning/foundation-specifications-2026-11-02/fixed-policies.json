@@ -5,6 +5,7 @@
   "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
   "precedence": [
     "Current explicit owner foundation replies",
+    "Owner answers of 2 and 3 Nov 2026 in decision-log.md and the ARC-06b card (folded in by the MP-20 consolidation, 3 Nov 2026) supersede earlier proposals in this snapshot",
     "Twelve selected architecture directions",
     "Later DEC023–041 supersede earlier embedded pending values",
     "Historical source/MA documents provide evidence, not new authority"
@@ -24,7 +25,28 @@
       "DEC-023",
       "DEC-024",
       "DEC-026"
-    ]
+    ],
+    "owner_answers_2026_11_03": {
+      "region": "Virginia (us-east-1), the cheapest of the three candidates",
+      "data_plan": "Twelve Data Grow 55, $29 a month, monthly; Basic ($0) for dev",
+      "domain": "mypaisapp.com renewed outside MP; no domain line in the MP cost model",
+      "apple_developer_fee": "Not for now; free 7-day local builds. If bought later, its month is the one allowed exception above the ceiling, for this fee only",
+      "github_actions": "Inside the free organisation allowance; $0 planned",
+      "secrets": "SSM Parameter Store SecureString; no per-secret fee",
+      "telemetry": "Already inside the AWS total",
+      "top5_scan": "Up to 5 GBP a month extra (Claude explanations for the top-5 names, batched where possible)",
+      "expected_month_gbp": {
+        "claude_blocked": "46.48",
+        "claude_option_a": "54.73",
+        "plus_top5_scan_up_to": "5.00"
+      },
+      "expected_month_source": "docs/planning/source-rights-2026-11-02/cost_months.py (Grow 55, Virginia, Basic dev, no Apple fee); the cost area owns the model",
+      "sources": [
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+      ]
+    }
   },
   "cost_collection": {
     "internal_usage_estimates": "live",
@@ -68,7 +90,25 @@
     "source_ids": [
       "DEC-017",
       "DEC-028"
-    ]
+    ],
+    "owner_answers_2026_11_03": {
+      "top5_per_segment": [
+        "US large caps",
+        "US tech",
+        "India Nifty 50",
+        "India midcap",
+        "ETFs (US, UK and India)",
+        "Commodities (gold and silver, XAU/USD and XAG/USD)"
+      ],
+      "no_uk_ftse_segment": true,
+      "ranked_only_when_all_three_eligible": true,
+      "discovery_universe": "about 150 curated names on end-of-day data",
+      "framing": "Decision support with ranges and uncertainty, not advice",
+      "sources": [
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+      ]
+    }
   },
   "currency": {
     "overview": "GBP",
@@ -94,7 +134,8 @@
       "DEC-012",
       "DEC-032",
       "DEC-033"
-    ]
+    ],
+    "owner_answers_2026_11_03": "No paid Apple Developer Program for now: free builds cannot use Apple push, so phone notifications come through the PWA Web Push until the owner buys it (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 10)."
   },
   "retention": {
     "original_archive_months": 24,
@@ -123,7 +164,8 @@
     "source_ids": [
       "DEC-037",
       "DEC-038"
-    ]
+    ],
+    "owner_answers_2026_11_03": "Free Apple builds cannot use Sign in with Apple; Apple sign-in for the native app waits for the paid program (item 10)."
   },
   "import_and_inputs": {
     "methods": [
@@ -169,7 +211,50 @@
       "DEC-031",
       "FND-DEC-001",
       "FND-DEC-002"
-    ]
+    ],
+    "owner_answers_2026_11_03": {
+      "event_wave_one": [
+        "rate surprises",
+        "inflation surprises",
+        "tariffs",
+        "conflict",
+        "earnings",
+        "OPEC+",
+        "elections"
+      ],
+      "event_markets": [
+        "US",
+        "UK",
+        "India"
+      ],
+      "event_qualification": "Each kind qualifies on its own evidence; dated by when it became known",
+      "similar_days_since": "2015",
+      "self_correction": {
+        "by": "deterministic code, never an agent",
+        "max_probability_shift_points_per_week": 5,
+        "max_signal_weight_change_per_month": "0.10",
+        "rollback": "automatic if scores worsen",
+        "larger_changes": "owner approval"
+      },
+      "shadow_trial_weeks": 8,
+      "trial_beats": [
+        "base rate",
+        "rules"
+      ],
+      "unscoreable_week": "pauses the count; 8 scored weeks still needed",
+      "long_horizons": "the 8 weeks check clean running and calibration on what has matured; walk-forward history carries the accuracy evidence for 3, 6 and 12 months",
+      "rules_changes": "same 8-week shadow trial, beating the current rules, then the owner",
+      "probation_weeks": 4,
+      "probation_revert_after_bad_weeks": 2,
+      "slipping": "worse than the previous approved model for 4 weeks running on matured forecasts; reverts automatically and notifies the owner",
+      "restart_after_pause": "owner (POLICY-003 stands); switching forward needs the owner",
+      "contribution_split": "shown live from launch, labelled experimental",
+      "f7_contribution_policy": "live, labelled experimental, only after beating simple rules for 8 weeks in replay and shadow, with the owner yes",
+      "sources": [
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+      ]
+    }
   },
   "not_approved": [
     "complete architecture baseline",
@@ -180,5 +265,63 @@
     "automatic cash fallback",
     "external publication",
     "PR/merge/issue closure"
-  ]
+  ],
+  "data_sources": {
+    "status": "owner_confirmed_rights_risk_accepted_not_granted",
+    "prod": [
+      "Yahoo Finance",
+      "Twelve Data Grow 55"
+    ],
+    "dev": [
+      "Twelve Data Basic",
+      "synthetic fixtures"
+    ],
+    "use": "personal hobby use, not commercial; published-terms risk accepted; no vendor contacted",
+    "yahoo_role": "delayed intraday prices for UK and Indian 30-minute checks and a daily cross-check",
+    "uk_funds": "test Grow 55 by API in its first month, else the owner statements",
+    "indian_funds": "the owner statements",
+    "commodities": [
+      "XAU/USD",
+      "XAG/USD"
+    ],
+    "additions_from_chat": "Claude proposes; code checks coverage and credits; the owner confirms in the app",
+    "action_credit_weight_per_symbol": {
+      "dividends": 20,
+      "splits": 20,
+      "plan_minimum": "Grow"
+    },
+    "detail": "data/specification.md and data/catalogue.json",
+    "sources": [
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+    ]
+  },
+  "infrastructure": {
+    "status": "owner_confirmed_nothing_applied",
+    "region": "us-east-1",
+    "iac": "Terraform only, from the first resource",
+    "network": "N0",
+    "organisation": "AWS Organizations, all features, cost-guard SCP",
+    "secrets": "SSM Parameter Store SecureString",
+    "cost_collector": "read-only Cost Explorer role in the management account, assumed by the prod collector",
+    "claude_inference": "global, standard price",
+    "prod_release": "a workflow only the owner can start (GitHub Free)",
+    "sources": [
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+    ]
+  },
+  "claude_models": {
+    "status": "owner_selected_ARC-06b_option_A",
+    "haiku": "triage, model inputs, extraction",
+    "opus": "event analysis, at most 3 a day, batched",
+    "sonnet": "chat, explanations, briefing, evaluation judges",
+    "agents": "7 Claude route agents and 5 code workers with no model",
+    "activation": "each route passes its evaluation; zero calls until the shared credit is verified; no paid fallback",
+    "sources": [
+      "docs/planning/claude-models-and-batching-2026-11-02.md",
+      "docs/architecture-explainer/index.html"
+    ]
+  }
 }

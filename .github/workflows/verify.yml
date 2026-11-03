@@ -37,7 +37,7 @@ jobs:
       - name: Lint backend
         run: uv run --project backend --frozen --extra dev ruff check backend
       - name: Check Python tooling for errors
-        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence
+        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03
       - name: Test backend
         run: uv run --project backend --frozen --extra dev pytest backend/tests -q
 
@@ -49,6 +49,8 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
+          # a signed-off pack is checked against the commit the owner signed, so history must be present
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
@@ -60,6 +62,10 @@ jobs:
         run: |
           python3 scripts/design_sync.py check
           python3 -m unittest discover -s tests -p test_design_sync.py -v
+      - name: The baseline sign-off pack matches its inputs
+        run: |
+          python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check
+          python3 -m unittest discover -s tests -p test_baseline_signoff.py -v
 
   review-tooling:
     name: Review tooling

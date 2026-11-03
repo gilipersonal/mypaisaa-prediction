@@ -118,6 +118,7 @@ or £54.73 with Claude on, inside the £70 operating plan; the Apple Developer f
 | [TECH-STACK.md](TECH-STACK.md) | The stack layer by layer with the reason for each choice and its status, the locked versions of what runs today, and the monthly cost against the £100 ceiling. |
 | [The AWS architecture in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [source](docs/diagrams/mp-architecture-2026-11-02/) | Two native pages on AWS 2024 shapes: the system with numbered flows, and who may do what. Exports and manifest in the repo. |
 | [Policy answers, 2 Nov 2026](docs/planning/foundation-policy-discussion-2026-11-02.md) | The owner's twelve later decisions: daily clocks, approvals, backfill, experiment ceilings, retention. |
+| [Baseline sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md) | Everything to read before signing off the baseline (MP-20): decisions, precedence, open items and the phase-to-story crosswalk. |
 | [Foundation Pack 1](docs/planning/foundation-specifications-2026-11-02/README.md) | Data, financial and forecast contracts, schemas, worked examples and the cost model. |
 | [Selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md) | ARC-01 to ARC-12 and their boundaries. |
 | [Phase and story baseline](docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json) | PH-00 to PH-09, dependencies and proposed acceptance. |

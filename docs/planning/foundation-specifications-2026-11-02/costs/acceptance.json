@@ -115,25 +115,32 @@
       "id": "COST-AT-10",
       "spec_id": "COST-08",
       "given": "Uncontrolled stress quantities are requested.",
-      "expected": "Caps refuse excess; this does not authorise spending GBP 274.",
+      "expected": "Caps refuse excess; this does not authorise spending about GBP 272 to 275 (GBP 274 before the domain line was removed, owner 3 Nov 2026).",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
         "MP-27",
         "MP-29"
-      ]
+      ],
+      "superseded_2026_11_03": {
+        "expected": "Caps refuse excess; this does not authorise spending GBP 274."
+      }
     },
     {
       "id": "COST-AT-11",
       "spec_id": "COST-09",
-      "given": "A region is priced but the assurance feature remains unproven.",
-      "expected": "Keep it a candidate; prove the required policy or deny sensitive actions.",
+      "given": "Virginia is the owner-selected Region (owner, 2 Nov 2026) but the assurance feature remains unproven there.",
+      "expected": "The Region choice does not prove the feature: prove the required policy in Virginia or deny sensitive actions.",
       "evidence_kind": "live_proof_pending",
       "status": "proposed",
       "task_refs": [
         "MP-27",
         "MP-29"
-      ]
+      ],
+      "superseded_2026_11_02": {
+        "given": "A region is priced but the assurance feature remains unproven.",
+        "expected": "Keep it a candidate; prove the required policy or deny sensitive actions."
+      }
     },
     {
       "id": "COST-AT-12",
@@ -174,14 +181,20 @@
     {
       "id": "COST-AT-15",
       "spec_id": "COST-04",
-      "given": "The proposed USD15 annual domain allowance is due once in an illustrative setup/renewal month; central Virginia with Claude blocked.",
-      "expected": "Keep 108 amortised monthly run-rate variants separate from 216 cash timing variants. Grow79 annual invoice cash is GBP108.88 and exceeds GBP100, versus ordinary-month GBP94.48; conditional Grow55 annual invoice cash is GBP60.88, below GBP70 with warning reached. Full due commitment replaces USD1.25 amortisation. No purchase, invoice date or subscription approval is implied.",
+      "given": "The domain line is removed (owner, 3 Nov 2026) and the conditional USD 99 Apple Developer Program fee is due once in its own month; central Virginia with Claude blocked.",
+      "expected": "Keep 108 monthly run-rate variants separate from 216 cash timing variants (ordinary month and Apple fee exception month). Grow79 ordinary-month cash is GBP94.48 and its Apple month GBP189.52; Grow55 ordinary-month cash is GBP46.48, below GBP70 with no threshold reached, and its Apple month GBP141.52, above GBP100. The full fee is in its due month, never amortised; no domain cash appears in any month. No purchase, invoice date or subscription approval is implied.",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
         "MP-27",
-        "MP-29"
-      ]
+        "MP-29",
+        "MP-20"
+      ],
+      "superseded_2026_11_03": {
+        "given": "The proposed USD15 annual domain allowance is due once in an illustrative setup/renewal month; central Virginia with Claude blocked.",
+        "expected": "Keep 108 amortised monthly run-rate variants separate from 216 cash timing variants. Grow79 annual invoice cash is GBP108.88 and exceeds GBP100, versus ordinary-month GBP94.48; conditional Grow55 annual invoice cash is GBP60.88, below GBP70 with warning reached. Full due commitment replaces USD1.25 amortisation. No purchase, invoice date or subscription approval is implied.",
+        "reason": "Owner, 3 Nov 2026: mypaisapp.com is renewed outside MP, so the domain line and its invoice month are gone."
+      }
     },
     {
       "id": "COST-AT-16",
@@ -193,6 +206,42 @@
       "task_refs": [
         "MP-27",
         "MP-29"
+      ]
+    },
+    {
+      "id": "COST-AT-17",
+      "spec_id": "COST-06",
+      "given": "The owner buys the Apple Developer Program in some month, and in another month a different annual fee or a second Apple charge would take cash above GBP100.",
+      "expected": "Only the Apple fee's own due month may exceed GBP100, once a year, for that fee only: the rest of that month must still fit the ceiling and thresholds. Any other fee or month above GBP100 is refused admission.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-20",
+        "MP-39"
+      ]
+    },
+    {
+      "id": "COST-AT-18",
+      "spec_id": "COST-06",
+      "given": "Top-5 scan work would take the month's scan spend from GBP4.90 to GBP5.20.",
+      "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or the owner's paid approval.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-20",
+        "MP-39"
+      ]
+    },
+    {
+      "id": "COST-AT-19",
+      "spec_id": "COST-04",
+      "given": "The owner's selection: Virginia, Grow 55 in prod, Basic in dev, no domain line, GitHub Actions USD0, SSM secrets, central FX/tax.",
+      "expected": "Recompute from model lines: GBP46.48 a month with Claude off and GBP54.73 with ARC-06b option A (USD8.5875), at most GBP51.48 and GBP59.73 with the scan cap; telemetry is counted once inside AWS. Grow 55's price stays conditional until checkout.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-20",
+        "MP-39"
       ]
     }
   ]

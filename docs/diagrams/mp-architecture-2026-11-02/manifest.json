@@ -2,13 +2,14 @@
   "document_id": "65667c0c-9413-4c63-863d-a60b6e67ba26",
   "document_url": "https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit",
   "document_title": "Mypaisaa Prediction: architecture and design (MP-34)",
-  "document_version": 388,
+  "document_version": 413,
   "page_count": 9,
-  "export_date_utc": "2026-11-02",
+  "export_date_utc": "2026-11-03",
   "jira": "MP-34",
   "status": "Owner-selected directions (ARC-01 to ARC-12, ARC-06b) and policy answers drawn as proposed design; pages 2, 8 and 9 are PROPOSED. Nothing is deployed: only the FastAPI health/SSE starter and CI exist",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import, created with use_assisted_layout false); regenerate and re-import rather than editing exports",
-  "spec_sha256": "f1d70dacbc059ce830cd9c31673541bcaa6f68fc43af4b6bb744ddeab70ef94b",
+  "spec_sha256": "a9ba948f60d22eb484e02521ead9db7d9a679e9a0e8ca782a12e6f7118aec548",
+  "refresh_2026_11_03": "MP-20 refresh: pages 1 and 7 edited in place in the same Lucid document (URL unchanged) to match lucid_spec.py: page 1 Secrets Manager icon replaced by SSM Parameter Store (ResAWSSystemsManagerParameterStoreAWS2024); page 7 Infrastructure as code now 'Terraform only (owner, 3 Nov 2026)' and Region 'Virginia (us-east-1), owner-selected 2 November 2026'. Only 01-system-on-aws.png and 07-environments-delivery.png were re-exported; the other seven PNGs are unchanged from version 388.",
   "supersedes": [
     {
       "document_id": "02218133-613a-4b78-aea4-e0dba26db386",
@@ -53,8 +54,8 @@
         2240,
         1472
       ],
-      "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713",
-      "bytes": 242742
+      "sha256": "a1abb0b79faa6018f48c68175420d6dad9bdbe2538e6c27af9b50d33cd458637",
+      "bytes": 242066
     },
     {
       "page_number": 2,
@@ -137,8 +138,8 @@
         2030,
         1626
       ],
-      "sha256": "991598846762543498131a3a174b953f2357a60272c61681d09ec6ff4fcbab65",
-      "bytes": 188229
+      "sha256": "32dcad0acebd8c19c1ff1e72428187642076927d385ea0f4af6b4e88f2c19b47",
+      "bytes": 188396
     },
     {
       "page_number": 8,

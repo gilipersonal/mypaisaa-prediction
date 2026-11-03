@@ -135,6 +135,65 @@
       "task_refs": [
         "MP-10"
       ]
+    },
+    {
+      "id": "DATA-AT-13",
+      "spec_id": "DATA-07",
+      "given": "A Grow 55 /dividends call for one listing, and a /splits check scheduled on the Basic dev account.",
+      "expected": "Reserve 20 credits for the Grow call; reject the Basic check as unsupported; never reserve weight 1 for an action endpoint.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10",
+        "MP-20"
+      ]
+    },
+    {
+      "id": "DATA-AT-14",
+      "spec_id": "DATA-08",
+      "given": "Claude proposes a watch-only listing from chat; once with no owner confirm, once with unsupported coverage, once over the minute-credit cap, once confirmed.",
+      "expected": "Only the confirmed, covered, affordable proposal creates a new catalogue version with the approval record; its capability starts at candidate.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10",
+        "MP-39"
+      ]
+    },
+    {
+      "id": "DATA-AT-15",
+      "spec_id": "DATA-05",
+      "given": "Grow 55 first month: one UK fund returns a NAV, one does not; an Indian fund statement is imported.",
+      "expected": "The covered UK fund gets a verified capability; the uncovered one and the Indian fund are valued from owner statements with their valuation date and age; no plan upgrade is triggered.",
+      "evidence_kind": "offline_plus_live_proof",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10",
+        "MP-39"
+      ]
+    },
+    {
+      "id": "DATA-AT-16",
+      "spec_id": "DATA-02",
+      "given": "A prod Grow 55 daily bar is stored and used for training under OWNER-RISK-01; a request then tries to export it to a third party and to send raw values to Anthropic.",
+      "expected": "Storage and training proceed as risk_accepted (never granted); the export is denied; the Anthropic transmission is denied until the owner answers DATA-DEC-12.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10"
+      ]
+    },
+    {
+      "id": "DATA-AT-17",
+      "spec_id": "DATA-04",
+      "given": "XAU/USD at 2,400.00 USD per troy ounce with a pinned 0.80 GBP per USD.",
+      "expected": "GBP 1,920.0000 per troy ounce, converted once; no corporate-action lookup; coverage stays live_proof_pending until the live account proves it.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10",
+        "MP-39"
+      ]
     }
   ]
 }

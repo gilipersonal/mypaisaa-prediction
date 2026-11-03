@@ -128,7 +128,8 @@
     "OTexts section URLs redirected to toolbox/judgmental chapter pages; canonical URLs retained.",
     "scikit stable pages observed1.9.1 on research date; no dependency version installed or selected.",
     "No provider or model calls; web reads only.",
-    "Review-fix timing protocols are MP engineering proposals: +15/+40/+60/+75 minute daily clocks require later owner/source/runtime proof; three earnings modes enforce point-in-time admission. Offline timing_checks.py validates artificial scenarios only, without new source reads, acquisition, model calls or empirical claims."
+    "Review-fix timing protocols are MP engineering proposals: +15/+40/+60/+75 minute daily clocks require later owner/source/runtime proof; three earnings modes enforce point-in-time admission. Offline timing_checks.py validates artificial scenarios only, without new source reads, acquisition, model calls or empirical claims.",
+    "MP-20 consolidation (3 Nov 2026): the three event modes, first written for earnings, now apply to all seven first-wave event kinds (owner decision); unscheduled kinds have no prerelease mode. No new external source was read for the consolidation; each event source's rights remain to be checked before use."
   ],
   "pinned_project_sources": [
     {
@@ -158,6 +159,10 @@
     {
       "path": "../../layered-development-2026-11-01/portfolio-import-examples.json",
       "use": "real-ID artificial-value fixture contract"
+    },
+    {
+      "path": "../../ma-reconciliation-2026-11-02/decision-log.md",
+      "use": "owner forecasting decisions of 3 Nov 2026 folded in at the MP-20 consolidation"
     }
   ]
 }

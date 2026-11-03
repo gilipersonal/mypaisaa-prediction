@@ -100,7 +100,7 @@ missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 504 
 ## Region (for MP-29)
 
 The research recommends **London (eu-west-2)**, with Ireland as the fallback. Every service MP needs is in all three
-candidate Regions. London costs about £0.46 a month more than Virginia in the model (£20.31 against £19.84), keeps
+candidate Regions. London costs about £0.46 a month more than Virginia in the model (£20.31 against £19.84 with the domain line MP-20 later removed; £19.11 against £18.64 without it), keeps
 the AWS copy of the owner's holdings and backups in the UK, and had the lowest measured latency from the owner's Mac.
 
 In every Region:

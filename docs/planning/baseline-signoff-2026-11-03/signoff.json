@@ -1,0 +1,128 @@
+{
+ "issue": "MP-20",
+ "status": "awaiting_owner_signoff",
+ "architecture_baseline_approved": false,
+ "UX_authorised": false,
+ "implementation_authorised": false,
+ "inputs": {
+  "decision_log": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+   "sha256": "eb0cf01470998e2d637fde1dab99274b4f06be83e17228f1bb982d7d216294b0"
+  },
+  "phases": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json",
+   "sha256": "90ad3b5d596fccc337398603a55d7c3a986294faaa6e464d4881167c5e7adb12"
+  },
+  "gaps": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/gap-register.json",
+   "sha256": "501943d0eb56ce371be8139d92082a75770264e629cdef86a6c8201421967d18"
+  },
+  "directions_summary": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/direction-summary.md",
+   "sha256": "5690a43754b0ecad23c304d21fda2839059eaa46420ebc6d2c14cb08687b1301"
+  },
+  "directions": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/selected-directions.json",
+   "sha256": "9c716f45076731072b5f1152dafbe68c5784bc59609e74b48b7481febf9fe2d7"
+  },
+  "owner_decisions": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/owner-decisions.json",
+   "sha256": "f986f66b0e9d93ddfb04403d1a78b8df3c1bef91ec05eee0a89c37910a43646e"
+  },
+  "fixed_policies": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/fixed-policies.json",
+   "sha256": "ea19d936eded56b5ca55bbdf49363c00bb0a978efbc552e891db8153565f92b9"
+  },
+  "coverage": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/coverage.json",
+   "sha256": "6d991a79a39ae46356ca7d3e06c01c96d371c968dc2dca9b4215a0eebc9455b1"
+  },
+  "validation": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/validation.json",
+   "sha256": "5e3b65ab5dfcfc37260a452175899e37ce47428168b07c4aa7130e21598f5fb6"
+  },
+  "sci_open": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json",
+   "sha256": "81aa294063c311a86979ca5967325d606681f324d03c1c99b702fdf8c6496661"
+  },
+  "fin_open": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json",
+   "sha256": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc"
+  },
+  "data_catalogue": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/data/catalogue.json",
+   "sha256": "caaa4779308734f54ff840447c469f9d54ae7336dab142ac3684082beba69dd4"
+  },
+  "cost_model": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/costs/model.json",
+   "sha256": "80109bbf1c712ec7b79dbd21f948e3450c44f7c128537aed0f182f4f48adce44"
+  },
+  "cost_spec": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/costs/specification.md",
+   "sha256": "b08231f7e3074cadcdd7a153cae466cc250dab23eeef5833de127923baa9885b"
+  },
+  "lucid_architecture": {
+   "path": "docs/diagrams/mp-architecture-2026-11-02/manifest.json",
+   "sha256": "a72ec0f4b45b7ac984a1db764eafb433aca8ed25595e103e4e1d5a5e73ac09eb"
+  },
+  "lucid_quality": {
+   "path": "docs/diagrams/mp-quality-2026-11-02/manifest.json",
+   "sha256": "5d5fd1c52aec6fec523e9f2002c9d31eb79ba8e76e53c406178dd07119f5333a"
+  },
+  "artifacts": {
+   "path": "docs/design/artifacts.json",
+   "sha256": "b18c89ed56e35e9014f313b0c08b669698310e94d1fc0e7934d2e6ba316ca788"
+  },
+  "confluence": {
+   "path": "docs/confluence/confluence.json",
+   "sha256": "7e472e58b4222b299764ee863fa2cbb45144a0b67e76c5fd076e903c387897a7"
+  },
+  "trace": {
+   "path": "docs/planning/trace.json",
+   "sha256": "bedfc94db96f3ce2872aede93d0c90eb0e90a75010543a55766827bf87926c13"
+  },
+  "readme": {
+   "path": "README.md",
+   "sha256": "3bd2e9709d1b59dfdaa79df5971ec0c7e053bf12e4052f4dd81ede4d643eddcb"
+  },
+  "architecture": {
+   "path": "ARCHITECTURE.md",
+   "sha256": "9c0ade9d6c5ead13e24a94ca5efba8469f5f56426b6176153bd820f34de3e51e"
+  },
+  "tech_stack": {
+   "path": "TECH-STACK.md",
+   "sha256": "7f0721fc325330dde998a54c66603887cc0533486c51f002157c2f7ff3a8eb5a"
+  }
+ },
+ "open_items": [
+  "SCI-D01",
+  "SCI-D02",
+  "SCI-D03",
+  "SCI-D04",
+  "SCI-D06",
+  "SCI-D07",
+  "SCI-D08",
+  "SCI-D09",
+  "FIN-OD-01",
+  "FIN-OD-02",
+  "FIN-OD-03",
+  "FIN-OD-04",
+  "FIN-OD-05",
+  "FIN-OD-06",
+  "FIN-OD-07",
+  "FIN-OD-08",
+  "DATA-DEC-01",
+  "DATA-DEC-02",
+  "DATA-DEC-03",
+  "DATA-DEC-04",
+  "DATA-DEC-12",
+  "DATA-DEC-13",
+  "DATA-DEC-14",
+  "COST-Q1",
+  "COST-Q2",
+  "COST-Q3"
+ ],
+ "open_contracts": 52,
+ "phases": 10,
+ "story_drafts": 64
+}

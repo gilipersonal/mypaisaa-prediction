@@ -102,7 +102,14 @@
       ],
       "contract": "CT-15",
       "event_timing": "Prerelease schedule-only input known by cutoff; before-open and late-after-close release content rejected at prior-close predictor; postrelease content waits for later eligible daily origin/cutoff and a new target start; prior-close event study descriptive only",
-      "offline_specification_proof": "python3 forecasting/timing_checks.py --check event; eight synthetic cases plus earlier-target negative refusal, not empirical predictive evidence"
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check event; eight synthetic cases plus earlier-target negative refusal, not empirical predictive evidence",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "One instance of each first-wave event kind: rate surprise, inflation surprise, tariff, conflict, earnings, OPEC+ decision, election (US/UK/India)",
+          "when": "Use a tariff or conflict announcement in prerelease mode; admit a kind whose own qualification has not passed; date an event by its effective date",
+          "then": "Reject: unscheduled kinds enter only postrelease at a later daily origin, each kind informs nothing before its own evidence passes, and every event is dated by when it became known"
+        }
+      ]
     },
     {
       "id": "SCI-05-AC01",
@@ -148,7 +155,19 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A shadow candidate with a holiday week and a data-outage week inside its trial",
+          "when": "Count trial weeks and compare with base rate and current rules",
+          "then": "Unscoreable weeks pause the count; promotion needs 8 scored weeks beating both and the owner's yes; long horizons cite walk-forward history for accuracy; rules changes take the same trial"
+        },
+        {
+          "given": "An F7 contribution policy after 6 weeks of replay and shadow",
+          "when": "Show it live",
+          "then": "Reject: F7 waits for 8 weeks beating the simple comparator rules in replay and shadow and the owner's yes, then is labelled experimental; it remains a simulation, never a trade"
+        }
+      ]
     },
     {
       "id": "SCI-07-AC01",
@@ -168,7 +187,14 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A promoted model on probation and its previous approved model running in shadow on the same origins",
+          "when": "Self-correction proposes a 6 percentage point weekly shift or an 11% monthly weight change; the model scores worse for 2 probation weeks; or the previous model's approval has expired",
+          "then": "Hold out-of-band changes for the owner; revert automatically to the previous approved model and notify; pause instead when the previous model is ineligible; switching forward and restart need the owner"
+        }
+      ]
     },
     {
       "id": "SCI-08-AC01",
@@ -201,6 +227,13 @@
       "delivery_tasks": [
         "MP-21",
         "MP-24"
+      ],
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A listing with eligible history since 2016 and another since 2015",
+          "when": "Run the similar-days search",
+          "then": "Candidates come from every eligible matured session since 1 January 2015; the shorter history is used as it is, with its start date and count disclosed, and never padded; R0 252/756 windows unchanged"
+        }
       ]
     },
     {
@@ -257,6 +290,18 @@
       "delivery_tasks": [
         "MP-21",
         "MP-24"
+      ],
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A segment where four listings have all three combined-score components eligible and one lacks protection evidence",
+          "when": "Build the top 5 for that segment",
+          "then": "Show four ranked listings with ranges and uncertainty; do not rank the incomplete listing or fill a fifth; additions from chat need the provider coverage and credit check and the owner's confirm"
+        },
+        {
+          "given": "The rules-versus-models contribution split at launch",
+          "when": "Show it without the experimental label or with a probability attached",
+          "then": "Reject: the split is live from launch only when labelled experimental, as descriptive attribution with no probability of its own"
+        }
       ]
     },
     {
@@ -327,7 +372,11 @@
     "event thresholds and inclusivity match task version",
     "all output types independently eligible; missing component not silently renormalised",
     "Decimal schema must accept0.70 and-0.10 but reject NaN/Infinity/exponent/leading-zero malformed forms",
-    "Date-time instance validation must actively check formats, rejecting missing timezone/impossible dates; jsonschema FormatChecker may lack optional date-time handler"
+    "Date-time instance validation must actively check formats, rejecting missing timezone/impossible dates; jsonschema FormatChecker may lack optional date-time handler",
+    "bounded self-correction: |overlay probability change| <= 0.05 in any rolling seven days and |signal weight change| <= 0.10 of current weight per month; larger changes wait for the owner (owner, 2026-11-03)",
+    "promotion requires 8 scored shadow weeks beating base rate and current rules plus the owner's yes; unscoreable weeks pause the count (owner, 2026-11-03)",
+    "automatic revert only to the previous approved, still-eligible artefact; otherwise pause; restart and switching forward need the owner (owner, 2026-11-03)",
+    "top-5 ranking only over listings with all three combined-score components eligible; never filled to five (owner, 2026-11-03)"
   ],
   "parse_does_not_prove_semantics": true
 }

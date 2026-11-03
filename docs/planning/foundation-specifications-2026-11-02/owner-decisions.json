@@ -20,5 +20,62 @@
       "source": "Owner reply call_5afa82d07ebb4411b646c22cd7dda788",
       "meaning": "3/6/12-month forecasts use calendar-month anniversaries, rolling back to the preceding valid session or valuation date when closed. Score only when canonical target-date value is available. This does not choose exact origin cutoffs, publication lag policy, thresholds or numerical model parameters."
     }
-  ]
+  ],
+  "later_owner_answers": {
+    "note": "Owner answers recorded after this pack was written, folded in by the MP-20 consolidation on 3 Nov 2026. The decision log is the authority; these entries point to it and add no FND-DEC ids. None approves the architecture baseline, UX or implementation.",
+    "authority": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "answers": [
+      {
+        "date": "2026-11-02",
+        "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+        "summary": "ARC-01 confirmed: Yahoo Finance plus Twelve Data Grow 55 ($29 a month) for prod, Twelve Data Basic for dev; personal hobby use, not commercial; the published-terms risk accepted; no vendor contacted; Region Virginia (us-east-1). The Apple fee exception month was later refined (3 Nov, item 10).",
+        "folded_into": [
+          "data/specification.md",
+          "data/catalogue.json",
+          "fixed-policies.json",
+          "selected-directions.json"
+        ]
+      },
+      {
+        "date": "2026-11-02",
+        "source": "docs/planning/claude-models-and-batching-2026-11-02.md",
+        "summary": "ARC-06b option A: Haiku for triage, model inputs and extraction; Opus for event analysis, at most three a day, batched; Sonnet for chat, explanations, the briefing and evaluation judges. Every route passes its evaluation first.",
+        "folded_into": [
+          "fixed-policies.json",
+          "selected-directions.json"
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
+        "summary": "Terraform only from the first resource; SSM Parameter Store SecureString; AWS Organizations with all features and the cost-guard SCP; the existing domain mypaisapp.com renewed outside MP; network N0; a read-only Cost Explorer role in the management account for the prod collector; global Claude inference at the standard price.",
+        "folded_into": [
+          "fixed-policies.json",
+          "selected-directions.json"
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
+        "summary": "All seven event kinds in the first event wave (US, UK, India), each qualifying on its own evidence; similar days since 2015; bounded self-correction by code, never an agent; holdings plus the top 5 per segment.",
+        "folded_into": [
+          "fixed-policies.json",
+          "selected-directions.json"
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
+        "items": "1 to 21",
+        "summary": "Data: segments, additions from chat, the ~150-name universe, UK and Indian funds, Yahoo kept for India, the scan up to 5 GBP (items 1 to 3, 8, 9, 12, 19). Forecasting: bands, trial, revert, slipping, restart, unscored weeks, rules changes, probation, contribution split, F7 (items 4 to 6, 11, 13 to 18, 20). Release workflow only the owner can start (7). Apple not for now (10). One-pass consolidation with review round 1 before the owner signs (21).",
+        "folded_into": [
+          "data/",
+          "fixed-policies.json",
+          "selected-directions.json",
+          "work-state.json",
+          "README.md"
+        ]
+      }
+    ]
+  }
 }

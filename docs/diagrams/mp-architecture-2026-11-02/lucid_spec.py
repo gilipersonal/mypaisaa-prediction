@@ -143,7 +143,7 @@ ICONS1 = {
     "s3w": ("ArchAmazonSimpleStorageServiceAWS2024", 700, 240, "S3 (web)", "static app files", "below"),
     "cw": ("ArchAmazonCloudWatchAWS2024", 1000, 240, "CloudWatch + X-Ray", "logs, metrics, traces", "below"),
     "ct": ("ArchAWSCloudTrailAWS2024", 1260, 240, "CloudTrail", "every AWS API call", "below"),
-    "sec": ("ArchAWSSecretsManagerAWS2024", 1500, 240, "Secrets Manager", "provider and Claude keys", "below"),
+    "sec": ("ResAWSSystemsManagerParameterStoreAWS2024", 1500, 240, "SSM Parameter Store", "provider and Claude keys", "below"),
     "cog": ("ArchAmazonCognitoAWS2024", 460, 420, "Cognito", "Apple, Google, passkeys", "below"),
     "apigw": ("ArchAmazonAPIGatewayAWS2024", 460, 600, "API Gateway", "HTTPS and SSE", "below"),
     "api": ("ArchAWSLambdaAWS2024", 760, 600, "FastAPI on Lambda", "/api/v1 (starter runs locally)", "below"),
@@ -513,7 +513,7 @@ def page_delivery() -> dict:
         ["Static preview", "CI"], ["Workflow lint", "CI"], ["Jira traceability", "Jira key"],
     ], header_fill="#DCF5EF", first_col_fill="#FFFFFF"))
     s.append(box("main", 1770, 280, 210, 100, "main", "merged only when the owner asks", "teal", size=15, width=3))
-    s.append(box("iac", 1770, 640, 210, 130, "Infrastructure as code", "plan only; CDK or CloudFormation still to choose; never applied from here", "amber", dashed=True, size=13))
+    s.append(box("iac", 1770, 640, 210, 130, "Infrastructure as code", "Terraform only (owner, 3 Nov 2026); plan only; never applied from here", "amber", dashed=True, size=13))
     s.append({"id": "cloud", "type": "namedContainer", "className": "AWSCloudAWS2024", "boundingBox": {"x": 60, "y": 850, "w": 1950, "h": 580},
               "text": "AWS: two workload accounts under consolidated billing (Owner-selected; accounts not yet inspected)"})
     for acct, ax, words in (("dev", 100, "dev account: synthetic data, tests and CI. Nothing deployed"),
@@ -526,7 +526,7 @@ def page_delivery() -> dict:
                   '<b>Separation.</b> Dev agents, synthetic imports, tests and CI have no routine write access to prod; each account has its '
                   'own identities, deployment roles and write authority. <b>Cost.</b> £100 a month all-in across both accounts, market data '
                   'and Claude: £70 of operation and a £30 reserve; warn at £60, reduce optional work at £75, pause it at £85. '
-                  '<b>Region.</b> Chosen only after service availability and complete prices are confirmed.'))
+                  '<b>Region.</b> Virginia (us-east-1), owner-selected 2 November 2026.'))
     L = [
         line("d1", "jira", (1, 0.5), "branch", (0, 0.5), "1 branch", BLUE),
         line("d2", "branch", (1, 0.5), "pr", (0, 0.5), "2 push", BLUE),

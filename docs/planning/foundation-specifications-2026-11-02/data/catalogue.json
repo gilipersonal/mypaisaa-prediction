@@ -6,7 +6,9 @@
     "MP-10",
     "MP-20",
     "MP-27",
-    "MP-29"
+    "MP-29",
+    "MP-37",
+    "MP-39"
   ],
   "gap_refs": [
     "FC-01",
@@ -16,7 +18,8 @@
   ],
   "requirement_refs": [
     "ARC-01",
-    "ARC-11"
+    "ARC-11",
+    "ARC-05"
   ],
   "listings": [
     {
@@ -115,13 +118,28 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      }
     },
     {
       "matrix_id": "RIGHT-02",
       "listing_id": "US-AAPL-XNAS-USD",
       "source": "twelvedata",
-      "plan": "Grow_option_pending",
+      "plan": "Grow_55",
       "environment": "prod",
       "data_kind": "daily_ohlcv",
       "uses": {
@@ -164,7 +182,23 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "plan_note": "Was Grow_option_pending; Grow 55 selected (owner, 2 Nov 2026).",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      }
     },
     {
       "matrix_id": "RIGHT-03",
@@ -213,7 +247,22 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      }
     },
     {
       "matrix_id": "RIGHT-04",
@@ -262,13 +311,29 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      },
+      "role_note": "Delayed intraday 30-minute checks and a daily cross-check (owner, 3 Nov 2026)."
     },
     {
       "matrix_id": "RIGHT-05",
       "listing_id": "UK-VOD-XLON-GBX",
       "source": "twelvedata",
-      "plan": "Grow_option_pending",
+      "plan": "Grow_55",
       "environment": "prod",
       "data_kind": "daily_ohlcv",
       "uses": {
@@ -311,7 +376,23 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "plan_note": "Was Grow_option_pending; Grow 55 selected (owner, 2 Nov 2026).",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      }
     },
     {
       "matrix_id": "RIGHT-06",
@@ -360,7 +441,23 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      },
+      "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     },
     {
       "matrix_id": "RIGHT-07",
@@ -409,13 +506,29 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      },
+      "role_note": "Delayed intraday 30-minute checks and a daily cross-check (owner, 3 Nov 2026)."
     },
     {
       "matrix_id": "RIGHT-08",
       "listing_id": "IN-RELIANCE-XNSE-INR",
       "source": "twelvedata",
-      "plan": "Grow_option_pending",
+      "plan": "Grow_55",
       "environment": "prod",
       "data_kind": "daily_ohlcv",
       "uses": {
@@ -458,7 +571,23 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "plan_note": "Was Grow_option_pending; Grow 55 selected (owner, 2 Nov 2026).",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      }
     },
     {
       "matrix_id": "RIGHT-09",
@@ -507,7 +636,23 @@
       },
       "runtime_policy": "deny_until_scope_verified",
       "status": "live_proof_pending",
-      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established."
+      "note": "Public plan labels are evidence about advertised categories, not a per-listing grant. Basic UK/India coverage is not established.",
+      "owner_risk_acceptance": {
+        "ref": "OWNER-RISK-01",
+        "vendor_decisions_unchanged": true,
+        "risk_accepted_uses": [
+          "storage_backup",
+          "training_evaluation",
+          "non_display_inference",
+          "internal_display",
+          "derived_display_export"
+        ],
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ]
+      },
+      "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     }
   ],
   "source_candidates": [
@@ -517,7 +662,9 @@
       "direction_status": "owner_confirmed",
       "rights_status": "live_proof_pending",
       "software_licence_not_data_licence": true,
-      "endpoint_quota": null
+      "endpoint_quota": null,
+      "role": "Production: delayed intraday prices for UK and Indian 30-minute checks and a daily cross-check beside Twelve Data (owner, 2 and 3 Nov 2026). Daily closes come from Twelve Data.",
+      "owner_risk_acceptance": "OWNER-RISK-01"
     },
     {
       "source": "twelvedata",
@@ -529,7 +676,10 @@
       "credits_per_minute": 8,
       "credits_per_day": 800,
       "reset": "00:00:00Z",
-      "uk_india_coverage_proven": false
+      "uk_india_coverage_proven": false,
+      "role": "Development only (owner, 2 Nov 2026): a US live sample beside synthetic fixtures; UK and India are trial symbols only on Basic; no /dividends or /splits.",
+      "corporate_actions_available": false,
+      "owner_risk_acceptance": "OWNER-RISK-01"
     },
     {
       "source": "twelvedata",
@@ -538,8 +688,31 @@
       "public_label": "Internal display data access",
       "source_status": "source_verified",
       "account_status": "live_proof_pending",
-      "selected_credit_option": null,
-      "nav_coverage_proven": false
+      "selected_credit_option": "Grow 55",
+      "nav_coverage_proven": false,
+      "selected_credit_option_note": "Was null (pending); Grow 55 selected (owner, 2 Nov 2026). Pro 610 compared and not chosen.",
+      "price_usd_month": 29,
+      "billing": "monthly",
+      "credits_per_minute": 55,
+      "credits_per_day": null,
+      "daily_cap_note": "No daily cap on Grow (RES-DATA-11).",
+      "uk_india_delay": "end_of_day",
+      "corporate_action_weight_per_symbol": {
+        "dividends": 20,
+        "splits": 20
+      },
+      "uk_fund_nav_test": "In the first paid month, test by API whether Grow 55 returns NAVs for each owner UK fund; uncovered funds are valued from the owner statements (owner, 3 Nov 2026).",
+      "owner_risk_acceptance": "OWNER-RISK-01"
+    },
+    {
+      "source": "owner_statement",
+      "plan": "not_applicable",
+      "direction_status": "owner_confirmed",
+      "role": "Indian funds always; UK funds that the Grow 55 first-month test does not cover (owner, 3 Nov 2026). Imported through the controlled import and approval flow.",
+      "rights_status": "owner_own_records",
+      "data_kinds": [
+        "nav"
+      ]
     }
   ],
   "capability_record_required": [
@@ -645,7 +818,8 @@
     {
       "id": "DATA-DEC-01",
       "status": "live_proof_pending",
-      "decision": "Per-listing/provider/plan use-right evidence and contract retention; no unknown grant enabled."
+      "decision": "Per-listing/provider/plan use-right evidence and contract retention; no unknown grant enabled.",
+      "note": "Owner, 2 Nov 2026: no vendor is contacted; vendor evidence stays unknown and production rests on OWNER-RISK-01 (DATA-DEC-05)."
     },
     {
       "id": "DATA-DEC-02",
@@ -655,12 +829,239 @@
     {
       "id": "DATA-DEC-03",
       "status": "live_proof_pending",
-      "decision": "Actual holdings and fund share classes deferred; extend catalogue after owner supplies approved identifiers."
+      "decision": "Actual holdings and fund share classes deferred; extend catalogue after owner supplies approved identifiers.",
+      "note": "Owner, 3 Nov 2026: Indian funds valued from the owner statements; UK funds by the Grow 55 first-month test, else statements (DATA-DEC-07, DATA-DEC-08)."
     },
     {
       "id": "DATA-DEC-04",
       "status": "proposed",
       "decision": "Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records."
+    },
+    {
+      "id": "DATA-DEC-05",
+      "status": "owner_confirmed",
+      "decision": "ARC-01 confirmed: Yahoo plus Twelve Data Grow 55 ($29 a month) in prod, Twelve Data Basic in dev; personal hobby use; the published-terms risk accepted (OWNER-RISK-01); no vendor contacted.",
+      "recorded_on": "2026-11-02",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-06",
+      "status": "owner_confirmed",
+      "decision": "Yahoo stays for the UK and India: delayed intraday prices for the 30-minute checks and a cross-check beside Twelve Data end-of-day prices.",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-07",
+      "status": "owner_confirmed",
+      "decision": "UK funds: test Grow 55 by API in its first month; if not covered, value UK funds from the owner statements.",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-08",
+      "status": "owner_confirmed",
+      "decision": "Indian funds: valued from the owner holdings statements; all other market data from Twelve Data.",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-09",
+      "status": "owner_confirmed",
+      "decision": "Gold and silver as XAU/USD and XAG/USD; top-5 segments US large caps, US tech, India Nifty 50, India midcap, ETFs (US, UK, India), commodities; no UK FTSE segment.",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-10",
+      "status": "owner_confirmed",
+      "decision": "Discovery universe of about 150 curated names scanned on end-of-day data (the scan may add up to 5 GBP a month of Claude explanations; cost area).",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-11",
+      "status": "owner_confirmed",
+      "decision": "Watch-only listings, markets and segments are added from chat: Claude proposes, code checks coverage and credits, the owner confirms in the app.",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    },
+    {
+      "id": "DATA-DEC-12",
+      "status": "open_owner_question",
+      "decision": "Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission."
+    },
+    {
+      "id": "DATA-DEC-13",
+      "status": "open_owner_question",
+      "decision": "Statement-valued funds: valuation and risk only, with no forecast task needing a daily series, until a verified daily NAV source exists (proposed)."
+    },
+    {
+      "id": "DATA-DEC-14",
+      "status": "open_owner_question",
+      "decision": "Basic dev and Grow 55 prod are different plans and so different Twelve Data accounts; MP-10 did not check whether one person may hold a free Basic account beside a paid Grow account."
     }
-  ]
+  ],
+  "owner_risk_acceptance": [
+    {
+      "id": "OWNER-RISK-01",
+      "date": "2026-11-02",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md (Owner answers after the MP-10 source-rights research)",
+      "scope": "Yahoo Finance and Twelve Data (Grow 55 prod, Basic dev), the owner's personal hobby use, not commercial.",
+      "accepted_risk": "On published terms Yahoo forbids automated collection and Twelve Data labels Grow view-only (cannot be programmatically processed, stored, transformed or redistributed).",
+      "effect": "Runtime records decision risk_accepted with basis owner_risk_acceptance for the named uses; vendor cells stay unknown; no vendor is contacted; nothing is a grant.",
+      "never_covers": [
+        "redistribution",
+        "display or export to anyone other than the owner"
+      ],
+      "open": [
+        "anthropic_transmission (DATA-DEC-12)",
+        "retention after cancellation (DATA-DEC-04)"
+      ]
+    }
+  ],
+  "universe_policy": {
+    "status": "owner_confirmed_detail_proposed",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md (3 November 2026 decision round, items 1 to 3, 8, 9, 12 and 19)",
+    "roles": [
+      "holding",
+      "watch_only",
+      "discovery",
+      "segment"
+    ],
+    "discovery_universe": {
+      "size": "about 150 curated names",
+      "data": "end_of_day",
+      "membership_list": "proposed, not yet drawn up"
+    },
+    "top5_segments": [
+      {
+        "id": "SEG-US-LARGE",
+        "label": "US large caps"
+      },
+      {
+        "id": "SEG-US-TECH",
+        "label": "US tech"
+      },
+      {
+        "id": "SEG-IN-NIFTY50",
+        "label": "India Nifty 50"
+      },
+      {
+        "id": "SEG-IN-MIDCAP",
+        "label": "India midcap"
+      },
+      {
+        "id": "SEG-ETF",
+        "label": "ETFs (US, UK and India)"
+      },
+      {
+        "id": "SEG-COMMODITY",
+        "label": "Commodities (gold and silver)"
+      }
+    ],
+    "no_uk_ftse_segment": "UK holdings and watch-only listings are still covered (owner, 3 Nov 2026).",
+    "ranking": "35/40/25 combined score, ranked only when all three are eligible (financial specification).",
+    "commodities": [
+      {
+        "proposed_listing_id": "CMDTY-XAU-XXXX-USD",
+        "symbol": "XAU/USD",
+        "mic": "XXXX",
+        "quote_unit": "USD per troy ounce",
+        "coverage_status": "live_proof_pending"
+      },
+      {
+        "proposed_listing_id": "CMDTY-XAG-XXXX-USD",
+        "symbol": "XAG/USD",
+        "mic": "XXXX",
+        "quote_unit": "USD per troy ounce",
+        "coverage_status": "live_proof_pending"
+      }
+    ],
+    "additions_from_chat": "Claude proposes; code checks identity, provider coverage (Twelve Data or Yahoo) and credit/cash cost; the owner confirms in the app; then a new catalogue version. No confirm, unsupported coverage or a failed credit check adds nothing.",
+    "funds": {
+      "UK": "Test Grow 55 by API in its first month; uncovered funds valued from the owner statements.",
+      "India": "Valued from the owner holdings statements; other Indian market data from Twelve Data with Yahoo beside it."
+    }
+  },
+  "quota_allocation": {
+    "status": "proposed_recomputed_mp20_2026-11-03",
+    "correction": "DATA-07 counted 20 action checks at weight 1 and assumed Basic could make them; /dividends and /splits weigh 20 per symbol each and need Grow (RES-DATA-13).",
+    "superseded_basic_illustration": {
+      "slots": 16,
+      "symbols": 20,
+      "monitoring": 320,
+      "closes": 20,
+      "fx": 4,
+      "action_checks_at_weight_1": 20,
+      "retry_metadata": 36,
+      "total_per_day": 400
+    },
+    "basic_dev": {
+      "credits_per_minute": 8,
+      "credits_per_day": 800,
+      "allocation_per_day": {
+        "scheduler": 640,
+        "manual_diagnostics": 80,
+        "incident_retries": 80
+      },
+      "normal_worker_per_minute": 6,
+      "example_per_day": {
+        "us_symbols": 20,
+        "slots": 13,
+        "monitoring": 260,
+        "closes": 20,
+        "fx": 4,
+        "action_checks": 0,
+        "retry_metadata": 36,
+        "total": 320
+      }
+    },
+    "grow55_prod": {
+      "credits_per_minute": 55,
+      "daily_cap": null,
+      "normal_worker_per_minute": 45,
+      "incident_retry_per_minute": 10,
+      "planning_size": {
+        "eod_listings": 180,
+        "commodity_pairs": 2,
+        "fx_pairs": 4,
+        "monitored_us_listings": 30,
+        "session_days_per_month": 22,
+        "mics_for_change_detection": 5,
+        "dividend_events_per_listing_year": 4
+      },
+      "per_month": {
+        "eod_bars": 3960,
+        "worst_case_retry": 3960,
+        "fx_with_retry": 176,
+        "commodities_with_retry": 88,
+        "market_state": 88,
+        "action_change_detection": 220,
+        "action_fetches": 1200,
+        "us_30_minute_checks": 8580
+      },
+      "total_per_month": 18272,
+      "approx_per_session_day": 831,
+      "theoretical_monthly_capacity": 2376000,
+      "one_time_backfill": {
+        "per_listing": 42,
+        "total_with_fx_and_commodities": 7566,
+        "minutes_at_45_per_minute": 169
+      },
+      "full_action_pull_fallback_per_day_180_listings": 7200,
+      "marginal_listing": {
+        "bar_and_retry_per_month": 44,
+        "actions_per_month": 7,
+        "backfill_once": 42,
+        "us_30_minute_checks_per_month": 286
+      }
+    },
+    "evidence": [
+      "RES-DATA-03",
+      "RES-DATA-11",
+      "RES-DATA-13"
+    ],
+    "live_proof": "Account quota and every weight must be proven on the live account."
+  }
 }

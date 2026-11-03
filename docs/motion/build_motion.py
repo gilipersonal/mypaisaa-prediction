@@ -1217,7 +1217,7 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
     def X(gbp: float) -> float:
         return x0 + gbp * s
 
-    base = 19.84
+    base = 18.64
     bars_in = [  # label, extra on the baseline, colour, time
         ("Baseline perimeter, no VPC", 0.0, "mint", 0.9),
         ("L1 private jobs only", 0.0, "mint", 4.4),
@@ -1273,7 +1273,7 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
   <g class="rise" {at(7.6)}>
     <text x="{x0}" y="486" fill="{C['text']}" font-size="14" font-weight="700">The perimeter itself costs about £0;</text>
     <text x="{x0}" y="506" fill="{C['muted']}" font-size="13">its KMS keys are already in the cost model.</text>
-    <text x="{x0}" y="534" fill="{C['text']}" font-size="14" font-weight="700">The baseline leaves £2.16 of the £22 AWS share.</text>
+    <text x="{x0}" y="534" fill="{C['text']}" font-size="14" font-weight="700">The baseline leaves £3.36 of the £22 AWS share.</text>
     <text x="{x0}" y="554" fill="{C['muted']}" font-size="13">Every paid step overruns it. L3 and L4 alone pass £100.</text>
   </g>
   <text x="60" y="616" fill="{C['muted']}" font-size="12" class="fade" {at(8.2)}>Proposed, nothing deployed · Virginia prices checked 2 Nov 2026 · dev 1 zone, prod 2 zones · £0.80 to the dollar and 20% tax</text>

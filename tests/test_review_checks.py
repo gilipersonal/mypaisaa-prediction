@@ -33,9 +33,19 @@ class SelectionTests(unittest.TestCase):
 
     def test_spec_change_selects_its_pack_validator(self):
         chosen, _ = names(["docs/planning/foundation-specifications-2026-11-02/costs/model.json"])
-        self.assertEqual(chosen, {"foundation-pack"})
+        self.assertEqual(chosen, {"foundation-pack", "baseline-signoff"})
         chosen, _ = names(["docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
+        self.assertEqual(chosen, {"reconciliation-pack", "baseline-signoff"})
+        chosen, _ = names(["docs/planning/ma-reconciliation-2026-11-02/source-coverage.json"])
         self.assertEqual(chosen, {"reconciliation-pack"})
+
+    def test_the_signoff_builder_selects_python_errors(self):
+        self.assertIn("python-errors", names(["docs/planning/baseline-signoff-2026-11-03/build_signoff.py"])[0])
+
+    def test_signoff_pack_and_its_inputs_select_the_signoff_check(self):
+        for path in ("docs/planning/baseline-signoff-2026-11-03/README.md", "tests/test_baseline_signoff.py",
+                     "docs/diagrams/mp-quality-2026-11-02/manifest.json", "docs/design/artifacts.json"):
+            self.assertIn("baseline-signoff", names([path])[0], path)
 
     def test_policy_journal_selects_foundation_pack(self):
         chosen, _ = names(["docs/planning/foundation-policy-discussion-2026-11-02.md"])
@@ -51,7 +61,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_root_docs_brand_and_motion_select_the_docs_check(self):
         for path in ("ARCHITECTURE.md", "TECH-STACK.md"):
-            self.assertEqual(names([path]), ({"readme", "plan-sync"}, []), path)
+            self.assertEqual(names([path]), ({"readme", "plan-sync", "baseline-signoff"}, []), path)
         for path in ("docs/brand/mark.svg", "docs/motion/budget.gif"):
             self.assertEqual(names([path]), ({"readme"}, []), path)
 

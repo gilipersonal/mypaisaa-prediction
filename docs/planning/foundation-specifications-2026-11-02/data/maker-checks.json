@@ -59,5 +59,10 @@
     "JSON Schema format annotations were supplemented with explicit standard-library timestamp/date parsing because optional RFC3339 format support was unavailable."
   ],
   "checker": "costs/validate_specifications.py",
-  "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py"
+  "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+  "mp20_consolidation": {
+    "date": "2026-11-03",
+    "note": "Owner decisions of 2 and 3 Nov 2026 folded into the data specification, catalogue, contracts (additive), examples (negative cases), acceptance and research. This data area pins no file hashes. Reviewed evidence to be re-checked in the MP-20 review round.",
+    "quota_arithmetic_rechecked": "DATA-07 Basic 320 a day and Grow 55 18,272 a month recomputed from catalogue.quota_allocation (see the arithmetic check run with the consolidation)."
+  }
 }

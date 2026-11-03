@@ -167,7 +167,7 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, across the US, UK and India,
 each qualifying on its own evidence. The similar-days search runs over every eligible session since 2015, about ten
 years. Both supersede the narrower proposals in the foundation forecasting specification (earnings first, a
-756-session lookback), which takes them on at the MP-20 consolidation.
+756-session lookback), which took them on in the MP-20 consolidation (3 November 2026).
 
 <div align="center">
 
@@ -258,8 +258,8 @@ concurrency, timeouts and retention back them. With the owner's choices a month 
 [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
 **Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
-at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
-decision (PL-11, MP-30).
+at PH-08. GitHub's Free plan cannot enforce a prod approval on a private repo, so the owner chose (3 November 2026) a
+release workflow only the owner can start (PL-11, MP-30).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
 SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. The owner also approved N0 (no VPC, with an empty
@@ -311,14 +311,18 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
-  (us-east-1), and the Apple Developer fee has one exception month a year above £100.
+  (us-east-1). The Apple Developer Program is not bought for now (free 7-day local builds); if the owner buys it,
+  its fee month is the one allowed month above £100.
 - **Cost fit:** settled by the owner's choice of Grow 55 ($29): every month fits £100, and £70 with Claude on, except
-  the one allowed Apple fee month. The foundation cost model still carries a $15 domain line to remove.
+  the one allowed Apple fee month. The domain line is out of the cost model (MP-20); three small cost questions
+  remain open in the [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md).
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
   model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
-- **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work.
+- **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work. The
+  [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md) gathers every decision, the open items with
+  their deciding evidence, and the phase-to-story-to-Jira crosswalk, pinned by hash.
 
 ## 14. Diagram sources
 

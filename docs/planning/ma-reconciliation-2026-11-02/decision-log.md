@@ -218,5 +218,16 @@ any data source.
     matured forecasts. That triggers the automatic revert.
 15. **Restart after a pause:** reverting to the previous approved model is automatic; restarting a paused forecast or
     switching forward still needs the owner's yes (POLICY-003 stands).
+16. **A week that cannot be scored** (a data outage, a holiday week) pauses the 8-week trial count; the trial still
+    needs 8 scored weeks.
+17. **Rules changes** (indicators, pillars, thresholds) need the same 8-week shadow trial, beating the current rules,
+    before the owner approves them.
+18. **Probation:** a newly promoted model is on probation for its first 4 live weeks and reverts after 2 bad weeks
+    instead of 4.
+19. **The ~150-name scan** may add up to £5 a month (Claude explanations for the top-5 names, batched where possible).
+20. **An F7 contribution policy** is shown live, labelled experimental, only after it beats simple rules for 8 weeks in
+    replay and shadow, and with the owner's yes.
+21. **The MP-20 consolidation** runs as one pass with one sign-off, and an independent review round 1 runs before the
+    owner signs.
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

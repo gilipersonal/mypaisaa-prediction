@@ -172,6 +172,36 @@
       "claim": "Compute, requests, Durable operations/state and streaming data are separate dimensions.",
       "implication": "Include active stream waiting time and resumed invocations.",
       "status": "source_verified"
+    },
+    {
+      "id": "RES-COST-20",
+      "url": "https://developer.apple.com/support/purchase-activation/",
+      "title": "Apple Developer Program purchase and renewal",
+      "checked_date": "2026-11-02",
+      "claim": "Membership is USD 99 a year, shown in local currency with tax; auto-renewal charges on the expiry date.",
+      "implication": "If the owner buys it, its due month is the one allowed exception above GBP 100; never amortised. Not bought for now (owner, 3 Nov 2026).",
+      "status": "source_verified",
+      "checked_by": "docs/planning/source-rights-2026-11-02/cost_months.py (MP-10)"
+    },
+    {
+      "id": "RES-COST-21",
+      "url": "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "title": "GitHub Actions billing",
+      "checked_date": "2026-11-02",
+      "claim": "GitHub Free for organisations includes USD 12 of Actions compute a month for the whole organisation.",
+      "implication": "MP's drafted 520 Linux minutes (USD 3.12) fit inside it; planned cash USD 0 (owner, 3 Nov 2026). Shared with MA, so the worst case is USD 3.12 if a payment method is on file.",
+      "status": "source_verified",
+      "checked_by": "docs/planning/source-rights-2026-11-02/cost_months.py (MP-10)"
+    },
+    {
+      "id": "RES-COST-22",
+      "url": "https://aws.amazon.com/systems-manager/pricing/",
+      "title": "SSM Parameter Store pricing",
+      "checked_date": "2026-11-03",
+      "claim": "Standard SecureString parameters carry no per-parameter fee (MP-29 pack); Secrets Manager charges USD 0.40 a secret a month (MP-10).",
+      "implication": "Owner chose SSM (3 Nov 2026), so secrets add no line; decryption requests sit in the KMS request lines.",
+      "status": "recorded_from_mp29_pack_not_reread_in_mp20",
+      "checked_by": "docs/planning/region-network-2026-11-03/README.md"
     }
   ],
   "offer_evidence_file": "public-price-evidence.json",
@@ -341,11 +371,20 @@
   ],
   "cash_timing_derivation": {
     "status": "proposed",
-    "source": "model.json EST-COST-DOMAIN allowance, not a vendor invoice",
+    "source": "model.json EST-COST-APPLE (RES-COST-20) and the owner's exception rule, not a vendor invoice",
     "external_price_or_purchase_claim": false,
-    "inputs": "USD15 proposed annual allowance; USD1.25 amortised comparison; existing quantities, FX/tax/card assumptions.",
-    "method": "For ordinary-month cash subtract amortisation. For annual-domain invoice-month cash subtract amortisation and add full USD15 once. Convert once, then compare unrounded cash with owner thresholds.",
-    "checker": "check_cash_timing.py independently derives amounts from line quantities and rates; no service calls.",
-    "limitations": "Exact TLD, provider, purchase terms, actual invoice/due month and tax/credit settlement remain unverified. Other monthly services are assumed due monthly; any annual/prepaid payment terms require their own full due-month cash liability."
+    "inputs": "USD 99 conditional annual Apple fee, never amortised; existing quantities, FX/tax/card assumptions; no domain line (owner, 3 Nov 2026).",
+    "method": "Ordinary-month cash is the monthly lines. The conditional Apple fee month adds the full USD 99 once. Convert once, then compare unrounded cash with owner thresholds; the remainder of the exception month is compared too. Expected months add the GBP 5 scan cap after conversion.",
+    "checker": "check_cash_timing.py independently derives amounts from line quantities and rates, recomputes ARC-06b option A from token volumes, and checks the expected months; no service calls.",
+    "limitations": "The Apple GBP local price and due month, the Grow 55 checkout price and terms, tax/credit settlement and FX remain unverified. Other monthly services are assumed due monthly; any annual or prepaid payment terms require their own full due-month cash liability.",
+    "superseded_2026_11_03": {
+      "status": "proposed",
+      "source": "model.json EST-COST-DOMAIN allowance, not a vendor invoice",
+      "external_price_or_purchase_claim": false,
+      "inputs": "USD15 proposed annual allowance; USD1.25 amortised comparison; existing quantities, FX/tax/card assumptions.",
+      "method": "For ordinary-month cash subtract amortisation. For annual-domain invoice-month cash subtract amortisation and add full USD15 once. Convert once, then compare unrounded cash with owner thresholds.",
+      "checker": "check_cash_timing.py independently derives amounts from line quantities and rates; no service calls.",
+      "limitations": "Exact TLD, provider, purchase terms, actual invoice/due month and tax/credit settlement remain unverified. Other monthly services are assumed due monthly; any annual/prepaid payment terms require their own full due-month cash liability."
+    }
   }
 }

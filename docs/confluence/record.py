@@ -23,7 +23,9 @@ def main() -> None:
     elif kind == "media":
         response = json.loads(Path(sys.argv[4]).read_text())
         page = m["pages"][slug]["id"]
-        m["media"].setdefault(slug, {})[sys.argv[3]] = {"id": response["fileId"], "collection": f"contentId-{page}", "attachment": response["id"]}
+        digest = hashlib.sha256((HERE.parents[1] / sys.argv[3]).read_bytes()).hexdigest()
+        m["media"].setdefault(slug, {})[sys.argv[3]] = {"id": response["fileId"], "collection": f"contentId-{page}",
+                                                        "attachment": response["id"], "sha256": digest}
     elif kind == "published":
         body = (HERE / "pages" / f"{slug}.html").read_bytes()
         m["pages"][slug].update({"version": int(sys.argv[3]), "sha256": hashlib.sha256(body).hexdigest()})

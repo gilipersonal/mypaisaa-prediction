@@ -4,6 +4,7 @@
   "status": "proposed_maker_checked_unreviewed",
   "implementation_authorised": false,
   "as_of": "2026-11-02",
+  "consolidated_on": "2026-11-03",
   "id": "SCI-01",
   "owner_horizon_receipt": [
     "FND-DEC-001",
@@ -176,7 +177,8 @@
       "retry": "one missing-close retry within existing daily acquisition/retry allowance, not a new stream or added paid quota",
       "schedule_admission": "require issuance deadline strictly before next eligible open and demonstrated source/processing latency; otherwise unsupported_schedule_abstain",
       "late_input": "known_at greater than frozen cutoff excluded, including successful late retries; never shift cutoff or backdate",
-      "issuance": "wait until frozen cutoff; issued_at <= close+75minutes and issued_at < next_open; otherwise missed_origin"
+      "issuance": "wait until frozen cutoff; issued_at <= close+75minutes and issued_at < next_open; otherwise missed_origin",
+      "owner_receipt": "POLICY-002 (2 Nov 2026) selected these four clocks subject to source and processing verification; status stays owner_pending until that verification, as timing_checks.py requires."
     }
   },
   "maturity_policy": {
@@ -222,5 +224,59 @@
     "challenger_in_practice",
     "pending_outcome_maturity",
     "unavailable_with_reason"
-  ]
+  ],
+  "price_type_note_commodities": "XAU/USD and XAG/USD (owner, 2026-11-03) are spot quotes without an exchange close; their daily valuation time, price type and calendar stay open (SCI-D08). The price_type enum is not extended until then.",
+  "forecast_universe_and_ranking": {
+    "status": "owner_selected_2026-11-03; screens wait for UX after the architecture sign-off",
+    "forecast_set": [
+      "owner holdings",
+      "watch-only listings: tracked and forecast without being held",
+      "curated discovery universe of about 150 names, scanned on end-of-day data"
+    ],
+    "segments": [
+      {
+        "id": "SEG-US-LARGE",
+        "name": "US large caps",
+        "market": "US"
+      },
+      {
+        "id": "SEG-US-TECH",
+        "name": "US tech (Nasdaq-100)",
+        "market": "US"
+      },
+      {
+        "id": "SEG-IN-NIFTY50",
+        "name": "India Nifty 50",
+        "market": "India"
+      },
+      {
+        "id": "SEG-IN-MIDCAP",
+        "name": "India midcap",
+        "market": "India"
+      },
+      {
+        "id": "SEG-ETF",
+        "name": "ETFs (US, UK and India)",
+        "market": "US, UK, India"
+      },
+      {
+        "id": "SEG-METALS",
+        "name": "Gold and silver (XAU/USD, XAG/USD)",
+        "market": "commodity spot"
+      }
+    ],
+    "excluded_segment": "no UK FTSE top-5 segment; UK holdings are still covered",
+    "membership": "curated list members tagged to a segment; membership snapshots versioned under the SCI-03 survivorship rule",
+    "top_n_per_segment": 5,
+    "ranking_score": "combined score: growth 0.35, protection 0.40, opportunity 0.25 (versioned financial decision policy, FIN-OD-07)",
+    "ranking_eligibility": "only listings with all three components eligible (POLICY-006); a segment shows fewer than five when fewer qualify; never filled",
+    "presentation": "ranges and uncertainty shown; decision support, not advice",
+    "additions_from_chat": "Claude proposes; code checks coverage with the data provider (Twelve Data or Yahoo) and the credit cost; the owner confirms in the app before anything is added",
+    "claude_explanation_cost": "top-5 explanations may add up to GBP 5 a month, batched where possible (costs lane)",
+    "open": [
+      "SCI-D08: gold and silver daily valuation time, price type and calendar",
+      "SCI-D09: horizons and outputs feeding the ranking, ETF segment structure, ranking cadence and ties"
+    ],
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19"
+  }
 }
