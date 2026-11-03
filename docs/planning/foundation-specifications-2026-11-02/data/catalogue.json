@@ -124,15 +124,19 @@
         "vendor_decisions_unchanged": true,
         "risk_accepted_uses": [
           "storage_backup",
-          "training_evaluation",
           "non_display_inference",
-          "internal_display",
+          "internal_display"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission",
+          "training_evaluation"
+        ],
+        "scope_ref": "OWNER-RISK-01-S7",
+        "internal_display_scope": "owner only, as a cross-check value or quality incident",
+        "not_accepted": [
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
       }
     },
     {
@@ -197,7 +201,8 @@
         "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
         "not_covered_pending_owner": [
           "anthropic_transmission"
-        ]
+        ],
+        "scope_ref": "OWNER-RISK-01-S1"
       }
     },
     {
@@ -254,14 +259,17 @@
         "risk_accepted_uses": [
           "storage_backup",
           "training_evaluation",
-          "non_display_inference",
+          "non_display_inference"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ],
+        "scope_ref": "OWNER-RISK-01-S8",
+        "not_accepted": [
           "internal_display",
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
       }
     },
     {
@@ -317,17 +325,21 @@
         "vendor_decisions_unchanged": true,
         "risk_accepted_uses": [
           "storage_backup",
-          "training_evaluation",
           "non_display_inference",
-          "internal_display",
+          "internal_display"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission",
+          "training_evaluation"
+        ],
+        "scope_ref": "OWNER-RISK-01-S7",
+        "internal_display_scope": "owner only, as a cross-check value or quality incident",
+        "not_accepted": [
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
       },
-      "role_note": "Delayed intraday 30-minute checks and a daily cross-check (owner, 3 Nov 2026)."
+      "role_note": "Yahoo's role (owner, 3 Nov 2026): delayed intraday 30-minute checks and a daily cross-check. This daily_ohlcv row is the cross-check (OWNER-RISK-01-S7); the intraday quotes are scope OWNER-RISK-01-S6."
     },
     {
       "matrix_id": "RIGHT-05",
@@ -391,7 +403,8 @@
         "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
         "not_covered_pending_owner": [
           "anthropic_transmission"
-        ]
+        ],
+        "scope_ref": "OWNER-RISK-01-S1"
       }
     },
     {
@@ -448,14 +461,17 @@
         "risk_accepted_uses": [
           "storage_backup",
           "training_evaluation",
-          "non_display_inference",
+          "non_display_inference"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ],
+        "scope_ref": "OWNER-RISK-01-S8",
+        "not_accepted": [
           "internal_display",
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
       },
       "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     },
@@ -512,17 +528,21 @@
         "vendor_decisions_unchanged": true,
         "risk_accepted_uses": [
           "storage_backup",
-          "training_evaluation",
           "non_display_inference",
-          "internal_display",
+          "internal_display"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission",
+          "training_evaluation"
+        ],
+        "scope_ref": "OWNER-RISK-01-S7",
+        "internal_display_scope": "owner only, as a cross-check value or quality incident",
+        "not_accepted": [
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
       },
-      "role_note": "Delayed intraday 30-minute checks and a daily cross-check (owner, 3 Nov 2026)."
+      "role_note": "Yahoo's role (owner, 3 Nov 2026): delayed intraday 30-minute checks and a daily cross-check. This daily_ohlcv row is the cross-check (OWNER-RISK-01-S7); the intraday quotes are scope OWNER-RISK-01-S6."
     },
     {
       "matrix_id": "RIGHT-08",
@@ -586,7 +606,8 @@
         "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
         "not_covered_pending_owner": [
           "anthropic_transmission"
-        ]
+        ],
+        "scope_ref": "OWNER-RISK-01-S1"
       }
     },
     {
@@ -643,14 +664,17 @@
         "risk_accepted_uses": [
           "storage_backup",
           "training_evaluation",
-          "non_display_inference",
+          "non_display_inference"
+        ],
+        "not_covered_pending_owner": [
+          "anthropic_transmission"
+        ],
+        "scope_ref": "OWNER-RISK-01-S8",
+        "not_accepted": [
           "internal_display",
           "derived_display_export"
         ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ]
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
       },
       "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     }
@@ -824,7 +848,8 @@
     {
       "id": "DATA-DEC-02",
       "status": "proposed",
-      "decision": "Approve proposed close/NAV/FX freshness and cache/retry tolerances."
+      "decision": "Approve proposed close/NAV/FX freshness and cache/retry tolerances.",
+      "note": "Decides when a close, NAV, FX rate or 30-minute quote may be shown or used as current. Until the owner approves the proposed tolerances in DATA-06 and the cache/retry rules in DATA-07, none is used live. Evidence to check them against: the delays Grow 55 and Yahoo actually show in Grow 55's first month."
     },
     {
       "id": "DATA-DEC-03",
@@ -835,7 +860,8 @@
     {
       "id": "DATA-DEC-04",
       "status": "proposed",
-      "decision": "Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records."
+      "decision": "Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records.",
+      "note": "Twelve Data's terms make a customer delete all data within 30 days of cancelling (terms 12.5(b), 16.2), keep audit-trail data for compliance and leave derived data with the customer (6.2); no vendor is asked to confirm how that applies to MP. The owner's answer decides what happens to stored bars, backups, trained models, forecasts and their audit records if Grow 55 ends (proposed: DATA-08 withdrawal treatment)."
     },
     {
       "id": "DATA-DEC-05",
@@ -889,17 +915,26 @@
     {
       "id": "DATA-DEC-12",
       "status": "open_owner_question",
-      "decision": "Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission."
+      "decision": "Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission.",
+      "note": "Decides whether any provider price may appear in a Claude prompt. Twelve Data's terms are silent on AI providers and forbid giving data to third parties without an agreement; Yahoo's terms bar transmitting any part of the service without written permission (s2(h)); Nasdaq's Data AI Policy needs a licence for third-party AI tools on Nasdaq data; no vendor is asked (owner, 2 Nov 2026). Until the owner answers, Claude routes receive no provider values."
     },
     {
       "id": "DATA-DEC-13",
       "status": "open_owner_question",
-      "decision": "Statement-valued funds: valuation and risk only, with no forecast task needing a daily series, until a verified daily NAV source exists (proposed)."
+      "decision": "Statement-valued funds: valuation and risk only, with no forecast task needing a daily series, until a verified daily NAV source exists (proposed).",
+      "note": "Indian funds, and any UK fund Grow 55 does not cover, are valued only from the owner's statements (DATA-DEC-07, DATA-DEC-08), which give one value per statement date, not a daily series. A forecast task needs a daily series, so without a verified daily NAV source these funds can show value and risk but no forecast."
     },
     {
       "id": "DATA-DEC-14",
       "status": "open_owner_question",
-      "decision": "Basic dev and Grow 55 prod are different plans and so different Twelve Data accounts; MP-10 did not check whether one person may hold a free Basic account beside a paid Grow account."
+      "decision": "Basic dev and Grow 55 prod are different plans and so different Twelve Data accounts; MP-10 did not check whether one person may hold a free Basic account beside a paid Grow account.",
+      "note": "If one person may not hold a free Basic account beside a paid Grow 55 account, dev either shares the Grow 55 account (its credits shared with prod, DATA-07) or runs on synthetic data only. Unchecked because no vendor is contacted; Twelve Data's terms or the first sign-up settle it."
+    },
+    {
+      "id": "DATA-DEC-15",
+      "status": "open_owner_question",
+      "decision": "Yahoo's accepted uses are narrowed to its selected role: delayed intraday quotes for the UK and India 30-minute checks, and daily values as a cross-check. Training and evaluation on Yahoo history is not covered (proposed).",
+      "note": "The owner selected Yahoo for intraday checks and a cross-check (DATA-DEC-06), not as a training source; Twelve Data closes are the training input. It matters if Grow 55's LSE, NSE or BSE history proves shorter than the 10-year similar-days lookback (checked in Grow 55's first month): filling the gap from Yahoo history needs the owner's yes."
     }
   ],
   "owner_risk_acceptance": [
@@ -916,8 +951,164 @@
       ],
       "open": [
         "anthropic_transmission (DATA-DEC-12)",
-        "retention after cancellation (DATA-DEC-04)"
-      ]
+        "retention after cancellation (DATA-DEC-04)",
+        "training on Yahoo history (DATA-DEC-15)"
+      ],
+      "scope_rule": "A use is risk_accepted only when a scope below names its source, plan, environment, data kind and listing; anything else falls to deny. No scope covers anthropic_transmission (DATA-DEC-12), redistribution, or display or export to anyone other than the owner. Derived display and export are to the owner only.",
+      "scopes": [
+        {
+          "id": "OWNER-RISK-01-S1",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "daily_ohlcv",
+            "historical_ohlcv"
+          ],
+          "listing_scope": "Catalogue listings with a holding, watch_only, discovery or segment role, plus CMDTY-XAU-XXXX-USD and CMDTY-XAG-XXXX-USD (XAU/USD, XAG/USD)",
+          "uses": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "ARC-01 (DATA-DEC-05), DATA-DEC-09, DATA-DEC-10"
+        },
+        {
+          "id": "OWNER-RISK-01-S2",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "quote"
+          ],
+          "listing_scope": "US listings on 30-minute checks (DATA-06)",
+          "uses": [
+            "storage_backup",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "DATA-DEC-05, DATA-DEC-06",
+          "note": "Proposed: quotes feed monitoring, not training, so training_evaluation is not accepted."
+        },
+        {
+          "id": "OWNER-RISK-01-S3",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "distribution",
+            "split"
+          ],
+          "listing_scope": "Catalogue listings with a holding, watch_only, discovery or segment role (not the spot pairs, which have no actions)",
+          "uses": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "DATA-DEC-05 (/dividends and /splits need Grow, RES-DATA-13)"
+        },
+        {
+          "id": "OWNER-RISK-01-S4",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "fx"
+          ],
+          "listing_scope": "The planning size's 4 FX pairs, each to GBP, and the GBP-per-USD rate that converts XAU/USD and XAG/USD",
+          "uses": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "DATA-DEC-05, DATA-DEC-09"
+        },
+        {
+          "id": "OWNER-RISK-01-S5",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "nav"
+          ],
+          "listing_scope": "The owner's UK funds whose first-month API test records a verified capability (DATA-DEC-07)",
+          "uses": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "DATA-DEC-07"
+        },
+        {
+          "id": "OWNER-RISK-01-S6",
+          "source": "yahoo",
+          "plan": "unverified_personal",
+          "environment": "prod",
+          "data_kinds": [
+            "quote"
+          ],
+          "listing_scope": "UK and Indian listings (XLON, XNSE, XBOM) on 30-minute checks, delayed intraday",
+          "uses": [
+            "storage_backup",
+            "non_display_inference",
+            "internal_display",
+            "derived_display_export"
+          ],
+          "selected_by": "DATA-DEC-06",
+          "note": "Training on Yahoo values is not accepted (DATA-DEC-15)."
+        },
+        {
+          "id": "OWNER-RISK-01-S7",
+          "source": "yahoo",
+          "plan": "unverified_personal",
+          "environment": "prod",
+          "data_kinds": [
+            "daily_ohlcv"
+          ],
+          "listing_scope": "Catalogue listings, as a cross-check beside Twelve Data closes",
+          "uses": [
+            "storage_backup",
+            "non_display_inference",
+            "internal_display"
+          ],
+          "selected_by": "DATA-DEC-06",
+          "note": "Proposed narrowing to the cross-check role; a disagreement is a quality incident shown to the owner. Training waits for DATA-DEC-15."
+        },
+        {
+          "id": "OWNER-RISK-01-S8",
+          "source": "twelvedata",
+          "plan": "Basic",
+          "environment": "dev",
+          "data_kinds": [
+            "daily_ohlcv",
+            "quote",
+            "fx"
+          ],
+          "listing_scope": "The dev live sample of US listings and the 4 FX pairs; UK and Indian listings are trial symbols only on Basic, so dev uses synthetic fixtures for them",
+          "uses": [
+            "storage_backup",
+            "training_evaluation",
+            "non_display_inference"
+          ],
+          "selected_by": "DATA-DEC-05",
+          "note": "Basic is labelled internal non-display; no display or derived display of Basic data is accepted. Dev screens show synthetic data."
+        }
+      ],
+      "data_kinds_never_covered": [
+        "fundamentals",
+        "exposure",
+        "news"
+      ],
+      "revised": "MP-20 round 2 (3 Nov 2026): scopes added so quotes, actions, FX, NAV and the spot pairs are covered only where the owner selected them; Basic dev display dropped; Yahoo narrowed to its selected role."
     }
   ],
   "universe_policy": {
@@ -985,7 +1176,7 @@
     }
   },
   "quota_allocation": {
-    "status": "proposed_recomputed_mp20_2026-11-03",
+    "status": "proposed_recomputed_mp20_round2_2026-11-03",
     "correction": "DATA-07 counted 20 action checks at weight 1 and assumed Basic could make them; /dividends and /splits weigh 20 per symbol each and need Grow (RES-DATA-13).",
     "superseded_basic_illustration": {
       "slots": 16,
@@ -1028,8 +1219,32 @@
         "fx_pairs": 4,
         "monitored_us_listings": 30,
         "session_days_per_month": 22,
-        "mics_for_change_detection": 5,
-        "dividend_events_per_listing_year": 4
+        "dividend_events_per_listing_year": 4,
+        "change_detection_mics": {
+          "status": "proposed",
+          "rule": "Derived from the MICs of the catalogue's listings that can have corporate actions (spot pairs on XXXX have none); a new MIC from an addition (DATA-08) is added before its listing is enabled.",
+          "planning_upper_bound": [
+            "XNYS",
+            "XNAS",
+            "ARCX",
+            "BATS",
+            "XLON",
+            "XNSE",
+            "XBOM"
+          ],
+          "why_seven": "US ETFs list on NYSE Arca (ARCX) or Cboe BZX (BATS), not only XNYS and XNAS; the fixed list of five missed them.",
+          "superseded_fixed_list": [
+            "XNYS",
+            "XNAS",
+            "XLON",
+            "XNSE",
+            "XBOM"
+          ],
+          "credits_per_extra_mic": {
+            "per_day": 2,
+            "per_month": 44
+          }
+        }
       },
       "per_month": {
         "eod_bars": 3960,
@@ -1037,12 +1252,12 @@
         "fx_with_retry": 176,
         "commodities_with_retry": 88,
         "market_state": 88,
-        "action_change_detection": 220,
+        "action_change_detection": 308,
         "action_fetches": 1200,
         "us_30_minute_checks": 8580
       },
-      "total_per_month": 18272,
-      "approx_per_session_day": 831,
+      "total_per_month": 18360,
+      "approx_per_session_day": 835,
       "theoretical_monthly_capacity": 2376000,
       "one_time_backfill": {
         "per_listing": 42,
@@ -1054,7 +1269,14 @@
         "bar_and_retry_per_month": 44,
         "actions_per_month": 7,
         "backfill_once": 42,
-        "us_30_minute_checks_per_month": 286
+        "us_30_minute_checks_per_month": 286,
+        "new_mic_change_detection_per_month": 44
+      },
+      "superseded_totals": {
+        "total_per_month": 18272,
+        "approx_per_session_day": 831,
+        "action_change_detection": 220,
+        "reason": "Counted a fixed five MICs; seven are needed once US ETFs on ARCX and BATS are polled (MP-20 round 2)."
       }
     },
     "evidence": [

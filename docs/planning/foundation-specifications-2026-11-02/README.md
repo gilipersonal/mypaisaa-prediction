@@ -1,8 +1,8 @@
 # Foundation Specification Pack 1
 
-**2 November 2026 · MP-20 · Proposed specifications · Round 1 findings fixed; verification pending · Architecture/UX/build unapproved**
+**2 November 2026 · MP-20 · Proposed specifications · Round 1 fixes verified and round 2 findings fixed (3 November 2026) · Architecture/UX/build unapproved**
 
-**Consolidated 3 November 2026 (MP-20):** the owner's answers of 2 and 3 November are folded in ([below](#owner-decisions-since-this-pack-was-written)); the review round for the consolidation waits for the owner's yes.
+**Consolidated 3 November 2026 (MP-20):** the owner's answers of 2 and 3 November are folded in ([below](#owner-decisions-since-this-pack-was-written)); the owner approved one review round for the consolidation, which ran as MP-20's round 2 on 3 November 2026 ([findings](../../../review/MP-20/round-2.md)).
 
 This pack turns the selected architecture directions into precise data, financial and forecast contracts with worked examples, planned acceptance and quantitative cost assumptions. It is a local specification draft. The first independent review found five blocking issues; the changes addressing them await separate verification approval. It implements no application feature and runs no live acquisition, model, training, backtest, AWS account or deployment operation.
 

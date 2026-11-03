@@ -95,7 +95,7 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | Screens | Swift and SwiftUI on iOS and iPadOS | Native feel, widgets, Keychain, notifications, large screens | Owner-selected |
 | Shell | React Native | Shared navigation and typed bridges, room for other platforms | Owner-selected |
 | Device matrix | Still to agree | Versions, foldables and offline behaviour need design first | Open |
-| Testing | XCTest and the Maestro CLI on simulators, on the owner's Mac; TestFlight internal-only builds for real devices | Free locally; the Developer Program fee needs approval | Proposed (MP-36) |
+| Testing | XCTest and the Maestro CLI on simulators, on the owner's Mac; free local builds on the owner's iPhone and iPad (7-day expiry) for real devices; TestFlight later, only if the owner joins the Developer Program | Free | Proposed (MP-36); free local builds owner-selected 3 Nov 2026 |
 
 ## 6. AWS services
 
@@ -103,7 +103,7 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | --- | --- | --- |
 | CloudFront, S3 | Serve the PWA | Owner-selected |
 | API Gateway | HTTPS and the SSE stream | Owner-selected |
-| Cognito | Apple, Google and passkey sign-in, step-up for sensitive actions | Owner-selected (ARC-07) |
+| Cognito | Google and passkey sign-in, step-up for sensitive actions; Sign in with Apple waits for the paid Apple Developer Program | Owner-selected (ARC-07); Apple waits (owner, 3 Nov 2026) |
 | Lambda | The API, data workers, Claude route workers, inference | Owner-selected |
 | Lambda Durable Functions | Imports, approvals, daily forecast runs | Owner-selected (ARC-03) |
 | EventBridge Scheduler | The daily runs and the 30-minute checks | Owner-selected |
@@ -152,9 +152,9 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 
 <div align="center">
 
-<img src="docs/motion/budget.gif" width="860" alt="Animation: a £100 bar fills with data £30, AWS £22, Claude £10 and £8 for uncertainty, with a £30 reserve; warn, reduce and pause marks at £60, £75 and £85; three scenario bars grow to £94.48, £108.88 and £60.88">
+<img src="docs/motion/budget.gif" width="860" alt="Animation: a £100 bar fills with data £30, AWS £22, Claude £10 and £8 for uncertainty, with a £30 reserve; warn, reduce and pause marks at £60, £75 and £85; three bars show the selected months: £46.48 with Claude off, £59.73 with Claude option A and the top-5 scan at its cap, and the Apple fee month of £141.52, the one allowed exception">
 
-<sub>The ceiling, the plan and three draft scenarios. <a href="docs/motion/budget.png">Still image</a>.</sub>
+<sub>The ceiling, the plan and the selected months. <a href="docs/motion/budget.png">Still image</a>.</sub>
 
 </div>
 
@@ -171,23 +171,30 @@ window for sign-in, ledger reads, audit and recovery.
 | Claude and evaluations | £10 |
 | Forecast and price uncertainty | £8 |
 
-**The draft scenarios** at £0.80 to the dollar and 20% tax, in Virginia (us-east-1, owner-selected 2 November 2026) with Claude blocked:
+**The selected months** at £0.80 to the dollar and 20% tax, in Virginia (us-east-1, owner-selected 2 November 2026),
+with Twelve Data Grow 55 at $29 and the owner's existing domain, mypaisapp.com, renewed outside MP (owner, 3 November
+2026), so no month carries a domain renewal:
 
-| Scenario | Cash in the month |
+| Month | Cash in the month |
 | --- | --- |
-| Twelve Data Grow at $79, an ordinary month | £94.48 |
-| Grow at $79, the month the yearly domain renews | £108.88 (over the ceiling) |
-| Grow 55 credits at $29 if it is offered on the needed terms, the month the domain renews | £60.88 (at the warning) |
+| An ordinary month, Claude off | £46.48 |
+| An ordinary month, Claude option A | £54.73 |
+| Either, with the top-5 scan at its £5 cap | £51.48 or £59.73 |
+| The Apple fee month, only if the owner joins (the one allowed exception) | about £141.52 or £149.77 |
 
-On 3 November 2026 the owner chose Grow 55 and the owner's existing domain, mypaisapp.com, renewed outside MP, so no month carries a domain
-renewal. With Claude option A every month is about £54.73, except the one allowed Apple fee month
-([MP-29](docs/planning/region-network-2026-11-03/README.md#the-all-in-envelope)).
+The earlier drafts (Grow at $79: £94.48 a month, £108.88 in a domain month; Grow 55 in a domain month: £60.88) are
+superseded by those choices. The fit stays conditional on the Grow 55 checkout price, listing rights and the measured
+workload ([cost specification](docs/planning/foundation-specifications-2026-11-02/costs/specification.md),
+[MP-29](docs/planning/region-network-2026-11-03/README.md#the-all-in-envelope)).
 
 ### What moves the number
 
 - **The data plan.** Grow at $79 is £75.84 on its own, more than the whole operating plan. It decides the month.
 - **Claude.** With the chosen models (ARC-06b) a normal month is about $8.59 (£8.24), most of the £10 allocation:
   Opus event analysis is about $5 of it, kept there by a cap of three a day. Live chat moves it most in a busy month.
+  The top-5 scan may add up to £5 (owner, 3 November 2026), which takes Claude to about £13.24, above the £10
+  allocation; whether the scan sits in the £8 uncertainty allocation or the Claude allocation rises is an open question
+  (COST-Q1 in the [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)).
 - **Streaming.** One held SSE connection for a month costs about $21.60 of Lambda time before requests; design for
   short streams and re-reads.
 - **Training.** Capped by campaign, fit count and instance-hours, and admitted against the budget before it starts.

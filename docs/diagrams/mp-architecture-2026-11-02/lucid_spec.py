@@ -507,13 +507,18 @@ def page_delivery() -> dict:
     s.append(box("jira", 60, 280, 210, 100, "Jira MP-&lt;n&gt;", "story with acceptance criteria", "blue", size=14))
     s.append(box("branch", 390, 280, 210, 100, "Branch", "MP-&lt;n&gt;-slug; commits MP-&lt;n&gt;: subject", "blue", size=14))
     s.append(box("pr", 720, 280, 210, 100, "Pull request to main", "[MP-&lt;n&gt;] title", "blue", size=14))
-    s.append(table("ci", 1140, 190, 480, 380, [
+    # the nine required checks in .github/main-protection.json, in its order (MP-20 round 2, R2-d8)
+    s.append(table("ci", 1140, 190, 480, 450, [
         ["GitHub Actions check", "Workflow"],
         ["Backend", "CI"], ["Docs", "CI"], ["Review tooling", "CI"], ["Agent config", "CI"],
+        ["Plan sync", "CI"], ["Confluence receipts", "CI"],
         ["Static preview", "CI"], ["Workflow lint", "CI"], ["Jira traceability", "Jira key"],
     ], header_fill="#DCF5EF", first_col_fill="#FFFFFF"))
     s.append(box("main", 1770, 280, 210, 100, "main", "merged only when the owner asks", "teal", size=15, width=3))
-    s.append(box("iac", 1770, 640, 210, 130, "Infrastructure as code", "Terraform only (owner, 3 Nov 2026); plan only; never applied from here", "amber", dashed=True, size=13))
+    # IaC moves left of main's column so the release route to prod crosses no plan line
+    s.append(box("iac", 1460, 680, 240, 120, "Infrastructure as code", "Terraform only (owner, 3 Nov 2026); plan only; never applied from here", "amber", dashed=True, size=13))
+    s.append(box("release", 1770, 680, 210, 120, "Release workflow only the owner can start", "(OWNER-SELECTED 3 Nov 2026)",
+                 "blue", dashed=True, size=13))
     s.append({"id": "cloud", "type": "namedContainer", "className": "AWSCloudAWS2024", "boundingBox": {"x": 60, "y": 850, "w": 1950, "h": 580},
               "text": "AWS: two workload accounts under consolidated billing (Owner-selected; accounts not yet inspected)"})
     for acct, ax, words in (("dev", 100, "dev account: synthetic data, tests and CI. Nothing deployed"),
@@ -530,11 +535,13 @@ def page_delivery() -> dict:
     L = [
         line("d1", "jira", (1, 0.5), "branch", (0, 0.5), "1 branch", BLUE),
         line("d2", "branch", (1, 0.5), "pr", (0, 0.5), "2 push", BLUE),
-        line("d3", "pr", (1, 0.5), "ci", (0, (330 - 190) / 380), "3 run 7 checks", TEAL),
-        line("d4", "ci", (1, (330 - 190) / 380), "main", (0, 0.5), "4 merge", TEAL),
-        line("d5", "main", (0.5, 1), "iac", (0.5, 0), "5 plan", AMBER),
-        line("d6", "iac", (0.2, 1), "dev", (0.95, 0), "6 plan only (dev)", AMBER, pos=0.3, dashed=True),
-        line("d7", "iac", (0.6, 1), "prod", (0.7, 0), "7 plan only (prod)", AMBER, dashed=True),
+        line("d3", "pr", (1, 0.5), "ci", (0, (330 - 190) / 450), "3 run 9 checks", TEAL),
+        line("d4", "ci", (1, (330 - 190) / 450), "main", (0, 0.5), "4 merge", TEAL),
+        line("d5", "main", (0.1, 1), "iac", (0.8, 0), "5 plan", AMBER),
+        line("d6", "iac", (0.3, 1), "dev", (0.95, 0), "6 plan only (dev)", AMBER, pos=0.3, dashed=True),
+        line("d7", "iac", (0.6, 1), "prod", (0.4, 0), "7 plan only (prod)", AMBER, pos=0.25, dashed=True),
+        line("d8", "main", (0.6, 1), "release", (0.6, 0), "8 owner starts", BLUE, side="middle"),
+        line("d9", "release", (0.6, 1), "prod", (0.85, 0), "9 release to prod", BLUE, pos=0.25, side="middle", dashed=True),
     ]
     return {"id": "delivery", "title": "7 Environments and delivery", "shapes": s, "lines": L}
 

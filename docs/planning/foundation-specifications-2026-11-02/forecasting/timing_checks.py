@@ -1,15 +1,23 @@
 """Offline synthetic specification proofs; no application runtime or live acquisition.
 
-Run with python3 <this file> [--check daily|event|all]. Explicit exceptions keep
-the refusal checks active with python -O. Policy numbers remain owner-pending.
+Run with python3 <this file> [--check daily|event|policy|selftest|all]. Explicit
+exceptions keep the refusal checks active with python -O. The daily clocks remain
+owner-pending; policy checks hold the owner's 3 Nov 2026 numbers against the records
+and run synthetic band, overlay, trial-count and slip cases whose readings are
+proposed (SCI-D03, SCI-D07, SCI-D10). The selftest mutates copies and proves the
+policy gate refuses each fault.
 """
 
 import argparse
+import copy
+import hashlib
 import json
 from datetime import datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
+DECISION_LOG = BASE.parents[1] / "ma-reconciliation-2026-11-02" / "decision-log.md"
 
 
 def require(condition: bool, message: str) -> None:
@@ -105,13 +113,426 @@ def verify_event_availability_contract() -> int:
     return len(cases) + 1
 
 
+# ---------------------------------------------------------------------------
+# Owner policy numbers (decision log, 3 Nov 2026) and their synthetic cases.
+
+OWNER = {
+    "probability_points_per_week": 5,
+    "signal_weight_fraction_per_month": Decimal("0.10"),
+    "trial_weeks": 8,
+    "trial_comparators": ["base_rate", "current_rules"],
+    "unscoreable_reasons": ["data_outage", "holiday_week"],
+    "unscoreable_phrase": ("A week that cannot be scored (a data outage, a holiday week) pauses the 8-week trial count; "
+                           "the trial still needs 8 scored weeks."),
+    "probation_weeks": 4,
+    "probation_bad_weeks": 2,
+    "slip_bad_weeks": 4,
+    "similar_days_since": "2015",
+    "event_kind_ids": {"EV-RATE", "EV-INFL", "EV-TARIFF", "EV-CONFLICT", "EV-EARN", "EV-OPEC", "EV-ELECT"},
+    "event_markets": ["US", "UK", "India"],
+    "top_n": 5,
+    "ranking_weights": {"growth": Decimal("0.35"), "protection": Decimal("0.40"), "opportunity": Decimal("0.25")},
+    "discovery_universe_about": 150,
+}
+# Each number above is anchored to the owner's own words; whitespace is normalised so a
+# phrase split over a line break still matches.
+DECISION_LOG_PHRASES = (
+    "Event kinds in the first event wave: all of them",
+    "Similar-days history: since 2015",
+    "may shift at most 5 percentage points a week",
+    "may change at most 10% a month",
+    "8 weeks in shadow, beating both the base rate and the rules",
+    "worse than the previous approved one for 4 weeks running",
+    "(a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks",
+    "on probation for its first 4 live weeks and reverts after 2 bad weeks instead of 4",
+    "a curated list of about 150 names",
+)
+PREDICATES = {
+    # Every reason form the gate can read. The owner names only the first two; the third is the
+    # maker phrase removed in MP-20 round 2 (R2-S1), kept readable so its return is refused.
+    "data_outage": lambda week: at(week, "data_outage") is True,
+    "holiday_week": lambda week: at(week, "holiday_week") is True,
+    "no_matured_shadow_forecasts": lambda week: at(week, "matured_paired") == 0,
+}
+
+
+def at(doc, *path):
+    """Fail-closed lookup: a missing key is a refusal, never a skip."""
+    for key in path:
+        if not isinstance(doc, dict) or key not in doc:
+            raise ValueError("missing record field: " + "/".join(str(p) for p in path))
+        doc = doc[key]
+    return doc
+
+
+def load_docs() -> dict:
+    pack = BASE.parent
+    return {
+        "model": json.loads((BASE / "model-catalogue.json").read_text()),
+        "protocol": json.loads((BASE / "evaluation-protocol.json").read_text()),
+        "tasks": json.loads((BASE / "task-catalogue.json").read_text()),
+        "examples": json.loads((BASE / "timing-examples.json").read_text()),
+        "decisions": json.loads((BASE / "open-decisions.json").read_text()),
+        "fixed": json.loads((pack / "fixed-policies.json").read_text()),
+        "spec": (BASE / "forecasting-specification.md").read_text(),
+        "log": " ".join(DECISION_LOG.read_text().split()),
+    }
+
+
+def verify_owner_numbers(docs: dict) -> int:
+    log = docs["log"]
+    for phrase in DECISION_LOG_PHRASES:
+        require(phrase in log, "decision log no longer says: " + phrase)
+    model, protocol, tasks = docs["model"], docs["protocol"], docs["tasks"]
+    fixed = at(docs["fixed"], "forecasts", "owner_answers_2026_11_03")
+    bsc = at(model, "bounded_self_correction")
+    bands = at(bsc, "bands")
+    points = OWNER["probability_points_per_week"]
+    require(at(bands, "probability_shift_max_percentage_points_per_week") == points
+            and at(fixed, "self_correction", "max_probability_shift_points_per_week") == points,
+            "probability band differs from the owner's 5 points a week")
+    fraction = OWNER["signal_weight_fraction_per_month"]
+    require(Decimal(str(at(bands, "signal_weight_change_max_fraction_per_month"))) == fraction
+            and Decimal(str(at(fixed, "self_correction", "max_signal_weight_change_per_month"))) == fraction,
+            "signal weight band differs from the owner's 10% a month")
+    require("combined-score weights (FIN-OD-07)" in at(bsc, "may_not_adjust"),
+            "self-correction may touch the combined-score weights")
+    require(sorted(at(bsc, "adjustment_targets_allowed")) == ["calibration_overlay", "signal_weight"],
+            "self-correction targets widened")
+    require({"overlay_version", "data_cutoff", "fitted_outcome_set_hash"} <= set(at(bsc, "overlay_provenance_fields")),
+            "overlay provenance lacks its version, data cutoff or outcome-set hash")
+    trial = at(protocol, "live_trial")
+    require(at(trial, "scored_weeks_required") == OWNER["trial_weeks"] and at(fixed, "shadow_trial_weeks") == OWNER["trial_weeks"],
+            "trial weeks differ from the owner's 8")
+    require(at(trial, "must_beat") == OWNER["trial_comparators"], "trial comparators differ from base rate and current rules")
+    require(at(trial, "unscoreable_week_reasons") == OWNER["unscoreable_reasons"],
+            "unscoreable reasons differ from the owner's (a data outage, a holiday week)")
+    phrase = OWNER["unscoreable_phrase"]
+    require(at(trial, "unscoreable_week") == phrase and at(fixed, "unscoreable_week") == phrase
+            and phrase in " ".join(docs["spec"].split()),
+            "unscoreable-week rule is not one phrase across spec, protocol and fixed policies")
+    for name, text in (("spec", " ".join(docs["spec"].split())), ("protocol", json.dumps(protocol))):
+        require("no matured shadow forecasts" not in text, "trial count still pauses for unmatured forecasts: " + name)
+    slip = at(protocol, "probation_and_slip")
+    require(at(slip, "probation_live_weeks") == OWNER["probation_weeks"] and at(fixed, "probation_weeks") == OWNER["probation_weeks"],
+            "probation weeks differ from the owner's 4")
+    require(at(slip, "bad_weeks_to_revert_on_probation") == OWNER["probation_bad_weeks"]
+            and at(fixed, "probation_revert_after_bad_weeks") == OWNER["probation_bad_weeks"],
+            "probation bad weeks differ from the owner's 2")
+    require(at(slip, "slip_bad_weeks_running") == OWNER["slip_bad_weeks"] and "4 weeks running" in at(fixed, "slipping"),
+            "slip weeks differ from the owner's 4 running")
+    window = at(model, "analogs_proposed", "candidate_origin_window")
+    since = OWNER["similar_days_since"]
+    require(since + "-01-01" in at(window, "start") and at(fixed, "similar_days_since") == since,
+            "similar-days start differs from the owner's 2015")
+    events = at(model, "event_module_proposed")
+    kinds = at(events, "first_wave_event_kinds")
+    require(len(kinds) == 7 and {at(k, "id") for k in kinds} == OWNER["event_kind_ids"] and len(at(fixed, "event_wave_one")) == 7,
+            "event kinds differ from the owner's seven")
+    modes = at(events, "modes")
+    for kind in kinds:
+        require(at(kind, "markets") == OWNER["event_markets"], "event markets differ from US, UK and India: " + kind["id"])
+        schedule = at(kind, "schedule")
+        require(isinstance(schedule, str) and schedule.startswith(("scheduled", "unscheduled")),
+                "event kind schedule unreadable: " + kind["id"])
+        applicable = at(kind, "applicable_modes")
+        require(applicable and all(mode in modes for mode in applicable), "unknown event mode: " + kind["id"])
+        if schedule.startswith("unscheduled"):
+            require("prerelease_daily_prediction" not in applicable, "unscheduled kind has prerelease mode: " + kind["id"])
+    ranking = at(tasks, "forecast_universe_and_ranking")
+    require(at(ranking, "top_n_per_segment") == OWNER["top_n"], "top-5 count differs from the owner's 5")
+    weights = {k: Decimal(str(v)) for k, v in at(ranking, "ranking_weights").items()}
+    require(weights == OWNER["ranking_weights"] and sum(weights.values()) == 1, "ranking weights differ from 35/40/25")
+    require(at(ranking, "discovery_universe_size_about") == OWNER["discovery_universe_about"]
+            and "about 150" in at(docs["fixed"], "ranking", "owner_answers_2026_11_03", "discovery_universe"),
+            "discovery universe differs from about 150 names")
+    names = [at(s, "name") for s in at(ranking, "segments")]
+    require(not any("FTSE" in n for n in names), "a UK FTSE top-5 segment was added")
+    require("US tech" in names, "US tech segment is not named as the owner named it")
+    return len(DECISION_LOG_PHRASES) + len(kinds) + 20 + verify_open_questions_held(docs)
+
+
+def verify_open_questions_held(docs: dict) -> int:
+    """Maker proposals that need an owner choice stay marked proposed and recorded as open questions."""
+    trial = at(docs["protocol"], "live_trial")
+    require(at(trial, "rules_proper_score", "status") == "proposed_open_in_SCI-D03" and at(trial, "beat_meaning").startswith("proposed"),
+            "rules proper score presented as settled")
+    require(at(trial, "scored_week_by_horizon", "status") == "proposed_open_in_SCI-D03"
+            and "SCI-D03" in at(trial, "long_horizon_calibration_check"),
+            "scored week or long-horizon calibration presented as settled")
+    bsc = at(docs["model"], "bounded_self_correction")
+    for key in ("point_in_time_rule", "walk_forward_replay"):
+        require("cutoff" in at(bsc, key), "overlay point-in-time rule missing: " + key)
+    require("SCI-D10" in at(bsc, "promotion_and_revert") and at(bsc, "rollback_detection_by_horizon", "status") == "proposed_open_in_SCI-D10"
+            and "SCI-D10" in at(bsc, "bands", "reading"), "self-correction readings presented as settled")
+    choices = {at(c, "id"): c for c in at(docs["decisions"], "material_choices")}
+    require(set(choices) == {"SCI-D%02d" % n for n in range(1, 11)}, "material choices are not SCI-D01 to SCI-D10")
+    for choice in choices.values():
+        if at(choice, "status") == "partly_answered":
+            require(at(choice, "answered_by") and at(choice, "still_open"), "partly answered without answered_by or still_open: " + choice["id"])
+    d05 = choices["SCI-D05"]
+    require("live calibration" not in at(d05, "recommendation") and "automatic learning" not in at(d05, "why_owner_material")
+            and at(d05, "superseded_2026_11_03", "superseded") and at(d05, "superseded_2026_11_03", "kept"),
+            "SCI-D05 still recommends against the owner's self-correction or revert")
+    require(at(choices["SCI-D10"], "status") == "owner_pending", "SCI-D10 is not an open owner question")
+    for key in ("rules get a proper score", "scored week is for each horizon", "calibrated on what has matured"):
+        require(key in at(choices["SCI-D03"], "still_open"), "SCI-D03 does not hold the open trial question: " + key)
+    return 9
+
+
+def trial_result(trial: dict, case: dict) -> str:
+    """Count trial weeks: only the owner's reasons pause; maturity delays the verdict, not the count."""
+    reasons = at(trial, "unscoreable_week_reasons")
+    for reason in reasons:
+        require(reason in PREDICATES, "unreadable unscoreable reason: " + str(reason))
+    required = at(trial, "scored_weeks_required")
+    counted, elapsed = [], 0
+    for week in at(case, "weeks"):
+        elapsed += 1
+        if any(PREDICATES[reason](week) for reason in reasons):
+            continue
+        if at(week, "clean") is not True:
+            return "failed_not_clean@" + str(elapsed)
+        counted.append(week)
+        if len(counted) == required:
+            break
+    if len(counted) < required:
+        return "incomplete@" + str(elapsed)
+    if at(case, "horizon_unit") == "calendar_month":
+        return "complete_walk_forward_and_owner@" + str(elapsed)
+    require(at(case, "horizon_unit") == "valuation_session", "unknown horizon unit")
+    if not all(at(week, "origins_matured") is True for week in counted):
+        return "awaiting_maturity@" + str(elapsed)
+    return "complete_score_comparators@" + str(elapsed)
+
+
+def slip_result(slip: dict, case: dict) -> str:
+    """Bad weeks running; an unscoreable week neither counts nor breaks the run (proposed)."""
+    probation, probation_bad, slip_bad = (at(slip, "probation_live_weeks"), at(slip, "bad_weeks_to_revert_on_probation"),
+                                          at(slip, "slip_bad_weeks_running"))
+    run, live_week = 0, at(case, "first_live_week") - 1
+    for index, week in enumerate(at(case, "weeks"), 1):
+        live_week += 1
+        require(week in ("bad", "good", "unscoreable"), "unknown week verdict: " + str(week))
+        if week == "unscoreable":
+            continue
+        if week == "good":
+            run = 0
+            continue
+        run += 1
+        if run >= (probation_bad if live_week <= probation else slip_bad):
+            return ("revert" if at(case, "previous_eligible") is True else "pause_policy_003") + "@" + str(index)
+    return "no_revert"
+
+
+def band_result(bsc: dict, case: dict) -> str:
+    """Cumulative change against the value at the start of any rolling window (reading proposed, SCI-D10)."""
+    if at(case, "target") not in at(bsc, "adjustment_targets_allowed"):
+        return "outside_scope_waits_for_owner"
+    bands, kind = at(bsc, "bands"), at(case, "kind")
+    require(kind in ("probability", "weight"), "unknown band kind")
+    days = at(bands, "probability_window_days" if kind == "probability" else "weight_window_days")
+    window = timedelta(days=days)
+    series = [(instant(at(p, "at")), Decimal(at(p, "value"))) for p in at(case, "series")]
+    require(all(a[0] < b[0] for a, b in zip(series, series[1:])), "band series must be in time order")
+    for j in range(1, len(series)):
+        when, value = series[j]
+        earlier = series[:j]
+        in_force = [v for t, v in earlier if t <= when - window]
+        starts = in_force[-1:] + [v for t, v in earlier if when - window < t]
+        for start in starts:
+            if kind == "probability":
+                limit = Decimal(at(bands, "probability_shift_max_percentage_points_per_week")) / 100
+            else:
+                limit = Decimal(str(at(bands, "signal_weight_change_max_fraction_per_month"))) * abs(start)
+            if abs(value - start) > limit:
+                return "out_of_band_waits_for_owner@" + str(j)
+    return "within_band"
+
+
+def outcome_set_hash(outcomes: list) -> str:
+    lines = sorted(str(at(o, "record_id")) + "@" + str(at(o, "revision")) for o in outcomes)
+    return hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
+
+
+def overlay_result(bsc: dict, case: dict) -> str:
+    """An overlay used at an origin is fitted only on outcomes known by that origin's cutoff."""
+    overlay, cutoff = at(case, "overlay"), instant(at(case, "origin_cutoff"))
+    if any(field not in overlay for field in at(bsc, "overlay_provenance_fields")):
+        return "overlay_provenance_incomplete"
+    outcomes = at(overlay, "fitted_outcomes")
+    require(isinstance(outcomes, list) and outcomes, "overlay must list its fitted outcomes")
+    if outcome_set_hash(outcomes) != at(overlay, "fitted_outcome_set_hash") or len(outcomes) != at(overlay, "fitted_outcome_count"):
+        return "overlay_outcome_set_mismatch"
+    latest = max(instant(at(o, "outcome_known_at")) for o in outcomes)
+    if instant(at(overlay, "data_cutoff")) != latest:
+        return "overlay_cutoff_misstated"
+    if latest > cutoff:
+        return "overlay_future_outcome_rejected"
+    return "overlay_admissible"
+
+
+POLICY_CASE_IDS = {
+    "trial_cases": {"trial_long_horizon_eight_clean_weeks", "trial_long_horizon_holiday_week", "trial_short_horizon_outage_awaiting_maturity",
+                    "trial_short_horizon_complete", "trial_six_scored_weeks", "trial_unclean_week_fails"},
+    "slip_cases": {"slip_three_bad_then_good", "slip_four_bad_running", "slip_unscoreable_neither_counts_nor_breaks",
+                   "probation_two_bad_running", "probation_two_bad_not_running", "slip_previous_ineligible_pauses"},
+    "band_cases": {"band_probability_separate_weeks_within", "band_probability_two_steps_in_seven_days", "band_weight_repeated_current_steps",
+                   "band_weight_calendar_month_boundary", "band_weight_within", "band_combined_score_weights_refused"},
+    "overlay_cases": {"overlay_admissible", "overlay_future_outcome", "overlay_missing_outcome_set_hash", "overlay_cutoff_understated",
+                      "overlay_set_hash_mismatch"},
+}
+
+
+def verify_policy_cases(docs: dict) -> int:
+    bsc = at(docs["model"], "bounded_self_correction")
+    runners = {
+        "trial_cases": lambda c: trial_result(at(docs["protocol"], "live_trial"), c),
+        "slip_cases": lambda c: slip_result(at(docs["protocol"], "probation_and_slip"), c),
+        "band_cases": lambda c: band_result(bsc, c),
+        "overlay_cases": lambda c: overlay_result(bsc, c),
+    }
+    total = 0
+    for group, run in runners.items():
+        cases = at(docs["examples"], group)
+        require({at(c, "id") for c in cases} == POLICY_CASE_IDS[group] and len(cases) == len(POLICY_CASE_IDS[group]),
+                "required policy cases missing: " + group)
+        for case in cases:
+            require(run(case) == at(case, "expected"), "policy case mismatch: " + case["id"])
+        total += len(cases)
+    return total
+
+
+def verify_policy_contracts(docs: dict = None) -> dict:
+    docs = docs if docs is not None else load_docs()
+    return {"owner_number_checks": verify_owner_numbers(docs), "policy_cases": verify_policy_cases(docs)}
+
+
+def _kind(docs: dict, kind_id: str) -> dict:
+    return next(k for k in docs["model"]["event_module_proposed"]["first_wave_event_kinds"] if k["id"] == kind_id)
+
+
+def _choice(docs: dict, choice_id: str) -> dict:
+    return next(c for c in docs["decisions"]["material_choices"] if c["id"] == choice_id)
+
+
+def _fixed(docs: dict) -> dict:
+    return docs["fixed"]["forecasts"]["owner_answers_2026_11_03"]
+
+
+DOCUMENT_MUTATIONS = (
+    ("prerelease mode on EV-TARIFF", lambda d: _kind(d, "EV-TARIFF")["applicable_modes"].insert(0, "prerelease_daily_prediction"),
+     "unscheduled kind has prerelease mode: EV-TARIFF"),
+    ("prerelease mode on EV-CONFLICT", lambda d: _kind(d, "EV-CONFLICT")["applicable_modes"].insert(0, "prerelease_daily_prediction"),
+     "unscheduled kind has prerelease mode: EV-CONFLICT"),
+    ("schedule field removed", lambda d: _kind(d, "EV-TARIFF").pop("schedule"), "missing record field: schedule"),
+    ("probability band 6", lambda d: d["model"]["bounded_self_correction"]["bands"].update(
+        probability_shift_max_percentage_points_per_week=6), "probability band differs"),
+    ("fixed-policies probability band 6", lambda d: _fixed(d)["self_correction"].update(max_probability_shift_points_per_week=6),
+     "probability band differs"),
+    ("weight band 0.15", lambda d: d["model"]["bounded_self_correction"]["bands"].update(
+        signal_weight_change_max_fraction_per_month="0.15"), "signal weight band differs"),
+    ("combined-score weights adjustable", lambda d: d["model"]["bounded_self_correction"]["may_not_adjust"].remove(
+        "combined-score weights (FIN-OD-07)"), "may touch the combined-score weights"),
+    ("trial 6 weeks", lambda d: d["protocol"]["live_trial"].update(scored_weeks_required=6), "trial weeks differ"),
+    ("unmatured week pauses the count", lambda d: d["protocol"]["live_trial"]["unscoreable_week_reasons"].append(
+        "no_matured_shadow_forecasts"), "unscoreable reasons differ"),
+    ("maker phrase back in spec", lambda d: d.update(spec=d["spec"] + " pauses the count (data outage, holiday week, no matured shadow forecasts)"),
+     "still pauses for unmatured forecasts"),
+    ("fixed-policies phrase drift", lambda d: _fixed(d).update(unscoreable_week="pauses the count; 8 scored weeks still needed"),
+     "not one phrase"),
+    ("probation 3 weeks", lambda d: d["protocol"]["probation_and_slip"].update(probation_live_weeks=3), "probation weeks differ"),
+    ("probation 3 bad weeks", lambda d: d["protocol"]["probation_and_slip"].update(bad_weeks_to_revert_on_probation=3),
+     "probation bad weeks differ"),
+    ("slip 3 weeks", lambda d: d["protocol"]["probation_and_slip"].update(slip_bad_weeks_running=3), "slip weeks differ"),
+    ("similar days since 2016", lambda d: d["model"]["analogs_proposed"]["candidate_origin_window"].update(
+        start="first eligible session on or after 2016-01-01"), "similar-days start differs"),
+    ("six event kinds", lambda d: d["model"]["event_module_proposed"]["first_wave_event_kinds"].pop(), "event kinds differ"),
+    ("top 4", lambda d: d["tasks"]["forecast_universe_and_ranking"].update(top_n_per_segment=4), "top-5 count differs"),
+    ("ranking weights 40/35/25", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_weights"].update(
+        growth="0.40", protection="0.35"), "ranking weights differ"),
+    ("UK FTSE segment", lambda d: d["tasks"]["forecast_universe_and_ranking"]["segments"].append(
+        {"id": "SEG-UK-FTSE", "name": "UK FTSE 100", "market": "UK"}), "UK FTSE"),
+    ("decision log reworded", lambda d: d.update(log=d["log"].replace("since 2015", "since 2016")), "decision log no longer says"),
+    ("rules proper score settled", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(status="settled"),
+     "rules proper score presented as settled"),
+    ("old SCI-D05 recommendation restored", lambda d: _choice(d, "SCI-D05").update(
+        recommendation=_choice(d, "SCI-D05")["superseded_2026_11_03"]["recommendation_was"]), "SCI-D05 still recommends"),
+    ("SCI-D10 dropped", lambda d: d["decisions"]["material_choices"].pop(), "not SCI-D01 to SCI-D10"),
+    ("SCI-D03 loses the long-horizon calibration question", lambda d: _choice(d, "SCI-D03").update(still_open="Folds only."),
+     "SCI-D03 does not hold the open trial question"),
+    ("overlay point-in-time rule dropped", lambda d: d["model"]["bounded_self_correction"].pop("point_in_time_rule"),
+     "missing record field: point_in_time_rule"),
+    ("overlay data cutoff not persisted", lambda d: d["model"]["bounded_self_correction"]["overlay_provenance_fields"].remove(
+        "data_cutoff"), "overlay provenance lacks"),
+)
+
+# Gate mutants: each removes one refusal from this file; the selftest must then fail with the named case.
+GATE_MUTANTS = (
+    ("unscheduled prerelease guard removed",
+     '            require("prerelease_daily_prediction" not in applicable, "unscheduled kind has prerelease mode: " + kind["id"])\n',
+     "            pass\n", "selftest mutation accepted: prerelease mode on EV-TARIFF"),
+    ("probability band check removed",
+     '            "probability band differs from the owner\'s 5 points a week")\n',
+     '            "probability band differs from the owner\'s 5 points a week") if False else None\n',
+     "selftest mutation accepted: probability band 6"),
+    ("overlay future-outcome refusal removed", "    if latest > cutoff:\n", "    if False:\n",
+     "policy case mismatch: overlay_future_outcome"),
+    ("slip run no longer resets on a good week", "            run = 0\n", "            pass\n",
+     "policy case mismatch: slip_three_bad_then_good"),
+    ("band read step by step", "        starts = in_force[-1:] + [v for t, v in earlier if when - window < t]\n",
+     "        starts = earlier[-1:] and [earlier[-1][1]]\n", "policy case mismatch: band_probability_two_steps_in_seven_days"),
+    ("unmatured weeks pause the trial", '    reasons = at(trial, "unscoreable_week_reasons")\n',
+     '    reasons = at(trial, "unscoreable_week_reasons") + ["no_matured_shadow_forecasts"]\n',
+     "policy case mismatch: trial_long_horizon_eight_clean_weeks"),
+)
+
+
+def expect_refusal(label: str, action, expected: str) -> None:
+    try:
+        action()
+    except ValueError as exc:
+        require(expected in str(exc), "selftest " + label + ": wrong refusal: " + str(exc))
+        return
+    raise ValueError("selftest mutation accepted: " + label)
+
+
+def selftest_documents() -> int:
+    base = load_docs()
+    verify_policy_contracts(copy.deepcopy(base))  # the harness starts from a passing record set
+    for label, mutate, expected in DOCUMENT_MUTATIONS:
+        docs = copy.deepcopy(base)
+        mutate(docs)
+        expect_refusal(label, lambda docs=docs: verify_policy_contracts(docs), expected)
+    return len(DOCUMENT_MUTATIONS)
+
+
+def selftest_gate_mutants() -> int:
+    source = Path(__file__).read_text()
+    for label, old, new, expected in GATE_MUTANTS:
+        require(source.count(old) == 1, "gate mutant anchor not found exactly once: " + label)
+        namespace = {"__name__": "timing_checks_mutant", "__file__": __file__}
+        exec(compile(source.replace(old, new), __file__ + "#" + label, "exec"), namespace)
+
+        def run_mutant(ns=namespace):
+            ns["verify_policy_contracts"]()
+            ns["selftest_documents"]()
+        expect_refusal("gate mutant survived: " + label, run_mutant, expected)
+    return len(GATE_MUTANTS)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", choices=("daily", "event", "all"), default="all")
+    parser.add_argument("--check", choices=("daily", "event", "policy", "selftest", "all"), default="all")
     selected = parser.parse_args().check
     result = {}
     if selected in ("daily", "all"):
         result["daily_cases"] = verify_daily_origin_clock_contract()
     if selected in ("event", "all"):
         result["event_cases_including_negative_target"] = verify_event_availability_contract()
+    if selected in ("policy", "all"):
+        result.update(verify_policy_contracts())
+    if selected in ("selftest", "all"):
+        result["selftest_document_mutations_refused"] = selftest_documents()
+        result["selftest_gate_mutants_killed"] = selftest_gate_mutants()
     print(json.dumps({"status": "offline_specification_proofs_passed", **result}))

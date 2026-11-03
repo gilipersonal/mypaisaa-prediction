@@ -157,5 +157,783 @@
       "target_start_at": "2026-11-02T21:00:00Z",
       "expected": "descriptive_only"
     }
+  ],
+  "policy_notice": "Synthetic policy cases for timing_checks.py --check policy. Owner numbers from the 3 Nov 2026 decision log; the trial-week reading is proposed (SCI-D03), the slip-run reading proposed (SCI-D07), the band window and overlay readings proposed (SCI-D10).",
+  "trial_cases": [
+    {
+      "id": "trial_long_horizon_eight_clean_weeks",
+      "horizon_unit": "calendar_month",
+      "horizon": 12,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        }
+      ],
+      "expected": "complete_walk_forward_and_owner@8",
+      "note": "No 12-month trial forecast matures; clean-running weeks still count, so the count never stalls"
+    },
+    {
+      "id": "trial_long_horizon_holiday_week",
+      "horizon_unit": "calendar_month",
+      "horizon": 6,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": true,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        }
+      ],
+      "expected": "complete_walk_forward_and_owner@9"
+    },
+    {
+      "id": "trial_short_horizon_outage_awaiting_maturity",
+      "horizon_unit": "valuation_session",
+      "horizon": 20,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": true,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": false
+        }
+      ],
+      "expected": "awaiting_maturity@9",
+      "note": "The verdict waits until the counted weeks' origins mature; an outage week pauses the count"
+    },
+    {
+      "id": "trial_short_horizon_complete",
+      "horizon_unit": "valuation_session",
+      "horizon": 5,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        }
+      ],
+      "expected": "complete_score_comparators@8"
+    },
+    {
+      "id": "trial_six_scored_weeks",
+      "horizon_unit": "valuation_session",
+      "horizon": 1,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": true,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 5,
+          "origins_matured": true
+        }
+      ],
+      "expected": "incomplete@7"
+    },
+    {
+      "id": "trial_unclean_week_fails",
+      "horizon_unit": "calendar_month",
+      "horizon": 3,
+      "weeks": [
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": false,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        },
+        {
+          "clean": true,
+          "data_outage": false,
+          "holiday_week": false,
+          "matured_paired": 0,
+          "origins_matured": false
+        }
+      ],
+      "expected": "failed_not_clean@4"
+    }
+  ],
+  "slip_cases": [
+    {
+      "id": "slip_three_bad_then_good",
+      "first_live_week": 10,
+      "previous_eligible": true,
+      "weeks": [
+        "bad",
+        "bad",
+        "bad",
+        "good",
+        "bad"
+      ],
+      "expected": "no_revert",
+      "note": "The good week resets the run, so the bad week after it starts a new run of 1"
+    },
+    {
+      "id": "slip_four_bad_running",
+      "first_live_week": 10,
+      "previous_eligible": true,
+      "weeks": [
+        "bad",
+        "bad",
+        "bad",
+        "bad"
+      ],
+      "expected": "revert@4"
+    },
+    {
+      "id": "slip_unscoreable_neither_counts_nor_breaks",
+      "first_live_week": 10,
+      "previous_eligible": true,
+      "weeks": [
+        "bad",
+        "bad",
+        "unscoreable",
+        "bad",
+        "bad"
+      ],
+      "expected": "revert@5"
+    },
+    {
+      "id": "probation_two_bad_running",
+      "first_live_week": 1,
+      "previous_eligible": true,
+      "weeks": [
+        "good",
+        "bad",
+        "bad"
+      ],
+      "expected": "revert@3"
+    },
+    {
+      "id": "probation_two_bad_not_running",
+      "first_live_week": 1,
+      "previous_eligible": true,
+      "weeks": [
+        "bad",
+        "good",
+        "bad",
+        "good"
+      ],
+      "expected": "no_revert"
+    },
+    {
+      "id": "slip_previous_ineligible_pauses",
+      "first_live_week": 10,
+      "previous_eligible": false,
+      "weeks": [
+        "bad",
+        "bad",
+        "bad",
+        "bad"
+      ],
+      "expected": "pause_policy_003@4"
+    }
+  ],
+  "band_cases": [
+    {
+      "id": "band_probability_separate_weeks_within",
+      "kind": "probability",
+      "target": "calibration_overlay",
+      "series": [
+        {
+          "at": "2026-01-01T22:00:00Z",
+          "value": "0.50"
+        },
+        {
+          "at": "2026-01-10T22:00:00Z",
+          "value": "0.54"
+        },
+        {
+          "at": "2026-01-18T22:00:00Z",
+          "value": "0.58"
+        }
+      ],
+      "expected": "within_band"
+    },
+    {
+      "id": "band_probability_two_steps_in_seven_days",
+      "kind": "probability",
+      "target": "calibration_overlay",
+      "series": [
+        {
+          "at": "2026-01-01T22:00:00Z",
+          "value": "0.50"
+        },
+        {
+          "at": "2026-01-03T22:00:00Z",
+          "value": "0.54"
+        },
+        {
+          "at": "2026-01-06T22:00:00Z",
+          "value": "0.58"
+        }
+      ],
+      "expected": "out_of_band_waits_for_owner@2"
+    },
+    {
+      "id": "band_weight_repeated_current_steps",
+      "kind": "weight",
+      "target": "signal_weight",
+      "series": [
+        {
+          "at": "2026-01-01T22:00:00Z",
+          "value": "1.00"
+        },
+        {
+          "at": "2026-01-11T22:00:00Z",
+          "value": "1.06"
+        },
+        {
+          "at": "2026-01-21T22:00:00Z",
+          "value": "1.1236"
+        }
+      ],
+      "expected": "out_of_band_waits_for_owner@2",
+      "note": "Each step is 6% of the current weight; together 12.36% within 30 days"
+    },
+    {
+      "id": "band_weight_calendar_month_boundary",
+      "kind": "weight",
+      "target": "signal_weight",
+      "series": [
+        {
+          "at": "2026-01-26T22:00:00Z",
+          "value": "1.00"
+        },
+        {
+          "at": "2026-01-31T22:00:00Z",
+          "value": "1.09"
+        },
+        {
+          "at": "2026-02-02T22:00:00Z",
+          "value": "1.1881"
+        }
+      ],
+      "expected": "out_of_band_waits_for_owner@2",
+      "note": "9% in January and 9% in February would pass a calendar-month reading; 18.81% inside 30 days does not"
+    },
+    {
+      "id": "band_weight_within",
+      "kind": "weight",
+      "target": "signal_weight",
+      "series": [
+        {
+          "at": "2026-01-01T22:00:00Z",
+          "value": "1.00"
+        },
+        {
+          "at": "2026-01-11T22:00:00Z",
+          "value": "1.05"
+        },
+        {
+          "at": "2026-02-15T22:00:00Z",
+          "value": "1.08"
+        }
+      ],
+      "expected": "within_band"
+    },
+    {
+      "id": "band_combined_score_weights_refused",
+      "kind": "weight",
+      "target": "combined_score_weights",
+      "series": [
+        {
+          "at": "2026-01-01T22:00:00Z",
+          "value": "0.35"
+        },
+        {
+          "at": "2026-01-02T22:00:00Z",
+          "value": "0.36"
+        }
+      ],
+      "expected": "outside_scope_waits_for_owner"
+    }
+  ],
+  "overlay_cases": [
+    {
+      "id": "overlay_admissible",
+      "origin_cutoff": "2026-03-04T22:00:00Z",
+      "overlay": {
+        "overlay_id": "synthetic-overlay-US-AAPL-XNAS-USD-up-5s",
+        "overlay_version": 3,
+        "previous_overlay_version": 2,
+        "artefact_content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "base_calibrator_version": "synthetic-sigmoid-v1",
+        "task_scope": "synthetic-task-up-5-sessions",
+        "band_policy_id": "BSC-v1",
+        "data_cutoff": "2026-03-03T22:00:00Z",
+        "fitted_outcome_set_hash": "104ddaeba574b71151f8aa0dce858c8fa36a320a2307a607aa83aad0b1e0c322",
+        "fitted_outcome_count": 2,
+        "fitted_outcomes": [
+          {
+            "record_id": "synthetic-outcome-1",
+            "revision": 1,
+            "outcome_known_at": "2026-03-02T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-2",
+            "revision": 1,
+            "outcome_known_at": "2026-03-03T22:00:00Z"
+          }
+        ],
+        "adjustments": [
+          {
+            "target": "calibration_overlay",
+            "probability_shift": "0.01"
+          }
+        ],
+        "cumulative_change_vs_window_start": "0.01",
+        "created_at": "2026-03-04T21:45:00Z",
+        "code_version": "synthetic-bsc-code-1",
+        "rollback_of": null
+      },
+      "expected": "overlay_admissible"
+    },
+    {
+      "id": "overlay_future_outcome",
+      "origin_cutoff": "2026-03-04T22:00:00Z",
+      "overlay": {
+        "overlay_id": "synthetic-overlay-US-AAPL-XNAS-USD-up-5s",
+        "overlay_version": 3,
+        "previous_overlay_version": 2,
+        "artefact_content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "base_calibrator_version": "synthetic-sigmoid-v1",
+        "task_scope": "synthetic-task-up-5-sessions",
+        "band_policy_id": "BSC-v1",
+        "data_cutoff": "2026-03-05T21:30:00Z",
+        "fitted_outcome_set_hash": "a72438a560d7de3083b8e32fa3908c604ebd1c761aff56d79c648bb7c70ed156",
+        "fitted_outcome_count": 3,
+        "fitted_outcomes": [
+          {
+            "record_id": "synthetic-outcome-1",
+            "revision": 1,
+            "outcome_known_at": "2026-03-02T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-2",
+            "revision": 1,
+            "outcome_known_at": "2026-03-03T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-3",
+            "revision": 1,
+            "outcome_known_at": "2026-03-05T21:30:00Z"
+          }
+        ],
+        "adjustments": [
+          {
+            "target": "calibration_overlay",
+            "probability_shift": "0.01"
+          }
+        ],
+        "cumulative_change_vs_window_start": "0.01",
+        "created_at": "2026-03-04T21:45:00Z",
+        "code_version": "synthetic-bsc-code-1",
+        "rollback_of": null
+      },
+      "expected": "overlay_future_outcome_rejected",
+      "note": "Fitted on an outcome known after the origin's cutoff"
+    },
+    {
+      "id": "overlay_missing_outcome_set_hash",
+      "origin_cutoff": "2026-03-04T22:00:00Z",
+      "overlay": {
+        "overlay_id": "synthetic-overlay-US-AAPL-XNAS-USD-up-5s",
+        "overlay_version": 3,
+        "previous_overlay_version": 2,
+        "artefact_content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "base_calibrator_version": "synthetic-sigmoid-v1",
+        "task_scope": "synthetic-task-up-5-sessions",
+        "band_policy_id": "BSC-v1",
+        "data_cutoff": "2026-03-03T22:00:00Z",
+        "fitted_outcome_count": 2,
+        "fitted_outcomes": [
+          {
+            "record_id": "synthetic-outcome-1",
+            "revision": 1,
+            "outcome_known_at": "2026-03-02T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-2",
+            "revision": 1,
+            "outcome_known_at": "2026-03-03T22:00:00Z"
+          }
+        ],
+        "adjustments": [
+          {
+            "target": "calibration_overlay",
+            "probability_shift": "0.01"
+          }
+        ],
+        "cumulative_change_vs_window_start": "0.01",
+        "created_at": "2026-03-04T21:45:00Z",
+        "code_version": "synthetic-bsc-code-1",
+        "rollback_of": null
+      },
+      "expected": "overlay_provenance_incomplete"
+    },
+    {
+      "id": "overlay_cutoff_understated",
+      "origin_cutoff": "2026-03-04T22:00:00Z",
+      "overlay": {
+        "overlay_id": "synthetic-overlay-US-AAPL-XNAS-USD-up-5s",
+        "overlay_version": 3,
+        "previous_overlay_version": 2,
+        "artefact_content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "base_calibrator_version": "synthetic-sigmoid-v1",
+        "task_scope": "synthetic-task-up-5-sessions",
+        "band_policy_id": "BSC-v1",
+        "data_cutoff": "2026-03-03T22:00:00Z",
+        "fitted_outcome_set_hash": "a72438a560d7de3083b8e32fa3908c604ebd1c761aff56d79c648bb7c70ed156",
+        "fitted_outcome_count": 3,
+        "fitted_outcomes": [
+          {
+            "record_id": "synthetic-outcome-1",
+            "revision": 1,
+            "outcome_known_at": "2026-03-02T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-2",
+            "revision": 1,
+            "outcome_known_at": "2026-03-03T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-3",
+            "revision": 1,
+            "outcome_known_at": "2026-03-05T21:30:00Z"
+          }
+        ],
+        "adjustments": [
+          {
+            "target": "calibration_overlay",
+            "probability_shift": "0.01"
+          }
+        ],
+        "cumulative_change_vs_window_start": "0.01",
+        "created_at": "2026-03-04T21:45:00Z",
+        "code_version": "synthetic-bsc-code-1",
+        "rollback_of": null
+      },
+      "expected": "overlay_cutoff_misstated"
+    },
+    {
+      "id": "overlay_set_hash_mismatch",
+      "origin_cutoff": "2026-03-04T22:00:00Z",
+      "overlay": {
+        "overlay_id": "synthetic-overlay-US-AAPL-XNAS-USD-up-5s",
+        "overlay_version": 3,
+        "previous_overlay_version": 2,
+        "artefact_content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "base_calibrator_version": "synthetic-sigmoid-v1",
+        "task_scope": "synthetic-task-up-5-sessions",
+        "band_policy_id": "BSC-v1",
+        "data_cutoff": "2026-03-03T22:00:00Z",
+        "fitted_outcome_set_hash": "a72438a560d7de3083b8e32fa3908c604ebd1c761aff56d79c648bb7c70ed156",
+        "fitted_outcome_count": 2,
+        "fitted_outcomes": [
+          {
+            "record_id": "synthetic-outcome-1",
+            "revision": 1,
+            "outcome_known_at": "2026-03-02T22:00:00Z"
+          },
+          {
+            "record_id": "synthetic-outcome-2",
+            "revision": 1,
+            "outcome_known_at": "2026-03-03T22:00:00Z"
+          }
+        ],
+        "adjustments": [
+          {
+            "target": "calibration_overlay",
+            "probability_shift": "0.01"
+          }
+        ],
+        "cumulative_change_vs_window_start": "0.01",
+        "created_at": "2026-03-04T21:45:00Z",
+        "code_version": "synthetic-bsc-code-1",
+        "rollback_of": null
+      },
+      "expected": "overlay_outcome_set_mismatch"
+    }
   ]
 }

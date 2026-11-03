@@ -27,18 +27,18 @@
     "independent_review"
   ],
   "artifact_sha256": {
-    "acceptance-cases.json": "f5e0c254a627082b44f699ea41f7a7b322754064ae2f45c9dc8208cd23018805",
+    "acceptance-cases.json": "9234ab0fe96804a51a9105a697bb5c672377d5d3c23fff17360e12f9e7cce1ab",
     "contract-examples.json": "5a3fb4e092f7fb870edb511e5d4d2d1d26c2daad0e87949d04a544466c01d4fc",
     "contracts.schema.json": "e53c2ebb985efd8cf540d4501a1d1d85052ddd6bf12d28a4e5fddf2bef8cf774",
-    "evaluation-protocol.json": "18019468e04cabadc7ac965cdae94548dd82fbcfb3144fcdfd139daddc26a3d5",
-    "forecasting-specification.md": "d687f106ee2c0acb183ac22bcb1b41da719daa109263ee8478542db0c242a0ad",
+    "evaluation-protocol.json": "1421a8a1250ade450ec115db5f73f0fdb2a416863dbb1ecbd55fe96229842377",
+    "forecasting-specification.md": "edd3d792000da800653ae2a939e8e9b3ecac344d30d6539bcce99ce2b291feb4",
     "golden-examples.json": "1f1ed7353ddba364ab1f9a818dc1028ce682ef43bab5e18a1d9da72be70896e2",
-    "model-catalogue.json": "c490264e327022a2050478bffeb33cb799f84ef975e9e08256cdf4a2fef34f2c",
-    "open-decisions.json": "81aa294063c311a86979ca5967325d606681f324d03c1c99b702fdf8c6496661",
+    "model-catalogue.json": "60420d51021efb6a6464ca00a8e484a32a466af03df1eb1cdbd9d0ebe32e1bae",
+    "open-decisions.json": "276bc3026f255e0b3438547cc2bcc82e5a0583a19361e2792979673bdd14ae6a",
     "research-register.json": "8376c04576c42cf770286bd4cc155a1a18d09f44f7a7d43c2d7f513bc5b37f01",
-    "task-catalogue.json": "f52222bb7c279ed2ecd4d0b609f26bf49b1986bce91104b911b3611dfd61354b",
-    "timing-examples.json": "7153b1b9e17327b3d52c6081827a002ed4d7964a3935756620084b0486afceb4",
-    "timing_checks.py": "b9ae258e415bda4bd837df5b4d1a3568df1f4499d93fe36a68ad97063e7cd6b9"
+    "task-catalogue.json": "77d4ef7ce3eaade6afc97bee1be2759c08a0ecad1fe5ac3df581bb5f4268e112",
+    "timing-examples.json": "fffdb90e7da0c2327e64461c88a8ca1baeac1167f1a229c155845b7caf86e162",
+    "timing_checks.py": "00387347f92eaf45936a7e2f67094f54ac05a74bb4b46cf8b7b490d8b5e2adb3"
   },
   "review_fix_checks": {
     "status": "maker_fix_checks_passed_awaiting_fresh_independent_delta_review",
@@ -75,6 +75,44 @@
     ],
     "material_owner_choices": "SCI-D05 closed; SCI-D01, D03, D04, D06 partly answered; SCI-D02, D07, D08, D09 owner_pending",
     "acceptance_case_count": "17 unchanged; owner-decision additions attached to SCI-04-AC01, SCI-04-AC02, SCI-06-AC01, SCI-07-AC01, SCI-07-AC06",
+    "status": "maker_checks_rerun_not_independent_review"
+  },
+  "mp20_round_2_fixes": {
+    "date": "2026-11-03",
+    "note": "MP-20 round 2 fixes: hashes refreshed after fixing R2-S1 to R2-S6, R2-S8 to R2-S11 and R2-p10; maker checks only, awaiting a fresh independent delta review.",
+    "refreshed_files": [
+      "acceptance-cases.json",
+      "evaluation-protocol.json",
+      "forecasting-specification.md",
+      "model-catalogue.json",
+      "open-decisions.json",
+      "task-catalogue.json",
+      "timing-examples.json",
+      "timing_checks.py"
+    ],
+    "findings": {
+      "R2-S1": "Trial count pauses only for the owner's reasons (a data outage, a holiday week), one phrase across spec, protocol and fixed-policies.json; scored week by horizon and the long-horizon calibration check proposed and open in SCI-D03",
+      "R2-S2": "The rules' proper score (R0-RULEMAP) proposed and open in SCI-D03; beat_meaning marked proposed",
+      "R2-S3": "SCI-D05 recommendation and why-text replaced by the answered position; the old text kept under superseded_2026_11_03 naming what is superseded and what is kept",
+      "R2-S4": "Overlay cutoff rule, point-in-time replay, provenance fields, lineage on promotion and revert and rollback detection by horizon (the last two proposed, SCI-D10); negative overlay cases",
+      "R2-S5": "Band readings proposed as cumulative change against a rolling 7-day and 30-day window start; alternatives in new SCI-D10",
+      "R2-S6": "timing_checks.py --check policy holds the owner's numbers and the no-prerelease rule for unscheduled kinds, and keeps maker proposals marked open; --check selftest refuses 26 document mutations and kills 6 gate mutants",
+      "R2-S8": "Paired shadow comparator marked proposed; first-promotion comparator proposed (SCI-D07); the slip rule named as the owner's statistical trigger",
+      "R2-S9": "Segment named 'US tech'; Nasdaq-100 proposed membership under SCI-D09",
+      "R2-S10": "Material choices now SCI-D01 to SCI-D10",
+      "R2-S11": "Slip, probation, rules-change and combined-score-weight cases added (acceptance-cases.json and executable timing-examples.json)",
+      "R2-p10": "Run-together words in open-decisions.json spaced, meaning unchanged"
+    },
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check policy",
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check selftest",
+      "uv run --offline --no-project --with ruff ruff check --select F docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py"
+    ],
+    "results": "daily 6, event 9, owner-number and open-question checks 45, policy cases 23, document mutations refused 26, gate mutants killed 6 (also under python -O); ruff F passed",
+    "material_owner_choices": "SCI-D05 closed; SCI-D01, D03, D04, D06 partly answered; SCI-D02, D07, D08, D09, D10 owner_pending",
+    "acceptance_case_count": "17 unchanged; review additions attached to SCI-05-AC01, SCI-06-AC01 and SCI-07-AC01",
     "status": "maker_checks_rerun_not_independent_review"
   }
 }

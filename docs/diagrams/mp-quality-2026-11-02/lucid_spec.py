@@ -610,9 +610,11 @@ def page_perimeter() -> dict:
                  "teal", "sel", size=13, width=3))
     icon(s, "org", "ArchAWSOrganizationsAWS2024", 625 - 36, 230, "AWS Organizations", "all features, with the cost-guard SCP", "sel", lw=230)
     # no tag nested in the detail: Lucid shrinks a span that holds another sized span
-    s.append(box("rcp", 820, 220, 340, 130, "Not adopted (owner, 3 Nov 2026)",
-                 "resource control policies and the Region allowlist SCP", "grey", "prop", dashed=True, size=13,
-                 extra=": the other SCPs, CloudTrail on and stay in the organisation"))
+    s.append(box("rcp", 820, 220, 340, 76, "Not adopted (owner, 3 Nov 2026)",
+                 "resource control policies and the Region allowlist SCP", "grey", dashed=True, size=13))
+    # its own box, so nothing proposed reads as not adopted (MP-20 round 2, R2-d9); teal, as part of the baseline
+    s.append(box("scp2", 820, 310, 340, 92, "Proposed alongside the cost guard",
+                 "two more SCPs: never stop CloudTrail, never leave the organisation", "teal", "prop", dashed=True, size=13))
     for acct, ax, words, st in (("dev", 90, "dev account (ARC-11)", "sel"), ("prod", 640, "prod account (ARC-11)", "sel")):
         s.append({"id": acct, "type": "namedContainer", "className": "AWSAccountAWS2024", "boundingBox": {"x": ax, "y": 420, "w": 520, "h": 430},
                   "text": f"{words}: OWNER-SELECTED, nothing deployed"})
@@ -659,7 +661,7 @@ def page_perimeter() -> dict:
         ["L4 Strict lockdown", "As L3, plus four interface endpoints: SSM, SQS, STS, KMS", "N1-E", "$197.43 (£189.53)", "$217.17 (£208.48)", "OPEN"],
     ], header_fill="#FFF1D6", fills={(1, 5): "#FDE7EE", (2, 5): "#FDE7EE", (3, 5): "#FDE7EE", (4, 5): "#FDE7EE"}))
     s.append(note("budget", 60, 1520, 1130, 110,
-                  "<b>Against the budget.</b> The baseline AWS run rate for both accounts is £19.84 in Virginia, leaving £2.16 of the £22 AWS share, so every paid "
+                  "<b>Against the budget.</b> The baseline AWS run rate for both accounts is £18.64 ($19.42) in Virginia, leaving £3.36 of the £22 AWS share, so every paid "
                   "step overruns it, and the cost-guard SCP denies NAT and interface endpoints until an ADR lifts it. L3 and L4 alone pass the £100 ceiling. "
                   "Extra cost a month, from AWS price lists checked 2 Nov 2026, at £0.80 to the dollar and 20% tax; 5 GB a month through the NAT in prod, 1 GB in dev."))
     s.append(box("rec", 1230, 1520, W - 1230, 110, "Chosen: the baseline, with no VPC (N0)",

@@ -1135,7 +1135,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "99.07",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1190,7 +1197,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "108.42",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1245,7 +1259,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.48",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1301,7 +1322,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.48",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1356,7 +1384,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.40",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1412,7 +1447,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.40",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1467,7 +1509,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "51.07",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1522,7 +1571,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "55.89",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1577,7 +1633,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.48",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1633,7 +1696,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.48",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1688,7 +1758,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "50.87",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1744,7 +1821,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "50.87",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1799,7 +1883,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "23.23",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1854,7 +1945,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "25.42",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1909,7 +2007,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "18.64",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -1965,7 +2070,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "18.64",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -2020,7 +2132,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.40",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -2076,7 +2195,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.40",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -2932,7 +3058,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "99.32",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -2987,7 +3120,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "108.70",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3042,7 +3182,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.74",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3098,7 +3245,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.74",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3153,7 +3307,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.68",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3209,7 +3370,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.68",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3264,7 +3432,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "51.32",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3319,7 +3494,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "56.17",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3374,7 +3556,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.74",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3430,7 +3619,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.74",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3485,7 +3681,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "51.15",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3541,7 +3744,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "51.15",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3596,7 +3806,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "23.48",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3651,7 +3868,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "25.70",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3706,7 +3930,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "18.90",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3762,7 +3993,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "18.90",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3817,7 +4055,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.68",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -3873,7 +4118,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.68",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -4729,7 +4981,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "99.53",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -4784,7 +5043,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "108.92",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -4839,7 +5105,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.95",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -4895,7 +5168,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "94.95",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -4950,7 +5230,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.91",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5006,7 +5293,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "103.91",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5061,7 +5355,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "51.53",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5116,7 +5417,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "56.39",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5171,7 +5479,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.95",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5227,7 +5542,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "46.95",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5282,7 +5604,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "51.38",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5338,7 +5667,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "51.38",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5393,7 +5729,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "23.69",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5448,7 +5791,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "25.93",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5503,7 +5853,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "19.11",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5559,7 +5916,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "19.11",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5614,7 +5978,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.91",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -5670,7 +6041,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "20.91",
               "remaining_within_100_ceiling": true,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": true,
+              "remaining_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -6524,7 +6902,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "272.34",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6579,7 +6964,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "298.04",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6634,7 +7026,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "184.26",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6690,7 +7089,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "184.26",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6745,7 +7151,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "201.64",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6801,7 +7214,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "201.64",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6856,7 +7276,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "224.34",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6911,7 +7338,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "245.51",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -6966,7 +7400,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "136.26",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7022,7 +7463,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "136.26",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7077,7 +7525,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "149.11",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7133,7 +7588,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "149.11",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7188,7 +7650,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "196.50",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7243,7 +7712,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "215.04",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7298,7 +7774,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "108.42",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7354,7 +7837,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "108.42",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7409,7 +7899,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "118.65",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -7465,7 +7962,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "118.65",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -8321,7 +8825,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "273.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8376,7 +8887,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "299.62",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8431,7 +8949,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "185.70",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8487,7 +9012,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "185.70",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8542,7 +9074,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "203.22",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8598,7 +9137,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "203.22",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8653,7 +9199,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "225.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8708,7 +9261,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "247.09",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8763,7 +9323,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "137.70",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8819,7 +9386,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "137.70",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8874,7 +9448,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "150.69",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8930,7 +9511,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "150.69",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -8985,7 +9573,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "197.94",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -9040,7 +9635,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "216.62",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -9095,7 +9697,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "109.86",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -9151,7 +9760,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "109.86",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -9206,7 +9822,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "120.23",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -9262,7 +9885,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "120.23",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -10118,7 +10748,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "275.20",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10173,7 +10810,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "301.17",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10228,7 +10872,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "187.12",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10284,7 +10935,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "187.12",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10339,7 +10997,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "204.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10395,7 +11060,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "204.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10450,7 +11122,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "227.20",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10505,7 +11184,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "248.64",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10560,7 +11246,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "139.12",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10616,7 +11309,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "139.12",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10671,7 +11371,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "152.25",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10727,7 +11434,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "152.25",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10782,7 +11496,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "199.36",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10837,7 +11558,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "218.17",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10892,7 +11620,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "111.28",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -10948,7 +11683,14 @@
               "exception_fee_gbp": "95.04",
               "remaining_cash_gbp_excluding_exception_fee": "111.28",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -11003,7 +11745,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "121.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         },
@@ -11059,7 +11808,14 @@
               "exception_fee_gbp": "104.01",
               "remaining_cash_gbp_excluding_exception_fee": "121.78",
               "remaining_within_100_ceiling": false,
-              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds."
+              "exception_scope": "The Apple Developer Program fee only, in its due month; every other line must still fit the ceiling and thresholds.",
+              "remaining_within_70_operating": false,
+              "remaining_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              },
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
             }
           ]
         }
@@ -11324,7 +12080,7 @@
     "apple_fee_usd": "99",
     "scan_allowance_max_gbp": "5",
     "github_actions_worst_case_gbp_central": "3.00",
-    "reproduces": "docs/planning/source-rights-2026-11-02/cost_months.py months 2 to 12 (GBP46.48 Claude blocked; GBP54.73 Claude option A)",
+    "reproduces": "docs/planning/source-rights-2026-11-02/cost_months.py owner selection, domain option none, every month 1 to 12 (GBP46.48 Claude blocked; GBP54.73 Claude option A)",
     "months": [
       {
         "fx_scenario": "central",
@@ -11352,7 +12108,8 @@
           "warn": false,
           "reduce": false,
           "pause": false
-        }
+        },
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
       },
       {
         "fx_scenario": "central",
@@ -11366,6 +12123,15 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "95.04",
+        "remaining_cash_gbp_excluding_exception_fee": "46.48",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -11380,7 +12146,17 @@
           "warn": true,
           "reduce": true,
           "pause": true
-        }
+        },
+        "exception_fee_gbp": "95.04",
+        "remaining_cash_gbp_excluding_exception_fee": "51.48",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
       },
       {
         "fx_scenario": "central",
@@ -11422,6 +12198,15 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "95.04",
+        "remaining_cash_gbp_excluding_exception_fee": "54.73",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -11436,6 +12221,15 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "95.04",
+        "remaining_cash_gbp_excluding_exception_fee": "59.73",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -11464,7 +12258,8 @@
           "warn": false,
           "reduce": false,
           "pause": false
-        }
+        },
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
       },
       {
         "fx_scenario": "adverse",
@@ -11478,6 +12273,15 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "104.01",
+        "remaining_cash_gbp_excluding_exception_fee": "50.87",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -11492,7 +12296,17 @@
           "warn": true,
           "reduce": true,
           "pause": true
-        }
+        },
+        "exception_fee_gbp": "104.01",
+        "remaining_cash_gbp_excluding_exception_fee": "55.87",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
       },
       {
         "fx_scenario": "adverse",
@@ -11534,6 +12348,15 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "104.01",
+        "remaining_cash_gbp_excluding_exception_fee": "59.89",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -11548,9 +12371,20 @@
           "warn": true,
           "reduce": true,
           "pause": true
+        },
+        "exception_fee_gbp": "104.01",
+        "remaining_cash_gbp_excluding_exception_fee": "64.89",
+        "remaining_within_70_operating": true,
+        "remaining_within_100_ceiling": true,
+        "remaining_thresholds_reached": {
+          "warn": true,
+          "reduce": false,
+          "pause": false
         }
       }
-    ]
+    ],
+    "threshold_basis": "Apple-month rows: thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, never relaxed); the remaining_* fields show every other line, including the scan, separately. Whether optional jobs in the Apple month pause on the total or run while the remainder sits under GBP60/75/85 is open (COST-Q4); until the owner answers, the full-month flags stand.",
+    "not_counted": "Not in these months: internet data transfer out (about USD0.16, about GBP0.15 at central), Terraform state storage (pence), the scan's unmeasured AWS compute and storage (COST-Q3), and GitHub Actions overage (worst case about GBP3.00 at central)."
   },
   "owner_cost_decisions": {
     "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",

@@ -4,6 +4,7 @@
   "source_register": "docs/planning/aws-options-2026-11-01/product-decisions.json",
   "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
   "precedence": [
+    "The owner's recorded answers come first; the root documents follow them and win over every other record. The full order is in docs/planning/baseline-signoff-2026-11-03/README.md (MP-20, 3 Nov 2026); the lines below rank records inside this pack.",
     "Current explicit owner foundation replies",
     "Owner answers of 2 and 3 Nov 2026 in decision-log.md and the ARC-06b card (folded in by the MP-20 consolidation, 3 Nov 2026) supersede earlier proposals in this snapshot",
     "Twelve selected architecture directions",
@@ -40,7 +41,7 @@
         "claude_option_a": "54.73",
         "plus_top5_scan_up_to": "5.00"
       },
-      "expected_month_source": "docs/planning/source-rights-2026-11-02/cost_months.py (Grow 55, Virginia, Basic dev, no Apple fee); the cost area owns the model",
+      "expected_month_source": "docs/planning/source-rights-2026-11-02/cost_months.py owner selection (Grow 55, Virginia, Basic dev, domain option none, no Apple fee), every month 1 to 12; its com16 and uk9 domain options are kept for the record only; the cost area owns the model",
       "sources": [
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
@@ -241,7 +242,7 @@
         "base rate",
         "rules"
       ],
-      "unscoreable_week": "pauses the count; 8 scored weeks still needed",
+      "unscoreable_week": "A week that cannot be scored (a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks.",
       "long_horizons": "the 8 weeks check clean running and calibration on what has matured; walk-forward history carries the accuracy evidence for 3, 6 and 12 months",
       "rules_changes": "same 8-week shadow trial, beating the current rules, then the owner",
       "probation_weeks": 4,

@@ -208,21 +208,66 @@
       "rules (indicators, pillars, thresholds)",
       "model or artefact choice",
       "task definitions",
-      "the bands themselves"
+      "the bands themselves",
+      "combined-score weights (FIN-OD-07)"
+    ],
+    "adjustment_targets_allowed": [
+      "calibration_overlay",
+      "signal_weight"
     ],
     "bands": {
       "probability_shift_max_percentage_points_per_week": 5,
-      "week_reading": "any rolling seven days (proposed)",
       "signal_weight_change_max_fraction_per_month": "0.10",
-      "weight_reading": "relative to the signal's current weight, within a calendar month (proposed reading; owner to confirm at sign-off)"
+      "reading": "proposed, open in SCI-D10: cumulative change against the value at the start of a rolling window, never step by step",
+      "probability_window_days": 7,
+      "weight_window_days": 30,
+      "week_reading": "proposed (SCI-D10): an issued probability moves at most 5 percentage points against its value at the start of any rolling 7 days",
+      "weight_reading": "proposed (SCI-D10): a signal's weight moves at most 10% of its value at the start of any rolling 30 days; 10% of the current weight at each step, or a calendar month, would let repeated steps or a month boundary exceed 10% a month"
     },
     "outside_band": "waits for the owner",
-    "rollback": "automatic if scores worsen; the adjusted version is scored against the unadjusted version on later matured forecasts (proposed)",
-    "records": "append-only versioned overlay; Prediction.calibrator_version names the base calibrator and overlay version; a dedicated wire record is left to the next schema revision",
+    "rollback": "automatic if scores worsen (owner); proposed: the adjusted version is scored against the unadjusted version on later matured paired forecasts",
+    "rollback_detection_by_horizon": {
+      "status": "proposed_open_in_SCI-D10",
+      "earliest_signal": {
+        "1_session": "about a week of matured paired forecasts",
+        "5_10_20_sessions": "1 to 4 weeks plus publication lag",
+        "3_6_12_months": "3, 6 or 12 months plus publication lag after the adjustment"
+      },
+      "one_step_in_flight": "a new overlay step for a horizon waits until the previous step has a predeclared minimum of matured paired forecasts, so 3/6/12-month horizons take at most one step per horizon length; the bands bound the worst case meanwhile"
+    },
+    "point_in_time_rule": "the overlay used at origin t is fitted only on outcomes whose outcome_known_at is at or before cutoff(t); an overlay whose fitted outcome set includes a later-known outcome is rejected for that origin (SCI-03 known_at rule)",
+    "walk_forward_replay": "walk-forward and replay evidence (SCI-05) that claims the overlay replays it point-in-time: at each replay origin the same code and bands rebuild it from outcomes known by that origin's cutoff; evidence without that replay covers only the frozen base calibrator",
+    "promotion_and_revert": "proposed, open in SCI-D10: each artefact keeps its own overlay lineage; a promoted model carries the overlay its shadow run built under the same bounded code during the trial (the one the trial scored); a reverted-to model resumes its own latest overlay version; overlays never move between artefacts",
+    "records": "append-only versioned CalibrationOverlay record; Prediction.calibrator_version names the base calibrator and overlay version; every overlay version persists overlay_provenance_fields before any Prediction may name it; its wire schema is added with MP-21/MP-24 before implementation",
+    "overlay_provenance_fields": [
+      "overlay_id",
+      "overlay_version",
+      "previous_overlay_version",
+      "artefact_content_hash",
+      "base_calibrator_version",
+      "task_scope",
+      "band_policy_id",
+      "data_cutoff",
+      "fitted_outcome_set_hash",
+      "fitted_outcome_count",
+      "fitted_outcomes",
+      "adjustments",
+      "cumulative_change_vs_window_start",
+      "created_at",
+      "code_version",
+      "rollback_of"
+    ],
+    "overlay_provenance_definitions": {
+      "data_cutoff": "the latest outcome_known_at in the fitted outcome set",
+      "fitted_outcomes": "each fitted Outcome's record_id, revision and outcome_known_at",
+      "fitted_outcome_set_hash": "sha256 of the sorted lines '<record_id>@<revision>' joined by newlines",
+      "rollback_of": "the overlay version this one reverses, or null"
+    },
     "fit_cap": "overlay updates are deterministic, not campaign fits, and do not spend the 96/192 fit caps; each is logged (proposed)",
     "shadow_candidates": "run the same bounded code so the trial tests what would run live (proposed)",
     "safety_pause": "POLICY-003 automatic pause unchanged",
-    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (bounded self-correction) and 3 Nov round item 4"
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (bounded self-correction) and 3 Nov round item 4",
+    "executable_proof": "python3 forecasting/timing_checks.py --check policy: synthetic band, overlay-cutoff, trial-count and slip cases (timing-examples.json); not runtime evidence"
   },
   "artefact_key_fields": [
     "family",

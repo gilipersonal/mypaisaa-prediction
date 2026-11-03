@@ -147,7 +147,9 @@ policies are written.
 ## The all-in envelope
 
 Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-month cash view
-([cost_months.py](../source-rights-2026-11-02/cost_months.py)).
+([cost_months.py](../source-rights-2026-11-02/cost_months.py)), its owner selection with the domain option `none`,
+where month 1 equals months 2 to 12. Its kept `com16` and `uk9` options price a domain bought in month 1 and are not
+the owner's selection.
 
 | Month | Claude off | Claude option A (ARC-06b volume) |
 | --- | ---: | ---: |

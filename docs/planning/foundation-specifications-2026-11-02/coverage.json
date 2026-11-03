@@ -3,7 +3,7 @@
   "primary_issue": "MP-20",
   "source_pr9_head": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
   "implementation_authorised": false,
-  "independent_review": "round_1_completed_fixes_await_independent_verification",
+  "independent_review": "round_2_completed_14_blocking_findings_fixed_and_held_by_checks",
   "scope": "Reference presence and proposed contract trace; not acceptance completion or source-gap closure.",
   "areas": {
     "data": [
@@ -60,12 +60,12 @@
   "counts": {
     "financial_worked_examples": 15,
     "scientific_worked_examples": 15,
-    "data_acceptance": 17,
+    "data_acceptance": 18,
     "cost_acceptance": 19,
     "financial_acceptance": 30,
     "scientific_acceptance": 17
   },
-  "planned_acceptance_total": 83,
+  "planned_acceptance_total": 84,
   "source_gaps": [
     {
       "source_gap": "FC-01",

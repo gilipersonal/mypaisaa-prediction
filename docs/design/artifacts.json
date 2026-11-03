@@ -1,20 +1,20 @@
 {
  "designs": [
   {
-   "slug": "market-agent",
-   "source": "docs/market-agent/index.html",
-   "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
-   "published_sha256": "89ba93f6007039bb20410a6f0a58f184765484d81916b53874e6b1efd9ccb568",
-   "published_at": "2026-11-03",
-   "jira": "MP-39"
-  },
-  {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
    "published_sha256": "74adc7da44c64223c01364141cc03da267d06ef6b79c69c9d50ef5c66064d68c",
    "published_at": "2026-11-03",
    "jira": "MP-39"
+  },
+  {
+   "slug": "market-agent",
+   "source": "docs/market-agent/index.html",
+   "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
+   "published_sha256": "ae7e1c071cd1aa11b7a8c38ed3c7cddcef8a2648bef921740ede73bdd8b15d30",
+   "published_at": "2026-11-03",
+   "jira": "MP-20"
   }
  ]
 }

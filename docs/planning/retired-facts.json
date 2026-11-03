@@ -1,0 +1,32 @@
+{
+ "about": "Facts the owner has retired, and the current documents and generators they must never appear in again (MP-20 review round 2). Dated research packs keep their history and are not listed. Checked by scripts/check_retired_facts.py.",
+ "facts": [
+  {"pattern": "£\\s*19\\.84|£\\s*2\\.16\\b|\\$\\s*20\\.67|\\$\\s*21\\.15",
+   "why": "the AWS run rate before the domain line was removed (owner, 3 Nov 2026); it is £18.64 ($19.42) in Virginia, leaving £3.36",
+   "paths": ["README.md", "ARCHITECTURE.md", "TECH-STACK.md", "docs/confluence/build_pages.py", "docs/diagrams/*/lucid_spec.py",
+             "docs/motion/build_motion.py", "docs/market-agent/index.html", "docs/architecture-explainer/index.html"]},
+  {"pattern": "domain\\s+renews|the\\s+month\\s+the\\s+(yearly\\s+)?domain|domain\\s+month",
+   "why": "the domain mypaisapp.com is renewed outside MP, so no month carries a domain renewal (owner, 3 Nov 2026)",
+   "paths": ["docs/confluence/build_pages.py", "docs/motion/build_motion.py", "docs/diagrams/*/lucid_spec.py",
+             "docs/market-agent/index.html", "docs/architecture-explainer/index.html"]},
+  {"pattern": "do\\s+not\\s+yet\\s+show\\s+it\\s+fits|not\\s+yet\\s+shown\\s+to\\s+fit",
+   "why": "with Grow 55 every month fits £100 except the one allowed Apple fee month (owner, 2 Nov 2026)",
+   "paths": ["README.md", "ARCHITECTURE.md", "TECH-STACK.md", "docs/confluence/build_pages.py", "docs/motion/build_motion.py"]},
+  {"pattern": "private\\s+TestFlight\\s+(beta|build)\\b(?!,?\\s+later)|then\\s+a\\s+private\\s+beta|TestFlight\\s+beta\\s+\\(PROPOSED\\)",
+   "why": "no paid Apple Developer Program for now: free local builds, TestFlight only later if the owner joins (owner, 3 Nov 2026)",
+   "paths": ["docs/confluence/build_pages.py", "docs/motion/build_motion.py"]},
+  {"pattern": "IaC\\s+tool\\s+is\\s+not\\s+chosen|CDK\\s+or\\s+CloudFormation\\s+still\\s+to\\s+choose",
+   "why": "Terraform only, for every AWS change (owner, 3 Nov 2026)",
+   "paths": ["README.md", "ARCHITECTURE.md", "TECH-STACK.md", "docs/confluence/build_pages.py", "docs/motion/build_motion.py",
+             "docs/diagrams/*/lucid_spec.py"]},
+  {"pattern": "run\\s+7\\s+checks",
+   "why": "nine checks are required on main (.github/main-protection.json)",
+   "paths": ["docs/diagrams/*/lucid_spec.py", "docs/confluence/build_pages.py", "docs/motion/build_motion.py"]},
+  {"pattern": "Cognito\\s+with\\s+Apple,\\s+Google\\s+and\\s+passkeys",
+   "why": "Sign in with Apple waits for the paid Apple Developer Program (owner, 3 Nov 2026); current-status text says so",
+   "paths": ["README.md", "ARCHITECTURE.md", "TECH-STACK.md", "docs/confluence/build_pages.py"]},
+  {"pattern": "settled\\s+by\\s+the\\s+owner's\\s+choice\\s+of\\s+Grow\\s+55",
+   "why": "the cost fit is conditional on the Grow 55 checkout price, rights and measured workload (cost model verdict CONDITIONAL_UNPROVEN)",
+   "paths": ["README.md", "ARCHITECTURE.md", "TECH-STACK.md"]}
+ ]
+}

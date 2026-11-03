@@ -9,6 +9,9 @@ Conventions, all taken from the cost specification unless marked otherwise:
 - Warn/reduce/pause are "reached" at >= the threshold; the GBP 70 plan and GBP 100 ceiling are
   breached at > the limit (the same rule as check_cash_timing.py).
 - M1 is the first month in which prod runs with paid live data. No calendar month is chosen.
+- Domain (owner, 3 Nov 2026): the owner's existing mypaisapp.com is renewed outside MP, so the owner's
+  selection uses the domain option "none" (no domain cash in any month) and every month is the same. The
+  com16 and uk9 options are kept for the record of what the owner chose between; they put a domain purchase in M1.
 
 Usage: python3 -I docs/planning/source-rights-2026-11-02/cost_months.py [path/to/model.json] [--json out.json]
 """
@@ -66,31 +69,26 @@ NEW_LINES = [
 ]
 
 # ---- Conclusions drawn from the printed tables (central FX/tax, Virginia unless stated) ----------
+# Restated 3 Nov 2026 for the owner's domain answer (mypaisapp.com renewed outside MP): the owner's selection has no
+# domain line, so M1 equals M2 to M12. The statements they replace are kept, word for word, in "superseded_2026_11_03".
 CONCLUSIONS = {
     "fits": [
-        "Grow 55 at USD 29 monthly (conditional price), Basic in dev, Claude blocked, no Apple fee: every month under "
-        "GBP 100 and under GBP 70. Virginia: M1 GBP 61.84 with a .com domain (GBP 55.12 with .uk), M2-M12 GBP 46.48. "
-        "M1 reaches the GBP 60 warning with .com.",
-        "Grow 55 monthly with Claude option A at the ARC-06b planned volume (USD 8.59): every month under GBP 100; "
-        "M2-M12 GBP 54.73 (London GBP 55.19), under GBP 70 and the GBP 60 warning.",
-        "Grow 55 monthly, Claude A, .uk domain (USD 9): every month under GBP 70 (M1 GBP 63.37, past the warning). "
-        "This is the cheapest combination that keeps Claude A and every month under GBP 70.",
-        "Grow 55 monthly, Claude A-lite (Sonnet event analysis, USD 6.09), .com domain: M1 GBP 67.69, under GBP 70.",
-        "Grow 79 monthly (or the 17%-off annual price if it could be paid monthly), Claude blocked: M2-M12 under GBP 100 "
+        "Grow 55 at USD 29 monthly (conditional price), Basic in dev, Claude blocked, no domain line, no Apple fee: every "
+        "month GBP 46.48 (London GBP 46.95), under GBP 70 and under the GBP 60 warning.",
+        "Grow 55 monthly with Claude option A at the ARC-06b planned volume (USD 8.59): every month GBP 54.73 (London "
+        "GBP 55.19), under GBP 70 and the GBP 60 warning.",
+        "Grow 55 monthly, Claude A-lite (Sonnet event analysis, USD 6.09): every month GBP 52.33.",
+        "Grow 79 monthly (or the 17%-off annual price if it could be paid monthly), Claude blocked: every month under GBP 100 "
         "(GBP 94.48 and GBP 81.59), but always past the GBP 85 pause or GBP 75 reduce line and over the GBP 70 plan.",
     ],
     "does_not_fit": [
         "The Apple Developer Program fee (USD 99, GBP 95.04 with 20% tax) breaches GBP 100 in whatever month it is paid, "
         "with every data tier, even Basic only (GBP 113.68 Virginia), and even in a dev-only month before paid data "
-        "(GBP 101.36). No month has GBP 95 of headroom, so deferring it to 'a month with headroom' cannot work under "
-        "the current rule. It fits a dev-only month only if the UK local price is GBP 79 including tax (unverified): "
-        "GBP 85.32, still past the GBP 85 pause line.",
-        "Grow 79 monthly with Claude A planned: every month over GBP 100 (GBP 102.73; GBP 118.09 in the .com domain month).",
-        "Grow 79 monthly with Claude blocked: M1 (domain month) GBP 109.84 over GBP 100; every month over GBP 70 and at "
-        "the GBP 85 pause line.",
-        "Any annual data plan paid upfront: M1 GBP 789.37 (Grow 79) or GBP 311.29 (Grow 55), far over GBP 100.",
-        "Grow 55 with Claude A and a .com domain: M1 GBP 70.09, over the GBP 70 plan by 9p (the 1 July 2026 .com rise "
-        "from USD 15 to 16 causes it).",
+        "(GBP 101.36). The owner answered with a rule (owner_answers below): its month is the one allowed exception "
+        "(GBP 141.52 Claude blocked, GBP 149.77 Claude A), and it is not bought for now.",
+        "Grow 79 monthly with Claude A planned: every month over GBP 100 (GBP 102.73).",
+        "Grow 79 monthly with Claude blocked: every month over GBP 70 and past the GBP 85 pause line (GBP 94.48).",
+        "Any annual data plan paid upfront: M1 GBP 774.01 (Grow 79) or GBP 295.93 (Grow 55), far over GBP 100.",
         "The busy-month Claude stress (USD 74.88) breaks GBP 100 every month even with Grow 55 (GBP 118.36): the chat "
         "caps, not the model choice, decide this.",
         "Grow 144: price unknown. It keeps ordinary months under GBP 100 only at or below USD 84.75 (Claude blocked) or "
@@ -102,19 +100,9 @@ CONCLUSIONS = {
         "Annual data billing saves 17% but only helps cash if it can be paid monthly; paid upfront it is the largest "
         "single breach in the year. The page does not say which.",
         "Claude: option A adds GBP 8.24 a month; A-lite GBP 5.84; blocked GBP 0. Daily chat caps bound the busy month.",
-        "Domain: .uk at USD 9 instead of .com at USD 16 saves GBP 6.72 in the purchase month and brings Grow 55 plus "
-        "Claude A under GBP 70 in M1.",
-        "Apple: needs an owner rule, not a month. Either (a) hold it outside the MP envelope, (b) a one-off approved "
-        "exception month, (c) a sinking fund (COST-06 forbids this today), or (d) confirm a lower local GBP price and pay "
-        "it in a dev-only month before paid data starts.",
         "Region: London costs GBP 0.46 a month more than Virginia; not a lever for fit.",
     ],
     "owner_questions": [
-        "Is the Apple Developer Program fee inside the GBP 100 MP envelope? If yes, which rule lets a GBP 95 one-off "
-        "charge in through admission: a one-off exception month, a sinking fund (which COST-06 currently forbids), or "
-        "paying in a dev-only month before paid data, if the local price proves to be about GBP 79?",
-        "Which TLD: .com (USD 16 on Route 53 since 1 July 2026, the model still holds USD 15) or .uk/.co.uk (USD 9)? "
-        "And which month is the domain bought, relative to the first paid data month?",
         "Is there a payment method on the GitHub organisation? If not, Actions stop at the USD 12 shared allowance; if "
         "yes, should a budget of USD 0 be set so MP never pays overage?",
         "How many Actions minutes does MA use a month on the shared allowance?",
@@ -134,7 +122,50 @@ CONCLUSIONS = {
         "GitHub: is the USD 12 included compute shared across all private repositories in the organisation, and what is "
         "the default budget when a payment method is added?",
     ],
+    "superseded_2026_11_03": {
+        "what": "Every statement below that prices a domain purchase in M1 (the com16 and uk9 options), and the two "
+                "owner questions on the Apple fee and the TLD. Superseded by the owner's answers of 2 and 3 Nov 2026; "
+                "the com16 and uk9 rows stay in grid_all_combinations for the record.",
+        "statements": [
+            "Grow 55 at USD 29 monthly (conditional price), Basic in dev, Claude blocked, no Apple fee: every month under "
+            "GBP 100 and under GBP 70. Virginia: M1 GBP 61.84 with a .com domain (GBP 55.12 with .uk), M2-M12 GBP 46.48. "
+            "M1 reaches the GBP 60 warning with .com.",
+            "Grow 55 monthly with Claude option A at the ARC-06b planned volume (USD 8.59): every month under GBP 100; "
+            "M2-M12 GBP 54.73 (London GBP 55.19), under GBP 70 and the GBP 60 warning.",
+            "Grow 55 monthly, Claude A, .uk domain (USD 9): every month under GBP 70 (M1 GBP 63.37, past the warning). "
+            "This is the cheapest combination that keeps Claude A and every month under GBP 70.",
+            "Grow 55 monthly, Claude A-lite (Sonnet event analysis, USD 6.09), .com domain: M1 GBP 67.69, under GBP 70.",
+            "Grow 79 monthly with Claude A planned: every month over GBP 100 (GBP 102.73; GBP 118.09 in the .com domain month).",
+            "Grow 79 monthly with Claude blocked: M1 (domain month) GBP 109.84 over GBP 100; every month over GBP 70 and at "
+            "the GBP 85 pause line.",
+            "Any annual data plan paid upfront: M1 GBP 789.37 (Grow 79) or GBP 311.29 (Grow 55), far over GBP 100.",
+            "Grow 55 with Claude A and a .com domain: M1 GBP 70.09, over the GBP 70 plan by 9p (the 1 July 2026 .com rise "
+            "from USD 15 to 16 causes it).",
+            "Domain: .uk at USD 9 instead of .com at USD 16 saves GBP 6.72 in the purchase month and brings Grow 55 plus "
+            "Claude A under GBP 70 in M1.",
+            "Apple: needs an owner rule, not a month. Either (a) hold it outside the MP envelope, (b) a one-off approved "
+            "exception month, (c) a sinking fund (COST-06 forbids this today), or (d) confirm a lower local GBP price and pay "
+            "it in a dev-only month before paid data starts.",
+            "Is the Apple Developer Program fee inside the GBP 100 MP envelope? If yes, which rule lets a GBP 95 one-off "
+            "charge in through admission: a one-off exception month, a sinking fund (which COST-06 currently forbids), or "
+            "paying in a dev-only month before paid data, if the local price proves to be about GBP 79?",
+            "Which TLD: .com (USD 16 on Route 53 since 1 July 2026, the model still holds USD 15) or .uk/.co.uk (USD 9)? "
+            "And which month is the domain bought, relative to the first paid data month?",
+        ],
+    },
 }
+
+# ---- The owner's answers that change this view (decision log) --------------------------------------
+OWNER_ANSWERS = [
+    {"date": "2026-11-02", "answer": "Apple Developer Program fee: one exception month a year above GBP 100, for this fee "
+                                      "only; every other month stays inside the ceiling and thresholds."},
+    {"date": "2026-11-02", "answer": "Region Virginia (us-east-1); Grow 55 at USD 29 for prod with Yahoo kept; Basic in dev."},
+    {"date": "2026-11-03", "answer": "Domain: the owner's existing mypaisapp.com, renewed outside MP, so the cost model's "
+                                      "domain line comes out (MP-29). This view's owner selection uses domain none."},
+    {"date": "2026-11-03", "answer": "Apple: no paid Apple Developer Program for now (MP-39 item 10)."},
+]
+OWNER_ANSWERS_SOURCE = "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+
 
 # ---- Claude, ARC-06b option A and A-lite (prices verified on the pricing page) ----------------
 # Batch = half price. Haiku 5.5 <=100K prompts: 0.10/0.50, batch 0.05/0.25. Sonnet 5.5: 2/10, batch 1/5.
@@ -266,7 +297,8 @@ def main():
     assert claude["A_lite_planned"].quantize(D(".01")) == D("6.09")
     assert claude["A_busy_stress"].quantize(D(".01")) == D("74.88")
 
-    domain = {"com16": D(16), "uk9": D(9)}
+    # "none" is the owner's selection (owner, 3 Nov 2026); com16 and uk9 stay for the record.
+    domain = {"none": D(0), "com16": D(16), "uk9": D(9)}
     apple_options = {"none": None, "M1": 1, "M7": 7}
 
     grid = []
@@ -280,7 +312,7 @@ def main():
                      "fx": "central", "months": [gbp(x) for x in months], "breaches": breaches(months),
                      "max_month": None if any(x.is_nan() for x in months) else gbp(max(months))})
 
-    def pick(region, data, cl, apple, dom="com16", gh="planned_0"):
+    def pick(region, data, cl, apple, dom="none", gh="planned_0"):
         return next(g for g in grid if g["region"] == region and g["data"] == data and g["claude"] == cl
                     and g["apple"] == apple and g["domain"] == dom and g["github"] == gh)
 
@@ -291,21 +323,31 @@ def main():
             for cl in ("blocked", "A_planned"):
                 for apple in ("none", "M7"):
                     headline.append(pick(region, data, cl, apple))
+    # The owner's selection (Virginia, Grow 55 monthly, Basic in dev, no domain line, GitHub planned USD 0):
+    # with no domain line, M1 equals M2 to M12. The Apple fee is not bought; M7 shows the month it would be due.
+    owner_selection = {}
+    for cl, every, apple_m7 in (("blocked", 46.48, 141.52), ("A_planned", 54.73, 149.77)):
+        none_row = pick("Virginia", "Grow55_monthly", cl, "none")
+        apple_row = pick("Virginia", "Grow55_monthly", cl, "M7")
+        assert none_row["months"] == [every] * MONTHS, (cl, none_row["months"])
+        assert apple_row["months"][6] == apple_m7 and apple_row["months"][:6] == [every] * 6, (cl, apple_row["months"])
+        owner_selection[cl] = {"every_month_gbp": every, "apple_fee_month_gbp_if_bought": apple_m7,
+                               "breaches_every_month": none_row["breaches"]}
     # Stress / sensitivity rows
     extra = []
     for data in ("Grow55_monthly", "Grow79_monthly"):
-        months = months_for(model, "us-east-1", plans[data], claude["A_busy_stress"], None, D(16), D(0), "central")
-        extra.append({"name": f"Virginia | {data} | Claude A_busy_stress | Apple none | domain com16 | GitHub planned_0",
+        months = months_for(model, "us-east-1", plans[data], claude["A_busy_stress"], None, D(0), D(0), "central")
+        extra.append({"name": f"Virginia | {data} | Claude A_busy_stress | Apple none | domain none | GitHub planned_0",
                       "months": [gbp(x) for x in months], "breaches": breaches(months)})
     for data in ("Grow55_monthly",):
         for cl in ("blocked", "A_planned"):
-            for dname, gh in (("com16", D("3.12")), ("uk9", D(0))):
+            for dname, gh in (("none", D("3.12")), ("none", D(0))):
                 months = months_for(model, "us-east-1", plans[data], claude[cl], None, domain[dname], gh, "adverse")
                 extra.append({"name": f"Virginia | {data} | Claude {cl} | Apple none | domain {dname} | GitHub {'worst_3.12' if gh else 'planned_0'} | FX adverse",
                               "months": [gbp(x) for x in months], "breaches": breaches(months)})
     for cl in ("A_lite_planned",):
-        months = months_for(model, "us-east-1", plans["Grow55_monthly"], claude[cl], None, D(16), D(0), "central")
-        extra.append({"name": f"Virginia | Grow55_monthly | Claude {cl} | Apple none | domain com16 | GitHub planned_0",
+        months = months_for(model, "us-east-1", plans["Grow55_monthly"], claude[cl], None, D(0), D(0), "central")
+        extra.append({"name": f"Virginia | Grow55_monthly | Claude {cl} | Apple none | domain none | GitHub planned_0",
                       "months": [gbp(x) for x in months], "breaches": breaches(months)})
     # Apple in a dev-only month before paid data starts (M0): dev AWS only, Basic data, Claude blocked.
     dev_only = {}
@@ -339,6 +381,7 @@ def main():
 
     a = model["aws"]["us-east-1"]
     summary = {
+        "owner_selection": owner_selection,
         "inputs": {
             "fx_factor_central": str(model["fx"]["central"]), "fx_factor_adverse": str(model["fx"]["adverse"]),
             "aws_usd": {r: {k: str(v.quantize(D('.0001'))) for k, v in model["aws"][c].items()} for r, c in regions.items()},
@@ -354,6 +397,11 @@ def main():
         "grid_count": len(grid),
     }
 
+    print("Owner selection (Virginia, Grow 55 monthly, Basic dev, no domain line, no Apple fee): every month "
+          f"GBP {owner_selection['blocked']['every_month_gbp']:.2f} Claude blocked, "
+          f"GBP {owner_selection['A_planned']['every_month_gbp']:.2f} Claude option A; the Apple fee month, if bought, "
+          f"GBP {owner_selection['blocked']['apple_fee_month_gbp_if_bought']:.2f} / "
+          f"GBP {owner_selection['A_planned']['apple_fee_month_gbp_if_bought']:.2f}\n")
     for g in headline:
         b = g["breaches"]
         months = g["months"]
@@ -374,7 +422,12 @@ def main():
     print("inputs:", json.dumps(summary["inputs"], indent=1))
     if args.json:
         slim = lambda g: {"name": g["name"], "months": g["months"], "breaches": g["breaches"]}
-        out = {"new_lines": NEW_LINES,
+        out = {"owner_selection": {"choices": "Virginia, Grow 55 monthly (USD 29, conditional), Basic in dev, domain none "
+                                              "(mypaisapp.com renewed outside MP, owner 3 Nov 2026), GitHub planned USD 0, "
+                                              "Apple fee not bought (owner 3 Nov 2026)",
+                                   **owner_selection},
+               "owner_answers": {"source": OWNER_ANSWERS_SOURCE, "answers": OWNER_ANSWERS},
+               "new_lines": NEW_LINES,
                "scenarios": [slim(g) for g in headline] + extra,
                **CONCLUSIONS,
                "inputs": summary["inputs"], "breakeven_data_usd": breakeven, "dev_only_apple": dev_only,
@@ -384,7 +437,9 @@ def main():
                "apple_scenarios_under_100_in_grid": len(apple_fits_100),
                "conventions": {"fx": "central GBP0.80/USD, 20% tax, 0% card; adverse 0.85, 20%, 3%",
                                "thresholds": "warn/reduce/pause reached at >=; plan 70 and ceiling 100 breached at >",
-                               "M1": "first month prod runs with paid live data; domain bought in M1; renewal falls in M13",
+                               "M1": "first month prod runs with paid live data. Owner's selection: domain none, so M1 "
+                                     "equals M2 to M12. The com16 and uk9 options (kept for the record) buy the domain "
+                                     "in M1; renewal falls in M13",
                                "source_of_aws": "costs/model.json baseline results, domain amortisation removed"},
                "grid_all_combinations": [slim(g) for g in grid]}
         Path(args.json).write_text(json.dumps(out, indent=1))

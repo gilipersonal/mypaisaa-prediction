@@ -1,12 +1,15 @@
 """Offline FIN-HASH-1 document proof; no application or service implementation.
 
 Run directly, or import check() for the foundation document gate. Requires jsonschema.
+Run with --mutation-selftest to prove named refusals bite: each gate mutant removes one
+verify() check from a copy of this source, and check() must then fail on its named case.
 """
 from __future__ import annotations
 
 import copy
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker, ValidationError
@@ -101,6 +104,11 @@ class Proof:
             for item in content["ordered_leaf_refs"]:
                 item["sha256"] = leaves[item["record_id"]]["sha256"]
             receipts[content["chunk_id"]]["content_sha256"] = self.digest("ChunkContent", content)
+        self.reseal_above_receipts(graph)
+
+    def reseal_above_receipts(self, graph: dict) -> None:
+        """Maker fixture construction only: recompute pages, manifest and pointer from the receipts as they stand."""
+        receipts = {r["chunk_id"]: r for r in graph["chunk_receipts"]}
         for page in graph["pages"]:
             page["chunks"] = [copy.deepcopy(receipts[r["chunk_id"]]) for r in page["chunks"]]
             page["page_sha256"] = self.digest("ManifestPage", page)
@@ -194,11 +202,13 @@ class Proof:
         return root
 
 
-def must_refuse(action, label: str) -> None:
+def must_refuse(action, label: str, expected: str | None = None) -> None:
     try:
         action()
     except (ValueError, ValidationError) as exc:
         require(bool(str(exc)), "refusal must have a diagnostic")
+        if expected is not None:
+            require(expected in str(exc), "wrong refusal for " + label + ": " + str(exc))
         return
     raise ValueError("mutation accepted: " + label)
 
@@ -240,6 +250,23 @@ def check() -> dict:
     must_refuse(lambda: proof.verify(bad), "wrong page digest reference")
     for name, value in (("EventIntent", dict(intent, payload_ref=1.25)),):
         must_refuse(lambda: proof.digest(name, value), "binary float")
+    # An edited ChunkContent kept under its old receipt digest, with everything above the
+    # receipts resealed: only the chunk digest check can see it (MP-20 R2-S7).
+    bad = copy.deepcopy(graph)
+    refs = bad["chunk_contents"][0]["ordered_leaf_refs"]
+    refs[0], refs[1] = refs[1], refs[0]
+    receipt = bad["chunk_receipts"][0]
+    receipt["storage_refs"] = [item["record_id"] for item in refs]
+    proof.reseal_above_receipts(bad)
+    must_refuse(lambda: proof.verify(bad), "edited chunk content under its old receipt digest", "chunk digest mismatch")
+    # An ordered leaf reference with the wrong sha256, the receipt digest recomputed over it
+    # and everything above resealed: only the leaf reference check can see it.
+    bad = copy.deepcopy(graph)
+    content = bad["chunk_contents"][0]
+    content["ordered_leaf_refs"][0]["sha256"] = "0" * 64
+    bad["chunk_receipts"][0]["content_sha256"] = proof.digest("ChunkContent", content)
+    proof.reseal_above_receipts(bad)
+    must_refuse(lambda: proof.verify(bad), "ordered leaf reference with wrong sha256", "leaf reference mismatch")
     inline = copy.deepcopy(graph)
     inline["pages"] = []
     inline["manifest"].update(chunk_inventory_mode="inline", chunk_page_refs=[], expected_page_count=0)
@@ -249,8 +276,42 @@ def check() -> dict:
             "computed_leaf_count": len(graph["leaves"]), "inventory_modes_verified": ["paged", "inline"],
             "leaf_mutation_changes_root": True, "delivery_failure_retry_success_preserve_root": True,
             "extra_fields_unknown_version_wrong_page_ref_refused": True,
+            "chunk_digest_and_leaf_reference_refusals_isolated": True,
             "scope": "offline synthetic document proof only; no cloud/application evidence"}
 
 
+GATE_MUTANTS = (
+    ("chunk digest check removed",
+     '            require(receipt["content_sha256"] == self.digest("ChunkContent", content), "chunk digest mismatch")\n',
+     "            pass\n", "mutation accepted: edited chunk content under its old receipt digest"),
+    ("leaf reference check removed",
+     '                require(item["record_type"] == leaf["record_type"] and\n'
+     '                        item["sha256"] == leaf["sha256"], "leaf reference mismatch")\n',
+     "                pass\n", "mutation accepted: ordered leaf reference with wrong sha256"),
+)
+
+
+def mutation_selftest() -> dict:
+    """Prove each named check bites: remove it from a copy of this source and require check() to fail."""
+    check()  # the harness starts from a passing proof
+    source = Path(__file__).read_text()
+    for label, old, new, expected in GATE_MUTANTS:
+        require(source.count(old) == 1, "gate mutant anchor not found exactly once: " + label)
+        namespace = {"__name__": "verify_hash_contract_mutant", "__file__": __file__}
+        exec(compile(source.replace(old, new), __file__ + "#" + label, "exec"), namespace)
+        try:
+            namespace["check"]()
+        except ValueError as exc:
+            require(expected in str(exc), "gate mutant " + label + " failed for the wrong reason: " + str(exc))
+            continue
+        raise ValueError("gate mutant survived: " + label)
+    return {"status": "passed", "gate_mutants_killed": [label for label, *_ in GATE_MUTANTS]}
+
+
 if __name__ == "__main__":
-    print(json.dumps(check(), sort_keys=True))
+    if sys.argv[1:] == ["--mutation-selftest"]:
+        print(json.dumps(mutation_selftest(), sort_keys=True))
+    elif sys.argv[1:]:
+        raise SystemExit("usage: verify_hash_contract.py [--mutation-selftest]")
+    else:
+        print(json.dumps(check(), sort_keys=True))

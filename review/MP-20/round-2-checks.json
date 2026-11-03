@@ -1,0 +1,190 @@
+{
+  "base": "main",
+  "paths": [
+    ".github/workflows/verify.yml",
+    "ARCHITECTURE.md",
+    "README.md",
+    "TECH-STACK.md",
+    "docs/confluence/build_pages.py",
+    "docs/confluence/confluence.json",
+    "docs/confluence/pages/rec-apple-testing.html",
+    "docs/confluence/pages/rec-observability.html",
+    "docs/confluence/pages/rec-perimeter.html",
+    "docs/confluence/pages/rec-testing.html",
+    "docs/confluence/record.py",
+    "docs/confluence/upload.py",
+    "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png",
+    "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png",
+    "docs/diagrams/mp-architecture-2026-11-02/lucid_spec.py",
+    "docs/diagrams/mp-architecture-2026-11-02/manifest.json",
+    "docs/diagrams/mp-architecture-2026-11-02/spec.json",
+    "docs/diagrams/mp-quality-2026-11-02/02-one-trace.png",
+    "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png",
+    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png",
+    "docs/diagrams/mp-quality-2026-11-02/05-perimeter.png",
+    "docs/diagrams/mp-quality-2026-11-02/README.md",
+    "docs/diagrams/mp-quality-2026-11-02/lucid_spec.py",
+    "docs/diagrams/mp-quality-2026-11-02/manifest.json",
+    "docs/diagrams/mp-quality-2026-11-02/spec.json",
+    "docs/motion/build_motion.py",
+    "docs/motion/perimeter-layers.gif",
+    "docs/motion/perimeter-layers.png",
+    "docs/planning/baseline-signoff-2026-11-03/README.md",
+    "docs/planning/baseline-signoff-2026-11-03/build_signoff.py",
+    "docs/planning/baseline-signoff-2026-11-03/signoff.json",
+    "docs/planning/foundation-specifications-2026-11-02/README.md",
+    "docs/planning/foundation-specifications-2026-11-02/costs/acceptance.json",
+    "docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py",
+    "docs/planning/foundation-specifications-2026-11-02/costs/maker-checks.json",
+    "docs/planning/foundation-specifications-2026-11-02/costs/model.json",
+    "docs/planning/foundation-specifications-2026-11-02/costs/research.json",
+    "docs/planning/foundation-specifications-2026-11-02/costs/reservation-contract.json",
+    "docs/planning/foundation-specifications-2026-11-02/costs/specification.md",
+    "docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+    "docs/planning/foundation-specifications-2026-11-02/coverage.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/acceptance.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/catalogue.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/contracts.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/examples.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/maker-checks.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/research.json",
+    "docs/planning/foundation-specifications-2026-11-02/data/specification.md",
+    "docs/planning/foundation-specifications-2026-11-02/fixed-policies.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/acceptance-cases.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/evaluation-protocol.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/forecasting-specification.md",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/maker-checks.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/model-catalogue.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/research-register.json",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/task-catalogue.json",
+    "docs/planning/foundation-specifications-2026-11-02/owner-decisions.json",
+    "docs/planning/foundation-specifications-2026-11-02/policy-evidence-register.md",
+    "docs/planning/foundation-specifications-2026-11-02/prepare_pack.py",
+    "docs/planning/foundation-specifications-2026-11-02/selected-directions.json",
+    "docs/planning/foundation-specifications-2026-11-02/validation.json",
+    "docs/planning/foundation-specifications-2026-11-02/work-state.json",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/region-network-2026-11-03/README.md",
+    "docs/planning/source-rights-2026-11-02/README.md",
+    "docs/planning/trace.json",
+    "scripts/review_checks.py",
+    "tests/test_baseline_signoff.py",
+    "tests/test_confluence_receipts.py",
+    "tests/test_review_checks.py"
+  ],
+  "unmapped": [],
+  "deferred": [],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "ebebc9eef94ca0f9ba8fa4c9817d2289b5a63e5f9faf042c7decd3ed78db3720",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03"
+      ]
+    },
+    "review-checks": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.2,
+      "fingerprint": "9f8f9141621c86f8588ebd83c3a3a46a17ff81eabc377d69027d75c201ef090d",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_review_checks.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "005fa5f0081820cd3a86a22531707ada6fd2f8c2efc1764344f9b6e1b0680f25",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 5.7,
+      "fingerprint": "417c3bb77fff15f6e5cc44bd9d0136ec0ea7ee99a960f8a85c89cb43ca773e34",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "confluence-receipts": {
+      "status": "FAIL",
+      "detail": "python3 docs/confluence/build_pages.py check exited 1: PENDING: rec-perimeter: docs/diagrams/mp-quality-2026-11-02/05-perimeter.png changed since it was attached; re-upload it | PENDING: rec-apple-testing: docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png changed since it was attached; re-upload it | PENDING: rec-delivery: docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png changed since it was attached; re-upload it | PENDING: rec-testing: docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png changed since it was attached; re-upload it | PENDING: rec-observability: docs/diagrams/mp-quality-2026-11-02/02-one-trace.png changed since it was attached; re-upload it",
+      "seconds": 0.1,
+      "fingerprint": "c12884da138226fcdf7a5f0edb2011cda77da88364a08302b2778019505e2838",
+      "steps": [
+        "python3 docs/confluence/build_pages.py selftest",
+        "python3 docs/confluence/build_pages.py check",
+        "python3 -m unittest discover -s tests -p test_confluence_receipts.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.8,
+      "fingerprint": "f9add5d79bc4dd78cc3c67d6f900f65fcdc54e2e589691fdc9ef95e4648beadf",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "pr-policy": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "b320c2a6fe0551324b59d9bb5752aea9bbd3cc44bbfefa93bb1cf90607f01d45",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_pr_policy.py"
+      ]
+    },
+    "readme": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "b253db7f3b9fde2cd7c2ed9088c615b28a395055d46baf504881256d4d066bf2",
+      "steps": [
+        "python3 docs/readme/check_readme.py"
+      ]
+    },
+    "reconciliation-pack": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "93391506399af688b35d9f00695704a2e879038d6809273e2b18fcf11adf01d3",
+      "steps": [
+        "python3 docs/planning/ma-reconciliation-2026-11-02/validate.py"
+      ]
+    },
+    "foundation-pack": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "0b765a388ec823746925b870b9fca75751fb43dd9cc53125efa3cd97f9432897",
+      "steps": [
+        "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
+      ]
+    },
+    "workflow-lint": {
+      "status": "UNAVAILABLE",
+      "detail": "missing tool: actionlint",
+      "seconds": 0.0,
+      "fingerprint": "b5ca478523a3ad815bfa1cdacf05c01e7ad48be79f4518d7c200eb27078855ed",
+      "steps": [
+        "actionlint -color .github/workflows/jira-key.yml .github/workflows/verify.yml"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

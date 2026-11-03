@@ -9,6 +9,14 @@
    "path": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
    "sha256": "eb0cf01470998e2d637fde1dab99274b4f06be83e17228f1bb982d7d216294b0"
   },
+  "policy_journal": {
+   "path": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+   "sha256": "c7829afd940d3a002dedb1557d21fcab812d94683abfcc88fe1429c6b6bf539e"
+  },
+  "claude_card": {
+   "path": "docs/planning/claude-models-and-batching-2026-11-02.md",
+   "sha256": "0e5cd540a5617abb2cde92783bdb1511af5c5f1f83a8d652898a08de02c72d94"
+  },
   "phases": {
    "path": "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json",
    "sha256": "90ad3b5d596fccc337398603a55d7c3a986294faaa6e464d4881167c5e7adb12"
@@ -31,47 +39,47 @@
   },
   "fixed_policies": {
    "path": "docs/planning/foundation-specifications-2026-11-02/fixed-policies.json",
-   "sha256": "ea19d936eded56b5ca55bbdf49363c00bb0a978efbc552e891db8153565f92b9"
+   "sha256": "ecad50a4fb966f326e26c43d8e879c5d9d9c5a9e1de1d475d61e1b3837d9af7d"
   },
   "coverage": {
    "path": "docs/planning/foundation-specifications-2026-11-02/coverage.json",
-   "sha256": "6d991a79a39ae46356ca7d3e06c01c96d371c968dc2dca9b4215a0eebc9455b1"
+   "sha256": "887497fa4ff9ab47876788321e1a53a532987a73e061c77d043e34027cd1864d"
   },
   "validation": {
    "path": "docs/planning/foundation-specifications-2026-11-02/validation.json",
-   "sha256": "5e3b65ab5dfcfc37260a452175899e37ce47428168b07c4aa7130e21598f5fb6"
+   "sha256": "afe4c04d0ada3f622c58fc977306655f1de268573383f1c2cecd705153802cf0"
   },
   "sci_open": {
    "path": "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json",
-   "sha256": "81aa294063c311a86979ca5967325d606681f324d03c1c99b702fdf8c6496661"
+   "sha256": "276bc3026f255e0b3438547cc2bcc82e5a0583a19361e2792979673bdd14ae6a"
   },
   "fin_open": {
    "path": "docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json",
-   "sha256": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc"
+   "sha256": "24f60f8cc7a551ac40d03a94c79b0e8879e089ef99a8870459247c60ff990b00"
   },
   "data_catalogue": {
    "path": "docs/planning/foundation-specifications-2026-11-02/data/catalogue.json",
-   "sha256": "caaa4779308734f54ff840447c469f9d54ae7336dab142ac3684082beba69dd4"
+   "sha256": "0f31c1cb212d9c751166970932ac029c55c506f278e37ff038492df859bb5a7e"
   },
   "cost_model": {
    "path": "docs/planning/foundation-specifications-2026-11-02/costs/model.json",
-   "sha256": "80109bbf1c712ec7b79dbd21f948e3450c44f7c128537aed0f182f4f48adce44"
+   "sha256": "911bd7b12d951e33cb9a0eb23be2120f196c26cc3cdfb2d587ce625a1740a453"
   },
   "cost_spec": {
    "path": "docs/planning/foundation-specifications-2026-11-02/costs/specification.md",
-   "sha256": "b08231f7e3074cadcdd7a153cae466cc250dab23eeef5833de127923baa9885b"
+   "sha256": "d19c582a98c0de0e0da52abcfd622afb584d39558fad3822f87c0588afc98282"
   },
   "lucid_architecture": {
    "path": "docs/diagrams/mp-architecture-2026-11-02/manifest.json",
-   "sha256": "a72ec0f4b45b7ac984a1db764eafb433aca8ed25595e103e4e1d5a5e73ac09eb"
+   "sha256": "aea578b793c1e871c3a00da9d3de9cba613d0be054780d529221c34722e86b78"
   },
   "lucid_quality": {
    "path": "docs/diagrams/mp-quality-2026-11-02/manifest.json",
-   "sha256": "5d5fd1c52aec6fec523e9f2002c9d31eb79ba8e76e53c406178dd07119f5333a"
+   "sha256": "0c64e2586792c1a0d6a57051de121f25cbe5d6ba2f984f0d35e82ab4862c4127"
   },
   "artifacts": {
    "path": "docs/design/artifacts.json",
-   "sha256": "b18c89ed56e35e9014f313b0c08b669698310e94d1fc0e7934d2e6ba316ca788"
+   "sha256": "91bc7fb85f6326f1b0db605b730721558d9f24087cbcdb52551fc6156fdf60fc"
   },
   "confluence": {
    "path": "docs/confluence/confluence.json",
@@ -81,17 +89,21 @@
    "path": "docs/planning/trace.json",
    "sha256": "bedfc94db96f3ce2872aede93d0c90eb0e90a75010543a55766827bf87926c13"
   },
+  "plan_sync_rule": {
+   "path": ".claude/rules/plan-sync.md",
+   "sha256": "2659a7f609ec22b02c83995bca7579782d988fac3922ee6f35f7a8faea5c5594"
+  },
   "readme": {
    "path": "README.md",
-   "sha256": "3bd2e9709d1b59dfdaa79df5971ec0c7e053bf12e4052f4dd81ede4d643eddcb"
+   "sha256": "941279d090744026ec619f88b4fc484654847fe1ef531cae34b818888a84faf3"
   },
   "architecture": {
    "path": "ARCHITECTURE.md",
-   "sha256": "9c0ade9d6c5ead13e24a94ca5efba8469f5f56426b6176153bd820f34de3e51e"
+   "sha256": "1c6abe5ddde971172b55c8fda22660fc47d84d4f989b4b01e6aa900d88d86176"
   },
   "tech_stack": {
    "path": "TECH-STACK.md",
-   "sha256": "7f0721fc325330dde998a54c66603887cc0533486c51f002157c2f7ff3a8eb5a"
+   "sha256": "89cda682a6c5c29542ea813f7dfb981c595923496f43594954407f3e648e78ff"
   }
  },
  "open_items": [
@@ -103,6 +115,7 @@
   "SCI-D07",
   "SCI-D08",
   "SCI-D09",
+  "SCI-D10",
   "FIN-OD-01",
   "FIN-OD-02",
   "FIN-OD-03",
@@ -118,9 +131,16 @@
   "DATA-DEC-12",
   "DATA-DEC-13",
   "DATA-DEC-14",
+  "DATA-DEC-15",
   "COST-Q1",
   "COST-Q2",
-  "COST-Q3"
+  "COST-Q3",
+  "COST-Q4",
+  "ARC-06b-O1",
+  "ARC-06b-O2",
+  "ARC-06b-O3",
+  "ARC-06b-O4",
+  "STORIES"
  ],
  "open_contracts": 52,
  "phases": 10,

@@ -194,6 +194,18 @@
         "MP-10",
         "MP-39"
       ]
+    },
+    {
+      "id": "DATA-AT-18",
+      "spec_id": "DATA-02",
+      "given": "Under OWNER-RISK-01's scopes: a Basic dev daily bar is sent to a dev screen; a Yahoo delayed XLON quote feeds a 30-minute check; a Yahoo daily close is offered as training input; a Grow 55 /splits record and an XAU/USD daily bar are stored and used for training; a Grow 55 fundamentals record is stored.",
+      "expected": "The dev screen display is denied (Basic is non-display only; dev shows synthetic data); the Yahoo quote check proceeds as risk_accepted; the Yahoo training input is denied until DATA-DEC-15 is answered; the split and XAU/USD uses proceed as risk_accepted (scopes S3 and S1); the fundamentals record is denied because no scope names that data kind.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-10",
+        "MP-20"
+      ]
     }
   ]
 }

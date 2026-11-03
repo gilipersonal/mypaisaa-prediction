@@ -6,22 +6,26 @@ This is the one place to read before signing off MP's architecture and phase/sto
 
 ## What a sign-off approves, and what it does not
 
-- **Approves:** the baseline's structure; the twelve selected directions as refined by the owner's later answers; the precedence table below; the phase-to-story crosswalk and the readiness protocol (no local story draft is a Jira issue, and each becomes one only with specific positive and negative acceptance, contracts, a state inventory and dependency evidence, before the UX gate).
-- **Does not approve:** any item in the open list below, which stays open with its owner and deciding evidence; UX, which starts only after this sign-off; build, which needs the complete UX and its own explicit permission; any AWS apply, paid call or publication.
+- **Approves:** the baseline's structure; the twelve selected directions as refined by the owner's later answers; the precedence table below; the phase-to-story crosswalk and the readiness protocol (no local story draft is a Jira issue, and each becomes one only with specific positive and negative acceptance, contracts, a state inventory and dependency evidence).
+- **Does not approve:** any item in the open list below, which stays open with its owner and deciding evidence; UX, which starts only after this sign-off and after every story meets the readiness protocol; build, which needs the complete UX and its own explicit permission; any AWS apply, paid call or publication.
+- **CD-01 stays open at sign-off:** the story drafts still have to become Jira stories that meet the readiness protocol (the STORIES row below).
 - **Status labels used:** Proposed, Owner-selected, Approved architecture, Implemented, Deployed and verified. Today nothing is deployed; only the FastAPI health/SSE starter and CI are implemented.
 
 ## Precedence: which record wins (PL-01)
 
+The owner's recorded answers come first; the root documents follow them and win over every other record.
+
 | Rank | Record | Where | Role |
 | --- | --- | --- | --- |
-| 1 | The owner's recorded answers | [decision log](../ma-reconciliation-2026-11-02/decision-log.md) | The owner's own words, dated. Every other record follows them. |
-| 2 | Root documents | [README](../../../README.md), [ARCHITECTURE](../../../ARCHITECTURE.md), [TECH-STACK](../../../TECH-STACK.md) | The current architecture in brief. They win over everything below (`.claude/rules/plan-sync.md`). |
+| 1 | The owner's recorded answers | [decision log](../ma-reconciliation-2026-11-02/decision-log.md), [policy answers of 2 Nov](../foundation-policy-discussion-2026-11-02.md), [ARC-06b card](../claude-models-and-batching-2026-11-02.md), [FND-DEC receipts](../foundation-specifications-2026-11-02/owner-decisions.json) | The owner's own words, dated. Every other record follows them. |
+| 2 | Root documents | [README](../../../README.md), [ARCHITECTURE](../../../ARCHITECTURE.md), [TECH-STACK](../../../TECH-STACK.md) | The current architecture in brief. They win over everything below. |
 | 3 | Foundation contracts | [foundation pack](../foundation-specifications-2026-11-02/README.md) | Data, cost, financial and forecasting contracts, schemas and acceptance cases, hash-pinned. |
-| 4 | Planning pack | [phases, stories, gaps](../ma-reconciliation-2026-11-02/README.md), [ARC directions](../ma-reconciliation-2026-11-02/direction-summary.md), dated decision packs | PH-00 to PH-09, the 64 local story drafts and the 52 open contracts. |
-| 5 | Rendered views | Confluence `mypaisaapr`, the Lucid documents, the motion, the Claude artifacts | Built from 1 to 4. A view that disagrees is stale and is rebuilt; it never decides. |
-| 6 | Dated research and history | Packs named by date, git history, MA | Evidence of how a choice was reached. Never current instruction. |
+| 4 | Planning and topic packs | [phases, stories, gaps](../ma-reconciliation-2026-11-02/README.md), [ARC directions](../ma-reconciliation-2026-11-02/direction-summary.md), [source rights](../source-rights-2026-11-02/README.md), [region and network](../region-network-2026-11-03/README.md) | PH-00 to PH-09, the local story drafts, the open contracts and the research behind each choice. |
+| 5 | Jira | Project MP, mirrored in [trace.json](../trace.json) | Records the work, its status and the files each issue changed. It never decides architecture. |
+| 6 | Rendered views | Confluence `mypaisaapr`, the Lucid documents, the motion, the Claude artifacts | Built from 1 to 4. A view that disagrees is stale and is rebuilt; it never decides. |
+| 7 | Superseded history | [aws-options-2026-11-01](../aws-options-2026-11-01/), [layered-development-2026-11-01](../layered-development-2026-11-01/), git history, MA | Evidence of how a choice was reached. Never current instruction. |
 
-A disagreement the root documents do not settle is a question for the owner, written down in the PR and on the issue; both records stay as they are until it is answered.
+A disagreement the owner's answers and the root documents do not settle is a question for the owner, written down in the PR and on the issue; both records stay as they are until it is answered.
 
 ## The twelve directions, as refined
 
@@ -44,6 +48,30 @@ Full meanings: [direction summary](../ma-reconciliation-2026-11-02/direction-sum
 
 ## Owner answers since 2 November
 
+**The foundation horizon replies:**
+
+- **FND-DEC-001:** 5, 10 and 20 trading days
+- **FND-DEC-002:** Calendar months; roll back to valid date
+
+**The twelve policies selected on 2 November** ([policy journal](../foundation-policy-discussion-2026-11-02.md)):
+
+| Policy | Owner-selected direction | Boundary |
+| --- | --- | --- |
+| POLICY-001 | 15-minute import/correction approval window | Exact approved content; trusted-writer submission, not guaranteed completion, before expiry |
+| POLICY-002 | Ordinary daily forecast window of close +75 minutes | Collection +15, retry +40, frozen cutoff +60; source/processing verification required |
+| POLICY-003 | Automatically pause affected forecasting scope and notify | Only advance-approved triggers; owner approval before restart; no replacement promotion |
+| POLICY-004 | Downside/central/upside templates plus editable 3/5-year assumptions | Numeric assumptions need approval; no implied likelihood or forecast qualification |
+| POLICY-005 | Allow explicitly approved complete transaction groups within imports | Fresh proposal; dependent entries stay together; unresolved entries remain pending |
+| POLICY-006 | Require all three components for the combined recommendation score | Preserve growth/protection/opportunity weights 35/40/25; no missing-as-zero or silent reweighting |
+| POLICY-007 | Trade-date holdings, separate cash settlement | Preserve source dates; no guessed settlement or double-counted cash |
+| POLICY-008 | At most two shared experiment campaigns/month | 96 fits and 6 instance-hours each; cost/resource admission can allow less |
+| POLICY-009 | Labelled analytical FIFO fallback when history supports it | Preserve broker figures; separate from tax basis; no invented history |
+| POLICY-010 | Account-lifetime core financial/decision evidence | Deletion and permissions apply; original files and operational telemetry remain separate |
+| POLICY-011 | One-hour private export download authorization | New authenticated request after expiry; separate from stored-export retention and financial approvals |
+| POLICY-012 | Prepare versioned historical rebuild proposals when later uploads fill gaps | Reconcile and seek exact-content approval before activation; earlier predictions stay unchanged |
+
+**Later answers, 2 and 3 November:**
+
 - **2026-11-02:** ARC-01 confirmed: Yahoo Finance plus Twelve Data Grow 55 ($29 a month) for prod, Twelve Data Basic for dev; personal hobby use, not commercial; the published-terms risk accepted; no vendor contacted; Region Virginia (us-east-1). The Apple fee exception month was later refined (3 Nov, item 10).
 - **2026-11-02:** ARC-06b option A: Haiku for triage, model inputs and extraction; Opus for event analysis, at most three a day, batched; Sonnet for chat, explanations, the briefing and evaluation judges. Every route passes its evaluation first.
 - **2026-11-03:** Terraform only from the first resource; SSM Parameter Store SecureString; AWS Organizations with all features and the cost-guard SCP; the existing domain mypaisapp.com renewed outside MP; network N0; a read-only Cost Explorer role in the management account for the prod collector; global Claude inference at the standard price.
@@ -56,12 +84,12 @@ Each answer's exact words are in the [decision log](../ma-reconciliation-2026-11
 
 | Area | Planned acceptance cases | Schema definitions |
 | --- | --- | --- |
-| Data | 17 | 6 |
+| Data | 18 | 6 |
 | Cost | 19 | model and validators |
 | Financial | 30 | 35 |
 | Forecasting | 17 | 15 |
 
-83 planned acceptance cases in all. They are written, not run: the pack's validator checks shape, arithmetic and provenance (37 wire records, 108 cost run-rate variants), and no backend, live data, model fit or cloud proof exists yet. The budget verdict is **CONDITIONAL_UNPROVEN**: The owner selected Virginia, Twelve Data Grow 55 for prod with Basic in dev, removed the domain line (mypaisapp.com is renewed outside MP), left the Apple fee unbought, kept GitHub Actions at USD0 and secrets in SSM (owner, 2 and 3 Nov 2026). At central FX/tax a month is GBP46.48 with Claude off and GBP54.73 with Claude option A, plus up to GBP5 for the top-5 scan (at most GBP51.48 and GBP59.73): under the GBP70 plan and GBP60 warning. The Apple fee month, if ever bought, is the one allowed exception (GBP141.52 or GBP149.77). The verdict stays conditional: the USD29 Grow 55 price and terms, listing rights and coverage, runtime, measured workload and the shared Claude credit remain unproven. No complete architecture or budget approval; nothing bought.
+84 planned acceptance cases in all. They are written, not run: the pack's validator checks shape, arithmetic and provenance (37 wire records, 108 cost run-rate variants), and no backend, live data, model fit or cloud proof exists yet. The budget verdict is **CONDITIONAL_UNPROVEN**: The owner selected Virginia, Twelve Data Grow 55 for prod with Basic in dev, removed the domain line (mypaisapp.com is renewed outside MP), left the Apple fee unbought, kept GitHub Actions at USD0 and secrets in SSM (owner, 2 and 3 Nov 2026). At central FX/tax a month is GBP46.48 with Claude off and GBP54.73 with Claude option A, plus up to GBP5 for the top-5 scan (at most GBP51.48 and GBP59.73): under the GBP70 plan and GBP60 warning. The Apple fee month, if ever bought, is the one allowed exception (GBP141.52 or GBP149.77). The verdict stays conditional: the USD29 Grow 55 price and terms, listing rights and coverage, runtime, measured workload and the shared Claude credit remain unproven. No complete architecture or budget approval; nothing bought.
 
 ## Open items: each stays open until its owner answers
 
@@ -69,34 +97,53 @@ The owner decides every item. The last column is the evidence or consequence tha
 
 | Id | Topic | State | Proposal or question | Deciding evidence |
 | --- | --- | --- | --- | --- |
-| SCI-D01 | Daily origin, next-day interpretation and availability tolerances | partly answered | Propose four separate clocks after each eligible daily close: collection starts +15min; one missing-close retry starts +40min; information cutoff freezes at +60min; issuance completes by +75min and strictly before next open. Require source/processing proof or abstain; no late-input cutoff shift. Per-source NAV schedule and bounded FX age remain proposed; monthly roll already confirmed FND-DEC-002. | Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate. |
+| SCI-D01 | Daily origin, next-day interpretation and availability tolerances | partly answered | Answered: POLICY-002. Still open: Source finality and runtime proof for the clocks, per-source NAV publication schedule and FX freshness tolerance. | Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate. |
 | SCI-D02 | Target events, thresholds and benchmark mapping | owner pending | Keep terminal distributions/up/excess/MDD/MAE/loss separate. Choose risk thresholds by horizon and owner use; approve market/kind total-return benchmark mapping and GBP primary basis. | 5% short/10% long are illustrations only; exact choices define labels and usefulness. |
-| SCI-D03 | Qualification evidence and effect/precision policy | partly answered | Approve proposed chronological folds, purging,24month final test, block uncertainty, provisional2%primary-loss hurdle/95%pairedinterval and80%coverage±5pp only after pilot precision evidence. | Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable. |
-| SCI-D04 | Bounded models, feature ladder and campaign capacity | partly answered | Start R0 then R1/R2, causal20/60MA and20range patterns,20analogs maximum, prospective-only LLM factors when hindsight cannot be bounded. Max2campaigns/month acrossdevprod;96totalfits/campaign and admitted money/resources. | Every extra head/ablation consumes capacity; all horizons retained while qualification is staged. |
-| SCI-D06 | Conditional3–5year scenario assumptions | partly answered | Separate nominal/real/FX/contribution/fee/dividend assumptions with3and5year outputs, no invented probabilities. | Scenario outputs are conditional arithmetic, not a long-horizon accuracy promise. |
-| SCI-D07 | Worse-week scoring rule and exact safety triggers | owner pending | A bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope; a week with no matured paired forecasts neither counts nor breaks a run; probation reverts after 2 bad weeks running. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. | Weekly samples are small and noisy: the rule sets how often a sound model is reverted, and whether 2 probation weeks must run consecutively. |
+| SCI-D03 | Qualification evidence and effect/precision policy | partly answered | Answered: SCI-OA-04. The 8-week shadow trial, the pause for a week that cannot be scored and long-horizon reliance on walk-forward history are settled. Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle, 95% paired interval and 80% coverage tolerance, and whether that hurdle also applies to the trial; how the current rules get a proper score (they give only heuristic strength, so the rules leg of the trial and of a rules-change trial has no score until a mapping qualifies); what a scored week is for each horizon; and how a 3/6/12-month candidate is checked as 'calibrated on what has matured' when nothing it issues in the trial matures. | Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable. |
+| SCI-D04 | Bounded models, feature ladder and campaign capacity | partly answered | Answered: POLICY-008, SCI-OA-01, SCI-OA-02. Campaign ceilings, the seven-kind event wave and the since-2015 analog history are settled. Still open: the remaining model and feature catalogue, per-kind event windows and comparators, and the staging order of qualification campaigns within the ceiling. | Every extra head/ablation consumes capacity; all horizons retained while qualification is staged. |
+| SCI-D06 | Conditional 3–5 year scenario assumptions | partly answered | Answered: POLICY-004. Still open: Specific template values, calculation conventions and evidence for the scenario assumptions. | Scenario outputs are conditional arithmetic, not a long-horizon accuracy promise. |
+| SCI-D07 | Worse-week scoring rule and exact safety triggers | owner pending | A bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope; a week with no matured paired forecasts neither counts nor breaks a run; probation reverts after 2 bad weeks running. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. Proposed for a first promotion, with no previous approved model: the comparator and revert target are the current rules scored through the SCI-D03 rules mapping, a revert withdraws the model's probabilities, and without a qualified mapping the scope pauses (POLICY-003). | Weekly samples are small and noisy: the rule sets how often a sound model is reverted, and whether 2 probation weeks must run consecutively. |
 | SCI-D08 | Gold and silver (XAU/USD, XAG/USD) valuation conventions | owner pending | Choose one daily valuation instant and source for each spot quote, a calendar of valuation days, and whether a new price type is added to ForecastTask; until then these listings are unavailable_with_reason for formal tasks. | Spot metals have no exchange close, so the daily clocks, maturity and GBP conversion need a declared instant. |
-| SCI-D09 | Top-5 ranking inputs, ETF segment structure and cadence | owner pending | Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier. | Which horizons feed growth, protection and opportunity, and one ETF list versus three, change what the owner sees. |
+| SCI-D09 | Top-5 ranking inputs, ETF segment structure and cadence | owner pending | Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier. US tech membership proposed as the Nasdaq-100; the owner named only 'US tech'. | Which horizons feed growth, protection and opportunity, and one ETF list versus three, change what the owner sees. |
+| SCI-D10 | Bounded self-correction: band windows, overlay lineage on promotion and revert, and rollback detection by horizon | owner pending | Read both bands as cumulative change against the value at the start of a rolling window: at most 5 percentage points on an issued probability in any 7 days, and at most 10% of the start value on a signal's weight in any 30 days. Each artefact keeps its own overlay lineage: a promoted model carries the overlay its shadow run built during the trial, and a reverted-to model resumes its own latest overlay. Keep one overlay step in flight per horizon: a new step waits until the previous one has a predeclared minimum of matured paired forecasts, so 3/6/12-month horizons take at most one step per horizon length. | The readings decide how far live probabilities and weights can drift without the owner, what a promoted model starts with, and how long a long-horizon adjustment runs before a rollback could see it (a year for 12 months). |
 | FIN-OD-01 | Numeric precision, rounding and reconciliation | owner pending | Propose 28 significant and 12 fractional digits for money/quantity/price, 16 fractional for FX, 50 working digits, half-even presentation and exact source reconciliation. Record calculated allocation residuals explicitly. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
-| FIN-OD-02 | Approval lifetime and subset policy | owner pending | Propose 15 minutes with strict server_now < expires_at and sensitive-action assurance. Permit a logically consistent explicit subset only with a new hash and disclosed exclusions. Define expiry at trusted-writer transaction submission; completion can occur later because DynamoDB has no server-clock condition. Strict completion-before-expiry needs a different proved control. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
-| FIN-OD-03 | Trade/settlement and baseline rebase | owner pending | Propose trade-date exposure with receivable/payable until supported settlement, nonadditive observations and an owner-confirmed backfill cutover generation. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
+| FIN-OD-02 | Approval lifetime and subset policy | partly answered | Answered: POLICY-001, POLICY-005. Still open: Authentication assurance, expiry, revocation and concurrency enforcement, and retry proof. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
+| FIN-OD-03 | Trade/settlement and baseline rebase | partly answered | Answered: POLICY-007, POLICY-012. Still open: Cutover, reconciliation and recovery proof, account edge cases, and the policy for unsupported negative or margin positions. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
 | FIN-OD-04 | Numerical XIRR solver policy | owner pending | Propose bounded (-0.999999,100] search, uniqueness certificate or abstention, rate tolerance 1e-10 and NPV tolerance max(1e-8 currency units,1e-12×sum absolute flows). Measure a finite resource budget before implementation. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
-| FIN-OD-05 | Analytical basis and benchmark mapping | owner pending | Use source-supported basis first; analytical FIFO only after approval, labelled separately from tax basis. Choose per-market/kind benchmark mapping, TR convention, fees, flow timing and missing-session policy. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
+| FIN-OD-05 | Analytical basis and benchmark mapping | partly answered | Answered: POLICY-009. Still open: Lot, fee, FX and corporate-action details for the analytical basis, benchmark mapping and return conventions. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
 | FIN-OD-06 | Risk windows and source freshness | owner pending | Propose 126 common return sessions, minimum 100 valid observations and a 252-session sensitivity; no zero fill and a common complete covariance matrix. Price/NAV/FX age limits join the data specification. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
-| FIN-OD-07 | Ranking normalization, thresholds and ties | owner pending | Keep owner weights 35/40/25. Propose all three components required and normalization to [0,100] only after evaluation. No action threshold is selected. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
-| FIN-OD-08 | Audit integrity, retention, export expiry and physical design | owner pending | Agree financial/audit/approval/idempotency retention and private export expiry; choose independently protected integrity anchors and restore-erasure proof. Prove access patterns and costs before DDB key/index selection. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
+| FIN-OD-07 | Ranking normalization, thresholds and ties | partly answered | Answered: POLICY-006. Still open: Validated normalization, comparability, tie handling and action thresholds. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
+| FIN-OD-08 | Audit integrity, retention, export expiry and physical design | partly answered | Answered: POLICY-010, POLICY-011. Still open: Record classification, protected integrity anchors, storage and index costs, deletion and restore-erasure, the stored export's retention period, and export revocation and in-progress transfer behaviour. | Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification. |
 | DATA-DEC-01 | Data | live proof pending | Per-listing/provider/plan use-right evidence and contract retention; no unknown grant enabled. | Owner, 2 Nov 2026: no vendor is contacted; vendor evidence stays unknown and production rests on OWNER-RISK-01 (DATA-DEC-05). |
-| DATA-DEC-02 | Data | proposed | Approve proposed close/NAV/FX freshness and cache/retry tolerances. |  |
+| DATA-DEC-02 | Data | proposed | Approve proposed close/NAV/FX freshness and cache/retry tolerances. | Decides when a close, NAV, FX rate or 30-minute quote may be shown or used as current. Until the owner approves the proposed tolerances in DATA-06 and the cache/retry rules in DATA-07, none is used live. Evidence to check them against: the delays Grow 55 and Yahoo actually show in Grow 55's first month. |
 | DATA-DEC-03 | Data | live proof pending | Actual holdings and fund share classes deferred; extend catalogue after owner supplies approved identifiers. | Owner, 3 Nov 2026: Indian funds valued from the owner statements; UK funds by the Grow 55 first-month test, else statements (DATA-DEC-07, DATA-DEC-08). |
-| DATA-DEC-04 | Data | proposed | Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records. |  |
-| DATA-DEC-12 | Data | open owner question | Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission. |  |
-| DATA-DEC-13 | Data | open owner question | Statement-valued funds: valuation and risk only, with no forecast task needing a daily series, until a verified daily NAV source exists (proposed). |  |
-| DATA-DEC-14 | Data | open owner question | Basic dev and Grow 55 prod are different plans and so different Twelve Data accounts; MP-10 did not check whether one person may hold a free Basic account beside a paid Grow account. |  |
+| DATA-DEC-04 | Data | proposed | Approve grant withdrawal treatment for datasets, backups, trained models and reproducibility records. | Twelve Data's terms make a customer delete all data within 30 days of cancelling (terms 12.5(b), 16.2), keep audit-trail data for compliance and leave derived data with the customer (6.2); no vendor is asked to confirm how that applies to MP. The owner's answer decides what happens to stored bars, backups, trained models, forecasts and their audit records if Grow 55 ends (proposed: DATA-08 withdrawal treatment). |
+| DATA-DEC-12 | Data | open owner question | Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission. | Decides whether any provider price may appear in a Claude prompt. Twelve Data's terms are silent on AI providers and forbid giving data to third parties without an agreement; Yahoo's terms bar transmitting any part of the service without written permission (s2(h)); Nasdaq's Data AI Policy needs a licence for third-party AI tools on Nasdaq data; no vendor is asked (owner, 2 Nov 2026). Until the owner answers, Claude routes receive no provider values. |
+| DATA-DEC-13 | Data | open owner question | Statement-valued funds: valuation and risk only, with no forecast task needing a daily series, until a verified daily NAV source exists (proposed). | Indian funds, and any UK fund Grow 55 does not cover, are valued only from the owner's statements (DATA-DEC-07, DATA-DEC-08), which give one value per statement date, not a daily series. A forecast task needs a daily series, so without a verified daily NAV source these funds can show value and risk but no forecast. |
+| DATA-DEC-14 | Data | open owner question | Basic dev and Grow 55 prod are different plans and so different Twelve Data accounts; MP-10 did not check whether one person may hold a free Basic account beside a paid Grow account. | If one person may not hold a free Basic account beside a paid Grow 55 account, dev either shares the Grow 55 account (its credits shared with prod, DATA-07) or runs on synthetic data only. Unchecked because no vendor is contacted; Twelve Data's terms or the first sign-up settle it. |
+| DATA-DEC-15 | Data | open owner question | Yahoo's accepted uses are narrowed to its selected role: delayed intraday quotes for the UK and India 30-minute checks, and daily values as a cross-check. Training and evaluation on Yahoo history is not covered (proposed). | The owner selected Yahoo for intraday checks and a cross-check (DATA-DEC-06), not as a training source; Twelve Data closes are the training input. It matters if Grow 55's LSE, NSE or BSE history proves shorter than the 10-year similar-days lookback (checked in Grow 55's first month): filling the gap from Yahoo history needs the owner's yes. |
 | COST-Q1 | Cost | owner pending | Claude option A plus the top-5 scan is £13.24 a month, above the proposed £10 Claude allocation. Does the scan sit in the £8 uncertainty allocation, or does the Claude allocation rise? | The total stays under £70 either way; the choice changes which allocation a scan overrun stops first. |
 | COST-Q2 | Cost | owner pending | Keep or drop the $1.50 a month of AWS build minutes, which may double-count GitHub Actions? | Dropping it lowers every month by about £1.44; £46.48 and £54.73 include it today. |
 | COST-Q3 | Cost | owner pending | How much AWS compute and storage the ~150-name end-of-day scan needs. | Measured on the first dev runs; the model's reference workload is still 20 listings. |
+| COST-Q4 | Cost | owner pending | In the Apple fee month, if the owner buys it, do optional jobs reduce and pause on the full-month total (past £85 in every case), or run while the remainder sits under £60, £75 and £85? | Until the owner answers, the full-month flags stand and optional work pauses for that whole month; the remainder reaches no threshold at central FX. |
+| ARC-06b-O1 | Claude | open | The event-analysis allowance (three a day, 15K in and 2K out) is an assumption; it needs measuring on real filings and adding to `costs/model.json`. | The ARC-06b card's own list; each needs its own owner answer or evidence |
+| ARC-06b-O2 | Claude | open | Whether to enable the server-side refusal fallback on Sonnet 5.5 and Opus 5.5 routes. It reroutes a refused request to another model, which changes cost and behaviour, so it needs its own yes. | The ARC-06b card's own list; each needs its own owner answer or evidence |
+| ARC-06b-O3 | Claude | open | Per-route daily caps on chat turns, tokens and tool calls. | The ARC-06b card's own list; each needs its own owner answer or evidence |
+| ARC-06b-O4 | Claude | open | Exact prompts and tool lists per route, and the evaluation cases that qualify them. | The ARC-06b card's own list; each needs its own owner answer or evidence |
+| STORIES | Story readiness | open | Detailed import drafts and 48 umbrellas are not certified ready; decompose/allocate target Jira stories before UX. Existing PH identifiers preserved. | CD-01: every story needs positive and negative acceptance, contracts, a state inventory and dependency evidence, and a Jira key, before the UX gate |
 
 Also open: all 52 contracts in the [gap register](../ma-reconciliation-2026-11-02/gap-register.json) remain `open_planning_contract`. The decisions above settle direction; the gaps close only with their contract and evidence, through the planning issue named in the crosswalk.
+
+**Also open in [ARCHITECTURE.md §13](../../../ARCHITECTURE.md#13-what-is-still-open),** which the sign-off does not approve either:
+
+- **52 gaps:** in the [gap register](../../../docs/planning/ma-reconciliation-2026-11-02/gap-register.json), and 64 local story drafts that are not yet Jira stories.
+- **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](../../../docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia (us-east-1). The Apple Developer Program is not bought for now (free 7-day local builds); if the owner buys it, its fee month is the one allowed month above £100.
+- **Cost fit:** on the owner's selected inputs (Grow 55 at $29, Virginia) every month fits £100, and £70 with Claude on and the top-5 scan at its cap, except the one allowed Apple fee month. It stays conditional on the Grow 55 checkout price, listing rights and the measured workload; Claude spend is credit-funded, or cash only with the owner's paid approval. The domain line is out of the cost model (MP-20); the cost questions still open are in the [sign-off pack](../../../docs/planning/baseline-signoff-2026-11-03/README.md).
+- **Apple Developer Program:** not bought for now; the owner will say when. Until then no TestFlight, Apple push or Sign in with Apple.
+- **VPC lockdown:** off by default (N0); whether any lockdown step is needed is decided at PH-08.
+- **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and recovery, and listing coverage per market.
+- **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost model, and the evaluation sets that qualify each route ([ARC-06b](../../../docs/planning/claude-models-and-batching-2026-11-02.md)).
+- **The sign-off:** of this baseline at an exact revision (MP-20), which must come before any UX work. The [sign-off pack](../../../docs/planning/baseline-signoff-2026-11-03/README.md) gathers every decision, the open items with their deciding evidence, and the phase-to-story-to-Jira crosswalk, pinned by hash.
 
 ## Phase, story and Jira crosswalk (CD-01)
 
@@ -137,53 +184,56 @@ Also open: all 52 contracts in the [gap register](../ma-reconciliation-2026-11-0
 
 ## Visual set (CD-02)
 
-| Set | View | Link | Lucid document version, or artifact date | Export sha256 (first 12) |
-| --- | --- | --- | --- | --- |
-| Mypaisaa Prediction: architecture and design (MP-34) | 1. 1 The system on AWS | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | a1abb0b79faa |
-| Mypaisaa Prediction: architecture and design (MP-34) | 2. 2 Who may do what | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | 12cf3bbac05e |
-| Mypaisaa Prediction: architecture and design (MP-34) | 3. 3 The forecast pipeline | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | 913bfd9c1f24 |
-| Mypaisaa Prediction: architecture and design (MP-34) | 4. 4 Claude routes and batching | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | dd1ebf14d102 |
-| Mypaisaa Prediction: architecture and design (MP-34) | 5. 5 Importing a statement | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | 55a7b91a4bc5 |
-| Mypaisaa Prediction: architecture and design (MP-34) | 6. 6 Identity and step-up | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | e139c9ed7f32 |
-| Mypaisaa Prediction: architecture and design (MP-34) | 7. 7 Environments and delivery | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | 32dcad0acebd |
-| Mypaisaa Prediction: architecture and design (MP-34) | 8. 8 Records | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | d63df1a21abf |
-| Mypaisaa Prediction: architecture and design (MP-34) | 9. 9 The road | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 413 | 89d6a6946c89 |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 1. The stack end to end | https://lucid.app/lucidchart/5bba7682-dea6-4c03-8b1f-e4e5225b0ce1/edit | 92 | 08aa68ada61a |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 2. One trace from the door to the model | https://lucid.app/lucidchart/e097f65e-38fc-44d8-99cc-6949b3106e8e/edit | 85 | d1844c64414a |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 3. From a merge to prod | https://lucid.app/lucidchart/297187e7-4138-4dc3-ba44-61ea8a848d48/edit | 84 | a831df40579d |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 4. Apple testing and the private beta | https://lucid.app/lucidchart/a65eddeb-513a-4f66-82f0-23fe716d6bef/edit | 72 | 72b33ce3e9b8 |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 5. The perimeter, and the optional lockdown | https://lucid.app/lucidchart/e640978f-08d8-4130-9e9e-8f244ba18509/edit | 93 | a75f1790d39e |
-| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 6. Web quality on every screen | https://lucid.app/lucidchart/bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb/edit | 74 | ad4ece1a5e13 |
-| Claude artifact | market-agent | https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK | 2026-11-03 | 89ba93f60070 |
-| Claude artifact | architecture-explainer | https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2 | 2026-11-03 | 74adc7da44c6 |
+| Set | View | Link | Lucid document version, or artifact date | Status | Export sha256 (first 12) |
+| --- | --- | --- | --- | --- | --- |
+| Mypaisaa Prediction: architecture and design (MP-34) | 1. 1 The system on AWS | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | a1abb0b79faa |
+| Mypaisaa Prediction: architecture and design (MP-34) | 2. 2 Who may do what | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | PROPOSED | 12cf3bbac05e |
+| Mypaisaa Prediction: architecture and design (MP-34) | 3. 3 The forecast pipeline | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | 913bfd9c1f24 |
+| Mypaisaa Prediction: architecture and design (MP-34) | 4. 4 Claude routes and batching | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | dd1ebf14d102 |
+| Mypaisaa Prediction: architecture and design (MP-34) | 5. 5 Importing a statement | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | 55a7b91a4bc5 |
+| Mypaisaa Prediction: architecture and design (MP-34) | 6. 6 Identity and step-up | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | e139c9ed7f32 |
+| Mypaisaa Prediction: architecture and design (MP-34) | 7. 7 Environments and delivery | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | Owner-selected directions, drawn as proposed design | fdfe4a3bbceb |
+| Mypaisaa Prediction: architecture and design (MP-34) | 8. 8 Records | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | PROPOSED | d63df1a21abf |
+| Mypaisaa Prediction: architecture and design (MP-34) | 9. 9 The road | https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit | 590 | PROPOSED | 89d6a6946c89 |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 1. The stack end to end | https://lucid.app/lucidchart/5bba7682-dea6-4c03-8b1f-e4e5225b0ce1/edit | 92 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | 08aa68ada61a |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 2. One trace from the door to the model | https://lucid.app/lucidchart/e097f65e-38fc-44d8-99cc-6949b3106e8e/edit | 85 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | d1844c64414a |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 3. From a merge to prod | https://lucid.app/lucidchart/297187e7-4138-4dc3-ba44-61ea8a848d48/edit | 84 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | a831df40579d |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 4. Apple testing and the private beta | https://lucid.app/lucidchart/a65eddeb-513a-4f66-82f0-23fe716d6bef/edit | 72 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | 72b33ce3e9b8 |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 5. The perimeter, and the optional lockdown | https://lucid.app/lucidchart/f98164da-9b5e-4706-9c4f-6bd47e2f2b5b/edit | 94 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | 05e303b6a785 |
+| Mypaisaa Prediction: stack, quality, security and testing (MP-36) | 6. Web quality on every screen | https://lucid.app/lucidchart/bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb/edit | 74 | PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED | ad4ece1a5e13 |
+| Claude artifact | architecture-explainer | https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2 | 2026-11-03 | Design explainer, illustrative | 74adc7da44c6 |
+| Claude artifact | market-agent | https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK | 2026-11-03 | Design explainer, illustrative | ae7e1c071cd1 |
 
-Motion: 15 animations in [`docs/motion/`](../../motion/README.md), each with a static PNG for reduced motion. Confluence: 38 pages in space `mypaisaapr`, ids and versions in [`confluence.json`](../../confluence/confluence.json). Every view is PROPOSED design; uninspected MA boards stay a recorded limitation, and no visual-parity claim is made.
+Motion: 15 animations in [`docs/motion/`](../../motion/README.md), each with a static PNG for reduced motion. Confluence: 38 pages in space `mypaisaapr`, ids and versions in [`confluence.json`](../../confluence/confluence.json). Uninspected MA boards stay a recorded limitation, and no visual-parity claim is made.
 
 ## Pinned inputs
 
 | Input | Path | sha256 (first 12) |
 | --- | --- | --- |
 | decision_log | `docs/planning/ma-reconciliation-2026-11-02/decision-log.md` | eb0cf0147099 |
+| policy_journal | `docs/planning/foundation-policy-discussion-2026-11-02.md` | c7829afd940d |
+| claude_card | `docs/planning/claude-models-and-batching-2026-11-02.md` | 0e5cd540a561 |
 | phases | `docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json` | 90ad3b5d596f |
 | gaps | `docs/planning/ma-reconciliation-2026-11-02/gap-register.json` | 501943d0eb56 |
 | directions_summary | `docs/planning/ma-reconciliation-2026-11-02/direction-summary.md` | 5690a43754b0 |
 | directions | `docs/planning/foundation-specifications-2026-11-02/selected-directions.json` | 9c716f450767 |
 | owner_decisions | `docs/planning/foundation-specifications-2026-11-02/owner-decisions.json` | f986f66b0e9d |
-| fixed_policies | `docs/planning/foundation-specifications-2026-11-02/fixed-policies.json` | ea19d936eded |
-| coverage | `docs/planning/foundation-specifications-2026-11-02/coverage.json` | 6d991a79a39a |
-| validation | `docs/planning/foundation-specifications-2026-11-02/validation.json` | 5e3b65ab5dfc |
-| sci_open | `docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json` | 81aa294063c3 |
-| fin_open | `docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json` | e441e64a99bb |
-| data_catalogue | `docs/planning/foundation-specifications-2026-11-02/data/catalogue.json` | caaa47793087 |
-| cost_model | `docs/planning/foundation-specifications-2026-11-02/costs/model.json` | 80109bbf1c71 |
-| cost_spec | `docs/planning/foundation-specifications-2026-11-02/costs/specification.md` | b08231f7e307 |
-| lucid_architecture | `docs/diagrams/mp-architecture-2026-11-02/manifest.json` | a72ec0f4b45b |
-| lucid_quality | `docs/diagrams/mp-quality-2026-11-02/manifest.json` | 5d5fd1c52aec |
-| artifacts | `docs/design/artifacts.json` | b18c89ed56e3 |
+| fixed_policies | `docs/planning/foundation-specifications-2026-11-02/fixed-policies.json` | ecad50a4fb96 |
+| coverage | `docs/planning/foundation-specifications-2026-11-02/coverage.json` | 887497fa4ff9 |
+| validation | `docs/planning/foundation-specifications-2026-11-02/validation.json` | afe4c04d0ada |
+| sci_open | `docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json` | 276bc3026f25 |
+| fin_open | `docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json` | 24f60f8cc7a5 |
+| data_catalogue | `docs/planning/foundation-specifications-2026-11-02/data/catalogue.json` | 0f31c1cb212d |
+| cost_model | `docs/planning/foundation-specifications-2026-11-02/costs/model.json` | 911bd7b12d95 |
+| cost_spec | `docs/planning/foundation-specifications-2026-11-02/costs/specification.md` | d19c582a98c0 |
+| lucid_architecture | `docs/diagrams/mp-architecture-2026-11-02/manifest.json` | aea578b793c1 |
+| lucid_quality | `docs/diagrams/mp-quality-2026-11-02/manifest.json` | 0c64e2586792 |
+| artifacts | `docs/design/artifacts.json` | 91bc7fb85f63 |
 | confluence | `docs/confluence/confluence.json` | 7e472e58b422 |
 | trace | `docs/planning/trace.json` | bedfc94db96f |
-| readme | `README.md` | 3bd2e9709d1b |
-| architecture | `ARCHITECTURE.md` | 9c0ade9d6c5e |
-| tech_stack | `TECH-STACK.md` | 7f0721fc3253 |
+| plan_sync_rule | `.claude/rules/plan-sync.md` | 2659a7f609ec |
+| readme | `README.md` | 941279d09074 |
+| architecture | `ARCHITECTURE.md` | 1c6abe5ddde9 |
+| tech_stack | `TECH-STACK.md` | 89cda682a6c5 |
 
-Rebuild with `python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py`; CI's `--check` fails when this page or `signoff.json` no longer matches its inputs.
+Rebuild with `python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py`. Until the owner signs, CI's `--check` fails when this page or `signoff.json` no longer matches its inputs; once signed, it checks the pack against the signed commit instead.

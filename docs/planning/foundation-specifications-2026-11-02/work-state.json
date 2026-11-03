@@ -25,7 +25,7 @@
   "implementation_authorised": false,
   "external_publication": "not_authorised_not_applied",
   "PR_creation": "owner_requested_for_documentation_delivery",
-  "independent_review": "round_1_completed_fixes_await_independent_verification",
+  "independent_review": "round_2_completed_14_blocking_findings_fixed_and_held_by_checks",
   "review_rounds_completed": 1,
   "next_round_approval": "required_separately",
   "git_delivery": {
@@ -41,9 +41,9 @@
     "branch": "MP-20-baseline-consolidation",
     "owner_choice": "One consolidation pass and one sign-off at one exact version, with an independent review round before the owner signs (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 21).",
     "scope": "Fold the owner answers of 2 and 3 Nov 2026 into the pack: data, costs, forecasting and the root records. Root records point to the decision log rather than duplicating it.",
-    "status": "maker_edits_in_progress_review_needs_owner_yes",
+    "status": "review_round_2_findings_being_fixed",
     "architecture_baseline_approved": false,
     "external_publication": "not_authorised_not_applied",
-    "review_round": "not_started; the owner is asked at the end of the work"
+    "review_round": "MP-20 review round 2 ran on 3 Nov 2026 at 0cca844 with the owner's yes (decision item 21 calls it review round 1; Codex's 2 Nov round is round 1). Findings and fixes: review/MP-20/round-2.md and review/MP-20/state.json."
   }
 }

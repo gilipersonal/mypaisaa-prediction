@@ -1,14 +1,14 @@
 {
-  "status": "consolidated_2026-11-03: SCI-D05 closed by owner answers; SCI-D01/D03/D04/D06 partly answered; SCI-D02/D07/D08/D09 owner_pending",
+  "status": "consolidated_2026-11-03: SCI-D05 closed by owner answers; SCI-D01/D03/D04/D06 partly answered; SCI-D02/D07/D08/D09/D10 owner_pending",
   "owner_confirmed": [
     {
       "id": "FND-DEC-001",
-      "scope": "5/10/20tradingday horizons alongside nextday3/6/12months and separate3\u20135yearscenarios",
+      "scope": "5/10/20 trading-day horizons alongside next-day, 3/6/12 months and separate 3\u20135 year scenarios",
       "received_on": "2026-11-02"
     },
     {
       "id": "FND-DEC-002",
-      "scope": "3/6/12 calendar-month anniversaries, preceding valid local session/valuation date ifclosed; canonical availability gates scoring",
+      "scope": "3/6/12 calendar-month anniversaries, preceding valid local session/valuation date if closed; canonical availability gates scoring",
       "received_on": "2026-11-02"
     }
   ],
@@ -16,7 +16,7 @@
     {
       "id": "SCI-D01",
       "topic": "Daily origin, next-day interpretation and availability tolerances",
-      "recommendation": "Propose four separate clocks after each eligible daily close: collection starts +15min; one missing-close retry starts +40min; information cutoff freezes at +60min; issuance completes by +75min and strictly before next open. Require source/processing proof or abstain; no late-input cutoff shift. Per-source NAV schedule and bounded FX age remain proposed; monthly roll already confirmed FND-DEC-002.",
+      "recommendation": "Propose four separate clocks after each eligible daily close: collection starts +15 min; one missing-close retry starts +40 min; information cutoff freezes at +60 min; issuance completes by +75 min and strictly before next open. Require source/processing proof or abstain; no late-input cutoff shift. Per-source NAV schedule and bounded FX age remain proposed; monthly roll already confirmed FND-DEC-002.",
       "why_owner_material": "Cutoff/grace/FX freshness change executable timing and leakage; no stale-origin backdate.",
       "requirements": [
         "SCI-01",
@@ -44,7 +44,7 @@
     {
       "id": "SCI-D03",
       "topic": "Qualification evidence and effect/precision policy",
-      "recommendation": "Approve proposed chronological folds, purging,24month final test, block uncertainty, provisional2%primary-loss hurdle/95%pairedinterval and80%coverage\u00b15pp only after pilot precision evidence.",
+      "recommendation": "Approve proposed chronological folds, purging, 24-month final test, block uncertainty, provisional 2% primary-loss hurdle/95% paired interval and 80% coverage \u00b15 pp only after pilot precision evidence. For the live trial (proposed): score the current rules through a frozen, qualified rules-to-probability mapping (R0-RULEMAP), with the strongest eligible R0 distribution baseline standing in for pinball-scored targets; count a short-horizon week when its origins issued cleanly and take the verdict once they mature; count a 3/6/12-month week when it ran cleanly; check long-horizon calibration on the frozen candidate replayed point-in-time on the latest matured walk-forward origins.",
       "why_owner_material": "Caps/thresholds are design proposals, not established performance standards; long horizons may remain unavailable.",
       "requirements": [
         "SCI-05",
@@ -54,12 +54,12 @@
       "answered_by": [
         "SCI-OA-04"
       ],
-      "still_open": "The 8-week shadow trial and long-horizon reliance on walk-forward history are settled. Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle, 95% paired interval and 80% coverage tolerance, and whether that hurdle also applies to the trial."
+      "still_open": "The 8-week shadow trial, the pause for a week that cannot be scored and long-horizon reliance on walk-forward history are settled. Still open: folds, purging, 24-month final test, block uncertainty, the provisional 2% hurdle, 95% paired interval and 80% coverage tolerance, and whether that hurdle also applies to the trial; how the current rules get a proper score (they give only heuristic strength, so the rules leg of the trial and of a rules-change trial has no score until a mapping qualifies); what a scored week is for each horizon; and how a 3/6/12-month candidate is checked as 'calibrated on what has matured' when nothing it issues in the trial matures."
     },
     {
       "id": "SCI-D04",
       "topic": "Bounded models, feature ladder and campaign capacity",
-      "recommendation": "Start R0 then R1/R2, causal20/60MA and20range patterns,20analogs maximum, prospective-only LLM factors when hindsight cannot be bounded. Max2campaigns/month acrossdevprod;96totalfits/campaign and admitted money/resources.",
+      "recommendation": "Start R0 then R1/R2, causal 20/60 MA and 20 range patterns, 20 analogs maximum, prospective-only LLM factors when hindsight cannot be bounded. Max 2 campaigns/month across dev/prod; 96 total fits/campaign and admitted money/resources.",
       "why_owner_material": "Every extra head/ablation consumes capacity; all horizons retained while qualification is staged.",
       "requirements": [
         "SCI-04",
@@ -76,8 +76,8 @@
     {
       "id": "SCI-D05",
       "topic": "Promotion, probation, safety disable and return authority",
-      "recommendation": "Owner binds each promotion/calibrator/task scope. Separately preapprove deterministic safety pauses; no tuner promotion, live calibration or automatic resume. Define probation maturity/monitoring evidence by task.",
-      "why_owner_material": "Safety disable authority is not acceptance of automatic learning or rollback to ineligible versions.",
+      "recommendation": "Answered 2026-11-03 (answered_by): the owner binds each promotion, calibrator and task scope, and a tuner never promotes itself; advance-approved deterministic safety triggers pause the affected scope and notify, and restart needs the owner (POLICY-003); code applies bounded self-correction inside the owner's bands (SCI-OA-03); a slipping or failing-probation model reverts automatically to the previous approved, still-eligible model and notifies the owner, and switching forward needs the owner (SCI-OA-05, SCI-OA-06).",
+      "why_owner_material": "Promotion, revert, restart and self-correction authority decide what changes live without the owner; rollback to an ineligible, expired or revoked version is never allowed.",
       "requirements": [
         "SCI-07"
       ],
@@ -89,12 +89,28 @@
         "SCI-OA-05",
         "SCI-OA-06"
       ],
-      "still_open": "Promotion, probation, automatic revert, restart and self-correction authority are settled. The remaining detail (exact safety triggers and the worse-week scoring rule) moves to SCI-D07."
+      "still_open": "Promotion, probation, automatic revert, restart and self-correction authority are settled. The remaining detail (exact safety triggers and the worse-week scoring rule) moves to SCI-D07.",
+      "superseded_2026_11_03": {
+        "recommendation_was": "Owner binds each promotion/calibrator/task scope. Separately preapprove deterministic safety pauses; no tuner promotion, live calibration or automatic resume. Define probation maturity/monitoring evidence by task.",
+        "why_was": "Safety disable authority is not acceptance of automatic learning or rollback to ineligible versions.",
+        "superseded": [
+          "'no ... live calibration': superseded by bounded self-correction inside the owner's bands (SCI-OA-03)",
+          "'not acceptance of automatic learning or rollback': superseded for bounded self-correction (SCI-OA-03) and for the automatic revert to the previous approved model (SCI-OA-06)"
+        ],
+        "kept": [
+          "the owner binds each promotion, calibrator and task scope",
+          "no tuner promotion: a tuner still only creates candidates",
+          "no automatic resume: restarting a paused forecast and switching forward still need the owner (POLICY-003, SCI-OA-06); an automatic revert is a return to an approved state, not a resume",
+          "separately preapproved deterministic safety pauses (POLICY-003)",
+          "no rollback to an ineligible, expired or revoked version",
+          "probation evidence by task: now the owner's 4-week probation (SCI-OA-05), its scoring rule open in SCI-D07"
+        ]
+      }
     },
     {
       "id": "SCI-D06",
-      "topic": "Conditional3\u20135year scenario assumptions",
-      "recommendation": "Separate nominal/real/FX/contribution/fee/dividend assumptions with3and5year outputs, no invented probabilities.",
+      "topic": "Conditional 3\u20135 year scenario assumptions",
+      "recommendation": "Separate nominal/real/FX/contribution/fee/dividend assumptions with 3 and 5 year outputs, no invented probabilities.",
       "why_owner_material": "Scenario outputs are conditional arithmetic, not a long-horizon accuracy promise.",
       "requirements": [
         "SCI-08"
@@ -108,7 +124,7 @@
     {
       "id": "SCI-D07",
       "topic": "Worse-week scoring rule and exact safety triggers",
-      "recommendation": "A bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope; a week with no matured paired forecasts neither counts nor breaks a run; probation reverts after 2 bad weeks running. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval.",
+      "recommendation": "A bad week is a strictly worse mean primary proper score (SCI-06) for the live model than the previous approved model on that week's matured paired origins, per task scope; a week with no matured paired forecasts neither counts nor breaks a run; probation reverts after 2 bad weeks running. Exact deterministic safety triggers (invalid hash, revoked rights, corrupt or missing inputs, budget ceiling) are listed for advance approval. Proposed for a first promotion, with no previous approved model: the comparator and revert target are the current rules scored through the SCI-D03 rules mapping, a revert withdraws the model's probabilities, and without a qualified mapping the scope pauses (POLICY-003).",
       "why_owner_material": "Weekly samples are small and noisy: the rule sets how often a sound model is reverted, and whether 2 probation weeks must run consecutively.",
       "requirements": [
         "SCI-06",
@@ -119,7 +135,8 @@
         "SCI-OA-05",
         "SCI-OA-06",
         "POLICY-003"
-      ]
+      ],
+      "still_open": "The worse-week metric, pairing and minimum count; whether the 2 probation weeks must run consecutively; the exact safety triggers for advance approval; and the comparator and revert target at a first promotion."
     },
     {
       "id": "SCI-D08",
@@ -138,7 +155,7 @@
     {
       "id": "SCI-D09",
       "topic": "Top-5 ranking inputs, ETF segment structure and cadence",
-      "recommendation": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier.",
+      "recommendation": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier. US tech membership proposed as the Nasdaq-100; the owner named only 'US tech'.",
       "why_owner_material": "Which horizons feed growth, protection and opportunity, and one ETF list versus three, change what the owner sees.",
       "requirements": [
         "SCI-07"
@@ -146,6 +163,25 @@
       "status": "owner_pending",
       "arises_from": [
         "SCI-OA-07"
+      ]
+    },
+    {
+      "id": "SCI-D10",
+      "topic": "Bounded self-correction: band windows, overlay lineage on promotion and revert, and rollback detection by horizon",
+      "recommendation": "Read both bands as cumulative change against the value at the start of a rolling window: at most 5 percentage points on an issued probability in any 7 days, and at most 10% of the start value on a signal's weight in any 30 days. Each artefact keeps its own overlay lineage: a promoted model carries the overlay its shadow run built during the trial, and a reverted-to model resumes its own latest overlay. Keep one overlay step in flight per horizon: a new step waits until the previous one has a predeclared minimum of matured paired forecasts, so 3/6/12-month horizons take at most one step per horizon length.",
+      "alternatives": [
+        "10% of the current weight at each step: repeated steps compound past 10% a month (two 6% steps give 12.36%)",
+        "a calendar month: steps either side of a month boundary can move a weight about 21% within a few days",
+        "reset every overlay to no adjustment on promotion and revert: the promoted model then runs code its trial did not test"
+      ],
+      "why_owner_material": "The readings decide how far live probabilities and weights can drift without the owner, what a promoted model starts with, and how long a long-horizon adjustment runs before a rollback could see it (a year for 12 months).",
+      "requirements": [
+        "SCI-05",
+        "SCI-07"
+      ],
+      "status": "owner_pending",
+      "arises_from": [
+        "SCI-OA-03"
       ]
     }
   ],

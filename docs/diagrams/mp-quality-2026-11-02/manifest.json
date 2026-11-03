@@ -7,7 +7,7 @@
   "jira": "MP-36",
   "status": "PROPOSED. Today's nine CI checks are drawn as IMPLEMENTED; the ARC directions and the owner's 2 and 3 November 2026 decisions (Terraform, the owner-started release, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) as OWNER-SELECTED; nothing is deployed",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import); `--page N` is the one-page document each drawing was imported from, with use_assisted_layout false. Regenerate and re-import rather than editing exports",
-  "spec_sha256": "0b05015d42ca26dfe180a40ea988dacaea1731984de0c7bcc8d147f613efe5a8",
+  "spec_sha256": "0adcfaa095b1249072c5b8f7f80c0e57efd1968610dea44ccb6c063a44346a5e",
   "pages": [
     {
       "page_number": 1,
@@ -16,7 +16,8 @@
       "document_id": "5bba7682-dea6-4c03-8b1f-e4e5225b0ce1",
       "document_url": "https://lucid.app/lucidchart/5bba7682-dea6-4c03-8b1f-e4e5225b0ce1/edit",
       "document_version": 92,
-      "sha256": "08aa68ada61a3ac97143fdf045f9b01ef68cc480c7c4307b147de2bc1eca96d0"
+      "sha256": "08aa68ada61a3ac97143fdf045f9b01ef68cc480c7c4307b147de2bc1eca96d0",
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
       "page_number": 2,
@@ -26,7 +27,8 @@
       "document_url": "https://lucid.app/lucidchart/e097f65e-38fc-44d8-99cc-6949b3106e8e/edit",
       "document_version": 85,
       "sha256": "d1844c64414ad8ee8a03da1b32a4e75d9ecf7bedb24b4ef509b4560c25cfe1fb",
-      "export_date_utc": "2026-11-03"
+      "export_date_utc": "2026-11-03",
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
       "page_number": 3,
@@ -36,7 +38,8 @@
       "document_url": "https://lucid.app/lucidchart/297187e7-4138-4dc3-ba44-61ea8a848d48/edit",
       "document_version": 84,
       "sha256": "a831df40579d613ca13f600a16323afba0e2d3731c9565b402bbf402e3230714",
-      "export_date_utc": "2026-11-03"
+      "export_date_utc": "2026-11-03",
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
       "page_number": 4,
@@ -46,17 +49,24 @@
       "document_url": "https://lucid.app/lucidchart/a65eddeb-513a-4f66-82f0-23fe716d6bef/edit",
       "document_version": 72,
       "sha256": "72b33ce3e9b8bb63cb45b8feadb530dc0d960c824e3023340e8e462eccd4cbcd",
-      "export_date_utc": "2026-11-03"
+      "export_date_utc": "2026-11-03",
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
       "page_number": 5,
       "title": "The perimeter, and the optional lockdown",
       "filename": "05-perimeter.png",
-      "document_id": "e640978f-08d8-4130-9e9e-8f244ba18509",
-      "document_url": "https://lucid.app/lucidchart/e640978f-08d8-4130-9e9e-8f244ba18509/edit",
-      "document_version": 93,
-      "sha256": "a75f1790d39e9df1168ff605f0eb2e718b0bdf0b90a65a0b9b1adfa712bf560b",
-      "export_date_utc": "2026-11-03"
+      "document_id": "f98164da-9b5e-4706-9c4f-6bd47e2f2b5b",
+      "document_url": "https://lucid.app/lucidchart/f98164da-9b5e-4706-9c4f-6bd47e2f2b5b/edit",
+      "document_version": 94,
+      "sha256": "05e303b6a78545a43bcf1085ab3aa874101f4f0729ff5e4f730a34d15090fa86",
+      "export_date_utc": "2026-11-03",
+      "bytes": 480385,
+      "dimensions": [
+        2420,
+        1768
+      ],
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
       "page_number": 6,
@@ -65,7 +75,8 @@
       "document_id": "bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb",
       "document_url": "https://lucid.app/lucidchart/bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb/edit",
       "document_version": 74,
-      "sha256": "ad4ece1a5e13d3c65e9276efea601912c88b2fe47954956997e452d4f4229cb4"
+      "sha256": "ad4ece1a5e13d3c65e9276efea601912c88b2fe47954956997e452d4f4229cb4",
+      "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     }
   ],
   "superseded_drafts": [
@@ -116,6 +127,10 @@
     {
       "document_id": "60ba414d-f1d3-4243-9a31-eef50ee105a7",
       "reason": "MP-20 refresh: first import of drawing 5; a status word nested in a sized span shrank the 'Not adopted' text; fixed in lucid_spec.py and re-imported"
+    },
+    {
+      "document_id": "e640978f-08d8-4130-9e9e-8f244ba18509",
+      "reason": "MP-20 round 2 fix"
     }
   ]
 }

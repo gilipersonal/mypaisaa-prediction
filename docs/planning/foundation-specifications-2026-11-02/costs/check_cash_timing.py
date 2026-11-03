@@ -6,6 +6,9 @@ CLI: python costs/check_cash_timing.py --self-test
 MP-20 consolidation (owner, 3 Nov 2026): the domain line is gone (mypaisapp.com is renewed outside MP), so the
 conditional annual line now checked in its due month is the Apple Developer Program fee, whose month is the one
 allowed exception above GBP100. The expected months for the owner's selection are recomputed here too.
+
+MP-20 review, round 2: every Apple-month row keeps its threshold flags on the full month including the fee (fixed
+finding R1-C1) and also carries the remainder (every other line) with its own flags; both are recomputed here.
 """
 from __future__ import annotations
 
@@ -52,6 +55,21 @@ def flags(amount: D, owner: dict) -> dict:
         "within_100_ceiling": amount <= D(owner["aggregate_cash_gbp"]),
         "thresholds_reached": {label: amount >= D(owner[label + "_gbp"]) for label in ("warn", "reduce", "pause")},
     }
+
+
+REMAINDER_KEYS = ("exception_fee_gbp", "remaining_cash_gbp_excluding_exception_fee", "remaining_within_70_operating",
+                  "remaining_within_100_ceiling", "remaining_thresholds_reached")
+
+
+def check_remainder(row: dict, fee: D, rest: D, owner: dict) -> None:
+    """The Apple-month remainder is shown separately; it never replaces the full-month flags (R1-C1)."""
+    require(all(key in row for key in REMAINDER_KEYS), "Exception month remainder fields missing")
+    require(D(row["exception_fee_gbp"]) == fee.quantize(D(".01")), "Exception fee GBP mismatch")
+    require(D(row["remaining_cash_gbp_excluding_exception_fee"]) == rest.quantize(D(".01")), "Exception month remainder mismatch")
+    expected = flags(rest, owner)
+    require(row["remaining_within_100_ceiling"] == expected["within_100_ceiling"], "Exception month remainder flag mismatch")
+    require(row["remaining_within_70_operating"] == expected["within_70_operating"], "Exception month remainder flag mismatch")
+    require(row["remaining_thresholds_reached"] == expected["thresholds_reached"], "Exception month remainder threshold mismatch")
 
 
 def option_a_gross(model: dict) -> D:
@@ -144,10 +162,7 @@ def check_model(model: dict) -> dict:
                 for label in ("warn", "reduce", "pause"):
                     require(cash["thresholds_reached"][label] == expected["thresholds_reached"][label], "Cash alert threshold mismatch: " + label)
                 if exception:
-                    rest = (cash_usd - due) * f
-                    require(D(cash["exception_fee_gbp"]) == (due * f).quantize(D(".01")), "Exception fee GBP mismatch")
-                    require(D(cash["remaining_cash_gbp_excluding_exception_fee"]) == rest.quantize(D(".01")), "Exception month remainder mismatch")
-                    require(cash["remaining_within_100_ceiling"] == (rest <= D(owner["aggregate_cash_gbp"])), "Exception month remainder flag mismatch")
+                    check_remainder(cash, due * f, (cash_usd - due) * f, owner)
                 require(cash["scenario_only_not_purchase"] is True, "Cash example cannot imply a purchase")
                 key = (result["scenario"], result["region"], variant["data_option"], variant["credit_scenario"], variant["fx_scenario"], cash["timing"])
                 require(key not in results, "Duplicate cash variant")
@@ -188,6 +203,9 @@ def check_model(model: dict) -> dict:
         require(D(month["cash_gbp"]) == amount.quantize(D(".01")), "Expected month mismatch")
         require({k: month[k] for k in ("within_70_operating", "within_100_ceiling", "thresholds_reached")} == flags(amount, owner),
                 "Expected month flag mismatch")
+        if due:
+            check_remainder(month, due * factor(fx_inputs[month["fx_scenario"]]),
+                            amount - due * factor(fx_inputs[month["fx_scenario"]]), owner)
         seen.add((month["fx_scenario"], month["claude"], month["timing"], month["scan"]))
     require(len(seen) == len(expected_months["months"]) == 16, "Expected-month coverage changed")
     by_key = {(m["fx_scenario"], m["claude"], m["timing"], m["scan"]): m["cash_gbp"] for m in expected_months["months"]}
@@ -213,6 +231,10 @@ def self_test(model: dict, reservation: dict) -> int:
         ("domain_assumption_revived", "domain allowance must stay retired"),
         ("exception_on_ordinary_month", "Only the Apple fee month"),
         ("exception_remainder_flag", "Exception month remainder flag mismatch"),
+        ("exception_remainder_threshold", "Exception month remainder threshold mismatch"),
+        ("exception_remainder_missing", "Exception month remainder fields missing"),
+        ("expected_month_remainder_edited", "Exception month remainder mismatch"),
+        ("expected_month_full_flags_relaxed_to_remainder", "Expected month flag mismatch"),
         ("apple_fee_changed", "Apple fee changed"),
         ("github_paid", "GitHub Actions is planned inside the free allowance"),
         ("scan_cap_raised", "Scan allowance must stay at most GBP5"),
@@ -251,6 +273,16 @@ def self_test(model: dict, reservation: dict) -> int:
             ordinary["owner_exception_month"] = True
         elif mutation == "exception_remainder_flag":
             annual["remaining_within_100_ceiling"] = False
+        elif mutation == "exception_remainder_threshold":
+            annual["remaining_thresholds_reached"]["pause"] = not annual["remaining_thresholds_reached"]["pause"]
+        elif mutation == "exception_remainder_missing":
+            del annual["remaining_thresholds_reached"]
+        elif mutation == "expected_month_remainder_edited":
+            apple_month = next(m for m in changed["expected_months_owner_selection"]["months"] if m["timing"] == "apple_fee_exception_month")
+            apple_month["remaining_cash_gbp_excluding_exception_fee"] = apple_month["cash_gbp"]
+        elif mutation == "expected_month_full_flags_relaxed_to_remainder":
+            apple_month = next(m for m in changed["expected_months_owner_selection"]["months"] if m["timing"] == "apple_fee_exception_month")
+            apple_month["thresholds_reached"] = dict(apple_month["remaining_thresholds_reached"])
         elif mutation == "apple_fee_changed":
             assumptions["EST-COST-APPLE"]["annual_usd"] = "79"
         elif mutation == "github_paid":

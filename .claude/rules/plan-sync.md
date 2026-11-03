@@ -12,7 +12,7 @@ MP's version of MA's plan-sync rule (MP-35). The plan, Jira, Confluence and the 
 
 ## The rules
 
-1. **Root docs have precedence.** When the pack, Jira or Confluence disagrees with them, the others change to match, unless the owner says otherwise.
+1. **The owner's answers, then the root docs.** The owner's recorded answers come first; the root documents follow them and win over every other record. When the pack, Jira or Confluence disagrees with the root docs, the others change to match. The order in full is in the MP-20 sign-off pack (`docs/planning/baseline-signoff-2026-11-03/README.md`).
 2. **Change one, change all, in one PR.** A new phase gets its Confluence page and published page id. A new or changed issue gets its trace row. A doc that cites an issue or an ARC decision cites one that exists.
 3. **A disagreement is an open question for the owner, not a guess.** If the root docs do not settle it, write it down as a question for the owner (in the PR and on the issue) and leave both records as they are until the owner answers.
 4. **Code is traced to its issue.** A Story, Task or Bug that is In Review or Done lists the paths it changed. Every path must exist now or have been deleted in git history. If the issue changed no files, give a `no_code` reason. A branch changes only product files its own issue claims.

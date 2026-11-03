@@ -1,67 +1,360 @@
 [
-  {
-    "id": "R1-C1",
-    "finding": "Annual domain invoice cash is distinguished from amortised run rate and threshold admission uses full due commitments",
-    "check": {
-      "type": "command",
-      "argv": [
-        "python3",
-        "docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py",
-        "--self-test"
-      ],
-      "timeout_seconds": 30
-    }
-  },
-  {
-    "id": "R1-F1",
-    "finding": "Versioned acyclic canonical projections construct and verify actual leaf/chunk/page/root hashes",
-    "check": {
-      "type": "command",
-      "argv": [
-        "python3",
-        "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
-      ],
-      "timeout_seconds": 30
-    }
-  },
-  {
-    "id": "R1-F2",
-    "finding": "Delivery failure/retry/success updates separate state and attempts without changing sealed intent/root hashes",
-    "check": {
-      "type": "command",
-      "argv": [
-        "python3",
-        "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
-      ],
-      "timeout_seconds": 30
-    }
-  },
-  {
-    "id": "R1-S1",
-    "finding": "Positive-latency ordinary and retry acquisition fit frozen cutoff; late inputs and unsupported next-open schedules abstain",
-    "check": {
-      "type": "command",
-      "argv": [
-        "python3",
-        "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
-        "--check",
-        "daily"
-      ],
-      "timeout_seconds": 30
-    }
-  },
-  {
-    "id": "R1-S2",
-    "finding": "Pre/postrelease predictive inputs obey own cutoff and later origin, while retrospective event studies cannot qualify predictors",
-    "check": {
-      "type": "command",
-      "argv": [
-        "python3",
-        "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
-        "--check",
-        "event"
-      ],
-      "timeout_seconds": 30
-    }
+ {
+  "id": "R1-C1",
+  "finding": "Annual domain invoice cash is distinguished from amortised run rate and threshold admission uses full due commitments",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py",
+    "--self-test"
+   ],
+   "timeout_seconds": 30
   }
+ },
+ {
+  "id": "R1-F1",
+  "finding": "Versioned acyclic canonical projections construct and verify actual leaf/chunk/page/root hashes",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
+   ],
+   "timeout_seconds": 30
+  }
+ },
+ {
+  "id": "R1-F2",
+  "finding": "Delivery failure/retry/success updates separate state and attempts without changing sealed intent/root hashes",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py"
+   ],
+   "timeout_seconds": 30
+  }
+ },
+ {
+  "id": "R1-S1",
+  "finding": "Positive-latency ordinary and retry acquisition fit frozen cutoff; late inputs and unsupported next-open schedules abstain",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "daily"
+   ],
+   "timeout_seconds": 30
+  }
+ },
+ {
+  "id": "R1-S2",
+  "finding": "Pre/postrelease predictive inputs obey own cutoff and later origin, while retrospective event studies cannot qualify predictors",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "event"
+   ],
+   "timeout_seconds": 30
+  }
+ },
+ {
+  "id": "R2-S1",
+  "finding": "The 8-week trial count pauses only for the owner's two reasons, in one phrase across spec, protocol and fixed policies, and a long-horizon trial completes on clean-running weeks",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "policy"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-S2",
+  "finding": "How the current rules get a proper score stays proposed and open (SCI-D03); beating the rules is not presented as settled",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "policy"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-S3",
+  "finding": "SCI-D05 states the owner's answered position; its superseded wording is named and kept apart",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "policy"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-S4",
+  "finding": "A self-correction adjustment built on an outcome known after the forecast's cutoff is rejected, and its provenance fields are required",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "policy"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-S6",
+  "finding": "Unscheduled event kinds cannot carry a prerelease mode and the owner's numbers are checked against the decision log; the selftest proves both bite",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py",
+    "--check",
+    "selftest"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-S7",
+  "finding": "The chunk-digest and leaf-reference refusals each bite on their own case",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-c",
+    "import runpy,sys; ns=runpy.run_path('docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py'); sys.exit(0 if ns['mutation_selftest']()['status']=='passed' else 1)"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p1",
+  "finding": "The owner's 2 Nov policy answers are folded into the financial open decisions as partly answered, with what is still open; FIN-OD-01, 04 and 06 stay pending",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-c",
+    "import json,sys; d={x['id']:x for x in json.load(open('docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json'))['decisions']}; want={'FIN-OD-02':['POLICY-001','POLICY-005'],'FIN-OD-03':['POLICY-007','POLICY-012'],'FIN-OD-05':['POLICY-009'],'FIN-OD-07':['POLICY-006'],'FIN-OD-08':['POLICY-010','POLICY-011']}; ok=len(d)==8 and all((d[k]['status']=='partly_answered' and d[k]['answered_by']==want[k] and bool(d[k]['still_open'].strip()) and bool(d[k]['evidence_needed'])) if k in want else (d[k]['status']=='owner_pending' and d[k]['answered_by']==[]) for k in d); sys.exit(0 if ok else 1)"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p2",
+  "finding": "The sign-off builder refuses an open item with no deciding evidence",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_baseline_signoff.py",
+    "-k",
+    "test_an_open_item_with_no_deciding_evidence_fails"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p4",
+  "finding": "A signed-off pack fails when it, a pin or the signature differs from the signed commit, or the commit is a moving ref",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_baseline_signoff.py",
+    "-k",
+    "test_the_signed_mode"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p5",
+  "finding": "The sign-off builder fails closed on missing fields, unknown contracts, missing stills and answered items",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_baseline_signoff.py",
+    "-k",
+    "fails"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p6",
+  "finding": "Every drawing in the sign-off pack carries its own status",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_baseline_signoff.py",
+    "-k",
+    "test_a_drawing_with_no_status_fails"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-p7",
+  "finding": "The precedence sentence is word for word the same in the plan-sync rule and the pack",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_baseline_signoff.py",
+    "-k",
+    "test_a_precedence_rule_reworded_in_one_record_fails"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-d1",
+  "finding": "No retired fact (the pre-domain AWS run rate, domain months, the TestFlight plan, the unchosen IaC tool, seven CI checks, 'settled' cost fit) is stated in a current document or generator; this holds R2-d1 to d5, R2-C1 and R2-C2",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-d2",
+  "finding": "The perimeter page quotes the current run rates ($19.42 Virginia, $19.90 London)",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-d3",
+  "finding": "The Apple testing page and animation describe free local builds, with TestFlight only later",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-d4",
+  "finding": "The delivery animation says Terraform only and the owner-started release",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-d5",
+  "finding": "The cost page, hub and budget animation show the selected months, not the $79 and domain-month drafts",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-C1",
+  "finding": "The Market Agent page quotes the current AWS run rate",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-C2",
+  "finding": "The root documents do not call the cost fit settled",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60
+  }
+ },
+ {
+  "id": "R2-C5",
+  "finding": "Apple-month rows carry remainder flags beside the full-month flags, and the self-test refuses swapping them",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py",
+    "--self-test"
+   ],
+   "timeout_seconds": 60
+  }
+ }
 ]

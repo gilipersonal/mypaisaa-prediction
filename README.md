@@ -108,7 +108,8 @@ cannot change a number, publish a forecast, move money or trade.
 
 The £100 a month all-in ceiling (dev and prod AWS, market data, Claude and evaluations) is chosen. With the owner's
 choices of 2 and 3 November 2026 (Twelve Data Grow 55, Virginia, the existing domain) a month comes to about £46.48,
-or £54.73 with Claude on, inside the £70 operating plan; the Apple Developer fee month is the one allowed exception. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
+or £54.73 with Claude on, plus up to £5 for the top-5 scan (at most £59.73), inside the £70 operating plan; the Apple
+Developer fee month is the one allowed exception. The fit stays conditional on the Grow 55 price, rights and measured workload. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
 
 ## Documentation
 
