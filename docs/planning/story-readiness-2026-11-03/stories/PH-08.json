@@ -1,0 +1,711 @@
+{
+ "phase": "PH-08",
+ "drafts": {
+  "L8-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH08-S01",
+    "PH08-S02"
+   ]
+  },
+  "L8-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH08-S03",
+    "PH08-S04"
+   ]
+  },
+  "L8-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH08-S05",
+    "PH08-S06"
+   ]
+  },
+  "L8-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH08-S07",
+    "PH08-S08",
+    "PH08-S10"
+   ],
+   "note": "PH08-S10 carries the network lockdown decision the owner deferred to PH-08 (MP-29, 3 November 2026)."
+  },
+  "L8-S05": {
+   "disposition": "kept",
+   "stories": [
+    "PH08-S09"
+   ],
+   "note": "The draft's 'owner designs the full portal later' is superseded by ARC-08 (full admin journeys before first build); that design is PH00-S06."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH08-S01",
+   "jira_key": "MP-106",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Production release workflow that only the owner can start",
+   "story": "As the owner, I want production releases to happen only when I start the release workflow, from one artefact built on main with its evidence attached, so that nothing reaches prod by accident and every release can be rolled back.",
+   "from_drafts": [
+    "L8-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each commit on main builds one artefact once; GitHub OIDC deploys it to dev, and only a release workflow that only the owner can start promotes it to prod (GitHub Free; owner, 3 November 2026; PL-11).",
+     "Each release writes a ReleaseEvidence record: the commit, the artefact hash, its SBOM, the gate results, the Terraform plan, the owner's start and the previous release to roll back to.",
+     "Prod Terraform applies run only through this route from main, after the owner approves the reviewed plan.",
+     "Rollback switches the Lambda alias to the previous release's version."
+    ],
+    "negative": [
+     "A Jira status, a draft approval or a green dev deploy never proves release readiness and never starts a prod release.",
+     "No laptop or Claude session applies to prod, and an actor other than the owner cannot trigger the workflow.",
+     "No release proceeds with a failing gate, an unreviewed plan or drift."
+    ],
+    "recovery": [
+     "A failed prod deploy rolls back by alias to the previous release; a failed apply stops and the next attempt starts from a fresh reviewed plan; drift blocks the release until it is resolved through Terraform."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ReleaseEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner starts a prod release. CI builds and deploys to dev on its own. No agent may start, approve or bypass a release.",
+   "states": [
+    "built",
+    "deployed to dev",
+    "awaiting the owner",
+    "released",
+    "rolled back",
+    "blocked: failed gate or drift"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S04"
+    ],
+    "gaps": [
+     "PL-11"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "The workflow file, with a test that a non-owner actor cannot start it",
+    "A dev rehearsal of a release and an alias rollback",
+    "ReleaseEvidence read back after the rehearsal"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH08-S02",
+   "jira_key": "MP-116",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Onboard real holdings, listings and statements once each is checked",
+   "story": "As the owner, I want to add my real holdings, listings and statements step by step, each only after its identity, source rights and layout support are checked, so that real use never rests on synthetic proof.",
+   "from_drafts": [
+    "L8-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "A named live universe lists the owner's holdings, the curated list of about 150 discovery names and the top-5 segments, each listing with its entitlement, source and coverage verified (UK funds by the Grow 55 first-month test, else statements; Indian funds from the owner's statements).",
+     "Each real statement layout is checked against the named layout coverage before its first real import; unsupported layouts go to review or manual entry.",
+     "Additions follow the owner's rule of 3 November 2026: Claude proposes, code checks coverage and credit cost with the provider, and the owner confirms in the app.",
+     "A remaining-gap decision lists what is not covered, and the owner signs it."
+    ],
+    "negative": [
+     "No live claim, accuracy figure or training result comes from synthetic fixtures.",
+     "Real data never enters dev, and no deployment or spending follows from onboarding."
+    ],
+    "recovery": [
+     "A failed real import is reversed through the import reversal path, and an unverified listing stays watch-only or unavailable with its reason."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    },
+    {
+     "name": "SourceEligibility",
+     "role": "validates"
+    },
+    {
+     "name": "InstrumentListing",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner supplies real data and confirms each addition in the app. Code checks coverage and cost. No agent adds a listing or imports a statement by itself.",
+   "states": [
+    "proposed",
+    "coverage checked",
+    "confirmed by the owner",
+    "unsupported: manual path",
+    "unavailable with reason"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH08-S01",
+     "PH00-S04",
+     "PH01-S09",
+     "PH01-S13",
+     "PH01-S18",
+     "PH03-S03",
+     "PH03-S04"
+    ],
+    "gaps": [
+     "FC-01",
+     "FC-15"
+    ],
+    "owner_questions": [
+     "DATA-DEC-03",
+     "DATA-DEC-13"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "A release trace and coverage matrix for the live universe",
+    "The named live universe and layout sign-off record",
+    "The owner's signed remaining-gap decision"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH08-S03",
+   "jira_key": "MP-108",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Monthly restore exercise into an isolated target",
+   "story": "As the owner, I want MP's records restored into an isolated target every month and reconciled, so that I know the backups work before I need them.",
+   "from_drafts": [
+    "L8-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Recovery point and recovery time objectives are agreed and recorded per record class: ledger, audit, approvals, originals, forecasts and outcomes, model pointers.",
+     "Every month, and after any storage, import or audit change, those records are restored into an isolated recovery target and reconciled by counts, hashes and financial balances.",
+     "Each exercise writes a RecoveryExercise record with its result."
+    ],
+    "negative": [
+     "No destructive restore into production; the recovery target takes no authority until reconciliation passes and the owner approves a switch.",
+     "A restore reapplies deletion tombstones, so deleted content is never brought back."
+    ],
+    "recovery": [
+     "A failed exercise opens an incident and blocks the next release until it is fixed and re-run."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RecoveryExercise",
+     "role": "writes"
+    },
+    {
+     "name": "DeletionTombstone",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "reads"
+    }
+   ],
+   "authority": "A scheduled code job runs the exercise in an isolated target. Only the owner approves switching authority to a restored copy. No agent restores data.",
+   "states": [
+    "scheduled",
+    "running",
+    "reconciled",
+    "mismatch",
+    "failed",
+    "overdue"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S14",
+     "PH02-S05",
+     "PH01-S15",
+     "PH01-S04",
+     "PH04-S02",
+     "PH04-S03",
+     "PH04-S18"
+    ],
+    "gaps": [
+     "CT-04",
+     "CT-14"
+    ],
+    "owner_questions": [
+     "FIN-OD-08"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "The recovery runbook with the approved objectives",
+    "An isolated restore report and its source-to-record reconciliation"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH08-S04",
+   "jira_key": "MP-118",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Rollback exercises for the app, contracts, models and imports",
+   "story": "As the owner, I want every kind of rollback rehearsed before launch, so that a bad release, contract change, model or import can be undone without losing history.",
+   "from_drafts": [
+    "L8-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "On dev, rehearse: an app rollback by Lambda alias, a contract rollback where the old reader still works, a model and calibration revert to the previous approved model with the owner notified, and a failed import reversal.",
+     "The automatic model revert rules (owner, 3 November 2026: 4 bad weeks running, or 2 during the 4-week probation) are exercised with synthetic scores.",
+     "Each rehearsal writes a RecoveryExercise record."
+    ],
+    "negative": [
+     "A rollback never deletes a forecast, an outcome or an audit record, and switching forward again needs the owner's yes.",
+     "No rollback is rehearsed in prod."
+    ],
+    "recovery": [
+     "A failed rehearsal opens an incident and blocks the next release until it passes."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RecoveryExercise",
+     "role": "writes"
+    },
+    {
+     "name": "PromotionRecord",
+     "role": "reads"
+    },
+    {
+     "name": "ReleaseEvidence",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code runs the rehearsals on dev. Only the owner approves switching forward. No agent rolls anything back.",
+   "states": [
+    "passed",
+    "partial",
+    "failed",
+    "overdue"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH08-S01",
+     "PH00-S03",
+     "PH04-S19",
+     "PH01-S18"
+    ],
+    "gaps": [
+     "CT-14"
+    ],
+    "external": [],
+    "owner_questions": []
+   },
+   "evidence": [
+    "A rollback report for each kind",
+    "Tests showing no record is deleted by a rollback"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH08-S05",
+   "jira_key": "MP-110",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Incidents, alert classes and evidence correlation",
+   "story": "As the owner, I want every alert to open or join an incident that links to the runs, sources and models behind it, so that problems are visible and a healthy health check never hides lost work.",
+   "from_drafts": [
+    "L8-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Alert classes stay separate: financial risk, system security, data quality, billing and job failure (CT-18), each with deduplication and correlation.",
+     "Each incident links alert, run, source and model evidence by id.",
+     "Alerts exist for a missed forecast run, a stalled collector, stale billing, dead-letter queue depth, expired source access and out-of-order conversation events.",
+     "Phone notifications go through the web app's Web Push until the owner buys the Apple Developer Program (owner, 3 November 2026)."
+    ],
+    "negative": [
+     "A health endpoint that reports OK while a dead-letter queue holds items or a daily run was missed fails its test.",
+     "Alerts and incidents carry no holdings or secrets."
+    ],
+    "recovery": [
+     "An incident closes only with a recorded resolution and reopens if the fault recurs."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IncidentRecord",
+     "role": "writes"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code opens incidents. The owner acknowledges and resolves them. Agents cannot close an incident.",
+   "states": [
+    "open",
+    "acknowledged",
+    "mitigated",
+    "resolved",
+    "reopened"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S13",
+     "PH02-S06",
+     "PH07-S07"
+    ],
+    "gaps": [
+     "CT-18",
+     "CT-14"
+    ],
+    "external": [],
+    "owner_questions": []
+   },
+   "evidence": [
+    "A failure-injection matrix with a result for every alert",
+    "A correlation test from alert to source and model evidence"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH08-S06",
+   "jira_key": "MP-119",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Bounded replay and self-recovery",
+   "story": "As the owner, I want MP to retry and replay only what is safe within set bounds and ask me for anything more, so that it heals simple failures without doubling a commit or spending money.",
+   "from_drafts": [
+    "L8-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "An allowlist of automatic recovery actions: retry an idempotent job within its bounds, replay a dead-letter item up to a limit, re-run a missed collection, resume a durable workflow.",
+     "A ReplayRequest records scope, reason, items, idempotency keys and, where needed, the owner's approval.",
+     "Failure injection covers queue and dead-letter limits, out-of-order conversation events, a market outage, a missed forecast, expired source access and a stalled collector; each recovers or escalates as designed."
+    ],
+    "negative": [
+     "No agent edits infrastructure, buys a provider, raises spending or deletes evidence.",
+     "Broad replay, financial reprocessing and new paid external calls need the owner's approval with step-up.",
+     "A replay never crosses environments."
+    ],
+    "recovery": [
+     "A replay that keeps failing stops at its bound and escalates to an incident."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ReplayRequest",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "reads"
+    },
+    {
+     "name": "IncidentRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code acts only within the allowlist. The owner approves anything else, with step-up. Agents have no recovery authority.",
+   "states": [
+    "eligible",
+    "auto-retrying",
+    "bound reached: escalated",
+    "awaiting the owner",
+    "replayed",
+    "refused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S06",
+     "PH08-S05",
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-14",
+     "PL-05"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "A replay and idempotency audit",
+    "The failure-injection matrix results"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH08-S07",
+   "jira_key": "MP-122",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Whole-release gate report: security, science, agents, accessibility and privacy",
+   "story": "As the owner, I want one gate report that runs every relevant check before launch and fails closed, so that I approve a release on evidence, not on a status.",
+   "from_drafts": [
+    "L8-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The report runs API and schema contract tests, ledger correctness, scientific checks (chronological validation, no leakage), agent evaluations, accessibility at the standard the owner approves, native and offline tests, and the privacy and security scans (OSV-Scanner, pip-audit, gitleaks, Checkov).",
+     "Coverage is shown per market and per horizon, with gaps marked unavailable.",
+     "Blockers, non-blocking issues and rollback readiness are listed; any independent review is offered to the owner separately."
+    ],
+    "negative": [
+     "A missing or failed gate is never green: the report fails closed.",
+     "The live model gate (the 8-week shadow trial and owner promotion) stays separate from application release approval."
+    ],
+    "recovery": [
+     "A failed gate blocks the release; the report is re-run after the fix and earlier reports are kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ReleaseEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "EvalResult",
+     "role": "reads"
+    },
+    {
+     "name": "MetricResult",
+     "role": "reads"
+    }
+   ],
+   "authority": "CI runs the gates. Only the owner approves a release or waives a gate, in words. Agents cannot mark a gate passed.",
+   "states": [
+    "green",
+    "failed",
+    "incomplete: evidence missing",
+    "waived by the owner, in the owner's words",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH08-S01",
+     "PH04-S08",
+     "PH04-S09",
+     "PH05-S12",
+     "PH05-S13",
+     "PH06-S04",
+     "PH07-S03",
+     "PH07-S04"
+    ],
+    "gaps": [
+     "PL-11"
+    ],
+    "external": [],
+    "owner_questions": [
+     "MP40-Q3"
+    ]
+   },
+   "evidence": [
+    "A gate report produced on a release candidate",
+    "A test that a missing gate makes the report fail"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH08-S08",
+   "jira_key": "MP-112",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Prove the full launch workload fits the £100 month",
+   "story": "As the owner, I want the full launch workload measured and the month recomputed before launch, so that I know MP fits £100 with Claude credit, without it, and under stress.",
+   "from_drafts": [
+    "L8-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The full launch workload is measured on dev, including the end-of-day scan of about 150 names (COST-Q3), and the month is recomputed across dev and prod AWS, data, Claude, evaluations, collectors, SSE, backups and builds.",
+     "Unverified-credit and no-credit cases show the degraded modes and a month within £100.",
+     "The cost model gains the measured lines not yet in it: Terraform state, internet data transfer out and the scan's compute and storage."
+    ],
+    "negative": [
+     "A stress result never authorises spending, and no paid call is made for the proof without the owner's yes."
+    ],
+    "recovery": [
+     "If the measured month passes the £60 warning, the result and options go to the owner; nothing is cut silently."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    },
+    {
+     "name": "RunRecord",
+     "role": "reads"
+    },
+    {
+     "name": "ReleaseEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "The coordinator measures on dev. Only the owner decides what happens if the month overruns, and approves any paid call.",
+   "states": [
+    "within the plan",
+    "past the warning",
+    "past the ceiling",
+    "unmeasured"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S10",
+     "PH02-S07"
+    ],
+    "gaps": [
+     "CT-13"
+    ],
+    "owner_questions": [
+     "COST-Q3"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "costs/model.json updated with the measured lines, and check_cash_timing.py and the cost validators pass",
+    "The unverified-credit and no-credit cases recorded"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH08-S09",
+   "jira_key": "MP-126",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Owner operations runbook and launch walkthrough",
+   "story": "As the owner, I want a runbook for running MP and a walkthrough proving every launch control works, so that I can pause, recover and review MP on my own.",
+   "from_drafts": [
+    "L8-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "The runbook covers pause switches (optional work, a forecast scope under POLICY-003, a feature), incident escalation, the monthly evidence review, recovery, release and rollback.",
+     "A walkthrough on dev with synthetic data shows every launch admin control from the approved admin journeys working: uploads and versions, ledger updates, runs and tools, models and evaluations, health, cost and approvals.",
+     "Main-dashboard cost visibility and the critical recovery controls are in the launch UX, not deferred."
+    ],
+    "negative": [
+     "No runbook step bypasses the controlled writer, step-up or the release workflow."
+    ],
+    "recovery": [
+     "A walkthrough step that fails becomes a bug and blocks launch until it passes."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IncidentRecord",
+     "role": "reads"
+    },
+    {
+     "name": "ApprovalRequest",
+     "role": "reads"
+    },
+    {
+     "name": "RecoveryExercise",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator writes the runbook and runs the walkthrough on dev. The owner signs it off. Agents have no operational authority.",
+   "states": [
+    "drafted",
+    "walked through",
+    "failed step",
+    "signed off by the owner"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH00-S06",
+     "PH08-S05",
+     "PH08-S06"
+    ],
+    "gaps": [
+     "CT-16"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "The runbook",
+    "The walkthrough record with a result per control",
+    "The owner's sign-off"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH08-S10",
+   "jira_key": "MP-123",
+   "phase": "PH-08",
+   "epic": "MP-9",
+   "title": "Cost the optional network lockdown and record the owner's choice",
+   "story": "As the owner, I want the optional VPC lockdown steps costed and put to me at launch, so that I choose any extra network control knowing its price.",
+   "from_drafts": [
+    "L8-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each lockdown step from the perimeter page (MP-36) is listed with its monthly cost against the £22 AWS allocation, what it protects and what it cannot.",
+     "The owner's choice is recorded; a chosen step is written in Terraform, plan-only until the owner asks for an apply, with a revised cost model and an ADR that lifts the cost-guard SCP for that step only."
+    ],
+    "negative": [
+     "No NAT gateway, interface endpoint, VPN or proxy is added without that ADR and the owner's yes.",
+     "A VPN is never treated as a substitute for sign-in."
+    ],
+    "recovery": [
+     "If a chosen step breaks a worker's egress, the Terraform change is reverted through the release route."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "ReleaseEvidence",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator costs the options. Only the owner chooses, and only the owner asks for an apply.",
+   "states": [
+    "proposed",
+    "costed",
+    "owner chose no lockdown",
+    "owner chose named steps",
+    "applied"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S04",
+     "PH08-S08"
+    ],
+    "gaps": [
+     "PL-10"
+    ],
+    "owner_questions": [
+     "MP40-Q7"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "The costed options",
+    "The decision record with the owner's words",
+    "A Terraform plan for any chosen step"
+   ],
+   "blocked_on_owner": true
+  }
+ ]
+}

@@ -1,0 +1,1153 @@
+{
+ "phase": "PH-06",
+ "drafts": {
+  "L6-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH06-S01",
+    "PH06-S02",
+    "PH06-S03",
+    "PH06-S04"
+   ],
+   "note": "The owner asked for holdings plus the top 5 per segment (decision log, 3 November 2026), with one ETF list per market (SCI-D09 answer); whether holdings or market discovery comes first on the home screen is open question MP40-Q14. Split into the home, search and watchlists, the cost view and the PWA shell."
+  },
+  "L6-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH06-S05",
+    "PH06-S06",
+    "PH06-S07"
+   ],
+   "note": "Ranking policy, suggested actions, and the side-by-side views shared with L6-S03."
+  },
+  "L6-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH06-S07",
+    "PH06-S08",
+    "PH06-S09",
+    "PH06-S10"
+   ],
+   "note": "Adds the 10-day horizon the root documents list; the contribution split is shown from launch labelled experimental, and an F7 policy only after 8 weeks beating the rules."
+  },
+  "L6-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH06-S11",
+    "PH06-S12",
+    "PH06-S13"
+   ],
+   "note": "Brief, alerts and journal. Phone notifications go through Web Push while there is no paid Apple Developer Program."
+  },
+  "L6-S05": {
+   "disposition": "split",
+   "stories": [
+    "PH06-S14",
+    "PH06-S15"
+   ],
+   "note": "The web import journey and the evidence trail with deep links."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH06-S01",
+   "jira_key": "MP-153",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Home with holdings and the top 5 per segment",
+   "story": "As the owner, I want a home view that shows my holdings and the five best-ranked listings in each segment, each with its range, uncertainty and freshness, so that I see what I own and what else is worth watching in one place.",
+   "from_drafts": [
+    "L6-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The home view shows the owner's holdings and the top 5 per segment, in the order the owner chooses in answer to MP40-Q14 (holdings first with the top 5 below, or market discovery first with holdings a tap away); until that answer, neither order is treated as approved.",
+     "Each holding shows its value in GBP with its local currency, its latest forecast range for the chosen horizon, its suggested action with reasons, and how fresh its price is.",
+     "Each segment shows its top 5 from the versioned ranking (PH06-S05): US large caps, US tech, India Nifty 50, India midcap, US ETFs, UK ETFs, India ETFs, and gold and silver; there is no UK FTSE segment, and UK holdings still appear.",
+     "Every row shows its data freshness and provider status, and the cost view is one tap away (PH06-S03).",
+     "The view reads one published version of holdings, forecasts and rankings, so every row agrees."
+    ],
+    "negative": [
+     "A listing without a complete combined score shows as not ranked with the parts it has, and a segment with fewer than five ranked listings shows fewer; nothing is filled in to make five.",
+     "Risk, staleness or a provider outage is never hidden behind a loading state.",
+     "The view says it is decision support, not advice, and offers no trade."
+    ],
+    "recovery": [
+     "If a read fails, the view shows the last loaded version with its age and a retry; it never mixes two versions.",
+     "After an SSE notice of a new version, the client re-reads durable state."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "RankedAction",
+     "role": "reads"
+    },
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    },
+    {
+     "name": "DiscoveryResult",
+     "role": "reads"
+    },
+    {
+     "name": "PublicationPointer",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads. The view writes nothing. Code computes every value and ranking.",
+   "states": [
+    "loading",
+    "ready",
+    "partial (a segment or holding unavailable, with its reason)",
+    "stale (older than its freshness window)",
+    "provider_down",
+    "not_ranked",
+    "empty (no holdings yet)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH06-S05",
+     "PH06-S08",
+     "PH01-S21",
+     "PH03-S05"
+    ],
+    "gaps": [
+     "FC-16"
+    ],
+    "owner_questions": [
+     "DATA-DEC-02",
+     "MP40-Q14"
+    ],
+    "external": [
+     "UX: holdings and top 5 home"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A web state matrix covering every state above on synthetic data",
+    "A version-consistency test: one read pins one published version",
+    "Playwright and axe-core checks on the built view"
+   ]
+  },
+  {
+   "id": "PH06-S02",
+   "jira_key": "MP-141",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Search, filters and watchlists over the discovery universe",
+   "story": "As the owner, I want to search and filter my holdings, watch-only listings and the curated universe of about 150 names, compare peers and benchmarks, and keep saved watchlists, so that I can explore candidates without holding them.",
+   "from_drafts": [
+    "L6-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Search and filters cover holdings, watch-only listings and the curated discovery universe by name, symbol, market, segment and kind.",
+     "A candidate shows its peers, its benchmark and the change it would make to current overlap and concentration, computed by code.",
+     "Saved watchlists are versioned per owner and environment; themes appear once dated theme membership exists (PH09-S02)."
+    ],
+    "negative": [
+     "A listing outside the catalogue is added only through the chat proposal, coverage check and owner confirm (PH05-S11); search cannot add it directly.",
+     "A listing with unverified rights or coverage shows as unavailable with its reason, never with made-up data."
+    ],
+    "recovery": [
+     "A failed watchlist save leaves the previous version and shows the failure; the retry is idempotent."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DiscoveryResult",
+     "role": "reads"
+    },
+    {
+     "name": "Listing",
+     "role": "reads"
+    },
+    {
+     "name": "ExposureSnapshot",
+     "role": "reads"
+    },
+    {
+     "name": "BenchmarkComparison",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner searches and edits watchlists. Adding to the catalogue needs the owner's confirm through PH05-S11. No agent edits a watchlist.",
+   "states": [
+    "no_results",
+    "results",
+    "unavailable_listing",
+    "stale",
+    "save_failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH05-S11",
+     "PH03-S12",
+     "PH03-S14"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": [
+     "UX: search and watchlists"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Search and filter cases on the synthetic catalogue",
+    "Overlap and concentration figures matching the deterministic reference",
+    "Watchlist save, conflict and retry cases"
+   ]
+  },
+  {
+   "id": "PH06-S03",
+   "jira_key": "MP-142",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Spend and budget on the main dashboard",
+   "story": "As the owner, I want to see this month's spend from the main dashboard, by environment and by part, against the £100 ceiling and its thresholds, so that cost never surprises me.",
+   "from_drafts": [
+    "L6-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The view shows dev and prod spend for AWS, market data, and Claude and evaluations against the £70 plan (data £30, AWS £22, Claude and evaluations £15, forecast and price uncertainty £3), the £30 reserve and the £60, £75 and £85 thresholds.",
+     "It separates internal estimates (live), Anthropic usage (every six hours) and reconciled billing (daily), and states the lag of each.",
+     "The top-5 scan's Claude spend shows against its £5 cap.",
+     "If the owner ever joins the Apple Developer Program, its fee month shows the fee as the one allowed exception and admits optional work on the month without the fee (COST-Q4)."
+    ],
+    "negative": [
+     "An unknown or unreconciled amount is shown as unknown, never as zero.",
+     "The cost view is never only in admin; it is one tap from the home view."
+    ],
+    "recovery": [
+     "When the cost collector fails, the view shows the last reconciled figures with their age and a stale label."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    },
+    {
+     "name": "RunRecord",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads. The prod collector reads billing through a read-only role. No client changes a budget here; budget changes are settings (PH05-S14).",
+   "states": [
+    "current",
+    "estimated_only",
+    "stale",
+    "unknown",
+    "warning (at £60)",
+    "reduced (at £75)",
+    "paused (at £85)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH02-S07",
+     "PH02-S08"
+    ],
+    "gaps": [
+     "PL-13",
+     "CT-13"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: cost view"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Threshold cases at £59.99, £60, £75 and £85 on synthetic spend",
+    "A lag and staleness case for each of the three cost sources",
+    "An Apple fee month case showing the exception and the admission basis"
+   ]
+  },
+  {
+   "id": "PH06-S04",
+   "jira_key": "MP-134",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Static SvelteKit PWA shell with authenticated data and private caching",
+   "story": "As the owner, I want a fast installable web app that holds no private data in its build and clears what it cached when I sign out, so that I can use MP safely on a laptop, an iPad or a phone.",
+   "from_drafts": [
+    "L6-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The shell is a prebuilt static SvelteKit PWA served by CloudFront from a private S3 origin with origin access control; private data and commands go through the authenticated FastAPI under /api/v1.",
+     "The service worker caches only the shell and approved non-sensitive assets; private responses are cached only as the offline policy allows and are cleared on sign-out, session expiry and account change.",
+     "Typed API clients are generated from FastAPI's OpenAPI schema, and every error carries a code, a message, the request_id and the trace_id.",
+     "First paint and time to interactive are measured against agreed budgets."
+    ],
+    "negative": [
+     "No financial record, secret or owner data appears in the public build or the CDN cache.",
+     "No SvelteKit server runtime, server session or SSR action is assumed.",
+     "The architecture Site in site/ does not count as the PWA."
+    ],
+    "recovery": [
+     "A new shell version is picked up on the next load; a client on an incompatible API version is told to refresh rather than failing silently.",
+     "Offline, the shell shows cached views with their ages and refuses writes."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    },
+    {
+     "name": "ClientState",
+     "role": "writes"
+    },
+    {
+     "name": "OfflineSnapshot",
+     "role": "writes"
+    }
+   ],
+   "authority": "The owner signs in; Cognito and the API authorise every private read and command. The shell holds no authority of its own.",
+   "states": [
+    "signed_out",
+    "loading",
+    "ready",
+    "offline (cached, with ages)",
+    "update_available",
+    "session_expired",
+    "incompatible_version"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S01",
+     "PH02-S11",
+     "PH02-S12"
+    ],
+    "gaps": [
+     "PL-14",
+     "PL-04"
+    ],
+    "owner_questions": [
+     "MP40-Q3"
+    ],
+    "external": [
+     "UX: web shell and navigation"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Build inspection proving no private data in the static output",
+    "Sign-out and session-expiry cache-clearing tests",
+    "Playwright with ARIA snapshots and axe-core checks, and the measured first paint"
+   ]
+  },
+  {
+   "id": "PH06-S05",
+   "jira_key": "MP-135",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Versioned ranking policy: eligibility, the 35/40/25 score and the top 5 per segment",
+   "story": "As the owner, I want rankings computed by a versioned, deterministic policy that combines growth, protection and opportunity only when all three are eligible, so that a top 5 means the same thing every day and can be checked.",
+   "from_drafts": [
+    "L6-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "A ranking policy version holds the component definitions, normalisation, the weights (growth 35, protection 40, opportunity 25), the tie-break and the action bands.",
+     "Eligibility and abstention run before combination, and the combined score exists only when all three components are eligible (POLICY-006).",
+     "After each daily issuance, code ranks each segment's eligible listings and stores the top 5 as a versioned view, with one list each for US, UK and India ETFs (owner, 3 November 2026).",
+     "Deterministic reference outputs for a synthetic universe reproduce exactly."
+    ],
+    "negative": [
+     "A missing component is never zero and never reweighted; that listing is not ranked.",
+     "Gold and silver stay unavailable for formal tasks, with a reason, until their valuation conventions are decided (SCI-D08).",
+     "No action band classifies a listing until normalisation, ties and thresholds are approved (FIN-OD-07)."
+    ],
+    "recovery": [
+     "A failed ranking run leaves the previous view current with its date; a re-run for the same issuance gives the same view.",
+     "A corrected forecast produces a new ranking version, and the earlier version stays for audit."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RecommendationPolicy",
+     "role": "writes"
+    },
+    {
+     "name": "RankedAction",
+     "role": "writes"
+    },
+    {
+     "name": "DiscoveryResult",
+     "role": "writes"
+    },
+    {
+     "name": "Eligibility",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code ranks. The owner approves each policy version and any change to weights, normalisation, ties or bands. No agent can change a ranking.",
+   "states": [
+    "draft_policy",
+    "approved_policy",
+    "ranked",
+    "partly_ranked (fewer than five)",
+    "unavailable_with_reason",
+    "stale (no issuance since the last close)",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH04-S02",
+     "PH03-S01",
+     "PH03-S09"
+    ],
+    "gaps": [
+     "FC-12"
+    ],
+    "owner_questions": [
+     "FIN-OD-07",
+     "SCI-D09",
+     "SCI-D08"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A missing, conflicting and tied case matrix",
+    "Deterministic reference outputs for the synthetic universe",
+    "The owner's approval record for the policy version"
+   ]
+  },
+  {
+   "id": "PH06-S06",
+   "jira_key": "MP-144",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Suggested actions with reasons, uncertainty, portfolio impact and horizon",
+   "story": "As the owner, I want each holding and candidate to carry a suggested action (add, hold, pause, trim or rebalance for a holding; buy or watch for a candidate) with its reasons, uncertainty, portfolio impact and horizon, so that I can decide with the evidence in front of me.",
+   "from_drafts": [
+    "L6-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Holdings and candidates are visibly distinct; each action shows its reasons, uncertainty and horizon and the counterfactual change to concentration and risk, computed by code.",
+     "Each action names the policy version, components, sources and model versions behind it."
+    ],
+    "negative": [
+     "No action executes a trade, places an order, assumes a tax rule or changes contributions, and there is no sell-everything instruction.",
+     "Until FIN-OD-07's thresholds are approved, a listing shows its component evidence and no action label rather than a guessed one."
+    ],
+    "recovery": [
+     "When an input becomes stale or ineligible after publication, the action is marked stale with its reason until the next ranking run."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RankedAction",
+     "role": "reads"
+    },
+    {
+     "name": "PortfolioRisk",
+     "role": "reads"
+    },
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code proposes; the owner decides and acts outside MP. Nothing in MP acts on a suggestion.",
+   "states": [
+    "classified",
+    "unclassified (thresholds pending)",
+    "stale",
+    "ineligible",
+    "conflicted (rules and models disagree, shown)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S05",
+     "PH03-S13",
+     "PH03-S14"
+    ],
+    "gaps": [
+     "FC-12"
+    ],
+    "owner_questions": [
+     "FIN-OD-07"
+    ],
+    "external": [
+     "UX: suggested actions"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Action cases for holdings and candidates on synthetic data",
+    "Counterfactual impact figures matching the deterministic reference",
+    "A no-trade test: no endpoint or payload can carry an order"
+   ]
+  },
+  {
+   "id": "PH06-S07",
+   "jira_key": "MP-155",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Rules, models and Claude views side by side, with the experimental contribution split",
+   "story": "As the owner, I want the rules view, the model view and the Claude-assisted reading shown separately with their disagreements, so that one score can never hide a conflict or a missing input.",
+   "from_drafts": [
+    "L6-S02",
+    "L6-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Rules (with their heuristic strength labelled), numerical models (with calibrated ranges) and the Claude-assisted explanation appear as separate views for the same listing and horizon.",
+     "Disagreement between rules and models is shown with each side's evidence.",
+     "The rules-versus-models contribution split is shown live from launch, labelled experimental, with no probability of its own (owner, 3 November 2026).",
+     "An F7 contribution policy appears, labelled experimental and as a simulation, only after it beats the simple comparator rules for 8 weeks in replay and shadow and the owner says yes."
+    ],
+    "negative": [
+     "An unavailable input or view shows as unavailable and is never folded into a single score.",
+     "The Claude view never shows a number that a code result did not supply.",
+     "An F7 simulation is never shown as a trade, an order or an instruction."
+    ],
+    "recovery": [
+     "If one view fails, the others still show, with the failed view's reason."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "ClaimReference",
+     "role": "reads"
+    },
+    {
+     "name": "Eligibility",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code computes the rules, the models, the split and the F7 simulations; Claude writes words only. Only the owner switches on an F7 policy.",
+   "states": [
+    "agree",
+    "disagree",
+    "one_side_unavailable",
+    "experimental",
+    "f7_not_qualified",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S08",
+     "PH05-S08",
+     "PH04-S02",
+     "PH04-S05",
+     "PH04-S16"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": [
+     "UX: forecast and proof"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Agree, disagree and one-side-unavailable cases on synthetic data",
+    "A test that the split carries the experimental label and no probability",
+    "An F7 gate test: no policy shows before 8 qualifying weeks and the owner's yes"
+   ]
+  },
+  {
+   "id": "PH06-S08",
+   "jira_key": "MP-145",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Forecast views for every horizon from the next day to 12 months, with every state",
+   "story": "As the owner, I want each horizon's forecast shown with its cutoff, range, uncertainty, eligibility and evidence, and an honest state when there is no forecast, so that I never mistake a stale or unqualified view for a current one.",
+   "from_drafts": [
+    "L6-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Sections cover the next day; 5, 10 and 20 trading days; and 3, 6 and 12 calendar months, each with as-of time, data cutoff, target, range or probability, calibration, model version and evidence.",
+     "Every number identifies its task, as-of time, source and model, and says whether it is evaluated, illustrative or a scenario.",
+     "Range and fan charts have text alternatives, and both the simple and the technical mode keep material uncertainty."
+    ],
+    "negative": [
+     "A horizon with no qualified model is never removed and never given a made-up probability; it shows the rules with their heuristic strength, in_practice, or unavailable with reasons.",
+     "Offline or stale data never appears as fresh analysis."
+    ],
+    "recovery": [
+     "When a forecast is corrected, the view shows the new version and annotates the old one; the original is never rewritten."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "Eligibility",
+     "role": "reads"
+    },
+    {
+     "name": "ForecastTask",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads. Code issues every forecast; nothing on this view changes one.",
+   "states": [
+    "eligible",
+    "rules_only",
+    "in_practice",
+    "no_clear_view",
+    "insufficient_history",
+    "stale_input",
+    "model_paused",
+    "cost_paused",
+    "unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH04-S01",
+     "PH04-S02"
+    ],
+    "gaps": [
+     "FC-16"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: forecast and proof"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A per-horizon state inventory rendered on synthetic data",
+    "Text alternatives checked for every chart",
+    "A join test between forecast API payloads and the view"
+   ]
+  },
+  {
+   "id": "PH06-S09",
+   "jira_key": "MP-157",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Proof and track record behind each forecast",
+   "story": "As the owner, I want to open the proof behind a forecast (its data, folds, baselines, matured outcomes and limits) so that I can judge how far to trust it.",
+   "from_drafts": [
+    "L6-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The proof shows the dataset version, folds, baseline comparison, number of matured outcomes, coverage, eligibility and limitations, and annotates corrected outcomes.",
+     "Model sheets and the regime, analog, event and pattern sheets are reachable from a forecast; the analog sheet shows its matched days since 2015 and the number of cases.",
+     "Hit rate always appears with calibration, error, coverage, turnover and the benchmark."
+    ],
+    "negative": [
+     "No track record is claimed for a horizon before its outcomes mature; a 12-month record waits a year.",
+     "A judge or evaluation score is never shown as forecast accuracy.",
+     "Evidence from fewer than 20 non-overlapping blocks is labelled exploratory."
+    ],
+    "recovery": [
+     "If the proof fails to load, the forecast still shows with 'proof unavailable' and a retry; a revised outcome creates a new score version shown beside the old one."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Score",
+     "role": "reads"
+    },
+    {
+     "name": "Outcome",
+     "role": "reads"
+    },
+    {
+     "name": "PromotionRecord",
+     "role": "reads"
+    },
+    {
+     "name": "BenchmarkComparison",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads. Code grades outcomes; nobody edits a past score.",
+   "states": [
+    "matured_evidence",
+    "awaiting_maturity",
+    "exploratory",
+    "corrected",
+    "unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S08",
+     "PH04-S09",
+     "PH04-S10",
+     "PH04-S11",
+     "PH04-S17",
+     "PH04-S18"
+    ],
+    "gaps": [
+     "FC-16"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: forecast and proof"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Proof payload examples for an eligible, an awaiting-maturity and an exploratory forecast",
+    "Accessible text alternatives for every proof chart",
+    "A test that hit rate never renders without its companion measures"
+   ]
+  },
+  {
+   "id": "PH06-S10",
+   "jira_key": "MP-137",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Three and five year scenarios with editable assumptions",
+   "story": "As the owner, I want downside, central and upside scenarios for three and five years with assumptions I can edit, so that I can explore long-term outcomes without mistaking them for forecasts.",
+   "from_drafts": [
+    "L6-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Downside, central and upside templates cover 3 and 5 years, with explicit return, inflation, FX, contribution, fee and dividend-treatment assumptions, computed by deterministic arithmetic (POLICY-004).",
+     "The owner can edit a copy of any template; edited assumptions are labelled as the owner's.",
+     "Scenarios sit in their own section, separate from the evaluated forecasts up to 12 months."
+    ],
+    "negative": [
+     "No scenario carries a probability, and 'central' never means most likely.",
+     "Template values are not used until the owner approves them (SCI-D06).",
+     "No 12-month model output is extrapolated to make a scenario."
+    ],
+    "recovery": [
+     "An invalid assumption is refused with its reason and the last saved assumptions are kept; approving new template values creates a new version."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Scenario",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "validates"
+    },
+    {
+     "name": "FXQuote",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner edits their own assumptions and approves template values. Code computes every path.",
+   "states": [
+    "templates_pending_approval",
+    "approved_templates",
+    "custom",
+    "invalid_input",
+    "stale_fx"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S04"
+    ],
+    "gaps": [
+     "FC-08"
+    ],
+    "owner_questions": [
+     "SCI-D06"
+    ],
+    "external": [
+     "UX: scenarios"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Arithmetic cases against hand-worked synthetic examples",
+    "A test that no scenario payload carries a probability",
+    "Template approval and versioning cases"
+   ]
+  },
+  {
+   "id": "PH06-S11",
+   "jira_key": "MP-148",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "The 07:30 London daily brief",
+   "story": "As the owner, I want an action-first brief at 07:30 London time with each market's timestamp, priorities, risks, changes and upcoming events, so that I start the day knowing what matters.",
+   "from_drafts": [
+    "L6-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The brief is issued at 07:30 Europe/London, moving with daylight saving, and leads with actions, then risks, changes and upcoming events.",
+     "It reads the stored latest eligible origin for each market and shows India, UK and US timestamps separately.",
+     "It is delivered in the app and announced by a neutral Web Push notice (PH07-S07); alerts held overnight arrive with it."
+    ],
+    "negative": [
+     "The brief never depends on a batch submitted that morning, and never presents the US and India as having closed at the same time.",
+     "No part of the brief executes an action."
+    ],
+    "recovery": [
+     "If the text route is unavailable, a deterministic brief is issued and labelled (PH05-S08); if MP itself was down at 07:30, the brief is issued on recovery, labelled late, and never sent twice."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Briefing",
+     "role": "writes"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "emits"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code assembles and schedules the brief; the explanation route writes its words. The owner reads.",
+   "states": [
+    "scheduled",
+    "issued",
+    "issued_deterministic",
+    "late",
+    "pending_evidence",
+    "skipped_by_policy (weekend, once that policy is approved)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S08",
+     "PH06-S05"
+    ],
+    "gaps": [
+     "CT-18",
+     "PL-03"
+    ],
+    "owner_questions": [
+     "MP40-Q11"
+    ],
+    "external": [
+     "UX: daily brief"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DST-change and per-market timestamp cases",
+    "A missed-batch morning and a late-recovery morning, each issued once",
+    "A privacy check on the notice payload"
+   ]
+  },
+  {
+   "id": "PH06-S12",
+   "jira_key": "MP-138",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Material risk alerts with quiet hours, cooldown and deduplication",
+   "story": "As the owner, I want to be told promptly about a material risk to my holdings, but not woken for it, and never told twice, so that alerts stay worth reading.",
+   "from_drafts": [
+    "L6-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "A material or critical risk condition found on eligible as-of data, by the 30-minute checks or the daily run, creates one notification intent; immediate means right after detection at the cadence the data allows.",
+     "Quiet hours run 22:00 to 07:00 Europe/London; alerts in that window wait for the 07:30 brief unless an approved exception applies.",
+     "Cooldown and a dedup key group repeats into one alert, and denied push falls back to the in-app inbox (PH07-S08).",
+     "Investment risk alerts are a separate class from operational incidents."
+    ],
+    "negative": [
+     "An unavailable provider never produces an all-clear.",
+     "A push accepted by the push service is labelled a delivery attempt, not proof the owner read it.",
+     "No alert executes an action, and no alert payload carries a value or a holding."
+    ],
+    "recovery": [
+     "An alert detected during an outage is delivered after recovery with its detection time; a retried send reuses the dedup key so the owner sees one alert."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "NotificationIntent",
+     "role": "emits"
+    },
+    {
+     "name": "OutboxRecord",
+     "role": "writes"
+    },
+    {
+     "name": "DeliveryState",
+     "role": "reads"
+    },
+    {
+     "name": "PortfolioRisk",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code detects, groups and routes alerts. The owner approves the material and critical thresholds and any quiet-hour exception. No agent can raise or silence an alert.",
+   "states": [
+    "detected",
+    "held_quiet_hours",
+    "sent",
+    "deduplicated",
+    "cooled_down",
+    "in_app_only (push denied)",
+    "source_unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S10"
+    ],
+    "gaps": [
+     "CT-18"
+    ],
+    "owner_questions": [
+     "DATA-DEC-02",
+     "MP40-Q11"
+    ],
+    "external": [
+     "UX: alerts and notices"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Quiet-hours, DST, missed, duplicate and cooldown cases",
+    "A provider-outage case that produces no all-clear",
+    "Neutral payload examples"
+   ]
+  },
+  {
+   "id": "PH06-S13",
+   "jira_key": "MP-158",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Decision journal: what I did and why",
+   "story": "As the owner, I want to record what I did about a suggestion, and why, against the exact evidence I saw, so that I can later compare my decisions with what happened.",
+   "from_drafts": [
+    "L6-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The owner records 'I acted' or 'I chose not to' against the exact action, evidence and policy version shown.",
+     "Entries are append-only and later joined to the matured outcomes of the forecasts they cite.",
+     "A weekly wrap-up lists the week's entries and their outcomes so far."
+    ],
+    "negative": [
+     "A journal entry never changes holdings or triggers a trade; holdings change only through an approved import.",
+     "Claude may summarise entries but never writes one."
+    ],
+    "recovery": [
+     "A failed save keeps the draft and retries idempotently; a correction is a new entry linked to the old one."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "RankedAction",
+     "role": "reads"
+    },
+    {
+     "name": "Outcome",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner writes entries. Code joins them to outcomes.",
+   "states": [
+    "draft",
+    "saved",
+    "outcome_pending",
+    "linked_to_outcome",
+    "save_failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S06"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": [
+     "UX: decision journal"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Entry, correction and outcome-join cases on synthetic data",
+    "A test that no journal path writes the ledger"
+   ]
+  },
+  {
+   "id": "PH06-S14",
+   "jira_key": "MP-149",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Web import journey on the canonical ledger contracts",
+   "story": "As the owner, I want to import statements, screenshots and files on the web and approve exactly what is committed, so that my holdings come in correctly without the web app keeping its own ledger rules.",
+   "from_drafts": [
+    "L6-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "The web journey covers upload (CSV, Excel, PDF, screenshot and manual entry), preview, guided edits, explicit complete-group subsets (POLICY-005), approval, commit, reversal and history rebuild proposals (POLICY-012), all on PH-01's contracts unchanged.",
+     "Approval needs a fresh step-up and starts the commit within 15 minutes of the exact approved content (POLICY-001)."
+    ],
+    "negative": [
+     "The web app holds no ledger logic of its own; a changed or expired proposal needs a fresh approval.",
+     "An extracted draft is never shown as committed holdings."
+    ],
+    "recovery": [
+     "A page reload mid-import resumes from server state; a commit failure offers an idempotent retry and never a second commit."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ImportDraft",
+     "role": "reads"
+    },
+    {
+     "name": "DraftRow",
+     "role": "reads"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "writes"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner uploads, edits and approves with a fresh sign-in. The controlled writer commits. No agent approves.",
+   "states": [
+    "uploading",
+    "extracting",
+    "preview",
+    "awaiting_approval",
+    "approval_expired",
+    "committing",
+    "committed",
+    "failed_retryable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH01-S13",
+     "PH01-S14",
+     "PH01-S15",
+     "PH01-S18",
+     "PH02-S03"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": [
+     "UX: import journey"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A trace from each web step to its PH-01 story and contract",
+    "A full journey walkthrough on synthetic files",
+    "Expiry, changed-content and reload cases"
+   ]
+  },
+  {
+   "id": "PH06-S15",
+   "jira_key": "MP-151",
+   "phase": "PH-06",
+   "epic": "MP-7",
+   "title": "Evidence trail from source to outcome, with deep links",
+   "story": "As the owner, I want to follow any figure back to its source and forward to its outcome, and to share a link that opens the same record on the web or the Apple app, so that every number can be checked.",
+   "from_drafts": [
+    "L6-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "From any figure the owner can open the chain source, ledger, risk, forecast, action, outcome and audit.",
+     "Deep links resolve to durable, authorised records on the web and the Apple app; chat links open the exact evidence context."
+    ],
+    "negative": [
+     "A deep link never rebuilds evidence afresh; it opens the stored record or says it is unavailable.",
+     "A link to another owner's or environment's record is refused.",
+     "Offline, cached records show their ages and writes are refused."
+    ],
+    "recovery": [
+     "A link to a superseded record opens it with a pointer to its successor; an expired session asks for sign-in and then returns to the record."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DeepLink",
+     "role": "reads"
+    },
+    {
+     "name": "AuditQuery",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads within their own scope. Links carry no authority of their own.",
+   "states": [
+    "resolved",
+    "superseded",
+    "permission_denied",
+    "not_found",
+    "offline_cached",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S04",
+     "PH01-S04",
+     "PH01-S05"
+    ],
+    "gaps": [
+     "FC-16"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: evidence trail"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A full chain walkthrough on synthetic data",
+    "Cross-scope refusal and superseded-record cases",
+    "Offline and reconnect cases"
+   ]
+  }
+ ]
+}

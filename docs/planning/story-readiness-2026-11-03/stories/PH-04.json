@@ -1,0 +1,1559 @@
+{
+ "phase": "PH-04",
+ "drafts": {
+  "L4-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S01",
+    "PH04-S02",
+    "PH04-S03",
+    "PH04-S04"
+   ],
+   "note": "Horizons updated to the owner-confirmed 1, 5, 10 and 20 sessions and 3, 6 and 12 months; scenarios follow POLICY-004."
+  },
+  "L4-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S05",
+    "PH04-S06"
+   ]
+  },
+  "L4-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S07",
+    "PH04-S08",
+    "PH04-S09"
+   ]
+  },
+  "L4-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S10",
+    "PH04-S11",
+    "PH04-S12"
+   ],
+   "note": "Updated to all seven event kinds in the first wave (SCI-OA-01) and similar days since 2015 (SCI-OA-02)."
+  },
+  "L4-S05": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S13",
+    "PH04-S14"
+   ],
+   "note": "Execution follows ARC-04 (SageMaker training, Lambda inference), so the draft's A/B choice is settled."
+  },
+  "L4-S06": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S15",
+    "PH04-S16"
+   ],
+   "note": "F7 goes live only after 8 weeks beating simple rules and the owner's yes (SCI-OA-09)."
+  },
+  "L4-S07": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S03",
+    "PH04-S17"
+   ],
+   "note": "Maturity and append-only outcomes moved to PH04-S03; scores and summaries are PH04-S17."
+  },
+  "L4-S08": {
+   "disposition": "split",
+   "stories": [
+    "PH04-S18",
+    "PH04-S19",
+    "PH04-S20"
+   ],
+   "note": "Updated to the 8-week trial (SCI-OA-04), probation and the slip rule (SCI-OA-05, SCI-OA-06) and bounded self-correction (SCI-OA-03)."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH04-S01",
+   "jira_key": "MP-113",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Versioned forecast tasks for all seven horizons",
+   "story": "As the owner, I want every forecast defined as an exact, versioned task, so that a prediction can never be relabelled with a friendlier target and every agreed horizon stays visible.",
+   "from_drafts": [
+    "L4-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The catalogue holds the next session, 5, 10 and 20 trading sessions and 3, 6 and 12 calendar months, each with target equation, horizon unit, return currency, observation grid, origin rule, maturity roll, distribution support, event threshold, benchmark mapping and data, calendar and FX policies (SCI-01, task-catalogue.json).",
+     "Targets stay separate: terminal return and its quantiles, the up event, benchmark excess, peak drawdown on the daily path, adverse excursion, terminal loss and within-horizon risk events (SCI-02).",
+     "Month horizons use the anniversary rolled back to the preceding valid local session, with the day clamped to month end (FND-DEC-002, SCI-G08).",
+     "Every horizon keeps an output state even when no model qualifies: eligible baseline, rules with labelled heuristic strength, in practice, or unavailable with a reason (SCI-07-AC06)."
+    ],
+    "negative": [
+     "Changing any task field creates a new version; a prediction cannot move to a different task.",
+     "Calendar months are never treated as 63, 126 or 252 sessions, and native and GBP variants are different tasks.",
+     "Gold and silver tasks stay unavailable_with_reason until SCI-D08 sets their valuation instant; tasks that need a threshold or benchmark stay unavailable until SCI-D02 is answered."
+    ],
+    "recovery": [
+     "A calendar correction appends an amendment and leaves the original maturity on earlier predictions (SCI-01-AC10).",
+     "A retired task version stays readable with all its predictions, outcomes and scores."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ForecastTask",
+     "role": "writes"
+    },
+    {
+     "name": "Horizon",
+     "role": "validates"
+    },
+    {
+     "name": "MarketProfile",
+     "role": "reads"
+    },
+    {
+     "name": "Listing",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner approves new task versions, thresholds and benchmark mappings. Code validates and stores them. No agent can create or change a task.",
+   "states": [
+    "active",
+    "draft (awaiting the owner)",
+    "unavailable_with_reason",
+    "amended (calendar correction)",
+    "retired (readable)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S01"
+    ],
+    "gaps": [
+     "FC-02",
+     "FC-08"
+    ],
+    "owner_questions": [
+     "SCI-D02",
+     "SCI-D08"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-01-AC01, SCI-01-AC10, SCI-02-AC01 and SCI-07-AC06 pass as executable tests.",
+    "Golden cases SCI-G06, SCI-G07 and SCI-G08 reproduce.",
+    "A ForecastTask example exists for every horizon and market and validates against the contract."
+   ]
+  },
+  {
+   "id": "PH04-S02",
+   "jira_key": "MP-128",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Daily forecast issuance from the frozen cutoff",
+   "story": "As the owner, I want forecasts issued once a day per market from approved models and the frozen input set, so that each forecast is reproducible and states exactly what it knew.",
+   "from_drafts": [
+    "L4-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Issuance waits for the frozen cutoff from PH03-S09 and completes by +75 minutes, strictly before the next eligible open (POLICY-002).",
+     "Each Prediction pins as-of, origin, data cutoff, issue time, task and horizon, target, distribution or probability, calibration, model and calibrator versions, feature and manifest hashes, code version and explanation references (AGENTS.md).",
+     "Only owner-approved artefacts run, on a Lambda inference worker, and outputs for holdings, watch-only listings and the ~150-name discovery universe are stored for clients to read (ARC-04).",
+     "Each output keeps the rules output, the model output and their disagreement, with the rules-versus-models contribution split labelled experimental and carrying no probability (SCI-OA-08)."
+    ],
+    "negative": [
+     "A late job records missed_origin and never backdates; a deadline at or after the next open abstains with unsupported_schedule (SCI-G13).",
+     "Missing rights, stale input, insufficient history, a paused model and a cost pause each give their own reason code instead of an output (SCI-07).",
+     "No forecast is computed on an app request and no model trains at issuance."
+    ],
+    "recovery": [
+     "A retry of the same origin is idempotent: one Prediction per task, listing, origin and artefact.",
+     "If the inference worker fails, those tasks are marked failed for the origin and the last issued forecast stays visible with its date; nothing is issued after the deadline."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Prediction",
+     "role": "writes"
+    },
+    {
+     "name": "Eligibility",
+     "role": "writes"
+    },
+    {
+     "name": "InputReference",
+     "role": "reads"
+    },
+    {
+     "name": "ModelVersion",
+     "role": "reads"
+    },
+    {
+     "name": "ForecastView",
+     "role": "emits"
+    }
+   ],
+   "authority": "Issuance code runs only owner-approved artefacts (PH04-S18). Claude never produces or changes a forecast number. Nobody, the owner included, edits an issued Prediction; a correction is a new version.",
+   "states": [
+    "issued",
+    "abstained with a reason",
+    "missed_origin",
+    "model_paused",
+    "cost_paused",
+    "stale (latest is from an older origin)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH04-S05",
+     "PH04-S06",
+     "PH04-S07",
+     "PH03-S09",
+     "PH02-S06",
+     "PH02-S09"
+    ],
+    "gaps": [
+     "FC-09",
+     "PL-07"
+    ],
+    "owner_questions": [
+     "SCI-D01"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check daily passes, and SCI-01-AC01 and SCI-07-AC06 pass as executable tests.",
+    "An idempotency test shows one Prediction per task, listing, origin and artefact after replay.",
+    "Issued Predictions validate against the contract examples."
+   ]
+  },
+  {
+   "id": "PH04-S03",
+   "jira_key": "MP-130",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Outcome maturity and append-only ground truth",
+   "story": "As the owner, I want each forecast's outcome recorded only once its horizon has passed and its inputs are complete, so that every score is fair and every correction is visible.",
+   "from_drafts": [
+    "L4-S01",
+    "L4-S07"
+   ],
+   "acceptance": {
+    "positive": [
+     "Session horizons mature strictly after the origin on the listing's frozen calendar, month horizons on the rolled anniversary; an outcome is known only once all terminal, path, action, FX and benchmark inputs are available (SCI-01, SCI-02).",
+     "Outcomes record canonical observations, first or amended status, event values and evidence links, under a canonical-source policy frozen before any outcome.",
+     "A corrected close or action appends a new Outcome linked by supersedes, and both the original and corrected scores survive (SCI-G12)."
+    ],
+    "negative": [
+     "Nothing is scored before maturity; pending, missing_path, missing_fx, disputed_action, suspended and delisted_unresolved are never zero returns (SCI-02-AC09).",
+     "A delisted listing stays in the record with its outcome status, and a missing delisting price is unresolved, not zero (SCI-G14).",
+     "Switching sources to improve a score is refused."
+    ],
+    "recovery": [
+     "A late-published input moves outcome_known_at, never the economic date.",
+     "A failed maturity job reruns idempotently and writes no duplicate Outcome."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Outcome",
+     "role": "writes"
+    },
+    {
+     "name": "RealisedOutcome",
+     "role": "emits"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "Observation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Deterministic code writes outcomes. Nobody, the owner included, edits or deletes one; corrections append. Agents cannot write outcomes.",
+   "states": [
+    "pending",
+    "matured",
+    "missing_path",
+    "disputed_action",
+    "amended",
+    "delisted_unresolved"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH04-S02",
+     "PH03-S05",
+     "PH03-S06"
+    ],
+    "gaps": [
+     "FC-02",
+     "FC-07"
+    ],
+    "owner_questions": [
+     "SCI-D02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-02-AC01, SCI-02-AC09 and SCI-01-AC10 pass as executable tests.",
+    "Golden cases SCI-G01, SCI-G02, SCI-G12 and SCI-G14 reproduce."
+   ]
+  },
+  {
+   "id": "PH04-S04",
+   "jira_key": "MP-132",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Three and five-year scenarios from editable assumptions",
+   "story": "As the owner, I want downside, central and upside three and five-year scenarios with assumptions I can edit, so that I can see long-range outcomes as conditional arithmetic with no claimed likelihood.",
+   "from_drafts": [
+    "L4-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Three templates plus custom assumptions for 3 and 5 years, with explicit nominal return, inflation, FX, contributions, fees and dividend treatment (POLICY-004, SCI-08).",
+     "Paths are deterministic arithmetic, and contribution timing follows the financial lane's cash-flow conventions.",
+     "Template values are versioned and run only after the owner approves them."
+    ],
+    "negative": [
+     "No likelihood is shown, and central is never called most likely (SCI-08-AC01).",
+     "A scenario is never scored as a forecast and is never a 12-month model extrapolated.",
+     "Unapproved template values do not run."
+    ],
+    "recovery": [
+     "An edit creates a new assumption version; earlier scenario results keep the version they used.",
+     "An invalid assumption is refused with the field and the reason, and the last valid scenario stays shown."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Scenario",
+     "role": "writes"
+    },
+    {
+     "name": "Money",
+     "role": "validates"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner edits and approves assumptions. Code computes the paths. Claude may explain a stored scenario but cannot set assumptions.",
+   "states": [
+    "template awaiting approval",
+    "approved",
+    "custom draft",
+    "computed",
+    "invalid assumptions",
+    "stale (built on an older valuation)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S11",
+     "PH05-S14"
+    ],
+    "gaps": [
+     "FC-08"
+    ],
+    "owner_questions": [
+     "SCI-D06"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-08-AC01 passes as an executable test.",
+    "Deterministic known-answer scenario cases match an independent calculation."
+   ]
+  },
+  {
+   "id": "PH04-S05",
+   "jira_key": "MP-120",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Holder rules and indicators with labelled heuristic strength",
+   "story": "As the owner, I want the transparent rules computed from point-in-time data and labelled as heuristic strength, so that they stay a clear, explainable comparator and never pose as a calibrated probability.",
+   "from_drafts": [
+    "L4-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "The retained indicators and pillars are computed only from data known at the cutoff, with versioned definitions, lookbacks and seeds.",
+     "Rule outputs carry heuristic strength with that label, separate from any probability, and keep their disabled, insufficient-data and no-clear-view states.",
+     "A rules change (indicators, pillars, thresholds) is a new rules version that runs the 8-week shadow trial, beating the current rules, before the owner approves it (SCI-OA-04)."
+    ],
+    "negative": [
+     "NAV series get no candle or OHLC features (SCI-04-AC01).",
+     "Rule strength is never shown or scored as a probability without a qualified mapping (PH04-S06).",
+     "A rules change never goes live without the trial and the owner's yes."
+    ],
+    "recovery": [
+     "Missing inputs give insufficient_data, never a default signal.",
+     "A faulty rules version is withdrawn by returning to the previous approved rules version, with its history kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FeatureSetVersion",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "writes"
+    },
+    {
+     "name": "Lineage",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code computes the rules. Only the owner approves a rules version. Bounded self-correction cannot change rules, and no agent can.",
+   "states": [
+    "signal with heuristic strength",
+    "no_clear_view",
+    "insufficient_data",
+    "disabled",
+    "shadow (new version on trial)",
+    "stale input"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH04-S07"
+    ],
+    "gaps": [
+     "FC-07"
+    ],
+    "owner_questions": [
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Per-indicator golden fixtures pass with hand-worked values.",
+    "SCI-04-AC01's NAV refusal passes, and a test proves every rule output carries the heuristic-strength label."
+   ]
+  },
+  {
+   "id": "PH04-S06",
+   "jira_key": "MP-124",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Statistical baselines and the rules-to-probability mapping",
+   "story": "As the owner, I want simple, reproducible statistical baselines and a qualified way to score the rules, so that every model has honest comparators to beat.",
+   "from_drafts": [
+    "L4-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "R0 baselines are zero return, trailing event rate, constant base rate and historical empirical and block-path distributions over 252 and 756 eligible observations, with a seeded, reproducible bootstrap (SCI-04).",
+     "Baselines run on the same eligible dates as every candidate and are the mandatory comparators.",
+     "The rules-to-probability mapping (R0-RULEMAP) is fitted on the pre-trial calibration block and qualified per rules version; without a qualified mapping the rules comparison is reported as not scoreable."
+    ],
+    "negative": [
+     "A historical empirical forecast is never called calibrated without evidence.",
+     "Window choices count as tried configurations, and no window is chosen after viewing results.",
+     "A baseline lacking history gives insufficient_history rather than a shortened window."
+    ],
+    "recovery": [
+     "A rerun with the same seed and manifest reproduces identical outputs; a mismatch fails the run.",
+     "A failed mapping qualification leaves the rules unscored and that task's trial waiting for the owner."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Prediction",
+     "role": "writes"
+    },
+    {
+     "name": "Probability",
+     "role": "validates"
+    },
+    {
+     "name": "Quantile",
+     "role": "validates"
+    },
+    {
+     "name": "DatasetManifest",
+     "role": "reads"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code computes baselines and fits the mapping inside its calibration block. The owner decides what happens when no mapping qualifies. No agent can change a baseline.",
+   "states": [
+    "eligible baseline",
+    "insufficient_history",
+    "mapping not qualified",
+    "stale input",
+    "reproducibility failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH04-S07"
+    ],
+    "gaps": [
+     "FC-04",
+     "FC-07"
+    ],
+    "owner_questions": [
+     "SCI-D03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A seeded replay report shows identical outputs across two runs.",
+    "Base-rate proper-score tests and SCI-06-AC01's baseline cases pass."
+   ]
+  },
+  {
+   "id": "PH04-S07",
+   "jira_key": "MP-117",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Point-in-time dataset manifests and feature admission",
+   "story": "As the owner, I want every training and forecast dataset frozen with what was known when, so that no model learns from the future or from data it has no right to use.",
+   "from_drafts": [
+    "L4-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "A manifest freezes listing identities, contemporaneous membership, delisted and merged histories, raw inputs, actions, FX, calendars, feature code and rights evidence, with hashes (SCI-03).",
+     "Each feature block and listing has a status: vintage_backed, lag_conservative, prospective_only or unavailable; every window ends at the cutoff.",
+     "The initial blocks are lagged returns, trailing volatility and peak risk, reliable volume, declared market context, optional vintage-backed macro and missingness flags."
+    ],
+    "negative": [
+     "A future macro revision, today's constituents for a past universe, or a historical LLM extraction without contamination control is excluded or labelled prospective_only (SCI-03-AC01, SCI-G10).",
+     "Training or Anthropic sharing is blocked where only display is covered, and Yahoo history is not a training input while DATA-DEC-15 is open (SCI-03-AC07).",
+     "Missingness is never treated as zero exposure."
+    ],
+    "recovery": [
+     "A late correction creates a new manifest version; the old one stays for the models built on it.",
+     "A rights withdrawal marks dependent manifests and artefacts ineligible (DATA-AT-12)."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DatasetManifest",
+     "role": "writes"
+    },
+    {
+     "name": "FeatureSetVersion",
+     "role": "writes"
+    },
+    {
+     "name": "InputReference",
+     "role": "writes"
+    },
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code builds manifests. Only the owner approves a new feature block. Research agents can neither add features nor change weights.",
+   "states": [
+    "frozen",
+    "superseded",
+    "ineligible (rights)",
+    "block prospective_only",
+    "block unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S01",
+     "PH03-S02",
+     "PH03-S05",
+     "PH03-S06",
+     "PH03-S08"
+    ],
+    "gaps": [
+     "FC-03",
+     "FC-04"
+    ],
+    "owner_questions": [
+     "SCI-D04",
+     "DATA-DEC-15"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-03-AC01 and SCI-03-AC07 pass as executable tests, and golden case SCI-G10 reproduces.",
+    "Rebuilding a manifest from the same inputs reproduces its hash."
+   ]
+  },
+  {
+   "id": "PH04-S08",
+   "jira_key": "MP-133",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Walk-forward folds with purge, embargo and train-only fitting",
+   "story": "As the owner, I want every model evaluated only on walk-forward folds with leakage removed, so that backtest results reflect what the model could have known at the time.",
+   "from_drafts": [
+    "L4-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Folds are chronological, expanding-origin, on common UTC date blocks across assets, and every transform, imputer, selector and calibrator is fitted inside its training or calibration partition (SCI-05).",
+     "Purge removes any earlier label whose interval or outcome_known_at crosses a boundary; the embargo is the task horizon plus one eligible session, calendar-aware for month tasks.",
+     "The partition manifest records the fit, calibration and validation boundaries and every exclusion; the trial registry records every configuration, seed, failed job and test access.",
+     "Campaigns stay within two a month across dev and prod, each at most 96 fits and six training-instance hours (POLICY-008), as capped SageMaker CPU jobs (ARC-04)."
+    ],
+    "negative": [
+     "A random split, a full-dataset scaler, a test-selected model or a fixed 20-row gap for a 12-month label is rejected (SCI-05-AC01).",
+     "Every learned fit, head, seed and ablation counts toward the one project cap (SCI-05-AC03).",
+     "A final test that was opened and failed is spent and cannot be used for selection again (SCI-05-AC04)."
+    ],
+    "recovery": [
+     "An interrupted training job is reconciled by its job identity, never resubmitted blindly.",
+     "A campaign that would exceed its fits, hours or admitted budget aborts and records why."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "DatasetManifest",
+     "role": "reads"
+    },
+    {
+     "name": "ModelVersion",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code runs a campaign only after cost admission and within the owner's ceilings. Nobody exceeds them. Research agents cannot start a campaign or change model weights.",
+   "states": [
+    "registered",
+    "running",
+    "aborted (cap or budget)",
+    "completed",
+    "final test spent",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S03",
+     "PH04-S07",
+     "PH02-S06",
+     "PH02-S09",
+     "PH02-S10"
+    ],
+    "gaps": [
+     "FC-04",
+     "PL-07"
+    ],
+    "owner_questions": [
+     "SCI-D03",
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The leaky fixtures in SCI-05-AC01, SCI-05-AC03 and SCI-05-AC04 fail as they should.",
+    "Golden case SCI-G11 reproduces; a registry completeness check finds every fit counted."
+   ]
+  },
+  {
+   "id": "PH04-S09",
+   "jira_key": "MP-136",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Proper scores, uncertainty and the evaluation report",
+   "story": "As the owner, I want every model judged on proper scores with honest uncertainty and coverage, so that no model looks better by avoiding hard cases or by a lucky period.",
+   "from_drafts": [
+    "L4-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Events use Brier as primary and log loss as secondary; distributions use pinball over q10, q50 and q90, central-80% coverage, width and median error; reliability shows counts (SCI-06).",
+     "Paired candidate-minus-baseline losses on matched origins, with 2,000 moving-block bootstrap replicates of whole date blocks at least the label horizon long; fewer than 20 non-overlapping blocks labels the evidence exploratory.",
+     "Reports show hit rate alongside calibration, error, coverage, turnover and the benchmark, per market, kind, horizon and regime, with abstention coverage."
+    ],
+    "negative": [
+     "A score over issued forecasts only, without coverage, is rejected (SCI-06-AC05).",
+     "Extraction quality never counts as predictive value (SCI-06-AC08).",
+     "A secondary metric never replaces the declared primary afterwards."
+    ],
+    "recovery": [
+     "A failed or partial evaluation is reported incomplete, never green.",
+     "Rescoring after an outcome amendment creates new score versions beside the old."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Score",
+     "role": "writes"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "Outcome",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code computes every score. No agent judges predictive value. The owner sees the report and decides any promotion (PH04-S18).",
+   "states": [
+    "complete",
+    "exploratory (too few blocks)",
+    "incomplete",
+    "superseded (amended outcomes)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S03",
+     "PH04-S08"
+    ],
+    "gaps": [
+     "FC-04",
+     "FC-07"
+    ],
+    "owner_questions": [
+     "SCI-D03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-06-AC01, SCI-06-AC05 and SCI-06-AC08 pass as executable tests.",
+    "Metric known-answer tests match hand-worked values."
+   ]
+  },
+  {
+   "id": "PH04-S10",
+   "jira_key": "MP-139",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Regime and path-risk module",
+   "story": "As the owner, I want market regimes and within-horizon downside risk measured from past data only, so that protection estimates are separate from return forecasts and never overstated.",
+   "from_drafts": [
+    "L4-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The descriptive regime uses the sign of the trailing 60-session return and 20-session log-return volatility against an 80th-percentile threshold fitted only in the training partition (F3-REG-v1).",
+     "Within-horizon risk events (drawdown or adverse excursion beyond a threshold) use separately fitted and calibrated estimators, never the terminal distribution.",
+     "Regimes serve as strata and features, with past-only smoothing."
+    ],
+    "negative": [
+     "Missing windows give no regime, and NAV volatility is not annualised with a fixed 252.",
+     "A regime is never presented as a probability or a causal market state.",
+     "An available return forecast never implies an available path-risk probability."
+    ],
+    "recovery": [
+     "A threshold refitted in a later fold is a new version; earlier outputs keep theirs.",
+     "When path-risk inputs are incomplete, the path-risk output abstains while the return output may still issue."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FeatureSetVersion",
+     "role": "writes"
+    },
+    {
+     "name": "Prediction",
+     "role": "writes"
+    },
+    {
+     "name": "Probability",
+     "role": "validates"
+    }
+   ],
+   "authority": "Code computes regimes and risk estimates. The owner approves risk-event thresholds. No agent sets a regime or a threshold.",
+   "states": [
+    "regime up, down or flat with normal or high volatility",
+    "no regime (missing window)",
+    "path risk abstained",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S07",
+     "PH04-S08"
+    ],
+    "gaps": [
+     "FC-06"
+    ],
+    "owner_questions": [
+     "SCI-D02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Golden case SCI-G01 reproduces.",
+    "A leakage test proves the volatility threshold uses training data only; a missing-window case gives no regime."
+   ]
+  },
+  {
+   "id": "PH04-S11",
+   "jira_key": "MP-140",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Similar-days search since 2015",
+   "story": "As the owner, I want past days that looked like today found across about ten years of history, using only outcomes already known, so that analog evidence is honest about its size and its gaps.",
+   "from_drafts": [
+    "L4-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Candidates come from every eligible session since 1 January 2015, at most 20 neighbours on training-standardised trailing 20 and 60-session returns, 20-session volatility and 60-session drawdown, with deterministic tie-breaks (SCI-OA-02).",
+     "A candidate is admitted only if its full label interval matured and its outcome was known before the current cutoff; inside a fold it stays within the fit region.",
+     "Overlapping windows are grouped per economic entity and the effective evidence is shown.",
+     "Where a listing's history starts later, the search uses what there is and states its start date and candidate count."
+    ],
+    "negative": [
+     "An immature analog is excluded however close it is (SCI-04-AC02).",
+     "A short history is never padded from another listing, nor extended from Yahoo history without the owner's answer to DATA-DEC-15.",
+     "No neighbour or event count is presented as proof of an effect."
+    ],
+    "recovery": [
+     "A rerun with the same manifest returns the same neighbours.",
+     "A backfill that extends history produces a new feature version; earlier results keep theirs."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FeatureSetVersion",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "emits"
+    },
+    {
+     "name": "Outcome",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code runs the search. No agent chooses neighbours. The owner approves the feature set.",
+   "states": [
+    "full history",
+    "short history (disclosed)",
+    "too few candidates (low evidence)",
+    "unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S03",
+     "PH04-S07",
+     "PH03-S08"
+    ],
+    "gaps": [
+     "FC-06"
+    ],
+    "owner_questions": [
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-04-AC02 passes as an executable test.",
+    "An overlap-grouping test and a short-history disclosure case pass."
+   ]
+  },
+  {
+   "id": "PH04-S12",
+   "jira_key": "MP-143",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Event studies and event factors for all seven kinds",
+   "story": "As the owner, I want rate, inflation, tariff, conflict, earnings, OPEC+ and election events studied for the US, UK and India, each dated by when it became known, so that an event informs a forecast only after its own evidence shows it helps.",
+   "from_drafts": [
+    "L4-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The first wave covers all seven kinds for the US, UK and India; each event is dated by when it became known and its source's rights are checked (SCI-OA-01).",
+     "Scheduled kinds may use the prerelease mode only where the schedule was public by the cutoff; unscheduled kinds enter only in postrelease mode at a later daily origin.",
+     "A surprise is measured against an expectation known by the cutoff, or else the announcement alone, labelled as such.",
+     "Numerical code computes event counts, spread and intervals, accounting for overlapping outcomes and multiple testing; each kind declares its windows and comparators before its campaign."
+    ],
+    "negative": [
+     "No kind informs a forecast before it passes its own qualification, staged inside POLICY-008's ceiling.",
+     "A retrospective event study is descriptive and never qualifies a predictive feature; release content never leaks into a prior-close predictor.",
+     "Sparse or biased event data, or an event with no point-in-time date, gives low_evidence or unavailable, never a confident effect."
+    ],
+    "recovery": [
+     "A corrected event record appends a new version, and affected factors are rebuilt as new versions.",
+     "On a day with no extraction, the factor is missing, never zero sentiment; only a separately qualified no-news variant may run."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FeatureSetVersion",
+     "role": "writes"
+    },
+    {
+     "name": "SourceDocument",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "emits"
+    },
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    }
+   ],
+   "authority": "Claude routes (Haiku triage, Opus analysis of at most three events a day, ARC-06b) supply typed, dated, cited records only. Code decides admission and computes every number. The owner approves each kind's qualification. No agent sets a weight.",
+   "states": [
+    "kind declared",
+    "qualifying",
+    "qualified",
+    "low_evidence",
+    "unavailable (no point-in-time date or rights)",
+    "prospective_only"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S07",
+     "PH04-S08",
+     "PH04-S09",
+     "PH05-S01",
+     "PH05-S02",
+     "PH05-S03"
+    ],
+    "gaps": [
+     "FC-06",
+     "FC-13"
+    ],
+    "owner_questions": [
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check event passes.",
+    "Each kind's predeclaration record exists before its campaign; a multiple-testing correction test passes."
+   ]
+  },
+  {
+   "id": "PH04-S13",
+   "jira_key": "MP-146",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Regularised and boosted challengers with calibration",
+   "story": "As the owner, I want a small, bounded set of challenger models with calibrated outputs and visible drivers, so that a stronger model can be tested against the baselines without hidden complexity.",
+   "from_drafts": [
+    "L4-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "R1 is ridge for terminal return and logistic per binary event; R2 is bounded histogram gradient-boosted mean, quantile and event models; each artefact is keyed by task, horizon, currency, pool, features, fold, cutoff, calibrator and schema (SCI-04).",
+     "A sigmoid calibrator is fitted on the separate chronological calibration block after estimator selection and frozen with the artefact; isotonic or conformal methods need their own budgeted campaign and demonstrated time-series coverage.",
+     "Each output records its main drivers.",
+     "Training runs as capped SageMaker CPU jobs, and approved artefacts serve from Lambda only where the fit is shown (ARC-04)."
+    ],
+    "negative": [
+     "Crossing quantiles are rejected, or corrected only by an approved monotone mapping fitted without test access.",
+     "There is no model per ticker by default; unsupported tasks stay visible as baseline-only or unavailable.",
+     "Nothing here authorises a training call or a promotion."
+    ],
+    "recovery": [
+     "An artefact that does not fit the Lambda envelope is not deployed; a costed serving alternative goes to the owner.",
+     "A failed training job is reconciled by job identity and its fits still count."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ModelVersion",
+     "role": "writes"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "Quantile",
+     "role": "validates"
+    },
+    {
+     "name": "Probability",
+     "role": "validates"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code trains and evaluates within the campaign caps. Only the owner promotes (PH04-S18). Research agents cannot change weights.",
+   "states": [
+    "candidate",
+    "offline_qualified",
+    "rejected",
+    "too large for Lambda",
+    "uncalibrated (abstains)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S06",
+     "PH04-S08",
+     "PH04-S09"
+    ],
+    "gaps": [
+     "FC-05",
+     "PL-07"
+    ],
+    "owner_questions": [
+     "SCI-D03",
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "SCI-04-AC01 passes; a calibration-separation test and a quantile-crossing test pass.",
+    "Each campaign has a resource and cost estimate recorded before it runs."
+   ]
+  },
+  {
+   "id": "PH04-S14",
+   "jira_key": "MP-150",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Ablation ladder and incremental value of each feature block",
+   "story": "As the owner, I want each added layer (models, patterns, analogs, news and LLM factors) to prove what it adds over the layer below, so that complexity and cost are only kept where they earn their place.",
+   "from_drafts": [
+    "L4-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "Ablations run rules and statistics, then numerical models, then LLM-structured factors, then approved family combinations, with patterns and analog features, on the same dates, task and folds (ARC-05).",
+     "Incremental value covers proper score, calibration, stability, missing-source resilience, latency, rights and marginal cash cost.",
+     "LLM factors are prospective_only unless a bounded contamination study supports more."
+    ],
+    "negative": [
+     "A block that only improves extraction language does not qualify (SCI-06-AC08).",
+     "A model that depends on news cannot substitute zero sentiment when news is missing.",
+     "Every ablation spends the same fit cap."
+    ],
+    "recovery": [
+     "An aborted ablation is recorded as aborted with its fits counted.",
+     "When a factor source becomes ineligible, ablations that relied on it are marked ineligible, with their results kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "FeatureSetVersion",
+     "role": "reads"
+    },
+    {
+     "name": "ModelVersion",
+     "role": "reads"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code runs ablations within the caps. The owner decides which blocks enter a candidate. Agents cannot add a block.",
+   "states": [
+    "planned",
+    "run",
+    "no incremental value",
+    "increment qualified",
+    "prospective_only pending",
+    "ineligible"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S05",
+     "PH04-S06",
+     "PH04-S12",
+     "PH04-S13",
+     "PH04-S15",
+     "PH05-S04"
+    ],
+    "gaps": [
+     "FC-13",
+     "FC-14"
+    ],
+    "owner_questions": [
+     "SCI-D03",
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "An ablation report on synthetic fixtures shows matched dates and folds across every rung.",
+    "A missing-news case refuses zero sentiment."
+   ]
+  },
+  {
+   "id": "PH04-S15",
+   "jira_key": "MP-147",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Causal pattern detectors",
+   "story": "As the owner, I want chart patterns detected only from completed bars and tested as features, so that a pattern is never asserted as an edge it has not shown.",
+   "from_drafts": [
+    "L4-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "Two detectors: a crossing of the trailing 20 and 60-session means, and a close above the prior 20-session maximum or below its minimum, confirmed on completed bars only and timestamped at their last input (PAT-MA-20-60, PAT-RANGE-20).",
+     "Each detector has hand-marked examples and a stated confirmation lag; detector correctness and predictive value are tested separately.",
+     "Candle extensions stay retained requirements, inactive."
+    ],
+    "negative": [
+     "No candle pattern runs on a NAV series, and no detector uses future-confirmed extremes (SCI-04-AC01).",
+     "Parameter alternatives count as trials, with false-discovery control across them.",
+     "A detector with no out-of-sample evidence is never shown as predictive."
+    ],
+    "recovery": [
+     "A detector fix is a new version; outputs from the old version stay readable.",
+     "Missing bars make the detector ineligible for that listing and date rather than guessing."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FeatureSetVersion",
+     "role": "writes"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "Observation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code runs detectors. The owner approves a detector's use as a feature. Agents cannot add or tune a detector.",
+   "states": [
+    "detected",
+    "not detected",
+    "ineligible (NAV or too little history)",
+    "unqualified (no predictive evidence)",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S07",
+     "PH04-S08"
+    ],
+    "gaps": [
+     "FC-14"
+    ],
+    "owner_questions": [
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Hand-marked example tests pass for both detectors.",
+    "SCI-04-AC01's NAV and future-extreme refusals pass."
+   ]
+  },
+  {
+   "id": "PH04-S16",
+   "jira_key": "MP-152",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Contribution policy experiments",
+   "story": "As the owner, I want contribution and rebalancing ideas tested against simple rules on matched cash flows, so that I can see whether a policy would have cut downside without losing too much growth, as information only.",
+   "from_drafts": [
+    "L4-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "F7 compares owner-approved hypothetical policies with doing nothing, fixed-date benchmark contributions and a fixed-allocation policy, matching flow dates, currency, starting value, dividends, fees and slippage assumptions; gross and cost-adjusted results are shown separately (SCI-06).",
+     "Protected positions and bands are respected, and results compare downside improvement against lost growth.",
+     "A policy is shown live, labelled experimental, only after it beats the simple rules for 8 weeks in replay and shadow and the owner says yes (SCI-OA-09).",
+     "The owner's decision journal records what the owner decided, separately from the simulation."
+    ],
+    "negative": [
+     "No broker credential, order path or executable instruction exists; a simulation is never a trade or advice.",
+     "No tax treatment is assumed.",
+     "A policy that has not beaten the rules is not shown live."
+    ],
+    "recovery": [
+     "If a live policy's inputs become ineligible, it shows unavailable with the reason and its past results stay.",
+     "A replay interrupted part-way is rerun from its manifest and produces the same result."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "BenchmarkComparison",
+     "role": "reads"
+    },
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code runs simulations. The owner approves which policies are tested and whether one goes live. Nothing in MP can place an order.",
+   "states": [
+    "replay",
+    "shadow",
+    "awaiting the owner",
+    "live, labelled experimental",
+    "unavailable",
+    "rejected"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S09",
+     "PH03-S11",
+     "PH03-S12"
+    ],
+    "gaps": [
+     "FC-09"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Matched-flow replay fixtures pass with gross and cost-adjusted results shown apart.",
+    "A no-trading test proves no order path or broker credential exists."
+   ]
+  },
+  {
+   "id": "PH04-S17",
+   "jira_key": "MP-154",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Append-only scores and track-record summaries",
+   "story": "As the owner, I want every forecast's score kept for good, failures included, and summarised with its sample size, so that the track record is complete and its strength is clear.",
+   "from_drafts": [
+    "L4-S07"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each Score names the outcome revision it used; original and corrected scores both survive with policy-labelled aggregates.",
+     "Track records by horizon, holding, model and regime, and 30, 90 and 365-day summaries, show sample size, sufficiency and censoring, with immature forecasts counted as pending.",
+     "Score evidence is kept for the account's lifetime (POLICY-010), apart from operational logs (14 days) and run summaries (90 days)."
+    ],
+    "negative": [
+     "An unsuccessful forecast is never deleted or overwritten, and nothing is scored before maturity.",
+     "A summary with too few matured forecasts says so instead of showing a rate.",
+     "Hit rate never appears without calibration, error and coverage beside it."
+    ],
+    "recovery": [
+     "Summaries rebuilt from stored scores reproduce exactly.",
+     "A restore never resurrects deleted content, and an allowed record keeps the evidence that its source was removed."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Score",
+     "role": "writes"
+    },
+    {
+     "name": "Outcome",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code writes scores and summaries. The owner can delete under the account's deletion controls; nobody else can remove or edit a score.",
+   "states": [
+    "pending maturity",
+    "scored",
+    "insufficient sample",
+    "censored",
+    "amended"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S03",
+     "PH04-S09"
+    ],
+    "gaps": [
+     "FC-09",
+     "FC-16"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Maturity and revision invariant tests pass, and golden case SCI-G12 reproduces.",
+    "A reconciliation test rebuilds every summary from raw scores."
+   ]
+  },
+  {
+   "id": "PH04-S18",
+   "jira_key": "MP-156",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Eight-week shadow trial and owner promotion",
+   "story": "As the owner, I want a new model or rules version to run 8 scored weeks in shadow and beat the base rate and the current rules before I can promote it, so that nothing reaches my forecasts without evidence and my yes.",
+   "from_drafts": [
+    "L4-S08"
+   ],
+   "acceptance": {
+    "positive": [
+     "A candidate runs in shadow, writing immutable prospective predictions with no action authority, for 8 scored weeks, and must beat both the base rate and the current rules (SCI-OA-04).",
+     "A week that cannot be scored (a data outage, a holiday week) pauses the count; for 3, 6 and 12 months the 8 weeks check clean running and calibration on what has matured, and walk-forward history carries the accuracy evidence.",
+     "The owner's approval binds the exact artefact, calibrator, tasks, scope, evidence hash, limits, expiry and previous safe version; states run candidate, offline_qualified, shadow, owner_approved, probation, active, with rejected, paused and rolled_back.",
+     "A rules change takes the same trial against the current rules."
+    ],
+    "negative": [
+     "A tuner or agent can create a candidate but never promote one.",
+     "Fewer than 8 scored weeks, or failing either comparator, cannot be promoted; 8 weeks alone never validates 12-month accuracy.",
+     "An approval for a different artefact, an expired approval or a changed evidence hash is refused at execution."
+    ],
+    "recovery": [
+     "A promotion interrupted part-way is checked again against its approval and either completes once or stays unpromoted.",
+     "A rejected candidate stays readable with its evidence."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PromotionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "PromotionDecision",
+     "role": "emits"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "reads"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner promotes, with fresh authentication bound to the exact payload. Code records the trial and the decision. No agent can promote or approve.",
+   "states": [
+    "shadow (week n of 8)",
+    "count paused (unscoreable week)",
+    "awaiting maturity",
+    "ready for the owner",
+    "rejected",
+    "promoted"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S02",
+     "PH04-S06",
+     "PH04-S09",
+     "PH04-S17",
+     "PH02-S03",
+     "PH05-S14"
+    ],
+    "gaps": [
+     "FC-09"
+    ],
+    "owner_questions": [
+     "SCI-D03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check policy passes its trial_cases.",
+    "SCI-07-AC01 passes; an approval-binding test refuses a mismatched artefact and an expired approval."
+   ]
+  },
+  {
+   "id": "PH04-S19",
+   "jira_key": "MP-159",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Probation, automatic revert on slipping and safety pause",
+   "story": "As the owner, I want a promoted model watched on probation and reverted automatically if it slips, and a scope paused on a safety trigger, so that a bad model cannot keep issuing while I am away, and nothing switches forward without me.",
+   "from_drafts": [
+    "L4-S08"
+   ],
+   "acceptance": {
+    "positive": [
+     "A newly promoted model is on probation for 4 live weeks and reverts after 2 bad weeks; after that, 4 weeks running worse than the previous approved model on matured forecasts reverts it automatically (SCI-OA-05, SCI-OA-06).",
+     "A revert appends PromotionRecords (the slipping model rolled_back, the previous model active under its own unexpired approval) and notifies the owner.",
+     "An advance-approved safety trigger pauses only the affected scope and notifies the owner; invalid outputs stay withheld (POLICY-003).",
+     "The previous approved model keeps issuing shadow forecasts, so comparisons are paired."
+    ],
+    "negative": [
+     "If the previous model is ineligible (revoked rights, expired approval, invalid hash), the scope pauses instead of reverting.",
+     "Switching forward again, or restarting a paused scope, needs the owner's yes; nothing restarts itself.",
+     "A week with no matured paired forecasts neither counts toward nor breaks a run."
+    ],
+    "recovery": [
+     "A revert interrupted part-way completes idempotently from its records.",
+     "A failed notification is retried; the revert or pause stands meanwhile."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PromotionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "emits"
+    },
+    {
+     "name": "IncidentRecord",
+     "role": "writes"
+    },
+    {
+     "name": "Score",
+     "role": "reads"
+    },
+    {
+     "name": "Eligibility",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code reverts and pauses only under the owner's rules. Only the owner restarts a scope or switches forward. No agent can trigger, block or undo a revert.",
+   "states": [
+    "probation",
+    "active",
+    "slipping (bad-week run in progress)",
+    "reverted",
+    "paused",
+    "awaiting the owner's restart"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S17",
+     "PH04-S18",
+     "PH06-S12"
+    ],
+    "gaps": [
+     "FC-09"
+    ],
+    "owner_questions": [
+     "SCI-D07"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check policy passes its slip_cases, including slip_previous_ineligible_pauses.",
+    "SCI-07-AC01's authorised-safety-pause case passes."
+   ]
+  },
+  {
+   "id": "PH04-S20",
+   "jira_key": "MP-161",
+   "phase": "PH-04",
+   "epic": "MP-6",
+   "title": "Bounded self-correction overlay",
+   "story": "As the owner, I want code to make small calibration and weighting adjustments inside bands I approve, and undo them if scores worsen, so that forecasts improve gradually without anything larger changing behind my back.",
+   "from_drafts": [
+    "L4-S08"
+   ],
+   "acceptance": {
+    "positive": [
+     "Code grades every matured forecast daily and may shift a forecast's probabilities by at most 5 percentage points a week and a signal's weight by at most 10% a month (SCI-OA-03).",
+     "Each adjustment is an append-only, versioned overlay on the frozen calibrator and weights, named in every Prediction's calibrator_version, with its provenance persisted before any Prediction names it.",
+     "An adjustment rolls back automatically if scores worsen against the unadjusted version on later matured paired forecasts."
+    ],
+    "negative": [
+     "Anything outside a band waits for the owner; the overlay never changes learned parameters, features, rules, task definitions, the bands or the 35/40/25 weights.",
+     "An overlay fitted on any outcome known after the origin's cutoff is rejected.",
+     "No Claude or research agent can make or approve an adjustment."
+    ],
+    "recovery": [
+     "A failed overlay step leaves the previous overlay in force.",
+     "A rollback restores the previous overlay version and keeps the full history."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "Score",
+     "role": "reads"
+    },
+    {
+     "name": "Lineage",
+     "role": "writes"
+    },
+    {
+     "name": "AuditEvent",
+     "role": "writes"
+    }
+   ],
+   "authority": "Deterministic code adjusts only inside bands the owner approves before go-live. The owner alone approves the bands and anything outside them. Agents have no part.",
+   "states": [
+    "no overlay",
+    "overlay active",
+    "step in flight, awaiting matured pairs",
+    "rolled back",
+    "out of band, awaiting the owner",
+    "paused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH04-S17",
+     "PH04-S18"
+    ],
+    "gaps": [
+     "CT-15",
+     "FC-09"
+    ],
+    "owner_questions": [
+     "SCI-D10"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check policy passes its band_cases and overlay_cases, including band_combined_score_weights_refused and overlay_future_outcome.",
+    "A provenance test refuses a Prediction that names an overlay with no persisted provenance."
+   ]
+  }
+ ]
+}

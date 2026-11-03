@@ -322,8 +322,9 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 
 ## 13. What is still open
 
-- **52 gaps** in the [gap register](docs/planning/ma-reconciliation-2026-11-02/gap-register.json), and 64 local story
-  drafts that are not yet Jira stories.
+- **52 gaps** in the [gap register](docs/planning/ma-reconciliation-2026-11-02/gap-register.json). The 64 local story
+  drafts are now 136 ready Jira stories ([MP-40](docs/planning/story-readiness-2026-11-03/README.md)), awaiting the
+  owner's acceptance, with 14 new owner questions they wait on (MP40-Q1 to Q14).
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
@@ -342,8 +343,9 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
   model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
 - **Story readiness (CD-01):** the owner signed off this baseline on 3 November 2026 at commit `98ba348`
-  ([sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)), which leaves every item above open. Before
-  any UX work, the 64 story drafts become Jira stories that meet the readiness protocol.
+  ([sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)), which leaves every item above open. The 64
+  story drafts are now 136 Jira stories that meet the readiness protocol
+  ([MP-40](docs/planning/story-readiness-2026-11-03/README.md)); UX starts once the owner accepts them.
 
 ## 14. Diagram sources
 

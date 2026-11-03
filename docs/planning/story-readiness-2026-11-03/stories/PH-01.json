@@ -1,0 +1,2041 @@
+{
+ "phase": "PH-01",
+ "as_of": "2026-11-03",
+ "issue": "MP-40",
+ "drafts": {
+  "L1-S01": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S03"
+   ]
+  },
+  "L1-S02": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S06"
+   ]
+  },
+  "L1-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S07",
+    "PH01-S08",
+    "PH01-S09"
+   ],
+   "note": "Three deliverables: code parsers for CSV, Excel and text PDFs; the tool-free Claude route for scanned PDFs and screenshots; manual entry."
+  },
+  "L1-S04": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S10"
+   ]
+  },
+  "L1-S05": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S11"
+   ]
+  },
+  "L1-S06": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S13"
+   ]
+  },
+  "L1-S07": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S12"
+   ]
+  },
+  "L1-S08": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S14",
+    "PH01-S15"
+   ],
+   "note": "Two deliverables: the owner approval record and its checks; the controlled writer's atomic commit and staging."
+  },
+  "L1-S09": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S16"
+   ]
+  },
+  "L1-S10": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S17"
+   ]
+  },
+  "L1-S11": {
+   "disposition": "kept",
+   "stories": [
+    "PH01-S18"
+   ]
+  },
+  "L1-S12": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S19",
+    "PH01-S20"
+   ],
+   "note": "Two deliverables: per-measure sufficiency with the labelled FIFO basis (POLICY-009); the XIRR calculator, which waits on FIN-OD-04."
+  },
+  "L1-S13": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S04",
+    "PH01-S05"
+   ],
+   "note": "Two deliverables: business audit lineage and integrity checks; original-file retention, deletion and restore."
+  },
+  "L1-S14": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S21",
+    "PH01-S22",
+    "PH01-S23"
+   ],
+   "note": "Three deliverables: the paged read API; progress notices over SSE; the client screens."
+  },
+  "L1-S15": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S01",
+    "PH01-S02"
+   ],
+   "note": "Two deliverables: owner and environment scope with telemetry redaction; bounded work and cost for import processing."
+  },
+  "L1-S16": {
+   "disposition": "split",
+   "stories": [
+    "PH01-S24",
+    "PH01-S25"
+   ],
+   "note": "Two deliverables: the synthetic phase acceptance suite; later real-sample layout qualification."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH01-S01",
+   "jira_key": "MP-41",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Owner and environment scope on every import and ledger path",
+   "story": "As the owner, I want every import, extraction, approval, commit and read to recheck my owner and environment scope on the server, so that dev data, fixtures or another scope can never read or change my records.",
+   "from_drafts": [
+    "L1-S15"
+   ],
+   "acceptance": {
+    "positive": [
+     "The API, extraction workers, source access and the controlled writer derive owner and environment from server authentication and recheck them at every read, write and account mapping; no client field or file content chooses them.",
+     "A dev request naming a prod owner or account, or a document carrying \"approved: true\", publishes nothing and reads nothing from prod, and a privacy-safe denial is audited (FIN-AC-04).",
+     "Synthetic fixtures carry is_synthetic in their ScopeEnvelope and load only into dev; a fixture load aimed at prod is refused before any write."
+    ],
+    "negative": [
+     "No broker trading credential, order path or execution endpoint exists in the import or ledger code or configuration.",
+     "Signed source links, raw extracted fields, prompts, PDF passwords, account numbers and holding values never appear in general logs, traces, metrics or Web Push previews.",
+     "A worker resumed after a durable wait does not reuse a scope cached before the wait; it rechecks before acting."
+    ],
+    "recovery": [
+     "After a denied cross-scope request no partial record, staged chunk or cache entry is left in either environment, and the next correctly scoped request succeeds unchanged.",
+     "If the redaction filter cannot load, the service withholds the affected telemetry rather than emitting unredacted values."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "InvestmentAccount",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Server authentication alone sets owner and environment. The owner acts only within their own scope in the environment they signed into. Extraction workers and Claude routes inherit the job's scope and cannot widen it. Dev CI and dev agents have no prod write path (ARC-11). Nobody may hold broker credentials or place orders.",
+   "states": [
+    "In scope and allowed",
+    "Denied for the wrong owner or environment, with a privacy-safe audit record",
+    "Denied because scope evidence is missing or expired: a fresh sign-in is needed",
+    "Fixture load refused in prod",
+    "Telemetry withheld because redaction is unavailable"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S01",
+     "PH02-S05"
+    ],
+    "gaps": [
+     "PL-12"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "FIN-AC-04 passes as an automated test in dev on synthetic data",
+    "A cross-owner and cross-environment matrix test covers the API, worker, source-access and writer paths",
+    "A redaction test seeds secrets and private values and finds none in captured logs, traces and push payloads",
+    "A scan of code and configuration finds no broker credential or order path"
+   ]
+  },
+  {
+   "id": "PH01-S02",
+   "jira_key": "MP-42",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Bounded work and cost for import processing",
+   "story": "As the owner, I want every extraction, retry and queued import job to run inside a reserved file, time, token and concurrency budget, so that an import can never overspend the £100 ceiling or run without limit.",
+   "from_drafts": [
+    "L1-S15"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each extraction job reserves its file size, wall time, Claude tokens and concurrency slot before it starts, and records actual usage against that reservation exactly once, even when retried.",
+     "A Claude extraction call is admitted only when the shared cost admission confirms covered credit inside the Claude and evaluations allocation of £15 a month (COST-Q1); otherwise the job pauses with a visible reason.",
+     "Import activity appears in the main per-environment cost view, linked by import id, from cached or scheduled collectors with their lag stated."
+    ],
+    "negative": [
+     "No paid billing or usage API is called on a page refresh.",
+     "Unknown or unverifiable credit pauses the uncovered model call; there is no silent paid fallback.",
+     "A retried job cannot reserve a second budget for the same work item; usage accounting is idempotent on the job and attempt id."
+    ],
+    "recovery": [
+     "After a crash an expired reservation is reconciled against recorded usage, and the job resumes or stops under its original budget, never a fresh one.",
+     "A paused job resumes from its last checkpoint once credit is confirmed, without rerunning completed deterministic steps."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    }
+   ],
+   "authority": "Cost admission code decides whether work may start. The owner may change an allocation only through the protected budget setting. Extraction workers and Claude routes cannot reserve beyond their route policy or approve their own spend. Nobody enables a paid fallback without the owner's yes.",
+   "states": [
+    "Reserved and running",
+    "Completed with usage reconciled",
+    "Paused for unknown or exhausted credit",
+    "Refused because the file or time budget is exceeded",
+    "Cost figures stale, with the collector lag shown"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH02-S09",
+     "PH02-S08"
+    ],
+    "gaps": [
+     "PL-13",
+     "CT-13"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A test drives duplicate retries and a crash mid-job and finds one reservation and one usage record per work item",
+    "An admission test with zero admissible credit shows the Claude call refused and the job paused with its reason",
+    "A test shows the cost view makes no billing API call per refresh"
+   ]
+  },
+  {
+   "id": "PH01-S03",
+   "jira_key": "MP-43",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Owner-scoped accounts and listing identities",
+   "story": "As the owner, I want my accounts and the listings I hold recorded with stable identities that tell venue, trading currency and quote unit apart, so that one instrument is never confused with another and nothing is guessed.",
+   "from_drafts": [
+    "L1-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Issuer, security, share class, listing and provider alias are separate records; CNX1 on XLON in GBP and CNDX on XLON in USD keep separate listings while sharing ISIN IE00B53SZB19 (FIN-AC-03).",
+     "A provider ticker rename adds a new effective-dated alias version without rewriting history that used the old alias.",
+     "An account records its institution alias, jurisdiction, wrapper label and permitted settlement currencies as source-backed labels, with tax_logic_applied false."
+    ],
+    "negative": [
+     "An ISIN or a name that matches more than one listing yields candidates for the owner to choose; the system never picks one.",
+     "No tax rule is inferred from a wrapper label such as ISA or SIPP, and no broker credential or full account number is stored, only a protected reference token.",
+     "Fixtures use real public identifiers (UK-VOD-XLON-GBX, US-AAPL-XNAS-USD, IN-RELIANCE-XNSE-INR) with fictional balances; the owner's actual holdings are not loaded."
+    ],
+    "recovery": [
+     "An abandoned listing choice leaves the candidates open and the dependent rows blocked; choosing later creates a new version and the earlier state stays in history.",
+     "Correcting a wrongly created account or listing creates a new version with an audit link; the earlier version stays readable."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "InstrumentListing",
+     "role": "writes"
+    },
+    {
+     "name": "Security",
+     "role": "writes"
+    },
+    {
+     "name": "Issuer",
+     "role": "writes"
+    },
+    {
+     "name": "InvestmentAccount",
+     "role": "writes"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    }
+   ],
+   "authority": "The owner confirms listing choices and creates or relabels accounts. Code proposes candidates from verified identifiers. Claude routes may suggest a candidate with evidence but cannot confirm a listing or create an account. Nobody stores broker credentials.",
+   "states": [
+    "Confirmed identity",
+    "Ambiguous, with candidates awaiting the owner",
+    "Alias superseded by a newer effective-dated version",
+    "Unknown listing, not yet in the catalogue",
+    "Stale alias whose provider mapping has not been rechecked"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH00-S03"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "FIN-AC-03 passes as an automated test",
+    "Synthetic examples L1-E02 and L1-E03 pass",
+    "A test with an ambiguous ISIN shows candidates and no automatic choice"
+   ]
+  },
+  {
+   "id": "PH01-S04",
+   "jira_key": "MP-44",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Business audit lineage and integrity checks",
+   "story": "As the owner, I want every authoritative change to carry durable links to its source, actor, approval and commit, so that I can answer who changed a figure, from which document, what I approved and what used it.",
+   "from_drafts": [
+    "L1-S13"
+   ],
+   "acceptance": {
+    "positive": [
+     "Every ledger publication, correction, reversal, mapping choice, approval, denial and deletion writes an AuditEvidence record with actor, operation, targets, source refs, approval id and commit id, in the same logical commit as the change.",
+     "Business audit is unsampled and kept for the account's lifetime (POLICY-010), separate from operational telemetry kept 14 days for logs, 30 days for rich traces and 90 days for run summaries.",
+     "The question \"who changed this fee, from which document, what did I approve, and which forecasts used it\" resolves through AuditQuery with bounded pagination and no general table scan."
+    ],
+    "negative": [
+     "A hash chain alone is never described as tamper-proof; integrity_claim stays at the level the approved anchoring design supports.",
+     "A financial change without its audit record is never acknowledged as committed.",
+     "Audit records hold references, never document content, prompts, tokens or holding values."
+    ],
+    "recovery": [
+     "A synthetic missing or altered audit event is detected by the integrity check and reported as an integrity failure naming the affected range.",
+     "If an index lags, the query falls back to authoritative manifest joins and returns the complete lineage, or reports INTEGRITY_INCOMPLETE rather than a partial answer."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "AuditQuery",
+     "role": "reads"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the controlled writer and the protected approval and deletion paths append audit records. The owner may read and query the whole trail. Agents read lineage only through read-only tools within scope. Nobody edits or deletes an audit record outside the approved deletion policy.",
+   "states": [
+    "Complete lineage",
+    "Lineage with an unavailable source: a deleted original shown as unavailable",
+    "Integrity check failed",
+    "Index lagging, with fallback to manifests",
+    "Query incomplete (INTEGRITY_INCOMPLETE)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH02-S13",
+     "PH02-S14"
+    ],
+    "gaps": [
+     "CT-03",
+     "PL-08"
+    ],
+    "owner_questions": [
+     "FIN-OD-08"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The integrity part of FIN-AC-29 passes: a mutated leaf is detected",
+    "A test injecting a missing audit event detects it",
+    "The forensic query test resolves source, approval, commit and forecast joins on synthetic data",
+    "A scan of audit records finds no content values"
+   ]
+  },
+  {
+   "id": "PH01-S05",
+   "jira_key": "MP-45",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Original files kept, deleted and restored without resurrection",
+   "story": "As the owner, I want my original statements and screenshots kept privately for a renewable 24 months, deletable by me and never brought back by a restore, so that evidence is there when I need it and gone when I delete it.",
+   "from_drafts": [
+    "L1-S13"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each original has a renewable 24-month retention with owner extension and owner deletion; there is no automatic expiry deletion and no irreversible Object Lock.",
+     "An owner deletion removes the original and its derived text, records a tombstone and an audit event, and later evidence joins show the source as deleted.",
+     "Ledger events that came from a deleted original remain, marked evidence-unavailable, rather than disappearing (POLICY-010)."
+    ],
+    "negative": [
+     "A backup restore cannot resurrect a deleted original or its derived text; tombstones are applied before restored content is readable.",
+     "Deletion never removes ledger history or audit records; it removes content only.",
+     "An orphaned object is not deleted automatically; it follows a recorded disposition."
+    ],
+    "recovery": [
+     "A deletion interrupted midway resumes from its tombstone and reports any copy it could not yet remove.",
+     "An isolated restore exercise followed by tombstone reapplication leaves the deleted content unreadable."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "DeletionTombstone",
+     "role": "writes"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner, after a fresh sign-in, may delete or extend an original. Code applies retention and tombstones. Agents and workers cannot delete or extend. Nobody may make an original public.",
+   "states": [
+    "Retained within its 24 months",
+    "Due for owner renewal",
+    "Deletion in progress",
+    "Deleted, with tombstone",
+    "Restored copy awaiting tombstone reapplication (unreadable)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S04",
+     "PH02-S14",
+     "PH02-S03",
+     "PH08-S03"
+    ],
+    "gaps": [
+     "CT-04"
+    ],
+    "owner_questions": [
+     "FIN-OD-08"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A deletion test shows content gone, tombstone and audit present, and ledger events marked evidence-unavailable",
+    "A restore-then-reapply test on an isolated dev copy shows no resurrection",
+    "The deletion and restore part of FIN-AC-29 passes"
+   ]
+  },
+  {
+   "id": "PH01-S06",
+   "jira_key": "MP-46",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Private validated upload intake",
+   "story": "As the owner, I want an uploaded file checked, quarantined and recorded with its exact bytes before anything reads it, so that a bad or hostile file cannot reach extraction or my ledger.",
+   "from_drafts": [
+    "L1-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Byte size, magic type, checksum, archive, page, pixel and runtime checks run, and the file is quarantined, before any extraction starts.",
+     "The original bytes, their storage version and a SourceReceipt exist before processing; the source moves received, quarantined, extracting only through the defined transitions.",
+     "A rejected upload shows the owner a visible reason, such as an unsupported type or too many pages."
+    ],
+    "negative": [
+     "An object-created notification never marks an import committed or creates a ledger effect.",
+     "Upload authorisation is scoped to owner, environment and one upload intent, is short-lived, and single use is enforced by the app rather than assumed from a signed URL.",
+     "Originals are never public. No limit value is treated as approved until the owner records it; the intake policy version marks unapproved values."
+    ],
+    "recovery": [
+     "Repeated or out-of-order notifications resolve to the same receipt; an object without a receipt is quarantined as an orphan, and a receipt with a missing or wrong object is blocked (FIN-AC-15).",
+     "A failed validation needs a new processing revision; the original bytes are never replaced."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "The owner may upload within their own scope. The intake service validates and quarantines. No worker, agent or file content can change scope, skip quarantine or mark a commit. Nobody may make an original public.",
+   "states": [
+    "Received",
+    "Quarantined",
+    "Validation failed, with reason",
+    "Orphan object quarantined",
+    "Receipt blocked for a missing or wrong object",
+    "Upload link expired"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH01-S04",
+     "PH02-S05",
+     "PH02-S06",
+     "PH02-S11"
+    ],
+    "gaps": [
+     "CT-03",
+     "PL-08"
+    ],
+    "owner_questions": [
+     "MP40-Q1"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-15 passes",
+    "A hostile-file set (oversized, wrong magic type, archive bomb, too many pages) is refused before extraction in tests",
+    "A signed-link reuse test shows the second use refused",
+    "Synthetic example L1-E01 passes through intake"
+   ]
+  },
+  {
+   "id": "PH01-S07",
+   "jira_key": "MP-47",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Deterministic parsers for CSV, Excel and text PDFs",
+   "story": "As the owner, I want CSV, Excel and text-based PDF statements in supported layouts parsed by code into draft rows that point to the exact cell or page they came from, so that every figure can be traced and nothing is invented.",
+   "from_drafts": [
+    "L1-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Supported CSV, Excel and text-PDF layouts in the versioned layout register produce DraftRows whose every field records the raw literal, the normalised value, the parser and schema version, and a row and column, sheet and cell, or page and region locator.",
+     "Missing data stays missing: an absent fee or date is recorded as absent, never as zero or a default.",
+     "Generic synthetic fixtures are labelled generic and kept distinct from layouts validated on real broker samples."
+    ],
+    "negative": [
+     "Cell formulas, macros, links and embedded text are data only; no formula, script or network call runs to import a workbook, and instruction-like text changes nothing.",
+     "An unsupported layout is reported as unsupported with the evidence of why, never guessed into rows.",
+     "An encrypted PDF is held as needing unlock and is not parsed; no password is logged or sent to a model. The unlock flow itself waits on an owner decision that no record yet holds."
+    ],
+    "recovery": [
+     "A parser failure moves the source to extraction_failed with a retry disposition; reprocessing with a new parser version creates a new draft revision and keeps the old one.",
+     "A crash mid-parse leaves no partial draft visible; a rerun produces the same rows for the same bytes and parser version."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DraftRow",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "Parser code proposes draft rows only; the owner reviews them in the preview. Parsers have no tool, network or writer authority. Nobody can approve rows through file content.",
+   "states": [
+    "Extracting",
+    "Extracted, with rows",
+    "Unsupported layout",
+    "Extraction failed, with retry disposition",
+    "Needs unlock (encrypted PDF)",
+    "Superseded by a newer parser version"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S02",
+     "PH01-S06",
+     "PH00-S04"
+    ],
+    "gaps": [
+     "CT-03"
+    ],
+    "owner_questions": [
+     "MP40-Q2"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The CSV, Excel and PDF paths of FIN-AC-05 pass on synthetic fixtures",
+    "A hostile workbook with formulas, macros and external links imports with no execution and no network call, asserted in a test",
+    "Synthetic examples L1-E01 and L1-E03 pass",
+    "An identical rerun gives identical draft rows"
+   ]
+  },
+  {
+   "id": "PH01-S08",
+   "jira_key": "MP-48",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Tool-free Claude extraction for scanned PDFs and screenshots",
+   "story": "As the owner, I want scanned statements and screenshots read by a bounded, tool-free Claude route into typed draft rows with source regions, so that image-only documents can be imported but never trusted without my review.",
+   "from_drafts": [
+    "L1-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The extraction route (Haiku 5.5 under ARC-06b) runs with no tools and no write authority, inside its reserved token and time budget, and returns a schema-validated typed proposal.",
+     "Every field carries the page and region or image region it came from, the model id, the prompt and schema versions and a confidence; a field the model cannot read is absent, not guessed.",
+     "Output that fails schema validation is refused and the source moves to extraction_failed with a reason."
+    ],
+    "negative": [
+     "Instructions inside a document, such as \"approve this\", have no effect; a hostile-text fixture is flagged and never approved.",
+     "Claude output is a draft only and cannot become ledger truth without the owner's exact approval.",
+     "No password or account number is sent to the model, and only the document pages the route needs leave MP."
+    ],
+    "recovery": [
+     "A timed-out or refused model call is retried within the same reservation and a bounded number of attempts, then stops with a visible reason; it never retries under a new budget.",
+     "A model or prompt version change reprocesses into a new draft revision; the old revision stays for comparison."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DraftRow",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "The extraction route proposes only. Cost admission decides whether it may call Claude. The owner reviews every row. The route has no tools, writer or approval authority, and no network beyond the Anthropic API. Nobody may give it tools without an owner decision.",
+   "states": [
+    "Queued, awaiting credit",
+    "Extracting",
+    "Extracted, with low-confidence fields flagged",
+    "Schema validation failed",
+    "Paused for credit",
+    "Superseded by a newer model or prompt version"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S02",
+     "PH01-S06",
+     "PH05-S05",
+     "PH05-S12"
+    ],
+    "gaps": [
+     "CT-07",
+     "CT-08"
+    ],
+    "owner_questions": [
+     "ARC-06b-O4"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The PDF-region and screenshot-region paths of FIN-AC-05 pass on synthetic fixtures",
+    "Prompt-injection fixtures are flagged and produce no approval, in an automated case",
+    "A schema-invalid model response is refused in a test",
+    "The extraction route passes its evaluation set before it is switched on"
+   ]
+  },
+  {
+   "id": "PH01-S09",
+   "jira_key": "MP-49",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Manual entry through the same import pipeline",
+   "story": "As the owner, I want to type a holding or transaction by hand and have it go through the same draft, review and approval path as a file, so that manual figures are as traceable and checked as imported ones.",
+   "from_drafts": [
+    "L1-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "A manual entry creates a SourceReceipt with intake_method manual, and DraftRows whose evidence points to the entered field and entry time.",
+     "Manual rows pass through the same matching, normalisation, duplicate, preview and approval steps as file rows.",
+     "A manual snapshot (units and value, no history) is recorded as an observation, not as invented purchase transactions."
+    ],
+    "negative": [
+     "A manual entry cannot skip preview or approval and cannot write the ledger directly.",
+     "An entry missing a required field such as currency, date or units is refused with the field named; nothing is defaulted."
+    ],
+    "recovery": [
+     "An unsent manual draft is kept so the owner can resume it, and a duplicate submit of the same entry resolves to the same draft."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "DraftRow",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner may enter manual data. Code validates it. Agents may not create manual entries on the owner's behalf.",
+   "states": [
+    "Being entered",
+    "Submitted as a draft",
+    "Refused for a missing field",
+    "Resumed after interruption",
+    "Stale against a newer ledger revision"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S06",
+     "PH00-S07"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "The manual path of FIN-AC-05 passes",
+    "A test shows a manual snapshot creates a position observation and no purchase event",
+    "A double-submit test yields one draft"
+   ]
+  },
+  {
+   "id": "PH01-S10",
+   "jira_key": "MP-50",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Instrument and account matching",
+   "story": "As the owner, I want extracted rows matched to the right listing and account using verified identifiers, and asked to choose when it is unclear, so that a similar ticker or name never moves my figures to the wrong instrument.",
+   "from_drafts": [
+    "L1-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Matching uses verified identifiers with venue, currency and share-class context, and records the confidence and evidence of each match.",
+     "An unknown or ambiguous match blocks only the rows that depend on it; choosing a mapping creates a new draft revision.",
+     "A saved mapping or layout template is versioned, scoped to the owner and environment, and shown when it is reused."
+    ],
+    "negative": [
+     "A similar ticker or name never turns one listing into another silently; reusing a mapping that no longer fits its context is flagged, not applied.",
+     "A factsheet can describe a candidate instrument but cannot create units, cost or purchase history for the owner."
+    ],
+    "recovery": [
+     "Undoing a mapping choice creates another draft revision and restores the blocked state of the dependent rows; earlier revisions stay.",
+     "If the listing catalogue changes after mapping, the draft is marked stale and rematched before approval."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "InstrumentListing",
+     "role": "reads"
+    },
+    {
+     "name": "InvestmentAccount",
+     "role": "reads"
+    },
+    {
+     "name": "DraftRow",
+     "role": "reads"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code proposes matches. The owner confirms ambiguous ones. Claude may suggest a candidate with evidence but cannot confirm a match. Nobody can apply a mapping across owners or environments.",
+   "states": [
+    "Matched",
+    "Ambiguous, awaiting the owner",
+    "Unknown listing",
+    "Mapping reused from a template",
+    "Stale after a catalogue change"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S03",
+     "PH01-S07"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Synthetic examples L1-E02 and L1-E03 pass",
+    "The ambiguity part of FIN-AC-03 passes",
+    "A test reusing a template on a lookalike ticker shows it flagged, not applied"
+   ]
+  },
+  {
+   "id": "PH01-S11",
+   "jira_key": "MP-51",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Exact normalisation of money, dates and events",
+   "story": "As the owner, I want amounts, units, currencies and dates normalised exactly, once, with the source values kept, so that pence never become pounds twice and no fee, date or currency is invented.",
+   "from_drafts": [
+    "L1-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "12000 GBX for 2 units with a 1 GBP fee normalises once to 120 GBP a unit and -241 GBP net, keeping the raw literal and factor (FIN-AC-01).",
+     "Booked net amounts, unit prices, fees, withholding, and FX execution versus reference rates stay distinct and reconcile exactly after declared unit conversion; a one-minor-unit difference is flagged.",
+     "Trade, settlement, observed, available and recorded times keep their meanings, and a date-only input stays date-only.",
+     "Each event has validated cash and quantity legs: exposure from the trade date, settlement tracked separately (POLICY-007)."
+    ],
+    "negative": [
+     "Normalising an amount already in GBP with the GBX factor is refused, and unknown fees or currencies are never set to zero or a default.",
+     "NaN, exponent strings, negative zero and values beyond the precision bounds are refused with field evidence (FIN-AC-02).",
+     "Transfers, FX and splits keep their economic boundaries, unlike units are never summed, and a missing settlement date is not invented."
+    ],
+    "recovery": [
+     "A normalisation failure marks the row needs_resolution with the reason; fixing the source value creates a new draft revision.",
+     "A changed normalisation policy version reruns normalisation into a new revision and invalidates any pending approval."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Money",
+     "role": "writes"
+    },
+    {
+     "name": "CashLeg",
+     "role": "writes"
+    },
+    {
+     "name": "QuantityLeg",
+     "role": "writes"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "writes"
+    },
+    {
+     "name": "ObservationTimes",
+     "role": "writes"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "writes"
+    }
+   ],
+   "authority": "Normalisation code only. The owner resolves flagged rows. No agent may change a normalised value. Events written here are draft content until the controlled writer publishes them.",
+   "states": [
+    "Normalised",
+    "Needs resolution",
+    "One-minor-unit difference flagged",
+    "Precision refused",
+    "Settlement unknown"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S10"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-01"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-01 and FIN-AC-02 pass",
+    "Synthetic examples L1-E02, L1-E06 and L1-E07 pass"
+   ]
+  },
+  {
+   "id": "PH01-S12",
+   "jira_key": "MP-52",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Business deduplication and replay-safe identity",
+   "story": "As the owner, I want a replayed file or a repeated broker event recognised and applied only once, while two genuine identical trades stay two, so that my history is neither doubled nor thinned.",
+   "from_drafts": [
+    "L1-S07"
+   ],
+   "acceptance": {
+    "positive": [
+     "File, source-row and economic-event identities are separate, scoped and versioned.",
+     "Retrying the same bytes, or the same broker event in another format, has one effect per economic id (FIN-AC-07).",
+     "Two genuine same-day, same-amount trades with distinct stable references stay two events (L1-E05)."
+    ],
+    "negative": [
+     "A collision with no reference evidence goes to duplicate review; it is never discarded or inserted automatically.",
+     "Reprocessing with a new parser cannot bypass economic deduplication; a changed fact becomes a correction proposal, not a second original trade."
+    ],
+    "recovery": [
+     "A published operation retried after 20 minutes or after a service-token restart returns the same receipt and revision, and the same key with a changed payload returns IDEMPOTENCY_CONFLICT (FIN-AC-08).",
+     "An open duplicate review keeps the affected rows pending and visible; deciding later creates a new draft revision."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ImportDraft",
+     "role": "writes"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "reads"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "Deduplication code suppresses true replays by stable reference. The owner decides reviewed collisions. Agents cannot mark rows as duplicates.",
+   "states": [
+    "Unique",
+    "True replay suppressed",
+    "Possible duplicate awaiting review",
+    "Idempotency conflict",
+    "Correction proposed for a changed fact"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S11"
+    ],
+    "gaps": [
+     "PL-08"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "FIN-AC-07 and FIN-AC-08 pass",
+    "Synthetic examples L1-E04 and L1-E05 pass"
+   ]
+  },
+  {
+   "id": "PH01-S13",
+   "jira_key": "MP-53",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Import preview, guided edits and explicit group selection",
+   "story": "As the owner, I want to see every row of an import with its mapping, values, errors and effect on my figures, edit or exclude rows, and select only complete groups, so that I commit exactly what I checked.",
+   "from_drafts": [
+    "L1-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "The preview shows every accepted, blocked, duplicate and excluded row, the account and listing mappings, before and after values, errors and which measures each change affects.",
+     "Any edit, exclusion, mapping or parser change creates a new draft revision with a new canonical hash and invalidates any earlier approval (FIN-AC-06).",
+     "The owner may select explicitly reviewed, complete transaction groups; each keeps its cash, fee and dependent entries together, and unresolved rows stay pending and visible (POLICY-005)."
+    ],
+    "negative": [
+     "No row is dropped silently; a subset holding a sale without its history, or an unresolved transfer shown as income, is refused.",
+     "Document content cannot approve, select or edit rows.",
+     "An approval made on an older hash cannot apply to the new revision."
+    ],
+    "recovery": [
+     "The owner can leave and resume a draft; a draft whose expected ledger revision is now stale is marked stale and needs a refreshed preview (L1-E09).",
+     "Cancel moves the draft to cancelled without touching the ledger; the original source stays."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ImportDraft",
+     "role": "writes"
+    },
+    {
+     "name": "DraftRow",
+     "role": "writes"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "MetricResult",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner edits, excludes or selects rows. Code computes previews and hashes. Agents may explain a preview but cannot change it.",
+   "states": [
+    "Review ready",
+    "Needs resolution",
+    "Stale against a newer ledger revision",
+    "Cancelled",
+    "Resumed after interruption",
+    "Empty: nothing to commit"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S11",
+     "PH01-S12",
+     "PH00-S07",
+     "PH07-S02"
+    ],
+    "gaps": [
+     "CT-02"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "FIN-AC-06 passes",
+    "Synthetic examples L1-E01, L1-E03 and L1-E09 pass",
+    "Web acceptance scenarios for Confirm, Edit, Cancel, Resume, Stale and Expired pass keyboard and screen-reader checks"
+   ]
+  },
+  {
+   "id": "PH01-S14",
+   "jira_key": "MP-55",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Exact owner approval bound to the preview",
+   "story": "As the owner, I want my approval tied to exactly the rows, hash and ledger revision I saw, with a fresh sign-in and a 15-minute window, so that nothing else can be committed in my name.",
+   "from_drafts": [
+    "L1-S08"
+   ],
+   "acceptance": {
+    "positive": [
+     "An approval binds owner, environment, operation, draft revision, canonical payload hash, selected-rows hash, expected ledger revision, assurance policy version and an expiry 15 minutes after approval (POLICY-001).",
+     "Approval needs a server-verified sign-in fresh enough for a sensitive action; otherwise the owner is asked to step up.",
+     "Revoking or cancelling an approval before commit submission stops it from activating."
+    ],
+    "negative": [
+     "A matching hash alone, a local Face ID unlock or an open session alone cannot authenticate an approval.",
+     "An approval for a different owner, environment, revision or payload is refused, and confirmation text inside a document never stands in for owner approval.",
+     "At or after expires_at the writer refuses to start the commit (FIN-AC-13)."
+    ],
+    "recovery": [
+     "An expired approval on an unchanged payload is renewed by a fresh approval; a changed payload needs a new draft and a new approval.",
+     "A double tap on approve yields one approval record."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "OwnerApproval",
+     "role": "writes"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner, freshly authenticated, can approve. The controlled writer only verifies an approval. No agent or worker can create, extend or replay one.",
+   "states": [
+    "Pending approval",
+    "Approved and live",
+    "Expired",
+    "Revoked",
+    "Step-up required",
+    "Refused for a stale revision"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH01-S04",
+     "PH01-S13",
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-01",
+     "CT-02"
+    ],
+    "owner_questions": [
+     "FIN-OD-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-13 passes, including the exact-expiry boundary",
+    "The old-hash refusal of FIN-AC-06 passes",
+    "Synthetic example L1-E09 passes"
+   ]
+  },
+  {
+   "id": "PH01-S15",
+   "jira_key": "MP-60",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Atomic visible commit through the controlled writer",
+   "story": "As the owner, I want an approved import to appear in my ledger all at once or not at all, with its audit and notices, so that I never see half an import and a retry never applies it twice.",
+   "from_drafts": [
+    "L1-S08"
+   ],
+   "acceptance": {
+    "positive": [
+     "A commit advances the ledger head once, publishes the manifest, finalises the receipt, consumes the approval and appends the audit and one publication pointer in one bounded transaction (FIN-AC-09).",
+     "A large import stages immutable chunks under a fence, seals with verified counts and digest, and becomes visible only at activation; readers see the old revision until then (FIN-AC-11).",
+     "Every transaction is preflighted on action count, item size and aggregate bytes, audit and metadata included, before submission (FIN-AC-10)."
+    ],
+    "negative": [
+     "Staged, failed or cancelled work is invisible to every reader, projection, agent and export.",
+     "A stale fence cannot write a chunk, seal or publish, and two commits racing on one revision have one winner (FIN-AC-12).",
+     "A commit never publishes chunk by chunk, and an S3 object never commits a portfolio."
+    ],
+    "recovery": [
+     "A lost response is outcome_unknown: the writer reads the receipt, manifest and head and retries only the same operation, with no compensating import (FIN-AC-14).",
+     "A crash after any chunk, during sealing, after complete or after activation resumes or cancels without partial visibility, and a retry returns the same receipt."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CommitManifest",
+     "role": "writes"
+    },
+    {
+     "name": "ChunkReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "ChunkContent",
+     "role": "writes"
+    },
+    {
+     "name": "ManifestPage",
+     "role": "writes"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "writes"
+    },
+    {
+     "name": "EventIntent",
+     "role": "writes"
+    },
+    {
+     "name": "PublicationPointer",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the controlled backend writer publishes, and only with a live exact approval. Agents, extraction workers and the API cannot write ledger items. Nobody can force a partial publish.",
+   "states": [
+    "Reserved",
+    "Staged",
+    "Sealing",
+    "Complete",
+    "Published",
+    "Failed, with retry disposition",
+    "Cancelled",
+    "Outcome unknown, being resolved"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S14",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "PL-08",
+     "PL-05"
+    ],
+    "owner_questions": [
+     "FIN-OD-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-09, FIN-AC-10, FIN-AC-11, FIN-AC-12 and FIN-AC-14 pass",
+    "Synthetic examples L1-E04 and L1-E10 pass",
+    "The PL-08 atomicity and access-pattern proof is recorded with its results"
+   ]
+  },
+  {
+   "id": "PH01-S16",
+   "jira_key": "MP-61",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Deterministic ledger replay and versioned projections",
+   "story": "As the owner, I want my holdings and cash rebuilt the same way every time from committed events, so that what I see is reproducible and staged or failed work never leaks in.",
+   "from_drafts": [
+    "L1-S09"
+   ],
+   "acceptance": {
+    "positive": [
+     "Rebuilding from the same committed events and policy versions gives identical projections; caches are never financial truth.",
+     "Trade, settlement and transfer ordering is explicit, with trade-date exposure and settled and unsettled cash kept apart, never counted twice (POLICY-007).",
+     "Every read pins a strongly read published head, and a pinned older revision stays valid while a newer one publishes."
+    ],
+    "negative": [
+     "Failed, staged or superseded work never appears in holdings, measures, agent context or read APIs.",
+     "An unresolved same-date ordering tie, negative balance, oversell, or margin or short position is surfaced as an exception that blocks dependent measures, never guessed (FIN-AC-24).",
+     "Dividends and fees are counted once (FIN-AC-22)."
+    ],
+    "recovery": [
+     "A projection that differs from a rebuild is discarded and rebuilt from events, and the difference is reported.",
+     "A later complete history becomes a new baseline generation only through an approved rebase, never adding the same units twice."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "LedgerEvent",
+     "role": "reads"
+    },
+    {
+     "name": "CommitManifest",
+     "role": "reads"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Projection code only. Nobody edits a projection by hand. Agents read projections at a pinned revision.",
+   "states": [
+    "Current projection at the head revision",
+    "Rebuilding",
+    "Exception blocking dependent measures",
+    "Stale projection behind the head",
+    "Generation superseded by a rebase"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S15"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A rebuild determinism test gives byte-identical projections from the same events",
+    "FIN-AC-22 and FIN-AC-24 pass",
+    "Synthetic examples L1-E06, L1-E07 and L1-E11 pass"
+   ]
+  },
+  {
+   "id": "PH01-S17",
+   "jira_key": "MP-65",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Cash, units and valuation reconciliation",
+   "story": "As the owner, I want my statements reconciled against the ledger and every total to show its price and FX times and anything missing, so that a difference is explained or left visibly open, never papered over.",
+   "from_drafts": [
+    "L1-S10"
+   ],
+   "acceptance": {
+    "positive": [
+     "Differences between statements and the ledger in cash, units, fees, FX, dates and coverage are classified with both source and derived values.",
+     "A valuation total carries price and FX times, sources and quality; an unpriced holding gives a known subtotal and a visible missing part, not a complete total (L1-E08, FIN-AC-25).",
+     "An owner resolution records its reason and source, and a change to financial facts goes through a correction with a new revision."
+    ],
+    "negative": [
+     "No plug trade or silent overwrite clears an unexplained difference.",
+     "A price or FX rate with unknown use rights, or older than the freshness policy allows, is not used in a total, and the reason is shown.",
+     "Funds valued from the owner's statements (DATA-DEC-07, DATA-DEC-08) carry their statement date and are never shown as daily prices."
+    ],
+    "recovery": [
+     "An open difference stays open and visible across sessions, and reconciliation reruns when new evidence arrives.",
+     "When a missing price arrives later, the total is recomputed as a new result and the earlier partial result remains."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PositionObservation",
+     "role": "writes"
+    },
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "FXQuote",
+     "role": "reads"
+    },
+    {
+     "name": "Money",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code reconciles. The owner resolves differences. Agents may explain a difference but cannot resolve it.",
+   "states": [
+    "Reconciled",
+    "Difference open",
+    "Resolved by the owner, with reason",
+    "Partial total with missing coverage",
+    "Stale price or FX"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S16",
+     "PH03-S05",
+     "PH03-S06"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-01",
+     "DATA-DEC-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Synthetic examples L1-E01, L1-E02 and L1-E08 pass",
+    "The reconciliation part of FIN-AC-25 passes with no plug trade"
+   ]
+  },
+  {
+   "id": "PH01-S18",
+   "jira_key": "MP-68",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Corrections, reversal and baseline rebase",
+   "story": "As the owner, I want to correct or reverse an import, and to rebuild history when older statements arrive, through previews I approve, so that mistakes are fixed without losing what was there before.",
+   "from_drafts": [
+    "L1-S11"
+   ],
+   "acceptance": {
+    "positive": [
+     "A correction commits a linked inverse of every original leg together with its replacement, and the original persists (FIN-AC-16: cash 798, units 2).",
+     "An import-level reversal is its own preview and approval, and dependent later events and observations are checked first (FIN-AC-17).",
+     "When a later upload fills history behind a snapshot, a versioned rebuild proposal shows the reconciliation and performance effects; after exact approval the opening baseline is retired at a cutover in a new generation, two units and not four (POLICY-012)."
+    ],
+    "negative": [
+     "A bulk delete cannot leave impossible quantities or remove audit history; an inconsistent reversal is refused unless its dependent corrections are approved together.",
+     "Issued forecasts and measures keep their original input revisions; later knowledge is not backdated into them.",
+     "Two corrections against the same original revision cannot both win."
+    ],
+    "recovery": [
+     "A repeated correction or reversal request returns the same receipt and does not reapply its effects.",
+     "A rebuild proposal that expires or loses to a newer revision is refreshed and approved again."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "LedgerEvent",
+     "role": "writes"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "reads"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "writes"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "InputReference",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner approves every correction, reversal and rebase, and the controlled writer applies it. Agents may draft a correction proposal only.",
+   "states": [
+    "Correction draft",
+    "Awaiting approval",
+    "Published",
+    "Reversal refused for dependencies",
+    "Rebuild proposal ready",
+    "Generation superseded"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S14",
+     "PH01-S15",
+     "PH01-S16",
+     "PH01-S17"
+    ],
+    "gaps": [
+     "FC-10",
+     "CT-03"
+    ],
+    "owner_questions": [
+     "FIN-OD-03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-16 and FIN-AC-17 pass",
+    "Synthetic example L1-E11 passes"
+   ]
+  },
+  {
+   "id": "PH01-S19",
+   "jira_key": "MP-69",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Per-measure sufficiency and labelled analytical cost basis",
+   "story": "As the owner, I want each measure to say whether my evidence supports it, and a clearly labelled analytical cost basis where history allows, so that missing history shows as unavailable, never as a zero or an invented trade.",
+   "from_drafts": [
+    "L1-S12"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each measure (valuation, basis, gain, return) has its own status: available, partial, unavailable, ambiguous, nonconvergent or integrity_failed, with reasons, set before any wording.",
+     "A snapshot of two units worth INR 200 with unknown history keeps its valuation while basis loss and return are unavailable (FIN-AC-25, L1-E03).",
+     "Where history supports it and no usable broker basis exists, an analytical FIFO basis is computed and labelled analytical and not tax basis, and broker figures keep their provenance (POLICY-009)."
+    ],
+    "negative": [
+     "Missing purchases, fees or FX are never filled with fabricated transactions or a zero return.",
+     "The analytical basis never overwrites or relabels a broker figure."
+    ],
+    "recovery": [
+     "A failed calculation records integrity_failed with its reason and is retried on the next projection; no partial value is shown as complete.",
+     "When missing history arrives through a rebase, statuses are recomputed as new results and earlier results stay."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "reads"
+    }
+   ],
+   "authority": "Calculation code only. The owner cannot override a status but may supply missing evidence. Agents read results and their statuses.",
+   "states": [
+    "Available",
+    "Partial",
+    "Unavailable for missing history",
+    "Integrity failed",
+    "Superseded after a rebase"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S16",
+     "PH01-S17"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-05"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-25 passes",
+    "Synthetic example L1-E03 passes",
+    "A FIFO known-answer case passes with a broker basis present and with it absent"
+   ]
+  },
+  {
+   "id": "PH01-S20",
+   "jira_key": "MP-72",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Money-weighted return (XIRR) for holdings, accounts and the portfolio",
+   "story": "As the owner, I want a money-weighted return for each holding, account and the whole portfolio that uses the right cash flows and says plainly when no single answer exists, so that I never see a guessed rate.",
+   "from_drafts": [
+    "L1-S12"
+   ],
+   "acceptance": {
+    "positive": [
+     "Holding, account and portfolio XIRR each use their own flow boundary, dated signs, a terminal valuation after same-day events and one currency; at portfolio scope internal trades, dividends and transfers are not external contributions (FIN-AC-18, L1-E06).",
+     "An exact 365-day 100 to 110 schedule gives 10% with zero NPV residual, and [-100, 230, -132] over 730 days returns both 10% and 20% roots with a null headline and ambiguous status (FIN-AC-19).",
+     "GBP results use dated booked GBP or dated reference FX labelled estimated, and show local, FX and interaction parts (FIN-AC-21)."
+    ],
+    "negative": [
+     "All-zero, one-sign, same-day-only, unknown-date and nonconventional schedules return a specific unavailable, ambiguous or nonconvergent status, never NaN or zero (FIN-AC-20).",
+     "A root is never picked by guess, and a missing bracket is not reported as proof that no root exists.",
+     "A later-known or inverted FX rate is refused."
+    ],
+    "recovery": [
+     "Exhausting the iteration budget returns nonconvergent with diagnostics; a rerun on the same inputs gives the same result."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "reads"
+    },
+    {
+     "name": "CashLeg",
+     "role": "reads"
+    },
+    {
+     "name": "FXQuote",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code only. Claude may explain a published result with its status but never computes or alters it.",
+   "states": [
+    "Rate available",
+    "Ambiguous, with candidate roots",
+    "Nonconvergent",
+    "Unavailable for insufficient flows",
+    "Estimated FX, labelled"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S19"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-18, FIN-AC-19, FIN-AC-20 and FIN-AC-21 pass",
+    "Synthetic example L1-E12 passes",
+    "Known-answer residual checks pass with correct units"
+   ]
+  },
+  {
+   "id": "PH01-S21",
+   "jira_key": "MP-76",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Scoped, paginated portfolio and import reads at a pinned revision",
+   "story": "As the owner, I want portfolio and import reads that are paged, scoped to me and pinned to one ledger revision with its quality metadata, so that every screen and agent sees the same committed figures.",
+   "from_drafts": [
+    "L1-S14"
+   ],
+   "acceptance": {
+    "positive": [
+     "Reads serve owner, account, listing, date and status access patterns with a version, a cursor bound to the pinned ledger revision, and quality metadata.",
+     "Each response states the ledger revision, valuation cutoff and source ages it was built from.",
+     "Read-only agent tools return the same committed revision and evidence ids as the app."
+    ],
+    "negative": [
+     "No default read performs an unbounded table scan.",
+     "A model summary or a notification is never a source of figures; reads come only from published projections.",
+     "Private values are returned only to the authenticated owner in scope."
+    ],
+    "recovery": [
+     "A cursor whose revision has been superseded keeps returning the pinned revision until the client asks for the new one.",
+     "Missing expected items return INTEGRITY_INCOMPLETE, not a partial success."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "MetricResult",
+     "role": "reads"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "AuditQuery",
+     "role": "reads"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    }
+   ],
+   "authority": "The owner reads their own scope. Agents read through allowlisted read-only tools within scope. No read path writes.",
+   "states": [
+    "Fresh at the current revision",
+    "Pinned to an older revision while a newer one publishes",
+    "Stale source ages shown",
+    "Integrity incomplete",
+    "Denied out of scope"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH01-S16",
+     "PH01-S19",
+     "PH02-S11"
+    ],
+    "gaps": [
+     "PL-08"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A pagination test across a concurrent publish keeps the pinned revision",
+    "The access-pattern proof shows no default scan",
+    "A test shows an agent tool and the app return the same revision and evidence ids",
+    "Synthetic example L1-E08 passes through the read API"
+   ]
+  },
+  {
+   "id": "PH01-S22",
+   "jira_key": "MP-79",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Import progress notices with reconnect recovery",
+   "story": "As the owner, I want short live notices as my import moves through its steps, and the true status after any reconnect, so that I can follow progress without a notice ever standing in for the ledger.",
+   "from_drafts": [
+    "L1-S14"
+   ],
+   "acceptance": {
+    "positive": [
+     "Import progress (received, quarantined, extracting, review ready, committed, failed) is sent as short SSE notices carrying only event id, type, time and resource reference.",
+     "After a reconnect the client resumes from the last event id where it can and always re-reads the durable import and receipt.",
+     "Notices are delivered at least once with stable message ids and consumer deduplication."
+    ],
+    "negative": [
+     "A notice never carries holdings, document content, credentials or provider payloads, and never stands in for commit truth.",
+     "Reconnecting or replaying a notice never repeats a mutation.",
+     "The starter's unauthenticated volatile SSE is not claimed as production evidence."
+    ],
+    "recovery": [
+     "After a gap the client refetches durable state and shows the true status.",
+     "A failed delivery is retried through DeliveryState without touching sealed intents."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PublicationPointer",
+     "role": "reads"
+    },
+    {
+     "name": "EventIntent",
+     "role": "reads"
+    },
+    {
+     "name": "DeliveryState",
+     "role": "writes"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the server emits notices. The owner's authenticated client receives only its own scope. Agents cannot emit notices.",
+   "states": [
+    "Connected and live",
+    "Reconnecting",
+    "Gap detected, refetching",
+    "Delivery retrying",
+    "Offline, last known status shown as stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S15",
+     "PH01-S21",
+     "PH02-S12"
+    ],
+    "gaps": [
+     "PL-04",
+     "PL-05"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A reconnect test with dropped events shows a durable refetch and the true status",
+    "A payload test asserts no private fields in any notice",
+    "A replay test shows no second mutation"
+   ]
+  },
+  {
+   "id": "PH01-S23",
+   "jira_key": "MP-84",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Portfolio and import screens with privacy, accessibility and stale states",
+   "story": "As the owner, I want the portfolio and import screens to show private figures only in authorised views, with privacy mode, screen-reader support, responsive layouts and honest offline and stale states, so that I can use them anywhere without exposing values or hiding risk.",
+   "from_drafts": [
+    "L1-S14"
+   ],
+   "acceptance": {
+    "positive": [
+     "Holdings, cash and import screens show values only after authenticated reads, with a privacy mode that masks amounts.",
+     "Every screen has a specified state for loading, empty, partial, stale source, insufficient evidence, permission denied, step-up required, approval expired, offline and reconnecting.",
+     "The web screens work by keyboard and screen reader with responsive layouts, and the same contracts serve SwiftUI with VoiceOver and iPad layouts."
+    ],
+    "negative": [
+     "Staleness, risk or provider status is never hidden behind a loading state.",
+     "Private values never appear in Web Push previews, page titles or cached public assets, and sign-out clears cached private data."
+    ],
+    "recovery": [
+     "Back online, the screen refetches and replaces stale figures, keeping the stale label until it has.",
+     "A failed read shows the error with a retry, and partial data stays labelled partial."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MetricResult",
+     "role": "reads"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "reads"
+    },
+    {
+     "name": "ClientState",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner only. Screens show only figures from the read API; no agent renders figures of its own.",
+   "states": [
+    "Loading",
+    "Empty",
+    "Partial",
+    "Stale",
+    "Offline",
+    "Privacy mode on",
+    "Step-up required"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S13",
+     "PH01-S21",
+     "PH01-S22",
+     "PH00-S07",
+     "PH07-S02",
+     "PH07-S04",
+     "PH07-S05"
+    ],
+    "gaps": [
+     "PL-14",
+     "CT-16"
+    ],
+    "owner_questions": [
+     "MP40-Q3"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Automated accessibility checks pass on the web screens, with a recorded screen-reader walk-through",
+    "A test shows Web Push payloads and page titles hold no values",
+    "A sign-out test shows cached private data cleared"
+   ]
+  },
+  {
+   "id": "PH01-S24",
+   "jira_key": "MP-88",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Phase acceptance with synthetic examples and fault injection",
+   "story": "As the owner, I want the whole import-to-ledger path proved on synthetic data with faults injected, so that PH-01 is shown working end to end before any real file is used.",
+   "from_drafts": [
+    "L1-S16"
+   ],
+   "acceptance": {
+    "positive": [
+     "All declared examples L1-E01 to L1-E12 and the PH-01 FIN-AC cases pass in local and dev, with real public identifiers and synthetic values, and originals and golden records stay intact.",
+     "Fault injection covers duplicate delivery, stale approval, a crash mid-stage, an ambiguous commit response, source tampering, cross-scope access and deletion after restore.",
+     "The exit demonstration runs the journey plus one permission failure, one stale or partial case, one duplicate or retry case and one recovery path, with evidence."
+    ],
+    "negative": [
+     "Phase status, a diagram or a passing unit test alone does not certify completion; the trace from requirements to evidence must be complete.",
+     "Synthetic outcomes are never claimed as real-data or predictive evidence."
+    ],
+    "recovery": [
+     "A failing case blocks the exit and is recorded with its cause; after a fix the whole suite reruns, not only the failing case."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "reads"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "MetricResult",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "reads"
+    }
+   ],
+   "authority": "The suite runs in local and dev only, on synthetic data, with no prod access. The owner accepts the exit.",
+   "states": [
+    "Not run",
+    "Passing",
+    "Failing, with the case named",
+    "Blocked by an open owner question",
+    "Stale because code changed since the last run"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S01",
+     "PH01-S02",
+     "PH01-S03",
+     "PH01-S04",
+     "PH01-S05",
+     "PH01-S06",
+     "PH01-S07",
+     "PH01-S08",
+     "PH01-S09",
+     "PH01-S10",
+     "PH01-S11",
+     "PH01-S12",
+     "PH01-S13",
+     "PH01-S14",
+     "PH01-S15",
+     "PH01-S16",
+     "PH01-S17",
+     "PH01-S18",
+     "PH01-S19",
+     "PH01-S20",
+     "PH01-S21",
+     "PH01-S22",
+     "PH01-S23",
+     "PH00-S04"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A CI report lists every L1-E and FIN-AC case with its result",
+    "The trace from each FIN-AC and L1-E id to its test is complete",
+    "The exit demonstration record holds the four failure and recovery paths"
+   ]
+  },
+  {
+   "id": "PH01-S25",
+   "jira_key": "MP-92",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Real-sample layout qualification",
+   "story": "As the owner, I want each broker layout I actually use qualified on real samples before it is called supported, so that the supported-layout list tells the truth.",
+   "from_drafts": [
+    "L1-S16"
+   ],
+   "acceptance": {
+    "positive": [
+     "A layout is marked supported only after real samples pass with field-level evidence and the expected rows; generic PDF, PNG and CSV foundations stay labelled generic.",
+     "Missing Excel, real-broker, photographed, rotated, blurred and protected cases stay visible as gaps until filled and tested.",
+     "Real samples arrive through the private intake over time; no planning exit needs them."
+    ],
+    "negative": [
+     "Real samples never become fixtures in git, logs or screenshots; they stay private originals under the owner's retention.",
+     "A layout is never qualified on a synthetic sample alone."
+    ],
+    "recovery": [
+     "If a broker changes its layout, the layout reverts to unqualified and its imports go to manual review until requalified."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "DraftRow",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner supplies samples and approves each qualification. Code runs the checks. Agents cannot mark a layout supported.",
+   "states": [
+    "Unqualified",
+    "Qualified",
+    "Requalification needed after a layout change",
+    "Gap listed: case missing",
+    "Sample deleted by the owner"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S07",
+     "PH01-S08",
+     "PH01-S09",
+     "PH01-S24",
+     "PH00-S04"
+    ],
+    "gaps": [],
+    "owner_questions": [
+     "DATA-DEC-03"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A qualification record per layout holds sample hashes, not content, and the pass results",
+    "The layout register shows generic and qualified layouts apart"
+   ]
+  },
+  {
+   "id": "PH01-S26",
+   "jira_key": "MP-169",
+   "phase": "PH-01",
+   "epic": "MP-5",
+   "title": "Owner data export pinned to one ledger revision",
+   "story": "As the owner, I want to export my ledger, holdings and their evidence as of one published revision so that I hold a complete, verifiable copy of my own data.",
+   "from_drafts": [],
+   "acceptance": {
+    "positive": [
+     "An export pins one published ledger revision, its schema versions, as-of time, provenance and the FIN-HASH-1 root, so the same request against the same revision gives the same content (FIN-AC-29).",
+     "The owner gets a private download link that can start a download for one hour (POLICY-011); after expiry a new authenticated request issues a new link.",
+     "Creating, downloading and deleting an export are each audited with the owner, environment and revision."
+    ],
+    "negative": [
+     "An export never mixes two revisions: a revision published during the export does not change its content.",
+     "No public object URL is created, and an expired or revoked link starts no download.",
+     "Another owner or environment cannot request, see or download the export, and deleted evidence is not resurrected into it."
+    ],
+    "recovery": [
+     "An export interrupted part-way leaves no downloadable partial file; retrying with the same idempotency key resumes or restarts it without a duplicate.",
+     "A link that expires mid-download lets the transfer in progress finish but issues no new start without a fresh authenticated request."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "PublicationPointer",
+     "role": "reads"
+    },
+    {
+     "name": "LedgerEvent",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "emits"
+    },
+    {
+     "name": "CommitManifest",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the authenticated owner may request, download or delete an export of their own environment, with fresh sign-in for the request. Code builds the export; no Claude route or agent can create, read or send it. Retention of the stored export is the owner's open decision (FIN-OD-08).",
+   "states": [
+    "requested",
+    "building",
+    "ready with a link valid for one hour",
+    "link expired",
+    "failed with a reason",
+    "deleted"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S04",
+     "PH01-S15",
+     "PH02-S03",
+     "PH02-S05"
+    ],
+    "gaps": [
+     "IR-02"
+    ],
+    "owner_questions": [
+     "FIN-OD-08"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A synthetic export test reproducing FIN-AC-29: export revision 12 while 13 publishes, verify pinned hashes, mutate a leaf and see the integrity check fail",
+    "A link-expiry test at 59 and 61 minutes, and an access test from a second owner scope that is refused"
+   ]
+  }
+ ]
+}

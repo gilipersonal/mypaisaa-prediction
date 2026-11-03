@@ -1,0 +1,511 @@
+{
+ "phase": "PH-00",
+ "drafts": {
+  "L0-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH00-S01",
+    "PH00-S02",
+    "PH00-S07"
+   ],
+   "note": "The sign-off approved the precedence table and the phase-to-story crosswalk. Left: the requirement trace to ready stories, the superseded ADRs (PL-01) and the whole-product UX approval."
+  },
+  "L0-S02": {
+   "disposition": "dropped",
+   "reason": "Fulfilled by the owner's sign-off of 3 November 2026, \"Yes, I sign off (Recommended)\" (MP-20, commit 98ba348), which approved the twelve directions as refined (selective SageMaker training, ARC-04, rather than lean AWS training; DynamoDB and S3, ARC-02), and by the owner's cost answers the same day: COST-Q1 \"Raise Claude to £15 (Recommended)\", COST-Q2 \"Keep it\" and COST-Q4 \"Judge the month without the fee (Recommended)\", with Virginia, Grow 55 and the £100 all-in ceiling replacing the £50 AWS-only target. The leftover ADR clean-up (ADR 0005 and 0006 still read Accepted) is carried by PH00-S02 under PL-01, and COST-Q3 is measured in PH08-S08."
+  },
+  "L0-S03": {
+   "disposition": "kept",
+   "stories": [
+    "PH00-S03"
+   ],
+   "note": "The foundation pack specifies the data, financial and forecasting schemas; the versioning, compatibility and ownership rules across them are not written yet. SSE recovery semantics move to PH02-S12."
+  },
+  "L0-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH00-S05",
+    "PH00-S06",
+    "PH00-S07"
+   ],
+   "note": "UX starts only after every story is ready (sign-off). Admin journeys are designed before the first build (ARC-08)."
+  },
+  "L0-S05": {
+   "disposition": "kept",
+   "stories": [
+    "PH00-S04"
+   ]
+  }
+ },
+ "stories": [
+  {
+   "id": "PH00-S01",
+   "jira_key": "MP-54",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Trace every requirement and owner decision to a ready story",
+   "story": "As the owner, I want every requirement, every source decision and every answer I have given traced to the ready Jira stories that deliver it, so that nothing I asked for is lost between the signed-off baseline and the build.",
+   "from_drafts": [
+    "L0-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "A RequirementTrace file maps each of CAP-01 to CAP-19 and DEC-001 to DEC-041 to at least one ready story (local id and Jira key), or to a recorded reason: superseded by a named owner answer, or out of scope in the owner's own words.",
+     "Every owner answer in the decision log, POLICY-001 to POLICY-012 and the ARC-06b card is traced to the stories whose acceptance carries it.",
+     "The trace keeps what is implemented today (the FastAPI health route, the sample SSE stream and CI) apart from planned capabilities, and marks real holdings and documents as deferred.",
+     "A check script fails when a requirement, decision or owner answer has no story and no reason, and passes on the complete trace."
+    ],
+    "negative": [
+     "A local draft, a dropped story or a story without a Jira key never counts as covering a requirement.",
+     "The superseded layered-development map of 1 November 2026 and MA pages are cited only as provenance, never as the current trace."
+    ],
+    "recovery": [
+     "When a story is later split, merged or dropped, the check fails until the trace names its replacement or a reason; earlier trace versions stay in git history."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RequirementTrace",
+     "role": "writes"
+    },
+    {
+     "name": "DecisionRecord",
+     "role": "reads"
+    },
+    {
+     "name": "StoryReadiness",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator writes the trace in the repo on an MP issue branch, through a PR. Only the owner may mark a requirement out of scope. App workers and Claude routes have no part in it. Nobody may mark a requirement covered without a ready story.",
+   "states": [
+    "complete: every item traced to a story or a reason",
+    "gap: an item with no story and no reason, so the check fails",
+    "stale: a story changed after the trace's as_of date, so the check is re-run",
+    "superseded: an item replaced by a later owner answer, which is cited"
+   ],
+   "depends_on": {
+    "gaps": [
+     "CD-01",
+     "PL-01"
+    ],
+    "external": [
+     "MP-40: every phase's stories ready and in Jira"
+    ],
+    "stories": [],
+    "owner_questions": []
+   },
+   "evidence": [
+    "The trace file and its check pass in CI on the complete set of ready stories",
+    "A read-back of the Jira keys the trace names, matching summary and parent",
+    "python3 scripts/plan_sync.py check passes"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH00-S02",
+   "jira_key": "MP-56",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Supersede the historical ADRs and record the selected directions as ADRs",
+   "story": "As the owner, I want the architecture decision records to say what I chose, and the early ADRs that contradict it marked superseded, so that nobody builds from a retired decision.",
+   "from_drafts": [
+    "L0-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "ADR 0006 (single Lightsail host, PostgreSQL, the £50 AWS-only budget) is marked Superseded, naming the answers that replaced it: ARC-02 DynamoDB and S3, ARC-11 separate dev and prod accounts, and the £100 all-in ceiling; its text stays as history.",
+     "ADR 0005's use of the Claude Agent SDK is marked superseded by ARC-06 (the Anthropic client SDK in an explicit loop, one Lambda worker per route), keeping its bounded-agent rules.",
+     "ADR 0001 to 0004 are each checked against the twelve directions as refined and marked Accepted, Amended (with the amendment written in) or Superseded.",
+     "New ADRs record ARC-02 (one controlled writer), ARC-03 (Lambda Durable Functions), Terraform only with its S3 state backend and bootstrap (owner, 3 November 2026), network N0 with the cost-guard SCP, and SSM Parameter Store SecureString for secrets; each links its decision log entry."
+    ],
+    "negative": [
+     "No ADR changes or reinterprets an owner answer; where an ADR and the decision log differ, the ADR is the record that changes.",
+     "No AWS resource, account, purchase or apply follows from writing an ADR."
+    ],
+    "recovery": [
+     "If a later owner answer reverses a direction, a new ADR supersedes the old one; no ADR is deleted or rewritten in place."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "ArchitectureBaseline",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator drafts and updates ADRs on an MP issue branch. The owner approves each new ADR's wording in the PR. Nobody else changes an ADR's status, and no agent or worker reads an ADR as permission to act.",
+   "states": [
+    "accepted",
+    "amended, with the amendment and its owner answer",
+    "superseded, naming its replacement",
+    "draft awaiting the owner's approval"
+   ],
+   "depends_on": {
+    "gaps": [
+     "PL-01",
+     "PL-06",
+     "PL-10"
+    ],
+    "stories": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Every file in docs/adr carries a status, and a check fails on any ADR marked Accepted that makes Lightsail, PostgreSQL, the Agent SDK or the £50 AWS-only target current",
+    "python3 scripts/plan_sync.py check passes"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH00-S03",
+   "jira_key": "MP-57",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Set versioning, compatibility and ownership rules for every shared contract",
+   "story": "As the owner, I want every shared contract to have a named owner, a version and rules for changing it safely, so that the web app, the Apple app, the workers and the stored records keep agreeing as MP grows.",
+   "from_drafts": [
+    "L0-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "A contract register lists every contract in the foundation schemas and the phase contract catalogues with its producer, consumers, the one writer, current version and status (specified or planned).",
+     "Versioning rules are written down: an added optional field is a minor version; a removed field or a changed meaning is a major version that needs a migration and a period where both versions are read; every stored record carries the schema version it was written with.",
+     "One error shape is shared by every API response: a code, a message, the request_id and the trace_id, with no secrets or holdings (MP-36 proposal).",
+     "Every record that affects money, forecasts or approvals links the schema, data and code versions that produced it and states that it carries no trading authority.",
+     "Compatibility cases run offline: an old reader on a new minor version passes, a new reader on an old record passes, and a meaning change without a major version fails."
+    ],
+    "negative": [
+     "The check refuses a contract change that alters a field's meaning without a major version and a migration.",
+     "No contract defines a field for broker credentials, an order or a trade instruction."
+    ],
+    "recovery": [
+     "A failed migration leaves the previous version readable; a correction is a new version that supersedes the old record, which is kept (ADR 0002)."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ArchitectureBaseline",
+     "role": "writes"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "reads"
+    },
+    {
+     "name": "Lineage",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator drafts the register and rules on an MP issue branch; the owner approves the versioning rules. A contract's named producer is the only writer of its records. Claude routes read contracts only through typed tool results and never change a schema.",
+   "states": [
+    "specified: a schema exists in the foundation pack",
+    "planned: named in a phase catalogue, no schema yet",
+    "deprecated: still readable, no new writes",
+    "breaking change pending: a major version waiting for its migration"
+   ],
+   "depends_on": {
+    "gaps": [
+     "CD-01",
+     "PL-05"
+    ],
+    "stories": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "The register file and a check that every contract name in the schemas and catalogues appears exactly once with an owner",
+    "Compatibility test cases pass offline in CI"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH00-S04",
+   "jira_key": "MP-58",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Map the synthetic fixtures to the cases they prove and register real samples for later",
+   "story": "As the owner, I want to know which cases the synthetic fixtures cover and which they do not, so that clean fixtures are never taken as proof that imports or forecasts work on my real documents.",
+   "from_drafts": [
+    "L0-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "A coverage matrix lists every synthetic pack (the real-ID instruments and the PDF, PNG, expected-import and operations companions for local and dev) against the import, ledger and forecast cases it exercises, with prices, accounts, transactions and outcomes marked synthetic.",
+     "The matrix names the missing cases: Excel workbooks and malformed, blurred, rotated, password-protected and hostile documents (embedded instructions, oversized files), each assigned to the PH-01 story that will add it.",
+     "A deferred real-sample register lists the real statement layouts the owner may supply later, each with its intake route and the check it must pass before real use; no planning exit needs a real sample."
+    ],
+    "negative": [
+     "No fixture result is reported as evidence of parser robustness or forecast accuracy.",
+     "No real holding, account number or statement enters the repo, a fixture or the dev account."
+    ],
+    "recovery": [
+     "A real sample offered before its intake story is built is not stored anywhere by MP; the register records it as waiting and the owner keeps the file."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DatasetManifest",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "reads"
+    }
+   ],
+   "authority": "The coordinator writes the matrix and register. Only the owner supplies a real sample, and only through the private intake built in PH-01. No agent fetches, generates or stores a real document.",
+   "states": [
+    "covered by a synthetic fixture",
+    "missing, planned for a named PH-01 story",
+    "real sample deferred, waiting for the owner",
+    "stale: a fixture changed after the matrix's date"
+   ],
+   "depends_on": {
+    "external": [
+     "MP-40: the PH-01 import stories that add the missing document cases, written and ready (not built)"
+    ],
+    "stories": [],
+    "gaps": [],
+    "owner_questions": []
+   },
+   "evidence": [
+    "The matrix and register files, with a check that every fixture file is listed and every missing case names a story",
+    "A secret and personal-data scan of the fixtures comes back clean"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH00-S05",
+   "jira_key": "MP-62",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Design the owner's product journeys and every screen state for web, iPhone and iPad",
+   "story": "As the owner, I want the complete product journeys designed across web, iPhone and iPad with every state drawn, so that I can choose a design before anything is built.",
+   "from_drafts": [
+    "L0-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Journeys cover the home screen with my holdings and the top 5 per segment, in the order the owner chooses (MP40-Q14), (US large caps, US tech, India Nifty 50, India midcap, one ETF list each for the US, UK and India, gold and silver), holdings and imports kept separate, per-horizon forecasts with their proof, research and chat, the action journal, cost visible from the main dashboard, owner approvals, and privacy and recovery.",
+     "Every screen shows its loading, empty, error, stale, offline, no-model, disagreement and abstention states, and never hides risk, staleness or a provider's status behind a spinner.",
+     "At least two options per journey are made locally with mp-design-first, synced to private Claude HTML artifacts and recorded in docs/design/artifacts.json; the owner picks one per journey.",
+     "Layouts adapt across web, iPhone and iPad and meet the accessibility standard the owner approves (WCAG 2.2 AA is proposed, MP-36).",
+     "The SvelteKit version and the device list are checked against current official releases before any package is named, and nothing is described as installed."
+    ],
+    "negative": [
+     "No screen offers a trade, an order or personalised advice; ranked actions are labelled decision support.",
+     "No screen shows a combined score when one of its three components is missing (POLICY-006).",
+     "No UI code is written, and no design is shared beyond the owner's private artifacts without a separate yes."
+    ],
+    "recovery": [
+     "If the owner rejects every option for a journey, a new options round is made for that journey alone; chosen journeys are kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "writes"
+    },
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    },
+    {
+     "name": "RankedAction",
+     "role": "reads"
+    },
+    {
+     "name": "OfflineSnapshot",
+     "role": "reads"
+    }
+   ],
+   "authority": "Claude makes design options locally with the design skills. Only the owner chooses. Sharing beyond private artifacts needs its own yes. No build starts from a design.",
+   "states": [
+    "options drafted",
+    "owner chose an option",
+    "owner rejected every option, so a new round starts",
+    "stale: a later owner answer changes a journey, so the design is reworked"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH00-S01"
+    ],
+    "gaps": [
+     "PL-14",
+     "FC-16",
+     "IR-01",
+     "CD-02"
+    ],
+    "owner_questions": [
+     "SCI-D09",
+     "MP40-Q3",
+     "MP40-Q14"
+    ],
+    "external": [
+     "MP-40: the PH-01 holdings and import stories the journeys draw, written and ready (not built)",
+     "MP-40: the PH-06 discovery, ranking, proof and briefing stories, written and ready (not built)",
+     "MP-40: the PH-07 native Apple and offline stories, written and ready (not built)"
+    ]
+   },
+   "evidence": [
+    "The design files under docs/design, each with its artifact URL in docs/design/artifacts.json",
+    "python3 scripts/design_sync.py check passes",
+    "A state inventory listing every screen against every state"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH00-S06",
+   "jira_key": "MP-64",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Design every admin journey before the first build",
+   "story": "As the owner, I want every admin journey designed with its states and permissions before the first build, so that audit, recovery and cost controls are part of MP from the start (ARC-08).",
+   "from_drafts": [
+    "L0-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Journeys for Files and Imports, Audit, Runs and Health, Agents, Models and Evaluations, Approvals and Configuration, Costs and Budgets, Incidents and Recovery, and Identity and Devices.",
+     "Each journey covers investigation and comparison, approve and reject, source inspection, reprocessing and correction, configuration changes, cost reconciliation, the stale, conflicting, expired and denied cases, and failure, replay, restore, rollback and deletion.",
+     "A permission inventory lists every admin action, whether it needs step-up (ARC-07) and what it writes to the audit.",
+     "Cost monitoring stays reachable from the main app as well as from admin.",
+     "Options are made locally, synced to private Claude HTML artifacts and recorded; the owner picks one per journey."
+    ],
+    "negative": [
+     "No admin action edits the ledger outside the controlled writer, promotes a model without its evidence, or deletes evidence without a recorded tombstone.",
+     "No household or multi-user administration is designed; MP has one owner."
+    ],
+    "recovery": [
+     "A rejected journey gets its own new options round; chosen journeys are kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "writes"
+    },
+    {
+     "name": "ApprovalRequest",
+     "role": "reads"
+    },
+    {
+     "name": "AuditQuery",
+     "role": "reads"
+    },
+    {
+     "name": "IncidentRecord",
+     "role": "reads"
+    },
+    {
+     "name": "SensitiveAction",
+     "role": "reads"
+    }
+   ],
+   "authority": "Claude makes design options locally. Only the owner chooses. Sharing beyond private artifacts needs its own yes. No build starts from a design.",
+   "states": [
+    "options drafted",
+    "owner chose an option",
+    "owner rejected every option, so a new round starts",
+    "stale: a later owner answer changes a journey"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH00-S01"
+    ],
+    "gaps": [
+     "CT-16",
+     "CT-02",
+     "CT-03",
+     "CT-04",
+     "CT-14"
+    ],
+    "owner_questions": [
+     "FIN-OD-08"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "The admin design files and their artifact records",
+    "python3 scripts/design_sync.py check passes",
+    "The permission inventory, with every action mapped to its step-up and audit record"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH00-S07",
+   "jira_key": "MP-66",
+   "phase": "PH-00",
+   "epic": "MP-4",
+   "title": "Record the owner's whole-product UX approval and the separate permission to build",
+   "story": "As the owner, I want one recorded decision approving the complete UX and a separate one giving or withholding permission to build, so that no phase starts building on a partial design.",
+   "from_drafts": [
+    "L0-S01",
+    "L0-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "A DecisionRecord holds the owner's words approving the complete UX (product and admin journeys) at an exact commit, with the chosen option per journey and each design's artifact URL and sha256.",
+     "Permission to build is a separate DecisionRecord naming the phases that may start; without it every story stays implementation_authorised false.",
+     "The record lists every item still open at approval (owner questions and gaps), each with who decides it."
+    ],
+    "negative": [
+     "A phase draft, a fixture pass, a Jira status, silence or a default selection never counts as approval.",
+     "UX approval is never read as permission to build, to apply Terraform or to spend."
+    ],
+    "recovery": [
+     "If a design changes after approval, the approval is marked stale for the affected journeys and the owner is asked again; earlier records are kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "StoryReadiness",
+     "role": "reads"
+    },
+    {
+     "name": "ArchitectureBaseline",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner approves the UX and gives permission to build. The coordinator records the owner's words and the commit. Nobody else can approve, and no agent can infer approval.",
+   "states": [
+    "awaiting the owner",
+    "approved at a commit",
+    "approved with named conditions",
+    "stale: a design changed after approval",
+    "refused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH00-S01",
+     "PH00-S05",
+     "PH00-S06"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "The decision log entry with the owner's words and the commit",
+    "python3 scripts/design_sync.py check passes, so every approved design matches its record",
+    "The trace and Jira updated, with plan_sync check passing"
+   ],
+   "blocked_on_owner": false
+  }
+ ]
+}
