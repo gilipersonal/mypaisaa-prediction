@@ -124,7 +124,7 @@
    ]
   },
   {
-   "pattern": "WCAG\\s+2\\.2\\s+(Level\\s+)?AA\\s+is\\s+proposed|\"WCAG\\s+2\\.2\\s+AA\\s+PROPOSED\"|LEVEL\\s+AA,\\s+PROPOSED|WCAG[^\\n]{0,80}pending\\s+the\\s+owner's\\s+yes",
+   "pattern": "WCAG\\s+2\\.2\\s+(Level\\s+)?AA\\s+is\\s+proposed|\"WCAG\\s+2\\.2\\s+AA\\s+PROPOSED\"|LEVEL\\s+AA,\\s+PROPOSED|WCAG[^\\n]{0,80}pending\\s+the\\s+owner's\\s+yes|WCAG[^\\n]{0,200}It\\s+needs\\s+the\\s+owner's\\s+yes|WCAG\\s+2\\.2\\s+Level\\s+AA\\s+as\\s+MP's\\s+standard[^\\n]{0,80}PL-14",
    "why": "WCAG 2.2 Level AA is the owner-selected accessibility standard (MP40-Q3, 3 Nov 2026)",
    "paths": [
     "README.md",

@@ -268,5 +268,8 @@ Asked in Claude after review round 2, with the sign-off pack at commit
    and 12-month forecasts; short horizons feed only the opportunity part.
 4. **SCI-D09, refresh and US tech:** "Daily, Nasdaq-100 tech (Recommended)". The lists are re-ranked after each daily
    forecast run, and US tech means the technology names in the Nasdaq-100.
+5. **The two readings that close SCI-D09:** "Yes, keep both (Recommended)". A Nasdaq-100 name counts as technology by
+   the industry classification recorded with each versioned membership snapshot, and how growth and protection
+   blend the 3, 6 and 12-month forecasts is settled under FIN-OD-07 (normalisation).
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

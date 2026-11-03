@@ -905,8 +905,8 @@ def rec_web_quality(s: str) -> str:
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 6, "Web quality on every screen: ARIA snapshots, axe-core, screenshots and the staleness rule.", LUCID_QUALITY)
             + cols(card("white_check_mark", "#E3FCEF", "Already the rule",
                         "Accessible, responsive PWA views. Never hide risk, staleness or a data provider's status behind a loading state (AGENTS.md, ARC-10)."),
-                   card("bulb", "#FFFAE6", "Proposed standard",
-                        "WCAG 2.2 Level AA, the W3C Recommendation (current version 12 December 2024). It adds nine success criteria to 2.1 and drops 4.1.1 Parsing. It needs the owner's yes."))
+                   card("bulb", "#FFFAE6", "The standard: owner-selected",
+                        "WCAG 2.2 Level AA, the W3C Recommendation (current version 12 December 2024), for web, iPhone and iPad (owner, 3 November 2026, MP-177). It adds nine success criteria to 2.1 and drops 4.1.1 Parsing."))
             + "<h2>🧪 Four checks in one browser session</h2>"
             + table(["Check", "Tool", "Catches", "Status"], [
                 ["Journeys", "Playwright on the built static SvelteKit app, against a local stub API with synthetic data", "A broken flow, a dead link, a lost state", lozenge("proposed")],
@@ -950,7 +950,6 @@ def rec_web_quality(s: str) -> str:
                 ["Playwright, ARIA snapshots, axe, screenshots", "Locally first; in CI on pull requests touching <code>web/</code>, or only on request", lozenge("open")],
                 ["Keyboard, VoiceOver and real Safari", "By hand before a release", lozenge("proposed")]])
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "WCAG 2.2 Level AA as MP's standard for the web, and the same bar for the Apple app: PL-14 (MP-30).",
                 "The screenshot tool: Playwright's own (proposed) or Argos Hobby: PL-11 (MP-30).",
                 "Whether the browser suite runs on every web pull request or only on request: PL-11 (MP-30).",
                 "Browsers, widths and themes, with the screens: PL-14 (MP-30).",

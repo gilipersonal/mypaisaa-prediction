@@ -1,13 +1,13 @@
 {
  "slug": "ph-03",
  "page_id": "6291549",
- "version": 3,
- "sent_sha256": "168b05603adf6cb63eaeb330046351c39459effa5bc14cbea4128017b94c8958",
- "readback_sha256": "acd6f2e72172357ccd3533ced230d5e534b05c733523f4d9aff711e4f673bc8c",
- "canonical_sha256": "2eb1aaec0242681c3ac6fe71ac45b483a20f5f09436854c9d3686e7ec200cdcb",
- "parts": 1287,
+ "version": 4,
+ "sent_sha256": "cd5f9ad143a61b40201679e811f3f505dffb524f7717d0277186869ee9969ac7",
+ "readback_sha256": "c862cb610c2f2e46cab58543d997ebaf26c586bba47ac5f102aa3694ccb2b974",
+ "canonical_sha256": "ffebc311ecad8e0f0fab67e7e63e342d661661d99b4d6ed49ed8dfd0774c6b79",
+ "parts": 1284,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T15:12:49Z"
+ "read_at": "2026-11-03T16:32:41Z"
 }
