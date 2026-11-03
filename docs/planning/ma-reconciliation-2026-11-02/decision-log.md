@@ -173,6 +173,14 @@ Asked while adopting the Market Agent explainer (MP-37):
   the automatic safety pause (POLICY-003) stays. The band sizes are open until the owner approves them before go-live.
   Research agents still cannot change model weights (AGENTS.md); the calibrator is deterministic code.
 
+- **Owner requirement: holdings plus the top 5 per market segment.** The apps show the owner's holdings and, for each
+  market segment, the five highest-ranked listings, ranked by MP's combined score (growth 35, protection 40,
+  opportunity 25, ranked only when all three are eligible). They come with their ranges and uncertainty, as decision
+  support, not advice. Proposed segments: US large caps, US tech (Nasdaq-100), UK FTSE 100, UK mid caps (FTSE 250),
+  India Nifty 50, India mid caps and ETFs. Open: the exact segments, the size of the discovery universe scanned on
+  end-of-day data, and its effect on data credits and cost. The screens themselves wait for UX design after the
+  architecture sign-off.
+
 The foundation forecasting specification is hash-pinned as reviewed evidence, so it takes these answers on at the MP-20
 consolidation rather than being edited in place. These answers do not change the qualification order (ARC-05) or approve
 any data source.
