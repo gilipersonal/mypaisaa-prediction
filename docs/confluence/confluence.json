@@ -72,8 +72,8 @@
   },
   "rec-forecast": {
    "id": "6127742",
-   "version": 3,
-   "sha256": "b6a0c4964391062894e1350e675d6a78b2e9bc461cecd30c4c3a4e37b7d0cd59"
+   "version": 4,
+   "sha256": "474a2933cbc1e07a06ae95e3e322ed5fd55f6490a5c6e86f6fedd2d883c68c86"
   },
   "rec-claude": {
    "id": "6127762",
@@ -182,8 +182,8 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 4,
-   "sha256": "7ee08a3b67fc1babe78984e0198ae4c7256da34a196d0df1ffc83931273802af"
+   "version": 5,
+   "sha256": "f372c619a2a831450aad9f480d02e34c095fb74750681ddb2d98a5de950a311a"
   },
   "rec-perimeter": {
    "id": "6390123",
