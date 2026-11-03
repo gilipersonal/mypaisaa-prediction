@@ -79,7 +79,9 @@ cannot change a number, publish a forecast, move money or trade.
 3. **Nothing changes without you.** Imports become proposals until you approve the exact change. A better model
    runs in shadow beside the live one and is promoted only with your approval and its evidence. Between promotions
    the engine corrects itself within limits: code grades every matured forecast and makes small calibration and
-   weighting adjustments inside bands you approve in advance, rolling back if scores worsen.
+   weighting adjustments inside limits you approved (at most 5 points a week on a probability and 10% a month on a
+   signal's weight), rolling back if scores worsen. A new model must first run 8 weeks in shadow, and a promoted model
+   that slips reverts by itself and tells you.
 4. **It cannot trade.** MP holds no broker login, submits no order and gives no personalised financial advice. It
    is decision support with its uncertainty on show.
 

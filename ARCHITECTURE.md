@@ -277,6 +277,10 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
   authenticated FastAPI (ARC-10). Market discovery first, holdings a tap away, chat to explain.
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
+- **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
+  tech, India Nifty 50 and midcap, ETFs, gold and silver) from a curated universe of about 150; new markets and
+  watch-only listings added from chat after a coverage check and the owner's confirm; the Apple app as free local
+  builds for now, with notifications through Web Push.
 - **Both:** accessible and responsive, and never hide risk, staleness or a provider's status behind a spinner.
 - **Proposed (MP-36):** WCAG 2.2 Level AA as the accessibility standard for web and Apple, pending the owner's yes.
 

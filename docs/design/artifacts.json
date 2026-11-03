@@ -4,17 +4,17 @@
    "slug": "market-agent",
    "source": "docs/market-agent/index.html",
    "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
-   "published_sha256": "3c98a569a22aa7f11cb938a292227eeb39cbb4db60b88dbc9e51073def41b6f1",
+   "published_sha256": "39ad0c42c179792d807e5b94f97bf0f5c3844241d12e38ece154b400d499b576",
    "published_at": "2026-11-03",
-   "jira": "MP-37"
+   "jira": "MP-39"
   },
   {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
-   "published_sha256": "ae0146b645356372e83ee7d7256a8f2c6a405f5ed7ab3857e26365421be81ceb",
+   "published_sha256": "c12c39d690c4eb5d01696184beb13788d9b25b85e63c95390a260d562bc4629c",
    "published_at": "2026-11-03",
-   "jira": "MP-38"
+   "jira": "MP-39"
   }
  ]
 }

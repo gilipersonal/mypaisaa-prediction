@@ -382,7 +382,7 @@ def rec_forecast(s: str) -> str:
                   "Two experiment campaigns a month at most across dev and prod, each up to 96 fits and 6 instance-hours (POLICY-008).",
                   "The combined score needs all three of growth, protection and opportunity at 35, 40 and 25 (POLICY-006).",
                   "An affected scope pauses itself on an approved trigger and restarts only with the owner's approval (POLICY-003).",
-                  "Bounded self-correction (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the owner approves in advance, and rolls back automatically if scores worsen. New models, features, rules and anything outside a band wait for the owner. The band sizes are open."])
+                  "Bounded self-correction (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the owner approved on 3 November 2026 (at most 5 percentage points a week on a probability, 10% a month on a signal\'s weight), and rolls back automatically if scores worsen. New models need 8 weeks in shadow and the owner\'s yes; a promoted model that slips reverts by itself and notifies the owner."])
             + "<h2>🔁 Controlled learning</h2>" + gif(s, "learning-loop", "Record, wait, score, propose, shadow, and only then your approval.")
             + footer())
 
@@ -915,7 +915,7 @@ def rec_web_quality(s: str) -> str:
 def rec_apple_testing(s: str) -> str:
     checked = "checked 2 Nov 2026"
     return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
-                   "Testing on simulators costs nothing; a private TestFlight beta needs the paid Apple Developer Program, whose fee month the owner allows above £100 as a one-off exception.",
+                   "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the owner says when.",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a private TestFlight build.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac and the private TestFlight beta.", LUCID_QUALITY)
@@ -962,7 +962,8 @@ def rec_apple_testing(s: str) -> str:
                 ["VoiceOver", "A walkthrough by hand on a real device before each beta build; a test runner cannot listen", lozenge("proposed")],
                 ["Charts", "Each chart has a text alternative and a summary value (L6-S03, L7-S02)", lozenge("proposed")],
                 ["Lock screen and app switcher", "A simulated push carries a neutral payload; no holding or amount appears (L7-S02)", lozenge("proposed")]])
-            + "<h2>✈️ A private TestFlight beta</h2>"
+            + panel("information_source", "#DEEBFF", "<p><strong>For now: free local builds (owner, 3 November 2026).</strong> Builds install from Xcode on the owner's own iPhone and iPad and expire after 7 days. Free builds cannot use Apple push notifications, TestFlight or Sign in with Apple, so phone notifications come through the web app's Web Push. The TestFlight plan below applies once the owner chooses to pay.</p>")
+            + "<h2>✈️ A private TestFlight beta, later</h2>"
             + table(["Apple's rule (" + checked + ")", "What MP proposes", "Status"], [
                 ["Up to 100 internal testers, who are App Store Connect users", "One internal group: the owner only", lozenge("proposed")],
                 ["A build can be tested for up to 90 days, then becomes unavailable", "A reminder at day 60 of each build; a new upload restarts the clock", lozenge("proposed")],

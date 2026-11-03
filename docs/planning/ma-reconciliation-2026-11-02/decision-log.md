@@ -185,4 +185,29 @@ The foundation forecasting specification is hash-pinned as reviewed evidence, so
 consolidation rather than being edited in place. These answers do not change the qualification order (ARC-05) or approve
 any data source.
 
+## Owner answers in the 3 November 2026 decision round (MP-39)
+
+1. **Top-5 segments:** US large caps and US tech; India Nifty 50 and midcap; ETFs (US, UK and India); and commodities
+   (gold and silver, quoted as XAU/USD and XAG/USD). There is no UK FTSE top-5 segment; UK holdings are still covered.
+2. **Adding markets, segments and watch-only listings from chat:** Claude proposes; code checks coverage with the data
+   provider (Twelve Data or Yahoo) and the credit cost; the owner taps confirm in the app before anything is added. A
+   watch-only listing is tracked and forecast without being held.
+3. **Discovery universe:** a curated list of about 150 names, scanned on end-of-day data.
+4. **Bounded self-correction limits:** moderate. A forecast's probabilities may shift at most 5 percentage points a
+   week, and how much a signal counts may change at most 10% a month. Anything larger waits for the owner, and an
+   adjustment rolls back automatically if scores worsen.
+5. **Live trial:** 8 weeks in shadow, beating both the base rate and the rules, before a model can be promoted with
+   the owner's yes.
+6. **A slipping promoted model:** reverts by itself to the previous approved model and notifies the owner; switching
+   forward again needs the owner's yes.
+7. **Production releases:** a release workflow only the owner can start (GitHub Free). This settles PL-11's release
+   route.
+8. **UK fund prices:** test Grow 55 by API in its first month; if they are not covered, value UK funds from the
+   owner's statements.
+9. **Indian funds:** the owner supplies the holdings statements; all other market data comes from Twelve Data.
+10. **Apple:** no paid Apple Developer Program for now; the owner will say when. The iPhone and iPad app runs as free
+    local builds that expire after seven days. Free builds cannot use Apple push notifications, TestFlight or Sign in
+    with Apple, so phone notifications come through the web app's Web Push until then.
+11. **The rules-versus-models contribution split:** shown live from launch, labelled experimental.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.
