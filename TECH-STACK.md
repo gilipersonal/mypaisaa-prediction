@@ -132,7 +132,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
-| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Proposed (MP-36); $99 a year, not yet in the cost model |
+| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Not for now (owner, 3 Nov 2026): free local builds that expire after 7 days; phone notifications through the web app's Web Push until the owner says when |
 
 ## 8. Quality and delivery
 
@@ -143,7 +143,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
 | Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; terraform validate, TFLint and Checkov on the Terraform | Proposed (MP-36) |
-| Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod from CI after the owner approves; Lambda alias rollback | Proposed (MP-36); the approval route is open on GitHub Free |
+| Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod by a release workflow only the owner can start; Lambda alias rollback | Release route owner-selected 3 Nov 2026; the rest proposed (MP-36) |
 | CI minutes | GitHub Free for organisations: $12 a month shared by the org's private repos; Apple builds on the owner's Mac | Proposed (MP-36) |
 | Test IDs | One shared dictionary generating web `data-testid` and Swift accessibility identifiers | Proposed (MP-36) |
 | Infrastructure as code | **Terraform only**, from day one: every AWS change goes through Terraform. Plan-only until an apply is asked for ([MP-29](docs/planning/region-network-2026-11-03/README.md)) | Owner-selected 3 Nov 2026 |

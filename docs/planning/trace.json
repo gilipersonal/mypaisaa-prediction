@@ -571,12 +571,29 @@
    "key": "MP-38",
    "summary": "Explain MyPrediction's architecture to anyone in one colourful, animated page",
    "type": "Story",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/architecture-explainer/",
     "docs/design/artifacts.json",
     "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-39",
+   "summary": "Record the owner's 3 November decision round in every record",
+   "type": "Story",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "README.md",
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    "docs/confluence/",
+    "docs/market-agent/",
+    "docs/architecture-explainer/",
+    "docs/design/artifacts.json",
+    "docs/planning/"
    ]
   }
  ]

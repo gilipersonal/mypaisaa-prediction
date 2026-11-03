@@ -695,15 +695,15 @@ footer p + p { margin-top: 8px; }
       <div class="spec" aria-label="Stack summary">
         <div class="spec-top"><div class="dots"><i></i><i></i><i></i></div><span>stack · ARCHITECTURE.md, TECH-STACK.md</span></div>
         <dl>
-          <div class="row"><dt>Doors</dt><dd><b>SvelteKit PWA</b>, static on S3 and CloudFront · <b>SwiftUI</b> in a React Native shell<span class="st s">SELECTED</span></dd></div>
-          <div class="row"><dt>Edge</dt><dd><b>API Gateway REST</b>, HTTPS and SSE through the Lambda Web Adapter · <b>Cognito</b>: Apple, Google, passkeys, step-up<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Doors</dt><dd><b>SvelteKit PWA</b>, static on S3 and CloudFront · <b>SwiftUI</b> in a React Native shell, free 7-day local builds for now<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Edge</dt><dd><b>API Gateway REST</b>, HTTPS and SSE through the Lambda Web Adapter · <b>Cognito</b>: Google, passkeys, step-up; Sign in with Apple waits for the Apple Developer Program<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>API</dt><dd><b>FastAPI on Lambda</b> under <code>/api/v1</code>; the starter runs on a laptop<span class="st i">STARTER</span></dd></div>
           <div class="row"><dt>Work</dt><dd><b>EventBridge Scheduler</b> · <b>SQS</b> with dead-letter queues · <b>Lambda Durable Functions</b> in Python, not Step Functions<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>State</dt><dd><b>DynamoDB</b> and private <b>S3</b>; one controlled ledger writer; forecasts append-only<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Models</dt><dd><b>SageMaker</b> CPU training, two capped campaigns a month, network-isolated · <b>Lambda</b> inference<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Claude</dt><dd><b>Haiku 5.5 · Opus 5.5 · Sonnet 5.5</b> through the Anthropic API; batch what can wait<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Ops</dt><dd><b>SSM Parameter Store</b> for secrets · <b>CloudWatch</b> and <b>X-Ray</b> through ADOT<span class="st p">PROPOSED</span></dd></div>
-          <div class="row"><dt>Delivery</dt><dd><b>Terraform only</b> · GitHub OIDC · prod on the owner's release route<span class="st o">ROUTE OPEN</span></dd></div>
+          <div class="row"><dt>Delivery</dt><dd><b>Terraform only</b> · GitHub OIDC · prod from a release workflow only the owner can start<span class="st s">SELECTED</span></dd></div>
           <div class="row"><dt>Place</dt><dd><b>us-east-1</b> · N0, no VPC · dev and prod under Organizations with a cost-guard SCP<span class="st s">SELECTED</span></dd></div>
         </dl>
       </div>
@@ -725,7 +725,7 @@ footer p + p { margin-top: 8px; }
       <p>If you read nothing else: MyPrediction watches what you own, says where each price is likely to land with honest ranges, explains why in plain words, and keeps score of itself. Everything below is how.</p>
     </div>
     <div class="grid4">
-      <div class="card"><div class="ch"><span class="icon i-sky"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><h3>Watches your money</h3></div><p>Your holdings and a watchlist, 20 to 30 listings to start, priced after each market closes and checked every 30 minutes while markets are open.</p></div>
+      <div class="card"><div class="ch"><span class="icon i-sky"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><h3>Watches your money</h3></div><p>Your holdings and a watchlist, 20 to 30 listings to start, priced after each market closes and checked every 30 minutes while markets are open. A curated list of about 150 more names is scanned at end of day for the top 5 per segment.</p></div>
       <div class="card"><div class="ch"><span class="icon i-saffron"><svg aria-hidden="true"><use href="#g-target"/></svg></span><h3>Forecasts in ranges</h3></div><p>Not "it will go up". Where the price is likely to land and how wide the uncertainty is, for each horizon below.</p></div>
       <div class="card"><div class="ch"><span class="icon i-violet"><svg aria-hidden="true"><use href="#g-chat"/></svg></span><h3>Explains in plain words</h3></div><p>A 07:30 London briefing and a chat that answers "why?". Claude writes the words; every number comes from code and models.</p></div>
       <div class="card"><div class="ch"><span class="icon i-mint"><svg aria-hidden="true"><use href="#g-check"/></svg></span><h3>Keeps score and learns</h3></div><p>Each forecast is frozen when made and graded after its horizon. Small fixes happen by themselves, inside limits you set.</p></div>
@@ -842,8 +842,8 @@ footer p + p { margin-top: 8px; }
     <h3 style="margin-top:34px">The data flow behind it</h3>
     <div class="flow6" aria-label="How the holdings and top 5 view is built, in order">
       <span class="runner" aria-hidden="true"></span>
-      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-target"/></svg></span><b>Universe</b><span>Holdings and watchlist, plus a wider discovery universe per segment</span><span class="tag t-open">size open</span></div>
-      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><b>End-of-day scan</b><span>Data workers fetch EOD prices after each close; Grow 55 is end-of-day on LSE, NSE and BSE</span><span class="tag t-open">credits, cost open</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-target"/></svg></span><b>Universe</b><span>Holdings and watchlist, plus a curated discovery list of about 150 names across the segments</span><span class="tag t-sel">about 150, selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><b>End-of-day scan</b><span>The list is scanned on end-of-day data after each close; Grow 55 is end-of-day on LSE, NSE and BSE</span><span class="tag t-open">credits, cost open</span></div>
       <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-snow"/></svg></span><b>Freeze</b><span>At close +60 the inputs freeze; a late price is labelled and abstains</span><span class="tag t-sel">selected</span></div>
       <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Score</b><span>Rules and approved models give growth, protection and opportunity per listing</span><span class="tag t-prop">proposed</span></div>
       <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-calc"/></svg></span><b>Rank</b><span>Code combines 35, 40 and 25, only when all three are eligible, and keeps the top 5 per segment as a versioned view</span><span class="tag t-sel">weights selected</span></div>
@@ -854,13 +854,26 @@ footer p + p { margin-top: 8px; }
         <thead><tr><th>Piece</th><th>What it is</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>The requirement</td><td>Holdings plus the top 5 per market segment, ranked by the combined score, with ranges and uncertainty, as decision support</td><td><span class="tag t-prop">Proposed</span></td></tr>
-          <tr><td>Segments</td><td>US large caps, US tech (Nasdaq-100), UK FTSE 100, UK mid caps (FTSE 250), India Nifty 50, India mid caps, ETFs</td><td><span class="tag t-open">Open</span> exact list</td></tr>
+          <tr><td>Segments</td><td>US large caps and US tech; India Nifty 50 and midcap; ETFs (US, UK and India); and commodities: gold and silver, quoted by Twelve Data as <code>XAU/USD</code> and <code>XAG/USD</code>. There is no UK FTSE top-5 segment; UK holdings are still covered</td><td><span class="tag t-sel">Owner-selected</span> 3 Nov 2026</td></tr>
           <tr><td>Combined score</td><td>Growth 35, protection 40, opportunity 25 (POLICY-006). A missing part is never zero and never reweighted: the listing shows "not ranked" with the parts that are supported</td><td><span class="tag t-sel">Owner-selected</span></td></tr>
-          <tr><td>Discovery universe</td><td>How many listings are scanned on end-of-day data beyond the owner's 20 to 30, and its effect on Twelve Data credits and on the £100 ceiling</td><td><span class="tag t-open">Open</span></td></tr>
+          <tr><td>Discovery universe</td><td>A curated list of about 150 names, scanned on end-of-day data, beyond the owner's 20 to 30</td><td><span class="tag t-sel">Owner-selected</span> 3 Nov 2026</td></tr>
+          <tr><td>Its cost</td><td>The scan's Twelve Data credits and its effect on the £100 ceiling, measured before go-live</td><td><span class="tag t-open">Open</span></td></tr>
+          <tr><td>Adding from chat</td><td>New markets, segments and watch-only listings, added later from chat: Claude proposes, code checks coverage and credits with Twelve Data or Yahoo, the owner taps confirm</td><td><span class="tag t-sel">Owner-selected</span> 3 Nov 2026</td></tr>
           <tr><td>Freshness and provider status</td><td>Shown on every row; never hidden behind a spinner (AGENTS.md)</td><td><span class="tag t-sel">Owner rule</span></td></tr>
           <tr><td>The screens</td><td>Designed in the UX phase, after the architecture sign-off, then approved before any build</td><td><span class="tag t-open">Not designed</span></td></tr>
         </tbody>
       </table>
+    </div>
+    <h3 style="margin-top:34px">Adding from chat: a new market, segment or watch-only listing</h3>
+    <p class="muted" style="margin-top:6px"><span class="tag t-sel">Owner-selected</span> 3 November 2026. A watch-only listing is a share or ETF the owner wants to track without holding it. Claude proposes the change, code checks it with the data provider, and nothing is added until the owner taps confirm. Pick <b>Add from chat</b> on the system map to watch it hop by hop.</p>
+    <div class="flow6" aria-label="How a listing is added from chat, in order">
+      <span class="runner" aria-hidden="true"></span>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-chat"/></svg></span><b>Ask in chat</b><span>"Watch Tesla, I don't hold it": a market, a segment or a watch-only listing</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-doc"/></svg></span><b>Claude proposes</b><span>The chat route drafts the exact change; it cannot add anything itself</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-pipe"/></svg></span><b>Code checks coverage</b><span>Data workers ask Twelve Data or Yahoo whether the listing can be covered, and how</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-calc"/></svg></span><b>Code prices it</b><span>The credits it would use each month, shown against the plan and the £100 ceiling</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner confirms</b><span>A card in the app with the check and the cost; the owner taps confirm</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-check"/></svg></span><b>Added, versioned</b><span>The universe gets a new version; the listing joins from its next close</span><span class="tag t-prop">proposed</span></div>
     </div>
   </div>
 </section>
@@ -950,10 +963,10 @@ footer p + p { margin-top: 8px; }
     <div class="sec-head">
       <p class="eyebrow">Controlled learning · owner, 3 November 2026</p>
       <h2 id="learn-h">It corrects itself inside bands, and asks for anything bigger</h2>
-      <p>After each close, code, never a Claude agent, grades every forecast that has matured and makes small calibration and weighting adjustments inside bands the owner approves in advance. An adjustment that makes scores worse rolls itself back. New models, features and rules, and anything outside a band, wait for the owner, and the POLICY-003 safety pause stays. <span class="tag t-sel">Owner-selected</span> <span class="tag t-open">Open</span> the band sizes, approved before go-live.</p>
+      <p>After each close, code, never a Claude agent, grades every forecast that has matured and makes small calibration and weighting adjustments inside bands the owner approves in advance. An adjustment that makes scores worse rolls itself back. New models, features and rules, and anything outside a band, wait for the owner, and the POLICY-003 safety pause stays. The limits are moderate: a forecast's probabilities may shift at most 5 percentage points a week, and how much a signal counts may change at most 10% a month; anything larger waits for the owner. A challenger spends 8 weeks in shadow, beating both the base rate and the rules, before it can be promoted with the owner's yes. For the long horizons, the 8 weeks check that a model runs cleanly and is calibrated on what has matured; years of walk-forward history carry the accuracy evidence for the 3, 6 and 12-month horizons, and the owner still approves. A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts by itself to it. That revert is automatic; restarting a paused forecast, or switching forward, still needs the owner's yes, and POLICY-003 stands. <span class="tag t-sel">Owner-selected</span> 3 November 2026.</p>
     </div>
     <div class="loopcard scroll-x">
-      <svg viewBox="0 0 1100 400" role="img" aria-label="Two loops. Top: a frozen forecast waits for its horizon, the grader scores it, and the calibrator loops with probation, ending in keep, roll back, or ask the owner. Bottom: a challenger trained on a capped SageMaker campaign is tested on held-out years, runs in shadow, becomes a promotion request, and goes live only when the owner says yes.">
+      <svg viewBox="0 0 1100 400" role="img" aria-label="Two loops. Top: a frozen forecast waits for its horizon, the grader scores it, and the calibrator loops with probation, ending in keep, roll back, or ask the owner. Bottom: a challenger trained on a capped SageMaker campaign is tested on held-out years, runs in shadow for 8 weeks beating both the base rate and the rules, becomes a promotion request, and goes live only when the owner says yes; a promoted model that scores worse than the previous approved one for 4 weeks running reverts by itself to it.">
         <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--saffron)"/></marker></defs>
         <text class="lp-lane" x="15" y="30">IN-BAND LOOP · DAILY · CODE</text>
         <path class="lp-line" d="M165 140 H190"/><path class="lp-line" d="M340 140 H365"/><path class="lp-line" d="M515 140 H582"/>
@@ -969,14 +982,14 @@ footer p + p { margin-top: 8px; }
         <g><rect class="lp-box ok" x="855" y="34" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="60">Keep</text><text class="lp-s" x="872" y="78">scores held · new CalibratorVersion</text></g>
         <g><rect class="lp-box bad" x="855" y="110" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="136">Roll back by itself</text><text class="lp-s" x="872" y="154">scores worse · last good version</text></g>
         <g><rect class="lp-box you" x="855" y="186" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="212">Ask the owner</text><text class="lp-s" x="872" y="230">outside a band · POLICY-003 pause</text></g>
-        <text class="lp-note" x="660" y="268" text-anchor="middle">band sizes OPEN · every step audited · Claude never adjusts a model</text>
+        <text class="lp-note" x="660" y="268" text-anchor="middle">limits: 5 points a week, 10% a month · every step audited · Claude never adjusts a model</text>
         <text class="lp-lane" x="15" y="304">CHALLENGER LANE · CAPPED · THE OWNER PROMOTES</text>
         <path class="lp-line" d="M175 352 H200"/><path class="lp-line" d="M385 352 H410"/><path class="lp-line" d="M595 352 H620"/><path class="lp-line" d="M805 352 H830"/>
         <g><rect class="lp-box" x="15" y="320" width="160" height="64" rx="14"/><text class="lp-t" x="95" y="348" text-anchor="middle">SageMaker campaign</text><text class="lp-s" x="95" y="366" text-anchor="middle">≤96 fits · ≤6 h</text></g>
         <g><rect class="lp-box" x="200" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="292" y="348" text-anchor="middle">Walk-forward test</text><text class="lp-s" x="292" y="366" text-anchor="middle">purge · embargo · held-out</text></g>
-        <g><rect class="lp-box" x="410" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="502" y="348" text-anchor="middle">Shadow</text><text class="lp-s" x="502" y="366" text-anchor="middle">labelled "in practice"</text></g>
+        <g><rect class="lp-box" x="410" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="502" y="348" text-anchor="middle">Shadow</text><text class="lp-s" x="502" y="366" text-anchor="middle">8 weeks · in practice</text></g>
         <g><rect class="lp-box hot" x="620" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="712" y="348" text-anchor="middle">Promotion request</text><text class="lp-s" x="712" y="366" text-anchor="middle">scores side by side · 7 d</text></g>
-        <g><rect class="lp-box you" x="830" y="320" width="255" height="64" rx="14"/><text class="lp-t" x="957" y="348" text-anchor="middle">Owner says yes, step-up</text><text class="lp-s" x="957" y="366" text-anchor="middle">old version pinned for undo</text></g>
+        <g><rect class="lp-box you" x="830" y="320" width="255" height="64" rx="14"/><text class="lp-t" x="957" y="348" text-anchor="middle">Owner says yes, step-up</text><text class="lp-s" x="957" y="366" text-anchor="middle">old pinned · 4 weeks worse reverts</text></g>
         <g id="lpdots">
           <g><circle class="lp-halo" r="10"/><circle class="lp-dot" r="4.5"/><animateMotion dur="7.5s" repeatCount="indefinite" begin="0s" path="M90 140 H582 A78 78 0 0 1 738 140 A78 78 0 0 1 582 140 A78 78 0 0 1 738 140 C790 140 800 64 855 64"/></g>
           <g><circle class="lp-halo" r="10"/><circle class="lp-dot" r="4.5"/><animateMotion dur="7.5s" repeatCount="indefinite" begin="2.5s" path="M90 140 H582 A78 78 0 0 1 738 140 A78 78 0 0 1 582 140 A78 78 0 0 1 738 140 H855"/></g>
@@ -986,10 +999,10 @@ footer p + p { margin-top: 8px; }
       </svg>
     </div>
     <div class="loop-rules">
-      <div class="lr"><b>Graded only after the horizon</b>Refreshing daily never matures a 12-month outcome. Scores report hit rate beside calibration, coverage and the benchmark.</div>
+      <div class="lr"><b>Graded only after the horizon</b>Refreshing daily never matures a 12-month outcome. For 3, 6 and 12 months the 8-week trial checks clean running and calibration on what has matured; years of walk-forward history carry the accuracy evidence. Scores report hit rate beside calibration, coverage and the benchmark.</div>
       <div class="lr"><b>In band, alone; outside, never</b>The calibrator is deterministic code. Any change past a band, a new model, feature or rule, waits for the owner.</div>
-      <div class="lr"><b>Rollback is automatic</b>An adjustment on probation that worsens scores reverts to the last good version, and the audit says so.</div>
-      <div class="lr"><b>A safety pause</b>POLICY-003: if an agreed alarm fires, that scope pauses and the owner is told. It restarts only with the owner's yes.</div>
+      <div class="lr"><b>Rollback is automatic</b>An adjustment on probation that worsens scores reverts to the last good version. A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts to it and tells the owner; switching forward again needs the owner's yes.</div>
+      <div class="lr"><b>A safety pause</b>POLICY-003: if an agreed alarm fires, that scope pauses and the owner is told. It restarts only with the owner's yes; only the revert to the previous approved model is automatic.</div>
     </div>
   </div>
 </section>
@@ -1056,8 +1069,8 @@ footer p + p { margin-top: 8px; }
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">Environments and delivery · MP-29, MP-30</p>
-      <h2 id="del-h">Terraform only, one artefact, prod on the owner's release route</h2>
-      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the nine CI checks. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-open">Open</span> how prod approval is enforced on GitHub Free (PL-11).</p>
+      <h2 id="del-h">Terraform only, one artefact, prod from a workflow only the owner starts</h2>
+      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the nine CI checks. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-sel">Owner-selected</span> 3 November 2026: a prod release runs from a release workflow that only the owner can start, on GitHub Free. This answers PL-11's release route.</p>
     </div>
     <div class="pipe-wrap"><span class="runner" aria-hidden="true"></span>
     <ol class="pipe" aria-label="The release pipeline, in order">
@@ -1065,7 +1078,7 @@ footer p + p { margin-top: 8px; }
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-terraform"/></svg></span><b>Terraform</b><span>fmt, validate, TFLint and Checkov now; <code>plan</code> with read-only credentials later</span><span class="tag t-sel">Terraform</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Build once</b><span>Lambda packages and the static PWA, each with a sha256 and an SBOM</span><span class="tag t-prop">proposed</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-shield"/></svg></span><b>Dev</b><span>GitHub OIDC into a dev-only role; synthetic smoke through the queue and workflow</span><span class="tag t-prop">proposed</span></li>
-      <li class="stg gate"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner approves</b><span>That exact sha256. The free route: a workflow only the owner dispatches</span><span class="tag t-open">route open</span></li>
+      <li class="stg gate"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner starts the release</b><span>That exact sha256, from a release workflow only the owner can start (GitHub Free, PL-11)</span><span class="tag t-sel">selected</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lock"/></svg></span><b>Prod</b><span>From CI on <code>main</code> only, into a separate prod role (ARC-11)</span><span class="tag t-sel">selected</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-check"/></svg></span><b>Smoke or roll back</b><span>Read-only checks; a failure moves the <code>live</code> alias back</span><span class="tag t-prop">proposed</span></li>
     </ol></div>
@@ -1128,7 +1141,7 @@ footer p + p { margin-top: 8px; }
       </div>
       <div class="marks" aria-hidden="true"><span style="left:60%">£60 warn</span><span style="left:75%">£75 reduce</span><span style="left:85%">£85 pause</span><span class="capl" style="left:100%">£100 ceiling</span></div>
       <div class="keyrow"><span><i style="background:var(--saffron-fill)"></i>Twelve Data Grow 55, $29</span><span><i style="background:var(--sky-fill)"></i>AWS, both accounts in Virginia</span><span><i style="background:var(--violet-fill)"></i>Claude option A, about £8.24</span></div>
-      <p class="muted" style="margin-top:10px">Planning estimates at £0.80 to the dollar and 20% tax; cash counts in the month an invoice is due. The one allowed exception is the Apple Developer fee month. The busy-month stress case breaks the ceiling, which is why event analysis is capped at three a day and the ladder exists. <span class="tag t-open">Open</span> the discovery universe's cost.</p>
+      <p class="muted" style="margin-top:10px">Planning estimates at £0.80 to the dollar and 20% tax; cash counts in the month an invoice is due. No paid Apple Developer Program for now (owner, 3 November 2026); if the owner joins later, that fee month is the one allowed exception. The busy-month stress case breaks the ceiling, which is why event analysis is capped at three a day and the ladder exists. <span class="tag t-open">Open</span> the credits and cost of scanning the 150-name discovery list.</p>
     </div>
   </div>
 </section>
@@ -1154,7 +1167,7 @@ footer p + p { margin-top: 8px; }
   <div class="wrap">
     <div>
       <h3>Where this comes from</h3>
-      <p>README, ARCHITECTURE.md and TECH-STACK.md; the ARC-06b card on Claude models and batching; the owner's decision log, including the answers of 2 and 3 November 2026; the MP-29 region, network and envelope pack; the Market Agent page (F1 to F8, R0 to R2, the agent team); and the Confluence stack, observability and testing pages, as of 3 November 2026. Made for Jira MP-38.</p>
+      <p>README, ARCHITECTURE.md and TECH-STACK.md; the ARC-06b card on Claude models and batching; the owner's decision log, including the answers of 2 and 3 November 2026 and the 3 November decision round (MP-39); the MP-29 region, network and envelope pack; the Market Agent page (F1 to F8, R0 to R2, the agent team); and the Confluence stack, observability and testing pages, as of 3 November 2026. Made for Jira MP-38; updated for MP-39.</p>
       <p>Timings, tokens, costs, holdings, scores and ranges on this page are illustrative. Tickers are real identifiers from the synthetic fixtures; every value is simulated.</p>
     </div>
     <div>
@@ -1184,13 +1197,13 @@ function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 var CAT = { compute:"#ED7100", int:"#E7157B", db:"#C925D1", storage:"#7AA116", net:"#8C4FFF", sec:"#DD344C", mgmt:"#E7157B", ml:"#01A88D" };
 var N = {
   ios:  {x:80, y:270, icon:"phone", door:1, name:"Apple app", sub:"SwiftUI · RN shell",
-         info:"SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications; a React Native shell owns navigation and typed bridge contracts only.",
-         facts:["Passkey, Apple or Google","Swift keeps the offline cache","Device matrix OPEN"]},
+         info:"SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications; a React Native shell owns navigation and typed bridge contracts only. No paid Apple Developer Program for now (owner, 3 November 2026): the app runs as free local builds that expire after 7 days, and free builds cannot use Apple push notifications, TestFlight or Sign in with Apple, so phone notifications come through the PWA's Web Push.",
+         facts:["Free 7-day local builds for now","Phone notifications: Web Push","Passkey or Google","Device matrix OPEN"]},
   web:  {x:80, y:450, icon:"browser", door:1, name:"Web PWA", sub:"SvelteKit 3 · static",
          info:"A prebuilt, static SvelteKit PWA served by CloudFront from private S3. No server rendering: every private read or command is an authenticated call to /api/v1.",
-         facts:["Service worker, Web Push","WCAG 2.2 AA PROPOSED","ARC-10 OWNER-SELECTED"]},
-  cog:  {x:260, y:200, icon:"cognito", cat:"sec", name:"Cognito", sub:"Apple · Google · passkey",
-         info:"One user pool per environment, on the Essentials tier, which passkeys need. Sensitive actions ask for a fresh, strong sign-in (step-up); a local Face ID alone is never server authorisation.",
+         facts:["Service worker, Web Push","Carries the phone notifications for now","WCAG 2.2 AA PROPOSED","ARC-10 OWNER-SELECTED"]},
+  cog:  {x:260, y:200, icon:"cognito", cat:"sec", name:"Cognito", sub:"Google · passkey",
+         info:"One user pool per environment, on the Essentials tier, which passkeys need. Sign in with Apple waits until the owner joins the paid Apple Developer Program. Sensitive actions ask for a fresh, strong sign-in (step-up); a local Face ID alone is never server authorisation.",
          facts:["ARC-07 OWNER-SELECTED","Two recovery paths","Approval: 15 min to start the commit"]},
   apigw:{x:260, y:345, icon:"apigw", cat:"net", name:"API Gateway", sub:"REST · HTTPS + SSE",
          info:"The only address the doors call, with a Cognito authorizer. The stream route uses response streaming through the Lambda Web Adapter: up to 15 minutes a response, a 5-minute idle timeout. The streaming proof is pending (PL-04).",
@@ -1230,7 +1243,7 @@ var N = {
          facts:["By close +75","No always-on endpoint","Shadow runs labelled in practice"]},
   code: {x:800, y:500, icon:"gear", cat:"compute", name:"Code workers λ", sub:"5 · no model",
          info:"The grader, the bounded calibrator, the challenger trainer, the data steward and the ops warden: deterministic code, never a Claude agent.",
-         facts:["Bands OPEN","Automatic rollback","POLICY-003 pause"]},
+         facts:["Limits: 5 points a week, 10% a month","Automatic rollback","4 weeks worse: reverts","POLICY-003 pause"]},
   sm:   {x:940, y:500, icon:"ml", cat:"ml", name:"SageMaker", sub:"CPU · isolated",
          info:"Capped CPU training on ml.m5.large ($0.115 an hour), network-isolated, no VPC, no endpoint. At most two campaigns a month across dev and prod, each at most 96 fits and six instance-hours, admitted against the budget first.",
          facts:["Writes artefacts/candidates/ only","Never promotes","ARC-04 OWNER-SELECTED"]},
@@ -1243,7 +1256,7 @@ var N = {
   cw:   {x:260, y:650, icon:"cloudwatch", cat:"mgmt", name:"CloudWatch · X-Ray", sub:"ADOT · alarms",
          info:"OpenTelemetry through the ADOT Lambda layer to X-Ray, sampled; Powertools JSON logs kept 14 days; eight custom metrics and six alarms in prod. No prompt, reply, amount or name in any log, span or metric.",
          facts:["About $4.94 a month","Traces 30 days","PROPOSED"]},
-  market:{panel:1, name:"Market data", info:"Twelve Data Grow 55 ($29 a month) for prod, end-of-day on LSE, NSE and BSE; Basic ($0) for dev; Yahoo Finance alongside for delayed intraday UK and India prices and a cross-check. The owner accepts the published-terms risk for personal hobby use.", facts:["ARC-01 OWNER-SELECTED","No vendor contacted"]},
+  market:{panel:1, name:"Market data", info:"Twelve Data Grow 55 ($29 a month) for prod, end-of-day on LSE, NSE and BSE; Basic ($0) for dev; Yahoo Finance alongside, India included, for delayed intraday prices for the 30-minute checks and a cross-check beside Twelve Data's end-of-day prices. Gold and silver are quoted by Twelve Data as XAU/USD and XAG/USD. The owner accepts the published-terms risk for personal hobby use.", facts:["ARC-01 OWNER-SELECTED","Yahoo for India too: OWNER-SELECTED 3 Nov","No vendor contacted"]},
   anth: {panel:1, name:"Anthropic API", info:"Claude through the official Python SDK, global inference at the standard price. Message Batches at half price for work no one waits on; 5-minute prompt caching on every route. MP makes no Claude call until the shared credit is verified.", facts:["Haiku, Sonnet, Opus 5.5","Model ids pinned per environment"]}
 };
 var E = {
@@ -1294,7 +1307,7 @@ var SCEN = [
   {p:["sched_sqs"], hot:["sqs"], tm:"16:45", t:"Close +15: the tick", d:"EventBridge Scheduler fires the UK collect job on SQS fifteen minutes after the close. The tick is the root of the run's trace.", c:"schedule: uk close +15 → SQS\njob_id · session 2026-11-03 · Europe/London"},
   {p:["sqs_wf"], hot:["wf"], t:"A durable run starts", d:"A Python Durable Function takes the job. Every step is checkpointed and keyed, so a crash resumes where it stopped instead of starting again.", c:"durable: daily_forecast(market=UK, session=2026-11-03)\nstep: collect · key = job_id + session"},
   {p:["wf_data","data_ssm","-data_ssm"], hot:["data","ssm"], t:"Data workers wake", d:"The workflow invokes the data workers. Their role can read only the Twelve Data key, at run time; nothing prints it.", c:"ssm GetParameter (SecureString) · the Twelve Data key only"},
-  {p:["data_market","-data_market"], hot:["market"], t:"End-of-day prices", d:"Twelve Data Grow 55 is end-of-day on the LSE; Yahoo Finance adds delayed intraday prices and a cross-check. Each observation is validated before it is kept.", c:"observation { provider, symbol_map, source_ts,\n  ingested_ts, quality_flags }"},
+  {p:["data_market","-data_market"], hot:["market"], t:"End-of-day prices", d:"Twelve Data Grow 55 is end-of-day on the LSE, NSE and BSE; Yahoo Finance adds delayed intraday prices for the 30-minute checks and a cross-check, India included. Each observation is validated before it is kept.", c:"observation { provider, symbol_map, source_ts,\n  ingested_ts, quality_flags }"},
   {p:["data_s3"], hot:["s3"], t:"Kept as fetched", d:"Each provider's raw answer is written to sources/provider/ for replay, and the observations are appended to the market table.", c:"s3 PutObject sources/provider/twelvedata/2026-11-03/…\nappend: market table"},
   {p:["wf_data","data_market","-data_market"], hot:["data"], tm:"17:10", t:"Close +40: retry what is missing", d:"Any listing without a fresh price is fetched again. One still missing at the cutoff is labelled late and abstains, never guessed.", c:"retry: 1 listing missing → found · 0 late"},
   {p:["wf_ddb"], hot:["ddb"], tm:"17:30", t:"Close +60: the cutoff freezes", d:"The inputs freeze: the data manifest's hash, the feature set version and the factors from last night's batch. Nothing after this moment can leak in.", c:"FeatureSet { version, data_cutoff 17:30, definition_hash }"},
@@ -1302,12 +1315,12 @@ var SCEN = [
   {p:["inf_ddb"], hot:["ddb"], tm:"17:45", t:"Close +75: forecasts issued", d:"Prediction records are appended, never overwritten: as-of, target, horizon, distribution, calibration, model version, data cutoff and explanation references. The segment views are re-ranked.", c:"PutItem Prediction (append-only) × listings × 7\nSegmentView { segment, top5, cutoff }"},
   {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A notice, then a re-read", d:"An open door gets an SSE notice carrying only an id, a type, a time and a reference; it then re-reads the durable record. The US forecasts at 22:15 wait for the 07:30 briefing.", c:"event: forecasts.issued · ref: predictions/UK/2026-11-03\n(no values on the stream)"}
  ]},
- {id:"open", name:"Open the app", sum:"The owner opens the iPhone app and sees holdings with their ranges, then the top 5 per segment, then a live notice.", steps:[
-  {p:["ios_cog"], hot:["cog"], t:"Sign in", d:"Passkey, Apple or Google through Cognito. Tokens stay in the Keychain; Swift owns them, not the shell.", c:"Cognito: passkey (WebAuthn) → ID and access tokens"},
+ {id:"open", name:"Open the app", sum:"The owner opens the iPhone app, a free local build for now, and sees holdings with their ranges, then the top 5 per segment, then a live notice.", steps:[
+  {p:["ios_cog"], hot:["cog"], t:"Sign in", d:"Passkey or Google through Cognito; Sign in with Apple waits for the paid Apple Developer Program. Tokens stay in the Keychain; Swift owns them, not the shell.", c:"Cognito: passkey (WebAuthn) → ID and access tokens"},
   {p:["ios_apigw"], hot:["apigw"], t:"One call for the home screen", d:"The app asks for its portfolio view with the token and a fresh traceparent.", c:"GET /api/v1/portfolio?horizon=3M\nAuthorization: Bearer … · traceparent: 00-…"},
   {p:["apigw_cog"], hot:["cog"], t:"Checked at the edge", d:"The Cognito authorizer checks the token's signature, audience and expiry before anything runs.", c:"authorizer: Cognito user pool · scope · exp"},
   {p:["apigw_api"], hot:["api"], t:"FastAPI on Lambda", d:"The same Uvicorn app as on a laptop, through the Lambda Web Adapter in buffered mode; Pydantic validates in and out.", c:"Lambda Web Adapter (buffered) · FastAPI · Pydantic"},
-  {p:["api_ddb","-api_ddb"], hot:["ddb"], t:"Reads pin one published version", d:"Holdings, the latest Prediction for each holding at the chosen horizon, and the seven segment views, all from one complete published version, so nothing on screen mixes two runs.", c:"Query holdings · Query predictions(version=2026-11-03T17:45)\nQuery segment views × 7 (route name PROPOSED)"},
+  {p:["api_ddb","-api_ddb"], hot:["ddb"], t:"Reads pin one published version", d:"Holdings, the latest Prediction for each holding at the chosen horizon, and the six segment views, all from one complete published version, so nothing on screen mixes two runs.", c:"Query holdings · Query predictions(version=2026-11-03T17:45)\nQuery segment views × 6 (route name PROPOSED)"},
   {p:["-apigw_api","-ios_apigw"], hot:["ios"], t:"Freshness on show", d:"Each row carries its provider and freshness. A late price is shown as late, never hidden behind a spinner.", c:"200 · request_id · trace_id\n{ holdings[], top5{segment: [5]}, freshness{} }"},
   {p:["web_cf"], hot:["cf"], t:"On the web, the same calls", d:"The PWA shell loads from CloudFront; the service worker caches the shell, never data. Then the same authenticated /api/v1 calls.", c:"GET / (static SvelteKit) · origin access control"},
   {p:["ios_apigw","apigw_api"], hot:["api"], t:"Opens the stream", d:"The SSE route streams through the adapter: heartbeats, resume from the last event id, at most 15 minutes, then reconnect.", c:"GET /api/v1/stream · Last-Event-ID · heartbeat"},
@@ -1336,19 +1349,32 @@ var SCEN = [
   {p:["claude_ddb"], hot:["ddb"], t:"Stored, and the run closed", d:"The turn is stored append-only with its citations; the run record closes with tokens, cost, tools and outcome.", c:"PutItem Turn + RunRecord { tokens, cost_usd 0.021 }"},
   {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A notice; the door re-reads", d:"The notice says the turn is ready; the app fetches it with an ordinary authenticated GET, a new trace joined by run_id.", c:"event: turn.ready · ref · run_id"}
  ]},
- {id:"learn", name:"Learning loop", sum:"Forecasts mature, code grades them, the calibrator adjusts inside its band or rolls back, and a challenger waits in shadow for the owner.", steps:[
+ {id:"learn", name:"Learning loop", sum:"Forecasts mature, code grades them, the calibrator adjusts inside its limits or rolls back, a challenger spends 8 weeks in shadow before the owner's yes, and a promoted model that scores worse than the previous approved one for 4 weeks running reverts by itself.", steps:[
   {p:["sched_sqs","sqs_wf"], hot:["wf"], t:"After each close, a grading run", d:"Only forecasts whose horizon has passed and whose outcome is published are graded.", c:"durable: grade_and_calibrate(session)"},
   {p:["wf_code"], hot:["code"], t:"The grader", d:"Deterministic code. It scores hit rate with calibration, error, interval coverage, turnover and the benchmark.", c:"grader: matured Predictions → Outcome records"},
   {p:["code_ddb","-code_ddb"], hot:["ddb"], t:"Outcomes appended", d:"Each outcome is a new record joined to its prediction, never an edit of it.", c:"PutItem Outcome { prediction_id, realised, method, metrics }"},
-  {p:["code_ddb"], hot:["ddb"], t:"An adjustment inside the band", d:"The calibrator makes a small calibration or weighting change inside the band the owner approved in advance, and puts it on probation.", c:"CalibratorVersion v+1 · Δ inside band (size OPEN)\nprobation: next scores watched"},
+  {p:["code_ddb"], hot:["ddb"], t:"An adjustment inside the band", d:"The calibrator makes a small calibration or weighting change inside the band the owner approved in advance, and puts it on probation.", c:"CalibratorVersion v+1 · Δ ≤ 5 points a week; weights ≤ 10% a month\nprobation: next scores watched"},
   {p:["code_ddb"], hot:["code"], f:1, t:"Scores worse: rolled back by itself", d:"The probation fails, so the adjustment reverts to the last good version on its own, and the audit records why.", c:"probation failed → rollback to vN · audit row"},
   {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], f:1, t:"Outside a band: it stops and asks", d:"Anything past a band, or an agreed alarm, pauses that scope under POLICY-003 and tells the owner. Only the owner restarts it.", c:"POLICY-003: pause scope · notify owner"},
   {p:["wf_code","code_sm"], hot:["sm"], t:"A challenger, on a capped campaign", d:"The challenger trainer starts a SageMaker job on ml.m5.large with network isolation, admitted against the budget first.", c:"CreateTrainingJob ml.m5.large · network isolation\n≤ 96 fits · ≤ 6 instance-hours · ≤ 2 campaigns a month"},
   {p:["sm_s3"], hot:["s3"], t:"Candidates, never approved by the job", d:"The job writes only artefacts/candidates/. Walk-forward folds with purge and embargo, then a held-out final test.", c:"s3 PutObject artefacts/candidates/<sha256>"},
-  {p:["wf_inf","inf_s3","inf_ddb"], hot:["inf"], t:"Shadow, beside the live model", d:"The candidate forecasts the same tasks, labelled in practice, until enough of its own forecasts mature.", c:"Prediction { state: shadow, model_version: R2:hgb@v3 }"},
+  {p:["wf_inf","inf_s3","inf_ddb"], hot:["inf"], t:"Shadow, beside the live model", d:"The candidate forecasts the same tasks, labelled in practice, for 8 weeks, and must beat both the base rate and the rules every week. For 3, 6 and 12 months the 8 weeks check clean running and calibration on what has matured; years of walk-forward history carry the accuracy evidence.", c:"Prediction { state: shadow, model_version: R2:hgb@v3 }\nlive trial: 8 weeks vs base rate and rules"},
   {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A promotion request", d:"Scores side by side, its interval, no subgroup worse, cost and undo. It expires in 7 days.", c:"card: promotion request · expires in 7 days"},
   {p:["ios_apigw","apigw_cog"], hot:["cog"], t:"The owner says yes, with a fresh sign-in", d:"Step-up: a fresh, strong sign-in bound to this exact promotion.", c:"step-up: fresh passkey assertion · bound to the action"},
-  {p:["apigw_api","api_sqs","sqs_wf","wf_ddb"], hot:["ddb"], t:"Promoted, with its evidence", d:"The workflow moves the approved pointer; the old version stays pinned for undo.", c:"ModelVersion { state: active } · previous pinned"}
+  {p:["apigw_api","api_sqs","sqs_wf","wf_ddb"], hot:["ddb"], t:"Promoted, with its evidence", d:"The workflow moves the approved pointer; the old version stays pinned for undo.", c:"ModelVersion { state: active } · previous pinned"},
+  {p:["code_ddb","-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], f:1, t:"If it slips: back by itself", d:"A promoted model that scores worse than the previous approved one for 4 weeks running, on matured forecasts, reverts by itself to it and the owner is notified. Restarting a paused forecast, or switching forward again, needs the owner's yes; POLICY-003 stands.", c:"slip: worse than previous approved, 4 weeks running\nModelVersion { state: reverted } · previous approved active\nnotify owner (Web Push for now)"}
+ ]},
+ {id:"add", name:"Add from chat", sum:"The owner asks to watch a share without holding it; Claude proposes, code checks coverage and credits with the provider, and the owner taps confirm.", steps:[
+  {p:["ios_apigw","apigw_cog","apigw_api"], hot:["api"], t:"The owner asks in chat", d:"A new market, a new segment or a watch-only listing: a share or ETF to track without holding it. Owner-selected, 3 November 2026.", c:"POST /api/v1/conversations/{id}/turns\n\"Watch Tesla for me; I don't hold it\""},
+  {p:["api_sqs","sqs_claude"], hot:["claude"], t:"To the chat route", d:"The same live chat route as Ask why. It has read-only tools and no write authority.", c:"chat route worker · run started"},
+  {p:["claude_anth","-claude_anth"], hot:["anth"], m:"sonnet", t:"Claude proposes the change", d:"Sonnet drafts the exact change as a typed proposal. It cannot add a listing, a segment or a market itself.", c:"claude-sonnet-5-5 · live\nproposal { kind: watch_only, symbol: TSLA, market: US }"},
+  {p:["claude_ddb"], hot:["ddb"], t:"Stored as a proposal", d:"The proposal is stored as a draft, never applied, and a check job is queued.", c:"PutItem UniverseChange { state: proposed }  · names PROPOSED"},
+  {p:["sqs_wf","wf_data"], hot:["data"], t:"Code checks coverage", d:"A durable workflow hands the check to the data workers: deterministic code, not Claude.", c:"durable: check_coverage(TSLA)"},
+  {p:["data_market","-data_market"], hot:["market"], t:"Asks the provider", d:"Twelve Data or Yahoo: can this listing be covered, at what frequency, and what it costs in credits.", c:"symbol search · one end-of-day fetch\ncoverage: ok · credits a month: estimated"},
+  {p:["wf_ddb"], hot:["ddb"], t:"The check and its cost, recorded", d:"Coverage and the monthly credits are written onto the proposal, against the plan and the £100 ceiling.", c:"UniverseChange { coverage, credits_month, state: awaiting_owner }"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A card for the owner", d:"The app shows the proposal with the provider check and the credit cost. Nothing has been added yet.", c:"card: add watch-only TSLA? · covered · credits shown"},
+  {p:["ios_apigw","apigw_api"], hot:["api"], t:"The owner taps confirm", d:"Only the owner's confirm in the app adds it.", c:"POST /api/v1/universe-changes/{id}/confirm  · route PROPOSED"},
+  {p:["api_sqs","sqs_wf","wf_ddb"], hot:["ddb"], t:"Added, as a new version", d:"The universe gets a new version and the listing joins from its next close. Earlier forecasts are untouched.", c:"UniverseVersion v+1 · TSLA watch_only · from the next US close"}
  ]},
  {id:"fail", name:"Failure and replay", sum:"A provider times out after the US close: retried, kept, alarmed, late listings abstain, then one safe replay.", steps:[
   {p:["sched_sqs","sqs_wf","wf_data"], hot:["data"], tm:"21:15", t:"US close +15", d:"The collect step runs as usual.", c:"durable: daily_forecast(market=US) · step collect"},
@@ -1562,15 +1588,15 @@ var AG = [
    job:"Writes the morning briefing and each forecast's why from stored, versioned results, quoting stored event analyses.",
    tools:"Read-only, allowlisted.", out:"Cited text; every figure from a tool result. Never waits on a batch submitted that morning."},
   {n:6, name:"Chat, ask why", icon:"chat", m:"sonnet", mode:"live", prod:"api", q:"chat", effort:"low", vol:"On demand; daily caps OPEN", when:"The owner's question, from either door",
-   job:"Multi-turn answers about any forecast, suggestion or holding.",
-   tools:"Read-only tools over forecasts, prices, holdings and stored analyses.", out:"An answer with citations, stored append-only. Quotes a stored analysis instead of redoing it."},
+   job:"Multi-turn answers about any forecast, suggestion or holding, and proposals to add a market, segment or watch-only listing, which code checks and the owner confirms.",
+   tools:"Read-only tools over forecasts, prices, holdings and stored analyses.", out:"An answer with citations, stored append-only. Quotes a stored analysis instead of redoing it. A proposed change is stored as a draft, never applied."},
   {n:7, name:"Evaluation judges", icon:"scale", m:"sonnet", mode:"batch", prod:"eval", q:"judges", effort:"set per suite", vol:"Per change and sampled runs", when:"Through Inspect AI",
    job:"Scores agent transcripts against rubrics, after the deterministic checks and replays.",
    tools:"None; it reads the transcript under test.", out:"Scores calibrated against held-out human labels. Missing evidence or spent budget is incomplete, never green."}
 ];
 var CODEW = [
   {name:"Grader", icon:"target", st:"t-sel", stt:"Owner-selected", job:"After each close, scores every forecast whose horizon has passed: hit rate with calibration, error, coverage, turnover and the benchmark."},
-  {name:"Bounded calibrator", icon:"dial", st:"t-sel", stt:"Selected · bands open", job:"Small calibration and weighting steps inside owner-approved bands, on probation; rolls itself back if scores worsen."},
+  {name:"Bounded calibrator", icon:"dial", st:"t-sel", stt:"Owner-selected", job:"Small calibration and weighting steps inside owner-approved limits: a forecast's probabilities at most 5 percentage points a week, a signal's weight at most 10% a month. On probation; rolls itself back if scores worsen."},
   {name:"Challenger trainer", icon:"ml", st:"t-sel", stt:"Owner-selected", job:"Starts capped SageMaker campaigns, tests candidates walk-forward and held-out, runs them in shadow. Never promotes."},
   {name:"Data steward", icon:"pipe", st:"t-prop", stt:"Proposed", job:"Fails over between sources, fills gaps, labels stale prices, makes a forecast abstain; asks the owner for any new source or paid feed."},
   {name:"Ops warden", icon:"wrench", st:"t-prop", stt:"Proposed", job:"Retries, reconciles stuck runs, replays a dead-lettered job at most three times once healthy, and raises incidents."}
@@ -1687,7 +1713,7 @@ AG.forEach(function(a){
 });
 
 /* ================= holdings and top 5 (illustrative) ================= */
-var VOL = {AAPL:[.08,.25],MSFT:[.09,.24],NVDA:[.14,.45],AMZN:[.09,.30],JPM:[.07,.22],JNJ:[.05,.16],XOM:[.05,.26],SPY:[.07,.16],QQQ:[.09,.22],AZN:[.07,.20],SHEL:[.05,.24],HSBA:[.06,.22],ULVR:[.05,.17],"NG.":[.04,.17],"BP.":[.04,.27],LLOY:[.05,.26],BARC:[.06,.30],VOD:[.02,.24],CNX1:[.09,.23],RELIANCE:[.08,.25],TCS:[.08,.22],INFY:[.08,.24],HDFCBANK:[.09,.21],ICICIBANK:[.10,.24],SBIN:[.09,.28],ITC:[.07,.20],NIFTYBEES:[.08,.15]};
+var VOL = {AAPL:[.08,.25],MSFT:[.09,.24],NVDA:[.14,.45],AMZN:[.09,.30],JPM:[.07,.22],JNJ:[.05,.16],XOM:[.05,.26],SPY:[.07,.16],QQQ:[.09,.22],"XAU/USD":[.06,.15],"XAG/USD":[.05,.27],AZN:[.07,.20],SHEL:[.05,.24],HSBA:[.06,.22],ULVR:[.05,.17],"NG.":[.04,.17],"BP.":[.04,.27],LLOY:[.05,.26],BARC:[.06,.30],VOD:[.02,.24],CNX1:[.09,.23],RELIANCE:[.08,.25],TCS:[.08,.22],INFY:[.08,.24],HDFCBANK:[.09,.21],ICICIBANK:[.10,.24],SBIN:[.09,.28],ITC:[.07,.20],NIFTYBEES:[.08,.15]};
 var HZ = [["5D","5 days",5],["20D","20 days",20],["3M","3 months",63],["6M","6 months",126],["12M","12 months",252]];
 var HOLD = [
   {t:"CNX1", n:"iShares NASDAQ 100 UCITS ETF", mk:"UK", gbp:18420, loc:"quoted in GBX", act:"add", why:"Below its weight band; growth and opportunity eligible", src:"Twelve Data · LSE close 16:30", st:"fresh"},
@@ -1700,12 +1726,11 @@ var HOLD = [
 ];
 var SEG = [
   {id:"uslc", name:"US large caps", rows:[["MSFT","Microsoft",74,78,61],["NVDA","NVIDIA",88,52,80],["JPM","JPMorgan Chase",60,71,66],["AAPL","Apple",62,74,55],["JNJ","Johnson & Johnson",41,90,58],["AMZN","Amazon",70,60,64],["XOM","Exxon Mobil",48,66,52]]},
-  {id:"ustech", name:"US tech · Nasdaq-100", rows:[["MSFT","Microsoft",74,78,61],["NVDA","NVIDIA",88,52,80],["AAPL","Apple",62,74,55],["AMZN","Amazon",70,60,64]], held:"Fifth place withheld: no other Nasdaq-100 listing in the synthetic universe has all three scores."},
-  {id:"ftse100", name:"UK FTSE 100", rows:[["AZN","AstraZeneca",58,82,60],["ULVR","Unilever",44,86,52],["SHEL","Shell",50,70,68],["NG.","National Grid",38,88,55],["HSBA","HSBC Holdings",55,68,62],["BP.","BP",46,60,64],["BARC","Barclays",54,55,60],["LLOY","Lloyds Banking Group",52,58,57]], held:"Not ranked: VOD, opportunity not eligible (too little evidence)."},
-  {id:"ftse250", name:"UK mid caps · FTSE 250", rows:[], open:true},
+  {id:"ustech", name:"US tech", rows:[["MSFT","Microsoft",74,78,61],["NVDA","NVIDIA",88,52,80],["AAPL","Apple",62,74,55],["AMZN","Amazon",70,60,64]], held:"Fifth place withheld: no other US tech listing in the synthetic fixtures has all three scores."},
   {id:"nifty", name:"India Nifty 50", rows:[["ICICIBANK","ICICI Bank",66,70,61],["HDFCBANK","HDFC Bank",62,74,59],["TCS","Tata Consultancy Services",60,76,57],["INFY","Infosys",58,72,60],["SBIN","State Bank of India",59,62,66],["ITC","ITC",45,84,50]], held:"Not ranked: RELIANCE, price late at the cutoff, so protection is not eligible today."},
-  {id:"inmid", name:"India mid caps", rows:[], open:true},
-  {id:"etf", name:"ETFs", rows:[["CNX1","iShares NASDAQ 100 UCITS ETF",71,63,58],["QQQ","Invesco QQQ ETF",72,62,58],["NIFTYBEES","Nippon India ETF Nifty 50 BeES",60,70,62],["SPY","SPDR S&P 500 ETF Trust",55,80,50]], held:"Only four ETFs in the synthetic universe; a fifth would come from the discovery universe (OPEN)."}
+  {id:"inmid", name:"India midcap", rows:[], empty:true},
+  {id:"etf", name:"ETFs · US, UK, India", rows:[["CNX1","iShares NASDAQ 100 UCITS ETF",71,63,58],["QQQ","Invesco QQQ ETF",72,62,58],["NIFTYBEES","Nippon India ETF Nifty 50 BeES",60,70,62],["SPY","SPDR S&P 500 ETF Trust",55,80,50]], held:"Only four ETFs in the synthetic fixtures; a fifth would come from the curated discovery list of about 150 names."},
+  {id:"cmdty", name:"Commodities · gold, silver", rows:[["XAU/USD","Gold, US dollars per ounce",52,74,48],["XAG/USD","Silver, US dollars per ounce",58,56,54]], held:"Two places only: the segment holds gold and silver, quoted by Twelve Data as XAU/USD and XAG/USD."}
 ];
 var state = {hz:2, seg:0};
 function score(r){ return .35*r[2] + .40*r[3] + .25*r[4]; }
@@ -1722,12 +1747,12 @@ function segButtons(cls){ return SEG.map(function(s, i){ return '<button type="b
 function hzButtons(){ return HZ.map(function(z, i){ return '<button type="button" data-hz="'+i+'" aria-pressed="'+(i===state.hz)+'" aria-label="'+z[1]+'">'+z[0]+'</button>'; }).join(""); }
 function top5(){
   var s = SEG[state.seg];
-  if (s.open) return {s:s, rows:[]};
+  if (s.empty) return {s:s, rows:[]};
   var rows = s.rows.slice().sort(function(a, b){ return score(b)-score(a); }).slice(0, 5);
   return {s:s, rows:rows};
 }
 function gpo(r){ return '<span class="gpo" aria-label="growth '+r[2]+', protection '+r[3]+', opportunity '+r[4]+'"><i style="width:'+(r[2]*.35)+'%;background:var(--saffron-fill)"></i><i style="width:'+(r[3]*.40)+'%;background:var(--sky-fill)"></i><i style="width:'+(r[4]*.25)+'%;background:var(--mint-fill)"></i></span>'; }
-function openNote(s){ return '<div class="emptyseg"><b>Open.</b> No '+esc(s.name)+' listing is in the universe yet. Which listings, and how many, is still to decide, with their effect on data credits and cost.</div>'; }
+function emptyNote(s){ return '<div class="withheld"><b>No fixture yet.</b> The '+esc(s.name)+' segment is owner-selected, but no '+esc(s.name)+' listing is in the synthetic fixtures. Its names come from the curated discovery list of about 150.</div>'; }
 function render(){
   var hi = state.hz, z = HZ[hi];
   var hr = HOLD.map(function(x){ return (x.abst===z[0]) ? null : rng(x.t, hi); });
@@ -1745,7 +1770,7 @@ function render(){
       '<div class="fresh'+(x.st==="stale"?" stale":"")+'" style="grid-column:1/-1"><i></i>'+esc(x.src)+'</div></div>';
   });
   ph += '<div class="ph-sec"><h5>Top 5 by segment</h5><span class="muted" style="font-size:11px">'+esc(z[1])+'</span></div><div class="segs" role="group" aria-label="Market segment">'+segButtons()+'</div>';
-  if (T.s.open) ph += openNote(T.s);
+  if (T.s.empty) ph += emptyNote(T.s);
   T.rows.forEach(function(r, i){
     var q = tr[i];
     ph += '<div class="trow"><span class="rk">'+(i+1)+'</span><div class="nm"><b>'+esc(r[0])+'</b><span>'+esc(r[1])+'</span>'+gpo(r)+'</div><div class="sc">'+score(r).toFixed(1)+'<span>'+unc(q)+'</span></div>'+
@@ -1766,7 +1791,7 @@ function render(){
   });
   w += '</tbody></table></div>';
   w += '<div class="wm-col"><div class="wm-head"><h4>Top 5 · '+esc(T.s.name)+'</h4></div><div class="wm-segs segs" role="group" aria-label="Market segment">'+segButtons()+'</div>';
-  if (T.s.open) w += openNote(T.s);
+  if (T.s.empty) w += emptyNote(T.s);
   if (T.rows.length) {
     w += '<table><thead><tr><th>#</th><th>Listing</th><th style="text-align:right">Score</th><th>'+esc(z[1])+' range</th></tr></thead><tbody>';
     T.rows.forEach(function(r, i){
