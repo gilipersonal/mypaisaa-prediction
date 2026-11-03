@@ -156,4 +156,19 @@ The owner answered the questions in [the MP-29 pack](../region-network-2026-11-0
 
 These answers do not approve an apply, an account or any spending.
 
+## Owner answers on event and analog research (3 November 2026)
+
+Asked while adopting the Market Agent explainer (MP-37):
+
+- **Event kinds in the first event wave: all of them.** Rate surprises, inflation surprises, tariffs, conflict,
+  earnings, OPEC+ decisions and elections, for the US, UK and India. Each event is dated by when it became known, each
+  kind qualifies on its own evidence before it informs a forecast, and each source's rights are checked. This replaces
+  the foundation forecasting specification's proposal that scheduled earnings come first.
+- **Similar-days history: since 2015, about ten years.** This replaces the specification's proposed 756-session
+  lookback. Where a listing's history is shorter, the search uses what there is and says so.
+
+The foundation forecasting specification is hash-pinned as reviewed evidence, so it takes these answers on at the MP-20
+consolidation rather than being edited in place. These answers do not change the qualification order (ARC-05) or approve
+any data source.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

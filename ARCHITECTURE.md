@@ -161,6 +161,12 @@ combine growth, protection and opportunity at 35, 40 and 25, and only when all t
 neither zero nor a reason to reweight. Training is capped at two campaigns a month across dev and prod, each at most
 96 fits and six training-instance hours.
 
+**Event and analog research (F4), owner, 3 November 2026:** the first event wave covers all seven event kinds: rate
+surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, across the US, UK and India,
+each qualifying on its own evidence. The similar-days search runs over every eligible session since 2015, about ten
+years. Both supersede the narrower proposals in the foundation forecasting specification (earnings first, a
+756-session lookback), which takes them on at the MP-20 consolidation.
+
 <div align="center">
 
 <img src="docs/motion/learning-loop.gif" width="760" alt="Animation: a dot travels a loop of six steps, record, wait, score, propose, shadow, and you approve, then a badge reads promoted with its evidence">
