@@ -44,7 +44,9 @@
 2. **Every forecast is frozen, then graded.** Append-only records: a correction is a new version, an outcome is a new
    record, and the original forecast is never rewritten.
 3. **Nothing changes without the owner.** One controlled writer commits to the ledger, and only an exact change the
-   owner approved. A challenger model is promoted only by the owner, with its evidence.
+   owner approved. A challenger model is promoted only by the owner, with its evidence. Bounded self-correction
+   (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the
+   owner approves in advance, with automatic rollback if scores worsen; anything outside a band waits for the owner.
 4. **It cannot trade.** No broker credentials, no order path, no personalised advice.
 
 ## 2. The system on AWS
@@ -171,7 +173,7 @@ years. Both supersede the narrower proposals in the foundation forecasting speci
 
 <img src="docs/motion/learning-loop.gif" width="760" alt="Animation: a dot travels a loop of six steps, record, wait, score, propose, shadow, and you approve, then a badge reads promoted with its evidence">
 
-<sub>Self-learning means this loop, with the owner as the gate. <a href="docs/motion/learning-loop.png">Still image</a>.</sub>
+<sub>Self-learning means this loop, with the owner as the gate for new models and anything outside the approved bands. <a href="docs/motion/learning-loop.png">Still image</a>.</sub>
 
 </div>
 

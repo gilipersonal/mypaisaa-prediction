@@ -167,6 +167,12 @@ Asked while adopting the Market Agent explainer (MP-37):
 - **Similar-days history: since 2015, about ten years.** This replaces the specification's proposed 756-session
   lookback. Where a listing's history is shorter, the search uses what there is and says so.
 
+- **Self-correction: bounded.** Code, never a Claude agent, grades every matured forecast daily and applies small
+  calibration and weighting adjustments by itself, inside bands the owner approves in advance, with automatic rollback
+  if scores worsen. New models, new features, new rules and anything outside a band still need the owner's approval, and
+  the automatic safety pause (POLICY-003) stays. The band sizes are open until the owner approves them before go-live.
+  Research agents still cannot change model weights (AGENTS.md); the calibrator is deterministic code.
+
 The foundation forecasting specification is hash-pinned as reviewed evidence, so it takes these answers on at the MP-20
 consolidation rather than being edited in place. These answers do not change the qualification order (ARC-05) or approve
 any data source.

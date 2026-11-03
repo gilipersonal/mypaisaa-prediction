@@ -77,7 +77,9 @@ cannot change a number, publish a forecast, move money or trade.
 2. **Every forecast is frozen, then graded.** A forecast records its data cutoff, model version, horizon and full
    distribution. It is scored only after the horizon ends, against a published outcome, and is never rewritten.
 3. **Nothing changes without you.** Imports become proposals until you approve the exact change. A better model
-   runs in shadow beside the live one and is promoted only with your approval and its evidence.
+   runs in shadow beside the live one and is promoted only with your approval and its evidence. Between promotions
+   the engine corrects itself within limits: code grades every matured forecast and makes small calibration and
+   weighting adjustments inside bands you approve in advance, rolling back if scores worsen.
 4. **It cannot trade.** MP holds no broker login, submits no order and gives no personalised financial advice. It
    is decision support with its uncertainty on show.
 
