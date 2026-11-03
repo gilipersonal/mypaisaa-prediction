@@ -1,0 +1,454 @@
+{
+  "lane": "yahoo-alternatives",
+  "checked": "2026-11-02",
+  "fx_gbp_per_usd": 0.8,
+  "tax_multiplier": 1.2,
+  "yahoo": {
+    "terms_version": "Yahoo Terms of Service, last updated 1 November 2026; UK and EMEA users contract with Yahoo International Limited (Dublin), Irish law",
+    "uses": [
+      {
+        "use": "storage_backup",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "silent",
+        "basis": "Automated collection is barred (ToS s2(d)(ix)), so nothing collected that way may lawfully be stored. Gold CSV downloads are described as for offline use, but no clause grants a retention right; s2(h) bars reproduction without written permission.",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html",
+          "https://help.yahoo.com/kb/SLN2311.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "use": "training_evaluation",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "silent",
+        "basis": "No clause on training models with Yahoo content. s6(b)(iii) only concerns Yahoo's own AI features. s2(d)(x) bars building a competing database from Yahoo or its data providers' material.",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "use": "non_display_inference",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "silent",
+        "basis": "No non-display concept in the consumer terms. Scheduled automated monitoring would itself be automated access (s2(d)(ix)).",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "use": "internal_display",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "permitted",
+        "basis": "Personal, non-commercial viewing by the owner is the consumer service itself (s2(e)). Showing the owner data that was collected by automated means is not cured by the display being private.",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "use": "derived_display_export",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "silent for owner-only derived views; forbidden for export or display to anyone else",
+        "basis": "Yahoo help: you must not redistribute information displayed on or provided by Yahoo Finance. s2(h) bars distribution, transmission or publication without written permission.",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html",
+          "https://help.yahoo.com/kb/SLN2310.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "use": "anthropic_transmission",
+        "automated_route": "forbidden",
+        "manual_gold_csv_route": "silent; raw data likely caught by s2(h) 'transmit'",
+        "basis": "No AI-provider clause. s2(h) bars transmitting any portion of the Services without explicit written permission. finance.yahoo.com robots.txt disallows ClaudeBot and anthropic-ai crawlers (crawling, not processing, but a clear signal).",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html",
+          "https://finance.yahoo.com/robots.txt"
+        ],
+        "checked": "2026-11-02"
+      }
+    ],
+    "official_products": [
+      {
+        "name": "Yahoo Finance Gold",
+        "price_usd_year": 479.4,
+        "price_usd_month_equiv": 39.95,
+        "gbp_month_equiv_incl_20pct_tax": 38.35,
+        "gbp_year_incl_20pct_tax": 460.22,
+        "what": "Manual CSV download of historical data from a quote's Historical Data page; '40+ years of downloadable data'; export of chart data tables. Not an API. Some instruments have no download because of data licensing restrictions.",
+        "data_licence": "None beyond the consumer Terms of Service; no clause grants storage, training or AI use.",
+        "sources": [
+          "https://finance.yahoo.com/about/plans/select-plan",
+          "https://help.yahoo.com/kb/SLN2311.html",
+          "https://help.yahoo.com/kb/SLN29276.html"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "name": "Yahoo Finance Silver / Bronze",
+        "price_usd_year": [
+          239.4,
+          95.4
+        ],
+        "what": "No historical download or export listed.",
+        "sources": [
+          "https://finance.yahoo.com/about/plans/select-plan"
+        ],
+        "checked": "2026-11-02"
+      },
+      {
+        "name": "Yahoo Developer Network API terms (REV 3-2022)",
+        "what": "Generic API terms; no finance data API is offered under them that we could find. They bar earning income from the APIs and require deletion of Yahoo user data within 24 hours unless marked storable.",
+        "sources": [
+          "https://legal.yahoo.com/us/en/yahoo/terms/product-atos/apiforydn/index.html"
+        ],
+        "checked": "2026-11-02"
+      }
+    ],
+    "yfinance_status": {
+      "version": "1.7.0 (26 Aug 2026, PyPI)",
+      "licence": "Apache-2.0 (software only)",
+      "own_disclaimer": "Not affiliated with, endorsed or vetted by Yahoo; for research and educational purposes; says Yahoo's API is intended for personal use only; tells users to read Yahoo's terms.",
+      "yahoo_statement": "No Yahoo statement about yfinance found. Yahoo's ToS s2(d)(ix) bars automated collection without express prior permission, and https://query1.finance.yahoo.com/robots.txt and https://query2.finance.yahoo.com/robots.txt both disallow every path for every user agent.",
+      "sources": [
+        "https://github.com/ranaroussi/yfinance",
+        "https://pypi.org/project/yfinance/",
+        "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html",
+        "https://query1.finance.yahoo.com/robots.txt"
+      ],
+      "checked": "2026-11-02"
+    },
+    "upstream": "Yahoo lists ICE Data Services as provider for LSE (.L, 20 min delay), NSE (.NS), BSE (.BO, 15 min) and US venues; mutual fund prices have no listed provider. https://help.yahoo.com/kb/SLN2310.html (checked 2 Nov 2026).",
+    "recommendation": "Remove Yahoo from ARC-01's automated data mix. Keep the Yahoo adapter disabled: the current terms forbid automated collection outright, so no personal use the adapter could serve is permitted. A Yahoo Finance Gold subscription (about GBP 38/month equivalent with tax) buys manual CSV downloads only, with no storage, training or AI grant, so it is not worth buying for MP. At most, the owner may look at Yahoo pages by hand as an unrecorded cross-check. Re-open only with Yahoo's written permission."
+  },
+  "alternatives": [
+    {
+      "name": "Twelve Data (reference, Grow)",
+      "price_usd_month": 79,
+      "gbp_month_incl_tax": 75.84,
+      "markets": "US; LSE (XLON), NSE (XNSE), BSE (XBOM) at EOD from Grow; mutual fund NAV only on Pro ($229)",
+      "delay": "EOD for LSE/NSE/BSE",
+      "history": "not checked in this lane",
+      "storage": "s16.1 retain only for the duration the subscription permits; s16.2(a) delete within 30 days of termination",
+      "training": "silent",
+      "display": "Grow labelled internal display; external display needs a redistribution add-on (s2.2(e))",
+      "ai_use": "silent; s2.3(b) bars transferring data to third parties except as permitted",
+      "fit": "Covers UK and India listings; does not cover India or UK fund NAVs below Pro.",
+      "source": [
+        "https://twelvedata.com/exchanges",
+        "https://twelvedata.com/pricing",
+        "https://twelvedata.com/terms"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Alpha Vantage",
+      "price_usd_month": {
+        "free": 0,
+        "premium_75_per_min": 49.99
+      },
+      "gbp_month_incl_tax": {
+        "free": 0,
+        "premium_75_per_min": 47.99
+      },
+      "markets": "US; London (.LON) and BSE (.BSE) shown in docs; NSE not shown; 'stocks, ETFs and mutual funds' claimed globally, fund coverage for UK and India unverified",
+      "delay": "EOD daily series; realtime/15-min US needs entitlement",
+      "history": "25+ years; free keys get 'compact' (last 100 points) only; 'full' and adjusted daily are premium",
+      "storage": "silent",
+      "training": "silent",
+      "display": "personal use covers private 'investment analysis, research, testing, monitoring'; anything giving others access is commercial",
+      "ai_use": "silent",
+      "personal_definition": "Commercial if you work for or are affiliated with an adviser, broker, bank, insurer or money manager (s2(a)(iv)).",
+      "fit": "Best stated personal-use grant of any vendor checked; free tier (25 requests/day) can carry ~20 daily updates once history is backfilled on one premium month.",
+      "source": [
+        "https://www.alphavantage.co/terms_of_service/",
+        "https://www.alphavantage.co/premium/",
+        "https://www.alphavantage.co/documentation/"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "EODHD",
+      "price_usd_month": {
+        "historian_eod_all_world_gbp": 19.99,
+        "historian_annual_gbp": 199.9,
+        "fundamentals_plan_gbp": 59.99
+      },
+      "gbp_month_incl_tax": {
+        "historian": 23.99,
+        "note": "page showed GBP to a UK visitor; whether VAT is included is unverified"
+      },
+      "markets": "LSE in the exchanges API (code LSE, XLON); NSE/BSE: evidence conflicts (not on the public exchange list page, but ticker pages exist); UK funds by ISIN on the EUFUND virtual exchange, GBP and GBX tagged; no India MF NAV seen",
+      "delay": "EOD",
+      "history": "30+ years on paid plans; 1 year free",
+      "storage": "Personal users may store, manipulate and analyse data for private, non-commercial purposes (explicit)",
+      "training": "silent (analysis is permitted)",
+      "display": "no display, redistribution or access for anyone else",
+      "ai_use": "silent in terms; EODHD itself publishes a Claude plugin and MCP server",
+      "upstream_note": "EODHD says its pricing data is aggregated from OTC and over 100 sources, not exchange feeds",
+      "fit": "Cheapest explicit storage grant; the only candidate showing UK fund NAVs.",
+      "source": [
+        "https://eodhd.com/pricing",
+        "https://eodhd.com/financial-apis/terms-conditions",
+        "https://eodhd.com/financial-apis/commercial-vs-personal-license-use",
+        "https://eodhd.com/financial-apis/list-supported-exchanges/",
+        "https://eodhd.com/list-of-stock-markets"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Financial Modeling Prep",
+      "price_usd_month": {
+        "premium_uk": 69,
+        "premium_annual_rate": 49,
+        "ultimate_global": 139,
+        "ultimate_annual_rate": 99
+      },
+      "gbp_month_incl_tax": {
+        "premium": 66.24,
+        "ultimate": 133.44
+      },
+      "markets": "US (Starter); UK and Canada (Premium); global incl. India only on Ultimate",
+      "delay": "EOD and intraday",
+      "history": "5 years Starter; 30+ Premium and Ultimate",
+      "storage": "forbidden without written approval: 'may not copy or download any content'; delete all data incl. cache on termination (s6.3)",
+      "training": "forbidden without approval (no derivative works, s2.2)",
+      "display": "needs a Data Display and Licensing Agreement",
+      "ai_use": "not named; bars integrating data into tools accessible by any third party",
+      "fit": "Not suitable: storage and derived works need written approval, and India costs $139/month.",
+      "source": [
+        "https://site.financialmodelingprep.com/terms-of-service",
+        "https://site.financialmodelingprep.com/pricing-plans"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Tiingo",
+      "price_usd_month": {
+        "starter": 0,
+        "power": 30,
+        "internal_commercial": 50
+      },
+      "gbp_month_incl_tax": {
+        "power": 28.8
+      },
+      "markets": "US and Chinese stocks; US ETFs and mutual funds; no UK or India listed",
+      "delay": "EOD",
+      "history": "30+ years",
+      "storage": "unverified (terms page not reachable)",
+      "training": "unverified",
+      "display": "internal use means personal use only; no display or sharing with others",
+      "ai_use": "unverified",
+      "fit": "US backup only.",
+      "source": [
+        "https://www.tiingo.com/about/pricing"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Massive (formerly Polygon)",
+      "price_usd_month": {
+        "stocks_advanced": 199
+      },
+      "gbp_month_incl_tax": {
+        "stocks_advanced": 191.04
+      },
+      "markets": "US",
+      "delay": "real-time on Advanced; lower tiers not visible on the page",
+      "history": "20+ years",
+      "storage": "silent in Individuals Terms (18 Jul 2025); Market Data Terms not read",
+      "training": "silent",
+      "display": "personal, non-commercial only (s2)",
+      "ai_use": "silent",
+      "fit": "Not relevant: US only and over budget.",
+      "source": [
+        "https://massive.com/pricing?product=stocks",
+        "https://massive.com/legal/individuals-terms-of-service"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Marketstack (APILayer)",
+      "price_usd_month": {
+        "free_noncommercial": 0,
+        "basic": 9.99,
+        "professional": 49.99
+      },
+      "gbp_month_incl_tax": {
+        "basic": 9.59,
+        "professional": 47.99
+      },
+      "markets": "claims 70 exchanges; LSE, NSE and BSE not confirmed",
+      "delay": "EOD",
+      "history": "1 year free, 10 years Basic, 15+ Professional",
+      "storage": "silent; licence runs 'during the Subscription Term' (MSA s2(a))",
+      "training": "silent",
+      "display": "silent; free plan non-commercial, paid plans labelled commercial use",
+      "ai_use": "silent",
+      "fit": "Unproven coverage; ask before considering.",
+      "source": [
+        "https://marketstack.com/pricing",
+        "https://ideracorp.com/~/media/IderaInc/Files/APILayer/Apilayer%20Master%20Software%20as%20a%20Service%20Subscription%20Agreement%20SaaS%20082523ns%20FORM"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Stooq",
+      "price_usd_month": 0,
+      "markets": "unverified",
+      "delay": "EOD",
+      "history": "unverified",
+      "storage": "unverified",
+      "training": "unverified",
+      "display": "unverified",
+      "ai_use": "unverified",
+      "fit": "Excluded: terms could not be read; a secondary source says bulk access now needs a CAPTCHA-issued key.",
+      "source": [
+        "https://stooq.com/db/h/"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Nasdaq Data Link",
+      "price_usd_month": "unverified",
+      "markets": "US (QuoteMedia EOD, premium)",
+      "delay": "EOD",
+      "history": "unverified",
+      "storage": "per dataset licence, unverified",
+      "training": "Nasdaq AI Policy v1.0: training on Nasdaq Information must follow the licence; trained models 'may be fee-liable'",
+      "display": "per dataset",
+      "ai_use": "Nasdaq AI Policy: third-party AI tools need an appropriate licence; LLM/RAG dissemination needs an auditable entitlement system",
+      "fit": "Not relevant to UK or India; the AI policy applies upstream to Nasdaq data from any vendor.",
+      "source": [
+        "https://docs.data.nasdaq.com/docs/data-organization",
+        "https://nasdaqtrader.com/content/AdministrationSupport/AgreementsData/Data_AI_Policy.pdf"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "AMFI NAV files (India mutual funds)",
+      "price_usd_month": 0,
+      "markets": "India mutual fund NAVs (all schemes)",
+      "delay": "daily, published by evening under SEBI's 2001 circular",
+      "history": "NAV history pages exist; depth not checked",
+      "storage": "forbidden: 'shall not store electronically any significant portion' of the site",
+      "training": "forbidden without written agreement (no derivative works)",
+      "display": "personal, non-commercial viewing permitted",
+      "ai_use": "forbidden by the transmission bar unless AMFI agrees in writing",
+      "evidence_note": "Live terms page unreachable on 2 Nov 2026; read from the tostracker.app capture of 21 Feb 2026. NAVAll.txt itself returned HTTP 200 (1.5 MB).",
+      "fit": "Official and free, but storage and training need AMFI's written permission.",
+      "source": [
+        "https://www.amfiindia.com/terms-of-use",
+        "https://tostracker.app/document/amfiindia/version/842466",
+        "https://www.amfiindia.com/spages/NAVAll.txt",
+        "https://www.sebi.gov.in/legal/circulars/feb-2001/disclosure-of-navs-on-amfi-website_18073.html"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "NSE bhavcopy (website)",
+      "price_usd_month": 0,
+      "markets": "NSE equities",
+      "delay": "EOD",
+      "history": "archive on site",
+      "storage": "forbidden without written permission (no storing in an electronic retrieval system)",
+      "training": "forbidden without permission; also bars use for 'gaming, virtual trading or simulation'",
+      "display": "personal, non-commercial view and download allowed, unmodified, with acknowledgement (Copyright policy 21/10/2025)",
+      "ai_use": "forbidden without permission (transmission)",
+      "automation": "forbidden: no systematic or automated data collection (Terms of Use, updated 29/10/2025)",
+      "fit": "Manual reference only; a licensed route is NSE Data & Analytics (price not checked).",
+      "source": [
+        "https://www.nseindia.com/static/nse-terms-of-use",
+        "https://www.nseindia.com/static/nse-copyright"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "BSE bhavcopy (website)",
+      "price_usd_month": 0,
+      "markets": "BSE equities",
+      "delay": "EOD, after 4.45 pm IST",
+      "history": "archive back to 2007 on the page",
+      "storage": "silent",
+      "training": "silent",
+      "display": "viewing permitted; proprietary rights stay with BSE",
+      "ai_use": "forbidden: 'reproduction, redistribution or transmission ... is strictly prohibited'",
+      "automation": "silent; downloads are 'subject to acceptance of Disclaimer'",
+      "fit": "Weak: storage silent and transmission barred; BSE's own information-products price sheet could not be read (HTTP 403).",
+      "source": [
+        "https://www.bseindia.com/markets/MarketInfo/BhavCopy"
+      ],
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "UK fund NAVs (official)",
+      "price_usd_month": 0,
+      "markets": "UK unit trusts and OEICs",
+      "delay": "daily, per fund",
+      "history": "per fund",
+      "storage": "per fund manager site terms, not checked",
+      "training": "not checked",
+      "display": "not checked",
+      "ai_use": "not checked",
+      "fit": "No central official publisher found. Each authorised fund manager publishes prices as its prospectus states (HMRC CG57757). FCA COLL 6.3 could not be read.",
+      "source": [
+        "https://gov.uk/hmrc-internal-manuals/capital-gains-manual/cg57757",
+        "https://www.handbook.fca.org.uk/handbook/COLL/6/3.html"
+      ],
+      "checked": "2026-11-02"
+    }
+  ],
+  "best_for_gaps": {
+    "UK_LSE_EOD": [
+      "Twelve Data Grow (already planned)",
+      "EODHD Historian as cross-check (LSE in its exchange API)",
+      "Alpha Vantage (.LON) free or premium"
+    ],
+    "India_NSE_BSE_EOD": [
+      "Twelve Data Grow (already planned)",
+      "Alpha Vantage for BSE only (NSE unconfirmed)",
+      "EODHD only if it confirms NSE/BSE"
+    ],
+    "India_MF_NAV": [
+      "AMFI with written permission",
+      "owner's own CAS statements for held funds only"
+    ],
+    "UK_fund_NAV": [
+      "EODHD EUFUND (GB ISINs listed; plan and depth unconfirmed)",
+      "Twelve Data Pro (USD 229, over budget)"
+    ],
+    "US": [
+      "Twelve Data",
+      "Alpha Vantage",
+      "Tiingo Power"
+    ]
+  },
+  "evidence_gaps": [
+    "AMFI terms read from a Feb 2026 archive, live page unreachable",
+    "EODHD India coverage conflicts",
+    "Marketstack coverage unconfirmed",
+    "Tiingo and Stooq terms unreadable",
+    "UK fund NAV publication rule (COLL 6.3) unread",
+    "No provider's terms mention AI providers except Nasdaq's upstream policy"
+  ],
+  "owner_questions": [
+    "Do you accept removing Yahoo from ARC-01's automated mix and keeping the adapter disabled, rather than buying Yahoo Finance Gold (about GBP 38/month with tax) for manual CSV downloads that carry no storage or training grant?",
+    "Are you, for data-licence purposes, a private individual with no employment or affiliation with an adviser, broker, bank, insurer or money manager? Alpha Vantage, EODHD and the exchanges classify users this way, and the answer decides personal or professional pricing.",
+    "Which India mutual funds and UK funds (ISINs) do you hold or want to track? Coverage can only be checked against named funds.",
+    "May MP ask AMFI in writing for permission to store NAV history, use it for model training and show derived results to you only? Until then, should India fund NAVs come only from your own consolidated account statements (CAS) for funds you hold?",
+    "Will you accept a second paid source of about GBP 20 to 24 a month (EODHD Historian) alongside Twelve Data Grow, inside the GBP 100 ceiling, to cover UK fund NAVs and act as a cross-check?",
+    "NSE's website terms bar use for 'simulation activities' and any automated collection. Do you agree MP never fetches NSE website files and relies on a licensed vendor for NSE prices?"
+  ],
+  "vendor_questions": [
+    "Yahoo: Is there any licence, paid or otherwise, under which an individual may download Yahoo Finance daily prices by automated means, store them indefinitely, train private models on them and send derived values to a contracted AI processor (Anthropic)? Does a Yahoo Finance Gold CSV download carry any right to store or process the file beyond personal viewing?",
+    "AMFI: May a private individual download NAVAll.txt and the NAV history daily by script, store the full history, use it to train private forecasting models, and show derived results only to himself, including processing by a contracted AI provider? If so, on what terms and attribution?",
+    "NSE Data & Analytics: What is the price and licence for end-of-day equity data for one non-professional individual, permitting storage, private model training and owner-only derived display? Does 'simulation activities' cover private backtesting?",
+    "BSE: Does the website disclaimer permit a private individual to store downloaded bhavcopy files and train private models? Is there an individual end-of-day licence and its price?",
+    "Alpha Vantage: Under the personal licence, may I store the full daily history indefinitely, train private ML models on it, and send derived values (not raw series) to Anthropic's API for summarisation? Do you cover NSE (not just BSE), and are LSE prices in GBX or GBP?",
+    "EODHD: Under the personal plan, may derived values and short raw extracts be sent to Anthropic's API as a processor for my own use? Do you currently supply end-of-day data for LSE, NSE and BSE on the Historian plan? Which plan includes EUFUND UK fund NAVs, how far back, and are prices including VAT for a UK buyer?",
+    "Marketstack: Do you cover XLON, XNSE and XBOM end-of-day? After a subscription ends, may stored data be kept? May it be used for private model training and sent to an AI processor?",
+    "Twelve Data: Does Grow include any India or UK fund NAVs, or only Pro? Are LSE prices returned in GBX or GBP?"
+  ]
+}

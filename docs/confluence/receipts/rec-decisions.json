@@ -1,13 +1,13 @@
 {
  "slug": "rec-decisions",
  "page_id": "6357095",
- "version": 2,
- "sent_sha256": "5c74565b1b2394c7b3dd94f58cd6ff81733cec0ca7b6cd583d5578068e69984a",
- "readback_sha256": "f0c23da723af5baa3c9d45fbc8be184570ae66cd16eed98fa9b2d4ddfd03fc19",
- "canonical_sha256": "a491ca83a7c1c0f7057b8f449dbe60065a54fe4f5e9787e8ba3f3da0474a12f9",
+ "version": 3,
+ "sent_sha256": "9e4c47a4d3e498747fe359109126d0651328a314ea2a0911357d9c403e414cb5",
+ "readback_sha256": "09151885b7896a2c00930609749d77da321b6127c1af6285be57863ed23135f8",
+ "canonical_sha256": "549333860a504f37dc416e3dce7c3f343f9d871a2657a53ccc9c48387c9bedf1",
  "parts": 926,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T18:45:36Z"
+ "read_at": "2026-11-03T09:37:29Z"
 }

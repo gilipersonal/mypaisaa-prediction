@@ -331,11 +331,14 @@ def rec_system(s: str) -> str:
 
 
 def rec_data(s: str) -> str:
-    return (banner("selected", "ARC-01 keeps Yahoo Finance and Twelve Data Grow. Their rights per listing and per use are not yet verified.",
-                   ["docs/planning/ma-reconciliation-2026-11-02/direction-summary.md", "docs/planning/foundation-specifications-2026-11-02/README.md"])
+    return (banner("selected", "ARC-01 keeps Yahoo Finance and Twelve Data Grow, confirmed by the owner on 2 November 2026 for personal hobby use. "
+                   "On published terms Yahoo forbids automated collection and Grow is labelled view-only; the owner accepts that risk. The Grow tier is open.",
+                   ["docs/planning/source-rights-2026-11-02/README.md", "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+                    "docs/planning/foundation-specifications-2026-11-02/README.md"])
             + table(["Topic", "Decision", "Status"], [
-                ["Sources", "Yahoo Finance plus Twelve Data Grow; Basic ($0) considered for dev", lozenge("selected")],
-                ["Rights", "A rights matrix per listing and per use (display, history, training, Claude) before any live data", lozenge("open")],
+                ["Sources", "Yahoo Finance plus Twelve Data Grow; Twelve Data Basic ($0) for dev", lozenge("selected")],
+                ["Grow tier", "55, 144 or 377 credits a minute ($29, $49, $79). Only Grow 55 keeps every month under £100", lozenge("open")],
+                ["Rights", "Published terms checked 2 November 2026 (MP-10). The owner accepts the risk for personal hobby use; no vendor is asked", lozenge("selected")],
                 ["What every observation keeps", "Provider, symbol mapping, source time, ingestion time, quality flags; validated before it is stored", lozenge("selected")],
                 ["Freshness", "Stale or partial data is shown as such, never hidden behind a spinner", lozenge("selected")],
                 ["Calendars", "Each listing's real sessions; month horizons roll back to the preceding valid session", lozenge("selected")],
@@ -485,7 +488,10 @@ def rec_cost(s: str) -> str:
                 ["Grow 55 credits at $29 if offered, the month the domain renews", "£60.88"]])
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
-                  "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero."])
+                  "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
+                  "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026).",
+                  "Region: Virginia (us-east-1), owner-selected on 2 November 2026."])
+            + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. Only Grow 55 keeps every month under £100.</p>"
             + footer())
 
 
@@ -585,7 +591,7 @@ def rec_observability(s: str) -> str:
                   "Always traced: owner commands, imports, approvals, chat, every Claude call and the daily forecast run.",
                   "Sampled: read-only API calls, the 30-minute checks and the data collectors, tuned in dev to fit the costed 15,000 prod and 5,000 dev traces a month. Errors are always logged with their <code>trace_id</code>."])
             + "<h2>💰 What watching costs</h2>"
-            + "<p>Official AWS prices, checked 2 November 2026, in the Virginia candidate Region, with no free tier deducted, at the cost specification's central £0.80 to the dollar and 20% tax. "
+            + "<p>Official AWS prices, checked 2 November 2026, in Virginia (us-east-1, owner-selected), with no free tier deducted, at the cost specification's central £0.80 to the dollar and 20% tax. "
               "The quantities are the cost model's.</p>"
             + table(["Line", "Price", "Prod", "Dev", "A month"], [
                 ["Logs ingested", "$0.50 per GB", "0.5 GB", "0.25 GB", "$0.375"],
@@ -621,7 +627,7 @@ def rec_observability(s: str) -> str:
 def rec_decisions(s: str) -> str:
     gaps = json.loads((ROOT / "docs/planning/ma-reconciliation-2026-11-02/gap-register.json").read_text())
     gaps = gaps.get("gaps", gaps) if isinstance(gaps, dict) else gaps
-    arc = [("ARC-01", "Source rights and budget", "Keep Yahoo and Twelve Data Grow; verify uses"),
+    arc = [("ARC-01", "Source rights and budget", "Keep Yahoo and Twelve Data Grow; Basic for dev; confirmed 2 November 2026"),
            ("ARC-02", "Ledger and imports", "DynamoDB and S3 with one controlled writer"),
            ("ARC-03", "Durable workflows", "Lambda Durable Functions in Python"),
            ("ARC-04", "ML training and serving", "Selective SageMaker training, Lambda inference"),
@@ -908,7 +914,7 @@ def rec_web_quality(s: str) -> str:
 def rec_apple_testing(s: str) -> str:
     checked = "checked 2 Nov 2026"
     return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
-                   "Testing on simulators costs nothing; a private TestFlight beta needs the paid Apple Developer Program, which is not yet in the cost model.",
+                   "Testing on simulators costs nothing; a private TestFlight beta needs the paid Apple Developer Program, whose fee month the owner allows above £100 as a one-off exception.",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a private TestFlight build.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac and the private TestFlight beta.", LUCID_QUALITY)
@@ -975,13 +981,13 @@ def rec_apple_testing(s: str) -> str:
             + panel("warning", "#FFEBE6",
                     "<p>MP counts cash in the month an invoice is due. The Apple fee in one month, on top of the draft scenarios, "
                     "makes £189.52 with Grow at 79 USD, or £141.52 with the Grow 55 tier at 29 USD: over the ceiling either way. "
-                    "The cost model already lists Apple membership as needing separate selection and recosting. "
+                    "On 2 November 2026 the owner allowed that one month a year above £100, for this fee only; whether and when to join is still open. "
                     "Push, Sign in with Apple and passkeys on a real device most likely need the membership too, so this is a cost of the Apple door itself, not only of TestFlight.</p>")
             + "<p>GitHub's Free plan includes 12 USD of compute a month for this private repo, shared with the nine existing checks; that is about 193 macOS minutes. "
             + "Local first keeps it for the checks.</p>"
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
                 "Supported iOS and iPadOS versions, devices and what &quot;Duo&quot; means: PL-14 (MP-30).",
-                "Whether to join the Apple Developer Program, and which month pays for it, with the cost model updated: PL-11 (MP-30).",
+                "Whether and when to join the Apple Developer Program. Its fee month is allowed above £100 as a one-off exception (owner, 2 November 2026): PL-11 (MP-30).",
                 "The Mac CI budget: proposed £0, with simulator runs on the owner's Mac: PL-11 (MP-30).",
                 "The test-ID prefix and where the shared dictionary lives: PL-14 (MP-30).",
                 "The largest Dynamic Type size and the settings every screen must pass: PL-14 (MP-30), L7-S02.",
@@ -996,8 +1002,8 @@ def rec_perimeter(s: str) -> str:
     """🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED). MP-36; adapted from MA's page 3670133."""
     price_list = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/index.json"
     return (banner("proposed", "Nothing here is deployed and no network option is chosen. The baseline is a perimeter without a VPC. "
-                   "The lockdown is optional, off by default and decided late. The Region is not chosen (PL-10, MP-29), "
-                   "so prices are shown for Virginia, as MP's cost model uses, with London alongside.",
+                   "The lockdown is optional, off by default and decided late. The Region is Virginia (us-east-1), owner-selected "
+                   "on 2 November 2026 (PL-10, MP-29); London is shown alongside for comparison.",
                    ["ARCHITECTURE.md", "AGENTS.md",
                     "docs/planning/layered-development-2026-11-01/network-topology-options.md",
                     "docs/planning/foundation-specifications-2026-11-02/costs/specification.md"])
@@ -1090,7 +1096,6 @@ def rec_perimeter(s: str) -> str:
                     "Use L1 only if a job is shown to need a private network. Decide the lockdown last, at PH-08, from measured traffic and the security "
                     "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected.</p>")
             + panel("question", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "The Region: Virginia, Ireland or London, on service fit, residency and whole cost (PL-10, MP-29).",
                 "Whether MP's organisation runs with all features, so the guard rails can exist; ARC-11 leaves the organisation open (PL-10, MP-29).",
                 "Whether any job, such as private SageMaker training, needs L1 (PL-10, MP-29; PL-07, MP-24).",
                 "One customer managed key per account, or AWS keys only (PL-10, MP-29).",

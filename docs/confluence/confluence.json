@@ -62,8 +62,8 @@
   },
   "rec-data": {
    "id": "6357035",
-   "version": 2,
-   "sha256": "5fff6ef2ffcc47fc6998197dd6249665ae500af7e13570f679c3b24fba2b6fd2"
+   "version": 3,
+   "sha256": "b3a18776bd0dd8324fcb72125021bfee39524684a4f8e5e1fb845234e48bb0ac"
   },
   "rec-ledger": {
    "id": "6389816",
@@ -107,18 +107,18 @@
   },
   "rec-cost": {
    "id": "6291529",
-   "version": 3,
-   "sha256": "ba7a5729077b791612d3a5bf869df5888f777c264acc709835224fe98d798a31"
+   "version": 4,
+   "sha256": "5677ab970e001e9ce67cba81e8a8b972350096295952c74ec5962c31da5dd60a"
   },
   "rec-observability": {
    "id": "6357075",
-   "version": 3,
-   "sha256": "5ef3af90b4b65806ebe8293654e6df6d051919a9f54fe15f3bb9e4274e059254"
+   "version": 4,
+   "sha256": "83f0cddfac1f6b692d19767de8e452c642608c1c0ee5432bc84bb2e935e97221"
   },
   "rec-decisions": {
    "id": "6357095",
-   "version": 2,
-   "sha256": "5c74565b1b2394c7b3dd94f58cd6ff81733cec0ca7b6cd583d5578068e69984a"
+   "version": 3,
+   "sha256": "9e4c47a4d3e498747fe359109126d0651328a314ea2a0911357d9c403e414cb5"
   },
   "ph-00": {
    "id": "6488129",
@@ -182,13 +182,13 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 2,
-   "sha256": "f631221aeebafc5ee661b7137be6a02e2f0f015277a03d9b13b97901f803d5e9"
+   "version": 4,
+   "sha256": "7ee08a3b67fc1babe78984e0198ae4c7256da34a196d0df1ffc83931273802af"
   },
   "rec-perimeter": {
    "id": "6390123",
-   "version": 2,
-   "sha256": "842991895dbf55d42cd9a90f0e725c29bbfab49c4e05231d88900bbe34bf3942"
+   "version": 4,
+   "sha256": "31951eac41423e0988999bb4724ec4856d2eff4dd5117736c31a553df76e5aed"
   },
   "rec-web-quality": {
    "id": "6095187",

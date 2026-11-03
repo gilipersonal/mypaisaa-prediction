@@ -127,8 +127,8 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Service | Role | Status |
 | --- | --- | --- |
 | Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified |
-| Yahoo Finance | Prices and history | Owner-selected; permitted use to verify |
-| Twelve Data Grow | Prices across US, UK and India | Owner-selected; Basic ($0) considered for dev; nothing bought |
+| Yahoo Finance | Prices and history | Owner-selected (ARC-01), confirmed 2 Nov 2026 for personal hobby use; the owner accepts that its published terms forbid automated collection ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)) |
+| Twelve Data Grow | Prices across US, UK and India | Owner-selected (ARC-01), confirmed 2 Nov 2026; Basic ($0) for dev; tier open (only Grow 55 at $29 fits £100 every month); nothing bought. The owner accepts that Grow is labelled view-only |
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
@@ -171,7 +171,7 @@ window for sign-in, ledger reads, audit and recovery.
 | Claude and evaluations | £10 |
 | Forecast and price uncertainty | £8 |
 
-**The draft scenarios** at £0.80 to the dollar and 20% tax, in a Virginia candidate Region with Claude blocked:
+**The draft scenarios** at £0.80 to the dollar and 20% tax, in Virginia (us-east-1, owner-selected 2 November 2026) with Claude blocked:
 
 | Scenario | Cash in the month |
 | --- | --- |
