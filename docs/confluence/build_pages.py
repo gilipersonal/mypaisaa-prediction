@@ -713,7 +713,7 @@ def sync(s: str) -> str:
 
 def rec_testing(s: str) -> str:
     return (banner("proposed", "Today's nine CI checks, the Claude hooks and the fixed-findings ledger are implemented. "
-                   "Everything else on this page is proposed: nothing is deployed, the IaC tool is not chosen and no account exists.",
+                   "Everything else on this page is proposed: nothing is deployed and no account exists. The IaC tool is Terraform, owner-selected on 3 November 2026.",
                    [".github/workflows/verify.yml", "docs/github-workflow.md", ".claude/rules/aws-changes.md",
                     "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "delivery-pipeline", "Nine checks today, then the proposed road to prod with a rollback.")
@@ -839,7 +839,7 @@ def rec_testing(s: str) -> str:
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
                 "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
                 "Whether to switch on Dependabot, OSV-Scanner and gitleaks now, under their own MP issue."]))
-            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} picks the IaC tool and accounts; "
+            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} writes the Terraform ADR and sets up the accounts; "
               f"{link('ph-02', 'PH-02')} brings the first deployed runtime, so the dev pipeline and dev smoke; "
               f"{link('ph-08', 'PH-08')} holds prod promotion, the rollback exercises and the whole-release gates (L8-S02, L8-S04).</p>"
             + footer())
