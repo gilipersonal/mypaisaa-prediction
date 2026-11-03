@@ -1,13 +1,13 @@
 {
  "slug": "phases",
  "page_id": "6127722",
- "version": 2,
- "sent_sha256": "c63724a786ba9ab7e565a7678101909aef8af26b81e2178e7bfb79041f30806a",
- "readback_sha256": "3e07cb6128582839ce5575ec9fe14ad52c147f584ff3388e1d2f21b0501dc776",
- "canonical_sha256": "924772a89c8dd75dd01719e33a99a235e42d7245f959560c19dd4b2df63ac256",
+ "version": 3,
+ "sent_sha256": "f1ec3a3e5f7bbfe6c5159ef11292b9cd9dab2d7626223946338f2183c29695a5",
+ "readback_sha256": "78da09cdfd95f5c22104adf6404bc0fa69cdd86c620bb405c9efa8f30e77b02b",
+ "canonical_sha256": "1f5f42697eb8ef3a64d68d5fff8200aaa61702fc8ca679fa9555317cc0c12a22",
  "parts": 28,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T18:45:35Z"
+ "read_at": "2026-11-03T15:05:35Z"
 }

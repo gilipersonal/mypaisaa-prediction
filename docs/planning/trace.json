@@ -623,9 +623,21 @@
    "key": "MP-40",
    "summary": "Turn the 64 story drafts into ready Jira stories before UX",
    "type": "Task",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    ".github/workflows/verify.yml",
+    "ARCHITECTURE.md",
+    "README.md",
+    "docs/confluence/",
+    "docs/planning/story-readiness-2026-11-03/",
+    "docs/planning/trace.json",
+    "scripts/review_checks.py",
+    "tests/test_baseline_signoff.py",
+    "tests/test_confluence_receipts.py",
+    "tests/test_review_checks.py",
+    "tests/test_story_readiness.py"
+   ]
   },
   {
    "key": "MP-41",

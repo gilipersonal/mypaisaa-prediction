@@ -111,7 +111,8 @@ def table(head: list[str], rows: list[list[str]]) -> str:
 
 
 def ul(items: list[str]) -> str:
-    return "<ul>" + "".join(f"<li><p>{i}</p></li>" for i in items) + "</ul>"
+    """A bullet list, or nothing: Confluence drops an empty list, so one would never read back as sent (MP-40)."""
+    return "<ul>" + "".join(f"<li><p>{i}</p></li>" for i in items) + "</ul>" if items else ""
 
 
 def expand(title: str, inner: str) -> str:

@@ -55,6 +55,18 @@ def build_module():
     return mod
 
 
+class NoEmptyLists(unittest.TestCase):
+    """Confluence drops an empty list, so a page carrying one never reads back as sent (MP-40, ph-02)."""
+
+    def test_ul_of_nothing_renders_nothing(self) -> None:
+        self.assertEqual(build_module().ul([]), "")
+
+    def test_no_generated_page_carries_an_empty_list(self) -> None:
+        for page in sorted((ROOT / "docs/confluence/pages").glob("*.html")):
+            with self.subTest(page=page.name):
+                self.assertNotIn("<ul></ul>", page.read_text())
+
+
 class AttachmentHashes(unittest.TestCase):
     """An attachment is current only while its file matches the sha256 recorded at upload (MP-20)."""
 
