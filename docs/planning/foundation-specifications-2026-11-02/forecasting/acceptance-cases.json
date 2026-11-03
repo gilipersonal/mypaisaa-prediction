@@ -102,7 +102,14 @@
       ],
       "contract": "CT-15",
       "event_timing": "Prerelease schedule-only input known by cutoff; before-open and late-after-close release content rejected at prior-close predictor; postrelease content waits for later eligible daily origin/cutoff and a new target start; prior-close event study descriptive only",
-      "offline_specification_proof": "python3 forecasting/timing_checks.py --check event; eight synthetic cases plus earlier-target negative refusal, not empirical predictive evidence"
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check event; eight synthetic cases plus earlier-target negative refusal, not empirical predictive evidence",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "One instance of each first-wave event kind: rate surprise, inflation surprise, tariff, conflict, earnings, OPEC+ decision, election (US/UK/India)",
+          "when": "Use a tariff or conflict announcement in prerelease mode; admit a kind whose own qualification has not passed; date an event by its effective date",
+          "then": "Reject: unscheduled kinds enter only postrelease at a later daily origin, each kind informs nothing before its own evidence passes, and every event is dated by when it became known"
+        }
+      ]
     },
     {
       "id": "SCI-05-AC01",
@@ -123,7 +130,20 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "review_additions_2026_11_03": [
+        {
+          "given": "A self-correction overlay whose fitted outcomes include one with outcome_known_at after the origin's cutoff",
+          "when": "Use it for that origin, live or in walk-forward replay",
+          "then": "Reject: the overlay used at origin t is fitted only on outcomes known at or before cutoff(t); an overlay record missing its data cutoff, outcome-set hash or version is rejected too"
+        },
+        {
+          "given": "Walk-forward evidence that reports the frozen calibrator only",
+          "when": "Claim it as evidence for the self-correcting live model",
+          "then": "Reject: overlay evidence needs the overlay replayed point-in-time at each replay origin"
+        }
+      ],
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check policy; synthetic overlay-cutoff and provenance cases, not runtime evidence"
     },
     {
       "id": "SCI-06-AC01",
@@ -148,7 +168,34 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A shadow candidate with a holiday week and a data-outage week inside its trial",
+          "when": "Count trial weeks and compare with base rate and current rules",
+          "then": "Unscoreable weeks pause the count; promotion needs 8 scored weeks beating both and the owner's yes; long horizons cite walk-forward history for accuracy; rules changes take the same trial"
+        },
+        {
+          "given": "An F7 contribution policy after 6 weeks of replay and shadow",
+          "when": "Show it live",
+          "then": "Reject: F7 waits for 8 weeks beating the simple comparator rules in replay and shadow and the owner's yes, then is labelled experimental; it remains a simulation, never a trade"
+        },
+        {
+          "given": "A 12-month shadow candidate running cleanly for 8 weeks, none of whose trial forecasts has matured",
+          "when": "Count trial weeks",
+          "then": "8 scored weeks: a week with no matured forecasts is not a week that cannot be scored, so the count never stalls; beating the base rate and the current rules rests on walk-forward history (SCI-05); the calibration check on what has matured follows SCI-D03 (open); the owner still approves"
+        },
+        {
+          "given": "A rules change (a new threshold for one pillar) in an 8-week shadow trial",
+          "when": "It beats the base rate but not the current rules, or the owner is asked to approve it after 5 scored weeks",
+          "then": "Reject: a rules change needs 8 scored weeks beating the current rules, each rules version scored through its own frozen mapping (proposed, SCI-D03), then the owner's yes"
+        },
+        {
+          "given": "Current rules with no qualified rules-to-probability mapping for a task",
+          "when": "Compare a candidate with the rules",
+          "then": "The rules leg is not scoreable and the trial cannot complete for that task until the owner decides (SCI-D03); the rules never receive a fabricated probability"
+        }
+      ]
     },
     {
       "id": "SCI-07-AC01",
@@ -168,7 +215,30 @@
         "MP-21",
         "MP-24"
       ],
-      "contract": "CT-15"
+      "contract": "CT-15",
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A promoted model on probation and its previous approved model running in shadow on the same origins",
+          "when": "Self-correction proposes a 6 percentage point weekly shift or an 11% monthly weight change; the model scores worse for 2 probation weeks; or the previous model's approval has expired",
+          "then": "Hold out-of-band changes for the owner; revert automatically to the previous approved model and notify; pause instead when the previous model is ineligible; switching forward and restart need the owner"
+        },
+        {
+          "given": "An active model past probation and its previous approved model in shadow on the same origins",
+          "when": "It scores worse for 3 weeks, then better for 1 week; separately, worse for 4 weeks running; separately, worse, worse, a week that cannot be scored, worse, worse",
+          "then": "No revert after 3 bad weeks and a good one (the run resets); revert and notify after 4 bad weeks running; the unscoreable week neither counts nor breaks the run (proposed), so the third sequence reverts at its fourth bad week"
+        },
+        {
+          "given": "A model in its first 4 live weeks",
+          "when": "It scores worse for 2 weeks running",
+          "then": "Revert automatically to the previous approved model and notify; switching forward needs the owner"
+        },
+        {
+          "given": "Bounded self-correction running live",
+          "when": "It tries to change the combined-score weights 35/40/25, or moves a probability 4 points and then 4 more within 5 days",
+          "then": "Reject the weight change (FIN-OD-07 is outside self-correction); the second step takes the cumulative move to 8 points within 7 days, so it waits for the owner (reading proposed, SCI-D10)"
+        }
+      ],
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check policy; synthetic slip, band and trial cases, not runtime evidence"
     },
     {
       "id": "SCI-08-AC01",
@@ -201,6 +271,13 @@
       "delivery_tasks": [
         "MP-21",
         "MP-24"
+      ],
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A listing with eligible history since 2016 and another since 2015",
+          "when": "Run the similar-days search",
+          "then": "Candidates come from every eligible matured session since 1 January 2015; the shorter history is used as it is, with its start date and count disclosed, and never padded; R0 252/756 windows unchanged"
+        }
       ]
     },
     {
@@ -257,6 +334,18 @@
       "delivery_tasks": [
         "MP-21",
         "MP-24"
+      ],
+      "owner_decision_additions_2026_11_03": [
+        {
+          "given": "A segment where four listings have all three combined-score components eligible and one lacks protection evidence",
+          "when": "Build the top 5 for that segment",
+          "then": "Show four ranked listings with ranges and uncertainty; do not rank the incomplete listing or fill a fifth; additions from chat need the provider coverage and credit check and the owner's confirm"
+        },
+        {
+          "given": "The rules-versus-models contribution split at launch",
+          "when": "Show it without the experimental label or with a probability attached",
+          "then": "Reject: the split is live from launch only when labelled experimental, as descriptive attribution with no probability of its own"
+        }
       ]
     },
     {
@@ -327,7 +416,12 @@
     "event thresholds and inclusivity match task version",
     "all output types independently eligible; missing component not silently renormalised",
     "Decimal schema must accept0.70 and-0.10 but reject NaN/Infinity/exponent/leading-zero malformed forms",
-    "Date-time instance validation must actively check formats, rejecting missing timezone/impossible dates; jsonschema FormatChecker may lack optional date-time handler"
+    "Date-time instance validation must actively check formats, rejecting missing timezone/impossible dates; jsonschema FormatChecker may lack optional date-time handler",
+    "bounded self-correction: an issued probability moves at most 0.05 against its value at the start of any rolling 7 days and a signal weight at most 0.10 of its value at the start of any rolling 30 days (reading proposed, SCI-D10); larger changes wait for the owner; combined-score weights are never adjusted (owner, 2026-11-03)",
+    "promotion requires 8 scored shadow weeks beating base rate and current rules plus the owner's yes; a week that cannot be scored (a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks (owner, 2026-11-03)",
+    "automatic revert only to the previous approved, still-eligible artefact; otherwise pause; restart and switching forward need the owner (owner, 2026-11-03)",
+    "top-5 ranking only over listings with all three combined-score components eligible; never filled to five (owner, 2026-11-03)",
+    "an overlay used at origin t is fitted only on outcomes with outcome_known_at <= cutoff(t), and its data cutoff, outcome-set hash and version are persisted"
   ],
   "parse_does_not_prove_semantics": true
 }

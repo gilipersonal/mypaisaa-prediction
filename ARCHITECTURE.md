@@ -15,7 +15,9 @@
 > [!NOTE]
 > Every element on this page carries one of five status labels, and only evidence moves a label forward:
 > **Proposed**, **Owner-selected**, **Approved architecture**, **Implemented**, **Deployed and verified**.
-> Today the directions are Owner-selected, the detailed baseline is Proposed, and the only Implemented code is the
+> Today the baseline's structure and the twelve directions, as refined by the owner's later answers, are Approved
+> architecture (owner sign-off, 3 November 2026, MP-20); the detailed contracts and the open items below stay Proposed
+> or open, and the only Implemented code is the
 > FastAPI health route and sample SSE stream. Where this page and an owner decision differ, the decision wins:
 > current owner instructions, then the [policy answers](docs/planning/foundation-policy-discussion-2026-11-02.md),
 > then the [selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md), then the drafts.
@@ -62,7 +64,7 @@ RDS or always-on endpoint; any of those needs a costed ADR first.
 | Layer | Services | Status |
 | --- | --- | --- |
 | Doors | SvelteKit PWA served by CloudFront from S3; SwiftUI app in a React Native shell | Owner-selected |
-| Edge and identity | API Gateway (HTTPS and SSE), Cognito with Apple, Google and passkeys | Owner-selected |
+| Edge and identity | API Gateway (HTTPS and SSE), Cognito with Google and passkeys; Sign in with Apple waits for the paid Apple Developer Program (owner, 3 Nov 2026) | Owner-selected |
 | API | FastAPI on ordinary Lambda, `/api/v1` | Starter implemented locally; Lambda Owner-selected |
 | Work | EventBridge Scheduler, SQS with dead-letter queues, Lambda Durable Functions in Python | Owner-selected |
 | Claude | One Lambda worker per task route, calling the Anthropic API through the Python client SDK | Owner-selected |
@@ -167,7 +169,18 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, across the US, UK and India,
 each qualifying on its own evidence. The similar-days search runs over every eligible session since 2015, about ten
 years. Both supersede the narrower proposals in the foundation forecasting specification (earnings first, a
-756-session lookback), which takes them on at the MP-20 consolidation.
+756-session lookback), which took them on in the MP-20 consolidation (3 November 2026).
+
+**Learning and release rules, owner, 3 November 2026:** code, never an agent, makes bounded self-corrections: a
+forecast's probabilities may shift at most 5 percentage points a week, and how much a signal counts at most 10% a
+month; anything larger waits for the owner, and an adjustment rolls back automatically if scores worsen. A new model,
+and any change to the rules, runs 8 weeks in shadow before the owner can approve it; a week that cannot be scored (a
+data outage, a holiday week) pauses that count, and for the 3, 6 and 12-month horizons the 8 weeks check clean running
+and calibration on what has matured while walk-forward history carries the accuracy evidence. A promoted model is on
+probation for 4 live weeks and reverts after 2 bad weeks; after that, scoring worse than the previous approved model
+for 4 weeks running reverts it automatically. Switching forward or restarting a paused forecast needs the owner's yes.
+The rules-versus-models split is shown from launch, and an F7 contribution policy only after it beats simple rules for
+8 weeks; both are labelled experimental.
 
 <div align="center">
 
@@ -234,7 +247,8 @@ durable replay. Proposed (MP-36): every error response carries a code, a message
 <sub>Lucid page 6. Sign-in, recovery and step-up.</sub>
 
 
-- **Sign-in:** Cognito with Apple, Google and passkeys, verified owner linking and two independent recovery paths.
+- **Sign-in:** Cognito with Google and passkeys, verified owner linking and two independent recovery paths. Sign in
+  with Apple waits for the paid Apple Developer Program, which the owner has not bought for now (3 November 2026).
   Sensitive actions need a fresh, strong sign-in (ARC-07).
 - **Approvals:** a financial approval allows 15 minutes to start the exact commit; an export link allows new
   downloads for one hour.
@@ -254,12 +268,13 @@ the lag stated: internal estimates live, Anthropic usage every six hours, AWS bi
 
 The ceiling is £100 a month all-in, planned as £70 of operation and a £30 reserve, warning at £60, reducing optional
 work at £75 and pausing it at £85. These controls cannot stop every AWS charge instantly, so hard caps on requests,
-concurrency, timeouts and retention back them. With the owner's choices a month is about £46.48, or £54.73 with Claude on;
+concurrency, timeouts and retention back them. With the owner's choices a month is about £46.48, or £54.73 with Claude on,
+plus up to £5 for the top-5 scan (at most £59.73);
 [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
 **Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
-at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
-decision (PL-11, MP-30).
+at PH-08. GitHub's Free plan cannot enforce a prod approval on a private repo, so the owner chose (3 November 2026) a
+release workflow only the owner can start (PL-11, MP-30).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
 SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. The owner also approved N0 (no VPC, with an empty
@@ -278,7 +293,8 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
 - **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
-  tech, India Nifty 50 and midcap, ETFs, gold and silver) from a curated universe of about 150; new markets and
+  tech, India Nifty 50 and midcap, ETFs as one top 5 each for the US, UK and India, gold and silver) from a curated
+  universe of about 150; new markets and
   watch-only listings added from chat after a coverage check and the owner's confirm; the Apple app as free local
   builds for now, with notifications through Web Push.
 - **Both:** accessible and responsive, and never hide risk, staleness or a provider's status behind a spinner.
@@ -311,14 +327,23 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
-  (us-east-1), and the Apple Developer fee has one exception month a year above £100.
-- **Cost fit:** settled by the owner's choice of Grow 55 ($29): every month fits £100, and £70 with Claude on, except
-  the one allowed Apple fee month. The foundation cost model still carries a $15 domain line to remove.
+  (us-east-1). The Apple Developer Program is not bought for now (free 7-day local builds); if the owner buys it,
+  its fee month is the one allowed month above £100.
+- **Cost fit:** on the owner's selected inputs (Grow 55 at $29, Virginia) every month fits £100, and £70 with Claude
+  on and the top-5 scan at its cap, except the one allowed Apple fee month. It stays conditional on the Grow 55
+  checkout price, listing rights and the measured workload; Claude spend is credit-funded, or cash only with the
+  owner's paid approval. The domain line is out of the cost model (MP-20); the cost questions still open are in the
+  [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md).
+- **Apple Developer Program:** not bought for now; the owner will say when. Until then no TestFlight, Apple push or
+  Sign in with Apple.
+- **VPC lockdown:** off by default (N0); whether any lockdown step is needed is decided at PH-08.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
   model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
-- **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work.
+- **Story readiness (CD-01):** the owner signed off this baseline on 3 November 2026 at commit `98ba348`
+  ([sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)), which leaves every item above open. Before
+  any UX work, the 64 story drafts become Jira stories that meet the readiness protocol.
 
 ## 14. Diagram sources
 

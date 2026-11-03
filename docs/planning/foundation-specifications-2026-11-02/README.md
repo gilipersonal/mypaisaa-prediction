@@ -1,6 +1,8 @@
 # Foundation Specification Pack 1
 
-**2 November 2026 · MP-20 · Proposed specifications · Round 1 findings fixed; verification pending · Architecture/UX/build unapproved**
+**2 November 2026 · MP-20 · Proposed specifications · Round 1 fixes verified and round 2 findings fixed (3 November 2026) · Architecture/UX/build unapproved**
+
+**Consolidated 3 November 2026 (MP-20):** the owner's answers of 2 and 3 November are folded in ([below](#owner-decisions-since-this-pack-was-written)); the owner approved one review round for the consolidation, which ran as MP-20's round 2 on 3 November 2026 ([findings](../../../review/MP-20/round-2.md)).
 
 This pack turns the selected architecture directions into precise data, financial and forecast contracts with worked examples, planned acceptance and quantitative cost assumptions. It is a local specification draft. The first independent review found five blocking issues; the changes addressing them await separate verification approval. It implements no application feature and runs no live acquisition, model, training, backtest, AWS account or deployment operation.
 
@@ -29,7 +31,21 @@ Every area has structured JSON contracts/catalogues, synthetic examples, accepta
 
 Exact daily cutoff/finality tolerances, calendar invalid-day conventions, financial precision, model/event thresholds, qualification policies and scenario assumptions remain explicit proposals. The confirmed 30-minute monitoring cadence is distinct from daily formal forecasts.
 
+## Owner decisions since this pack was written
+
+The [decision log](../ma-reconciliation-2026-11-02/decision-log.md) is the authority. The MP-20 consolidation (3 November 2026) records these answers in [owner receipts](owner-decisions.json) (`later_owner_answers`), [selected directions](selected-directions.json) (`later_owner_answers` per direction) and the [fixed-policy snapshot](fixed-policies.json), and folds them into the area files. None approves the architecture baseline, UX or implementation.
+
+- **Data (ARC-01, confirmed 2 Nov):** Yahoo Finance plus Twelve Data Grow 55 ($29 a month) in prod, Twelve Data Basic in dev, for the owner's personal hobby use. The owner accepted the published-terms risk (Yahoo forbids automated collection; Grow is labelled view-only) and contacts no vendor, so every vendor-right cell stays unknown and production rests on the recorded acceptance, never a grant. On 3 Nov: Yahoo kept for India too; UK funds tested on Grow 55 in its first month, else valued from the owner's statements; Indian funds from the owner's statements; gold and silver as XAU/USD and XAG/USD; a curated discovery universe of about 150 names on end-of-day data; watch-only listings and new markets added from chat after a coverage and credit check and the owner's confirm. DATA-07 is corrected: dividends and splits cost 20 credits per symbol and need Grow. [Data specification](data/specification.md).
+- **Cost:** the £100 ceiling stands. Virginia; the existing domain renewed outside MP, so no domain line; no Apple Developer fee for now (free 7-day builds; if bought later, its month is the one allowed exception); GitHub Actions inside the free allowance; secrets in SSM Parameter Store. The MP-10 month-by-month view puts a month at about £46.48 with Claude blocked and £54.73 with Claude option A, plus up to £5 for the top-5 scan.
+- **Infrastructure (MP-29):** us-east-1, Terraform only, network N0, AWS Organizations with all features and the cost-guard SCP, SSM SecureString, a read-only management-account role for the cost collector, global Claude inference, and a production release workflow only the owner can start.
+- **Forecasting:** all seven event kinds in the first event wave; similar days since 2015; bounded self-correction by code (5 points a week, 10% a month, automatic rollback); an 8-week shadow trial before promotion, with unscoreable weeks pausing the count; 4-week probation; automatic revert after 4 slipping weeks; restart after a pause stays with the owner; top 5 per segment by the 35/40/25 score; the contribution split live from launch, labelled experimental.
+- **Claude (ARC-06b):** Haiku for triage, inputs and extraction; Opus for at most three event analyses a day, batched; Sonnet for chat, explanations, the briefing and judges.
+
+Open questions for the owner from the data area are listed in [the data catalogue](data/catalogue.json) (DATA-DEC-13 to DATA-DEC-15; DATA-DEC-12 was answered on 3 November 2026: derived values only go to Claude).
+
 ## Budget feasibility remains conditional
+
+*Owner, 2 and 3 Nov 2026:* the figures below are the pack's original scenarios. The owner has since chosen Grow 55 and moved the domain outside MP, so neither the $79 tier nor a domain invoice month applies to the selected options; see [owner decisions](#owner-decisions-since-this-pack-was-written) and the cost area for the current figures. The model's verdict stays as the cost area records it.
 
 The [model](costs/model.json) includes both AWS environments with no free-tier deductions and separates allowable blocked-Claude mode from counterfactual cash-funded full functionality. Under its **assumed £0.80/USD and 20% tax** central scenario, the displayed Grow $79 option plus the Virginia AWS candidate is an amortised **£95.68 monthly run rate with Claude calls blocked**, above the £70 planned-operation allowance. Cash timing is different: the annual domain invoice month would require approximately **£108.88**, above the £100 cash ceiling. Full cash-funded Claude is an unauthorised counterfactual and also needs explicit invoice-month accounting.
 

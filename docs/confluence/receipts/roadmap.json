@@ -1,13 +1,13 @@
 {
  "slug": "roadmap",
  "page_id": "6127702",
- "version": 2,
- "sent_sha256": "10d33a43078b1156e27fe6ee03f89e527b96930704271bd10ec4830b94a68885",
- "readback_sha256": "8252f8db3bdb203d512700583c7db281a84f7c5e2105f725c448a59a6ca8c036",
- "canonical_sha256": "72c0850a328cf5ff728c36f0236e75fdbd4de15141e24689126b8ec2ec9ed519",
+ "version": 3,
+ "sent_sha256": "8fb6513be17bb17b2340b75ff7247c1b9264a370562bb35c0b7f5cb8d5d2c770",
+ "readback_sha256": "865ddb27df42177c15f5dc8970bed3d72f268d88c035c89636c380fc1489436e",
+ "canonical_sha256": "7dd38502e1bbab401d6ce0289e44e581cbd6970f7eb705f82ba63f8e7459e2e6",
  "parts": 301,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T18:45:45Z"
+ "read_at": "2026-11-03T14:10:26Z"
 }

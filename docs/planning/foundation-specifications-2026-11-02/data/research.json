@@ -90,7 +90,42 @@
       "checked_date": "2026-11-02",
       "claim": "The help fetch returned 429 and the terms fetch returned 999 in this pass.",
       "implication": "No Yahoo data-use grant was verified from these failed reads.",
-      "status": "live_proof_pending"
+      "status": "live_proof_pending",
+      "superseded_by": "RES-DATA-12"
+    },
+    {
+      "id": "RES-DATA-11",
+      "url": "https://twelvedata.com/pricing",
+      "title": "Individual pricing (Grow credit options), read by the MP-10 research",
+      "checked_date": "2026-11-02",
+      "claim": "Grow 55 is the 55-credit Grow option at USD 29 a month with no daily cap; Grow is labelled internal display, view-only; LSE, NSE and BSE are end of day on Grow; fund NAV plan coverage is contradictory across the public pages.",
+      "implication": "Grow 55 selected by the owner (2 Nov 2026); rights rest on OWNER-RISK-01, not a grant; UK fund NAVs are tested in the first month.",
+      "status": "source_verified",
+      "evidence_file": "docs/planning/source-rights-2026-11-02/evidence/twelvedata.json"
+    },
+    {
+      "id": "RES-DATA-12",
+      "url": "https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html",
+      "title": "Yahoo Terms of Service, updated 1 November 2026, read by the MP-10 research",
+      "checked_date": "2026-11-02",
+      "claim": "Collecting data by any automated means without express permission is forbidden (s2(d)(ix)).",
+      "implication": "Supersedes the failed read in RES-DATA-10; Yahoo use rests on OWNER-RISK-01.",
+      "status": "source_verified",
+      "evidence_file": "docs/planning/source-rights-2026-11-02/evidence/yahoo-and-alternatives.json"
+    },
+    {
+      "id": "RES-DATA-13",
+      "url": "https://twelvedata.com/docs/llms/fundamentals/dividends.md",
+      "title": "Dividends and splits endpoint documentation, read by the MP-10 research",
+      "checked_date": "2026-11-02",
+      "claim": "/dividends and /splits weigh 20 credits per symbol and need Grow or above; /last_change weighs 1 per request.",
+      "implication": "Corrects DATA-07: a full daily action check is 40 credits per listing and Basic makes none.",
+      "status": "source_verified",
+      "related_urls": [
+        "https://twelvedata.com/docs/llms/fundamentals/splits.md"
+      ],
+      "evidence_file": "docs/planning/source-rights-2026-11-02/evidence/twelvedata.json"
     }
-  ]
+  ],
+  "updated": "2026-11-03: RES-DATA-11 to 13 added from the MP-10 research for the MP-20 consolidation; nothing fetched again."
 }

@@ -4,8 +4,9 @@
   "status": "proposed_maker_checked_unreviewed",
   "implementation_authorised": false,
   "as_of": "2026-11-02",
+  "consolidated_on": "2026-11-03",
   "id": "SCI-05",
-  "approval_status": "SCI-D03_D04_D05_owner_pending",
+  "approval_status": "SCI-D03_D04_partly_answered; SCI-D05_answered_2026-11-03; SCI-D07_SCI-D10_owner_pending",
   "split": {
     "type": "expanding_origin",
     "cross_asset_group": "common UTC origin-date blocks, local timestamps retained; economic_entity grouping",
@@ -136,7 +137,7 @@
     "threshold_rationale": "provisional complexity/cost hurdle and coverage usability; owner and pilot precision approval required before holdout access",
     "minimum_cases_guarantee": null,
     "per_market_kind": "separate evidence, fail or abstain unsupported subgroups",
-    "shadow": "mature task-specific prospective outcomes and uncertainty sufficient for approved precision; no eight-week yearly validation",
+    "shadow": "mature task-specific prospective outcomes and uncertainty sufficient for approved precision; no eight-week yearly validation; owner, 2026-11-03: 8 scored weeks beating base rate and current rules, see live_trial",
     "multiplicity": "Exactlyoneprimaryconfirmatoryclaimpercampaign. Ifmclaimsarejointlyusedforonepromotion, predeclarefamilyanduseBonferroniintervallevel1-0.05/m, reportallclaims/trials. Blockbootstrapcoverageisapproximate; noexactfamilywisefinite-sampleguaranteeclaimed."
   },
   "ablations": [
@@ -164,8 +165,8 @@
     "rolled_back",
     "rejected"
   ],
-  "promotion": "owner binding exact artifact/calibrator/task/evidence/scope/expiry; tuner only creates candidates",
-  "safety_disable": "only separately owner-preapproved deterministic rules; no auto promotion/resume/recalibration",
+  "promotion": "owner binding exact artifact/calibrator/task/evidence/scope/expiry; tuner only creates candidates; automatic revert to the previous approved eligible artefact under probation_and_slip is a return to an approved state, not a promotion (owner, 2026-11-03)",
+  "safety_disable": "only separately owner-preapproved deterministic rules; no auto promotion or resume; recalibration only within bounded_self_correction bands (model-catalogue.json); automatic revert only under probation_and_slip (owner, 2026-11-03)",
   "source_gaps": [
     "FC-04",
     "FC-07",
@@ -173,5 +174,77 @@
     "FC-09",
     "FC-13",
     "FC-14"
-  ]
+  ],
+  "live_trial": {
+    "status": "owner_selected_2026-11-03",
+    "scored_weeks_required": 8,
+    "must_beat": [
+      "base_rate",
+      "current_rules"
+    ],
+    "beat_meaning": "proposed, open in SCI-D03: a lower mean primary proper score (SCI-06) than each comparator on the trial's paired origins once they mature; the base rate has a proper score directly, the current rules only through rules_proper_score; whether the SCI-06 effect and uncertainty hurdle also applies is open too",
+    "rules_proper_score": {
+      "status": "proposed_open_in_SCI-D03",
+      "why": "the rules produce only labelled heuristic strength (SCI-04), and only an independently qualified probability mapping may turn rule outputs into probabilities",
+      "proposal": "R0-RULEMAP: a monotone sigmoid mapping from a rules version's heuristic strength to the task's event probability, fitted only on the purged chronological calibration block before the trial starts, then frozen and versioned; it must pass the SCI-05 calibration checks before it can stand as the rules comparator",
+      "rules_changes": "the proposed and the current rules each get their own frozen mapping fitted on the same pre-trial block",
+      "no_qualified_mapping": "the rules comparison for that task is not scoreable and the trial cannot complete for it until the owner decides; the rules are never given a fabricated probability",
+      "distribution_targets": "rules give no quantiles, so for pinball-scored targets the strongest eligible R0 distribution baseline stands in for the rules"
+    },
+    "unscoreable_week": "A week that cannot be scored (a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks.",
+    "unscoreable_week_reasons": [
+      "data_outage",
+      "holiday_week"
+    ],
+    "scored_week_by_horizon": {
+      "status": "proposed_open_in_SCI-D03",
+      "sessions_1_5_10_20": "a week counts when its trial origins were issued, or abstained with a reason code, cleanly; its origins are scored when they mature, and the verdict waits until the 8 counted weeks' origins have matured (up to 20 sessions plus publication lag after the last counted week)",
+      "months_3_6_12": "nothing issued in the trial matures inside 8 weeks, so a scored week is a clean-running week: every scheduled origin issued or abstained with a reason code by its deadline, a valid artefact hash, no safety trigger and no late input backdated",
+      "not_clean": "a week that is neither unscoreable nor clean fails the trial, which restarts from zero",
+      "no_matured_forecasts_yet": "not a reason to pause the count: maturity delays the verdict, not the count"
+    },
+    "long_horizons": "3/6/12 months: the 8 weeks check clean running and calibration on what has matured; walk-forward history carries the accuracy evidence; the owner still approves",
+    "long_horizon_comparison": "3/6/12 months: beating the base rate and the current rules is evidenced by the walk-forward history (SCI-05), not by trial origins",
+    "long_horizon_calibration_check": "open in SCI-D03: no trial forecast matures for 3/6/12 months, so 'calibrated on what has matured' has no trial outcomes; proposed: the frozen candidate replayed point-in-time on the latest matured walk-forward origins, labelled replay, not prospective evidence",
+    "rules_changes": "indicators, pillars and thresholds take the same 8-week shadow trial, beating the current rules, before the owner approves",
+    "promotion": "owner's yes after the trial",
+    "self_correction_during_trial": "candidate runs the same bounded code as live (proposed)",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: 3 Nov round items 5, 13, 16 and 17"
+  },
+  "probation_and_slip": {
+    "status": "owner_selected_2026-11-03",
+    "probation_live_weeks": 4,
+    "bad_weeks_to_revert_on_probation": 2,
+    "probation_reading": "2 bad weeks running, mirroring the slip rule (proposed reading; any 2 of the 4 would be stricter; owner to confirm in SCI-D07)",
+    "slip_bad_weeks_running": 4,
+    "statistical_trigger": "the slip rule is the owner's statistical trigger; it reverts rather than pauses and is separate from the deterministic safety triggers (POLICY-003)",
+    "bad_week": "live model scores worse than the previous approved model on that week's matured paired forecasts; exact metric, pairing and minimum count open in SCI-D07",
+    "comparator": "the previous approved model keeps issuing shadow forecasts on the same origins, so the comparison is paired (proposed)",
+    "first_promotion": "proposed, open in SCI-D07: with no previous approved model, the comparator and the revert target are the current rules scored through live_trial.rules_proper_score; a revert withdraws the model's probabilities and the scope shows the rules with their heuristic-strength label; without a qualified rules mapping the scope pauses instead (POLICY-003)",
+    "action": "automatic revert to the previous approved model and owner notification",
+    "revert_records": "PromotionRecord: slipping artefact to rolled_back; previous artefact back to active under its own unexpired owner approval; safety_disable_policy_id names the slip rule (the field is reused for this statistical trigger until a schema revision names a separate revert policy; proposed)",
+    "previous_not_eligible": "pause the scope instead (POLICY-003); never revert to an ineligible, expired or revoked version",
+    "switch_forward": "owner's yes",
+    "restart_after_pause": "owner's yes (POLICY-003 stands)",
+    "unscoreable_week_in_run": "neither counts towards nor breaks a run (proposed)",
+    "long_horizons": "rarely scoreable within probation; rely on the clean-running and calibration check",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: 3 Nov round items 6, 14, 15 and 18"
+  },
+  "live_display_policies": {
+    "rules_versus_models_split": {
+      "status": "owner_selected_2026-11-03",
+      "live_from": "launch",
+      "label": "experimental",
+      "nature": "descriptive attribution of each output to rules and models; not a qualified or scored claim; no probability of its own",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: 3 Nov round item 11"
+    },
+    "F7_contribution_policy": {
+      "status": "owner_selected_2026-11-03",
+      "live_only_after": "beats the simple contribution_comparators for 8 weeks in replay and shadow on the same matched flows, gross and cost-adjusted shown separately",
+      "owner_yes_required": true,
+      "label": "experimental",
+      "nature": "simulation for information; no trade, order or instruction",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: 3 Nov round item 20"
+    }
+  }
 }

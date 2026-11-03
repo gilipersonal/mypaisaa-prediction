@@ -1,13 +1,13 @@
 {
  "slug": "screens",
  "page_id": "6488109",
- "version": 2,
- "sent_sha256": "319c74648532d668fac77976f430929e42b0b200b1a6e5c61730f63d7460f445",
- "readback_sha256": "3f1cf1483b275527033e31a622fa0e515ee4ec19494be0d5ff96eaa3ca7650c2",
- "canonical_sha256": "e9a04112e9204d4c29b86ce9c37bb9cfbec227ccf0e047a11590267e8a4ac3d1",
+ "version": 3,
+ "sent_sha256": "07127b11ee68b48d1757d2eb3f9d101dabadddfc7dfa08aed3cb2e8fb498fdeb",
+ "readback_sha256": "5aa7e51535ccb58da9684f2c4db6297ca668b161cf2f68c360b3c31b6d953c65",
+ "canonical_sha256": "483a01936307fb7853555c7f21302c5227e7aadc9a423c8f10baa320d37e732f",
  "parts": 199,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T18:45:35Z"
+ "read_at": "2026-11-03T14:11:19Z"
 }

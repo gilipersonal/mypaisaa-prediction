@@ -156,7 +156,26 @@ def main() -> None:
     assert timing_counts["run_rate_variants"] == variants
     states = reservation["transitions"]
     assert all(target in states for targets in states.values() for target in targets)
-    print(json.dumps({"status": "passed", "json_files": len(files), "schema_instances": instance_counts, "negative_shapes_rejected": 5, "run_rate_variants": variants, "cash_variants": timing_counts["cash_variants"], "region_workload_scenarios": len(model["results"]), "independent_review": False, "network_or_service_calls": False}, indent=2))
+    # MP-20 consolidation: the owner's cost decisions of 2 and 3 Nov 2026.
+    decisions = model["owner_cost_decisions"]
+    assert decisions["region"]["value"] == "us-east-1"
+    assert decisions["prod_data"]["value"] == "Grow55_support_candidate" and decisions["dev_data"]["value"] == "Basic_dev"
+    assert D(decisions["domain"]["mp_cash_usd"]) == 0 and D(decisions["github_actions"]["planned_usd"]) == 0
+    assert D(decisions["secrets"]["per_secret_usd"]) == 0 and decisions["telemetry"]["added_again"] is False
+    assert D(decisions["top5_scan_allowance"]["max_gbp_per_month"]) == 5
+    # Owner cost answers of 3 Nov 2026: COST-Q1 (allocations), COST-Q2 (build minutes kept), COST-Q4 (Apple month).
+    assert {decisions[k]["question"] for k in ("claude_allocation", "aws_build_minutes", "apple_month_optional_jobs")} == {"COST-Q1", "COST-Q2", "COST-Q4"}
+    allocations = model["proposed_allocations_gbp"]
+    assert (allocations["data"], allocations["aws_dev_prod"], allocations["claude_and_evals_verified_credit_only"], allocations["forecast_price_uncertainty"]) == (30, 22, 15, 3)
+    assert decisions["aws_build_minutes"]["value"] == "kept" and not any(note.lower().startswith("possible double count") for note in model["uncosted_material_changes"])
+    assert decisions["apple_month_optional_jobs"]["value"] == model["cash_timing_policy"]["apple_month_optional_jobs_admission"] == "remainder_excluding_exception_fee"
+    assert [r["owner_selected_region"] for r in model["results"]] == [r["region"] == "us-east-1" for r in model["results"]]
+    assert {d["id"] for d in model["data_options"] if d["owner_selected"]} == {"Grow55_support_candidate", "Basic_dev"}
+    expected_months = {(m["claude"], m["scan"]): m["cash_gbp"] for m in model["expected_months_owner_selection"]["months"]
+                       if m["fx_scenario"] == "central" and m["timing"] == "ordinary_month"}
+    assert expected_months == {("claude_off", "without_scan"): "46.48", ("claude_off", "with_scan_allowance_cap"): "51.48",
+                               ("claude_option_a", "without_scan"): "54.73", ("claude_option_a", "with_scan_allowance_cap"): "59.73"}
+    print(json.dumps({"status": "passed", "json_files": len(files), "schema_instances": instance_counts, "negative_shapes_rejected": 5, "run_rate_variants": variants, "cash_variants": timing_counts["cash_variants"], "region_workload_scenarios": len(model["results"]), "expected_months_central_gbp": {"claude_off": "46.48", "claude_off_with_scan_cap": "51.48", "claude_option_a": "54.73", "claude_option_a_with_scan_cap": "59.73"}, "independent_review": False, "network_or_service_calls": False}, indent=2))
 
 
 if __name__ == "__main__":

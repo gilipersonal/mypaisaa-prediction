@@ -231,6 +231,36 @@
       "mutation": "Backdate historical backfill known_at to the bar date.",
       "expected": "reject_forged_pit",
       "contract": "DATA-03"
+    },
+    {
+      "id": "NEG-DATA-11",
+      "mutation": "Reserve 1 credit for a Grow /dividends call on one listing.",
+      "expected": "reject_under_reservation",
+      "contract": "DATA-07"
+    },
+    {
+      "id": "NEG-DATA-12",
+      "mutation": "Schedule a /splits check on the Basic dev account.",
+      "expected": "reject_unsupported_capability",
+      "contract": "DATA-07"
+    },
+    {
+      "id": "NEG-DATA-13",
+      "mutation": "Add a Claude-proposed watch-only listing without the owner confirm.",
+      "expected": "reject_unconfirmed_addition",
+      "contract": "DATA-08"
+    },
+    {
+      "id": "NEG-DATA-14",
+      "mutation": "Record owner risk acceptance as decision granted.",
+      "expected": "reject_risk_acceptance_as_grant",
+      "contract": "DATA-02"
+    },
+    {
+      "id": "NEG-DATA-15",
+      "mutation": "Carry a statement-valued Indian fund NAV forward as a newer daily value.",
+      "expected": "reject_carried_forward_valuation",
+      "contract": "DATA-05"
     }
   ],
   "capabilities": [

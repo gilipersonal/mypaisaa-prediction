@@ -17,6 +17,9 @@ imported, so this document does not change when that one does. Sources: README.m
 and the MP-36 page drafts (rec-stack, rec-observability, rec-testing, rec-apple-testing, rec-perimeter,
 rec-web-quality), all 2 November 2026. Prices are the drafts' own, checked 2 November 2026 at the cost
 specification's £0.80 to the dollar and 20% tax.
+Drawings 2 to 5 carry the owner's 2 and 3 November 2026 decisions (decision log): Terraform only, the owner-started
+release (route A), SSM Parameter Store, Organizations with the cost-guard SCP, N0 in Virginia and free Apple builds
+(MP-20 refresh).
 """
 
 from __future__ import annotations
@@ -348,8 +351,8 @@ def page_trace() -> dict:
     s.append({"id": "wall", "type": "rectangle", "boundingBox": {"x": 890, "y": py + 262, "w": 680, "h": 8},
               "style": {"fill": {"type": "color", "color": ROSE}, "stroke": {"color": ROSE, "width": 1, "style": "solid"}}, "text": " "})
     s.append(box("invest", 890, py + 300, 680, 140, "Investment alerts go through the product",
-                 "push to the app and the PWA, the 07:30 briefing, quiet hours 22:00 to 07:00. They never use the operations topic, and a failed "
-                 "provider can never send a confident all-clear.", "teal", "prop", size=14, extra=" (CT-18)"))
+                 "Web Push through the PWA (no Apple push on free builds), the 07:30 briefing, quiet hours 22:00 to 07:00. They never use the "
+                 "operations topic, and a failed provider can never send a confident all-clear.", "teal", "prop", size=14, extra=" (CT-18)"))
 
     # redaction
     s.append(panel("red", 1640, py, W - 1700, 470, "Redaction"))
@@ -390,13 +393,12 @@ SCANS = [
     ("pip-audit", "a second source for Python advisories", "prop"),
     ("gitleaks", "secrets in commits; checksum-verified", "prop"),
     ("Ruff S rules", "Bandit's patterns; Ruff already runs", "prop"),
-    ("cfn-lint and Checkov", "the IaC; cdk-nag if CDK is chosen", "open"),
+    ("Terraform checks", "terraform fmt and validate, TFLint and Checkov on the Terraform", "prop"),
 ]
-ROUTES = [
-    ("A, free: an owner-dispatched release", "only the owner dispatches it, with the sha256 as input; the prod role trusts only main and that workflow file"),
-    ("B: GitHub Team", "$4 a user a month (about £3.84): branch protection and environment secrets, still no required reviewers on a private repo"),
+ROUTES_NOT = [  # the routes the owner did not choose (3 November 2026)
+    ("B: GitHub Team", "$4 a user a month (about £3.84); still no required reviewers on a private repo"),
     ("C: GitHub Enterprise", "$21 a user a month (about £20.16): required reviewers"),
-    ("D: CodePipeline manual approval", "in the prod account; approvals are not charged, but it is a new managed service, so it needs a costed ADR"),
+    ("D: CodePipeline approval", "a new managed service in the prod account, needing a costed ADR"),
 ]
 
 
@@ -404,8 +406,9 @@ def page_delivery() -> dict:
     W = 2440
     s = header("p3", W, "From a merge to prod",
                "One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. "
-               "Today's nine checks are implemented; everything after the merge is proposed (PL-11, MP-30). Steps are numbered in order.",
-               "Checks IMPLEMENTED; the road to prod PROPOSED")
+               "Today's nine checks are implemented. The release route and Terraform are owner-selected (3 Nov 2026); the rest after the merge is proposed. "
+               "Steps are numbered in order.",
+               "Checks IMPLEMENTED; release route OWNER-SELECTED; rest PROPOSED")
     s.append(heading("gh_h", 60, 146, 600, "GITHUB, OUTSIDE AWS"))
     rowy = 385  # the row's centre line
     s.append(box("pr", 60, rowy - 55, 200, 110, "1 Pull request", "to main: [MP-&lt;n&gt;] title, Jira key", "blue", "impl", size=14))
@@ -428,7 +431,7 @@ def page_delivery() -> dict:
                   f'CodeQL ($30) per active committer a month {tag("open")}.</p>'))
     s.append(box("merge", 1570, rowy - 55, 200, 110, "4 Merge to main", "only when the owner asks", "teal", "impl", size=14, width=3))
     s.append(box("build", 1830, rowy - 65, 260, 130, "5 Build once", "Lambda packages and the PWA bundle, each with a recorded sha256 and an SBOM", "amber", "prop", size=14))
-    s.append(box("iac", 2150, rowy - 65, 270, 130, "IaC and packaging", "plan only until CDK or CloudFormation is chosen by ADR; zip or container image not decided", "amber", "open", dashed=True, size=13))
+    s.append(box("iac", 2150, rowy - 65, 270, 130, "IaC: Terraform only", "every AWS change; plan only until an apply is asked for. Zip or image: still open", "amber", "sel", size=13, extra=" (MP-29)"))
 
     # AWS
     s.append({"id": "cloud", "type": "namedContainer", "className": "AWSCloudAWS2024", "boundingBox": {"x": 60, "y": 700, "w": W - 60, "h": 590},
@@ -447,11 +450,11 @@ def page_delivery() -> dict:
                  "health returns the deployed sha<br>protected routes refuse a call with no token<br>the PWA loads with its security headers<br>"
                  "a synthetic user gets an SSE heartbeat<br>a synthetic import runs through the queue and the workflow<br>no paid calls", "teal", "prop", size=13))
     s.append({"id": "approve", "type": "diamond", "boundingBox": {"x": 880, "y": 920, "w": 220, "h": 170},
-              "style": {"fill": {"type": "color", "color": "#FFF8E8"}, "stroke": {"color": ROSE, "width": 3, "style": "solid"}},
-              "text": f'<p style="font-size:13px;text-align:center"><b>9 Owner approves this sha256</b><br>{tag("open")}</p>'})
+              "style": {"fill": {"type": "color", "color": "#FFF8E8"}, "stroke": {"color": BLUE, "width": 3, "style": "solid"}},
+              "text": f'<p style="font-size:13px;text-align:center"><b>9 The owner starts the release with this sha256</b><br>{tag("sel")}</p>'})
     s.append({"id": "prod", "type": "namedContainer", "className": "AWSAccountAWS2024", "boundingBox": {"x": 100, "y": 760, "w": 720, "h": 490},
               "text": "prod account: your data"})
-    s.append(box("proddeploy", 560, 790, 240, 120, "10 Deploy to prod", "from CI on main only, into a separate prod role", "blue", "sel", size=13, extra=" (ARC-11)"))
+    s.append(box("proddeploy", 560, 790, 240, 120, "10 Deploy to prod", "the owner's release workflow, from main, into a separate prod role", "blue", "sel", size=13, extra=" (ARC-11)"))
     s.append(box("prodsmoke", 130, 830, 330, 150, "11 Prod smoke, read-only",
                  "health and the deployed sha; no-token refusals; the PWA's headers; an unauthenticated stream refused. No writes, no Claude, no market-data quota",
                  "teal", "prop", size=13))
@@ -460,10 +463,17 @@ def page_delivery() -> dict:
                  "rose", "prop", size=13))
     icon(s, "alias", "ArchAWSLambdaAWS2024", 640, 1080, "Lambda live alias", "v(n) back to v(n-1)", "prop", lw=180)
 
-    s.append(heading("routes_h", 1060, 1320, W - 1060, "HOW THE APPROVAL IS ENFORCED IS OPEN: GITHUB FREE CANNOT HOLD A PROTECTED ENVIRONMENT ON A PRIVATE REPO", ROSE))
-    for i, (title, detail) in enumerate(ROUTES):
-        s.append(box(f"route{i}", 60 + i * 595, 1360, 570, 130, title, detail, "rose", "open", size=14))
-    s += legend("leg", 60, 1520, W - 60, "Box colours: blue the PR and prod, teal checks and smoke, amber build and deploy, rose the open approval and rollback. Dashed: not decided.")
+    # right of the diamond's centre line, so the "route A" connector does not cross it
+    s.append(heading("routes_h", 1020, 1320, W - 1020, "PROD RELEASES: A RELEASE WORKFLOW ONLY THE OWNER CAN START, ROUTE A (OWNER-SELECTED 3 NOV 2026, PL-11)", BLUE))
+    s.append(note("enforce", 60, 1360, 640, 130,
+                  "<b>How it holds on GitHub Free.</b> GitHub Free cannot hold a protected environment on a private repo, so the check lives in AWS: "
+                  "only the owner can start the workflow, and the prod role trusts only main and that workflow file.", 13))
+    s.append(box("routeA", 740, 1360, 560, 130, "Route A, chosen: an owner-started release",
+                 "free; the owner starts it with the sha256 as its input", "blue", "sel", size=14, width=3))
+    for i, (title, detail) in enumerate(ROUTES_NOT):
+        s.append(box(f"route{i}", 1340 + i * 370, 1360, 350, 130, title,
+                     detail + f'<br><span style="font-size:11px;color:{MUTED}"><b>NOT CHOSEN</b></span>', "grey", None, size=13))
+    s += legend("leg", 60, 1520, W - 60, "Box colours: blue the PR, the release route and prod, teal checks and smoke, amber build and deploy, rose rollback, grey routes not chosen.")
     yfrac = (rowy - 180) / ph
     L = [
         line("d1", "pr", (1, 0.5), "checks", (0, yfrac), "", BLUE),
@@ -474,12 +484,12 @@ def page_delivery() -> dict:
         line("d6", "oidc", (0, 0.5), "role", (1, 0.5), "assume", AMBER),
         line("d7", "role", (0, 0.5), "devdeploy", (1, (851 - 830) / 110), "deploy", AMBER),
         line("d8", "devdeploy", (0.5, 1), "devsmoke", ((1455 - 1180) / 320, 0), "", TEAL),
-        line("d9", "devsmoke", (0, 0.4), "approve", (1, 0.5), "", ROSE),
+        line("d9", "devsmoke", (0, 0.4), "approve", (1, 0.5), "", BLUE),
         line("d10", "approve", (0.5, 0), "proddeploy", (1, 0.5), "promote", BLUE, 0.5, "middle"),
         line("d11", "proddeploy", (0, 0.5), "prodsmoke", (1, 0.3), "", TEAL),
         line("d12", "prodsmoke", (0.5, 1), "rollback", ((295 - 130) / 380, 0), "if it fails", ROSE, 0.5, "middle"),
         line("d13", "rollback", (1, 0.5), "alias", (0, 0.5), "", ROSE),
-        line("d14", "approve", (0.5, 1), "route1", ((990 - 655) / 570, 0), "which route?", ROSE, 0.55, "middle", dashed=True),
+        line("d14", "approve", (0.5, 1), "routeA", ((990 - 740) / 560, 0), "route A", BLUE, 0.55, "middle"),
     ]
     return {"id": "delivery", "title": "3 From a merge to prod", "shapes": s, "lines": L}
 
@@ -498,16 +508,16 @@ A11Y = [
     ("Dynamic Type", "smallest to the largest accessibility size, set by xcrun simctl ui before a run"),
     ("Light, dark, Increase Contrast", "set per run; figures and the Confirm button stay whole"),
     ("Reduce Motion", "flows launch with motion stilled, so figures are not read mid-animation"),
-    ("VoiceOver, by hand", "on a real device before each beta build; a test runner cannot listen"),
+    ("VoiceOver, by hand", "on a real device, on a free local build; a test runner cannot listen"),
 ]
 
 
 def page_apple() -> dict:
     W = 2400
     s = header("p4", W, "Apple testing and the private beta",
-               "Test on simulators on the owner's Mac for nothing; beta on the owner's own iPhone and iPad through TestFlight. No Apple app exists, "
-               "no screen is designed and the supported devices are not agreed (PL-14, MP-30). Phase PH-07.",
-               "PROPOSED; Developer Program fee OPEN")
+               "Test on simulators on the owner's Mac for nothing. For now (owner, 3 Nov 2026) no paid Developer Program: free local builds that expire "
+               "after 7 days, and no TestFlight, Apple push or Sign in with Apple until the owner says when. No Apple app exists yet (PL-14). Phase PH-07.",
+               "PROPOSED; no paid Developer Program for now")
     s.append(panel("mac", 60, 170, 1140, 980, "The owner's Mac: every simulator run costs £0"))
     s.append(box("ids", 90, 220, 550, 150, "Shared test IDs: mpp.*",
                  "one dictionary kept with the shared contracts; it generates data-testid for the PWA and Swift constants for .accessibilityIdentifier and the "
@@ -528,33 +538,38 @@ def page_apple() -> dict:
         s.append(box(f"a{i}", 90 + i * 272, 966, 256, 160, title, detail, "purple", "prop", size=14))
 
     s.append(box("every", 1280, 200, 330, 150, "Every pull request", "GitHub's Linux runner, in seconds: Maestro's flow syntax check and the test-ID check", "teal", "prop", size=14))
-    s.append(box("upload", 1280, 440, 250, 160, "Upload by hand from Xcode", "as TestFlight Internal Only: no App Store Connect key in GitHub, no Mac CI minutes", "amber", "prop", size=13))
-    s.append(box("tf", 1640, 440, 260, 160, "TestFlight, Apple", "one internal group: the owner only. Up to 100 internal testers allowed; external testing is not used", "rose", "prop", dashed=True, size=13))
-    s.append(box("devices", 2010, 440, 330, 160, "The owner's iPhone and iPad", "real hardware: Face ID, real push and VoiceOver, by hand", "blue", "open", size=14, extra=": needs the Developer Program"))
-    s.append(heading("clock_h", 1650, 640, 520, "EACH BUILD'S CLOCK", ROSE))
-    for i, (id_, mark, words, tone) in enumerate([("c0", "Day 0", "uploaded; a new upload restarts the clock", "amber"),
-                                                  ("c60", "Day 60", "MP's reminder to upload again", "amber"),
-                                                  ("c90", "Day 90", "the build becomes unavailable", "rose")]):
-        cx = 1700 + i * 190
+    s.append(box("fornow", 1650, 200, 690, 150, "For now: no paid Apple Developer Program",
+                 "the owner's free Apple Account signs the builds. No TestFlight, Apple push or Sign in with Apple until the owner says when; "
+                 "phone notifications come through the web app's Web Push", "blue", "sel", size=14, width=3, extra=" (3 Nov 2026)"))
+    s.append(box("local", 1280, 440, 300, 160, "Free local build from Xcode",
+                 "installed on the owner's own devices over a cable or Wi-Fi; no App Store Connect key in GitHub, no Mac CI minutes", "amber", "sel", size=13))
+    s.append(box("devices", 2010, 440, 330, 160, "The owner's iPhone and iPad", "real hardware: Face ID and VoiceOver, by hand; no Apple push on a free build", "blue", "sel", size=14))
+    s.append(box("tf", 1280, 690, 300, 160, "TestFlight, later", "only once the owner pays: an owner-only internal group; each build lasts 90 days",
+                 "rose", "open", dashed=True, size=13, extra=" (owner decides when)"))
+    s.append(heading("clock_h", 1650, 640, 520, "EACH FREE BUILD'S CLOCK", ROSE))
+    for i, (id_, mark, words, tone) in enumerate([("c0", "Day 0", "installed from Xcode; a reinstall restarts it", "amber"),
+                                                  ("c7", "Day 7", "expired: rebuild and reinstall to open it", "rose")]):
+        cx = 1720 + i * 260
         s.append({"id": id_, "type": "circle", "boundingBox": {"x": cx - 45, "y": 690, "w": 90, "h": 90},
                   "style": {"fill": {"type": "color", "color": TINT[tone]}, "stroke": {"color": STROKE[tone], "width": 2, "style": "solid"}},
                   "text": f'<p style="font-size:15px;text-align:center"><b>{mark}</b></p>'})
-        s.append(text(f"{id_}_t", cx - 80, 786, 160, 64, f'<p style="font-size:12px;text-align:center">{words}<br>{tag("prop")}</p>'))
-    icon(s, "cog", "ArchAmazonCognitoAWS2024", 2232, 690, "Cognito, dev account", "TestFlight is not sign-in", "open", lw=180, extra=" (PH-02)")
+        s.append(text(f"{id_}_t", cx - 115, 786, 230, 70, f'<p style="font-size:12px;text-align:center">{words}<br>{tag("sel")}</p>'))
+    icon(s, "cog", "ArchAmazonCognitoAWS2024", 2232, 690, "Cognito, dev account", "still decides who gets in", "open", lw=180, extra=" (PH-02)")
     # 13 px like the page, in 64 px rows: the longest cell wraps to two lines
     # Lucid table cells take plain text only; markup here renders literally.
-    s.append(table("costs", 1280, 900, 1060, 320, [
+    s.append(table("costs", 1280, 900, 1060, 384, [
         ["Item", "Price, checked 2 Nov 2026", "In MP's money", "Status"],
+        ["Free local builds", "Free with an Apple Account", "£0", "OWNER-SELECTED"],
         ["Maestro CLI and Studio", "Free", "£0", "PROPOSED"],
-        ["Apple Developer Program", "99 USD a membership year", "£95.04 in the month it is paid", "OPEN"],
+        ["Apple Developer Program", "99 USD a membership year", "£95.04 in the month it is paid", "Not for now"],
         ["Maestro Cloud", "250 USD per device a month", "£240.00 a month", "Not proposed"],
         ["GitHub macOS runner", "0.062 USD a minute", "20 runs of 15 minutes: £17.86 a month", "Not proposed"],
-    ], header_fill="#EFE7FD", fills={(1, 3): "#FFF1D6", (2, 3): "#FDE7EE", (3, 3): "#F5F7FC", (4, 3): "#F5F7FC"}))
-    s.append(note("warn", 1280, 1240, 1060, 96,
-                  f'<b>Against the £100 ceiling</b> {tag("open")}: MP counts cash in the month an invoice is due. In the month it is paid, the fee takes that month '
-                  f'to £189.52 with Twelve Data Grow at 79 USD, or £141.52 with the Grow 55 tier at 29 USD: over the ceiling either way. Push, Sign in with Apple '
-                  f'and passkeys on a real device most likely need the membership too.'))
-    s += legend("leg", 60, 1380, W - 60, "Box colours: purple shared IDs and accessibility, teal test runners, amber builds, rose Apple's service and costs, blue devices.")
+    ], header_fill="#EFE7FD", fills={(1, 3): "#E6EEFF", (2, 3): "#FFF1D6", (3, 3): "#F5F7FC", (4, 3): "#F5F7FC", (5, 3): "#F5F7FC"}))
+    s.append(note("warn", 1280, 1304, 1060, 96,
+                  f'<b>Against the £100 ceiling</b> {tag("sel")}: nothing is paid for now. If the owner ever buys the membership, its fee month is the one '
+                  f'month a year allowed above £100, for this fee only (owner, 2 Nov 2026): about £141.52 with Grow 55. TestFlight, Apple push and Sign in '
+                  f'with Apple wait for it.'))
+    s += legend("leg", 60, 1440, W - 60, "Box colours: purple shared IDs and accessibility, teal test runners, amber builds, rose Apple's paid service, blue the owner's choice and devices.")
     for sh in s[3:]:  # everything under the header 30 px lower, so the Mac panel's title tab clears the subtitle
         sh["boundingBox"]["y"] += 30
     L = [
@@ -562,12 +577,11 @@ def page_apple() -> dict:
         line("f2", "ids", ((620 - 90) / 550, 1), "maestro", (0.5, 0), "Swift constants", PURPLE, 0.5, "middle"),
         line("f3", "maestro", (0, 0.5), "stub", (1, 0.5), "API", AMBER),
         line("f4", "maestro", (0.5, 1), "d_pdl", ((620 - 600) / 160, 0), "drives", TEAL, 0.45, "middle"),
-        line("f5", "xcode", (1, 0.5), "upload", (0, 0.5), "build", AMBER),
-        line("f6", "upload", (1, 0.5), "tf", (0, 0.5), "upload", AMBER),
-        line("f7", "tf", (1, 0.5), "devices", (0, 0.5), "install", ROSE),
+        line("f5", "xcode", (1, 0.5), "local", (0, 0.5), "build", AMBER),
+        line("f7", "local", (1, 0.5), "devices", (0, 0.5), "install", AMBER),
+        line("f6", "local", (0.5, 1), "tf", (0.5, 0), "if the owner pays", ROSE, 0.5, "middle", dashed=True),
         line("f8", "devices", ((2268 - 2010) / 330, 1), "cog", (0.5, 0), "dev only", BLUE, 0.5, "middle"),
-        line("c1", "c0", (1, 0.5), "c60", (0, 0.5), "", AMBER),
-        line("c2", "c60", (1, 0.5), "c90", (0, 0.5), "", ROSE),
+        line("c1", "c0", (1, 0.5), "c7", (0, 0.5), "", ROSE),
     ]
     return {"id": "apple", "title": "4 Apple testing and the private beta", "shapes": s, "lines": L}
 
@@ -587,14 +601,20 @@ CONTROLS = [  # className, w, h, name
 def page_perimeter() -> dict:
     W = 2400
     s = header("p5", W, "The perimeter, and the optional lockdown",
-               "The baseline perimeter is built from who may act on what, not from where traffic flows, and almost all of it is free. A VPC lockdown is "
-               "optional, off by default and decided late, at PH-08. The Region is not chosen (PL-10, MP-29).",
-               "Baseline PROPOSED; every lockdown step OPEN")
+               "The perimeter is built from who may act on what, not from where traffic flows, and almost all of it is free. The owner chose N0, "
+               "no VPC, in Virginia (us-east-1) (MP-29). A VPC lockdown is optional, off by default and decided late, at PH-08.",
+               "N0 OWNER-SELECTED; controls PROPOSED; lockdown OPEN")
     s.append(band("base", 60, 160, 1130, 900, "teal", dashed=False))
-    s.append(heading("base_h", 80, 172, 900, "THE BASELINE: NO VPC, ALMOST ALL FREE", TEAL, 15))
-    s.append(box("scp", 90, 220, 340, 130, "Service control policies", "stay in the chosen Region; never stop CloudTrail; never leave the organisation", "teal", "prop", size=14))
-    icon(s, "org", "ArchAWSOrganizationsAWS2024", 625 - 36, 230, "AWS Organizations", "all features, for both guard rails", "open", lw=230)
-    s.append(box("rcp", 820, 220, 340, 130, "Resource control policies", "only MP's principals reach its S3, KMS, Secrets Manager, SQS and STS", "teal", "prop", size=14))
+    s.append(heading("base_h", 80, 172, 900, "THE BASELINE: N0, NO VPC, ALMOST ALL FREE", TEAL, 15))
+    s.append(box("scp", 90, 220, 340, 130, "Cost-guard SCP", "denies NAT, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it",
+                 "teal", "sel", size=13, width=3))
+    icon(s, "org", "ArchAWSOrganizationsAWS2024", 625 - 36, 230, "AWS Organizations", "all features, with the cost-guard SCP", "sel", lw=230)
+    # no tag nested in the detail: Lucid shrinks a span that holds another sized span
+    s.append(box("rcp", 820, 220, 340, 76, "Not adopted (owner, 3 Nov 2026)",
+                 "resource control policies and the Region allowlist SCP", "grey", dashed=True, size=13))
+    # its own box, so nothing proposed reads as not adopted (MP-20 round 2, R2-d9); teal, as part of the baseline
+    s.append(box("scp2", 820, 310, 340, 92, "Proposed alongside the cost guard",
+                 "two more SCPs: never stop CloudTrail, never leave the organisation", "teal", "prop", dashed=True, size=13))
     for acct, ax, words, st in (("dev", 90, "dev account (ARC-11)", "sel"), ("prod", 640, "prod account (ARC-11)", "sel")):
         s.append({"id": acct, "type": "namedContainer", "className": "AWSAccountAWS2024", "boundingBox": {"x": ax, "y": 420, "w": 520, "h": 430},
                   "text": f"{words}: OWNER-SELECTED, nothing deployed"})
@@ -605,10 +625,11 @@ def page_perimeter() -> dict:
             s.append({"id": f"{acct}{k}", "type": "namedShape", "className": cls, "boundingBox": {"x": cx - w / 2, "y": top + (64 - h) / 2, "w": w, "h": h}, "text": " "})
             s.append(text(f"{acct}{k}_t", cx - 78, top + 70, 156, 56, f'<p style="font-size:12px;text-align:center"><b>{name}</b><br>{tag(st_k)}</p>'))
     s.append(note("perim", 90, 880, 1070, 160,
-                  f'<b>Data perimeter policies</b> {tag("prop")}: aws:PrincipalOrgID and aws:ResourceOrgID conditions in the resource and control policies build the '
-                  f'identity wall (only our people) and the resource wall (only our things). The network wall, aws:SourceVpce, needs a VPC: it is the main thing '
-                  f'a lockdown adds.<br>One role per Lambda, each Claude route worker included; one customer managed KMS key per account; S3 Block Public Access on '
-                  f'at account level; one CloudTrail trail per account to encrypted S3; only the external access analyzer, which is free.'))
+                  f'<b>Data perimeter policies</b> {tag("prop")}: aws:PrincipalOrgID and aws:ResourceOrgID conditions in each bucket, key and queue policy build the '
+                  f'identity wall (only our people) and the resource wall (only our things); with no RCPs, each resource policy carries them itself. The network '
+                  f'wall, aws:SourceVpce, needs a VPC: it is the main thing a lockdown adds.<br>One role per Lambda, each Claude route worker included; secrets in SSM '
+                  f'Parameter Store SecureString {tag("sel")}; one customer managed KMS key per account; S3 Block Public Access on at account level; one CloudTrail '
+                  f'trail per account to encrypted S3; only the external access analyzer, which is free.'))
 
     s.append(band("lock", 1230, 160, W - 1250, 900, "amber"))
     s.append(heading("lock_h", 1250, 172, 1000, "THE OPTIONAL LOCKDOWN: OFF BY DEFAULT, DECIDED AT PH-08", AMBER, 15))
@@ -618,10 +639,10 @@ def page_perimeter() -> dict:
     s.append({"id": "subB", "type": "namedContainer", "className": "PrivateSubnetAWS2024", "boundingBox": {"x": 1290, "y": 560, "w": 345, "h": 240}, "text": "Private subnet, zone B (prod)"})
     s.append({"id": "pub", "type": "namedContainer", "className": "PublicSubnetAWS2024", "boundingBox": {"x": 1640, "y": 280, "w": 220, "h": 240}, "text": "Public subnet"})
     icon(s, "lamA", "ArchAWSLambdaAWS2024", 1440 - 36, 340, "Lambdas", "every one, from L2", "open", lw=200)
-    icon(s, "lamB", "ArchAWSLambdaAWS2024", 1440 - 36, 700, "Lambdas", "a private job only, at L1", "prop", "above", lw=200)
+    icon(s, "lamB", "ArchAWSLambdaAWS2024", 1440 - 36, 700, "Lambdas", "a private job only, at L1", "open", "above", lw=200)
     icon(s, "nat", "ResAmazonVPCNATGatewayAWS2024", 1750 - 36, 340, "NAT", "instance at L2; gateway at L3, L4", "open", lw=200)
-    icon(s, "gwep", "ResAmazonVPCEndpointsAWS2024", 1750 - 36, 600, "Gateway endpoints", "S3 and DynamoDB, free", "prop", lw=200)
-    icon(s, "ifep", "ResAmazonVPCEndpointsAWS2024", 1750 - 36, 830, "Interface endpoints", "Secrets Manager, SQS, STS, KMS: L4", "open", lw=220)
+    icon(s, "gwep", "ResAmazonVPCEndpointsAWS2024", 1750 - 36, 600, "Gateway endpoints", "S3 and DynamoDB, free", "open", lw=200)
+    icon(s, "ifep", "ResAmazonVPCEndpointsAWS2024", 1750 - 36, 830, "Interface endpoints", "SSM, SQS, STS, KMS: L4", "open", lw=220)
     # 110 px clear of the public subnet, so the Claude and prices labels sit between the two
     s.append(heading("out_h", 1970, 220, 350, "OUTSIDE ANY VPC"))
     s.append(box("anth", 1970, 260, 350, 90, "Anthropic API", "no VPC endpoint reaches it", "rose", "sel", dashed=True, size=14))
@@ -633,19 +654,19 @@ def page_perimeter() -> dict:
                   "every request is still signed in through Cognito and checked by the API (PL-10).", 12))
 
     s.append(table("opts", 60, 1100, W - 60, 400, [  # 80 px rows: "What it adds" wraps to three lines
-        ["Step", "What it adds", "Option", "Dev 1 zone + prod 2 zones, Virginia", "The same in London", "Status"],
-        ["L1 Private jobs only", "Two private subnets, free S3 and DynamoDB gateway endpoints, no internet route", "N1", "$0 (£0)", "$0 (£0)", "PROPOSED, only for a proven need"],
+        ["Step", "What it adds", "Option", "Dev 1 zone + prod 2 zones, Virginia", "London, not chosen", "Status"],
+        ["L1 Private jobs only", "Two private subnets, free S3 and DynamoDB gateway endpoints, no internet route", "N1", "$0 (£0)", "$0 (£0)", "OPEN: no N1 scope today"],
         ["L2 Lean lockdown", "Every Lambda in the VPC; a t4g.nano NAT instance per zone, run and patched by us", "N1-E", "$22.07 (£21.19)", "$23.47 (£22.53)", "OPEN"],
         ["L3 Managed lockdown", "As L2, with a managed NAT Gateway per zone", "N1-E", "$109.77 (£105.38)", "$120.75 (£115.92)", "OPEN"],
-        ["L4 Strict lockdown", "As L3, plus four interface endpoints", "N1-E", "$197.43 (£189.53)", "$217.17 (£208.48)", "OPEN"],
-    ], header_fill="#FFF1D6", fills={(1, 5): "#FFF1D6", (2, 5): "#FDE7EE", (3, 5): "#FDE7EE", (4, 5): "#FDE7EE"}))
+        ["L4 Strict lockdown", "As L3, plus four interface endpoints: SSM, SQS, STS, KMS", "N1-E", "$197.43 (£189.53)", "$217.17 (£208.48)", "OPEN"],
+    ], header_fill="#FFF1D6", fills={(1, 5): "#FDE7EE", (2, 5): "#FDE7EE", (3, 5): "#FDE7EE", (4, 5): "#FDE7EE"}))
     s.append(note("budget", 60, 1520, 1130, 110,
-                  "<b>Against the budget.</b> The baseline AWS run rate for both accounts is £19.84 in Virginia, leaving £2.16 of the £22 AWS share, so every paid "
-                  "step overruns it. L3 and L4 alone pass the £100 ceiling. Extra cost a month, from AWS price lists checked 2 Nov 2026, at £0.80 to the dollar "
-                  "and 20% tax; 5 GB a month through the NAT in prod, 1 GB in dev."))
-    s.append(box("rec", 1230, 1520, W - 1230, 110, "Recommended: the baseline, with no VPC (N0)",
-                 "the lockdown off by default; L1 only if a job is shown to need it; decided at PH-08 from measured traffic. Any paid step needs a revised cost model and an ADR first",
-                 "teal", "prop", size=14, width=3))
+                  "<b>Against the budget.</b> The baseline AWS run rate for both accounts is £18.64 ($19.42) in Virginia, leaving £3.36 of the £22 AWS share, so every paid "
+                  "step overruns it, and the cost-guard SCP denies NAT and interface endpoints until an ADR lifts it. L3 and L4 alone pass the £100 ceiling. "
+                  "Extra cost a month, from AWS price lists checked 2 Nov 2026, at £0.80 to the dollar and 20% tax; 5 GB a month through the NAT in prod, 1 GB in dev."))
+    s.append(box("rec", 1230, 1520, W - 1230, 110, "Chosen: the baseline, with no VPC (N0)",
+                 "no VPC for any Lambda; SageMaker training with network isolation; no NAT, interface endpoint, proxy or VPN. The lockdown is decided at PH-08; any paid step needs a revised cost model and an ADR",
+                 "teal", "sel", size=14, width=3, extra=" (3 Nov 2026)"))
     s += legend("leg", 60, 1670, W - 60, "Teal: the baseline. Amber, dashed: the optional lockdown. Rose: outside AWS. Nothing on this page is deployed.")
     L = [
         line("n1", "lamA", (1, 0.5), "nat", (0, 0.5), "L2+", ROSE),
@@ -656,7 +677,6 @@ def page_perimeter() -> dict:
         line("n6", "gwep", (1, 0.7), "ddb", (0, 0.5), "", TEAL),
         line("n7", "lamB", (1, 1), "ifep", (0, 0.5), "L4", AMBER, 0.5, dashed=True),
         line("o1", "org", (0, 0.5), "scp", (1, 0.5), "", TEAL),
-        line("o2", "org", (1, 0.5), "rcp", (0, 0.5), "", TEAL),
     ]
     return {"id": "perimeter", "title": "5 The perimeter, and the optional lockdown", "shapes": s, "lines": L}
 

@@ -27,18 +27,18 @@
     "independent_review"
   ],
   "artifact_sha256": {
-    "acceptance-cases.json": "e1a9c7cdf64c3da9a0792d8bba81e63671356ea60c4f2b3dc97977892d90f018",
+    "acceptance-cases.json": "9234ab0fe96804a51a9105a697bb5c672377d5d3c23fff17360e12f9e7cce1ab",
     "contract-examples.json": "5a3fb4e092f7fb870edb511e5d4d2d1d26c2daad0e87949d04a544466c01d4fc",
     "contracts.schema.json": "e53c2ebb985efd8cf540d4501a1d1d85052ddd6bf12d28a4e5fddf2bef8cf774",
-    "evaluation-protocol.json": "0b62a0b828e7626aee9d1aad124810ca71c0d45643efdd80bc2cfe6df9707cca",
-    "forecasting-specification.md": "a1d6833dc5f868112022b7f1e22056b12a1a850b5163d52f045668bd97481633",
+    "evaluation-protocol.json": "1421a8a1250ade450ec115db5f73f0fdb2a416863dbb1ecbd55fe96229842377",
+    "forecasting-specification.md": "543fed17ff695a2327d7cbca99d4c0e0ba7b9eb11e33111d7153524966111b0c",
     "golden-examples.json": "1f1ed7353ddba364ab1f9a818dc1028ce682ef43bab5e18a1d9da72be70896e2",
-    "model-catalogue.json": "9c98b0db5a7c10f65b5e3144eeedc2cfd523176db127d7f63dc3fed8e68b9694",
-    "open-decisions.json": "29d1443cc6061b2485d374bcb2d4d9343e151c5c27c48ad896b5b732159cf7b7",
-    "research-register.json": "9cd6f67c8755e09762176197dcf1b18098793ebeca99e583d716cd7891f078f6",
-    "task-catalogue.json": "e1a858e30fdb70b84c0c7aac1806eb74e16c3dd09c8f230020542eacfe1d8e48",
-    "timing-examples.json": "7153b1b9e17327b3d52c6081827a002ed4d7964a3935756620084b0486afceb4",
-    "timing_checks.py": "b9ae258e415bda4bd837df5b4d1a3568df1f4499d93fe36a68ad97063e7cd6b9"
+    "model-catalogue.json": "60420d51021efb6a6464ca00a8e484a32a466af03df1eb1cdbd9d0ebe32e1bae",
+    "open-decisions.json": "8285639443f6acb489475737cb0d40cdd1739e17044819d26b4e63e969861147",
+    "research-register.json": "8376c04576c42cf770286bd4cc155a1a18d09f44f7a7d43c2d7f513bc5b37f01",
+    "task-catalogue.json": "d325e0972549249c2187ab4182072cbc9c1d109a9a5b558d7ba2e130c31ac949",
+    "timing-examples.json": "fffdb90e7da0c2327e64461c88a8ca1baeac1167f1a229c155845b7caf86e162",
+    "timing_checks.py": "580d960115b59bdc0caa177a9b13d847c1b37ceb165b8a773750e6a35b72758a"
   },
   "review_fix_checks": {
     "status": "maker_fix_checks_passed_awaiting_fresh_independent_delta_review",
@@ -53,5 +53,100 @@
       "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all"
     ],
     "limitations": "Executable offline specification examples only; no backend, acquisition, provider finality, calendar, training, empirical quality or runtime evidence."
+  },
+  "mp20_consolidation": {
+    "date": "2026-11-03",
+    "note": "Hashes refreshed for the MP-20 consolidation on 3 Nov 2026 after folding in the owner's forecasting decisions; the reviewed evidence is to be re-checked in the MP-20 review round.",
+    "refreshed_files": [
+      "acceptance-cases.json",
+      "evaluation-protocol.json",
+      "forecasting-specification.md",
+      "model-catalogue.json",
+      "open-decisions.json",
+      "research-register.json",
+      "task-catalogue.json"
+    ],
+    "unchanged_files": [
+      "contract-examples.json",
+      "contracts.schema.json",
+      "golden-examples.json",
+      "timing-examples.json",
+      "timing_checks.py"
+    ],
+    "material_owner_choices": "SCI-D05 closed; SCI-D01, D03, D04, D06 partly answered; SCI-D02, D07, D08, D09 owner_pending",
+    "acceptance_case_count": "17 unchanged; owner-decision additions attached to SCI-04-AC01, SCI-04-AC02, SCI-06-AC01, SCI-07-AC01, SCI-07-AC06",
+    "status": "maker_checks_rerun_not_independent_review"
+  },
+  "mp20_round_2_fixes": {
+    "date": "2026-11-03",
+    "note": "MP-20 round 2 fixes: hashes refreshed after fixing R2-S1 to R2-S6, R2-S8 to R2-S11 and R2-p10; maker checks only, awaiting a fresh independent delta review.",
+    "refreshed_files": [
+      "acceptance-cases.json",
+      "evaluation-protocol.json",
+      "forecasting-specification.md",
+      "model-catalogue.json",
+      "open-decisions.json",
+      "task-catalogue.json",
+      "timing-examples.json",
+      "timing_checks.py"
+    ],
+    "findings": {
+      "R2-S1": "Trial count pauses only for the owner's reasons (a data outage, a holiday week), one phrase across spec, protocol and fixed-policies.json; scored week by horizon and the long-horizon calibration check proposed and open in SCI-D03",
+      "R2-S2": "The rules' proper score (R0-RULEMAP) proposed and open in SCI-D03; beat_meaning marked proposed",
+      "R2-S3": "SCI-D05 recommendation and why-text replaced by the answered position; the old text kept under superseded_2026_11_03 naming what is superseded and what is kept",
+      "R2-S4": "Overlay cutoff rule, point-in-time replay, provenance fields, lineage on promotion and revert and rollback detection by horizon (the last two proposed, SCI-D10); negative overlay cases",
+      "R2-S5": "Band readings proposed as cumulative change against a rolling 7-day and 30-day window start; alternatives in new SCI-D10",
+      "R2-S6": "timing_checks.py --check policy holds the owner's numbers and the no-prerelease rule for unscheduled kinds, and keeps maker proposals marked open; --check selftest refuses 26 document mutations and kills 6 gate mutants",
+      "R2-S8": "Paired shadow comparator marked proposed; first-promotion comparator proposed (SCI-D07); the slip rule named as the owner's statistical trigger",
+      "R2-S9": "Segment named 'US tech'; Nasdaq-100 proposed membership under SCI-D09",
+      "R2-S10": "Material choices now SCI-D01 to SCI-D10",
+      "R2-S11": "Slip, probation, rules-change and combined-score-weight cases added (acceptance-cases.json and executable timing-examples.json)",
+      "R2-p10": "Run-together words in open-decisions.json spaced, meaning unchanged"
+    },
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check policy",
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check selftest",
+      "uv run --offline --no-project --with ruff ruff check --select F docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py"
+    ],
+    "results": "daily 6, event 9, owner-number and open-question checks 45, policy cases 23, document mutations refused 26, gate mutants killed 6 (also under python -O); ruff F passed",
+    "material_owner_choices": "SCI-D05 closed; SCI-D01, D03, D04, D06 partly answered; SCI-D02, D07, D08, D09, D10 owner_pending",
+    "acceptance_case_count": "17 unchanged; review additions attached to SCI-05-AC01, SCI-06-AC01 and SCI-07-AC01",
+    "status": "maker_checks_rerun_not_independent_review"
+  },
+  "mp20_owner_answers": {
+    "date": "2026-11-03",
+    "note": "MP-20 owner answers DATA-DEC-12, SCI-D09 (3 Nov 2026, decision log 'Owner answers on next steps'): hashes refreshed after recording SCI-D09 as partly answered (ETFs ranked as one list per market: US, UK and India ETFs) and adding the ETF and SCI-D09 refusals to timing_checks.py --check policy. Maker checks only, not independently reviewed.",
+    "refreshed_files": [
+      "forecasting-specification.md",
+      "open-decisions.json",
+      "task-catalogue.json",
+      "timing_checks.py"
+    ],
+    "unchanged_files": [
+      "acceptance-cases.json",
+      "contract-examples.json",
+      "contracts.schema.json",
+      "evaluation-protocol.json",
+      "golden-examples.json",
+      "model-catalogue.json",
+      "research-register.json",
+      "timing-examples.json"
+    ],
+    "changes": {
+      "open-decisions.json": "SCI-D09 partly_answered, answered_by SCI-OA-10 and the decision-log section, still_open: ranking inputs and horizons per component, cadence, tie-break, US tech membership (Nasdaq-100 proposed); the one-ETF-segment recommendation kept under superseded_2026_11_03; SCI-OA-10 added",
+      "task-catalogue.json": "SEG-ETF replaced by SEG-ETF-US, SEG-ETF-UK and SEG-ETF-IN; etf_segments keeps the owner's words 'ETFs (US, UK and India)'",
+      "forecasting-specification.md": "Three ETF lists, SCI-D09 partly answered, owner answers SCI-OA-01 to SCI-OA-10",
+      "timing_checks.py": "verify_etf_lists and the SCI-D09 open-question check added; every earlier refusal kept; 8 document mutations and 2 gate mutants added"
+    },
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "uv run --offline --no-project --with ruff ruff check --select F docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py"
+    ],
+    "results": "daily 6, event 9, owner-number and open-question checks 51 (was 45), policy cases 23, document mutations refused 34 (was 26), gate mutants killed 8 (was 6), also under python -O; ruff F passed",
+    "material_owner_choices": "SCI-D05 closed; SCI-D01, D03, D04, D06, D09 partly answered; SCI-D02, D07, D08, D10 owner_pending",
+    "status": "maker_checks_rerun_not_independent_review"
   }
 }

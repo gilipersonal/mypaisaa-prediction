@@ -384,12 +384,13 @@ def budget() -> tuple[str, int, int, float, float]:
     def X(pounds: float) -> float:
         return x0 + pounds * scale
 
-    alloc = [("Data", 30, "saffron"), ("AWS", 22, "sky"), ("Claude", 10, "violet"), ("", 8, "muted")]
+    alloc = [("Data", 30, "saffron"), ("AWS", 22, "sky"), ("Claude", 15, "violet"), ("", 3, "muted")]  # owner, 3 Nov 2026
     segs, acc = "", 0.0
     for i, (name, gbp, col) in enumerate(alloc):
         segs += (
             f'<g class="fade" {at(0.9 + i * 0.25)}><rect x="{X(acc) + 1}" y="150" width="{gbp * scale - 2}" height="44" rx="6" fill="{C[col]}" opacity=".9"/>'
-            f'<text x="{X(acc) + 8}" y="177" fill="{C["bg"]}" font-size="12.5" font-weight="700">{(name + " ") if name else ""}£{gbp}</text></g>'
+            + (f'<text x="{X(acc) + 8}" y="177" fill="{C["bg"]}" font-size="12.5" font-weight="700">{(name + " ") if name else ""}£{gbp}</text>' if gbp >= 5 else "")
+            + '</g>'
         )
         acc += gbp
     marks = ""
@@ -398,18 +399,22 @@ def budget() -> tuple[str, int, int, float, float]:
             f'<g class="fade" {at(2.2 + i * 0.2)}><line x1="{X(gbp)}" x2="{X(gbp)}" y1="{128 - 18 * (i % 2)}" y2="420" stroke="{C[col]}" stroke-opacity=".7" stroke-dasharray="3 4"/>'
             f'<text x="{X(gbp)}" y="{122 - 18 * (i % 2)}" text-anchor="middle" fill="{C[col]}" font-size="12" font-weight="700">£{gbp} {label}</text></g>'
         )
-    scenarios = [
-        ("Grow $79, Claude blocked: ordinary month", 94.48, "saffron"),
-        ("Grow $79, Claude blocked: month the domain renews", 108.88, "rose"),
-        ("Grow 55 credits at $29 (if offered), Claude blocked: domain month", 60.88, "mint"),
+    scenarios = [  # the owner's selection: Virginia, Grow 55 (costs/specification.md)
+        ("An ordinary month, Claude off", 46.48, "mint"),
+        ("Claude option A, with the top-5 scan at its £5 cap", 59.73, "mint"),
+        ("The Apple fee month, only if the owner joins: the one allowed exception", 141.52, "rose"),
     ]
     bars = ""
     for i, (label, gbp, col) in enumerate(scenarios):
         y, t = 254 + i * 58, 3.3 + i * 0.9
+        shown = min(gbp, 118)  # past £118 the bar is cut and its figure sits inside it
+        value = (f'<text x="{X(shown) - 10}" y="{y + 16}" text-anchor="end" fill="{C["bg"]}" font-size="14" font-weight="700" '
+                 f'class="fade" {at(t + .7)}>£{gbp:.2f} ›</text>') if gbp > shown else (
+                 f'<text x="{X(gbp) + 8}" y="{y + 16}" fill="{C[col]}" font-size="14" font-weight="700" class="fade" {at(t + .7)}>£{gbp:.2f}</text>')
         bars += (
             f'<text x="{x0}" y="{y - 8}" fill="{C["muted"]}" font-size="13" class="fade" {at(t)}>{label}</text>'
-            f'<rect x="{x0}" y="{y}" width="{gbp * scale}" height="22" rx="5" fill="{C[col]}" class="grow" {at(t, .8)}/>'
-            f'<text x="{X(gbp) + 8}" y="{y + 16}" fill="{C[col]}" font-size="14" font-weight="700" class="fade" {at(t + .7)}>£{gbp:.2f}</text>'
+            f'<rect x="{x0}" y="{y}" width="{shown * scale}" height="22" rx="5" fill="{C[col]}" class="grow" {at(t, .8)}/>'
+            + value
         )
     end = 7.6
     body = f"""
@@ -420,10 +425,10 @@ def budget() -> tuple[str, int, int, float, float]:
   <text x="{X(70) + 12}" y="177" fill="{C['muted']}" font-size="13" font-weight="700">Reserve £30</text></g>
   <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="{C['surface']}"/><line x1="0" y1="0" x2="0" y2="8" stroke="{C['line']}" stroke-width="3"/></pattern></defs>
   {segs}{marks}{bars}
-  <text x="{x0}" y="210" fill="{C['muted']}" font-size="12" class="fade" {at(1.9)}>Planned operation £70 as proposed ceilings (Claude includes evals; £8 covers forecast and price uncertainty), then a £30 reserve</text>
+  <text x="{x0}" y="210" fill="{C['muted']}" font-size="12" class="fade" {at(1.9)}>Planned operation £70 as proposed ceilings (Claude includes evals; £3 covers forecast and price uncertainty), then a £30 reserve</text>
   <g class="rise" {at(6.2)}>
-    <text x="{x0}" y="470" fill="{C['text']}" font-size="15" font-weight="700">Not yet shown to fit.</text>
-    <text x="{x0 + 160}" y="470" fill="{C['muted']}" font-size="13">Draft scenarios at £0.80/USD and 20% tax · costs/specification.md · nothing bought</text>
+    <text x="{x0}" y="470" fill="{C['text']}" font-size="15" font-weight="700">Every ordinary month fits.</text>
+    <text x="{x0 + 205}" y="470" fill="{C['muted']}" font-size="13">Virginia, Grow 55, £0.80/USD and 20% tax · costs/specification.md · nothing bought</text>
   </g>
 </svg>"""
     return page(w, h, end, body), w, h, end + 0.5, 7.0
@@ -1042,7 +1047,7 @@ def delivery_pipeline() -> tuple[str, int, int, float, float]:
     <text x="930" y="468" fill="{C['text']}" font-size="14" font-weight="700">data does not.</text>
     <text x="930" y="492" fill="{C['muted']}" font-size="12">Schema changes go in two steps.</text>
   </g>
-  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/workflows · the road to prod is proposed on the testing page · nothing is deployed and the IaC tool is not chosen</text>
+  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/workflows · release: a workflow only the owner can start · IaC: Terraform only (both owner-selected) · nothing is deployed</text>
 </svg>{dots}"""
     css = "@keyframes alias { to { transform: translateX(-180px); } }"
     end = 11.0
@@ -1126,7 +1131,7 @@ def device_matrix() -> tuple[str, int, int, float, float]:
     dots = packet(f"M{cxi} {ly + lh} Q{cxi + 60} 440 838 410", 7.3, 0.6)
     body = f"""
 <svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
-  {kicker(60, 50, "iOS AND iPadOS TESTING", "One Maestro flow, every width, then a private beta")}
+  {kicker(60, 50, "iOS AND iPadOS TESTING", "One Maestro flow, every width, then a free local build")}
   {tag(1150 - tag_w("PROPOSED"), 38, "PROPOSED", "saffron", 0.3)}
   <g class="rise" {at(0.2)}>
     <rect x="50" y="110" width="280" height="360" rx="14" fill="{C['surface']}" stroke="{C['line']}"/>
@@ -1165,19 +1170,19 @@ def device_matrix() -> tuple[str, int, int, float, float]:
   <g class="rise" {at(0.4)}>
     <rect x="840" y="350" width="310" height="120" rx="14" fill="{C['surface']}" stroke="{C['line']}"/>
     <rect x="840" y="364" width="4" height="92" rx="2" fill="{C['violet']}"/>
-    <text x="858" y="378" fill="{C['text']}" font-size="15" font-weight="650">Private TestFlight beta</text>
-    <text x="858" y="398" fill="{C['muted']}" font-size="12">Internal group: the owner only</text>
-    <text x="858" y="415" fill="{C['muted']}" font-size="12">Uploaded by hand from Xcode</text>
-    <text x="858" y="432" fill="{C['muted']}" font-size="12">A build can be tested for up to 90 days</text>
+    <text x="858" y="378" fill="{C['text']}" font-size="15" font-weight="650">Free local builds, for now</text>
+    <text x="858" y="398" fill="{C['muted']}" font-size="12">From Xcode to the owner's iPhone and iPad</text>
+    <text x="858" y="415" fill="{C['muted']}" font-size="12">Each expires after 7 days; no Apple push</text>
+    <text x="858" y="432" fill="{C['muted']}" font-size="12">TestFlight later, only if the owner joins</text>
   </g>
-  {tag(858, 440, "OPEN · DEVELOPER PROGRAM", "rose", 0.5)}
+  {tag(858, 440, "OWNER-SELECTED · £0", "mint", 0.5)}
   {outline(840, 350, 310, 120, "violet", beta)}
   {tick(1126, 374, beta + 0.2, "violet", 8)}
   <g class="rise" {at(8.4)}>
     <rect x="50" y="500" width="600" height="34" rx="17" fill="{C['surface']}" stroke="{C['rose']}"/>
     <text x="350" y="522" text-anchor="middle" fill="{C['rose']}" font-size="13" font-weight="700">Which iPhones, iPads and iOS versions: an open question (PL-14)</text>
   </g>
-  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(8.8)}>Simulators cost £0 · a TestFlight beta needs the paid Apple Developer Program, not yet in the cost model · no Apple app exists yet</text>
+  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(8.8)}>Simulators and free local builds cost £0 · TestFlight and Apple push need the paid Developer Program, not bought for now (owner, 3 Nov 2026) · no Apple app exists yet</text>
 </svg>{dots}"""
     css = "@keyframes turn { to { transform: rotate(90deg); } }"
     end = 11.0
@@ -1196,7 +1201,7 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
         ("Resource policies, exact roles", "sky"),
         ("Least-privilege IAM, a role per Lambda", "mint"),
         ("CloudTrail in each account", "saffron"),
-        ("Separate dev and prod accounts · selected", "mint"),
+        ("Two accounts in Organizations, cost-guard SCP · selected", "mint"),
         ("Optional VPC lockdown · off by default", "rose"),
     ]
     rings = ""
@@ -1217,7 +1222,7 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
     def X(gbp: float) -> float:
         return x0 + gbp * s
 
-    base = 19.84
+    base = 18.64
     bars_in = [  # label, extra on the baseline, colour, time
         ("Baseline perimeter, no VPC", 0.0, "mint", 0.9),
         ("L1 private jobs only", 0.0, "mint", 4.4),
@@ -1256,7 +1261,7 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
     body = f"""
 <svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
   {kicker(60, 50, "THE DATA PERIMETER", "Who may act on what, before any network wall")}
-  {tag(1150 - tag_w("PROPOSED"), 38, "PROPOSED", "saffron", 0.3)}
+  {tag(1150 - tag_w("N0 OWNER-SELECTED · LOCKDOWN OPEN"), 38, "N0 OWNER-SELECTED · LOCKDOWN OPEN", "mint", 0.3)}
   {rings}
   <g class="pop" {at(0.5)}>
     <rect x="{cx - 80}" y="{cy - 32}" width="160" height="64" rx="12" fill="{C['raised']}" stroke="{C['paper']}" stroke-opacity=".6"/>
@@ -1273,10 +1278,11 @@ def perimeter_layers() -> tuple[str, int, int, float, float]:
   <g class="rise" {at(7.6)}>
     <text x="{x0}" y="486" fill="{C['text']}" font-size="14" font-weight="700">The perimeter itself costs about £0;</text>
     <text x="{x0}" y="506" fill="{C['muted']}" font-size="13">its KMS keys are already in the cost model.</text>
-    <text x="{x0}" y="534" fill="{C['text']}" font-size="14" font-weight="700">The baseline leaves £2.16 of the £22 AWS share.</text>
+    <text x="{x0}" y="534" fill="{C['text']}" font-size="14" font-weight="700">The baseline leaves £3.36 of the £22 AWS share.</text>
     <text x="{x0}" y="554" fill="{C['muted']}" font-size="13">Every paid step overruns it. L3 and L4 alone pass £100.</text>
+    <text x="{x0}" y="582" fill="{C['muted']}" font-size="13">The cost-guard SCP denies NAT and endpoints until an ADR lifts it.</text>
   </g>
-  <text x="60" y="616" fill="{C['muted']}" font-size="12" class="fade" {at(8.2)}>Proposed, nothing deployed · Virginia prices checked 2 Nov 2026 · dev 1 zone, prod 2 zones · £0.80 to the dollar and 20% tax</text>
+  <text x="60" y="616" fill="{C['muted']}" font-size="12" class="fade" {at(8.2)}>N0 owner-selected 3 Nov 2026, nothing deployed · Virginia prices checked 2 Nov 2026 · dev 1 zone, prod 2 zones · £0.80 to the dollar and 20% tax</text>
 </svg>"""
     end = 10.8
     return page(w, h, end, body), w, h, end + 0.5, 9.8

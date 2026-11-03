@@ -41,6 +41,11 @@ written question to Twelve Data (below). It needs the owner's yes before it is s
   symbol and need Grow. `/last_change` costs 1 per request. A design that checks only changed listings uses about
   1,500 to 2,000 credits a month for 20 to 30 listings, far inside Grow 55. **DATA-07 needs correcting:** it counts
   action checks at 1 credit each and assumes Basic can make them.
+  *Corrected 3 Nov 2026 (MP-20 review, round 2):* that estimate polled a fixed five MICs (XNYS, XNAS, XLON, XNSE,
+  XBOM), which misses US ETFs on NYSE Arca (ARCX) and Cboe BZX (BATS). The MICs are now derived from the catalogue's
+  listings (proposed); each extra MIC costs 2 credits a day, 44 a month, so with seven MICs the estimate is about
+  1,600 to 2,100 credits a month for 20 to 30 listings ([evidence/twelvedata.json](evidence/twelvedata.json),
+  `credit_estimate.correction_2026_11_03`).
 - **Its NSE page lists trading days as Sunday to Thursday, which is wrong.** MP's own calendars stay the authority
   (DATA-06).
 
@@ -69,7 +74,23 @@ Detail and sources: [evidence/yahoo-and-alternatives.json](evidence/yahoo-and-al
 ## The cost fit, month by month
 
 [cost_months.py](cost_months.py) reads the foundation pack's `costs/model.json` read-only, adds the lines MP-36 found
-missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 504 combinations over 12 months.
+missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 756 combinations over 12 months. Its
+domain option `none` is the owner's selection (owner, 3 Nov 2026: mypaisapp.com is renewed outside MP); the `com16`
+and `uk9` options stay in the grid for the record.
+
+| The owner's selection: Virginia, Basic in dev, no domain line, no Apple fee | Every month, 1 to 12 | Result |
+| --- | ---: | --- |
+| Grow 55, Claude blocked | £46.48 | Under £70 and the £60 warning every month |
+| Grow 55, Claude option A at ARC-06b volume | £54.73 | Under £70 and the £60 warning every month |
+| Grow 55, the Apple fee month if the owner buys it (the one allowed exception) | £141.52 (Claude blocked), £149.77 (option A) | Over £100 for this fee only; the rest of that month is £46.48 or £54.73 |
+| Grow 79, Claude blocked (not chosen) | £94.48 | Under £100; past the £85 pause line all year |
+| Grow 79, Claude option A (not chosen) | £102.73 | Over £100 every month |
+| Any annual data plan paid up front (not chosen) | £296 to £774 in month 1 | Month 1 far over £100 |
+
+*Superseded (owner, 3 Nov 2026):* the table below, as first written on 2 Nov, priced a domain bought in month 1. Its
+"Month 1 (domain renews)" column (£61.84 or £55.12, £70.09 or £63.37, £109.84, £118.09, and £311 to £789 for an
+annual plan) and the result "with .com, month 1 is 9p over £70" no longer apply: MP pays no domain invoice, so month 1
+equals months 2 to 12. The "Months 2 to 12" figures are unchanged.
 
 | Choices (Virginia, Basic in dev, no Apple fee) | Month 1 (domain renews) | Months 2 to 12 | Result |
 | --- | ---: | ---: | --- |
@@ -83,15 +104,19 @@ missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 504 
   Claude option A (£8.24) together.
 - **The Apple Developer Program fee cannot fit any month as things stand.** It is $99, or £95.04 with tax, and the
   month it is paid breaches £100 even with only dev running (£101.36). No month has room for it. It needs an owner
-  rule, not a different month (question 4 below).
+  rule, not a different month (question 4 below). *Answered:* the owner allowed its month as the one exception above
+  £100, for this fee only (2 Nov), and is not buying it for now (3 Nov); see the answers below.
 - **A rights-clean second source fits the ceiling only with Grow 55.** EODHD at £19.99 to £23.99 (VAT unconfirmed) plus Grow 55
-  and Claude option A peaks at about £83 to £94 in the domain month.
+  and Claude option A peaks at about £83 to £94 in the domain month. *Superseded (owner, 3 Nov 2026):* with no domain
+  line it is about £74.72 to £78.72 every month, over the £70 plan and, at the top of the range, past the £75 reduce line.
 - **New lines found:**
   - GitHub Actions: inside the organisation's $12 free allowance at MP's drafted 520 Linux minutes; the worst case
     is about £3 a month.
   - Telemetry: confirmed already inside the AWS total.
-  - The domain: Route 53's price list puts .com at $16 from 1 July 2026, and .uk at $9.
-  - Secrets Manager: $0.40 a secret a month, with no named line yet.
+  - The domain: Route 53's price list puts .com at $16 from 1 July 2026, and .uk at $9. (Owner, 3 Nov 2026: the
+    existing mypaisapp.com is renewed outside MP, so no domain line is costed.)
+  - Secrets Manager: $0.40 a secret a month, with no named line yet. (Owner, 3 Nov 2026: secrets go in SSM Parameter
+    Store SecureString, which has no per-secret fee.)
   - Internet data transfer out: about $0.16 a month.
 - **A possible double count:** the model has $1.50 a month of AWS build minutes alongside GitHub Actions.
 - **A slip in the Claude models card:** it gives Sonnet 5.5 cache reads as $0.20, but Anthropic's page says $0.10. No
@@ -100,7 +125,7 @@ missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 504 
 ## Region (for MP-29)
 
 The research recommends **London (eu-west-2)**, with Ireland as the fallback. Every service MP needs is in all three
-candidate Regions. London costs about £0.46 a month more than Virginia in the model (£20.31 against £19.84), keeps
+candidate Regions. London costs about £0.46 a month more than Virginia in the model (£20.31 against £19.84 with the domain line MP-20 later removed; £19.11 against £18.64 without it), keeps
 the AWS copy of the owner's holdings and backups in the UK, and had the lowest measured latency from the owner's Mac.
 
 In every Region:
@@ -109,7 +134,7 @@ In every Region:
 - Global services sit in us-east-1.
 
 N0 (no VPC) with SageMaker network isolation, two accounts under AWS Organizations, and CDK in Python as the IaC
-proposal are taken forward in MP-29.
+proposal are taken forward in MP-29. (Owner, 3 Nov 2026: Terraform only, not CDK; N0 is chosen.)
 
 ## The owner's answers (2 November 2026)
 
@@ -121,6 +146,13 @@ proposal are taken forward in MP-29.
 - **Vendors:** none is contacted. The questions below stay unsent.
 - **The Apple Developer fee:** one exception month a year above £100, for this fee only.
 - **Region:** Virginia (us-east-1), taken forward in MP-29.
+
+**Later answers (3 November 2026)** that change this pack:
+
+- **The domain:** the owner's existing domain, mypaisapp.com, renewed outside MP, so the cost model's domain line
+  comes out (MP-29). This answers question 5 below; month 1 now costs the same as every other month.
+- **The Apple Developer fee:** no paid Apple Developer Program for now; the owner will say when (MP-39 item 10).
+- **MP-29's other answers:** Terraform only, secrets in SSM Parameter Store, and network N0.
 
 The answers are also in the [decision log](../ma-reconciliation-2026-11-02/decision-log.md).
 
@@ -146,7 +178,8 @@ Each question has a recommended option first. Nothing is decided until the owner
      run rate.
    - A one-off exception month.
    - Raise the ceiling in that month.
-5. **The domain.** **(Recommended)** .uk at $9 a year, or .com at $16 a year.
+5. **The domain.** **(Recommended)** .uk at $9 a year, or .com at $16 a year. *Answered 3 Nov 2026:* neither; the
+   existing mypaisapp.com is renewed outside MP.
 
 ## Questions for vendors (unsent: the owner chose not to contact vendors)
 

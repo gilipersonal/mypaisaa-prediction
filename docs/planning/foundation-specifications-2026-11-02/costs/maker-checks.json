@@ -63,11 +63,48 @@
       "result": "passed",
       "run_rate_variants": 108,
       "cash_variants": 216,
-      "mutations_rejected": 10,
       "python_optimised_mode": "passed",
-      "annual_invoice_virginia_grow79_cash_gbp": "108.88",
-      "annual_invoice_virginia_grow55_cash_gbp": "60.88",
-      "asserts_not_required_by_regression": true
+      "asserts_not_required_by_regression": true,
+      "superseded_2026_11_03": {
+        "mutations_rejected": 10,
+        "annual_invoice_virginia_grow79_cash_gbp": "108.88",
+        "annual_invoice_virginia_grow55_cash_gbp": "60.88",
+        "reason": "Domain line removed (owner, 3 Nov 2026); the annual line checked in its due month is now the conditional Apple fee."
+      },
+      "mutations_rejected": 40,
+      "virginia_known_answers_gbp": {
+        "grow79_ordinary": "94.48",
+        "grow79_apple_exception_month": "189.52",
+        "grow55_ordinary": "46.48",
+        "grow55_apple_exception_month": "141.52"
+      },
+      "expected_months_central_gbp": {
+        "claude_off": "46.48",
+        "claude_off_with_scan_cap": "51.48",
+        "claude_option_a": "54.73",
+        "claude_option_a_with_scan_cap": "59.73",
+        "apple_month_claude_off": "141.52",
+        "apple_month_claude_option_a": "149.77"
+      },
+      "superseded_mp20_round2": {
+        "mutations_rejected": 25,
+        "reason": "MP-20 round 2 fixes (3 Nov 2026) added four remainder mutations."
+      },
+      "apple_month_remainder_central_gbp": {
+        "apple_month_claude_off": "46.48",
+        "apple_month_claude_option_a": "54.73",
+        "full_month_flags_kept": "R1-C1"
+      },
+      "superseded_mp20_owner_cost_answers": {
+        "mutations_rejected": 29,
+        "reason": "MP-20 owner cost answers (3 Nov 2026) added nine model mutations (COST-Q4 admission basis, both flag sets, COST-Q1 allocations) and two reservation-contract mutations."
+      },
+      "apple_month_optional_jobs_admission": {
+        "basis": "remainder_excluding_exception_fee",
+        "central_claude_off_full_month_thresholds": "warn, reduce and pause reached (recorded, R1-C1)",
+        "central_claude_off_admission_thresholds": "none reached",
+        "decision": "COST-Q4, owner 3 Nov 2026"
+      }
     },
     {
       "name": "Repeated Matplotlib render is byte-identical for SVG and PNG",
@@ -107,7 +144,7 @@
     "proposed_credit_proof_max_age_minutes": 30,
     "org_wide_allocation_status": "live_proof_pending",
     "price_evidence_sha256": "011eb2d90be975b9b1669f0e0fa655b3f58b8731905a356a24278786e22e10b7",
-    "helper_sha256": "cce35b09211e5fe213b10b7a7e860ff4abbdcc66f7d79307fde6ee8c874fe008",
+    "helper_sha256": "d5197f00157b6f1a3f13282ab04410460a22056fc4ce2ed5332c00d079ca0386",
     "source_pin_count": 6
   },
   "cash_timing_correction": {
@@ -122,7 +159,66 @@
       "check_cash_admission(reservation)"
     ],
     "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
-    "helper_sha256": "4d75f1a7b7806db9f9efc1d0fbb03b5985217fb4b1d05035db77d4ed716eb08f",
-    "meaning": "Amortised annual allowance is a monthly run rate only. Full selected annual invoice is reserved in its due month; ordinary/invoice-month cases are explicit assumptions and establish no purchase or actual due date."
+    "helper_sha256": "623ef41fe910c88775267eae177000fea631bcd2ae57cd874f9cc52c874c77ba",
+    "meaning": "Run rates hold no amortised line since the domain line was removed (owner, 3 Nov 2026). The conditional Apple Developer Program fee is reserved in full in its due month, the one allowed exception above GBP100 for that fee only; ordinary/exception-month cases are explicit assumptions and establish no purchase or actual due date."
+  },
+  "mp20_consolidation": {
+    "date": "2026-11-03",
+    "issue": "MP-20",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "Hashes refreshed for the MP-20 consolidation on 3 Nov 2026 (validate_specifications.py and check_cash_timing.py); the reviewed evidence is to be re-checked in the MP-20 review round.",
+    "decisions_folded_in": [
+      "Region Virginia selected",
+      "Grow 55 prod and Basic dev selected",
+      "Domain line removed (mypaisapp.com renewed outside MP)",
+      "Apple fee not bought; its month is the one allowed exception",
+      "GitHub Actions USD0",
+      "Secrets in SSM, no per-secret fee",
+      "Telemetry confirmed inside the AWS total",
+      "Top-5 scan allowance up to GBP5 a month",
+      "Expected months restated (Claude off, Claude option A, scan cap)"
+    ],
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
+      "uv run --offline --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+      "uv run --offline --no-project --with ruff==0.14.3 ruff check --select F docs/planning/foundation-specifications-2026-11-02/costs"
+    ],
+    "file_sha256": {
+      "check_cash_timing.py": "623ef41fe910c88775267eae177000fea631bcd2ae57cd874f9cc52c874c77ba",
+      "validate_specifications.py": "d5197f00157b6f1a3f13282ab04410460a22056fc4ce2ed5332c00d079ca0386"
+    }
+  },
+  "mp20_round2_fixes": {
+    "date": "2026-11-03",
+    "issue": "MP-20",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-20 round 2 fixes: R2-C5 adds the Apple-month remainder and its own flags to every results exception row and expected-month Apple row, keeping the full-month flags (R1-C1); check_cash_timing.py recomputes both and refuses 4 new mutations (29 in all). R2-C3 and R2-C6 change only text in specification.md, reservation-contract.json and model.json notes. Hash refreshed for check_cash_timing.py.",
+    "superseded_check_cash_timing_sha256": "c9674e24d78d2b91b612e11f2a1adc9998f2ad69e65eab0db5583a847779a1d4",
+    "file_sha256": {
+      "check_cash_timing.py": "623ef41fe910c88775267eae177000fea631bcd2ae57cd874f9cc52c874c77ba",
+      "validate_specifications.py": "d5197f00157b6f1a3f13282ab04410460a22056fc4ce2ed5332c00d079ca0386"
+    },
+    "open_question_added": "COST-Q4 (Apple-month optional jobs: full month or remainder)"
+  },
+  "mp20_owner_cost_answers": {
+    "date": "2026-11-03",
+    "issue": "MP-20",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-20 owner cost answers (3 Nov 2026): COST-Q1 \"Raise Claude to GBP15\" sets the allocations to data 30, AWS 22, Claude and evaluations 15, uncertainty 3 (was 10 and 8); COST-Q2 \"Keep it\" keeps the USD1.50 of AWS build minutes as a CodeBuild margin and drops the possible-double-count flag; COST-Q4 \"Judge the month without the fee\" admits optional jobs in the Apple fee month on the remainder flags while the full-month total and flags stay recorded (R1-C1 holds). check_cash_timing.py checks the admission basis on all 232 rows (216 cash variants and 16 expected months) and the allocations, and refuses 11 new mutations (40 in all); no existing mutation was removed or narrowed. validate_specifications.py asserts the three answered decisions. Hashes refreshed for both helpers (every current pin above updated to these values).",
+    "questions_answered": [
+      "COST-Q1",
+      "COST-Q2",
+      "COST-Q4"
+    ],
+    "question_open": "COST-Q3",
+    "superseded_file_sha256": {
+      "check_cash_timing.py": "5f0f68152ba522f3bb1e5749ad10f2eedf2807ce568b1b4c38f2f4b3331de826",
+      "validate_specifications.py": "62254230d6767d14847c7477301d18cb80bee5e4d710e70d18c40368b804ae04"
+    },
+    "file_sha256": {
+      "check_cash_timing.py": "623ef41fe910c88775267eae177000fea631bcd2ae57cd874f9cc52c874c77ba",
+      "validate_specifications.py": "d5197f00157b6f1a3f13282ab04410460a22056fc4ce2ed5332c00d079ca0386"
+    }
   }
 }

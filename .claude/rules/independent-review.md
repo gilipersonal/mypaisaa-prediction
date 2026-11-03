@@ -71,3 +71,7 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 18. **An API combination is checked against the API's documentation**, not assumed (MA-245).
 19. **Read back what was published**: a Confluence page, a Jira description or a Lucid document is checked by reading it after the write, and a receipt records that read-back. A publish with no read-back is not done (MA-303).
 20. **A closed list is closed only after every record that grants the thing is read**, and an open question is recorded on every story it decides (MA-161).
+21. **A fact the owner retires is barred everywhere it can be generated**: the generators, drawings, animations and design pages, not only the documents. Add it to `docs/planning/retired-facts.json` the same day, so `scripts/check_retired_facts.py` refuses it (MP-20 round 2).
+22. **A drawing's source and its export are one thing**: editing a Lucid generator without re-importing and re-exporting is not a fix. The manifest's `spec_sha256` and every page hash must match (MP-20 round 2).
+23. **An owner's rule keeps the owner's words**: a reason, example or mechanism the maker adds is marked proposed and put to the owner, never folded into the rule (MP-20 R2-S1, R2-S8).
+24. **A summary for the owner reads every record that answers a question**: journals, cards and receipts, not only the main log, and shows a partly answered item as answered and still open (MP-20 R2-p1, R2-p2).

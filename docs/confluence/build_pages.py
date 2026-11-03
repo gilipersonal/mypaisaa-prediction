@@ -203,19 +203,19 @@ def hub(s: str) -> str:
                   "<p><strong>Show the uncertainty. Score every forecast.</strong> Mypaisaa Prediction (MP) helps one owner "
                   "understand their holdings and judge where to add, hold, pause or trim. Code does the maths, models "
                   "forecast in ranges, Claude explains, and the owner decides. It holds no broker login and cannot trade.</p>")
-            + cols(card("compass", "#EAE6FF", "Planning", "The architecture directions are chosen; the full baseline, the UX and "
+            + cols(card("compass", "#EAE6FF", "Planning", "The architecture baseline was signed off on 3 November 2026 (MP-20); the story readiness, the UX and "
                         "permission to build are still ahead. Nothing is deployed."),
                    card("white_check_mark", "#E3FCEF", f"{len(b['phases'])} phases", f"PH-00 to PH-09, with {b['story_count']} story "
                         "drafts that are not yet Jira stories."),
                    card("moneybag", "#FFFAE6", "£100 a month", "All-in: dev and prod AWS, market data, Claude and evals. "
-                        "The draft costs do not yet show it fits."))
+                        "With Grow 55, every month fits except the one allowed Apple fee month, if the owner joins."))
             + "<h2>🎬 One forecast, from cutoff to score</h2>" + gif(s, "forecast-lifecycle", "Freeze the inputs, forecast a distribution, wait for the horizon, score the outcome. Illustrative values.")
             + "<h2>🧭 Where to look</h2>"
             + cols(card("blue_book", "#DEEBFF", link("record"), "The architecture area by area: the rules, the system on AWS, data, the ledger, forecasting, Claude, identity, admin, guardrails, the doors, delivery, cost."),
                    card("compass", "#E3FCEF", link("journeys"), "Opening the app, importing a statement, the daily forecast, asking why, and the learning loop, animated."),
                    card("world_map", "#EAE6FF", link("roadmap"), "Ten phases and the four owner gates before anything is built."))
             + cols(card("books", "#FFFAE6", link("phases"), "One page per phase: outcome, gate, dependencies, rollback and the story drafts."),
-                   card("art", "#FFEBE6", link("screens"), "PROPOSED. Screens wait for the architecture sign-off; this page holds their place."),
+                   card("art", "#FFEBE6", link("screens"), "PROPOSED. Screens wait for ready Jira stories after the architecture sign-off of 3 November 2026; this page holds their place."),
                    card("building_construction", "#E6FCFF", link("drawings"), "The Lucid drawings and the motion, and how each is rebuilt from the repo."))
             + panel("link", "#F4F5F7", f"<h3>{link('sync')}</h3><p>How the repo, Jira, Lucid and this space are kept the same.</p>")
             + "<h2>🚦 Status labels</h2>"
@@ -239,7 +239,7 @@ def roadmap(s: str) -> str:
                    ["docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
             + "<h2>🎬 The road and the four gates</h2>" + gif(s, "roadmap", "Ten phases; four owner gates come before any build.")
             + "<h2>🚦 The four gates, in order</h2>"
-            + "<ol start=\"1\"><li><p><strong>Architecture sign-off</strong> of the contracts and the phase and story baseline at an exact revision (MP-20). " + lozenge("open") + "</p></li>"
+            + "<ol start=\"1\"><li><p><strong>Architecture sign-off</strong> of the baseline at an exact revision (MP-20): given by the owner on 3 November 2026 at commit 98ba348. Its open items stay open, and UX waits until every story meets the readiness protocol. " + lozenge("selected") + "</p></li>"
             + "<li><p><strong>Full UX design</strong>, user and admin journeys end to end, designed locally first. " + lozenge("proposed") + "</p></li>"
             + "<li><p><strong>UX approval</strong> by the owner. " + lozenge("proposed") + "</p></li>"
             + "<li><p><strong>Permission to build.</strong> Only then does application code start. " + lozenge("proposed") + "</p></li></ol>"
@@ -318,7 +318,7 @@ def rec_system(s: str) -> str:
             + "<h2>🧱 The layers</h2>"
             + table(["Layer", "Services", "Status"], [
                 ["Doors", "SvelteKit PWA on CloudFront and S3; SwiftUI app in a React Native shell", lozenge("selected")],
-                ["Edge and identity", "API Gateway (HTTPS and SSE); Cognito with Apple, Google and passkeys", lozenge("selected")],
+                ["Edge and identity", "API Gateway (HTTPS and SSE); Cognito with Google and passkeys; Sign in with Apple waits for the paid Apple Developer Program (owner, 3 November 2026)", lozenge("selected")],
                 ["API", "FastAPI on ordinary Lambda, <code>/api/v1</code>", lozenge("implemented") + " starter, locally"],
                 ["Work", "EventBridge Scheduler, SQS with dead-letter queues, Lambda Durable Functions in Python", lozenge("selected")],
                 ["Claude", "One Lambda worker per task route, Anthropic Python SDK", lozenge("selected")],
@@ -412,7 +412,7 @@ def rec_identity(s: str) -> str:
                    ["ARCHITECTURE.md"])
             + lucid(s, 6, "Sign-in, recovery and step-up for sensitive actions.")
             + table(["Topic", "Decision", "Status"], [
-                ["Sign-in", "Cognito with Apple, Google and passkeys", lozenge("selected")],
+                ["Sign-in", "Cognito with Google and passkeys; Sign in with Apple waits for the paid Apple Developer Program (owner, 3 November 2026)", lozenge("selected")],
                 ["Owner linking", "Verified linking and two independent recovery paths", lozenge("selected")],
                 ["Step-up", "Sensitive actions need a fresh, strong sign-in", lozenge("selected")],
                 ["Approval window", "15 minutes to start the exact approved commit (POLICY-001)", lozenge("selected")],
@@ -480,18 +480,19 @@ def rec_delivery(s: str) -> str:
 
 
 def rec_cost(s: str) -> str:
-    return (banner("selected", "The £100 all-in ceiling and its split are owner-selected. The draft costs do not yet show it fits.",
+    return (banner("selected", "The £100 all-in ceiling and its split are owner-selected. With Grow 55 (owner, 2 November 2026) every month fits £100 except the one allowed Apple fee month, if the owner joins.",
                    ["docs/planning/foundation-specifications-2026-11-02/costs/specification.md", "TECH-STACK.md"])
-            + gif(s, "budget", "The ceiling, the £70 plan and three draft scenarios.")
-            + table(["Part of the £70 plan", "Up to"], [["Market data", "£30"], ["AWS, both accounts", "£22"], ["Claude and evaluations", "£10"], ["Forecast and price uncertainty", "£8"]])
-            + table(["Draft scenario (Claude blocked)", "Cash in the month"], [
-                ["Grow $79, an ordinary month", "£94.48"], ["Grow $79, the month the domain renews", "£108.88, over the ceiling"],
-                ["Grow 55 credits at $29 if offered, the month the domain renews", "£60.88"]])
+            + gif(s, "budget", "The ceiling, the £70 plan and the selected months.")
+            + table(["Part of the £70 plan", "Up to"], [["Market data", "£30"], ["AWS, both accounts", "£22"], ["Claude and evaluations", "£15"], ["Forecast and price uncertainty", "£3"]])
+            + table(["Month, Virginia, Grow 55 (cost specification)", "Cash in the month"], [
+                ["An ordinary month, Claude off", "£46.48"], ["An ordinary month, Claude option A", "£54.73"],
+                ["Either, with the top-5 scan at its £5 cap", "£51.48 or £59.73"],
+                ["The Apple fee month, only if the owner joins (the one allowed exception)", "about £141.52 or £149.77, over the ceiling"]])
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
                   "The domain is the owner's existing mypaisapp.com, renewed outside MP, so no month carries a domain renewal (owner, 3 November 2026).",
-                  "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026).",
+                  "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026). The owner has not joined for now (3 November 2026).",
                   "Region: Virginia (us-east-1), owner-selected on 2 November 2026."])
             + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. The owner chose Grow 55, the only tier that keeps every month under £100.</p>"
             + footer())
@@ -605,7 +606,7 @@ def rec_observability(s: str) -> str:
                 ["X-Ray traces read", "$0.50 per million", "30,000", "10,000", "$0.020"],
                 ["<strong>Total</strong>", "", "", "", "<strong>$4.94, about £4.74</strong>"]])
             + cols(card("bar_chart", "#DEEBFF", "Against the £22",
-                        "About a fifth of the £22 AWS share. It is already counted inside the cost model's AWS total of $20.67 (£19.84), which leaves £2.16. "
+                        "About a fifth of the £22 AWS share. It is already counted inside the cost model's AWS total of $19.42 (£18.64), which leaves £3.36. "
                         "Custom metrics are three quarters of it: dropping dev's four saves about £1.15."),
                    card("gift", "#E3FCEF", "What is free",
                         "Powertools, OpenTelemetry and the ADOT layer are free; they add a few cents of Lambda time by estimate. A CloudWatch free tier would lower the total, but is not counted."))
@@ -677,7 +678,7 @@ def journeys(s: str) -> str:
 
 
 def screens(s: str) -> str:
-    return (banner("proposed", "A placeholder. No screen is designed yet: UX starts only after the architecture sign-off, and building only after UX approval.",
+    return (banner("proposed", "A placeholder. No screen is designed yet: the architecture was signed off on 3 November 2026, UX starts once every story meets the readiness protocol, and building only after UX approval.",
                    ["docs/planning/future-architecture-sites-ux-direction-2026-11-02.md"])
             + table(["Area", "Doors", "Status"], [[a, "Web and Apple", lozenge("proposed")] for a in [
                 "Sign-in and recovery", "Market discovery (the landing view)", "Holdings and one holding", "Imports and approvals",
@@ -746,8 +747,8 @@ def rec_testing(s: str) -> str:
                 ["3. Deploy to dev", "GitHub OIDC into a dev-only role that trusts <code>main</code> and the release workflow, nothing else; "
                  "no stored AWS keys", lozenge("proposed")],
                 ["4. Dev smoke", "The full synthetic profile below", lozenge("proposed")],
-                ["5. Owner approves", "The owner promotes that exact sha256. How the approval is enforced is open (see the warning below)",
-                 lozenge("open")],
+                ["5. Owner approves", "The owner promotes that exact sha256 by starting a release workflow only the owner can start "
+                 "(route A below, owner-selected 3 November 2026)", lozenge("selected")],
                 ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11)", lozenge("selected")],
                 ["7. Prod smoke, then keep or roll back", "Read-only checks; a failure moves the alias back", lozenge("proposed")],
                 ["IaC", "Terraform only, from day one: every AWS change goes through Terraform (owner, 3 November 2026). Plan-only until an apply is asked for", lozenge("selected")],
@@ -756,8 +757,8 @@ def rec_testing(s: str) -> str:
             + panel("warning", "#FFFAE6",
                     "<p><strong>The Free plan cannot hold the prod gate.</strong> On a private repo, GitHub's required reviewers and wait "
                     "timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner approves in a protected "
-                    "environment&quot; cannot be built on today's plan. Options:</p>"
-                    + ul(["<strong>A, free:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
+                    "environment&quot; cannot be built on today's plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen.</p>"
+                    + ul(["<strong>A, free, owner-selected:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
                           "that trusts only <code>main</code> and that workflow file. The org has one member today.",
                           "<strong>B:</strong> GitHub Team, $4 a user a month (about £3.84): branch protection and environment secrets, still no "
                           "required reviewers on a private repo.",
@@ -835,7 +836,7 @@ def rec_testing(s: str) -> str:
 
             + "<h2>❓ To decide</h2>"
             + panel("hourglass", "#FFFAE6", ul([
-                "How prod approval is enforced on GitHub Free: A, B, C or D above, and the wording of the AWS rule. PL-11 (MP-30)",
+                "The wording of the AWS rule for route A, the release workflow only the owner can start (owner-selected 3 November 2026). PL-11 (MP-30)",
                                 "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
                 "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
@@ -917,8 +918,8 @@ def rec_apple_testing(s: str) -> str:
     return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
                    "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the owner says when.",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
-            + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a private TestFlight build.")
-            + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac and the private TestFlight beta.", LUCID_QUALITY)
+            + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a free local build on the owner's devices; TestFlight later, if the owner joins.")
+            + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac, free local builds for now, and the private TestFlight beta later.", LUCID_QUALITY)
             + "<h2>📲 What is already fixed, and what is not</h2>"
             + table(["Fact", "Source", "Status"], [
                 ["SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications",
@@ -932,8 +933,8 @@ def rec_apple_testing(s: str) -> str:
                 ["Views and units", "XCTest and XCUITest in Xcode", "The owner's Mac", "£0", lozenge("proposed")],
                 ["Journeys end to end", "Maestro CLI and Studio, free and open source, on iOS simulators", "The owner's Mac", "£0", lozenge("proposed")],
                 ["Every pull request", "Maestro's flow syntax check and the test-ID check (below)", "GitHub's Linux runner, seconds", "Inside the free allowance", lozenge("proposed")],
-                ["Real hardware", "A private TestFlight build on the owner's iPhone and iPad", "Real devices", "Needs the Developer Program", lozenge("open")]])
-            + ul(["Maestro drives simulators only; Face ID hardware, real push delivery and a real VoiceOver pass happen on a TestFlight build, by hand.",
+                ["Real hardware", "A free local build from Xcode on the owner's iPhone and iPad; it expires after 7 days and has no Apple push", "Real devices", "£0", lozenge("selected")]])
+            + ul(["Maestro drives simulators only; Face ID hardware and a real VoiceOver pass happen on a free local build, by hand. Real Apple push needs the paid Program, so it waits; phone alerts come through Web Push for now.",
                   "Flows run against a local stub of the FastAPI with synthetic data. Nothing is deployed, so there is no live mode until the dev account exists (ARC-11).",
                   "A flow that tests a figure also checks its as-of time and provider status are on screen while it loads: the same never-behind-a-spinner rule as the web."])
             + "<h2>🏷️ One ID scheme for web and Apple</h2>"
@@ -959,7 +960,7 @@ def rec_apple_testing(s: str) -> str:
                 ["Dynamic Type, smallest to the largest accessibility size", "<code>xcrun simctl ui</code> sets the size before a Maestro run; figures and the Confirm button stay whole", lozenge("proposed")],
                 ["Light, dark, Increase Contrast, Reduce Motion", "Set per run; functional flows launch with motion stilled so figures are not read mid-animation", lozenge("proposed")],
                 ["Automated audit", "XCUITest's accessibility audit on each main screen, on the Xcode version chosen", lozenge("proposed")],
-                ["VoiceOver", "A walkthrough by hand on a real device before each beta build; a test runner cannot listen", lozenge("proposed")],
+                ["VoiceOver", "A walkthrough by hand on a free local build on a real device; a test runner cannot listen", lozenge("proposed")],
                 ["Charts", "Each chart has a text alternative and a summary value (L6-S03, L7-S02)", lozenge("proposed")],
                 ["Lock screen and app switcher", "A simulated push carries a neutral payload; no holding or amount appears (L7-S02)", lozenge("proposed")]])
             + panel("information_source", "#DEEBFF", "<p><strong>For now: free local builds (owner, 3 November 2026).</strong> Builds install from Xcode on the owner's own iPhone and iPad and expire after 7 days. Free builds cannot use Apple push notifications, TestFlight or Sign in with Apple, so phone notifications come through the web app's Web Push. The TestFlight plan below applies once the owner chooses to pay.</p>")
@@ -981,9 +982,9 @@ def rec_apple_testing(s: str) -> str:
                 ["GitHub macOS runner", "0.062 USD a minute, about ten times Linux at 0.006", "A 15-minute simulator run £0.89; 20 runs £17.86 a month, close to the £22 planned for all of AWS", lozenge("open") + " not proposed"],
                 ["Apple Developer Program", "99 USD a membership year, charged in local currency at enrolment", "£95.04 in the month it is paid", lozenge("open")]])
             + panel("warning", "#FFEBE6",
-                    "<p>MP counts cash in the month an invoice is due. The Apple fee in one month, on top of the draft scenarios, "
-                    "makes £189.52 with Grow at 79 USD, or £141.52 with the Grow 55 tier at 29 USD: over the ceiling either way. "
-                    "On 2 November 2026 the owner allowed that one month a year above £100, for this fee only; whether and when to join is still open. "
+                    "<p>MP counts cash in the month an invoice is due. If the owner joins, the Apple fee on top of an ordinary Grow 55 month "
+                    "makes about £141.52 with Claude off, or £149.77 with Claude on: over the £100 ceiling. "
+                    "The owner allowed that one month a year above £100, for this fee only (2 November 2026), and has not joined for now (3 November 2026). "
                     "Push, Sign in with Apple and passkeys on a real device most likely need the membership too, so this is a cost of the Apple door itself, not only of TestFlight.</p>")
             + "<p>GitHub's Free plan includes 12 USD of compute a month for this private repo, shared with the nine existing checks; that is about 193 macOS minutes. "
             + "Local first keeps it for the checks.</p>"
@@ -1027,8 +1028,8 @@ def rec_perimeter(s: str) -> str:
                  "$0", lozenge("selected")],
                 ["Service control policies", "A cost guard (owner-selected): no NAT, interface endpoints, VPN, load balancers, SageMaker endpoints or GPUs until an ADR lifts it. Proposed alongside: never stop CloudTrail, never leave the organisation. A Region allowlist is not adopted.",
                  "$0", lozenge("selected")],
-                ["Resource control policies", "Would cap who can reach MP's S3, KMS, SSM, SQS and STS. Not adopted (owner, 3 November 2026).",
-                 "$0", lozenge("open")],
+                ["Resource control policies", "Would cap who can reach MP's S3, KMS, SSM, SQS and STS. Not adopted (owner, 3 November 2026): each bucket, key and queue policy carries the conditions itself.",
+                 "$0", lozenge("selected") + " not adopted"],
                 ["Least-privilege IAM", "One role per Lambda, each Claude route worker included (ARC-06), scoped to its own table, prefix and secret. Prod deploys come from CI only.",
                  "$0", lozenge("proposed")],
                 ["Resource policies", "Bucket, key and queue policies name the exact roles. The PWA bucket is read only by CloudFront through origin access control.",
@@ -1043,7 +1044,7 @@ def rec_perimeter(s: str) -> str:
                  "$0 for the first copy, plus S3 storage; data events $0.10 per 100,000", lozenge("proposed")]])
             + panel("bulb", "#DEEBFF", "<p><strong>What a data perimeter means here.</strong> AWS describes three walls: identity (only our people), "
                     "resource (only our things) and network (only from our networks). Without a VPC, MP builds the first two with "
-                    "<code>aws:PrincipalOrgID</code> and <code>aws:ResourceOrgID</code> conditions in the resource and control policies. "
+                    "<code>aws:PrincipalOrgID</code> and <code>aws:ResourceOrgID</code> conditions in each bucket, key and queue policy (no RCPs). "
                     "The third wall, <code>aws:SourceVpce</code>, needs a VPC. It is the main thing a lockdown adds.</p>")
 
             + "<h2>🌐 Why MP starts without a VPC</h2>"
@@ -1076,12 +1077,11 @@ def rec_perimeter(s: str) -> str:
                 ["L3 Managed lockdown", "$36.73", "$73.23", "$109.77 (£105.38)", "$120.75 (£115.92)"],
                 ["L4 Strict lockdown", "$65.98", "$131.68", "$197.43 (£189.53)", "$217.17 (£208.48)"]])
             + table(["Against the budget", "Virginia", "London"], [
-                ["Baseline AWS, both accounts (cost specification)", "£19.84", "£20.31"],
-                ["Left in the £22 AWS share", "£2.16", "£1.69"],
+                ["Baseline AWS, both accounts (cost specification)", "£18.64", "£19.11"],
+                ["Left in the £22 AWS share", "£3.36", "£2.89"],
                 ["Cheapest paid step: L2 with one zone in each account", "£14.12", "£15.02"],
-                ["A Grow $79 ordinary month, plus L2 (dev 1 zone, prod 2 zones)", "£94.48 + £21.19 = £115.67, over the £100 ceiling", "£94.95 + £22.53 = £117.48, over the ceiling"],
-                ["A Grow $29 month if offered, plus the same L2", "£46.48 + £21.19 = £67.67, past the £60 warning", "£46.95 + £22.53 = £69.48, past the warning"]])
-            + ul(["The baseline leaves about £2 of the £22 AWS share, so every paid step overruns it. L3 and L4 alone pass the £100 ceiling, whatever data plan is chosen.",
+                ["The ordinary month (Grow 55, Claude off), plus L2 (dev 1 zone, prod 2 zones)", "£46.48 + £21.19 = £67.67, past the £60 warning", "£46.95 + £22.53 = £69.48, past the warning"]])
+            + ul(["The baseline leaves about £3 of the £22 AWS share, so every paid step overruns it. L3 and L4 alone pass the £100 ceiling, whatever data plan is chosen.",
                   "The floor is fixed: a NAT Gateway or an endpoint bills every hour it exists, busy or idle.",
                   "Not priced here: a DNS firewall, AWS WAF, GuardDuty, flow logs and a network firewall. Each is its own costed decision.",
                   "Not offered: IPv6-only egress through a free egress-only gateway. It works only if every destination answers on IPv6, which is unverified."])
@@ -1091,7 +1091,7 @@ def rec_perimeter(s: str) -> str:
                 "Interface endpoint: $0.01 per zone-hour in Virginia, $0.011 in London, plus $0.01 per GB. Gateway endpoints for S3 and DynamoDB: no charge.",
                 "NAT instance: t4g.nano at $0.0042 an hour in Virginia, $0.0047 in London; an 8 GB gp3 disk at $0.08 or $0.0928 per GB-month; one public IPv4 address.",
                 "Assumed traffic: 5 GB a month through the NAT in prod and 1 GB in dev; four interface endpoints. More traffic adds per-GB charges.",
-                "Baseline AWS run rates are the cost specification's: $20.67 in Virginia and $21.15 in London, with no free tier deducted."]))
+                "Baseline AWS run rates are the cost specification's: $19.42 in Virginia and $19.90 in London, with no free tier deducted."]))
 
             + "<h2>🧭 The recommendation</h2>"
             + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). Keep the lockdown <strong>off by default</strong>. "
@@ -1212,7 +1212,7 @@ PAGES = [
     {"slug": "rec-guardrails", "title": "🛡️ Guardrails and evaluations", "parent": "record", "status": "selected", "body": rec_guardrails},
     {"slug": "rec-clients", "title": "📱 The two doors: web and Apple", "parent": "record", "status": "selected", "body": rec_clients},
     {"slug": "rec-web-quality", "title": "♿ Web visual regression, ARIA snapshots and WCAG 2.2 AA (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_web_quality},
-    {"slug": "rec-apple-testing", "title": "📲 iOS and iPadOS testing with Maestro and the TestFlight beta (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_apple_testing},
+    {"slug": "rec-apple-testing", "title": "📲 iOS and iPadOS testing with Maestro and free local builds (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_apple_testing},
     {"slug": "rec-delivery", "title": "🚀 Environments, CI and delivery", "parent": "record", "status": "implemented", "body": rec_delivery},
     {"slug": "rec-testing", "title": "🧪 CI/CD, vulnerability scanning, smoke and regression (PROPOSED)", "parent": "record", "status": "proposed", "body": rec_testing},
     {"slug": "rec-cost", "title": "💷 Cost and the £100 ceiling", "parent": "record", "status": "selected", "body": rec_cost},
@@ -1461,6 +1461,22 @@ def receipt_problems(pages_manifest: dict, slugs: list[str], receipts_dir: Path)
     return problems
 
 
+def media_problems(needed: dict, media: dict, root: Path) -> list[str]:
+    """Every attachment a page needs is uploaded, and is the file as it is now: a changed export under the same name
+    is re-uploaded, so the check fails on a hash that differs or is missing (MP-20)."""
+    problems = []
+    for slug, paths in needed.items():
+        for path in paths:
+            rec = media.get(slug, {}).get(path)
+            if rec is None:
+                problems.append(f"{slug}: {path} not attached")
+            elif not (root / path).is_file():
+                problems.append(f"{slug}: {path} is attached but missing from the repo")
+            elif rec.get("sha256") != hashlib.sha256((root / path).read_bytes()).hexdigest():
+                problems.append(f"{slug}: {path} changed since it was attached; re-upload it")
+    return problems
+
+
 def check() -> int:
     write()
     problems = []
@@ -1471,10 +1487,7 @@ def check() -> int:
             problems.append(f"{page['slug']}: not created")
         elif rec.get("sha256") != sent:
             problems.append(f"{page['slug']}: changed since it was published")
-    for slug, paths in MEDIA_NEEDED.items():
-        for path in paths:
-            if path not in M["media"].get(slug, {}):
-                problems.append(f"{slug}: {path} not attached")
+    problems += media_problems(MEDIA_NEEDED, M["media"], ROOT)
     problems += receipt_problems(M["pages"], [p["slug"] for p in PAGES], RECEIPTS)
     for p in problems:
         print("PENDING:", p)

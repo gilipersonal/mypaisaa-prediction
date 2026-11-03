@@ -218,5 +218,43 @@ any data source.
     matured forecasts. That triggers the automatic revert.
 15. **Restart after a pause:** reverting to the previous approved model is automatic; restarting a paused forecast or
     switching forward still needs the owner's yes (POLICY-003 stands).
+16. **A week that cannot be scored** (a data outage, a holiday week) pauses the 8-week trial count; the trial still
+    needs 8 scored weeks.
+17. **Rules changes** (indicators, pillars, thresholds) need the same 8-week shadow trial, beating the current rules,
+    before the owner approves them.
+18. **Probation:** a newly promoted model is on probation for its first 4 live weeks and reverts after 2 bad weeks
+    instead of 4.
+19. **The ~150-name scan** may add up to £5 a month (Claude explanations for the top-5 names, batched where possible).
+20. **An F7 contribution policy** is shown live, labelled experimental, only after it beats simple rules for 8 weeks in
+    replay and shadow, and with the owner's yes.
+21. **The MP-20 consolidation** runs as one pass with one sign-off, and an independent review round 1 runs before the
+    owner signs.
+
+## Owner sign-off of the baseline and three cost answers (3 November 2026, MP-20)
+
+Asked in Claude after review round 2, with the sign-off pack at commit
+`98ba348e6af6c8c1f716e521660287887fe909aa` ([sign-off pack](../baseline-signoff-2026-11-03/README.md)):
+
+1. **Sign-off:** "Yes, I sign off (Recommended)". This approves the baseline's structure, the twelve directions as
+   refined by the owner's later answers, the precedence order and the phase-to-story map, exactly as the pack at that
+   commit states them. Its open items stay open, UX starts only after every story meets the readiness protocol, and
+   build needs the complete UX and its own permission. The owner chose to skip a third review round ("Skip to
+   sign-off"), so round 2's fixes were not reviewed by a fresh reviewer.
+2. **COST-Q1, where the top-5 scan sits:** "Raise Claude to £15 (Recommended)". The £70 plan becomes market data £30,
+   AWS £22, Claude and evaluations £15, forecast and price uncertainty £3; a scan overrun stops at the Claude cap.
+3. **COST-Q2, the $1.50 of AWS build minutes:** "Keep it", as a small margin in case some builds run in AWS CodeBuild.
+4. **COST-Q4, optional work in the Apple fee month:** "Judge the month without the fee (Recommended)". If the owner
+   ever buys the Developer Program, optional work runs while the rest of that month stays under £60, £75 and £85; the
+   fee is the one allowed exception.
+
+## Owner answers on next steps (3 November 2026, MP-20)
+
+1. **DATA-DEC-12, provider values in Claude prompts:** "Derived values only (Recommended)". Claude sees returns,
+   ranges, scores and the fewest raw prices a route needs; never bulk raw feeds from Twelve Data or Yahoo.
+2. **SCI-D09, the ETF top 5:** "One list per market (Recommended)". A top 5 for US ETFs, one for UK ETFs and one for
+   India ETFs, fairer across currencies and sessions.
+3. **The next piece of work after MP-20:** "Story readiness (Recommended)". The 64 story drafts become Jira stories
+   under PH-00 to PH-09, each with positive and negative acceptance, contracts, a state inventory and dependencies:
+   the last gate before UX.
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

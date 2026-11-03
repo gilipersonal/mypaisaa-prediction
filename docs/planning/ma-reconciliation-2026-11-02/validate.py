@@ -48,7 +48,12 @@ for card in cards:
   assert answer['recorded_on'] and answer['source'] and answer['meaning']
   assert card['status']=='owner_direction_selected_evidence_pending'
 answers=read(BASE/'owner-decisions.json')
-assert not answers['architecture_baseline_approved'] and not answers['implementation_authorised']
+def _signed():
+ import json as _j
+ so=_j.loads((Path(__file__).resolve().parents[1]/'baseline-signoff-2026-11-03'/'signoff.json').read_text()).get('signed_off') or {}
+ return bool(__import__('re').fullmatch(r'[0-9a-f]{40}',str(so.get('commit',''))) and str(so.get('owner_words','')).strip())
+assert not answers['implementation_authorised']
+assert not answers['architecture_baseline_approved'] or _signed(), 'baseline approved without a signed sign-off record'
 assert {x['card_id'] for x in answers['decisions']}=={c['id'] for c in cards if c['owner_answer'] is not None}
 unique([x['card_id'] for x in answers['decisions']])
 by_card={c['id']:c for c in cards}

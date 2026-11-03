@@ -48,7 +48,11 @@ for row in source['source_files']:
  assert hashlib.sha256(data).hexdigest()==row['sha256']
 choices=read(BASE/'selected-directions.json')
 assert len(choices['directions'])==12 and not choices['implementation_authorised']
-owner=read(BASE/'owner-decisions.json');assert not owner['architecture_baseline_approved'] and not owner['implementation_authorised']
+def _signed():
+ import json as _j
+ so=_j.loads((Path(__file__).resolve().parents[1]/'baseline-signoff-2026-11-03'/'signoff.json').read_text()).get('signed_off') or {}
+ return bool(__import__('re').fullmatch(r'[0-9a-f]{40}',str(so.get('commit',''))) and str(so.get('owner_words','')).strip())
+owner=read(BASE/'owner-decisions.json');assert not owner['implementation_authorised'];assert not owner['architecture_baseline_approved'] or _signed(), 'baseline approved without a signed sign-off record'
 assert {d['id'] for d in owner['decisions']}=={'FND-DEC-001','FND-DEC-002'}
 
 schema_counts={};schema_sources={}
@@ -189,5 +193,5 @@ for p in BASE.rglob('*.md'):
  for target in re.findall(r'\[[^\]]*\]\(([^)]+)\)',p.read_text()):
   if target.startswith(('http:','https:','#')):continue
   assert (p.parent/target.split('#',1)[0]).resolve().exists(),(p,target)
-report={'status':'maker_document_checks_passed','schema_definitions':schema_counts,'validated_positive_wire_records':data_record_count+len(fin['records'])+len(sci['records']),'financial_worked_examples':15,'forecast_worked_examples':15,'financial_acceptance_cases':30,'forecast_acceptance_cases':17,'data_acceptance_cases':len(read(BASE/'data/acceptance.json')['cases']),'cost_acceptance_cases':len(read(BASE/'costs/acceptance.json')['cases']),'cost_run_rate_variants':108,'cost_cash_variants':216,'computed_hash_graph_records':hash_graph_record_count,'acyclic_hash_delivery_proof':proof['status'],'daily_clock_proofs':daily_timing_cases,'event_availability_proofs':event_timing_cases,'owner_detail_decisions':2,'source_pr9_head':source['source_head'],'budget_status':model['budget_verdict']['verdict'],'architecture_baseline_approved':False,'UX_authorised':False,'implementation_authorised':False,'independent_review':read(BASE/'work-state.json')['independent_review'],'live_provider_model_AWS_calls':False,'limitations':['Shape/math/provenance checks only; planned backend/live acceptance not executed.','No model fit, backtest, solver implementation, cloud proof or licence approval.','No complete architecture/UX readiness from these checks.']}
+report={'status':'maker_document_checks_passed','schema_definitions':schema_counts,'validated_positive_wire_records':data_record_count+len(fin['records'])+len(sci['records']),'financial_worked_examples':15,'forecast_worked_examples':15,'financial_acceptance_cases':30,'forecast_acceptance_cases':17,'data_acceptance_cases':len(read(BASE/'data/acceptance.json')['cases']),'cost_acceptance_cases':len(read(BASE/'costs/acceptance.json')['cases']),'cost_run_rate_variants':108,'cost_cash_variants':216,'computed_hash_graph_records':hash_graph_record_count,'acyclic_hash_delivery_proof':proof['status'],'daily_clock_proofs':daily_timing_cases,'event_availability_proofs':event_timing_cases,'owner_detail_decisions':2,'source_pr9_head':source['source_head'],'budget_status':model['budget_verdict']['verdict'],'architecture_baseline_approved':owner['architecture_baseline_approved'],'UX_authorised':False,'implementation_authorised':False,'independent_review':read(BASE/'work-state.json')['independent_review'],'live_provider_model_AWS_calls':False,'limitations':['Shape/math/provenance checks only; planned backend/live acceptance not executed.','No model fit, backtest, solver implementation, cloud proof or licence approval.','No complete architecture/UX readiness from these checks.']}
 (BASE/'validation.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

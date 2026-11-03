@@ -1,13 +1,13 @@
 {
  "slug": "rec-system",
  "page_id": "6389796",
- "version": 3,
- "sent_sha256": "d9b5d4f03d036d3f3d8fef4ea1b532fde1c4ed49d17a81e74935394507bc5b27",
- "readback_sha256": "b66de8f9ed96ebc503df719db425b643ec282d057f4db13e96a108618525d682",
- "canonical_sha256": "818d7eba02d6c33de9de25c48d5c6d47fc7b2dd3fe043276bc9b6a6acd3e81e5",
+ "version": 4,
+ "sent_sha256": "65ce398690f9d334fc481c6716932c34aaa2f1ef0c66fad157ddc891c5c49210",
+ "readback_sha256": "3d18278bf67b166dc88725ed68ca56012da1907f98caa1c5d6bcfcdf80d01f47",
+ "canonical_sha256": "700968a3b07f6f4bf68257a7fdce20e236e443694c70daacc67ef305b9b75d5e",
  "parts": 181,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T10:19:03Z"
+ "read_at": "2026-11-03T13:53:08Z"
 }

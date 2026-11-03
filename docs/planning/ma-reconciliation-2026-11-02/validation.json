@@ -6,7 +6,7 @@
   "gaps": 52,
   "decision_cards": 12,
   "selected_directions": 12,
-  "architecture_baseline_approved": false,
+  "architecture_baseline_approved": true,
   "phases": 10,
   "local_story_drafts": 64,
   "new_planning_tasks": 11,

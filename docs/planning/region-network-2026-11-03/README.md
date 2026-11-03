@@ -63,7 +63,7 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 - **N1 scope: none today.** It would be justified only if the owner wanted bucket policies on the training data that
   require a VPC endpoint.
 - **No NAT, interface endpoint, proxy or VPN is enabled.** A NAT Gateway alone costs $33 to $37 a month in hours,
-  against at most £2.16 of headroom in the £22 AWS share. Each lockdown step is costed on the perimeter page and
+  against at most £3.36 of headroom in the £22 AWS share. Each lockdown step is costed on the perimeter page and
   decided at PH-08.
 - **What N0 cannot do:** stop a Lambda's outbound traffic by network rules. Egress is controlled by each worker's host
   allowlist in code and by IAM, so the boundary matrix below is the main control. A VPN does not replace sign-in:
@@ -147,7 +147,9 @@ policies are written.
 ## The all-in envelope
 
 Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-month cash view
-([cost_months.py](../source-rights-2026-11-02/cost_months.py)).
+([cost_months.py](../source-rights-2026-11-02/cost_months.py)), its owner selection with the domain option `none`,
+where month 1 equals months 2 to 12. Its kept `com16` and `uk9` options price a domain bought in month 1 and are not
+the owner's selection.
 
 | Month | Claude off | Claude option A (ARC-06b volume) |
 | --- | ---: | ---: |
@@ -155,10 +157,10 @@ Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-m
 | The Apple fee month, if the owner joins (the one allowed exception) | about £141.52 | about £149.77 |
 
 - **Under £100 and under the £70 plan:** every month except the Apple fee month.
-- **The £22 AWS share:** the AWS run rate is £19.84, leaving £2.16.
+- **The £22 AWS share:** the AWS run rate is £18.64 ($19.42), leaving £3.36. (An earlier draft said £19.84, which still held the retired domain line.)
 - **Secrets:** SSM Parameter Store standard SecureString parameters have no per-secret fee, so they add nothing.
-- **The domain line:** the foundation cost model still holds $15 a year for a domain. The owner's existing domain is
-  renewed outside MP, so that line comes out at the model's next revision (its check, `check_cash_timing.py`, pins it).
+- **The domain line:** removed from the foundation cost model in MP-20 (3 Nov). The owner's existing domain is
+  renewed outside MP, and `check_cash_timing.py` now checks the conditional Apple fee month instead of a domain month.
 - **Not in the model yet:**
   - Terraform's state buckets, at a few pence a month.
   - Internet data transfer out, at about $0.16 a month.

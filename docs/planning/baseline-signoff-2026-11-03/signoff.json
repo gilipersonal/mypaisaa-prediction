@@ -1,0 +1,155 @@
+{
+ "issue": "MP-20",
+ "status": "awaiting_owner_signoff",
+ "architecture_baseline_approved": false,
+ "UX_authorised": false,
+ "implementation_authorised": false,
+ "inputs": {
+  "decision_log": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+   "sha256": "eb0cf01470998e2d637fde1dab99274b4f06be83e17228f1bb982d7d216294b0"
+  },
+  "policy_journal": {
+   "path": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+   "sha256": "c7829afd940d3a002dedb1557d21fcab812d94683abfcc88fe1429c6b6bf539e"
+  },
+  "claude_card": {
+   "path": "docs/planning/claude-models-and-batching-2026-11-02.md",
+   "sha256": "0e5cd540a5617abb2cde92783bdb1511af5c5f1f83a8d652898a08de02c72d94"
+  },
+  "phases": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json",
+   "sha256": "90ad3b5d596fccc337398603a55d7c3a986294faaa6e464d4881167c5e7adb12"
+  },
+  "gaps": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/gap-register.json",
+   "sha256": "501943d0eb56ce371be8139d92082a75770264e629cdef86a6c8201421967d18"
+  },
+  "directions_summary": {
+   "path": "docs/planning/ma-reconciliation-2026-11-02/direction-summary.md",
+   "sha256": "5690a43754b0ecad23c304d21fda2839059eaa46420ebc6d2c14cb08687b1301"
+  },
+  "directions": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/selected-directions.json",
+   "sha256": "9c716f45076731072b5f1152dafbe68c5784bc59609e74b48b7481febf9fe2d7"
+  },
+  "owner_decisions": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/owner-decisions.json",
+   "sha256": "f986f66b0e9d93ddfb04403d1a78b8df3c1bef91ec05eee0a89c37910a43646e"
+  },
+  "fixed_policies": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/fixed-policies.json",
+   "sha256": "ecad50a4fb966f326e26c43d8e879c5d9d9c5a9e1de1d475d61e1b3837d9af7d"
+  },
+  "coverage": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/coverage.json",
+   "sha256": "887497fa4ff9ab47876788321e1a53a532987a73e061c77d043e34027cd1864d"
+  },
+  "validation": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/validation.json",
+   "sha256": "afe4c04d0ada3f622c58fc977306655f1de268573383f1c2cecd705153802cf0"
+  },
+  "sci_open": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json",
+   "sha256": "276bc3026f255e0b3438547cc2bcc82e5a0583a19361e2792979673bdd14ae6a"
+  },
+  "fin_open": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json",
+   "sha256": "24f60f8cc7a551ac40d03a94c79b0e8879e089ef99a8870459247c60ff990b00"
+  },
+  "data_catalogue": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/data/catalogue.json",
+   "sha256": "0f31c1cb212d9c751166970932ac029c55c506f278e37ff038492df859bb5a7e"
+  },
+  "cost_model": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/costs/model.json",
+   "sha256": "911bd7b12d951e33cb9a0eb23be2120f196c26cc3cdfb2d587ce625a1740a453"
+  },
+  "cost_spec": {
+   "path": "docs/planning/foundation-specifications-2026-11-02/costs/specification.md",
+   "sha256": "d19c582a98c0de0e0da52abcfd622afb584d39558fad3822f87c0588afc98282"
+  },
+  "lucid_architecture": {
+   "path": "docs/diagrams/mp-architecture-2026-11-02/manifest.json",
+   "sha256": "aea578b793c1e871c3a00da9d3de9cba613d0be054780d529221c34722e86b78"
+  },
+  "lucid_quality": {
+   "path": "docs/diagrams/mp-quality-2026-11-02/manifest.json",
+   "sha256": "0c64e2586792c1a0d6a57051de121f25cbe5d6ba2f984f0d35e82ab4862c4127"
+  },
+  "artifacts": {
+   "path": "docs/design/artifacts.json",
+   "sha256": "91bc7fb85f6326f1b0db605b730721558d9f24087cbcdb52551fc6156fdf60fc"
+  },
+  "confluence": {
+   "path": "docs/confluence/confluence.json",
+   "sha256": "7e472e58b4222b299764ee863fa2cbb45144a0b67e76c5fd076e903c387897a7"
+  },
+  "trace": {
+   "path": "docs/planning/trace.json",
+   "sha256": "bedfc94db96f3ce2872aede93d0c90eb0e90a75010543a55766827bf87926c13"
+  },
+  "plan_sync_rule": {
+   "path": ".claude/rules/plan-sync.md",
+   "sha256": "2659a7f609ec22b02c83995bca7579782d988fac3922ee6f35f7a8faea5c5594"
+  },
+  "readme": {
+   "path": "README.md",
+   "sha256": "941279d090744026ec619f88b4fc484654847fe1ef531cae34b818888a84faf3"
+  },
+  "architecture": {
+   "path": "ARCHITECTURE.md",
+   "sha256": "1c6abe5ddde971172b55c8fda22660fc47d84d4f989b4b01e6aa900d88d86176"
+  },
+  "tech_stack": {
+   "path": "TECH-STACK.md",
+   "sha256": "89cda682a6c5c29542ea813f7dfb981c595923496f43594954407f3e648e78ff"
+  }
+ },
+ "open_items": [
+  "SCI-D01",
+  "SCI-D02",
+  "SCI-D03",
+  "SCI-D04",
+  "SCI-D06",
+  "SCI-D07",
+  "SCI-D08",
+  "SCI-D09",
+  "SCI-D10",
+  "FIN-OD-01",
+  "FIN-OD-02",
+  "FIN-OD-03",
+  "FIN-OD-04",
+  "FIN-OD-05",
+  "FIN-OD-06",
+  "FIN-OD-07",
+  "FIN-OD-08",
+  "DATA-DEC-01",
+  "DATA-DEC-02",
+  "DATA-DEC-03",
+  "DATA-DEC-04",
+  "DATA-DEC-12",
+  "DATA-DEC-13",
+  "DATA-DEC-14",
+  "DATA-DEC-15",
+  "COST-Q1",
+  "COST-Q2",
+  "COST-Q3",
+  "COST-Q4",
+  "ARC-06b-O1",
+  "ARC-06b-O2",
+  "ARC-06b-O3",
+  "ARC-06b-O4",
+  "STORIES"
+ ],
+ "open_contracts": 52,
+ "phases": 10,
+ "story_drafts": 64,
+ "signed_off": {
+  "commit": "98ba348e6af6c8c1f716e521660287887fe909aa",
+  "owner_words": "Yes, I sign off (Recommended)",
+  "date": "2026-11-03",
+  "scope": "The baseline's structure, the twelve directions as refined, the precedence order and the phase-to-story map, as this pack states them at the commit. Open items stay open; UX and build are not authorised.",
+  "record": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-sign-off-of-the-baseline-and-three-cost-answers-3-november-2026-mp-20"
+ }
+}

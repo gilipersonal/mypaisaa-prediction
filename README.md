@@ -36,10 +36,12 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 ---
 
 > [!IMPORTANT]
-> **Status: planning.** The architecture directions are chosen (ARC-01 to ARC-12, 2 November 2026) but the full
-> baseline is not yet signed off. What runs today is a FastAPI starter with a health route and a sample SSE stream,
-> the synthetic test-data tools, and CI. Nothing is deployed, no live data is fetched and no model is called. The
-> order from here is fixed: sign off the architecture, then design the whole UX, then approve it, and only then build.
+> **Status: planning.** The owner signed off the architecture baseline on 3 November 2026 (MP-20,
+> [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)): the twelve directions as refined, the order in
+> which records win, and the phase-to-story map. Its open items stay open. What runs today is a FastAPI starter with a
+> health route and a sample SSE stream, the synthetic test-data tools, and CI. Nothing is deployed, no live data is
+> fetched and no model is called. The order from here is fixed: turn the story drafts into ready Jira stories, then
+> design the whole UX, then approve it, and only then build.
 
 Mypaisaa Prediction (MP) helps one owner understand their holdings and judge where to add, hold, pause or trim. It
 keeps its own record of what you own, from CSV, Excel, PDF statements, screenshots or typed entries, and checks it
@@ -102,13 +104,15 @@ cannot change a number, publish a forecast, move money or trade.
 | Status | What |
 | --- | --- |
 | **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, nine CI checks |
-| **Owner-selected** | Twelve architecture directions (ARC-01 to ARC-12), the horizons, and twelve policy answers from 2 November 2026 |
+| **Approved architecture** | The baseline's structure, the twelve directions (ARC-01 to ARC-12) as refined by the owner's later answers, the precedence order and the phase-to-story map (owner sign-off, 3 November 2026) |
+| **Owner-selected** | The horizons, twelve policy answers from 2 November 2026, and the answers of 2 and 3 November in the [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) |
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
 | **Not built** | Sign-in, the ledger and imports, live data, models, agents, the web app, the Apple app, and all AWS infrastructure |
 
 The £100 a month all-in ceiling (dev and prod AWS, market data, Claude and evaluations) is chosen. With the owner's
 choices of 2 and 3 November 2026 (Twelve Data Grow 55, Virginia, the existing domain) a month comes to about £46.48,
-or £54.73 with Claude on, inside the £70 operating plan; the Apple Developer fee month is the one allowed exception. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
+or £54.73 with Claude on, plus up to £5 for the top-5 scan (at most £59.73), inside the £70 operating plan; the Apple
+Developer fee month is the one allowed exception. The fit stays conditional on the Grow 55 price, rights and measured workload. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
 
 ## Documentation
 
@@ -118,6 +122,7 @@ or £54.73 with Claude on, inside the £70 operating plan; the Apple Developer f
 | [TECH-STACK.md](TECH-STACK.md) | The stack layer by layer with the reason for each choice and its status, the locked versions of what runs today, and the monthly cost against the £100 ceiling. |
 | [The AWS architecture in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [source](docs/diagrams/mp-architecture-2026-11-02/) | Two native pages on AWS 2024 shapes: the system with numbered flows, and who may do what. Exports and manifest in the repo. |
 | [Policy answers, 2 Nov 2026](docs/planning/foundation-policy-discussion-2026-11-02.md) | The owner's twelve later decisions: daily clocks, approvals, backfill, experiment ceilings, retention. |
+| [Baseline sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md) | The baseline the owner signed off on 3 November 2026 (MP-20): decisions, precedence, open items and the phase-to-story crosswalk, pinned by hash. |
 | [Foundation Pack 1](docs/planning/foundation-specifications-2026-11-02/README.md) | Data, financial and forecast contracts, schemas, worked examples and the cost model. |
 | [Selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md) | ARC-01 to ARC-12 and their boundaries. |
 | [Phase and story baseline](docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json) | PH-00 to PH-09, dependencies and proposed acceptance. |

@@ -1,6 +1,7 @@
 {
   "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
-  "architecture_baseline_approved": false,
+  "architecture_baseline_approved": true,
+  "architecture_baseline_signoff": "Owner sign-off, 3 Nov 2026, at commit 98ba348e6af6c8c1f716e521660287887fe909aa: the baseline structure, the twelve directions as refined, the precedence order and the phase-to-story map (docs/planning/baseline-signoff-2026-11-03/signoff.json). Open items stay open; UX and build are not authorised.",
   "UX_authorised": false,
   "implementation_authorised": false,
   "directions": [
@@ -21,6 +22,19 @@
             "daily_reset": "00:00 UTC"
           },
           "constraint": "Weighted credits, not necessarily800HTTPrequests. Actual account, listing/endpoint entitlements and storage/training/LLM rights still require verification. No provider calls or setup authorised."
+        },
+        "later_owner_answers": {
+          "recorded_on": [
+            "2026-11-02",
+            "2026-11-03"
+          ],
+          "source": [
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+          ],
+          "answer": "Confirmed as selected (owner, 2 Nov 2026): Yahoo Finance plus Twelve Data Grow 55 ($29 a month) for prod and Twelve Data Basic for dev, for personal hobby use. The owner accepted the published-terms risk (Yahoo forbids automated collection; Grow is labelled view-only) and chose not to contact vendors. 3 Nov: Yahoo kept for India too; UK funds tested on Grow 55 by API in its first month, else valued from the owner statements; Indian funds from the owner statements; gold and silver as XAU/USD and XAG/USD; a discovery universe of about 150 names on end-of-day data; watch-only listings and new markets added from chat after a coverage and credit check and the owner confirm.",
+          "still_open": "Vendor rights stay unknown (risk accepted, not granted); live coverage, history depth and the corrected DATA-07 credit weights on the live account. Nothing bought or activated.",
+          "folded_into": "data/specification.md and data/catalogue.json (MP-20 consolidation, 3 Nov 2026)"
         }
       }
     },
@@ -57,7 +71,12 @@
         "label": "Selective SageMaker training + portable Lambda inference (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision4, call_5db1e80f68f9402884ff4dfbbd42a2bf",
-        "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval."
+        "meaning": "Use capped on-demand CPU SageMaker candidate training/evaluation, approved portable artefacts in S3, Lambda inference where compatible and stored daily forecast results; no always-on inference endpoint by default. Python Lambda Durable Functions coordinates jobs and approvals; Claude remains on Anthropic. Resource/dependency/region/cost, exact model/task catalogue, job/replay/cancellation and scientific promotion proof remain open. No training, paid call, provisioning or whole-baseline approval.",
+        "later_owner_answers": {
+          "recorded_on": "2026-11-03",
+          "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
+          "answer": "Network N0: SageMaker training runs with network isolation and no VPC, NAT, interface endpoint, proxy or VPN; the cost-guard SCP denies SageMaker endpoints and GPUs until an ADR lifts it."
+        }
       }
     },
     {
@@ -67,7 +86,16 @@
         "label": "Baselines first, then bounded challengers (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision5, call_ff13748f07f04b93ac2f8611c0f62c9c",
-        "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval."
+        "meaning": "Establish transparent rules/statistical/simple numerical baselines, then qualify a bounded set of stronger challengers. Add news, pattern, analog/event and LLM-derived factors only with incremental-value evidence. Preserve all agreed horizons and F1–F8 capabilities. Exact tasks, folds, catalogue, search caps, calibration/eligibility/abstention and rollback policies remain open. Shadow evidence and owner approval precede promotion. No training or complete baseline/build approval.",
+        "later_owner_answers": {
+          "recorded_on": "2026-11-03",
+          "source": [
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+          ],
+          "answer": "All seven event kinds in the first event wave (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+, elections; US, UK, India), each qualifying on its own evidence; similar days since 2015 (about ten years). Bounded self-correction by code, never an agent: probabilities shift at most 5 percentage points a week, a signal weight at most 10% a month, automatic rollback if scores worsen, larger changes need the owner. An 8-week shadow trial beating the base rate and the rules before promotion with the owner yes; an unscoreable week pauses the count; long horizons rely on walk-forward history for accuracy evidence. Rules changes need the same 8-week trial. Probation for 4 live weeks after promotion (revert after 2 bad weeks). Slipping (worse than the previous approved model for 4 weeks running on matured forecasts) reverts automatically; restarting a pause or switching forward needs the owner (POLICY-003 stands). Top 5 per segment ranked by the 35/40/25 combined score. The contribution split shows live from launch, labelled experimental; an F7 contribution policy goes live only after beating simple rules for 8 weeks in replay and shadow, with the owner yes.",
+          "folded_into": "forecasting area (MP-20 consolidation)"
+        }
       }
     },
     {
@@ -77,7 +105,18 @@
         "label": "Separate Lambda workers for each task route",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision6, call_10ac80fb76ea407d81b99e3ae9e092f4",
-        "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval."
+        "meaning": "Deploy each evaluated Claude task route as a separate Lambda worker with distinct permissions and route-specific queue/context/tool/budget/eval controls, sharing the versioned typed Anthropic client-runner library. Claude stays hosted on Anthropic. Tool-free untrusted extraction, public/private research separation, scoped memory, measured cache and deadline-aware nonurgent batches remain required. Exact route/worker/model catalogue, limits, IAM, memory/retention and cost require specification; no direct ledger commits, promotion, paid calls or build approval.",
+        "later_owner_answers": {
+          "recorded_on": [
+            "2026-11-02",
+            "2026-11-03"
+          ],
+          "source": [
+            "docs/planning/claude-models-and-batching-2026-11-02.md",
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026"
+          ],
+          "answer": "ARC-06b option A: Haiku for triage, model inputs and extraction; Opus for event analysis, at most three a day, batched; Sonnet for chat, explanations, the 07:30 briefing and evaluation judges. Seven Claude route agents and five code workers with no model (docs/architecture-explainer). Global inference at the standard price (MP-29). Each route passes its evaluation before it is switched on."
+        }
       }
     },
     {
@@ -87,7 +126,12 @@
         "label": "Cognito assurance and freshness checks (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision7, call_cedccedd1b25426fa82d632a0224da7e",
-        "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval."
+        "meaning": "Use backend-verified Cognito authentication strength/freshness for sensitive actions and prompt when proof is insufficient. Use verified fresh sign-in when assurance feature is unavailable, meeting the same action policy or deny. Retain Apple/Google/passkeys, verified linking and recovery requirements. Bind approval to exact owner/environment/action/payload/version/expiry and recheck at execution. Tier/rollout/provider/cost and precise policy/session/recovery proofs remain open; no setup, upgrade or build approval.",
+        "later_owner_answers": {
+          "recorded_on": "2026-11-03",
+          "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
+          "answer": "No paid Apple Developer Program for now (item 10): free builds cannot use Sign in with Apple, so Apple sign-in for the native app waits for the paid program; Google and passkeys are unaffected."
+        }
       }
     },
     {
@@ -117,7 +161,12 @@
         "label": "Static SvelteKit PWA + authenticated FastAPI (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision10, call_1634cf059af44442bc65aae7a993c72f",
-        "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval."
+        "meaning": "Serve the prebuilt interactive SvelteKit PWA shell/assets through CloudFront from a private S3 origin. Private financial data/commands use authenticated FastAPI on ordinary Lambda; no separate SvelteKit SSR runtime selected. Retain adaptive PWA, native Swift/SwiftUI+RN and typed API/event contracts. Startup/performance, sessions/cache/offline privacy, SSE/push/updates/device/bridge/accessibility proofs remain open. No UI build, hosting setup, deployment or complete baseline approval.",
+        "later_owner_answers": {
+          "recorded_on": "2026-11-03",
+          "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
+          "answer": "The iPhone and iPad app runs as free local builds that expire after seven days; no TestFlight or Apple push until the owner buys the program, so phone notifications use the PWA Web Push. If bought later, its month is the one allowed exception above the ceiling."
+        }
       }
     },
     {
@@ -127,7 +176,20 @@
         "label": "Separate dev/prod AWS accounts (Recommended)",
         "recorded_on": "2026-11-02",
         "source": "Owner reply to architecture decision11, call_bfbd4f35cfa048d2ab7165339ed42c25",
-        "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval."
+        "meaning": "Use separate dev/prod AWS workload accounts under consolidated billing, with environment-specific identities/resources/deployment/write authority and combined MP cost visibility. Keep £100 all-in aggregate, £70 operation/£30 reserve; no multiplied free-tier/provider credits. Exact account/organisation/roles, cheapest suitable compatible region, network/runtime/IaC/cost/release/recovery evidence remain open. No account creation, billing/org change, credentials, deployment or complete baseline approval.",
+        "later_owner_answers": {
+          "recorded_on": [
+            "2026-11-02",
+            "2026-11-03"
+          ],
+          "source": [
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-for-mp-29-3-november-2026",
+            "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+          ],
+          "answer": "Region Virginia (us-east-1). Terraform only, from the first resource. AWS Organizations with all features and the cost-guard SCP (no Region allowlist SCP or resource control policies). Network N0. Secrets in SSM Parameter Store SecureString. A read-only Cost Explorer role in the management account, assumed by the prod cost collector. The existing domain mypaisapp.com renewed outside MP. Production releases through a workflow only the owner can start (GitHub Free; settles PL-11).",
+          "still_open": "No apply, account, credential or spending is approved."
+        }
       }
     },
     {
@@ -140,5 +202,6 @@
         "meaning": "Use central architecture-area specs/journeys and shared decisions/contracts, linked to one page per MP phase and individual Jira stories with source, contract and acceptance-test/UX trace. Complete and present the detailed pack for separate owner sign-off before UX. This settles organisation only; detailed gap/specification/phase/story/visual/cost closure and explicit final architecture, UX, publication/review/PR/build approvals remain separate."
       }
     }
-  ]
+  ],
+  "consolidation_note": "MP-20 consolidation, 3 Nov 2026: later owner answers are added under later_owner_answers in each direction they refine; the original selections and meanings are unchanged. Authority: docs/planning/ma-reconciliation-2026-11-02/decision-log.md."
 }

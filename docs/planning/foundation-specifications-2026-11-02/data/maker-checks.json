@@ -59,5 +59,36 @@
     "JSON Schema format annotations were supplemented with explicit standard-library timestamp/date parsing because optional RFC3339 format support was unavailable."
   ],
   "checker": "costs/validate_specifications.py",
-  "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py"
+  "command": "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+  "mp20_consolidation": {
+    "date": "2026-11-03",
+    "note": "Owner decisions of 2 and 3 Nov 2026 folded into the data specification, catalogue, contracts (additive), examples (negative cases), acceptance and research. This data area pins no file hashes. Reviewed evidence to be re-checked in the MP-20 review round.",
+    "quota_arithmetic_rechecked": "DATA-07 Basic 320 a day and Grow 55 18,272 a month recomputed from catalogue.quota_allocation (see the arithmetic check run with the consolidation)."
+  },
+  "mp20_round2_fixes": {
+    "date": "2026-11-03",
+    "issue": "MP-20",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-20 round 2 fixes: R2-p2 notes on every open DATA-DEC; R2-C4 OWNER-RISK-01 scopes S1 to S8 (quote, distribution, split, fx, nav and the spot pairs where the owner selected them), Basic dev display dropped, Yahoo narrowed (proposed, DATA-DEC-15), contracts semantic constraint and DATA-AT-18 added; R2-C7 change-detection MICs derived from listings (proposed, 7 as the planning bound). This data area pins no file hashes. The 54 vendor cells stay unknown.",
+    "quota_arithmetic_rechecked": "Grow 55 18,360 a month (was 18,272 with five MICs), about 835 a session day (was about 831); each extra MIC 2 credits a day, 44 a month.",
+    "data_acceptance_cases": 18
+  },
+  "mp20_owner_answers": {
+    "date": "2026-11-03",
+    "issue": "MP-20",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-20 owner answers DATA-DEC-12, SCI-D09 (3 Nov 2026, decision log 'Owner answers on next steps'). DATA-DEC-12 owner_confirmed ('Derived values only (Recommended)'); OWNER-RISK-01 scopes S9 (Twelve Data Grow 55, prod) and S10 (Yahoo, prod) added for anthropic_transmission, limited to derived values and the fewest raw values a route's allowlist names, never a bulk raw series or feed, never Basic dev values, the answer to the owner only; matrix rows' owner_risk_acceptance updated (Grow 55 and Yahoo rows accept the limited transmission, Basic rows do not); contracts constraint, specification and acceptance (DATA-AT-16 narrowed, DATA-AT-19 positive and DATA-AT-20 negative added) updated. Top-5 ETF segment split into SEG-ETF-US, SEG-ETF-UK and SEG-ETF-IN (SCI-D09, 'One list per market (Recommended)'), the owner's words 'ETFs (US, UK and India)' kept. This data area pins no file hashes, so there are none to refresh. The 54 vendor cells stay unknown.",
+    "changed_files": [
+      "acceptance.json",
+      "catalogue.json",
+      "contracts.json",
+      "specification.md"
+    ],
+    "data_acceptance_cases": 20,
+    "unknown_cells": 54,
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+      "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
+    ]
+  }
 }

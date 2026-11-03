@@ -70,9 +70,12 @@
         "Inline and paged inventory modes with exact joins/counts/order",
         "Leaf edit rejects old hashes and changes recomputed root",
         "Delivery failure, retry scheduling and success leave sealed root unchanged",
-        "Unknown fields, root/delivery fields on intent, unknown version, incorrect page digest reference and binary float refused"
+        "Unknown fields, root/delivery fields on intent, unknown version, incorrect page digest reference and binary float refused",
+        "Edited ChunkContent under its old receipt digest refused as 'chunk digest mismatch', and an ordered leaf reference with the wrong sha256 refused as 'leaf reference mismatch', each with everything above resealed so no other check can see it (MP-20 R2-S7)",
+        "--mutation-selftest removes each of those two checks from a copy of the source and requires check() to fail on its named case"
       ],
-      "scope": "Offline synthetic document proof only; not backend/cloud/authentication/durability evidence"
+      "scope": "Offline synthetic document proof only; not backend/cloud/authentication/durability evidence",
+      "mutation_selftest_command": "python3 docs/planning/foundation-specifications-2026-11-02/financial/verify_hash_contract.py --mutation-selftest"
     },
     {
       "name": "FIN hash proof Ruff F and financial whitespace",
@@ -97,11 +100,22 @@
     "contracts.schema.json": "628a0d2c3214049bceb25b2fa38fa08230e7e6a5433a7c69ae6e4ff6699352ae",
     "hash-contract.json": "0bd7f366cbc692c046bfc606644d7a272d1049f9c12bb613ce1edd5878ffc3c3",
     "hash-graph-example.json": "070ba4c88b8b7110e4bb0feff738950146bb54d79f8c6f35aabedee7b1514fac",
-    "open-decisions.json": "e441e64a99bb5f353f24d761df311508ed3d611a2b6ecf982a4d518425f303bc",
+    "open-decisions.json": "24f60f8cc7a551ac40d03a94c79b0e8879e089ef99a8870459247c60ff990b00",
     "policies.json": "784d2defccc72f6fb4b6bfc4ebe407dfc935985090a586245e260fec6f5a7af6",
     "research.json": "552d1a0dbfb16418b336925c332fc781b93098cc2b5bd30cdbda3af6f1f45e5d",
-    "specification.md": "a4a4392a5d11f5e26d1ca6623a55e70c05522f854eccaa84acf876ac0631b475",
-    "verify_hash_contract.py": "42f75e06875aad1b99815f6402bdf85170e3309c755a08842606b97de307e48f",
+    "specification.md": "1d4e82c3e64932541f870c70afd70e04e5599b047b4c97a5609dd52a4909290f",
+    "verify_hash_contract.py": "e3d4a087e554a85996edc4ffba8458e1ecf4b726f4a39e151ab35cc32d563e72",
     "worked-examples.json": "667b7c867918fb6d3a214bbcbc61ff438d52a66354ba39b69064beb443c9e3a1"
+  },
+  "mp20_round_2_fixes": {
+    "date": "2026-11-03",
+    "note": "MP-20 round 2 fixes: hashes refreshed after R2-S7 (isolated chunk-digest and leaf-reference refusals with a gate-mutant selftest) and R2-p1 (the owner's 2 Nov policy answers folded into open-decisions.json and specification.md); maker checks only, awaiting a fresh independent delta review.",
+    "refreshed_files": [
+      "open-decisions.json",
+      "specification.md",
+      "verify_hash_contract.py"
+    ],
+    "results": "verify_hash_contract.py passed; --mutation-selftest killed both gate mutants (also under python -O); ruff F passed",
+    "status": "maker_checks_rerun_not_independent_review"
   }
 }

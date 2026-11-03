@@ -626,7 +626,27 @@
       "https://twelvedata.com/docs/llms/fundamentals/last-changes.md",
       "https://twelvedata.com/docs/llms/market-data/time-series.md"
     ],
-    "checked": "2026-11-02"
+    "checked": "2026-11-02",
+    "correction_2026_11_03": {
+      "issue": "Design B polls a fixed five MICs (XNYS, XNAS, XLON, XNSE, XBOM), but US ETFs list on NYSE Arca (ARCX) or Cboe BZX (BATS), so their dividends and splits would be missed.",
+      "correction": "Derive the polled MICs from the catalogue's listings (proposed, MP-20 round 2); the planning upper bound is seven (XNYS, XNAS, ARCX, BATS, XLON, XNSE, XBOM).",
+      "credits_per_extra_mic": {
+        "per_day": 2,
+        "per_month": 44
+      },
+      "design_B_with_7_mics": {
+        "20_listings": {
+          "design_B_actions_change_detected": 448,
+          "design_B_total": 1592
+        },
+        "30_listings": {
+          "design_B_actions_change_detected": 508,
+          "design_B_total": 2092
+        }
+      },
+      "foundation_record": "docs/planning/foundation-specifications-2026-11-02/data/catalogue.json quota_allocation.grow55_prod (18,360 credits a month for 180 listings)",
+      "the_estimates_above": "kept as checked on 2 Nov 2026 with five MICs"
+    }
   },
   "grow55_29_visibility": {
     "appears": [

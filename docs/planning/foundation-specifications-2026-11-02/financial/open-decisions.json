@@ -1,5 +1,7 @@
 {
   "as_of": "2026-11-02",
+  "consolidated_on": "2026-11-03",
+  "status": "FIN-OD-02/03/05/07/08 partly answered by the owner's 2 Nov 2026 policy answers; FIN-OD-01/04/06 owner_pending; no group fully approved",
   "owner_confirmed_choices": [
     "DynamoDB operational records and private encrypted S3 originals",
     "One controlled backend financial writer; agents draft and owner confirms exact payload",
@@ -24,6 +26,8 @@
         "FIN-05"
       ],
       "status": "owner_pending",
+      "answered_by": [],
+      "still_open": "Unchanged: precision, rounding and reconciliation limits need worked coverage and justified engineering defaults.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -36,7 +40,12 @@
         "FIN-07",
         "FIN-08"
       ],
-      "status": "owner_pending",
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-001",
+        "POLICY-005"
+      ],
+      "still_open": "Authentication assurance, expiry, revocation and concurrency enforcement, and retry proof.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -49,7 +58,12 @@
         "FIN-05",
         "FIN-13"
       ],
-      "status": "owner_pending",
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-007",
+        "POLICY-012"
+      ],
+      "still_open": "Cutover, reconciliation and recovery proof, account edge cases, and the policy for unsupported negative or margin positions.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -62,6 +76,8 @@
         "FIN-14"
       ],
       "status": "owner_pending",
+      "answered_by": [],
+      "still_open": "Unchanged: the XIRR domain, tolerances, a finite resource budget, and a uniqueness certificate or abstention.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -74,7 +90,11 @@
         "FIN-14",
         "FIN-17"
       ],
-      "status": "owner_pending",
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-009"
+      ],
+      "still_open": "Lot, fee, FX and corporate-action details for the analytical basis, benchmark mapping and return conventions.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -88,6 +108,8 @@
         "FIN-18"
       ],
       "status": "owner_pending",
+      "answered_by": [],
+      "still_open": "Unchanged: risk estimation windows, coverage, cross-market alignment and source freshness.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -99,7 +121,11 @@
       "contract_refs": [
         "FIN-18"
       ],
-      "status": "owner_pending",
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-006"
+      ],
+      "still_open": "Validated normalization, comparability, tie handling and action thresholds.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
     },
@@ -113,9 +139,80 @@
         "FIN-11",
         "FIN-16"
       ],
-      "status": "owner_pending",
+      "status": "partly_answered",
+      "answered_by": [
+        "POLICY-010",
+        "POLICY-011"
+      ],
+      "still_open": "Record classification, protected integrity anchors, storage and index costs, deletion and restore-erasure, the stored export's retention period, and export revocation and in-progress transfer behaviour.",
       "approved": false,
       "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+    }
+  ],
+  "policy_receipts_2026_11_02": [
+    {
+      "id": "POLICY-001",
+      "scope": "15-minute approval window for an exact approved import or correction; any change needs fresh approval; the window governs trusted-writer submission, not completion",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-02"
+      ]
+    },
+    {
+      "id": "POLICY-005",
+      "scope": "An import may commit explicitly reviewed, complete transaction groups from a fresh exact proposal; dependent entries stay together; unresolved entries stay pending and visible",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-02"
+      ]
+    },
+    {
+      "id": "POLICY-006",
+      "scope": "The combined score needs all three components (growth 35, protection 40, opportunity 25); no missing-as-zero, no silent reweighting",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "POLICY-007",
+      "scope": "Trade-date holdings with settlement tracked separately; never a guessed settlement date or double-counted cash",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-03"
+      ]
+    },
+    {
+      "id": "POLICY-009",
+      "scope": "A labelled analytical FIFO fallback when history supports it and no usable broker basis exists; broker figures kept; separate from tax basis",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-05"
+      ]
+    },
+    {
+      "id": "POLICY-010",
+      "scope": "Core ledger, approval, audit, promotion and forecast/outcome evidence kept for the account's lifetime, subject to owner deletion and source-permission limits",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-08"
+      ]
+    },
+    {
+      "id": "POLICY-011",
+      "scope": "A private export download link can start a download for one hour; a new authenticated request after expiry; not the stored export's retention",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-08"
+      ]
+    },
+    {
+      "id": "POLICY-012",
+      "scope": "Later uploads that fill gaps behind a snapshot produce a versioned rebuild proposal for exact-content owner approval; earlier predictions unchanged",
+      "source": "docs/planning/foundation-policy-discussion-2026-11-02.md",
+      "decides": [
+        "FIN-OD-03"
+      ]
     }
   ]
 }

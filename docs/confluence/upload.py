@@ -2,12 +2,14 @@
 """Upload every attachment a page needs and record each media id in confluence.json.
 
 The Atlassian MCP's createConfluenceAttachment returns a short-lived upload URL and token for one
-page; save that response as JSON and pass it here. Files already recorded for the page are skipped.
+page; save that response as JSON and pass it here. A file already recorded for the page with the same sha256 is
+skipped; a changed file is uploaded again.
 
     python3 docs/confluence/upload.py SLUG PREPARE_RESPONSE.json
 """
 
 import fcntl
+import hashlib
 import json
 import subprocess
 import sys
@@ -26,10 +28,11 @@ def main() -> int:
     done = manifest["media"].get(slug, {})
     failures = 0
     for path in dict.fromkeys(needed):
-        if path in done:
-            continue
         if not (ROOT / path).exists():
             print(f"skip {path}: not built yet")
+            continue
+        digest = hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+        if done.get(path, {}).get("sha256") == digest:
             continue
         with tempfile.NamedTemporaryFile("w+", suffix=".json") as out:
             subprocess.run(["curl", "-s", "--location", prepared["uploadUrl"], "--header", "Accept: application/json",
@@ -45,7 +48,7 @@ def main() -> int:
             fcntl.flock(lock, fcntl.LOCK_EX)
             manifest = json.loads((HERE / "confluence.json").read_text())
             manifest["media"].setdefault(slug, {})[path] = {"id": response["fileId"], "collection": f"contentId-{prepared['contentId']}",
-                                                           "attachment": response["id"]}
+                                                           "attachment": response["id"], "sha256": digest}
             (HERE / "confluence.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n")
         print(f"uploaded {path} -> {response['fileId']}")
     return 1 if failures else 0
