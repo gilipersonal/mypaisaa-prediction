@@ -253,6 +253,10 @@ shows why.
 at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
 decision (PL-11, MP-30).
 
+**MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. Proposed: N0 with an empty N1 scope, two member
+accounts under AWS Organizations with guard-rail policies, CDK in Python, and a boundary matrix for every role
+([region, network and envelope](docs/planning/region-network-2026-11-03/README.md)).
+
 [![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)
 
 <sub>Lucid page 7. Two accounts of the same shape, and the CI checks as they stood before MP-35 added Plan sync and Confluence receipts.</sub>

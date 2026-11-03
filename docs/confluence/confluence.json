@@ -62,8 +62,8 @@
   },
   "rec-data": {
    "id": "6357035",
-   "version": 3,
-   "sha256": "b3a18776bd0dd8324fcb72125021bfee39524684a4f8e5e1fb845234e48bb0ac"
+   "version": 4,
+   "sha256": "500080cca2a6a4cb77bf2d7a8179718d85602e3c153e4da79b49d5c031bed720"
   },
   "rec-ledger": {
    "id": "6389816",
@@ -107,8 +107,8 @@
   },
   "rec-cost": {
    "id": "6291529",
-   "version": 4,
-   "sha256": "5677ab970e001e9ce67cba81e8a8b972350096295952c74ec5962c31da5dd60a"
+   "version": 5,
+   "sha256": "4b7ea20763d11baefed209707500e38aac30a01bf4fe07677b175dd6fd3856be"
   },
   "rec-observability": {
    "id": "6357075",

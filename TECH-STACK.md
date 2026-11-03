@@ -146,7 +146,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod from CI after the owner approves; Lambda alias rollback | Proposed (MP-36); the approval route is open on GitHub Free |
 | CI minutes | GitHub Free for organisations: $12 a month shared by the org's private repos; Apple builds on the owner's Mac | Proposed (MP-36) |
 | Test IDs | One shared dictionary generating web `data-testid` and Swift accessibility identifiers | Proposed (MP-36) |
-| Infrastructure as code | Plan-only; CDK or CloudFormation still to choose | Open |
+| Infrastructure as code | Plan-only; CDK in Python, synth-only in CI, proposed for the ADR ([MP-29](docs/planning/region-network-2026-11-03/README.md)) | Open: the owner chooses |
 
 ## 9. Monthly cost
 
