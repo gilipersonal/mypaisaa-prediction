@@ -121,7 +121,7 @@ The owner answered the decision card in [the MP-10 findings](../source-rights-20
 - **ARC-01 is confirmed as selected:** Yahoo Finance and Twelve Data Grow, with Twelve Data's free Basic tier for
   development. MP is the owner's personal hobby use, not commercial. The owner accepts the risk the research
   recorded: on published terms, Yahoo forbids automated collection and Twelve Data labels Grow view-only. The Grow
-  tier (55, 144 or 377 credits) is still open. Only Grow 55 at $29 keeps every month under £100.
+  tier was settled later the same day as Grow 55 (below).
 - **No vendor is contacted.** The drafted questions to Twelve Data, EODHD and AMFI stay unsent, and the rights matrix
   keeps those uses unresolved.
 - **The Apple Developer Program fee** ($99 a membership year) is allowed one exception month a year above the £100
@@ -130,7 +130,30 @@ The owner answered the decision card in [the MP-10 findings](../source-rights-20
   same-Region backups sit in the US; Anthropic processes prompts in the US or globally whatever the Region. MP-29
   takes the Region forward with the network, accounts and IaC choices.
 
+**Later the same day, the Grow tier:** Twelve Data **Grow 55** ($29 a month, about £27.84), with Yahoo Finance kept
+alongside it. Yahoo supplies the delayed intraday UK and India prices and a second source to cross-check, which Grow
+55 does not (Grow is end-of-day on LSE, NSE and BSE). Pro 610 ($99) was compared and not chosen: it breaks £100
+every month.
+
 These answers settle the questions asked. They do not approve the complete architecture baseline, UX or
 implementation.
+
+## Owner answers for MP-29 (3 November 2026)
+
+The owner answered the questions in [the MP-29 pack](../region-network-2026-11-03/README.md):
+
+- **IaC: Terraform only**, from day one. Every AWS change, from the first resource, goes through Terraform. For MP this
+  overrides the owner's general preference for CDK or CloudFormation.
+- **Secrets:** SSM Parameter Store SecureString.
+- **Guard rails:** AWS Organizations with all features, and the cost-guard SCP. That SCP denies NAT, interface endpoints,
+  VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it. The Region allowlist SCP and the resource
+  control policies are not adopted.
+- **Domain:** the owner's existing domain, mypaisapp.com, renewed outside MP, so the cost model's domain line comes out.
+- **Network: N0.** No VPC for any Lambda; SageMaker training runs with network isolation; no NAT, interface endpoint,
+  proxy or VPN. The optional lockdown is decided at PH-08.
+- **Cost collector:** a read-only Cost Explorer role in the management account, assumed by the prod collector.
+- **Claude inference:** global, at the standard price.
+
+These answers do not approve an apply, an account or any spending.
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

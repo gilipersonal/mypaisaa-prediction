@@ -1,13 +1,13 @@
 {
  "slug": "rec-testing",
  "page_id": "6291936",
- "version": 2,
- "sent_sha256": "6db4bc83576c26bd4f483c27e3ec136d77fae5e47938f3da22c99f70b7bd32ca",
- "readback_sha256": "c23b270c128058560cfc31bd7c7b536c29ed5712fd88168c812df9f817994ab4",
- "canonical_sha256": "21e8251af1b404e1fa059e7ad8a7ef78975f4e7e1346979b3f6b938c36dd199b",
- "parts": 908,
+ "version": 4,
+ "sent_sha256": "c5d05950b44088a084f060e54667ba78434d66335ec9bea2c74953a7e7f049c3",
+ "readback_sha256": "ffae7319d7a2c7f14e86985d336a8b46e53643c6df7aa88872c3199a7e260df7",
+ "canonical_sha256": "e56991943e56fc832865ce6b71f3fdfb7aa775c42990c6e314ab5755e002311c",
+ "parts": 905,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T21:41:40Z"
+ "read_at": "2026-11-03T10:27:05Z"
 }

@@ -324,7 +324,7 @@ def rec_system(s: str) -> str:
                 ["Claude", "One Lambda worker per task route, Anthropic Python SDK", lozenge("selected")],
                 ["Models", "Capped SageMaker CPU training; approved artefacts served from a Lambda", lozenge("selected")],
                 ["Records", "DynamoDB and private, encrypted S3", lozenge("selected")],
-                ["Operations", "CloudWatch, X-Ray, CloudTrail, Secrets Manager", lozenge("proposed")]])
+                ["Operations", "CloudWatch, X-Ray, CloudTrail; secrets in SSM Parameter Store (owner-selected)", lozenge("proposed")]])
             + panel("no_entry_sign", "#FFEBE6", "<p>Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, always-on endpoints.</p>")
             + "<h2>🎬 Four journeys through it</h2>" + gif(s, "system-flow", "Open the app, import a statement, the daily forecast, ask why.")
             + footer())
@@ -332,12 +332,12 @@ def rec_system(s: str) -> str:
 
 def rec_data(s: str) -> str:
     return (banner("selected", "ARC-01 keeps Yahoo Finance and Twelve Data Grow, confirmed by the owner on 2 November 2026 for personal hobby use. "
-                   "On published terms Yahoo forbids automated collection and Grow is labelled view-only; the owner accepts that risk. The Grow tier is open.",
+                   "On published terms Yahoo forbids automated collection and Grow is labelled view-only; the owner accepts that risk. The tier is Grow 55 at $29.",
                    ["docs/planning/source-rights-2026-11-02/README.md", "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
                     "docs/planning/foundation-specifications-2026-11-02/README.md"])
             + table(["Topic", "Decision", "Status"], [
                 ["Sources", "Yahoo Finance plus Twelve Data Grow; Twelve Data Basic ($0) for dev", lozenge("selected")],
-                ["Grow tier", "55, 144 or 377 credits a minute ($29, $49, $79). Only Grow 55 keeps every month under £100", lozenge("open")],
+                ["Grow tier", "Grow 55 at $29 a month (about £27.84), the only tier that keeps every month under £100. Yahoo stays for delayed intraday UK and India prices and a cross-check; Pro 610 ($99) breaks £100 every month", lozenge("selected")],
                 ["Rights", "Published terms checked 2 November 2026 (MP-10). The owner accepts the risk for personal hobby use; no vendor is asked", lozenge("selected")],
                 ["What every observation keeps", "Provider, symbol mapping, source time, ingestion time, quality flags; validated before it is stored", lozenge("selected")],
                 ["Freshness", "Stale or partial data is shown as such, never hidden behind a spinner", lozenge("selected")],
@@ -489,9 +489,10 @@ def rec_cost(s: str) -> str:
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
+                  "The domain is the owner's existing mypaisapp.com, renewed outside MP, so no month carries a domain renewal (owner, 3 November 2026).",
                   "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026).",
                   "Region: Virginia (us-east-1), owner-selected on 2 November 2026."])
-            + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. Only Grow 55 keeps every month under £100.</p>"
+            + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. The owner chose Grow 55, the only tier that keeps every month under £100.</p>"
             + footer())
 
 
@@ -712,7 +713,7 @@ def sync(s: str) -> str:
 
 def rec_testing(s: str) -> str:
     return (banner("proposed", "Today's nine CI checks, the Claude hooks and the fixed-findings ledger are implemented. "
-                   "Everything else on this page is proposed: nothing is deployed, the IaC tool is not chosen and no account exists.",
+                   "Everything else on this page is proposed: nothing is deployed and no account exists. The IaC tool is Terraform, owner-selected on 3 November 2026.",
                    [".github/workflows/verify.yml", "docs/github-workflow.md", ".claude/rules/aws-changes.md",
                     "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "delivery-pipeline", "Nine checks today, then the proposed road to prod with a rollback.")
@@ -748,7 +749,7 @@ def rec_testing(s: str) -> str:
                  lozenge("open")],
                 ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11)", lozenge("selected")],
                 ["7. Prod smoke, then keep or roll back", "Read-only checks; a failure moves the alias back", lozenge("proposed")],
-                ["IaC until a tool is chosen", "Plan-only. CDK or CloudFormation is picked by an ADR first", lozenge("open")],
+                ["IaC", "Terraform only, from day one: every AWS change goes through Terraform (owner, 3 November 2026). Plan-only until an apply is asked for", lozenge("selected")],
                 ["How the code is packaged", "Zip or container image is not decided. Durable Functions list managed Python 3.13 and 3.14; "
                  "MP targets 3.12 or later, so this choice matters", lozenge("open")]])
             + panel("warning", "#FFFAE6",
@@ -773,8 +774,8 @@ def rec_testing(s: str) -> str:
                 ["Secrets in commits", "gitleaks CLI, checksum-verified like actionlint", "Yes, MIT", lozenge("proposed")],
                 ["Code patterns", "Ruff's <code>S</code> (Bandit) rules, as Ruff already runs; Semgrep CE if it earns its place",
                  "Yes", lozenge("proposed")],
-                ["Infrastructure code", "cfn-lint and Checkov on the CloudFormation template; cdk-nag if CDK is chosen",
-                 "Yes", lozenge("open")],
+                ["Infrastructure code", "terraform fmt and validate, TFLint and Checkov on the Terraform",
+                 "Yes", lozenge("proposed")],
                 ["Container images", "Trivy or Grype, only if images are chosen", "Yes", lozenge("open")],
                 ["GitHub secret scanning", "Secret Protection, $19 per active committer a month, Team or Enterprise only", "No",
                  lozenge("open")],
@@ -834,12 +835,11 @@ def rec_testing(s: str) -> str:
             + "<h2>❓ To decide</h2>"
             + panel("hourglass", "#FFFAE6", ul([
                 "How prod approval is enforced on GitHub Free: A, B, C or D above, and the wording of the AWS rule. PL-11 (MP-30)",
-                "The IaC tool, which picks cfn-lint, Checkov or cdk-nag. PL-10 (MP-29)",
-                "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
+                                "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
                 "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
                 "Whether to switch on Dependabot, OSV-Scanner and gitleaks now, under their own MP issue."]))
-            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} picks the IaC tool and accounts; "
+            + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} writes the Terraform ADR and sets up the accounts; "
               f"{link('ph-02', 'PH-02')} brings the first deployed runtime, so the dev pipeline and dev smoke; "
               f"{link('ph-08', 'PH-08')} holds prod promotion, the rollback exercises and the whole-release gates (L8-S02, L8-S04).</p>"
             + footer())
@@ -1001,7 +1001,7 @@ def rec_apple_testing(s: str) -> str:
 def rec_perimeter(s: str) -> str:
     """🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED). MP-36; adapted from MA's page 3670133."""
     price_list = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/index.json"
-    return (banner("proposed", "Nothing here is deployed and no network option is chosen. The baseline is a perimeter without a VPC. "
+    return (banner("proposed", "Nothing here is deployed. The owner approved N0, a perimeter without a VPC, on 3 November 2026. "
                    "The lockdown is optional, off by default and decided late. The Region is Virginia (us-east-1), owner-selected "
                    "on 2 November 2026 (PL-10, MP-29); London is shown alongside for comparison.",
                    ["ARCHITECTURE.md", "AGENTS.md",
@@ -1021,12 +1021,12 @@ def rec_perimeter(s: str) -> str:
             + table(["Control", "What it does in MP", "Cost a month", "Status"], [
                 ["Two accounts", "Dev and prod are separate AWS accounts on one bill. A dev mistake or a leaked dev key cannot reach prod by default (ARC-11).",
                  "$0", lozenge("selected")],
-                ["AWS Organizations, all features", "Needed for the two guard rails below; consolidated billing alone cannot hold them. The management account runs nothing, because they do not apply to it.",
+                ["AWS Organizations, all features", "Owner-selected 3 November 2026. Needed for the guard rails below; consolidated billing alone cannot hold them. The management account runs nothing, because they do not apply to it.",
+                 "$0", lozenge("selected")],
+                ["Service control policies", "A cost guard (owner-selected): no NAT, interface endpoints, VPN, load balancers, SageMaker endpoints or GPUs until an ADR lifts it. Proposed alongside: never stop CloudTrail, never leave the organisation. A Region allowlist is not adopted.",
+                 "$0", lozenge("selected")],
+                ["Resource control policies", "Would cap who can reach MP's S3, KMS, SSM, SQS and STS. Not adopted (owner, 3 November 2026).",
                  "$0", lozenge("open")],
-                ["Service control policies", "Cap what any role can do: stay in the chosen Region, never stop CloudTrail, never leave the organisation.",
-                 "$0", lozenge("proposed")],
-                ["Resource control policies", "Cap who can reach MP's S3, KMS, Secrets Manager, SQS and STS: only MP's own principals, plus named AWS services.",
-                 "$0", lozenge("proposed")],
                 ["Least-privilege IAM", "One role per Lambda, each Claude route worker included (ARC-06), scoped to its own table, prefix and secret. Prod deploys come from CI only.",
                  "$0", lozenge("proposed")],
                 ["Resource policies", "Bucket, key and queue policies name the exact roles. The PWA bucket is read only by CloudFront through origin access control.",
@@ -1062,7 +1062,7 @@ def rec_perimeter(s: str) -> str:
                  "N1-E", lozenge("open")],
                 ["L3 Managed lockdown", "As L2, with an AWS managed NAT Gateway per zone instead of the instance. Nothing to patch, a much higher floor.",
                  "N1-E", lozenge("open")],
-                ["L4 Strict lockdown", "As L3, plus four interface endpoints (Secrets Manager, SQS, STS, KMS) so calls to AWS never leave through the NAT.",
+                ["L4 Strict lockdown", "As L3, plus four interface endpoints (SSM, SQS, STS, KMS) so calls to AWS never leave through the NAT.",
                  "N1-E", lozenge("open")]])
 
             + "<h2>💷 What each step costs a month</h2>"
@@ -1094,9 +1094,9 @@ def rec_perimeter(s: str) -> str:
             + "<h2>🧭 The recommendation</h2>"
             + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). Keep the lockdown <strong>off by default</strong>. "
                     "Use L1 only if a job is shown to need a private network. Decide the lockdown last, at PH-08, from measured traffic and the security "
-                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected.</p>")
+                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected. "
+                    "The owner approved N0, with Organizations on all features and the cost-guard SCP, on 3 November 2026.</p>")
             + panel("question", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "Whether MP's organisation runs with all features, so the guard rails can exist; ARC-11 leaves the organisation open (PL-10, MP-29).",
                 "Whether any job, such as private SageMaker training, needs L1 (PL-10, MP-29; PL-07, MP-24).",
                 "One customer managed key per account, or AWS keys only (PL-10, MP-29).",
                 "Whether the lockdown is turned on, and which step, as part of release evidence (PL-11, MP-30)."]))
@@ -1180,8 +1180,7 @@ def rec_stack(s: str) -> str:
                          "The ledger has one controlled writer and append-only predictions; no hash-chained audit claim is carried over until it is proved.",
                          "One Lambda adapter for both the API and the stream is proposed, so the code path is the same on a laptop and on AWS."]))
             + panel("question", "#FFFAE6", "<h3>To decide</h3>" + ul([
-                "The IaC tool, CDK or CloudFormation, and its ADR (PL-11, MP-30).",
-                "The Lambda adapter, after the streaming proof through API Gateway (PL-04, MP-23).",
+                                "The Lambda adapter, after the streaming proof through API Gateway (PL-04, MP-23).",
                 "Whether a live chat turn goes through SQS or a direct invoke, and the outbox and replay rules (PL-05, MP-23).",
                 "One DynamoDB table or a few, and the keys, once ledger atomicity is proved (PL-08, MP-12).",
                 "The agent loop, memory and the typed tool manifest (PL-02, CT-07, MP-25).",
