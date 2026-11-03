@@ -1,13 +1,13 @@
 {
  "slug": "rec-observability",
  "page_id": "6357075",
- "version": 3,
- "sent_sha256": "5ef3af90b4b65806ebe8293654e6df6d051919a9f54fe15f3bb9e4274e059254",
- "readback_sha256": "fc0693cd887533c6721924a41510208a8705002579935df22d999b22a8348307",
- "canonical_sha256": "3a4c3da571380cad746adb83c0935c908e6f9ca3e2135b7a104ec6fa55bc378c",
+ "version": 4,
+ "sent_sha256": "83f0cddfac1f6b692d19767de8e452c642608c1c0ee5432bc84bb2e935e97221",
+ "readback_sha256": "0d2ba1e8e728fea88d1c12b4b74dfd01187d25a43083e04dbce4c010da9c5cf1",
+ "canonical_sha256": "ff1406c48c76a9c2f6caab5d7dd10c9d967c385cb68417b7054df932e939ffa7",
  "parts": 1194,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T21:42:35Z"
+ "read_at": "2026-11-03T09:42:33Z"
 }
