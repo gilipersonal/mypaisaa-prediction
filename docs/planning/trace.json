@@ -558,12 +558,24 @@
    "key": "MP-37",
    "summary": "Adopt the Market Agent explainer as MyPrediction Market Agent, rewritten to MP's decisions",
    "type": "Story",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-6",
    "code": [
     "docs/market-agent/",
     "README.md",
     "ARCHITECTURE.md",
+    "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-38",
+   "summary": "Explain MyPrediction's architecture to anyone in one colourful, animated page",
+   "type": "Story",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/architecture-explainer/",
+    "docs/design/artifacts.json",
     "docs/planning/trace.json"
    ]
   }

@@ -1,0 +1,1938 @@
+<title>MyPrediction Architecture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a navy stage carries the live system; the paper page around it names every part.
+   Colour: ink navy ground, paper text, saffron = the forecast and the travelling packet, mint = outcomes,
+   sky = data, violet = Claude, rose = limits and failures. AWS category colours live only on the stage tiles.
+   Type: Bricolage Grotesque display, Figtree body, JetBrains Mono labels. */
+:root {
+  --bg: #F7F2E8; --surface: #FFFFFF; --surface-2: #EFE8DA; --line: #DDD3C1; --track: #D4C9B5;
+  --ink: #16244A; --ink-2: #3D4A6B; --ink-3: #555E77; --on-accent: #FFFFFF;
+  --saffron: #8A5300; --saffron-bg: rgba(245, 165, 36, 0.22); --saffron-fill: #F5A524;
+  --mint: #0A6E44; --mint-bg: rgba(61, 220, 151, 0.22); --mint-fill: #3DDC97;
+  --sky: #1A5FA8; --sky-bg: rgba(94, 176, 255, 0.20); --sky-fill: #5EB0FF;
+  --violet: #5A3CC4; --violet-bg: rgba(166, 139, 255, 0.22); --violet-fill: #A68BFF;
+  --rose: #A82A42; --rose-bg: rgba(255, 122, 144, 0.20); --rose-fill: #FF7A90;
+  --glass: rgba(247, 242, 232, 0.88);
+  --shadow: 0 1px 2px rgba(22, 36, 74, 0.06), 0 10px 30px rgba(22, 36, 74, 0.08);
+  /* the stage: ink navy in both themes */
+  --st-bg: #0B1329; --st-bg-2: #131E40; --st-bg-3: #1C2A55; --st-line: rgba(184, 192, 214, 0.16); --st-grid: rgba(184, 192, 214, 0.08);
+  --st-ink: #F7F2E8; --st-ink-2: #C9D0E3; --st-ink-3: #9AA6C4; --st-edge: #34446E;
+  --st-hot: #F5A524; --st-hot-2: #FFD08A; --st-fail: #FF7A90; --st-up: #3DDC97; --st-sky: #5EB0FF; --st-violet: #A68BFF;
+  --m-haiku: #8FB4FF; --m-sonnet: #A68BFF; --m-opus: #E3B2FF;
+  --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body: "Figtree", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1329; --surface: #131E40; --surface-2: #1A2852; --line: #2A3A6A; --track: #34446E;
+    --ink: #EEF1F8; --ink-2: #B8C0D6; --ink-3: #9AA6C4; --on-accent: #0B1329;
+    --saffron: #F5A524; --saffron-bg: rgba(245, 165, 36, 0.18);
+    --mint: #3DDC97; --mint-bg: rgba(61, 220, 151, 0.16);
+    --sky: #5EB0FF; --sky-bg: rgba(94, 176, 255, 0.16);
+    --violet: #B7A1FF; --violet-bg: rgba(166, 139, 255, 0.16);
+    --rose: #FF7A90; --rose-bg: rgba(255, 122, 144, 0.16);
+    --glass: rgba(11, 19, 41, 0.86);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+    --st-bg: #0E1834; --st-bg-2: #15224A; --st-bg-3: #1E2D5C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1329; --surface: #131E40; --surface-2: #1A2852; --line: #2A3A6A; --track: #34446E;
+  --ink: #EEF1F8; --ink-2: #B8C0D6; --ink-3: #9AA6C4; --on-accent: #0B1329;
+  --saffron: #F5A524; --saffron-bg: rgba(245, 165, 36, 0.18);
+  --mint: #3DDC97; --mint-bg: rgba(61, 220, 151, 0.16);
+  --sky: #5EB0FF; --sky-bg: rgba(94, 176, 255, 0.16);
+  --violet: #B7A1FF; --violet-bg: rgba(166, 139, 255, 0.16);
+  --rose: #FF7A90; --rose-bg: rgba(255, 122, 144, 0.16);
+  --glass: rgba(11, 19, 41, 0.86);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.3);
+  --st-bg: #0E1834; --st-bg-2: #15224A; --st-bg-3: #1E2D5C;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; font-family: var(--display); }
+h1 { font-size: clamp(36px, 5.4vw, 62px); line-height: 1.02; font-weight: 800; letter-spacing: -0.03em; }
+h2 { font-size: clamp(27px, 3.4vw, 38px); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-size: 18px; line-height: 1.25; font-weight: 800; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+code, .mono { font-family: var(--mono); font-size: .88em; letter-spacing: 0; }
+code { background: var(--surface-2); border-radius: 6px; padding: 1px 6px; color: var(--ink-2); overflow-wrap: anywhere; }
+a { color: var(--sky); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; border-radius: 6px; }
+.eyebrow { font: 600 12px/16px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+.lede { font-size: 18px; line-height: 1.6; color: var(--ink-2); max-width: 66ch; }
+.muted { color: var(--ink-3); font-size: 14px; line-height: 1.55; }
+section { padding-block: 60px; scroll-margin-top: 64px; }
+.sec-head { display: grid; gap: 10px; max-width: 820px; margin-bottom: 28px; }
+.sec-head p:not(.eyebrow) { color: var(--ink-2); max-width: 70ch; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; font: 600 11px/16px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; vertical-align: 1px; }
+.tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.t-impl { color: var(--mint); background: var(--mint-bg); }
+.t-sel { color: var(--sky); background: var(--sky-bg); }
+.t-prop { color: var(--saffron); background: var(--saffron-bg); }
+.t-open { color: var(--rose); background: var(--rose-bg); }
+.t-ill { color: var(--ink-2); background: var(--surface-2); }
+
+/* top bar */
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 14px; height: 56px; }
+.brand { display: flex; align-items: center; gap: 8px; font: 800 18px var(--display); color: var(--ink); text-decoration: none; flex: none; letter-spacing: -0.02em; }
+.brand svg { width: 28px; height: 28px; }
+.brand .bw span { color: var(--saffron); }
+.toc { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; margin-left: auto; min-width: 0; }
+.toc::-webkit-scrollbar { display: none; }
+.toc a { flex: none; font-size: 13px; font-weight: 600; color: var(--ink-2); text-decoration: none; padding: 6px 10px; border-radius: 999px; }
+.toc a:hover, .toc a.on { background: var(--surface-2); color: var(--ink); }
+
+/* hero */
+.hero { padding-block: 24px 8px; }
+.hero-card { background: radial-gradient(120% 90% at 88% 6%, #1C2A55, #0B1329 62%); color: var(--st-ink); border-radius: 28px; padding: clamp(22px, 4vw, 44px); display: grid; gap: 28px; grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); align-items: start; overflow: hidden; }
+.hero-card .eyebrow { color: var(--st-ink-3); }
+.hero-card h1 { margin-top: 12px; }
+.hero-card h1 em { font-style: normal; color: var(--st-hot); }
+.hero-card .lede { color: var(--st-ink-2); margin-top: 16px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border-radius: 999px; background: rgba(247, 242, 232, 0.08); color: var(--st-ink); font: 600 13px/18px var(--body); box-shadow: inset 0 0 0 1px rgba(247, 242, 232, 0.14); }
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--st-hot); flex: none; }
+.pill.m i { background: var(--st-up); } .pill.r i { background: var(--st-fail); }
+.stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-top: 26px; }
+.stat { display: grid; gap: 3px; align-content: start; }
+.stat b { font: 800 32px/1 var(--display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.stat b.hot { color: var(--st-hot); }
+.stat span { font-size: 12.5px; color: var(--st-ink-3); line-height: 1.35; }
+.spec { background: var(--st-bg-2); border: 1px solid var(--st-line); border-radius: 20px; padding: 18px 18px 14px; position: relative; overflow: hidden; }
+.spec::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(var(--st-grid) 1px, transparent 1px); background-size: 18px 18px; pointer-events: none; }
+.spec-top { display: flex; align-items: center; gap: 10px; position: relative; margin-bottom: 12px; }
+.spec-top .dots { display: flex; gap: 6px; }
+.spec-top .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--st-bg-3); }
+.spec-top span { font: 500 12px var(--mono); color: var(--st-ink-3); }
+.spec dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; position: relative; font-size: 13px; line-height: 1.45; }
+.spec dt { font: 600 11px var(--mono); color: var(--st-hot); letter-spacing: 0.05em; text-transform: uppercase; padding-top: 2px; }
+.spec dd { margin: 0; color: var(--st-ink-2); min-width: 0; }
+.spec dd b { color: var(--st-ink); font-weight: 600; }
+.spec dd .st { font: 600 11px var(--mono); letter-spacing: 0.05em; padding: 0 6px; border-radius: 999px; margin-left: 4px; white-space: nowrap; }
+.st.s { color: #9FD0FF; background: rgba(94, 176, 255, 0.16); } .st.p { color: #FFD08A; background: rgba(245, 165, 36, 0.16); }
+.st.o { color: #FFB3C0; background: rgba(255, 122, 144, 0.16); } .st.i { color: #8BE8BE; background: rgba(61, 220, 151, 0.16); }
+.spec .row { display: contents; }
+@media (prefers-reduced-motion: no-preference) {
+  .spec .row dt, .spec .row dd { animation: typein .5s var(--ease) both; }
+  .spec .row:nth-child(2) * { animation-delay: .05s; } .spec .row:nth-child(3) * { animation-delay: .1s; } .spec .row:nth-child(4) * { animation-delay: .15s; }
+  .spec .row:nth-child(5) * { animation-delay: .2s; } .spec .row:nth-child(6) * { animation-delay: .25s; } .spec .row:nth-child(7) * { animation-delay: .3s; }
+  .spec .row:nth-child(8) * { animation-delay: .35s; } .spec .row:nth-child(9) * { animation-delay: .4s; } .spec .row:nth-child(10) * { animation-delay: .45s; }
+}
+@keyframes typein { from { opacity: .15; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+.statuskey { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.statuskey div { background: var(--surface); border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow); font-size: 13.5px; color: var(--ink-2); display: grid; gap: 6px; align-content: start; }
+
+/* plain words */
+.grid4 { display: grid; gap: 14px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.card { background: var(--surface); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); min-width: 0; }
+.card p { font-size: 15px; line-height: 1.55; color: var(--ink-2); }
+.ch { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+.icon { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; }
+.icon svg { width: 24px; height: 24px; }
+.i-sky { background: var(--sky-bg); color: var(--sky); } .i-saffron { background: var(--saffron-bg); color: var(--saffron); }
+.i-violet { background: var(--violet-bg); color: var(--violet); } .i-mint { background: var(--mint-bg); color: var(--mint); }
+.i-rose { background: var(--rose-bg); color: var(--rose); }
+.never { margin-top: 14px; display: flex; gap: 14px; align-items: center; padding: 16px 18px; border-radius: 18px; background: var(--rose-bg); color: var(--ink); }
+.never b { color: var(--rose); }
+.never svg { flex: none; width: 30px; height: 30px; color: var(--rose); }
+.horizons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.hz { padding: 8px 12px; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font: 600 14px/18px var(--body); }
+.hz small { display: block; font: 500 11px/14px var(--mono); color: var(--ink-3); letter-spacing: 0.04em; text-transform: uppercase; }
+.hz.core { box-shadow: inset 0 0 0 2px var(--saffron); }
+.hz.scn { background: transparent; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink-2); }
+
+/* stage */
+.stage { background: var(--st-bg); border-radius: 22px; border: 1px solid var(--st-line); box-shadow: var(--shadow); color: var(--st-ink); position: relative; overflow: hidden; }
+.stage-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--st-line); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.tab { border: 1px solid var(--st-line); background: transparent; color: var(--st-ink-2); font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.tab:hover { color: var(--st-ink); border-color: var(--st-ink-3); }
+.tab[aria-pressed="true"] { background: var(--st-hot); border-color: var(--st-hot); color: #0B1329; }
+.ctrls { display: flex; gap: 6px; margin-left: auto; }
+.ctl { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--st-line); background: var(--st-bg-2); color: var(--st-ink); font-size: 13px; font-weight: 600; padding: 7px 11px; border-radius: 10px; cursor: pointer; }
+.ctl:hover { border-color: var(--st-ink-3); }
+.ctl svg { width: 14px; height: 14px; }
+.ctl.primary { background: var(--st-ink); color: #0B1329; border-color: var(--st-ink); }
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; }
+.scroll-x::-webkit-scrollbar { height: 8px; } .scroll-x::-webkit-scrollbar-thumb { background: var(--st-bg-3); border-radius: 8px; }
+#sysmap { display: block; width: 100%; min-width: 1040px; height: auto; }
+.hint { display: none; font: 500 11.5px var(--mono); color: var(--st-ink-3); padding: 8px 16px 0; }
+@media (max-width: 1060px) { .hint { display: block; } }
+
+/* svg map */
+.map text { font-family: var(--body); }
+.map .frame { fill: none; stroke: var(--st-line); stroke-width: 1.2; }
+.map .frame.aws { stroke: rgba(255, 153, 0, 0.4); }
+.map .frame.region { stroke: rgba(0, 164, 166, 0.5); stroke-dasharray: 6 5; }
+.map .flabel { font: 600 10px var(--mono); letter-spacing: 0.12em; fill: var(--st-ink-3); }
+.map .flabel.strong { fill: var(--st-ink-2); letter-spacing: 0.04em; font-size: 11px; }
+.map .edge { fill: none; stroke: var(--st-edge); stroke-width: 1.6; transition: stroke .3s, opacity .3s; }
+.map .edge.dash { stroke-dasharray: 5 5; }
+.map .edge.lit { stroke: rgba(245, 165, 36, 0.55); stroke-width: 2.1; stroke-dasharray: 6 7; animation: flow 1.4s linear infinite; }
+.map .edge.lit.fail { stroke: rgba(255, 122, 144, 0.6); }
+.map .edge.cur { stroke: var(--st-hot); stroke-width: 3; stroke-dasharray: none; animation: none; filter: url(#glow); }
+.map .edge.cur.fail { stroke: var(--st-fail); }
+.map .edge.dim { opacity: .35; }
+@keyframes flow { to { stroke-dashoffset: -26; } }
+.map .elabel { font: 500 9.5px var(--mono); fill: var(--st-ink-3); paint-order: stroke; stroke: var(--st-bg); stroke-width: 4px; stroke-linejoin: round; }
+.map .node { cursor: pointer; transition: opacity .3s; }
+.map .node.dim { opacity: .38; }
+.map .node .tile { stroke: rgba(255, 255, 255, 0.14); stroke-width: 1; }
+.map .node.door .tile { fill: var(--st-bg-3); stroke: var(--st-ink-3); }
+.map .node .lbl { fill: var(--st-ink); font-size: 11.5px; font-weight: 600; paint-order: stroke; stroke: var(--st-bg); stroke-width: 4px; stroke-linejoin: round; }
+.map .node .sub { fill: var(--st-ink-3); font: 500 9.5px var(--mono); paint-order: stroke; stroke: var(--st-bg); stroke-width: 4px; stroke-linejoin: round; }
+.map .node .ring { fill: none; stroke: var(--st-hot); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.map .node.cur .ring { opacity: 1; }
+.map .node.cur.fail .ring { stroke: var(--st-fail); }
+.map .node.sel .ring { opacity: 1; stroke: var(--st-ink-2); stroke-dasharray: 4 4; }
+.map .node:focus { outline: none; }
+.map .node:focus-visible .ring { opacity: 1; stroke: var(--st-sky); stroke-dasharray: none; }
+.map .panel-box { fill: var(--st-bg-2); stroke: var(--st-line); stroke-width: 1.2; }
+.map .panel.anth .panel-box { stroke: rgba(166, 139, 255, 0.55); }
+.map .panel.market .panel-box { stroke: rgba(94, 176, 255, 0.5); }
+.map .panel .ptitle { fill: var(--st-ink); font-size: 12.5px; font-weight: 700; }
+.map .panel .pline { fill: var(--st-ink-2); font: 500 9.6px var(--mono); }
+.map .panel .pline.amber { fill: var(--st-hot-2); }
+.map .wordmark { fill: var(--st-ink); font: 700 11px var(--body); letter-spacing: 0.24em; }
+.map .model rect { fill: var(--st-bg-3); stroke: transparent; stroke-width: 1.5; transition: stroke .3s, fill .3s; }
+.map .model .mname { fill: var(--st-ink); font-size: 12.5px; font-weight: 700; }
+.map .model .mid { fill: var(--st-ink-3); font: 500 9px var(--mono); }
+.map .model.on rect { stroke: currentColor; fill: #26386C; }
+.map .chipn rect { fill: var(--st-bg); stroke: var(--st-up); stroke-width: 1; }
+.map .chipn text { fill: var(--st-up); font: 600 8.5px var(--mono); }
+.map .pk-o { fill: var(--st-hot); opacity: .28; }
+.map .pk-i { fill: #FFF1D6; }
+.map .pk.fail .pk-o { fill: var(--st-fail); }
+.map .pk.fail .pk-i { fill: #FFE1E8; }
+@media (prefers-reduced-motion: no-preference) { .map .node.cur .ring { animation: pulse 1.6s ease-out infinite; } }
+@keyframes pulse { 0% { opacity: .95; transform: scale(.94); } 100% { opacity: 0; transform: scale(1.22); } }
+@media (prefers-reduced-motion: reduce) { .map .edge.lit { animation: none; } }
+
+.under { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); border-top: 1px solid var(--st-line); }
+.steps { padding: 18px 16px 20px; border-right: 1px solid var(--st-line); display: grid; gap: 4px; align-content: start; }
+.steps li button { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; text-align: left; background: transparent; border: 0; border-radius: 10px; padding: 7px 8px; color: var(--st-ink-2); cursor: pointer; font-size: 14px; }
+.steps li button:hover { background: var(--st-bg-2); color: var(--st-ink); }
+.steps .n { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 600 11px var(--mono); background: var(--st-bg-3); color: var(--st-ink-2); }
+.steps .mchip { font: 600 11px var(--mono); padding: 2px 7px; border-radius: 999px; background: var(--st-bg-3); white-space: nowrap; }
+.steps li.done .n { background: rgba(245, 165, 36, 0.24); color: var(--st-hot-2); }
+.steps li.cur button { background: var(--st-bg-2); color: var(--st-ink); }
+.steps li.cur .n { background: var(--st-hot); color: #0B1329; }
+.steps li.fail.cur .n { background: var(--st-fail); }
+.detail { padding: 22px 22px 24px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.detail .k { font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--st-hot); }
+.detail h3 { color: var(--st-ink); font-size: 21px; }
+.detail p { color: var(--st-ink-2); font-size: 15px; }
+.detail .code { font: 500 12px/1.55 var(--mono); background: var(--st-bg-2); border: 1px solid var(--st-line); border-radius: 10px; padding: 10px 12px; color: var(--st-hot-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+.inspector { border-top: 1px dashed var(--st-line); padding-top: 14px; margin-top: 4px; display: grid; gap: 8px; }
+.inspector .k { color: var(--st-ink-3); }
+.inspector h4 { font: 800 16px var(--display); color: var(--st-ink); }
+.inspector p { font-size: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.facts span { font: 500 11px var(--mono); color: var(--st-ink-2); background: var(--st-bg-2); border: 1px solid var(--st-line); border-radius: 999px; padding: 3px 9px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 14px 16px; border-top: 1px solid var(--st-line); font-size: 12.5px; color: var(--st-ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 12px; height: 12px; border-radius: 4px; flex: none; }
+.legend .ln { width: 22px; height: 0; border-top: 2px dashed var(--st-hot); border-radius: 0; }
+.legend .ln.f { border-color: var(--st-fail); }
+
+/* chips */
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 600 12px var(--mono); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.chip svg { width: 13px; height: 13px; }
+.chip.haiku, .chip.sonnet, .chip.opus { background: var(--violet-bg); color: var(--violet); }
+.chip.code { background: var(--surface-2); color: var(--ink-2); }
+.chip.batch { background: var(--sky-bg); color: var(--sky); }
+.chip.live { background: var(--mint-bg); color: var(--mint); }
+
+/* team */
+.rules3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.lr { padding: 2px 0; font-size: 14px; color: var(--ink-2); }
+.lr b { display: flex; align-items: center; gap: 8px; color: var(--ink); font-size: 14px; margin-bottom: 2px; }
+.lr b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron-fill); flex: none; }
+#crew { display: block; width: 100%; min-width: 960px; height: auto; }
+.crew-cap { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding: 12px 16px; border-top: 1px solid var(--st-line); font-size: 13px; color: var(--st-ink-2); }
+.crew-cap .now { font: 500 12px var(--mono); color: var(--st-hot-2); }
+.crew-cap .k { display: inline-flex; align-items: center; gap: 7px; }
+.crew-cap .k i { width: 22px; height: 0; border-top: 2px solid var(--st-violet); }
+.crew-cap .k i.d { border-top-style: dashed; }
+.forbid { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 0; padding: 14px 16px; border-radius: 16px; background: var(--rose-bg); }
+.forbid b { color: var(--rose); margin-right: 4px; }
+.forbid span { font: 600 12.5px var(--body); padding: 4px 10px; border-radius: 999px; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.agents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+.agent { background: var(--surface); border-radius: 18px; padding: 16px; display: grid; gap: 10px; align-content: start; box-shadow: var(--shadow); min-width: 0; }
+.agent-top { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: center; }
+.agent-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: #0B1329; color: #F7F2E8; border: 2.5px solid var(--violet-fill); font: 800 18px var(--display); }
+.agent-ic.code { border-color: var(--mint-fill); }
+.agent-ic svg { width: 24px; height: 24px; }
+.agent h3 { font-size: 16.5px; }
+.agent .type { font-size: 12.5px; color: var(--ink-3); margin-top: 1px; }
+.agent .brain { display: flex; flex-wrap: wrap; gap: 5px; }
+.agent dl { margin: 0; display: grid; gap: 7px; font-size: 13.5px; }
+.agent dt { font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+.agent dd { margin: 0; color: var(--ink-2); }
+.codecrew { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.codecrew .agent { padding: 14px; }
+.tablewrap { overflow-x: auto; margin-top: 20px; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); }
+table.t { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 13.5px; }
+table.t th { text-align: left; font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); padding: 12px 14px; border-bottom: 1px solid var(--line); }
+table.t td { padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--ink-2); vertical-align: top; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t td:first-child { color: var(--ink); font-weight: 600; }
+
+/* holdings and top 5 */
+.illus { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; border-radius: 14px; background: var(--saffron-bg); color: var(--ink); font-size: 14px; margin-bottom: 18px; }
+.illus b { color: var(--saffron); }
+.mocks { display: grid; grid-template-columns: 350px minmax(0, 1fr); gap: 22px; align-items: start; }
+.phone { width: 350px; max-width: 100%; border-radius: 44px; background: #0B1329; padding: 12px; box-shadow: var(--shadow), inset 0 0 0 2px #2A3A6A; margin: 0 auto; }
+.ph-screen { border-radius: 34px; background: var(--bg); overflow: hidden; height: 720px; display: flex; flex-direction: column; }
+.ph-status { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 4px; font: 600 12px var(--body); color: var(--ink); }
+.ph-island { width: 92px; height: 24px; border-radius: 14px; background: #0B1329; }
+.ph-body { padding: 6px 14px 14px; overflow-y: auto; flex: 1; scrollbar-width: thin; }
+.ph-h { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; }
+.ph-h h4 { font: 800 22px var(--display); }
+.ph-total { font: 800 22px var(--display); font-variant-numeric: tabular-nums; }
+.ph-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.seg { display: flex; gap: 3px; padding: 3px; border-radius: 12px; background: var(--surface-2); margin: 10px 0; }
+.seg button { flex: 1; border: 0; background: transparent; border-radius: 9px; padding: 6px 0; font: 600 12px var(--body); color: var(--ink-2); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(22, 36, 74, 0.16); }
+.fresh { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+.fresh i { width: 7px; height: 7px; border-radius: 50%; background: var(--mint-fill); flex: none; }
+.fresh.stale i { background: var(--rose-fill); }
+.fresh.stale { color: var(--rose); font-weight: 600; }
+.hrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.hrow .nm b { font: 700 14px var(--body); }
+.hrow .nm span { display: block; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hrow .val { text-align: right; font: 700 14px var(--body); font-variant-numeric: tabular-nums; }
+.hrow .val span { display: block; font: 500 11px var(--mono); color: var(--ink-3); }
+.hrow .rng { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.rbar { position: relative; height: 14px; }
+.rbar .ax { position: absolute; left: 0; right: 0; top: 6px; height: 2px; background: var(--surface-2); border-radius: 2px; }
+.rbar .zero { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--ink-3); opacity: .5; }
+.rbar .band { position: absolute; top: 3px; height: 8px; border-radius: 4px; background: var(--saffron-bg); box-shadow: inset 0 0 0 1px var(--saffron-fill); }
+.rbar .mid { position: absolute; top: 1px; width: 2px; height: 12px; background: var(--saffron); border-radius: 1px; }
+.rtxt { font: 500 11px var(--mono); color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.act { display: inline-flex; align-items: center; font: 700 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.act.add { background: var(--mint-bg); color: var(--mint); }
+.act.hold { background: var(--surface-2); color: var(--ink-2); }
+.act.pause { background: transparent; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--track); }
+.act.trim { background: var(--saffron-bg); color: var(--saffron); }
+.act.rebalance { background: var(--sky-bg); color: var(--sky); }
+.hrow .why { grid-column: 1 / -1; display: flex; gap: 8px; align-items: baseline; font-size: 12px; color: var(--ink-2); }
+.abst { font: 500 11px var(--mono); color: var(--ink-3); }
+.ph-sec { margin-top: 18px; display: flex; justify-content: space-between; align-items: baseline; }
+.ph-sec h5 { margin: 0; font: 800 16px var(--display); }
+.segs { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 4px; }
+.segs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; font: 600 11.5px var(--body); color: var(--ink-2); cursor: pointer; }
+.segs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.trow { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.trow .rk { font: 800 14px var(--display); color: var(--ink-3); }
+.trow .nm b { font: 700 13.5px var(--body); }
+.trow .nm span { display: block; font-size: 11px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trow .sc { text-align: right; font: 800 16px var(--display); font-variant-numeric: tabular-nums; }
+.trow .sc span { display: block; font: 500 11px var(--mono); color: var(--ink-3); }
+.trow .rng { grid-column: 2 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.gpo { display: flex; gap: 2px; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; width: 100%; max-width: 160px; background: var(--surface-2); }
+.gpo i { display: block; height: 100%; }
+.emptyseg { padding: 14px; border-radius: 12px; background: var(--rose-bg); color: var(--ink); font-size: 12.5px; margin-top: 6px; }
+.emptyseg b { color: var(--rose); }
+.withheld { padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: 11.5px; color: var(--ink-2); margin-top: 6px; }
+.notadv { font-size: 11px; color: var(--ink-3); margin-top: 10px; line-height: 1.45; }
+.webmock { background: #0B1329; border-radius: 18px; padding: 10px; box-shadow: var(--shadow); min-width: 0; }
+.wm-bar { display: flex; align-items: center; gap: 8px; padding: 4px 6px 10px; }
+.wm-bar i { width: 10px; height: 10px; border-radius: 50%; background: #2A3A6A; }
+.wm-bar span { margin-left: 8px; flex: 1; font: 500 11.5px var(--mono); color: #C9D0E3; background: #131E40; border-radius: 8px; padding: 4px 10px; }
+.wm-scroll { overflow-x: auto; border-radius: 12px; }
+.wm { min-width: 760px; background: var(--bg); border-radius: 12px; padding: 16px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; }
+.wm-col { background: var(--surface); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); min-width: 0; }
+.wm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.wm-head h4 { font: 800 18px var(--display); }
+.wm .seg { margin: 0; min-width: 230px; }
+.wm table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+.wm th { text-align: left; font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); padding: 6px 6px; border-bottom: 1px solid var(--line); }
+.wm td { padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--ink-2); }
+.wm td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; white-space: nowrap; }
+.wm td.num span { display: block; font: 500 11px var(--mono); color: var(--ink-3); font-weight: 500; }
+.wm td .rbar { min-width: 110px; }
+.wm .tick { font: 700 13px var(--body); color: var(--ink); }
+.wm .tick span { display: block; font: 500 11px var(--body); color: var(--ink-3); max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wm .reason { font-size: 11.5px; color: var(--ink-2); max-width: 190px; }
+.wm-segs { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.gpokey { display: flex; gap: 12px; font: 500 11px var(--mono); color: var(--ink-3); margin-top: 8px; }
+.gpokey i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+.flow6 { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-top: 26px; }
+.flow6::before { content: ""; position: absolute; left: 6%; right: 6%; top: 32px; height: 2px; background: var(--track); }
+.flow6 .runner { position: absolute; top: 27px; left: 6%; width: 12px; height: 12px; border-radius: 50%; background: var(--saffron-fill); box-shadow: 0 0 0 6px rgba(245, 165, 36, 0.22); }
+@media (prefers-reduced-motion: no-preference) { .flow6 .runner { animation: run6 8s var(--ease) infinite; } }
+@keyframes run6 { 0% { left: 6%; opacity: 0; } 5% { opacity: 1; } 92% { opacity: 1; } 100% { left: 92%; opacity: 0; } }
+.fl { position: relative; display: grid; gap: 7px; justify-items: center; text-align: center; align-content: start; }
+.fl .ic { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); position: relative; z-index: 1; color: var(--ink); }
+.fl .ic svg { width: 34px; height: 34px; }
+.fl b { font: 800 14px var(--display); }
+.fl span { font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+
+/* daily clock */
+#clocksvg { display: block; width: 100%; min-width: 900px; height: auto; }
+.clk text { font-family: var(--body); }
+.clk .hr { font: 500 10px var(--mono); fill: var(--st-ink-3); }
+.clk .gl { stroke: var(--st-grid); stroke-width: 1; }
+.clk .quiet { fill: rgba(166, 139, 255, 0.10); }
+.clk .ql { font: 600 10px var(--mono); fill: var(--st-violet); letter-spacing: 0.05em; }
+.clk .sess { fill: rgba(94, 176, 255, 0.22); stroke: rgba(94, 176, 255, 0.55); }
+.clk .mk { font: 700 13px var(--body); fill: var(--st-ink); }
+.clk .ms { font: 500 10px var(--mono); fill: var(--st-ink-3); }
+.clk .chk { fill: var(--st-sky); opacity: .75; }
+.clk .w { stroke-width: 2; }
+.clk .wl { font: 600 9.5px var(--mono); fill: var(--st-ink-2); paint-order: stroke; stroke: var(--st-bg); stroke-width: 3px; }
+.clk .brief { stroke: var(--st-up); stroke-width: 2; stroke-dasharray: 4 4; }
+.clk .bl { font: 600 10.5px var(--mono); fill: var(--st-up); }
+.clk .play { stroke: var(--st-hot); stroke-width: 1.5; opacity: .7; }
+.clocktable { margin-top: 16px; }
+
+/* engine */
+.fgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.fm { background: var(--surface); border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); display: grid; gap: 6px; align-content: start; }
+.fm .fk { font: 800 13px var(--mono); color: var(--saffron); }
+.fm h4 { font: 800 15px var(--display); }
+.fm p { font-size: 13.5px; color: var(--ink-2); }
+.ladder3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.rung { background: var(--surface); border-radius: 18px; padding: 16px 18px; box-shadow: var(--shadow); display: grid; gap: 8px; align-content: start; }
+.rung.r1 .rk { color: var(--sky); } .rung.r2 .rk { color: var(--saffron); }
+.rung .rk { font: 800 26px var(--display); }
+.rung p { font-size: 14px; color: var(--ink-2); }
+.rung .pass { font-size: 13px; color: var(--ink); border-top: 1px dashed var(--line); padding-top: 8px; }
+.split2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 18px; }
+.codebox { font: 500 12.5px/1.6 var(--mono); background: #0B1329; color: #FFD08A; border-radius: 16px; padding: 16px 18px; overflow-x: auto; white-space: pre; }
+.codebox .c { color: #9AA6C4; }
+.models { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.model-card { background: var(--surface); border-radius: 20px; padding: 20px; display: grid; gap: 12px; align-content: start; box-shadow: var(--shadow); }
+.model-card .mh { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 14px; align-items: center; }
+.model-card .spark { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: #0B1329; }
+.model-card .spark svg { width: 34px; height: 34px; }
+@media (prefers-reduced-motion: no-preference) { .model-card .spark svg { animation: spin 18s linear infinite; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.model-card h3 { font-size: 22px; }
+.model-card .mid { font: 500 12px var(--mono); color: var(--ink-3); }
+.model-card .role { font-weight: 600; color: var(--ink); }
+.model-card ul { display: grid; gap: 7px; font-size: 14px; color: var(--ink-2); }
+.model-card li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; }
+.model-card li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; margin-top: 8px; background: var(--violet); opacity: .6; }
+.model-card .price { font: 500 12px var(--mono); color: var(--ink-3); border-top: 1px dashed var(--line); padding-top: 10px; }
+
+/* learning loop */
+.loopcard { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); padding: 10px 6px 4px; }
+.loopcard svg { display: block; width: 100%; min-width: 940px; height: auto; }
+.lp-box { fill: var(--surface-2); stroke: var(--line); stroke-width: 1.2; }
+.lp-box.hot { fill: var(--saffron-bg); stroke: var(--saffron); }
+.lp-box.ok { fill: var(--mint-bg); stroke: var(--mint); }
+.lp-box.bad { fill: var(--rose-bg); stroke: var(--rose); }
+.lp-box.you { fill: var(--sky-bg); stroke: var(--sky); }
+.lp-t { fill: var(--ink); font: 800 14px var(--display); }
+.lp-s { fill: var(--ink-3); font: 500 10.5px var(--mono); }
+.lp-line { fill: none; stroke: var(--track); stroke-width: 2; }
+.lp-ring { fill: none; stroke: var(--saffron); stroke-width: 2; stroke-dasharray: 3 6; opacity: .7; }
+.lp-dot { fill: var(--saffron-fill); }
+.lp-halo { fill: var(--saffron-fill); opacity: .22; }
+.lp-dot.m { fill: var(--mint-fill); } .lp-halo.m { fill: var(--mint-fill); }
+.lp-note { fill: var(--ink-2); font: 500 11px var(--mono); }
+.lp-lane { fill: var(--ink-3); font: 600 10.5px var(--mono); letter-spacing: 0.05em; }
+.loop-rules { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+
+/* trace */
+.trace { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.trace-head { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.trace-head b { font: 600 13px var(--mono); }
+.trace-head span { font-size: 13px; color: var(--ink-3); }
+.trace-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
+.wf { padding: 10px 0 16px; min-width: 0; overflow-x: auto; }
+.wf-inner { min-width: 640px; position: relative; padding-bottom: 44px; }
+.wf-row { display: grid; grid-template-columns: 270px minmax(0, 1fr); align-items: center; height: 28px; cursor: pointer; border: 0; background: transparent; width: 100%; padding: 0; text-align: left; }
+.wf-row:hover { background: var(--surface-2); }
+.wf-row.sel { background: var(--saffron-bg); }
+.wf-name { font: 500 12px var(--mono); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 16px; display: flex; align-items: center; gap: 7px; }
+.wf-name i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.wf-lane { position: relative; height: 100%; margin-right: 18px; }
+.wf-bar { position: absolute; top: 8px; height: 12px; border-radius: 4px; transform-origin: left center; min-width: 3px; }
+.wf-bar.queue { background-image: repeating-linear-gradient(135deg, rgba(231, 21, 123, 0.55) 0 4px, transparent 4px 8px) !important; border: 1px solid rgba(231, 21, 123, 0.6); }
+.wf-bar.link { background-image: repeating-linear-gradient(90deg, var(--track) 0 6px, transparent 6px 10px) !important; }
+.wf-bar .tt { position: absolute; top: -1px; width: 2px; height: 14px; background: var(--ink); }
+.wf-dur { position: absolute; top: 6px; font: 500 11px var(--mono); color: var(--ink-3); white-space: nowrap; }
+.wf-axis { display: grid; grid-template-columns: 270px minmax(0, 1fr); height: 24px; align-items: end; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+.wf-ticks { position: relative; height: 100%; margin-right: 18px; }
+.wf-ticks span { position: absolute; bottom: 4px; font: 500 11px var(--mono); color: var(--ink-3); transform: translateX(-50%); }
+.wf-grid { position: absolute; top: 30px; bottom: 0; left: 270px; right: 18px; pointer-events: none; }
+.wf-grid i { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--line); }
+.wf-mark { position: absolute; top: 24px; bottom: 40px; border-left: 2px solid var(--saffron); pointer-events: none; }
+.wf-mark span { position: absolute; bottom: -20px; left: 6px; font: 600 11px var(--mono); color: var(--saffron); white-space: nowrap; background: var(--surface); padding: 0 4px; border-radius: 4px; }
+.wf-mark.end { border-color: var(--mint); bottom: 22px; } .wf-mark.end span { color: var(--mint); left: auto; right: 6px; }
+@media (prefers-reduced-motion: no-preference) { .trace.play .wf-bar { animation: grow .7s var(--ease) both; animation-delay: var(--d); } }
+@keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
+.attrs { border-left: 1px solid var(--line); padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.attrs h4 { font: 800 15px var(--mono); overflow-wrap: anywhere; }
+.attrs .k { font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--saffron); }
+.attrs dl { margin: 0; display: grid; gap: 5px; font: 500 11.5px var(--mono); }
+.attrs dl div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 4px; }
+.attrs dt { color: var(--ink-3); overflow-wrap: anywhere; }
+.attrs dd { margin: 0; color: var(--ink); text-align: right; overflow-wrap: anywhere; }
+.attrs .note { font-size: 13px; color: var(--ink-2); }
+.keys { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; align-items: center; }
+.keys code { font-size: 12px; }
+
+/* state */
+.state { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
+.store { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); padding: 18px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.store-h { display: flex; align-items: center; gap: 12px; }
+.store-h .ic { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; flex: none; }
+.store-h .ic svg { width: 26px; height: 26px; color: #FFFFFF; }
+.store-h div b { display: block; font: 800 16px var(--display); }
+.store-h div span { font: 500 11.5px var(--mono); color: var(--ink-3); }
+.egroup { display: grid; gap: 6px; }
+.egroup h4 { font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+.egroup .list { display: flex; flex-wrap: wrap; gap: 5px; }
+.egroup code { font-size: 11.5px; }
+.prefix { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 5px 10px; font-size: 13px; color: var(--ink-2); }
+.prefix code { font-size: 11.5px; justify-self: start; }
+
+/* delivery */
+.pipe-wrap { position: relative; }
+.pipe { position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+.pipe::before { content: ""; position: absolute; left: 4%; right: 4%; top: 33px; height: 2px; background: var(--track); }
+.pipe .runner { position: absolute; top: 28px; left: 4%; width: 12px; height: 12px; border-radius: 50%; background: var(--saffron-fill); box-shadow: 0 0 0 6px rgba(245, 165, 36, 0.22); }
+@media (prefers-reduced-motion: no-preference) { .pipe .runner { animation: run 9s var(--ease) infinite; } }
+@keyframes run { 0% { left: 4%; opacity: 0; } 4% { opacity: 1; } 92% { opacity: 1; } 100% { left: 95%; opacity: 0; } }
+.stg { position: relative; display: grid; gap: 7px; justify-items: center; text-align: center; align-content: start; }
+.stg .ic { width: 66px; height: 66px; border-radius: 18px; display: grid; place-items: center; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); position: relative; z-index: 1; color: var(--ink); }
+.stg .ic svg { width: 36px; height: 36px; }
+.stg.gate .ic { box-shadow: var(--shadow), inset 0 0 0 2px var(--rose); }
+.stg b { font: 800 14px var(--display); }
+.stg span { font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+.envs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+.env { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); padding: 18px; display: grid; gap: 10px; align-content: start; }
+.env-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.env-h b { font: 800 20px var(--display); }
+.env dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 7px 14px; font-size: 13.5px; }
+.env dt { font: 600 11px var(--mono); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); padding-top: 3px; }
+.env dd { margin: 0; color: var(--ink-2); min-width: 0; }
+
+/* rules */
+.rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rule { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); padding: 18px; display: grid; gap: 8px; align-content: start; }
+.rule .ri { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--rose-bg); color: var(--rose); }
+.rule .ri svg { width: 22px; height: 22px; }
+.rule h3 { font-size: 17px; }
+.rule p { font-size: 14px; color: var(--ink-2); }
+.rule .where { font: 500 11.5px var(--mono); color: var(--ink-3); }
+
+/* cost */
+.budget { background: var(--surface); border-radius: 24px; padding: clamp(18px, 3vw, 28px); box-shadow: var(--shadow); }
+.bigrow { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; }
+.big { font: 800 clamp(44px, 7vw, 64px)/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.bar { position: relative; height: 44px; margin-top: 26px; border-radius: 12px; background: var(--surface-2); }
+.bseg { position: absolute; top: 0; bottom: 0; transform-origin: left center; }
+@media (prefers-reduced-motion: no-preference) { .bseg { animation: grow 1.4s cubic-bezier(.2, .8, .2, 1) both; } }
+.bseg span { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font: 600 12px/1 var(--body); color: #0B1329; white-space: nowrap; }
+.s-data { left: 0; width: 27.84%; background: var(--saffron-fill); border-radius: 12px 0 0 12px; }
+.s-cloud { left: 27.84%; width: 18.64%; background: var(--sky-fill); animation-delay: .25s; }
+.s-ai { left: 46.48%; width: 8.25%; background: var(--violet-fill); animation-delay: .5s; }
+.mark { position: absolute; top: -10px; bottom: -10px; width: 2px; background: var(--ink-3); }
+.mark.cap { background: var(--rose); width: 3px; }
+.marks { position: relative; height: 38px; font: 500 11px/14px var(--mono); color: var(--ink-3); }
+.marks span { position: absolute; top: 8px; transform: translateX(-50%); white-space: nowrap; }
+.marks span.capl { color: var(--rose); font-weight: 700; transform: translateX(-100%); }
+.keyrow { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 6px; font-size: 14px; color: var(--ink-2); }
+.keyrow i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+
+/* where it stands */
+.path { display: grid; gap: 10px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.gate { background: var(--surface); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.gate .num { font: 800 13px/1 var(--mono); color: var(--ink-3); }
+.gate h3 { font-size: 17px; margin-top: 8px; }
+.gate p { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+.gate.now { box-shadow: inset 0 0 0 2px var(--saffron-fill), var(--shadow); }
+.gate.now .num { color: var(--saffron); }
+.here { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font: 600 12px/16px var(--mono); color: var(--saffron); text-transform: uppercase; letter-spacing: 0.05em; }
+.here::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron-fill); }
+@media (prefers-reduced-motion: no-preference) { .here::before { animation: blink 1.6s ease-in-out infinite; } }
+@keyframes blink { 50% { opacity: 0.25; } }
+
+footer { padding-block: 40px 64px; border-top: 1px solid var(--line); margin-top: 20px; }
+footer .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+footer h3 { font-size: 15px; margin-bottom: 8px; }
+footer p, footer li { font-size: 14px; color: var(--ink-2); }
+footer ul { display: grid; gap: 5px; }
+footer p + p { margin-top: 8px; }
+
+/* responsive */
+@media (max-width: 1080px) {
+  .hero-card { grid-template-columns: minmax(0, 1fr); }
+  .codecrew { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 980px) {
+  .under { grid-template-columns: minmax(0, 1fr); }
+  .steps { border-right: 0; border-bottom: 1px solid var(--st-line); }
+  .trace-body { grid-template-columns: minmax(0, 1fr); }
+  .attrs { border-left: 0; border-top: 1px solid var(--line); }
+  .agents, .rules, .rules3, .models, .ladder3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid4, .statuskey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .state { grid-template-columns: minmax(0, 1fr); }
+  .loop-rules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mocks { grid-template-columns: minmax(0, 1fr); }
+  .pipe { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 24px; }
+  .pipe::before, .pipe .runner { display: none; }
+  .flow6 { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 24px; }
+  .flow6::before, .flow6 .runner { display: none; }
+  .path { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .split2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  section { padding-block: 44px; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 16px; }
+  .agents, .rules, .rules3, .models, .ladder3, .grid4, .statuskey, .envs, .loop-rules, .codecrew, .fgrid { grid-template-columns: minmax(0, 1fr); }
+  .pipe, .path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ctrls { margin-left: 0; }
+  footer .wrap { grid-template-columns: minmax(0, 1fr); }
+  .wf-row, .wf-axis { grid-template-columns: 200px minmax(0, 1fr); }
+  .wf-grid { left: 200px; }
+  .phone { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .flow6 .runner, .pipe .runner { display: none; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="g-lambda" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 37 L23.5 21.5"/><path d="M16 11 H22 L33.5 37 H38"/></symbol>
+    <symbol id="g-apigw" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 13 L8 24 L15 35"/><path d="M33 13 L40 24 L33 35"/><path d="M27 16 L21 32"/></symbol>
+    <symbol id="g-sqs" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="15" width="20" height="18" rx="3"/><path d="M7 24 H14 M34 24 H41 M38 21 L41 24 L38 27"/><circle cx="19.5" cy="24" r="1.7" fill="currentColor" stroke="none"/><circle cx="24" cy="24" r="1.7" fill="currentColor" stroke="none"/><circle cx="28.5" cy="24" r="1.7" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="g-dlq" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="15" width="20" height="18" rx="3"/><path d="M7 24 H14"/><path d="M20 20 L28 28 M28 20 L20 28"/><path d="M34 24 H39"/></symbol>
+    <symbol id="g-dynamo" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="13.5" rx="11" ry="4"/><path d="M13 13.5 V34.5 C13 36.7 18 38.5 24 38.5 S35 36.7 35 34.5 V13.5"/><path d="M13 24 C13 26.2 18 28 24 28 S35 26.2 35 24"/></symbol>
+    <symbol id="g-s3" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="24" cy="14" rx="13" ry="4.2"/><path d="M11 14 L15 35 C15.5 37 19 38.5 24 38.5 S32.5 37 33 35 L37 14"/></symbol>
+    <symbol id="g-cognito" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="12" width="32" height="24" rx="3.5"/><circle cx="18" cy="21.5" r="3.6"/><path d="M12.5 31 C13.5 27.5 22.5 27.5 23.5 31"/><path d="M28 20 H35 M28 25 H35 M28 30 H32"/></symbol>
+    <symbol id="g-cloudfront" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="13"/><ellipse cx="24" cy="24" rx="5.5" ry="13"/><path d="M11 24 H37"/></symbol>
+    <symbol id="g-ssm" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="16.5" cy="24" r="6.5"/><path d="M23 24 H39 M34 24 V30 M38.5 24 V28.5"/></symbol>
+    <symbol id="g-cloudwatch" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 33 H13.5 A6.5 6.5 0 0 1 13 20 A10 10 0 0 1 32 17.5 A7.5 7.5 0 0 1 37 24.5"/><circle cx="28.5" cy="30.5" r="5.5"/><path d="M32.5 34.5 L37.5 39.5"/></symbol>
+    <symbol id="g-clock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="13"/><path d="M24 16.5 V24 L29.5 28"/></symbol>
+    <symbol id="g-durable" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="24" r="3.5"/><circle cx="24" cy="24" r="3.5"/><circle cx="38" cy="24" r="3.5"/><path d="M13.5 24 H20.5 M27.5 24 H34.5"/><path d="M24 12 V8 M24 12 L28 10 M10 36 H38" /><path d="M17 36 V40 M31 36 V40"/></symbol>
+    <symbol id="g-gear" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="6"/><path d="M24 8 V13 M24 35 V40 M8 24 H13 M35 24 H40 M12.7 12.7 L16.2 16.2 M31.8 31.8 L35.3 35.3 M12.7 35.3 L16.2 31.8 M31.8 16.2 L35.3 12.7"/></symbol>
+    <symbol id="g-ml" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="3.5"/><circle cx="12" cy="34" r="3.5"/><circle cx="36" cy="24" r="3.5"/><circle cx="24" cy="24" r="3.5"/><path d="M15 15.5 L21 22 M15 32.5 L21 26 M27.5 24 H32.5"/></symbol>
+    <symbol id="g-phone" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="15" y="7" width="18" height="34" rx="4.5"/><path d="M21.5 36 H26.5"/></symbol>
+    <symbol id="g-browser" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="11" width="34" height="26" rx="3.5"/><path d="M7 18 H41"/><circle cx="11.5" cy="14.5" r=".8" fill="currentColor"/><circle cx="15" cy="14.5" r=".8" fill="currentColor"/></symbol>
+    <symbol id="g-chart" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 37 H39"/><path d="M12 30 L19 22 L25 27 L36 14"/><path d="M31 14 H36 V19"/></symbol>
+    <symbol id="g-branch" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="12" r="3.5"/><circle cx="15" cy="36" r="3.5"/><circle cx="33" cy="17" r="3.5"/><path d="M15 15.5 V32.5 M33 20.5 C33 28 15 25 15 32"/></symbol>
+    <symbol id="g-check" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 25 L20 34 L37 15"/></symbol>
+    <symbol id="g-person" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="17" r="6"/><path d="M9 38 C9 30 14 26 20 26 C23 26 25.5 27 27.3 28.6"/><path d="M28 34 L32 38 L40 29"/></symbol>
+    <symbol id="g-chat" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12 H38 V31 H23 L15 38 V31 H10 Z"/><path d="M16 19 H32 M16 24.5 H27"/></symbol>
+    <symbol id="g-news" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="10" width="30" height="28" rx="3"/><path d="M15 17 H33 M15 23 H25 M15 29 H25"/><rect x="28" y="22" width="6" height="8" rx="1"/></symbol>
+    <symbol id="g-doc" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8 H28 L35 15 V40 H14 Z"/><path d="M28 8 V15 H35"/><path d="M19 23 H30 M19 29 H30 M19 35 H25"/></symbol>
+    <symbol id="g-sun" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 34 H38"/><path d="M15 34 A9 9 0 0 1 33 34"/><path d="M24 15 V19 M13 21 L16 24 M35 21 L32 24"/></symbol>
+    <symbol id="g-scale" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 9 V39 M16 39 H32 M11 15 H37"/><path d="M11 15 L6 27 H16 Z M37 15 L32 27 H42 Z"/></symbol>
+    <symbol id="g-bolt" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M27 7 L13 27 H23 L21 41 L35 21 H25 Z"/></symbol>
+    <symbol id="g-factor" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="10" width="12" height="12" rx="2"/><rect x="27" y="10" width="12" height="12" rx="2"/><rect x="9" y="27" width="12" height="12" rx="2"/><rect x="27" y="27" width="12" height="12" rx="2"/></symbol>
+    <symbol id="g-target" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="13"/><circle cx="24" cy="24" r="7"/><circle cx="24" cy="24" r="1.9" fill="currentColor"/></symbol>
+    <symbol id="g-dial" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 32 A14 14 0 0 1 38 32"/><path d="M24 32 L31 22"/><path d="M15 32 H11 M37 32 H33"/><path d="M18 38 H30"/></symbol>
+    <symbol id="g-pipe" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 H19 C26 17 25 31 32 31 H40"/><path d="M7 31 H14"/><path d="M33 17 H40"/><path d="M36.5 27.5 L40 31 L36.5 34.5"/></symbol>
+    <symbol id="g-wrench" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 10 A8 8 0 0 0 21 21 L10 32 A3.5 3.5 0 0 0 15 37 L26 26 A8 8 0 0 0 37 17 L32 22 L27 21 L26 16 Z"/></symbol>
+    <symbol id="g-shield" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8 L37 13 V23 C37 31 31 37 24 40 C17 37 11 31 11 23 V13 Z"/><path d="M18 24 L22.5 28.5 L30 20"/></symbol>
+    <symbol id="g-lock" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="21" width="26" height="18" rx="3.5"/><path d="M16 21 V16 A8 8 0 0 1 32 16 V21"/><path d="M24 28 V32"/></symbol>
+    <symbol id="g-calc" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="8" width="24" height="32" rx="3.5"/><path d="M17 14 H31 V20 H17 Z"/><path d="M18 27 H18.1 M24 27 H24.1 M30 27 H30.1 M18 33 H18.1 M24 33 H24.1 M30 33 H30.1"/></symbol>
+    <symbol id="g-noentry" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="14"/><path d="M14 34 L34 14"/></symbol>
+    <symbol id="g-eye" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24 C11 15 17 11 24 11 C31 11 37 15 42 24 C37 33 31 37 24 37 C17 37 11 33 6 24 Z"/><circle cx="24" cy="24" r="5"/><path d="M9 39 L39 9"/></symbol>
+    <symbol id="g-snow" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8 V40 M10 16 L38 32 M10 32 L38 16"/><path d="M20 10 L24 14 L28 10 M20 38 L24 34 L28 38"/></symbol>
+    <symbol id="g-pause" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="14"/><path d="M20 18 V30 M28 18 V30"/></symbol>
+    <symbol id="g-terraform" viewBox="0 0 48 48"><g fill="#8A55D6"><path d="M8 6 L16.5 10.9 V20.7 L8 15.8 Z"/><path d="M19 12.4 L27.5 17.3 V27.1 L19 22.2 Z"/><path d="M30 17.3 L38.5 12.4 V22.2 L30 27.1 Z"/><path d="M19 25 L27.5 29.9 V39.7 L19 34.8 Z"/></g></symbol>
+    <symbol id="g-spark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M27.5 24 L41 24 M27.03 25.75 L34.39 30 M25.75 27.03 L32.5 38.72 M24 27.5 L24 36 M22.25 27.03 L15.5 38.72 M20.97 25.75 L13.61 30 M20.5 24 L7 24 M20.97 22.25 L13.61 18 M22.25 20.97 L15.5 9.28 M24 20.5 L24 12 M25.75 20.97 L32.5 9.28 M27.03 22.25 L34.39 18"/></symbol>
+    <symbol id="g-mark" viewBox="0 0 48 48"><rect width="48" height="48" rx="12" fill="#0B1329"/><path d="M27 25 L42 13 L42 37 Z" fill="#F5A524" opacity=".35"/><path d="M27 25 L42 19 L42 31 Z" fill="#F5A524" opacity=".6"/><polyline points="6,33 11,30 15,32 20,26 24,28 27,25" fill="none" stroke="#F7F2E8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="38" cy="22" r="3" fill="#3DDC97"/></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#g-mark"/></svg><span class="bw">My<span>Prediction</span></span></a>
+    <nav class="toc" aria-label="Sections">
+      <a href="#plain">In plain words</a><a href="#map">System map</a><a href="#team">Agents</a><a href="#holdings">Holdings and top 5</a><a href="#clock">Daily clock</a><a href="#engine">Forecast engine</a><a href="#learn">Learning</a><a href="#trace">One trace</a><a href="#state">Data</a><a href="#delivery">Delivery</a><a href="#rules">Guardrails</a><a href="#cost">Cost</a><a href="#stands">Status</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="hero-card">
+      <div>
+        <p class="eyebrow">Mypaisaa Prediction · technical architecture · 3 November 2026</p>
+        <h1 id="hero-h">From each market's close to a <em>scored</em> forecast, on AWS, with 7 Claude agents and code doing every sum.</h1>
+        <p class="lede">A private forecaster for one owner's shares and ETFs in the US, the UK and India. After every close it freezes what was known, forecasts ranges for seven horizons, explains them in plain words, and later grades itself against what really happened. Pick a journey on the map and press Play to watch a request move through the system.</p>
+        <div class="pills">
+          <span class="pill r"><i></i>Design only: nothing deployed</span>
+          <span class="pill m"><i></i>Runs today: CI and a local FastAPI starter</span>
+          <span class="pill"><i></i>Virginia, <span class="mono">us-east-1</span> · dev and prod accounts</span>
+        </div>
+        <div class="stats" aria-label="The system in numbers">
+          <div class="stat"><b>2</b><span>doors: SwiftUI app and web PWA</span></div>
+          <div class="stat"><b class="hot">7</b><span>AI agents, one Claude route each</span></div>
+          <div class="stat"><b>5</b><span>code workers that use no AI</span></div>
+          <div class="stat"><b>3</b><span>Claude models: Haiku, Sonnet, Opus</span></div>
+          <div class="stat"><b>7</b><span>horizons, next day to 12 months</span></div>
+          <div class="stat"><b>£55</b><span>a month with Claude on, of a £100 ceiling</span></div>
+        </div>
+      </div>
+      <div class="spec" aria-label="Stack summary">
+        <div class="spec-top"><div class="dots"><i></i><i></i><i></i></div><span>stack · ARCHITECTURE.md, TECH-STACK.md</span></div>
+        <dl>
+          <div class="row"><dt>Doors</dt><dd><b>SvelteKit PWA</b>, static on S3 and CloudFront · <b>SwiftUI</b> in a React Native shell<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Edge</dt><dd><b>API Gateway REST</b>, HTTPS and SSE through the Lambda Web Adapter · <b>Cognito</b>: Apple, Google, passkeys, step-up<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>API</dt><dd><b>FastAPI on Lambda</b> under <code>/api/v1</code>; the starter runs on a laptop<span class="st i">STARTER</span></dd></div>
+          <div class="row"><dt>Work</dt><dd><b>EventBridge Scheduler</b> · <b>SQS</b> with dead-letter queues · <b>Lambda Durable Functions</b> in Python, not Step Functions<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>State</dt><dd><b>DynamoDB</b> and private <b>S3</b>; one controlled ledger writer; forecasts append-only<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Models</dt><dd><b>SageMaker</b> CPU training, two capped campaigns a month, network-isolated · <b>Lambda</b> inference<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Claude</dt><dd><b>Haiku 5.5 · Opus 5.5 · Sonnet 5.5</b> through the Anthropic API; batch what can wait<span class="st s">SELECTED</span></dd></div>
+          <div class="row"><dt>Ops</dt><dd><b>SSM Parameter Store</b> for secrets · <b>CloudWatch</b> and <b>X-Ray</b> through ADOT<span class="st p">PROPOSED</span></dd></div>
+          <div class="row"><dt>Delivery</dt><dd><b>Terraform only</b> · GitHub OIDC · prod on the owner's release route<span class="st o">ROUTE OPEN</span></dd></div>
+          <div class="row"><dt>Place</dt><dd><b>us-east-1</b> · N0, no VPC · dev and prod under Organizations with a cost-guard SCP<span class="st s">SELECTED</span></dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="statuskey" aria-label="Status labels used on this page">
+      <div><span class="tag t-impl">Implemented</span>Code that runs today: only the nine CI checks and the local FastAPI starter (health route, sample SSE).</div>
+      <div><span class="tag t-sel">Owner-selected</span>Chosen by the owner, with a date. Not built.</div>
+      <div><span class="tag t-prop">Proposed</span>Drafted in the plan, waiting for the owner's yes or a proof.</div>
+      <div><span class="tag t-open">Open</span>Not decided yet. Named so it cannot be mistaken for a choice.</div>
+    </div>
+  </div>
+</section>
+
+<section id="plain" aria-labelledby="plain-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">In plain words</p>
+      <h2 id="plain-h">Four jobs, done every day</h2>
+      <p>If you read nothing else: MyPrediction watches what you own, says where each price is likely to land with honest ranges, explains why in plain words, and keeps score of itself. Everything below is how.</p>
+    </div>
+    <div class="grid4">
+      <div class="card"><div class="ch"><span class="icon i-sky"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><h3>Watches your money</h3></div><p>Your holdings and a watchlist, 20 to 30 listings to start, priced after each market closes and checked every 30 minutes while markets are open.</p></div>
+      <div class="card"><div class="ch"><span class="icon i-saffron"><svg aria-hidden="true"><use href="#g-target"/></svg></span><h3>Forecasts in ranges</h3></div><p>Not "it will go up". Where the price is likely to land and how wide the uncertainty is, for each horizon below.</p></div>
+      <div class="card"><div class="ch"><span class="icon i-violet"><svg aria-hidden="true"><use href="#g-chat"/></svg></span><h3>Explains in plain words</h3></div><p>A 07:30 London briefing and a chat that answers "why?". Claude writes the words; every number comes from code and models.</p></div>
+      <div class="card"><div class="ch"><span class="icon i-mint"><svg aria-hidden="true"><use href="#g-check"/></svg></span><h3>Keeps score and learns</h3></div><p>Each forecast is frozen when made and graded after its horizon. Small fixes happen by themselves, inside limits you set.</p></div>
+    </div>
+    <div class="horizons" aria-label="Forecast horizons">
+      <span class="hz"><small>short</small>Next day</span>
+      <span class="hz"><small>short</small>5 trading days</span>
+      <span class="hz"><small>short</small>10 trading days</span>
+      <span class="hz"><small>short</small>20 trading days</span>
+      <span class="hz core"><small>long-term core</small>3 months</span>
+      <span class="hz core"><small>long-term core</small>6 months</span>
+      <span class="hz core"><small>long-term core</small>12 months</span>
+      <span class="hz scn"><small>scenario, not a forecast</small>3 to 5 years</span>
+    </div>
+    <div class="never"><svg aria-hidden="true"><use href="#g-noentry"/></svg><div><b>It never trades.</b> No broker login, no orders, no personalised financial advice. It suggests add, hold, pause, trim or rebalance, with reasons and uncertainty; you decide.</div></div>
+  </div>
+</section>
+
+<section id="map" aria-labelledby="map-h" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The system map</p>
+      <h2 id="map-h">Every hop a request makes, on the services that carry it</h2>
+      <p>Two doors, one API, and background work that waits on nothing directly: the Scheduler and the API put jobs on SQS, durable workflows run them step by step, and each Claude route is its own Lambda worker. Tap any part to inspect it. The services are <span class="tag t-sel">Owner-selected</span>; the hops are <span class="tag t-prop">Proposed</span> and nothing is deployed.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-bar">
+        <div class="tabs" role="group" aria-label="Journeys" id="tabs"></div>
+        <div class="ctrls">
+          <button class="ctl" id="prev" type="button" aria-label="Previous step"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 L5 8 L10 13"/></svg></button>
+          <button class="ctl primary" id="play" type="button"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5 L13 8 L4 13.5 Z"/></svg><span>Play</span></button>
+          <button class="ctl" id="next" type="button" aria-label="Next step"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3 L11 8 L6 13"/></svg></button>
+        </div>
+      </div>
+      <p class="hint">Scroll sideways to see the whole map.</p>
+      <div class="scroll-x"><svg id="sysmap" class="map" viewBox="0 0 1200 760" role="group" aria-label="MyPrediction system map: the owner's two doors, the AWS account in us-east-1 with its services, the Anthropic API and the market data providers"></svg></div>
+      <div class="legend" aria-label="Legend">
+        <span><i style="background:#ED7100"></i>Compute</span>
+        <span><i style="background:#E7157B"></i>App integration, management</span>
+        <span><i style="background:#C925D1"></i>Database</span>
+        <span><i style="background:#7AA116"></i>Storage</span>
+        <span><i style="background:#8C4FFF"></i>Networking</span>
+        <span><i style="background:#DD344C"></i>Identity</span>
+        <span><i style="background:#01A88D"></i>Machine learning</span>
+        <span><i style="background:#A68BFF"></i>Anthropic</span>
+        <span><i class="ln"></i>this journey</span>
+        <span><i class="ln f"></i>failure or rollback</span>
+      </div>
+      <div class="under">
+        <ol class="steps" id="steps" aria-label="Steps of this journey"></ol>
+        <div class="detail" aria-live="polite">
+          <div id="detail"></div>
+          <div class="inspector" id="inspector"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team" aria-labelledby="team-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The agent team · ARC-06, ARC-06b</p>
+      <h2 id="team-h">7 AI agents, 5 code workers, and a hard line between them</h2>
+      <p>Each Claude task route is its own Lambda worker with its own queue, role, key, tools, budget and evaluation, sharing one bounded runner on the official <code>anthropic</code> Python SDK. Seven routes are listed in the ARC-06b card; ARC-06 leaves the exact worker count to the build. Everything that grades, calibrates, trains, repairs or guards data is deterministic code. <span class="tag t-sel">Owner-selected</span> 2 November 2026. Each route must pass its Inspect AI suite before it is switched on, and MP makes no Claude call until the shared credit is verified.</p>
+    </div>
+    <div class="rules3">
+      <div class="lr"><b>Code decides, Claude reads and writes words</b>Prices, returns, forecasts, scores, rankings and which events matter all come from code and models.</div>
+      <div class="lr"><b>Batch what can wait</b>Triage, event analysis, factors and judges run overnight through Message Batches at half price; anything a person waits for runs live.</div>
+      <div class="lr"><b>Agents never call each other</b>Workers read stored, versioned records and leave their output as records. A durable workflow, not an agent, sequences the work.</div>
+    </div>
+    <div class="stage">
+      <div class="scroll-x"><svg id="crew" viewBox="0 0 1100 600" role="img" aria-label="Seven Claude route workers, each fed by its own SQS queue from the Scheduler, the durable workflow, FastAPI or Inspect AI, each wired to its model: Haiku 5.5 for triage, factors and extraction; Opus 5.5 for event analysis; Sonnet 5.5 for explanations, chat and evaluation judges. Dashed links are Message Batches, solid links are live. Below, five code workers that use no model."></svg></div>
+      <div class="crew-cap">
+        <span class="k"><i></i>live call</span>
+        <span class="k"><i class="d"></i>Message Batches, half price</span>
+        <span class="now" id="crewnow">Messages travel queue by queue to each worker</span>
+      </div>
+    </div>
+    <div class="forbid" aria-label="What no agent may do"><b>No agent may</b><span>trade</span><span>write the ledger</span><span>publish or change a forecast</span><span>promote a model</span><span>change model weights or calibration</span><span>read secrets</span></div>
+    <div class="agents" id="agents"></div>
+    <h3 style="margin-top:30px">The 5 code workers, no model in any of them</h3>
+    <div class="codecrew" id="codecrew"></div>
+    <div class="tablewrap">
+      <table class="t" aria-label="Route to model mapping">
+        <thead><tr><th>#</th><th>Route</th><th>Model and id</th><th>Mode</th><th>Effort</th><th>Volume or cap</th><th>Started by</th></tr></thead>
+        <tbody id="routetable"></tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:12px">Prompt caching: a 5-minute TTL on each route's stable system prompt and tool list, checked in <code>cache_read_input_tokens</code>. Batch lane: the submit worker reserves the batch's maximum cost first; results are matched by <code>custom_id</code>; an expired request leaves the last dated evidence and never falls back to a paid live call. <span class="tag t-open">Open</span> the refusal fallback, per-route chat caps and each route's evaluation cases.</p>
+  </div>
+</section>
+
+<section id="holdings" aria-labelledby="hold-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Holdings and the top 5 per segment · owner request, 3 November 2026</p>
+      <h2 id="hold-h">Your holdings, then the five best-ranked listings in each market segment</h2>
+      <p><span class="tag t-prop">Proposed</span> The apps show each holding's value in pounds with its local currency, its latest forecast range for the horizon you pick, an action with its reasons, and how fresh its price is. Beside them, for each segment, the five highest-ranked listings by MP's combined score, with their ranges and uncertainty. Decision support, not advice.</p>
+    </div>
+    <div class="illus" role="note"><span class="tag t-ill">Illustrative</span><span><b>Not the designed screen.</b> Real tickers from the synthetic fixtures, simulated values. The screens are designed in the UX phase, after the architecture sign-off. Try the horizon and segment buttons.</span></div>
+    <div class="mocks">
+      <div class="phone" aria-label="Illustrative phone screen: holdings and top 5">
+        <div class="ph-screen">
+          <div class="ph-status"><span>07:31</span><span class="ph-island" aria-hidden="true"></span><span>5G</span></div>
+          <div class="ph-body" id="phone"></div>
+        </div>
+      </div>
+      <div class="webmock" aria-label="Illustrative web screen: holdings and top 5">
+        <div class="wm-bar"><i></i><i></i><i></i><span>mypaisapp.com · Portfolio (illustrative)</span></div>
+        <div class="wm-scroll"><div class="wm" id="webmock"></div></div>
+      </div>
+    </div>
+    <h3 style="margin-top:34px">The data flow behind it</h3>
+    <div class="flow6" aria-label="How the holdings and top 5 view is built, in order">
+      <span class="runner" aria-hidden="true"></span>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-target"/></svg></span><b>Universe</b><span>Holdings and watchlist, plus a wider discovery universe per segment</span><span class="tag t-open">size open</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-chart"/></svg></span><b>End-of-day scan</b><span>Data workers fetch EOD prices after each close; Grow 55 is end-of-day on LSE, NSE and BSE</span><span class="tag t-open">credits, cost open</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-snow"/></svg></span><b>Freeze</b><span>At close +60 the inputs freeze; a late price is labelled and abstains</span><span class="tag t-sel">selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Score</b><span>Rules and approved models give growth, protection and opportunity per listing</span><span class="tag t-prop">proposed</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-calc"/></svg></span><b>Rank</b><span>Code combines 35, 40 and 25, only when all three are eligible, and keeps the top 5 per segment as a versioned view</span><span class="tag t-sel">weights selected</span></div>
+      <div class="fl"><span class="ic"><svg aria-hidden="true"><use href="#g-phone"/></svg></span><b>Read</b><span>FastAPI reads holdings, forecasts and the segment views; an SSE notice prompts a re-read</span><span class="tag t-prop">proposed</span></div>
+    </div>
+    <div class="tablewrap">
+      <table class="t" aria-label="What the view needs and its status">
+        <thead><tr><th>Piece</th><th>What it is</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>The requirement</td><td>Holdings plus the top 5 per market segment, ranked by the combined score, with ranges and uncertainty, as decision support</td><td><span class="tag t-prop">Proposed</span></td></tr>
+          <tr><td>Segments</td><td>US large caps, US tech (Nasdaq-100), UK FTSE 100, UK mid caps (FTSE 250), India Nifty 50, India mid caps, ETFs</td><td><span class="tag t-open">Open</span> exact list</td></tr>
+          <tr><td>Combined score</td><td>Growth 35, protection 40, opportunity 25 (POLICY-006). A missing part is never zero and never reweighted: the listing shows "not ranked" with the parts that are supported</td><td><span class="tag t-sel">Owner-selected</span></td></tr>
+          <tr><td>Discovery universe</td><td>How many listings are scanned on end-of-day data beyond the owner's 20 to 30, and its effect on Twelve Data credits and on the £100 ceiling</td><td><span class="tag t-open">Open</span></td></tr>
+          <tr><td>Freshness and provider status</td><td>Shown on every row; never hidden behind a spinner (AGENTS.md)</td><td><span class="tag t-sel">Owner rule</span></td></tr>
+          <tr><td>The screens</td><td>Designed in the UX phase, after the architecture sign-off, then approved before any build</td><td><span class="tag t-open">Not designed</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="clock" aria-labelledby="clock-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The daily clock · London time, November</p>
+      <h2 id="clock-h">Three closes a day, four marks after each</h2>
+      <p>From each market's close: collect at +15 minutes, retry what is missing at +40, freeze the cutoff at +60, issue forecasts by +75. Quote and risk checks every 30 minutes while a market is open are a lighter path that never makes a formal forecast. Nothing alerts between 22:00 and 07:00; what waits arrives with the 07:30 briefing. <span class="tag t-sel">Owner-selected</span> 2 November 2026, still to be proven against real sources. Times move with daylight saving.</p>
+    </div>
+    <div class="stage">
+      <div class="scroll-x"><svg id="clocksvg" class="clk" viewBox="0 0 1100 300" role="img" aria-label="A 24-hour London timeline. India's session runs 03:45 to 10:00 with forecasts by 11:15; the UK's 08:00 to 16:30 with forecasts by 17:45; the US 14:30 to 21:00 with forecasts by 22:15, inside quiet hours, so they reach the owner in the 07:30 briefing. Quiet hours shade 22:00 to 07:00."></svg></div>
+    </div>
+    <div class="tablewrap clocktable">
+      <table class="t" aria-label="The daily window per market">
+        <thead><tr><th>Market</th><th>Close (London)</th><th>Collect +15</th><th>Retry +40</th><th>Freeze +60</th><th>Forecast by +75</th><th>Reaches the owner</th></tr></thead>
+        <tbody>
+          <tr><td>India (NSE, BSE)</td><td>10:00</td><td>10:15</td><td>10:40</td><td>11:00</td><td>11:15</td><td>At once, in the app</td></tr>
+          <tr><td>UK (LSE)</td><td>16:30</td><td>16:45</td><td>17:10</td><td>17:30</td><td>17:45</td><td>At once, in the app</td></tr>
+          <tr><td>US (NYSE, Nasdaq)</td><td>21:00</td><td>21:15</td><td>21:40</td><td>22:00</td><td>22:15</td><td>Held for quiet hours; in the 07:30 briefing</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="engine" aria-labelledby="engine-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The forecast engine · ARC-04, ARC-05</p>
+      <h2 id="engine-h">Baselines first, then bounded challengers, eight capabilities kept</h2>
+      <p>Each target, horizon, currency and market kind is its own task with its own eligibility. Never a random split: walk-forward folds with a purge and embargo sized to the horizon, every transform fitted inside its fold, labels used only once they have matured. The order is <span class="tag t-sel">Owner-selected</span>; the module specifications are <span class="tag t-prop">Proposed</span> and nothing is trained.</p>
+    </div>
+    <div class="fgrid" id="fgrid"></div>
+    <div class="ladder3">
+      <div class="rung"><span class="rk">R0</span><h3>Baselines</h3><p>Fixed rules a person can check, zero return, trailing events, empirical distributions and a block bootstrap over 252 and 756 observations.</p><p class="pass"><b>To pass:</b> correct semantics, chronological comparison. Every model has to beat it.</p></div>
+      <div class="rung r1"><span class="rk">R1</span><h3>Regularised</h3><p>Ridge for returns, logistic for events, a sigmoid calibration map fitted on its own chronological block.</p><p class="pass"><b>To pass:</b> fold-local transforms, purging, matured labels, justified calibration.</p></div>
+      <div class="rung r2"><span class="rk">R2</span><h3>Challengers</h3><p>Histogram gradient-boosted return, quantile and event models, which may take other modules' outputs only when an ablation shows they add value.</p><p class="pass"><b>To pass:</b> beat the baseline with uncertainty and coverage, then shadow, then the owner's promotion.</p></div>
+    </div>
+    <div class="split2">
+      <div>
+        <h3>One Prediction record</h3>
+        <p class="muted" style="margin:6px 0 10px">Append-only in DynamoDB. A correction is a new version; an outcome is a new record. Illustrative values.</p>
+        <div class="codebox"><span class="c">// Prediction · append-only · illustrative</span>
+{
+  "instrument": "XLON:AZN",
+  "as_of": "2026-11-03T17:45Z",
+  "data_cutoff": "2026-11-03T17:30Z",
+  "target": "log_return",
+  "horizon": "3M",
+  "q10": -0.071, "q50": 0.018, "q90": 0.104,
+  "p_drawdown_5pct": 0.22,
+  "calibration": "sigmoid@v4",
+  "model_version": "R1:ridge@v2",
+  "feature_set": "fs@2026-11-03",
+  "explanation_refs": ["ev_…", "an_…"],
+  "state": "active",
+  "version": 1
+}</div>
+      </div>
+      <div>
+        <h3>Training, capped before it starts</h3>
+        <p class="muted" style="margin:6px 0 10px">SageMaker CPU jobs, admitted against the budget first.</p>
+        <div class="tablewrap" style="margin-top:0">
+          <table class="t" aria-label="Training caps" style="min-width:0">
+            <tbody>
+              <tr><td>Instance</td><td><code>ml.m5.large</code>, $0.115 an hour, network-isolated, no VPC</td></tr>
+              <tr><td>Campaigns</td><td>At most 2 a month across dev and prod</td></tr>
+              <tr><td>Each campaign</td><td>At most 96 fits and 6 instance-hours</td></tr>
+              <tr><td>Refit</td><td>Monthly, inside the campaigns; each refit is a new candidate for the owner</td></tr>
+              <tr><td>Final test</td><td>The last 24 months of matured forecasts quarantined for one held-out test</td></tr>
+              <tr><td>Serving</td><td>Approved artefacts in a Lambda; no endpoint; the cost-guard SCP denies endpoints and GPUs</td></tr>
+              <tr><td>Scores</td><td>Hit rate beside calibration, error, coverage, turnover and the benchmark</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <h3 style="margin-top:30px">The three Claude models</h3>
+    <div class="models" id="modelcards"></div>
+  </div>
+</section>
+
+<section id="learn" aria-labelledby="learn-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Controlled learning · owner, 3 November 2026</p>
+      <h2 id="learn-h">It corrects itself inside bands, and asks for anything bigger</h2>
+      <p>After each close, code, never a Claude agent, grades every forecast that has matured and makes small calibration and weighting adjustments inside bands the owner approves in advance. An adjustment that makes scores worse rolls itself back. New models, features and rules, and anything outside a band, wait for the owner, and the POLICY-003 safety pause stays. <span class="tag t-sel">Owner-selected</span> <span class="tag t-open">Open</span> the band sizes, approved before go-live.</p>
+    </div>
+    <div class="loopcard scroll-x">
+      <svg viewBox="0 0 1100 400" role="img" aria-label="Two loops. Top: a frozen forecast waits for its horizon, the grader scores it, and the calibrator loops with probation, ending in keep, roll back, or ask the owner. Bottom: a challenger trained on a capped SageMaker campaign is tested on held-out years, runs in shadow, becomes a promotion request, and goes live only when the owner says yes.">
+        <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--saffron)"/></marker></defs>
+        <text class="lp-lane" x="15" y="30">IN-BAND LOOP · DAILY · CODE</text>
+        <path class="lp-line" d="M165 140 H190"/><path class="lp-line" d="M340 140 H365"/><path class="lp-line" d="M515 140 H582"/>
+        <path class="lp-line" d="M738 140 C790 140 800 64 855 64"/><path class="lp-line" d="M738 140 H855"/><path class="lp-line" d="M738 140 C790 140 800 216 855 216"/>
+        <circle class="lp-ring" cx="660" cy="140" r="78"/>
+        <path d="M712 82 A78 78 0 0 1 738 140" fill="none" style="stroke:var(--saffron)" stroke-width="2" marker-end="url(#arr)"/>
+        <path d="M608 198 A78 78 0 0 1 582 140" fill="none" style="stroke:var(--saffron)" stroke-width="2" marker-end="url(#arr)"/>
+        <g><rect class="lp-box" x="15" y="108" width="150" height="64" rx="14"/><text class="lp-t" x="90" y="136" text-anchor="middle">Forecast frozen</text><text class="lp-s" x="90" y="154" text-anchor="middle">cutoff · versions</text></g>
+        <g><rect class="lp-box" x="190" y="108" width="150" height="64" rx="14"/><text class="lp-t" x="265" y="136" text-anchor="middle">Horizon passes</text><text class="lp-s" x="265" y="154" text-anchor="middle">outcome published</text></g>
+        <g><rect class="lp-box" x="365" y="108" width="150" height="64" rx="14"/><text class="lp-t" x="440" y="136" text-anchor="middle">Grader scores</text><text class="lp-s" x="440" y="154" text-anchor="middle">Outcome record</text></g>
+        <g><rect class="lp-box hot" x="590" y="40" width="140" height="44" rx="22"/><text class="lp-t" x="660" y="60" text-anchor="middle">Calibrator</text><text class="lp-s" x="660" y="75" text-anchor="middle">small step, in band</text></g>
+        <g><rect class="lp-box" x="590" y="196" width="140" height="44" rx="22"/><text class="lp-t" x="660" y="216" text-anchor="middle">Probation</text><text class="lp-s" x="660" y="231" text-anchor="middle">next scores watched</text></g>
+        <g><rect class="lp-box ok" x="855" y="34" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="60">Keep</text><text class="lp-s" x="872" y="78">scores held · new CalibratorVersion</text></g>
+        <g><rect class="lp-box bad" x="855" y="110" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="136">Roll back by itself</text><text class="lp-s" x="872" y="154">scores worse · last good version</text></g>
+        <g><rect class="lp-box you" x="855" y="186" width="230" height="60" rx="14"/><text class="lp-t" x="872" y="212">Ask the owner</text><text class="lp-s" x="872" y="230">outside a band · POLICY-003 pause</text></g>
+        <text class="lp-note" x="660" y="268" text-anchor="middle">band sizes OPEN · every step audited · Claude never adjusts a model</text>
+        <text class="lp-lane" x="15" y="304">CHALLENGER LANE · CAPPED · THE OWNER PROMOTES</text>
+        <path class="lp-line" d="M175 352 H200"/><path class="lp-line" d="M385 352 H410"/><path class="lp-line" d="M595 352 H620"/><path class="lp-line" d="M805 352 H830"/>
+        <g><rect class="lp-box" x="15" y="320" width="160" height="64" rx="14"/><text class="lp-t" x="95" y="348" text-anchor="middle">SageMaker campaign</text><text class="lp-s" x="95" y="366" text-anchor="middle">≤96 fits · ≤6 h</text></g>
+        <g><rect class="lp-box" x="200" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="292" y="348" text-anchor="middle">Walk-forward test</text><text class="lp-s" x="292" y="366" text-anchor="middle">purge · embargo · held-out</text></g>
+        <g><rect class="lp-box" x="410" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="502" y="348" text-anchor="middle">Shadow</text><text class="lp-s" x="502" y="366" text-anchor="middle">labelled "in practice"</text></g>
+        <g><rect class="lp-box hot" x="620" y="320" width="185" height="64" rx="14"/><text class="lp-t" x="712" y="348" text-anchor="middle">Promotion request</text><text class="lp-s" x="712" y="366" text-anchor="middle">scores side by side · 7 d</text></g>
+        <g><rect class="lp-box you" x="830" y="320" width="255" height="64" rx="14"/><text class="lp-t" x="957" y="348" text-anchor="middle">Owner says yes, step-up</text><text class="lp-s" x="957" y="366" text-anchor="middle">old version pinned for undo</text></g>
+        <g id="lpdots">
+          <g><circle class="lp-halo" r="10"/><circle class="lp-dot" r="4.5"/><animateMotion dur="7.5s" repeatCount="indefinite" begin="0s" path="M90 140 H582 A78 78 0 0 1 738 140 A78 78 0 0 1 582 140 A78 78 0 0 1 738 140 C790 140 800 64 855 64"/></g>
+          <g><circle class="lp-halo" r="10"/><circle class="lp-dot" r="4.5"/><animateMotion dur="7.5s" repeatCount="indefinite" begin="2.5s" path="M90 140 H582 A78 78 0 0 1 738 140 A78 78 0 0 1 582 140 A78 78 0 0 1 738 140 H855"/></g>
+          <g><circle class="lp-halo" r="10"/><circle class="lp-dot" r="4.5"/><animateMotion dur="7.5s" repeatCount="indefinite" begin="5s" path="M90 140 H582 A78 78 0 0 1 738 140 C790 140 800 216 855 216"/></g>
+          <g><circle class="lp-halo m" r="10"/><circle class="lp-dot m" r="4.5"/><animateMotion dur="9s" repeatCount="indefinite" begin="1s" path="M95 352 H957"/></g>
+        </g>
+      </svg>
+    </div>
+    <div class="loop-rules">
+      <div class="lr"><b>Graded only after the horizon</b>Refreshing daily never matures a 12-month outcome. Scores report hit rate beside calibration, coverage and the benchmark.</div>
+      <div class="lr"><b>In band, alone; outside, never</b>The calibrator is deterministic code. Any change past a band, a new model, feature or rule, waits for the owner.</div>
+      <div class="lr"><b>Rollback is automatic</b>An adjustment on probation that worsens scores reverts to the last good version, and the audit says so.</div>
+      <div class="lr"><b>A safety pause</b>POLICY-003: if an agreed alarm fires, that scope pauses and the owner is told. It restarts only with the owner's yes.</div>
+    </div>
+  </div>
+</section>
+
+<section id="trace" aria-labelledby="trace-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Observability · proposed, MP-36</p>
+      <h2 id="trace-h">One question is one trace, for the hops a person waits on</h2>
+      <p>The door mints a W3C <code>traceparent</code>; API Gateway, FastAPI, SQS and the chat worker carry it on. Each Claude call is a span in the OpenTelemetry GenAI conventions with MP's route, batch flag and cost beside it. Queued, resumed and batched work starts a new trace joined by business ids. Prompts, replies and figures never reach CloudWatch. <span class="tag t-prop">Proposed</span> Timings, tokens and costs are illustrative; tap a span to read it.</p>
+    </div>
+    <div class="trace" id="tracebox">
+      <div class="trace-head">
+        <b>trace 7c1e0b5a92f34d6e8a1b4f2d9e0c3a57</b>
+        <span>"Why did AstraZeneca's 3-month range widen?" · Apple app · prod · chat route</span>
+        <span>run_id <span class="mono">run_4Kp9…</span></span>
+      </div>
+      <div class="trace-body">
+        <div class="wf"><div class="wf-inner" id="wf"></div></div>
+        <aside class="attrs" id="attrs" aria-live="polite"></aside>
+      </div>
+    </div>
+    <div class="keys" aria-label="Correlation keys">
+      <span class="muted" style="margin-right:4px">The same keys on every log line, span and run record:</span>
+      <code>trace_id</code><code>span_id</code><code>request_id</code><code>run_id</code><code>job_id</code><code>client_message_id</code><code>conversation_id</code><code>import_id</code><code>prediction_id</code><code>model_version</code><code>config_version</code><code>environment</code><code>build</code>
+    </div>
+  </div>
+</section>
+
+<section id="state" aria-labelledby="state-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Where the data lives · ARC-02</p>
+      <h2 id="state-h">DynamoDB for records, private S3 for originals, SSM for secrets</h2>
+      <p>Every record carries its source, its timestamps and a version. One controlled writer commits an exact change the owner approved; predictions, model runs and outcomes are append-only. S3 and DynamoDB share no transaction, so a commit is idempotent and resumable. <span class="tag t-sel">Owner-selected</span> <span class="tag t-open">Open</span> one table or a few, the keys, and the atomicity proof (PL-08).</p>
+    </div>
+    <div class="state">
+      <div class="store">
+        <div class="store-h"><span class="ic" style="background:#C925D1"><svg aria-hidden="true"><use href="#g-dynamo"/></svg></span><div><b>DynamoDB</b><span>per environment · deletion protection in prod</span></div></div>
+        <div class="egroup"><h4>The ledger</h4><div class="list"><code>Transaction</code><code>Import</code><code>Holding view</code><code>Approval · 15 min</code></div></div>
+        <div class="egroup"><h4>Markets</h4><div class="list"><code>Instrument</code><code>Market observation</code><code>Capability per source</code></div></div>
+        <div class="egroup"><h4>Forecasts</h4><div class="list"><code>Feature set</code><code>Model run</code><code>ModelVersion</code><code>Prediction · append-only</code><code>Outcome</code><code>Segment view</code></div></div>
+        <div class="egroup"><h4>Research</h4><div class="list"><code>Triage tag</code><code>Event analysis</code><code>Factor</code><code>Conversation turn</code></div></div>
+        <div class="egroup"><h4>Operations</h4><div class="list"><code>Run record</code><code>Job</code><code>Audit</code><code>Cost record</code><code>Incident</code></div></div>
+      </div>
+      <div class="store">
+        <div class="store-h"><span class="ic" style="background:#7AA116"><svg aria-hidden="true"><use href="#g-s3"/></svg></span><div><b>S3, private</b><span>encrypted · versioned · Block Public Access</span></div></div>
+        <div class="egroup"><h4>Prefixes, from the boundary matrix</h4>
+          <div class="prefix"><code>sources/uploads/</code><span>quarantine for imports</span><code>sources/provider/</code><span>each answer as fetched</span><code>evidence/claude/&lt;route&gt;/</code><span>per-route evidence</span><code>evidence/exports/</code><span>the owner's exports</span><code>training/</code><span>read by training jobs</span><code>artefacts/candidates/</code><span>written by training jobs</span><code>artefacts/approved/</code><span>only the owner promotes here</span></div>
+        </div>
+        <div class="egroup"><h4>The PWA</h4><p style="font-size:13px;color:var(--ink-2)">A separate bucket behind CloudFront with origin access control. No data.</p></div>
+      </div>
+      <div class="store">
+        <div class="store-h"><span class="ic" style="background:#E7157B"><svg aria-hidden="true"><use href="#g-ssm"/></svg></span><div><b>SSM Parameter Store</b><span>SecureString · no per-secret fee</span></div></div>
+        <div class="egroup"><h4>Put by hand, never in state</h4><div class="list"><code>Twelve Data key</code><code>Anthropic key, per route</code><code>Anthropic admin key, if adopted</code></div></div>
+        <p style="font-size:13px;color:var(--ink-2)">Terraform creates each parameter with a placeholder and ignores later changes to its value. Each role reads only its own key; code reads it at run time and nothing prints it.</p>
+        <div class="egroup"><h4>Kept for</h4><div class="prefix"><code>logs</code><span>14 days</span><code>traces</code><span>30 days</span><code>run summaries</code><span>90 days</span><code>originals</code><span>a renewable 24 months</span><code>records</code><span>the life of the account</span><code>batch results</code><span>29 days at Anthropic, copied at once</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="delivery" aria-labelledby="del-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Environments and delivery · MP-29, MP-30</p>
+      <h2 id="del-h">Terraform only, one artefact, prod on the owner's release route</h2>
+      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the nine CI checks. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-open">Open</span> how prod approval is enforced on GitHub Free (PL-11).</p>
+    </div>
+    <div class="pipe-wrap"><span class="runner" aria-hidden="true"></span>
+    <ol class="pipe" aria-label="The release pipeline, in order">
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-branch"/></svg></span><b>PR gates</b><span>Nine checks today; scans proposed: OSV-Scanner, pip-audit, gitleaks, Ruff S</span><span class="tag t-impl">9 checks</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-terraform"/></svg></span><b>Terraform</b><span>fmt, validate, TFLint and Checkov now; <code>plan</code> with read-only credentials later</span><span class="tag t-sel">Terraform</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Build once</b><span>Lambda packages and the static PWA, each with a sha256 and an SBOM</span><span class="tag t-prop">proposed</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-shield"/></svg></span><b>Dev</b><span>GitHub OIDC into a dev-only role; synthetic smoke through the queue and workflow</span><span class="tag t-prop">proposed</span></li>
+      <li class="stg gate"><span class="ic"><svg aria-hidden="true"><use href="#g-person"/></svg></span><b>Owner approves</b><span>That exact sha256. The free route: a workflow only the owner dispatches</span><span class="tag t-open">route open</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lock"/></svg></span><b>Prod</b><span>From CI on <code>main</code> only, into a separate prod role (ARC-11)</span><span class="tag t-sel">selected</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-check"/></svg></span><b>Smoke or roll back</b><span>Read-only checks; a failure moves the <code>live</code> alias back</span><span class="tag t-prop">proposed</span></li>
+    </ol></div>
+    <div class="envs">
+      <div class="env">
+        <div class="env-h"><b>dev</b><span class="tag t-sel">separate account</span></div>
+        <dl>
+          <dt>Data</dt><dd>Synthetic only: real identifiers such as <code>US-AAPL-XNAS-USD</code>, simulated prices</dd>
+          <dt>Market</dt><dd>Twelve Data Basic, $0 (8 credits a minute, 800 a day)</dd>
+          <dt>Claude</dt><dd>Event analysis capped at 10 a month</dd>
+          <dt>Trust</dt><dd>No dev role trusts or is trusted by a prod role</dd>
+        </dl>
+      </div>
+      <div class="env">
+        <div class="env-h"><b>prod</b><span class="tag t-sel">separate account</span></div>
+        <dl>
+          <dt>Data</dt><dd>Fills only through the app's own flows</dd>
+          <dt>Market</dt><dd>Twelve Data Grow 55, $29 a month, with Yahoo Finance alongside</dd>
+          <dt>Guard rails</dt><dd>Organizations with all features; the cost-guard SCP denies NAT, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it</dd>
+          <dt>Safety</dt><dd><code>prevent_destroy</code> and deletion protection on tables, buckets, user pools and keys</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules" aria-labelledby="rules-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Guardrails</p>
+      <h2 id="rules-h">Enforced in code, not asked of a prompt</h2>
+    </div>
+    <div class="rules">
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-calc"/></svg></span><h3>Claude never produces a number</h3><p>The ledger, returns, XIRR, risk, forecasts and rankings are Python and models. Every figure Claude quotes must come from a versioned tool result.</p><span class="where">The four rules, rule 1</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-noentry"/></svg></span><h3>It cannot trade</h3><p>No broker credentials, no order path, no personalised advice. Suggestions only, with uncertainty on show.</p><span class="where">AGENTS.md · rule 4</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-lock"/></svg></span><h3>One writer, exact approvals</h3><p>Imports become drafts. The controlled writer commits only the exact change the owner approved, within 15 minutes, with its audit row.</p><span class="where">ARC-02 · ARC-07</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-doc"/></svg></span><h3>Untrusted text stays data</h3><p>Files, pages and tool output are never instructions. Extraction runs with no tools and no write authority; source text in a history stays untrusted.</p><span class="where">ARC-06 · ARC-09</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-person"/></svg></span><h3>Step-up for what matters</h3><p>A promotion, a commit or a restart needs a fresh, strong sign-in bound to that action. A local Face ID alone never authorises anything on the server.</p><span class="where">ARC-07</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-snow"/></svg></span><h3>Frozen, then graded</h3><p>A forecast records its cutoff, versions, horizon and full distribution, and is scored only after the horizon. History is never rewritten.</p><span class="where">The four rules, rule 2</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-pause"/></svg></span><h3>A safety pause</h3><p>POLICY-003: an agreed alarm pauses that scope and tells the owner. Only the owner restarts it.</p><span class="where">Owner, 3 November 2026</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-shield"/></svg></span><h3>Egress by allowlist</h3><p>N0 has no VPC, so each role's outbound hosts are fixed in code and IAM: data workers reach the two providers, Claude workers only <code>api.anthropic.com</code>.</p><span class="where">MP-29 boundary matrix</span></div>
+      <div class="rule"><span class="ri"><svg aria-hidden="true"><use href="#g-eye"/></svg></span><h3>Nothing private in telemetry</h3><p>No secret, prompt, reply, amount, name or account number in a log, span or metric. A leak test with marker strings fails CI if one escapes.</p><span class="where">Observability, proposed</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cost" aria-labelledby="cost-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">What it costs to run · MP-10, MP-29</p>
+      <h2 id="cost-h">About £55 a month, under a hard £100 ceiling</h2>
+    </div>
+    <div class="budget">
+      <div class="bigrow"><span class="big">£54.73</span><span class="muted">a typical month with Claude on (£46.48 with it off), all-in: market data, both AWS accounts and Claude.</span></div>
+      <div class="bar" role="img" aria-label="Bar out of £100: market data £27.84, AWS £18.64, Claude £8.25, total £54.73. Marks at £60 warn, £75 reduce, £85 pause optional work, and £100 the ceiling.">
+        <div class="bseg s-data"><span>Data £27.84</span></div>
+        <div class="bseg s-cloud"><span>AWS £18.64</span></div>
+        <div class="bseg s-ai"><span>Claude</span></div>
+        <i class="mark" style="left:60%"></i><i class="mark" style="left:75%"></i><i class="mark" style="left:85%"></i><i class="mark cap" style="left:calc(100% - 3px)"></i>
+      </div>
+      <div class="marks" aria-hidden="true"><span style="left:60%">£60 warn</span><span style="left:75%">£75 reduce</span><span style="left:85%">£85 pause</span><span class="capl" style="left:100%">£100 ceiling</span></div>
+      <div class="keyrow"><span><i style="background:var(--saffron-fill)"></i>Twelve Data Grow 55, $29</span><span><i style="background:var(--sky-fill)"></i>AWS, both accounts in Virginia</span><span><i style="background:var(--violet-fill)"></i>Claude option A, about £8.24</span></div>
+      <p class="muted" style="margin-top:10px">Planning estimates at £0.80 to the dollar and 20% tax; cash counts in the month an invoice is due. The one allowed exception is the Apple Developer fee month. The busy-month stress case breaks the ceiling, which is why event analysis is capped at three a day and the ladder exists. <span class="tag t-open">Open</span> the discovery universe's cost.</p>
+    </div>
+  </div>
+</section>
+
+<section id="stands" aria-labelledby="stands-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Where it stands</p>
+      <h2 id="stands-h">Five gates before it goes live</h2>
+    </div>
+    <div class="path">
+      <div class="gate now"><span class="num">01</span><h3>Plan the architecture</h3><p>The parts, the rules and the costs, written down and chosen.</p><span class="here">we are here</span></div>
+      <div class="gate"><span class="num">02</span><h3>Owner signs it off</h3><p>The whole baseline approved at one exact revision (MP-20).</p></div>
+      <div class="gate"><span class="num">03</span><h3>Design every screen</h3><p>Every journey, admin included, drawn and approved before any building.</p></div>
+      <div class="gate"><span class="num">04</span><h3>Permission to build</h3><p>A separate, explicit yes.</p></div>
+      <div class="gate"><span class="num">05</span><h3>Prove, then launch</h3><p>Forecasts run in practice and earn trust before they count.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h3>Where this comes from</h3>
+      <p>README, ARCHITECTURE.md and TECH-STACK.md; the ARC-06b card on Claude models and batching; the owner's decision log, including the answers of 2 and 3 November 2026; the MP-29 region, network and envelope pack; the Market Agent page (F1 to F8, R0 to R2, the agent team); and the Confluence stack, observability and testing pages, as of 3 November 2026. Made for Jira MP-38.</p>
+      <p>Timings, tokens, costs, holdings, scores and ranges on this page are illustrative. Tickers are real identifiers from the synthetic fixtures; every value is simulated.</p>
+    </div>
+    <div>
+      <h3>Not advice</h3>
+      <p>MyPrediction (Mypaisaa Prediction) is personal decision support for one owner. It is not regulated financial or tax advice. It never trades and holds no broker credentials. Forecasts are uncertain; past results do not promise future ones.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent, text){
+  var e = document.createElementNS(NS, tag);
+  if (attrs) for (var k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function h(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+/* ================= the system map ================= */
+var CAT = { compute:"#ED7100", int:"#E7157B", db:"#C925D1", storage:"#7AA116", net:"#8C4FFF", sec:"#DD344C", mgmt:"#E7157B", ml:"#01A88D" };
+var N = {
+  ios:  {x:80, y:270, icon:"phone", door:1, name:"Apple app", sub:"SwiftUI · RN shell",
+         info:"SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications; a React Native shell owns navigation and typed bridge contracts only.",
+         facts:["Passkey, Apple or Google","Swift keeps the offline cache","Device matrix OPEN"]},
+  web:  {x:80, y:450, icon:"browser", door:1, name:"Web PWA", sub:"SvelteKit 3 · static",
+         info:"A prebuilt, static SvelteKit PWA served by CloudFront from private S3. No server rendering: every private read or command is an authenticated call to /api/v1.",
+         facts:["Service worker, Web Push","WCAG 2.2 AA PROPOSED","ARC-10 OWNER-SELECTED"]},
+  cog:  {x:260, y:200, icon:"cognito", cat:"sec", name:"Cognito", sub:"Apple · Google · passkey",
+         info:"One user pool per environment, on the Essentials tier, which passkeys need. Sensitive actions ask for a fresh, strong sign-in (step-up); a local Face ID alone is never server authorisation.",
+         facts:["ARC-07 OWNER-SELECTED","Two recovery paths","Approval: 15 min to start the commit"]},
+  apigw:{x:260, y:345, icon:"apigw", cat:"net", name:"API Gateway", sub:"REST · HTTPS + SSE",
+         info:"The only address the doors call, with a Cognito authorizer. The stream route uses response streaming through the Lambda Web Adapter: up to 15 minutes a response, a 5-minute idle timeout. The streaming proof is pending (PL-04).",
+         facts:["/api/v1/*","Rate limits on sign-in and costly routes","Errors carry request_id and trace_id"]},
+  cf:   {x:260, y:500, icon:"cloudfront", cat:"net", name:"CloudFront", sub:"PWA · private S3",
+         info:"Serves the prebuilt PWA shell from a private S3 origin through origin access control, on the owner's existing domain. It holds no financial data.",
+         facts:["mypaisapp.com","S3 Block Public Access"]},
+  api:  {x:400, y:345, icon:"lambda", cat:"compute", big:1, chip:"STARTER", name:"FastAPI λ", sub:"/api/v1 · Web Adapter",
+         info:"FastAPI on ordinary Lambda, Pydantic schemas at every boundary. It reads the ledger, forecasts and audit, appends audit, sends jobs to queues and starts durable workflows. It cannot write the ledger, read a secret or touch SageMaker.",
+         facts:["Runs today on a laptop: /api/v1/health, sample SSE","202 and a job id for long work","Lambda OWNER-SELECTED"]},
+  lw:   {x:530, y:500, icon:"lambda", cat:"compute", name:"Ledger writer λ", sub:"the one writer",
+         info:"The one controlled writer. It commits an exact change the owner approved, transactionally with its audit row, and reads the quarantined upload. No deletes, no secrets.",
+         facts:["Idempotent by key","Atomicity proof pending (PL-08)"]},
+  sched:{x:530, y:200, icon:"clock", cat:"int", name:"Scheduler", sub:"after each close",
+         info:"EventBridge Scheduler: each market's +15, +40, +60 and +75 marks, the 30-minute quote and risk checks, the overnight research run and the 07:30 briefing. The tick is the root of the run's trace.",
+         facts:["Europe/London","Quiet hours 22:00 to 07:00","ScheduleLateness alarm PROPOSED"]},
+  sqs:  {x:530, y:345, icon:"sqs", cat:"int", name:"SQS queues", sub:"per route · retries",
+         info:"Buffered, retried, replayable work: a queue per Claude route and per job type, each with a dead-letter queue. Trace context rides the message, once propagation is proved.",
+         facts:["Every step idempotent by key","Concurrency caps protect quotas"]},
+  dlq:  {x:400, y:500, icon:"dlq", cat:"int", name:"Dead-letter queues", sub:"kept · alarmed",
+         info:"What still fails after its retries is kept and alarmed, then replayed by code at most three times once its cause is healthy. A replay is a new run linked to the old one, never an edit.",
+         facts:["RunsUnfinished alarm","The ops warden is code"]},
+  wf:   {x:660, y:345, icon:"durable", cat:"compute", big:1, name:"Durable workflow λ", sub:"Python · checkpointed",
+         info:"Lambda Durable Functions in Python run the daily forecast, imports, approvals, research and learning runs. Each step is checkpointed and replays deterministically; a paid call or a started training job is reconciled, not blindly repeated.",
+         facts:["ARC-03, not Step Functions","Managed python3.13, 3.14; zip or image OPEN","Waits bound to the exact version"]},
+  data: {x:660, y:200, icon:"lambda", cat:"compute", name:"Data workers λ", sub:"provider adapters",
+         info:"Adapters for Twelve Data and Yahoo Finance. Each observation keeps its provider, symbol mapping, source time, ingestion time and quality flags, and is validated before it is stored. Egress only to the two providers.",
+         facts:["Grow 55 in prod, Basic in dev","Rights per listing unverified","Twelve Data key only"]},
+  ssm:  {x:800, y:200, icon:"ssm", cat:"mgmt", name:"SSM Parameter Store", sub:"SecureString",
+         info:"Every secret: the Twelve Data key and one Anthropic key per Claude route. Terraform creates each parameter with a placeholder and ignores its value; the owner puts the value by hand, so state never holds it.",
+         facts:["No per-secret fee","Each role reads only its own key","OWNER-SELECTED 3 Nov"]},
+  claude:{x:800, y:345, icon:"lambda", cat:"compute", big:1, name:"Claude routes λ", sub:"7 workers · one runner",
+         info:"One Lambda worker per task route on one bounded runner: the official anthropic Python SDK in an explicit, server-controlled loop, with typed, allowlisted, read-only tools and per-call budgets for time, tokens and steps.",
+         facts:["7 routes, 3 models","Batches for what can wait","Egress only to api.anthropic.com","No ledger writes"]},
+  inf:  {x:660, y:500, icon:"lambda", cat:"compute", name:"Inference λ", sub:"approved only",
+         info:"Runs only an approved artefact, found by its hash, on inputs frozen at the cutoff, and appends Prediction records. It never overwrites a forecast and never trains.",
+         facts:["By close +75","No always-on endpoint","Shadow runs labelled in practice"]},
+  code: {x:800, y:500, icon:"gear", cat:"compute", name:"Code workers λ", sub:"5 · no model",
+         info:"The grader, the bounded calibrator, the challenger trainer, the data steward and the ops warden: deterministic code, never a Claude agent.",
+         facts:["Bands OPEN","Automatic rollback","POLICY-003 pause"]},
+  sm:   {x:940, y:500, icon:"ml", cat:"ml", name:"SageMaker", sub:"CPU · isolated",
+         info:"Capped CPU training on ml.m5.large ($0.115 an hour), network-isolated, no VPC, no endpoint. At most two campaigns a month across dev and prod, each at most 96 fits and six instance-hours, admitted against the budget first.",
+         facts:["Writes artefacts/candidates/ only","Never promotes","ARC-04 OWNER-SELECTED"]},
+  ddb:  {x:660, y:650, icon:"dynamo", cat:"db", name:"DynamoDB", sub:"ledger · forecasts · audit",
+         info:"The ledger, market observations, append-only predictions, outcomes, model runs, research items, run records, audit and costs. A correction is a new version; history is never rewritten.",
+         facts:["One table or a few: OPEN","Reads pin one published version","ARC-02 OWNER-SELECTED"]},
+  s3:   {x:800, y:650, icon:"s3", cat:"storage", name:"S3, private", sub:"sources · artefacts",
+         info:"Encrypted, private and versioned: sources/uploads/ for quarantine, sources/provider/, evidence/claude/<route>/, evidence/exports/, training/, artefacts/candidates/ and artefacts/approved/.",
+         facts:["Originals a renewable 24 months","prevent_destroy in prod"]},
+  cw:   {x:260, y:650, icon:"cloudwatch", cat:"mgmt", name:"CloudWatch · X-Ray", sub:"ADOT · alarms",
+         info:"OpenTelemetry through the ADOT Lambda layer to X-Ray, sampled; Powertools JSON logs kept 14 days; eight custom metrics and six alarms in prod. No prompt, reply, amount or name in any log, span or metric.",
+         facts:["About $4.94 a month","Traces 30 days","PROPOSED"]},
+  market:{panel:1, name:"Market data", info:"Twelve Data Grow 55 ($29 a month) for prod, end-of-day on LSE, NSE and BSE; Basic ($0) for dev; Yahoo Finance alongside for delayed intraday UK and India prices and a cross-check. The owner accepts the published-terms risk for personal hobby use.", facts:["ARC-01 OWNER-SELECTED","No vendor contacted"]},
+  anth: {panel:1, name:"Anthropic API", info:"Claude through the official Python SDK, global inference at the standard price. Message Batches at half price for work no one waits on; 5-minute prompt caching on every route. MP makes no Claude call until the shared credit is verified.", facts:["Haiku, Sonnet, Opus 5.5","Model ids pinned per environment"]}
+};
+var E = {
+  ios_cog:    ["ios","cog","M108,262 C170,262 192,200 234,200"],
+  ios_apigw:  ["ios","apigw","M108,278 C170,278 192,345 234,345"],
+  web_apigw:  ["web","apigw","M108,442 C170,442 192,355 234,353"],
+  web_cf:     ["web","cf","M108,458 C170,458 192,500 234,500"],
+  apigw_cog:  ["apigw","cog","M260,319 V226"],
+  apigw_api:  ["apigw","api","M286,345 H368"],
+  api_sqs:    ["api","sqs","M432,345 H504"],
+  api_ddb:    ["api","ddb","M420,372 Q466,396 466,440 V640 Q466,668 494,668 H634"],
+  sched_sqs:  ["sched","sqs","M530,226 V319"],
+  sqs_wf:     ["sqs","wf","M556,345 H628"],
+  sqs_claude: ["sqs","claude","M548,322 C566,292 600,286 630,286 H720 C752,286 772,298 784,316"],
+  sqs_dlq:    ["sqs","dlq","M512,364 C486,392 440,440 416,476",1],
+  sqs_lw:     ["sqs","lw","M530,371 V474"],
+  lw_ddb:     ["lw","ddb","M530,526 V626 Q530,650 556,650 H634"],
+  dlq_cw:     ["dlq","cw","M382,520 C346,560 300,606 280,628",1],
+  wf_data:    ["wf","data","M660,313 V226"],
+  data_ssm:   ["data","ssm","M686,200 H774"],
+  data_market:["data","market","M680,180 C700,160 730,152 770,152 H1032"],
+  data_s3:    ["data","s3","M682,214 Q700,268 740,268 H846 Q870,268 870,292 V622 Q870,638 856,638 H826"],
+  wf_ddb:     ["wf","ddb","M636,368 Q616,384 616,420 V610 Q616,632 634,632"],
+  wf_inf:     ["wf","inf","M660,377 V474"],
+  inf_s3:     ["inf","s3","M684,520 C730,560 760,600 780,626"],
+  inf_ddb:    ["inf","ddb","M660,526 V624"],
+  wf_claude:  ["wf","claude","M692,345 H768"],
+  claude_anth:["claude","anth","M832,345 H1032"],
+  claude_ssm: ["claude","ssm","M800,313 V226"],
+  claude_ddb: ["claude","ddb","M776,370 Q730,382 730,420 V612 Q730,640 700,644 H686"],
+  wf_code:    ["wf","code","M690,362 C730,396 752,446 776,478"],
+  code_ddb:   ["code","ddb","M774,514 C748,522 730,544 730,572 V612 Q730,648 700,656 H686"],
+  code_sm:    ["code","sm","M826,500 H914"],
+  sm_s3:      ["sm","s3","M940,526 V646 Q940,662 924,662 H826"]
+};
+var LABELS = [
+  [178,328,"HTTPS · SSE"],[900,148,"EOD prices"],[930,336,"Messages · Batches"],[676,281,"chat: queued or direct, OPEN"],
+  [870,492,"isolated"],[454,428,"retries spent","end"],[322,598,"alarm"]
+];
+var MODELS = {
+  haiku:{name:"Haiku 5.5", id:"claude-haiku-5-5", y:338, c:"var(--m-haiku)"},
+  sonnet:{name:"Sonnet 5.5", id:"claude-sonnet-5-5", y:418, c:"var(--m-sonnet)"},
+  opus:{name:"Opus 5.5", id:"claude-opus-5-5", y:498, c:"var(--m-opus)"}
+};
+
+var SCEN = [
+ {id:"daily", name:"Daily forecast", sum:"The UK closes at 16:30; by 17:45 every UK listing has a frozen, versioned forecast for seven horizons.", steps:[
+  {p:["sched_sqs"], hot:["sqs"], tm:"16:45", t:"Close +15: the tick", d:"EventBridge Scheduler fires the UK collect job on SQS fifteen minutes after the close. The tick is the root of the run's trace.", c:"schedule: uk close +15 → SQS\njob_id · session 2026-11-03 · Europe/London"},
+  {p:["sqs_wf"], hot:["wf"], t:"A durable run starts", d:"A Python Durable Function takes the job. Every step is checkpointed and keyed, so a crash resumes where it stopped instead of starting again.", c:"durable: daily_forecast(market=UK, session=2026-11-03)\nstep: collect · key = job_id + session"},
+  {p:["wf_data","data_ssm","-data_ssm"], hot:["data","ssm"], t:"Data workers wake", d:"The workflow invokes the data workers. Their role can read only the Twelve Data key, at run time; nothing prints it.", c:"ssm GetParameter (SecureString) · the Twelve Data key only"},
+  {p:["data_market","-data_market"], hot:["market"], t:"End-of-day prices", d:"Twelve Data Grow 55 is end-of-day on the LSE; Yahoo Finance adds delayed intraday prices and a cross-check. Each observation is validated before it is kept.", c:"observation { provider, symbol_map, source_ts,\n  ingested_ts, quality_flags }"},
+  {p:["data_s3"], hot:["s3"], t:"Kept as fetched", d:"Each provider's raw answer is written to sources/provider/ for replay, and the observations are appended to the market table.", c:"s3 PutObject sources/provider/twelvedata/2026-11-03/…\nappend: market table"},
+  {p:["wf_data","data_market","-data_market"], hot:["data"], tm:"17:10", t:"Close +40: retry what is missing", d:"Any listing without a fresh price is fetched again. One still missing at the cutoff is labelled late and abstains, never guessed.", c:"retry: 1 listing missing → found · 0 late"},
+  {p:["wf_ddb"], hot:["ddb"], tm:"17:30", t:"Close +60: the cutoff freezes", d:"The inputs freeze: the data manifest's hash, the feature set version and the factors from last night's batch. Nothing after this moment can leak in.", c:"FeatureSet { version, data_cutoff 17:30, definition_hash }"},
+  {p:["wf_inf","inf_s3","-inf_s3"], hot:["inf"], t:"Only approved artefacts run", d:"The inference Lambda loads the approved artefact by its hash: the R0 rules and any R1 or R2 model the owner has promoted, task by task.", c:"load artefacts/approved/<task>/<sha256>\n7 horizons · q10, q50, q90 · p(drawdown)"},
+  {p:["inf_ddb"], hot:["ddb"], tm:"17:45", t:"Close +75: forecasts issued", d:"Prediction records are appended, never overwritten: as-of, target, horizon, distribution, calibration, model version, data cutoff and explanation references. The segment views are re-ranked.", c:"PutItem Prediction (append-only) × listings × 7\nSegmentView { segment, top5, cutoff }"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A notice, then a re-read", d:"An open door gets an SSE notice carrying only an id, a type, a time and a reference; it then re-reads the durable record. The US forecasts at 22:15 wait for the 07:30 briefing.", c:"event: forecasts.issued · ref: predictions/UK/2026-11-03\n(no values on the stream)"}
+ ]},
+ {id:"open", name:"Open the app", sum:"The owner opens the iPhone app and sees holdings with their ranges, then the top 5 per segment, then a live notice.", steps:[
+  {p:["ios_cog"], hot:["cog"], t:"Sign in", d:"Passkey, Apple or Google through Cognito. Tokens stay in the Keychain; Swift owns them, not the shell.", c:"Cognito: passkey (WebAuthn) → ID and access tokens"},
+  {p:["ios_apigw"], hot:["apigw"], t:"One call for the home screen", d:"The app asks for its portfolio view with the token and a fresh traceparent.", c:"GET /api/v1/portfolio?horizon=3M\nAuthorization: Bearer … · traceparent: 00-…"},
+  {p:["apigw_cog"], hot:["cog"], t:"Checked at the edge", d:"The Cognito authorizer checks the token's signature, audience and expiry before anything runs.", c:"authorizer: Cognito user pool · scope · exp"},
+  {p:["apigw_api"], hot:["api"], t:"FastAPI on Lambda", d:"The same Uvicorn app as on a laptop, through the Lambda Web Adapter in buffered mode; Pydantic validates in and out.", c:"Lambda Web Adapter (buffered) · FastAPI · Pydantic"},
+  {p:["api_ddb","-api_ddb"], hot:["ddb"], t:"Reads pin one published version", d:"Holdings, the latest Prediction for each holding at the chosen horizon, and the seven segment views, all from one complete published version, so nothing on screen mixes two runs.", c:"Query holdings · Query predictions(version=2026-11-03T17:45)\nQuery segment views × 7 (route name PROPOSED)"},
+  {p:["-apigw_api","-ios_apigw"], hot:["ios"], t:"Freshness on show", d:"Each row carries its provider and freshness. A late price is shown as late, never hidden behind a spinner.", c:"200 · request_id · trace_id\n{ holdings[], top5{segment: [5]}, freshness{} }"},
+  {p:["web_cf"], hot:["cf"], t:"On the web, the same calls", d:"The PWA shell loads from CloudFront; the service worker caches the shell, never data. Then the same authenticated /api/v1 calls.", c:"GET / (static SvelteKit) · origin access control"},
+  {p:["ios_apigw","apigw_api"], hot:["api"], t:"Opens the stream", d:"The SSE route streams through the adapter: heartbeats, resume from the last event id, at most 15 minutes, then reconnect.", c:"GET /api/v1/stream · Last-Event-ID · heartbeat"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A notice arrives", d:"US forecasts were issued overnight. The notice names the resource; it never carries holdings or values.", c:"event: forecasts.issued · id · type · time · ref"},
+  {p:["ios_apigw","apigw_api","api_ddb"], hot:["ddb"], t:"Re-read, not trusted from the stream", d:"The app re-reads the durable record with an ordinary authenticated request.", c:"GET /api/v1/predictions?market=US (re-read)"}
+ ]},
+ {id:"news", name:"News to analysis", sum:"Overnight, Haiku triages the day's news, code picks at most three events, Opus analyses them, and they become factors for the next forecast.", steps:[
+  {p:["sched_sqs","sqs_wf"], hot:["wf"], t:"The overnight research run", d:"The Scheduler starts the research workflow after the US close. Nothing here may block the 07:30 briefing.", c:"schedule: research overnight → SQS → durable run"},
+  {p:["wf_claude"], hot:["claude"], t:"Triage takes the day's items", d:"Hundreds of news, filing and calendar items. A batch request is a single shot, so the workflow fetches the inputs first. Source text is data, never an instruction.", c:"route: triage · inputs fetched first · custom_id per item"},
+  {p:["claude_ssm","-claude_ssm"], hot:["ssm"], t:"Its own key", d:"Each route's role reads only its own Anthropic key.", c:"ssm GetParameter (SecureString) · this route's key only"},
+  {p:["claude_anth","-claude_anth"], hot:["anth"], m:"haiku", t:"Haiku 5.5, through Message Batches", d:"Half price. Most batches finish within an hour; the promise is 24 hours. Results come back in any order, matched by custom_id.", c:"messages.batches.create · claude-haiku-5-5 · effort low\nup to 100,000 requests or 256 MB a batch"},
+  {p:["claude_ddb"], hot:["ddb"], t:"Tags stored; code scores relevance", d:"Instruments touched, event type, direction and novelty, dated by when each item became known. Code, not Claude, scores what matters.", c:"PutItem TriageTag × N · point-in-time"},
+  {p:["wf_ddb","-wf_ddb"], hot:["wf"], t:"Code picks at most three", d:"Material, touching a holding or the watchlist, and one of the seven event kinds: rate and inflation surprises, tariffs, conflict, earnings, OPEC+ and elections. The rest wait or are dropped with a recorded reason.", c:"select(material ∧ touches_holding) → 3 of 41\n38 deferred, each with its reason"},
+  {p:["wf_claude","claude_anth","-claude_anth"], hot:["anth"], m:"opus", t:"Opus 5.5 reads each in full", d:"Batched, at most three a day in prod. What changed against what was known, why it matters for the holding, second-order effects, and what would prove it wrong.", c:"claude-opus-5-5 · batch · effort medium\ncap: 3 a day (prod), 10 a month (dev)"},
+  {p:["claude_ddb"], hot:["ddb"], t:"One analysis, stored once", d:"A structured, cited, point-in-time record, reused by the briefing, the explanations and chat, never redone.", c:"PutItem EventAnalysis { event, instruments, change,\n  effect, horizon, uncertainty, invalidation, citations[] }"},
+  {p:["wf_claude","claude_anth","-claude_anth"], hot:["anth"], m:"haiku", t:"Haiku turns it into factors", d:"Structured factors per listing: versioned model inputs.", c:"route: factors · claude-haiku-5-5 · batch"},
+  {p:["claude_ddb","wf_inf"], hot:["inf"], t:"Into the next forecast, only if it earns it", d:"The factors freeze at the next cutoff. A news factor reaches a forecast only once it has shown incremental accuracy over the baseline.", c:"FeatureSet { factor: event_impact, admitted: false\n  until an ablation shows lift }"}
+ ]},
+ {id:"why", name:"Ask why", sum:"“Why did AstraZeneca's 3-month range widen?” answered by Sonnet with read-only tools, quoting a stored analysis.", steps:[
+  {p:["ios_apigw"], hot:["apigw"], t:"The question", d:"Posted with its client_message_id, which doubles as the idempotency key, and a new traceparent.", c:"POST /api/v1/conversations/{id}/turns\nclient_message_id · traceparent"},
+  {p:["apigw_cog","apigw_api"], hot:["api"], t:"Checked, reserved, accepted", d:"Pydantic validates the body, the cost check reserves the turn's maximum spend, and a run record is written as accepted.", c:"RunRecord(accepted) · reserve max spend\n← 202 · job_id · request_id · trace_id"},
+  {p:["api_sqs","sqs_claude"], hot:["claude"], t:"To the chat route", d:"Whether a live turn goes through SQS or a direct invoke is still open (PL-05). The trace context rides with it either way.", c:"chat route worker · run started"},
+  {p:["claude_anth","-claude_anth"], hot:["anth"], m:"sonnet", t:"Sonnet 5.5 plans", d:"The cached prefix (system prompt and tools, 5-minute TTL) and the conversation. It answers with a tool call.", c:"claude-sonnet-5-5 · effort low · live\nstop_reason: tool_use"},
+  {p:["claude_ddb","-claude_ddb"], hot:["ddb"], t:"Read-only tools", d:"It reads the stored forecast, its drivers and last night's event analysis, and quotes the analysis instead of redoing it.", c:"tool get_prediction(AZN, 3M)\ntool get_event_analysis(an_…)  · names PROPOSED"},
+  {p:["claude_anth","-claude_anth"], hot:["anth"], m:"sonnet", t:"The answer", d:"Every figure in it comes from a tool result; a figure that does not is refused before it is shown.", c:"stop_reason: end_turn · figures checked against tool results"},
+  {p:["claude_ddb"], hot:["ddb"], t:"Stored, and the run closed", d:"The turn is stored append-only with its citations; the run record closes with tokens, cost, tools and outcome.", c:"PutItem Turn + RunRecord { tokens, cost_usd 0.021 }"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A notice; the door re-reads", d:"The notice says the turn is ready; the app fetches it with an ordinary authenticated GET, a new trace joined by run_id.", c:"event: turn.ready · ref · run_id"}
+ ]},
+ {id:"learn", name:"Learning loop", sum:"Forecasts mature, code grades them, the calibrator adjusts inside its band or rolls back, and a challenger waits in shadow for the owner.", steps:[
+  {p:["sched_sqs","sqs_wf"], hot:["wf"], t:"After each close, a grading run", d:"Only forecasts whose horizon has passed and whose outcome is published are graded.", c:"durable: grade_and_calibrate(session)"},
+  {p:["wf_code"], hot:["code"], t:"The grader", d:"Deterministic code. It scores hit rate with calibration, error, interval coverage, turnover and the benchmark.", c:"grader: matured Predictions → Outcome records"},
+  {p:["code_ddb","-code_ddb"], hot:["ddb"], t:"Outcomes appended", d:"Each outcome is a new record joined to its prediction, never an edit of it.", c:"PutItem Outcome { prediction_id, realised, method, metrics }"},
+  {p:["code_ddb"], hot:["ddb"], t:"An adjustment inside the band", d:"The calibrator makes a small calibration or weighting change inside the band the owner approved in advance, and puts it on probation.", c:"CalibratorVersion v+1 · Δ inside band (size OPEN)\nprobation: next scores watched"},
+  {p:["code_ddb"], hot:["code"], f:1, t:"Scores worse: rolled back by itself", d:"The probation fails, so the adjustment reverts to the last good version on its own, and the audit records why.", c:"probation failed → rollback to vN · audit row"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], f:1, t:"Outside a band: it stops and asks", d:"Anything past a band, or an agreed alarm, pauses that scope under POLICY-003 and tells the owner. Only the owner restarts it.", c:"POLICY-003: pause scope · notify owner"},
+  {p:["wf_code","code_sm"], hot:["sm"], t:"A challenger, on a capped campaign", d:"The challenger trainer starts a SageMaker job on ml.m5.large with network isolation, admitted against the budget first.", c:"CreateTrainingJob ml.m5.large · network isolation\n≤ 96 fits · ≤ 6 instance-hours · ≤ 2 campaigns a month"},
+  {p:["sm_s3"], hot:["s3"], t:"Candidates, never approved by the job", d:"The job writes only artefacts/candidates/. Walk-forward folds with purge and embargo, then a held-out final test.", c:"s3 PutObject artefacts/candidates/<sha256>"},
+  {p:["wf_inf","inf_s3","inf_ddb"], hot:["inf"], t:"Shadow, beside the live model", d:"The candidate forecasts the same tasks, labelled in practice, until enough of its own forecasts mature.", c:"Prediction { state: shadow, model_version: R2:hgb@v3 }"},
+  {p:["-api_ddb","-apigw_api","-ios_apigw"], hot:["ios"], t:"A promotion request", d:"Scores side by side, its interval, no subgroup worse, cost and undo. It expires in 7 days.", c:"card: promotion request · expires in 7 days"},
+  {p:["ios_apigw","apigw_cog"], hot:["cog"], t:"The owner says yes, with a fresh sign-in", d:"Step-up: a fresh, strong sign-in bound to this exact promotion.", c:"step-up: fresh passkey assertion · bound to the action"},
+  {p:["apigw_api","api_sqs","sqs_wf","wf_ddb"], hot:["ddb"], t:"Promoted, with its evidence", d:"The workflow moves the approved pointer; the old version stays pinned for undo.", c:"ModelVersion { state: active } · previous pinned"}
+ ]},
+ {id:"fail", name:"Failure and replay", sum:"A provider times out after the US close: retried, kept, alarmed, late listings abstain, then one safe replay.", steps:[
+  {p:["sched_sqs","sqs_wf","wf_data"], hot:["data"], tm:"21:15", t:"US close +15", d:"The collect step runs as usual.", c:"durable: daily_forecast(market=US) · step collect"},
+  {p:["data_market"], hot:["market"], f:1, t:"The provider times out", d:"The call fails and the span is marked as an error with its trace id.", c:"timeout · span status ERROR"},
+  {p:["sqs_wf"], hot:["wf"], f:1, t:"Retried, not hammered", d:"The message returns after a growing wait; the step is idempotent, so a retry never doubles anything.", c:"retry with backoff · maxReceiveCount (value PROPOSED)"},
+  {p:["sqs_dlq"], hot:["dlq"], f:1, t:"Kept, not lost", d:"After its last try the message moves to the dead-letter queue.", c:"→ DLQ · kept"},
+  {p:["dlq_cw"], hot:["cw"], f:1, t:"An alarm reaches the owner", d:"RunsUnfinished rises above zero. An operations alarm is never an investment alert.", c:"alarm: RunsUnfinished > 0 → owner (channel OPEN)"},
+  {p:["wf_ddb"], hot:["ddb"], tm:"22:00", t:"The cutoff passes: late listings abstain", d:"Missing prices are labelled late; those forecasts abstain with the reason instead of guessing.", c:"Prediction { state: abstained, reason: stale_input }"},
+  {p:["-sqs_dlq"], hot:["sqs"], t:"Replay by the ops warden", d:"Once the provider is healthy, code replays the job, at most three times. A replay is a new run linked to the old one.", c:"redrive DLQ → queue · new run · span link"},
+  {p:["sqs_wf","wf_data","data_market","-data_market"], hot:["data"], t:"It succeeds, once", d:"Idempotent by job id and session: the late data is kept for the record and the next day's run.", c:"idempotency key: job_id + session"}
+ ]}
+];
+
+var svg = document.getElementById("sysmap");
+var gEdges, gPk, gNodes, edgeEls = {}, nodeEls = {}, modelEls = {};
+function buildMap(){
+  var defs = el("defs", null, svg);
+  var pat = el("pattern", {id:"dots", width:20, height:20, patternUnits:"userSpaceOnUse"}, defs);
+  el("circle", {cx:1, cy:1, r:1, style:"fill:var(--st-grid)"}, pat);
+  var f = el("filter", {id:"glow", x:"-20%", y:"-20%", width:"140%", height:"140%"}, defs);
+  el("feGaussianBlur", {stdDeviation:2.4, result:"b"}, f);
+  var m = el("feMerge", null, f); el("feMergeNode", {in:"b"}, m); el("feMergeNode", {in:"SourceGraphic"}, m);
+  el("rect", {x:0, y:0, width:1200, height:760, style:"fill:url(#dots)"}, svg);
+  el("rect", {class:"frame", x:16, y:96, width:128, height:648, rx:14}, svg);
+  el("text", {class:"flabel", x:30, y:118}, svg, "THE OWNER");
+  el("rect", {class:"frame aws", x:168, y:96, width:848, height:648, rx:14}, svg);
+  var aw = el("g", {transform:"translate(184,104)"}, svg);
+  el("text", {x:0, y:15, style:"fill:#FFFFFF;font:800 15px var(--body);letter-spacing:-.02em"}, aw, "aws");
+  el("path", {d:"M1 19 Q14 25 27 19", fill:"none", style:"stroke:#FF9900", "stroke-width":2.2, "stroke-linecap":"round"}, aw);
+  el("text", {class:"flabel strong", x:224, y:119}, svg, "prod account · dev the same shape · Organizations, cost-guard SCP");
+  el("rect", {class:"frame region", x:184, y:132, width:816, height:600, rx:10}, svg);
+  el("text", {class:"flabel", x:198, y:150}, svg, "US-EAST-1 · N0: NO VPC");
+  el("text", {class:"flabel", x:1032, y:118}, svg, "OUTSIDE AWS");
+
+  gEdges = el("g", null, svg);
+  for (var id in E){
+    edgeEls[id] = el("path", {d:E[id][2], class:"edge"+(E[id][3]===1?" dash":""), "data-e":id}, gEdges);
+  }
+  LABELS.forEach(function(l){ el("text", {class:"elabel", x:l[0], y:l[1], "text-anchor":l[3]||"middle"}, svg, l[2]); });
+  gNodes = el("g", null, svg);
+  panel("market", 1032, 128, 156, 104, function(g){
+    el("use", {href:"#g-chart", x:1042, y:136, width:26, height:26, style:"color:var(--st-sky)"}, g);
+    el("text", {class:"ptitle", x:1074, y:154}, g, "Market data");
+    el("text", {class:"pline", x:1044, y:180}, g, "Twelve Data Grow 55");
+    el("text", {class:"pline", x:1044, y:196}, g, "Yahoo Finance");
+    el("text", {class:"pline amber", x:1044, y:218}, g, "Basic ($0) in dev");
+  });
+  panel("anth", 1032, 262, 156, 300, function(g){
+    el("use", {href:"#g-spark", x:1044, y:272, width:26, height:26, style:"color:var(--st-violet)"}, g);
+    el("text", {class:"wordmark", x:1076, y:285}, g, "ANTHROPIC");
+    el("text", {class:"pline", x:1076, y:298}, g, "Claude API");
+    for (var k in MODELS){
+      var md = MODELS[k], mg = el("g", {class:"model", style:"color:"+md.c}, g);
+      el("rect", {x:1042, y:md.y-27, width:136, height:54, rx:12}, mg);
+      el("use", {href:"#g-spark", x:1050, y:md.y-13, width:26, height:26, style:"color:"+md.c}, mg);
+      el("text", {class:"mname", x:1082, y:md.y-2}, mg, md.name);
+      el("text", {class:"mid", x:1082, y:md.y+13}, mg, md.id);
+      modelEls[k] = mg;
+    }
+    el("text", {class:"pline", x:1044, y:540}, g, "Batches · 5-min cache");
+  });
+  for (var nid in N){ if (!N[nid].panel) node(nid, N[nid]); }
+  gPk = el("g", null, svg);
+}
+function panel(id, x, y, w, hgt, fill){
+  var g = el("g", {class:"node panel "+id, tabindex:0, role:"button", "aria-label":N[id].name, "data-id":id}, gNodes);
+  el("rect", {class:"ring", x:x-5, y:y-5, width:w+10, height:hgt+10, rx:18}, g);
+  el("rect", {class:"panel-box", x:x, y:y, width:w, height:hgt, rx:14}, g);
+  fill(g); nodeEls[id] = g; bindNode(g, id);
+}
+function node(id, n){
+  var g = el("g", {class:"node"+(n.door?" door":""), transform:"translate("+n.x+","+n.y+")", tabindex:0, role:"button", "aria-label":n.name+": "+n.sub, "data-id":id}, gNodes);
+  var s = n.big ? 64 : (n.door ? 56 : 52), hs = s/2;
+  el("rect", {class:"ring", x:-hs-6, y:-hs-6, width:s+12, height:s+12, rx:16}, g);
+  el("rect", {class:"tile", x:-hs, y:-hs, width:s, height:s, rx:n.big?15:12, style:n.door?null:"fill:"+CAT[n.cat]}, g);
+  if (n.big) el("rect", {x:-hs-3, y:-hs-3, width:s+6, height:s+6, rx:17, fill:"none", style:"stroke:var(--st-hot)", "stroke-width":1.5, opacity:.6}, g);
+  var gs = Math.round(s*0.66);
+  el("use", {href:"#g-"+n.icon, x:-gs/2, y:-gs/2, width:gs, height:gs, style:n.door?"color:var(--st-ink)":"color:#FFFFFF"}, g);
+  el("text", {class:"lbl", x:0, y:hs+16, "text-anchor":"middle"}, g, n.name);
+  el("text", {class:"sub", x:0, y:hs+29, "text-anchor":"middle"}, g, n.sub);
+  if (n.chip){
+    var pc = el("g", {class:"chipn", transform:"translate(-26,"+(-hs-20)+")"}, g);
+    el("rect", {x:0, y:0, width:52, height:14, rx:7}, pc);
+    el("text", {x:26, y:10, "text-anchor":"middle"}, pc, n.chip);
+  }
+  nodeEls[id] = g; bindNode(g, id);
+}
+var selNode = null;
+function bindNode(g, id){
+  g.addEventListener("click", function(){ inspect(id); });
+  g.addEventListener("keydown", function(ev){ if (ev.key==="Enter" || ev.key===" "){ ev.preventDefault(); inspect(id); } });
+}
+function inspect(id){
+  if (selNode && nodeEls[selNode]) nodeEls[selNode].classList.remove("sel");
+  selNode = id; nodeEls[id].classList.add("sel");
+  var n = N[id], box = document.getElementById("inspector");
+  box.innerHTML = '<span class="k">Inspector</span><h4>'+esc(n.name)+(n.sub?' <span class="mono" style="font-weight:500;font-size:12px;color:var(--st-ink-3)">'+esc(n.sub)+'</span>':'')+'</h4><p>'+esc(n.info)+'</p><div class="facts">'+(n.facts||[]).map(function(f){ return "<span>"+esc(f)+"</span>"; }).join("")+'</div>';
+}
+var cur = null, idx = -1, playing = false, tok = 0;
+var tabsEl = document.getElementById("tabs"), stepsEl = document.getElementById("steps"), detailEl = document.getElementById("detail");
+var playBtn = document.getElementById("play");
+function edgeId(s){ return s.charAt(0)==="-" ? s.slice(1) : s; }
+function setScenario(s){
+  tok++; playing = false;
+  cur = s; idx = -1;
+  Array.prototype.forEach.call(tabsEl.children, function(b){ b.setAttribute("aria-pressed", b.dataset.id===s.id ? "true" : "false"); });
+  var used = {}, touched = {};
+  s.steps.forEach(function(st){
+    st.p.forEach(function(x){ var e = edgeId(x); used[e] = (used[e]||0) | (st.f?2:1); touched[E[e][0]]=1; touched[E[e][1]]=1; });
+    st.hot.forEach(function(x){ touched[x]=1; });
+  });
+  for (var id in edgeEls){
+    var c = edgeEls[id].classList; c.remove("lit","cur","fail","dim");
+    if (used[id]){ c.add("lit"); if (used[id]===2) c.add("fail"); } else c.add("dim");
+  }
+  for (var nid in nodeEls){ nodeEls[nid].classList.remove("cur","fail"); nodeEls[nid].classList.toggle("dim", !touched[nid]); }
+  for (var k in modelEls) modelEls[k].classList.remove("on");
+  stepsEl.innerHTML = "";
+  s.steps.forEach(function(st, i){
+    var li = h("li", st.f ? "fail" : "");
+    var b = h("button"); b.type = "button";
+    var chip = st.m ? '<span class="mchip" style="color:'+MODELS[st.m].c+'">'+MODELS[st.m].name+'</span>' : (st.tm ? '<span class="mchip" style="color:var(--st-hot-2)">'+st.tm+'</span>' : '');
+    b.innerHTML = '<span class="n">'+(i+1)+'</span><span class="t">'+esc(st.t)+'</span>'+chip;
+    b.addEventListener("click", function(){ tok++; playing = false; doStep(i, tok); });
+    li.appendChild(b); stepsEl.appendChild(li);
+  });
+  detailEl.innerHTML = '<span class="k">'+esc(s.name)+' · '+s.steps.length+' steps</span><h3>'+esc(s.sum)+'</h3><p>Press Play to follow it hop by hop, or pick a step. The lit paths are every hop this journey takes; the dim ones belong to other journeys.</p>';
+  setPlayUI();
+}
+function setPlayUI(){
+  playBtn.querySelector("span").textContent = playing ? "Pause" : (cur && idx >= cur.steps.length-1 ? "Replay" : "Play");
+  playBtn.querySelector("svg").innerHTML = playing ? '<path d="M4 2.5 H6.5 V13.5 H4 Z M9.5 2.5 H12 V13.5 H9.5 Z"/>' : '<path d="M4 2.5 L13 8 L4 13.5 Z"/>';
+}
+function hop(spec, my, fail){
+  var id = edgeId(spec), rev = spec.charAt(0)==="-", p = edgeEls[id];
+  p.classList.add("cur"); if (fail) p.classList.add("fail");
+  if (RM) return wait(240);
+  var len = p.getTotalLength(), dur = Math.max(380, Math.min(950, len*2.2));
+  var g = el("g", {class:"pk"+(fail?" fail":"")}, gPk);
+  el("circle", {class:"pk-o", r:9}, g); el("circle", {class:"pk-i", r:3.8}, g);
+  return new Promise(function(res){
+    var t0 = performance.now();
+    function fr(now){
+      if (my !== tok){ g.remove(); res(); return; }
+      var t = Math.min(1, (now - t0)/dur), e = t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+      var pt = p.getPointAtLength(len * (rev ? 1-e : e));
+      g.setAttribute("transform", "translate("+pt.x+","+pt.y+")");
+      if (t < 1) requestAnimationFrame(fr); else { g.remove(); res(); }
+    }
+    requestAnimationFrame(fr);
+  });
+}
+function doStep(i, my){
+  idx = i; var st = cur.steps[i];
+  Array.prototype.forEach.call(stepsEl.children, function(li, j){ li.classList.toggle("cur", j===i); li.classList.toggle("done", j<i); });
+  for (var id in edgeEls) edgeEls[id].classList.remove("cur");
+  for (var nid in nodeEls) nodeEls[nid].classList.remove("cur","fail");
+  for (var k in modelEls) modelEls[k].classList.toggle("on", st.m===k);
+  detailEl.innerHTML = '<span class="k">Step '+(i+1)+' of '+cur.steps.length+(st.m?' · '+MODELS[st.m].name:'')+(st.tm?' · '+st.tm+' London':'')+'</span><h3>'+esc(st.t)+'</h3><p>'+esc(st.d)+'</p><div class="code">'+esc(st.c)+'</div>';
+  setPlayUI();
+  var chain = Promise.resolve();
+  st.p.forEach(function(spec){ chain = chain.then(function(){ if (my===tok) return hop(spec, my, !!st.f); }); });
+  return chain.then(function(){
+    if (my !== tok) return;
+    st.hot.forEach(function(nid){ var g = nodeEls[nid]; if (g){ g.classList.add("cur"); if (st.f) g.classList.add("fail"); } });
+  });
+}
+function run(){
+  var my = ++tok; playing = true; setPlayUI();
+  var start = (idx >= cur.steps.length-1) ? 0 : idx+1;
+  if (start === 0){ Array.prototype.forEach.call(stepsEl.children, function(li){ li.classList.remove("done","cur"); }); }
+  var chain = Promise.resolve();
+  for (var i = start; i < cur.steps.length; i++) (function(i){
+    chain = chain.then(function(){ if (my===tok) return doStep(i, my).then(function(){ if (my===tok) return wait(RM ? 1600 : 1250); }); });
+  })(i);
+  chain.then(function(){ if (my===tok){ playing = false; setPlayUI(); } });
+}
+playBtn.addEventListener("click", function(){ if (playing){ tok++; playing = false; setPlayUI(); } else run(); });
+document.getElementById("next").addEventListener("click", function(){ tok++; playing = false; if (idx < cur.steps.length-1) doStep(idx+1, tok); setPlayUI(); });
+document.getElementById("prev").addEventListener("click", function(){ tok++; playing = false; if (idx > 0) doStep(idx-1, tok); setPlayUI(); });
+buildMap();
+SCEN.forEach(function(s){
+  var b = h("button", "tab"); b.type = "button"; b.dataset.id = s.id; b.textContent = s.name;
+  b.addEventListener("click", function(){ setScenario(s); if (!RM) run(); });
+  tabsEl.appendChild(b);
+});
+setScenario(SCEN[0]);
+inspect("claude");
+if (!RM && "IntersectionObserver" in window){
+  var started = false;
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting && !started){ started = true; run(); io.disconnect(); } }); }, {threshold:.35});
+  io.observe(svg);
+}
+
+/* ================= the agent team ================= */
+var MOD = {haiku:["Haiku 5.5","claude-haiku-5-5"], sonnet:["Sonnet 5.5","claude-sonnet-5-5"], opus:["Opus 5.5","claude-opus-5-5"]};
+var AG = [
+  {n:1, name:"News and filings triage", icon:"news", m:"haiku", mode:"batch", prod:"sched", q:"triage", effort:"low or medium", vol:"Hundreds of short items a day", when:"Overnight, through Message Batches",
+   job:"Tags every news, filing and calendar item: instruments touched, event type, direction, novelty. Code, not Claude, scores relevance.",
+   tools:"None. A batch request is a single shot, so the workflow fetches its inputs first.", out:"Triage tags, dated by when each item became known."},
+  {n:2, name:"Event analysis", icon:"bolt", m:"opus", mode:"batch", prod:"wf", q:"event", effort:"medium to start", vol:"At most 3 a day in prod, 10 a month in dev", when:"Overnight, the few events code picks",
+   job:"Reads each full document against what was already known: what changed, why it matters for the holding, second-order effects, and what would prove it wrong.",
+   tools:"None in the batch; documents and prior evidence are fetched first.", out:"One structured, cited, point-in-time analysis, stored once and reused. Opus stays only if it beats Sonnet on the same labelled events."},
+  {n:3, name:"Structured factors", icon:"factor", m:"haiku", mode:"batch", prod:"wf", q:"factors", effort:"low or medium", vol:"One set per listing a day", when:"Overnight, after triage and analysis",
+   job:"Turns triage tags and event analyses into versioned model inputs for each listing.",
+   tools:"None.", out:"Factors frozen at the next cutoff. A factor enters a forecast only after it shows incremental accuracy."},
+  {n:4, name:"Statement and screenshot extraction", icon:"doc", m:"haiku", mode:"live", prod:"wf", q:"extract", effort:"low or medium", vol:"A few a month", when:"On import; the owner waits for a preview",
+   job:"Reads a CSV, Excel file, PDF statement or screenshot, quarantined in S3 first, into a typed draft.",
+   tools:"None, and no write authority.", out:"A draft only. The controlled writer commits it after the owner approves the exact change."},
+  {n:5, name:"Explanations and the 07:30 briefing", icon:"sun", m:"sonnet", mode:"live", prod:"sched", q:"explain", effort:"medium", vol:"Daily, and each Why", when:"07:30 London, and on request",
+   job:"Writes the morning briefing and each forecast's why from stored, versioned results, quoting stored event analyses.",
+   tools:"Read-only, allowlisted.", out:"Cited text; every figure from a tool result. Never waits on a batch submitted that morning."},
+  {n:6, name:"Chat, ask why", icon:"chat", m:"sonnet", mode:"live", prod:"api", q:"chat", effort:"low", vol:"On demand; daily caps OPEN", when:"The owner's question, from either door",
+   job:"Multi-turn answers about any forecast, suggestion or holding.",
+   tools:"Read-only tools over forecasts, prices, holdings and stored analyses.", out:"An answer with citations, stored append-only. Quotes a stored analysis instead of redoing it."},
+  {n:7, name:"Evaluation judges", icon:"scale", m:"sonnet", mode:"batch", prod:"eval", q:"judges", effort:"set per suite", vol:"Per change and sampled runs", when:"Through Inspect AI",
+   job:"Scores agent transcripts against rubrics, after the deterministic checks and replays.",
+   tools:"None; it reads the transcript under test.", out:"Scores calibrated against held-out human labels. Missing evidence or spent budget is incomplete, never green."}
+];
+var CODEW = [
+  {name:"Grader", icon:"target", st:"t-sel", stt:"Owner-selected", job:"After each close, scores every forecast whose horizon has passed: hit rate with calibration, error, coverage, turnover and the benchmark."},
+  {name:"Bounded calibrator", icon:"dial", st:"t-sel", stt:"Selected · bands open", job:"Small calibration and weighting steps inside owner-approved bands, on probation; rolls itself back if scores worsen."},
+  {name:"Challenger trainer", icon:"ml", st:"t-sel", stt:"Owner-selected", job:"Starts capped SageMaker campaigns, tests candidates walk-forward and held-out, runs them in shadow. Never promotes."},
+  {name:"Data steward", icon:"pipe", st:"t-prop", stt:"Proposed", job:"Fails over between sources, fills gaps, labels stale prices, makes a forecast abstain; asks the owner for any new source or paid feed."},
+  {name:"Ops warden", icon:"wrench", st:"t-prop", stt:"Proposed", job:"Retries, reconciles stuck runs, replays a dead-lettered job at most three times once healthy, and raises incidents."}
+];
+var PROD = {sched:{y:100, name:"Scheduler", sub:"overnight · 07:30"}, wf:{y:198, name:"Durable workflow", sub:"daily run · imports"}, api:{y:390, name:"FastAPI", sub:"the owner waits"}, eval:{y:470, name:"Inspect AI", sub:"per change · sampled"}};
+var MPILL = {haiku:{y:110, c:"var(--m-haiku)"}, opus:{y:240, c:"var(--m-opus)"}, sonnet:{y:400, c:"var(--m-sonnet)"}};
+var crew = document.getElementById("crew");
+(function(){
+  var defs = el("defs", null, crew);
+  var pat = el("pattern", {id:"dots2", width:20, height:20, patternUnits:"userSpaceOnUse"}, defs);
+  el("circle", {cx:1, cy:1, r:1, style:"fill:var(--st-grid)"}, pat);
+  el("rect", {x:0, y:0, width:1100, height:600, style:"fill:url(#dots2)"}, crew);
+  var lines = el("g", null, crew), nodes = el("g", null, crew);
+  var LY = function(i){ return 70 + i*64; };
+  // producers
+  for (var pk in PROD){
+    var P = PROD[pk], pg = el("g", null, nodes);
+    el("rect", {x:24, y:P.y-24, width:160, height:48, rx:12, style:"fill:var(--st-bg-3);stroke:var(--st-line)"}, pg);
+    el("text", {x:38, y:P.y-3, style:"fill:var(--st-ink);font:700 12.5px var(--body)"}, pg, P.name);
+    el("text", {x:38, y:P.y+12, style:"fill:var(--st-ink-3);font:500 10px var(--mono)"}, pg, P.sub);
+  }
+  // model pills
+  for (var mk in MPILL){
+    var M = MPILL[mk], mg = el("g", null, nodes);
+    el("rect", {x:890, y:M.y-30, width:190, height:60, rx:14, style:"fill:var(--st-bg-3);stroke:"+M.c, "stroke-width":1.5}, mg);
+    el("use", {href:"#g-spark", x:902, y:M.y-15, width:30, height:30, style:"color:"+M.c}, mg);
+    el("text", {x:942, y:M.y-2, style:"fill:var(--st-ink);font:700 14px var(--body)"}, mg, MOD[mk][0]);
+    el("text", {x:942, y:M.y+14, style:"fill:var(--st-ink-3);font:500 9.5px var(--mono)"}, mg, MOD[mk][1]);
+    MPILL[mk].g = mg;
+  }
+  el("text", {x:985, y:40, "text-anchor":"middle", style:"fill:var(--st-ink-3);font:600 10px var(--mono);letter-spacing:.12em"}, crew, "ANTHROPIC API");
+  el("text", {x:350, y:40, "text-anchor":"middle", style:"fill:var(--st-ink-3);font:600 10px var(--mono);letter-spacing:.12em"}, crew, "ONE SQS QUEUE PER ROUTE");
+  el("text", {x:104, y:40, "text-anchor":"middle", style:"fill:var(--st-ink-3);font:600 10px var(--mono);letter-spacing:.12em"}, crew, "WHO SENDS");
+  AG.forEach(function(a, i){
+    var y = LY(i), P = PROD[a.prod], M = MPILL[a.m];
+    a.inPath = "M184,"+P.y+" C206,"+P.y+" 208,"+y+" 230,"+y+" H470";
+    a.feed = el("path", {d:a.inPath, fill:"none", style:"stroke:var(--st-edge)", "stroke-width":1.5}, lines);
+    a.outPath = "M800,"+y+" C850,"+y+" 846,"+M.y+" 890,"+M.y;
+    a.link = el("path", {d:a.outPath, fill:"none", style:"stroke:"+M.c, "stroke-width":1.6, opacity:.55, "stroke-dasharray":a.mode==="batch"?"5 5":null}, lines);
+    var g = el("g", null, nodes);
+    el("rect", {x:236, y:y-14, width:234, height:28, rx:14, style:"fill:var(--st-bg-2);stroke:#E7157B", "stroke-width":1.2}, g);
+    el("text", {x:250, y:y+4, style:"fill:var(--st-ink-2);font:500 10.5px var(--mono)"}, g, a.q+" queue · DLQ");
+    for (var b = 0; b < 3; b++) el("rect", {x:420+b*14, y:y-6, width:10, height:12, rx:2, style:"fill:#E7157B", opacity:.45+b*.18}, g);
+    a.ring = el("circle", {cx:505, cy:y, r:27, fill:"none", style:"stroke:var(--st-hot)", "stroke-width":2, opacity:0}, g);
+    el("circle", {cx:505, cy:y, r:20, style:"fill:var(--st-bg-3);stroke:"+M.c, "stroke-width":2.5}, g);
+    el("text", {x:505, y:y+5, "text-anchor":"middle", style:"fill:var(--st-ink);font:800 14px var(--display)"}, g, String(a.n));
+    el("text", {x:538, y:y-3, style:"fill:var(--st-ink);font:700 13px var(--body)"}, g, a.name);
+    el("text", {x:538, y:y+13, style:"fill:var(--st-ink-3);font:500 10px var(--mono)"}, g, MOD[a.m][0]+" · "+(a.mode==="batch"?"Batches":"live"));
+  });
+  // code workers band
+  el("text", {x:236, y:516, style:"fill:var(--st-ink-3);font:600 10px var(--mono);letter-spacing:.12em"}, crew, "5 CODE WORKERS · DETERMINISTIC · NO MODEL");
+  el("path", {d:"M200,212 Q206,212 206,232 V540 Q206,556 222,556 H236", fill:"none", style:"stroke:var(--st-up)", "stroke-width":1.5, "stroke-dasharray":"3 4", opacity:.6}, lines);
+  CODEW.forEach(function(c, i){
+    var x = 236 + i*170, g = el("g", null, nodes);
+    c.box = el("rect", {x:x, y:530, width:160, height:52, rx:12, style:"fill:var(--st-bg-2);stroke:rgba(61,220,151,.5)", "stroke-width":1.2}, g);
+    el("use", {href:"#g-"+c.icon, x:x+10, y:543, width:26, height:26, style:"color:var(--st-up)"}, g);
+    el("text", {x:x+44, y:552, style:"fill:var(--st-ink);font:700 12px var(--body)"}, g, c.name);
+    el("text", {x:x+44, y:567, style:"fill:var(--st-ink-3);font:500 9.5px var(--mono)"}, g, "code · "+c.stt.split(" ·")[0].toLowerCase());
+  });
+  var now = document.getElementById("crewnow");
+  if (RM){ now.textContent = "Each route has its own queue, key, tools and budget; agents never call each other."; return; }
+  var pk = el("g", {style:"display:none"}, crew);
+  el("circle", {r:10, style:"fill:var(--st-hot)", opacity:.25}, pk); el("circle", {r:4.2, style:"fill:#FFF1D6"}, pk);
+  var tmp = el("path", {d:"M0,0", fill:"none", stroke:"none"}, crew);
+  var fi = 0, visible = false;
+  if ("IntersectionObserver" in window){ new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, {threshold:.15}).observe(crew); } else visible = true;
+  function along(d, dur, rev){
+    tmp.setAttribute("d", d); var len = tmp.getTotalLength();
+    return new Promise(function(res){
+      var t0 = performance.now(); pk.style.display = "";
+      function f(t){ var u = Math.min(1, (t-t0)/dur), e = u<.5 ? 2*u*u : 1-Math.pow(-2*u+2,2)/2, p = tmp.getPointAtLength(len*(rev?1-e:e));
+        pk.setAttribute("transform", "translate("+p.x+","+p.y+")"); if (u < 1) requestAnimationFrame(f); else res(); }
+      requestAnimationFrame(f);
+    });
+  }
+  function one(){
+    if (!visible){ setTimeout(one, 600); return; }
+    var a = AG[fi++ % AG.length], M = MPILL[a.m];
+    now.textContent = PROD[a.prod].name+" → "+a.q+" queue → worker "+a.n+" → "+MOD[a.m][0]+(a.mode==="batch"?" through Message Batches":" live");
+    a.feed.style.stroke = "var(--st-hot)";
+    along(a.inPath, 1500).then(function(){
+      a.ring.setAttribute("opacity", 1); a.link.setAttribute("opacity", 1);
+      M.g.firstChild.setAttribute("stroke-width", 3);
+      return along(a.outPath.replace(/^M800,(\d+)/, "M527,$1 H800"), a.mode==="batch"?1500:900);
+    }).then(function(){
+      return along(a.outPath.replace(/^M800,(\d+)/, "M527,$1 H800"), a.mode==="batch"?1500:900, true);
+    }).then(function(){
+      pk.style.display = "none";
+      setTimeout(function(){ a.ring.setAttribute("opacity", 0); a.link.setAttribute("opacity", .55); a.feed.style.stroke = ""; M.g.firstChild.setAttribute("stroke-width", 1.5); setTimeout(one, 300); }, 500);
+    });
+  }
+  setTimeout(one, 800);
+})();
+var agentsEl = document.getElementById("agents");
+var SPARK = '<svg aria-hidden="true"><use href="#g-spark"/></svg>';
+AG.forEach(function(a){
+  var d = h("article","agent");
+  d.innerHTML = '<div class="agent-top"><span class="agent-ic">'+a.n+'</span><div><h3>'+esc(a.name)+'</h3><p class="type">'+esc(a.when)+'</p></div></div>'+
+    '<div class="brain"><span class="chip '+a.m+'">'+SPARK+esc(MOD[a.m][0])+'</span><span class="chip '+a.mode+'">'+(a.mode==="batch"?"Message Batches":"live")+'</span></div>'+
+    '<dl><div><dt>Its job</dt><dd>'+esc(a.job)+'</dd></div><div><dt>Tools</dt><dd>'+esc(a.tools)+'</dd></div><div><dt>What it leaves</dt><dd>'+esc(a.out)+'</dd></div></dl>';
+  agentsEl.appendChild(d);
+});
+var ccEl = document.getElementById("codecrew");
+CODEW.forEach(function(c){
+  var d = h("article","agent");
+  d.innerHTML = '<div class="agent-top"><span class="agent-ic code"><svg aria-hidden="true"><use href="#g-'+c.icon+'"/></svg></span><div><h3>'+esc(c.name)+'</h3><p class="type">code · no model</p></div></div><span class="tag '+c.st+'" style="justify-self:start">'+esc(c.stt)+'</span><p style="font-size:13.5px;color:var(--ink-2)">'+esc(c.job)+'</p>';
+  ccEl.appendChild(d);
+});
+var rt = document.getElementById("routetable");
+AG.forEach(function(a){
+  var tr = h("tr");
+  tr.innerHTML = '<td>'+a.n+'</td><td>'+esc(a.name)+'</td><td><span class="chip '+a.m+'">'+SPARK+esc(MOD[a.m][0])+'</span> <code>'+MOD[a.m][1]+'</code></td><td><span class="chip '+a.mode+'">'+(a.mode==="batch"?"batch":"live")+'</span></td><td>'+esc(a.effort)+'</td><td>'+esc(a.vol)+'</td><td>'+esc(PROD[a.prod].name)+'</td>';
+  rt.appendChild(tr);
+});
+
+/* ================= holdings and top 5 (illustrative) ================= */
+var VOL = {AAPL:[.08,.25],MSFT:[.09,.24],NVDA:[.14,.45],AMZN:[.09,.30],JPM:[.07,.22],JNJ:[.05,.16],XOM:[.05,.26],SPY:[.07,.16],QQQ:[.09,.22],AZN:[.07,.20],SHEL:[.05,.24],HSBA:[.06,.22],ULVR:[.05,.17],"NG.":[.04,.17],"BP.":[.04,.27],LLOY:[.05,.26],BARC:[.06,.30],VOD:[.02,.24],CNX1:[.09,.23],RELIANCE:[.08,.25],TCS:[.08,.22],INFY:[.08,.24],HDFCBANK:[.09,.21],ICICIBANK:[.10,.24],SBIN:[.09,.28],ITC:[.07,.20],NIFTYBEES:[.08,.15]};
+var HZ = [["5D","5 days",5],["20D","20 days",20],["3M","3 months",63],["6M","6 months",126],["12M","12 months",252]];
+var HOLD = [
+  {t:"CNX1", n:"iShares NASDAQ 100 UCITS ETF", mk:"UK", gbp:18420, loc:"quoted in GBX", act:"add", why:"Below its weight band; growth and opportunity eligible", src:"Twelve Data · LSE close 16:30", st:"fresh"},
+  {t:"MSFT", n:"Microsoft", mk:"US", gbp:15960, loc:"$19,950", act:"hold", why:"Inside its band; the range is balanced", src:"Twelve Data · US close 21:00", st:"fresh"},
+  {t:"NVDA", n:"NVIDIA", mk:"US", gbp:12240, loc:"$15,300", act:"trim", why:"Above its weight band; the widest range held", src:"Twelve Data · US close 21:00", st:"fresh"},
+  {t:"AZN", n:"AstraZeneca", mk:"UK", gbp:9880, loc:"quoted in GBX", act:"hold", why:"Inside its band; protection strong", src:"Twelve Data · LSE close 16:30", st:"fresh"},
+  {t:"SPY", n:"SPDR S&P 500 ETF Trust", mk:"US", gbp:8200, loc:"$10,250", act:"rebalance", why:"US share above target; new money goes elsewhere first", src:"Twelve Data · US close 21:00", st:"fresh"},
+  {t:"RELIANCE", n:"Reliance Industries", mk:"IN", gbp:7410, loc:"₹8,02,300", act:"pause", why:"Price late at the cutoff; no new money until it is fresh", src:"Late at +40 · last price 31 Oct", st:"stale"},
+  {t:"NIFTYBEES", n:"Nippon India ETF Nifty 50 BeES", mk:"IN", gbp:6150, loc:"₹6,65,900", act:"add", why:"India below its target share; new money first", src:"Twelve Data · NSE close 10:00", st:"fresh", abst:"12M"}
+];
+var SEG = [
+  {id:"uslc", name:"US large caps", rows:[["MSFT","Microsoft",74,78,61],["NVDA","NVIDIA",88,52,80],["JPM","JPMorgan Chase",60,71,66],["AAPL","Apple",62,74,55],["JNJ","Johnson & Johnson",41,90,58],["AMZN","Amazon",70,60,64],["XOM","Exxon Mobil",48,66,52]]},
+  {id:"ustech", name:"US tech · Nasdaq-100", rows:[["MSFT","Microsoft",74,78,61],["NVDA","NVIDIA",88,52,80],["AAPL","Apple",62,74,55],["AMZN","Amazon",70,60,64]], held:"Fifth place withheld: no other Nasdaq-100 listing in the synthetic universe has all three scores."},
+  {id:"ftse100", name:"UK FTSE 100", rows:[["AZN","AstraZeneca",58,82,60],["ULVR","Unilever",44,86,52],["SHEL","Shell",50,70,68],["NG.","National Grid",38,88,55],["HSBA","HSBC Holdings",55,68,62],["BP.","BP",46,60,64],["BARC","Barclays",54,55,60],["LLOY","Lloyds Banking Group",52,58,57]], held:"Not ranked: VOD, opportunity not eligible (too little evidence)."},
+  {id:"ftse250", name:"UK mid caps · FTSE 250", rows:[], open:true},
+  {id:"nifty", name:"India Nifty 50", rows:[["ICICIBANK","ICICI Bank",66,70,61],["HDFCBANK","HDFC Bank",62,74,59],["TCS","Tata Consultancy Services",60,76,57],["INFY","Infosys",58,72,60],["SBIN","State Bank of India",59,62,66],["ITC","ITC",45,84,50]], held:"Not ranked: RELIANCE, price late at the cutoff, so protection is not eligible today."},
+  {id:"inmid", name:"India mid caps", rows:[], open:true},
+  {id:"etf", name:"ETFs", rows:[["CNX1","iShares NASDAQ 100 UCITS ETF",71,63,58],["QQQ","Invesco QQQ ETF",72,62,58],["NIFTYBEES","Nippon India ETF Nifty 50 BeES",60,70,62],["SPY","SPDR S&P 500 ETF Trust",55,80,50]], held:"Only four ETFs in the synthetic universe; a fifth would come from the discovery universe (OPEN)."}
+];
+var state = {hz:2, seg:0};
+function score(r){ return .35*r[2] + .40*r[3] + .25*r[4]; }
+function rng(t, hi){ var v = VOL[t], yr = HZ[hi][2]/252, mid = v[0]*yr, w = 1.2816*v[1]*Math.sqrt(yr); return [mid-w, mid, mid+w]; }
+function pct(x){ var s = (x*100).toFixed(Math.abs(x) < .1 ? 1 : 0); return (x >= 0 ? "+" : "−")+s.replace("-","")+"%"; }
+function unc(r){ var w = r[2]-r[0]; return w < .08 ? "narrow" : w < .25 ? "moderate" : "wide"; }
+function gbp(n){ return "£"+n.toLocaleString("en-GB"); }
+function bar(r, lo, hi){
+  var span = hi-lo, L = (r[0]-lo)/span*100, W = (r[2]-r[0])/span*100, M = (r[1]-lo)/span*100, Z = (0-lo)/span*100;
+  return '<div class="rbar" aria-hidden="true"><span class="ax"></span><span class="zero" style="left:'+Z.toFixed(1)+'%"></span><span class="band" style="left:'+L.toFixed(1)+'%;width:'+W.toFixed(1)+'%"></span><span class="mid" style="left:calc('+M.toFixed(1)+'% - 1px)"></span></div>';
+}
+function axis(list){ var lo = 0, hi = 0; list.forEach(function(r){ if (r){ lo = Math.min(lo, r[0]); hi = Math.max(hi, r[2]); } }); var pad = (hi-lo)*.06; return [lo-pad, hi+pad]; }
+function segButtons(cls){ return SEG.map(function(s, i){ return '<button type="button" data-seg="'+i+'" aria-pressed="'+(i===state.seg)+'">'+esc(s.name)+'</button>'; }).join(""); }
+function hzButtons(){ return HZ.map(function(z, i){ return '<button type="button" data-hz="'+i+'" aria-pressed="'+(i===state.hz)+'" aria-label="'+z[1]+'">'+z[0]+'</button>'; }).join(""); }
+function top5(){
+  var s = SEG[state.seg];
+  if (s.open) return {s:s, rows:[]};
+  var rows = s.rows.slice().sort(function(a, b){ return score(b)-score(a); }).slice(0, 5);
+  return {s:s, rows:rows};
+}
+function gpo(r){ return '<span class="gpo" aria-label="growth '+r[2]+', protection '+r[3]+', opportunity '+r[4]+'"><i style="width:'+(r[2]*.35)+'%;background:var(--saffron-fill)"></i><i style="width:'+(r[3]*.40)+'%;background:var(--sky-fill)"></i><i style="width:'+(r[4]*.25)+'%;background:var(--mint-fill)"></i></span>'; }
+function openNote(s){ return '<div class="emptyseg"><b>Open.</b> No '+esc(s.name)+' listing is in the universe yet. Which listings, and how many, is still to decide, with their effect on data credits and cost.</div>'; }
+function render(){
+  var hi = state.hz, z = HZ[hi];
+  var hr = HOLD.map(function(x){ return (x.abst===z[0]) ? null : rng(x.t, hi); });
+  var ax = axis(hr), total = HOLD.reduce(function(a, x){ return a + x.gbp; }, 0);
+  var T = top5(), tr = T.rows.map(function(r){ return rng(r[0], hi); }), tax = axis(tr.length ? tr : [[-.1,0,.1]]);
+  // phone
+  var ph = '<div class="ph-h"><h4>Holdings</h4><span class="ph-total">'+gbp(total)+'</span></div>'+
+    '<p class="ph-sub">7 holdings · values in pounds · simulated</p>'+
+    '<div class="seg" role="group" aria-label="Forecast horizon">'+hzButtons()+'</div>';
+  HOLD.forEach(function(x, i){
+    var r = hr[i];
+    ph += '<div class="hrow"><div class="nm"><b>'+esc(x.t)+'</b><span>'+esc(x.n)+'</span></div><div class="val">'+gbp(x.gbp)+'<span>'+esc(x.loc)+'</span></div>'+
+      '<div class="rng">'+(r ? bar(r, ax[0], ax[1]) : '<span class="abst">abstains: too few mature '+esc(z[1])+' outcomes</span>')+(r ? '<span class="rtxt">'+pct(r[0])+' to '+pct(r[2])+'</span>' : '<span></span>')+'</div>'+
+      '<div class="why"><span class="act '+x.act+'">'+x.act+'</span><span>'+esc(x.why)+'</span></div>'+
+      '<div class="fresh'+(x.st==="stale"?" stale":"")+'" style="grid-column:1/-1"><i></i>'+esc(x.src)+'</div></div>';
+  });
+  ph += '<div class="ph-sec"><h5>Top 5 by segment</h5><span class="muted" style="font-size:11px">'+esc(z[1])+'</span></div><div class="segs" role="group" aria-label="Market segment">'+segButtons()+'</div>';
+  if (T.s.open) ph += openNote(T.s);
+  T.rows.forEach(function(r, i){
+    var q = tr[i];
+    ph += '<div class="trow"><span class="rk">'+(i+1)+'</span><div class="nm"><b>'+esc(r[0])+'</b><span>'+esc(r[1])+'</span>'+gpo(r)+'</div><div class="sc">'+score(r).toFixed(1)+'<span>'+unc(q)+'</span></div>'+
+      '<div class="rng">'+bar(q, tax[0], tax[1])+'<span class="rtxt">'+pct(q[0])+' to '+pct(q[2])+'</span></div></div>';
+  });
+  if (T.s.held) ph += '<div class="withheld">'+esc(T.s.held)+'</div>';
+  ph += '<p class="notadv">Ranges are the 10th to 90th percentile. Score: growth 35, protection 40, opportunity 25, only when all three are eligible. Decision support, not advice. MyPrediction never trades.</p>';
+  document.getElementById("phone").innerHTML = ph;
+  // web
+  var w = '<div class="wm-col"><div class="wm-head"><h4>Holdings · '+gbp(total)+'</h4><div class="seg" role="group" aria-label="Forecast horizon">'+hzButtons()+'</div></div>'+
+    '<table><thead><tr><th>Holding</th><th style="text-align:right">Value</th><th>'+esc(z[1])+' range, 10th to 90th</th><th>Action and reason</th><th>Freshness</th></tr></thead><tbody>';
+  HOLD.forEach(function(x, i){
+    var r = hr[i];
+    w += '<tr><td class="tick">'+esc(x.t)+'<span>'+esc(x.n)+'</span></td><td class="num">'+gbp(x.gbp)+'<span>'+esc(x.loc)+'</span></td>'+
+      '<td>'+(r ? bar(r, ax[0], ax[1])+'<span class="rtxt">'+pct(r[0])+' · '+pct(r[1])+' · '+pct(r[2])+'</span>' : '<span class="abst">abstains: too few mature outcomes</span>')+'</td>'+
+      '<td><span class="act '+x.act+'">'+x.act+'</span><div class="reason">'+esc(x.why)+'</div></td>'+
+      '<td><div class="fresh'+(x.st==="stale"?" stale":"")+'"><i></i>'+(x.st==="stale"?"late":"fresh")+'</div><div class="reason" style="color:var(--ink-3)">'+esc(x.src)+'</div></td></tr>';
+  });
+  w += '</tbody></table></div>';
+  w += '<div class="wm-col"><div class="wm-head"><h4>Top 5 · '+esc(T.s.name)+'</h4></div><div class="wm-segs segs" role="group" aria-label="Market segment">'+segButtons()+'</div>';
+  if (T.s.open) w += openNote(T.s);
+  if (T.rows.length) {
+    w += '<table><thead><tr><th>#</th><th>Listing</th><th style="text-align:right">Score</th><th>'+esc(z[1])+' range</th></tr></thead><tbody>';
+    T.rows.forEach(function(r, i){
+      var q = tr[i];
+      w += '<tr><td class="num" style="text-align:left">'+(i+1)+'</td><td class="tick">'+esc(r[0])+'<span>'+esc(r[1])+'</span>'+gpo(r)+'</td><td class="num">'+score(r).toFixed(1)+'<span>G '+r[2]+' · P '+r[3]+' · O '+r[4]+'</span></td><td>'+bar(q, tax[0], tax[1])+'<span class="rtxt">'+pct(q[0])+' to '+pct(q[2])+' · '+unc(q)+'</span></td></tr>';
+    });
+    w += '</tbody></table>';
+  }
+  if (T.s.held) w += '<div class="withheld">'+esc(T.s.held)+'</div>';
+  w += '<div class="gpokey"><span><i style="background:var(--saffron-fill)"></i>growth 35</span><span><i style="background:var(--sky-fill)"></i>protection 40</span><span><i style="background:var(--mint-fill)"></i>opportunity 25</span></div>';
+  w += '<p class="notadv">Illustrative. Ranked by MP\'s combined score from the latest frozen cutoff; decision support, not advice.</p></div>';
+  document.getElementById("webmock").innerHTML = w;
+}
+function onMockClick(ev){
+  var b = ev.target.closest("button"); if (!b) return;
+  if (b.dataset.hz !== undefined){ state.hz = +b.dataset.hz; render(); }
+  else if (b.dataset.seg !== undefined){ state.seg = +b.dataset.seg; render(); }
+}
+document.getElementById("phone").addEventListener("click", onMockClick);
+document.getElementById("webmock").addEventListener("click", onMockClick);
+render();
+
+/* ================= the daily clock ================= */
+(function(){
+  var c = document.getElementById("clocksvg");
+  var X = function(hh){ return 70 + hh*(1000/24); };
+  el("rect", {x:0, y:0, width:1100, height:300, style:"fill:var(--st-bg)"}, c);
+  el("rect", {class:"quiet", x:X(22), y:30, width:X(24)-X(22), height:240}, c);
+  el("rect", {class:"quiet", x:X(0), y:30, width:X(7)-X(0), height:240}, c);
+  el("text", {class:"ql", x:X(0)+8, y:46}, c, "QUIET HOURS 22:00 TO 07:00");
+  el("text", {class:"ql", x:X(22)+6, y:46}, c, "QUIET");
+  for (var hh = 0; hh <= 24; hh += 2){
+    el("line", {class:"gl", x1:X(hh), y1:30, x2:X(hh), y2:270}, c);
+    el("text", {class:"hr", x:X(hh), y:290, "text-anchor":"middle"}, c, (hh<10?"0":"")+hh+":00");
+  }
+  el("line", {class:"brief", x1:X(7.5), y1:30, x2:X(7.5), y2:270}, c);
+  el("text", {class:"bl", x:X(7.5)+6, y:62}, c, "07:30 BRIEFING");
+  var MK = [
+    {n:"India", s:"NSE, BSE", o:3.75, cl:10, y:100},
+    {n:"UK", s:"LSE", o:8, cl:16.5, y:170},
+    {n:"US", s:"NYSE, Nasdaq", o:14.5, cl:21, y:240}
+  ];
+  var W = [[15,"+15","#5EB0FF"],[40,"+40","#FFD08A"],[60,"+60","#F5A524"],[75,"+75","#3DDC97"]];
+  MK.forEach(function(m){
+    el("text", {class:"mk", x:12, y:m.y-4}, c, m.n);
+    el("text", {class:"ms", x:12, y:m.y+11}, c, m.s);
+    el("rect", {class:"sess", x:X(m.o), y:m.y-12, width:X(m.cl)-X(m.o), height:24, rx:8}, c);
+    for (var t = m.o + 0.5; t < m.cl; t += 0.5) el("circle", {class:"chk", cx:X(t), cy:m.y, r:2.4}, c);
+    W.forEach(function(w, i){
+      var x = X(m.cl + w[0]/60);
+      el("line", {class:"w", x1:x, y1:m.y-20, x2:x, y2:m.y+20, style:"stroke:"+w[2]}, c);
+      if (m.n === "UK") el("text", {class:"wl", x:x+3, y:(i%2 ? m.y+32 : m.y-24)}, c, i===3 ? w[1]+" forecast" : w[1]);
+      else if (i === 3) el("text", {class:"wl", x:x+3, y:m.y-24}, c, w[1]+" forecast");
+    });
+  });
+  el("text", {class:"ms", x:X(13.2), y:206, "text-anchor":"middle"}, c, "dots: quote and risk checks every 30 minutes");
+  if (!RM){
+    var pl = el("line", {class:"play", x1:X(0), y1:30, x2:X(0), y2:270}, c);
+    var t0 = performance.now();
+    (function tick(t){ var hh = ((t - t0)/1000*0.8) % 24; pl.setAttribute("x1", X(hh)); pl.setAttribute("x2", X(hh)); requestAnimationFrame(tick); })(t0);
+  }
+})();
+
+/* ================= the forecast engine ================= */
+var FM = [
+  ["F1","Point-in-time store","Ten years of market, economy and event data, each fact dated by when it became known."],
+  ["F2","Backtest lab","Replays any rule or policy without future information, from frozen manifests, with fees, FX and income."],
+  ["F3","Regime and drawdown risk","The market's mood with a probability, the chance of a deep fall, and a volatility forecast."],
+  ["F4","Similar days and events","Analog days since 2015; all seven event kinds, each qualifying on its own evidence."],
+  ["F5","Direction and range","q10, q50 and q90 and the chance of a rise, per task and horizon."],
+  ["F6","Side by side","The rules' call and the models' view in one card; disagreement shown; abstain with a reason."],
+  ["F7","Strategy layer","Ranked actions at 35, 40 and 25; contributions continue; rebalancing within bands."],
+  ["F8","Patterns","The wider technical set, tested before any use like every other challenger."]
+];
+var fg = document.getElementById("fgrid");
+FM.forEach(function(f){ var d = h("div","fm"); d.innerHTML = '<span class="fk">'+f[0]+'</span><h4>'+esc(f[1])+'</h4><p>'+esc(f[2])+'</p>'; fg.appendChild(d); });
+var MC = [
+  {k:"haiku", name:"Haiku 5.5", id:"claude-haiku-5-5", role:"Reads everything, cheaply.", uses:["Agent 1: triage of news, filings and calendar items, batched overnight","Agent 3: structured factors, batched","Agent 4: statement and screenshot extraction, live, no tools","No server-side refusal fallback: worth testing elsewhere, not adopted untested"], price:"$0.10 in · $0.50 out per million tokens · batched $0.05 · $0.25"},
+  {k:"opus", name:"Opus 5.5", id:"claude-opus-5-5", role:"Judgment on the few events that matter.", uses:["Agent 2: event analysis, batched, at most three a day in prod","Batched Opus costs the same per token as live Sonnet","Thinking is billed as output; effort medium to start","Kept only if it beats Sonnet on the same labelled events; otherwise the route drops to Sonnet"], price:"$4 in · $20 out per million tokens · batched $2 · $10"},
+  {k:"sonnet", name:"Sonnet 5.5", id:"claude-sonnet-5-5", role:"Answers live and writes the words.", uses:["Agent 5: explanations and the 07:30 briefing, live","Agent 6: chat, ask why, live, read-only tools, effort low","Agent 7: evaluation judges, batched through Inspect AI","Live chat drives the busy month; per-route caps are OPEN"], price:"$2 in · $10 out per million tokens · batched $1 · $5"}
+];
+var mcEl = document.getElementById("modelcards");
+MC.forEach(function(m){
+  var d = h("article","model-card");
+  d.innerHTML = '<div class="mh"><span class="spark" style="color:var(--m-'+m.k+')"><svg aria-hidden="true"><use href="#g-spark"/></svg></span><div><h3>'+m.name+'</h3><span class="mid">'+m.id+'</span></div></div><p class="role">'+esc(m.role)+'</p><ul>'+m.uses.map(function(u){ return "<li>"+esc(u)+"</li>"; }).join("")+'</ul><p class="price">'+esc(m.price)+'</p>';
+  mcEl.appendChild(d);
+});
+if (RM){ var lp = document.querySelector(".loopcard svg"); if (lp && lp.pauseAnimations) lp.pauseAnimations(); var dots = document.getElementById("lpdots"); if (dots) dots.style.display = "none"; }
+
+/* ================= the trace waterfall ================= */
+var KC = {door:"#1A5FA8", net:"#8C4FFF", compute:"#ED7100", int:"#E7157B", queue:"#E7157B", db:"#C925D1", model:"#7B5CE0", tool:"#0A8A55", link:"#9AA6C4"};
+var SPANS = [
+  {n:"ios · ask why", s:0, e:3700, d:0, k:"door", svc:"ios", a:{"door":"ios","client_message_id":"c_8q2…","conversation_id":"cv_5t…","traceparent":"minted by the door"}},
+  {n:"POST /api/v1/conversations/{id}/turns", s:15, e:150, d:1, k:"net", svc:"api-gateway", a:{"http.route":"/api/v1/conversations/{id}/turns","http.response.status_code":"202","authorizer":"Cognito · ok"}},
+  {n:"api λ · FastAPI", s:28, e:140, d:2, k:"compute", svc:"api", a:{"faas.trigger":"http","adapter":"Lambda Web Adapter, buffered","returns":"job_id · request_id · trace_id"}},
+  {n:"DynamoDB PutItem RunRecord(accepted)", s:60, e:74, d:3, k:"db", svc:"api", a:{"db.system":"dynamodb","entity":"RunRecord","state":"accepted","reserved_usd":"0.05 (max for the turn)"}},
+  {n:"SendMessage chat queue", s:96, e:118, d:3, k:"int", svc:"api", a:{"messaging.system":"aws_sqs","route":"chat","note":"SQS or direct invoke is OPEN (PL-05)"}},
+  {n:"chat queue · waiting", s:140, e:236, d:1, k:"queue", svc:"sqs", a:{"carried as":"message trace context","wait_ms":"96"}},
+  {n:"chat route λ", s:236, e:3470, d:1, k:"compute", svc:"claude-chat", a:{"faas.trigger":"pubsub","run_id":"run_4Kp9…","mp.route":"chat","model calls":"2"}},
+  {n:"chat claude-sonnet-5-5", s:266, e:1180, d:2, k:"model", ttft:540, svc:"claude-chat", a:{"gen_ai.provider.name":"anthropic","gen_ai.operation.name":"chat","gen_ai.request.model":"claude-sonnet-5-5","gen_ai.usage.input_tokens":"3,100","gen_ai.usage.cache_read.input_tokens":"6,000","gen_ai.usage.output_tokens":"140","gen_ai.response.finish_reasons":"tool_use","mp.batch":"false","mp.effort":"low","mp.cost_usd":"0.0088"}},
+  {n:"tool get_prediction", s:1190, e:1224, d:2, k:"tool", svc:"claude-chat", a:{"gen_ai.operation.name":"execute_tool","gen_ai.tool.name":"get_prediction","policy":"allowlisted · read-only","input / output bytes":"48 / 1,640"}},
+  {n:"tool get_event_analysis", s:1228, e:1262, d:2, k:"tool", svc:"claude-chat", a:{"gen_ai.operation.name":"execute_tool","gen_ai.tool.name":"get_event_analysis","policy":"allowlisted · read-only","source":"stored overnight, quoted not redone"}},
+  {n:"chat claude-sonnet-5-5", s:1270, e:3380, d:2, k:"model", ttft:480, sel:1, svc:"claude-chat", a:{"gen_ai.provider.name":"anthropic","gen_ai.operation.name":"chat","gen_ai.request.model":"claude-sonnet-5-5","gen_ai.usage.input_tokens":"3,600","gen_ai.usage.cache_read.input_tokens":"6,000","gen_ai.usage.output_tokens":"420","gen_ai.response.finish_reasons":"end_turn","mp.batch":"false","mp.effort":"low","mp.cost_usd":"0.0126"}},
+  {n:"DynamoDB PutItem Turn + RunRecord", s:3390, e:3420, d:2, k:"db", svc:"claude-chat", a:{"entity":"Turn, RunRecord","state":"succeeded","mp.cost_usd (run)":"0.0214"}},
+  {n:"SSE notice turn.ready", s:3440, e:3460, d:1, k:"compute", svc:"api-stream", a:{"route":"/api/v1/stream","event":"turn.ready","payload":"id · type · time · ref"}},
+  {n:"ios · re-read (new trace, linked)", s:3500, e:3700, d:1, k:"link", svc:"ios", a:{"joined by":"run_id","why":"the re-read is its own request"}}
+];
+var TOTAL = 3900, wf = document.getElementById("wf"), attrs = document.getElementById("attrs"), rowEls = [];
+function pc(v){ return (v/TOTAL*100).toFixed(3)+"%"; }
+(function(){
+  var ax = h("div","wf-axis"); ax.innerHTML = '<span class="wf-name" style="font-weight:600;color:var(--ink-3)">span</span>';
+  var tk = h("div","wf-ticks");
+  [0,1000,2000,3000].forEach(function(v){ var s = h("span"); s.style.left = pc(v); s.textContent = (v/1000)+" s"; tk.appendChild(s); });
+  ax.appendChild(tk); wf.appendChild(ax);
+  var grid = h("div","wf-grid"); [1000,2000,3000].forEach(function(v){ var i = h("i"); i.style.left = pc(v); grid.appendChild(i); }); wf.appendChild(grid);
+  SPANS.forEach(function(sp, i){
+    var r = h("button","wf-row"); r.type = "button";
+    r.setAttribute("aria-label", sp.n+", "+(sp.e-sp.s)+" milliseconds");
+    var nm = h("span","wf-name"); nm.style.paddingLeft = (16 + sp.d*14)+"px";
+    nm.innerHTML = '<i style="background:'+KC[sp.k]+'"></i>'+esc(sp.n);
+    var lane = h("span","wf-lane");
+    var b = h("span","wf-bar"+(sp.k==="queue"?" queue":"")+(sp.k==="link"?" link":""));
+    b.style.left = pc(sp.s); b.style.width = pc(sp.e-sp.s); b.style.background = KC[sp.k];
+    b.style.setProperty("--d", (sp.s/TOTAL*1.6).toFixed(2)+"s");
+    if (sp.ttft){ var tt = h("span","tt"); tt.style.left = (sp.ttft/(sp.e-sp.s)*100).toFixed(2)+"%"; tt.title = "first token"; b.appendChild(tt); }
+    var du = h("span","wf-dur"); du.textContent = (sp.e-sp.s)+" ms";
+    if (sp.e/TOTAL < .8) du.style.left = "calc("+pc(sp.e)+" + 6px)"; else du.style.right = "calc("+(100-sp.s/TOTAL*100).toFixed(3)+"% + 6px)";
+    lane.appendChild(b); lane.appendChild(du);
+    r.appendChild(nm); r.appendChild(lane);
+    r.addEventListener("click", function(){ select(i); });
+    wf.appendChild(r); rowEls.push(r);
+  });
+  var m1 = h("div","wf-mark"), m2 = h("div","wf-mark end");
+  m1.innerHTML = "<span>202 at the door · 0.15 s</span>"; m2.innerHTML = "<span>answer on screen · 3.7 s</span>";
+  wf.appendChild(m1); wf.appendChild(m2);
+  function fixMarks(){
+    var L = window.matchMedia("(max-width:640px)").matches ? 200 : 270;
+    m1.style.left = "calc("+L+"px + (100% - "+(L+18)+"px) * "+(150/TOTAL).toFixed(4)+")";
+    m2.style.left = "calc("+L+"px + (100% - "+(L+18)+"px) * "+(3700/TOTAL).toFixed(4)+")";
+  }
+  fixMarks(); window.addEventListener("resize", fixMarks);
+  var si = 0; SPANS.forEach(function(s, i){ if (s.sel) si = i; }); select(si);
+})();
+function select(i){
+  rowEls.forEach(function(r, j){ r.classList.toggle("sel", i===j); });
+  var sp = SPANS[i], rows = "";
+  for (var k in sp.a) rows += "<div><dt>"+esc(k)+"</dt><dd>"+esc(sp.a[k])+"</dd></div>";
+  rows += "<div><dt>service.name</dt><dd>"+esc(sp.svc)+"</dd></div><div><dt>environment</dt><dd>prod</dd></div>";
+  var note = sp.k==="model" ? "Two calls this turn: $0.0214 together, about 2p. The cost comes from the API's own usage counts and is added to the cost ledger." :
+             sp.k==="tool" ? "Tool inputs and outputs stay in MP's own records as protected evidence; the span keeps only sizes, the policy decision and the outcome." :
+             sp.k==="queue" ? "Trace context rides the message, so the worker continues the same trace once propagation is proved." :
+             sp.k==="link" ? "A new trace for the re-read, joined to this one by run_id, so Activity stays complete when a span is missing." :
+             "Every span carries run_id and the conversation id, never a name, an amount or the text.";
+  attrs.innerHTML = '<span class="k">Span · '+(sp.e-sp.s)+' ms</span><h4>'+esc(sp.n)+'</h4><dl>'+rows+'</dl><p class="note">'+note+'</p>';
+}
+var tb = document.getElementById("tracebox");
+if (!RM && "IntersectionObserver" in window){
+  var tio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ tb.classList.add("play"); tio.disconnect(); } }); }, {threshold:.25});
+  tio.observe(tb);
+}
+
+/* ================= top bar ================= */
+var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
+if ("IntersectionObserver" in window){
+  var secIO = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ links.forEach(function(a){ a.classList.toggle("on", a.getAttribute("href")==="#"+e.target.id); }); } }); }, {rootMargin:"-45% 0px -50% 0px"});
+  links.forEach(function(a){ var s = document.querySelector(a.getAttribute("href")); if (s) secIO.observe(s); });
+}
+})();
+</script>

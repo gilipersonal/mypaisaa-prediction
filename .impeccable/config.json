@@ -1,0 +1,53 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "icon-tile-stack",
+        "value": "*",
+        "files": [
+          "docs/architecture-explainer/index.html"
+        ],
+        "createdAt": "2026-11-03T11:09:18.745Z",
+        "reason": "Claude, MP-38: icons sit beside their h3 in a flex row (.ch); detector reads source order"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/architecture-explainer/index.html"
+        ],
+        "createdAt": "2026-11-03T11:09:18.764Z",
+        "reason": "Claude, MP-38: the budget bar is flush by design; .journey and .budget are padded with clamp(), which the detector does not resolve"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "docs/architecture-explainer/index.html"
+        ],
+        "createdAt": "2026-11-03T11:09:18.782Z",
+        "reason": "Claude, MP-38: uppercase is only on short mono eyebrow and tag labels, letter-spaced"
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "docs/architecture-explainer/index.html"
+        ],
+        "createdAt": "2026-11-03T11:09:18.801Z",
+        "reason": "Claude, MP-38: 11.5px is the mono layer label inside a scaling SVG and the small tag labels"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "docs/architecture-explainer/index.html"
+        ],
+        "createdAt": "2026-11-03T11:09:18.819Z",
+        "reason": "Claude, MP-38: remaining flags mix dark-theme text with light-theme tints, or SVG var() fills it cannot resolve; per-theme pairs measured at 4.5:1 or more"
+      }
+    ]
+  }
+}
