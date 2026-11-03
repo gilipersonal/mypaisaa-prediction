@@ -7,8 +7,8 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 
 **Status:**
 - **Owner-selected:** the Region, the Grow tier, Terraform, SSM Parameter Store, Organizations with a cost-guard SCP,
-  and the owner's existing domain, below.
-- **Proposed:** everything else on this page. That needs the owner's answers to the questions at the end, and none of
+  the owner's existing domain, N0, the cost collector's role and global Claude inference, below.
+- **Proposed:** the boundary matrix and the policy details on this page. That needs the owner's answers to the questions at the end, and none of
   it is built. IaC stays plan-only (AGENTS.md, `.claude/rules/aws-changes.md`).
 
 ## What the owner has decided (2 and 3 November 2026)
@@ -22,7 +22,10 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 | IaC (3 Nov) | **Terraform only**, from day one: every AWS change goes through Terraform | Decision log; `.claude/rules/aws-changes.md` |
 | Secrets (3 Nov) | SSM Parameter Store SecureString, with no per-secret fee | Decision log |
 | Guard rails (3 Nov) | Organizations with all features, and the cost-guard SCP. The Region allowlist SCP and the RCPs are not adopted | Decision log |
-| Domain (3 Nov) | The owner's existing domain | Decision log |
+| Domain (3 Nov) | The owner's existing domain, **mypaisapp.com**, renewed outside MP, so the cost model's domain line comes out | Decision log |
+| Network (3 Nov) | **N0**: no VPC for any Lambda, SageMaker training with network isolation, no NAT, endpoint, proxy or VPN; the lockdown is decided at PH-08 | Decision log |
+| Cost collector (3 Nov) | A read-only Cost Explorer role in the management account, assumed by the prod collector | Decision log |
+| Claude inference (3 Nov) | Global, at the standard price | Decision log |
 
 ## Virginia: every service MP needs is there
 
@@ -41,7 +44,7 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 - **Anthropic:** prompts are processed in the US or globally whatever the Region, so choosing London would not have
   changed this.
 - **UK GDPR:** the ICO treats purely personal or household processing as outside UK GDPR. MP holds the owner's own
-  holdings for his own decisions, so that carve-out most likely applies. It would stop applying if MP held anyone
+  holdings for the owner's own decisions, so that carve-out most likely applies. It would stop applying if MP held anyone
   else's data or were offered to others.
 
 ## Network: N0, with an empty N1 scope
@@ -148,15 +151,14 @@ Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-m
 
 | Month | Claude off | Claude option A (ARC-06b volume) |
 | --- | ---: | ---: |
-| The domain month (.com at $16, or .uk at $9) | £61.84 or £55.12 | £70.09 or £63.37 |
-| Every other month | £46.48 | £54.73 |
+| Every month (the domain is renewed outside MP) | £46.48 | £54.73 |
 | The Apple fee month, if the owner joins (the one allowed exception) | about £141.52 | about £149.77 |
 
-- **Under £100:** every month except the Apple fee month. With Claude on, only the .com domain month crosses £70, and
-  then by 9p.
+- **Under £100 and under the £70 plan:** every month except the Apple fee month.
 - **The £22 AWS share:** the AWS run rate is £19.84, leaving £2.16.
 - **Secrets:** SSM Parameter Store standard SecureString parameters have no per-secret fee, so they add nothing.
-- **The domain line:** the model's $15 a year stays until the existing domain's renewal is known.
+- **The domain line:** the foundation cost model still holds $15 a year for a domain. The owner's existing domain is
+  renewed outside MP, so that line comes out at the model's next revision (its check, `check_cash_timing.py`, pins it).
 - **Not in the model yet:**
   - Terraform's state buckets, at a few pence a month.
   - Internet data transfer out, at about $0.16 a month.
@@ -164,15 +166,7 @@ Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-m
 
 ## Questions for the owner
 
-Each has a recommended answer first.
-
-Answered on 3 November 2026: IaC (Terraform only), Organizations (all features), secrets (SSM Parameter Store), the
-cost-guard SCP (yes) and the domain (the owner's existing one). Still open:
-
-1. **The billing collector.** **(Recommended)** A read-only role in the management account; or a shared billing view.
-2. **Claude inference location.** **(Recommended)** Global, at the standard price; or US-only at 1.1 times the price.
-3. **The existing domain:** its name and its yearly renewal, so the cost model's $15-a-year domain line can be
-   replaced. If the renewal is already paid outside MP, the line comes out.
+All answered on 3 November 2026 (above). None is open.
 
 ## Questions for AWS (to ask only with the owner's yes)
 

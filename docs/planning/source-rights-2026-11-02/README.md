@@ -151,9 +151,9 @@ Each question has a recommended option first. Nothing is decided until the owner
 ## Questions for vendors (unsent: the owner chose not to contact vendors)
 
 **Twelve Data:**
-1. Does Grow's "view-only" label forbid one private individual from storing daily bars in his own private cloud and
+1. Does Grow's "view-only" label forbid one private individual from storing daily bars in their own private cloud and
    backups? Which is the cheapest individual tier that allows it?
-2. May he train and evaluate his own forecasting models on Grow or Pro data, and keep the models after cancelling?
+2. May they train and evaluate their own forecasting models on Grow or Pro data, and keep the models after cancelling?
 3. Is automated use with no one viewing allowed on Grow or Pro?
 4. May raw or derived prices be sent to Anthropic inside prompts?
 5. How many years of daily history do Grow and Pro give for LSE, NSE and BSE? Are every LSE investment trust and ETF
@@ -171,7 +171,7 @@ Each question has a recommended option first. Nothing is decided until the owner
 
 **AMFI:**
 1. May one person fetch NAVAll.txt and NAV history by script, store it, train private models, and show derived
-   results to himself, including through an AI processor?
+   results to themselves, including through an AI processor?
 2. On what terms, and with what attribution?
 
 ## Files

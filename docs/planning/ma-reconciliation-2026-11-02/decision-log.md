@@ -148,7 +148,11 @@ The owner answered the questions in [the MP-29 pack](../region-network-2026-11-0
 - **Guard rails:** AWS Organizations with all features, and the cost-guard SCP. That SCP denies NAT, interface endpoints,
   VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it. The Region allowlist SCP and the resource
   control policies are not adopted.
-- **Domain:** the owner's existing domain. Its name and renewal are still to record.
+- **Domain:** the owner's existing domain, mypaisapp.com, renewed outside MP, so the cost model's domain line comes out.
+- **Network: N0.** No VPC for any Lambda; SageMaker training runs with network isolation; no NAT, interface endpoint,
+  proxy or VPN. The optional lockdown is decided at PH-08.
+- **Cost collector:** a read-only Cost Explorer role in the management account, assumed by the prod collector.
+- **Claude inference:** global, at the standard price.
 
 These answers do not approve an apply, an account or any spending.
 

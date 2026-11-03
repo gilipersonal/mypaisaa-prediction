@@ -254,8 +254,9 @@ at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan fo
 decision (PL-11, MP-30).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
-SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. Proposed: N0 with an empty N1
-scope and a boundary matrix for every role
+SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. The owner also approved N0 (no VPC, with an empty
+N1 scope), a read-only management-account role for the cost collector, global Claude inference at the standard price,
+and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every role
 ([region, network and envelope](docs/planning/region-network-2026-11-03/README.md)).
 
 [![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)

@@ -179,6 +179,10 @@ window for sign-in, ledger reads, audit and recovery.
 | Grow at $79, the month the yearly domain renews | £108.88 (over the ceiling) |
 | Grow 55 credits at $29 if it is offered on the needed terms, the month the domain renews | £60.88 (at the warning) |
 
+On 3 November 2026 the owner chose Grow 55 and the owner's existing domain, mypaisapp.com, renewed outside MP, so no month carries a domain
+renewal. With Claude option A every month is about £54.73, except the one allowed Apple fee month
+([MP-29](docs/planning/region-network-2026-11-03/README.md#the-all-in-envelope)).
+
 ### What moves the number
 
 - **The data plan.** Grow at $79 is £75.84 on its own, more than the whole operating plan. It decides the month.

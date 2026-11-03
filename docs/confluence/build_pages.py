@@ -489,6 +489,7 @@ def rec_cost(s: str) -> str:
             + ul(["Warn at £60, reduce optional work at £75, pause it at £85.",
                   "Cash is counted in the month an invoice is due. No paid fallback switches on by itself.",
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
+                  "The domain is the owner's existing mypaisapp.com, renewed outside MP, so no month carries a domain renewal (owner, 3 November 2026).",
                   "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026).",
                   "Region: Virginia (us-east-1), owner-selected on 2 November 2026."])
             + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. The owner chose Grow 55, the only tier that keeps every month under £100.</p>"
@@ -1000,7 +1001,7 @@ def rec_apple_testing(s: str) -> str:
 def rec_perimeter(s: str) -> str:
     """🧱 Optional VPC lockdown, data perimeter and costing (PROPOSED). MP-36; adapted from MA's page 3670133."""
     price_list = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/index.json"
-    return (banner("proposed", "Nothing here is deployed and no network option is chosen. The baseline is a perimeter without a VPC. "
+    return (banner("proposed", "Nothing here is deployed. The owner approved N0, a perimeter without a VPC, on 3 November 2026. "
                    "The lockdown is optional, off by default and decided late. The Region is Virginia (us-east-1), owner-selected "
                    "on 2 November 2026 (PL-10, MP-29); London is shown alongside for comparison.",
                    ["ARCHITECTURE.md", "AGENTS.md",
@@ -1093,9 +1094,9 @@ def rec_perimeter(s: str) -> str:
             + "<h2>🧭 The recommendation</h2>"
             + panel("white_check_mark", "#E3FCEF", "<p>Build the baseline perimeter, with no VPC (N0). Keep the lockdown <strong>off by default</strong>. "
                     "Use L1 only if a job is shown to need a private network. Decide the lockdown last, at PH-08, from measured traffic and the security "
-                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected.</p>")
+                    "evidence of that phase. Any paid step needs a revised cost model and an ADR first. None of the steps is selected. "
+                    "The owner approved N0, with Organizations on all features and the cost-guard SCP, on 3 November 2026.</p>")
             + panel("question", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "Whether MP's organisation runs with all features, so the guard rails can exist; ARC-11 leaves the organisation open (PL-10, MP-29).",
                 "Whether any job, such as private SageMaker training, needs L1 (PL-10, MP-29; PL-07, MP-24).",
                 "One customer managed key per account, or AWS keys only (PL-10, MP-29).",
                 "Whether the lockdown is turned on, and which step, as part of release evidence (PL-11, MP-30)."]))
