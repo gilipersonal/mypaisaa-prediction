@@ -39,6 +39,22 @@
    "published_sha256": "65c61f854a7f30c85a10c7742da2ec6c5a996246405d702101b7c3dbc5731b1a",
    "published_at": "2026-11-03",
    "jira": "MP-62"
+  },
+  {
+   "slug": "ds-hybrid-a-fan",
+   "source": "docs/design/reviews/MP-62/hybrid-a/index.html",
+   "artifact_url": "https://claude.ai/artifact/VQpqwidcqYQsA55WkPpyvL",
+   "published_sha256": "e461775050d173802393107b60aef54cf88dea0d454fd6605647abac4487e9d9",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-hybrid-b-prism",
+   "source": "docs/design/reviews/MP-62/hybrid-b/index.html",
+   "artifact_url": "https://claude.ai/artifact/BqFU9xdCb6rjsj43y67BzE",
+   "published_sha256": "7350d5b7768590d84c5bbf4267cb3b29f3db8ac9303f804eda02ab28af1d86a3",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
   }
  ]
 }

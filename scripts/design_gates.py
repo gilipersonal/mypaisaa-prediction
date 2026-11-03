@@ -1,0 +1,763 @@
+#!/usr/bin/env python3
+"""MP's design pages hold their 20% brightness contrast and their smoothness rules (MP-62, brief-r2.md).
+
+    python3 scripts/design_gates.py check [FILE ...]   # the gated pages by default; exit 1 on any failure
+    python3 scripts/design_gates.py report FILE        # every measured pair, both themes, as a Markdown table
+    python3 scripts/design_gates.py selftest           # mutate copies of a good page; each must be refused
+
+The owner, 3 Nov 2026: "The apps should be colour contrasted in such way so that it is even visible at 20% mobile
+screen brightness level. Check all these features really careful. Smoothness is priority."
+
+Contrast. For two colours of relative luminance L1 > L2, WCAG 2.2's ratio (L1 + 0.05) / (L2 + 0.05) at full
+brightness, and (0.2 L1 + 0.05) / (0.2 L2 + 0.05) at 20%: the panel's light falls to a fifth while the room's
+reflected light (the 0.05) stays. It is MA-181's 25% model made stricter. Each pair must meet its tier at both:
+body 7 and 4.5, text 4.5 and 3, ui 3 and 1.8, presence 1.5 and 1.25. The pairs are the token contract's (CORE) plus
+those each page declares in its `mp-design-gates` JSON block, and labels on glass are measured on the glass composited
+over each named backdrop. Colours composite in sRGB, as browsers paint them.
+
+Smoothness. Only transform and opacity animate (clip-path and stroke-dashoffset for a chart drawing in); a transition
+never says `all` (nor leaves its property out, which means all); paint-only transitions stay at or under 200 ms;
+nothing loops forever or more than six times; glass blurs at most 24 px, only on the control layer, with a reduced
+transparency fallback; a reduced motion block exists; big boards use content-visibility; no scroll handlers or
+intervals; Web Animations never move layout. Text is at least 11 px and weight 400.
+
+The gate fails closed: a missing page, theme block, token or JSON block, a colour it cannot read, a dark block that
+differs from its twin, or a measured token set anywhere but the three theme blocks is a failure, not a skip. It reads
+the page's own CSS and script; scripts/design_runtime.mjs measures the rendered page.
+"""
+from __future__ import annotations
+
+import contextlib
+import io
+import json
+import re
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/MP-62/hybrid-b/index.html")
+DIM = 0.2
+LIMITS = {"body": (7.0, 4.5), "text": (4.5, 3.0), "ui": (3.0, 1.8), "presence": (1.5, 1.25)}
+
+CONTRACT = ("bg", "surface", "surface-2", "line", "ink", "ink-2", "ink-3", "hero", "hero-2", "hero-ink", "hero-ink-2",
+            "hero-up", "hero-mark", "hero-band", "accent", "on-accent", "up", "down", "alert", "alert-bg", "on-alert",
+            "warn", "warn-bg", "ok", "ok-bg", "info", "info-bg", "forecast", "band-80", "band-50", "outcome",
+            "scenario", "chart-grid", "track", "focus", "seg-on", "seg-on-ink", "glass")
+
+
+def _core() -> list[tuple[str, str, str]]:
+    p = [("body", f, b) for f, b in (("ink", "surface"), ("ink", "bg"), ("ink", "surface-2"), ("hero-ink", "hero"),
+                                     ("hero-ink", "hero-2"), ("on-accent", "accent"), ("seg-on-ink", "seg-on"))]
+    p += [("text", f, b) for f in ("ink-2", "ink-3") for b in ("surface", "bg", "surface-2")]
+    p += [("text", f, b) for f in ("hero-ink-2", "hero-up") for b in ("hero", "hero-2")]
+    p += [("text", f, b) for f in ("accent", "up", "down", "forecast") for b in ("surface", "bg")]
+    p += [("text", "alert", "surface"), ("text", "alert", "alert-bg"), ("text", "on-alert", "alert")]
+    p += [("text", f, b) for f in ("warn", "ok", "info") for b in ("surface", f"{f}-bg")]
+    p += [("ui", "forecast", "band-80+surface"), ("ui", "forecast", "band-50+band-80+surface"),
+          ("ui", "outcome", "surface"), ("ui", "outcome", "band-80+surface"), ("ui", "scenario", "surface"),
+          ("ui", "focus", "surface"), ("ui", "focus", "bg"), ("ui", "hero-mark", "hero"),
+          ("ui", "hero-mark", "hero-band+hero")]
+    p += [("presence", "track", b) for b in ("surface", "bg", "surface-2")]
+    p += [("presence", "band-80+surface", "surface"), ("presence", "band-50+band-80+surface", "band-80+surface"),
+          ("presence", "hero-band+hero", "hero"), ("presence", "seg-on", "surface-2")]
+    return [(t, "mp-" + "+mp-".join(f.split("+")), "mp-" + "+mp-".join(b.split("+"))) for t, f, b in p]
+
+
+CORE = _core()
+GLASS_BACKDROPS = ("mp-bg", "mp-surface", "mp-hero")
+
+KEYFRAME_OK = {"transform", "opacity", "translate", "scale", "rotate", "clip-path", "-webkit-clip-path",
+               "stroke-dashoffset", "visibility", "offset-distance", "animation-timing-function"}
+TRANSITION_OK = {"transform", "opacity", "translate", "scale", "rotate", "visibility", "clip-path", "stroke-dashoffset"}
+PAINT_OK = {"color", "background-color", "border-color", "outline-color", "box-shadow", "fill", "stroke",
+            "text-decoration-color", "outline-offset"}
+EASING = {"ease", "linear", "ease-in", "ease-out", "ease-in-out", "step-start", "step-end", "allow-discrete", "normal"}
+WILL_CHANGE_OK = {"transform", "opacity", "auto", "clip-path"}
+MAX_PAINT_MS, MAX_BLUR_PX, MAX_ITERATIONS, MIN_FONT_PX, MIN_WEIGHT = 200, 24, 6, 11, 400
+HOSTS = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
+LAYOUT_KEYS = ("left", "top", "right", "bottom", "width", "height", "margin", "padding", "inset", "fontSize",
+               "backgroundPosition", "filter", "backdropFilter", "boxShadow", "flexBasis")
+GLASS_SELECTOR_BAN = re.compile(r"(chip|badge|\bmark\b|\btag\b|\.dot\b)", re.I)
+
+
+class Fail(Exception):
+    pass
+
+
+# ---------------------------------------------------------------- reading the page
+
+def page_parts(html: str) -> tuple[str, str, dict | None]:
+    """(css, script, gates_json) from a page: every <style>, every executable <script>, the mp-design-gates block."""
+    css = "\n".join(re.findall(r"<style[^>]*>(.*?)</style>", html, flags=re.S | re.I))
+    scripts, gates = [], None
+    for attrs, body in re.findall(r"<script([^>]*)>(.*?)</script>", html, flags=re.S | re.I):
+        if 'id="mp-design-gates"' in attrs or "id='mp-design-gates'" in attrs:
+            try:
+                gates = json.loads(body)
+            except json.JSONDecodeError as e:
+                raise Fail(f"the mp-design-gates block is not valid JSON ({e})") from e
+        elif "application/json" not in attrs and "application/ld+json" not in attrs:
+            scripts.append(body)
+    return css, "\n".join(scripts), gates
+
+
+def rules(css: str) -> list[tuple[str, str, tuple[str, ...]]]:
+    """Every rule as (selector, body, enclosing blocks), comments and statements dropped."""
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    out, start, stack = [], 0, []
+    quote = None
+    for i, ch in enumerate(css):
+        if quote:
+            if ch == quote and css[i - 1] != "\\":
+                quote = None
+            continue
+        if ch in "\"'":
+            quote = ch
+        elif ch == "{":
+            stack.append(" ".join(css[start:i].split(";")[-1].split()))
+            start = i + 1
+        elif ch == "}":
+            if not stack:
+                raise Fail("the CSS has a '}' with no block to close; it cannot be read")
+            head = stack.pop()
+            if not head.startswith("@"):
+                out.append((head, css[start:i], tuple(stack)))
+            start = i + 1
+    if stack:
+        raise Fail(f"the CSS leaves a block open ('{stack[-1]}'); it cannot be read")
+    return out
+
+
+def split_top(text: str, sep: str) -> list[str]:
+    """Split on sep outside parentheses and quotes."""
+    out, depth, cur, quote = [], 0, [], None
+    for ch in text:
+        if quote:
+            cur.append(ch)
+            if ch == quote:
+                quote = None
+            continue
+        if ch in "\"'":
+            quote = ch
+        elif ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if ch == sep and depth == 0:
+            out.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+    out.append("".join(cur))
+    return [p.strip() for p in out if p.strip()]
+
+
+def decls(body: str) -> list[tuple[str, str]]:
+    out = []
+    for part in split_top(body, ";"):
+        if ":" in part and "{" not in part:
+            k, v = part.split(":", 1)
+            out.append((k.strip().lower() if not k.strip().startswith("--") else k.strip(), " ".join(v.split())))
+    return out
+
+
+def norm_sel(sel: str) -> list[str]:
+    return [" ".join(s.replace("'", '"').split()) for s in split_top(sel, ",")]
+
+
+DARK_MEDIA = re.compile(r"^@media\s*\(\s*prefers-color-scheme\s*:\s*dark\s*\)$", re.I)
+
+
+def theme_blocks(rs) -> tuple[dict, dict, dict, list]:
+    """(light, dark from the media query, dark from data-theme, the theme rules themselves)."""
+    light, dmedia, dattr, used = {}, {}, {}, []
+    for sel, body, enc in rs:
+        sels = norm_sel(sel)
+        if not enc and ":root" in sels:
+            light.update({k: v for k, v in decls(body) if k.startswith("--")})
+            used.append((sel, body, enc))
+        elif not enc and ':root[data-theme="dark"]' in sels:
+            dattr.update({k: v for k, v in decls(body) if k.startswith("--")})
+            used.append((sel, body, enc))
+        elif len(enc) == 1 and DARK_MEDIA.match(enc[0]) and ':root:not([data-theme="light"])' in sels:
+            dmedia.update({k: v for k, v in decls(body) if k.startswith("--")})
+            used.append((sel, body, enc))
+    return light, dmedia, dattr, used
+
+
+# ---------------------------------------------------------------- colour
+
+def parse_colour(v: str) -> tuple[float, float, float, float]:
+    s = v.strip().lower()
+    if s == "transparent":
+        return (0.0, 0.0, 0.0, 0.0)
+    if s in ("white", "#fff"):
+        s = "#ffffff"
+    if s == "black":
+        s = "#000000"
+    m = re.fullmatch(r"#([0-9a-f]{3,8})", s)
+    if m:
+        h = m.group(1)
+        if len(h) in (3, 4):
+            h = "".join(c * 2 for c in h)
+        if len(h) not in (6, 8):
+            raise Fail(f"cannot read the colour '{v}'")
+        a = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
+        return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16), a)
+    m = re.fullmatch(r"rgba?\((.*)\)", s)
+    if m:
+        parts = [p for p in re.split(r"[\s,/]+", m.group(1).strip()) if p]
+        if len(parts) not in (3, 4):
+            raise Fail(f"cannot read the colour '{v}'")
+
+        def chan(p):
+            return float(p[:-1]) * 2.55 if p.endswith("%") else float(p)
+
+        try:
+            r, g, b = (chan(p) for p in parts[:3])
+            a = (float(parts[3][:-1]) / 100 if parts[3].endswith("%") else float(parts[3])) if len(parts) == 4 else 1.0
+        except ValueError as e:
+            raise Fail(f"cannot read the colour '{v}'") from e
+        return (r, g, b, a)
+    raise Fail(f"cannot read the colour '{v}' (use hex, rgb(), rgba() or var() of a token)")
+
+
+def resolve(name: str, theme: dict, seen: tuple = ()) -> tuple[float, float, float, float]:
+    key = name if name.startswith("--") else "--" + name
+    if key in seen:
+        raise Fail(f"{key} refers to itself through var()")
+    if key not in theme:
+        raise Fail(f"{key} is not defined in this theme")
+    v = theme[key].strip()
+    m = re.fullmatch(r"var\(\s*(--[\w-]+)\s*(?:,.*)?\)", v)
+    if m:
+        return resolve(m.group(1), theme, seen + (key,))
+    return parse_colour(v)
+
+
+def over(fg, bg):
+    a = fg[3] + bg[3] * (1 - fg[3])
+    if a == 0:
+        return (0.0, 0.0, 0.0, 0.0)
+    return tuple((fg[i] * fg[3] + bg[i] * bg[3] * (1 - fg[3])) / a for i in range(3)) + (a,)
+
+
+def stack(expr: str, theme: dict):
+    layers = [resolve(t.strip(), theme) for t in expr.split("+")]
+    out = layers[-1]
+    for c in reversed(layers[:-1]):
+        out = over(c, out)
+    return out
+
+
+def lum(c) -> float:
+    def ch(v):
+        v = v / 255
+        return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
+    return 0.2126 * ch(c[0]) + 0.7152 * ch(c[1]) + 0.0722 * ch(c[2])
+
+
+def ratios(fg, bg) -> tuple[float, float]:
+    hi, lo = sorted((lum(fg), lum(bg)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05), (DIM * hi + 0.05) / (DIM * lo + 0.05)
+
+
+def measure(tier: str, fg_expr: str, bg_expr: str, theme: dict):
+    bg = stack(bg_expr, theme)
+    if bg[3] < 0.999:
+        raise Fail(f"the ground '{bg_expr}' is not opaque; name what lies under it (a+b)")
+    fg = over(stack(fg_expr, theme), bg)
+    full, dim = ratios(fg, bg)
+    need_full, need_dim = LIMITS[tier]
+    return full, dim, full + 1e-9 >= need_full and dim + 1e-9 >= need_dim
+
+
+# ---------------------------------------------------------------- the checks
+
+def contrast(css: str, gates: dict | None) -> tuple[list[str], list[tuple]]:
+    fails, rows = [], []
+    if gates is None:
+        return ["no mp-design-gates JSON block: the page's own pairs and glass cannot be measured"], rows
+    rs = rules(css)
+    light, dmedia, dattr, used = theme_blocks(rs)
+    if not light:
+        fails.append("no top-level :root block: the light theme cannot be measured")
+    if not dmedia:
+        fails.append('no :root:not([data-theme="light"]) block inside @media (prefers-color-scheme: dark)')
+    if not dattr:
+        fails.append('no :root[data-theme="dark"] block')
+    if fails:
+        return fails, rows
+    if dmedia != dattr:
+        diff = sorted(set(dmedia.items()) ^ set(dattr.items()))
+        fails.append(f"the two dark blocks differ ({', '.join(k for k, _ in diff[:6])}); the toggle and the system must match")
+    for t in CONTRACT:
+        if f"--mp-{t}" not in light:
+            fails.append(f"--mp-{t} is not defined on :root (the token contract)")
+    pairs = list(CORE)
+    for p in gates.get("pairs", []):
+        if not (isinstance(p, list) and len(p) == 3 and p[0] in LIMITS and all(isinstance(x, str) for x in p)):
+            fails.append(f"declared pair {p!r} is not [tier, foreground, ground] with a known tier")
+            continue
+        pairs.append((p[0], p[1].removeprefix("--"), p[2].removeprefix("--")))
+    glass = gates.get("glass")
+    uses_glass = bool(re.search(r"backdrop-filter\s*:", css))
+    if uses_glass and not glass:
+        fails.append("the page uses backdrop-filter but declares no glass in its mp-design-gates block")
+    if glass:
+        fill = str(glass.get("fill", "")).removeprefix("--")
+        backs = [str(b).removeprefix("--") for b in glass.get("backdrops", [])]
+        for need in GLASS_BACKDROPS:
+            if need not in backs:
+                fails.append(f"glass backdrops must include {need}")
+        for lab in glass.get("labels", []):
+            if not (isinstance(lab, list) and len(lab) == 2 and lab[0] in LIMITS):
+                fails.append(f"glass label {lab!r} is not [tier, token]")
+                continue
+            for b in backs:
+                pairs.append((lab[0], lab[1].removeprefix("--"), f"{fill}+{b}"))
+        if not glass.get("labels"):
+            fails.append("glass declares no labels to measure")
+    measured = {"--" + t for _, f, b in pairs for t in (f + "+" + b).split("+")}
+    for sel, body, enc in rs:
+        if (sel, body, enc) in used:
+            continue
+        for k, _ in decls(body):
+            if k in measured:
+                fails.append(f"{k} is set in '{sel}'{' inside ' + enc[0] if enc else ''}, outside the three theme "
+                             "blocks, so what that element shows is not measured")
+    themes = {"light": light, "dark": {**light, **dmedia}}
+    for tier, f, b in pairs:
+        for name, theme in themes.items():
+            try:
+                full, dim, ok = measure(tier, f, b, theme)
+            except Fail as e:
+                fails.append(f"{name}: {tier} {f} on {b}: {e}")
+                continue
+            rows.append((name, tier, f, b, full, dim, ok))
+            if not ok:
+                nf, nd = LIMITS[tier]
+                fails.append(f"{name}: {tier} {f} on {b} is {full:.2f}:1 full and {dim:.2f}:1 at 20% "
+                             f"(needs {nf}:1 and {nd}:1)")
+    return fails, rows
+
+
+def ms(value: str, root: dict) -> list[float]:
+    out = []
+    for m in re.finditer(r"var\(\s*(--[\w-]+)\s*\)|(-?\d*\.?\d+)(ms|s)\b", value):
+        if m.group(1):
+            v = root.get(m.group(1))
+            if v is None:
+                raise Fail(f"{m.group(1)} in '{value}' is not defined on :root")
+            out += ms(v, root)
+        else:
+            out.append(float(m.group(2)) * (1000 if m.group(3) == "s" else 1))
+    return out
+
+
+def transition_props(value: str) -> list[tuple[str, str]]:
+    """(property, the segment) for each comma-separated transition; a segment that names none means all."""
+    out = []
+    for seg in split_top(value, ","):
+        prop = "all"
+        for tok in split_top(seg, " "):
+            t = tok.lower()
+            if re.fullmatch(r"-?[a-z][a-z-]*", t) and t not in EASING:
+                prop = t
+                break
+        out.append((prop, seg))
+    return out
+
+
+def motion(css: str, script: str) -> list[str]:
+    fails = []
+    rs = rules(css)
+    root = {}
+    for sel, body, enc in rs:
+        if not enc and ":root" in norm_sel(sel):
+            root.update(dict(decls(body)))
+    has_reduce = any(re.search(r"prefers-reduced-motion\s*:\s*reduce", e, re.I) for _, _, enc in rs for e in enc)
+    if not has_reduce:
+        fails.append("no @media (prefers-reduced-motion: reduce) block")
+    if re.search(r"backdrop-filter\s*:", css) and not any(
+            re.search(r"prefers-reduced-transparency\s*:\s*reduce", e, re.I) for _, _, enc in rs for e in enc):
+        fails.append("backdrop-filter is used with no @media (prefers-reduced-transparency: reduce) fallback")
+    cv = False
+    for sel, body, enc in rs:
+        in_reduce = any(re.search(r"prefers-reduced-motion", e, re.I) for e in enc)
+        keyframes = next((e for e in enc if e.lower().startswith(("@keyframes", "@-webkit-keyframes"))), None)
+        d = decls(body)
+        props = {k for k, _ in d}
+        if "content-visibility" in props and dict(d)["content-visibility"].startswith("auto") \
+                and "contain-intrinsic-size" in props:
+            cv = True
+        for k, v in d:
+            lv = v.lower()
+            if keyframes:
+                if k not in KEYFRAME_OK:
+                    fails.append(f"{keyframes} animates '{k}': only transform and opacity (clip-path or "
+                                 "stroke-dashoffset for a chart drawing in) run on the compositor")
+                continue
+            if k in ("transition", "transition-property"):
+                if in_reduce:
+                    continue
+                if k == "transition-property":
+                    segs = [(p.strip().lower(), v) for p in split_top(v, ",")]
+                    dur = ms(dict(d).get("transition-duration", "0s"), root)
+                else:
+                    segs = transition_props(v)
+                    dur = None
+                for prop, seg in segs:
+                    if prop == "none":
+                        continue
+                    if prop == "all" or "*" in sel.split(","):
+                        fails.append(f"'{sel}' transitions all properties ('{k}: {v}'); name transform or opacity")
+                    elif prop in PAINT_OK:
+                        longest = max(dur if dur is not None else ms(seg, root)[:1] or [0.0])
+                        if longest > MAX_PAINT_MS:
+                            fails.append(f"'{sel}' transitions {prop} for {longest:.0f} ms; paint-only "
+                                         f"transitions stay at or under {MAX_PAINT_MS} ms")
+                    elif prop not in TRANSITION_OK:
+                        fails.append(f"'{sel}' transitions '{prop}', which is layout or an expensive paint")
+            elif k in ("animation", "animation-iteration-count"):
+                if in_reduce:
+                    continue
+                if "infinite" in lv:
+                    fails.append(f"'{sel}' loops forever ('{k}: {v}'); stop after at most {MAX_ITERATIONS}")
+                counts = [float(x) for x in re.findall(r"(?<![\w.#-])(\d+(?:\.\d+)?)(?![\w.%-])", lv)
+                          if k == "animation-iteration-count" or not re.search(r"\d+(?:\.\d+)?m?s", x)]
+                if k == "animation-iteration-count" and counts and max(counts) > MAX_ITERATIONS:
+                    fails.append(f"'{sel}' repeats {max(counts):g} times; at most {MAX_ITERATIONS}")
+                if k == "animation":
+                    for seg in split_top(lv, ","):
+                        bare = [t for t in split_top(seg, " ") if re.fullmatch(r"\d+(\.\d+)?", t)]
+                        if bare and max(float(b) for b in bare) > MAX_ITERATIONS:
+                            fails.append(f"'{sel}' repeats {max(float(b) for b in bare):g} times; at most {MAX_ITERATIONS}")
+            elif k == "will-change":
+                bad = [p for p in (x.strip() for x in lv.split(",")) if p not in WILL_CHANGE_OK]
+                if bad:
+                    fails.append(f"'{sel}' sets will-change: {', '.join(bad)}; only transform or opacity")
+            elif k in ("backdrop-filter", "-webkit-backdrop-filter") and lv != "none":
+                if GLASS_SELECTOR_BAN.search(sel):
+                    fails.append(f"'{sel}' puts glass on a chip, badge or mark; glass is for the control layer")
+                for arg in blur_args(lv):
+                    vm = re.fullmatch(r"var\(\s*(--[\w-]+)\s*\)", arg)
+                    if vm:
+                        arg = root.get(vm.group(1), "")
+                        if not arg:
+                            fails.append(f"'{sel}': {vm.group(1)} is not defined on :root, so its blur is unknown")
+                            continue
+                    pm = re.fullmatch(r"(\d*\.?\d+)px", arg.strip())
+                    if not pm:
+                        fails.append(f"'{sel}': cannot read the blur '{arg}'")
+                    elif float(pm.group(1)) > MAX_BLUR_PX:
+                        fails.append(f"'{sel}' blurs {pm.group(1)} px; at most {MAX_BLUR_PX}")
+            if k in ("font-size", "font"):
+                size = font_px(v, k == "font")
+                if size is not None and size < MIN_FONT_PX:
+                    fails.append(f"'{sel}' sets text at {size:g} px; at least {MIN_FONT_PX}")
+            if k in ("font-weight", "font"):
+                w = font_weight(v, k == "font")
+                if w is not None and w < MIN_WEIGHT:
+                    fails.append(f"'{sel}' sets font weight {w}; at least {MIN_WEIGHT}")
+    if not cv:
+        fails.append("no rule sets content-visibility: auto with a contain-intrinsic-size; long pages must skip "
+                     "off-screen boards")
+    fails += script_checks(script)
+    return fails
+
+
+def blur_args(value: str) -> list[str]:
+    """The argument of each blur() in a filter value, parentheses balanced (blur(var(--x)) reads var(--x))."""
+    out = []
+    for m in re.finditer(r"blur\(", value):
+        depth, i = 1, m.end()
+        while i < len(value) and depth:
+            depth += {"(": 1, ")": -1}.get(value[i], 0)
+            i += 1
+        out.append(value[m.end():i - 1].strip())
+    return out
+
+
+def font_px(v: str, shorthand: bool) -> float | None:
+    toks = split_top(v.split("/")[0] if shorthand else v, " ")
+    for t in toks:
+        m = re.fullmatch(r"(\d*\.?\d+)(px|rem)", t.strip())
+        if m:
+            return float(m.group(1)) * (16 if m.group(2) == "rem" else 1)
+        if not shorthand:
+            return None
+    return None
+
+
+def font_weight(v: str, shorthand: bool) -> int | None:
+    toks = split_top(v, " ")
+    for t in toks:
+        t = t.strip().lower()
+        if t == "lighter":
+            return 100
+        if re.fullmatch(r"[1-9]00", t):
+            return int(t)
+        if re.fullmatch(r"\d*\.?\d+(px|rem|em|%)(/.*)?", t):
+            return None
+        if not shorthand:
+            return None
+    return None
+
+
+def script_checks(script: str) -> list[str]:
+    fails = []
+    if re.search(r"addEventListener\(\s*['\"]scroll['\"]|\bonscroll\s*=", script):
+        fails.append("a scroll handler: start arrivals from an IntersectionObserver instead")
+    if re.search(r"\bsetInterval\s*\(", script):
+        fails.append("setInterval: nothing loops on a timer; use requestAnimationFrame that ends")
+    for m in re.finditer(r"\.animate\(", script):
+        window = script[m.end():m.end() + 600]
+        end = window.find("})")
+        window = window[: end if end > 0 else 600]
+        for key in LAYOUT_KEYS:
+            if re.search(rf"[{{,\s]['\"]?{key}['\"]?\s*:", window):
+                fails.append(f"a Web Animation moves '{key}'; animate transform or opacity")
+                break
+    return fails
+
+
+def markup(html: str) -> list[str]:
+    fails = []
+    if not re.search(r"<title>[^<]+</title>", html[:8192], re.I):
+        fails.append("no <title> in the first 8 KB")
+    for tag in ("html", "head", "body"):
+        if re.search(rf"<{tag}[\s>]", html, re.I):
+            fails.append(f"a <{tag}> tag: the artifact host adds the skeleton")
+    for m in re.finditer(r"""(?:<script[^>]*\ssrc|<link[^>]*\shref)\s*=\s*["']([^"']+)|url\(\s*["']?(https?://[^"')]+)|@import\s+(?:url\()?\s*["']([^"']+)""",
+                         html, re.I):
+        url = next(g for g in m.groups() if g)
+        if url.startswith(("data:", "#")) or url.startswith(HOSTS):
+            continue
+        fails.append(f"an external load from {url}; only Google Fonts may load")
+    for m in re.finditer(r"""font-size\s*=\s*["'](\d*\.?\d+)""", html):
+        if float(m.group(1)) < MIN_FONT_PX:
+            fails.append(f"an SVG text at font-size {m.group(1)}; draw labels at {MIN_FONT_PX} px or more")
+    for m in re.finditer(r"""style\s*=\s*"([^"]*)\"""", html):
+        for k, v in decls(m.group(1)):
+            if k in ("font-size", "font"):
+                s = font_px(v, k == "font")
+                if s is not None and s < MIN_FONT_PX:
+                    fails.append(f"an inline style sets text at {s:g} px; at least {MIN_FONT_PX}")
+            if k in ("transition",) and any(p == "all" for p, _ in transition_props(v)):
+                fails.append(f"an inline style transitions all properties ('{v}')")
+    return fails
+
+
+def check_page(html: str) -> tuple[list[str], list[tuple]]:
+    try:
+        css, script, gates = page_parts(html)
+        cfails, rows = contrast(css, gates)
+        return markup(html) + cfails + motion(css, script), rows
+    except Fail as e:
+        return [str(e)], []
+
+
+def check(paths: list[str]) -> int:
+    targets = paths or list(GATED)
+    extra = [str(p.relative_to(ROOT)) for p in (ROOT / "docs/design").rglob("*.html")
+             if 'id="mp-design-gates"' in p.read_text(errors="ignore")] if not paths else []
+    bad = 0
+    for rel in dict.fromkeys(targets + extra):
+        p = ROOT / rel if not Path(rel).is_absolute() else Path(rel)
+        if not p.is_file():
+            print(f"FAIL {rel}: the page is missing")
+            bad += 1
+            continue
+        fails, rows = check_page(p.read_text())
+        for f in fails:
+            print(f"FAIL {rel}: {f}")
+        bad += len(fails)
+        if not fails:
+            print(f"design-gates: {rel}: {len(rows)} pair measurements pass at full and 20% brightness; motion rules hold")
+    return 1 if bad else 0
+
+
+def report(path: str) -> int:
+    fails, rows = check_page((ROOT / path).read_text())
+    print("| Theme | Tier | Foreground | Ground | Full | 20% | Pass |\n| --- | --- | --- | --- | ---: | ---: | --- |")
+    for theme, tier, f, b, full, dim, ok in rows:
+        print(f"| {theme} | {tier} | {f} | {b} | {full:.2f} | {dim:.2f} | {'yes' if ok else 'NO'} |")
+    for f in fails:
+        print(f"FAIL: {f}")
+    return 1 if fails else 0
+
+
+# ---------------------------------------------------------------- selftest
+
+GOOD_LIGHT = {
+    "bg": "#F5F5F3", "surface": "#FFFFFF", "surface-2": "#F4F4F2", "line": "#E2E2DE", "ink": "#0B0D12",
+    "ink-2": "#3F4450", "ink-3": "#555B68", "hero": "#10192E", "hero-2": "#1B2742", "hero-ink": "#FFFFFF",
+    "hero-ink-2": "#C9D1E0", "hero-up": "#8EF0B4", "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)",
+    "accent": "#13265C", "on-accent": "#FFFFFF", "up": "#0E6B3B", "down": "#3F4450", "alert": "#A1102F",
+    "alert-bg": "#FBE6EA", "on-alert": "#FFFFFF", "warn": "#7A4300", "warn-bg": "#FCEFD9", "ok": "#0E6B3B",
+    "ok-bg": "#E3F3E8", "info": "#1D4FB0", "info-bg": "#E6EDFB", "forecast": "#7A4300",
+    "band-80": "rgba(245, 165, 36, 0.57)", "band-50": "rgba(196, 108, 0, 0.48)", "outcome": "#0E6B3B",
+    "scenario": "#5B3FB0", "chart-grid": "#E6E6E2", "track": "#B8BBC2", "focus": "#1D4FB0", "seg-on": "#0B0D12",
+    "seg-on-ink": "#FFFFFF", "glass": "rgba(255, 255, 255, 0.96)",
+}
+GOOD_DARK = {
+    "bg": "#07090D", "surface": "#11151C", "surface-2": "#1A1F28", "line": "#2A303B", "ink": "#FBFCFD",
+    "ink-2": "#D4D9E1", "ink-3": "#BCC3CE", "hero": "#0D1526", "hero-2": "#16213A", "hero-ink": "#FFFFFF",
+    "hero-ink-2": "#C9D1E0", "hero-up": "#8EF0B4", "hero-mark": "#FFB547", "hero-band": "rgba(255, 181, 71, 0.36)",
+    "accent": "#F4F6FA", "on-accent": "#07090D", "up": "#6FE3A0", "down": "#D4D9E1", "alert": "#FFB8C6",
+    "alert-bg": "#3A1724", "on-alert": "#1A0509", "warn": "#FFC46B", "warn-bg": "#33240A", "ok": "#6FE3A0",
+    "ok-bg": "#0F2A1A", "info": "#BCD0FF", "info-bg": "#16223F", "forecast": "#FFC46B",
+    "band-80": "rgba(255, 181, 71, 0.34)", "band-50": "rgba(255, 181, 71, 0.28)", "outcome": "#6FE3A0",
+    "scenario": "#C7B5FF", "chart-grid": "#20262F", "track": "#5A6372", "focus": "#BCD0FF", "seg-on": "#F4F6FA",
+    "seg-on-ink": "#07090D", "glass": "rgba(17, 21, 28, 0.94)",
+}
+
+
+def good_page() -> str:
+    def block(d):
+        return " ".join(f"--mp-{k}: {v};" for k, v in d.items())
+    gates = {"pairs": [["text", "mp-ink-2", "mp-chip-bg"]],
+             "glass": {"fill": "mp-glass", "backdrops": ["mp-bg", "mp-surface", "mp-hero", "mp-accent"],
+                       "labels": [["body", "mp-ink"], ["text", "mp-ink-2"]]}}
+    return f"""<title>Selftest page</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+<style>
+:root {{ {block(GOOD_LIGHT)} --mp-chip-bg: #EEF0F3; --mo-fast: 180ms; --blur: 18px; color-scheme: light; }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ {block(GOOD_DARK)} --mp-chip-bg: #232933; color-scheme: dark; }} }}
+:root[data-theme="dark"] {{ {block(GOOD_DARK)} --mp-chip-bg: #232933; color-scheme: dark; }}
+body {{ background: var(--mp-bg); color: var(--mp-ink); font: 400 17px/22px Inter, sans-serif; }}
+.cap {{ font-size: 12px; font-weight: 500; }}
+.btn {{ transition: transform var(--mo-fast) ease, background-color 150ms linear; }}
+.btn:active {{ transform: scale(0.97); }}
+.tabbar {{ background: var(--mp-glass); backdrop-filter: blur(var(--blur)) saturate(1.8); }}
+.board {{ content-visibility: auto; contain-intrinsic-size: auto 900px; }}
+.skel {{ animation: pulse 1.3s ease-in-out 3 both; }}
+.lens {{ will-change: transform; }}
+@keyframes pulse {{ 0% {{ opacity: 1; }} 50% {{ opacity: 0.5; }} 100% {{ opacity: 1; }} }}
+@keyframes draw {{ from {{ clip-path: inset(0 100% 0 0); }} to {{ clip-path: inset(0 0 0 0); }} }}
+@media (prefers-reduced-motion: reduce) {{ * {{ animation-duration: 1ms !important; transition: opacity 150ms linear !important; }} }}
+@media (prefers-reduced-transparency: reduce) {{ .tabbar {{ background: var(--mp-surface); backdrop-filter: none; }} }}
+</style>
+<script type="application/json" id="mp-design-gates">{json.dumps(gates)}</script>
+<div class="board"><svg viewBox="0 0 10 10"><text font-size="12">x</text></svg></div>
+<script>
+const io = new IntersectionObserver(() => {{}});
+lens.animate([{{ transform: 'translateX(0)' }}, {{ transform: 'translateX(40px)' }}], {{ duration: 340 }});
+</script>
+"""
+
+
+def _sub(old: str, new: str, count: int = 1):
+    def f(page: str) -> str:
+        if old not in page:
+            raise AssertionError(f"selftest mutation target not found: {old!r}")
+        return page.replace(old, new, count)
+    return f
+
+
+MUTATIONS = {
+    "missing-token": (_sub("--mp-seg-on-ink: #FFFFFF;", ""), "--mp-seg-on-ink is not defined on :root"),
+    "dark-blocks-differ": (_sub("--mp-ink: #FBFCFD;", "--mp-ink: #FFFFFF;"), "the two dark blocks differ"),
+    "stray-token": (_sub(".cap {", ".hero { --mp-ink: #777777; } .cap {"), "outside the three theme blocks"),
+    "stray-in-media": (_sub("@media (prefers-reduced-transparency: reduce) {",
+                            "@media (min-width: 900px) { .x { --mp-surface: #CCCCCC; } } @media (prefers-reduced-transparency: reduce) {"),
+                       "inside @media (min-width: 900px)"),
+    "unreadable-colour": (_sub("--mp-ink-3: #555B68;", "--mp-ink-3: color-mix(in srgb, #000 50%, #fff);"),
+                          "cannot read the colour"),
+    "fails-only-at-20": (_sub("--mp-surface-2: #F4F4F2;", "--mp-surface-2: #EDEDEA;"),
+                         "light: body mp-ink on mp-surface-2"),
+    "dark-body-dim": (_sub("--mp-ink: #FBFCFD;", "--mp-ink: #E6E9EE;", 2), "dark: body mp-ink on mp-surface"),
+    "white-segment": (_sub("--mp-seg-on: #0B0D12;", "--mp-seg-on: #FFFFFF;"),
+                      "presence mp-seg-on on mp-surface-2"),
+    "unknown-declared": (_sub('"mp-chip-bg"]', '"mp-chip-nope"]'), "--mp-chip-nope is not defined"),
+    "bad-tier": (_sub('[["text", "mp-ink-2", "mp-chip-bg"]]', '[["bold", "mp-ink-2", "mp-chip-bg"]]'),
+                 "is not [tier, foreground, ground]"),
+    "no-json": (_sub('id="mp-design-gates"', 'id="other"'), "no mp-design-gates JSON block"),
+    "bad-json": (_sub('{"pairs"', '{pairs'), "not valid JSON"),
+    "thin-glass": (_sub("--mp-glass: rgba(255, 255, 255, 0.96);", "--mp-glass: rgba(255, 255, 255, 0.30);"),
+                   "on mp-glass+mp-hero"),
+    "glass-missing-hero": (_sub('"mp-hero", "mp-accent"', '"mp-accent"'), "glass backdrops must include mp-hero"),
+    "translucent-ground": (_sub('"mp-chip-bg"]', '"mp-band-80"]'), "is not opaque"),
+    "var-cycle": (_sub("--mp-ink-3: #555B68;", "--mp-ink-3: var(--mp-ink-3);"), "refers to itself"),
+    "no-reduced-transparency": (_sub("@media (prefers-reduced-transparency: reduce)", "@media (min-width: 1px)"),
+                                "no @media (prefers-reduced-transparency: reduce) fallback"),
+    "blur-30": (_sub("--blur: 18px;", "--blur: 30px;"), "blurs 30 px"),
+    "glass-on-chip": (_sub(".tabbar {", ".tabbar, .chip {"), "glass on a chip, badge or mark"),
+    "transition-all": (_sub("transform var(--mo-fast) ease,", "all var(--mo-fast) ease,"), "transitions all properties"),
+    "transition-implicit-all": (_sub("transform var(--mo-fast) ease, background-color 150ms linear",
+                                     "var(--mo-fast) ease"), "transitions all properties"),
+    "transition-all-second": (_sub("background-color 150ms linear", "all 300ms linear"), "transitions all properties"),
+    "transition-width": (_sub("background-color 150ms linear", "width 150ms linear"), "transitions 'width'"),
+    "paint-too-long": (_sub("background-color 150ms linear", "background-color 400ms linear"), "for 400 ms"),
+    "keyframe-bgpos": (_sub("0% { opacity: 1; }", "0% { background-position: 0 0; }"), "animates 'background-position'"),
+    "keyframe-filter": (_sub("from { clip-path: inset(0 100% 0 0); }", "from { filter: blur(8px); }"), "animates 'filter'"),
+    "keyframe-custom-prop": (_sub("0% { opacity: 1; }", "0% { --x: 1; }"), "animates '--x'"),
+    "infinite": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out infinite both"), "loops forever"),
+    "infinite-upper": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out INFINITE both"), "loops forever"),
+    "ten-times": (_sub("1.3s ease-in-out 3 both", "1.3s ease-in-out 10 both"), "repeats 10 times"),
+    "no-reduced-motion": (_sub("@media (prefers-reduced-motion: reduce)", "@media (min-width: 2px)"),
+                          "no @media (prefers-reduced-motion: reduce) block"),
+    "font-10": (_sub(".cap { font-size: 12px;", ".cap { font-size: 10px;"), "text at 10 px"),
+    "font-shorthand-10": (_sub("font: 400 17px/22px", "font: 400 10px/22px"), "text at 10 px"),
+    "font-rem": (_sub(".cap { font-size: 12px;", ".cap { font-size: 0.6rem;"), "text at 9.6 px"),
+    "weight-300": (_sub("font-weight: 500;", "font-weight: 300;"), "font weight 300"),
+    "svg-text-9": (_sub('font-size="12"', 'font-size="9"'), "SVG text at font-size 9"),
+    "inline-10": (_sub('<div class="board">', '<div class="board" style="font-size: 10px">'), "inline style sets text at 10 px"),
+    "js-animate-left": (_sub("{ transform: 'translateX(0)' }, { transform: 'translateX(40px)' }",
+                             "{ left: '0px', width: '20px' }, { left: '40px', width: '30px' }"), "moves 'left'"),
+    "scroll-handler": (_sub("const io", "window.addEventListener('scroll', () => {}); const io"), "a scroll handler"),
+    "set-interval": (_sub("const io", "setInterval(() => {}, 100); const io"), "setInterval"),
+    "no-content-visibility": (_sub("content-visibility: auto;", ""), "content-visibility"),
+    "will-change-width": (_sub("will-change: transform;", "will-change: width;"), "will-change: width"),
+    "external-script": (_sub("<script>\nconst", '<script src="https://cdn.example.com/x.js"></script><script>\nconst'),
+                        "external load from https://cdn.example.com/x.js"),
+    "body-tag": (_sub('<div class="board">', '<body><div class="board">'), "a <body> tag"),
+    "no-title": (_sub("<title>Selftest page</title>", ""), "no <title>"),
+    "unclosed-css": (_sub("@keyframes draw {", "@keyframes draw { {"), "cannot be read"),
+}
+
+
+def selftest() -> int:
+    base = good_page()
+    fails, _ = check_page(base)
+    if fails:
+        print("selftest: FAIL the good page is refused, so the harness proves nothing:")
+        for f in fails:
+            print(f"  {f}")
+        return 1
+    bad = 0
+    for name, (mutate, expect) in MUTATIONS.items():
+        page = mutate(base)
+        fails, _ = check_page(page)
+        if not any(expect in f for f in fails):
+            print(f"selftest: FAIL {name}: expected a failure containing {expect!r}, got {fails or 'a pass'}")
+            bad += 1
+    with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+        missing = Path(tmp) / "gone.html"
+        if check([str(missing)]) != 1:
+            print("selftest: FAIL a missing page passed")
+            bad += 1
+    if bad:
+        return 1
+    print(f"selftest: the good page passes and all {len(MUTATIONS) + 1} mutations are refused")
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    if not argv or argv[0] not in ("check", "report", "selftest"):
+        print(__doc__)
+        return 2
+    if argv[0] == "check":
+        return check(argv[1:])
+    if argv[0] == "report":
+        if len(argv) != 2:
+            print("report needs one page")
+            return 2
+        return report(argv[1])
+    return selftest()
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
