@@ -6,11 +6,12 @@ No AWS account was read: the AWS MCP server did not connect, and nothing was pro
 dollar and 20% tax, and cash counts in the month an invoice is due.
 
 **Status:**
-- **Owner-selected:** the Region and the Grow tier, below.
+- **Owner-selected:** the Region, the Grow tier, Terraform, SSM Parameter Store, Organizations with a cost-guard SCP,
+  and the owner's existing domain, below.
 - **Proposed:** everything else on this page. That needs the owner's answers to the questions at the end, and none of
   it is built. IaC stays plan-only (AGENTS.md, `.claude/rules/aws-changes.md`).
 
-## What the owner has decided (2 November 2026)
+## What the owner has decided (2 and 3 November 2026)
 
 | Decision | Answer | Where it is recorded |
 | --- | --- | --- |
@@ -18,6 +19,10 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 | Data tier | **Twelve Data Grow 55** ($29) for prod and Basic ($0) for dev, with Yahoo Finance alongside | Decision log; [MP-10 findings](../source-rights-2026-11-02/README.md) |
 | The Apple Developer fee | One exception month a year above £100, for this fee only | Decision log |
 | Accounts | Separate dev and prod AWS accounts (ARC-11) | [Direction summary](../ma-reconciliation-2026-11-02/direction-summary.md) |
+| IaC (3 Nov) | **Terraform only**, from day one: every AWS change goes through Terraform | Decision log; `.claude/rules/aws-changes.md` |
+| Secrets (3 Nov) | SSM Parameter Store SecureString, with no per-secret fee | Decision log |
+| Guard rails (3 Nov) | Organizations with all features, and the cost-guard SCP. The Region allowlist SCP and the RCPs are not adopted | Decision log |
+| Domain (3 Nov) | The owner's existing domain | Decision log |
 
 ## Virginia: every service MP needs is there
 
@@ -88,9 +93,24 @@ dollar and 20% tax, and cash counts in the month an invoice is due.
 **The alternative**, one account isolated by naming, tags and permission boundaries, shares quotas, has no SCPs or
 RCPs, and lets one policy mistake cross environments.
 
-## IaC: AWS CDK in Python, synth-only
+## IaC: Terraform, and only Terraform (owner, 3 November 2026)
 
-This is the proposal for the ADR that `.claude/rules/aws-changes.md` requires before the first resource is written.
+Every AWS change, from the first resource, goes through Terraform in `infra/terraform/`. This overrides the owner's
+general preference for CDK or CloudFormation, for MP only. The ADR still to be written records:
+
+- **State:** an S3 bucket per account, versioned and encrypted, with S3's native state locking. The bucket and its
+  policy are themselves Terraform: a small bootstrap configuration starts with local state, then migrates into the
+  bucket it creates. So nothing is made by hand.
+- **Plan-only CI, now:** `terraform fmt -check`, `terraform validate`, TFLint and Checkov need no AWS access.
+  `terraform plan` needs read-only credentials later. `apply` runs only when the owner asks (`.claude/rules/aws-changes.md`).
+- **Secrets:** Terraform creates each SSM SecureString parameter with a placeholder and ignores later changes to its
+  value. The owner sets the real value by hand, so state never holds it.
+- **Prod data resources:** `prevent_destroy` on tables, buckets, user pools and keys, plus each service's own deletion
+  protection.
+- **Versions:** pin the Terraform CLI and the AWS provider in the lock file, as `uv` pins the Python dependencies.
+  Terraform's licence (BUSL 1.1) is free for this personal use.
+
+The comparison the research made before the owner chose:
 
 | | CDK in Python | Plain CloudFormation |
 | --- | --- | --- |
@@ -135,9 +155,10 @@ Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-m
 - **Under £100:** every month except the Apple fee month. With Claude on, only the .com domain month crosses £70, and
   then by 9p.
 - **The £22 AWS share:** the AWS run rate is £19.84, leaving £2.16.
+- **Secrets:** SSM Parameter Store standard SecureString parameters have no per-secret fee, so they add nothing.
+- **The domain line:** the model's $15 a year stays until the existing domain's renewal is known.
 - **Not in the model yet:**
-  - Secrets Manager, at $0.40 a secret a month. Two to four secrets per environment cost about £1.54 to £3.07 a month,
-    which would use most of the AWS headroom. SSM Parameter Store SecureString parameters have no per-secret fee.
+  - Terraform's state buckets, at a few pence a month.
   - Internet data transfer out, at about $0.16 a month.
 - **A possible double count:** the model has $1.50 a month of AWS build minutes alongside GitHub Actions.
 
@@ -145,17 +166,13 @@ Virginia, Grow 55 for prod, Basic in dev. These figures come from the MP-10 12-m
 
 Each has a recommended answer first.
 
-1. **IaC.** **(Recommended)** CDK in Python, synth-only in CI until an apply is asked for; or plain CloudFormation.
-2. **Organizations.** **(Recommended)** All features on, with Identity Center in the management account as its only
-   other use.
-3. **Secrets.** **(Recommended)** SSM Parameter Store SecureString, with no per-secret fee; or Secrets Manager at
-   $0.40 a secret a month.
-4. **The cost-guard SCP.** **(Recommended)** Yes: deny NAT, interface endpoints, VPNs, load balancers, SageMaker
-   endpoints and GPUs until an ADR lifts it.
-5. **The billing collector.** **(Recommended)** A read-only role in the management account; or a shared billing view.
-6. **Claude inference location.** **(Recommended)** Global, at the standard price; or US-only at 1.1 times the price.
-7. **The domain.** **(Recommended)** .uk at $9 a year; or .com at $16, which takes the domain month 9p over £70 with
-   Claude on.
+Answered on 3 November 2026: IaC (Terraform only), Organizations (all features), secrets (SSM Parameter Store), the
+cost-guard SCP (yes) and the domain (the owner's existing one). Still open:
+
+1. **The billing collector.** **(Recommended)** A read-only role in the management account; or a shared billing view.
+2. **Claude inference location.** **(Recommended)** Global, at the standard price; or US-only at 1.1 times the price.
+3. **The existing domain:** its name and its yearly renewal, so the cost model's $15-a-year domain line can be
+   replaced. If the renewal is already paid outside MP, the line comes out.
 
 ## Questions for AWS (to ask only with the owner's yes)
 

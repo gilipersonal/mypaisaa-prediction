@@ -66,7 +66,7 @@ RDS or always-on endpoint; any of those needs a costed ADR first.
 | Claude | One Lambda worker per task route, calling the Anthropic API through the Python client SDK | Owner-selected |
 | Models | SageMaker CPU training jobs, capped; approved artefacts served from a Lambda | Owner-selected |
 | Records | DynamoDB (ledger, forecasts, audit) and private, encrypted S3 (sources, artefacts, evidence) | Owner-selected |
-| Operations | CloudWatch and X-Ray, CloudTrail, Secrets Manager | Proposed |
+| Operations | CloudWatch and X-Ray, CloudTrail; secrets in SSM Parameter Store (owner-selected) | Proposed |
 | Outside AWS | Anthropic API; Yahoo Finance and Twelve Data Grow | Owner-selected |
 
 ## 3. Four journeys through it
@@ -230,7 +230,7 @@ durable replay. Proposed (MP-36): every error response carries a code, a message
   Sensitive actions need a fresh, strong sign-in (ARC-07).
 - **Approvals:** a financial approval allows 15 minutes to start the exact commit; an export link allows new
   downloads for one hour.
-- **Secrets:** in Secrets Manager or the iOS Keychain only; never in git, logs, fixtures, screenshots or errors.
+- **Secrets:** in SSM Parameter Store (SecureString) or the iOS Keychain only; never in git, logs, fixtures, screenshots or errors.
 - **Data:** encrypted storage, private S3 origins, per-environment authority, rate limits on sign-in and expensive
   routes, CSRF protection on cookie sessions, and logs scrubbed of values and provider responses.
 - **Retention:** core financial and decision records for the life of the account, subject to deletion; originals
@@ -253,8 +253,9 @@ shows why.
 at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
 decision (PL-11, MP-30).
 
-**MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. Proposed: N0 with an empty N1 scope, two member
-accounts under AWS Organizations with guard-rail policies, CDK in Python, and a boundary matrix for every role
+**MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
+SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. Proposed: N0 with an empty N1
+scope and a boundary matrix for every role
 ([region, network and envelope](docs/planning/region-network-2026-11-03/README.md)).
 
 [![Environments and delivery, Lucid page 7](docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png)](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit)

@@ -138,4 +138,18 @@ every month.
 These answers settle the questions asked. They do not approve the complete architecture baseline, UX or
 implementation.
 
+## Owner answers for MP-29 (3 November 2026)
+
+The owner answered the questions in [the MP-29 pack](../region-network-2026-11-03/README.md):
+
+- **IaC: Terraform only**, from day one. Every AWS change, from the first resource, goes through Terraform. For MP this
+  overrides the owner's general preference for CDK or CloudFormation.
+- **Secrets:** SSM Parameter Store SecureString.
+- **Guard rails:** AWS Organizations with all features, and the cost-guard SCP. That SCP denies NAT, interface endpoints,
+  VPNs, load balancers, SageMaker endpoints and GPUs until an ADR lifts it. The Region allowlist SCP and the resource
+  control policies are not adopted.
+- **Domain:** the owner's existing domain. Its name and renewal are still to record.
+
+These answers do not approve an apply, an account or any spending.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

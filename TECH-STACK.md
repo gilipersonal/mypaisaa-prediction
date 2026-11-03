@@ -114,7 +114,7 @@ The React and Vite project in `site/` is a documentation presentation, not the p
 | CloudWatch, X-Ray, CloudTrail | Logs, metrics, traces, API audit | Proposed |
 | Tracing | OpenTelemetry through the ADOT Lambda layer to X-Ray, sampled; one trace per waited-on request, linked across queues and batches | Proposed (MP-36) |
 | Telemetry budget | 14-day JSON logs, a small set of custom metrics and alarms: about $4.94 a month, already inside the AWS estimate | Proposed (MP-36) |
-| Secrets Manager | Provider and Anthropic keys | Proposed |
+| SSM Parameter Store (SecureString) | Provider and Anthropic keys; no per-secret fee | Owner-selected 3 Nov 2026 (MP-29) |
 | Two accounts | Dev and prod, same shape, one bill | Owner-selected (ARC-11) |
 | AWS Organizations (all features), SCPs and RCPs | Guard rails across the dev and prod accounts; the management account runs nothing | Proposed (MP-36) |
 | KMS, S3 Block Public Access, IAM Access Analyzer (external access) | A customer key per account; no public buckets; outside sharing flagged | Proposed (MP-36) |
@@ -142,11 +142,11 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | Lint | Ruff **0.17.3** | Implemented |
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
-| Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; cfn-lint and Checkov once IaC exists | Proposed (MP-36) |
+| Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; terraform validate, TFLint and Checkov on the Terraform | Proposed (MP-36) |
 | Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod from CI after the owner approves; Lambda alias rollback | Proposed (MP-36); the approval route is open on GitHub Free |
 | CI minutes | GitHub Free for organisations: $12 a month shared by the org's private repos; Apple builds on the owner's Mac | Proposed (MP-36) |
 | Test IDs | One shared dictionary generating web `data-testid` and Swift accessibility identifiers | Proposed (MP-36) |
-| Infrastructure as code | Plan-only; CDK in Python, synth-only in CI, proposed for the ADR ([MP-29](docs/planning/region-network-2026-11-03/README.md)) | Open: the owner chooses |
+| Infrastructure as code | **Terraform only**, from day one: every AWS change goes through Terraform. Plan-only until an apply is asked for ([MP-29](docs/planning/region-network-2026-11-03/README.md)) | Owner-selected 3 Nov 2026 |
 
 ## 9. Monthly cost
 
