@@ -21,7 +21,7 @@ API? And how is prompt caching used?
 - Claude never produces a forecast number, writes the ledger, promotes a model or trades. An event analysis reaches
   a forecast only as a structured, point-in-time input, and only after it has shown it adds accuracy.
 - The 07:30 briefing and immediate risk alerts must never depend on a newly submitted batch.
-- Claude and evaluations share a proposed £10 of the £70 monthly operating plan.
+- Claude and evaluations share a proposed £10 of the £70 monthly operating plan. (Superseded on 3 November 2026: the owner raised the Claude allocation to £15 and cut forecast and price uncertainty to £3, COST-Q1. The £10 figures below are this card's analysis at the time.)
 
 ## The facts that decide it
 

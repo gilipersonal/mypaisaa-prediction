@@ -2,7 +2,8 @@
 
 Run with python3 <this file> [--check daily|event|policy|selftest|all]. Explicit
 exceptions keep the refusal checks active with python -O. The daily clocks remain
-owner-pending; policy checks hold the owner's 3 Nov 2026 numbers against the records
+owner-pending; policy checks hold the owner's 3 Nov 2026 numbers and the ETF lists
+(one per market, SCI-D09) against the records
 and run synthetic band, overlay, trial-count and slip cases whose readings are
 proposed (SCI-D03, SCI-D07, SCI-D10). The selftest mutates copies and proves the
 policy gate refuses each fault.
@@ -133,6 +134,9 @@ OWNER = {
     "top_n": 5,
     "ranking_weights": {"growth": Decimal("0.35"), "protection": Decimal("0.40"), "opportunity": Decimal("0.25")},
     "discovery_universe_about": 150,
+    "etf_owner_words": "ETFs (US, UK and India)",
+    "etf_markets": ["India", "UK", "US"],
+    "etf_fixed_lists": ["US ETFs", "UK ETFs", "India ETFs"],
 }
 # Each number above is anchored to the owner's own words; whitespace is normalised so a
 # phrase split over a line break still matches.
@@ -146,6 +150,8 @@ DECISION_LOG_PHRASES = (
     "(a data outage, a holiday week) pauses the 8-week trial count; the trial still needs 8 scored weeks",
     "on probation for its first 4 live weeks and reverts after 2 bad weeks instead of 4",
     "a curated list of about 150 names",
+    "ETFs (US, UK and India)",
+    "\"One list per market (Recommended)\". A top 5 for US ETFs, one for UK ETFs and one for India ETFs",
 )
 PREDICATES = {
     # Every reason form the gate can read. The owner names only the first two; the third is the
@@ -249,7 +255,22 @@ def verify_owner_numbers(docs: dict) -> int:
     names = [at(s, "name") for s in at(ranking, "segments")]
     require(not any("FTSE" in n for n in names), "a UK FTSE top-5 segment was added")
     require("US tech" in names, "US tech segment is not named as the owner named it")
-    return len(DECISION_LOG_PHRASES) + len(kinds) + 20 + verify_open_questions_held(docs)
+    verify_etf_lists(docs, ranking)
+    return len(DECISION_LOG_PHRASES) + len(kinds) + 23 + verify_open_questions_held(docs)
+
+
+def verify_etf_lists(docs: dict, ranking: dict) -> None:
+    """SCI-D09, owner 3 Nov 2026: ETFs (US, UK and India) are one top-5 list per market."""
+    etfs = [s for s in at(ranking, "segments") if "ETF" in at(s, "id") + at(s, "name")]
+    require(len(etfs) == 3 and sorted(at(s, "market") for s in etfs) == OWNER["etf_markets"],
+            "ETF segments are not one list per market (US, UK, India)")
+    require(at(ranking, "etf_segments", "owner_words") == OWNER["etf_owner_words"]
+            and sorted(at(ranking, "etf_segments", "ids")) == sorted(at(s, "id") for s in etfs),
+            "ETF segments lose the owner's words or their ids")
+    fixed = at(docs["fixed"], "ranking", "owner_answers_2026_11_03")
+    require([n for n in at(fixed, "top5_per_segment") if "ETF" in n] == OWNER["etf_fixed_lists"]
+            and OWNER["etf_owner_words"] in at(fixed, "etf_segments"),
+            "fixed policies' ETF lists are not one per market")
 
 
 def verify_open_questions_held(docs: dict) -> int:
@@ -275,9 +296,14 @@ def verify_open_questions_held(docs: dict) -> int:
             and at(d05, "superseded_2026_11_03", "superseded") and at(d05, "superseded_2026_11_03", "kept"),
             "SCI-D05 still recommends against the owner's self-correction or revert")
     require(at(choices["SCI-D10"], "status") == "owner_pending", "SCI-D10 is not an open owner question")
+    d09 = choices["SCI-D09"]
+    require(at(d09, "status") == "partly_answered" and "SCI-OA-10" in at(d09, "answered_by"),
+            "SCI-D09 does not record the owner's ETF answer as partly answered")
+    for key in ("ranking inputs and horizons", "cadence", "tie-break", "US tech membership"):
+        require(key in at(d09, "still_open").split("Still open:")[-1], "SCI-D09 does not hold the open ranking question: " + key)
     for key in ("rules get a proper score", "scored week is for each horizon", "calibrated on what has matured"):
         require(key in at(choices["SCI-D03"], "still_open"), "SCI-D03 does not hold the open trial question: " + key)
-    return 9
+    return 10
 
 
 def trial_result(trial: dict, case: dict) -> str:
@@ -454,6 +480,25 @@ DOCUMENT_MUTATIONS = (
     ("UK FTSE segment", lambda d: d["tasks"]["forecast_universe_and_ranking"]["segments"].append(
         {"id": "SEG-UK-FTSE", "name": "UK FTSE 100", "market": "UK"}), "UK FTSE"),
     ("decision log reworded", lambda d: d.update(log=d["log"].replace("since 2015", "since 2016")), "decision log no longer says"),
+    ("ETF lists merged into one", lambda d: d["tasks"]["forecast_universe_and_ranking"].update(segments=[
+        s for s in d["tasks"]["forecast_universe_and_ranking"]["segments"] if "ETF" not in s["id"]] + [
+        {"id": "SEG-ETF", "name": "ETFs (US, UK and India)", "market": "US, UK, India"}]), "not one list per market"),
+    ("UK ETF list dropped", lambda d: d["tasks"]["forecast_universe_and_ranking"]["segments"].remove(
+        next(s for s in d["tasks"]["forecast_universe_and_ranking"]["segments"] if s["id"] == "SEG-ETF-UK")), "not one list per market"),
+    ("ETF owner words dropped", lambda d: d["tasks"]["forecast_universe_and_ranking"]["etf_segments"].update(owner_words="ETFs"),
+     "lose the owner's words"),
+    ("fixed-policies ETF lists merged", lambda d: d["fixed"]["ranking"]["owner_answers_2026_11_03"].update(top5_per_segment=[
+        n for n in d["fixed"]["ranking"]["owner_answers_2026_11_03"]["top5_per_segment"] if "ETF" not in n] + ["ETFs (US, UK and India)"]),
+     "fixed policies' ETF lists"),
+    ("decision log ETF answer reworded", lambda d: d.update(log=d["log"].replace("One list per market", "One list")),
+     "decision log no longer says"),
+    ("SCI-D09 back to owner_pending", lambda d: _choice(d, "SCI-D09").update(status="owner_pending"),
+     "SCI-D09 does not record the owner's ETF answer"),
+    ("SCI-D09 loses the tie-break question", lambda d: _choice(d, "SCI-D09").update(
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("the tie-break, ", "")), "SCI-D09 does not hold the open ranking question: tie-break"),
+    ("SCI-D09 loses US tech membership", lambda d: _choice(d, "SCI-D09").update(
+        still_open=_choice(d, "SCI-D09")["still_open"].split("Still open:")[0] + "Still open: the ranking inputs and horizons, the cadence, the tie-break."),
+     "SCI-D09 does not hold the open ranking question: US tech membership"),
     ("rules proper score settled", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(status="settled"),
      "rules proper score presented as settled"),
     ("old SCI-D05 recommendation restored", lambda d: _choice(d, "SCI-D05").update(
@@ -485,6 +530,11 @@ GATE_MUTANTS = (
     ("unmatured weeks pause the trial", '    reasons = at(trial, "unscoreable_week_reasons")\n',
      '    reasons = at(trial, "unscoreable_week_reasons") + ["no_matured_shadow_forecasts"]\n',
      "policy case mismatch: trial_long_horizon_eight_clean_weeks"),
+    ("ETF one-list-per-market check removed", "    verify_etf_lists(docs, ranking)\n", "    pass\n",
+     "selftest mutation accepted: ETF lists merged into one"),
+    ("SCI-D09 open-question check removed",
+     '        require(key in at(d09, "still_open").split("Still open:")[-1], "SCI-D09 does not hold the open ranking question: " + key)\n',
+     "        pass\n", "selftest mutation accepted: SCI-D09 loses the tie-break question"),
 )
 
 

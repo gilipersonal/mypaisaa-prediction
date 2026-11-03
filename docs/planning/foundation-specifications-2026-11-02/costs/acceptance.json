@@ -212,19 +212,22 @@
       "id": "COST-AT-17",
       "spec_id": "COST-06",
       "given": "The owner buys the Apple Developer Program in some month, and in another month a different annual fee or a second Apple charge would take cash above GBP100.",
-      "expected": "Only the Apple fee's own due month may exceed GBP100, once a year, for that fee only: the rest of that month must still fit the ceiling and thresholds. Any other fee or month above GBP100 is refused admission.",
+      "expected": "Only the Apple fee's own due month may exceed GBP100, once a year, for that fee only: the rest of that month must still fit the ceiling and thresholds. Any other fee or month above GBP100 is refused admission. In the Apple fee month, optional jobs (backfills, challenger models, Claude jobs) are admitted on the remainder's flags, running while the remainder stays under GBP60, GBP75 and GBP85 (owner, 3 Nov 2026, COST-Q4); the full fee is still reserved in that month and the full-month total and flags stay recorded. Every other month admits optional jobs on the full month.",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
         "MP-20",
         "MP-39"
-      ]
+      ],
+      "superseded_2026_11_03": {
+        "what": "Only the admission basis for optional jobs in the Apple fee month: until 3 Nov 2026 the full-month flags stood pending COST-Q4."
+      }
     },
     {
       "id": "COST-AT-18",
       "spec_id": "COST-06",
       "given": "Top-5 scan work would take the month's scan spend from GBP4.90 to GBP5.20.",
-      "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or the owner's paid approval.",
+      "expected": "Refuse the reservation that crosses the GBP5 scan cap; the cap is part of the same aggregate month, and Claude work in the scan still needs verified credit or the owner's paid approval. The scan sits inside the GBP15 Claude and evaluations allocation (owner, 3 Nov 2026, COST-Q1; was GBP10, with uncertainty cut from GBP8 to GBP3): option A plus the scan at its cap is GBP13.24 at central FX, and a scan overrun stops at the Claude cap.",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [

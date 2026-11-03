@@ -1113,6 +1113,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1142,7 +1148,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1175,6 +1187,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1204,7 +1222,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1237,6 +1261,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1266,7 +1296,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1300,6 +1336,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1329,7 +1371,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1362,6 +1410,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1391,7 +1445,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1425,6 +1485,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -1454,7 +1520,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -1487,6 +1559,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1516,7 +1594,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1549,6 +1633,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1578,7 +1668,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1611,6 +1707,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1640,7 +1742,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1674,6 +1782,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1703,7 +1817,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1736,6 +1856,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1765,7 +1891,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1799,6 +1931,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1828,7 +1966,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1861,6 +2005,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1890,7 +2040,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1923,6 +2079,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -1952,7 +2114,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -1985,6 +2153,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -2014,7 +2188,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -2048,6 +2228,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -2077,7 +2263,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -2110,6 +2302,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -2139,7 +2337,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -2173,6 +2377,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -2202,7 +2412,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         }
@@ -3036,6 +3252,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3065,7 +3287,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3098,6 +3326,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3127,7 +3361,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3160,6 +3400,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3189,7 +3435,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3223,6 +3475,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3252,7 +3510,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3285,6 +3549,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3314,7 +3584,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3348,6 +3624,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -3377,7 +3659,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -3410,6 +3698,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3439,7 +3733,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3472,6 +3772,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3501,7 +3807,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3534,6 +3846,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3563,7 +3881,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3597,6 +3921,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3626,7 +3956,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3659,6 +3995,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3688,7 +4030,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3722,6 +4070,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3751,7 +4105,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3784,6 +4144,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3813,7 +4179,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3846,6 +4218,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3875,7 +4253,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3908,6 +4292,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -3937,7 +4327,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -3971,6 +4367,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -4000,7 +4402,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -4033,6 +4441,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -4062,7 +4476,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -4096,6 +4516,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -4125,7 +4551,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         }
@@ -4959,6 +5391,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -4988,7 +5426,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5021,6 +5465,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -5050,7 +5500,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5083,6 +5539,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -5112,7 +5574,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5146,6 +5614,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -5175,7 +5649,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5208,6 +5688,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -5237,7 +5723,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5271,6 +5763,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -5300,7 +5798,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -5333,6 +5837,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5362,7 +5872,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5395,6 +5911,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5424,7 +5946,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5457,6 +5985,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5486,7 +6020,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5520,6 +6060,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5549,7 +6095,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5582,6 +6134,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5611,7 +6169,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5645,6 +6209,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5674,7 +6244,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5707,6 +6283,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5736,7 +6318,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5769,6 +6357,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5798,7 +6392,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5831,6 +6431,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5860,7 +6466,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5894,6 +6506,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5923,7 +6541,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -5956,6 +6580,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -5985,7 +6615,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         },
@@ -6019,6 +6655,12 @@
                 "warn": false,
                 "reduce": false,
                 "pause": false
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
               }
             },
             {
@@ -6048,7 +6690,13 @@
                 "reduce": false,
                 "pause": false
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": false,
+                "reduce": false,
+                "pause": false
+              }
             }
           ]
         }
@@ -6880,6 +7528,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -6909,7 +7563,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -6942,6 +7602,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -6971,7 +7637,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7004,6 +7676,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7033,7 +7711,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7067,6 +7751,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7096,7 +7786,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7129,6 +7825,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7158,7 +7860,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7192,6 +7900,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7221,7 +7935,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7254,6 +7974,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7283,7 +8009,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7316,6 +8048,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7345,7 +8083,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7378,6 +8122,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7407,7 +8157,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7441,6 +8197,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7470,7 +8232,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7503,6 +8271,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7532,7 +8306,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7566,6 +8346,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7595,7 +8381,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7628,6 +8420,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7657,7 +8455,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7690,6 +8494,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7719,7 +8529,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7752,6 +8568,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7781,7 +8603,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7815,6 +8643,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7844,7 +8678,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7877,6 +8717,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7906,7 +8752,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -7940,6 +8792,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -7969,7 +8827,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         }
@@ -8803,6 +9667,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -8832,7 +9702,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -8865,6 +9741,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -8894,7 +9776,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -8927,6 +9815,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -8956,7 +9850,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -8990,6 +9890,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9019,7 +9925,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9052,6 +9964,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9081,7 +9999,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9115,6 +10039,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9144,7 +10074,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9177,6 +10113,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9206,7 +10148,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9239,6 +10187,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9268,7 +10222,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9301,6 +10261,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9330,7 +10296,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9364,6 +10336,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9393,7 +10371,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9426,6 +10410,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9455,7 +10445,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9489,6 +10485,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9518,7 +10520,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9551,6 +10559,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9580,7 +10594,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9613,6 +10633,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9642,7 +10668,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9675,6 +10707,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9704,7 +10742,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9738,6 +10782,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9767,7 +10817,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9800,6 +10856,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9829,7 +10891,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -9863,6 +10931,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -9892,7 +10966,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         }
@@ -10726,6 +11806,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -10755,7 +11841,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -10788,6 +11880,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -10817,7 +11915,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -10850,6 +11954,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -10879,7 +11989,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -10913,6 +12029,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -10942,7 +12064,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -10975,6 +12103,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11004,7 +12138,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11038,6 +12178,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11067,7 +12213,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11100,6 +12252,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11129,7 +12287,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11162,6 +12326,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11191,7 +12361,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11224,6 +12400,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11253,7 +12435,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11287,6 +12475,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11316,7 +12510,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11349,6 +12549,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11378,7 +12584,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11412,6 +12624,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11441,7 +12659,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11474,6 +12698,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11503,7 +12733,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11536,6 +12772,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11565,7 +12807,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11598,6 +12846,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11627,7 +12881,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11661,6 +12921,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11690,7 +12956,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11723,6 +12995,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11752,7 +13030,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         },
@@ -11786,6 +13070,12 @@
                 "warn": true,
                 "reduce": true,
                 "pause": true
+              },
+              "optional_jobs_admission_basis": "full_month",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
               }
             },
             {
@@ -11815,7 +13105,13 @@
                 "reduce": true,
                 "pause": true
               },
-              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1); remaining_* show every other line. Which set governs optional jobs in the Apple month is open (COST-Q4)."
+              "threshold_basis": "thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, kept and recorded); remaining_* show every other line. Optional jobs in the Apple month are admitted on the remainder flags (owner, 3 Nov 2026, COST-Q4: judge the month without the fee); the full fee is still reserved in its due month and the fee is the one allowed exception.",
+              "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+              "optional_jobs_admission_thresholds_reached": {
+                "warn": true,
+                "reduce": true,
+                "pause": true
+              }
             }
           ]
         }
@@ -11829,7 +13125,7 @@
     "A full historical backfill or a higher-priced qualified model needs a new reservation and cost calculation.",
     "The ~150-name end-of-day discovery scan: its Claude part sits inside the GBP5 scan allowance and its data credits inside Grow 55; its AWS compute and storage are not separately quantified in the 20-listing reference workload.",
     "Not yet lines (MP-29): Terraform state buckets (a few pence a month) and internet data transfer out (about USD0.16 a month).",
-    "Possible double count: the USD1.50 a month of AWS build minutes alongside GitHub Actions; kept until the owner rules on it."
+    "AWS build minutes (USD1.50 a month): kept in the model by the owner (3 Nov 2026, COST-Q2, \"Keep it\") as a small margin in case some builds run in AWS CodeBuild; no longer flagged as a possible double count of GitHub Actions."
   ],
   "specifications": [
     {
@@ -11966,11 +13262,23 @@
   "proposed_allocations_gbp": {
     "data": 30,
     "aws_dev_prod": 22,
-    "claude_and_evals_verified_credit_only": 10,
-    "forecast_price_uncertainty": 8,
+    "claude_and_evals_verified_credit_only": 15,
+    "forecast_price_uncertainty": 3,
     "total_planned_operation": 70,
     "reserve": 30,
-    "status": "proposed"
+    "status": "owner_selected",
+    "decided": "2026-11-03",
+    "decision_ref": "COST-Q1",
+    "owner_answer": "Raise Claude to GBP15 (owner, 3 Nov 2026, COST-Q1)",
+    "scan_overrun": "Claude option A (GBP8.24) plus the top-5 scan at its GBP5 cap is GBP13.24 at central FX, inside the GBP15 Claude and evaluations allocation; a scan overrun stops at the Claude cap.",
+    "meaning": "Planning ceilings across both accounts, not independently spendable pots; they sum to the GBP70 planned operation.",
+    "superseded_2026_11_03": {
+      "claude_and_evals_verified_credit_only": 10,
+      "forecast_price_uncertainty": 8,
+      "status": "proposed",
+      "what": "Only the Claude and evaluations allocation (GBP10) and the forecast and price uncertainty allocation (GBP8) are superseded; data GBP30, AWS GBP22, the GBP70 total and the GBP30 reserve are unchanged.",
+      "reason": "Owner, 3 Nov 2026 (COST-Q1): option A plus the scan (GBP13.24) was above the GBP10 Claude allocation; the owner raised Claude to GBP15 and cut uncertainty to GBP3."
+    }
   },
   "estimate_assumptions": [
     {
@@ -12029,7 +13337,9 @@
       "reason": "Owner, 3 Nov 2026: the domain is renewed outside MP, so no domain line or domain invoice month remains."
     },
     "apple_fee_exception_month": "Conditional: if the owner buys the Apple Developer Program, its due month carries the full USD99 once, never amortised. That month is the one allowed month above GBP100, for this fee only; the rest of the month must still fit.",
-    "domain_line_removed": "Owner, 3 Nov 2026: mypaisapp.com is renewed outside MP."
+    "domain_line_removed": "Owner, 3 Nov 2026: mypaisapp.com is renewed outside MP.",
+    "apple_month_optional_jobs_admission": "remainder_excluding_exception_fee",
+    "apple_month_optional_jobs_rule": "Owner, 3 Nov 2026 (COST-Q4, \"Judge the month without the fee\"): in the Apple fee month, optional work (backfills, challenger models, Claude jobs) runs while the remainder, every line but the fee, stays under GBP60, GBP75 and GBP85. The fee is still counted as cash in its due month and the full-month total and flags stay recorded (fixed finding R1-C1). Every other month admits optional work on the full month."
   },
   "claude_option_a": {
     "decision_ref": "ARC-06b, docs/planning/claude-models-and-batching-2026-11-02.md (owner-selected 2 Nov 2026, MP-32)",
@@ -12094,6 +13404,12 @@
           "warn": false,
           "reduce": false,
           "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -12109,7 +13425,13 @@
           "reduce": false,
           "pause": false
         },
-        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute.",
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        }
       },
       {
         "fx_scenario": "central",
@@ -12129,6 +13451,12 @@
         "remaining_within_70_operating": true,
         "remaining_within_100_ceiling": true,
         "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12156,7 +13484,13 @@
           "reduce": false,
           "pause": false
         },
-        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute.",
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        }
       },
       {
         "fx_scenario": "central",
@@ -12167,6 +13501,12 @@
         "within_70_operating": true,
         "within_100_ceiling": true,
         "thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12181,6 +13521,12 @@
         "within_70_operating": true,
         "within_100_ceiling": true,
         "thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12207,6 +13553,12 @@
           "warn": false,
           "reduce": false,
           "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -12230,6 +13582,12 @@
           "warn": false,
           "reduce": false,
           "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -12241,6 +13599,12 @@
         "within_70_operating": true,
         "within_100_ceiling": true,
         "thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12259,7 +13623,13 @@
           "reduce": false,
           "pause": false
         },
-        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute.",
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        }
       },
       {
         "fx_scenario": "adverse",
@@ -12279,6 +13649,12 @@
         "remaining_within_70_operating": true,
         "remaining_within_100_ceiling": true,
         "remaining_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12306,7 +13682,13 @@
           "reduce": false,
           "pause": false
         },
-        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute."
+        "bound_note": "Conservative bound: the scan's GBP5 is Claude spend (top-5 explanations), which cannot run while Claude is off, so a real Claude-off month with the scan is nearer the without_scan figure plus its small AWS compute.",
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        }
       },
       {
         "fx_scenario": "adverse",
@@ -12317,6 +13699,12 @@
         "within_70_operating": true,
         "within_100_ceiling": true,
         "thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": false,
           "reduce": false,
           "pause": false
@@ -12331,6 +13719,12 @@
         "within_70_operating": true,
         "within_100_ceiling": true,
         "thresholds_reached": {
+          "warn": true,
+          "reduce": false,
+          "pause": false
+        },
+        "optional_jobs_admission_basis": "full_month",
+        "optional_jobs_admission_thresholds_reached": {
           "warn": true,
           "reduce": false,
           "pause": false
@@ -12357,6 +13751,12 @@
           "warn": false,
           "reduce": false,
           "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": false,
+          "reduce": false,
+          "pause": false
         }
       },
       {
@@ -12380,10 +13780,16 @@
           "warn": true,
           "reduce": false,
           "pause": false
+        },
+        "optional_jobs_admission_basis": "remainder_excluding_exception_fee",
+        "optional_jobs_admission_thresholds_reached": {
+          "warn": true,
+          "reduce": false,
+          "pause": false
         }
       }
     ],
-    "threshold_basis": "Apple-month rows: thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, never relaxed); the remaining_* fields show every other line, including the scan, separately. Whether optional jobs in the Apple month pause on the total or run while the remainder sits under GBP60/75/85 is open (COST-Q4); until the owner answers, the full-month flags stand.",
+    "threshold_basis": "Apple-month rows: thresholds_reached uses the full month including the Apple fee (fixed finding R1-C1, never relaxed) and stays recorded; the remaining_* fields show every other line, including the scan, separately. Optional jobs (backfills, challenger models, Claude jobs) in the Apple month are admitted on the remainder flags while the remainder stays under GBP60/75/85 (owner, 3 Nov 2026, COST-Q4: \"Judge the month without the fee\"); every row's optional_jobs_admission_basis and optional_jobs_admission_thresholds_reached record it. Ordinary months admit on the full month. Superseded (owner, 3 Nov 2026): \"until the owner answers, the full-month flags stand\".",
     "not_counted": "Not in these months: internet data transfer out (about USD0.16, about GBP0.15 at central), Terraform state storage (pence), the scan's unmeasured AWS compute and storage (COST-Q3), and GitHub Actions overage (worst case about GBP3.00 at central)."
   },
   "owner_cost_decisions": {
@@ -12463,6 +13869,32 @@
       "decided": "2026-11-02",
       "status": "owner_selected_not_activated",
       "gross_usd": "8.5875"
+    },
+    "claude_allocation": {
+      "value": "Claude and evaluations GBP15, forecast and price uncertainty GBP3; a scan overrun stops at the Claude cap",
+      "decided": "2026-11-03",
+      "status": "owner_selected",
+      "question": "COST-Q1",
+      "owner_answer": "Raise Claude to GBP15 (Recommended)",
+      "superseded": "GBP10 Claude and evaluations, GBP8 uncertainty (proposed until 3 Nov 2026)"
+    },
+    "aws_build_minutes": {
+      "value": "kept",
+      "monthly_usd": "1.50",
+      "lines": "build_minute: 200 dev + 100 prod minutes at USD0.005 (RES-COST-12)",
+      "decided": "2026-11-03",
+      "status": "owner_selected",
+      "question": "COST-Q2",
+      "owner_answer": "Keep it",
+      "note": "A small margin in case some builds run in AWS CodeBuild; no longer flagged as a possible double count of GitHub Actions."
+    },
+    "apple_month_optional_jobs": {
+      "value": "remainder_excluding_exception_fee",
+      "decided": "2026-11-03",
+      "status": "owner_selected",
+      "question": "COST-Q4",
+      "owner_answer": "Judge the month without the fee (Recommended)",
+      "note": "Applies only if the Apple Developer Program is bought; the full-month flags stay recorded (R1-C1) and the fee stays the one allowed exception."
     }
   }
 }

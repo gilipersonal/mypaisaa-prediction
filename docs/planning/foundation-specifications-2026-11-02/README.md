@@ -41,7 +41,7 @@ The [decision log](../ma-reconciliation-2026-11-02/decision-log.md) is the autho
 - **Forecasting:** all seven event kinds in the first event wave; similar days since 2015; bounded self-correction by code (5 points a week, 10% a month, automatic rollback); an 8-week shadow trial before promotion, with unscoreable weeks pausing the count; 4-week probation; automatic revert after 4 slipping weeks; restart after a pause stays with the owner; top 5 per segment by the 35/40/25 score; the contribution split live from launch, labelled experimental.
 - **Claude (ARC-06b):** Haiku for triage, inputs and extraction; Opus for at most three event analyses a day, batched; Sonnet for chat, explanations, the briefing and judges.
 
-Open questions for the owner from the data area are listed in [the data catalogue](data/catalogue.json) (DATA-DEC-12 to DATA-DEC-14).
+Open questions for the owner from the data area are listed in [the data catalogue](data/catalogue.json) (DATA-DEC-13 to DATA-DEC-15; DATA-DEC-12 was answered on 3 November 2026: derived values only go to Claude).
 
 ## Budget feasibility remains conditional
 

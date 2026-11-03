@@ -2,7 +2,7 @@
  "issue": "MP-20",
  "deliverable": "Foundation Specification Pack1",
  "round_count": 2,
- "status": "round_2_fixes_ready",
+ "status": "signed_off_by_owner_2026_11_03",
  "review_approval": {
   "round": 1,
   "source": "Owner answer call_8649f5e68cfb4fc2886c5abc498e6cd3",
@@ -533,7 +533,7 @@
      "status": "fixed"
     }
    ],
-   "next_round": "Ask the owner before any round 3; its scope would be git diff <round-2 fix commit>..HEAD and direct joins.",
+   "next_round": "Owner, 3 Nov 2026, asked whether to run round 3 on the round 2 fixes: \"Skip to sign-off\". No round 3; the round 2 fixes (7c06458) are not independently reviewed.",
    "merged": {
     "R2-d7": "R2-p8 (same ARCHITECTURE.md and build_pages.py anchors)",
     "R2-C1 (lucid_spec.py:662, build_pages.py:1093)": "R2-d1, R2-d2",
@@ -575,5 +575,11 @@
   "scope": "Only R1-C1/R1-F1/R1-F2/R1-S1/R1-S2 fixes and their direct connections; source whole architecture excluded",
   "lanes": 3,
   "full_fixed_findings_ledger_required": true
+ },
+ "owner_signoff": {
+  "commit": "98ba348e6af6c8c1f716e521660287887fe909aa",
+  "owner_words": "Yes, I sign off (Recommended)",
+  "date": "2026-11-03",
+  "note": "Given after the owner skipped round 3; round 2's fixes were not reviewed by a fresh reviewer."
  }
 }

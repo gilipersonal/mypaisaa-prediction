@@ -20,7 +20,8 @@
     "FND-DEC-001",
     "FND-DEC-002"
   ],
-  "architecture_baseline_approved": false,
+  "architecture_baseline_approved": true,
+  "architecture_baseline_signoff": "Owner sign-off, 3 Nov 2026, at commit 98ba348e6af6c8c1f716e521660287887fe909aa: the baseline structure, the twelve directions as refined, the precedence order and the phase-to-story map (docs/planning/baseline-signoff-2026-11-03/signoff.json). Open items stay open; UX and build are not authorised.",
   "UX_authorised": false,
   "implementation_authorised": false,
   "external_publication": "not_authorised_not_applied",
@@ -42,7 +43,7 @@
     "owner_choice": "One consolidation pass and one sign-off at one exact version, with an independent review round before the owner signs (docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39, item 21).",
     "scope": "Fold the owner answers of 2 and 3 Nov 2026 into the pack: data, costs, forecasting and the root records. Root records point to the decision log rather than duplicating it.",
     "status": "review_round_2_findings_being_fixed",
-    "architecture_baseline_approved": false,
+    "architecture_baseline_approved": true,
     "external_publication": "not_authorised_not_applied",
     "review_round": "MP-20 review round 2 ran on 3 Nov 2026 at 0cca844 with the owner's yes (decision item 21 calls it review round 1; Codex's 2 Nov round is round 1). Findings and fixes: review/MP-20/round-2.md and review/MP-20/state.json."
   }

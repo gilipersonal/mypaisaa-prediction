@@ -55,21 +55,10 @@ INPUTS = {
     "tech_stack": "TECH-STACK.md",
 }
 # Each cost question names the record that raises it and a phrase that record must still carry.
-COST_QUESTIONS = [
-    ("COST-Q1", "Claude option A plus the top-5 scan is £13.24 a month, above the proposed £10 Claude allocation. "
-                "Does the scan sit in the £8 uncertainty allocation, or does the Claude allocation rise?",
-     "The total stays under £70 either way; the choice changes which allocation a scan overrun stops first.",
-     "tech_stack", "COST-Q1"),
-    ("COST-Q2", "Keep or drop the $1.50 a month of AWS build minutes, which may double-count GitHub Actions?",
-     "Dropping it lowers every month by about £1.44; £46.48 and £54.73 include it today.",
-     "cost_model", "Possible double count"),
+COST_QUESTIONS = [  # COST-Q1, Q2 and Q4 were answered by the owner after the sign-off (decision log, 3 Nov 2026)
     ("COST-Q3", "How much AWS compute and storage the ~150-name end-of-day scan needs.",
      "Measured on the first dev runs; the model's reference workload is still 20 listings.",
      "cost_model", "not separately quantified"),
-    ("COST-Q4", "In the Apple fee month, if the owner buys it, do optional jobs reduce and pause on the full-month total "
-                "(past £85 in every case), or run while the remainder sits under £60, £75 and £85?",
-     "Until the owner answers, the full-month flags stand and optional work pauses for that whole month; the "
-     "remainder reaches no threshold at central FX.", "cost_spec", "COST-Q4"),
 ]
 # One phrase, word for word, in every record that ranks precedence (lesson 7).
 PRECEDENCE_PHRASE = ("The owner's recorded answers come first; the root documents follow them and win over every "

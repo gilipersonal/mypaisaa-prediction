@@ -257,9 +257,19 @@
         "market": "India"
       },
       {
-        "id": "SEG-ETF",
-        "name": "ETFs (US, UK and India)",
-        "market": "US, UK, India"
+        "id": "SEG-ETF-US",
+        "name": "US ETFs",
+        "market": "US"
+      },
+      {
+        "id": "SEG-ETF-UK",
+        "name": "UK ETFs",
+        "market": "UK"
+      },
+      {
+        "id": "SEG-ETF-IN",
+        "name": "India ETFs",
+        "market": "India"
       },
       {
         "id": "SEG-METALS",
@@ -282,8 +292,20 @@
     "claude_explanation_cost": "top-5 explanations may add up to GBP 5 a month, batched where possible (costs lane)",
     "open": [
       "SCI-D08: gold and silver daily valuation time, price type and calendar",
-      "SCI-D09: horizons and outputs feeding the ranking, ETF segment structure, ranking cadence and ties, and US tech membership (Nasdaq-100 proposed)"
+      "SCI-D09 (partly answered: ETFs are one list per market): horizons and outputs feeding the ranking, ranking cadence and ties, and US tech membership (Nasdaq-100 proposed)"
     ],
-    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19"
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19; Owner answers on next steps (3 November 2026, MP-20), item 2",
+    "etf_segments": {
+      "owner_words": "ETFs (US, UK and India)",
+      "owner_words_source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round item 1",
+      "structure": "one list per market: a top 5 for US ETFs, one for UK ETFs and one for India ETFs",
+      "structure_answer": "One list per market (Recommended)",
+      "structure_source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers on next steps (3 November 2026, MP-20), item 2",
+      "ids": [
+        "SEG-ETF-US",
+        "SEG-ETF-UK",
+        "SEG-ETF-IN"
+      ]
+    }
   }
 }

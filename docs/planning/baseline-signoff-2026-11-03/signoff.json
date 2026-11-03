@@ -144,5 +144,12 @@
  ],
  "open_contracts": 52,
  "phases": 10,
- "story_drafts": 64
+ "story_drafts": 64,
+ "signed_off": {
+  "commit": "98ba348e6af6c8c1f716e521660287887fe909aa",
+  "owner_words": "Yes, I sign off (Recommended)",
+  "date": "2026-11-03",
+  "scope": "The baseline's structure, the twelve directions as refined, the precedence order and the phase-to-story map, as this pack states them at the commit. Open items stay open; UX and build are not authorised.",
+  "record": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-sign-off-of-the-baseline-and-three-cost-answers-3-november-2026-mp-20"
+ }
 }

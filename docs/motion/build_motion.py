@@ -384,12 +384,13 @@ def budget() -> tuple[str, int, int, float, float]:
     def X(pounds: float) -> float:
         return x0 + pounds * scale
 
-    alloc = [("Data", 30, "saffron"), ("AWS", 22, "sky"), ("Claude", 10, "violet"), ("", 8, "muted")]
+    alloc = [("Data", 30, "saffron"), ("AWS", 22, "sky"), ("Claude", 15, "violet"), ("", 3, "muted")]  # owner, 3 Nov 2026
     segs, acc = "", 0.0
     for i, (name, gbp, col) in enumerate(alloc):
         segs += (
             f'<g class="fade" {at(0.9 + i * 0.25)}><rect x="{X(acc) + 1}" y="150" width="{gbp * scale - 2}" height="44" rx="6" fill="{C[col]}" opacity=".9"/>'
-            f'<text x="{X(acc) + 8}" y="177" fill="{C["bg"]}" font-size="12.5" font-weight="700">{(name + " ") if name else ""}£{gbp}</text></g>'
+            + (f'<text x="{X(acc) + 8}" y="177" fill="{C["bg"]}" font-size="12.5" font-weight="700">{(name + " ") if name else ""}£{gbp}</text>' if gbp >= 5 else "")
+            + '</g>'
         )
         acc += gbp
     marks = ""
@@ -424,7 +425,7 @@ def budget() -> tuple[str, int, int, float, float]:
   <text x="{X(70) + 12}" y="177" fill="{C['muted']}" font-size="13" font-weight="700">Reserve £30</text></g>
   <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="{C['surface']}"/><line x1="0" y1="0" x2="0" y2="8" stroke="{C['line']}" stroke-width="3"/></pattern></defs>
   {segs}{marks}{bars}
-  <text x="{x0}" y="210" fill="{C['muted']}" font-size="12" class="fade" {at(1.9)}>Planned operation £70 as proposed ceilings (Claude includes evals; £8 covers forecast and price uncertainty), then a £30 reserve</text>
+  <text x="{x0}" y="210" fill="{C['muted']}" font-size="12" class="fade" {at(1.9)}>Planned operation £70 as proposed ceilings (Claude includes evals; £3 covers forecast and price uncertainty), then a £30 reserve</text>
   <g class="rise" {at(6.2)}>
     <text x="{x0}" y="470" fill="{C['text']}" font-size="15" font-weight="700">Every ordinary month fits.</text>
     <text x="{x0 + 205}" y="470" fill="{C['muted']}" font-size="13">Virginia, Grow 55, £0.80/USD and 20% tax · costs/specification.md · nothing bought</text>

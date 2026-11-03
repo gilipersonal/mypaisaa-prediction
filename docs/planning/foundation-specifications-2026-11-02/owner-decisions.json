@@ -1,6 +1,7 @@
 {
   "date": "2026-11-02",
-  "architecture_baseline_approved": false,
+  "architecture_baseline_approved": true,
+  "architecture_baseline_signoff": "Owner sign-off, 3 Nov 2026, at commit 98ba348e6af6c8c1f716e521660287887fe909aa: the baseline structure, the twelve directions as refined, the precedence order and the phase-to-story map (docs/planning/baseline-signoff-2026-11-03/signoff.json). Open items stay open; UX and build are not authorised.",
   "UX_authorised": false,
   "implementation_authorised": false,
   "decisions": [

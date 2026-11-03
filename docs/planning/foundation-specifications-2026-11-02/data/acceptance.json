@@ -175,12 +175,13 @@
     {
       "id": "DATA-AT-16",
       "spec_id": "DATA-02",
-      "given": "A prod Grow 55 daily bar is stored and used for training under OWNER-RISK-01; a request then tries to export it to a third party and to send raw values to Anthropic.",
-      "expected": "Storage and training proceed as risk_accepted (never granted); the export is denied; the Anthropic transmission is denied until the owner answers DATA-DEC-12.",
+      "given": "A prod Grow 55 daily bar is stored and used for training under OWNER-RISK-01; a request then tries to export it to a third party.",
+      "expected": "Storage and training proceed as risk_accepted (never granted); the export is denied. Sending values to Anthropic is covered by DATA-AT-19 and DATA-AT-20 (DATA-DEC-12 answered, owner, 3 Nov 2026).",
       "evidence_kind": "offline",
       "status": "proposed",
       "task_refs": [
-        "MP-10"
+        "MP-10",
+        "MP-20"
       ]
     },
     {
@@ -204,6 +205,28 @@
       "status": "proposed",
       "task_refs": [
         "MP-10",
+        "MP-20"
+      ]
+    },
+    {
+      "id": "DATA-AT-19",
+      "spec_id": "DATA-02",
+      "given": "A prod Claude explanation route whose allowlist names a listing's 20-day return, its forecast range, its combined score and its latest Grow 55 close sends those four values for one listing; another sends a Yahoo cross-check disagreement as a quality flag.",
+      "expected": "Both transmissions proceed as risk_accepted with basis owner_risk_acceptance under OWNER-RISK-01-S9 and S10 (never granted); the vendor cells stay unknown; the answer is shown to the owner only.",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
+        "MP-20"
+      ]
+    },
+    {
+      "id": "DATA-AT-20",
+      "spec_id": "DATA-02",
+      "given": "A prod Claude prompt carries a bulk raw series: 250 Grow 55 daily closes for one listing; a second carries a Yahoo intraday quote stream; a third carries a raw close the route's allowlist does not name; a fourth carries Basic dev values.",
+      "expected": "All four are refused before the request leaves MP, with the refusal recorded; no anthropic_transmission record is written for them, because no scope covers a bulk raw series or feed, a raw field outside the allowlist, or Basic dev values (DATA-DEC-12).",
+      "evidence_kind": "offline",
+      "status": "proposed",
+      "task_refs": [
         "MP-20"
       ]
     }

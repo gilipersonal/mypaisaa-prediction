@@ -163,6 +163,12 @@ def main() -> None:
     assert D(decisions["domain"]["mp_cash_usd"]) == 0 and D(decisions["github_actions"]["planned_usd"]) == 0
     assert D(decisions["secrets"]["per_secret_usd"]) == 0 and decisions["telemetry"]["added_again"] is False
     assert D(decisions["top5_scan_allowance"]["max_gbp_per_month"]) == 5
+    # Owner cost answers of 3 Nov 2026: COST-Q1 (allocations), COST-Q2 (build minutes kept), COST-Q4 (Apple month).
+    assert {decisions[k]["question"] for k in ("claude_allocation", "aws_build_minutes", "apple_month_optional_jobs")} == {"COST-Q1", "COST-Q2", "COST-Q4"}
+    allocations = model["proposed_allocations_gbp"]
+    assert (allocations["data"], allocations["aws_dev_prod"], allocations["claude_and_evals_verified_credit_only"], allocations["forecast_price_uncertainty"]) == (30, 22, 15, 3)
+    assert decisions["aws_build_minutes"]["value"] == "kept" and not any(note.lower().startswith("possible double count") for note in model["uncosted_material_changes"])
+    assert decisions["apple_month_optional_jobs"]["value"] == model["cash_timing_policy"]["apple_month_optional_jobs_admission"] == "remainder_excluding_exception_fee"
     assert [r["owner_selected_region"] for r in model["results"]] == [r["region"] == "us-east-1" for r in model["results"]]
     assert {d["id"] for d in model["data_options"] if d["owner_selected"]} == {"Grow55_support_candidate", "Basic_dev"}
     expected_months = {(m["claude"], m["scan"]): m["cash_gbp"] for m in model["expected_months_owner_selection"]["months"]

@@ -9,6 +9,12 @@ allowed exception above GBP100. The expected months for the owner's selection ar
 
 MP-20 review, round 2: every Apple-month row keeps its threshold flags on the full month including the fee (fixed
 finding R1-C1) and also carries the remainder (every other line) with its own flags; both are recomputed here.
+
+MP-20 owner cost answers (owner, 3 Nov 2026): COST-Q4 "Judge the month without the fee": optional jobs in the Apple
+fee month are admitted on the remainder flags; every other month admits on the full month. Cash is still counted in
+its due month and the full-month total and flags stay recorded (R1-C1 holds). COST-Q1 "Raise Claude to GBP15": the
+allocations are data 30, AWS 22, Claude and evaluations 15, uncertainty 3; option A plus the scan cap fits the
+Claude allocation.
 """
 from __future__ import annotations
 
@@ -42,6 +48,8 @@ def check_cash_admission(reservation: dict) -> None:
     require(exception["fee"] == "apple_developer_program" and exception["months_per_year"] == 1,
             "Only the Apple fee month may exceed the ceiling, once a year")
     require(exception["other_lines_must_fit"] is True, "The exception month covers the Apple fee only")
+    require(exception.get("optional_jobs_basis") == REMAINDER_BASIS and exception.get("full_month_flags_recorded") is True,
+            "Apple month optional jobs are admitted on the remainder (COST-Q4) with the full-month flags still recorded")
     require(policy["scan_allowance_max_gbp"] == "5", "Scan allowance must stay a GBP5 reserved cap")
 
 
@@ -59,6 +67,28 @@ def flags(amount: D, owner: dict) -> dict:
 
 REMAINDER_KEYS = ("exception_fee_gbp", "remaining_cash_gbp_excluding_exception_fee", "remaining_within_70_operating",
                   "remaining_within_100_ceiling", "remaining_thresholds_reached")
+FULL_KEYS = ("within_70_operating", "within_100_ceiling", "thresholds_reached")
+FULL_BASIS = "full_month"
+REMAINDER_BASIS = "remainder_excluding_exception_fee"
+ALLOCATIONS_GBP = {"data": 30, "aws_dev_prod": 22, "claude_and_evals_verified_credit_only": 15,
+                   "forecast_price_uncertainty": 3, "total_planned_operation": 70, "reserve": 30}
+
+
+def check_admission(row: dict, exception: bool, full: dict, rest: dict | None) -> None:
+    """COST-Q4 (owner, 3 Nov 2026): optional jobs in the Apple month admit on the remainder flags; every other month on
+    the full month. Both sets of flags must exist in the Apple month, so the full month stays recorded (R1-C1)."""
+    require(all(key in row for key in FULL_KEYS), "Full-month flags must stay recorded in every month")
+    if exception:
+        require(rest is not None and all(key in row for key in REMAINDER_KEYS), "Exception month remainder fields missing")
+        require(row.get("optional_jobs_admission_basis") == REMAINDER_BASIS,
+                "Exception month admits optional jobs on the remainder (COST-Q4), not the full month")
+        require(row.get("optional_jobs_admission_thresholds_reached") == rest["thresholds_reached"],
+                "Exception month admission flags must be the remainder's flags (COST-Q4)")
+    else:
+        require(row.get("optional_jobs_admission_basis") == FULL_BASIS,
+                "Ordinary month admits optional jobs on the full month; the remainder basis is for the Apple month only")
+        require(row.get("optional_jobs_admission_thresholds_reached") == full["thresholds_reached"],
+                "Ordinary month admission flags must be the full month's flags")
 
 
 def check_remainder(row: dict, fee: D, rest: D, owner: dict) -> None:
@@ -100,6 +130,11 @@ def check_model(model: dict) -> dict:
     """
     require(model["cash_timing_policy"]["amortisation_is_cash"] is False, "Run rate is not cash")
     require(model["cash_timing_policy"]["scenario_only_not_purchase"] is True, "No purchase or due month is established")
+    require(model["cash_timing_policy"].get("apple_month_optional_jobs_admission") == REMAINDER_BASIS,
+            "Apple month optional jobs are admitted on the remainder (COST-Q4)")
+    allocations = model["proposed_allocations_gbp"]
+    require({k: allocations[k] for k in ALLOCATIONS_GBP} == ALLOCATIONS_GBP and allocations["status"] == "owner_selected",
+            "Allocations are the owner's of 3 Nov 2026 (COST-Q1): data 30, AWS 22, Claude 15, uncertainty 3")
     assumptions = {a["id"]: a for a in model["estimate_assumptions"]}
     domain = assumptions["EST-COST-DOMAIN"]
     require(domain["status"] == "retired_owner_2026-11-03" and D(domain["mp_cash_usd"]) == 0,
@@ -157,6 +192,7 @@ def check_model(model: dict) -> dict:
                 require(D(cash["cash_usd_before_tax_card_fx"]) == cash_usd, "Cash USD must add the full due invoice and no amortisation")
                 require(D(cash["cash_gbp"]) == amount.quantize(D(".01")), "Cash GBP timing mismatch")
                 expected = flags(amount, owner)
+                check_admission(cash, exception, expected, flags((cash_usd - due) * f, owner) if exception else None)
                 require(cash["within_70_operating"] == expected["within_70_operating"], "Cash operating flag mismatch")
                 require(cash["within_100_ceiling"] == expected["within_100_ceiling"], "Cash ceiling flag mismatch")
                 for label in ("warn", "reduce", "pause"):
@@ -201,17 +237,29 @@ def check_model(model: dict) -> dict:
         scan_gbp = SCAN_CAP_GBP if month["scan"] == "with_scan_allowance_cap" else D(0)
         amount = (D(virginia["aws_usd_total"]) + data_prices["Grow55_support_candidate"] + claude + due) * factor(fx_inputs[month["fx_scenario"]]) + scan_gbp
         require(D(month["cash_gbp"]) == amount.quantize(D(".01")), "Expected month mismatch")
-        require({k: month[k] for k in ("within_70_operating", "within_100_ceiling", "thresholds_reached")} == flags(amount, owner),
-                "Expected month flag mismatch")
+        fee_gbp = due * factor(fx_inputs[month["fx_scenario"]])
+        check_admission(month, bool(due), flags(amount, owner), flags(amount - fee_gbp, owner) if due else None)
+        require({k: month[k] for k in FULL_KEYS} == flags(amount, owner), "Expected month flag mismatch")
         if due:
-            check_remainder(month, due * factor(fx_inputs[month["fx_scenario"]]),
-                            amount - due * factor(fx_inputs[month["fx_scenario"]]), owner)
+            check_remainder(month, fee_gbp, amount - fee_gbp, owner)
         seen.add((month["fx_scenario"], month["claude"], month["timing"], month["scan"]))
     require(len(seen) == len(expected_months["months"]) == 16, "Expected-month coverage changed")
     by_key = {(m["fx_scenario"], m["claude"], m["timing"], m["scan"]): m["cash_gbp"] for m in expected_months["months"]}
     for claude, scan_label, value in (("claude_off", "without_scan", "46.48"), ("claude_off", "with_scan_allowance_cap", "51.48"),
                                       ("claude_option_a", "without_scan", "54.73"), ("claude_option_a", "with_scan_allowance_cap", "59.73")):
         require(by_key[("central", claude, "ordinary_month", scan_label)] == value, "Expected month known answer mismatch")
+    # COST-Q1: option A plus the scan at its cap (GBP13.24 at central) fits the GBP15 Claude allocation.
+    claude_with_scan = gross_a * factor(fx_inputs["central"]) + SCAN_CAP_GBP
+    require(claude_with_scan.quantize(D(".01")) == D("13.24")
+            and claude_with_scan <= D(allocations["claude_and_evals_verified_credit_only"]),
+            "Claude option A plus the scan cap must fit the Claude allocation (COST-Q1)")
+    # COST-Q4 known answer: central, Claude off, Apple month: the full month reaches every threshold (recorded), the
+    # remainder none, and optional jobs admit on the remainder.
+    apple_central = next(m for m in expected_months["months"] if (m["fx_scenario"], m["claude"], m["timing"], m["scan"])
+                         == ("central", "claude_off", "apple_fee_exception_month", "without_scan"))
+    require(apple_central["thresholds_reached"] == {"warn": True, "reduce": True, "pause": True}
+            and apple_central["optional_jobs_admission_thresholds_reached"] == {"warn": False, "reduce": False, "pause": False},
+            "Apple month known answer mismatch (COST-Q4)")
     return counts
 
 
@@ -241,6 +289,17 @@ def self_test(model: dict, reservation: dict) -> int:
         ("expected_month_edited", "Expected month mismatch"),
         ("option_a_gross_edited", "Claude option A gross mismatch"),
         ("telemetry_added_again", "Telemetry must be the AWS total's own lines"),
+        # COST-Q4 (owner, 3 Nov 2026): Apple month admits on the remainder; ordinary months on the full month.
+        ("exception_admits_on_full_month", "Exception month admits optional jobs on the remainder"),
+        ("exception_admission_flags_full_month", "Exception month admission flags must be the remainder's flags"),
+        ("expected_month_apple_admits_on_full_month", "Exception month admission flags must be the remainder's flags"),
+        ("ordinary_admits_on_remainder", "Ordinary month admits optional jobs on the full month"),
+        ("expected_month_ordinary_admits_on_remainder", "Ordinary month admits optional jobs on the full month"),
+        ("exception_full_flags_dropped", "Full-month flags must stay recorded"),
+        ("exception_admission_missing", "Exception month admits optional jobs on the remainder"),
+        ("policy_admission_full_month", "Apple month optional jobs are admitted on the remainder"),
+        # COST-Q1 (owner, 3 Nov 2026): Claude 15, uncertainty 3.
+        ("allocations_reverted", "Allocations are the owner's of 3 Nov 2026"),
     ):
         changed = copy.deepcopy(model)
         result = changed["results"][0]
@@ -293,6 +352,35 @@ def self_test(model: dict, reservation: dict) -> int:
             changed["expected_months_owner_selection"]["months"][1]["cash_gbp"] = "46.48"
         elif mutation == "option_a_gross_edited":
             changed["claude_option_a"]["gross_usd"] = "6.0875"
+        elif mutation in ("exception_admits_on_full_month", "exception_admission_flags_full_month",
+                          "ordinary_admits_on_remainder"):
+            # A Grow 55 Claude-blocked central row, where the full month (GBP141.52) and remainder (GBP46.48) differ.
+            grow55 = next(v for v in result["all_in_run_rate_variants"] if v["data_option"] == "Grow55_support_candidate" and v["credit_scenario"] == "no_verified_credit_optional_claude_blocked" and v["fx_scenario"] == "central")
+            g_ordinary = next(c for c in grow55["cash_timing_variants"] if c["timing"] == "ordinary_month")
+            g_annual = next(c for c in grow55["cash_timing_variants"] if c["timing"] == "apple_fee_exception_month")
+            require(g_annual["thresholds_reached"] != g_annual["remaining_thresholds_reached"], "Self-test row must separate the flag sets")
+            if mutation == "exception_admits_on_full_month":
+                g_annual["optional_jobs_admission_basis"] = "full_month"
+                g_annual["optional_jobs_admission_thresholds_reached"] = dict(g_annual["thresholds_reached"])
+            elif mutation == "exception_admission_flags_full_month":
+                g_annual["optional_jobs_admission_thresholds_reached"] = dict(g_annual["thresholds_reached"])
+            else:
+                g_ordinary["optional_jobs_admission_basis"] = "remainder_excluding_exception_fee"
+        elif mutation == "expected_month_apple_admits_on_full_month":
+            apple_month = next(m for m in changed["expected_months_owner_selection"]["months"] if m["timing"] == "apple_fee_exception_month" and m["fx_scenario"] == "central")
+            apple_month["optional_jobs_admission_thresholds_reached"] = dict(apple_month["thresholds_reached"])
+        elif mutation == "expected_month_ordinary_admits_on_remainder":
+            ordinary_month = next(m for m in changed["expected_months_owner_selection"]["months"] if m["timing"] == "ordinary_month")
+            ordinary_month["optional_jobs_admission_basis"] = "remainder_excluding_exception_fee"
+        elif mutation == "exception_full_flags_dropped":
+            del annual["thresholds_reached"]
+        elif mutation == "exception_admission_missing":
+            del annual["optional_jobs_admission_basis"]
+        elif mutation == "policy_admission_full_month":
+            changed["cash_timing_policy"]["apple_month_optional_jobs_admission"] = "full_month"
+        elif mutation == "allocations_reverted":
+            changed["proposed_allocations_gbp"]["claude_and_evals_verified_credit_only"] = 10
+            changed["proposed_allocations_gbp"]["forecast_price_uncertainty"] = 8
         else:
             changed["owner_cost_decisions"]["telemetry"]["added_again"] = True
         try:
@@ -310,6 +398,8 @@ def self_test(model: dict, reservation: dict) -> int:
         (("exception_month", "months_per_year"), 2, "Only the Apple fee month"),
         (("exception_month", "other_lines_must_fit"), False, "Apple fee only"),
         (("scan_allowance_max_gbp",), "10", "Scan allowance"),
+        (("exception_month", "optional_jobs_basis"), "full_month", "admitted on the remainder (COST-Q4)"),
+        (("exception_month", "full_month_flags_recorded"), False, "full-month flags still recorded"),
     ):
         changed = copy.deepcopy(reservation)
         target = changed["cash_admission"]

@@ -15,7 +15,9 @@
 > [!NOTE]
 > Every element on this page carries one of five status labels, and only evidence moves a label forward:
 > **Proposed**, **Owner-selected**, **Approved architecture**, **Implemented**, **Deployed and verified**.
-> Today the directions are Owner-selected, the detailed baseline is Proposed, and the only Implemented code is the
+> Today the baseline's structure and the twelve directions, as refined by the owner's later answers, are Approved
+> architecture (owner sign-off, 3 November 2026, MP-20); the detailed contracts and the open items below stay Proposed
+> or open, and the only Implemented code is the
 > FastAPI health route and sample SSE stream. Where this page and an owner decision differ, the decision wins:
 > current owner instructions, then the [policy answers](docs/planning/foundation-policy-discussion-2026-11-02.md),
 > then the [selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md), then the drafts.
@@ -291,7 +293,8 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
 - **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
-  tech, India Nifty 50 and midcap, ETFs, gold and silver) from a curated universe of about 150; new markets and
+  tech, India Nifty 50 and midcap, ETFs as one top 5 each for the US, UK and India, gold and silver) from a curated
+  universe of about 150; new markets and
   watch-only listings added from chat after a coverage check and the owner's confirm; the Apple app as free local
   builds for now, with notifications through Web Push.
 - **Both:** accessible and responsive, and never hide risk, staleness or a provider's status behind a spinner.
@@ -338,9 +341,9 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost
   model, and the evaluation sets that qualify each route ([ARC-06b](docs/planning/claude-models-and-batching-2026-11-02.md)).
-- **The sign-off** of this baseline at an exact revision (MP-20), which must come before any UX work. The
-  [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md) gathers every decision, the open items with
-  their deciding evidence, and the phase-to-story-to-Jira crosswalk, pinned by hash.
+- **Story readiness (CD-01):** the owner signed off this baseline on 3 November 2026 at commit `98ba348`
+  ([sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)), which leaves every item above open. Before
+  any UX work, the 64 story drafts become Jira stories that meet the readiness protocol.
 
 ## 14. Diagram sources
 

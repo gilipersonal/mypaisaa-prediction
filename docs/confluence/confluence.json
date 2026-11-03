@@ -12,13 +12,13 @@
   },
   "hub": {
    "id": "6127641",
-   "version": 2,
-   "sha256": "52b91a601a2a84a27aabfe8acbd0df574420f211a4eb07c54483f0e2c32d2064"
+   "version": 4,
+   "sha256": "bfff787290f6eef958ed2a91e1e47551af2cb3c8ade7cdbff752cb915f52b11a"
   },
   "record": {
    "id": "6127662",
-   "version": 2,
-   "sha256": "d905828dedc84e47ec19b6bc6724197722485900fdcb2b8825d239b3eeb2fed2"
+   "version": 3,
+   "sha256": "f066d706633311769fb7c7113b52182f4be58a4744ccaff3d83da3eeeee7a1f2"
   },
   "journeys": {
    "id": "6127682",
@@ -27,8 +27,8 @@
   },
   "roadmap": {
    "id": "6127702",
-   "version": 2,
-   "sha256": "10d33a43078b1156e27fe6ee03f89e527b96930704271bd10ec4830b94a68885"
+   "version": 3,
+   "sha256": "8fb6513be17bb17b2340b75ff7247c1b9264a370562bb35c0b7f5cb8d5d2c770"
   },
   "phases": {
    "id": "6127722",
@@ -37,8 +37,8 @@
   },
   "screens": {
    "id": "6488109",
-   "version": 2,
-   "sha256": "319c74648532d668fac77976f430929e42b0b200b1a6e5c61730f63d7460f445"
+   "version": 3,
+   "sha256": "07127b11ee68b48d1757d2eb3f9d101dabadddfc7dfa08aed3cb2e8fb498fdeb"
   },
   "drawings": {
    "id": "6357015",
@@ -57,8 +57,8 @@
   },
   "rec-system": {
    "id": "6389796",
-   "version": 3,
-   "sha256": "d9b5d4f03d036d3f3d8fef4ea1b532fde1c4ed49d17a81e74935394507bc5b27"
+   "version": 4,
+   "sha256": "65ce398690f9d334fc481c6716932c34aaa2f1ef0c66fad157ddc891c5c49210"
   },
   "rec-data": {
    "id": "6357035",
@@ -82,8 +82,8 @@
   },
   "rec-identity": {
    "id": "6389836",
-   "version": 2,
-   "sha256": "eac1023c00430f545241801a80a5949cf69b24f56afec0ff970b4c00d1862c32"
+   "version": 3,
+   "sha256": "b6cac59b69ce6c6db6ba71d15acc9396536585fd69a2fee13b26071558ada52f"
   },
   "rec-admin": {
    "id": "6357055",
@@ -102,18 +102,18 @@
   },
   "rec-delivery": {
    "id": "6094881",
-   "version": 3,
-   "sha256": "1dd30889fbe5285db0faffa1c8e3a84f3dc2da203a90c46a6beae5ee8948e12c"
+   "version": 4,
+   "sha256": "0771124ad023f2ff256cad265d9a61b7c584166a24adaee82970e9d1c6e4a702"
   },
   "rec-cost": {
    "id": "6291529",
-   "version": 6,
-   "sha256": "ca79dd934f8d20b397e017929c7aad60999387949c742a7b8966a0a5765facab"
+   "version": 8,
+   "sha256": "6bbde18929a9a9e171b981c1de4a82e4ff48f9524b42c9246f58459eddc20b82"
   },
   "rec-observability": {
    "id": "6357075",
-   "version": 4,
-   "sha256": "83f0cddfac1f6b692d19767de8e452c642608c1c0ee5432bc84bb2e935e97221"
+   "version": 5,
+   "sha256": "f818fd88005e2a6e513d0c5d82db73ad50d62af41dd198b64ac1387b6bc9816e"
   },
   "rec-decisions": {
    "id": "6357095",
@@ -177,18 +177,18 @@
   },
   "rec-testing": {
    "id": "6291936",
-   "version": 4,
-   "sha256": "c5d05950b44088a084f060e54667ba78434d66335ec9bea2c74953a7e7f049c3"
+   "version": 5,
+   "sha256": "17ee83ea72a39ec0f80e1563ff92f548323cff3132a7f27ee1cce73117d1d8d6"
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 5,
-   "sha256": "f372c619a2a831450aad9f480d02e34c095fb74750681ddb2d98a5de950a311a"
+   "version": 6,
+   "sha256": "cbc3cd71b5dca45e8b31c322f571db7dfafd77da61e79277cc7353d50c4af41b"
   },
   "rec-perimeter": {
    "id": "6390123",
-   "version": 5,
-   "sha256": "c23b550d149a7446eee2be1aebfca019b205f7aa5697470485f0b9ecb977f876"
+   "version": 6,
+   "sha256": "8bcf49a8dc27795185dd9920510dc646aa745c367f583f301bcc8fd621d2711e"
   },
   "rec-web-quality": {
    "id": "6095187",
@@ -207,10 +207,10 @@
   },
   "rec-cost": {
    "docs/motion/budget.gif": {
-    "id": "27c74122-afb0-4d56-8770-f202f49ac30c",
+    "id": "fc691a19-02ac-4226-9acb-fb5e39d91e55",
     "collection": "contentId-6291529",
     "attachment": "att6127882",
-    "sha256": "048c468c592a717065ca7ee7e2fffca9ff1f7ccf37771c1faf15c09afc77b18e"
+    "sha256": "80f83391e23382066e151fb8f8ca65bca86efb5c699bf71085ac697434331d57"
    }
   },
   "drawings": {
@@ -297,10 +297,10 @@
     "sha256": "fb1bb9a6d38e319639e04e12b18d1aff08cf49ae34e94177fa29315bfc4f7464"
    },
    "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
-    "id": "96b734d1-1243-46f9-8c63-4c70c6c98b51",
+    "id": "8cdc89c6-4039-4cb4-8161-f5c75520a15f",
     "collection": "contentId-6389796",
     "attachment": "att6095081",
-    "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713"
+    "sha256": "a1abb0b79faa6018f48c68175420d6dad9bdbe2538e6c27af9b50d33cd458637"
    }
   },
   "journeys": {
@@ -344,18 +344,18 @@
   },
   "rec-delivery": {
    "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png": {
-    "id": "c7a5f7f3-768d-4be7-87d5-fb0e04fe8e63",
+    "id": "75905027-adf0-4b78-8e43-dc40d676209b",
     "collection": "contentId-6094881",
     "attachment": "att6390028",
-    "sha256": "991598846762543498131a3a174b953f2357a60272c61681d09ec6ff4fcbab65"
+    "sha256": "fdfe4a3bbceb6d88f6dd4780986f32ccebc7fe4aff1511354a1b52458ab2df1b"
    }
   },
   "record": {
    "docs/diagrams/mp-architecture-2026-11-02/01-system-on-aws.png": {
-    "id": "c9cd3f06-1f1c-4a58-b70c-3cfb68577798",
+    "id": "f3f1a333-7d78-4e7c-99a6-67de0cf132d6",
     "collection": "contentId-6127662",
     "attachment": "att6127940",
-    "sha256": "7bbd6f2f075c0fa4300aec1be9b2e544020eb6ecb6b13347cdda82602f57a713"
+    "sha256": "a1abb0b79faa6018f48c68175420d6dad9bdbe2538e6c27af9b50d33cd458637"
    }
   },
   "rec-identity": {
@@ -402,52 +402,52 @@
     "sha256": "27af7f0cb03e2ecbd4825e61f7847cfccc9f8ae49cb110645834bda495ed1912"
    },
    "docs/diagrams/mp-quality-2026-11-02/02-one-trace.png": {
-    "id": "8d615421-7797-43b0-857d-1285284d5cf3",
+    "id": "d7869a2c-7ee5-473e-bbd6-84f28b7b798a",
     "collection": "contentId-6357075",
     "attachment": "att6390869",
-    "sha256": "5e935c17b75e2befffd64f09bd6e0b56d71a25152e92e390268f56a991bff49b"
+    "sha256": "d1844c64414ad8ee8a03da1b32a4e75d9ecf7bedb24b4ef509b4560c25cfe1fb"
    }
   },
   "rec-perimeter": {
    "docs/motion/perimeter-layers.gif": {
-    "id": "8576eb6a-80f5-4fe3-9067-fb76bad99470",
+    "id": "e2c895aa-f8bb-4273-9384-cf225fae195d",
     "collection": "contentId-6390123",
     "attachment": "att6096169",
-    "sha256": "58b7f4e873960383690c4b2c8880da002f6940089b4716380181dfca2e01acb5"
+    "sha256": "e7ef2ffcbf21cc3b2c3a186e5df97db22d2d8b3863b5f158ec42b452cc83f9a4"
    },
    "docs/diagrams/mp-quality-2026-11-02/05-perimeter.png": {
-    "id": "ed08f3ab-bd3b-476f-a165-1786bd250cef",
+    "id": "fdeb8288-fcb1-4695-ab87-c3778e1c2767",
     "collection": "contentId-6390123",
     "attachment": "att6096183",
-    "sha256": "d3e845bed7bfa1b4f0cb36043a6a8ad40356a08863bd5b0562262fd01d13609b"
+    "sha256": "05e303b6a78545a43bcf1085ab3aa874101f4f0729ff5e4f730a34d15090fa86"
    }
   },
   "rec-apple-testing": {
    "docs/motion/device-matrix.gif": {
-    "id": "a2ab98b5-5a79-4106-b32e-49332fe1f122",
+    "id": "0e3e6ab2-d6f5-47ea-817b-a2005f0ec4fd",
     "collection": "contentId-6291956",
     "attachment": "att6390857",
-    "sha256": "e886e309d664b0275f5ca76057679737c53a821de2a08fb805d491f816993e83"
+    "sha256": "5e0bb36d4a16dc66315d1065316c6849a23832c03f045cad24aa561c74be1752"
    },
    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
-    "id": "616a229f-62ed-4c36-bb2e-dc88885613da",
+    "id": "3011fed0-df70-443d-af9d-7d5aa1f2f9a4",
     "collection": "contentId-6291956",
     "attachment": "att6128904",
-    "sha256": "cb87618475b6746172810299d5ecc5d7933af45de8d556a7ca257ef46eac3d97"
+    "sha256": "72b33ce3e9b8bb63cb45b8feadb530dc0d960c824e3023340e8e462eccd4cbcd"
    }
   },
   "rec-testing": {
    "docs/motion/delivery-pipeline.gif": {
-    "id": "a1382d6d-6b1c-4fec-9167-db000c343252",
+    "id": "f65b5971-7935-4a7d-bb11-c49c1c4b0e7a",
     "collection": "contentId-6291936",
     "attachment": "att6096173",
-    "sha256": "47ee54da36105708d1f0e31230e510528878f495c466e97e4a09746b6c4b1d45"
+    "sha256": "5ee66084d6f659dac35a2971236f4ac8757e230756ec8da0691366a972715964"
    },
    "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png": {
-    "id": "79530317-4ac9-4838-aad9-f245cc167da5",
+    "id": "2e4eb120-2e60-4688-9949-c617fa007a4e",
     "collection": "contentId-6291936",
     "attachment": "att6390873",
-    "sha256": "f83f6613de0caffffc9f8e0378bcd84775848df7673e30417674a9c18866d277"
+    "sha256": "a831df40579d613ca13f600a16323afba0e2d3731c9565b402bbf402e3230714"
    }
   }
  },

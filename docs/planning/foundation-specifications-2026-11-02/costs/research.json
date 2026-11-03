@@ -108,6 +108,7 @@
       "checked_date": "2026-11-02",
       "claim": "The small on-demand EC 2 example uses USD 0.005/minute.",
       "implication": "US reference only; regional build rate and CI selection need confirmation.",
+      "owner_note": "Owner, 3 Nov 2026 (COST-Q2, \"Keep it\"): the USD1.50 a month of AWS build minutes priced at this rate stays in the model as a small margin, in case some builds run in AWS CodeBuild; it is no longer treated as a possible double count of GitHub Actions.",
       "status": "source_verified"
     },
     {
@@ -179,7 +180,7 @@
       "title": "Apple Developer Program purchase and renewal",
       "checked_date": "2026-11-02",
       "claim": "Membership is USD 99 a year, shown in local currency with tax; auto-renewal charges on the expiry date.",
-      "implication": "If the owner buys it, its due month is the one allowed exception above GBP 100; never amortised. Not bought for now (owner, 3 Nov 2026).",
+      "implication": "If the owner buys it, its due month is the one allowed exception above GBP 100; never amortised. Not bought for now (owner, 3 Nov 2026). In that month optional jobs are admitted on the remainder, the month without the fee, against GBP 60, 75 and 85 (owner, 3 Nov 2026, COST-Q4).",
       "status": "source_verified",
       "checked_by": "docs/planning/source-rights-2026-11-02/cost_months.py (MP-10)"
     },

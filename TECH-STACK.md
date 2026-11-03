@@ -152,7 +152,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 
 <div align="center">
 
-<img src="docs/motion/budget.gif" width="860" alt="Animation: a £100 bar fills with data £30, AWS £22, Claude £10 and £8 for uncertainty, with a £30 reserve; warn, reduce and pause marks at £60, £75 and £85; three bars show the selected months: £46.48 with Claude off, £59.73 with Claude option A and the top-5 scan at its cap, and the Apple fee month of £141.52, the one allowed exception">
+<img src="docs/motion/budget.gif" width="860" alt="Animation: a £100 bar fills with data £30, AWS £22, Claude £15 and £3 for uncertainty, with a £30 reserve; warn, reduce and pause marks at £60, £75 and £85; three bars show the selected months: £46.48 with Claude off, £59.73 with Claude option A and the top-5 scan at its cap, and the Apple fee month of £141.52, the one allowed exception">
 
 <sub>The ceiling, the plan and the selected months. <a href="docs/motion/budget.png">Still image</a>.</sub>
 
@@ -168,8 +168,8 @@ window for sign-in, ledger reads, audit and recovery.
 | --- | --- |
 | Market data | £30 |
 | AWS, both accounts | £22 |
-| Claude and evaluations | £10 |
-| Forecast and price uncertainty | £8 |
+| Claude and evaluations | £15 |
+| Forecast and price uncertainty | £3 |
 
 **The selected months** at £0.80 to the dollar and 20% tax, in Virginia (us-east-1, owner-selected 2 November 2026),
 with Twelve Data Grow 55 at $29 and the owner's existing domain, mypaisapp.com, renewed outside MP (owner, 3 November
@@ -190,11 +190,10 @@ workload ([cost specification](docs/planning/foundation-specifications-2026-11-0
 ### What moves the number
 
 - **The data plan.** Grow at $79 is £75.84 on its own, more than the whole operating plan. It decides the month.
-- **Claude.** With the chosen models (ARC-06b) a normal month is about $8.59 (£8.24), most of the £10 allocation:
-  Opus event analysis is about $5 of it, kept there by a cap of three a day. Live chat moves it most in a busy month.
-  The top-5 scan may add up to £5 (owner, 3 November 2026), which takes Claude to about £13.24, above the £10
-  allocation; whether the scan sits in the £8 uncertainty allocation or the Claude allocation rises is an open question
-  (COST-Q1 in the [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)).
+- **Claude.** With the chosen models (ARC-06b) a normal month is about $8.59 (£8.24): Opus event analysis is about
+  $5 of it, kept there by a cap of three a day. Live chat moves it most in a busy month. The top-5 scan may add up to
+  £5 (owner, 3 November 2026), about £13.24 in all, inside the £15 Claude allocation the owner chose that day (with £3
+  left for forecast and price uncertainty); a scan overrun stops at the Claude cap.
 - **Streaming.** One held SSE connection for a month costs about $21.60 of Lambda time before requests; design for
   short streams and re-reads.
 - **Training.** Capped by campaign, fit count and instance-hours, and admitted against the budget before it starts.

@@ -36,6 +36,18 @@
       "secrets": "SSM Parameter Store SecureString; no per-secret fee",
       "telemetry": "Already inside the AWS total",
       "top5_scan": "Up to 5 GBP a month extra (Claude explanations for the top-5 names, batched where possible)",
+      "allocations_gbp": {
+        "data": "30",
+        "aws_dev_prod": "22",
+        "claude_and_evals": "15",
+        "forecast_price_uncertainty": "3",
+        "total_planned_operation": "70",
+        "decided": "2026-11-03",
+        "decision": "Owner, 3 Nov 2026 (COST-Q1, \"Raise Claude to 15 GBP\"): Claude option A plus the top-5 scan is about 13.24 GBP a month, so the Claude and evaluations allocation rises to 15 GBP and uncertainty falls to 3 GBP; a scan overrun stops at the Claude cap. Planning ceilings, not separate pots.",
+        "superseded": "Proposed until 3 Nov 2026: Claude and evaluations 10 GBP, forecast and price uncertainty 8 GBP (only these two allocations changed)"
+      },
+      "aws_build_minutes": "Kept (owner, 3 Nov 2026, COST-Q2, \"Keep it\"): the $1.50 a month stays in the model as a small margin in case some builds run in AWS CodeBuild",
+      "apple_month_optional_jobs_admission": "Owner, 3 Nov 2026 (COST-Q4, \"Judge the month without the fee\"): if the Developer Program is ever bought, optional work in its due month (backfills, challenger models, Claude jobs) runs while the remainder, the month without the fee, stays under 60, 75 and 85 GBP; the fee is the one allowed exception. The fee is still counted as cash in its due month and the full-month total and flags stay recorded (fixed finding R1-C1); every other month admits optional work on the full month",
       "expected_month_gbp": {
         "claude_blocked": "46.48",
         "claude_option_a": "54.73",
@@ -98,16 +110,20 @@
         "US tech",
         "India Nifty 50",
         "India midcap",
-        "ETFs (US, UK and India)",
+        "US ETFs",
+        "UK ETFs",
+        "India ETFs",
         "Commodities (gold and silver, XAU/USD and XAG/USD)"
       ],
+      "etf_segments": "ETFs (US, UK and India), ranked as one list per market: a top 5 for US ETFs, one for UK ETFs and one for India ETFs (owner, 3 Nov 2026, SCI-D09: \"One list per market (Recommended)\")",
       "no_uk_ftse_segment": true,
       "ranked_only_when_all_three_eligible": true,
       "discovery_universe": "about 150 curated names on end-of-day data",
       "framing": "Decision support with ranges and uncertainty, not advice",
       "sources": [
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
-        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-next-steps-3-november-2026-mp-20"
       ]
     }
   },
@@ -286,6 +302,7 @@
       "XAG/USD"
     ],
     "additions_from_chat": "Claude proposes; code checks coverage and credits; the owner confirms in the app",
+    "anthropic_transmission": "Derived values only (owner, 3 Nov 2026, DATA-DEC-12: \"Derived values only (Recommended)\"): Claude sees returns, ranges, scores and the fewest raw prices a route needs; never bulk raw feeds from Twelve Data or Yahoo; never Basic dev values; the answer goes to the owner only (OWNER-RISK-01-S9 and S10, risk accepted, not granted)",
     "action_credit_weight_per_symbol": {
       "dividends": 20,
       "splits": 20,
@@ -294,7 +311,8 @@
     "detail": "data/specification.md and data/catalogue.json",
     "sources": [
       "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-after-the-mp-10-source-rights-research-2-november-2026",
-      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
+      "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-next-steps-3-november-2026-mp-20"
     ]
   },
   "infrastructure": {

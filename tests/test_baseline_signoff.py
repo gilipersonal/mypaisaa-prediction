@@ -47,6 +47,12 @@ class BaselineSignoffTests(unittest.TestCase):
             elif target.is_file() and not copy.exists():
                 copy.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(target, copy)
+        # the repo's pack is signed and frozen; each case builds a fresh, unsigned pack from the current records
+        signed = self.root / Path(REL).parent / "signoff.json"
+        if signed.exists():
+            record = json.loads(signed.read_text())
+            record.pop("signed_off", None)
+            signed.write_text(json.dumps(record))
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -116,8 +122,8 @@ class BaselineSignoffTests(unittest.TestCase):
 
     def test_a_cost_question_whose_record_drops_it_fails(self):
         model = self.root / f"{PACK}/costs/model.json"
-        model.write_text(model.read_text().replace("Possible double count", "Settled"))
-        self.refuses("COST-Q2")
+        model.write_text(model.read_text().replace("not separately quantified", "measured"))
+        self.refuses("COST-Q3")
 
     def test_an_open_item_with_no_deciding_evidence_fails(self):
         def blank(cat):

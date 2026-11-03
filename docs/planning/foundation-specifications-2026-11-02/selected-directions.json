@@ -1,6 +1,7 @@
 {
   "source_commit": "34b03900837428b51ddffcd637d92c1cd2a6fb1e",
-  "architecture_baseline_approved": false,
+  "architecture_baseline_approved": true,
+  "architecture_baseline_signoff": "Owner sign-off, 3 Nov 2026, at commit 98ba348e6af6c8c1f716e521660287887fe909aa: the baseline structure, the twelve directions as refined, the precedence order and the phase-to-story map (docs/planning/baseline-signoff-2026-11-03/signoff.json). Open items stay open; UX and build are not authorised.",
   "UX_authorised": false,
   "implementation_authorised": false,
   "directions": [
@@ -32,7 +33,7 @@
             "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39"
           ],
           "answer": "Confirmed as selected (owner, 2 Nov 2026): Yahoo Finance plus Twelve Data Grow 55 ($29 a month) for prod and Twelve Data Basic for dev, for personal hobby use. The owner accepted the published-terms risk (Yahoo forbids automated collection; Grow is labelled view-only) and chose not to contact vendors. 3 Nov: Yahoo kept for India too; UK funds tested on Grow 55 by API in its first month, else valued from the owner statements; Indian funds from the owner statements; gold and silver as XAU/USD and XAG/USD; a discovery universe of about 150 names on end-of-day data; watch-only listings and new markets added from chat after a coverage and credit check and the owner confirm.",
-          "still_open": "Vendor rights stay unknown (risk accepted, not granted); whether the acceptance covers sending provider values to Anthropic; live coverage, history depth and the corrected DATA-07 credit weights on the live account. Nothing bought or activated.",
+          "still_open": "Vendor rights stay unknown (risk accepted, not granted); live coverage, history depth and the corrected DATA-07 credit weights on the live account. Nothing bought or activated.",
           "folded_into": "data/specification.md and data/catalogue.json (MP-20 consolidation, 3 Nov 2026)"
         }
       }

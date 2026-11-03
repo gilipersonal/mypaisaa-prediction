@@ -1,13 +1,13 @@
 {
  "slug": "rec-perimeter",
  "page_id": "6390123",
- "version": 5,
- "sent_sha256": "c23b550d149a7446eee2be1aebfca019b205f7aa5697470485f0b9ecb977f876",
- "readback_sha256": "38a58e8d885d0ec8a7d5ff61060b8753598b36c7f845bf433c9c192542d83dd9",
- "canonical_sha256": "b25bd57fbdbafc1ece8aae5d6361239f6dc498886dbde5260d991216fa32a681",
- "parts": 669,
+ "version": 6,
+ "sent_sha256": "8bcf49a8dc27795185dd9920510dc646aa745c367f583f301bcc8fd621d2711e",
+ "readback_sha256": "cdbab43879b9bd9ce64de9affe82703d15eb67a6f6576d2056401966ce1fd593",
+ "canonical_sha256": "8a8dfe7536187ea3ee3d3f432487e55460fa44cd4687aeeeeb0f003b2d2ce35d",
+ "parts": 659,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T10:20:09Z"
+ "read_at": "2026-11-03T13:57:03Z"
 }

@@ -82,12 +82,18 @@
       "months_per_year": 1,
       "other_lines_must_fit": true,
       "status": "conditional_not_bought",
-      "rule": "Owner, 2 Nov 2026: the Apple Developer Program fee (USD99 a membership year) may take its due month above GBP100, for this fee only. Owner, 3 Nov 2026: not bought for now. If bought, the full fee is reserved in its due month, never amortised; every other line in that month must still fit the ceiling and thresholds, and no other fee or month may use the exception. The month's record keeps threshold flags on the full month including the fee (fixed finding R1-C1) and shows the remainder, every other line, separately with its own flags (remaining_* in costs/model.json). Whether optional jobs in that month pause on the full-month flags or run while the remainder sits under GBP60/75/85 is open for the owner (COST-Q4); until answered, the full-month flags stand.",
+      "rule": "Owner, 2 Nov 2026: the Apple Developer Program fee (USD99 a membership year) may take its due month above GBP100, for this fee only. Owner, 3 Nov 2026: not bought for now. If bought, the full fee is reserved in its due month, never amortised; every other line in that month must still fit the ceiling and thresholds, and no other fee or month may use the exception. The month's record keeps threshold flags on the full month including the fee (fixed finding R1-C1) and shows the remainder, every other line, separately with its own flags (remaining_* in costs/model.json). Owner, 3 Nov 2026 (COST-Q4, \"Judge the month without the fee\"): in that month optional work (backfills, challenger models, Claude jobs) runs while the remainder stays under GBP60, GBP75 and GBP85; the fee is the one allowed exception. The fee is still counted as cash in its due month and the full-month total and flags stay recorded. Every other month admits optional work on the full month.",
       "remainder_shown_separately": true,
-      "optional_jobs_basis": "open_owner_question_COST-Q4; full-month flags until answered"
+      "optional_jobs_basis": "remainder_excluding_exception_fee",
+      "optional_jobs_basis_decided": "Owner, 3 Nov 2026 (COST-Q4)",
+      "full_month_flags_recorded": true,
+      "superseded_2026_11_03": {
+        "optional_jobs_basis": "open_owner_question_COST-Q4; full-month flags until answered",
+        "what": "Only the admission basis for optional jobs in the Apple fee month is superseded; reserving the full fee in its due month and recording the full-month flags are unchanged."
+      }
     },
     "scan_allowance_max_gbp": "5",
-    "scan_allowance_rule": "Owner, 3 Nov 2026 (MP-39 item 19): the ~150-name scan and its top-5 explanations may add up to GBP5 a month. It is a reserved cap inside the same month, not a separate pot: a scan reservation that would take the month's scan spend past GBP5 is refused, and it does not relax the Claude credit rule.",
+    "scan_allowance_rule": "Owner, 3 Nov 2026 (MP-39 item 19): the ~150-name scan and its top-5 explanations may add up to GBP5 a month. It is a reserved cap inside the same month, not a separate pot: a scan reservation that would take the month's scan spend past GBP5 is refused, and it does not relax the Claude credit rule. The scan sits inside the GBP15 Claude and evaluations allocation (owner, 3 Nov 2026, COST-Q1, \"Raise Claude to GBP15\"; was GBP10 with GBP8 for uncertainty, now GBP3): option A plus the scan at its cap is GBP13.24 at central FX, and a scan overrun stops at the Claude cap.",
     "domain_line": "Removed (owner, 3 Nov 2026): mypaisapp.com is renewed outside MP, so no domain commitment is reserved."
   }
 }

@@ -203,7 +203,7 @@ def hub(s: str) -> str:
                   "<p><strong>Show the uncertainty. Score every forecast.</strong> Mypaisaa Prediction (MP) helps one owner "
                   "understand their holdings and judge where to add, hold, pause or trim. Code does the maths, models "
                   "forecast in ranges, Claude explains, and the owner decides. It holds no broker login and cannot trade.</p>")
-            + cols(card("compass", "#EAE6FF", "Planning", "The architecture directions are chosen; the full baseline, the UX and "
+            + cols(card("compass", "#EAE6FF", "Planning", "The architecture baseline was signed off on 3 November 2026 (MP-20); the story readiness, the UX and "
                         "permission to build are still ahead. Nothing is deployed."),
                    card("white_check_mark", "#E3FCEF", f"{len(b['phases'])} phases", f"PH-00 to PH-09, with {b['story_count']} story "
                         "drafts that are not yet Jira stories."),
@@ -215,7 +215,7 @@ def hub(s: str) -> str:
                    card("compass", "#E3FCEF", link("journeys"), "Opening the app, importing a statement, the daily forecast, asking why, and the learning loop, animated."),
                    card("world_map", "#EAE6FF", link("roadmap"), "Ten phases and the four owner gates before anything is built."))
             + cols(card("books", "#FFFAE6", link("phases"), "One page per phase: outcome, gate, dependencies, rollback and the story drafts."),
-                   card("art", "#FFEBE6", link("screens"), "PROPOSED. Screens wait for the architecture sign-off; this page holds their place."),
+                   card("art", "#FFEBE6", link("screens"), "PROPOSED. Screens wait for ready Jira stories after the architecture sign-off of 3 November 2026; this page holds their place."),
                    card("building_construction", "#E6FCFF", link("drawings"), "The Lucid drawings and the motion, and how each is rebuilt from the repo."))
             + panel("link", "#F4F5F7", f"<h3>{link('sync')}</h3><p>How the repo, Jira, Lucid and this space are kept the same.</p>")
             + "<h2>🚦 Status labels</h2>"
@@ -239,7 +239,7 @@ def roadmap(s: str) -> str:
                    ["docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
             + "<h2>🎬 The road and the four gates</h2>" + gif(s, "roadmap", "Ten phases; four owner gates come before any build.")
             + "<h2>🚦 The four gates, in order</h2>"
-            + "<ol start=\"1\"><li><p><strong>Architecture sign-off</strong> of the contracts and the phase and story baseline at an exact revision (MP-20). " + lozenge("open") + "</p></li>"
+            + "<ol start=\"1\"><li><p><strong>Architecture sign-off</strong> of the baseline at an exact revision (MP-20): given by the owner on 3 November 2026 at commit 98ba348. Its open items stay open, and UX waits until every story meets the readiness protocol. " + lozenge("selected") + "</p></li>"
             + "<li><p><strong>Full UX design</strong>, user and admin journeys end to end, designed locally first. " + lozenge("proposed") + "</p></li>"
             + "<li><p><strong>UX approval</strong> by the owner. " + lozenge("proposed") + "</p></li>"
             + "<li><p><strong>Permission to build.</strong> Only then does application code start. " + lozenge("proposed") + "</p></li></ol>"
@@ -483,7 +483,7 @@ def rec_cost(s: str) -> str:
     return (banner("selected", "The £100 all-in ceiling and its split are owner-selected. With Grow 55 (owner, 2 November 2026) every month fits £100 except the one allowed Apple fee month, if the owner joins.",
                    ["docs/planning/foundation-specifications-2026-11-02/costs/specification.md", "TECH-STACK.md"])
             + gif(s, "budget", "The ceiling, the £70 plan and the selected months.")
-            + table(["Part of the £70 plan", "Up to"], [["Market data", "£30"], ["AWS, both accounts", "£22"], ["Claude and evaluations", "£10"], ["Forecast and price uncertainty", "£8"]])
+            + table(["Part of the £70 plan", "Up to"], [["Market data", "£30"], ["AWS, both accounts", "£22"], ["Claude and evaluations", "£15"], ["Forecast and price uncertainty", "£3"]])
             + table(["Month, Virginia, Grow 55 (cost specification)", "Cash in the month"], [
                 ["An ordinary month, Claude off", "£46.48"], ["An ordinary month, Claude option A", "£54.73"],
                 ["Either, with the top-5 scan at its £5 cap", "£51.48 or £59.73"],
@@ -678,7 +678,7 @@ def journeys(s: str) -> str:
 
 
 def screens(s: str) -> str:
-    return (banner("proposed", "A placeholder. No screen is designed yet: UX starts only after the architecture sign-off, and building only after UX approval.",
+    return (banner("proposed", "A placeholder. No screen is designed yet: the architecture was signed off on 3 November 2026, UX starts once every story meets the readiness protocol, and building only after UX approval.",
                    ["docs/planning/future-architecture-sites-ux-direction-2026-11-02.md"])
             + table(["Area", "Doors", "Status"], [[a, "Web and Apple", lozenge("proposed")] for a in [
                 "Sign-in and recovery", "Market discovery (the landing view)", "Holdings and one holding", "Imports and approvals",

@@ -60,12 +60,12 @@
   "counts": {
     "financial_worked_examples": 15,
     "scientific_worked_examples": 15,
-    "data_acceptance": 18,
+    "data_acceptance": 20,
     "cost_acceptance": 19,
     "financial_acceptance": 30,
     "scientific_acceptance": 17
   },
-  "planned_acceptance_total": 84,
+  "planned_acceptance_total": 86,
   "source_gaps": [
     {
       "source_gap": "FC-01",

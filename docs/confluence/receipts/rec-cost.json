@@ -1,13 +1,13 @@
 {
  "slug": "rec-cost",
  "page_id": "6291529",
- "version": 6,
- "sent_sha256": "ca79dd934f8d20b397e017929c7aad60999387949c742a7b8966a0a5765facab",
- "readback_sha256": "0951947ad3f5fafdb4234d8d9bd63ef00e454aabf20ce9d2481ef58d692b096b",
- "canonical_sha256": "215bc40cfea8148b11cf8fb6e64af3909e9908667bebbea8ca2320a9413902d4",
- "parts": 143,
+ "version": 8,
+ "sent_sha256": "6bbde18929a9a9e171b981c1de4a82e4ff48f9524b42c9246f58459eddc20b82",
+ "readback_sha256": "d7f10220566c7ead5341c8edf92a128311b65c4beb2befd7038664c1352ed0d8",
+ "canonical_sha256": "47b26484116fe2b255a6c59f5798818c0dcdca00e69137751953d16e921dca6a",
+ "parts": 151,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-03T10:18:13Z"
+ "read_at": "2026-11-03T14:09:17Z"
 }

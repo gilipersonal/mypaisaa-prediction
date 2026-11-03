@@ -125,10 +125,10 @@
         "risk_accepted_uses": [
           "storage_backup",
           "non_display_inference",
-          "internal_display"
+          "internal_display",
+          "anthropic_transmission"
         ],
         "not_covered_pending_owner": [
-          "anthropic_transmission",
           "training_evaluation"
         ],
         "scope_ref": "OWNER-RISK-01-S7",
@@ -136,7 +136,8 @@
         "not_accepted": [
           "derived_display_export"
         ],
-        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15.",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S10: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       }
     },
     {
@@ -196,13 +197,12 @@
           "training_evaluation",
           "non_display_inference",
           "internal_display",
-          "derived_display_export"
-        ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
+          "derived_display_export",
           "anthropic_transmission"
         ],
-        "scope_ref": "OWNER-RISK-01-S1"
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "scope_ref": "OWNER-RISK-01-S1",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S9: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       }
     },
     {
@@ -261,15 +261,14 @@
           "training_evaluation",
           "non_display_inference"
         ],
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ],
         "scope_ref": "OWNER-RISK-01-S8",
         "not_accepted": [
           "internal_display",
-          "derived_display_export"
+          "derived_display_export",
+          "anthropic_transmission"
         ],
-        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2).",
+        "anthropic_transmission_reason": "No scope sends Basic dev values to Anthropic; dev Claude routes use synthetic fixtures (DATA-DEC-12)."
       }
     },
     {
@@ -326,10 +325,10 @@
         "risk_accepted_uses": [
           "storage_backup",
           "non_display_inference",
-          "internal_display"
+          "internal_display",
+          "anthropic_transmission"
         ],
         "not_covered_pending_owner": [
-          "anthropic_transmission",
           "training_evaluation"
         ],
         "scope_ref": "OWNER-RISK-01-S7",
@@ -337,7 +336,8 @@
         "not_accepted": [
           "derived_display_export"
         ],
-        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15.",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S10: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       },
       "role_note": "Yahoo's role (owner, 3 Nov 2026): delayed intraday 30-minute checks and a daily cross-check. This daily_ohlcv row is the cross-check (OWNER-RISK-01-S7); the intraday quotes are scope OWNER-RISK-01-S6."
     },
@@ -398,13 +398,12 @@
           "training_evaluation",
           "non_display_inference",
           "internal_display",
-          "derived_display_export"
-        ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
+          "derived_display_export",
           "anthropic_transmission"
         ],
-        "scope_ref": "OWNER-RISK-01-S1"
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "scope_ref": "OWNER-RISK-01-S1",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S9: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       }
     },
     {
@@ -463,15 +462,14 @@
           "training_evaluation",
           "non_display_inference"
         ],
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ],
         "scope_ref": "OWNER-RISK-01-S8",
         "not_accepted": [
           "internal_display",
-          "derived_display_export"
+          "derived_display_export",
+          "anthropic_transmission"
         ],
-        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2).",
+        "anthropic_transmission_reason": "No scope sends Basic dev values to Anthropic; dev Claude routes use synthetic fixtures (DATA-DEC-12)."
       },
       "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     },
@@ -529,10 +527,10 @@
         "risk_accepted_uses": [
           "storage_backup",
           "non_display_inference",
-          "internal_display"
+          "internal_display",
+          "anthropic_transmission"
         ],
         "not_covered_pending_owner": [
-          "anthropic_transmission",
           "training_evaluation"
         ],
         "scope_ref": "OWNER-RISK-01-S7",
@@ -540,7 +538,8 @@
         "not_accepted": [
           "derived_display_export"
         ],
-        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15."
+        "not_accepted_reason": "Proposed narrowing to Yahoo's selected role, a daily cross-check (DATA-DEC-06); training on Yahoo history waits for DATA-DEC-15.",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S10: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       },
       "role_note": "Yahoo's role (owner, 3 Nov 2026): delayed intraday 30-minute checks and a daily cross-check. This daily_ohlcv row is the cross-check (OWNER-RISK-01-S7); the intraday quotes are scope OWNER-RISK-01-S6."
     },
@@ -601,13 +600,12 @@
           "training_evaluation",
           "non_display_inference",
           "internal_display",
-          "derived_display_export"
-        ],
-        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
-        "not_covered_pending_owner": [
+          "derived_display_export",
           "anthropic_transmission"
         ],
-        "scope_ref": "OWNER-RISK-01-S1"
+        "derived_display_export_scope": "owner only; no redistribution or display/export to anyone else",
+        "scope_ref": "OWNER-RISK-01-S1",
+        "anthropic_transmission_scope": "OWNER-RISK-01-S9: derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only (DATA-DEC-12)"
       }
     },
     {
@@ -666,15 +664,14 @@
           "training_evaluation",
           "non_display_inference"
         ],
-        "not_covered_pending_owner": [
-          "anthropic_transmission"
-        ],
         "scope_ref": "OWNER-RISK-01-S8",
         "not_accepted": [
           "internal_display",
-          "derived_display_export"
+          "derived_display_export",
+          "anthropic_transmission"
         ],
-        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2)."
+        "not_accepted_reason": "Basic is labelled internal non-display; dev shows only synthetic data, so no display of Basic data is risk-accepted (MP-20 round 2).",
+        "anthropic_transmission_reason": "No scope sends Basic dev values to Anthropic; dev Claude routes use synthetic fixtures (DATA-DEC-12)."
       },
       "coverage_note": "Basic has UK and India as trial symbols only; dev uses synthetic fixtures for this listing (coverage-blocked, not rights-blocked)."
     }
@@ -896,7 +893,8 @@
       "status": "owner_confirmed",
       "decision": "Gold and silver as XAU/USD and XAG/USD; top-5 segments US large caps, US tech, India Nifty 50, India midcap, ETFs (US, UK, India), commodities; no UK FTSE segment.",
       "recorded_on": "2026-11-03",
-      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+      "etf_structure": "ETFs (US, UK and India) are ranked as one top 5 per market: US ETFs, UK ETFs and India ETFs (owner, 3 Nov 2026, SCI-D09: \"One list per market (Recommended)\"; docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers on next steps, item 2)."
     },
     {
       "id": "DATA-DEC-10",
@@ -914,9 +912,13 @@
     },
     {
       "id": "DATA-DEC-12",
-      "status": "open_owner_question",
-      "decision": "Does the accepted risk extend to sending provider values to Anthropic? Proposed: derived values plus the fewest raw values a route needs. Until answered, no risk_accepted record for anthropic_transmission.",
-      "note": "Decides whether any provider price may appear in a Claude prompt. Twelve Data's terms are silent on AI providers and forbid giving data to third parties without an agreement; Yahoo's terms bar transmitting any part of the service without written permission (s2(h)); Nasdaq's Data AI Policy needs a licence for third-party AI tools on Nasdaq data; no vendor is asked (owner, 2 Nov 2026). Until the owner answers, Claude routes receive no provider values."
+      "status": "owner_confirmed",
+      "decision": "Derived values only: Claude sees returns, ranges, scores and the fewest raw prices a route needs; never bulk raw feeds from Twelve Data or Yahoo. Recorded as OWNER-RISK-01-S9 (Twelve Data Grow 55, prod) and S10 (Yahoo, prod); Basic dev values are never sent.",
+      "owner_words": "Derived values only (Recommended)",
+      "recorded_on": "2026-11-03",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md (Owner answers on next steps, 3 November 2026, MP-20, item 1)",
+      "note": "Twelve Data's terms are silent on AI providers and forbid giving data to third parties without an agreement; Yahoo's terms bar transmitting any part of the service without written permission (s2(h)); Nasdaq's Data AI Policy needs a licence for third-party AI tools on Nasdaq data; no vendor is asked (owner, 2 Nov 2026). The owner's answer extends OWNER-RISK-01 to this limited transmission as an accepted risk, not a grant: the 54 vendor cells stay unknown.",
+      "superseded": "Open question until 3 Nov 2026: 'Does the accepted risk extend to sending provider values to Anthropic?' Until then Claude routes received no provider values. The proposed answer (derived values plus the fewest raw values a route needs) is what the owner chose."
     },
     {
       "id": "DATA-DEC-13",
@@ -947,14 +949,14 @@
       "effect": "Runtime records decision risk_accepted with basis owner_risk_acceptance for the named uses; vendor cells stay unknown; no vendor is contacted; nothing is a grant.",
       "never_covers": [
         "redistribution",
-        "display or export to anyone other than the owner"
+        "display or export to anyone other than the owner",
+        "a bulk raw series or feed sent to Anthropic"
       ],
       "open": [
-        "anthropic_transmission (DATA-DEC-12)",
         "retention after cancellation (DATA-DEC-04)",
         "training on Yahoo history (DATA-DEC-15)"
       ],
-      "scope_rule": "A use is risk_accepted only when a scope below names its source, plan, environment, data kind and listing; anything else falls to deny. No scope covers anthropic_transmission (DATA-DEC-12), redistribution, or display or export to anyone other than the owner. Derived display and export are to the owner only.",
+      "scope_rule": "A use is risk_accepted only when a scope below names its source, plan, environment, data kind and listing; anything else falls to deny. anthropic_transmission is covered only by S9 and S10 (DATA-DEC-12, owner, 3 Nov 2026): derived values and the fewest raw values a route needs, never a bulk raw series or feed, never Basic dev values, and the answer goes to the owner only. No scope covers redistribution, or display or export to anyone other than the owner. Derived display and export are to the owner only.",
       "scopes": [
         {
           "id": "OWNER-RISK-01-S1",
@@ -1101,6 +1103,45 @@
           ],
           "selected_by": "DATA-DEC-05",
           "note": "Basic is labelled internal non-display; no display or derived display of Basic data is accepted. Dev screens show synthetic data."
+        },
+        {
+          "id": "OWNER-RISK-01-S9",
+          "source": "twelvedata",
+          "plan": "Grow_55",
+          "environment": "prod",
+          "data_kinds": [
+            "daily_ohlcv",
+            "historical_ohlcv",
+            "quote",
+            "distribution",
+            "split",
+            "fx",
+            "nav"
+          ],
+          "listing_scope": "Only values already inside a Grow 55 prod scope (S1 to S5) for the same data kind and listing",
+          "uses": [
+            "anthropic_transmission"
+          ],
+          "transmission_limit": "derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only",
+          "selected_by": "DATA-DEC-12",
+          "note": "A bulk raw series (a window of bars, a quote stream or a feed passed through) is refused, whatever the route. Each Claude route's allowlist names the derived fields and the raw fields it may send, with a count per prompt (proposed); anything outside the allowlist is refused."
+        },
+        {
+          "id": "OWNER-RISK-01-S10",
+          "source": "yahoo",
+          "plan": "unverified_personal",
+          "environment": "prod",
+          "data_kinds": [
+            "quote",
+            "daily_ohlcv"
+          ],
+          "listing_scope": "Only values already inside S6 (UK and Indian delayed quotes) or S7 (the daily cross-check)",
+          "uses": [
+            "anthropic_transmission"
+          ],
+          "transmission_limit": "derived values (returns, ranges, scores, forecast distributions, quality flags) and the fewest raw values the route needs, each named in the route's allowlist; never a bulk raw series or feed; the answer goes to the owner only",
+          "selected_by": "DATA-DEC-12",
+          "note": "Same limit as S9. A Yahoo cross-check disagreement may be described to Claude as a derived quality flag; the raw Yahoo series is never sent."
         }
       ],
       "data_kinds_never_covered": [
@@ -1108,12 +1149,14 @@
         "exposure",
         "news"
       ],
-      "revised": "MP-20 round 2 (3 Nov 2026): scopes added so quotes, actions, FX, NAV and the spot pairs are covered only where the owner selected them; Basic dev display dropped; Yahoo narrowed to its selected role."
+      "revised": "MP-20 round 2 (3 Nov 2026): scopes added so quotes, actions, FX, NAV and the spot pairs are covered only where the owner selected them; Basic dev display dropped; Yahoo narrowed to its selected role.",
+      "anthropic_transmission_not_covered": "Twelve Data Basic in dev (S8): dev Claude routes use synthetic fixtures only.",
+      "revised_owner_answers": "MP-20 owner answers (3 Nov 2026): DATA-DEC-12 answered 'Derived values only (Recommended)'; scopes S9 and S10 added for anthropic_transmission, limited to derived values and the fewest raw values a route needs."
     }
   ],
   "universe_policy": {
     "status": "owner_confirmed_detail_proposed",
-    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md (3 November 2026 decision round, items 1 to 3, 8, 9, 12 and 19)",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md (3 November 2026 decision round, items 1 to 3, 8, 9, 12 and 19); Owner answers on next steps (3 November 2026, MP-20), item 2",
     "roles": [
       "holding",
       "watch_only",
@@ -1143,8 +1186,16 @@
         "label": "India midcap"
       },
       {
-        "id": "SEG-ETF",
-        "label": "ETFs (US, UK and India)"
+        "id": "SEG-ETF-US",
+        "label": "US ETFs"
+      },
+      {
+        "id": "SEG-ETF-UK",
+        "label": "UK ETFs"
+      },
+      {
+        "id": "SEG-ETF-IN",
+        "label": "India ETFs"
       },
       {
         "id": "SEG-COMMODITY",
@@ -1173,7 +1224,8 @@
     "funds": {
       "UK": "Test Grow 55 by API in its first month; uncovered funds valued from the owner statements.",
       "India": "Valued from the owner holdings statements; other Indian market data from Twelve Data with Yahoo beside it."
-    }
+    },
+    "etf_segments": "Owner, 3 Nov 2026: \"ETFs (US, UK and India)\" (3 Nov round item 1), ranked as one list per market (SCI-D09, \"One list per market (Recommended)\"): a top 5 for US ETFs, one for UK ETFs and one for India ETFs."
   },
   "quota_allocation": {
     "status": "proposed_recomputed_mp20_round2_2026-11-03",
