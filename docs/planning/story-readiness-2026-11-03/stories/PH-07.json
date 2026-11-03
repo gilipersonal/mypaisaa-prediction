@@ -418,14 +418,12 @@
      "PH07-S02"
     ],
     "gaps": [],
-    "owner_questions": [
-     "MP40-Q3"
-    ],
+    "owner_questions": [],
     "external": [
      "UX: full Apple journeys"
     ]
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "A native accessibility walkthrough with VoiceOver and the largest Dynamic Type",
     "XCTest accessibility audits on every journey",

@@ -1,13 +1,13 @@
 {
  "slug": "rec-web-quality",
  "page_id": "6095187",
- "version": 2,
- "sent_sha256": "698c02f6e4ae8d602f1731cb122d241346e65d7192255ef883561944cfd21034",
- "readback_sha256": "4e59bb6534b2b48f1873c4fd2a3a544f214071cee3f7d170e1536424feb45eb4",
- "canonical_sha256": "e2a94ecb55cccad8b5f59f7b8ee682087cd718e00ad213c5b102bed8121ba459",
- "parts": 590,
+ "version": 4,
+ "sent_sha256": "959739b6b3aa05a1766ecfc21e23e860866db86fa5102c2ffc63e5c6aeccce52",
+ "readback_sha256": "9d9597598699d5b03f5d6dbe072bfc31ae03e4b752522750d8ac375d579ec097",
+ "canonical_sha256": "1937acb5597801d5af8dbc986eabd881ea96b997da67cbf311fa44d094608a45",
+ "parts": 587,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-02T21:40:41Z"
+ "read_at": "2026-11-03T16:38:31Z"
 }

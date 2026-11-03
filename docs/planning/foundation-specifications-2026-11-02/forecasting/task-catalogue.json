@@ -244,7 +244,11 @@
         "id": "SEG-US-TECH",
         "name": "US tech",
         "market": "US",
-        "membership_proposed": "Nasdaq-100 (proposed, SCI-D09)"
+        "membership": "the technology names in the Nasdaq-100",
+        "membership_status": "owner_selected_2026-11-03",
+        "membership_reading": "US tech means the technology names in the Nasdaq-100 (owner, 3 Nov 2026, SCI-D09: \"Daily, Nasdaq-100 tech (Recommended)\")",
+        "membership_snapshot": "members tagged from a versioned Nasdaq-100 membership snapshot under the SCI-03 survivorship rule; the industry classification that marks a name as technology is recorded with each snapshot",
+        "membership_source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), item 4"
       },
       {
         "id": "SEG-IN-NIFTY50",
@@ -287,14 +291,54 @@
       "opportunity": "0.25"
     },
     "ranking_eligibility": "only listings with all three components eligible (POLICY-006); a segment shows fewer than five when fewer qualify; never filled",
+    "ranking_horizons": {
+      "status": "owner_selected_2026-11-03",
+      "owner_words": "3 to 12 months (Recommended)",
+      "reading": "Growth and protection come from the 3, 6 and 12-month forecasts; short horizons feed only the opportunity part.",
+      "growth": [
+        "H-M03",
+        "H-M06",
+        "H-M12"
+      ],
+      "protection": [
+        "H-M03",
+        "H-M06",
+        "H-M12"
+      ],
+      "short_horizons": [
+        "H-S01",
+        "H-S05",
+        "H-S10",
+        "H-S20"
+      ],
+      "short_horizons_feed_only": [
+        "opportunity"
+      ],
+      "component_combination": "how each component combines its horizons into one normalised value stays with FIN-OD-07 (normalisation, comparability)",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), item 3"
+    },
+    "ranking_cadence": {
+      "status": "owner_selected_2026-11-03",
+      "owner_words": "Daily, Nasdaq-100 tech (Recommended)",
+      "reading": "The lists are re-ranked after each daily forecast run.",
+      "cadence": "daily",
+      "runs_after": "each daily forecast run's issuance",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), item 4"
+    },
+    "tie_break": {
+      "status": "proposed_not_put_to_owner",
+      "rule": "deterministic: by combined score, then listing identifier",
+      "why_not_an_owner_question": "it orders equal scores reproducibly and does not change which horizons, cadence or members the owner chose (SCI-D09)",
+      "validated_tie_handling": "FIN-OD-07"
+    },
     "presentation": "ranges and uncertainty shown; decision support, not advice",
     "additions_from_chat": "Claude proposes; code checks coverage with the data provider (Twelve Data or Yahoo) and the credit cost; the owner confirms in the app before anything is added",
     "claude_explanation_cost": "top-5 explanations may add up to GBP 5 a month, batched where possible (costs lane)",
     "open": [
       "SCI-D08: gold and silver daily valuation time, price type and calendar",
-      "SCI-D09 (partly answered: ETFs are one list per market): horizons and outputs feeding the ranking, ranking cadence and ties, and US tech membership (Nasdaq-100 proposed)"
+      "FIN-OD-07: the combined score's normalisation, comparability and validated tie handling, including how each component combines its horizons"
     ],
-    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19; Owner answers on next steps (3 November 2026, MP-20), item 2",
+    "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md: event and analog answers (top 5 per segment) and 3 Nov round items 1, 2, 3 and 19; Owner answers on next steps (3 November 2026, MP-20), item 2; Owner answers that unblock the UX design (3 November 2026, MP-177), items 3 and 4",
     "etf_segments": {
       "owner_words": "ETFs (US, UK and India)",
       "owner_words_source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, 3 Nov round item 1",

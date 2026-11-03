@@ -62,7 +62,7 @@
     "positive": [
      "Twelve Data and Yahoo symbols are versioned mappings with effective dates and mapping evidence, layered on the listing identity from PH-01; a provider symbol is never a primary key (DATA-01).",
      "Each listing carries one or more versioned roles: holding, watch_only, discovery and segment. The curated discovery universe holds about 150 names, and any membership change creates a new catalogue version.",
-     "The segments are exactly the owner's: US large caps, US tech, India Nifty 50, India midcap, one ETF list per market (SEG-ETF-US, SEG-ETF-UK, SEG-ETF-IN) and gold and silver as XAU/USD and XAG/USD spot-reference listings (MIC XXXX, USD quote unit). There is no UK FTSE segment, and UK holdings stay covered. US tech membership stays the proposed Nasdaq-100 until SCI-D09 is answered.",
+     "The segments are exactly the owner's: US large caps, US tech, India Nifty 50, India midcap, one ETF list per market (SEG-ETF-US, SEG-ETF-UK, SEG-ETF-IN) and gold and silver as XAU/USD and XAG/USD spot-reference listings (MIC XXXX, USD quote unit). There is no UK FTSE segment, and UK holdings stay covered. US tech means the technology names in the Nasdaq-100 (owner, 3 November 2026, MP-177).",
      "The synthetic fixture catalogue covers US, UK and India listings with real identifiers, including a GBX London line, an ADR beside its home listing and a fund share class, and claims no personal holding."
     ],
     "negative": [
@@ -111,12 +111,10 @@
      "FC-15",
      "FC-01"
     ],
-    "owner_questions": [
-     "SCI-D09"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "DATA-AT-01 runs as an executable test and passes.",
     "A fixture catalogue with all eight segment ids and the metals listings validates against the Listing contract.",

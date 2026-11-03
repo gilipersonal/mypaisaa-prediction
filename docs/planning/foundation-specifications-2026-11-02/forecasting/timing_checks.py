@@ -2,8 +2,9 @@
 
 Run with python3 <this file> [--check daily|event|policy|selftest|all]. Explicit
 exceptions keep the refusal checks active with python -O. The daily clocks remain
-owner-pending; policy checks hold the owner's 3 Nov 2026 numbers and the ETF lists
-(one per market, SCI-D09) against the records
+owner-pending; policy checks hold the owner's 3 Nov 2026 numbers and the SCI-D09
+answers (ETF lists one per market; ranking horizons per component, daily cadence and
+Nasdaq-100 tech, MP-177; SCI-D09 closed with its tie-break a stated proposal) against the records
 and run synthetic band, overlay, trial-count and slip cases whose readings are
 proposed (SCI-D03, SCI-D07, SCI-D10). The selftest mutates copies and proves the
 policy gate refuses each fault.
@@ -13,6 +14,7 @@ import argparse
 import copy
 import hashlib
 import json
+import re
 from datetime import datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
@@ -137,6 +139,17 @@ OWNER = {
     "etf_owner_words": "ETFs (US, UK and India)",
     "etf_markets": ["India", "UK", "US"],
     "etf_fixed_lists": ["US ETFs", "UK ETFs", "India ETFs"],
+    # SCI-D09, owner 3 Nov 2026 (MP-177): one phrase each, copied word for word into every record.
+    "ranking_horizon_words": "3 to 12 months (Recommended)",
+    "ranking_horizon_phrase": ("Growth and protection come from the 3, 6 and 12-month forecasts; "
+                               "short horizons feed only the opportunity part"),
+    "ranking_long_horizons": ["H-M03", "H-M06", "H-M12"],
+    "ranking_short_horizons": ["H-S01", "H-S05", "H-S10", "H-S20"],
+    "ranking_cadence_words": "Daily, Nasdaq-100 tech (Recommended)",
+    "ranking_cadence_phrase": "The lists are re-ranked after each daily forecast run",
+    "us_tech_membership": "the technology names in the Nasdaq-100",
+    "us_tech_phrase": "US tech means the technology names in the Nasdaq-100",
+    "d09_status": "closed_owner_answered_2026-11-03",
 }
 # Each number above is anchored to the owner's own words; whitespace is normalised so a
 # phrase split over a line break still matches.
@@ -152,6 +165,8 @@ DECISION_LOG_PHRASES = (
     "a curated list of about 150 names",
     "ETFs (US, UK and India)",
     "\"One list per market (Recommended)\". A top 5 for US ETFs, one for UK ETFs and one for India ETFs",
+    "\"3 to 12 months (Recommended)\". Growth and protection come from the 3, 6 and 12-month forecasts; short horizons feed only the opportunity part",
+    "\"Daily, Nasdaq-100 tech (Recommended)\". The lists are re-ranked after each daily forecast run, and US tech means the technology names in the Nasdaq-100",
 )
 PREDICATES = {
     # Every reason form the gate can read. The owner names only the first two; the third is the
@@ -256,7 +271,8 @@ def verify_owner_numbers(docs: dict) -> int:
     require(not any("FTSE" in n for n in names), "a UK FTSE top-5 segment was added")
     require("US tech" in names, "US tech segment is not named as the owner named it")
     verify_etf_lists(docs, ranking)
-    return len(DECISION_LOG_PHRASES) + len(kinds) + 23 + verify_open_questions_held(docs)
+    ranking_checks = verify_ranking_answers(docs, ranking)
+    return len(DECISION_LOG_PHRASES) + len(kinds) + 23 + ranking_checks + verify_open_questions_held(docs)
 
 
 def verify_etf_lists(docs: dict, ranking: dict) -> None:
@@ -271,6 +287,72 @@ def verify_etf_lists(docs: dict, ranking: dict) -> None:
     require([n for n in at(fixed, "top5_per_segment") if "ETF" in n] == OWNER["etf_fixed_lists"]
             and OWNER["etf_owner_words"] in at(fixed, "etf_segments"),
             "fixed policies' ETF lists are not one per market")
+
+
+# Every phrasing that presented SCI-D09's answered items as open or proposed (lesson 3), read in
+# every live record; superseded notes keep the old wording on purpose and are left out.
+STALE_RANKING_PHRASINGS = (
+    re.compile(r"D09[^.;\"]{0,20}partly answered", re.IGNORECASE),
+    re.compile(r"Nasdaq-100[^.;\"]{0,30}proposed|proposed[^.;\"]{0,30}Nasdaq-100", re.IGNORECASE),
+    re.compile(r"membership_proposed"),
+    re.compile(r"horizons FIN-OD-07 names", re.IGNORECASE),
+)
+
+
+def without_superseded(value):
+    if isinstance(value, dict):
+        return {k: without_superseded(v) for k, v in value.items() if not k.startswith("superseded")}
+    if isinstance(value, list):
+        return [without_superseded(v) for v in value]
+    return value
+
+
+def verify_ranking_answers(docs: dict, ranking: dict) -> int:
+    """SCI-D09, owner 3 Nov 2026 (MP-177): horizons per component, daily cadence after issuance, Nasdaq-100 tech."""
+    known = {at(h, "id") for h in at(docs["tasks"], "horizons")}
+    long_horizons, short_horizons = OWNER["ranking_long_horizons"], OWNER["ranking_short_horizons"]
+    require(set(long_horizons + short_horizons) <= known, "ranking horizon ids are not catalogue horizons")
+    horizons = at(ranking, "ranking_horizons")
+    require(at(horizons, "owner_words") == OWNER["ranking_horizon_words"] and str(at(horizons, "status")).startswith("owner_selected"),
+            "ranking horizons lose the owner's words or owner-selected status")
+    for component in ("growth", "protection"):
+        require(at(horizons, component) == long_horizons,
+                "ranking horizons differ from the owner's 3, 6 and 12 months: " + component)
+    require(at(horizons, "short_horizons") == short_horizons and at(horizons, "short_horizons_feed_only") == ["opportunity"],
+            "short horizons feed more than the opportunity part")
+    cadence = at(ranking, "ranking_cadence")
+    require(at(cadence, "cadence") == "daily" and at(cadence, "runs_after") == "each daily forecast run's issuance"
+            and at(cadence, "owner_words") == OWNER["ranking_cadence_words"] and str(at(cadence, "status")).startswith("owner_selected"),
+            "ranking cadence differs from the owner's daily re-rank after each forecast run")
+    tech = [s for s in at(ranking, "segments") if at(s, "id") == "SEG-US-TECH"]
+    require(len(tech) == 1 and at(tech[0], "membership") == OWNER["us_tech_membership"]
+            and str(at(tech[0], "membership_status")).startswith("owner_selected"),
+            "US tech membership differs from the technology names in the Nasdaq-100")
+    tie = at(ranking, "tie_break")
+    require(at(tie, "status") == "proposed_not_put_to_owner" and "listing identifier" in at(tie, "rule"),
+            "tie-break presented as the owner's answer or lost")
+    require(not any("SCI-D09" in item for item in at(ranking, "open")), "ranking still lists SCI-D09 as open")
+    d09 = next(c for c in at(docs["decisions"], "material_choices") if at(c, "id") == "SCI-D09")
+    fixed = at(docs["fixed"], "ranking", "owner_answers_2026_11_03")
+    records = {
+        "spec": " ".join(docs["spec"].split()),
+        "task-catalogue": json.dumps(ranking),
+        "fixed-policies": json.dumps([at(fixed, "ranking_horizons"), at(fixed, "ranking_cadence"), at(fixed, "us_tech_membership")]),
+        "SCI-D09": at(d09, "recommendation"),
+    }
+    for name, text in records.items():
+        for key in ("ranking_horizon_phrase", "ranking_cadence_phrase", "us_tech_phrase"):
+            require(OWNER[key] in text, "owner's ranking answer is not one phrase across records: " + key + " in " + name)
+    live = {
+        "spec": records["spec"],
+        "task-catalogue": json.dumps(docs["tasks"]),
+        "fixed-policies": json.dumps(at(docs["fixed"], "ranking")),
+        "open-decisions": json.dumps(without_superseded(docs["decisions"])),
+    }
+    for name, text in live.items():
+        for pattern in STALE_RANKING_PHRASINGS:
+            require(not pattern.search(text), "SCI-D09 answer still presented as open or proposed in " + name + ": " + pattern.pattern)
+    return 9 + len(records) * 3 + len(live) * len(STALE_RANKING_PHRASINGS)
 
 
 def verify_open_questions_held(docs: dict) -> int:
@@ -297,10 +379,26 @@ def verify_open_questions_held(docs: dict) -> int:
             "SCI-D05 still recommends against the owner's self-correction or revert")
     require(at(choices["SCI-D10"], "status") == "owner_pending", "SCI-D10 is not an open owner question")
     d09 = choices["SCI-D09"]
-    require(at(d09, "status") == "partly_answered" and "SCI-OA-10" in at(d09, "answered_by"),
-            "SCI-D09 does not record the owner's ETF answer as partly answered")
-    for key in ("ranking inputs and horizons", "cadence", "tie-break", "US tech membership"):
-        require(key in at(d09, "still_open").split("Still open:")[-1], "SCI-D09 does not hold the open ranking question: " + key)
+    answered = at(d09, "answered_by")
+    require(at(d09, "status") == OWNER["d09_status"] and "SCI-OA-10" in answered,
+            "SCI-D09 does not record the owner's ETF answer and is not closed")
+    require("SCI-OA-11" in answered and any("MP-177" in str(a) for a in answered),
+            "SCI-D09 does not record the owner's ranking answers (SCI-OA-11, MP-177)")
+    answers = {at(a, "id"): a for a in at(docs["decisions"], "owner_answers_2026_11_03")}
+    require("SCI-OA-11" in answers and at(answers["SCI-OA-11"], "decides") == ["SCI-D09"], "SCI-OA-11 does not hold the owner's ranking answers")
+    oa11 = answers["SCI-OA-11"]
+    require(OWNER["ranking_horizon_words"] in at(oa11, "scope") and OWNER["ranking_cadence_words"] in at(oa11, "scope")
+            and "MP-177" in at(oa11, "source"), "SCI-OA-11 does not hold the owner's ranking answers")
+    still_open = at(d09, "still_open")
+    require(still_open.startswith("Nothing the owner must decide.") and "Stated proposal, not put to the owner:" in still_open,
+            "SCI-D09 is closed but does not say nothing is left for the owner")
+    settled, proposal = still_open.split("Stated proposal, not put to the owner:", 1)
+    for key in ("ranking inputs and horizons", "cadence", "US tech membership"):
+        require(key in settled, "SCI-D09 does not account for the ranking question: " + key)
+    require("tie-break" in proposal and "tie-break" not in settled, "SCI-D09 does not account for the ranking question: tie-break")
+    mp177 = at(d09, "superseded_2026_11_03_mp177")
+    require(at(mp177, "recommendation_was") and at(mp177, "superseded") and at(mp177, "kept") and at(mp177, "date") == "2026-11-03",
+            "SCI-D09's superseded proposal is not kept under a dated note naming what it supersedes")
     for key in ("rules get a proper score", "scored week is for each horizon", "calibrated on what has matured"):
         require(key in at(choices["SCI-D03"], "still_open"), "SCI-D03 does not hold the open trial question: " + key)
     return 10
@@ -494,11 +592,84 @@ DOCUMENT_MUTATIONS = (
      "decision log no longer says"),
     ("SCI-D09 back to owner_pending", lambda d: _choice(d, "SCI-D09").update(status="owner_pending"),
      "SCI-D09 does not record the owner's ETF answer"),
+    # MP-177: the two cases below now drop the item from the closed record's account (settled or stated proposal).
     ("SCI-D09 loses the tie-break question", lambda d: _choice(d, "SCI-D09").update(
-        still_open=_choice(d, "SCI-D09")["still_open"].replace("the tie-break, ", "")), "SCI-D09 does not hold the open ranking question: tie-break"),
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("the tie-break, ", "")), "SCI-D09 does not account for the ranking question: tie-break"),
     ("SCI-D09 loses US tech membership", lambda d: _choice(d, "SCI-D09").update(
-        still_open=_choice(d, "SCI-D09")["still_open"].split("Still open:")[0] + "Still open: the ranking inputs and horizons, the cadence, the tie-break."),
-     "SCI-D09 does not hold the open ranking question: US tech membership"),
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("US tech membership", "US tech")),
+     "SCI-D09 does not account for the ranking question: US tech membership"),
+    ("SCI-D09 back to partly_answered", lambda d: _choice(d, "SCI-D09").update(status="partly_answered"),
+     "SCI-D09 does not record the owner's ETF answer and is not closed"),
+    ("SCI-D09 ETF answer dropped", lambda d: _choice(d, "SCI-D09")["answered_by"].remove("SCI-OA-10"),
+     "SCI-D09 does not record the owner's ETF answer"),
+    ("SCI-D09 ranking answer dropped", lambda d: _choice(d, "SCI-D09")["answered_by"].remove("SCI-OA-11"),
+     "SCI-D09 does not record the owner's ranking answers"),
+    ("SCI-OA-11 record dropped", lambda d: d["decisions"]["owner_answers_2026_11_03"].remove(
+        next(a for a in d["decisions"]["owner_answers_2026_11_03"] if a["id"] == "SCI-OA-11")), "SCI-OA-11 does not hold"),
+    ("SCI-OA-11 loses the cadence answer", lambda d: next(a for a in d["decisions"]["owner_answers_2026_11_03"] if a["id"] == "SCI-OA-11").update(
+        scope="Top-5 ranking horizon \"3 to 12 months (Recommended)\"."), "SCI-OA-11 does not hold"),
+    ("SCI-D09 loses the cadence question", lambda d: _choice(d, "SCI-D09").update(
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("the ranking cadence", "the ranking")),
+     "SCI-D09 does not account for the ranking question: cadence"),
+    ("tie-break claimed as the owner's", lambda d: _choice(d, "SCI-D09").update(
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("Settled by the owner:", "Settled by the owner: the tie-break;")),
+     "SCI-D09 does not account for the ranking question: tie-break"),
+    ("SCI-D09 closed with an owner question left", lambda d: _choice(d, "SCI-D09").update(
+        still_open=_choice(d, "SCI-D09")["still_open"].replace("Nothing the owner must decide.", "Still open: the tie-break.")),
+     "does not say nothing is left for the owner"),
+    ("SCI-D09 superseded note emptied", lambda d: _choice(d, "SCI-D09")["superseded_2026_11_03_mp177"].update(superseded=[]),
+     "not kept under a dated note"),
+    ("SCI-D09 superseded note dropped", lambda d: _choice(d, "SCI-D09").pop("superseded_2026_11_03_mp177"),
+     "missing record field: superseded_2026_11_03_mp177"),
+    ("old SCI-D09 recommendation restored", lambda d: _choice(d, "SCI-D09").update(
+        recommendation=_choice(d, "SCI-D09")["superseded_2026_11_03_mp177"]["recommendation_was"]), "not one phrase across records"),
+    ("growth fed by a short horizon", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_horizons"]["growth"].append("H-S20"),
+     "ranking horizons differ from the owner's 3, 6 and 12 months: growth"),
+    ("protection loses 12 months", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_horizons"]["protection"].remove("H-M12"),
+     "ranking horizons differ from the owner's 3, 6 and 12 months: protection"),
+    ("short horizons feed growth too", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_horizons"][
+        "short_horizons_feed_only"].append("growth"), "short horizons feed more than the opportunity part"),
+    ("ranking horizon owner words dropped", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_horizons"].update(
+        owner_words="3 to 12 months"), "ranking horizons lose the owner's words"),
+    ("ranking cadence weekly", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_cadence"].update(cadence="weekly"),
+     "ranking cadence differs"),
+    ("ranking before issuance", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_cadence"].update(runs_after="each daily close"),
+     "ranking cadence differs"),
+    ("ranking cadence back to proposed", lambda d: d["tasks"]["forecast_universe_and_ranking"]["ranking_cadence"].update(status="proposed"),
+     "ranking cadence differs"),
+    ("US tech is the whole Nasdaq-100", lambda d: next(s for s in d["tasks"]["forecast_universe_and_ranking"]["segments"]
+                                                       if s["id"] == "SEG-US-TECH").update(membership="the Nasdaq-100"),
+     "US tech membership differs"),
+    ("US tech membership back to proposed", lambda d: next(s for s in d["tasks"]["forecast_universe_and_ranking"]["segments"]
+                                                           if s["id"] == "SEG-US-TECH").update(membership_status="proposed"),
+     "US tech membership differs"),
+    ("membership_proposed key restored", lambda d: next(s for s in d["tasks"]["forecast_universe_and_ranking"]["segments"]
+                                                        if s["id"] == "SEG-US-TECH").update(membership_proposed="Nasdaq-100 (proposed, SCI-D09)"),
+     "still presented as open or proposed in task-catalogue"),
+    ("tie-break presented as owner-selected", lambda d: d["tasks"]["forecast_universe_and_ranking"]["tie_break"].update(
+        status="owner_selected_2026-11-03"), "tie-break presented as the owner's answer"),
+    ("SCI-D09 back in the ranking open list", lambda d: d["tasks"]["forecast_universe_and_ranking"]["open"].append(
+        "SCI-D09: ranking cadence"), "ranking still lists SCI-D09 as open"),
+    ("spec says Nasdaq-100 proposed", lambda d: d.update(spec=d["spec"].replace(
+        "US tech (the technology names in the Nasdaq-100, owner, 3 Nov 2026, SCI-D09)", "US tech (Nasdaq-100 proposed as its membership, SCI-D09)")),
+     "still presented as open or proposed in spec"),
+    ("spec says SCI-D09 partly answered", lambda d: d.update(spec=d["spec"] + " The cadence stays open (SCI-D09, partly answered)."),
+     "still presented as open or proposed in spec"),
+    ("spec loses the horizon phrase", lambda d: d.update(spec=d["spec"].replace("short horizons feed only the opportunity part", "short horizons feed the opportunity part")),
+     "not one phrase across records: ranking_horizon_phrase in spec"),
+    ("fixed-policies cadence phrase drift", lambda d: d["fixed"]["ranking"]["owner_answers_2026_11_03"].update(
+        ranking_cadence="Ranked daily"), "not one phrase across records: ranking_cadence_phrase in fixed-policies"),
+    ("fixed-policies US tech dropped", lambda d: d["fixed"]["ranking"]["owner_answers_2026_11_03"].pop("us_tech_membership"),
+     "missing record field: us_tech_membership"),
+    ("fixed-policies calls Nasdaq-100 proposed", lambda d: d["fixed"]["ranking"].update(us_tech="Nasdaq-100 membership proposed"),
+     "still presented as open or proposed in fixed-policies"),
+    ("open-decisions status lists D09 partly answered", lambda d: d["decisions"].update(
+        status="consolidated_2026-11-03: SCI-D05 closed; SCI-D01/D03/D04/D06/D09 partly answered"),
+     "still presented as open or proposed in open-decisions"),
+    ("decision log ranking horizon reworded", lambda d: d.update(log=d["log"].replace("3 to 12 months", "1 to 12 months")),
+     "decision log no longer says"),
+    ("decision log US tech reworded", lambda d: d.update(log=d["log"].replace("technology names in the Nasdaq-100", "Nasdaq-100")),
+     "decision log no longer says"),
     ("rules proper score settled", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(status="settled"),
      "rules proper score presented as settled"),
     ("old SCI-D05 recommendation restored", lambda d: _choice(d, "SCI-D05").update(
@@ -533,8 +704,18 @@ GATE_MUTANTS = (
     ("ETF one-list-per-market check removed", "    verify_etf_lists(docs, ranking)\n", "    pass\n",
      "selftest mutation accepted: ETF lists merged into one"),
     ("SCI-D09 open-question check removed",
-     '        require(key in at(d09, "still_open").split("Still open:")[-1], "SCI-D09 does not hold the open ranking question: " + key)\n',
-     "        pass\n", "selftest mutation accepted: SCI-D09 loses the tie-break question"),
+     '    require("tie-break" in proposal and "tie-break" not in settled, "SCI-D09 does not account for the ranking question: tie-break")\n',
+     "    pass\n", "selftest mutation accepted: SCI-D09 loses the tie-break question"),
+    ("SCI-D09 closed-status check removed",
+     '    require(at(d09, "status") == OWNER["d09_status"] and "SCI-OA-10" in answered,\n',
+     "    require(True or answered,\n", "selftest mutation accepted: SCI-D09 back to owner_pending"),
+    ("ranking-answer check removed", "    ranking_checks = verify_ranking_answers(docs, ranking)\n", "    ranking_checks = 0\n",
+     "selftest mutation accepted: old SCI-D09 recommendation restored"),
+    ("stale-phrasing sweep removed",
+     '            require(not pattern.search(text), "SCI-D09 answer still presented as open or proposed in " + name + ": " + pattern.pattern)\n',
+     "            pass\n", "selftest mutation accepted: membership_proposed key restored"),
+    ("short horizons allowed into growth", '    for component in ("growth", "protection"):\n', '    for component in ("protection",):\n',
+     "selftest mutation accepted: growth fed by a short horizon"),
 )
 
 

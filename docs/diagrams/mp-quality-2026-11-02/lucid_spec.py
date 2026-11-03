@@ -705,8 +705,8 @@ def page_web() -> dict:
     W = 2400
     s = header("p6", W, "Web quality on every screen",
                "Four checks in one Playwright session, and a test for MP's own rule: never hide risk, staleness or a provider's status behind a loading "
-               "state. web/ does not exist yet, so all of this waits for PH-06. WCAG 2.2 Level AA is proposed.",
-               "PROPOSED; runs once web/ exists (PH-06)")
+               "state. web/ does not exist yet, so all of this waits for PH-06. WCAG 2.2 Level AA is the owner-selected standard for web, iPhone and iPad (3 Nov 2026).",
+               "WCAG 2.2 AA OWNER-SELECTED; checks PROPOSED, once web/ exists (PH-06)")
     # 240 wide, so the "pages" and "replies" labels clear both ends of their 120 px connectors
     s.append(box("app", 60, 250, 240, 130, "The built SvelteKit app", "static, from web/; not built yet", "blue", "prop", size=14))
     s.append(box("stub", 60, 450, 240, 160, "Local stub API", "synthetic data; Playwright holds or replaces its replies to make each state", "amber", "prop", size=14))
@@ -723,7 +723,8 @@ def page_web() -> dict:
     cy = [220, 340, 460, 580]
     for i, (title, detail, tone, st) in enumerate(checks):
         s.append(box(f"ck{i}", 860, cy[i], 440, 100, title, detail, tone, st, size=14))
-    s.append(heading("wcag_h", 1380, 186, 960, "WCAG 2.2 LEVEL AA, PROPOSED: WHAT IT ADDS THAT MATTERS TO MP", PURPLE))
+    # the standard is the owner's (decision log, 3 Nov 2026, MP-177): its status word in the status key's blue, colour only
+    s.append(heading("wcag_h", 1380, 186, 960, f'WCAG 2.2 LEVEL AA, <span style="color:{BLUE}">OWNER-SELECTED</span>: WHAT IT ADDS THAT MATTERS TO MP', PURPLE))
     s.append(table("wcag", 1380, 220, 960, 480, [  # 80 px rows: the longest "Where MP meets it" cells wrap to three lines
         ["Criterion", "Where MP meets it", "Checked by"],
         ["2.4.11 Focus Not Obscured (Minimum)", "a sticky header, the chat panel or the cost bar never covers the focused control", "a Playwright test per main screen"],

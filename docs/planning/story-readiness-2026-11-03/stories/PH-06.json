@@ -54,14 +54,14 @@
    "jira_key": "MP-153",
    "phase": "PH-06",
    "epic": "MP-7",
-   "title": "Home with holdings and the top 5 per segment",
+   "title": "Holdings-first home with the top 5 per segment",
    "story": "As the owner, I want a home view that shows my holdings and the five best-ranked listings in each segment, each with its range, uncertainty and freshness, so that I see what I own and what else is worth watching in one place.",
    "from_drafts": [
     "L6-S01"
    ],
    "acceptance": {
     "positive": [
-     "The home view shows the owner's holdings and the top 5 per segment, in the order the owner chooses in answer to MP40-Q14 (holdings first with the top 5 below, or market discovery first with holdings a tap away); until that answer, neither order is treated as approved.",
+     "The home view shows the owner's holdings first, with their ranges, and the top 5 per segment below (owner, 3 November 2026, MP-177).",
      "Each holding shows its value in GBP with its local currency, its latest forecast range for the chosen horizon, its suggested action with reasons, and how fresh its price is.",
      "Each segment shows its top 5 from the versioned ranking (PH06-S05): US large caps, US tech, India Nifty 50, India midcap, US ETFs, UK ETFs, India ETFs, and gold and silver; there is no UK FTSE segment, and UK holdings still appear.",
      "Every row shows its data freshness and provider status, and the cost view is one tap away (PH06-S03).",
@@ -121,8 +121,7 @@
      "FC-16"
     ],
     "owner_questions": [
-     "DATA-DEC-02",
-     "MP40-Q14"
+     "DATA-DEC-02"
     ],
     "external": [
      "UX: holdings and top 5 home"
@@ -333,14 +332,12 @@
      "PL-14",
      "PL-04"
     ],
-    "owner_questions": [
-     "MP40-Q3"
-    ],
+    "owner_questions": [],
     "external": [
      "UX: web shell and navigation"
     ]
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "Build inspection proving no private data in the static output",
     "Sign-out and session-expiry cache-clearing tests",
@@ -362,12 +359,14 @@
      "A ranking policy version holds the component definitions, normalisation, the weights (growth 35, protection 40, opportunity 25), the tie-break and the action bands.",
      "Eligibility and abstention run before combination, and the combined score exists only when all three components are eligible (POLICY-006).",
      "After each daily issuance, code ranks each segment's eligible listings and stores the top 5 as a versioned view, with one list each for US, UK and India ETFs (owner, 3 November 2026).",
+     "Growth and protection come from the 3, 6 and 12-month forecasts and only the opportunity component uses shorter horizons; the lists are re-ranked daily after issuance (owner, 3 November 2026, MP-177).",
      "Deterministic reference outputs for a synthetic universe reproduce exactly."
     ],
     "negative": [
      "A missing component is never zero and never reweighted; that listing is not ranked.",
      "Gold and silver stay unavailable for formal tasks, with a reason, until their valuation conventions are decided (SCI-D08).",
-     "No action band classifies a listing until normalisation, ties and thresholds are approved (FIN-OD-07)."
+     "No action band classifies a listing until normalisation, ties and thresholds are approved (FIN-OD-07).",
+     "A 1 to 20-session forecast never feeds the growth or protection component."
     ],
     "recovery": [
      "A failed ranking run leaves the previous view current with its date; a re-run for the same issuance gives the same view.",
@@ -418,7 +417,6 @@
     ],
     "owner_questions": [
      "FIN-OD-07",
-     "SCI-D09",
      "SCI-D08"
     ],
     "external": []

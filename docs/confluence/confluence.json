@@ -97,8 +97,8 @@
   },
   "rec-clients": {
    "id": "6094861",
-   "version": 2,
-   "sha256": "670e7be5570ef6d517103a9caaf39f38494340dce216e14a4baef9b78541ef1d"
+   "version": 3,
+   "sha256": "4c01c62c12b4ad07fe05e7693fd4e81529916e09c1843a04fb37c0ba11a31345"
   },
   "rec-delivery": {
    "id": "6094881",
@@ -122,13 +122,13 @@
   },
   "ph-00": {
    "id": "6488129",
-   "version": 3,
-   "sha256": "a3672f1e22926abac7520bbd3b5f20d854c958fd3c9563fbc307a3bb04a909df"
+   "version": 4,
+   "sha256": "fd948ca1e8c551036ba033630a1404a36c93ec1926539dfa674d4c8e03034466"
   },
   "ph-01": {
    "id": "6357115",
-   "version": 3,
-   "sha256": "00180ad77f801ef6903b63d5f25856216a644d134459a590ceb4b0304af1a1b6"
+   "version": 4,
+   "sha256": "6a35f25044c82c8302d6457c879f72ed322f16961c9e77d39d9f4945cb3c6448"
   },
   "ph-02": {
    "id": "6094901",
@@ -137,8 +137,8 @@
   },
   "ph-03": {
    "id": "6291549",
-   "version": 3,
-   "sha256": "168b05603adf6cb63eaeb330046351c39459effa5bc14cbea4128017b94c8958"
+   "version": 4,
+   "sha256": "cd5f9ad143a61b40201679e811f3f505dffb524f7717d0277186869ee9969ac7"
   },
   "ph-04": {
    "id": "6127802",
@@ -152,18 +152,18 @@
   },
   "ph-06": {
    "id": "6389856",
-   "version": 3,
-   "sha256": "c24b746b07f0f99032fca36bc3d904c726ed2bf1e622e59de9ef46ba9dec64e5"
+   "version": 4,
+   "sha256": "313d94d3bb417c5ad57687c5fbd2fec8cd78b05cb0e96ca44e04d647eb0cb765"
   },
   "ph-07": {
    "id": "6291589",
-   "version": 3,
-   "sha256": "0af3336bc79612e67a2619320ad36650bca5811ec162edf41b64f6949f95020d"
+   "version": 4,
+   "sha256": "377a385717c3e1ee5ac27e355235d6e2120826e26088590eb0c52e1ae02d6585"
   },
   "ph-08": {
    "id": "6291609",
-   "version": 3,
-   "sha256": "02139d2e5d9487633294c7fb20bbbadaa7039097b7862c622d76f46060fb5168"
+   "version": 4,
+   "sha256": "51c9d43e85ed46dba7739ac1101a98020384459747a08be927ed68ab6a727c48"
   },
   "ph-09": {
    "id": "6094921",
@@ -192,8 +192,8 @@
   },
   "rec-web-quality": {
    "id": "6095187",
-   "version": 2,
-   "sha256": "698c02f6e4ae8d602f1731cb122d241346e65d7192255ef883561944cfd21034"
+   "version": 4,
+   "sha256": "959739b6b3aa05a1766ecfc21e23e860866db86fa5102c2ffc63e5c6aeccce52"
   }
  },
  "media": {
@@ -388,10 +388,10 @@
     "sha256": "747aa003b94bb22463f8e0db41170e158ccf99863df79bb9e9957d7500b70553"
    },
    "docs/diagrams/mp-quality-2026-11-02/06-web-quality.png": {
-    "id": "3c93b114-375e-4dd0-bb79-059cc1d984af",
+    "id": "5b728a82-cc02-4088-9c86-96e1f3ee1442",
     "collection": "contentId-6095187",
     "attachment": "att6292708",
-    "sha256": "ad4ece1a5e13d3c65e9276efea601912c88b2fe47954956997e452d4f4229cb4"
+    "sha256": "345810369968f1e4ded8188d646374a4657d7f72295896d7f8ed4ed1fd02e881"
    }
   },
   "rec-observability": {

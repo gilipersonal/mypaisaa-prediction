@@ -297,10 +297,10 @@
    ],
    "acceptance": {
     "positive": [
-     "Journeys cover the home screen with my holdings and the top 5 per segment, in the order the owner chooses (MP40-Q14), (US large caps, US tech, India Nifty 50, India midcap, one ETF list each for the US, UK and India, gold and silver), holdings and imports kept separate, per-horizon forecasts with their proof, research and chat, the action journal, cost visible from the main dashboard, owner approvals, and privacy and recovery.",
+     "Journeys cover the home screen with my holdings first and the top 5 per segment below (owner, 3 November 2026, MP-177) (US large caps, US tech, India Nifty 50, India midcap, one ETF list each for the US, UK and India, gold and silver), holdings and imports kept separate, per-horizon forecasts with their proof, research and chat, the action journal, cost visible from the main dashboard, owner approvals, and privacy and recovery.",
      "Every screen shows its loading, empty, error, stale, offline, no-model, disagreement and abstention states, and never hides risk, staleness or a provider's status behind a spinner.",
      "At least two options per journey are made locally with mp-design-first, synced to private Claude HTML artifacts and recorded in docs/design/artifacts.json; the owner picks one per journey.",
-     "Layouts adapt across web, iPhone and iPad and meet the accessibility standard the owner approves (WCAG 2.2 AA is proposed, MP-36).",
+     "Layouts adapt across web, iPhone and iPad and meet WCAG 2.2 AA (owner, 3 November 2026, MP-177).",
      "The SvelteKit version and the device list are checked against current official releases before any package is named, and nothing is described as installed."
     ],
     "negative": [
@@ -347,11 +347,7 @@
      "IR-01",
      "CD-02"
     ],
-    "owner_questions": [
-     "SCI-D09",
-     "MP40-Q3",
-     "MP40-Q14"
-    ],
+    "owner_questions": [],
     "external": [
      "MP-40: the PH-01 holdings and import stories the journeys draw, written and ready (not built)",
      "MP-40: the PH-06 discovery, ranking, proof and briefing stories, written and ready (not built)",
@@ -363,7 +359,7 @@
     "python3 scripts/design_sync.py check passes",
     "A state inventory listing every screen against every state"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   },
   {
    "id": "PH00-S06",

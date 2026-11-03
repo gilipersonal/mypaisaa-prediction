@@ -21,7 +21,7 @@
   },
   {
    "id": "MP40-Q3",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "Is WCAG 2.2 Level AA MP's accessibility standard for the web app and the Apple app's equivalent checks?",
    "decides": "The pass mark for every screen's accessibility checks (MP-36 proposed it; ARCHITECTURE.md says only accessible and responsive).",
    "stories": [
@@ -30,7 +30,10 @@
     "PH06-S04",
     "PH07-S06",
     "PH08-S07"
-   ]
+   ],
+   "answer": "WCAG 2.2 AA (Recommended)",
+   "answered_on": "2026-11-03",
+   "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-that-unblock-the-ux-design-3-november-2026-mp-177"
   },
   {
    "id": "MP40-Q4",
@@ -126,13 +129,16 @@
   },
   {
    "id": "MP40-Q14",
-   "status": "owner_pending",
+   "status": "owner_confirmed",
    "question": "On the home screen, should holdings come first with the top 5 per segment below, or market discovery first with holdings a tap away?",
    "decides": "The home screen's order. The owner asked for 'holdings plus the top 5 per segment' (3 November 2026) while ARCHITECTURE.md section 11 says 'market discovery first, holdings a tap away'; under the plan-sync rule both stay as they are until the owner answers.",
    "stories": [
     "PH06-S01",
     "PH00-S05"
-   ]
+   ],
+   "answer": "Holdings first (Recommended)",
+   "answered_on": "2026-11-03",
+   "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-that-unblock-the-ux-design-3-november-2026-mp-177"
   }
  ]
 }

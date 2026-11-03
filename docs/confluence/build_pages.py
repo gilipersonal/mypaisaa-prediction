@@ -501,7 +501,7 @@ def rec_guardrails(s: str) -> str:
 def rec_clients(s: str) -> str:
     return (banner("selected", "ARC-10: a static SvelteKit PWA and an Apple app, both on the authenticated FastAPI. Screens are not designed yet.",
                    ["ARCHITECTURE.md", "TECH-STACK.md"])
-            + cols(card("globe_with_meridians", "#DEEBFF", "Web", "A prebuilt, static SvelteKit 3 PWA on S3 and CloudFront. Market discovery first, holdings a tap away, chat to explain."),
+            + cols(card("globe_with_meridians", "#DEEBFF", "Web", "A prebuilt, static SvelteKit 3 PWA on S3 and CloudFront. Holdings first, with the top 5 per segment below (owner, 3 November 2026), chat to explain."),
                    card("iphone", "#EAE6FF", "Apple", "SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications; the React Native shell owns navigation and typed bridges."))
             + ul(["Accessible and responsive; never hide risk, staleness or a provider's status behind a spinner.",
                   "SSE for short notices; durable state is always an authenticated read."])
@@ -899,14 +899,14 @@ def rec_testing(s: str) -> str:
 def rec_web_quality(s: str) -> str:
     checked = "checked 2 Nov 2026"
     return (banner("proposed", "A proposal. <code>web/</code> does not exist and no screen is designed: these checks run once the PWA is built, "
-                   "after the architecture sign-off and UX approval. WCAG 2.2 Level AA is proposed; ARCHITECTURE.md says only &quot;accessible and responsive&quot;.",
+                   "after the architecture sign-off and UX approval. WCAG 2.2 Level AA is the owner-selected standard (3 November 2026, MP-177).",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
             + gif(s, "a11y-pipeline", "One screen through ARIA snapshots, axe-core, a screenshot diff and the staleness rule.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 6, "Web quality on every screen: ARIA snapshots, axe-core, screenshots and the staleness rule.", LUCID_QUALITY)
             + cols(card("white_check_mark", "#E3FCEF", "Already the rule",
                         "Accessible, responsive PWA views. Never hide risk, staleness or a data provider's status behind a loading state (AGENTS.md, ARC-10)."),
-                   card("bulb", "#FFFAE6", "Proposed standard",
-                        "WCAG 2.2 Level AA, the W3C Recommendation (current version 12 December 2024). It adds nine success criteria to 2.1 and drops 4.1.1 Parsing. It needs the owner's yes."))
+                   card("bulb", "#FFFAE6", "The standard: owner-selected",
+                        "WCAG 2.2 Level AA, the W3C Recommendation (current version 12 December 2024), for web, iPhone and iPad (owner, 3 November 2026, MP-177). It adds nine success criteria to 2.1 and drops 4.1.1 Parsing."))
             + "<h2>🧪 Four checks in one browser session</h2>"
             + table(["Check", "Tool", "Catches", "Status"], [
                 ["Journeys", "Playwright on the built static SvelteKit app, against a local stub API with synthetic data", "A broken flow, a dead link, a lost state", lozenge("proposed")],
@@ -950,7 +950,6 @@ def rec_web_quality(s: str) -> str:
                 ["Playwright, ARIA snapshots, axe, screenshots", "Locally first; in CI on pull requests touching <code>web/</code>, or only on request", lozenge("open")],
                 ["Keyboard, VoiceOver and real Safari", "By hand before a release", lozenge("proposed")]])
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
-                "WCAG 2.2 Level AA as MP's standard for the web, and the same bar for the Apple app: PL-14 (MP-30).",
                 "The screenshot tool: Playwright's own (proposed) or Argos Hobby: PL-11 (MP-30).",
                 "Whether the browser suite runs on every web pull request or only on request: PL-11 (MP-30).",
                 "Browsers, widths and themes, with the screens: PL-14 (MP-30).",
