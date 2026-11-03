@@ -257,4 +257,16 @@ Asked in Claude after review round 2, with the sign-off pack at commit
    under PH-00 to PH-09, each with positive and negative acceptance, contracts, a state inventory and dependencies:
    the last gate before UX.
 
+## Owner answers that unblock the UX design (3 November 2026, MP-177)
+
+1. **MP40-Q14, the home screen order:** "Holdings first (Recommended)". The owner's holdings with their ranges come
+   first, with the top 5 per segment below. This replaces ARCHITECTURE.md's "market discovery first, holdings a tap
+   away".
+2. **MP40-Q3, the accessibility standard:** "WCAG 2.2 AA (Recommended)", for web, iPhone and iPad, checked by axe on
+   the web and Xcode's accessibility audit on Apple.
+3. **SCI-D09, the top-5 ranking horizon:** "3 to 12 months (Recommended)". Growth and protection come from the 3, 6
+   and 12-month forecasts; short horizons feed only the opportunity part.
+4. **SCI-D09, refresh and US tech:** "Daily, Nasdaq-100 tech (Recommended)". The lists are re-ranked after each daily
+   forecast run, and US tech means the technology names in the Nasdaq-100.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

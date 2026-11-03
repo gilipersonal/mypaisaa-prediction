@@ -501,7 +501,7 @@ def rec_guardrails(s: str) -> str:
 def rec_clients(s: str) -> str:
     return (banner("selected", "ARC-10: a static SvelteKit PWA and an Apple app, both on the authenticated FastAPI. Screens are not designed yet.",
                    ["ARCHITECTURE.md", "TECH-STACK.md"])
-            + cols(card("globe_with_meridians", "#DEEBFF", "Web", "A prebuilt, static SvelteKit 3 PWA on S3 and CloudFront. Market discovery first, holdings a tap away, chat to explain."),
+            + cols(card("globe_with_meridians", "#DEEBFF", "Web", "A prebuilt, static SvelteKit 3 PWA on S3 and CloudFront. Holdings first, with the top 5 per segment below (owner, 3 November 2026), chat to explain."),
                    card("iphone", "#EAE6FF", "Apple", "SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications; the React Native shell owns navigation and typed bridges."))
             + ul(["Accessible and responsive; never hide risk, staleness or a provider's status behind a spinner.",
                   "SSE for short notices; durable state is always an authenticated read."])
@@ -899,7 +899,7 @@ def rec_testing(s: str) -> str:
 def rec_web_quality(s: str) -> str:
     checked = "checked 2 Nov 2026"
     return (banner("proposed", "A proposal. <code>web/</code> does not exist and no screen is designed: these checks run once the PWA is built, "
-                   "after the architecture sign-off and UX approval. WCAG 2.2 Level AA is proposed; ARCHITECTURE.md says only &quot;accessible and responsive&quot;.",
+                   "after the architecture sign-off and UX approval. WCAG 2.2 Level AA is the owner-selected standard (3 November 2026, MP-177).",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
             + gif(s, "a11y-pipeline", "One screen through ARIA snapshots, axe-core, a screenshot diff and the staleness rule.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 6, "Web quality on every screen: ARIA snapshots, axe-core, screenshots and the staleness rule.", LUCID_QUALITY)

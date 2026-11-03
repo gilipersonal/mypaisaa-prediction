@@ -1537,7 +1537,7 @@
   },
   {
    "key": "MP-153",
-   "summary": "Home with holdings and the top 5 per segment",
+   "summary": "Holdings-first home with the top 5 per segment",
    "type": "Story",
    "status": "To Do",
    "parent": "MP-7",
@@ -1726,6 +1726,25 @@
    "status": "To Do",
    "parent": "MP-9",
    "code": []
+  },
+  {
+   "key": "MP-177",
+   "summary": "Record the owner's answers that unblock the UX design",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "ARCHITECTURE.md",
+    "docs/architecture-explainer/",
+    "docs/confluence/",
+    "docs/design/artifacts.json",
+    "docs/diagrams/mp-quality-2026-11-02/",
+    "docs/planning/foundation-specifications-2026-11-02/",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/retired-facts.json",
+    "docs/planning/story-readiness-2026-11-03/",
+    "docs/planning/trace.json"
+   ]
   }
  ]
 }

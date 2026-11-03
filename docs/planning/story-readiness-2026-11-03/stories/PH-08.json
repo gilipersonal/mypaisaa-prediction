@@ -510,15 +510,13 @@
      "PL-11"
     ],
     "external": [],
-    "owner_questions": [
-     "MP40-Q3"
-    ]
+    "owner_questions": []
    },
    "evidence": [
     "A gate report produced on a release candidate",
     "A test that a missing gate makes the report fail"
    ],
-   "blocked_on_owner": true
+   "blocked_on_owner": false
   },
   {
    "id": "PH08-S08",

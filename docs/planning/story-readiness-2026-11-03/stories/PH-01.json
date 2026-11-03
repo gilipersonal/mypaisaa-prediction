@@ -1791,12 +1791,10 @@
      "PL-14",
      "CT-16"
     ],
-    "owner_questions": [
-     "MP40-Q3"
-    ],
+    "owner_questions": [],
     "external": []
    },
-   "blocked_on_owner": true,
+   "blocked_on_owner": false,
    "evidence": [
     "Automated accessibility checks pass on the web screens, with a recorded screen-reader walk-through",
     "A test shows Web Push payloads and page titles hold no values",

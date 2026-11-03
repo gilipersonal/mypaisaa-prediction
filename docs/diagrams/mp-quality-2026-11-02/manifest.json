@@ -7,7 +7,7 @@
   "jira": "MP-36",
   "status": "PROPOSED. Today's nine CI checks are drawn as IMPLEMENTED; the ARC directions and the owner's 2 and 3 November 2026 decisions (Terraform, the owner-started release, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) as OWNER-SELECTED; nothing is deployed",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import); `--page N` is the one-page document each drawing was imported from, with use_assisted_layout false. Regenerate and re-import rather than editing exports",
-  "spec_sha256": "0adcfaa095b1249072c5b8f7f80c0e57efd1968610dea44ccb6c063a44346a5e",
+  "spec_sha256": "081f0410309f566b1bfd84b5ec02e59a63ccb32bb3a9cf7e91b3014fd383a5e7",
   "pages": [
     {
       "page_number": 1,
@@ -72,10 +72,16 @@
       "page_number": 6,
       "title": "Web quality on every screen",
       "filename": "06-web-quality.png",
-      "document_id": "bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb",
-      "document_url": "https://lucid.app/lucidchart/bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb/edit",
+      "document_id": "d8e6953c-3d32-4cac-b9a5-4c144c4025b1",
+      "document_url": "https://lucid.app/lucidchart/d8e6953c-3d32-4cac-b9a5-4c144c4025b1/edit",
       "document_version": 74,
-      "sha256": "ad4ece1a5e13d3c65e9276efea601912c88b2fe47954956997e452d4f4229cb4",
+      "sha256": "345810369968f1e4ded8188d646374a4657d7f72295896d7f8ed4ed1fd02e881",
+      "export_date_utc": "2026-11-03",
+      "bytes": 546819,
+      "dimensions": [
+        2420,
+        1782
+      ],
       "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     }
   ],
@@ -131,6 +137,10 @@
     {
       "document_id": "e640978f-08d8-4130-9e9e-8f244ba18509",
       "reason": "MP-20 round 2 fix"
+    },
+    {
+      "document_id": "bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb",
+      "reason": "MP-177: WCAG 2.2 Level AA drawn as proposed; the owner selected it on 3 Nov 2026, so drawing 6 was re-imported with it as OWNER-SELECTED"
     }
   ]
 }

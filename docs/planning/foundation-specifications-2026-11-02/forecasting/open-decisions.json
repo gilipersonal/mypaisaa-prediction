@@ -1,5 +1,5 @@
 {
-  "status": "consolidated_2026-11-03: SCI-D05 closed by owner answers; SCI-D01/D03/D04/D06/D09 partly answered; SCI-D02/D07/D08/D10 owner_pending",
+  "status": "consolidated_2026-11-03: SCI-D05 and SCI-D09 closed by owner answers; SCI-D01/D03/D04/D06 partly answered; SCI-D02/D07/D08/D10 owner_pending",
   "owner_confirmed": [
     {
       "id": "FND-DEC-001",
@@ -154,22 +154,42 @@
     },
     {
       "id": "SCI-D09",
-      "topic": "Top-5 ranking inputs, cadence, tie-break and US tech membership (ETF lists answered)",
-      "recommendation": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; deterministic tie-break by score, then listing identifier. US tech membership proposed as the Nasdaq-100; the owner named only 'US tech'. ETFs are three lists, one per market (owner, 3 Nov 2026).",
+      "topic": "Top-5 ranking inputs, cadence, tie-break and US tech membership (answered; tie-break a stated proposal)",
+      "recommendation": "Answered 2026-11-03 (answered_by). ETFs are three lists, one per market (SCI-OA-10). Ranking horizon \"3 to 12 months (Recommended)\". Growth and protection come from the 3, 6 and 12-month forecasts; short horizons feed only the opportunity part. Refresh and US tech \"Daily, Nasdaq-100 tech (Recommended)\". The lists are re-ranked after each daily forecast run, and US tech means the technology names in the Nasdaq-100 (SCI-OA-11). Stated proposal, not put to the owner: a deterministic tie-break by score, then listing identifier.",
       "why_owner_material": "Which horizons feed growth, protection and opportunity, how often the lists are ranked and how ties fall change what the owner sees.",
       "requirements": [
         "SCI-07"
       ],
-      "status": "partly_answered",
+      "status": "closed_owner_answered_2026-11-03",
       "answered_by": [
         "SCI-OA-10",
-        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers on next steps (3 November 2026, MP-20), item 2"
+        "SCI-OA-11",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers on next steps (3 November 2026, MP-20), item 2",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), items 3 and 4"
       ],
-      "still_open": "Settled: one ETF top 5 per market, a list each for US, UK and India ETFs (owner, 3 Nov 2026: \"One list per market (Recommended)\"). Still open: the ranking inputs and horizons for each component (growth, protection, opportunity), the ranking cadence, the tie-break, and US tech membership (Nasdaq-100 proposed).",
+      "still_open": "Nothing the owner must decide. Settled by the owner: one ETF top 5 per market (SCI-OA-10); the ranking inputs and horizons for each component (growth and protection from the 3, 6 and 12-month forecasts, short horizons only in the opportunity part); the ranking cadence (daily, after each daily forecast run); and US tech membership (the technology names in the Nasdaq-100) (SCI-OA-11). Stated proposal, not put to the owner: the tie-break, by score then listing identifier, is deterministic and does not change which horizons, cadence or members the owner chose, so the owner did not need to decide it. How each component combines its horizons into one normalised value goes with the score's normalisation, comparability and validated tie handling, which stay with FIN-OD-07; which industry classification marks a Nasdaq-100 name as technology is recorded with each versioned membership snapshot (SCI-03 survivorship rule).",
       "superseded_2026_11_03": {
         "recommendation_was": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; treat ETFs as one segment across US, UK and India unless the owner prefers one per market; deterministic tie-break by score, then listing identifier. US tech membership proposed as the Nasdaq-100; the owner named only 'US tech'.",
         "superseded": "Treating ETFs as one segment across US, UK and India; the owner chose one list per market.",
         "kept": "End-of-day ranking after each daily issuance, the FIN-OD-07 horizons for each component, the tie-break by score then listing identifier and the Nasdaq-100 for US tech, all still proposals."
+      },
+      "superseded_2026_11_03_mp177": {
+        "date": "2026-11-03",
+        "by": "SCI-OA-11: docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), items 3 and 4",
+        "status_was": "partly_answered",
+        "recommendation_was": "Rank on end-of-day forecasts after each daily issuance, using the horizons FIN-OD-07 names for each component; deterministic tie-break by score, then listing identifier. US tech membership proposed as the Nasdaq-100; the owner named only 'US tech'. ETFs are three lists, one per market (owner, 3 Nov 2026).",
+        "still_open_was": "Settled: one ETF top 5 per market, a list each for US, UK and India ETFs (owner, 3 Nov 2026: \"One list per market (Recommended)\"). Still open: the ranking inputs and horizons for each component (growth, protection, opportunity), the ranking cadence, the tie-break, and US tech membership (Nasdaq-100 proposed).",
+        "superseded": [
+          "'using the horizons FIN-OD-07 names for each component': superseded by the owner's ranking horizon, growth and protection from the 3, 6 and 12-month forecasts and short horizons only in the opportunity part",
+          "'Rank on end-of-day forecasts after each daily issuance' as a maker proposal: now the owner's daily cadence, re-ranked after each daily forecast run",
+          "'US tech membership proposed as the Nasdaq-100; the owner named only US tech': superseded by the owner's choice, the technology names in the Nasdaq-100 rather than every Nasdaq-100 name",
+          "the partly_answered status and the still-open list (ranking inputs and horizons, cadence, tie-break, US tech membership)",
+          "the 'kept' note under superseded_2026_11_03, which still called the daily ranking, the component horizons and the Nasdaq-100 for US tech proposals"
+        ],
+        "kept": [
+          "ETFs as three lists, one per market (SCI-OA-10)",
+          "the deterministic tie-break by score, then listing identifier, still a stated maker proposal, not an owner answer"
+        ]
       },
       "arises_from": [
         "SCI-OA-07"
@@ -278,6 +298,15 @@
       "id": "SCI-OA-10",
       "scope": "ETFs (US, UK and India), the owner's segment from 3 Nov round item 1, are ranked as one list per market: a top 5 for US ETFs, one for UK ETFs and one for India ETFs, fairer across currencies and sessions. Answer: \"One list per market (Recommended)\".",
       "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers on next steps (3 November 2026, MP-20), item 2",
+      "received_on": "2026-11-03",
+      "decides": [
+        "SCI-D09"
+      ]
+    },
+    {
+      "id": "SCI-OA-11",
+      "scope": "Top-5 ranking horizon \"3 to 12 months (Recommended)\". Growth and protection come from the 3, 6 and 12-month forecasts; short horizons feed only the opportunity part. Refresh and US tech \"Daily, Nasdaq-100 tech (Recommended)\". The lists are re-ranked after each daily forecast run, and US tech means the technology names in the Nasdaq-100.",
+      "source": "docs/planning/ma-reconciliation-2026-11-02/decision-log.md, Owner answers that unblock the UX design (3 November 2026, MP-177), items 3 and 4",
       "received_on": "2026-11-03",
       "decides": [
         "SCI-D09"

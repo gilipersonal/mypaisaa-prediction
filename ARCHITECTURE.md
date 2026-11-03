@@ -289,7 +289,7 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
 ## 11. Clients
 
 - **Web:** a prebuilt, static SvelteKit PWA on S3 and CloudFront. Private data and commands go through the
-  authenticated FastAPI (ARC-10). Market discovery first, holdings a tap away, chat to explain.
+  authenticated FastAPI (ARC-10). Holdings first, with the top 5 per segment below (owner, 3 November 2026), chat to explain.
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
 - **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
@@ -298,7 +298,7 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
   watch-only listings added from chat after a coverage check and the owner's confirm; the Apple app as free local
   builds for now, with notifications through Web Push.
 - **Both:** accessible and responsive, and never hide risk, staleness or a provider's status behind a spinner.
-- **Proposed (MP-36):** WCAG 2.2 Level AA as the accessibility standard for web and Apple, pending the owner's yes.
+- **Owner-selected 3 November 2026 (MP-177):** WCAG 2.2 Level AA as the accessibility standard for web, iPhone and iPad.
 
 ## 12. The twelve directions
 

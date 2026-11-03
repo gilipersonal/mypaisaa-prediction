@@ -116,6 +116,9 @@
         "Commodities (gold and silver, XAU/USD and XAG/USD)"
       ],
       "etf_segments": "ETFs (US, UK and India), ranked as one list per market: a top 5 for US ETFs, one for UK ETFs and one for India ETFs (owner, 3 Nov 2026, SCI-D09: \"One list per market (Recommended)\")",
+      "ranking_horizons": "Growth and protection come from the 3, 6 and 12-month forecasts; short horizons feed only the opportunity part (owner, 3 Nov 2026, SCI-D09: \"3 to 12 months (Recommended)\")",
+      "ranking_cadence": "The lists are re-ranked after each daily forecast run (owner, 3 Nov 2026, SCI-D09: \"Daily, Nasdaq-100 tech (Recommended)\")",
+      "us_tech_membership": "US tech means the technology names in the Nasdaq-100 (owner, 3 Nov 2026, SCI-D09: \"Daily, Nasdaq-100 tech (Recommended)\")",
       "no_uk_ftse_segment": true,
       "ranked_only_when_all_three_eligible": true,
       "discovery_universe": "about 150 curated names on end-of-day data",
@@ -123,7 +126,8 @@
       "sources": [
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-event-and-analog-research-3-november-2026",
         "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-in-the-3-november-2026-decision-round-mp-39",
-        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-next-steps-3-november-2026-mp-20"
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-on-next-steps-3-november-2026-mp-20",
+        "docs/planning/ma-reconciliation-2026-11-02/decision-log.md#owner-answers-that-unblock-the-ux-design-3-november-2026-mp-177"
       ]
     }
   },
