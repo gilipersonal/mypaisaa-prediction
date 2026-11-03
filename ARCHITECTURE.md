@@ -246,8 +246,8 @@ the lag stated: internal estimates live, Anthropic usage every six hours, AWS bi
 
 The ceiling is £100 a month all-in, planned as £70 of operation and a £30 reserve, warning at £60, reducing optional
 work at £75 and pausing it at £85. These controls cannot stop every AWS charge instantly, so hard caps on requests,
-concurrency, timeouts and retention back them. The draft numbers do not yet fit; [TECH-STACK.md](TECH-STACK.md#9-monthly-cost)
-shows why.
+concurrency, timeouts and retention back them. With the owner's choices a month is about £46.48, or £54.73 with Claude on;
+[TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
 **Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
 at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
@@ -300,7 +300,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
   (us-east-1), and the Apple Developer fee has one exception month a year above £100.
-- **Cost fit:** the £100 ceiling with Grow at $79 does not fit an invoice month; the cheaper tier is unverified.
+- **Cost fit:** settled by the owner's choice of Grow 55 ($29): every month fits £100, and £70 with Claude on, except
+  the one allowed Apple fee month. The foundation cost model still carries a $15 domain line to remove.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost

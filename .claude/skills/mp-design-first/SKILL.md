@@ -1,6 +1,6 @@
 ---
 name: mp-design-first
-description: Design Mypaisaa Prediction web, SwiftUI, chart and interaction work before building it. Use for any MP screen, flow, card, chart, motion or visual change. Gated hard on MP's order (architecture sign-off, full UX design, UX approval, permission to build); draws 2 or 3 options locally with one marked (Recommended), the owner picks, the pick is the spec, and later changes go back to the design first. Publishes only to ChatGPT Sites, with a separate yes.
+description: Design Mypaisaa Prediction web, SwiftUI, chart and interaction work before building it. Use for any MP screen, flow, card, chart, motion or visual change. Gated hard on MP's order (architecture sign-off, full UX design, UX approval, permission to build); draws 2 or 3 options locally with one marked (Recommended), the owner picks, the pick is the spec, and later changes go back to the design first. Made locally and synced to a private Claude HTML artifact (.claude/rules/design-sync.md).
 ---
 
 # Design first for MP (Claude)
@@ -107,9 +107,11 @@ look, not a gate the boards must pass; QA on the built code comes later, when th
 
 - Show the options **locally first**: give the owner the local preview (the files and how to open them) and a short
   brief: what each option is, the trade-offs, and which is "(Recommended)" and why.
-- Publication goes to **ChatGPT Sites**, not Claude artifacts (owner preference), and only with a separate yes in the
-  running prompt. Before any publication, reconcile the separate Sites workflow with this repository and keep the
-  `site/` identity in `site/.openai/hosting.json` (`AGENTS.md`). Never publish to Sites or Confluence silently.
+- Sync the round to **Claude HTML artifacts** (owner, 3 November 2026; `.claude/rules/design-sync.md`): each option's
+  repo file is published to its own private artifact, republished to the same URL after every change, and recorded with
+  `scripts/design_sync.py record`. ChatGPT Sites is no longer used for new designs; the `site/` identity in
+  `site/.openai/hosting.json` stays untouched (`AGENTS.md`). Never publish to Confluence or Sites, or share an artifact
+  publicly, without a separate yes.
 - Ask once for the pick. Silence, a default selection or an unrelated yes is not a pick.
 
 ## 5. The pick is the spec
@@ -132,5 +134,6 @@ design and its build that disagree are a defect in whichever one the owner did n
 
 - Starts UX before the architecture sign-off, or builds before UX approval and permission to build.
 - Treats one approved screen as approval of the whole UX.
-- Publishes to Claude artifacts, Sites or Confluence without a separate yes.
+- Edits a design in its artifact instead of the repo file, or leaves a design out of sync with its artifact.
+- Publishes to Sites or Confluence, or shares an artifact publicly, without a separate yes.
 - Copies MA's scope, figures, boards or design system into MP as a spec.
