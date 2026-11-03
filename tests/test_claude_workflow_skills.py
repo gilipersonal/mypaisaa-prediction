@@ -52,11 +52,14 @@ class ClaudeWorkflowSkillTests(unittest.TestCase):
         self.assertIn("never close an issue", body)
         self.assertIn('never "in sync"', body)
 
-    def test_design_first_waits_for_both_gates_and_publishes_to_sites(self):
+    def test_design_first_waits_for_both_gates_and_syncs_to_claude_artifacts(self):
+        # Owner, 3 Nov 2026: designs are made locally and synced to Claude HTML artifacts (design-sync.md).
         body = skill("mp-design-first")
         self.assertIn("UX starts only after the owner signs off", body)
         self.assertIn("explicit permission to implement", body)
-        self.assertIn("**ChatGPT Sites**, not Claude artifacts", body)
+        self.assertIn("Sync the round to **Claude HTML artifacts**", body)
+        self.assertIn("scripts/design_sync.py record", body)
+        self.assertNotIn("**ChatGPT Sites**, not Claude artifacts", body)
         self.assertIn("No trading actions", body)
 
     def test_architecture_diagrams_use_lucid_and_never_imply_deployment(self):

@@ -73,6 +73,8 @@ CHECKS = (
     Check("confluence-receipts", ("docs/confluence/*", "tests/test_confluence_receipts.py"),
           (("python3", "docs/confluence/build_pages.py", "selftest"), ("python3", "docs/confluence/build_pages.py", "check"),
            (*UNITTEST, "test_confluence_receipts.py"))),
+    Check("design-sync", ("docs/design/*", "docs/market-agent/*", "scripts/design_sync.py", "tests/test_design_sync.py"),
+          (("python3", "scripts/design_sync.py", "check"), (*UNITTEST, "test_design_sync.py"))),
     Check("pr-policy", ("scripts/check_pr.py", "tests/test_pr_policy.py", ".github/*"),
           ((*UNITTEST, "test_pr_policy.py"),)),
     Check("readme", ("README.md", "ARCHITECTURE.md", "TECH-STACK.md", "docs/readme/*", "docs/brand/*",

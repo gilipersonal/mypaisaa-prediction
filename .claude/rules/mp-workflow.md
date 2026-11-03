@@ -9,6 +9,7 @@ Claude's version of `.codex/rules/workflow.md`. Codex keeps its own files in `.c
 | Fixed-findings regression on its own | `mp-review-regression` | Its own yes naming the ledger |
 | Compare or sync plans, Jira, Confluence, diagrams and code | `mp-plan-sync` | A yes to the exact scope; check-only by default; each external write scope separately |
 | Web, SwiftUI, chart or interaction design | `mp-design-first` | Architecture sign-off and UX authority first; owner picks among options |
+| Any HTML design, explainer or board | `.claude/rules/design-sync.md` | Made locally, synced to a private Claude HTML artifact; `scripts/design_sync.py check` in step |
 | AWS or other significant architecture diagrams | `mp-architecture-diagrams` | Lucid, native shapes, a manifest; sharing and publication separately |
 
 Asking is always a real question. Silence, a default selection or an unrelated yes grants nothing. At most five agents run at once, including the coordinator. Run independent work in parallel within that limit.

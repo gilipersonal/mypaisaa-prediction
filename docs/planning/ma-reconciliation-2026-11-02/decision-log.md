@@ -56,7 +56,7 @@ The owner selected option A: **Baselines first, then bounded challengers.** Firs
 
 The evidence ladder remains rules/statistics, numerical ML, then separately evaluated structured LLM/news/pattern factors. Training/evaluation must remain chronological with horizon-aware overlap controls, training-fold-only transformations, untouched candidate evaluation, bounded predeclared experiment/search limits, calibration/coverage/subgroup evidence and baseline/ablation comparisons. Retrospective LLM extraction needs contamination controls or prospective evidence. Rules/XIRR, calibrated forecasts and long-range scenarios retain distinct meanings.
 
-Mature outcomes and shadow evidence are required; refreshing daily does not mature a 12-month outcome. Owner approval precedes promotion. Exact candidate catalogue, formulas, fold schedules, search caps, sample/uncertainty/eligibility/abstention criteria and rollback authority still need specifications; associated FC/CT gaps stay open. No accuracy guarantee, training job, paid call, automatic live recalibration or implementation is approved.
+Mature outcomes and shadow evidence are required; refreshing daily does not mature a 12-month outcome. Owner approval precedes promotion. Exact candidate catalogue, formulas, fold schedules, search caps, sample/uncertainty/eligibility/abstention criteria and rollback authority still need specifications; associated FC/CT gaps stay open. No accuracy guarantee, training job, paid call, automatic live recalibration or implementation is approved. (On 3 November 2026 the owner later chose bounded self-correction: automatic calibration and weighting adjustments inside owner-approved bands only; see the owner answers on event and analog research below.)
 
 ## ARC-06: separate Claude task workers with a shared runner library
 
@@ -155,5 +155,26 @@ The owner answered the questions in [the MP-29 pack](../region-network-2026-11-0
 - **Claude inference:** global, at the standard price.
 
 These answers do not approve an apply, an account or any spending.
+
+## Owner answers on event and analog research (3 November 2026)
+
+Asked while adopting the Market Agent explainer (MP-37):
+
+- **Event kinds in the first event wave: all of them.** Rate surprises, inflation surprises, tariffs, conflict,
+  earnings, OPEC+ decisions and elections, for the US, UK and India. Each event is dated by when it became known, each
+  kind qualifies on its own evidence before it informs a forecast, and each source's rights are checked. This replaces
+  the foundation forecasting specification's proposal that scheduled earnings come first.
+- **Similar-days history: since 2015, about ten years.** This replaces the specification's proposed 756-session
+  lookback. Where a listing's history is shorter, the search uses what there is and says so.
+
+- **Self-correction: bounded.** Code, never a Claude agent, grades every matured forecast daily and applies small
+  calibration and weighting adjustments by itself, inside bands the owner approves in advance, with automatic rollback
+  if scores worsen. New models, new features, new rules and anything outside a band still need the owner's approval, and
+  the automatic safety pause (POLICY-003) stays. The band sizes are open until the owner approves them before go-live.
+  Research agents still cannot change model weights (AGENTS.md); the calibrator is deterministic code.
+
+The foundation forecasting specification is hash-pinned as reviewed evidence, so it takes these answers on at the MP-20
+consolidation rather than being edited in place. These answers do not change the qualification order (ARC-05) or approve
+any data source.
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

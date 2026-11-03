@@ -72,8 +72,8 @@
   },
   "rec-forecast": {
    "id": "6127742",
-   "version": 2,
-   "sha256": "ad5c59eda4f58ad7625df5417e2f13c9b42b1c9acbfd0af5fd5f900512427ce5"
+   "version": 3,
+   "sha256": "b6a0c4964391062894e1350e675d6a78b2e9bc461cecd30c4c3a4e37b7d0cd59"
   },
   "rec-claude": {
    "id": "6127762",

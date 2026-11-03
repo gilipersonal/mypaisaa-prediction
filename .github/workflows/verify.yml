@@ -56,6 +56,10 @@ jobs:
         run: python docs/readme/check_readme.py
       - name: Validate the reconciliation pack and the documents that link to it
         run: python docs/planning/ma-reconciliation-2026-11-02/validate.py
+      - name: Every design is in step with its Claude artifact
+        run: |
+          python3 scripts/design_sync.py check
+          python3 -m unittest discover -s tests -p test_design_sync.py -v
 
   review-tooling:
     name: Review tooling

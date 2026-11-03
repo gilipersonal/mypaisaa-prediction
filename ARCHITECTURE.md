@@ -44,7 +44,9 @@
 2. **Every forecast is frozen, then graded.** Append-only records: a correction is a new version, an outcome is a new
    record, and the original forecast is never rewritten.
 3. **Nothing changes without the owner.** One controlled writer commits to the ledger, and only an exact change the
-   owner approved. A challenger model is promoted only by the owner, with its evidence.
+   owner approved. A challenger model is promoted only by the owner, with its evidence. Bounded self-correction
+   (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the
+   owner approves in advance, with automatic rollback if scores worsen; anything outside a band waits for the owner.
 4. **It cannot trade.** No broker credentials, no order path, no personalised advice.
 
 ## 2. The system on AWS
@@ -161,11 +163,17 @@ combine growth, protection and opportunity at 35, 40 and 25, and only when all t
 neither zero nor a reason to reweight. Training is capped at two campaigns a month across dev and prod, each at most
 96 fits and six training-instance hours.
 
+**Event and analog research (F4), owner, 3 November 2026:** the first event wave covers all seven event kinds: rate
+surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, across the US, UK and India,
+each qualifying on its own evidence. The similar-days search runs over every eligible session since 2015, about ten
+years. Both supersede the narrower proposals in the foundation forecasting specification (earnings first, a
+756-session lookback), which takes them on at the MP-20 consolidation.
+
 <div align="center">
 
 <img src="docs/motion/learning-loop.gif" width="760" alt="Animation: a dot travels a loop of six steps, record, wait, score, propose, shadow, and you approve, then a badge reads promoted with its evidence">
 
-<sub>Self-learning means this loop, with the owner as the gate. <a href="docs/motion/learning-loop.png">Still image</a>.</sub>
+<sub>Self-learning means this loop, with the owner as the gate for new models and anything outside the approved bands. <a href="docs/motion/learning-loop.png">Still image</a>.</sub>
 
 </div>
 
@@ -246,8 +254,8 @@ the lag stated: internal estimates live, Anthropic usage every six hours, AWS bi
 
 The ceiling is £100 a month all-in, planned as £70 of operation and a £30 reserve, warning at £60, reducing optional
 work at £75 and pausing it at £85. These controls cannot stop every AWS charge instantly, so hard caps on requests,
-concurrency, timeouts and retention back them. The draft numbers do not yet fit; [TECH-STACK.md](TECH-STACK.md#9-monthly-cost)
-shows why.
+concurrency, timeouts and retention back them. With the owner's choices a month is about £46.48, or £54.73 with Claude on;
+[TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
 **Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
 at PH-08. Prod approval cannot be enforced by GitHub on the current Free plan for a private repo; the route is an owner
@@ -300,7 +308,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
   (us-east-1), and the Apple Developer fee has one exception month a year above £100.
-- **Cost fit:** the £100 ceiling with Grow at $79 does not fit an invoice month; the cheaper tier is unverified.
+- **Cost fit:** settled by the owner's choice of Grow 55 ($29): every month fits £100, and £70 with Claude on, except
+  the one allowed Apple fee month. The foundation cost model still carries a $15 domain line to remove.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.
 - **Claude:** the refusal-fallback choice, per-route chat caps, the measured event-analysis volume in the cost

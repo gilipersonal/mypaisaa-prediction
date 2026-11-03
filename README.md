@@ -77,7 +77,9 @@ cannot change a number, publish a forecast, move money or trade.
 2. **Every forecast is frozen, then graded.** A forecast records its data cutoff, model version, horizon and full
    distribution. It is scored only after the horizon ends, against a published outcome, and is never rewritten.
 3. **Nothing changes without you.** Imports become proposals until you approve the exact change. A better model
-   runs in shadow beside the live one and is promoted only with your approval and its evidence.
+   runs in shadow beside the live one and is promoted only with your approval and its evidence. Between promotions
+   the engine corrects itself within limits: code grades every matured forecast and makes small calibration and
+   weighting adjustments inside bands you approve in advance, rolling back if scores worsen.
 4. **It cannot trade.** MP holds no broker login, submits no order and gives no personalised financial advice. It
    is decision support with its uncertainty on show.
 
@@ -102,9 +104,9 @@ cannot change a number, publish a forecast, move money or trade.
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
 | **Not built** | Sign-in, the ledger and imports, live data, models, agents, the web app, the Apple app, and all AWS infrastructure |
 
-The £100 a month all-in ceiling (dev and prod AWS, market data, Claude and evaluations) is chosen, but the draft
-costs do not yet show it fits: with Twelve Data Grow at $79 an ordinary month comes to about £94, above the £70
-operating plan. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
+The £100 a month all-in ceiling (dev and prod AWS, market data, Claude and evaluations) is chosen. With the owner's
+choices of 2 and 3 November 2026 (Twelve Data Grow 55, Virginia, the existing domain) a month comes to about £46.48,
+or £54.73 with Claude on, inside the £70 operating plan; the Apple Developer fee month is the one allowed exception. [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) has the breakdown.
 
 ## Documentation
 

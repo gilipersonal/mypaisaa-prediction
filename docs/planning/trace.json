@@ -417,7 +417,7 @@
    "key": "MP-29",
    "summary": "Choose MP environment region network and all-in cloud envelope",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "ARCHITECTURE.md",
@@ -551,6 +551,19 @@
     "docs/confluence/",
     "docs/diagrams/mp-quality-2026-11-02/",
     "docs/motion/",
+    "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-37",
+   "summary": "Adopt the Market Agent explainer as MyPrediction Market Agent, rewritten to MP's decisions",
+   "type": "Story",
+   "status": "In Progress",
+   "parent": "MP-6",
+   "code": [
+    "docs/market-agent/",
+    "README.md",
+    "ARCHITECTURE.md",
     "docs/planning/trace.json"
    ]
   }

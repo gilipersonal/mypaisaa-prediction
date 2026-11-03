@@ -381,7 +381,8 @@ def rec_forecast(s: str) -> str:
             + ul(["Never a random split: walk-forward folds sized to the horizon.",
                   "Two experiment campaigns a month at most across dev and prod, each up to 96 fits and 6 instance-hours (POLICY-008).",
                   "The combined score needs all three of growth, protection and opportunity at 35, 40 and 25 (POLICY-006).",
-                  "An affected scope pauses itself on an approved trigger and restarts only with the owner's approval (POLICY-003)."])
+                  "An affected scope pauses itself on an approved trigger and restarts only with the owner's approval (POLICY-003).",
+                  "Bounded self-correction (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the owner approves in advance, and rolls back automatically if scores worsen. New models, features, rules and anything outside a band wait for the owner. The band sizes are open."])
             + "<h2>🔁 Controlled learning</h2>" + gif(s, "learning-loop", "Record, wait, score, propose, shadow, and only then your approval.")
             + footer())
 
