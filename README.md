@@ -40,8 +40,8 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 > [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)): the twelve directions as refined, the order in
 > which records win, and the phase-to-story map. Its open items stay open. What runs today is a FastAPI starter with a
 > health route and a sample SSE stream, the synthetic test-data tools, and CI. Nothing is deployed, no live data is
-> fetched and no model is called. The order from here is fixed: turn the story drafts into ready Jira stories, then
-> design the whole UX, then approve it, and only then build.
+> fetched and no model is called. The order from here is fixed: the owner accepts the 136 ready Jira stories (MP-40),
+> then the whole UX is designed, then approved, and only then built.
 
 Mypaisaa Prediction (MP) helps one owner understand their holdings and judge where to add, hold, pause or trim. It
 keeps its own record of what you own, from CSV, Excel, PDF statements, screenshots or typed entries, and checks it
@@ -122,6 +122,7 @@ Developer fee month is the one allowed exception. The fit stays conditional on t
 | [TECH-STACK.md](TECH-STACK.md) | The stack layer by layer with the reason for each choice and its status, the locked versions of what runs today, and the monthly cost against the £100 ceiling. |
 | [The AWS architecture in Lucid](https://lucid.app/lucidchart/65667c0c-9413-4c63-863d-a60b6e67ba26/edit) · [source](docs/diagrams/mp-architecture-2026-11-02/) | Two native pages on AWS 2024 shapes: the system with numbered flows, and who may do what. Exports and manifest in the repo. |
 | [Policy answers, 2 Nov 2026](docs/planning/foundation-policy-discussion-2026-11-02.md) | The owner's twelve later decisions: daily clocks, approvals, backfill, experiment ceilings, retention. |
+| [Ready stories (MP-40)](docs/planning/story-readiness-2026-11-03/README.md) | The 64 drafts as 136 ready Jira stories under PH-00 to PH-09, each with acceptance, contracts, states and dependencies, and the owner questions they wait on. |
 | [Baseline sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md) | The baseline the owner signed off on 3 November 2026 (MP-20): decisions, precedence, open items and the phase-to-story crosswalk, pinned by hash. |
 | [Foundation Pack 1](docs/planning/foundation-specifications-2026-11-02/README.md) | Data, financial and forecast contracts, schemas, worked examples and the cost model. |
 | [Selected directions](docs/planning/ma-reconciliation-2026-11-02/direction-summary.md) | ARC-01 to ARC-12 and their boundaries. |

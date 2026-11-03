@@ -1,0 +1,643 @@
+{
+ "phase": "PH-07",
+ "drafts": {
+  "L7-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH07-S01",
+    "PH07-S02",
+    "PH07-S03"
+   ],
+   "note": "Bridge, native journeys, and free local builds. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says."
+  },
+  "L7-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH07-S04",
+    "PH07-S05",
+    "PH07-S06"
+   ],
+   "note": "Offline cache, lock-screen privacy and accessibility."
+  },
+  "L7-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH07-S07",
+    "PH07-S08"
+   ],
+   "note": "Native Apple push is replaced by Web Push from the PWA until the owner joins the Developer Program; Apple push moves to the capability table (PH07-S09)."
+  },
+  "L7-S04": {
+   "disposition": "kept",
+   "stories": [
+    "PH07-S09"
+   ],
+   "note": "Kept; the table now records which capabilities wait for the paid Apple program."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH07-S01",
+   "jira_key": "MP-160",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "React Native shell and a typed, versioned native bridge",
+   "story": "As the owner, I want the Apple app's navigation and its native SwiftUI screens joined by a typed, versioned bridge, so that a change on one side cannot silently break the other.",
+   "from_drafts": [
+    "L7-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "React Native owns cross-platform navigation and the bridge contracts only; Swift and SwiftUI own the iOS and iPadOS screens, persistence, widgets, Keychain and notifications.",
+     "The bridge schema is versioned and tested on both sides, with a typed payload and a typed error for every message.",
+     "Deep links route through the shell to the native screen that opens the durable record."
+    ],
+    "negative": [
+     "A message with an unknown version or an invalid payload is refused with a typed error, never coerced.",
+     "No owner data crosses the bridge into logs.",
+     "The React Native shell does not imply an Android product screen."
+    ],
+    "recovery": [
+     "After an update with an incompatible bridge version, the app shows an update-required screen and keeps its cached read views."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "NativeBridge",
+     "role": "writes"
+    },
+    {
+     "name": "DeepLink",
+     "role": "reads"
+    },
+    {
+     "name": "ClientState",
+     "role": "writes"
+    }
+   ],
+   "authority": "The bridge is a build-time contract; no code is downloaded at runtime. The owner uses the app; the server authorises every private read and command.",
+   "states": [
+    "compatible",
+    "incompatible_version",
+    "invalid_message",
+    "deep_link_unresolved"
+   ],
+   "depends_on": {
+    "stories": [],
+    "gaps": [
+     "PL-14"
+    ],
+    "owner_questions": [
+     "MP40-Q12"
+    ],
+    "external": [
+     "UX: native navigation (Apple)"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Bridge contract tests on the Swift and React Native sides",
+    "Version-mismatch and invalid-payload cases",
+    "Deep-link routing cases"
+   ]
+  },
+  {
+   "id": "PH07-S02",
+   "jira_key": "MP-168",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Native SwiftUI journeys over the shared API",
+   "story": "As the owner, I want the approved journeys (holdings and top 5, imports, forecasts and proof, chat, costs and approvals) on my iPhone and iPad, using the same API and contracts as the web, so that both doors tell the same story.",
+   "from_drafts": [
+    "L7-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The approved journeys run natively on iPhone and iPad from a Swift client generated from FastAPI's OpenAPI schema.",
+     "SSE notices make the app re-read durable state; it never trusts a notice's content as data.",
+     "Every error shows its code with a recovery action, and carries the request_id and trace_id."
+    ],
+    "negative": [
+     "No financial logic exists only in the app.",
+     "A local Face ID unlock or an open app is not server authorisation: approvals still need the server's step-up (ARC-07).",
+     "No screen hides staleness or a provider's status."
+    ],
+    "recovery": [
+     "A lost connection keeps the last read with its age and a retry; an expired session returns to sign-in and then to the same screen."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "writes"
+    },
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    },
+    {
+     "name": "ApprovalRequest",
+     "role": "reads"
+    },
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner uses the app; the API authorises every private read and command. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "states": [
+    "loading",
+    "ready",
+    "stale",
+    "offline",
+    "session_expired",
+    "error_with_recovery"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH07-S01",
+     "PH07-S03",
+     "PH02-S03",
+     "PH02-S11",
+     "PH02-S12"
+    ],
+    "gaps": [
+     "PL-14"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: full Apple journeys"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Contract tests against the shared API schemas",
+    "Simulator snapshots of every journey state",
+    "Session-expiry and reconnect cases"
+   ]
+  },
+  {
+   "id": "PH07-S03",
+   "jira_key": "MP-164",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Free seven-day local builds and the Apple test matrix",
+   "story": "As the owner, I want the iPhone and iPad app built and installed from my Mac without the paid Apple Developer Program, and tested on simulators and my own devices, so that the app works now at no cost.",
+   "from_drafts": [
+    "L7-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The app is signed with a free personal team and installed on the owner's iPhone and iPad from the owner's Mac; each install records its expiry seven days later.",
+     "XCTest and the Maestro CLI run on simulators on the owner's Mac against the agreed device and OS matrix.",
+     "Sign-in in the app uses Cognito with Google through the system browser with PKCE, and tokens are kept in the Keychain."
+    ],
+    "negative": [
+     "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the owner says to join the Developer Program.",
+     "No build is distributed to anyone else, and CI does not sign Apple builds."
+    ],
+    "recovery": [
+     "The app warns before its build expires; after expiry, reinstalling from the owner's Mac restores it, with the server as the source of truth."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "reads"
+    },
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    },
+    {
+     "name": "NativeBridge",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner builds and installs. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "states": [
+    "installed",
+    "expiring_soon",
+    "expired",
+    "reinstalled",
+    "unsupported_os"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH07-S01",
+     "PH02-S01",
+     "PH02-S11"
+    ],
+    "gaps": [
+     "PL-14"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A build and install walkthrough on the owner's Mac",
+    "Simulator runs of XCTest and Maestro flows",
+    "An expiry-warning and reinstall case"
+   ]
+  },
+  {
+   "id": "PH07-S04",
+   "jira_key": "MP-165",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Encrypted offline read cache with the age of every record",
+   "story": "As the owner, I want to read my recent data on the Apple app without a connection, always seeing how old it is, so that I am never misled by stale figures and nothing unsafe happens offline.",
+   "from_drafts": [
+    "L7-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Only approved data classes are cached, encrypted with iOS Data Protection and a Keychain-held key.",
+     "Every cached record shows its age, and the app refetches on reconnect.",
+     "Sign-out, session revocation and an account change clear the cache."
+    ],
+    "negative": [
+     "No financial write (an approval, an import, a settings change or a confirm) is accepted offline; it is refused with its reason.",
+     "A cached record is never shown as fresh, and a revoked session's cache cannot be read."
+    ],
+    "recovery": [
+     "On reconnect, stale records are replaced; a corrupt cache is discarded and rebuilt from the server."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "OfflineSnapshot",
+     "role": "writes"
+    },
+    {
+     "name": "ClientState",
+     "role": "writes"
+    },
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads offline. The server stays the source of truth; the app authorises nothing.",
+   "states": [
+    "fresh",
+    "cached_aged",
+    "offline",
+    "revoked_cleared",
+    "corrupt_rebuilt"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH07-S01"
+    ],
+    "gaps": [
+     "PL-14",
+     "CT-04"
+    ],
+    "owner_questions": [
+     "MP40-Q12"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Offline, reconnect and revoked-session tests",
+    "An offline write-refusal case for every write journey",
+    "An inspection showing the cache is encrypted at rest"
+   ]
+  },
+  {
+   "id": "PH07-S05",
+   "jira_key": "MP-166",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "No confidential holdings on the lock screen, app snapshots, widgets or shared content",
+   "story": "As the owner, I want my holdings kept off the lock screen, the app switcher, widgets and anything I share, unless I choose otherwise, so that a glance at my phone gives nothing away.",
+   "from_drafts": [
+    "L7-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Notification text is neutral, the app switcher snapshot is covered, and widgets show no holdings by default.",
+     "Shared or exported content leaves out holdings values unless the owner has approved a setting that allows them (PH05-S14)."
+    ],
+    "negative": [
+     "No value or holding name appears on the lock screen by default.",
+     "A share sheet never attaches a private export without the owner's explicit action."
+    ],
+    "recovery": [
+     "If a privacy setting change fails, the private default stays in force."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "reads"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "reads"
+    },
+    {
+     "name": "OfflineSnapshot",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner chooses any less private setting, through a versioned setting. The app never loosens privacy by itself.",
+   "states": [
+    "private_default",
+    "owner_enabled_detail",
+    "setting_change_failed",
+    "snapshot_covered"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH07-S01",
+     "PH05-S14"
+    ],
+    "gaps": [
+     "PL-14"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: privacy settings (Apple)"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A privacy state matrix across lock screen, switcher, widgets and share sheet",
+    "Simulator snapshots proving the covered switcher image",
+    "Notification payload inspection"
+   ]
+  },
+  {
+   "id": "PH07-S06",
+   "jira_key": "MP-170",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Native accessibility: VoiceOver, Dynamic Type, reduced motion and chart alternatives",
+   "story": "As the owner, I want the Apple app fully usable with VoiceOver, large text and reduced motion, with every chart described in words, so that no risk or uncertainty is hidden from any reader.",
+   "from_drafts": [
+    "L7-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Every control and chart has a VoiceOver label, and every chart has a text summary of its range and uncertainty.",
+     "Dynamic Type works up to the largest sizes without truncating risk or freshness text, and iPad layouts adapt.",
+     "Reduced motion removes animation, and focus order follows reading order."
+    ],
+    "negative": [
+     "No information is carried by colour alone.",
+     "No animation plays when reduced motion is on."
+    ],
+    "recovery": [
+     "A layout that cannot fit at a text size falls back to a single scrolling column rather than clipping text."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClientState",
+     "role": "reads"
+    },
+    {
+     "name": "ForecastView",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner uses the app with any assistive setting. No setting removes information.",
+   "states": [
+    "default",
+    "large_text",
+    "voiceover",
+    "reduced_motion",
+    "layout_fallback"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH07-S02"
+    ],
+    "gaps": [],
+    "owner_questions": [
+     "MP40-Q3"
+    ],
+    "external": [
+     "UX: full Apple journeys"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A native accessibility walkthrough with VoiceOver and the largest Dynamic Type",
+    "XCTest accessibility audits on every journey",
+    "Chart text-alternative checks"
+   ]
+  },
+  {
+   "id": "PH07-S07",
+   "jira_key": "MP-167",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Phone notifications through Web Push from the PWA",
+   "story": "As the owner, I want alerts and the morning brief to reach my phone through the web app's Web Push while there is no paid Apple Developer Program, so that I am notified without Apple push.",
+   "from_drafts": [
+    "L7-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The PWA asks for notification permission only after an owner action and stores one push subscription per device, owner and environment.",
+     "Notices leave from a durable outbox with a dedup key; each attempt and the push service's acceptance are recorded as delivery attempts, not as read.",
+     "Payloads are neutral; a tap opens a deep link that re-reads durable state after sign-in.",
+     "Quiet hours (22:00 to 07:00 Europe/London) apply, and held notices arrive with the 07:30 brief.",
+     "Web Push support on the owner's iPhone and iPad (as a home-screen web app) and browsers is verified before it is relied on."
+    ],
+    "negative": [
+     "Denied or background-disabled permission never hides an alert: it stays in the in-app inbox (PH07-S08).",
+     "MP never promises instant delivery and never infers no risk from silence.",
+     "No Apple push (APNs) path is built until the owner joins the Developer Program."
+    ],
+    "recovery": [
+     "An expired or rejected subscription is marked dead and the owner is asked to re-enable it; retries reuse the dedup key, so the owner sees one notice."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PushSubscription",
+     "role": "writes"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "reads"
+    },
+    {
+     "name": "DeliveryAttempt",
+     "role": "writes"
+    },
+    {
+     "name": "DeliveryState",
+     "role": "writes"
+    },
+    {
+     "name": "DeepLink",
+     "role": "emits"
+    }
+   ],
+   "authority": "The owner grants or revokes permission. Code sends from the outbox. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "states": [
+    "permission_not_asked",
+    "granted",
+    "denied",
+    "subscription_expired",
+    "sent",
+    "accepted_by_push_service",
+    "held_quiet_hours",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S12",
+     "PH06-S04",
+     "PH07-S08"
+    ],
+    "gaps": [
+     "CT-18",
+     "PL-14"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: notification permission and notices"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Supported-platform evidence from the owner's devices",
+    "Permission, quiet-hours, duplicate and deep-link cases",
+    "Payload privacy inspection"
+   ]
+  },
+  {
+   "id": "PH07-S08",
+   "jira_key": "MP-162",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "In-app notice inbox on web and Apple, the fallback for every alert",
+   "story": "As the owner, I want every alert and notice kept in an inbox inside both apps, so that nothing is lost when push is off, denied or late.",
+   "from_drafts": [
+    "L7-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Every notification intent appears in the in-app inbox on the web and the Apple app, ordered by detection time, with read state synced across devices.",
+     "Each entry deep-links to its evidence."
+    ],
+    "negative": [
+     "The inbox never omits an alert because a push succeeded or failed.",
+     "Opening a notice never performs an action."
+    ],
+    "recovery": [
+     "On reconnect the inbox is rebuilt from the server; a read-state conflict resolves to read."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "NotificationIntent",
+     "role": "reads"
+    },
+    {
+     "name": "DeliveryState",
+     "role": "reads"
+    },
+    {
+     "name": "DeepLink",
+     "role": "emits"
+    },
+    {
+     "name": "ClientState",
+     "role": "writes"
+    }
+   ],
+   "authority": "The owner reads and dismisses. Code writes notices; nothing in the inbox acts.",
+   "states": [
+    "unread",
+    "read",
+    "dismissed",
+    "offline_cached",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH06-S12"
+    ],
+    "gaps": [
+     "CT-18"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: alerts and notices"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Inbox cases with push denied, push delayed and push delivered",
+    "Cross-device read-state sync cases"
+   ]
+  },
+  {
+   "id": "PH07-S09",
+   "jira_key": "MP-163",
+   "phase": "PH-07",
+   "epic": "MP-8",
+   "title": "Native capability decision table: launch or later, with nothing dropped silently",
+   "story": "As the owner, I want every inherited native capability listed with my launch or later choice, so that nothing is lost quietly because it was hard or needs the paid Apple program.",
+   "from_drafts": [
+    "L7-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "The table lists widgets, share-sheet statement intake, Spotlight search and deep links, Siri and App Intents, Live Activities for long jobs, Apple push, Sign in with Apple, on-device passkeys and TestFlight, each with its privacy, availability, cost and fallback.",
+     "Capabilities that need the paid Apple Developer Program are marked later until the owner says to join, with today's fallback (Web Push, Google sign-in, local builds).",
+     "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words."
+    ],
+    "negative": [
+     "No capability is removed without an owner decision record.",
+     "Android product screens stay outside the agreed release scope."
+    ],
+    "recovery": [
+     "A changed owner choice creates a new table version; the previous version is kept."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "NativeBridge",
+     "role": "reads"
+    }
+   ],
+   "authority": "The maker proposes; only the owner classifies a capability. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "states": [
+    "proposed",
+    "owner_launch",
+    "owner_later",
+    "waits_for_developer_program",
+    "superseded"
+   ],
+   "depends_on": {
+    "stories": [],
+    "gaps": [
+     "PL-14"
+    ],
+    "owner_questions": [
+     "MP40-Q13"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The capability decision table with the owner's recorded choices",
+    "Platform fallback and privacy examples for each capability"
+   ]
+  }
+ ]
+}

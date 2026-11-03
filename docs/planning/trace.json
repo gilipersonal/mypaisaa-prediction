@@ -317,7 +317,7 @@
    "key": "MP-20",
    "summary": "Freeze the researched architecture and phase/story baseline",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     ".claude/rules/independent-review.md",
@@ -623,8 +623,1108 @@
    "key": "MP-40",
    "summary": "Turn the 64 story drafts into ready Jira stories before UX",
    "type": "Task",
+   "status": "In Review",
+   "parent": "MP-4",
+   "code": [
+    ".github/workflows/verify.yml",
+    "ARCHITECTURE.md",
+    "README.md",
+    "docs/confluence/",
+    "docs/planning/story-readiness-2026-11-03/",
+    "docs/planning/trace.json",
+    "scripts/review_checks.py",
+    "tests/test_baseline_signoff.py",
+    "tests/test_confluence_receipts.py",
+    "tests/test_review_checks.py",
+    "tests/test_story_readiness.py"
+   ]
+  },
+  {
+   "key": "MP-41",
+   "summary": "Owner and environment scope on every import and ledger path",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-42",
+   "summary": "Bounded work and cost for import processing",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-43",
+   "summary": "Owner-scoped accounts and listing identities",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-44",
+   "summary": "Business audit lineage and integrity checks",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-45",
+   "summary": "Original files kept, deleted and restored without resurrection",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-46",
+   "summary": "Private validated upload intake",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-47",
+   "summary": "Deterministic parsers for CSV, Excel and text PDFs",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-48",
+   "summary": "Tool-free Claude extraction for scanned PDFs and screenshots",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-49",
+   "summary": "Manual entry through the same import pipeline",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-50",
+   "summary": "Instrument and account matching",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-51",
+   "summary": "Exact normalisation of money, dates and events",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-52",
+   "summary": "Business deduplication and replay-safe identity",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-53",
+   "summary": "Import preview, guided edits and explicit group selection",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-54",
+   "summary": "Trace every requirement and owner decision to a ready story",
+   "type": "Story",
    "status": "To Do",
    "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-55",
+   "summary": "Exact owner approval bound to the preview",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-56",
+   "summary": "Supersede the historical ADRs and record the selected directions as ADRs",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-57",
+   "summary": "Set versioning, compatibility and ownership rules for every shared contract",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-58",
+   "summary": "Map the synthetic fixtures to the cases they prove and register real samples for later",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-59",
+   "summary": "Versioned market-data catalogue with provider mappings, roles and segments",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-60",
+   "summary": "Atomic visible commit through the controlled writer",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-61",
+   "summary": "Deterministic ledger replay and versioned projections",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-62",
+   "summary": "Design the owner's product journeys and every screen state for web, iPhone and iPad",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-63",
+   "summary": "Per-use entitlement gate under the owner's accepted risk",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-64",
+   "summary": "Design every admin journey before the first build",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-65",
+   "summary": "Cash, units and valuation reconciliation",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-66",
+   "summary": "Record the owner's whole-product UX approval and the separate permission to build",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-67",
+   "summary": "Point-in-time observation store with acquisition states",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-68",
+   "summary": "Corrections, reversal and baseline rebase",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-69",
+   "summary": "Per-measure sufficiency and labelled analytical cost basis",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-70",
+   "summary": "Credit reservation, fetch discipline and history backfill",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-71",
+   "summary": "Terraform foundation: organisation, dev and prod accounts, guard rails and state",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-72",
+   "summary": "Money-weighted return (XIRR) for holdings, accounts and the portfolio",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-73",
+   "summary": "Owner sign-in with Google and passkeys through Cognito, linked only on proof",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-74",
+   "summary": "Capability probe and owner-confirmed listing additions",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-75",
+   "summary": "Private encrypted storage and least-privilege roles in each environment",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-76",
+   "summary": "Scoped, paginated portfolio and import reads at a pinned revision",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-77",
+   "summary": "Quote units, FX and corporate actions",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-78",
+   "summary": "Step-up for sensitive actions, bound to the exact change approved",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-79",
+   "summary": "Import progress notices with reconnect recovery",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-80",
+   "summary": "Durable job records, an outbox and idempotent retries",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-81",
+   "summary": "Evidence intake for news, filings and calendars with citations, known-at times and quarantine",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-82",
+   "summary": "Fund NAV and statement valuations kept apart from traded prices",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-83",
+   "summary": "Authenticated, versioned API on Lambda",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-84",
+   "summary": "Portfolio and import screens with privacy, accessibility and stale states",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-85",
+   "summary": "Overnight Haiku triage of news, filings and calendar items",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-86",
+   "summary": "Grow 55 first-month coverage proof",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-87",
+   "summary": "Owner recovery paths, lost-device recovery and session revocation",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-88",
+   "summary": "Phase acceptance with synthetic examples and fault injection",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-89",
+   "summary": "Billing collectors for AWS daily and Anthropic every six hours",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-90",
+   "summary": "Atomic cost reservations before any paid work",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-91",
+   "summary": "Daily close collection on the four clocks, per market",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-92",
+   "summary": "Real-sample layout qualification",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-93",
+   "summary": "Opus analysis of at most three material events a day",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-94",
+   "summary": "Authenticated, resumable server-sent events",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-95",
+   "summary": "Thirty-minute quote and risk checks with labelled sources",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-96",
+   "summary": "Redacted operational telemetry with linked traces",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-97",
+   "summary": "Structured factors from triage and event analyses, kept in shadow until they add accuracy",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-98",
+   "summary": "Record-class retention and the private archive of original files",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-99",
+   "summary": "Dated portfolio valuation and GBP and local returns",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-100",
+   "summary": "Cost meter on the main dashboard",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-101",
+   "summary": "Shared Claude runner on the Anthropic Python client SDK, with budgets, caching and the batch lane",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-102",
+   "summary": "Cash-flow-matched benchmark comparisons",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-103",
+   "summary": "Spending thresholds, the scan cap and degraded modes",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-104",
+   "summary": "Route manifests and the read-only tool allowlist",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-105",
+   "summary": "Drawdown and loss against cost with the owner's warning bands",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-106",
+   "summary": "Production release workflow that only the owner can start",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-107",
+   "summary": "Exposure, overlap, concentration and covariance facts",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-108",
+   "summary": "Monthly restore exercise into an isolated target",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-109",
+   "summary": "One Lambda worker per Claude route, with its own queue, role and continuation",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-110",
+   "summary": "Incidents, alert classes and evidence correlation",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-111",
+   "summary": "T0 deterministic evaluation suite and adversarial cases in Inspect AI",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-112",
+   "summary": "Prove the full launch workload fits the £100 month",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-113",
+   "summary": "Versioned forecast tasks for all seven horizons",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-114",
+   "summary": "Versioned owner settings and approvals that cannot widen authority",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-115",
+   "summary": "Scoped memory notes the owner can see, correct and forget",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-116",
+   "summary": "Onboard real holdings, listings and statements once each is checked",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-117",
+   "summary": "Point-in-time dataset manifests and feature admission",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-118",
+   "summary": "Rollback exercises for the app, contracts, models and imports",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-119",
+   "summary": "Bounded replay and self-recovery",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-120",
+   "summary": "Holder rules and indicators with labelled heuristic strength",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-121",
+   "summary": "Live route qualification with calibrated judges before any route is switched on",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-122",
+   "summary": "Whole-release gate report: security, science, agents, accessibility and privacy",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-123",
+   "summary": "Cost the optional network lockdown and record the owner's choice",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-124",
+   "summary": "Statistical baselines and the rules-to-probability mapping",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-125",
+   "summary": "Grounded explanations and the text of the 07:30 briefing",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-126",
+   "summary": "Owner operations runbook and launch walkthrough",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-127",
+   "summary": "Chat that answers why, with citations and shared conversation context",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-128",
+   "summary": "Daily forecast issuance from the frozen cutoff",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-129",
+   "summary": "Research cards and a bounded bull and bear case",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-130",
+   "summary": "Outcome maturity and append-only ground truth",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-131",
+   "summary": "Chat proposes new markets, segments and watch-only listings for the owner to confirm",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-132",
+   "summary": "Three and five-year scenarios from editable assumptions",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-133",
+   "summary": "Walk-forward folds with purge, embargo and train-only fitting",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-134",
+   "summary": "Static SvelteKit PWA shell with authenticated data and private caching",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-135",
+   "summary": "Versioned ranking policy: eligibility, the 35/40/25 score and the top 5 per segment",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-136",
+   "summary": "Proper scores, uncertainty and the evaluation report",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-137",
+   "summary": "Three and five year scenarios with editable assumptions",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-138",
+   "summary": "Material risk alerts with quiet hours, cooldown and deduplication",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-139",
+   "summary": "Regime and path-risk module",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-140",
+   "summary": "Similar-days search since 2015",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-141",
+   "summary": "Search, filters and watchlists over the discovery universe",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-142",
+   "summary": "Spend and budget on the main dashboard",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-143",
+   "summary": "Event studies and event factors for all seven kinds",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-144",
+   "summary": "Suggested actions with reasons, uncertainty, portfolio impact and horizon",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-145",
+   "summary": "Forecast views for every horizon from the next day to 12 months, with every state",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-146",
+   "summary": "Regularised and boosted challengers with calibration",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-147",
+   "summary": "Causal pattern detectors",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-148",
+   "summary": "The 07:30 London daily brief",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-149",
+   "summary": "Web import journey on the canonical ledger contracts",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-150",
+   "summary": "Ablation ladder and incremental value of each feature block",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-151",
+   "summary": "Evidence trail from source to outcome, with deep links",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-152",
+   "summary": "Contribution policy experiments",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-153",
+   "summary": "Home with holdings and the top 5 per segment",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-154",
+   "summary": "Append-only scores and track-record summaries",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-155",
+   "summary": "Rules, models and Claude views side by side, with the experimental contribution split",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-156",
+   "summary": "Eight-week shadow trial and owner promotion",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-157",
+   "summary": "Proof and track record behind each forecast",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-158",
+   "summary": "Decision journal: what I did and why",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-7",
+   "code": []
+  },
+  {
+   "key": "MP-159",
+   "summary": "Probation, automatic revert on slipping and safety pause",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-160",
+   "summary": "React Native shell and a typed, versioned native bridge",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-161",
+   "summary": "Bounded self-correction overlay",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-6",
+   "code": []
+  },
+  {
+   "key": "MP-162",
+   "summary": "In-app notice inbox on web and Apple, the fallback for every alert",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-163",
+   "summary": "Native capability decision table: launch or later, with nothing dropped silently",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-164",
+   "summary": "Free seven-day local builds and the Apple test matrix",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-165",
+   "summary": "Encrypted offline read cache with the age of every record",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-166",
+   "summary": "No confidential holdings on the lock screen, app snapshots, widgets or shared content",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-167",
+   "summary": "Phone notifications through Web Push from the PWA",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-168",
+   "summary": "Native SwiftUI journeys over the shared API",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-169",
+   "summary": "Owner data export pinned to one ledger revision",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-5",
+   "code": []
+  },
+  {
+   "key": "MP-170",
+   "summary": "Native accessibility: VoiceOver, Dynamic Type, reduced motion and chart alternatives",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-8",
+   "code": []
+  },
+  {
+   "key": "MP-171",
+   "summary": "Versioned market profiles and instrument kinds behind an admission checklist",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-172",
+   "summary": "Dated theme membership that separates labels from measured exposure",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-173",
+   "summary": "Bounded screening beyond the curated universe, inside the approved budget",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-174",
+   "summary": "Admission for new features, model families and horizons",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-175",
+   "summary": "Optional versioned file exchange with mypaisa-agent",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
+   "code": []
+  },
+  {
+   "key": "MP-176",
+   "summary": "Retirement boundary for MA's forecaster: parity, history and an explicit cutover record",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-9",
    "code": []
   }
  ]

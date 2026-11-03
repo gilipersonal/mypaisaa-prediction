@@ -111,7 +111,8 @@ def table(head: list[str], rows: list[list[str]]) -> str:
 
 
 def ul(items: list[str]) -> str:
-    return "<ul>" + "".join(f"<li><p>{i}</p></li>" for i in items) + "</ul>"
+    """A bullet list, or nothing: Confluence drops an empty list, so one would never read back as sent (MP-40)."""
+    return "<ul>" + "".join(f"<li><p>{i}</p></li>" for i in items) + "</ul>" if items else ""
 
 
 def expand(title: str, inner: str) -> str:
@@ -183,6 +184,19 @@ def baseline() -> dict:
     return json.loads(BASELINE.read_text())
 
 
+READY = ROOT / "docs/planning/story-readiness-2026-11-03/stories"
+
+
+def ready(pid: str) -> dict | None:
+    """The phase's ready stories (MP-40), or None while the phase is still drafted only."""
+    path = READY / f"{pid}.json"
+    return json.loads(path.read_text()) if path.exists() else None
+
+
+def jira(key: str | None) -> str:
+    return f'<a href="https://duttaarun2015.atlassian.net/browse/{esc(key)}">{esc(key)}</a>' if key else "not in Jira yet"
+
+
 # ------------------------------------------------------------------------------------------- pages
 
 def home(s: str) -> str:
@@ -205,8 +219,7 @@ def hub(s: str) -> str:
                   "forecast in ranges, Claude explains, and the owner decides. It holds no broker login and cannot trade.</p>")
             + cols(card("compass", "#EAE6FF", "Planning", "The architecture baseline was signed off on 3 November 2026 (MP-20); the story readiness, the UX and "
                         "permission to build are still ahead. Nothing is deployed."),
-                   card("white_check_mark", "#E3FCEF", f"{len(b['phases'])} phases", f"PH-00 to PH-09, with {b['story_count']} story "
-                        "drafts that are not yet Jira stories."),
+                   card("white_check_mark", "#E3FCEF", f"{len(b['phases'])} phases", stories_line(b)),
                    card("moneybag", "#FFFAE6", "£100 a month", "All-in: dev and prod AWS, market data, Claude and evals. "
                         "With Grow 55, every month fits except the one allowed Apple fee month, if the owner joins."))
             + "<h2>🎬 One forecast, from cutoff to score</h2>" + gif(s, "forecast-lifecycle", "Freeze the inputs, forecast a distribution, wait for the horizon, score the outcome. Illustrative values.")
@@ -250,7 +263,7 @@ def roadmap(s: str) -> str:
 
 def phases(s: str) -> str:
     b = baseline()
-    return (banner("proposed", "Draft planning only. Each phase page shows its outcome, gate, dependencies, rollback and story drafts.",
+    return (banner("proposed", "Planning only. Each phase page shows its outcome, gate, dependencies, rollback and its ready stories (MP-40), or its drafts until they are ready.",
                    ["docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json"])
             + panel("warning", "#FFFAE6", f"<p>{esc(b['readiness_limit'])}</p>")
             + macro("children", {"all": "true", "depth": "1"}) + footer())
@@ -277,13 +290,49 @@ def phase_page(pid: str):
                 + "<h2>🚪 To start</h2>" + ul([esc(x) for x in p["entry_requirements"]])
                 + "<h2>📦 It delivers</h2>" + ul([esc(x) for x in p["deliverables"]])
                 + (f"<h2>🧾 Contracts</h2><p>{esc(', '.join(p.get('contract_catalogue', [])))}</p>" if p.get("contract_catalogue") else "")
-                + f"<h2>📋 Story drafts ({len(stories)})</h2>"
-                + panel("information_source", "#E6FCFF", "<p>Local drafts. None is a Jira story yet; each is split and filed only after the architecture sign-off.</p>")
-                + table(["Draft", "Title", "Shape", "Jira"], story_rows)
-                + "<h3>Proposed acceptance</h3>" + acceptance
+                + (stories_section(pid, stories) if ready(pid) else
+                   f"<h2>📋 Story drafts ({len(stories)})</h2>"
+                   + panel("information_source", "#E6FCFF", "<p>Local drafts, not yet Jira stories; MP-40 turns them into ready stories.</p>")
+                   + table(["Draft", "Title", "Shape", "Jira"], story_rows)
+                   + "<h3>Proposed acceptance</h3>" + acceptance)
                 + (f"<h2>❓ Gaps it carries</h2><p>{esc(', '.join(p.get('gap_ids', [])))}. See {link('rec-decisions')}.</p>" if p.get("gap_ids") else "")
                 + footer())
     return render
+
+
+def stories_line(b: dict) -> str:
+    phases = [ready(p["id"]) for p in b["phases"]]
+    if all(phases):
+        n = sum(len(r["stories"]) for r in phases)
+        keyed = sum(1 for r in phases for x in r["stories"] if x.get("jira_key"))
+        return f"PH-00 to PH-09, with {n} ready stories ({keyed} in Jira) from the {b['story_count']} drafts (MP-40)."
+    return f"PH-00 to PH-09, with {b['story_count']} story drafts that are not yet Jira stories."
+
+
+def stories_section(pid: str, drafts: list) -> str:
+    """The phase's ready stories (MP-40): each with its Jira key, its source drafts and whether it waits on the owner."""
+    r = ready(pid)
+    rows = [[f"<code>{esc(x['id'])}</code>", jira(x.get("jira_key")), esc(x["title"]),
+             esc(", ".join(x.get("from_drafts", [])) or "new"),
+             (lozenge("open") + " " + esc(", ".join(x["depends_on"].get("owner_questions", [])))) if x.get("blocked_on_owner") else "no"]
+            for x in r["stories"]]
+    disp = [[f"<code>{esc(d)}</code>", esc(v["disposition"]),
+             esc(", ".join(v.get("stories", [])) or v.get("reason", ""))] for d, v in r["drafts"].items()]
+    detail = "".join(expand(f"{x['id']} · {x['title']}",
+                            "<p><strong>Positive</strong></p>" + ul([esc(a) for a in x["acceptance"]["positive"]])
+                            + "<p><strong>Negative</strong></p>" + ul([esc(a) for a in x["acceptance"]["negative"]])
+                            + "<p><strong>Recovery</strong></p>"
+                            + (ul([esc(a) for a in x["acceptance"].get("recovery") or []])
+                               or f"<p>Not applicable: {esc(x['acceptance'].get('recovery_not_applicable', ''))}</p>"))
+                     for x in r["stories"])
+    return (f"<h2>📋 Ready stories ({len(r['stories'])})</h2>"
+            + panel("information_source", "#E6FCFF", "<p>Ready stories (MP-40, 3 November 2026): each has positive, negative and "
+                    "recovery acceptance, its contracts, who may do what, a state inventory and its dependencies. The Jira "
+                    "description is generated from the repo. No story is authorised to build until the UX is approved and the "
+                    "owner gives permission.</p>")
+            + table(["Story", "Jira", "Title", "From drafts", "Waits on the owner"], rows)
+            + f"<h3>What happened to the {len(drafts)} drafts</h3>" + table(["Draft", "Disposition", "Stories or reason"], disp)
+            + "<h3>Acceptance</h3>" + detail)
 
 
 def record(s: str) -> str:

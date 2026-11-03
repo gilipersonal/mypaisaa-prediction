@@ -35,7 +35,7 @@ class SelectionTests(unittest.TestCase):
         chosen, _ = names(["docs/planning/foundation-specifications-2026-11-02/costs/model.json"])
         self.assertEqual(chosen, {"foundation-pack", "baseline-signoff"})
         chosen, _ = names(["docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
-        self.assertEqual(chosen, {"reconciliation-pack", "baseline-signoff"})
+        self.assertEqual(chosen, {"reconciliation-pack", "baseline-signoff", "story-readiness"})
         chosen, _ = names(["docs/planning/ma-reconciliation-2026-11-02/source-coverage.json"])
         self.assertEqual(chosen, {"reconciliation-pack"})
 
@@ -44,8 +44,15 @@ class SelectionTests(unittest.TestCase):
                      "docs/motion/build_motion.py", "docs/market-agent/index.html", "docs/planning/retired-facts.json"):
             self.assertIn("retired-facts", names([path])[0], path)
 
+    def test_story_files_and_their_inputs_select_the_story_gate(self):
+        for path in ("docs/planning/story-readiness-2026-11-03/stories/PH-01.json", "tests/test_story_readiness.py",
+                     "docs/planning/ma-reconciliation-2026-11-02/phase-story-baseline.json", "docs/planning/trace.json",
+                     "docs/planning/foundation-specifications-2026-11-02/forecasting/open-decisions.json"):
+            self.assertIn("story-readiness", names([path])[0], path)
+
     def test_the_signoff_builder_selects_python_errors(self):
         self.assertIn("python-errors", names(["docs/planning/baseline-signoff-2026-11-03/build_signoff.py"])[0])
+        self.assertIn("python-errors", names(["docs/planning/story-readiness-2026-11-03/stories.py"])[0])
 
     def test_signoff_pack_and_its_inputs_select_the_signoff_check(self):
         for path in ("docs/planning/baseline-signoff-2026-11-03/README.md", "tests/test_baseline_signoff.py",

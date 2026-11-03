@@ -37,7 +37,7 @@ jobs:
       - name: Lint backend
         run: uv run --project backend --frozen --extra dev ruff check backend
       - name: Check Python tooling for errors
-        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03
+        run: uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03
       - name: Test backend
         run: uv run --project backend --frozen --extra dev pytest backend/tests -q
 
@@ -62,6 +62,10 @@ jobs:
         run: |
           python3 scripts/design_sync.py check
           python3 -m unittest discover -s tests -p test_design_sync.py -v
+      - name: Every story is ready and every draft accounted for
+        run: |
+          python3 docs/planning/story-readiness-2026-11-03/stories.py check
+          python3 docs/planning/story-readiness-2026-11-03/stories.py selftest
       - name: No retired fact is stated in a current document or generator
         run: |
           python3 scripts/check_retired_facts.py

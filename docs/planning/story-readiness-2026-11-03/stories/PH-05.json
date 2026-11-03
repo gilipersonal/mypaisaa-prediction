@@ -1,0 +1,1216 @@
+{
+ "phase": "PH-05",
+ "drafts": {
+  "L5-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH05-S01",
+    "PH05-S02",
+    "PH05-S03",
+    "PH05-S04"
+   ],
+   "note": "Split into intake, triage, event analysis and factors, the two layers ARC-06b chose (Haiku triage, Opus analysis of at most three events a day), with derived values only to Claude (DATA-DEC-12) and all seven event kinds in the first wave."
+  },
+  "L5-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH05-S05",
+    "PH05-S06",
+    "PH05-S07"
+   ],
+   "note": "Runner, manifests and per-route workers (ARC-06, ARC-06b option A). The draft's nine responsibilities become seven Claude routes and five code workers."
+  },
+  "L5-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH05-S08",
+    "PH05-S09",
+    "PH05-S10",
+    "PH05-S11"
+   ],
+   "note": "Explanations, chat, cards, and the owner's 3 November 2026 answer that chat adds markets, segments and watch-only listings: Claude proposes, code checks, the owner confirms."
+  },
+  "L5-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH05-S12",
+    "PH05-S13"
+   ],
+   "note": "T0 offline suite, then T1/T2 live qualification and calibrated judges (ARC-09)."
+  },
+  "L5-S05": {
+   "disposition": "kept",
+   "stories": [
+    "PH05-S14"
+   ],
+   "note": "Kept as one story; adds the owner's self-correction bands as approved settings."
+  },
+  "L5-S06": {
+   "disposition": "split",
+   "stories": [
+    "PH05-S15",
+    "PH05-S05"
+   ],
+   "note": "Memory is its own story; cache scoping and cost measurement join the shared runner."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH05-S01",
+   "jira_key": "MP-81",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Evidence intake for news, filings and calendars with citations, known-at times and quarantine",
+   "story": "As the owner, I want every news item, filing and calendar entry MP reads to be captured with its citation, content hash, times and rights, and held as untrusted until checked, so that research rests on evidence I can trace and nothing written in a source can steer the system.",
+   "from_drafts": [
+    "L5-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each captured item stores its publisher and URL or filing id, its content SHA-256, its published, updated, retrieved and ingested times, a conservative known-at time, the rights record it was collected under and its entity-link confidence.",
+     "An item seen again with the same content hash is deduplicated to the existing record; an updated version is a new revision linked to the first, never an overwrite.",
+     "Every item lands in quarantine with no tools attached; only schema-validated fields with provenance leave quarantine as an evidence bundle that triage and event analysis may read.",
+     "Calendar items cover all seven first-wave event kinds (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections) for the US, UK and India, each dated by when it became known."
+    ],
+    "negative": [
+     "An item whose source has no rights record allowing storage, or whose rights were withdrawn, is refused at intake with reason rights_blocked and only the refusal receipt is kept.",
+     "Text inside an item that reads as an instruction is stored as data and never changes a route, tool, budget or record.",
+     "An item with no publication or known-at evidence is never backdated: its known-at time is its ingestion time."
+    ],
+    "recovery": [
+     "A crash during intake leaves the item in quarantine; a retry with the same idempotency key resumes and produces one record, not two.",
+     "When a source withdraws rights, its stored items are marked unavailable with a reason, the audit metadata POLICY-010 allows is kept, and they stop reaching new analyses."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceDocument",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "writes"
+    },
+    {
+     "name": "ObservationTimes",
+     "role": "writes"
+    },
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    },
+    {
+     "name": "SourceEligibility",
+     "role": "validates"
+    }
+   ],
+   "authority": "Code workers collect, hash, deduplicate and quarantine. No Claude route can fetch, add or release an item. The owner approves any new source and any paid one (ARC-01: no paid fallback switches on by itself). Nobody may backdate a known-at time.",
+   "states": [
+    "quarantined",
+    "validated",
+    "eligible",
+    "duplicate",
+    "rights_blocked",
+    "stale (source not refreshed within its expected window)",
+    "withdrawn"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S02",
+     "PH02-S05",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "CT-08",
+     "FC-13",
+     "FC-01"
+    ],
+    "owner_questions": [
+     "MP40-Q10"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "pytest cases for duplicate, revision, missing known-at, rights_blocked and withdrawn items",
+    "Poisoned PDF, HTML and calendar fixtures that try to instruct a route, ending with no tool call, disclosure or record change",
+    "A provenance audit of one synthetic day's intake listing every item's citation, hash and times"
+   ]
+  },
+  {
+   "id": "PH05-S02",
+   "jira_key": "MP-85",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Overnight Haiku triage of news, filings and calendar items",
+   "story": "As the owner, I want every captured item tagged cheaply overnight with the instruments it touches, its event type, direction and novelty, so that code can pick the few items that matter without paying for a careful read of everything.",
+   "from_drafts": [
+    "L5-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The triage route runs Claude Haiku 5.5 (claude-haiku-5-5) through the Message Batches API, one request per item keyed by custom_id, with every input fetched before submission.",
+     "Each result is validated against the triage schema (instruments, event type, direction, novelty) and stored with its model id, prompt version, schema version and batch id; code, not Claude, computes the relevance score.",
+     "The batch's maximum cost is reserved before submission and reconciled per item when results return."
+    ],
+    "negative": [
+     "Claude receives only the item text and derived values (DATA-DEC-12, owner, 3 November 2026: derived values only); no bulk raw Twelve Data or Yahoo prices, no holdings quantities and no account details are sent.",
+     "A result that fails schema validation, names an instrument not in the catalogue or carries an unknown custom_id is rejected and never becomes a tag.",
+     "An expired or failed batch request never falls back to a paid live call."
+    ],
+    "recovery": [
+     "Results that return out of order or in part are matched by custom_id; missing items stay pending and are resubmitted once in the next window, inside the reserved budget.",
+     "A batch that reaches the 24-hour expiry marks its items expired, leaves the last dated tags in place and releases the unused reservation."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    },
+    {
+     "name": "AgentManifest",
+     "role": "reads"
+    },
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "The triage route reads validated item text only, has no tools and writes only its result records. Code scores relevance and decides what goes to event analysis. Only the owner can change the route's model or budget. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "queued",
+    "submitted",
+    "partly_returned",
+    "complete",
+    "expired",
+    "rejected (schema)",
+    "stale (no triage since the last cutoff)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S01",
+     "PH05-S05",
+     "PH05-S06",
+     "PH05-S13",
+     "PH02-S09"
+    ],
+    "gaps": [
+     "PL-03",
+     "FC-13"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Replay of a synthetic batch with out-of-order, partial and expired results",
+    "A payload audit showing no raw provider series, holdings quantities or account details in any request",
+    "The route's Inspect AI suite passing on the pinned model before it is switched on"
+   ]
+  },
+  {
+   "id": "PH05-S03",
+   "jira_key": "MP-93",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Opus analysis of at most three material events a day",
+   "story": "As the owner, I want the few events that matter to my holdings or watch-only listings read carefully against what was already known, so that the briefing, explanations and chat can quote one cited, point-in-time analysis instead of guessing.",
+   "from_drafts": [
+    "L5-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Code selects the events: items triage tagged as material that touch a holding or watch-only listing, at most three a day in prod and ten a month in dev; the rest wait a day or are dropped with a recorded reason.",
+     "The route runs Claude Opus 5.5 (claude-opus-5-5) through Message Batches at medium effort to start, with the documents and prior evidence fetched first.",
+     "Each analysis is a structured record: the event, the instruments, what changed against prior evidence, the likely effect and horizon, the uncertainty, what would invalidate it, and citations to stored evidence; it is stored once and reused by the briefing, explanations and chat.",
+     "Before switch-on, Haiku, Sonnet and Opus run on the same labelled set of past events; Opus keeps the route only if it beats Sonnet by enough to justify its price, otherwise the route runs Sonnet 5.5 (A-lite)."
+    ],
+    "negative": [
+     "An analysis never produces a forecast number, a probability or a ranking, and reaches a forecast only as a structured input admitted through PH05-S04.",
+     "A citation that does not resolve to stored evidence, or a claim that relies on evidence known after the analysis cutoff, fails validation and the analysis is withheld.",
+     "A fourth material event on one day is not analysed, whatever its score."
+    ],
+    "recovery": [
+     "An expired or failed request leaves the last dated analysis in place, marks the event pending and never falls back to a paid live call.",
+     "A corrected source produces a new analysis version linked to the old one; the earlier analysis and anything that cited it stay unchanged."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    },
+    {
+     "name": "ClaimReference",
+     "role": "validates"
+    },
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "EvalResult",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code picks the events and enforces the cap. The route has no tools inside the batch and writes only its analysis record. Only the owner can raise the cap or change the model. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "selected",
+    "deferred (over the daily cap)",
+    "submitted",
+    "analysed",
+    "withheld (failed validation)",
+    "expired",
+    "superseded (a newer version exists)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S02",
+     "PH05-S05",
+     "PH05-S06",
+     "PH05-S13"
+    ],
+    "gaps": [
+     "FC-13",
+     "CT-09"
+    ],
+    "owner_questions": [
+     "ARC-06b-O1"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Cap test: four material events on one synthetic day give three analyses and one recorded deferral",
+    "Citation-resolution and known-at cutoff cases",
+    "The Haiku, Sonnet and Opus comparison report on the labelled event set, with the model decision recorded"
+   ]
+  },
+  {
+   "id": "PH05-S04",
+   "jira_key": "MP-97",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Structured factors from triage and event analyses, kept in shadow until they add accuracy",
+   "story": "As the owner, I want triage tags and event analyses turned into versioned model inputs that stay in shadow until they prove they add accuracy, so that news can inform forecasts without hindsight or untested influence.",
+   "from_drafts": [
+    "L5-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "The factor route (Claude Haiku 5.5, batched) produces one versioned factor set per listing a day, frozen by the last batch before the +60 minute cutoff, with model id, prompt version, schema version and confidence.",
+     "Factors extracted from historical articles carry a possible-hindsight flag; when contamination cannot be bounded, only prospectively extracted factors count as evidence.",
+     "Every factor stays in shadow and reaches a live forecast only after the PH-04 ablation shows incremental accuracy over the baseline on the same dates and folds, and the owner approves it."
+    ],
+    "negative": [
+     "A factor built from anything known after the frozen cutoff is excluded from that origin, never backdated.",
+     "Any number used as a model input (a score, a weight, a relevance) is computed by code from typed fields; Claude returns categories and cited spans only.",
+     "No factor is admitted on extraction quality alone."
+    ],
+    "recovery": [
+     "If the batch misses the cutoff, the forecast uses the previous frozen factor set labelled with its age, or abstains from the factor; the late factors are kept for the next origin.",
+     "A withdrawn factor version leaves future origins; past predictions that used it keep their original input references."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "InputReference",
+     "role": "writes"
+    },
+    {
+     "name": "FeatureSetVersion",
+     "role": "emits"
+    },
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code freezes and versions factors. Only the owner promotes a factor out of shadow. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "shadow",
+    "frozen",
+    "late (missed the cutoff)",
+    "hindsight_flagged",
+    "admitted (owner-approved)",
+    "withdrawn"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S02",
+     "PH05-S03",
+     "PH04-S07"
+    ],
+    "gaps": [
+     "FC-13",
+     "FC-03"
+    ],
+    "owner_questions": [
+     "SCI-D04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Time-contamination cases: a factor known after the cutoff is excluded",
+    "A shadow-only run proving no live prediction cites an unadmitted factor",
+    "The ablation report template joined to each factor version"
+   ]
+  },
+  {
+   "id": "PH05-S05",
+   "jira_key": "MP-101",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Shared Claude runner on the Anthropic Python client SDK, with budgets, caching and the batch lane",
+   "story": "As the owner, I want one versioned runner that every Claude route uses, so that grounding, schema checks, cost reservation, caching and batch rules are enforced the same way everywhere and their costs are measured.",
+   "from_drafts": [
+    "L5-S02",
+    "L5-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "The runner calls Claude on Anthropic through the official Python client SDK in an explicit server-controlled loop; it does not use the Anthropic Agent SDK, Bedrock or a subprocess runtime.",
+     "Every call reserves its maximum cost against the one shared project budget before it starts, applies the timeout, turn, token and tool-call caps from the route's manifest, and reconciles actual usage once.",
+     "Tool results are typed and schema-validated before the model sees them; outputs are schema-validated before they are stored.",
+     "Prompt caching uses a 5-minute TTL on each route's stable system prompt and tool list within one owner and environment scope; cache reads, writes and savings are recorded per route and model version from the usage fields (cache_read_input_tokens), never assumed.",
+     "The batch lane reserves a batch's maximum cost first, matches results by custom_id and leaves the last dated evidence in place when a request expires or fails."
+    ],
+    "negative": [
+     "No call is made until the shared Claude credit is verified, and no paid fallback switches on by itself.",
+     "A call whose reservation would cross the £15 Claude and evaluations allocation or the £85 pause threshold is refused before it starts.",
+     "A cache prefix never spans owners or environments, context is bounded per route, and no cache-warming request is sent.",
+     "The runner reads only its own route's Anthropic key parameter and never logs prompt text or provider values."
+    ],
+    "recovery": [
+     "A Lambda timeout mid-loop records the run as interrupted with its spent cost; a continuation resumes from the last stored step rather than repeating paid calls.",
+     "An ambiguous call (sent, no response) keeps its reservation until it is reconciled from the provider's usage report."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "AgentManifest",
+     "role": "reads"
+    },
+    {
+     "name": "ToolContract",
+     "role": "validates"
+    },
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only runner code calls the Anthropic API. A route cannot raise its own caps. The owner sets budgets and decides any refusal-fallback or model change. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "credit_unverified (every call refused)",
+    "admitted",
+    "running",
+    "interrupted",
+    "refused_budget",
+    "reconciled",
+    "cache_cold"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S09",
+     "PH02-S10",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "PL-02",
+     "PL-03",
+     "PL-13",
+     "CT-13"
+    ],
+    "owner_questions": [
+     "ARC-06b-O2"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "T0 cases with a stubbed Anthropic client: over-budget refusal, timeout continuation, ambiguous call, expired batch item and a cross-scope cache prefix",
+    "A cost trace for one synthetic day reconciling every reservation to usage",
+    "A per-route cache report with cold-cache, no-cache and warm costs"
+   ]
+  },
+  {
+   "id": "PH05-S06",
+   "jira_key": "MP-104",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Route manifests and the read-only tool allowlist",
+   "story": "As the owner, I want each Claude route described by a typed manifest naming its model, effort, tools, context and limits, so that what an agent may do is enforced by code and covered by tests, not asked of a prompt.",
+   "from_drafts": [
+    "L5-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "There is one manifest per route: triage, event analysis, structured factors, statement extraction, explanations and the briefing, chat, and evaluation judges; each names model id, effort, live or batch mode, queue, tools, outbound context boundary, budget caps and forbidden operations.",
+     "Models follow ARC-06b option A: Haiku 5.5 for triage, factors and extraction; Opus 5.5 for event analysis; Sonnet 5.5 for chat, explanations, the briefing and evaluation judges.",
+     "Every tool is a typed, read-only contract with owner and environment scope and a per-call budget; the runtime policy checks each call against the manifest before running it.",
+     "Deterministic responsibilities (grader, bounded calibrator, challenger trainer, data steward, ops warden) are code workers with no model in their manifest.",
+     "Each manifest entry maps to at least one negative safety case and one capability case in the evaluation suite."
+    ],
+    "negative": [
+     "No prompt, tool output or agent message can grant a new tool, secret access, trade, ledger write, forecast publication, model promotion, weight change or budget.",
+     "If the policy store is unavailable, every tool call fails closed.",
+     "Statement extraction has no tools and no write authority."
+    ],
+    "recovery": [
+     "A manifest change is a new version; the previous version stays available for rollback, and a route whose new manifest fails validation stays on its last valid version."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "AgentManifest",
+     "role": "writes"
+    },
+    {
+     "name": "ToolContract",
+     "role": "writes"
+    },
+    {
+     "name": "EvalResult",
+     "role": "reads"
+    }
+   ],
+   "authority": "Manifests change only through a reviewed code change, and a model, tool or budget change also needs the owner's approval. Routes read their manifest; nothing at runtime writes it. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "draft",
+    "validated",
+    "active",
+    "superseded",
+    "invalid (fails closed)",
+    "uncovered (a tool with no mapped case blocks readiness)"
+   ],
+   "depends_on": {
+    "stories": [],
+    "gaps": [
+     "CT-07",
+     "PL-02",
+     "CT-08"
+    ],
+    "owner_questions": [
+     "ARC-06b-O4"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Schema validation of all seven manifests",
+    "Denied-tool cases for every forbidden operation",
+    "A coverage report mapping each tool to its safety and capability cases"
+   ]
+  },
+  {
+   "id": "PH05-S07",
+   "jira_key": "MP-109",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "One Lambda worker per Claude route, with its own queue, role and continuation",
+   "story": "As the owner, I want each Claude route deployed as its own worker with its own queue, permissions and retry policy, so that a fault or a runaway in one route cannot spend another's budget or reach another's data.",
+   "from_drafts": [
+    "L5-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each route has its own Lambda function, SQS queue with a dead-letter queue, IAM role and SSM parameter for its Anthropic key, defined in Terraform and plan-only until the owner asks for an apply.",
+     "A route that needs the owner (an approval or a confirm) exits Lambda and resumes later from a typed pending action rather than waiting inside a function.",
+     "Cost admission and rate coordination are global across workers, so parallel workers cannot each pass the same remaining budget."
+    ],
+    "negative": [
+     "A worker's role cannot read another route's key, write the ledger, publish predictions or invoke another worker; agents never call each other.",
+     "A dead-lettered message is never replayed automatically beyond the ops policy, and a paid call whose outcome is ambiguous is reconciled, not repeated."
+    ],
+    "recovery": [
+     "A cancelled run stops at the next step boundary, releases unused reservations and records its partial result as cancelled.",
+     "A worker restarted after a crash resumes from its durable checkpoint and produces one result per request id."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "reads"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    },
+    {
+     "name": "AgentManifest",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code workers only; Terraform defines roles and queues. Nothing changes a role or queue outside Terraform, and the owner approves any apply. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "idle",
+    "queued",
+    "running",
+    "awaiting_owner",
+    "cancelled",
+    "dead_lettered",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S05",
+     "PH05-S06",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "PL-05",
+     "PL-06",
+     "CT-05"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "terraform validate and a plan showing separate roles, queues and parameters per route",
+    "IAM policy tests refusing cross-route key reads and ledger writes",
+    "Cancellation, crash-resume and concurrent-admission cases"
+   ]
+  },
+  {
+   "id": "PH05-S08",
+   "jira_key": "MP-125",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Grounded explanations and the text of the 07:30 briefing",
+   "story": "As the owner, I want each forecast's why and the morning briefing written from stored, versioned results, so that every figure I read comes from code and can be traced.",
+   "from_drafts": [
+    "L5-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The explanation route runs Claude Sonnet 5.5 live at medium effort, with read-only tools over stored predictions, outcomes, risk facts, rankings and event analyses.",
+     "Every figure in the text is a claim reference to a tool result, checked for amount, currency or unit, sign, horizon and uncertainty label; matching a number somewhere in the context is not enough.",
+     "Derived figures, such as a change since yesterday, come from deterministic services with a formula version, never from the model.",
+     "The briefing text never waits on a batch submitted that morning; it quotes the last valid dated evidence and labels anything pending."
+    ],
+    "negative": [
+     "A sentence with an ungrounded, contradicted, stale or wrong-currency figure, a swapped horizon or an invented probability fails the check, and that item falls back to an approved deterministic template or abstains.",
+     "The route cannot change, publish or withhold a forecast or a ranking.",
+     "Claude sees derived values only (DATA-DEC-12)."
+    ],
+    "recovery": [
+     "If the route is unavailable or out of budget at 07:30, the briefing is issued with deterministic text and labelled as such, and the explanations are added when the route returns."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ClaimReference",
+     "role": "validates"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    },
+    {
+     "name": "Prediction",
+     "role": "reads"
+    },
+    {
+     "name": "Briefing",
+     "role": "emits"
+    }
+   ],
+   "authority": "The route reads through allowlisted read-only tools and writes only its explanation records. Code decides what the briefing contains; the owner approves the deterministic templates. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "grounded",
+    "template_fallback",
+    "abstained",
+    "pending_evidence",
+    "stale_evidence (older than its window, labelled)",
+    "budget_paused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S05",
+     "PH05-S06",
+     "PH05-S13"
+    ],
+    "gaps": [
+     "CT-09",
+     "PL-03"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Grounding cases: contradicted, stale, wrong-currency, swapped-horizon and invented-probability text all fail",
+    "A missed-batch morning that still produces a labelled briefing on time",
+    "The route's Inspect AI suite passing before it is switched on"
+   ]
+  },
+  {
+   "id": "PH05-S09",
+   "jira_key": "MP-127",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Chat that answers why, with citations and shared conversation context",
+   "story": "As the owner, I want to ask why about any forecast, suggestion or holding from either app and get a cited answer that remembers the conversation, so that I can understand a decision without trusting an unsupported claim.",
+   "from_drafts": [
+    "L5-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The chat route runs Claude Sonnet 5.5 live at low effort with read-only tools over forecasts, prices with their freshness, holdings, rankings and stored event analyses; it quotes a stored analysis instead of redoing it.",
+     "One conversation context is shared by the web and Apple apps for the same owner and environment, and every answer is stored append-only with its citations.",
+     "Answers start concise; technical detail and a glossary expand on request without dropping material uncertainty."
+    ],
+    "negative": [
+     "Chat cannot fabricate a missing price or history, bypass forecast eligibility, present an ineligible forecast as current or produce its own probability; it says what is unavailable and why.",
+     "Tool output and quoted documents are untrusted data: an instruction inside them never adds a tool or changes a record.",
+     "Claude sees derived values only (DATA-DEC-12)."
+    ],
+    "recovery": [
+     "A dropped connection resumes the conversation from its stored context; a turn interrupted before its answer is stored is retried once or shown as failed, never duplicated.",
+     "When the daily chat cap is reached, chat says so and offers the stored explanations instead."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ConversationContext",
+     "role": "writes"
+    },
+    {
+     "name": "ClaimReference",
+     "role": "validates"
+    },
+    {
+     "name": "ToolContract",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner asks; the route answers from read-only tools and cannot write the ledger, settings or catalogue or publish anything. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "answering",
+    "answered",
+    "abstained (missing evidence)",
+    "cap_reached",
+    "budget_paused",
+    "stale_context (evidence changed since the answer, labelled)",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S05",
+     "PH05-S06",
+     "PH05-S13",
+     "PH02-S11",
+     "PH02-S12"
+    ],
+    "gaps": [
+     "CT-09",
+     "CT-08",
+     "PL-02"
+    ],
+    "owner_questions": [
+     "ARC-06b-O3"
+    ],
+    "external": [
+     "UX: chat and ask why (web and Apple)"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Citation, numerical and abstention cases",
+    "A cross-device test: a question asked on the web continued on the Apple app",
+    "Prompt-injection cases arriving through tool output and documents"
+   ]
+  },
+  {
+   "id": "PH05-S10",
+   "jira_key": "MP-129",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Research cards and a bounded bull and bear case",
+   "story": "As the owner, I want compact research cards for a listing (stance, profile, overlap, benchmark, scenario, valuation, earnings, and a bull and bear case) so that I can see the evidence for and against in one place.",
+   "from_drafts": [
+    "L5-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each card is a typed payload whose figures come from deterministic calculators and stored evidence, with its as-of time, source and version.",
+     "The bull and bear card holds at most two arguments on each side plus an adjudication, every argument citing stored evidence.",
+     "The overlap card shows how a candidate would change concentration in the current holdings, computed by code."
+    ],
+    "negative": [
+     "A card whose required inputs are missing or stale shows that state and is never filled with a model's guess.",
+     "The adjudication never states a probability or an instruction to trade."
+    ],
+    "recovery": [
+     "A card that failed to build is rebuilt on the next request from stored inputs; a card whose evidence changed is regenerated as a new version and the old one kept for any conversation that cited it."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvidenceBundle",
+     "role": "reads"
+    },
+    {
+     "name": "ClaimReference",
+     "role": "validates"
+    },
+    {
+     "name": "ExposureSnapshot",
+     "role": "reads"
+    },
+    {
+     "name": "BenchmarkComparison",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code computes every figure; the chat or explanation route writes only the words. The owner reads; nothing on a card acts. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "ready",
+    "partial (named inputs unavailable)",
+    "stale",
+    "failed",
+    "superseded"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S08",
+     "PH05-S09",
+     "PH03-S12",
+     "PH03-S14"
+    ],
+    "gaps": [
+     "CT-09"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: research cards"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Card API examples for every card type on synthetic data",
+    "Missing-input and stale-input cases",
+    "A bound test: a third bull or bear argument is rejected"
+   ]
+  },
+  {
+   "id": "PH05-S11",
+   "jira_key": "MP-131",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Chat proposes new markets, segments and watch-only listings for the owner to confirm",
+   "story": "As the owner, I want to ask in chat to watch a listing or add a market or segment, see code's coverage and cost check, and confirm it myself, so that the universe grows only with my say and within budget.",
+   "from_drafts": [
+    "L5-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The chat route drafts the exact change (the instrument, market or segment, and the watch-only or segment role) and stores it as a proposal; it cannot apply it.",
+     "Code resolves the identity, probes coverage with Twelve Data or Yahoo under a reserved quota, and computes the monthly credit cost and any cash effect against the plan and the £100 ceiling.",
+     "The owner sees the check and the cost on a confirm card and taps confirm; the confirmed addition creates a new catalogue version with the owner's approval record and joins from its next close."
+    ],
+    "negative": [
+     "No confirm, an unsupported listing, a failed credit check, or a change that would need a higher data tier adds nothing; a tier change is a separate owner decision.",
+     "A market that needs new calendars, handlers or rights work is refused here and routed to the extension admission checklist (PH09-S01).",
+     "Claude cannot add, enable or remove a listing, change a segment or start a backfill."
+    ],
+    "recovery": [
+     "A confirm that arrives after the proposal expired, or after the catalogue changed, is refused and the check is run again for a fresh proposal.",
+     "A failed catalogue write leaves the previous version current and the proposal confirmed but not applied, for retry; there is never a half-added listing."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ApprovalRequest",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "validates"
+    },
+    {
+     "name": "SourceCapability",
+     "role": "reads"
+    },
+    {
+     "name": "QuotaReservation",
+     "role": "reads"
+    },
+    {
+     "name": "Listing",
+     "role": "reads"
+    }
+   ],
+   "authority": "Claude proposes; code checks and prices; only the owner confirms, in the app (owner, 3 November 2026, DATA-DEC-11). The catalogue service applies a confirmed addition, never an agent. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "proposed",
+    "checking",
+    "unsupported",
+    "over_budget",
+    "awaiting_confirm",
+    "expired",
+    "confirmed",
+    "applied"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S09",
+     "PH03-S03",
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-02",
+     "PL-13"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: adding from chat"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "An end-to-end synthetic case: propose, check, confirm, applied at the next close",
+    "Refusal cases: no confirm, unsupported, over budget, expired, needs a higher tier",
+    "A test proving no Claude tool can write the catalogue"
+   ]
+  },
+  {
+   "id": "PH05-S12",
+   "jira_key": "MP-111",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "T0 deterministic evaluation suite and adversarial cases in Inspect AI",
+   "story": "As the owner, I want every relevant change checked offline against tagged deterministic cases, attacks included, so that a broken guard is caught before any paid model call.",
+   "from_drafts": [
+    "L5-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Inspect AI organises T0 cases that run with no network and no model calls: deterministic checks, replays of stored transcripts and MP's own scorers; pytest stays for unit and integration tests.",
+     "Each case is tagged with the requirement, story, route, tool, threat or capability and fixture version it covers.",
+     "The adversarial cases cover prompt injection in PDFs, screenshots, news and tool output; identity, privacy and cross-environment leakage; ungrounded numbers; citation failures; attempts to trade; and budget exhaustion."
+    ],
+    "negative": [
+     "A changed tool, route or manifest with no mapped case blocks readiness.",
+     "A run that is missing evidence, fails to start or exhausts its budget is incomplete, never green.",
+     "Fixtures are synthetic or redacted; no case holds real account details."
+    ],
+    "recovery": [
+     "A failed T0 run re-runs from the same fixture versions, and every fixed regression becomes a permanent case."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvalResult",
+     "role": "writes"
+    },
+    {
+     "name": "EvalLabel",
+     "role": "reads"
+    },
+    {
+     "name": "AgentManifest",
+     "role": "reads"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code runs T0 in CI; no reviewer or agent can mark an incomplete run as passed. The owner decides which failures block a release.",
+   "states": [
+    "passed",
+    "failed",
+    "incomplete",
+    "uncovered",
+    "stale (case older than the manifest version it targets)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S06"
+    ],
+    "gaps": [
+     "CT-10",
+     "CT-08",
+     "CT-12"
+    ],
+    "owner_questions": [
+     "ARC-06b-O4"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The T0 suite running in CI, with a mutated guard proving a case bites",
+    "A coverage report mapping every manifest tool and forbidden operation",
+    "The adversarial case manifest"
+   ]
+  },
+  {
+   "id": "PH05-S13",
+   "jira_key": "MP-121",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Live route qualification with calibrated judges before any route is switched on",
+   "story": "As the owner, I want each Claude route qualified on its pinned model and effort with bounded live checks and judges calibrated against my own labels, so that a route goes live only on evidence and judges never replace real outcomes.",
+   "from_drafts": [
+    "L5-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "T1 runs bounded live cases for a route when its prompt, tools, model or SDK changes; T2 runs full qualification for a model, routing or release change; both reserve their cost before calling.",
+     "Evaluation judges run Claude Sonnet 5.5 through Message Batches with one rubric per failure mode and an unknown option, calibrated against held-out owner labels with confidence intervals; while that evidence is insufficient they stay advisory.",
+     "Each route's model id is pinned per environment and passes its suite before switch-on; the event-analysis comparison of Haiku, Sonnet and Opus runs here.",
+     "Results keep their provenance, cost and any disagreement between judge and owner."
+    ],
+    "negative": [
+     "A judge score never stands in for a realised forecast outcome or a promotion decision.",
+     "Owner labels used to calibrate a judge are never used to develop its prompt, and repeated examples do not inflate the sample count.",
+     "A changed judge, model or rubric resets its eligibility."
+    ],
+    "recovery": [
+     "Partial, expired or cancelled batch judging items stay distinct from completed coverage and keep their run references; a late result never overwrites a newer label or decision."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "EvalResult",
+     "role": "writes"
+    },
+    {
+     "name": "EvalLabel",
+     "role": "writes"
+    },
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "EvaluationRun",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code runs T1 and T2 within the evaluation budget. The owner labels calibration samples and approves release thresholds before activation. No judge can approve a route.",
+   "states": [
+    "not_qualified",
+    "running",
+    "qualified",
+    "advisory_only (insufficient labels)",
+    "incomplete",
+    "expired (model or rubric changed)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S05",
+     "PH05-S06",
+     "PH05-S12"
+    ],
+    "gaps": [
+     "CT-10",
+     "CT-11",
+     "CT-12",
+     "PL-13"
+    ],
+    "owner_questions": [
+     "ARC-06b-O4"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "A T1 report on a synthetic route change",
+    "A judge calibration report with intervals against held-out owner labels",
+    "The release-threshold record the owner approved"
+   ]
+  },
+  {
+   "id": "PH05-S14",
+   "jira_key": "MP-114",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Versioned owner settings and approvals that cannot widen authority",
+   "story": "As the owner, I want risk, ranking, agent and self-correction settings versioned, with each proposed change showing its impact, evidence, cost and rollback before I approve it, so that nothing important changes without me and no change can widen what the system may do.",
+   "from_drafts": [
+    "L5-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each setting has a versioned schema with allowed ranges; a proposed change shows its expected impact, evidence, cost and how to roll it back.",
+     "A sensitive change needs a fresh step-up approval bound to the exact owner, environment, setting, value, current version and expiry, rechecked when it is applied.",
+     "The self-correction bands (a forecast's probabilities at most 5 percentage points a week, a signal's weight at most 10% a month) are settings the owner approves in advance; the deterministic calibrator reads them and cannot change them."
+    ],
+    "negative": [
+     "A stale, replayed or expired approval is refused; a denied request cannot be retried endlessly and backs off with a visible reason.",
+     "No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.",
+     "A memory note, chat message or agent proposal can draft a change but never apply one."
+    ],
+    "recovery": [
+     "Every applied change keeps the previous version; a rollback creates a new version equal to the old one with its own audit record.",
+     "A change that fails part way leaves the previous version current."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ApprovalRequest",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "validates"
+    },
+    {
+     "name": "SensitiveAction",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner, with a fresh, strong sign-in, approves a sensitive change. Agents and code may draft proposals. Nobody approves on the owner's behalf.",
+   "states": [
+    "proposed",
+    "awaiting_step_up",
+    "approved",
+    "applied",
+    "expired",
+    "denied",
+    "rolled_back"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-02",
+     "CT-15",
+     "CT-01"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: settings and approvals (admin journeys, ARC-08)"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Settings and approval state-machine tests",
+    "Stale, replayed, expired and privilege-escalation cases",
+    "Audit records for apply and rollback"
+   ]
+  },
+  {
+   "id": "PH05-S15",
+   "jira_key": "MP-115",
+   "phase": "PH-05",
+   "epic": "MP-7",
+   "title": "Scoped memory notes the owner can see, correct and forget",
+   "story": "As the owner, I want any notes the agents keep about my preferences or past research to be visible to me, sourced and correctable, so that memory helps without ever becoming financial truth or policy.",
+   "from_drafts": [
+    "L5-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each memory note records its owner and environment scope, source, author route, creation time, expiry, taint state and version.",
+     "The owner can list, correct and forget notes; forgetting removes the note and its derivatives (summaries, cached context) from future use.",
+     "A note built from untrusted material carries that taint into anything built from it."
+    ],
+    "negative": [
+     "A note cannot replace a ledger value, an outcome, a threshold or an approved setting, and is never accepted as evidence for a figure.",
+     "A note never crosses owner or environment scope.",
+     "Forgetting a note does not delete required durable financial audit evidence; it records a deletion tombstone."
+    ],
+    "recovery": [
+     "A forget that fails part way is retried until every derivative is cleared, and the note stays hidden meanwhile.",
+     "A restore from backup does not bring back a forgotten note."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MemoryNote",
+     "role": "writes"
+    },
+    {
+     "name": "DeletionTombstone",
+     "role": "writes"
+    },
+    {
+     "name": "ConversationContext",
+     "role": "reads"
+    }
+   ],
+   "authority": "Routes may propose notes inside their own scope; the owner sees, corrects and forgets them. No route reads another scope's notes. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "active",
+    "tainted",
+    "expired",
+    "corrected",
+    "forget_pending",
+    "forgotten"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH08-S03"
+    ],
+    "gaps": [
+     "PL-02",
+     "CT-15",
+     "CT-04"
+    ],
+    "owner_questions": [],
+    "external": [
+     "UX: memory notes (admin)"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Isolation cases across owners and environments",
+    "Forget and restore cases",
+    "A test proving no grounding check accepts a note as evidence"
+   ]
+  }
+ ]
+}

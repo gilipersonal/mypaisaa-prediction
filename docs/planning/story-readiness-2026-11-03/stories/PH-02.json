@@ -1,0 +1,1007 @@
+{
+ "phase": "PH-02",
+ "drafts": {
+  "L2-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S01",
+    "PH02-S02",
+    "PH02-S03"
+   ]
+  },
+  "L2-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S04",
+    "PH02-S05",
+    "PH02-S06"
+   ]
+  },
+  "L2-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S07",
+    "PH02-S08"
+   ]
+  },
+  "L2-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S09",
+    "PH02-S10"
+   ]
+  },
+  "L2-S05": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S11",
+    "PH02-S12"
+   ]
+  },
+  "L2-S06": {
+   "disposition": "split",
+   "stories": [
+    "PH02-S13",
+    "PH02-S14"
+   ]
+  }
+ },
+ "stories": [
+  {
+   "id": "PH02-S01",
+   "jira_key": "MP-73",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Owner sign-in with Google and passkeys through Cognito, linked only on proof",
+   "story": "As the owner, I want to sign in to MP with Google or a passkey through Cognito, with my identities linked only after I prove control of both, so that only I can reach my data in each environment.",
+   "from_drafts": [
+    "L2-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines one Cognito user pool per account (dev and prod) in us-east-1 on a tier that supports passkeys (Essentials or Plus), with Google as a provider and passkeys enabled.",
+     "Linking a Google identity to the owner uses the provider's stable subject after a fresh sign-in with both identities.",
+     "The API accepts only tokens from its own environment's pool and app client: a dev token is refused by prod, a prod token by dev, and any other user's token everywhere.",
+     "Sign-in and link events are written to the audit with opaque references only."
+    ],
+    "negative": [
+     "Email equality alone never links or merges identities.",
+     "Sign in with Apple is not configured until the owner buys the Apple Developer Program (owner, 3 November 2026).",
+     "No identity token, refresh token or authorisation code appears in a log, trace, audit record or error message.",
+     "Repeated failed sign-ins are rate-limited without revealing whether an account exists."
+    ],
+    "recovery": [
+     "If Google is unavailable, passkey sign-in still works; a link that fails midway leaves both identities unlinked and the attempt audited."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IdentitySession",
+     "role": "writes"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner signs in; no other user is created. The API Lambda validates tokens. Claude writes the Terraform; the owner asks for each apply. Claude routes and workers never see a token.",
+   "states": [
+    "signed out",
+    "signed in, fresh",
+    "session expired",
+    "provider unavailable",
+    "link pending verification",
+    "denied: wrong environment or not the owner"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S04"
+    ],
+    "gaps": [
+     "PL-09",
+     "CT-17"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "terraform validate, TFLint and Checkov pass on the user pool configuration",
+    "After an owner-requested dev apply: sign-in, cross-environment refusal and email-only link refusal tests pass on dev",
+    "A log and trace scan finds no tokens"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S02",
+   "jira_key": "MP-87",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Owner recovery paths, lost-device recovery and session revocation",
+   "story": "As the owner, I want at least two independent ways back into MP and the power to revoke any session or device, so that losing a phone neither locks me out nor lets someone else in.",
+   "from_drafts": [
+    "L2-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "A recovery inventory (CT-17) holds at least two independent recovery paths, for example passkeys on two separate devices plus the verified Google link, and is shown to the owner.",
+     "Revoking a session or device ends its refresh tokens and closes its live streams within the revocation time the owner approves (CT-17).",
+     "Lost device: from another path the owner signs in with step-up, revokes the lost device and enrols a replacement passkey; each step is audited.",
+     "A loss-of-all-devices procedure is written and rehearsed on dev, recovering through the remaining provider path."
+    ],
+    "negative": [
+     "Removing or unlinking the last usable sign-in path is refused.",
+     "Recovery never relies on email equality, an SMS code or a support route that bypasses the owner's proof."
+    ],
+    "recovery": [
+     "A recovery interrupted midway leaves the old paths intact and the new one unconfirmed; it is resumed or cancelled, never half-applied."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IdentitySession",
+     "role": "writes"
+    },
+    {
+     "name": "SensitiveAction",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner links, unlinks, revokes or enrols, each with step-up. No admin role recovers the account on the owner's behalf. Claude routes and workers have no access to identity operations.",
+   "states": [
+    "two or more paths healthy",
+    "one path left: warning shown",
+    "recovery in progress",
+    "device revoked",
+    "locked out: only the written procedure applies"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S01",
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-17",
+     "PL-09",
+     "CT-01"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Negative tests: email-only link, last-path removal, reuse of a revoked refresh token",
+    "A dev rehearsal of the lost-device and loss-of-all-devices procedures",
+    "Audit read-back of every recovery step"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S03",
+   "jira_key": "MP-78",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Step-up for sensitive actions, bound to the exact change approved",
+   "story": "As the owner, I want every sensitive action to need a fresh, strong sign-in bound to the exact change I approve, so that an open app or an old token cannot commit, delete or promote anything.",
+   "from_drafts": [
+    "L2-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "A sensitive-action matrix (CT-01) covers import confirmation and corrections, deletion, replay, identity linking and recovery, budget expansion and model promotion, each with its required assurance and freshness.",
+     "The backend checks Cognito authentication strength and freshness per action and asks for step-up when the evidence is not enough (ARC-07); if Cognito cannot give that assurance, a verified fresh sign-in path meets the same policy.",
+     "An approval binds owner, environment, action, payload sha256, expected record or configuration version and expiry; a financial approval allows 15 minutes to start the exact commit (POLICY-001).",
+     "At execution, including after a durable wait, the backend rechecks authority, expiry and the expected version."
+    ],
+    "negative": [
+     "A local Face ID unlock, a refreshed token or an open app alone is refused as step-up.",
+     "A changed payload, an expired approval or a moved record version is refused and needs a fresh approval.",
+     "Workflow and audit state hold opaque evidence references, never live tokens."
+    ],
+    "recovery": [
+     "If execution fails after approval, a retry with the same payload and version inside the window is idempotent; the approval is never reused for a different payload, and after expiry the owner approves again."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SensitiveAction",
+     "role": "validates"
+    },
+    {
+     "name": "ApprovalRequest",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "writes"
+    },
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner approves. The backend enforces the policy. Agents may draft a proposal but never approve or execute it. Nobody approves on the owner's behalf.",
+   "states": [
+    "step-up not required",
+    "step-up required",
+    "approved and fresh",
+    "expired",
+    "refused: payload or version mismatch",
+    "revoked"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S01"
+    ],
+    "gaps": [
+     "CT-01",
+     "CT-02",
+     "PL-09"
+    ],
+    "owner_questions": [
+     "FIN-OD-02"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "Unit tests for every refusal above",
+    "A dev test of the 15-minute window and of the recheck after a durable wait"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH02-S04",
+   "jira_key": "MP-71",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Terraform foundation: organisation, dev and prod accounts, guard rails and state",
+   "story": "As the owner, I want MP's AWS organisation, its dev and prod accounts and their guard rails written in Terraform, so that every later resource is made the same reviewed way and nothing expensive can appear by accident.",
+   "from_drafts": [
+    "L2-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines AWS Organizations with all features, a management account that runs no workloads, and dev and prod member accounts in us-east-1 (ARC-11, MP-29).",
+     "The cost-guard SCP denies NAT gateways, interface endpoints, VPNs, load balancers, SageMaker endpoints and GPU instances until an ADR lifts it; the other SCPs the MP-29 pack proposed (keep CloudTrail on, deny root actions, forbid leaving the organisation) are added only if the owner approves them.",
+     "State lives in a versioned, encrypted S3 bucket per account with S3 native locking, made by a bootstrap configuration that starts on local state and migrates into the bucket it creates.",
+     "GitHub OIDC deploy roles, one per account; the prod role trusts only the release workflow the owner starts (PH08-S01).",
+     "Plan-only CI on every PR: terraform fmt -check, terraform validate, TFLint and Checkov, with no AWS access; the Terraform CLI and AWS provider are pinned in the lock file.",
+     "Every resource carries an environment tag and cost-allocation tags, with no em dashes in names, tags or descriptions."
+    ],
+    "negative": [
+     "No terraform apply runs unless the owner asks in the running prompt; prod is never applied from a laptop or a Claude session.",
+     "No Region allowlist SCP and no resource control policies (owner, 3 November 2026).",
+     "No dev role trusts a prod role, or the reverse."
+    ],
+    "recovery": [
+     "A failed bootstrap is re-run idempotently from local state; local state is removed only after a plan against the migrated state shows no changes."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    }
+   ],
+   "authority": "Claude writes Terraform on an MP issue branch and CI plans it. Only the owner asks for an apply: dev from the reviewed plan, prod only through CI from main. No agent creates or changes an AWS resource by any other route.",
+   "states": [
+    "written, plan-only",
+    "planned and reviewed",
+    "applied to dev at the owner's request",
+    "drifted: a plan shows a change nobody made in Terraform",
+    "denied by the cost-guard SCP"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH00-S02"
+    ],
+    "gaps": [
+     "PL-10",
+     "PL-11"
+    ],
+    "owner_questions": [
+     "MP40-Q4"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "fmt, validate, TFLint and Checkov pass in CI",
+    "A reviewed plan for the organisation, accounts, SCP and state",
+    "A policy test showing the cost-guard SCP denies creating a NAT gateway"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH02-S05",
+   "jira_key": "MP-75",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Private encrypted storage and least-privilege roles in each environment",
+   "story": "As the owner, I want MP's buckets, tables, keys and parameters private, encrypted and reachable only by the role that needs each one, so that a mistake in one worker cannot read or change what it should not.",
+   "from_drafts": [
+    "L2-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt, defines per account: a customer KMS key; private S3 buckets with Block Public Access and versioning and the prefixes sources/uploads/, sources/provider/, evidence/, training/, artefacts/candidates/ and artefacts/approved/; DynamoDB tables for the ledger, market data, forecasts, audit, jobs and costs; and SSM SecureString parameters created with a placeholder and ignore_changes on the value.",
+     "Each role (API, ledger writer, data workers, one role per Claude route, inference, training orchestrator, training job, billing collector) has exactly the access in the region-network boundary matrix and no more.",
+     "Prod tables, buckets, user pools and keys have prevent_destroy and each service's own deletion protection.",
+     "IAM Access Analyzer reports no external access."
+    ],
+    "negative": [
+     "No dev principal appears in any prod policy; a dev role acting on a prod resource is denied, so synthetic dev data cannot reach prod.",
+     "Only the worker that needs a secret can read it (the Twelve Data key for data workers, each route's own Anthropic key), and Terraform state never holds a real secret value.",
+     "Only the ledger writer can write the ledger; the API, agents and other workers cannot."
+    ],
+    "recovery": [
+     "Versioning and deletion protection make an accidental overwrite or delete recoverable, and a plan that would replace a protected resource fails."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    }
+   ],
+   "authority": "Claude writes the Terraform; the owner asks for each apply and sets every real secret value by hand. Nobody reads a secret value in a session, and no role is widened without a reviewed plan.",
+   "states": [
+    "planned",
+    "applied to dev",
+    "access denied, as designed",
+    "drifted",
+    "protected: replacement refused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S04"
+    ],
+    "gaps": [
+     "PL-08",
+     "PL-10",
+     "CT-04"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Checkov and TFLint pass",
+    "Policy tests for every row of the boundary matrix, including each denial, run against a dev apply when the owner asks for one",
+    "Access Analyzer finds no external access on dev"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S06",
+   "jira_key": "MP-80",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Durable job records, an outbox and idempotent retries",
+   "story": "As the owner, I want every background job to leave a durable record, publish its events through an outbox and retry without duplicating anything, so that a crash or a replay never doubles a financial change or a paid call.",
+   "from_drafts": [
+    "L2-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Every job (import, daily forecast, collection, Claude route call, training submission) has a JobRecord with a stable business id, an idempotency key, attempts, a lease, and accepted, started and terminal evidence that survives a crash (CT-05).",
+     "A commit writes its business records, audit entry and outbox entry in one conditional DynamoDB transaction, and consumers deduplicate by consumer_dedup_key.",
+     "Uploaded bytes and database pointers are not one transaction: the S3 object is written and hashed first, and its pointer is published only after its manifest verifies.",
+     "Retries use bounded exponential backoff; past the bound the item goes to its dead-letter queue and quarantine with a reason.",
+     "Lambda Durable Functions steps are named and versioned, replay is deterministic, and an ambiguous external call (a paid call or a started training job) is reconciled rather than repeated (ARC-03)."
+    ],
+    "negative": [
+     "A timeout or replay never produces a second ledger commit, a second provider charge or a second training job for the same idempotency key.",
+     "A dev job cannot be replayed into prod.",
+     "A job record never holds document contents, tokens or prompts, only references."
+    ],
+    "recovery": [
+     "After a crash a job resumes from its last durable step or is marked reconcile_required, and a job past the stuck-run threshold the owner approves (CT-05) raises an incident."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    },
+    {
+     "name": "OutboxEvent",
+     "role": "writes"
+    },
+    {
+     "name": "OutboxRecord",
+     "role": "writes"
+    },
+    {
+     "name": "CommitReceipt",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code workers create and update their own job records. Only the ledger writer commits financial changes. Replay beyond the automatic bounds needs the owner (CT-14). Claude routes cannot enqueue financial work.",
+   "states": [
+    "accepted",
+    "running",
+    "waiting durably",
+    "succeeded",
+    "failed",
+    "reconcile_required",
+    "quarantined",
+    "dead-lettered"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S05"
+    ],
+    "gaps": [
+     "PL-05",
+     "PL-06",
+     "CT-02",
+     "CT-05"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Fault-injection tests (timeout after commit, duplicate delivery, crash mid-step) with no duplicate effect",
+    "A write-failure matrix covering every write boundary",
+    "Durable replay tests on dev"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S07",
+   "jira_key": "MP-89",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Billing collectors for AWS daily and Anthropic every six hours",
+   "story": "As the owner, I want MP to collect AWS billing daily and Anthropic usage every six hours, bounded and cached, so that the cost meter shows real numbers with their age without calling billing on every view.",
+   "from_drafts": [
+    "L2-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The prod billing collector assumes the read-only Cost Explorer role in the management account (owner, 3 November 2026) once a day, covers both accounts, and stays within the 120-page monthly cap.",
+     "Anthropic usage and cost are collected every six hours, through an Anthropic admin key only if the owner adopts one (the boundary matrix says \"if adopted\"); until then that collection shows as unavailable.",
+     "Each collection stores the source time, the collected time and estimate or reconciled status, and upserts idempotently by period.",
+     "The dashboard reads cached aggregates only: refreshing it 100 times makes no billing API call (COST-AT-08)."
+    ],
+    "negative": [
+     "A usage report is never treated as a credit balance (COST-AT-09).",
+     "The collector has no data-plane access and writes only the cost table.",
+     "Pages beyond the cap are deferred and the collection is marked partial, never silently cut short."
+    ],
+    "recovery": [
+     "A failed run is retried at the next window; a gap is backfilled once the source returns, and a collection older than its window is shown stale."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the prod billing collector calls billing APIs. The owner approves any change to its role. Claude routes and other workers have no billing access.",
+   "states": [
+    "fresh",
+    "stale: AWS older than 36 hours, Anthropic older than one window",
+    "partial: page cap reached",
+    "failed",
+    "reconciled"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S05",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "CT-13",
+     "PL-13",
+     "PL-12"
+    ],
+    "owner_questions": [
+     "MP40-Q5"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "Offline tests with recorded responses for pagination caps, failures and staleness",
+    "COST-AT-08, COST-AT-09 and COST-AT-13 run as offline tests"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH02-S08",
+   "jira_key": "MP-100",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Cost meter on the main dashboard",
+   "story": "As the owner, I want the main dashboard to show what MP costs this month by environment, provider, route and feature, with estimates kept apart from billed amounts, so that I can see spending without opening admin.",
+   "from_drafts": [
+    "L2-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "The meter shows dev, prod, local API use and shared unallocated costs, with drill-down by provider, agent, model, feature and service, and each figure's source age.",
+     "Live estimates are kept apart from delayed billing, and gross usage apart from credit applied and from cash.",
+     "The month's encumbered cash is shown against £60, £75, £85 and the £100 ceiling.",
+     "Collector failures and reconciliation differences are shown."
+    ],
+    "negative": [
+     "Unknown shared credit stays unknown and is never multiplied per environment or per route.",
+     "The meter never shows a credit balance it cannot prove."
+    ],
+    "recovery_not_applicable": "The meter writes nothing; it reads cached aggregates from PH02-S07 and shows their stale, partial or failed states."
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    },
+    {
+     "name": "ClientState",
+     "role": "reads"
+    }
+   ],
+   "authority": "The owner reads the meter. Changing a budget or allocation is a sensitive action with step-up, in admin, not on the meter. Claude routes cannot read cost data.",
+   "states": [
+    "current",
+    "stale",
+    "partial",
+    "unknown credit",
+    "discrepancy shown",
+    "collector failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S07",
+     "PH02-S09",
+     "PH00-S07"
+    ],
+    "gaps": [
+     "CT-13"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Synthetic cases for stale, unknown-credit and adjusted-bill months",
+    "UI tests on web for every state, and an accessibility check"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S09",
+   "jira_key": "MP-90",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Atomic cost reservations before any paid work",
+   "story": "As the owner, I want every paid call or job to reserve its worst-case cost atomically before it starts, so that parallel workers can never spend past the month's limits.",
+   "from_drafts": [
+    "L2-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "A CostReservation (costs/reservation-contract.json) is written before any paid external work, scoped by owner, month, environment, route and job, with an idempotency key and a price snapshot.",
+     "Encumbered cash is settled cash plus outstanding unreconciled liability plus future fixed commitments plus open reservations, and work is admitted only when its worst-case cash fits the global, environment and route remainders.",
+     "When two workers reserve the final £0.05, at most one succeeds (COST-AT-06).",
+     "Reservations move only through reserved, dispatched, ambiguous, settled, cancel_pending and released as the contract defines, and settlement replaces the reservation, never adds to it."
+    ],
+    "negative": [
+     "With no verified credit allocation, optional Claude calls are refused whatever the cash headroom; admissible credit is zero today (COST-AT-05).",
+     "No paid fallback switches on by itself."
+    ],
+    "recovery": [
+     "A batch that times out after the provider accepted it keeps its liability until reconciled and is not resubmitted (COST-AT-07); an expired reservation releases only confirmed unspent liability."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "QuotaReservation",
+     "role": "reads"
+    },
+    {
+     "name": "JobRecord",
+     "role": "reads"
+    }
+   ],
+   "authority": "Admission is code. Claude routes ask for a reservation through the shared runner and cannot bypass it. Only the owner approves paid cash beyond credit or a higher allocation, with step-up.",
+   "states": [
+    "reserved",
+    "dispatched",
+    "ambiguous",
+    "settled",
+    "cancel_pending",
+    "released",
+    "refused"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S06"
+    ],
+    "gaps": [
+     "CT-13",
+     "PL-13"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "COST-AT-05, 06, 07, 14, 16 and 18 run as offline tests",
+    "A concurrency test with parallel reservers"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S10",
+   "jira_key": "MP-103",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Spending thresholds, the scan cap and degraded modes",
+   "story": "As the owner, I want MP to warn at £60, reduce optional work at £75 and pause it at £85 while the essentials keep running, so that the month stays inside £100 without my watching it.",
+   "from_drafts": [
+    "L2-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Admission checks the month's forecast cash against £60 (warn), £75 (reduce optional backfills, challenger models and Claude jobs) and £85 (pause new optional paid work), inside the £100 ceiling and the £70 plan with £30 reserve; the allocations are data £30, AWS £22, Claude and evaluations £15 and uncertainty £3 (COST-Q1).",
+     "The top-5 scan spends at most £5 a month, a reservation that would cross that cap is refused (COST-AT-18), and a scan overrun stops at the Claude cap.",
+     "In an Apple fee month, if the owner ever buys the Developer Program, optional work is admitted on the month without the fee (COST-Q4) and the full-month flags stay recorded.",
+     "Sign-in, ledger reads, audit and recovery stay available at every threshold.",
+     "AWS billing older than 36 hours blocks the relevant optional admission until reconciled (proposed in COST-07, waiting for the owner's approval under CT-13)."
+    ],
+    "negative": [
+     "The thresholds are never described as an instant AWS shut-off; hard caps on requests, concurrency, timeouts and retention back them.",
+     "No feature is cut silently: every degraded mode is shown to the owner with its reason."
+    ],
+    "recovery": [
+     "When cash falls back under a threshold (after reconciliation or at a new month), optional work is admitted again at the next check, and a paused job resumes from its durable step."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    },
+    {
+     "name": "JobRecord",
+     "role": "reads"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "writes"
+    }
+   ],
+   "authority": "Code applies the thresholds. Only the owner changes a threshold or an allocation, with step-up. No agent can change, bypass or pause them.",
+   "states": [
+    "normal",
+    "warning",
+    "reduced",
+    "optional work paused",
+    "stale billing: optional admission blocked",
+    "Apple fee month"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S09",
+     "PH02-S07"
+    ],
+    "gaps": [
+     "CT-13",
+     "PL-13"
+    ],
+    "owner_questions": [
+     "MP40-Q6"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "Admission state-table tests for every threshold",
+    "COST-AT-10, 15 and 17 run as offline tests, with the full-workload stress budget"
+   ],
+   "blocked_on_owner": true
+  },
+  {
+   "id": "PH02-S11",
+   "jira_key": "MP-83",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Authenticated, versioned API on Lambda",
+   "story": "As the owner, I want every MP request to go through one authenticated, versioned API on Lambda, so that the web and Apple apps share typed contracts and nothing private is reachable without my sign-in.",
+   "from_drafts": [
+    "L2-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "FastAPI runs on ordinary Lambda through the Lambda Web Adapter (buffered) behind API Gateway under /api/v1, defined in Terraform in infra/terraform/, plan-only until the owner asks for an apply in the running prompt.",
+     "Every route except health needs a valid token from its own environment's Cognito pool, and responses are Pydantic schemas, never storage records.",
+     "Every error carries a code, a message, the request_id and the trace_id, and nothing secret or private.",
+     "The web app uses cookie sessions with CSRF protection; the Apple app uses PKCE with tokens in the Keychain.",
+     "Sign-in-adjacent and expensive routes are rate-limited."
+    ],
+    "negative": [
+     "An unauthenticated or other-environment request gets 401 or 403 and no data.",
+     "A contract test fails any route that returns a DynamoDB item directly.",
+     "The API cannot write the ledger; it only enqueues work for the ledger writer."
+    ],
+    "recovery": [
+     "Commands are idempotent by key: a retry after a timeout returns the original result, not a second effect."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "IdentitySession",
+     "role": "reads"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the signed-in owner calls the API. Claude routes reach data only through allowlisted read-only tools, never through owner commands.",
+   "states": [
+    "ok",
+    "unauthorised",
+    "forbidden",
+    "rate-limited",
+    "validation error",
+    "server error with request_id",
+    "paused by a degraded mode"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S01",
+     "PH02-S05"
+    ],
+    "gaps": [
+     "CT-17",
+     "PL-14"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Contract tests for every route and the error shape",
+    "Authentication negative tests",
+    "Checkov and TFLint pass on the API Terraform"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S12",
+   "jira_key": "MP-94",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Authenticated, resumable server-sent events",
+   "story": "As the owner, I want live notices to arrive over an authenticated stream that resumes after a gap and never carries private data, so that the app updates promptly and always re-reads the truth.",
+   "from_drafts": [
+    "L2-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "A streaming proof comes first: API Gateway REST response streaming through the Lambda Web Adapter, alongside the ADOT layer, works on dev in us-east-1; until it passes, clients poll at the cadence the owner approves (PL-04).",
+     "Events carry only an event id, a type, a time and a resource reference, with heartbeats; streams are short-lived, inside API Gateway's 15-minute limit and 5-minute idle timeout.",
+     "A reconnect with Last-Event-ID resumes from the cursor while it is retained; after a gap the client re-reads the durable records.",
+     "Connections are capped per device and per tab, and a token expiry or revocation closes the stream.",
+     "Connection cost is measured on dev and fits the AWS allocation (one stream held for a month is about $21.60)."
+    ],
+    "negative": [
+     "No holdings, credentials, provider payloads, model artefacts or financial truth travel in a stream.",
+     "The starter's unauthenticated sample stream is not production evidence and is removed or put behind authentication.",
+     "An expired or revoked session cannot keep a stream open."
+    ],
+    "recovery": [
+     "Duplicate or out-of-order events are dropped by id, and a missed range triggers a full re-read."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "OutboxEvent",
+     "role": "reads"
+    },
+    {
+     "name": "IdentitySession",
+     "role": "validates"
+    },
+    {
+     "name": "DeliveryState",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner's session subscribes. The stream emitter reads outbox events only. Nothing is written through the stream.",
+   "states": [
+    "connected",
+    "heartbeat late",
+    "reconnecting",
+    "resumed",
+    "gap: full re-read",
+    "closed: expired or revoked",
+    "polling fallback"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S11",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "PL-04",
+     "CT-17"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "The streaming compatibility proof on dev",
+    "Disconnect, expired-session, revocation and gap tests",
+    "A measured connection cost against the envelope"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S13",
+   "jira_key": "MP-96",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Redacted operational telemetry with linked traces",
+   "story": "As the owner, I want logs, metrics and traces that let me follow a request or a job without ever exposing my documents, holdings, tokens or prompts, kept only as long as agreed.",
+   "from_drafts": [
+    "L2-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "Logs are kept 14 days, rich traces 30 days and run summaries 90 days, inside the measured telemetry budget (about $4.94 a month).",
+     "OpenTelemetry through the ADOT layer to X-Ray, sampled: one trace per request the owner waits on, while queued, resumed, scheduled and batched work starts a new trace joined by business ids and span links (PL-12).",
+     "Correlation ids point to access-controlled evidence, not its content.",
+     "A small set of alarms covers a missed daily run, a stale collector, a non-empty dead-letter queue and the error rate."
+    ],
+    "negative": [
+     "Redaction tests prove that document text, holdings, account numbers, tokens and prompts never appear in logs or spans.",
+     "Telemetry is never the only record of a forecast, an approval or a ledger change."
+    ],
+    "recovery": [
+     "When a span is missing or sampled out, the Activity view stays complete from the durable records."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "Workers emit telemetry. The owner reads it. No agent reads raw logs. Retention changes need the owner and go through Terraform.",
+   "states": [
+    "complete trace",
+    "linked across a queue or batch",
+    "sampled out: durable record only",
+    "missing span",
+    "expired by retention"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S06",
+     "PH02-S05"
+    ],
+    "gaps": [
+     "PL-12",
+     "CT-06",
+     "CT-05"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "evidence": [
+    "Redaction test cases",
+    "Span-link tests across a queue and a durable wait",
+    "Retention settings in Terraform and a measured telemetry cost"
+   ],
+   "blocked_on_owner": false
+  },
+  {
+   "id": "PH02-S14",
+   "jira_key": "MP-98",
+   "phase": "PH-02",
+   "epic": "MP-4",
+   "title": "Record-class retention and the private archive of original files",
+   "story": "As the owner, I want each kind of record kept for its agreed time, my original files kept privately for a renewable 24 months, and nothing deleted automatically, so that evidence survives and deletion is my choice.",
+   "from_drafts": [
+    "L2-S06"
+   ],
+   "acceptance": {
+    "positive": [
+     "A record-class table: core ledger history, approvals, business audit, model promotions and forecast and outcome evidence for the life of the account (POLICY-010); originals 24 months, renewable; logs 14 days, traces 30, run summaries 90.",
+     "Originals are encrypted in private versioned S3, with derivatives and backups classed separately.",
+     "Financial, forecast, approval and source audit records each keep their own durable lifecycle.",
+     "The owner can extend an original's retention or delete it with step-up; deletion writes a DeletionTombstone and reaches derivatives and caches."
+    ],
+    "negative": [
+     "Nothing expires automatically yet: reaching 24 months raises a renewal prompt, never a delete.",
+     "A deleted source is shown as unavailable evidence where a permitted record keeps a reference to it, and is never silently brought back."
+    ],
+    "recovery": [
+     "A restore reapplies tombstones before any data is made available (CT-04)."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DeletionTombstone",
+     "role": "writes"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    },
+    {
+     "name": "SensitiveAction",
+     "role": "reads"
+    }
+   ],
+   "authority": "Only the owner extends or deletes, with step-up. No agent or job deletes evidence. Lifecycle rules are written in Terraform.",
+   "states": [
+    "retained",
+    "renewal due",
+    "extended",
+    "deleted, with a tombstone",
+    "restricted by a source's permission"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH02-S05",
+     "PH02-S03"
+    ],
+    "gaps": [
+     "CT-04",
+     "CT-03"
+    ],
+    "owner_questions": [
+     "FIN-OD-08",
+     "DATA-DEC-04"
+    ],
+    "external": []
+   },
+   "evidence": [
+    "The record-class table with a check against the Terraform lifecycle rules",
+    "Deletion propagation tests and a tombstone-on-restore test"
+   ],
+   "blocked_on_owner": true
+  }
+ ]
+}

@@ -1,0 +1,1111 @@
+{
+ "phase": "PH-03",
+ "drafts": {
+  "L3-S01": {
+   "disposition": "split",
+   "stories": [
+    "PH03-S01",
+    "PH03-S02",
+    "PH03-S03",
+    "PH03-S04"
+   ],
+   "note": "Updated to the owner's answers: Grow 55 plus Yahoo in prod and Basic in dev (ARC-01, DATA-DEC-05), the top-5 segments with one ETF list per market and metals as XAU/USD and XAG/USD (DATA-DEC-09), the ~150-name universe (DATA-DEC-10), chat additions behind a coverage check and the owner's confirm (DATA-DEC-11), derived values only to Claude (DATA-DEC-12) and the Grow 55 first-month test (DATA-DEC-07)."
+  },
+  "L3-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH03-S05",
+    "PH03-S06",
+    "PH03-S07",
+    "PH03-S08"
+   ],
+   "note": "Backfill reaches toward 2015 to serve the since-2015 similar-days decision; funds follow DATA-DEC-07 and DATA-DEC-08."
+  },
+  "L3-S03": {
+   "disposition": "split",
+   "stories": [
+    "PH03-S11",
+    "PH03-S12"
+   ],
+   "note": "XIRR itself is PH-01's (L1-S12); this phase supplies dated valuations, local and FX returns and benchmarks."
+  },
+  "L3-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH03-S13",
+    "PH03-S14"
+   ],
+   "note": "The 10%/20% and 15%/25% bands are the owner's DEC-027 starting settings; windows wait on FIN-OD-06."
+  },
+  "L3-S05": {
+   "disposition": "split",
+   "stories": [
+    "PH03-S08",
+    "PH03-S09",
+    "PH03-S10"
+   ],
+   "note": "The daily clocks follow POLICY-002; 30-minute checks use Twelve Data for the US and Yahoo for the UK and India (DATA-DEC-06)."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH03-S01",
+   "jira_key": "MP-59",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Versioned market-data catalogue with provider mappings, roles and segments",
+   "story": "As the owner, I want every listing MP watches held in one versioned catalogue, with its provider symbols, its roles and its segment memberships, so that every price, forecast and top-5 list traces to an exact listing and catalogue version.",
+   "from_drafts": [
+    "L3-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Twelve Data and Yahoo symbols are versioned mappings with effective dates and mapping evidence, layered on the listing identity from PH-01; a provider symbol is never a primary key (DATA-01).",
+     "Each listing carries one or more versioned roles: holding, watch_only, discovery and segment. The curated discovery universe holds about 150 names, and any membership change creates a new catalogue version.",
+     "The segments are exactly the owner's: US large caps, US tech, India Nifty 50, India midcap, one ETF list per market (SEG-ETF-US, SEG-ETF-UK, SEG-ETF-IN) and gold and silver as XAU/USD and XAG/USD spot-reference listings (MIC XXXX, USD quote unit). There is no UK FTSE segment, and UK holdings stay covered. US tech membership stays the proposed Nasdaq-100 until SCI-D09 is answered.",
+     "The synthetic fixture catalogue covers US, UK and India listings with real identifiers, including a GBX London line, an ADR beside its home listing and a fund share class, and claims no personal holding."
+    ],
+    "negative": [
+     "Two listings that share a local symbol on different MICs resolve only with an explicit listing identity; ambiguous input creates no listing (DATA-AT-01).",
+     "A currency suffix, a company-name match or an index name alone never resolves a listing or proves segment membership.",
+     "A mapping or membership change never edits a published catalogue version; caches and datasets built on the old version are marked invalid instead."
+    ],
+    "recovery": [
+     "A failed catalogue publish leaves the previous version current; a retry with the same content hash creates no duplicate version.",
+     "A wrong mapping is corrected by a new version with its reason; observations and forecasts made under the old version keep pointing at it."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Listing",
+     "role": "writes"
+    },
+    {
+     "name": "InstrumentListing",
+     "role": "reads"
+    },
+    {
+     "name": "MarketProfile",
+     "role": "reads"
+    },
+    {
+     "name": "InstrumentKind",
+     "role": "validates"
+    }
+   ],
+   "authority": "Catalogue code publishes a new version only from owner-confirmed changes: the owner's approved holdings import, a confirmed chat addition (PH03-S03) or a curated list the owner approved. The owner approves discovery-universe and segment membership. Claude routes and data workers may read the catalogue but cannot add, remove or re-role a listing. Nobody edits a published version in place.",
+   "states": [
+    "draft version awaiting owner confirmation",
+    "published and current",
+    "superseded (readable)",
+    "mapping unresolved (listing held back with a reason)",
+    "stale membership (constituent source older than its stated date)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S03",
+     "PH02-S05",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "FC-15",
+     "FC-01"
+    ],
+    "owner_questions": [
+     "SCI-D09"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-01 runs as an executable test and passes.",
+    "A fixture catalogue with all eight segment ids and the metals listings validates against the Listing contract.",
+    "A test shows a membership change creates a new version and leaves the earlier version and its dependants intact."
+   ]
+  },
+  {
+   "id": "PH03-S02",
+   "jira_key": "MP-63",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Per-use entitlement gate under the owner's accepted risk",
+   "story": "As the owner, I want each use of each provider value checked against the scopes I accepted, so that MP stores, trains on, shows or sends to Claude only what a recorded scope covers, and never presents my accepted risk as a licence.",
+   "from_drafts": [
+    "L3-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each capability is evaluated separately for six uses: storage and backup, training and evaluation, non-display inference and monitoring, internal display, derived display or export to the owner, and transmission to Anthropic (DATA-02).",
+     "A use proceeds only where an OWNER-RISK-01 scope (S1 to S10) names its source, plan, environment, data kind and listing; the record says basis owner_risk_acceptance and decision risk_accepted, never granted (DATA-AT-16, DATA-AT-18).",
+     "Claude routes receive derived values only: returns, ranges, scores, forecast distributions, quality flags and the fewest raw prices the route's allowlist names with a count, under S9 (Grow 55, prod) and S10 (Yahoo, prod) (DATA-DEC-12, DATA-AT-19).",
+     "Every view that shows a provider value shows the accepted risk beside the source, so it is never read as a licence."
+    ],
+    "negative": [
+     "A bulk raw series, a quote stream, a raw field outside the allowlist or any Basic dev value is refused before the request leaves MP, the refusal is recorded and no anthropic_transmission record is written (DATA-AT-20).",
+     "Yahoo values are refused as training input while DATA-DEC-15 is open, and Basic dev values never reach a screen (dev screens show synthetic data).",
+     "Redistribution, and display or export to anyone but the owner, stay denied; an unknown scope blocks the use (DATA-AT-02)."
+    ],
+    "recovery": [
+     "When a scope is withdrawn or a plan ends, new use stops at once, cached projections and affected derivations become unavailable for that use, and stored data, backups and models follow the treatment the owner approves under DATA-DEC-04 (DATA-AT-12).",
+     "If the gate cannot read the scope table it fails closed and records why; nothing proceeds on a cached allow."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Entitlement",
+     "role": "writes"
+    },
+    {
+     "name": "SourceEligibility",
+     "role": "emits"
+    },
+    {
+     "name": "SourceCapability",
+     "role": "reads"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "The owner alone sets and withdraws risk-acceptance scopes. Gate code evaluates every use and cannot widen a scope. Data workers and Claude routes cannot bypass the gate, and Claude routes see only what it releases. Nobody records a vendor grant without primary evidence, and no vendor is contacted (owner, 2 November 2026).",
+   "states": [
+    "risk_accepted",
+    "denied",
+    "unknown (use blocked)",
+    "withdrawn (use stopped, disposition pending)",
+    "gate unavailable (fail closed)",
+    "stale proof (capability proof older than its review date)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S01",
+     "PH05-S06"
+    ],
+    "gaps": [
+     "FC-01"
+    ],
+    "owner_questions": [
+     "DATA-DEC-15",
+     "DATA-DEC-04"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-02, DATA-AT-12, DATA-AT-16, DATA-AT-18, DATA-AT-19 and DATA-AT-20 pass as executable tests.",
+    "A matrix test covers every listing, source, plan, environment and use in catalogue.json and finds no use allowed outside a named scope.",
+    "Each refusal leaves an audit record naming the scope it lacked."
+   ]
+  },
+  {
+   "id": "PH03-S03",
+   "jira_key": "MP-74",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Capability probe and owner-confirmed listing additions",
+   "story": "As the owner, I want a proposed new listing, market or segment checked for coverage and credit cost before I confirm it, so that nothing is added that the providers cannot serve or the budget cannot carry.",
+   "from_drafts": [
+    "L3-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "A capability probe checks coverage with Twelve Data or Yahoo for the exact listing, endpoint and data kind, reserving its own credits first, and records a SourceCapability as candidate or evidence_pending.",
+     "Before the owner confirms, MP shows the resolved identity, source, delay, marginal credits (about 44 a month for a bar and retry, about 7 for actions, 42 once for backfill, 286 a month for a US listing on 30-minute checks, 44 more for a new MIC) and any cash effect (DATA-07).",
+     "A confirmed addition creates a new catalogue version with the owner's approval record, and its capability starts at candidate (DATA-08, DATA-AT-14)."
+    ],
+    "negative": [
+     "No owner confirmation, unsupported coverage, or an addition that would push any scheduled minute past the 45-credit normal-worker cap adds nothing (DATA-AT-14).",
+     "An addition that would need a higher Twelve Data tier is refused, never upgraded; a tier change is a separate owner decision with recosting.",
+     "Claude may only propose: it cannot add, enable or remove a listing, change a segment or start a backfill."
+    ],
+    "recovery": [
+     "A probe that times out keeps its credit reservation as ambiguous until reconciled, and the proposal shows as not yet checked; the owner can run it again.",
+     "A confirmation against a stale proposal (the probe result or catalogue version changed since it was shown) is refused and a fresh proposal is shown."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceCapability",
+     "role": "writes"
+    },
+    {
+     "name": "QuotaReservation",
+     "role": "writes"
+    },
+    {
+     "name": "Listing",
+     "role": "writes"
+    },
+    {
+     "name": "OwnerApproval",
+     "role": "reads"
+    }
+   ],
+   "authority": "A Claude route proposes from chat. Probe code checks coverage and cost. Only the owner confirms, in the app, with the authentication PH-02 requires for a configuration change. Nobody upgrades a plan or opens a second account to fit an addition.",
+   "states": [
+    "proposed",
+    "probing",
+    "covered and affordable, awaiting confirmation",
+    "refused (unsupported, over the minute cap or needs a higher tier)",
+    "confirmed (new catalogue version)",
+    "stale proposal (superseded before confirmation)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S01",
+     "PH03-S02",
+     "PH03-S08",
+     "PH02-S03",
+     "PH02-S09"
+    ],
+    "gaps": [
+     "FC-15",
+     "PL-13"
+    ],
+    "owner_questions": [
+     "MP40-Q9"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-14 passes with all four of its cases.",
+    "DATA-AT-13 passes for the probe's own reservations.",
+    "A test reproduces the DATA-07 marginal-credit figures for a US, UK and India addition."
+   ]
+  },
+  {
+   "id": "PH03-S04",
+   "jira_key": "MP-86",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Grow 55 first-month coverage proof",
+   "story": "As the owner, I want Grow 55's real coverage tested by API in its first month, so that every listing, fund, metal and history depth MP relies on is proven or marked unsupported before it is used live.",
+   "from_drafts": [
+    "L3-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "In Grow 55's first paid month the probe records a SourceCapability as verified or unsupported, with its proof, for each of the owner's UK funds (NAV), each catalogue listing, XAU/USD, XAG/USD and the FX pairs (DATA-05, DATA-AT-15, DATA-AT-17).",
+     "It measures LSE, NSE and BSE history depth against the since-2015 similar-days window, the real credit weights, /last_change coverage per MIC, and the delays Grow 55 and Yahoo actually show (the evidence DATA-DEC-02 waits for).",
+     "A covered UK fund is valued from its NAV from then on; an uncovered one is valued from the owner's statements (DATA-DEC-07).",
+     "The result is a dated evidence pack, each finding linked to its capability record and mode=live receipt."
+    ],
+    "negative": [
+     "A failed test never triggers a plan upgrade, a second account or a vendor contact.",
+     "A history shortfall is reported, not filled: filling from Yahoo history needs the owner's answer to DATA-DEC-15.",
+     "Synthetic fixtures cannot satisfy this story; only mode=live receipts count (DATA-08)."
+    ],
+    "recovery": [
+     "A probe run interrupted by a quota limit or an outage resumes from its last recorded result without spending credits again on finished items.",
+     "A capability that later fails a probe moves to degraded or suspended and must be proved again before it is re-enabled."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceCapability",
+     "role": "writes"
+    },
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    },
+    {
+     "name": "QuotaReservation",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "emits"
+    }
+   ],
+   "authority": "The owner alone decides to buy Grow 55 and to switch live mode on. Probe code runs the tests and records results. No Claude route takes part. Nobody changes the plan as a result of a test.",
+   "states": [
+    "not started (no live account)",
+    "running",
+    "verified",
+    "unsupported",
+    "degraded (a later probe failed)",
+    "stale proof (past its review date)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S03",
+     "PH03-S07",
+     "PH03-S08"
+    ],
+    "gaps": [
+     "FC-01",
+     "FC-15"
+    ],
+    "owner_questions": [],
+    "external": [
+     "PH-08: the owner's permission to buy Grow 55 and activate live mode (L8-S01)"
+    ]
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "The first-month evidence pack exists, with a mode=live receipt per capability: account, plan, listing, endpoint, timestamp and delay (DATA-AT-10).",
+    "DATA-AT-15 and DATA-AT-17 pass on live data.",
+    "The history-depth table for LSE, NSE and BSE is recorded against 1 January 2015."
+   ]
+  },
+  {
+   "id": "PH03-S05",
+   "jira_key": "MP-67",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Point-in-time observation store with acquisition states",
+   "story": "As the owner, I want every price, NAV and FX value stored with when it happened, when it was published and when MP knew it, so that no forecast or backtest can use information that was not known at its cutoff.",
+   "from_drafts": [
+    "L3-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each observation stores economic_at, effective_date, published_at where available, ingested_at, a conservative known_at, source revision, normaliser version, content hash, provider, symbol mapping and quality flags, with decimals as strings; known_at is never earlier than ingested_at or published_at (DATA-03).",
+     "Acquisition moves through planned, reserved, dispatched, received, validated, persisted and eligible, and ends in rejected, quota_deferred, rights_blocked, expired or ambiguous on error; persisted alone never means eligible (DATA-08).",
+     "Every record carries mode=synthetic or mode=live, and a synthetic run makes zero network requests (DATA-AT-09)."
+    ],
+    "negative": [
+     "A later correction appends an observation with supersedes; it never rewrites a stored value or a forecast's input manifest (DATA-AT-03).",
+     "When a Twelve Data close and the Yahoo cross-check disagree beyond tolerance, a quality incident is raised with both hashes kept; MP never averages them into truth.",
+     "A provider payload that fails validation is never persisted as eligible."
+    ],
+    "recovery": [
+     "A crash between received and persisted leaves no eligible record, and replaying the same response hash is idempotent.",
+     "An ambiguous acquisition keeps its credit liability open until reconciled and is retried only under the fetch rules (PH03-S08)."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Observation",
+     "role": "writes"
+    },
+    {
+     "name": "ObservationTimes",
+     "role": "validates"
+    },
+    {
+     "name": "MarketObservation",
+     "role": "emits"
+    },
+    {
+     "name": "IncidentRecord",
+     "role": "emits"
+    }
+   ],
+   "authority": "Data worker code writes observations only in its own environment; dev never writes prod. Nobody, the owner included, edits a stored observation: corrections append. Claude routes never write observations.",
+   "states": [
+    "eligible",
+    "rejected",
+    "quota_deferred",
+    "rights_blocked",
+    "ambiguous",
+    "superseded",
+    "disputed (quality incident open)",
+    "stale (older than its freshness tolerance)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S01",
+     "PH03-S02",
+     "PH02-S05",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "FC-03",
+     "PL-05"
+    ],
+    "owner_questions": [
+     "DATA-DEC-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-03 and DATA-AT-09 pass as executable tests.",
+    "A property test holds known_at >= ingested_at and known_at >= published_at for every stored observation.",
+    "A disagreement fixture raises an incident with both hashes; a replay test shows no duplicate observation."
+   ]
+  },
+  {
+   "id": "PH03-S06",
+   "jira_key": "MP-77",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Quote units, FX and corporate actions",
+   "story": "As the owner, I want pence, currencies and corporate actions handled exactly once and dated by when they were known, so that values in GBP are right and no split or dividend distorts a return.",
+   "from_drafts": [
+    "L3-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "GBX converts to GBP once by unit factor 0.01; FX is stored as GBP per one local unit, and a triangulated rate pins both legs, their times, the formula and the rounding (DATA-04, DATA-AT-04).",
+     "XAU/USD and XAG/USD convert to GBP once with a pinned GBP-per-USD rate and need no corporate-action lookup (DATA-AT-17).",
+     "Corporate actions record announcement and known time, ex-date, record date, payment date, ratio or amount, currency, source and revision. On Grow 55, /last_change is polled per MIC and the 20-credit detail fetch runs only for a listing that changed (DATA-07).",
+     "Raw prices with cash distributions serve the ledger; split-adjusted features and total-return series are separately named, versioned transforms."
+    ],
+    "negative": [
+     "A split announced for next week does not adjust an earlier live view, and a dividend is never added again to a total-return series (DATA-AT-11).",
+     "A missing action makes the adjusted series ineligible rather than assuming none; Basic in dev makes no action calls and never reserves weight 1 for one (DATA-AT-13).",
+     "No FX value known after a cutoff enters that cutoff, and GBX is never treated as a currency pair."
+    ],
+    "recovery": [
+     "A late or restated action appends a new revision and re-derives affected adjusted series as new versions; earlier versions stay readable.",
+     "If /last_change does not cover a MIC, that MIC falls back to a full 40-credit pull scheduled outside the daily-origin windows."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "FXQuote",
+     "role": "writes"
+    },
+    {
+     "name": "FXObservation",
+     "role": "emits"
+    },
+    {
+     "name": "CorporateAction",
+     "role": "writes"
+    },
+    {
+     "name": "Money",
+     "role": "validates"
+    }
+   ],
+   "authority": "Data worker code writes FX and action records; nobody edits them in place. The owner chooses FX freshness tolerances (DATA-DEC-02). Claude routes have no write access.",
+   "states": [
+    "applied",
+    "announced, not yet effective",
+    "missing (adjusted series ineligible)",
+    "restated (new revision)",
+    "FX stale (older than its tolerance)",
+    "unsupported (no action endpoint on this plan)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S05",
+     "PH03-S08",
+     "PH01-S11"
+    ],
+    "gaps": [
+     "FC-03",
+     "FC-10"
+    ],
+    "owner_questions": [
+     "DATA-DEC-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-04, DATA-AT-11, DATA-AT-13 and DATA-AT-17 pass as executable tests.",
+    "Golden cases SCI-G03, SCI-G04 and SCI-G05 reproduce their stated results."
+   ]
+  },
+  {
+   "id": "PH03-S07",
+   "jira_key": "MP-82",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Fund NAV and statement valuations kept apart from traded prices",
+   "story": "As the owner, I want my funds valued from a verified NAV or from my own statements, never from invented prices, so that every fund value shows its real date and source.",
+   "from_drafts": [
+    "L3-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "A NAV record holds valuation date, publication time, share class and unit currency, and each fund is scheduled against its own verified publication policy (DATA-05).",
+     "Indian funds, and any UK fund Grow 55 does not cover, are valued from the owner's statements: an observation with source owner_statement, the statement's valuation date as effective_date and economic_at, and the import approval time as known_at, shown with its age (DATA-DEC-07, DATA-DEC-08).",
+     "A statement valuation reaches the ledger only through the controlled import and approval flow."
+    ],
+    "negative": [
+     "No NAV open, high, low, volume or 30-minute price is created; a missing NAV is never zero, and a prior NAV is never called an update (DATA-AT-05).",
+     "A statement value is never carried forward to look current.",
+     "A statement-valued fund gets no forecast task that needs a daily series until DATA-DEC-13 is answered."
+    ],
+    "recovery": [
+     "A NAV published late is admitted only from its known_at; an origin that waited records waiting_data, never a backdated value.",
+     "A NAV overdue past its publication deadline plus the approved grace shows overdue and keeps the last trusted value with its date."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Observation",
+     "role": "writes"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "SourceCapability",
+     "role": "reads"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "Data worker code writes NAV observations. Statement valuations come only from an import the owner approved; nobody types a fund value in. Nobody edits a stored valuation.",
+   "states": [
+    "NAV current",
+    "NAV overdue",
+    "statement-valued, with its age",
+    "policy_pending (no verified publication schedule)",
+    "unsupported (no NAV source)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S05",
+     "PH03-S06",
+     "PH01-S15"
+    ],
+    "gaps": [
+     "FC-03",
+     "FC-15"
+    ],
+    "owner_questions": [
+     "DATA-DEC-13",
+     "DATA-DEC-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-05 and DATA-AT-15 (synthetic) pass as executable tests.",
+    "Golden case SCI-G09 reproduces: a delayed NAV keeps its economic date and price type."
+   ]
+  },
+  {
+   "id": "PH03-S08",
+   "jira_key": "MP-70",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Credit reservation, fetch discipline and history backfill",
+   "story": "As the owner, I want every provider call to reserve its credits first and backfills to run without starving daily work, so that MP stays inside the Grow 55 and Basic limits and builds history back toward 2015 honestly.",
+   "from_drafts": [
+    "L3-S02",
+    "L3-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "Each call reserves its worst-case weighted credits atomically against the minute and day buckets of the account it uses: on Grow 55, normal workers use at most 45 a minute, leaving 10 for incidents and retries; on Basic, 6 of 8 a minute inside the 640, 80 and 80 daily split (DATA-07).",
+     "Retries take at most three attempts with jittered 2 and 8-second waits and honour Retry-After; priority runs rights incident, missing daily close, eligible monitor, then backfill.",
+     "A one-time backfill (about 42 credits a listing) runs at backfill priority outside the daily-origin windows, toward 1 January 2015 or inception, with known_at set to when MP received it and the real start date recorded per listing."
+    ],
+    "negative": [
+     "When two jobs race for the last credits, at most one passes (DATA-AT-07); prod never borrows dev credits or the reverse.",
+     "A 401, 403 or unsupported listing is terminal for that attempt; no key rotation, second account or hidden feed bypasses a limit.",
+     "A backfilled history is never presented as a point-in-time backtest, and current constituents never stand in for the historical universe."
+    ],
+    "recovery": [
+     "A partial batch keeps each item's outcome, and a timeout keeps its reservation as ambiguous until reconciliation or reset (DATA-AT-08).",
+     "An interrupted backfill resumes from its last persisted range without fetching completed ranges again."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "QuotaReservation",
+     "role": "writes"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    },
+    {
+     "name": "Observation",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "The scheduler and data workers reserve and spend credits within the caps. Only the owner changes a plan or a cap. Claude routes cannot start a fetch or a backfill.",
+   "states": [
+    "reserved",
+    "spent",
+    "ambiguous (awaiting reconciliation)",
+    "quota_deferred",
+    "circuit open (rights or authentication error)",
+    "backfill partial, with its real start date",
+    "history short of 2015 (disclosed)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S02",
+     "PH03-S05",
+     "PH02-S09",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "PL-13",
+     "FC-03"
+    ],
+    "owner_questions": [
+     "DATA-DEC-14"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-07, DATA-AT-08 and DATA-AT-13 pass as executable tests, the first under real concurrency.",
+    "A resumption test shows an interrupted backfill fetches no completed range twice.",
+    "The daily and monthly credit totals reproduce the DATA-07 Grow 55 table (about 835 a day, 18,360 a month)."
+   ]
+  },
+  {
+   "id": "PH03-S09",
+   "jira_key": "MP-91",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Daily close collection on the four clocks, per market",
+   "story": "As the owner, I want each market's closes collected and frozen on the agreed clocks, so that each daily forecast uses only data known by its cutoff, and a late or missing input leads to abstention rather than a quiet guess.",
+   "from_drafts": [
+    "L3-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "For each eligible close on the listing's versioned calendar, collection starts at +15 minutes, one missing-close retry at +40 and the cutoff freezes at +60, leaving issuance to complete by +75 and strictly before the next eligible open (POLICY-002, DATA-06).",
+     "The US, UK and India run separately with local holidays, half-days and DST from versioned calendars; the 07:30 briefing reads the latest stored origin per market rather than pretending they closed together.",
+     "Each market run records its watermark, last success and next due time, so a missed run is visible.",
+     "The daily run covers about 180 end-of-day listings (the ~150-name discovery universe plus holdings and watch-only listings), with bars and retries fitting the +15 to +60 window at 45 credits a minute."
+    ],
+    "negative": [
+     "An observation whose known_at is after the frozen cutoff is excluded; a late retry never moves the cutoff and nothing is backdated (DATA-AT-06).",
+     "Where the calendar leaves no issuance window, the origin abstains with unsupported_schedule instead of shifting clocks.",
+     "A retry or replay never creates a second origin or input set for the same market and session."
+    ],
+    "recovery": [
+     "A missed run is recorded as missed_origin and never backfilled into a past origin; the next session runs normally.",
+     "When required data is missing at the cutoff the origin publishes waiting_data or abstained, and the last trusted values stay visible with their dates."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "Observation",
+     "role": "reads"
+    },
+    {
+     "name": "InputReference",
+     "role": "emits"
+    },
+    {
+     "name": "JobRecord",
+     "role": "writes"
+    },
+    {
+     "name": "RunRecord",
+     "role": "writes"
+    }
+   ],
+   "authority": "The scheduler and durable workflow run collection. Nobody, the owner included, may move a frozen cutoff or backdate an origin; changing the clocks is an owner decision. Claude has no part in collection.",
+   "states": [
+    "waiting for close",
+    "collecting",
+    "retrying",
+    "frozen (input set ready)",
+    "waiting_data",
+    "abstained (unsupported_schedule)",
+    "missed_origin",
+    "stale (last success older than next due)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S05",
+     "PH03-S06",
+     "PH03-S08",
+     "PH02-S06"
+    ],
+    "gaps": [
+     "FC-03",
+     "FC-15"
+    ],
+    "owner_questions": [
+     "SCI-D01",
+     "DATA-DEC-02",
+     "COST-Q3"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "timing_checks.py --check daily passes, and DATA-AT-06 passes as an executable test.",
+    "Golden cases SCI-G06, SCI-G07 and SCI-G13 reproduce.",
+    "A replay test shows one origin per market and session; the measured AWS compute and storage of the ~150-name run are recorded for COST-Q3."
+   ]
+  },
+  {
+   "id": "PH03-S10",
+   "jira_key": "MP-95",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Thirty-minute quote and risk checks with labelled sources",
+   "story": "As the owner, I want my holdings checked every 30 minutes during each market's session from a labelled, delayed source, so that a material move is noticed in the day without pretending the data is live or rerunning the daily forecast.",
+   "from_drafts": [
+    "L3-S05"
+   ],
+   "acceptance": {
+    "positive": [
+     "During each eligible listing's regular session, from the next half-hour boundary after the open, checks read Twelve Data quotes for US listings and Yahoo delayed intraday prices for UK and India listings, each labelled with its source and delay (DATA-06, DATA-DEC-06).",
+     "A daily-only listing shows daily status, and a fund gets NAV publication monitoring instead.",
+     "Checks update quote and risk facts and may hand a risk notice to the alerting path; they never produce a formal forecast or rerun any horizon."
+    ],
+    "negative": [
+     "When Yahoo is unavailable, a UK or Indian listing shows daily status only, never a stale value presented as current.",
+     "No check runs on a closed market or a holiday, or without rights, a credit reservation and a current calendar.",
+     "A delayed quote is never labelled real-time, and a check never writes a Prediction."
+    ],
+    "recovery": [
+     "A failed slot is recorded and skipped, not queued for a bulk catch-up; the next slot runs on time.",
+     "A circuit opened by repeated provider errors closes only after a successful probe; the listing shows daily status meanwhile."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MarketObservation",
+     "role": "emits"
+    },
+    {
+     "name": "Observation",
+     "role": "writes"
+    },
+    {
+     "name": "QuotaReservation",
+     "role": "writes"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "emits"
+    }
+   ],
+   "authority": "The scheduler and data workers run the checks. The owner chooses which listings are on 30-minute checks (up to 30 on Twelve Data). Alert rules and delivery belong to PH-06 and PH-07. Claude has no part in the checks.",
+   "states": [
+    "delayed quote, labelled",
+    "daily status only",
+    "market closed",
+    "stale (beyond the freshness tolerance)",
+    "circuit open",
+    "unsupported"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S02",
+     "PH03-S05",
+     "PH03-S08"
+    ],
+    "gaps": [
+     "FC-01",
+     "FC-15"
+    ],
+    "owner_questions": [
+     "DATA-DEC-02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "DATA-AT-06's calendar cases pass for the 30-minute schedule.",
+    "A Yahoo outage fixture shows UK and India listings falling back to daily status.",
+    "A test proves no check writes a Prediction; the US check load reproduces 390 credits a day for 30 listings."
+   ]
+  },
+  {
+   "id": "PH03-S11",
+   "jira_key": "MP-99",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Dated portfolio valuation and GBP and local returns",
+   "story": "As the owner, I want my holdings valued at one common cutoff with dated prices and FX, and returns shown in GBP and in local terms, so that performance is exact where the evidence exists and openly partial where it does not.",
+   "from_drafts": [
+    "L3-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Value at a common cutoff is cash plus units times the unadjusted normalised price times dated FX, from the published ledger revision, with price and FX ages disclosed (FIN-14).",
+     "Returns show GBP overview with local detail, split into local, FX and interaction terms: 1+R_GBP = (1+R_native)(1+R_FX) (FIN-15, FIN-AC-21).",
+     "Exact time-weighted return is computed only where valuations exist around every external flow, and terminal valuations are supplied to PH-01's XIRR (FIN-AC-23).",
+     "Each result is a MetricResult with its status (available, partial, unavailable, ambiguous, nonconvergent or integrity_failed), versions and reasons."
+    ],
+    "negative": [
+     "A missing price or FX value gives a known subtotal and a withheld complete value; unknown is never zero (FIN-AC-25).",
+     "No transaction is inferred from a holdings snapshot to manufacture a return, and no Modified Dietz or interpolated value stands in for exact TWR.",
+     "A source whose display or derivation use is not covered makes the dependent result ineligible."
+    ],
+    "recovery": [
+     "When a price, FX value or ledger revision changes, results are recomputed as new versions pinned to the new inputs; earlier results stay readable.",
+     "A run that fails part-way publishes nothing partial as complete; the last published result stays visible with its as-of time."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "PerformanceResult",
+     "role": "emits"
+    },
+    {
+     "name": "FXQuote",
+     "role": "reads"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    }
+   ],
+   "authority": "Deterministic Python computes every figure. A Claude route may quote a result only from a versioned tool output and never computes one. Nobody edits a stored result.",
+   "states": [
+    "available",
+    "partial (known subtotal)",
+    "unavailable",
+    "ambiguous",
+    "stale (price or FX past tolerance)",
+    "integrity_failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S06",
+     "PH03-S07",
+     "PH03-S09",
+     "PH01-S16",
+     "PH01-S20"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-01",
+     "FIN-OD-05"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-21, FIN-AC-23 and FIN-AC-25 pass as executable tests with FIN-EX-06 and FIN-EX-12.",
+    "Decimal known-answer reconciliation cases match an independent calculation to the agreed precision."
+   ]
+  },
+  {
+   "id": "PH03-S12",
+   "jira_key": "MP-102",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Cash-flow-matched benchmark comparisons",
+   "story": "As the owner, I want my performance compared with a benchmark that received the same cash on the same dates, so that the comparison is fair and clearly hypothetical.",
+   "from_drafts": [
+    "L3-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "A comparison invests the same external cash flows on the same dates, with the same GBP conversion and timing, in notional units of a versioned total-return index (FIN-17, FIN-AC-26).",
+     "Comparisons are offered at holding, blended-portfolio and global-equity level once the owner approves the mapping for each market and kind.",
+     "Each comparison is labelled hypothetical and shows its index, dividend convention, FX and fee assumptions."
+    ],
+    "negative": [
+     "Missing index levels withhold the comparison or use only an approved next-session rule; no later level is chosen opportunistically.",
+     "Negative notional units or unsupported withdrawals withhold the comparison.",
+     "A comparison never implies a trade, an order or advice."
+    ],
+    "recovery": [
+     "A restated index level appends a new version of each affected comparison; earlier comparisons keep their inputs.",
+     "A changed benchmark mapping produces new comparison versions, labelled with the mapping version."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "BenchmarkComparison",
+     "role": "writes"
+    },
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "Observation",
+     "role": "reads"
+    },
+    {
+     "name": "FXQuote",
+     "role": "reads"
+    }
+   ],
+   "authority": "Deterministic code computes comparisons. The owner alone approves the benchmark mapping. Claude may explain a stored comparison and nothing more.",
+   "states": [
+    "available (hypothetical)",
+    "withheld (missing levels)",
+    "unmapped (no approved benchmark)",
+    "stale (index level past tolerance)",
+    "superseded"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S11"
+    ],
+    "gaps": [
+     "FC-10"
+    ],
+    "owner_questions": [
+     "FIN-OD-05",
+     "SCI-D02"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-26 and FIN-AC-22 pass as executable tests with FIN-EX-13.",
+    "A missing-level fixture withholds the comparison with its reason."
+   ]
+  },
+  {
+   "id": "PH03-S13",
+   "jira_key": "MP-105",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Drawdown and loss against cost with the owner's warning bands",
+   "story": "As the owner, I want decline from peak and loss against cost shown separately for the portfolio and each holding, against my warning bands, so that I can see protection risk clearly without either measure standing in for the other.",
+   "from_drafts": [
+    "L3-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Peak drawdown is computed on a flow-adjusted wealth index with peak and trough dates over a named window, separately from loss against cost basis, max(0,(B-V)/B).",
+     "The starting bands are the owner's (DEC-027): portfolio warning 10% and severe 20%, holding warning 15% and severe 25%, configurable and shown with their measurement window.",
+     "A band crossing produces a typed risk fact for the alerting path, with whole-portfolio risk evaluated before a single holding."
+    ],
+    "negative": [
+     "Raw value changes after deposits or withdrawals never define drawdown, and daily data never claims an intraday maximum.",
+     "Missing basis or wealth history gives unavailable, not a zero loss.",
+     "A band crossing never triggers an investment action."
+    ],
+    "recovery": [
+     "A correction to prices or the ledger recomputes the facts as new versions; earlier facts stay.",
+     "When the owner changes a band, earlier facts keep the band version they were judged against."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PortfolioRisk",
+     "role": "writes"
+    },
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "PositionObservation",
+     "role": "reads"
+    },
+    {
+     "name": "NotificationIntent",
+     "role": "emits"
+    }
+   ],
+   "authority": "Deterministic code computes the facts. The owner alone changes a band, with the authentication a settings change needs. Claude explains stored facts only.",
+   "states": [
+    "within band",
+    "warning",
+    "severe",
+    "unavailable (missing basis or history)",
+    "partial (some holdings unpriced)",
+    "stale"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S11",
+     "PH05-S14"
+    ],
+    "gaps": [
+     "FC-11"
+    ],
+    "owner_questions": [
+     "FIN-OD-06"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "Known-answer drawdown and basis-loss fixtures pass, including FIN-EX-12 and FIN-EX-15.",
+    "A deposit-and-withdrawal fixture shows raw value change does not register as drawdown."
+   ]
+  },
+  {
+   "id": "PH03-S14",
+   "jira_key": "MP-107",
+   "phase": "PH-03",
+   "epic": "MP-5",
+   "title": "Exposure, overlap, concentration and covariance facts",
+   "story": "As the owner, I want my exposure by issuer, sector, country and currency, fund overlap and concentration measured only from dated evidence, so that I see real concentration risk and what is still unknown.",
+   "from_drafts": [
+    "L3-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Exposure weights use common-cutoff GBP values over complete positive value; look-through issuer exposure adds dated fund holdings without counting the wrapper twice, with cycle detection, a depth limit and a residual (FIN-18).",
+     "Fund overlap, top issuer, sector, country and currency weights and HHI are reported with scope, mapping versions and residual; HHI over known holdings only is labelled partial (FIN-AC-27).",
+     "Covariance uses synchronised GBP total returns over a 126-session window with at least 100 common observations, plus a 252-session sensitivity, once FIN-OD-06 is approved."
+    ],
+    "negative": [
+     "Stale or missing fund holdings are labelled provisional proxy or missing, never zero exposure; fund holdings have no accepted source scope today (DATA-02), so look-through stays missing until one exists.",
+     "No zero return is invented for an open but missing day, and an incomplete or unstable covariance matrix withholds volatility and correlation claims.",
+     "Scenario facts use only dated evidence."
+    ],
+    "recovery": [
+     "A newer holdings report recomputes exposure as a new version tied to the report's effective date.",
+     "A failed covariance run keeps the last valid result visible with its date and the reason it was not refreshed."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ExposureSnapshot",
+     "role": "writes"
+    },
+    {
+     "name": "PortfolioRisk",
+     "role": "writes"
+    },
+    {
+     "name": "MetricResult",
+     "role": "writes"
+    },
+    {
+     "name": "EvidenceRef",
+     "role": "reads"
+    }
+   ],
+   "authority": "Deterministic code computes the facts. Claude may explain them, never compute them. Nobody edits a stored snapshot.",
+   "states": [
+    "complete",
+    "partial (known holdings only)",
+    "provisional proxy",
+    "missing exposure",
+    "stale holdings report",
+    "withheld (too few common observations)"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S06",
+     "PH03-S11"
+    ],
+    "gaps": [
+     "FC-11"
+    ],
+    "owner_questions": [
+     "FIN-OD-06",
+     "MP40-Q8"
+    ],
+    "external": [
+     "PH-05: dated fund-holding and exposure evidence with rights (L5-S01)"
+    ]
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "FIN-AC-27 passes as an executable test with FIN-EX-14.",
+    "A covariance known-answer case matches an independent calculation; a known-only HHI case is labelled partial."
+   ]
+  }
+ ]
+}

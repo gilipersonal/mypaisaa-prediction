@@ -1,0 +1,443 @@
+{
+ "phase": "PH-09",
+ "drafts": {
+  "L9-S01": {
+   "disposition": "kept",
+   "stories": [
+    "PH09-S01"
+   ],
+   "note": "Kept; markets added from chat (DATA-DEC-11) must already have an admitted profile."
+  },
+  "L9-S02": {
+   "disposition": "split",
+   "stories": [
+    "PH09-S02",
+    "PH09-S03"
+   ],
+   "note": "Theme membership, and bounded screening beyond the curated universe of about 150 names."
+  },
+  "L9-S03": {
+   "disposition": "kept",
+   "stories": [
+    "PH09-S04"
+   ],
+   "note": "Kept; promotion follows the owner's 8-week shadow rule."
+  },
+  "L9-S04": {
+   "disposition": "split",
+   "stories": [
+    "PH09-S05",
+    "PH09-S06"
+   ],
+   "note": "Optional file exchange, and the retirement boundary."
+  }
+ },
+ "stories": [
+  {
+   "id": "PH09-S01",
+   "jira_key": "MP-171",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Versioned market profiles and instrument kinds behind an admission checklist",
+   "story": "As the owner, I want any later market or instrument kind, such as mainland China, Taiwan, Hong Kong or continental Europe, admitted only through a versioned profile and a checklist with its own evidence, so that the US, UK and India validation is never assumed to carry over.",
+   "from_drafts": [
+    "L9-S01"
+   ],
+   "acceptance": {
+    "positive": [
+     "Market profiles and instrument kinds are versioned contracts covering venue, calendar, currency and quote unit, dual-listing mappings, rights, history depth, delay and budget.",
+     "Each extension carries its own contract tests, point-in-time replay, shadow evidence and the owner's activation approval before any listing in it becomes eligible.",
+     "A market or kind that needs new handler code ships only as tested code in this repository through a reviewed release.",
+     "Deactivating an extension rolls its version pointer back and keeps its history and past forecasts."
+    ],
+    "negative": [
+     "A chat proposal (PH05-S11) cannot add a market whose profile has not been admitted.",
+     "No extension implies a budget increase: its credits and cash are checked against the £100 ceiling before activation, and a source that needs a higher tier waits for its own owner decision.",
+     "No mainland China, Taiwan, Hong Kong or continental Europe listing is eligible in the first release."
+    ],
+    "recovery": [
+     "A failed activation leaves the extension inactive; withdrawn rights deactivate it and keep its history."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "MarketProfile",
+     "role": "writes"
+    },
+    {
+     "name": "InstrumentKind",
+     "role": "writes"
+    },
+    {
+     "name": "ExtensionApproval",
+     "role": "writes"
+    },
+    {
+     "name": "SourceCapability",
+     "role": "reads"
+    },
+    {
+     "name": "Entitlement",
+     "role": "reads"
+    }
+   ],
+   "authority": "The maker prepares an extension and code validates it; only the owner activates or deactivates one. No agent can.",
+   "states": [
+    "proposed",
+    "evidence_pending",
+    "shadow",
+    "owner_approved",
+    "active",
+    "deactivated",
+    "rights_withdrawn"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S01",
+     "PH03-S02",
+     "PH03-S09",
+     "PH08-S01",
+     "PH08-S04"
+    ],
+    "gaps": [
+     "FC-15",
+     "FC-01"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "The admission checklist applied to a hypothetical region and kind",
+    "Rejection cases: missing rights, calendar or budget evidence",
+    "A deactivation and rollback case preserving history"
+   ]
+  },
+  {
+   "id": "PH09-S02",
+   "jira_key": "MP-172",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Dated theme membership that separates labels from measured exposure",
+   "story": "As the owner, I want themes recorded with dated, sourced membership and kept apart from measured economic exposure, so that a theme comparison is honest about what a label does and does not mean.",
+   "from_drafts": [
+    "L9-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Theme membership is many-to-many with effective dates and sources, versioned on every change.",
+     "A marketing label is distinguished from a measured economic exposure.",
+     "Themes compare with peers, benchmarks and the overlap with current holdings, computed by code."
+    ],
+    "negative": [
+     "Historical theme studies use historical constituents, never today's list.",
+     "A label alone is never counted as exposure."
+    ],
+    "recovery": [
+     "A corrected membership is a new version, and every study records the membership version it used."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "ThemeMembership",
+     "role": "writes"
+    },
+    {
+     "name": "ExposureSnapshot",
+     "role": "reads"
+    },
+    {
+     "name": "BenchmarkComparison",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code builds memberships from sourced data; the owner approves a new theme. No agent edits a membership.",
+   "states": [
+    "proposed",
+    "active",
+    "stale (source not refreshed)",
+    "corrected",
+    "retired"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH03-S12",
+     "PH03-S14"
+    ],
+    "gaps": [],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "Look-ahead cases using historical constituents",
+    "Overlap figures matching the deterministic reference"
+   ]
+  },
+  {
+   "id": "PH09-S03",
+   "jira_key": "MP-173",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Bounded screening beyond the curated universe, inside the approved budget",
+   "story": "As the owner, I want any later screening beyond the curated universe of about 150 names to run as a batched quantitative screen with a small Claude shortlist, costed before it starts, so that a wider search never breaks the budget.",
+   "from_drafts": [
+    "L9-S02"
+   ],
+   "acceptance": {
+    "positive": [
+     "Code runs a batched daily quantitative screen; Claude (Haiku, batched) writes short explanations for a bounded shortlist only.",
+     "A workload plan states the data credits, AWS compute and Claude cost before the owner approves any expansion.",
+     "Any expansion beyond the curated universe needs the owner's approval and a recosting."
+    ],
+    "negative": [
+     "The universe never grows silently, and no Claude call ranks or scores a listing.",
+     "A scan overrun stops at the Claude cap."
+    ],
+    "recovery": [
+     "A failed screen keeps the previous shortlist with its date."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DiscoveryResult",
+     "role": "writes"
+    },
+    {
+     "name": "BatchItem",
+     "role": "writes"
+    },
+    {
+     "name": "CostReservation",
+     "role": "writes"
+    },
+    {
+     "name": "ThemeMembership",
+     "role": "reads"
+    }
+   ],
+   "authority": "Code screens; the owner approves any expansion and its cost. No Claude route may trade, write the ledger, publish or change a forecast, promote a model, change model weights or read secrets.",
+   "states": [
+    "not_approved",
+    "planned",
+    "screened",
+    "shortlisted",
+    "over_budget",
+    "failed"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S05",
+     "PH03-S09"
+    ],
+    "gaps": [],
+    "owner_questions": [
+     "COST-Q3"
+    ],
+    "external": []
+   },
+   "blocked_on_owner": true,
+   "evidence": [
+    "The bounded workload plan with its cost",
+    "An over-budget refusal case"
+   ]
+  },
+  {
+   "id": "PH09-S04",
+   "jira_key": "MP-174",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Admission for new features, model families and horizons",
+   "story": "As the owner, I want new features, model families, horizons and agents admitted only as tested code with costed, evidenced trials and my approval, so that the system grows without anything downloading or authorising itself.",
+   "from_drafts": [
+    "L9-S03"
+   ],
+   "acceptance": {
+    "positive": [
+     "Feature sets, model adapters, forecast tasks, strategies, agent manifests and evaluation packs are versioned, and a capability matrix says what each version supports.",
+     "New computation needs tested trusted code, resource costing within the campaign ceilings (POLICY-008), ablation and matured or shadow evidence (8 scored weeks), then the owner's promotion.",
+     "A compatibility suite runs before admission."
+    ],
+    "negative": [
+     "No code or plugin is downloaded at runtime, and no model, tool or budget expands by itself.",
+     "A new agent route needs its manifest and evaluation suite (PH05-S06, PH05-S13) before it runs."
+    ],
+    "recovery": [
+     "A rejected or rolled-back extension keeps its history, and the scope reverts to the previous approved version."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "PluginCompatibility",
+     "role": "writes"
+    },
+    {
+     "name": "ExtensionApproval",
+     "role": "writes"
+    },
+    {
+     "name": "FeatureSetVersion",
+     "role": "reads"
+    },
+    {
+     "name": "ModelVersion",
+     "role": "reads"
+    },
+    {
+     "name": "AgentManifest",
+     "role": "reads"
+    }
+   ],
+   "authority": "The maker proposes; code runs the compatibility suite; only the owner promotes. No agent can admit anything.",
+   "states": [
+    "proposed",
+    "compatibility_failed",
+    "in_trial",
+    "owner_approved",
+    "active",
+    "rejected",
+    "rolled_back"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH05-S06",
+     "PH05-S13",
+     "PH04-S18",
+     "PH04-S19"
+    ],
+    "gaps": [
+     "FC-05",
+     "FC-09",
+     "CT-07"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "The plugin compatibility suite plan",
+    "Admission and rejection examples",
+    "The owner rollout protocol"
+   ]
+  },
+  {
+   "id": "PH09-S05",
+   "jira_key": "MP-175",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Optional versioned file exchange with mypaisa-agent",
+   "story": "As the owner, I want any exchange of data with mypaisa-agent to use an approved, versioned file contract and the normal import approval, so that the two apps never share a live database or depend on each other.",
+   "from_drafts": [
+    "L9-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "There is no shared live database and no required MA API.",
+     "An optional export or import uses an approved, versioned file contract, and an import is reconciled and goes through PH-01's import flow and the owner's approval."
+    ],
+    "negative": [
+     "Nothing is exchanged until the owner approves a file contract (IR-02).",
+     "No MA page, issue, source or runtime is changed by this story."
+    ],
+    "recovery": [
+     "A failed or rejected import follows PH-01's recovery: nothing is committed, and the file stays in quarantine."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "SourceReceipt",
+     "role": "writes"
+    },
+    {
+     "name": "ImportDraft",
+     "role": "writes"
+    },
+    {
+     "name": "ScopeEnvelope",
+     "role": "validates"
+    }
+   ],
+   "authority": "Only the owner approves a file contract and each import. No agent moves data between the apps.",
+   "states": [
+    "no_contract",
+    "contract_approved",
+    "file_received",
+    "reconciled",
+    "rejected"
+   ],
+   "depends_on": {
+    "stories": [
+     "PH01-S06",
+     "PH01-S14"
+    ],
+    "gaps": [
+     "IR-02"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "A synthetic round trip under an approved file contract",
+    "A refusal case with no approved contract"
+   ]
+  },
+  {
+   "id": "PH09-S06",
+   "jira_key": "MP-176",
+   "phase": "PH-09",
+   "epic": "MP-9",
+   "title": "Retirement boundary for MA's forecaster: parity, history and an explicit cutover record",
+   "story": "As the owner, I want any future retirement of mypaisa-agent's advanced forecaster to need proven parity, preserved history and my explicit cutover decision, so that nothing is switched off by implication.",
+   "from_drafts": [
+    "L9-S04"
+   ],
+   "acceptance": {
+    "positive": [
+     "Before any retirement, the MA source, code and runtime inventory is refreshed, and agreed parity, history preservation and recovery are proved.",
+     "The cutover scope is a separate decision record the owner approves.",
+     "MA's rules, tracking and XIRR remain."
+    ],
+    "negative": [
+     "This plan and its story mapping authorise no change to MA.",
+     "There is no automatic migration and no DNS handover."
+    ],
+    "recovery": [
+     "If parity or history checks fail, there is no cutover and MA stays as it is."
+    ]
+   },
+   "contracts": [
+    {
+     "name": "DecisionRecord",
+     "role": "writes"
+    },
+    {
+     "name": "AuditEvidence",
+     "role": "writes"
+    }
+   ],
+   "authority": "Only the owner decides a cutover, as its own decision. The maker prepares the evidence.",
+   "states": [
+    "not_considered",
+    "inventory_refreshed",
+    "parity_failed",
+    "parity_proved",
+    "owner_approved_cutover"
+   ],
+   "depends_on": {
+    "stories": [],
+    "gaps": [
+     "IR-02"
+    ],
+    "owner_questions": [],
+    "external": []
+   },
+   "blocked_on_owner": false,
+   "evidence": [
+    "The boundary ADR",
+    "The conditional parity and cutover checklist",
+    "An explicit not-authorised record"
+   ]
+  }
+ ]
+}

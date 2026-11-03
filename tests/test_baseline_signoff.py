@@ -47,6 +47,12 @@ class BaselineSignoffTests(unittest.TestCase):
             elif target.is_file() and not copy.exists():
                 copy.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(target, copy)
+        # the pack copies ARCHITECTURE.md's open items, whose links point from the repo root
+        for link in re.findall(r"\]\(([^)#]+)", (ROOT / "ARCHITECTURE.md").read_text()):
+            target = ROOT / link
+            if not link.startswith("http") and target.is_file() and not (self.root / link).exists():
+                (self.root / link).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(target, self.root / link)
         # the repo's pack is signed and frozen; each case builds a fresh, unsigned pack from the current records
         signed = self.root / Path(REL).parent / "signoff.json"
         if signed.exists():
