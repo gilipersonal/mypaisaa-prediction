@@ -121,7 +121,7 @@ The owner answered the decision card in [the MP-10 findings](../source-rights-20
 - **ARC-01 is confirmed as selected:** Yahoo Finance and Twelve Data Grow, with Twelve Data's free Basic tier for
   development. MP is the owner's personal hobby use, not commercial. The owner accepts the risk the research
   recorded: on published terms, Yahoo forbids automated collection and Twelve Data labels Grow view-only. The Grow
-  tier (55, 144 or 377 credits) is still open. Only Grow 55 at $29 keeps every month under £100.
+  tier was settled later the same day as Grow 55 (below).
 - **No vendor is contacted.** The drafted questions to Twelve Data, EODHD and AMFI stay unsent, and the rights matrix
   keeps those uses unresolved.
 - **The Apple Developer Program fee** ($99 a membership year) is allowed one exception month a year above the £100
@@ -129,6 +129,11 @@ The owner answered the decision card in [the MP-10 findings](../source-rights-20
 - **Region: Virginia (us-east-1)**, the cheapest of the three candidates in the cost model. AWS-held data and
   same-Region backups sit in the US; Anthropic processes prompts in the US or globally whatever the Region. MP-29
   takes the Region forward with the network, accounts and IaC choices.
+
+**Later the same day, the Grow tier:** Twelve Data **Grow 55** ($29 a month, about £27.84), with Yahoo Finance kept
+alongside it. Yahoo supplies the delayed intraday UK and India prices and a second source to cross-check, which Grow
+55 does not (Grow is end-of-day on LSE, NSE and BSE). Pro 610 ($99) was compared and not chosen: it breaks £100
+every month.
 
 These answers settle the questions asked. They do not approve the complete architecture baseline, UX or
 implementation.

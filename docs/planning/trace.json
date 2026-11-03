@@ -152,7 +152,7 @@
    "key": "MP-10",
    "summary": "Confirm personal-use data licences and instrument policies",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "ARCHITECTURE.md",
@@ -419,7 +419,12 @@
    "type": "Task",
    "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    "docs/confluence/",
+    "docs/planning/"
+   ]
   },
   {
    "key": "MP-30",

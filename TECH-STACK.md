@@ -128,7 +128,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | --- | --- | --- |
 | Anthropic API | Claude models | Owner-selected; the shared $200 credit is unverified |
 | Yahoo Finance | Prices and history | Owner-selected (ARC-01), confirmed 2 Nov 2026 for personal hobby use; the owner accepts that its published terms forbid automated collection ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)) |
-| Twelve Data Grow | Prices across US, UK and India | Owner-selected (ARC-01), confirmed 2 Nov 2026; Basic ($0) for dev; tier open (only Grow 55 at $29 fits £100 every month); nothing bought. The owner accepts that Grow is labelled view-only |
+| Twelve Data Grow | Prices across US, UK and India | Owner-selected (ARC-01), confirmed 2 Nov 2026; Grow 55 ($29 a month) for prod and Basic ($0) for dev, owner-selected 2 Nov 2026; nothing bought. The owner accepts that Grow is labelled view-only |
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |

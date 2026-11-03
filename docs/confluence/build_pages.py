@@ -332,12 +332,12 @@ def rec_system(s: str) -> str:
 
 def rec_data(s: str) -> str:
     return (banner("selected", "ARC-01 keeps Yahoo Finance and Twelve Data Grow, confirmed by the owner on 2 November 2026 for personal hobby use. "
-                   "On published terms Yahoo forbids automated collection and Grow is labelled view-only; the owner accepts that risk. The Grow tier is open.",
+                   "On published terms Yahoo forbids automated collection and Grow is labelled view-only; the owner accepts that risk. The tier is Grow 55 at $29.",
                    ["docs/planning/source-rights-2026-11-02/README.md", "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
                     "docs/planning/foundation-specifications-2026-11-02/README.md"])
             + table(["Topic", "Decision", "Status"], [
                 ["Sources", "Yahoo Finance plus Twelve Data Grow; Twelve Data Basic ($0) for dev", lozenge("selected")],
-                ["Grow tier", "55, 144 or 377 credits a minute ($29, $49, $79). Only Grow 55 keeps every month under £100", lozenge("open")],
+                ["Grow tier", "Grow 55 at $29 a month (about £27.84), the only tier that keeps every month under £100. Yahoo stays for delayed intraday UK and India prices and a cross-check; Pro 610 ($99) breaks £100 every month", lozenge("selected")],
                 ["Rights", "Published terms checked 2 November 2026 (MP-10). The owner accepts the risk for personal hobby use; no vendor is asked", lozenge("selected")],
                 ["What every observation keeps", "Provider, symbol mapping, source time, ingestion time, quality flags; validated before it is stored", lozenge("selected")],
                 ["Freshness", "Stale or partial data is shown as such, never hidden behind a spinner", lozenge("selected")],
@@ -491,7 +491,7 @@ def rec_cost(s: str) -> str:
                   "The shared $200 Claude credit is owner-reported and unverified; admissible credit is zero.",
                   "The Apple Developer Program fee (99 USD a year) has one exception month a year above £100, for this fee only (owner, 2 November 2026).",
                   "Region: Virginia (us-east-1), owner-selected on 2 November 2026."])
-            + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. Only Grow 55 keeps every month under £100.</p>"
+            + f"<p>Month by month: {repo('docs/planning/source-rights-2026-11-02/README.md', 'the MP-10 cost fit')}. The owner chose Grow 55, the only tier that keeps every month under £100.</p>"
             + footer())
 
 
