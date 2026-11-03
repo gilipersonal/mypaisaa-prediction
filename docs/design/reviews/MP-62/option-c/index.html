@@ -1,0 +1,1596 @@
+<title>MyPrediction Signal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="MP-62 options round 1, Option C: Signal. Monochrome ink for fact, one ultramarine accent for forecasts. Illustrative figures only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Layout concept: an editorial broadsheet of modules. Black display slabs carry the big figures against crisp white
+   (true-black OLED in dark); one ultramarine accent is reserved for model output, so colour itself means "forecast". */
+:root, .t-light {
+  /* Surfaces and ink */
+  --bg: #FFFFFF;            /* canvas */
+  --surface: #F3F3F6;       /* grouped background, wells */
+  --surface-2: #E9E9EF;     /* fills, skeletons, pressed */
+  --grouped: #F3F3F6;       /* grouped screen ground (Apple grouped background) */
+  --card: #FFFFFF;          /* modules on the grouped ground */
+  --ink: #0A0A0C;           /* primary text, history line */
+  --ink-2: #45454F;         /* secondary text */
+  --ink-3: #62626E;         /* tertiary text, axis labels */
+  --hairline: #E1E1E8;      /* separators, gridlines */
+  --edge: #85858F;          /* control boundaries (3:1) */
+  /* Display slab */
+  --display: #09090B;
+  --on-display: #FFFFFF;
+  --on-display-2: #A9A9B5;
+  --accent-display: #9D96FF;
+  --up-display: #5CD69A;
+  --down-display: #FF8A7F;
+  /* The one accent: Signal Ultramarine, model output only */
+  --accent: #3D2BFF;
+  --on-accent: #FFFFFF;
+  --accent-soft: #ECEBFF;
+  --band-80: #E4E2FF;
+  --band-50: #BFB9FF;
+  /* Semantic state, always with sign, icon or word */
+  --up: #05703F;
+  --down: #C62A1F;
+  --warn: #8F5600;
+  --up-soft: #E3F4EB;
+  --down-soft: #FCE8E6;
+  --warn-soft: #FBF0DC;
+  /* Materials, elevation, hardware */
+  --material: rgba(255, 255, 255, 0.78);
+  --scrim: rgba(10, 10, 12, 0.42);
+  --shadow-1: 0 1px 2px rgba(10, 10, 12, 0.06), 0 2px 8px rgba(10, 10, 12, 0.05);
+  --shadow-2: 0 4px 12px rgba(10, 10, 12, 0.08), 0 12px 32px rgba(10, 10, 12, 0.08);
+  --shadow-3: 0 -2px 16px rgba(10, 10, 12, 0.06), 0 24px 64px rgba(10, 10, 12, 0.18);
+  --bezel: #1B1B1F;
+  --bezel-edge: #3A3A42;
+  --selection: #D6D3FF;
+
+  /* Type */
+  --font-display: "Archivo", "Helvetica Neue", "Arial Nova", Arial, system-ui, sans-serif;
+  --font-text: "Instrument Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+
+  /* 4-point spacing */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s14: 56px; --s20: 80px;
+  /* Radii */
+  --r-xs: 6px; --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-full: 999px;
+  /* Motion */
+  --t-press: 100ms; --t-quick: 160ms; --t-std: 240ms; --t-sheet: 360ms; --t-figure: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000; --surface: #0E0E11; --surface-2: #1A1A1F; --grouped: #000000; --card: #121215;
+    --ink: #F5F5F7; --ink-2: #B8B8C2; --ink-3: #8E8E9A; --hairline: #222228; --edge: #6E6E79;
+    --display: #121216; --on-display: #FFFFFF; --on-display-2: #A9A9B5; --accent-display: #9D96FF; --up-display: #5CD69A; --down-display: #FF8A7F;
+    --accent: #8F88FF; --on-accent: #000000; --accent-soft: #17153A; --band-80: #1C1A3D; --band-50: #363175;
+    --up: #45C98A; --down: #FF6E62; --warn: #F2AE4B; --up-soft: #0B2219; --down-soft: #2A1110; --warn-soft: #291D0A;
+    --material: rgba(22, 22, 26, 0.72); --scrim: rgba(0, 0, 0, 0.62);
+    --shadow-1: 0 0 0 1px #222228; --shadow-2: 0 0 0 1px #2C2C33, 0 12px 32px rgba(0, 0, 0, 0.6); --shadow-3: 0 0 0 1px #2C2C33, 0 24px 64px rgba(0, 0, 0, 0.8);
+    --bezel: #1B1B1F; --bezel-edge: #3A3A42; --selection: #363175;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"], .t-dark {
+  --bg: #000000; --surface: #0E0E11; --surface-2: #1A1A1F; --grouped: #000000; --card: #121215;
+  --ink: #F5F5F7; --ink-2: #B8B8C2; --ink-3: #8E8E9A; --hairline: #222228; --edge: #6E6E79;
+  --display: #121216; --on-display: #FFFFFF; --on-display-2: #A9A9B5; --accent-display: #9D96FF; --up-display: #5CD69A; --down-display: #FF8A7F;
+  --accent: #8F88FF; --on-accent: #000000; --accent-soft: #17153A; --band-80: #1C1A3D; --band-50: #363175;
+  --up: #45C98A; --down: #FF6E62; --warn: #F2AE4B; --up-soft: #0B2219; --down-soft: #2A1110; --warn-soft: #291D0A;
+  --material: rgba(22, 22, 26, 0.72); --scrim: rgba(0, 0, 0, 0.62);
+  --shadow-1: 0 0 0 1px #222228; --shadow-2: 0 0 0 1px #2C2C33, 0 12px 32px rgba(0, 0, 0, 0.6); --shadow-3: 0 0 0 1px #2C2C33, 0 24px 64px rgba(0, 0, 0, 0.8);
+  --bezel: #1B1B1F; --bezel-edge: #3A3A42; --selection: #363175;
+  color-scheme: dark;
+}
+.t-light { color-scheme: light; }
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-text); font-size: 16px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  font-variant-numeric: tabular-nums;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+::selection { background: var(--selection); color: var(--ink); }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+svg { display: block; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html { scrollbar-color: var(--edge) var(--bg); }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 768px) { .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); } }
+
+/* Figures */
+.fig { font-family: var(--font-display); font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1; }
+.money .p { font-size: 0.56em; letter-spacing: 0; }
+.money .cur { font-size: 0.72em; margin-right: 0.04em; }
+.up { color: var(--up); } .down { color: var(--down); } .warn { color: var(--warn); }
+.chg { display: inline-flex; align-items: center; gap: 3px; font-family: var(--font-display); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.chg svg { width: 0.75em; height: 0.75em; }
+.fc-num { color: var(--accent); font-family: var(--font-display); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Icons */
+.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.i-sm { width: 14px; height: 14px; }
+.i-lg { width: 24px; height: 24px; }
+
+/* ---------- Top bar ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--material); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); border-bottom: 1px solid var(--hairline); }
+.topbar .wrap { display: flex; align-items: center; gap: var(--s3); min-height: 60px; padding-block: 8px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+.brand svg { width: 32px; height: 32px; }
+.brand b { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
+.brand span { color: var(--ink-3); font-size: 13px; white-space: nowrap; }
+.topnav { display: none; gap: 4px; margin-left: auto; }
+.topnav a { text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 12px; border-radius: var(--r-full); color: var(--ink-2); }
+.topnav a:hover { background: var(--surface); color: var(--ink); }
+@media (min-width: 1000px) { .topnav { display: flex; } }
+.theme-seg { margin-left: auto; display: inline-flex; background: var(--surface-2); border-radius: var(--r-full); padding: 3px; gap: 2px; }
+@media (min-width: 1000px) { .theme-seg { margin-left: 8px; } }
+.theme-seg button { appearance: none; border: 0; background: transparent; color: var(--ink-2); font: 600 13px/1 var(--font-text); padding: 0 12px; min-height: 32px; border-radius: var(--r-full); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.theme-seg button[aria-pressed="true"] { background: var(--bg); color: var(--ink); box-shadow: var(--shadow-1); }
+.theme-seg button:hover:not([aria-pressed="true"]) { color: var(--ink); }
+@media (max-width: 420px) { .theme-seg button span { display: none; } .theme-seg button { padding: 0 10px; } .brand span { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { padding-block: var(--s6) var(--s10); }
+.slab { background: var(--display); color: var(--on-display); border-radius: var(--r-xl); position: relative; overflow: hidden; }
+.t-dark .slab, :root[data-theme="dark"] .slab { box-shadow: inset 0 0 0 1px #26262D; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slab { box-shadow: inset 0 0 0 1px #26262D; } }
+.hero .slab { padding: clamp(24px, 5vw, 64px); display: grid; gap: var(--s8); }
+.hero .slab { container-type: inline-size; }
+.hero-side { display: grid; gap: var(--s6); border-top: 1px solid #2A2A31; padding-top: var(--s8); }
+@media (min-width: 1000px) { .hero-side { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; } .hero-side .rules { margin-top: 0; } }
+.hero-kicker { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: var(--s5); }
+.pill-d { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; line-height: 1; padding: 7px 11px; border-radius: var(--r-full); border: 1px solid #3A3A44; color: var(--on-display-2); white-space: nowrap; }
+.pill-d .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up-display); }
+.pill-d.solid { background: var(--on-display); color: var(--display); border-color: var(--on-display); }
+.hero-label { font-size: 15px; color: var(--on-display-2); font-weight: 500; margin-bottom: 6px; }
+.hero-figure { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: clamp(40px, 17.6cqi, 210px); line-height: 0.9; letter-spacing: -0.04em; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.hero-figure .p { font-size: 0.42em; letter-spacing: -0.02em; color: var(--on-display-2); }
+.hero-figure .cur { font-size: 0.6em; vertical-align: 0.48em; margin-right: 0.04em; letter-spacing: 0; }
+.hero-change { margin-top: var(--s4); display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; font-size: clamp(17px, 2.2vw, 24px); }
+.hero-change .chg { color: var(--up-display); }
+.hero-change small { font-size: 14px; color: var(--on-display-2); }
+.hero-strip { margin-top: var(--s6); display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-side h1 { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: clamp(34px, 5vw, 56px); line-height: 0.95; letter-spacing: -0.03em; }
+.hero-side h1 em { font-style: normal; color: var(--accent-display); }
+.hero-side p { color: var(--on-display-2); margin-top: var(--s4); max-width: 46ch; font-size: 16px; }
+.rules { list-style: none; margin: var(--s6) 0 0; padding: 0; display: grid; gap: 10px; }
+.rules li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; font-size: 14px; color: var(--on-display); }
+.rules .sw { height: 20px; border-radius: var(--r-xs); }
+.rules small { display: block; color: var(--on-display-2); font-size: 12.5px; }
+.hero-note { margin-top: var(--s4); font-size: 13px; color: var(--ink-3); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.why { margin-top: var(--s8); display: grid; gap: var(--s6); }
+@media (min-width: 900px) { .why { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.why h3 { font-family: var(--font-display); font-stretch: 112%; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; margin-bottom: 6px; }
+.why p { color: var(--ink-2); font-size: 15px; max-width: 52ch; }
+
+/* ---------- Sections ---------- */
+.sec { padding-block: var(--s14) var(--s10); border-top: 1px solid var(--hairline); }
+.sec-head { display: grid; gap: var(--s3); margin-bottom: var(--s8); }
+@media (min-width: 1000px) { .sec-head { grid-template-columns: max-content minmax(0, 1fr); align-items: end; gap: var(--s6) var(--s10); } }
+.sec, .screen-block, .sub { scroll-margin-top: 84px; }
+.sec-title { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: clamp(40px, 7vw, 88px); line-height: 0.9; letter-spacing: -0.04em; }
+.sec-lede { color: var(--ink-2); font-size: 17px; max-width: 56ch; }
+.sub { margin-top: var(--s14); }
+.sub:first-of-type { margin-top: 0; }
+.sub-title { font-family: var(--font-display); font-stretch: 112%; font-weight: 750; font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--s2); }
+.sub-lede { color: var(--ink-2); max-width: 66ch; margin-bottom: var(--s6); }
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--hairline); border-radius: var(--r-md); }
+table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 720px; }
+.tbl th { text-align: left; font-weight: 600; font-size: 12px; color: var(--ink-3); letter-spacing: 0.04em; text-transform: uppercase; padding: 12px 14px; background: var(--surface); border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+.tbl td { padding: 11px 14px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td.n, .tbl th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; color: var(--ink); background: var(--surface); padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+.tbl .muted { color: var(--ink-3); }
+.sw-cell { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.sw-chip { width: 28px; height: 28px; border-radius: 8px; flex: none; box-shadow: inset 0 0 0 1px rgba(128, 128, 140, 0.35); }
+.cr { font-family: var(--font-display); font-weight: 600; font-size: 13px; }
+.cr .aa { font-size: 11px; font-weight: 600; color: var(--ink-3); margin-left: 4px; }
+
+/* Grids of spec cards */
+.grid { display: grid; gap: var(--s4); }
+@media (min-width: 720px) { .grid.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid.c3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .grid.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .grid.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 720px) and (max-width: 1099px) { .grid.c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.spec { border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: var(--s5); background: var(--bg); min-width: 0; display: flex; flex-direction: column; gap: var(--s4); }
+.spec h4 { font-size: 15px; font-weight: 700; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.spec h4 code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11.5px; font-weight: 500; color: var(--ink-3); }
+.spec .note { font-size: 13px; color: var(--ink-3); }
+.stage { background: var(--surface); border-radius: var(--r-md); padding: var(--s5); display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; min-width: 0; }
+.stage.col { flex-direction: column; align-items: stretch; }
+.state-lbl { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.states-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--s3); width: 100%; }
+
+/* ---------- Components ---------- */
+.btn { appearance: none; border: 0; font: 600 16px/1 var(--font-text); min-height: 44px; padding: 0 18px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: transform var(--t-press) var(--ease-out), background-color var(--t-quick) var(--ease-out), box-shadow var(--t-quick) var(--ease-out); white-space: nowrap; text-decoration: none; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover, .btn-primary.is-hover { background: var(--ink-2); }
+.btn-primary:active, .btn-primary.is-pressed { transform: scale(0.97); background: var(--ink-2); }
+.btn-secondary { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--edge); }
+.btn-secondary:hover, .btn-secondary.is-hover { background: var(--surface-2); }
+.btn-secondary:active, .btn-secondary.is-pressed { transform: scale(0.97); background: var(--surface-2); }
+.btn-plain { background: transparent; color: var(--ink); padding: 0 10px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--edge); }
+.btn-plain:hover, .btn-plain.is-hover { text-decoration-color: var(--ink); }
+.btn.is-focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[disabled], .btn.is-disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-sm { min-height: 36px; font-size: 14px; padding: 0 14px; border-radius: 10px; }
+.spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 2px; gap: 2px; }
+.seg button { appearance: none; border: 0; background: transparent; font: 600 13px/1 var(--font-text); color: var(--ink-2); min-height: 32px; padding: 0 14px; border-radius: 8px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--ink); box-shadow: var(--shadow-1); }
+.t-dark .seg button[aria-pressed="true"] { background: #2A2A31; }
+
+/* Horizon selector: the signature control */
+.hz { display: grid; gap: 8px; width: 100%; }
+.hz-lt { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.hz-lt button { appearance: none; border: 0; cursor: pointer; text-align: left; background: var(--surface-2); color: var(--ink); border-radius: 14px; padding: 10px 12px 9px; display: grid; gap: 2px; min-height: 60px; }
+.hz-lt button b { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.03em; }
+.hz-lt button span { font-size: 12px; color: var(--ink-2); font-weight: 500; }
+.hz-lt button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.hz-lt button[aria-pressed="true"] span { color: var(--bg); opacity: 0.78; }
+.hz-st { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--ink-2); border: 1.5px dashed var(--edge); border-radius: 12px; padding: 8px 12px; min-height: 44px; }
+.hz-st b { font-weight: 600; color: var(--ink); }
+.hz-cap { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: var(--r-full); font: 600 12px/1 var(--font-text); white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up); flex: none; }
+.chip.fresh { background: var(--surface-2); color: var(--ink-2); }
+.chip.stale { background: var(--warn-soft); color: var(--warn); }
+.chip.partial { background: var(--warn-soft); color: var(--warn); }
+.chip.pdown { background: var(--down-soft); color: var(--down); }
+.chip.offline { background: var(--surface-2); color: var(--ink-2); }
+.chip.proposed { background: transparent; color: var(--ink-2); box-shadow: inset 0 0 0 1.5px var(--edge); }
+.chip.selected { background: var(--ink); color: var(--bg); }
+.chip.implemented { background: var(--up-soft); color: var(--up); }
+.chip.illus { background: transparent; color: var(--ink-3); box-shadow: inset 0 0 0 1px var(--edge); border: 0; }
+.chip.fcst { background: var(--accent-soft); color: var(--accent); }
+.chip.short { background: transparent; color: var(--ink-2); box-shadow: inset 0 0 0 1.5px var(--edge); }
+
+/* Action badge (decision support) */
+.act { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 9px 0 6px; border-radius: var(--r-full); font: 700 12px/1 var(--font-text); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); white-space: nowrap; background: transparent; }
+.act svg { width: 14px; height: 14px; stroke-width: 2.25; }
+.act.pause { color: var(--warn); box-shadow: inset 0 0 0 1.5px var(--warn); }
+.act.lg { height: 32px; font-size: 14px; padding: 0 12px 0 9px; }
+.act.lg svg { width: 16px; height: 16px; }
+
+/* Round logo */
+.disc { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--ink); color: var(--bg); font: 800 13px/1 var(--font-display); font-stretch: 112%; letter-spacing: -0.02em; }
+.disc.sm { width: 32px; height: 32px; font-size: 11px; }
+.disc.out { background: var(--surface-2); color: var(--ink); }
+
+/* Holding row */
+.hlist { background: var(--card); border-radius: var(--r-md); overflow: hidden; }
+.hrow { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 14px; position: relative; min-height: 72px; }
+.hrow + .hrow::before { content: ""; position: absolute; left: 66px; right: 0; top: 0; height: 1px; background: var(--hairline); }
+.hrow .nm { font-weight: 600; font-size: 15px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hrow .meta { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 6px; margin-top: 3px; white-space: nowrap; overflow: hidden; }
+.hrow .rgt { display: grid; justify-items: end; gap: 5px; }
+.hrow .val { font-family: var(--font-display); font-weight: 650; font-size: 16px; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hrow .val .p { font-size: 0.72em; }
+.hrow .line2 { display: flex; align-items: center; gap: 8px; margin-top: 7px; font-size: 12px; }
+.hrow .line2 .chg { font-size: 12px; }
+.hrow.is-sel { background: var(--accent-soft); }
+.hrow.is-sel::before, .hrow.is-sel + .hrow::before { display: none; }
+.hrow.is-focus { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
+.hrow.is-stale .val { color: var(--ink-2); }
+
+/* Range bar: common scale -20% .. +35% */
+.rb { --min: -20; --span: 55; display: block; position: relative; height: 12px; flex: 1 1 auto; min-width: 56px; }
+.rb::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--hairline); }
+.rb .z { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--ink-3); left: calc((0 - var(--min)) * 100% / var(--span)); }
+.rb .b80 { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; background: var(--band-80); box-shadow: inset 0 0 0 1px var(--accent); left: calc((var(--lo) - var(--min)) * 100% / var(--span)); width: calc((var(--hi) - var(--lo)) * 100% / var(--span)); }
+.rb .md { position: absolute; top: -1px; bottom: -1px; width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent); left: calc((var(--med) - var(--min)) * 100% / var(--span)); }
+.rb.stale .b80 { box-shadow: inset 0 0 0 1px var(--edge); background: var(--surface-2); }
+.rb.stale .md { background: var(--ink-3); }
+
+/* Card modules */
+.card { background: var(--card); border-radius: var(--r-lg); padding: 16px; box-shadow: var(--shadow-1); }
+.card-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.card-h h5 { margin: 0; font-family: var(--font-display); font-stretch: 112%; font-weight: 750; font-size: 17px; letter-spacing: -0.01em; }
+.card-h small { color: var(--ink-3); font-size: 12px; }
+
+.t5 { list-style: none; margin: 0; padding: 0; counter-reset: t5; }
+.t5 li { display: grid; grid-template-columns: 18px 32px minmax(0, 1fr) 72px 30px; gap: 10px; align-items: center; min-height: 48px; border-top: 1px solid var(--hairline); }
+.t5 li:first-child { border-top: 0; }
+.t5 .rk { font: 700 13px/1 var(--font-display); color: var(--ink-3); }
+.t5 .nm { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t5 .nm small { display: block; font-weight: 500; font-size: 11.5px; color: var(--ink-3); }
+.t5 .bar { height: 6px; border-radius: 3px; background: var(--surface-2); position: relative; overflow: hidden; }
+.t5 .bar i { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: var(--ink); width: calc(var(--v) * 1%); }
+.t5 .sc { font: 700 16px/1 var(--font-display); text-align: right; font-variant-numeric: tabular-nums; }
+.t5 li.withheld { grid-template-columns: 18px minmax(0, 1fr); color: var(--ink-3); font-size: 13px; }
+.t5 li.withheld span:last-child { border: 1.5px dashed var(--edge); border-radius: 10px; padding: 8px 10px; }
+.t5-foot { font-size: 11.5px; color: var(--ink-3); margin-top: 8px; }
+
+/* Forecast block */
+.fcard { display: grid; gap: 12px; }
+.fhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.fmed { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; color: var(--accent); font-size: 44px; line-height: 0.9; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+.fmed-l { font-size: 12px; color: var(--ink-3); font-weight: 600; margin-bottom: 4px; }
+.franges { display: grid; gap: 2px; font-size: 13px; color: var(--ink-2); text-align: right; }
+.franges b { font-family: var(--font-display); color: var(--ink); font-weight: 650; font-variant-numeric: tabular-nums; }
+.fmeta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--hairline); border-radius: 12px; overflow: hidden; }
+.fmeta div { background: var(--card); padding: 8px 10px; font-size: 12.5px; }
+.fmeta span { display: block; font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.fmeta b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Horizontal forecast range component */
+.frange { width: 100%; }
+.frange svg { width: 100%; height: auto; overflow: visible; }
+.frange-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-2); margin-top: 8px; }
+.frange-legend i { display: inline-block; width: 18px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+
+/* Charts */
+.chart { position: relative; width: 100%; }
+.chart svg { width: 100%; height: auto; overflow: visible; }
+.chart .grid-l { stroke: var(--hairline); stroke-width: 1; }
+.chart .zero-l { stroke: var(--edge); stroke-width: 1; }
+.chart .now-l { stroke: var(--ink-3); stroke-width: 1; }
+.chart .hist { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .hist-area { fill: var(--ink); opacity: 0.05; }
+.chart .b80 { fill: var(--band-80); }
+.chart .b50 { fill: var(--band-50); }
+.chart .bedge { fill: none; stroke: var(--accent); stroke-width: 1; }
+.chart .med { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
+.chart .nowdot { fill: var(--ink); stroke: var(--bg); stroke-width: 2; }
+.chart .past { stroke: var(--ink-2); stroke-width: 1.5; fill: none; }
+.chart .outdot { fill: var(--bg); stroke: var(--ink); stroke-width: 2; }
+.chart .outdot.in { fill: var(--ink); stroke: var(--bg); }
+.chart text { font-family: var(--font-text); font-size: 11px; fill: var(--ink-3); font-variant-numeric: tabular-nums; }
+.chart text.lbl-strong { fill: var(--ink); font-weight: 700; font-family: var(--font-display); }
+.chart text.lbl-2 { fill: var(--ink-2); font-weight: 600; }
+.chart text.lbl-acc { fill: var(--accent); font-weight: 700; font-family: var(--font-display); }
+.chart .xh { stroke: var(--ink); stroke-width: 1; opacity: 0; }
+.chart .xh-dot { fill: var(--ink); stroke: var(--bg); stroke-width: 2; opacity: 0; }
+.chart.hovering .xh, .chart.hovering .xh-dot { opacity: 1; }
+.chart .hit { fill: transparent; cursor: crosshair; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 8px 10px; font-size: 12px; line-height: 1.35; white-space: nowrap; opacity: 0; transform: translate(-50%, -110%); transition: opacity var(--t-quick) var(--ease-out); box-shadow: var(--shadow-2); z-index: 3; }
+.chart.hovering .tip { opacity: 1; }
+.tip b { font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-2); margin-top: 8px; align-items: center; }
+.lg-k { display: inline-flex; align-items: center; gap: 6px; }
+.lg-k i { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--ink); }
+.lg-k i.acc { border-color: var(--accent); }
+.lg-k i.b80 { height: 10px; border: 1px solid var(--accent); background: var(--band-80); border-radius: 2px; }
+.lg-k i.b50 { height: 10px; border: 0; background: var(--band-50); border-radius: 2px; }
+.lg-k i.dot { width: 10px; height: 10px; border: 2px solid var(--bg); background: var(--ink); border-radius: 50%; box-shadow: 0 0 0 1px var(--ink); }
+.lg-k i.ring { width: 10px; height: 10px; border: 2px solid var(--ink); background: var(--bg); border-radius: 50%; }
+details.tbl-alt { margin-top: 10px; font-size: 13px; }
+details.tbl-alt summary { cursor: pointer; color: var(--ink-2); font-weight: 600; min-height: 32px; display: flex; align-items: center; }
+details.tbl-alt table { border-collapse: collapse; margin-top: 6px; width: 100%; }
+details.tbl-alt td, details.tbl-alt th { border-bottom: 1px solid var(--hairline); padding: 6px 8px; text-align: left; font-variant-numeric: tabular-nums; }
+
+/* Calibration dots */
+.calib { display: grid; grid-template-columns: repeat(13, 1fr); gap: 4px; max-width: 260px; }
+.calib i { aspect-ratio: 1; border-radius: 50%; background: var(--ink); }
+.calib i.miss { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+
+/* Data strip */
+.strip { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.strip .asof { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* State cards */
+.stcard { border-radius: var(--r-md); background: var(--card); padding: 14px; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow-1); min-width: 0; }
+.stcard .h { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.stcard p { font-size: 13px; color: var(--ink-2); }
+.stcard .acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.stcard.warnb { box-shadow: inset 0 0 0 1.5px var(--warn); }
+.stcard.downb { box-shadow: inset 0 0 0 1.5px var(--down); }
+.stcard.dash { box-shadow: none; border: 1.5px dashed var(--edge); }
+.sk { background: var(--surface-2); border-radius: 6px; height: 12px; position: relative; overflow: hidden; }
+.sk::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent); transform: translateX(-100%); animation: shimmer 1.4s var(--ease-out) infinite; }
+.t-dark .sk::after { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent); }
+@keyframes shimmer { to { transform: translateX(100%); } }
+
+/* Sheet & toast */
+.sheet-demo { position: relative; background: var(--scrim); border-radius: var(--r-lg); padding: 48px 12px 0; overflow: hidden; width: 100%; }
+.sheet { background: var(--bg); border-radius: 28px 28px 0 0; padding: 8px 20px 20px; box-shadow: var(--shadow-3); max-width: 420px; margin: 0 auto; }
+.grabber { width: 36px; height: 5px; border-radius: 3px; background: var(--edge); margin: 0 auto 12px; opacity: 0.6; }
+.sheet h5 { font-family: var(--font-display); font-stretch: 112%; font-size: 22px; font-weight: 750; letter-spacing: -0.015em; margin: 4px 0 6px; }
+.sheet .why { margin: 0; gap: 0; display: block; font-size: 14px; color: var(--ink-2); }
+.opt { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--hairline); font-size: 15px; min-height: 48px; }
+.opt .rad { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--edge); flex: none; }
+.opt.on .rad { box-shadow: inset 0 0 0 7px var(--ink); }
+.sheet .fine { font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+.toast { display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--bg); border-radius: 16px; padding: 12px 12px 12px 16px; box-shadow: var(--shadow-2); font-size: 14px; font-weight: 500; max-width: 420px; width: 100%; }
+.toast .i { color: var(--bg); }
+.toast button { margin-left: auto; appearance: none; border: 0; background: transparent; color: var(--bg); font: 700 14px/1 var(--font-text); padding: 10px; min-height: 40px; border-radius: 10px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* Tab bar & sidebar (web specimens) */
+.tabbar { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--material); -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8); border-top: 1px solid var(--hairline); padding: 6px 4px 4px; }
+.tabbar a { display: grid; justify-items: center; gap: 2px; text-decoration: none; color: var(--ink-3); font-size: 10px; font-weight: 600; padding: 4px 0; min-height: 44px; }
+.tabbar a .i { width: 24px; height: 24px; }
+.tabbar a[aria-current="page"] { color: var(--ink); }
+.tabbar a[aria-current="page"] .i { stroke-width: 2.25; }
+.sidebar { display: grid; gap: 2px; align-content: start; }
+.sidebar a { display: flex; align-items: center; gap: 10px; padding: 0 10px; min-height: 40px; border-radius: 10px; text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: 14px; }
+.sidebar a:hover { background: var(--surface-2); color: var(--ink); }
+.sidebar a[aria-current="page"] { background: var(--ink); color: var(--bg); }
+.sidebar .grp { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); padding: 14px 10px 6px; }
+
+.search { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-radius: 12px; padding: 0 12px; min-height: 40px; color: var(--ink-3); font-size: 15px; width: 100%; }
+.search.on { box-shadow: inset 0 0 0 2px var(--accent); background: var(--bg); color: var(--ink); }
+.search input { all: unset; flex: 1; min-width: 0; color: var(--ink); font-size: 15px; }
+.search input::placeholder { color: var(--ink-3); }
+.results { background: var(--card); border-radius: 12px; box-shadow: var(--shadow-2); overflow: hidden; width: 100%; }
+.results div { display: flex; align-items: center; gap: 10px; padding: 10px 12px; font-size: 14px; border-top: 1px solid var(--hairline); }
+.results div:first-child { border-top: 0; }
+.results mark { background: transparent; color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.results small { margin-left: auto; color: var(--ink-3); font-size: 12px; }
+
+/* Figure kinds */
+.kinds { display: grid; gap: var(--s4); }
+@media (min-width: 900px) { .kinds { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.kind { border-radius: var(--r-lg); padding: 18px; background: var(--surface); display: grid; gap: 10px; align-content: start; }
+.kind svg { width: 100%; height: 64px; }
+.kind h4 { font-size: 15px; font-weight: 700; }
+.kind p { font-size: 13px; color: var(--ink-2); }
+.kind.scn { background: transparent; border: 1.5px dashed var(--edge); }
+
+/* Type specimen */
+.ts-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 24px; padding: 14px 0; border-top: 1px solid var(--hairline); align-items: baseline; }
+@media (min-width: 900px) { .ts-row { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); } }
+.ts-row .meta { font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.ts-row .meta code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: var(--ink-2); }
+.ts-sample { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.scale { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.scale div { display: grid; gap: 6px; justify-items: center; font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.scale i { display: block; background: var(--ink); border-radius: 2px; }
+.radii { display: flex; flex-wrap: wrap; gap: 16px; }
+.radii div { width: 88px; height: 72px; background: var(--surface-2); box-shadow: inset 0 0 0 1.5px var(--edge); display: grid; place-items: end start; padding: 8px; font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.elev { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+.elev div { height: 96px; border-radius: var(--r-md); background: var(--bg); display: grid; place-items: end start; padding: 12px; font-size: 12px; color: var(--ink-2); }
+.mat { position: relative; height: 180px; border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+.mat .under { position: absolute; inset: 0; padding: 16px; display: grid; gap: 8px; align-content: start; }
+.mat .under .ln { height: 10px; border-radius: 4px; background: var(--edge); opacity: 0.5; }
+.mat .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 72px; background: var(--material); -webkit-backdrop-filter: blur(20px) saturate(1.8); backdrop-filter: blur(20px) saturate(1.8); border-top: 1px solid var(--hairline); display: flex; align-items: center; justify-content: space-around; color: var(--ink-2); font-size: 12px; font-weight: 600; }
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.icons div { display: grid; justify-items: center; gap: 8px; padding: 14px 4px; border-radius: 12px; background: var(--surface); font-size: 11.5px; color: var(--ink-2); text-align: center; }
+.icons .i { width: 24px; height: 24px; color: var(--ink); }
+.motion-demo { display: grid; gap: 10px; }
+.mrow { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; align-items: center; font-size: 13px; }
+.mtrack { height: 28px; border-radius: 8px; background: var(--surface); position: relative; overflow: hidden; }
+.mtrack i { position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; border-radius: 6px; background: var(--ink); }
+.motion-on .mtrack i { animation: slide var(--d) var(--e) infinite alternate; }
+@keyframes slide { to { left: calc(100% - 24px); } }
+
+/* ---------- Device boards ---------- */
+.pair { display: grid; gap: var(--s6); }
+@media (min-width: 900px) { .pair.phones { grid-template-columns: repeat(2, minmax(0, 410px)) minmax(0, 1fr); align-items: start; } }
+.pair-note { display: grid; gap: 12px; align-content: start; font-size: 14px; color: var(--ink-2); max-width: 48ch; }
+.pair-note h4 { font-size: 15px; color: var(--ink); font-weight: 700; }
+.pair-note ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.boardcap { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink-3); margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+.boardcap .sw-mini { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--edge); }
+.board { position: relative; width: 100%; overflow: hidden; }
+.board > .dev { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+.screen-block { margin-top: var(--s14); }
+.screen-block:first-of-type { margin-top: 0; }
+
+.dev { font-family: var(--font-text); color: var(--ink); }
+.dev-phone { width: 410px; height: 864px; border-radius: 62px; background: var(--bezel); padding: 10px; box-shadow: 0 0 0 1.5px var(--bezel-edge), 0 30px 60px rgba(0,0,0,0.18); }
+.dev-pad { width: 1208px; height: 848px; border-radius: 40px; background: var(--bezel); padding: 14px; box-shadow: 0 0 0 1.5px var(--bezel-edge), 0 30px 60px rgba(0,0,0,0.18); }
+.dev-win { width: 1440px; height: 1200px; border-radius: 14px; background: var(--bezel); padding: 0; box-shadow: 0 0 0 1px var(--bezel-edge), 0 30px 80px rgba(0,0,0,0.22); overflow: hidden; }
+.screen { position: relative; width: 100%; height: 100%; background: var(--bg); overflow: hidden; color: var(--ink); }
+.dev-phone .screen { border-radius: 52px; }
+.dev-pad .screen { border-radius: 26px; }
+.island { position: absolute; top: 11px; left: 50%; width: 124px; height: 36px; margin-left: -62px; border-radius: 20px; background: #000; z-index: 9; }
+.sbar { position: absolute; top: 0; left: 0; right: 0; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 6px 30px 0 40px; font: 600 16px/1 var(--font-text); z-index: 8; background: var(--bg); }
+.sbar .sic { display: flex; gap: 6px; align-items: center; }
+.sbar svg { height: 12px; width: auto; fill: var(--ink); }
+.scroll { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none; padding: 54px 0 100px; }
+.scroll::-webkit-scrollbar { display: none; }
+.dev .tabbar { position: absolute; left: 0; right: 0; bottom: 0; padding: 7px 8px 30px; z-index: 8; }
+.homeind { position: absolute; bottom: 8px; left: 50%; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: var(--ink); z-index: 9; }
+.grouped { background: var(--grouped); }
+
+.ph-nav { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px 0; min-height: 44px; }
+.ph-nav .ic-btn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--ink); }
+.ph-nav .back { display: flex; align-items: center; gap: 2px; font-size: 17px; color: var(--ink); font-weight: 500; min-height: 44px; }
+.ph-pad { padding: 0 16px; }
+.ph-lt { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 34px; letter-spacing: -0.025em; line-height: 1.1; }
+.ph-sec { display: flex; align-items: baseline; justify-content: space-between; padding: 22px 20px 8px; }
+.ph-sec h3 { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; }
+.ph-sec small { font-size: 13px; color: var(--ink-3); }
+.ph-hero { margin: 4px 12px 0; border-radius: 28px; padding: 18px 18px 16px; }
+.ph-hero .lab { font-size: 13px; color: var(--on-display-2); display: flex; justify-content: space-between; align-items: center; }
+.ph-hero .big { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 50px; letter-spacing: -0.045em; line-height: 0.95; margin-top: 10px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ph-hero .big .p { font-size: 0.46em; color: var(--on-display-2); letter-spacing: -0.02em; }
+.ph-hero .big .cur { font-size: 0.62em; vertical-align: 0.42em; letter-spacing: 0; }
+.ph-hero .chg { color: var(--up-display); font-size: 16px; margin-top: 10px; }
+.ph-hero .chg-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 13px; color: var(--on-display-2); }
+.ph-hero .chg-row .chg { margin-top: 0; }
+.ph-hero .dstrip { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.ph-hero .pill-d { font-size: 11px; padding: 6px 9px; }
+.chips-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 4px; scrollbar-width: none; }
+.chips-scroll::-webkit-scrollbar { display: none; }
+.segpill { flex: none; height: 34px; padding: 0 14px; border-radius: 17px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; background: var(--bg); box-shadow: inset 0 0 0 1px var(--hairline); color: var(--ink-2); white-space: nowrap; }
+.segpill.on { background: var(--ink); color: var(--bg); box-shadow: none; }
+.inset { margin: 0 12px; }
+.mt8 { margin-top: 8px; } .mt12 { margin-top: 12px; } .mt16 { margin-top: 16px; }
+.foot-note { font-size: 11.5px; color: var(--ink-3); padding: 14px 20px 0; line-height: 1.45; }
+
+/* iPad */
+.pad-grid { position: absolute; inset: 0; display: grid; grid-template-columns: 232px 360px minmax(0, 1fr); }
+.pad-side { background: var(--surface); padding: 30px 12px 16px; border-right: 1px solid var(--hairline); display: grid; align-content: start; gap: 8px; }
+.pad-side .title { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 22px; padding: 4px 10px 8px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.pad-list { border-right: 1px solid var(--hairline); overflow-y: auto; padding: 24px 0 16px; scrollbar-width: none; background: var(--bg); }
+.pad-list::-webkit-scrollbar { display: none; }
+.pad-detail { overflow-y: auto; padding: 22px 28px 28px; scrollbar-width: none; background: var(--grouped); }
+.pad-detail::-webkit-scrollbar { display: none; }
+.pad-sbar { position: absolute; top: 8px; left: 24px; right: 24px; display: flex; justify-content: space-between; font: 600 13px/1 var(--font-text); z-index: 5; }
+.pad-sbar svg { height: 11px; width: auto; fill: var(--ink); }
+
+/* Desktop */
+.win-bar { height: 40px; background: var(--surface); border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 12.5px; color: var(--ink-3); }
+.win-bar .tl { width: 12px; height: 12px; border-radius: 50%; background: var(--edge); opacity: 0.55; }
+.win-bar .ttl { margin: 0 auto; font-weight: 600; color: var(--ink-2); }
+.desk { position: absolute; top: 40px; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 236px minmax(0, 1fr); }
+.desk-side { border-right: 1px solid var(--hairline); padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; background: var(--bg); }
+.desk-main { overflow: hidden; background: var(--grouped); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.desk-top { display: flex; align-items: center; gap: 12px; padding: 14px 24px; border-bottom: 1px solid var(--hairline); background: var(--bg); }
+.desk-top h2 { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 26px; letter-spacing: -0.02em; margin-right: auto; }
+.desk-body { padding: 20px 24px; display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; overflow: hidden; align-content: start; }
+.desk-foot { display: flex; gap: 16px; align-items: center; padding: 8px 24px; font-size: 12px; color: var(--ink-3); border-top: 1px solid var(--hairline); background: var(--bg); }
+.dslab { border-radius: 28px; padding: 26px 28px; display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 28px; align-items: end; }
+.dslab .big { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 78px; letter-spacing: -0.045em; line-height: 0.9; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dslab .big .p { font-size: 0.44em; color: var(--on-display-2); }
+.dslab .big .cur { font-size: 0.6em; vertical-align: 0.45em; letter-spacing: 0; }
+.dslab .lab { font-size: 13px; color: var(--on-display-2); margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.dslab .chg-row { display: flex; gap: 14px; align-items: baseline; margin-top: 14px; font-size: 15px; color: var(--on-display-2); }
+.dslab .chg { color: var(--up-display); font-size: 20px; }
+.dslab .kpis { display: grid; gap: 1px; background: #2A2A31; border-radius: 16px; overflow: hidden; }
+.dslab .kpis div { background: var(--display); padding: 10px 14px; display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--on-display-2); }
+.dslab .kpis b { font-family: var(--font-display); color: var(--on-display); font-weight: 650; font-variant-numeric: tabular-nums; }
+.dslab .kpis b.acc { color: var(--accent-display); }
+.dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dtable th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); padding: 8px 7px; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+.dtable td { padding: 0 7px; height: 48px; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+.dtable tr:last-child td { border-bottom: 0; }
+.dtable .n { text-align: right; font-family: var(--font-display); font-variant-numeric: tabular-nums; font-weight: 600; }
+.dtable tr.sel td { background: var(--accent-soft); }
+.dtable .ins { display: flex; align-items: center; gap: 10px; }
+.dtable .ins b { font-weight: 600; display: block; font-size: 13.5px; }
+.dtable .ins small { color: var(--ink-3); font-size: 11.5px; }
+.dtable td.rbc { width: 132px; }
+.dtable .ins span:last-child { min-width: 0; }
+.dtable .ins b { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .sk::after { display: none; }
+}
+</style>
+
+<!-- Icon sprite: one authored set, 24 grid, 1.75 stroke, round caps -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-hold" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4.5" rx="1.5"/><rect x="4" y="14.5" width="16" height="4.5" rx="1.5"/><path d="M7.5 7.25h4M7.5 16.75h7"/></symbol>
+  <symbol id="i-fan" viewBox="0 0 24 24"><path d="M3 17.5 7 14l3 1.5"/><path d="M10 15.5 20 7.5M10 15.5 21 16M10 15.5l10.5-3.5"/><circle cx="10" cy="15.5" r="1.4"/></symbol>
+  <symbol id="i-record" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 5 20 18H4z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 19 4 6h16z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-cloudoff" viewBox="0 0 24 24"><path d="M7 18h10.5a3.5 3.5 0 0 0 1-6.85A5.5 5.5 0 0 0 8.2 9.1 4.5 4.5 0 0 0 7 18z"/><path d="m4 4 16 16"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 21 19.5H3z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+  <symbol id="i-equal" viewBox="0 0 24 24"><path d="M6 9.5h12M6 14.5h12"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6.5v11M15 6.5v11"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M5 8.5h13l-3-3M19 15.5H6l3 3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95M19 5v4h-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+  <symbol id="i-split" viewBox="0 0 24 24"><path d="M4 12h5l6-6h5M15 18l-6-6M15 18h5"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17A8.5 8.5 0 0 0 12 3.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pausec" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/></symbol>
+  <symbol id="i-auto" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4v16a8 8 0 0 0 0-16z" fill="currentColor"/></symbol>
+  <symbol id="i-gold" viewBox="0 0 24 24"><path d="M3.5 18h17l-2.5-5h-12zM7 13l2-4h6l2 4"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.5"/><path d="M5 19.5c1.2-3.2 4-4.5 7-4.5s5.8 1.3 7 4.5"/></symbol>
+  <symbol id="sig" viewBox="0 0 54 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/><path d="M29 3.2a8.5 8.5 0 0 1 11 0l-1.4 1.5a6.4 6.4 0 0 0-8.2 0zM31.4 5.9a5 5 0 0 1 6.2 0l-1.5 1.5a2.9 2.9 0 0 0-3.2 0zM34.5 8.6 33.3 10a1.6 1.6 0 0 0 2.4 0z"/><rect x="43" y="1" width="10" height="10" rx="2.5" fill="none" stroke="currentColor"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="MyPrediction, Option C Signal, back to top">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <rect x="4" y="4" width="112" height="112" rx="28" fill="var(--display)" stroke="#34343C" stroke-width="2"/>
+        <path d="M52 68 L90.3 35.9 A50 50 0 0 1 99.6 83.5 Z" fill="var(--accent-display)" opacity=".45"/>
+        <path d="M52 68 L97.7 47.7 A50 50 0 0 1 101.8 72.4 Z" fill="var(--accent-display)"/>
+        <path d="M15 89 L27 78 L36 82 L45 70 L52 68" fill="none" stroke="var(--on-display)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="52" cy="68" r="8.5" fill="var(--on-display)" stroke="var(--display)" stroke-width="2.2"/>
+        <circle cx="90.6" cy="59" r="8" fill="var(--on-display)" stroke="var(--display)" stroke-width="2"/>
+      </svg>
+      <b>MyPrediction</b><span>Design system · Option C · Signal</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#foundations">Foundations</a><a href="#components">Components</a><a href="#screens">Screens</a><a href="#mapping">Mapping</a>
+    </nav>
+    <div class="theme-seg" role="group" aria-label="Colour theme">
+      <button type="button" id="th-system" data-theme-set="system" aria-pressed="true"><svg class="i i-sm" aria-hidden="true"><use href="#i-auto"/></svg><span>System</span></button>
+      <button type="button" id="th-light" data-theme-set="light" aria-pressed="false"><svg class="i i-sm" aria-hidden="true"><use href="#i-sun"/></svg><span>Light</span></button>
+      <button type="button" id="th-dark" data-theme-set="dark" aria-pressed="false"><svg class="i i-sm" aria-hidden="true"><use href="#i-moon"/></svg><span>Dark</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="slab">
+    <div style="min-width:0">
+      <div class="hero-kicker">
+        <span class="pill-d solid">Option C · Signal</span>
+        <span class="pill-d">Proposed · options round 1</span>
+        <span class="pill-d">Illustrative figures</span>
+      </div>
+      <p class="hero-label">Portfolio value</p>
+      <p class="hero-figure" aria-label="84,612 pounds 40, illustrative"><span class="cur">£</span>84,612<span class="p">.40</span></p>
+      <div class="hero-change">
+        <span class="chg"><svg aria-hidden="true"><use href="#i-up"/></svg>+£1,236.18 · +1.48%</span>
+        <small>today</small>
+      </div>
+      <div class="hero-strip">
+        <span class="pill-d"><span class="dot"></span>Twelve Data · fresh</span>
+        <span class="pill-d"><span class="dot"></span>Yahoo · fresh (UK, India intraday)</span>
+        <span class="pill-d">As of 21:15 London · cutoff 21:00</span>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div><h1 id="hero-title">Ink is fact. <em>Ultramarine is forecast.</em></h1>
+      <p>Signal is high-contrast monochrome with one electric colour, and that colour has one job: it marks what a model expects. History, holdings and controls stay in ink, so a forecast can never pass for a fact.</p></div>
+      <ul class="rules">
+        <li><span class="sw" style="background:var(--on-display)"></span><span>Ink<small>What happened: prices, values, history</small></span></li>
+        <li><span class="sw" style="background:var(--accent-display)"></span><span>Signal Ultramarine<small>What the model expects: ranges, medians</small></span></li>
+        <li><span class="sw" style="background:linear-gradient(90deg,var(--up-display) 50%,var(--down-display) 50%)"></span><span>Up and down<small>Only with a sign and an arrow, never colour alone</small></span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="hero-note"><span class="chip illus">Illustrative</span> Every figure on this page is an example from the MP-62 brief, not a real holding. MyPrediction cannot trade and gives no personal advice. Not approved UX; nothing is built.</p>
+  <div class="why">
+    <div><h3>Why ultramarine</h3><p>It can't be mistaken for gain or loss: it sits far from both red and green, including for red-green colour blindness. It reads as text on white (7.0:1) and, lifted, on true black (7.1:1). It is not lime, not coral, and not the saffron or prism colours of options A and B.</p></div>
+    <div><h3>What comes from Monzo</h3><p>The website's poster scale: oversized figures, pence set smaller, black display slabs on white, round instrument discs and modules that compose the same way on every screen. No Monzo colour, typeface or copy.</p></div>
+    <div><h3>What comes from Apple</h3><p>Large titles, a tab bar on iPhone and a sidebar on iPad and desktop, sheets for confirmation, 44-point targets, semantic colours, and materials only in bars and sheets, never under a figure.</p></div>
+  </div>
+</section>
+
+<!-- ================= FOUNDATIONS ================= -->
+<section class="sec" id="foundations" aria-labelledby="f-title">
+ <div class="wrap">
+  <div class="sec-head">
+    <h2 class="sec-title" id="f-title">Foundations</h2>
+    <p class="sec-lede">Semantic tokens, measured on the background they actually sit on. Light is crisp white; dark is true black for OLED, with every value stepped by hand rather than inverted.</p>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Colour</h3>
+    <p class="sub-lede">Contrast is the WCAG 2.2 ratio of the token against the background named in the column. Text needs 4.5:1, large text and control boundaries 3:1. Forecast bands are shapes, so their edges carry the accent at 7:1.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Token</th><th>Role</th><th>Light</th><th class="n">Contrast</th><th>Dark</th><th class="n">Contrast</th></tr></thead>
+        <tbody>
+          <tr><td><code>bg</code></td><td>Canvas</td><td><span class="sw-cell"><span class="sw-chip" style="background:#FFFFFF"></span>#FFFFFF</span></td><td class="n muted">base</td><td><span class="sw-cell"><span class="sw-chip" style="background:#000000"></span>#000000</span></td><td class="n muted">base</td></tr>
+          <tr><td><code>surface</code></td><td>Grouped background, wells</td><td><span class="sw-cell"><span class="sw-chip" style="background:#F3F3F6"></span>#F3F3F6</span></td><td class="n muted">fill</td><td><span class="sw-cell"><span class="sw-chip" style="background:#0E0E11"></span>#0E0E11</span></td><td class="n muted">fill</td></tr>
+          <tr><td><code>surface-2</code></td><td>Fills, skeletons, pressed</td><td><span class="sw-cell"><span class="sw-chip" style="background:#E9E9EF"></span>#E9E9EF</span></td><td class="n muted">fill</td><td><span class="sw-cell"><span class="sw-chip" style="background:#1A1A1F"></span>#1A1A1F</span></td><td class="n muted">fill</td></tr>
+          <tr><td><code>grouped</code> · <code>card</code></td><td>Grouped screen ground, modules on it</td><td><span class="sw-cell"><span class="sw-chip" style="background:#F3F3F6"></span><span class="sw-chip" style="background:#FFFFFF"></span>#F3F3F6 · #FFFFFF</span></td><td class="n muted">fill</td><td><span class="sw-cell"><span class="sw-chip" style="background:#000000"></span><span class="sw-chip" style="background:#121215"></span>#000000 · #121215</span></td><td class="n muted">fill</td></tr>
+          <tr><td><code>ink</code></td><td>Primary text, history line</td><td><span class="sw-cell"><span class="sw-chip" style="background:#0A0A0C"></span>#0A0A0C</span></td><td class="n"><span class="cr">19.8:1<span class="aa">on bg</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#F5F5F7"></span>#F5F5F7</span></td><td class="n"><span class="cr">19.3:1<span class="aa">on bg</span></span></td></tr>
+          <tr><td><code>ink-2</code></td><td>Secondary text</td><td><span class="sw-cell"><span class="sw-chip" style="background:#45454F"></span>#45454F</span></td><td class="n"><span class="cr">9.5:1<span class="aa">on bg</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#B8B8C2"></span>#B8B8C2</span></td><td class="n"><span class="cr">10.7:1<span class="aa">on bg</span></span></td></tr>
+          <tr><td><code>ink-3</code></td><td>Tertiary text, axis labels</td><td><span class="sw-cell"><span class="sw-chip" style="background:#62626E"></span>#62626E</span></td><td class="n"><span class="cr">5.4:1<span class="aa">on surface</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#8E8E9A"></span>#8E8E9A</span></td><td class="n"><span class="cr">6.0:1<span class="aa">on surface</span></span></td></tr>
+          <tr><td><code>hairline</code></td><td>Separators, gridlines (decorative)</td><td><span class="sw-cell"><span class="sw-chip" style="background:#E1E1E8"></span>#E1E1E8</span></td><td class="n muted">n/a</td><td><span class="sw-cell"><span class="sw-chip" style="background:#222228"></span>#222228</span></td><td class="n muted">n/a</td></tr>
+          <tr><td><code>edge</code></td><td>Control boundaries, outlines</td><td><span class="sw-cell"><span class="sw-chip" style="background:#85858F"></span>#85858F</span></td><td class="n"><span class="cr">3.3:1<span class="aa">on surface</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#6E6E79"></span>#6E6E79</span></td><td class="n"><span class="cr">3.8:1<span class="aa">on surface</span></span></td></tr>
+          <tr><td><code>display</code></td><td>Display slab (hero figures)</td><td><span class="sw-cell"><span class="sw-chip" style="background:#09090B"></span>#09090B</span></td><td class="n muted">slab</td><td><span class="sw-cell"><span class="sw-chip" style="background:#121216"></span>#121216</span></td><td class="n muted">slab</td></tr>
+          <tr><td><code>on-display</code></td><td>Figures on the slab</td><td><span class="sw-cell"><span class="sw-chip" style="background:#FFFFFF"></span>#FFFFFF</span></td><td class="n"><span class="cr">19.9:1<span class="aa">on slab</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#FFFFFF"></span>#FFFFFF</span></td><td class="n"><span class="cr">18.7:1<span class="aa">on slab</span></span></td></tr>
+          <tr><td><code>on-display-2</code></td><td>Labels, pence on the slab</td><td><span class="sw-cell"><span class="sw-chip" style="background:#A9A9B5"></span>#A9A9B5</span></td><td class="n"><span class="cr">8.6:1<span class="aa">on slab</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#A9A9B5"></span>#A9A9B5</span></td><td class="n"><span class="cr">8.0:1<span class="aa">on slab</span></span></td></tr>
+          <tr><td><code>accent</code></td><td>Signal Ultramarine: forecasts, focus ring</td><td><span class="sw-cell"><span class="sw-chip" style="background:#3D2BFF"></span>#3D2BFF</span></td><td class="n"><span class="cr">7.0:1<span class="aa">on bg</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#8F88FF"></span>#8F88FF</span></td><td class="n"><span class="cr">7.1:1<span class="aa">on bg</span></span></td></tr>
+          <tr><td><code>on-accent</code></td><td>Text on an accent fill</td><td><span class="sw-cell"><span class="sw-chip" style="background:#FFFFFF"></span>#FFFFFF</span></td><td class="n"><span class="cr">7.0:1<span class="aa">on accent</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#000000"></span>#000000</span></td><td class="n"><span class="cr">7.1:1<span class="aa">on accent</span></span></td></tr>
+          <tr><td><code>accent-display</code></td><td>Forecast figures on the slab</td><td><span class="sw-cell"><span class="sw-chip" style="background:#9D96FF"></span>#9D96FF</span></td><td class="n"><span class="cr">7.8:1<span class="aa">on slab</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#9D96FF"></span>#9D96FF</span></td><td class="n"><span class="cr">7.3:1<span class="aa">on slab</span></span></td></tr>
+          <tr><td><code>band-80</code></td><td>80% range fill (edged in accent)</td><td><span class="sw-cell"><span class="sw-chip" style="background:#E4E2FF"></span>#E4E2FF</span></td><td class="n"><span class="cr">5.6:1<span class="aa">accent edge</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#1C1A3D"></span>#1C1A3D</span></td><td class="n"><span class="cr">5.6:1<span class="aa">accent edge</span></span></td></tr>
+          <tr><td><code>band-50</code></td><td>50% range fill</td><td><span class="sw-cell"><span class="sw-chip" style="background:#BFB9FF"></span>#BFB9FF</span></td><td class="n"><span class="cr">10.9:1<span class="aa">ink on it</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#363175"></span>#363175</span></td><td class="n"><span class="cr">10.4:1<span class="aa">ink on it</span></span></td></tr>
+          <tr><td><code>up</code></td><td>Rise, with ▲ and +</td><td><span class="sw-cell"><span class="sw-chip" style="background:#05703F"></span>#05703F</span></td><td class="n"><span class="cr">5.6:1<span class="aa">on surface</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#45C98A"></span>#45C98A</span></td><td class="n"><span class="cr">9.2:1<span class="aa">on surface</span></span></td></tr>
+          <tr><td><code>down</code></td><td>Fall, with ▼ and −</td><td><span class="sw-cell"><span class="sw-chip" style="background:#C62A1F"></span>#C62A1F</span></td><td class="n"><span class="cr">5.1:1<span class="aa">on surface</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#FF6E62"></span>#FF6E62</span></td><td class="n"><span class="cr">7.0:1<span class="aa">on surface</span></span></td></tr>
+          <tr><td><code>warn</code></td><td>Stale, partial, paused</td><td><span class="sw-cell"><span class="sw-chip" style="background:#8F5600"></span>#8F5600</span></td><td class="n"><span class="cr">5.3:1<span class="aa">on warn-soft</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#F2AE4B"></span>#F2AE4B</span></td><td class="n"><span class="cr">8.6:1<span class="aa">on warn-soft</span></span></td></tr>
+          <tr><td><code>up-soft</code> · <code>down-soft</code> · <code>warn-soft</code></td><td>Chip and banner grounds</td><td><span class="sw-cell"><span class="sw-chip" style="background:#E3F4EB"></span><span class="sw-chip" style="background:#FCE8E6"></span><span class="sw-chip" style="background:#FBF0DC"></span></span></td><td class="n"><span class="cr">5.4 · 4.8 · 5.3<span class="aa">own text</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#0B2219"></span><span class="sw-chip" style="background:#2A1110"></span><span class="sw-chip" style="background:#291D0A"></span></span></td><td class="n"><span class="cr">7.9 · 6.5 · 8.6<span class="aa">own text</span></span></td></tr>
+          <tr><td><code>up-display</code> · <code>down-display</code></td><td>Rise and fall on the slab</td><td><span class="sw-cell"><span class="sw-chip" style="background:#5CD69A"></span><span class="sw-chip" style="background:#FF8A7F"></span></span></td><td class="n"><span class="cr">10.9 · 8.7<span class="aa">on slab</span></span></td><td><span class="sw-cell"><span class="sw-chip" style="background:#5CD69A"></span><span class="sw-chip" style="background:#FF8A7F"></span></span></td><td class="n"><span class="cr">10.3 · 8.2<span class="aa">on slab</span></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="font-size:13px;color:var(--ink-3);margin-top:10px">Red and green fail colour-blind separation on their own (deuteranopia), which is why rise and fall always carry a sign and a triangle. The accent never sits next to them as a data series.</p>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Three kinds of figure, three looks</h3>
+    <p class="sub-lede">History, evaluated forecasts and conditional scenarios never look alike. A scenario claims no likelihood, so it gets no fill and no colour.</p>
+    <div class="kinds">
+      <div class="kind"><svg viewBox="0 0 200 64" aria-hidden="true"><path d="M4 50 L30 42 L52 46 L80 30 L104 34 L130 20 L160 24 L196 12" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><h4>History</h4><p>Solid ink line, 2 px. Prices that happened, with their provider and timestamp.</p></div>
+      <div class="kind"><svg viewBox="0 0 200 64" aria-hidden="true"><path d="M4 40 L120 6 L120 60 Z" fill="var(--band-80)" stroke="var(--accent)" stroke-width="1"/><path d="M4 40 L120 20 L120 46 Z" fill="var(--band-50)"/><path d="M4 40 L120 32" stroke="var(--accent)" stroke-width="2" fill="none"/><circle cx="4" cy="40" r="4" fill="var(--ink)"/></svg><h4>Forecast</h4><p>Ultramarine fan: 80% range edged, 50% range filled, median line. Never a bare number.</p></div>
+      <div class="kind"><svg viewBox="0 0 200 64" aria-hidden="true"><path d="M60 8 V56 M54 8 H66 M54 56 H66" stroke="var(--ink-2)" stroke-width="1.5" fill="none"/><circle cx="60" cy="30" r="6" fill="var(--ink)" stroke="var(--bg)" stroke-width="2"/><path d="M140 8 V40 M134 8 H146 M134 40 H146" stroke="var(--ink-2)" stroke-width="1.5" fill="none"/><circle cx="140" cy="52" r="5" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/></svg><h4>Scored outcome</h4><p>The old range as a bracket. A filled dot landed inside; a ring missed. Misses are shown, not hidden.</p></div>
+      <div class="kind scn"><svg viewBox="0 0 200 64" aria-hidden="true"><path d="M4 40 C60 36 120 14 196 8" fill="none" stroke="var(--ink-2)" stroke-width="1.5" stroke-dasharray="5 5"/><path d="M4 40 C60 44 120 52 196 58" fill="none" stroke="var(--ink-2)" stroke-width="1.5" stroke-dasharray="5 5"/></svg><h4>Scenario · 3 to 5 years</h4><p>Dashed, unfilled, grey ink. Says "if this, then that". It is never given a likelihood.</p></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Type</h3>
+    <p class="sub-lede">Archivo carries every figure and every title; its expanded width at heavy weight gives the poster scale, and its tabular figures keep columns still. Instrument Sans carries reading and controls. Both scale with Dynamic Type through <code style="font-size:13px">relativeTo:</code>.</p>
+    <div>
+      <div class="ts-row"><div class="ts-sample fig" style="font-stretch:125%;font-weight:800;font-size:clamp(40px,7vw,88px);letter-spacing:-0.045em;line-height:1">£84,612<span style="font-size:.46em">.40</span></div><div class="meta">Display figure · Archivo 125 wdth 800 · −4.5% tracking<br>Web 56 to 148 px fluid · iPhone 50 pt</div><div class="meta"><code>.custom("Archivo-ExpandedExtraBold", size: 50, relativeTo: .largeTitle)</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:34px;letter-spacing:-0.025em;line-height:1.1">Holdings</div><div class="meta">Large Title · Archivo 112 wdth 800 · 34/41</div><div class="meta"><code>.largeTitle</code> → <code>.custom(…, size: 34, relativeTo: .largeTitle)</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:28px;letter-spacing:-0.02em">Top 5 · US tech</div><div class="meta">Title 1 · Archivo 112 800 · 28/34</div><div class="meta"><code>.title</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:22px;letter-spacing:-0.02em">6-month forecast</div><div class="meta">Title 2 · Archivo 112 800 · 22/28</div><div class="meta"><code>.title2</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-family:var(--font-display);font-stretch:112%;font-weight:750;font-size:20px">Calibration</div><div class="meta">Title 3 · Archivo 112 750 · 20/25</div><div class="meta"><code>.title3</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-weight:600;font-size:17px">Why Hold</div><div class="meta">Headline · Instrument Sans 600 · 17/22</div><div class="meta"><code>.headline</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-size:17px">The median is small against a range 31 points wide.</div><div class="meta">Body · Instrument Sans 400 · 17/22 (web 16/24)</div><div class="meta"><code>.body</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-size:15px;color:var(--ink-2)">As of 21:15 London · data cutoff 21:00</div><div class="meta">Subheadline · 400 · 15/20</div><div class="meta"><code>.subheadline</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-size:13px;color:var(--ink-2)">Model R2-HGB v3, approved 1 Oct 2026</div><div class="meta">Footnote · 400 · 13/18</div><div class="meta"><code>.footnote</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-size:12px;color:var(--ink-3)">Twelve Data · fresh</div><div class="meta">Caption 1 · 500 to 600 · 12/16</div><div class="meta"><code>.caption</code></div></div>
+      <div class="ts-row"><div class="ts-sample" style="font-family:var(--font-display);font-weight:650;font-size:17px">£14,820<span style="font-size:.72em">.50</span> &nbsp; +6.2% &nbsp; −9.8% to +21.4%</div><div class="meta">Figure · Archivo 100 wdth 650 · tabular, lining</div><div class="meta"><code>.custom("Archivo-SemiBold", size: 17, relativeTo: .body).monospacedDigit()</code></div></div>
+    </div>
+    <div class="grid c2 mt16">
+      <div class="spec"><h4>Numerals</h4>
+        <div class="stage col" style="font-family:var(--font-display);font-weight:650;font-size:18px">
+          <div style="display:grid;grid-template-columns:auto auto;justify-content:space-between;gap:4px 24px;font-variant-numeric:tabular-nums"><span>£14,820<span style="font-size:.72em">.50</span></span><span class="up">+1.9%</span><span>£11,402<span style="font-size:.72em">.10</span></span><span class="up">+3.4%</span><span>£9,215<span style="font-size:.72em">.75</span></span><span class="down">−0.6%</span></div>
+        </div>
+        <p class="note">Tabular and lining always. Pence at 56 to 72% of the pounds. A true minus (−), never a hyphen. Signs on every change, including +0.3%.</p>
+      </div>
+      <div class="spec"><h4>Fallback stacks</h4>
+        <div class="stage col" style="font-size:13px;color:var(--ink-2);gap:6px">
+          <div><b style="color:var(--ink)">Display and figures</b><br>Archivo → Helvetica Neue → Arial Nova → Arial → system-ui</div>
+          <div><b style="color:var(--ink)">Text and controls</b><br>Instrument Sans → -apple-system / SF Pro Text → Segoe UI → Roboto</div>
+        </div>
+        <p class="note">On iOS both faces ship in the app bundle (OFL), registered with <code style="font-size:12px">UIAppFonts</code>, so Dynamic Type scales them like system fonts.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Spacing, radii, elevation, materials</h3>
+    <p class="sub-lede">A 4-point grid. Radii grow with the size of the object. In dark mode, elevation is a lighter surface and a hairline, never a glow.</p>
+    <div class="grid c2">
+      <div class="spec"><h4>Spacing <code>--s1 … --s20</code></h4>
+        <div class="scale">
+          <div><i style="width:4px;height:4px"></i>4</div><div><i style="width:8px;height:8px"></i>8</div><div><i style="width:12px;height:12px"></i>12</div><div><i style="width:16px;height:16px"></i>16</div><div><i style="width:20px;height:20px"></i>20</div><div><i style="width:24px;height:24px"></i>24</div><div><i style="width:32px;height:32px"></i>32</div><div><i style="width:40px;height:40px"></i>40</div><div><i style="width:56px;height:56px"></i>56</div><div><i style="width:80px;height:80px"></i>80</div>
+        </div>
+        <p class="note">Rows 12 vertical, 14 to 16 horizontal. Modules 16 apart. Sections 56. Targets 44 pt minimum on touch.</p>
+      </div>
+      <div class="spec"><h4>Radii <code>--r-xs … --r-full</code></h4>
+        <div class="radii">
+          <div style="border-radius:6px">xs 6</div><div style="border-radius:10px">sm 10</div><div style="border-radius:16px">md 16</div><div style="border-radius:24px">lg 24</div><div style="border-radius:32px">xl 32</div><div style="border-radius:999px;width:72px">full</div>
+        </div>
+        <p class="note">xs badges in charts · sm buttons and fields · md rows, wells · lg modules · xl display slabs and sheets · full chips, discs. iOS uses <code style="font-size:12px">.continuous</code> corners.</p>
+      </div>
+      <div class="spec"><h4>Elevation <code>--shadow-1 … 3</code></h4>
+        <div class="stage"><div class="elev" style="width:100%"><div style="box-shadow:none;border:1px solid var(--hairline)">0 · flat, hairline</div><div style="box-shadow:var(--shadow-1)">1 · modules</div><div style="box-shadow:var(--shadow-2)">2 · toast, popover</div><div style="box-shadow:var(--shadow-3)">3 · sheet</div></div></div>
+      </div>
+      <div class="spec"><h4>Materials <code>--material</code></h4>
+        <div class="mat"><div class="under"><div class="ln" style="width:70%"></div><div class="ln" style="width:45%"></div><div class="ln" style="width:85%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:75%"></div></div><div class="bar"><span>Bar material</span><span>blur 20 · saturate 1.8</span></div></div>
+        <p class="note">Translucency only in the control layer: tab bar, top bar, sheet backdrop. Never behind a figure, a chart or a table. Reduce Transparency swaps it for solid <code style="font-size:12px">surface</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Icons</h3>
+    <p class="sub-lede">One authored set on a 24-point grid, 1.75 stroke, round caps; 2.25 when selected. Every icon that carries meaning sits beside a word. In SwiftUI, SF Symbols stand in where a close match exists.</p>
+    <div class="icons" id="icon-grid"></div>
+  </div>
+
+  <div class="sub">
+    <h3 class="sub-title">Motion</h3>
+    <p class="sub-lede">Quick and exponential: things arrive fast and settle. Figures update in place with a short cross-fade, never a slot-machine roll that would tempt a second look at a price. With Reduce Motion on, every movement becomes a 120 ms cross-fade or the final state.</p>
+    <div class="grid c2">
+      <div class="spec"><h4>Durations and easing</h4>
+        <div class="motion-demo stage col" id="motion-demo">
+          <div class="mrow"><span>Press · 100 ms</span><div class="mtrack" style="--d:100ms;--e:var(--ease-out)"><i></i></div></div>
+          <div class="mrow"><span>Quick · 160 ms</span><div class="mtrack" style="--d:160ms;--e:var(--ease-out)"><i></i></div></div>
+          <div class="mrow"><span>Standard · 240 ms</span><div class="mtrack" style="--d:240ms;--e:var(--ease-out)"><i></i></div></div>
+          <div class="mrow"><span>Sheet · 360 ms</span><div class="mtrack" style="--d:360ms;--e:var(--ease-out)"><i></i></div></div>
+          <div class="mrow"><span>Fan · 600 ms</span><div class="mtrack" style="--d:600ms;--e:var(--ease-out)"><i></i></div></div>
+          <button type="button" class="btn btn-secondary btn-sm" id="motion-btn" style="justify-self:start">Play the timings</button>
+        </div>
+      </div>
+      <div class="spec"><h4>Where motion is allowed</h4>
+        <div class="stage col" style="font-size:14px;color:var(--ink-2);gap:8px">
+          <div><b style="color:var(--ink)">Forecast fan opens</b> from the "now" point, 600 ms, ease-out. The one authored moment.</div>
+          <div><b style="color:var(--ink)">Sheets</b> rise 360 ms; SwiftUI <code style="font-size:12px">.spring(response: 0.36, dampingFraction: 0.86)</code>. Exits at 70% of the time.</div>
+          <div><b style="color:var(--ink)">Press</b> scales to 0.97 in 100 ms. No bounce on figures.</div>
+          <div><b style="color:var(--ink)">Skeletons</b> shimmer slowly; freshness text beside them never moves.</div>
+          <div><b style="color:var(--ink)">Ease-out</b> <code style="font-size:12px">cubic-bezier(.16,1,.3,1)</code> · <b style="color:var(--ink)">ease-in</b> <code style="font-size:12px">cubic-bezier(.7,0,.84,0)</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ================= COMPONENTS ================= -->
+<section class="sec" id="components" aria-labelledby="c-title">
+ <div class="wrap">
+  <div class="sec-head">
+    <h2 class="sec-title" id="c-title">Components</h2>
+    <p class="sec-lede">Each module shows its states. Controls are ink, never ultramarine: the accent belongs to forecasts and the focus ring, so a button can never be confused with a model's opinion.</p>
+  </div>
+
+  <div class="grid c2">
+    <div class="spec"><h4>Buttons <code>.btn · SignalButtonStyle</code></h4>
+      <div class="stage col">
+        <div><span class="state-lbl">Primary</span><div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button type="button" class="btn btn-primary">Save note</button>
+          <button type="button" class="btn btn-primary is-hover" tabindex="-1">Hover</button>
+          <button type="button" class="btn btn-primary is-pressed" tabindex="-1">Pressed</button>
+          <button type="button" class="btn btn-primary is-focus" tabindex="-1">Focus</button>
+          <button type="button" class="btn btn-primary" disabled>Disabled</button>
+          <button type="button" class="btn btn-primary" tabindex="-1" aria-busy="true"><span class="spin" aria-hidden="true"></span>Saving</button>
+        </div></div>
+        <div><span class="state-lbl">Secondary and plain</span><div style="display:flex;flex-wrap:wrap;gap:10px">
+          <button type="button" class="btn btn-secondary">Open proof</button>
+          <button type="button" class="btn btn-secondary is-hover" tabindex="-1">Hover</button>
+          <button type="button" class="btn btn-secondary is-focus" tabindex="-1">Focus</button>
+          <button type="button" class="btn btn-secondary" disabled>Disabled</button>
+          <button type="button" class="btn btn-plain">Model details</button>
+        </div></div>
+      </div>
+      <p class="note">44 pt high. One primary per screen. No buy, sell or order button exists anywhere in the system.</p>
+    </div>
+
+    <div class="spec"><h4>Segmented control and horizon selector <code>Picker · HorizonPicker</code></h4>
+      <div class="stage col">
+        <div><span class="state-lbl">Segmented</span><div class="seg" role="group" aria-label="Sort holdings"><button type="button" aria-pressed="true">Value</button><button type="button" aria-pressed="false">Today</button><button type="button" aria-pressed="false">Forecast</button></div></div>
+        <div class="hz">
+          <span class="hz-cap">Long term · leads</span>
+          <div class="hz-lt" role="group" aria-label="Forecast horizon">
+            <button type="button" aria-pressed="false"><b>3</b><span>months</span></button>
+            <button type="button" aria-pressed="true"><b>6</b><span>months</span></button>
+            <button type="button" aria-pressed="false"><b>12</b><span>months</span></button>
+          </div>
+          <div class="hz-st"><span><span class="chip short" style="height:22px;margin-right:6px">Short term</span><b>1 to 20 sessions</b></span><svg class="i i-sm" aria-hidden="true"><use href="#i-chev"/></svg></div>
+        </div>
+      </div>
+      <p class="note">3, 6 and 12 months lead as big figure tiles. Short-term sits apart, dashed and labelled, so 20 sessions is never read as long-term.</p>
+    </div>
+
+    <div class="spec"><h4>Chips <code>.chip · StatusChip</code></h4>
+      <div class="stage col">
+        <div><span class="state-lbl">Status labels</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip proposed">Proposed</span><span class="chip selected">Owner-selected</span><span class="chip implemented"><svg class="i i-sm" aria-hidden="true"><use href="#i-check"/></svg>Implemented</span><span class="chip illus">Illustrative</span></div></div>
+        <div><span class="state-lbl">Freshness and provider</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip fresh"><span class="dot"></span>Twelve Data · fresh</span><span class="chip stale"><svg class="i i-sm" aria-hidden="true"><use href="#i-clock"/></svg>Stale · last 16:35</span><span class="chip partial"><svg class="i i-sm" aria-hidden="true"><use href="#i-half"/></svg>Partial · 6 of 7</span><span class="chip pdown"><svg class="i i-sm" aria-hidden="true"><use href="#i-alert"/></svg>Yahoo · not responding</span><span class="chip offline"><svg class="i i-sm" aria-hidden="true"><use href="#i-cloudoff"/></svg>Offline</span></div></div>
+        <div><span class="state-lbl">Forecast kind</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip fcst"><svg class="i i-sm" aria-hidden="true"><use href="#i-fan"/></svg>6M forecast</span><span class="chip short">Short term · 5 sessions</span><span class="chip proposed" style="box-shadow:none;border:1.5px dashed var(--edge)">Scenario · no likelihood</span></div></div>
+      </div>
+    </div>
+
+    <div class="spec"><h4>Ranked-action badges <code>.act · ActionBadge</code></h4>
+      <div class="stage col">
+        <div style="display:flex;flex-wrap:wrap;gap:8px" id="act-specimens"></div>
+        <div class="stcard" style="box-shadow:none;background:var(--bg)">
+          <div class="h"><span class="act lg"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg>Trim</span><span style="font-size:13px;color:var(--ink-3);font-weight:500">NVIDIA · decision support</span></div>
+          <p>Why: the widest 6-month range in the portfolio (−18.5% to +34.0%) on 13.5% of its value. Median +9.1%.</p>
+        </div>
+      </div>
+      <p class="note">An icon, a word and an outline: never colour alone. Each badge opens its reasons and uncertainty. These are not instructions, and MyPrediction cannot trade.</p>
+    </div>
+
+    <div class="spec"><h4>Holding row <code>.hrow · HoldingRow</code></h4>
+      <div class="stage col" style="padding:12px">
+        <div><span class="state-lbl">Default · selected · focus · stale</span>
+          <div class="hlist" data-fill="hrows-specimen"></div></div>
+      </div>
+      <p class="note">Disc, name and venue; value with smaller pence; today's change with sign and triangle; the 6-month range on a shared −20% to +35% scale so rows compare; the ranked action.</p>
+    </div>
+
+    <div class="spec"><h4>Top-5 card <code>.t5 · TopFiveCard</code></h4>
+      <div class="stage col" style="padding:12px">
+        <div class="card" data-fill="t5-us"></div>
+      </div>
+      <p class="note">Score = growth 35% + protection 40% + opportunity 25%, shown only when all three are eligible. A slot with no eligible listing says so instead of padding the list.</p>
+    </div>
+
+    <div class="spec" style="grid-column:1/-1"><h4>Forecast range <code>.frange · ForecastRangeView</code></h4>
+      <div class="stage col">
+        <div class="frange" data-frange data-med="6.2" data-lo80="-9.8" data-hi80="21.4" data-lo50="-2.0" data-hi50="14.4"></div>
+        <div class="frange-legend"><span><i style="background:var(--band-80);box-shadow:inset 0 0 0 1px var(--accent)"></i>80% range</span><span><i style="background:var(--band-50)"></i>50% range</span><span><i style="background:var(--accent);height:3px;vertical-align:3px"></i>Median</span><span><i style="background:var(--ink-3);width:1px;height:12px"></i>0%, today's price</span></div>
+        <div class="strip" style="margin-top:4px"><span class="chip fcst">Apple · 6 months · to 3 May 2027</span><span class="chip fresh"><span class="dot"></span>Twelve Data · fresh</span><span class="asof">As of 21:15 London · cutoff 21:00 · R2-HGB v3 · 50% range illustrative</span></div>
+      </div>
+    </div>
+
+    <div class="spec" style="grid-column:1/-1"><h4>Price chart with forecast and scored outcome <code>.chart · Swift Charts</code></h4>
+      <div class="stage col">
+        <div class="chart" tabindex="0" data-chart data-t="AAPL" data-med="6.2" data-lo80="-9.8" data-hi80="21.4" data-lo50="-2.0" data-hi50="14.4" data-w="960" data-h="300" aria-label="Apple, change versus today's price. History over 12 months rises from minus 14 percent to today. The 6-month forecast median is plus 6.2 percent, 80 percent range minus 9.8 to plus 21.4 percent. A forecast scored in May 2026 landed inside its 80 percent range. Use left and right arrow keys to read values."></div>
+        <div class="chart-legend"><span class="lg-k"><i></i>History (Twelve Data)</span><span class="lg-k"><i class="b80"></i>80% range</span><span class="lg-k"><i class="b50"></i>50% range</span><span class="lg-k"><i class="acc"></i>Median</span><span class="lg-k"><i class="dot"></i>Scored: inside</span><span class="lg-k"><i class="ring"></i>Scored: outside</span></div>
+        <details class="tbl-alt"><summary>Show the chart as a table</summary>
+          <table><thead><tr><th>Point</th><th>Date</th><th>Value vs today's price</th></tr></thead><tbody>
+            <tr><td>History start</td><td>3 Nov 2025</td><td>−14%</td></tr><tr><td>Scored forecast, issued 3 Nov 2025</td><td>3 May 2026</td><td>80% range −21.7% to +4.1%; outcome −6% (inside)</td></tr><tr><td>Today</td><td>3 Nov 2026</td><td>0%</td></tr><tr><td>Forecast median</td><td>3 May 2027</td><td>+6.2%</td></tr><tr><td>Forecast 80% range</td><td>3 May 2027</td><td>−9.8% to +21.4%</td></tr><tr><td>Forecast 50% range (illustrative)</td><td>3 May 2027</td><td>−2.0% to +14.4%</td></tr>
+          </tbody></table>
+        </details>
+      </div>
+      <p class="note">One y-axis: change against today's price, so history and forecast share a scale. Hover, tap or use the arrow keys for a crosshair. History and model output never share a colour.</p>
+    </div>
+
+    <div class="spec"><h4>Approval sheet <code>.sheet · .sheet(presentationDetents)</code></h4>
+      <div class="sheet-demo">
+        <div class="sheet" role="dialog" aria-label="Record your decision, example">
+          <div class="grabber"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="act"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg>Trim</span><span class="chip illus">Illustrative</span></div>
+          <h5>Record your decision on NVIDIA</h5>
+          <p style="font-size:14px;color:var(--ink-2)">6-month median <b class="fc-num">+9.1%</b>, 80% range −18.5% to +34.0%. 80% ranges held 79% of the time over 52 scored forecasts.</p>
+          <div style="margin-top:12px">
+            <div class="opt on"><span class="rad"></span>I'll act on this at my broker</div>
+            <div class="opt"><span class="rad"></span>I'll keep holding</div>
+            <div class="opt"><span class="rad"></span>Remind me in 30 days</div>
+          </div>
+          <div style="display:grid;gap:8px;margin-top:8px"><button type="button" class="btn btn-primary">Save to decision log</button><button type="button" class="btn btn-plain">Cancel</button></div>
+          <p class="fine">MyPrediction can't place orders. Your note is kept so the forecast and your decision can both be scored later.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec"><h4>Toast, tab bar, sidebar, search</h4>
+      <div class="stage col">
+        <div class="toast" role="status"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Saved to your decision log<button type="button">Undo</button></div>
+        <div style="border-radius:16px;overflow:hidden;box-shadow:var(--shadow-1)"><nav class="tabbar" aria-label="Tab bar specimen" data-fill="tabbar" data-cur="home"></nav></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px">
+          <div class="search"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><span>Search instruments</span></div>
+          <div class="search on"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><input id="search-demo" value="nvd" aria-label="Search instruments, example"><svg class="i i-sm" aria-hidden="true" style="color:var(--ink-3)"><use href="#i-x"/></svg></div>
+          <div class="results" role="listbox" aria-label="Results">
+            <div role="option" aria-selected="true"><span class="disc sm">NV</span><span><mark>NVD</mark>A · NVIDIA</span><small>XNAS · held</small></div>
+            <div role="option" aria-selected="false"><span class="disc sm out">QQ</span><span>QQQ · Invesco QQQ</span><small>ARCX</small></div>
+          </div>
+          <div class="search" style="color:var(--ink-2)"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><span>"xyz": no instrument matches. Try a ticker or a name.</span></div>
+        </div>
+        <nav class="sidebar card" aria-label="Sidebar specimen" style="padding:8px">
+          <a href="#components" aria-current="page"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>Home</a>
+          <a href="#components"><svg class="i" aria-hidden="true"><use href="#i-hold"/></svg>Holdings</a>
+          <a href="#components"><svg class="i" aria-hidden="true"><use href="#i-fan"/></svg>Forecasts</a>
+          <a href="#components"><svg class="i" aria-hidden="true"><use href="#i-record"/></svg>Track record</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub mt16" style="margin-top:56px">
+    <h3 class="sub-title">Every state, designed</h3>
+    <p class="sub-lede">Nothing hides behind a spinner. Each state keeps the provider and the last good time on screen, says what happened, and offers the one useful next step.</p>
+    <div class="grid c4">
+      <div class="stcard dash"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-hold"/></svg>Empty</div><p>No holdings yet. Add one by hand to see its forecast. MyPrediction never connects to a broker.</p><div class="acts"><button type="button" class="btn btn-primary btn-sm">Add a holding</button></div></div>
+      <div class="stcard"><div class="h"><span class="chip fresh" style="height:22px"><span class="dot" style="background:var(--ink-3)"></span>Twelve Data · checking</span></div><div class="sk" style="width:70%"></div><div class="sk" style="width:90%"></div><div class="sk" style="width:55%"></div><p style="font-size:12px;color:var(--ink-3)">Last good figures 21:00. Loading since 21:15.</p></div>
+      <div class="stcard warnb"><div class="h warn"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg>Stale</div><p>HSBC Holdings: last price 16:35, before the 21:00 cutoff. Its forecast and action are paused until a fresh price arrives.</p></div>
+      <div class="stcard warnb"><div class="h warn"><svg class="i" aria-hidden="true"><use href="#i-half"/></svg>Partial</div><p>6 of 7 holdings priced at 21:00. The total includes HSBC at its 16:35 price and says so.</p></div>
+      <div class="stcard downb"><div class="h down"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg>Error</div><p>Twelve Data didn't answer at 21:15. You're seeing 21:00 prices. We'll try again in 5 minutes.</p><div class="acts"><button type="button" class="btn btn-secondary btn-sm"><svg class="i i-sm" aria-hidden="true"><use href="#i-refresh"/></svg>Retry now</button></div></div>
+      <div class="stcard"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-cloudoff"/></svg>Offline</div><p>You're offline. Figures are from 21:15 London and won't update until you reconnect. Forecasts are readable; nothing new is scored.</p></div>
+      <div class="stcard dash"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-box"/></svg>No model</div><p>No approved model for the 12-month task yet. History is shown; there is no range and no ranked action.</p></div>
+      <div class="stcard dash"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-pausec"/></svg>Abstaining</div><p>The model abstains here: too little clean history at this horizon to state a range it can stand behind.</p></div>
+      <div class="stcard"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-split"/></svg>Disagreement</div><p>R2-HGB v3 and the benchmark disagree on direction at 6 months. Both ranges are shown side by side, and no action is ranked.</p><div class="acts"><button type="button" class="btn btn-plain btn-sm" style="padding:0">Compare models</button></div></div>
+      <div class="stcard dash"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-gold"/></svg>Forecast unavailable</div><p><b>Gold XAU/USD.</b> The valuation convention is still open (SCI-D08). Price history is shown; no range, no score, no action.</p></div>
+      <div class="stcard"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Read only</div><p>This shared view can't save decision notes. Ask the owner for edit access.</p></div>
+      <div class="stcard"><div class="h"><svg class="i" aria-hidden="true"><use href="#i-record"/></svg>Calibration</div><div class="calib" data-calib aria-label="41 of 52 scored forecasts landed inside their 80 percent range"></div><p><b>79%</b> of 80% ranges held · 52 scored · target 80%</p></div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ================= SCREENS ================= -->
+<section class="sec" id="screens" aria-labelledby="s-title">
+ <div class="wrap">
+  <div class="sec-head">
+    <h2 class="sec-title" id="s-title">Screens</h2>
+    <p class="sec-lede">Each screen in light and dark, built from the components above with the brief's shared figures. Phone screens scroll inside the device.</p>
+  </div>
+
+  <div class="screen-block">
+    <h3 class="sub-title">iPhone · Home</h3>
+    <p class="sub-lede">Holdings first, under the portfolio figure; then the top 5 per segment.</p>
+    <div class="pair phones" data-pair="tpl-home" data-kind="phone"><div class="pair-note"><h4>What to notice</h4><ul><li>The figure is the hero, on a black slab with the providers and cutoff underneath it.</li><li>Every row puts its 6-month range on the same scale, so NVIDIA's width is obvious next to the ETF's.</li><li>HSBC is stale: muted value, amber clock, Pause with its reason.</li><li>Gold says "forecast unavailable" instead of showing an empty card.</li></ul></div></div>
+  </div>
+
+  <div class="screen-block">
+    <h3 class="sub-title">iPhone · Instrument detail</h3>
+    <p class="sub-lede">A forecast for a chosen horizon, with its proof one scroll away: calibration, track record, model version.</p>
+    <div class="pair phones" data-pair="tpl-detail" data-kind="phone"><div class="pair-note"><h4>What to notice</h4><ul><li>The median is big but never alone: both ranges, the horizon, as-of, cutoff and model sit under it.</li><li>The May 2026 forecast is scored on the chart itself.</li><li>Scenarios are dashed and unfilled, and claim no likelihood.</li><li>Decision support says why, and that MyPrediction cannot trade.</li></ul></div></div>
+  </div>
+
+  <div class="screen-block">
+    <h3 class="sub-title">iPad · Split view</h3>
+    <p class="sub-lede">Sidebar, holdings list and detail. The selected row takes the accent wash because it is showing a forecast.</p>
+    <div class="pair" data-pair="tpl-ipad" data-kind="pad"></div>
+  </div>
+
+  <div class="screen-block">
+    <h3 class="sub-title">Desktop · Dashboard</h3>
+    <p class="sub-lede">The editorial layout: a display slab for the figure, a dense holdings table at trading density, and the segment lists beside it.</p>
+    <div class="pair" data-pair="tpl-desk" data-kind="win"></div>
+  </div>
+
+  <div class="screen-block">
+    <h3 class="sub-title">PWA · 390 px</h3>
+    <p class="sub-lede">The web door at phone width: the same modules, a web header with search, and a bottom bar that follows the app's tabs.</p>
+    <div class="pair phones" data-pair="tpl-pwa" data-kind="phone"><div class="pair-note"><h4>What to notice</h4><ul><li>No horizontal scroll at 390 px; the holdings table folds into two-line rows.</li><li>The provider strip stays pinned under the header while the page scrolls.</li><li>Same tokens and components as iOS, so web and Apple build from one system.</li></ul></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- ================= MAPPING ================= -->
+<section class="sec" id="mapping" aria-labelledby="m-title">
+ <div class="wrap">
+  <div class="sec-head">
+    <h2 class="sec-title" id="m-title">Mapping</h2>
+    <p class="sec-lede">Each token and component named once, with its CSS custom property or class for the SvelteKit PWA and its SwiftUI equivalent for the Apple app.</p>
+  </div>
+  <div class="sub">
+    <h3 class="sub-title">Tokens</h3>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Token</th><th>CSS</th><th>SwiftUI</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas, surfaces</td><td><code>--bg</code> <code>--surface</code> <code>--surface-2</code></td><td><code>Color.signal.bg</code> · <code>.surface</code> · <code>.surface2</code></td><td class="muted">Asset catalog colours with Any and Dark appearances</td></tr>
+        <tr><td>Ink</td><td><code>--ink</code> <code>--ink-2</code> <code>--ink-3</code></td><td><code>.foregroundStyle(.primary / .secondary / .tertiary)</code> via <code>Color.signal.ink*</code></td><td class="muted">Tertiary raised to 5.4:1, above the system default</td></tr>
+        <tr><td>Lines</td><td><code>--hairline</code> <code>--edge</code></td><td><code>Color.signal.hairline</code> · <code>.edge</code></td><td class="muted">Edge for any control boundary (3:1)</td></tr>
+        <tr><td>Display slab</td><td><code>--display</code> <code>--on-display*</code> <code>--accent-display</code></td><td><code>Color.signal.display</code> + <code>.environment(\.colorScheme, .dark)</code> inside</td><td class="muted">The slab is always dark; children read dark-mode tokens</td></tr>
+        <tr><td>Accent</td><td><code>--accent</code> <code>--on-accent</code> <code>--accent-soft</code></td><td><code>Color.signal.forecast</code> (not <code>.tint</code>)</td><td class="muted">App tint stays ink so system controls don't borrow the forecast colour</td></tr>
+        <tr><td>Forecast bands</td><td><code>--band-80</code> <code>--band-50</code></td><td><code>AreaMark(yStart:yEnd:)</code> <code>.foregroundStyle(Color.signal.band80)</code></td><td class="muted">80% band stroked with <code>.forecast</code> at 1 pt</td></tr>
+        <tr><td>Semantic</td><td><code>--up</code> <code>--down</code> <code>--warn</code> + <code>*-soft</code></td><td><code>Color.signal.up / .down / .warn</code></td><td class="muted">Always paired with sign, triangle or word</td></tr>
+        <tr><td>Type</td><td><code>--font-display</code> <code>--font-text</code>, <code>.fig</code></td><td><code>Font.signal(.largeTitle)</code> → <code>.custom(_, size:, relativeTo:)</code>; figures add <code>.monospacedDigit()</code></td><td class="muted">Dynamic Type through <code>relativeTo</code></td></tr>
+        <tr><td>Spacing</td><td><code>--s1</code> … <code>--s20</code> (4 to 80)</td><td><code>Spacing.s1</code> … <code>.s20</code> (<code>CGFloat</code>)</td><td class="muted">4-point grid</td></tr>
+        <tr><td>Radii</td><td><code>--r-xs</code> … <code>--r-full</code></td><td><code>RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)</code>, <code>Capsule()</code></td><td class="muted">6 · 10 · 16 · 24 · 32 · full</td></tr>
+        <tr><td>Elevation</td><td><code>--shadow-1</code> … <code>--shadow-3</code></td><td><code>.shadow(color:radius:y:)</code> light; <code>.overlay(stroke hairline)</code> dark</td><td class="muted">Dark mode uses a lighter surface, not a shadow</td></tr>
+        <tr><td>Materials</td><td><code>--material</code> + <code>backdrop-filter</code></td><td><code>.toolbarBackground(.bar)</code>, <code>.presentationBackground(.regularMaterial)</code></td><td class="muted">Control layer only</td></tr>
+        <tr><td>Motion</td><td><code>--t-*</code>, <code>--ease-out</code>, <code>--ease-in</code></td><td><code>.spring(response: 0.36, dampingFraction: 0.86)</code>; <code>@Environment(\.accessibilityReduceMotion)</code></td><td class="muted">Reduced: 120 ms cross-fade</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="sub">
+    <h3 class="sub-title">Components</h3>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Component</th><th>CSS class (Svelte component)</th><th>SwiftUI</th></tr></thead>
+      <tbody>
+        <tr><td>Button</td><td><code>.btn .btn-primary|secondary|plain</code> (<code>Button.svelte</code>)</td><td><code>Button</code> + <code>.buttonStyle(.signalPrimary)</code></td></tr>
+        <tr><td>Segmented control</td><td><code>.seg</code> (<code>Segmented.svelte</code>)</td><td><code>Picker(…).pickerStyle(.segmented)</code></td></tr>
+        <tr><td>Horizon selector</td><td><code>.hz</code> (<code>HorizonPicker.svelte</code>)</td><td><code>HorizonPicker</code> (custom; long term 3/6/12M, short term apart)</td></tr>
+        <tr><td>Chip</td><td><code>.chip.fresh|stale|partial|pdown|offline|proposed|selected|implemented</code></td><td><code>StatusChip(kind:)</code></td></tr>
+        <tr><td>Data strip</td><td><code>.strip</code> (<code>FreshnessStrip.svelte</code>)</td><td><code>FreshnessStrip</code> in <code>.safeAreaInset(edge: .top)</code></td></tr>
+        <tr><td>Holding row</td><td><code>.hrow</code> + <code>.rb</code> (<code>HoldingRow.svelte</code>)</td><td><code>HoldingRow</code> in <code>List</code>, <code>RangeBar</code> as a <code>Canvas</code></td></tr>
+        <tr><td>Top-5 card</td><td><code>.t5</code> (<code>TopFive.svelte</code>)</td><td><code>TopFiveCard</code> (<code>Section</code> in an inset grouped <code>List</code>)</td></tr>
+        <tr><td>Forecast range</td><td><code>.frange</code> (<code>ForecastRange.svelte</code>, SVG)</td><td><code>ForecastRangeView</code> (Swift Charts <code>BarMark(xStart:xEnd:)</code> + <code>RuleMark</code>)</td></tr>
+        <tr><td>Price chart</td><td><code>.chart</code> (<code>FanChart.svelte</code>, SVG)</td><td><code>Chart { LineMark; AreaMark(yStart:yEnd:); PointMark }</code> + <code>.chartXSelection</code></td></tr>
+        <tr><td>Action badge</td><td><code>.act</code> (<code>ActionBadge.svelte</code>)</td><td><code>ActionBadge(.trim)</code> with <code>.accessibilityLabel("Trim, decision support")</code></td></tr>
+        <tr><td>Approval sheet</td><td><code>.sheet</code> in <code>&lt;dialog&gt;</code></td><td><code>.sheet { … }.presentationDetents([.medium, .large])</code></td></tr>
+        <tr><td>Toast</td><td><code>.toast</code>, <code>role="status"</code></td><td>overlay + <code>.transition(.move(edge: .bottom))</code>, <code>AccessibilityNotification.Announcement</code></td></tr>
+        <tr><td>Tab bar · sidebar</td><td><code>.tabbar</code> · <code>.sidebar</code></td><td><code>TabView</code> · <code>NavigationSplitView</code> (<code>.sidebarAdaptable</code> on iPadOS 18)</td></tr>
+        <tr><td>Search</td><td><code>.search</code> + <code>.results</code></td><td><code>.searchable(text:)</code> + <code>.searchSuggestions</code></td></tr>
+        <tr><td>States</td><td><code>.stcard</code>, <code>.sk</code></td><td><code>ContentUnavailableView</code>, <code>.redacted(reason: .placeholder)</code> with the strip unredacted</td></tr>
+        <tr><td>Display slab</td><td><code>.slab</code>, <code>.hero-figure</code></td><td><code>DisplaySlab { … }</code> (<code>RoundedRectangle(32, .continuous)</code>)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p class="hero-note" style="margin-top:32px"><span class="chip proposed">Proposed</span> Option C of three for MP-62. The owner picks one; the pick becomes the spec. Fonts: Archivo and Instrument Sans, both SIL Open Font Licence. No Monzo or Apple assets are used.</p>
+ </div>
+</section>
+</main>
+
+<!-- ================= TEMPLATES ================= -->
+<template id="tpl-home">
+  <div class="dev dev-phone"><div class="screen grouped">
+    <div class="island"></div>
+    <div class="sbar" style="background:var(--grouped)"><span>21:15</span><span class="sic"><svg viewBox="0 0 54 12" aria-hidden="true"><use href="#sig"/></svg></span></div>
+    <div class="scroll">
+      <div class="ph-nav"><span class="ph-lt">Home</span><span style="display:flex;gap:4px"><span class="ic-btn"><svg class="i i-lg" aria-hidden="true"><use href="#i-search"/></svg></span><span class="ic-btn"><svg class="i i-lg" aria-hidden="true"><use href="#i-person"/></svg></span></span></div>
+      <div class="ph-hero slab">
+        <div class="lab"><span>Portfolio · 7 holdings</span><span class="pill-d" style="padding:4px 8px">Illustrative</span></div>
+        <div class="big"><span class="cur">£</span>84,612<span class="p">.40</span></div>
+        <div class="chg-row"><span class="chg"><svg aria-hidden="true"><use href="#i-up"/></svg>+£1,236.18 · +1.48%</span><span>today</span></div>
+        <div class="dstrip"><span class="pill-d"><span class="dot"></span>Twelve Data · fresh</span><span class="pill-d"><span class="dot"></span>Yahoo · fresh</span><span class="pill-d">21:15 · cutoff 21:00</span></div>
+      </div>
+      <div class="ph-sec"><h3>Holdings</h3><small>6M forecast · 80% range</small></div>
+      <div class="hlist inset" data-fill="hrows"></div>
+      <div class="ph-sec"><h3>Top 5 by segment</h3><small>Score /100</small></div>
+      <div class="chips-scroll"><span class="segpill on">US tech</span><span class="segpill">India Nifty 50</span><span class="segpill">US large caps</span><span class="segpill">India midcap</span><span class="segpill">ETFs · US</span><span class="segpill">ETFs · UK</span><span class="segpill">ETFs · India</span><span class="segpill">Gold &amp; silver</span></div>
+      <div class="card inset mt12" data-fill="t5-us"></div>
+      <div class="card inset mt12" data-fill="t5-in"></div>
+      <div class="card inset mt12">
+        <div class="card-h"><h5>Gold &amp; silver</h5><small>XAU/USD</small></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span class="disc out"><svg class="i" aria-hidden="true"><use href="#i-gold"/></svg></span><div><div style="font-weight:600;font-size:15px">Gold · forecast unavailable</div><p style="font-size:13px;color:var(--ink-2);margin-top:2px">Valuation convention still open (SCI-D08). History only; no range, score or action.</p></div></div>
+      </div>
+      <p class="foot-note">Illustrative figures. Decision support only: MyPrediction cannot trade and this is not personal advice.</p>
+    </div>
+    <nav class="tabbar" aria-label="Tabs" data-fill="tabbar" data-cur="home"></nav>
+    <div class="homeind"></div>
+  </div></div>
+</template>
+
+<template id="tpl-detail">
+  <div class="dev dev-phone"><div class="screen grouped">
+    <div class="island"></div>
+    <div class="sbar" style="background:var(--grouped)"><span>21:15</span><span class="sic"><svg viewBox="0 0 54 12" aria-hidden="true"><use href="#sig"/></svg></span></div>
+    <div class="scroll">
+      <div class="ph-nav"><span class="back"><svg class="i i-lg" aria-hidden="true"><use href="#i-back"/></svg>Holdings</span><span class="ic-btn"><svg class="i i-lg" aria-hidden="true"><use href="#i-info"/></svg></span></div>
+      <div class="ph-pad" style="display:flex;gap:12px;align-items:center;margin-top:4px">
+        <span class="disc" style="width:48px;height:48px;font-size:15px">AP</span>
+        <div style="min-width:0"><div class="ph-lt" style="font-size:30px">Apple</div><div style="font-size:13px;color:var(--ink-3)">AAPL · XNAS · USD · <span class="chip illus" style="height:20px;font-size:11px">Illustrative</span></div></div>
+      </div>
+      <div class="ph-pad" style="display:flex;align-items:baseline;justify-content:space-between;margin-top:14px">
+        <div><div style="font-size:12px;color:var(--ink-3);font-weight:600">Your holding</div><div class="fig" style="font-stretch:125%;font-weight:800;font-size:32px;letter-spacing:-0.04em;line-height:1">£14,820<span style="font-size:.56em">.50</span></div></div>
+        <div style="text-align:right"><span class="chg up" style="font-size:16px"><svg aria-hidden="true"><use href="#i-up"/></svg>+1.9%</span><div style="font-size:12px;color:var(--ink-3)">today</div></div>
+      </div>
+      <div class="ph-pad mt16">
+        <div class="hz">
+          <div class="hz-lt" role="group" aria-label="Horizon"><button type="button" aria-pressed="false"><b>3</b><span>months</span></button><button type="button" aria-pressed="true"><b>6</b><span>months</span></button><button type="button" aria-pressed="false"><b>12</b><span>months</span></button></div>
+          <div class="hz-st"><span><b>Short term</b> · 1 to 20 sessions</span><svg class="i i-sm" aria-hidden="true"><use href="#i-chev"/></svg></div>
+        </div>
+      </div>
+      <div class="card inset mt12">
+        <div class="fcard">
+          <div class="fhead">
+            <div><div class="fmed-l">6-month median</div><div class="fmed">+6.2%</div></div>
+            <div class="franges"><span>80% <b>−9.8% to +21.4%</b></span><span>50% <b>−2.0% to +14.4%</b></span></div>
+          </div>
+          <div class="chart" data-chart data-t="AAPL" data-med="6.2" data-lo80="-9.8" data-hi80="21.4" data-lo50="-2.0" data-hi50="14.4" data-w="340" data-h="210" data-compact="1" role="img" aria-label="Apple history and 6-month forecast fan. Median plus 6.2 percent, 80 percent range minus 9.8 to plus 21.4 percent. The May 2026 forecast landed inside its range."></div>
+          <div class="chart-legend" style="margin-top:0"><span class="lg-k"><i></i>History</span><span class="lg-k"><i class="b80"></i>80%</span><span class="lg-k"><i class="b50"></i>50%</span><span class="lg-k"><i class="dot"></i>Scored</span></div>
+          <div class="fmeta"><div><span>Horizon</span><b>6 months · 3 May 2027</b></div><div><span>As of</span><b>21:15 London</b></div><div><span>Data cutoff</span><b>21:00 · Twelve Data</b></div><div><span>Model</span><b>R2-HGB v3 ›</b></div></div>
+        </div>
+      </div>
+      <div class="ph-sec"><h3>Proof</h3><small>6-month task</small></div>
+      <div class="card inset">
+        <div style="font-weight:600;font-size:15px">Calibration</div>
+        <p style="font-size:14px;color:var(--ink-2);margin:2px 0 10px">80% ranges held <b style="color:var(--ink)">79%</b> of the time over <b style="color:var(--ink)">52</b> scored forecasts. Target 80%.</p>
+        <div class="calib" data-calib aria-label="41 of 52 inside"></div>
+        <div style="display:flex;gap:14px;font-size:12px;color:var(--ink-3);margin-top:8px"><span class="lg-k"><i class="dot"></i>41 inside</span><span class="lg-k"><i class="ring"></i>11 outside</span></div>
+        <div style="border-top:1px solid var(--hairline);margin-top:12px;padding-top:10px;display:grid;gap:4px;font-size:13px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--ink-2)">Last scored (May 2026)</span><b>Inside 80% range</b></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--ink-2)">Model</span><b>R2-HGB v3 · approved 1 Oct 2026</b></div>
+        </div>
+      </div>
+      <div class="ph-sec"><h3>Decision support</h3></div>
+      <div class="card inset">
+        <div style="display:flex;align-items:center;gap:8px"><span class="act lg"><svg class="i" aria-hidden="true"><use href="#i-equal"/></svg>Hold</span></div>
+        <p style="font-size:14px;color:var(--ink-2);margin-top:8px">Why: the median gain (+6.2%) is small against a range 31 points wide, and the last scored forecast held.</p>
+        <p style="font-size:12px;color:var(--ink-3);margin-top:8px">Not personal advice. MyPrediction cannot trade.</p>
+        <button type="button" class="btn btn-secondary" style="width:100%;margin-top:12px">Record your decision</button>
+      </div>
+      <div class="ph-sec"><h3>Scenarios</h3><small>3 to 5 years</small></div>
+      <div class="inset" style="border:1.5px dashed var(--edge);border-radius:20px;padding:14px;font-size:13px;color:var(--ink-2)">Conditional only: each says what happens <i>if</i> its assumption holds. No likelihood is given. <span style="color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px">Open scenarios</span></div>
+      <p class="foot-note">Illustrative figures. 50% range illustrative.</p>
+    </div>
+    <nav class="tabbar" aria-label="Tabs" data-fill="tabbar" data-cur="hold"></nav>
+    <div class="homeind"></div>
+  </div></div>
+</template>
+
+<template id="tpl-ipad">
+  <div class="dev dev-pad"><div class="screen">
+    <div class="pad-sbar"><span>21:15 Tue 3 Nov</span><svg viewBox="0 0 54 12" aria-hidden="true"><use href="#sig"/></svg></div>
+    <div class="pad-grid">
+      <div class="pad-side">
+        <div class="title"><svg viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><rect x="4" y="4" width="112" height="112" rx="28" fill="var(--ink)"/><path d="M52 68 L97.7 47.7 A50 50 0 0 1 101.8 72.4 Z" fill="var(--accent)"/><path d="M15 89 L27 78 L36 82 L45 70 L52 68" fill="none" stroke="var(--bg)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>MyPrediction</div>
+        <nav class="sidebar" aria-label="Sidebar">
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>Home</a>
+          <a href="#screens" aria-current="page"><svg class="i" aria-hidden="true"><use href="#i-hold"/></svg>Holdings</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-fan"/></svg>Forecasts</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-record"/></svg>Track record</a>
+          <span class="grp">Segments</span>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>US tech</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>India Nifty 50</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>ETFs</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>Gold &amp; silver</a>
+        </nav>
+        <div style="margin-top:auto;padding:16px 10px 0;display:grid;gap:6px"><span class="chip fresh"><span class="dot"></span>Twelve Data · fresh</span><span class="chip fresh"><span class="dot"></span>Yahoo · fresh</span><span style="font-size:11.5px;color:var(--ink-3)">As of 21:15 · cutoff 21:00</span></div>
+      </div>
+      <div class="pad-list">
+        <div style="padding:0 16px 10px"><div class="ph-lt" style="font-size:30px">Holdings</div>
+          <div class="fig" style="font-stretch:125%;font-weight:800;font-size:26px;letter-spacing:-0.04em;margin-top:6px">£84,612<span style="font-size:.56em;color:var(--ink-3)">.40</span> <span class="chg up" style="font-size:13px;letter-spacing:0;font-stretch:100%"><svg aria-hidden="true"><use href="#i-up"/></svg>+1.48%</span></div>
+          <div class="search" style="margin-top:10px"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><span>Search</span></div>
+        </div>
+        <div data-fill="hrows" data-sel="NVDA"></div>
+        <p class="foot-note">Illustrative figures.</p>
+      </div>
+      <div class="pad-detail">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span class="disc" style="width:52px;height:52px;font-size:16px">NV</span>
+          <div style="flex:1;min-width:0"><div class="ph-lt" style="font-size:32px">NVIDIA</div><div style="font-size:13px;color:var(--ink-3)">NVDA · XNAS · USD</div></div>
+          <div style="text-align:right"><div class="fig" style="font-stretch:125%;font-weight:800;font-size:34px;letter-spacing:-0.04em;line-height:1">£11,402<span style="font-size:.56em">.10</span></div><span class="chg up" style="font-size:14px"><svg aria-hidden="true"><use href="#i-up"/></svg>+3.4% today</span></div>
+        </div>
+        <div class="card mt16">
+            <div class="fhead"><div><div class="fmed-l">6-month median</div><div class="fmed">+9.1%</div></div><div class="franges"><span>80% <b>−18.5% to +34.0%</b></span><span>50% <b>−4.7% to +22.9%</b></span></div></div>
+            <div class="chart mt8" data-chart data-t="NVDA" data-med="9.1" data-lo80="-18.5" data-hi80="34" data-lo50="-4.7" data-hi50="22.9" data-w="680" data-h="230" data-miss="1" role="img" aria-label="NVIDIA history and 6-month forecast fan. Median plus 9.1 percent, 80 percent range minus 18.5 to plus 34 percent. The May 2026 forecast missed above its range."></div>
+            <div class="chart-legend"><span class="lg-k"><i></i>History</span><span class="lg-k"><i class="b80"></i>80% range</span><span class="lg-k"><i class="b50"></i>50% range</span><span class="lg-k"><i class="acc"></i>Median</span><span class="lg-k"><i class="ring"></i>Scored: outside</span><span style="margin-left:auto;color:var(--ink-3)">As of 21:15 · cutoff 21:00 · Twelve Data</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:14px">
+            <div class="card" style="padding:12px"><span class="hz-cap">Horizon</span><div class="hz-lt mt8"><button type="button" aria-pressed="false"><b>3</b><span>months</span></button><button type="button" aria-pressed="true"><b>6</b><span>months</span></button><button type="button" aria-pressed="false"><b>12</b><span>months</span></button></div><div class="hz-st mt8" style="font-size:12px"><span><b>Short term</b> · 1 to 20 sessions</span><svg class="i i-sm" aria-hidden="true"><use href="#i-chev"/></svg></div></div>
+            <div class="card" style="padding:12px;display:grid;align-content:start"><div style="display:flex;justify-content:space-between;align-items:center"><span class="act lg"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg>Trim</span><span class="chip illus" style="height:22px">Decision support</span></div><p style="font-size:13px;color:var(--ink-2);margin-top:8px">The widest range in the portfolio, on 13.5% of its value. Not advice; MyPrediction cannot trade.</p><button type="button" class="btn btn-primary btn-sm" style="width:100%;margin-top:10px">Record your decision</button></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px">
+          <div class="card" style="padding:12px"><div style="font-weight:600;font-size:14px">Calibration</div><p style="font-size:12.5px;color:var(--ink-2);margin:2px 0 8px">79% held · 52 scored · target 80%</p><div class="calib" data-calib aria-label="41 of 52 inside"></div></div>
+          <div class="card" style="padding:12px"><div style="font-weight:600;font-size:14px">Track record</div><p style="font-size:12.5px;color:var(--ink-2);margin-top:2px">May 2026 forecast: outcome <b style="color:var(--ink)">above</b> its 80% range. Shown on the chart as a ring.</p></div>
+          <div class="card" style="padding:12px"><div style="font-weight:600;font-size:14px">Model</div><p style="font-size:12.5px;color:var(--ink-2);margin-top:2px">R2-HGB v3 · approved 1 Oct 2026<br>As of 21:15 · cutoff 21:00</p></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</template>
+
+<template id="tpl-desk">
+  <div class="dev dev-win"><div class="screen">
+    <div class="win-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="ttl">MyPrediction · Home</span><span class="chip illus" style="height:22px">Illustrative</span></div>
+    <div class="desk">
+      <div class="desk-side">
+        <div class="title" style="display:flex;align-items:center;gap:10px;padding:4px 10px 14px;font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:19px"><svg viewBox="0 0 120 120" width="28" height="28" aria-hidden="true"><rect x="4" y="4" width="112" height="112" rx="28" fill="var(--ink)"/><path d="M52 68 L90.3 35.9 A50 50 0 0 1 99.6 83.5 Z" fill="var(--accent)" opacity=".45"/><path d="M52 68 L97.7 47.7 A50 50 0 0 1 101.8 72.4 Z" fill="var(--accent)"/><path d="M15 89 L27 78 L36 82 L45 70 L52 68" fill="none" stroke="var(--bg)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>MyPrediction</div>
+        <div class="search" style="margin-bottom:10px"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><span>Search</span><span style="margin-left:auto;font-size:12px;border:1px solid var(--edge);border-radius:5px;padding:1px 5px">/</span></div>
+        <nav class="sidebar" aria-label="Sidebar">
+          <a href="#screens" aria-current="page"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>Home</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-hold"/></svg>Holdings</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-fan"/></svg>Forecasts</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-record"/></svg>Track record</a>
+          <span class="grp">Segments</span>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>US large caps</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>US tech</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>India Nifty 50</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>India midcap</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>ETFs · US, UK, India</a>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>Gold &amp; silver</a>
+          <span class="grp">System</span>
+          <a href="#screens"><svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg>Settings</a>
+        </nav>
+      </div>
+      <div class="desk-main">
+        <div class="desk-top"><h2>Home</h2><span class="chip fresh"><span class="dot"></span>Twelve Data · fresh</span><span class="chip fresh"><span class="dot"></span>Yahoo · fresh (UK, India intraday)</span><span class="chip stale"><svg class="i i-sm" aria-hidden="true"><use href="#i-clock"/></svg>HSBA stale · 16:35</span><span style="font-size:12.5px;color:var(--ink-3)">As of 21:15 London · cutoff 21:00</span></div>
+        <div class="desk-body">
+          <div style="display:grid;gap:16px;min-width:0;align-content:start">
+            <div class="dslab slab">
+              <div style="min-width:0"><div class="lab">Portfolio value <span class="pill-d" style="padding:4px 8px">Illustrative</span></div><div class="big"><span class="cur">£</span>84,612<span class="p">.40</span></div><div class="chg-row"><span class="chg"><svg aria-hidden="true"><use href="#i-up"/></svg>+£1,236.18 · +1.48%</span><span>today</span></div></div>
+              <div class="kpis"><div><span>Holdings</span><b>7</b></div><div><span>Widest 6M range</span><b>NVDA · 52.5 pts</b></div><div><span>6M calibration</span><b class="acc">79% of 80%</b></div><div><span>Model</span><b>R2-HGB v3</b></div></div>
+            </div>
+            <div class="card" style="padding:6px 8px 4px;overflow:hidden">
+              <div class="card-h" style="padding:10px 10px 0"><h5>Holdings</h5><span style="display:flex;gap:8px;align-items:center"><div class="seg" role="group" aria-label="Sort"><button type="button" aria-pressed="true">Value</button><button type="button" aria-pressed="false">Today</button><button type="button" aria-pressed="false">Forecast</button></div><span class="chip fcst"><svg class="i i-sm" aria-hidden="true"><use href="#i-fan"/></svg>6M</span></span></div>
+              <table class="dtable" data-fill="dtable"></table>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start">
+              <div class="card" data-fill="t5-in" data-compact="1"></div>
+              <div style="display:grid;gap:16px">
+                <div class="card"><div class="card-h"><h5>Calibration · 6M</h5><small>R2-HGB v3</small></div><div class="calib" data-calib aria-label="41 of 52 inside"></div><p style="font-size:12.5px;color:var(--ink-2);margin-top:8px">80% ranges held <b style="color:var(--ink)">79%</b> of the time over 52 scored forecasts. Approved 1 Oct 2026.</p></div>
+                <div class="card" style="box-shadow:none;border:1.5px dashed var(--edge);background:transparent"><div style="display:flex;gap:10px;align-items:center"><span class="disc sm out"><svg class="i i-sm" aria-hidden="true"><use href="#i-gold"/></svg></span><b style="font-size:14px">Gold XAU/USD · forecast unavailable</b></div><p style="font-size:12.5px;color:var(--ink-2);margin-top:6px">Valuation convention open (SCI-D08). History only.</p></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;gap:16px;align-content:start;min-width:0">
+            <div class="card"><div class="card-h"><h5>NVIDIA · 6 months</h5><span class="act"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg>Trim</span></div>
+              <div class="chart" data-chart data-t="NVDA" data-med="9.1" data-lo80="-18.5" data-hi80="34" data-lo50="-4.7" data-hi50="22.9" data-w="330" data-h="150" data-compact="1" data-miss="1" role="img" aria-label="NVIDIA 6-month forecast fan, median plus 9.1 percent, 80 percent range minus 18.5 to plus 34 percent."></div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-top:6px"><span>Median <b class="fc-num">+9.1%</b></span><span style="color:var(--ink-2)">80% −18.5% to +34.0%</span></div>
+            </div>
+            <div class="card" data-fill="t5-us"></div>
+          </div>
+        </div>
+        <div class="desk-foot"><span>Illustrative figures · decision support only · MyPrediction cannot trade</span><span style="margin-left:auto">Prices: Twelve Data (US), Yahoo (UK, India intraday) · as of 21:15 London</span></div>
+      </div>
+    </div>
+  </div></div>
+</template>
+
+<template id="tpl-pwa">
+  <div class="dev dev-phone"><div class="screen">
+    <div class="island"></div>
+    <div class="sbar"><span>21:15</span><span class="sic"><svg viewBox="0 0 54 12" aria-hidden="true"><use href="#sig"/></svg></span></div>
+    <div class="scroll" style="padding-top:54px">
+      <div style="position:sticky;top:0;z-index:4;background:var(--material);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--hairline)">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 16px;min-height:52px">
+          <svg viewBox="0 0 120 120" width="28" height="28" aria-hidden="true"><rect x="4" y="4" width="112" height="112" rx="28" fill="var(--ink)"/><path d="M52 68 L90.3 35.9 A50 50 0 0 1 99.6 83.5 Z" fill="var(--accent)" opacity=".45"/><path d="M52 68 L97.7 47.7 A50 50 0 0 1 101.8 72.4 Z" fill="var(--accent)"/><path d="M15 89 L27 78 L36 82 L45 70 L52 68" fill="none" stroke="var(--bg)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <b style="font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:17px">MyPrediction</b>
+          <span style="margin-left:auto;width:40px;height:40px;display:grid;place-items:center;border-radius:10px;background:var(--surface-2)"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg></span>
+        </div>
+        <div style="display:flex;gap:6px;padding:0 16px 8px;overflow:hidden;flex-wrap:wrap"><span class="chip fresh" style="height:22px;font-size:11px"><span class="dot"></span>Twelve Data · fresh</span><span class="chip fresh" style="height:22px;font-size:11px"><span class="dot"></span>Yahoo · fresh</span><span style="font-size:11px;color:var(--ink-3);align-self:center">21:15 · cutoff 21:00</span></div>
+      </div>
+      <div class="ph-pad" style="padding-top:18px">
+        <div style="font-size:13px;color:var(--ink-3);display:flex;justify-content:space-between"><span>Portfolio value</span><span class="chip illus" style="height:20px;font-size:11px">Illustrative</span></div>
+        <div class="fig" style="font-stretch:125%;font-weight:800;font-size:52px;letter-spacing:-0.045em;line-height:0.95;margin-top:8px;white-space:nowrap"><span style="font-size:.62em;vertical-align:.42em;letter-spacing:0">£</span>84,612<span style="font-size:.46em;color:var(--ink-3);letter-spacing:-0.02em">.40</span></div>
+        <div style="margin-top:8px;font-size:14px;color:var(--ink-3)"><span class="chg up" style="font-size:16px"><svg aria-hidden="true"><use href="#i-up"/></svg>+£1,236.18 · +1.48%</span> today</div>
+      </div>
+      <div style="margin:18px 12px 0;border-radius:20px;background:var(--surface);padding:4px 0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px 4px"><b style="font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:20px">Holdings</b><span style="font-size:12px;color:var(--ink-3)">6M · 80% range</span></div>
+        <div data-fill="hrows" data-flat="1"></div>
+      </div>
+      <div style="margin:12px 12px 0;border-radius:20px;background:var(--surface);padding:12px 4px 4px">
+        <div class="chips-scroll" style="padding:0 10px 8px"><span class="segpill">US tech</span><span class="segpill on">India Nifty 50</span><span class="segpill">US large caps</span><span class="segpill">India midcap</span><span class="segpill">ETFs</span><span class="segpill">Gold &amp; silver</span></div>
+        <div class="card" style="margin:0 8px 8px" data-fill="t5-in"></div>
+      </div>
+      <p class="foot-note">Illustrative figures. Decision support only; MyPrediction cannot trade.</p>
+    </div>
+    <nav class="tabbar" aria-label="Web navigation" data-fill="tabbar" data-cur="home" style="padding-bottom:24px"></nav>
+    <div class="homeind"></div>
+  </div></div>
+</template>
+
+<script>
+(function () {
+  "use strict";
+  /* ---------- Theme toggle (defaults to system) ---------- */
+  var root = document.documentElement;
+  var btns = document.querySelectorAll("[data-theme-set]");
+  function applyTheme(mode) {
+    if (mode === "light" || mode === "dark") root.setAttribute("data-theme", mode); else root.removeAttribute("data-theme");
+    btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-set") === mode)); });
+  }
+  var saved = "system";
+  try { saved = localStorage.getItem("mp-signal-theme") || "system"; } catch (e) {}
+  applyTheme(saved);
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var m = b.getAttribute("data-theme-set"); applyTheme(m);
+      try { localStorage.setItem("mp-signal-theme", m); } catch (e) {}
+    });
+  });
+
+  /* ---------- Shared illustrative data (MP-62 brief) ---------- */
+  var H = [
+    { t: "AAPL", d2: "AP", n: "Apple", v: "XNAS", val: "14,820", p: "50", d: 1.9, med: 6.2, lo: -9.8, hi: 21.4, a: "hold" },
+    { t: "NVDA", d2: "NV", n: "NVIDIA", v: "XNAS", val: "11,402", p: "10", d: 3.4, med: 9.1, lo: -18.5, hi: 34.0, a: "trim" },
+    { t: "SPY", d2: "SP", n: "SPDR S&P 500 ETF", v: "ARCX", val: "18,960", p: "00", d: 0.8, med: 4.3, lo: -7.1, hi: 15.2, a: "add" },
+    { t: "AZN", d2: "AZ", n: "AstraZeneca", v: "XLON", val: "9,215", p: "75", d: -0.6, med: 3.0, lo: -8.4, hi: 13.9, a: "hold" },
+    { t: "HSBA", d2: "HS", n: "HSBC Holdings", v: "XLON", val: "6,104", p: "20", d: 0.3, med: 2.1, lo: -10.2, hi: 12.6, a: "pause", stale: "16:35" },
+    { t: "RELIANCE", d2: "RE", n: "Reliance Industries", v: "XNSE", val: "8,940", p: "30", d: 1.1, med: 7.4, lo: -12.0, hi: 24.9, a: "add" },
+    { t: "NIFTYBEES", d2: "NB", n: "Nippon India ETF Nifty 50 BeES", v: "XNSE", val: "15,169", p: "55", d: 0.5, med: 5.0, lo: -6.9, hi: 16.2, a: "hold" }
+  ];
+  var ACT = { add: ["Add", "i-plus"], hold: ["Hold", "i-equal"], pause: ["Pause", "i-pause"], trim: ["Trim", "i-minus"], rebalance: ["Rebalance", "i-swap"] };
+  var T5 = {
+    us: { title: "US tech", sub: "Nasdaq-100 technology", rows: [["MSFT", "Microsoft", 74], ["NVDA", "NVIDIA", 71], ["AAPL", "Apple", 68], ["AMZN", "Amazon", 66]], withheld: "Fifth withheld: no other eligible listing" },
+    in: { title: "India Nifty 50", sub: "XNSE", rows: [["ICICIBANK", "ICICI Bank", 72], ["HDFCBANK", "HDFC Bank", 69], ["TCS", "Tata Consultancy Services", 66], ["INFY", "Infosys", 64], ["SBIN", "State Bank of India", 61]] }
+  };
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+  function pct(x, dp) { var s = Math.abs(x).toFixed(dp == null ? 1 : dp); return (x > 0 ? "+" : x < 0 ? "−" : "") + s + "%"; }
+  function chg(x) {
+    var cls = x >= 0 ? "up" : "down";
+    return '<span class="chg ' + cls + '"><svg aria-hidden="true"><use href="#i-' + (x >= 0 ? "up" : "down") + '"/></svg>' + pct(x) + '</span>';
+  }
+  function act(a, extra) { var A = ACT[a]; return '<span class="act ' + (a === "pause" ? "pause " : "") + (extra || "") + '"><svg class="i" aria-hidden="true"><use href="#' + A[1] + '"/></svg>' + A[0] + '</span>'; }
+  function rb(h) { return '<span class="rb' + (h.stale ? " stale" : "") + '" style="--lo:' + h.lo + ';--hi:' + h.hi + ';--med:' + h.med + '" role="img" aria-label="6-month 80% range ' + pct(h.lo) + ' to ' + pct(h.hi) + ', median ' + pct(h.med) + '"><span class="b80"></span><span class="z"></span><span class="md"></span></span>'; }
+  function hrow(h, opts) {
+    opts = opts || {};
+    var cls = "hrow" + (h.stale ? " is-stale" : "") + (opts.sel ? " is-sel" : "") + (opts.focus ? " is-focus" : "");
+    var meta = h.t + " · " + h.v;
+    var l2 = h.stale
+      ? '<span class="chip stale" style="height:20px;font-size:11px;padding:0 7px"><svg class="i i-sm" aria-hidden="true"><use href="#i-clock"/></svg>Last 16:35</span>' + rb(h)
+      : chg(h.d) + rb(h) + '<span class="fc-num" style="font-size:12px">' + pct(h.med) + '</span>';
+    return '<div class="' + cls + '"><span class="disc">' + h.d2 + '</span><div style="min-width:0"><div class="nm">' + esc(h.n) + '</div><div class="meta">' + meta + '</div><div class="line2">' + l2 + '</div></div><div class="rgt"><span class="val">£' + h.val + '<span class="p">.' + h.p + '</span></span>' + act(h.a) + '</div></div>';
+  }
+  function t5(key, compact) {
+    var d = T5[key], out = '<div class="card-h"><h5>' + esc(d.title) + '</h5><small>' + esc(d.sub) + ' · score /100</small></div><ol class="t5">';
+    d.rows.forEach(function (r, i) {
+      out += '<li><span class="rk">' + (i + 1) + '</span><span class="disc sm out">' + r[0].slice(0, 2) + '</span><span class="nm">' + esc(r[1]) + '<small>' + r[0] + '</small></span><span class="bar" aria-hidden="true"><i style="--v:' + r[2] + '"></i></span><span class="sc">' + r[2] + '</span></li>';
+    });
+    if (d.withheld) out += '<li class="withheld"><span class="rk">5</span><span>' + esc(d.withheld) + '</span></li>';
+    out += '</ol>';
+    if (!compact) out += '<p class="t5-foot">Growth 35% + protection 40% + opportunity 25%. Illustrative.</p>';
+    return out;
+  }
+  function tabbar(cur) {
+    var tabs = [["home", "Home", "i-home"], ["hold", "Holdings", "i-hold"], ["fc", "Forecasts", "i-fan"], ["rec", "Record", "i-record"], ["search", "Search", "i-search"]];
+    return tabs.map(function (t) { return '<a href="#screens"' + (t[0] === cur ? ' aria-current="page"' : "") + '><svg class="i" aria-hidden="true"><use href="#' + t[2] + '"/></svg>' + t[1] + '</a>'; }).join("");
+  }
+  function dtable() {
+    var s = '<thead><tr><th>Instrument</th><th class="n">Value</th><th class="n">Today</th><th class="n">6M median</th><th>80% range</th><th>Action</th><th>Data</th></tr></thead><tbody>';
+    H.forEach(function (h) {
+      s += '<tr' + (h.t === "NVDA" ? ' class="sel"' : "") + '><td><span class="ins"><span class="disc sm">' + h.d2 + '</span><span><b>' + esc(h.n) + '</b><small>' + h.t + ' · ' + h.v + '</small></span></span></td><td class="n"' + (h.stale ? ' style="color:var(--ink-2)"' : "") + '>£' + h.val + '<span style="font-size:.85em">.' + h.p + '</span></td><td class="n">' + chg(h.d) + '</td><td class="n"><span class="fc-num">' + pct(h.med) + '</span></td><td class="rbc">' + rb(h) + '</td><td>' + act(h.a) + '</td><td>' + (h.stale ? '<span class="chip stale" style="height:22px"><svg class="i i-sm" aria-hidden="true"><use href="#i-clock"/></svg>16:35</span>' : '<span class="chip fresh" style="height:22px"><span class="dot"></span>' + (h.v === "XLON" || h.v === "XNSE" ? "Yahoo" : "Twelve Data") + '</span>') + '</td></tr>';
+    });
+    return s + '</tbody>';
+  }
+
+  /* ---------- Charts ---------- */
+  var KEYS = {
+    AAPL: [-14, -11, -12, -8, -9, -5, -6, -3, -7, -4, -2, -1, 0],
+    NVDA: [-30, -22, -25, -15, -18, -10, -4, -6, -9, -4, -6, -2, 0]
+  };
+  var PAST = { AAPL: { start: -14, med: 6, lo: -9, hi: 21 }, NVDA: { start: -30, med: 9, lo: -18, hi: 34 } };
+  function rng(seed) { var s = seed; return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+  function series(t) {
+    var k = KEYS[t], r = rng(t.length * 7919 + t.charCodeAt(0)), pts = [];
+    for (var w = 0; w <= 52; w++) {
+      var m = w / 52 * 12, i = Math.min(11, Math.floor(m)), f = m - i;
+      var v = k[i] + (k[i + 1] - k[i]) * f;
+      if (w > 0 && w < 52) v += (r() - 0.5) * 2.4;
+      pts.push(v);
+    }
+    return pts;
+  }
+  var NOW = new Date(2026, 10, 3);
+  function fmtDate(d) { return d.getDate() + " " + ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()] + " " + d.getFullYear(); }
+  function renderChart(el) {
+    var D = el.dataset, W = +D.w, Hh = +D.h, compact = D.compact === "1", t = D.t;
+    if (!el.closest(".board") && el.clientWidth && el.clientWidth < W * 0.75) { var cw = Math.max(320, el.clientWidth); Hh = Math.round(Math.max(220, Hh * 0.95)); W = cw; }
+    var narrow = W < 560;
+    var med = +D.med, lo80 = +D.lo80, hi80 = +D.hi80, lo50 = +D.lo50, hi50 = +D.hi50;
+    var hist = series(t), past = PAST[t];
+    var pastLv = { lo: (1 + past.start / 100) * (1 + past.lo / 100) * 100 - 100, hi: (1 + past.start / 100) * (1 + past.hi / 100) * 100 - 100, med: (1 + past.start / 100) * (1 + past.med / 100) * 100 - 100 };
+    var outV = hist[26];
+    var all = hist.concat([lo80, hi80, pastLv.lo, pastLv.hi]);
+    var ymin = Math.floor((Math.min.apply(null, all) - 2) / 10) * 10, ymax = Math.ceil((Math.max.apply(null, all) + 2) / 10) * 10;
+    var mL = compact ? 30 : 40, mR = compact ? 46 : 64, mT = 14, mB = 24;
+    var pw = W - mL - mR, ph = Hh - mT - mB;
+    function X(month) { return mL + (month + 12) / 18 * pw; }
+    function Y(v) { return mT + (ymax - v) / (ymax - ymin) * ph; }
+    var s = '<svg viewBox="0 0 ' + W + ' ' + Hh + '" aria-hidden="true">';
+    var step = (ymax - ymin) > 60 ? 20 : 10;
+    for (var g = ymin; g <= ymax; g += step) {
+      s += '<line class="' + (g === 0 ? "zero-l" : "grid-l") + '" x1="' + mL + '" x2="' + (W - mR) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/>';
+      s += '<text x="' + (mL - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end">' + (g > 0 ? "+" : g < 0 ? "−" : "") + Math.abs(g) + '%</text>';
+    }
+    var xt = (compact || narrow) ? [[-12, "Nov 25"], [-6, "May 26"], [0, "Now"], [6, "May 27"]] : [[-12, "Nov 2025"], [-6, "May 2026"], [0, "Now · 3 Nov 2026"], [6, "May 2027"]];
+    xt.forEach(function (x) { s += '<text x="' + X(x[0]) + '" y="' + (Hh - 6) + '" text-anchor="' + (x[0] === -12 ? "start" : x[0] === 6 ? "end" : "middle") + '"' + (x[0] === 0 ? ' class="lbl-2"' : "") + '>' + x[1] + '</text>'; });
+    s += '<line class="now-l" x1="' + X(0) + '" x2="' + X(0) + '" y1="' + mT + '" y2="' + (Hh - mB) + '"/>';
+    function band(lo, hi) {
+      var top = [], bot = [];
+      for (var i = 0; i <= 24; i++) { var f = i / 24, sp = Math.sqrt(f), mx = X(f * 6); top.push(mx + "," + Y(med * f + (hi - med) * sp)); bot.push(mx + "," + Y(med * f + (lo - med) * sp)); }
+      return top.concat(bot.reverse()).join(" ");
+    }
+    s += '<g class="fan"><polygon class="b80" points="' + band(lo80, hi80) + '"/><polygon class="b50" points="' + band(lo50, hi50) + '"/>';
+    var e1 = [], e2 = [];
+    for (var i = 0; i <= 24; i++) { var f = i / 24, sp = Math.sqrt(f); e1.push(X(f * 6) + "," + Y(med * f + (hi80 - med) * sp)); e2.push(X(f * 6) + "," + Y(med * f + (lo80 - med) * sp)); }
+    s += '<polyline class="bedge" points="' + e1.join(" ") + '"/><polyline class="bedge" points="' + e2.join(" ") + '"/>';
+    s += '<line class="med" x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(6) + '" y2="' + Y(med) + '"/></g>';
+    var path = hist.map(function (v, w) { return (w ? "L" : "M") + X(w / 52 * 12 - 12).toFixed(1) + "," + Y(v).toFixed(1); }).join("");
+    s += '<path class="hist-area" d="' + path + 'L' + X(0) + ',' + Y(ymin) + 'L' + X(-12) + ',' + Y(ymin) + 'Z"/>';
+    s += '<path class="hist" d="' + path + '"/>';
+    var px = X(-6), inside = outV >= pastLv.lo && outV <= pastLv.hi;
+    s += '<path class="past" d="M' + px + ',' + Y(pastLv.hi) + 'V' + Y(pastLv.lo) + 'M' + (px - 5) + ',' + Y(pastLv.hi) + 'h10M' + (px - 5) + ',' + Y(pastLv.lo) + 'h10M' + (px - 3) + ',' + Y(pastLv.med) + 'h6"/>';
+    s += '<circle class="outdot' + (inside ? " in" : "") + '" cx="' + px + '" cy="' + Y(outV) + '" r="5"/>';
+    if (!compact && !narrow) s += '<text class="lbl-2" x="' + (px + 10) + '" y="' + (Y(pastLv.lo) - 4) + '">Scored · ' + (inside ? "inside 80%" : "outside 80%") + '</text>';
+    s += '<circle class="nowdot" cx="' + X(0) + '" cy="' + Y(0) + '" r="5"/>';
+    var ex = W - mR + 6;
+    var labs = [[hi80, pct(hi80), ""], [med, pct(med), "lbl-acc"], [lo80, pct(lo80), ""]];
+    labs.forEach(function (l) { s += '<text x="' + ex + '" y="' + (Y(l[0]) + 4) + '" class="' + (l[2] || "lbl-2") + '">' + l[1] + '</text>'; });
+    if (!compact) {
+      s += '<line class="xh" x1="0" x2="0" y1="' + mT + '" y2="' + (Hh - mB) + '"/><circle class="xh-dot" r="4" cx="0" cy="0"/>';
+      s += '<rect class="hit" x="' + mL + '" y="' + mT + '" width="' + pw + '" height="' + ph + '"/>';
+    }
+    s += "</svg>";
+    el.innerHTML = s + (compact ? "" : '<div class="tip" aria-hidden="true"></div>');
+    if (compact) return;
+    var svg = el.querySelector("svg"), xh = svg.querySelector(".xh"), xd = svg.querySelector(".xh-dot"), tip = el.querySelector(".tip");
+    var cur = 52;
+    function show(week) {
+      cur = Math.max(0, Math.min(78, week));
+      var month = cur / 52 * 12 - 12, x = X(month), y, html;
+      if (cur <= 52) {
+        var v = hist[cur]; y = Y(v);
+        var d = new Date(NOW); d.setDate(d.getDate() - (52 - cur) * 7);
+        html = fmtDate(d) + "<br><b>" + pct(v) + "</b> vs today · history";
+      } else {
+        var f = month / 6, sp = Math.sqrt(f), m = med * f; y = Y(m);
+        var d2 = new Date(NOW); d2.setDate(d2.getDate() + (cur - 52) * 7);
+        html = "Forecast for " + fmtDate(d2) + "<br>median <b>" + pct(m) + "</b> · 80% " + pct(m + (lo80 - med) * sp) + " to " + pct(m + (hi80 - med) * sp);
+      }
+      xh.setAttribute("x1", x); xh.setAttribute("x2", x); xd.setAttribute("cx", x); xd.setAttribute("cy", y);
+      tip.innerHTML = html; tip.style.left = (x / W * 100) + "%"; tip.style.top = (y / Hh * 100) + "%";
+      el.classList.add("hovering");
+    }
+    svg.addEventListener("pointermove", function (e) {
+      var r = svg.getBoundingClientRect(), vx = (e.clientX - r.left) / r.width * W;
+      if (vx < mL || vx > W - mR) { el.classList.remove("hovering"); return; }
+      show(Math.round(((vx - mL) / pw * 18) / 12 * 52));
+    });
+    svg.addEventListener("pointerleave", function () { el.classList.remove("hovering"); });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); show(cur + (e.key === "ArrowRight" ? 2 : -2)); }
+      if (e.key === "Escape") el.classList.remove("hovering");
+    });
+    el.addEventListener("focus", function () { show(cur); });
+    el.addEventListener("blur", function () { el.classList.remove("hovering"); });
+  }
+  function renderRange(el) {
+    var D = el.dataset, med = +D.med, lo80 = +D.lo80, hi80 = +D.hi80, lo50 = +D.lo50, hi50 = +D.hi50;
+    var W = Math.max(340, Math.min(900, el.clientWidth || 900)), Hh = 96, mL = 22, mR = 22, min = -20, max = 35;
+    function X(v) { return mL + (v - min) / (max - min) * (W - mL - mR); }
+    var s = '<svg viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Apple 6-month forecast: median ' + pct(med) + ', 50% range ' + pct(lo50) + ' to ' + pct(hi50) + ', 80% range ' + pct(lo80) + ' to ' + pct(hi80) + '">';
+    for (var g = min; g <= max; g += 5) {
+      s += '<line x1="' + X(g) + '" x2="' + X(g) + '" y1="18" y2="58" stroke="' + (g === 0 ? "var(--ink-3)" : "var(--hairline)") + '" stroke-width="1"/>';
+      if (g % 10 === 0) s += '<text x="' + X(g) + '" y="12" text-anchor="middle" style="font:11px var(--font-text);fill:var(--ink-3)">' + (g > 0 ? "+" : g < 0 ? "−" : "") + Math.abs(g) + '%</text>';
+    }
+    s += '<rect x="' + X(lo80) + '" y="22" width="' + (X(hi80) - X(lo80)) + '" height="32" rx="6" fill="var(--band-80)" stroke="var(--accent)" stroke-width="1"/>';
+    s += '<rect x="' + X(lo50) + '" y="27" width="' + (X(hi50) - X(lo50)) + '" height="22" rx="4" fill="var(--band-50)"/>';
+    s += '<rect x="' + (X(med) - 2) + '" y="16" width="4" height="44" rx="2" fill="var(--accent)"/>';
+    var lab = function (v, a, cls, y) { return '<text x="' + X(v) + '" y="' + y + '" text-anchor="' + a + '" style="font:600 13px var(--font-display);fill:' + cls + ';font-variant-numeric:tabular-nums">' + pct(v) + '</text>'; };
+    s += lab(lo80, "middle", "var(--ink-2)", 78) + lab(hi80, "middle", "var(--ink-2)", 78) + lab(med, "middle", "var(--accent)", 78);
+    s += lab(lo50, "middle", "var(--ink-3)", 90).replace("600 13px", "500 11px") + lab(hi50, "middle", "var(--ink-3)", 90).replace("600 13px", "500 11px");
+    el.innerHTML = s + "</svg>";
+  }
+  function renderCalib(el) {
+    var miss = [3, 9, 14, 20, 23, 29, 33, 38, 44, 47, 50], s = "";
+    for (var i = 0; i < 52; i++) s += '<i' + (miss.indexOf(i) > -1 ? ' class="miss"' : "") + '></i>';
+    el.innerHTML = s; el.setAttribute("role", "img");
+  }
+
+  function fill(scope) {
+    scope.querySelectorAll('[data-fill="hrows"]').forEach(function (el) {
+      var sel = el.getAttribute("data-sel");
+      el.innerHTML = H.map(function (h) { return hrow(h, { sel: h.t === sel }); }).join("");
+      if (el.getAttribute("data-flat") === "1") el.style.background = "transparent";
+    });
+    scope.querySelectorAll('[data-fill="hrows-specimen"]').forEach(function (el) {
+      el.innerHTML = hrow(H[0]) + hrow(H[1], { sel: true }) + hrow(H[2], { focus: true }) + hrow(H[4]);
+    });
+    scope.querySelectorAll('[data-fill="t5-us"]').forEach(function (el) { el.innerHTML = t5("us", el.getAttribute("data-compact") === "1"); });
+    scope.querySelectorAll('[data-fill="t5-in"]').forEach(function (el) { el.innerHTML = t5("in", el.getAttribute("data-compact") === "1"); });
+    scope.querySelectorAll('[data-fill="tabbar"]').forEach(function (el) { el.innerHTML = tabbar(el.getAttribute("data-cur")); });
+    scope.querySelectorAll('[data-fill="dtable"]').forEach(function (el) { el.innerHTML = dtable(); });
+    scope.querySelectorAll("[data-chart]").forEach(renderChart);
+    scope.querySelectorAll("[data-frange]").forEach(renderRange);
+    scope.querySelectorAll("[data-calib]").forEach(renderCalib);
+  }
+
+  /* ---------- Device boards: each template rendered once light, once dark ---------- */
+  var SIZE = { phone: [410, 864], pad: [1208, 848], win: [1440, 1200] };
+  document.querySelectorAll("[data-pair]").forEach(function (pair) {
+    var tpl = document.getElementById(pair.getAttribute("data-pair")), kind = pair.getAttribute("data-kind"), sz = SIZE[kind];
+    var note = pair.querySelector(".pair-note");
+    ["light", "dark"].forEach(function (mode) {
+      var wrap = document.createElement("div");
+      wrap.style.minWidth = "0";
+      wrap.innerHTML = '<div class="boardcap"><span class="sw-mini" style="background:' + (mode === "light" ? "#FFFFFF" : "#000000") + '"></span>' + (mode === "light" ? "Light · crisp white" : "Dark · true black") + '</div>';
+      var board = document.createElement("div");
+      board.className = "board t-" + mode;
+      board.style.maxWidth = sz[0] + "px";
+      board.dataset.w = sz[0]; board.dataset.h = sz[1];
+      board.style.background = "transparent";
+      board.appendChild(tpl.content.cloneNode(true));
+      board.setAttribute("role", "img");
+      board.setAttribute("aria-label", pair.closest(".screen-block").querySelector(".sub-title").textContent + ", " + mode + " theme, illustrative figures");
+      wrap.appendChild(board);
+      pair.insertBefore(wrap, note || null);
+    });
+  });
+  fill(document);
+
+  function fit() {
+    document.querySelectorAll(".board").forEach(function (b) {
+      var w = +b.dataset.w, h = +b.dataset.h, s = Math.min(1, b.clientWidth / w), dev = b.firstElementChild;
+      if (!dev) return;
+      dev.style.transform = "scale(" + s + ")";
+      b.style.height = Math.ceil(h * s) + "px";
+    });
+  }
+  fit();
+  if (window.ResizeObserver) { var ro = new ResizeObserver(fit); document.querySelectorAll(".board").forEach(function (b) { ro.observe(b); }); }
+  else window.addEventListener("resize", fit);
+
+  /* ---------- Specimens ---------- */
+  var acts = document.getElementById("act-specimens");
+  if (acts) acts.innerHTML = ["add", "hold", "pause", "trim", "rebalance"].map(function (a) { return act(a, "lg"); }).join("");
+  var ig = document.getElementById("icon-grid");
+  if (ig) ig.innerHTML = [["i-home", "Home"], ["i-hold", "Holdings"], ["i-fan", "Forecast"], ["i-record", "Track record"], ["i-search", "Search"], ["i-sliders", "Settings"], ["i-info", "Info"], ["i-clock", "Freshness"], ["i-cloudoff", "Offline"], ["i-alert", "Error"], ["i-half", "Partial"], ["i-split", "Disagree"], ["i-pausec", "Abstain"], ["i-box", "No model"], ["i-lock", "Read only"], ["i-gold", "Gold"], ["i-plus", "Add"], ["i-equal", "Hold"], ["i-pause", "Pause"], ["i-minus", "Trim"], ["i-swap", "Rebalance"], ["i-check", "Done"], ["i-refresh", "Retry"], ["i-up", "Rise"]].map(function (x) { return '<div><svg class="i" aria-hidden="true"><use href="#' + x[0] + '"/></svg>' + x[1] + '</div>'; }).join("");
+  var mb = document.getElementById("motion-btn"), md = document.getElementById("motion-demo");
+  if (mb && md) mb.addEventListener("click", function () { var on = md.classList.toggle("motion-on"); mb.textContent = on ? "Stop" : "Play the timings"; });
+
+  /* Segmented and horizon specimens are interactive */
+  document.querySelectorAll(".seg, .hz-lt").forEach(function (g) {
+    g.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      g.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    });
+  });
+
+  /* One authored moment: the hero-level fans open from "now" */
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "animate" in Element.prototype) {
+    document.querySelectorAll("#components .chart .fan").forEach(function (f) {
+      try { f.animate([{ clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0 0 0)" }], { duration: 600, easing: "cubic-bezier(.16,1,.3,1)" }); } catch (e) {}
+    });
+  }
+})();
+</script>

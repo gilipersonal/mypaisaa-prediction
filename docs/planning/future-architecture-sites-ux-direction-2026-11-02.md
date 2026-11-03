@@ -5,6 +5,12 @@ Recorded: 2 November 2026, Europe/London.
 Status: owner-requested future-work direction. Record only; no diagram redesign,
 Sites publication, UX design or application implementation is authorised now.
 
+**Superseded in two places by later owner decisions (3 November 2026):** (1) designs are made locally and synced to
+private Claude HTML artifacts, not published to ChatGPT Sites (`.claude/rules/design-sync.md`); (2) the home screen
+puts holdings first, with the top 5 per segment below, replacing the "market/discovery-first landing choice" (MP40-Q14,
+decision log). The rest of this note stands: Apple's HIG and Monzo's modular system as the references, the MA quality
+bar, light and dark boards, every state designed.
+
 ## Owner direction and quality bar
 
 Arun asked Codex to study the MA Lucid authoring approach and the two linked Claude

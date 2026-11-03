@@ -15,6 +15,30 @@
    "published_sha256": "86c90c7c0b562c5517692231025e3cd36603bb24345a77190b5efd6591062565",
    "published_at": "2026-11-03",
    "jira": "MP-177"
+  },
+  {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/reviews/MP-62/option-b/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "2104ed3527568627950eacdc6e01f9ab1d7b233f4ef7445b6793d2e1c3af36e9",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-option-a-fan",
+   "source": "docs/design/reviews/MP-62/option-a/index.html",
+   "artifact_url": "https://claude.ai/artifact/WpjRPNZRvfa6VKA9V5W57c",
+   "published_sha256": "3c5f443db164168d752e03a990f9b84cbd23d0432b6de47a660261b4e85cbef4",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-option-c-signal",
+   "source": "docs/design/reviews/MP-62/option-c/index.html",
+   "artifact_url": "https://claude.ai/artifact/C1DHfEaanhnQktZUoqwoUf",
+   "published_sha256": "65c61f854a7f30c85a10c7742da2ec6c5a996246405d702101b7c3dbc5731b1a",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
   }
  ]
 }

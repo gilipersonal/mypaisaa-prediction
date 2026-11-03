@@ -1,0 +1,1312 @@
+<title>MyPrediction Prism</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="MP-62 design system, Option B: Prism. Apple materials over luminous segment colour fields. Illustrative figures, not approved UX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Layout concept: a light-table of luminous segment tiles; glass carries the controls, solid surfaces carry every figure. */
+:root, .scheme-light {
+  /* neutrals: cool, biased toward cobalt */
+  --ground:#EDF0F7; --ground-2:#E3E7F1;
+  --surface:#FFFFFF; --surface-2:#F4F6FB; --surface-3:#E8ECF5; --thumb:#FFFFFF;
+  --ink:#0A0F24; --ink-2:#434B66; --ink-3:#5D6582; --ink-inv:#FFFFFF;
+  --hairline:#DDE2EE; --hairline-2:#C6CDDF;
+  /* materials (control layer only) */
+  --glass:rgba(255,255,255,.56); --glass-thick:rgba(250,251,255,.78); --glass-thin:rgba(255,255,255,.34);
+  --glass-edge:rgba(255,255,255,.85); --glass-line:rgba(10,15,36,.10); --scrim:rgba(10,15,36,.30);
+  --field-o:.34;
+  /* meaning */
+  --rise:#0A7A4A; --rise-tint:#E2F3EA; --fall:#C2283A; --fall-tint:#FBE6E9;
+  --warn:#A3460A; --warn-tint:#FCEBDD; --link:#2F54EB; --focus:#2F54EB;
+  /* forecast (MP saffron) and scored outcome (MP mint) */
+  --fc-ink:#8A5A00; --fc-line:#C77F00; --fc-80:rgba(245,165,36,.26); --fc-50:rgba(245,165,36,.52); --fc-tint:#FFF3DC; --fc-blend:normal;
+  --scored:#3DDC97; --scored-ink:#0B7D57; --history:#434B66;
+  --btn:#0A0F24; --btn-ink:#FFFFFF;
+  --shadow-1:0 1px 2px rgba(10,15,36,.05), 0 8px 20px -10px rgba(10,15,36,.14);
+  --shadow-2:0 2px 6px rgba(10,15,36,.06), 0 22px 44px -16px rgba(10,15,36,.26);
+  --shadow-3:0 -2px 10px rgba(10,15,36,.06), 0 -26px 60px -24px rgba(10,15,36,.30);
+  --tile-glow:0 14px 30px -16px;
+  /* segment fields: same in both themes, white text >= 4.5:1 */
+  --seg-uslarge:#2F54EB; --seg-ustech:#6A3FE6; --seg-usetf:#0B6FC9;
+  --seg-n50:#C11F79; --seg-midcap:#9131BF; --seg-inetf:#A9481F;
+  --seg-uketf:#007C88; --seg-metals:#556178;
+  /* chart marks by market (validated: dataviz six checks, light and dark) */
+  --mark-us:#2F54EB; --mark-uk:#00A0A8; --mark-in:#B5287E;
+  /* type */
+  --font-display:"Bricolage Grotesque", "SF Pro Display", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-text:"Instrument Sans", "SF Pro Text", -apple-system, "Segoe UI", system-ui, sans-serif;
+  /* shape, space, motion */
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-card:22px; --r-tile:24px; --r-sheet:30px;
+  --blur:22px; --sat:180%;
+  --dur-press:120ms; --dur-state:200ms; --dur-sheet:380ms; --dur-chart:640ms;
+  --ease-glide:cubic-bezier(.22,1,.36,1); --ease-exit:cubic-bezier(.4,0,1,1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#060A18; --ground-2:#0A1024;
+    --surface:#10162E; --surface-2:#171F3D; --surface-3:#1E2748; --thumb:#2B3664;
+    --ink:#F3F5FF; --ink-2:#B3BAD9; --ink-3:#8F98BC; --ink-inv:#0A0F24;
+    --hairline:#263052; --hairline-2:#34416C;
+    --glass:rgba(22,30,64,.50); --glass-thick:rgba(20,27,58,.76); --glass-thin:rgba(22,30,64,.30);
+    --glass-edge:rgba(255,255,255,.12); --glass-line:rgba(0,0,0,.35); --scrim:rgba(0,0,0,.52);
+    --field-o:.55;
+    --rise:#4FD68E; --rise-tint:rgba(79,214,142,.14); --fall:#FF7B86; --fall-tint:rgba(255,123,134,.14);
+    --warn:#FF9F5A; --warn-tint:rgba(255,159,90,.14); --link:#8EA6FF; --focus:#8EA6FF;
+    --fc-ink:#FFC24D; --fc-line:#FFC24D; --fc-80:rgba(255,194,77,.28); --fc-50:rgba(255,194,77,.55); --fc-blend:screen; --fc-tint:rgba(245,165,36,.14);
+    --scored:#3DDC97; --scored-ink:#3DDC97; --history:#B3BAD9;
+    --btn:#F3F5FF; --btn-ink:#0A0F24;
+    --shadow-1:0 0 0 1px rgba(255,255,255,.04), 0 10px 28px -14px rgba(0,0,0,.7);
+    --shadow-2:0 0 0 1px rgba(255,255,255,.05), 0 24px 50px -18px rgba(0,0,0,.8);
+    --shadow-3:0 0 0 1px rgba(255,255,255,.06), 0 -26px 60px -20px rgba(0,0,0,.8);
+    --tile-glow:0 16px 44px -14px;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"], .scheme-dark {
+  --ground:#060A18; --ground-2:#0A1024;
+  --surface:#10162E; --surface-2:#171F3D; --surface-3:#1E2748; --thumb:#2B3664;
+  --ink:#F3F5FF; --ink-2:#B3BAD9; --ink-3:#8F98BC; --ink-inv:#0A0F24;
+  --hairline:#263052; --hairline-2:#34416C;
+  --glass:rgba(22,30,64,.50); --glass-thick:rgba(20,27,58,.76); --glass-thin:rgba(22,30,64,.30);
+  --glass-edge:rgba(255,255,255,.12); --glass-line:rgba(0,0,0,.35); --scrim:rgba(0,0,0,.52);
+  --field-o:.55;
+  --rise:#4FD68E; --rise-tint:rgba(79,214,142,.14); --fall:#FF7B86; --fall-tint:rgba(255,123,134,.14);
+  --warn:#FF9F5A; --warn-tint:rgba(255,159,90,.14); --link:#8EA6FF; --focus:#8EA6FF;
+  --fc-ink:#FFC24D; --fc-line:#FFC24D; --fc-80:rgba(255,194,77,.28); --fc-50:rgba(255,194,77,.55); --fc-blend:screen; --fc-tint:rgba(245,165,36,.14);
+  --scored:#3DDC97; --scored-ink:#3DDC97; --history:#B3BAD9;
+  --btn:#F3F5FF; --btn-ink:#0A0F24;
+  --shadow-1:0 0 0 1px rgba(255,255,255,.04), 0 10px 28px -14px rgba(0,0,0,.7);
+  --shadow-2:0 0 0 1px rgba(255,255,255,.05), 0 24px 50px -18px rgba(0,0,0,.8);
+  --shadow-3:0 0 0 1px rgba(255,255,255,.06), 0 -26px 60px -20px rgba(0,0,0,.8);
+  --tile-glow:0 16px 44px -14px;
+  color-scheme:dark;
+}
+.scheme-light{color-scheme:light}
+
+/* ---------- page base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--font-text);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ground)}
+::selection{background:color-mix(in srgb,var(--seg-ustech) 30%,transparent);color:var(--ink)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+a{color:var(--link);text-underline-offset:3px;text-decoration-thickness:1px}
+html{scrollbar-color:var(--hairline-2) transparent}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--ink-2)}
+.small{font-size:13px;line-height:18px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg{display:block}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s14{width:14px;height:14px}.ico.s16{width:16px;height:16px}.ico.s18{width:18px;height:18px}.ico.s24{width:24px;height:24px}.ico.s26{width:26px;height:26px}
+.ico.fill{fill:currentColor;stroke:none}
+
+/* page header (glass over the field) */
+.pbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--glass);backdrop-filter:blur(var(--blur)) saturate(var(--sat));-webkit-backdrop-filter:blur(var(--blur)) saturate(var(--sat));box-shadow:inset 0 -.5px 0 var(--glass-line)}
+.pbar .wrap{display:flex;align-items:center;gap:16px;min-height:60px;padding-block:8px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:700 17px/1 var(--font-display);text-decoration:none;color:var(--ink);margin-right:auto}
+.brand-mark{width:28px;height:28px;border-radius:9px;background:conic-gradient(from 210deg,var(--seg-uslarge),var(--seg-ustech),var(--seg-n50),var(--seg-inetf),var(--seg-uketf),var(--seg-usetf),var(--seg-uslarge));position:relative;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.5)}
+.brand-mark::after{content:"";position:absolute;inset:6px;border-radius:5px;background:rgba(255,255,255,.35);backdrop-filter:blur(3px)}
+.pnav{display:flex;gap:4px;flex-wrap:wrap}
+.pnav a{color:var(--ink-2);text-decoration:none;font-weight:600;font-size:14px;padding:8px 10px;border-radius:10px;min-height:36px;display:inline-flex;align-items:center}
+.pnav a:hover{color:var(--ink);background:var(--glass-thin)}
+@media (max-width:900px){.pnav{display:none}}
+@media (max-width:480px){.bfull{display:none}.pbar .segctl button{padding:0 10px}}
+
+/* theme toggle = segmented control */
+.segctl{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface-3);border-radius:11px;padding:2px;gap:2px}
+.segctl button{white-space:nowrap;border:0;background:transparent;min-height:30px;padding:0 12px;border-radius:9px;font:600 13px/1 var(--font-text);color:var(--ink-2);transition:background var(--dur-state) var(--ease-glide),color var(--dur-state)}
+.segctl button[aria-pressed="true"]{background:var(--thumb);color:var(--ink);box-shadow:0 1px 2px rgba(10,15,36,.10),0 3px 8px -2px rgba(10,15,36,.12)}
+.segctl button:hover:not([aria-pressed="true"]):not(:disabled){color:var(--ink)}
+.segctl button:disabled{opacity:.42;cursor:not-allowed}
+.segctl.lg button{min-height:34px;font-size:14px;padding:0 16px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding-block:56px 48px}
+.field{position:absolute;inset:-20% -10% auto;height:620px;pointer-events:none;opacity:var(--field-o);filter:blur(60px) saturate(1.2);-webkit-mask-image:linear-gradient(#000 45%,transparent 92%);mask-image:linear-gradient(#000 45%,transparent 92%);
+  background:
+  radial-gradient(28% 40% at 12% 30%,var(--seg-uslarge),transparent 70%),
+  radial-gradient(26% 36% at 38% 12%,var(--seg-ustech),transparent 70%),
+  radial-gradient(24% 34% at 64% 30%,var(--seg-n50),transparent 70%),
+  radial-gradient(22% 32% at 86% 14%,var(--seg-uketf),transparent 70%),
+  radial-gradient(24% 30% at 80% 60%,var(--seg-inetf),transparent 70%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr);gap:32px}}
+.hero h1{font-size:clamp(64px,12vw,128px);line-height:.9;font-weight:800;font-variation-settings:"opsz" 96,"wdth" 88;letter-spacing:-.04em}
+.hero .lede{font-size:19px;line-height:1.5;max-width:34em;margin-top:20px;color:var(--ink-2)}
+.hero .lede strong{color:var(--ink);font-weight:600}
+.metarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.prism{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding-bottom:52px}
+.prism .segtile{min-height:112px;animation:refract 900ms var(--ease-glide) both}
+.prism .segtile:nth-child(2){animation-delay:40ms}.prism .segtile:nth-child(3){animation-delay:80ms}.prism .segtile:nth-child(4){animation-delay:120ms}
+.prism .segtile:nth-child(5){animation-delay:160ms}.prism .segtile:nth-child(6){animation-delay:200ms}.prism .segtile:nth-child(7){animation-delay:240ms}.prism .segtile:nth-child(8){animation-delay:280ms}
+@keyframes refract{from{transform:translateY(14px) scale(.96);filter:blur(8px) saturate(.6)}to{transform:none;filter:none}}
+.prism-glass{position:absolute;left:12%;right:12%;bottom:0;border-radius:22px;padding:16px 18px;display:flex;gap:14px;align-items:center;
+  background:var(--glass);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);box-shadow:inset 0 0 0 .5px var(--glass-edge),var(--shadow-2)}
+.prism-glass p{font:600 15px/1.35 var(--font-text)}
+.prism-glass .solid{background:var(--surface);border-radius:14px;padding:8px 12px;box-shadow:var(--shadow-1);flex:none}
+@media (max-width:560px){.prism{grid-template-columns:repeat(2,minmax(0,1fr))}.prism .segtile{min-height:92px}.prism-glass{left:4%;right:4%;flex-direction:column;align-items:flex-start}}
+
+/* ---------- sections ---------- */
+section.block{padding-block:56px}
+section.block>.wrap>h2{font-size:clamp(34px,5vw,52px);line-height:1.02;font-weight:800;font-variation-settings:"opsz" 72,"wdth" 92;letter-spacing:-.03em}
+.intro{max-width:44em;margin-top:12px;color:var(--ink-2);font-size:17px}
+h3.sub{font-size:24px;line-height:1.15;font-weight:700;margin:48px 0 6px}
+h3.sub+p{color:var(--ink-2);max-width:46em;margin-bottom:18px}
+.panel{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow-1);padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid2,.grid3,.grid4{grid-template-columns:minmax(0,1fr)}}
+.label{font:600 12px/16px var(--font-text);color:var(--ink-3);letter-spacing:.02em}
+.tblwrap{overflow-x:auto;border-radius:var(--r-card);background:var(--surface);box-shadow:var(--shadow-1)}
+table.spec{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+table.spec th,table.spec td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--hairline);vertical-align:middle}
+table.spec th{font:600 12px/16px var(--font-text);color:var(--ink-3);letter-spacing:.02em;background:var(--surface-2)}
+table.spec tr:last-child td{border-bottom:0}
+table.spec code,code{font:500 12.5px/1.4 ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:var(--ink-2);background:var(--surface-2);padding:2px 6px;border-radius:6px;white-space:nowrap}
+table.spec td.num{text-align:right}
+
+/* swatches */
+.sw{display:inline-block;width:28px;height:28px;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(127,127,127,.25);vertical-align:middle}
+.cr{font-weight:600}
+.pass{display:inline-flex;gap:4px;align-items:center;font:600 12px/1 var(--font-text);padding:4px 7px;border-radius:999px;background:var(--rise-tint);color:var(--rise)}
+.failc{display:inline-flex;gap:4px;align-items:center;font:600 12px/1 var(--font-text);padding:4px 7px;border-radius:999px;background:var(--fall-tint);color:var(--fall)}
+
+/* ---------- components (shared by page and device boards) ---------- */
+.card{background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow-1);overflow:hidden}
+.glass{background:var(--glass);backdrop-filter:blur(var(--blur)) saturate(var(--sat));-webkit-backdrop-filter:blur(var(--blur)) saturate(var(--sat));box-shadow:inset 0 0 0 .5px var(--glass-edge),0 0 0 .5px var(--glass-line)}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:3px 10px;border-radius:999px;font:600 12px/16px var(--font-text);background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
+.chip.fresh .dot{background:var(--rise);box-shadow:0 0 0 3px var(--rise-tint)}
+.chip.stale{background:var(--warn-tint);color:var(--warn)}
+.chip.partial .dot{background:linear-gradient(90deg,var(--warn) 50%,transparent 50%);box-shadow:inset 0 0 0 1.5px var(--warn)}
+.chip.offline,.chip.error{background:var(--fall-tint);color:var(--fall)}
+.chip.illus{background:transparent;box-shadow:inset 0 0 0 1px var(--hairline-2);color:var(--ink-3)}
+.chip.fc{background:var(--fc-tint);color:var(--fc-ink)}
+.chip.proposed{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-3);color:var(--ink-2)}
+.chip.proposed .dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-3)}
+.chip.owner{background:var(--surface-3);color:var(--ink)}
+.chip.owner .dot{background:var(--ink-2)}
+.chip.impl{background:var(--ink);color:var(--surface)}
+.chip.impl .dot{background:var(--surface)}
+.on-glass .chip{background:var(--glass-thin)}
+
+.badge{display:inline-flex;align-items:center;gap:5px;min-height:26px;padding:3px 10px 3px 7px;border-radius:9px;font:600 13px/18px var(--font-text);color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--hairline-2);white-space:nowrap}
+.badge .ico{width:15px;height:15px;stroke-width:2}
+.badge.b-add .ico{color:var(--rise)} .badge.b-trim .ico{color:var(--fall)} .badge.b-pause .ico{color:var(--warn)} .badge.b-hold .ico,.badge.b-rebalance .ico{color:var(--ink-2)}
+
+.amt{display:inline-flex;align-items:flex-start;font-family:var(--font-display);font-weight:760;font-variation-settings:"opsz" 96,"wdth" 92;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1}
+.amt .p{font-size:.5em;margin-top:.1em;margin-left:.04em;font-weight:680;letter-spacing:-.01em}
+.chg{display:inline-flex;align-items:center;gap:3px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chg.up{color:var(--rise)} .chg.down{color:var(--fall)}
+.chg .ico{width:9px;height:9px}
+.logo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font:720 14px/1 var(--font-display);letter-spacing:-.02em;background:var(--c);flex:none;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35)}
+.logo.sm{width:30px;height:30px;font-size:11px}
+
+.hrow{display:grid;grid-template-columns:40px minmax(0,1fr) auto;column-gap:12px;row-gap:6px;padding:12px 16px;align-items:center;position:relative}
+.hrow+.hrow::before{content:"";position:absolute;left:68px;right:0;top:0;border-top:1px solid var(--hairline)}
+.hrow .nm{font:600 16px/20px var(--font-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hrow .tk{font:500 13px/16px var(--font-text);color:var(--ink-3);white-space:nowrap}
+.hrow .val{font:650 16px/20px var(--font-text);text-align:right;font-variant-numeric:tabular-nums}
+.hrow .val .pp{font-size:.82em;color:var(--ink-2)}
+.hrow .chg{font-size:13px;line-height:16px;justify-content:flex-end}
+.hrow .fl{grid-column:2/4;display:flex;align-items:center;gap:10px;min-width:0}
+.hrow .fl .rangewrap{flex:1;min-width:0}
+.hrow .fl .fcv{font:600 12px/16px var(--font-text);color:var(--fc-ink);white-space:nowrap}
+.hrow.sel{background:var(--surface-2)}
+.hrow.pressed{background:var(--surface-3)}
+.hrow .stalenote{grid-column:2/4}
+.hrow.is-stale .val{color:var(--ink-2)}
+.priv{letter-spacing:.12em;color:var(--ink-3)}
+
+.segtile{--c:var(--seg-ustech);position:relative;border-radius:var(--r-tile);padding:14px 14px 12px;color:#fff;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-width:0;
+  background:radial-gradient(90% 80% at 100% 0%,rgba(255,255,255,.20),transparent 60%),radial-gradient(70% 60% at 0% 110%,rgba(0,0,0,.14),transparent 70%),var(--c);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.28),var(--tile-glow) color-mix(in srgb,var(--c) 75%,transparent);text-align:left;border:0}
+.segtile .tn{font:700 15px/19px var(--font-display);letter-spacing:-.01em;padding-right:34px}
+.segtile .tm{font:600 12px/16px var(--font-text);color:rgba(255,255,255,.92)}
+.segtile[style*="min-height:40px"]{padding:10px 12px}.segtile[style*="min-height:40px"] .mk{top:9px}
+.segtile .mk{position:absolute;right:10px;top:10px;font:700 10px/1 var(--font-text);letter-spacing:.06em;padding:5px 7px;border-radius:999px;background:rgba(255,255,255,.20);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.segtile.sel{box-shadow:inset 0 0 0 2.5px #fff,0 0 0 2px var(--c),var(--tile-glow) color-mix(in srgb,var(--c) 75%,transparent)}
+.segtile .lead{font:650 13px/16px var(--font-text);display:flex;align-items:center;gap:6px}
+.segtile .lead b{font-weight:760;font-family:var(--font-display)}
+
+.top5{overflow:hidden}
+.top5 .t5h{--c:var(--seg-ustech);background:radial-gradient(80% 140% at 100% 0%,rgba(255,255,255,.22),transparent 60%),var(--c);color:#fff;padding:14px 16px 12px}
+.top5 .t5h h4{font:720 19px/24px var(--font-display);letter-spacing:-.015em}
+.top5 .t5h p{font:500 12px/16px var(--font-text);color:rgba(255,255,255,.92);margin-top:2px}
+.t5r{display:grid;grid-template-columns:18px 30px minmax(0,1fr) 92px;gap:10px;align-items:center;padding:9px 16px;position:relative}
+.t5r+.t5r::before{content:"";position:absolute;left:74px;right:0;top:0;border-top:1px solid var(--hairline)}
+.t5r .rk{font:700 13px/1 var(--font-display);color:var(--ink-3);text-align:center}
+.t5r .tt{font:650 14px/18px var(--font-text)} .t5r .tt span{display:block;font:500 12px/15px var(--font-text);color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.score{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:center}
+.score b{font:760 15px/1 var(--font-display);text-align:right}
+.score i{display:block;height:6px;border-radius:3px;background:var(--surface-3);position:relative;overflow:hidden}
+.score i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--v);background:var(--ink-2);border-radius:3px}
+.t5r.withheld .tt{color:var(--ink-3);font-weight:500}
+.t5foot{padding:10px 16px 12px;font:500 12px/16px var(--font-text);color:var(--ink-3);border-top:1px solid var(--hairline)}
+
+.alloc{display:flex;gap:2px;height:10px;border-radius:5px;overflow:hidden}
+.alloc i{display:block;height:100%;background:var(--c)}
+.alloc i:first-child{border-radius:5px 0 0 5px}.alloc i:last-child{border-radius:0 5px 5px 0}
+.allocl{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font:500 12px/16px var(--font-text);color:var(--ink-2)}
+.allocl span{display:inline-flex;align-items:center;gap:6px}
+.allocl span::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c)}
+.allocl b{color:var(--ink);font-weight:650}
+
+.valcard{padding:16px}
+.valcard .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.valcard .amt{font-size:44px;margin-top:8px}
+.valcard .d{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:15px}
+.valcard .meta{font:500 12px/16px var(--font-text);color:var(--ink-3);margin-top:6px}
+
+.fcard{padding:16px}
+.fcard .fh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.fcard .big{display:flex;align-items:baseline;gap:8px;margin-top:6px;flex-wrap:wrap}
+.fcard .big .amt{font-size:40px;color:var(--fc-ink)}
+.fcard .rng{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font:500 13px/18px var(--font-text);color:var(--ink-2);margin-top:8px}
+.fcard .rng b{font-weight:650;color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font:500 11.5px/16px var(--font-text);color:var(--ink-2);margin-top:8px}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.lg-hist{width:14px;height:2px;background:var(--history);border-radius:1px}
+.lg-80{width:12px;height:10px;border-radius:3px;background:var(--fc-80);box-shadow:inset 0 0 0 1px var(--fc-50)}
+.lg-50{width:12px;height:10px;border-radius:3px;background:var(--fc-50)}
+.lg-med{width:14px;height:2px;background:var(--fc-line);border-radius:1px}
+.lg-past{width:12px;height:10px;border-radius:3px;box-shadow:inset 0 0 0 1px var(--fc-line)}
+.lg-sc{width:9px;height:9px;border-radius:50%;background:var(--scored);box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--scored-ink)}
+.lg-scen{width:14px;height:0;border-top:2px dotted var(--ink-3)}
+.fmeta{font:500 11.5px/16px var(--font-text);color:var(--ink-3);margin-top:8px;display:flex;flex-wrap:wrap;gap:2px 10px}
+
+/* chart text */
+.cx text{font:500 10.5px var(--font-text);fill:var(--ink-3);font-variant-numeric:tabular-nums;paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.cx .grid{stroke:var(--hairline);stroke-width:1}
+.cx .zero{stroke:var(--hairline-2);stroke-width:1}
+.cx .now{stroke:var(--ink-3);stroke-width:1}
+.cx .hist{fill:none;stroke:var(--history);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.cx .b80{fill:var(--fc-80);mix-blend-mode:var(--fc-blend)} .cx .b50{fill:var(--fc-50);mix-blend-mode:var(--fc-blend)}
+.cx .med{fill:none;stroke:var(--fc-line);stroke-width:2;stroke-linecap:round}
+.cx .past{fill:none;stroke:var(--fc-line);stroke-width:1;opacity:.85}
+.cx .scd{fill:var(--scored);stroke:var(--surface);stroke-width:2}
+.cx .scr{fill:none;stroke:var(--scored-ink);stroke-width:1.25}
+.cx .nowdot{fill:var(--ink);stroke:var(--surface);stroke-width:2}
+.cx text.lbl{fill:var(--ink-2);font-weight:600}
+.cx text.fcl{fill:var(--fc-ink);font-weight:650}
+.cx text.scl{fill:var(--scored-ink);font-weight:650}
+.cx .xh{stroke:var(--ink-3);stroke-width:1;opacity:0}
+.cx.hov .xh{opacity:1}
+
+.cal{display:grid;grid-template-columns:repeat(13,minmax(0,13px));gap:6px;margin-top:10px}
+.cal i{aspect-ratio:1;border-radius:50%;background:var(--scored);max-width:100%}
+.cal i.miss{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-3)}
+.calbar{position:relative;height:8px;border-radius:4px;background:var(--surface-3);margin-top:10px}
+.calbar i{position:absolute;inset:0 auto 0 0;width:79%;border-radius:4px;background:var(--scored)}
+.calbar b{position:absolute;left:80%;top:-4px;bottom:-4px;width:2px;background:var(--ink);border-radius:1px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:14px;border:0;font:650 16px/1 var(--font-text);transition:transform var(--dur-press) var(--ease-glide),background var(--dur-state),box-shadow var(--dur-state),opacity var(--dur-state);white-space:nowrap}
+.btn-primary{background:var(--btn);color:var(--btn-ink)}
+.btn-tinted{background:var(--surface-3);color:var(--ink)}
+.btn-glass{background:var(--glass);color:var(--ink);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);box-shadow:inset 0 0 0 .5px var(--glass-edge)}
+.btn-plain{background:transparent;color:var(--link);padding:0 10px}
+.btn:hover:not(:disabled),.btn.is-hover{box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 8%,transparent)}
+.btn:active:not(:disabled),.btn.is-press{transform:scale(.97);opacity:.86}
+.btn.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.iconbtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:0;color:var(--ink)}
+
+.state{padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.state .sh{display:flex;align-items:center;gap:8px;font:650 15px/20px var(--font-text)}
+.state .sh .ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--surface-2);color:var(--ink-2);flex:none}
+.state p{font-size:14px;line-height:20px;color:var(--ink-2)}
+.state>.chip,.state>.btn,.state>.segtile{align-self:flex-start}
+.sk{border-radius:8px;background:linear-gradient(90deg,var(--surface-3) 0%,var(--surface-2) 50%,var(--surface-3) 100%);background-size:200% 100%;animation:shimmer 1.4s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+.toast{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;border-radius:18px;font:600 14px/18px var(--font-text)}
+.toast .ok{width:24px;height:24px;border-radius:50%;background:var(--rise);color:var(--surface);display:grid;place-items:center;flex:none}
+.sheet{border-radius:var(--r-sheet) var(--r-sheet) 0 0;padding:8px 16px 20px;background:var(--glass-thick);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);box-shadow:inset 0 .5px 0 var(--glass-edge),var(--shadow-3)}
+.grabber{width:36px;height:5px;border-radius:3px;background:var(--hairline-2);margin:0 auto 12px}
+
+.tabbar{display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px 0}
+.tabbar .tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 4px;border-radius:16px;color:var(--ink-3);font:600 10px/12px var(--font-text);border:0;background:transparent}
+.tabbar .tb.on{color:var(--ink);background:var(--glass-thin);box-shadow:inset 0 0 0 .5px var(--glass-edge)}
+.side{display:flex;flex-direction:column;gap:2px;padding:12px}
+.side .si{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:12px;color:var(--ink-2);font:600 14px/1 var(--font-text)}
+.side .si.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-1)}
+.side .si .n{margin-left:auto;font-size:12px;color:var(--ink-3)}
+.side .sh{font:600 11px/14px var(--font-text);color:var(--ink-3);padding:14px 10px 6px;letter-spacing:.04em}
+.search{display:flex;align-items:center;gap:8px;min-height:38px;padding:0 12px;border-radius:12px;background:var(--surface-3);color:var(--ink-3);font:500 15px/1 var(--font-text)}
+.search kbd{margin-left:auto;font:600 11px/1 var(--font-text);padding:4px 6px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--hairline-2);color:var(--ink-3)}
+
+/* ---------- device boards ---------- */
+.boards{display:grid;gap:28px 24px;margin-top:20px}
+.boards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.boards.two{grid-template-columns:minmax(0,1fr)}}
+.bcap{display:flex;align-items:center;gap:8px;margin-bottom:10px;font:600 13px/18px var(--font-text);color:var(--ink-2);flex-wrap:wrap}
+.bcap .tag{font:700 11px/1 var(--font-text);padding:5px 8px;border-radius:999px;background:var(--surface-3);color:var(--ink)}
+.board{position:relative;width:100%}
+.board>.dev{position:absolute;top:0;transform-origin:50% 0}
+.dev{border-radius:64px;padding:10px;background:#07080C;box-shadow:inset 0 0 0 1.5px #2C303B,0 40px 80px -40px rgba(10,15,36,.55)}
+.dev.tab{border-radius:40px;padding:18px}
+.dev.win{border-radius:14px;padding:0;background:transparent;box-shadow:0 0 0 1px var(--hairline-2),0 40px 90px -40px rgba(10,15,36,.5);overflow:hidden}
+.scr{position:relative;overflow:hidden;background:var(--ground);color:var(--ink);border-radius:54px;font-family:var(--font-text);font-size:17px;line-height:22px;isolation:isolate}
+.dev.tab .scr{border-radius:22px}
+.dev.win .scr{border-radius:0}
+.island{position:absolute;top:11px;left:50%;width:124px;height:36px;margin-left:-62px;background:#000;border-radius:20px;z-index:30}
+.sbar{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 32px 0 40px;font:650 16px/1 var(--font-text);z-index:25}
+.sbar .si{display:flex;gap:6px;align-items:center}
+.dfield{position:absolute;left:-20%;right:-20%;top:-120px;height:460px;opacity:var(--field-o);filter:blur(46px) saturate(1.25);pointer-events:none;z-index:0;
+  background:radial-gradient(30% 40% at 18% 40%,var(--mark-us),transparent 70%),radial-gradient(28% 36% at 50% 30%,var(--seg-ustech),transparent 70%),radial-gradient(26% 36% at 82% 44%,var(--mark-in),transparent 70%),radial-gradient(24% 30% at 70% 10%,var(--seg-uketf),transparent 70%)}
+.content{position:relative;z-index:1}
+.navbar{position:absolute;left:0;right:0;top:0;z-index:20;padding-top:54px}
+.navbar .nb{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 8px}
+.navbar .nbt{font:650 17px/22px var(--font-text);position:absolute;left:0;right:0;text-align:center;pointer-events:none}
+.ltitle{font:780 34px/41px var(--font-display);font-variation-settings:"opsz" 48,"wdth" 92;letter-spacing:-.03em;padding:0 16px}
+.dtab{position:absolute;left:0;right:0;bottom:0;height:84px;z-index:20}
+.home-ind{position:absolute;left:50%;bottom:8px;width:136px;height:5px;margin-left:-68px;border-radius:3px;background:var(--ink);z-index:30;opacity:.9}
+.sech{display:flex;align-items:center;justify-content:space-between;padding:20px 16px 8px;gap:8px}
+.sech h3{font:720 22px/28px var(--font-display);letter-spacing:-.02em}
+.list{margin:0 16px}
+.tbtn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ink)}
+
+/* desktop/ipad dense table */
+table.ht{border-collapse:collapse;width:100%;font-size:13px}
+table.ht th{font:600 11px/14px var(--font-text);color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--hairline);letter-spacing:.02em;white-space:nowrap}
+table.ht td{padding:7px 10px;border-bottom:1px solid var(--hairline);white-space:nowrap;font-variant-numeric:tabular-nums}
+table.ht tr:last-child td{border-bottom:0}
+table.ht .r{text-align:right}
+table.ht tr.sel td{background:var(--surface-2)}
+table.ht.dk th,table.ht.dk td{padding:4px 8px}table.ht.dk .logo.sm{width:26px;height:26px;font-size:10px}table.ht.dk .badge{min-height:24px;padding:2px 9px 2px 6px}
+.dk5 .logo.sm{width:24px;height:24px;font-size:9.5px}table.ht.dk th:first-child,table.ht.dk td:first-child{padding-left:14px}
+.desk .proofmodel{display:none}
+.dk5 .t5h{padding:10px 14px 8px}.dk5 .t5h h4{font-size:16px;line-height:20px}.dk5 .t5r{padding:4px 14px;grid-template-columns:14px 24px minmax(0,1fr) 70px;gap:8px}.dk5 .t5r .tt span{display:none}.dk5 .t5r+.t5r::before{left:66px}
+table.ht.pwa th,table.ht.pwa td{padding:7px 6px}table.ht.pwa th:first-child,table.ht.pwa td:first-child{padding-left:12px}table.ht.pwa td:last-child,table.ht.pwa th:last-child{padding-right:10px}
+table.ht.pwa .badge{padding:2px 7px 2px 5px;font-size:12px;min-height:24px}table.ht.pwa .inst{gap:8px}
+.inst b{max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.inst{display:flex;align-items:center;gap:10px}
+.inst b{font:650 13px/16px var(--font-text);display:block}.inst div>span{font:500 11.5px/14px var(--font-text);color:var(--ink-3)}
+
+/* motion demo */
+.mdemo{position:relative;height:220px;border-radius:var(--r-card);overflow:hidden;background:var(--ground-2);box-shadow:inset 0 0 0 1px var(--hairline)}
+.mdemo .segtile{position:absolute;left:16px;top:16px;width:140px;height:96px}
+.mdemo .sheet{position:absolute;left:0;right:0;bottom:0;transform:translateY(100%);transition:transform var(--dur-sheet) var(--ease-glide)}
+.mdemo.open .sheet{transform:none}
+.mdemo .scrim{position:absolute;inset:0;background:var(--scrim);opacity:0;transition:opacity var(--dur-sheet) var(--ease-glide);pointer-events:none}
+.mdemo.open .scrim{opacity:1}
+
+.mgrid{align-items:start}@media (max-width:900px){.mgrid{grid-template-columns:minmax(0,1fr)!important}}
+.dodont{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:640px){.dodont{grid-template-columns:minmax(0,1fr)}}
+.matdemo{position:relative;border-radius:var(--r-card);overflow:hidden;min-height:200px;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;
+  background:linear-gradient(120deg,var(--seg-uslarge),var(--seg-ustech) 35%,var(--seg-n50) 65%,var(--seg-inetf))}
+.matdemo .row{display:flex;gap:10px;flex-wrap:wrap}
+.matdemo .label{display:block}
+.matdemo .m{flex:1;min-width:110px;border-radius:16px;padding:12px;font:600 13px/18px var(--font-text);color:var(--ink)}
+.verdict{display:flex;align-items:center;gap:8px;font:650 14px/20px var(--font-text);margin-top:10px}
+
+footer{padding-block:40px 64px;color:var(--ink-3);font-size:13px}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important;scroll-behavior:auto!important}
+  .sk{animation:none}
+  .mdemo .sheet,.mdemo .scrim{transition:opacity 150ms linear!important}
+  .mdemo .sheet{transform:none;opacity:0}.mdemo.open .sheet{opacity:1}
+}
+@media (forced-colors: active){.segtile,.chip,.badge{border:1px solid CanvasText}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19z"/></symbol>
+    <symbol id="i-fan" viewBox="0 0 24 24"><path d="M3 15.5h6.5"/><path d="M9.5 15.5 20.5 6.5"/><path d="M9.5 15.5 20.5 12.5"/><path d="M9.5 15.5 20.5 19"/><circle cx="9.5" cy="15.5" r="1.6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+    <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9.5 6 6 6-6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 10 10"><path d="M5 1.2 9.2 8.4H.8z"/></symbol>
+    <symbol id="i-down" viewBox="0 0 10 10"><path d="M5 8.8 .8 1.6h8.4z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="M4.5 9.5a11 11 0 0 1 5-2.3M14.5 7.2a11 11 0 0 1 5 2.3M7.5 13a6.5 6.5 0 0 1 3-1.5M8.5 16.5a4 4 0 0 1 3.5-1M4 4l16 16"/><circle cx="12" cy="19" r=".8"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 21 19.5H3z"/><path d="M12 10v4.5"/><circle cx="12" cy="17" r=".6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><circle cx="12" cy="8" r=".6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-equal" viewBox="0 0 24 24"><path d="M6 9.5h12M6 14.5h12"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6.5v11M15 6.5v11"/></symbol>
+    <symbol id="i-trim" viewBox="0 0 24 24"><circle cx="6.5" cy="7" r="2.5"/><circle cx="6.5" cy="17" r="2.5"/><path d="M8.6 8.5 20 17M8.6 15.5 20 7"/></symbol>
+    <symbol id="i-rebalance" viewBox="0 0 24 24"><path d="M4 8.5h14l-3.5-3.5M20 15.5H6l3.5 3.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6.3v5.4c0 4.2-2.9 7.3-7 8.8-4.1-1.5-7-4.6-7-8.8V6.3z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3.5 12S6.5 6.5 12 6.5c1.6 0 3 .4 4.2 1M20.5 12s-3 5.5-8.5 5.5c-1.6 0-3-.4-4.2-1"/><path d="M4 4l16 16"/></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 11a7.5 7.5 0 1 0-2.2 5.5"/><path d="M19.5 4.5V11H13"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></symbol>
+    <symbol id="i-sidebar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M9.5 5v14"/></symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3.5 19.5 7.8v8.4L12 20.5l-7.5-4.3V7.8z"/><path d="M4.5 7.8 12 12l7.5-4.2M12 12v8.5"/></symbol>
+    <symbol id="i-split" viewBox="0 0 24 24"><path d="M3.5 12H9l4-5.5h7.5M9 12l4 5.5h7.5"/></symbol>
+    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="7" ry="2.5"/><path d="M5 6.5v11c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-11M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 4 3.5 8.5 12 13l8.5-4.5z"/><path d="m3.5 13 8.5 4.5 8.5-4.5"/></symbol>
+    <symbol id="i-scenario" viewBox="0 0 24 24"><path d="M3.5 17c3-1 4.5-6 8-6s4.5 3 9 2" stroke-dasharray="1.5 2.5"/><path d="M3.5 17c3-1 5-9 9-9s5 1 8-1" stroke-dasharray="1.5 2.5"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 11V5.5a1.5 1.5 0 0 1 3 0V10M11 9.5V4.5a1.5 1.5 0 0 1 3 0v5M14 9.5V6a1.5 1.5 0 0 1 3 0v7.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.3-5.4-3.4L4 13.4a1.5 1.5 0 0 1 2.4-1.8L8 13"/></symbol>
+  </defs>
+</svg>
+
+<header class="pbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span><span><span class="bfull">MyPrediction · </span>Prism</span></a>
+    <nav class="pnav" aria-label="Sections">
+      <a href="#foundations">Foundations</a><a href="#components">Components</a><a href="#screens">Screens</a><a href="#mapping">Mapping</a>
+    </nav>
+    <div class="segctl" role="group" aria-label="Theme" id="themectl">
+      <button type="button" data-t="system" aria-pressed="true">System</button>
+      <button type="button" data-t="light" aria-pressed="false">Light</button>
+      <button type="button" data-t="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="field" aria-hidden="true"></div>
+    <div class="wrap">
+      <div>
+        <h1>Prism</h1>
+        <p class="lede"><strong>Option B for the MyPrediction design system.</strong> Every market segment is a luminous colour field, the way Monzo gives each pot its own colour. Apple's frosted glass floats over those fields for bars, tab bars and sheets. Every figure sits on a solid surface, so colour and blur never get between you and a number.</p>
+        <div class="metarow">
+          <span class="chip proposed"><span class="dot"></span>Proposed</span>
+          <span class="chip">MP-62 · options round 1</span>
+          <span class="chip illus">Not approved UX · no build</span>
+          <span class="chip illus">All figures illustrative</span>
+        </div>
+      </div>
+      <div class="prism" id="heroTiles" aria-label="The eight segment colour fields"></div>
+    </div>
+  </section>
+
+  <!-- ================= FOUNDATIONS ================= -->
+  <section class="block" id="foundations">
+    <div class="wrap">
+      <h2>Foundations</h2>
+      <p class="intro">One small set of semantic tokens drives the web app and the Apple app. Contrast below is measured in this page, live, against the background each colour actually sits on, in both themes.</p>
+
+      <h3 class="sub">Colour: surfaces, ink and meaning</h3>
+      <p>Neutrals lean slightly towards cobalt so the glass and the fields feel related. Colour carries meaning only with a second signal: an arrow and a sign for change, an icon and a word for status.</p>
+      <div class="tblwrap"><table class="spec" id="tokTable">
+        <thead><tr><th>Token</th><th>Role</th><th>Light</th><th>Measured on</th><th>Dark</th><th>Measured on</th><th>Need</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+
+      <h3 class="sub">Colour: the segment fields</h3>
+      <p>Hue family follows the market: blues and violets for the US, magentas and copper for India, lagoon for the UK, pewter for metals. Each field carries white text at 4.5:1 or better, in both themes. A field never means gain or loss.</p>
+      <div class="tblwrap"><table class="spec" id="segTable">
+        <thead><tr><th>Field</th><th>Segment</th><th>Hex</th><th>White text on field</th><th>Edge on dark ground</th><th>CSS</th><th>SwiftUI</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="small muted" style="margin-top:10px">Chart marks for the market split use their own validated steps (<code>--mark-us</code> #2F54EB, <code>--mark-uk</code> #00A0A8, <code>--mark-in</code> #B5287E), which pass all six palette checks on both chart surfaces, colour-blind separation included. Every chart also names its series in a legend.</p>
+
+      <h3 class="sub">Type</h3>
+      <p>Bricolage Grotesque gives titles and amounts a confident, slightly inky voice; Instrument Sans keeps lists and figures calm and compact. Both carry true tabular figures, switched on everywhere numbers appear. On Apple, each style scales with Dynamic Type through <code>relativeTo:</code>, with SF Pro as the fallback.</p>
+      <div class="tblwrap"><table class="spec" id="typeTable">
+        <thead><tr><th>Style</th><th>Sample</th><th>Size / line</th><th>Weight</th><th>Face</th><th>CSS</th><th>SwiftUI</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+
+      <h3 class="sub">Numerals</h3>
+      <p>Big amounts set the pounds large and the pence small, top-aligned. Columns line up digit for digit; signs use a true minus.</p>
+      <div class="grid2">
+        <div class="panel">
+          <div class="label">Amount, 44 pt</div>
+          <div style="margin-top:8px"><span class="amt" style="font-size:44px">£84,612<span class="p">.40</span></span></div>
+          <div class="chg up" style="margin-top:8px;font-size:15px"><svg class="ico fill" aria-hidden="true"><use href="#i-up"/></svg>+£1,236.18 (1.48%) today</div>
+          <p class="small muted" style="margin-top:12px">VoiceOver reads "84,612 pounds 40, up 1,236 pounds 18, 1.48 percent today".</p>
+        </div>
+        <div class="panel">
+          <div class="label">Tabular column</div>
+          <div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><tbody id="numCol"></tbody></table></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Spacing, radii and elevation</h3>
+      <p>A 4-point grid. Radii grow with the size of the object; Apple builds use continuous corners. Light theme lifts with soft shadows; dark theme lifts with a hairline and a deeper glow.</p>
+      <div class="grid3">
+        <div class="panel"><div class="label">Spacing (pt)</div><div id="spaceRow" style="display:flex;flex-direction:column;gap:6px;margin-top:10px"></div></div>
+        <div class="panel"><div class="label">Radii (pt)</div><div id="radRow" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px"></div></div>
+        <div class="panel"><div class="label">Elevation</div><div style="display:grid;gap:14px;margin-top:12px">
+          <div style="display:flex;align-items:center;gap:12px"><div style="width:64px;height:40px;border-radius:12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--hairline)"></div><span class="small"><b>e0</b> flat, grouped list rows</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="width:64px;height:40px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow-1)"></div><span class="small"><b>e1</b> cards <code>--shadow-1</code></span></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="width:64px;height:40px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow-2)"></div><span class="small"><b>e2</b> popovers, toasts <code>--shadow-2</code></span></div>
+          <div style="display:flex;align-items:center;gap:12px"><div style="width:64px;height:40px;border-radius:12px 12px 0 0;background:var(--surface);box-shadow:var(--shadow-3)"></div><span class="small"><b>e3</b> sheets <code>--shadow-3</code></span></div>
+        </div></div>
+      </div>
+
+      <h3 class="sub">Materials</h3>
+      <p>Glass belongs to the control layer only: bars, tab bars, sidebars, sheets and toasts. Under glass, a figure smears as content scrolls beneath it, so every number moves onto a solid surface first.</p>
+      <div class="dodont">
+        <div>
+          <div class="matdemo">
+            <div class="row">
+              <div class="m glass" style="--blur:12px;background:var(--glass-thin)">Thin<br><span class="small muted">chips on fields</span></div>
+              <div class="m glass">Regular<br><span class="small muted">bars, tab bar</span></div>
+              <div class="m glass" style="background:var(--glass-thick);--blur:30px">Thick<br><span class="small muted">sheets</span></div>
+            </div>
+            <div class="m card" style="flex:none"><span class="label">Solid surface</span><div class="amt" style="font-size:26px;margin-top:4px">£14,820<span class="p">.50</span></div></div>
+          </div>
+          <div class="verdict" style="color:var(--rise)"><svg class="ico s18" aria-hidden="true"><use href="#i-check"/></svg>Figure on a solid card, glass around it</div>
+        </div>
+        <div>
+          <div class="matdemo">
+            <div class="m glass" style="flex:none"><span class="label">Glass under a figure</span><div class="amt" style="font-size:26px;margin-top:4px">£14,820<span class="p">.50</span></div></div>
+          </div>
+          <div class="verdict" style="color:var(--fall)"><svg class="ico s18" aria-hidden="true"><use href="#i-x"/></svg>Never: contrast changes with whatever scrolls behind</div>
+        </div>
+      </div>
+      <div class="tblwrap" style="margin-top:16px"><table class="spec">
+        <thead><tr><th>Material</th><th>Light fill</th><th>Dark fill</th><th>Blur / saturation</th><th>CSS</th><th>SwiftUI</th></tr></thead>
+        <tbody>
+          <tr><td>Thin</td><td>white 34%</td><td>#161E40 30%</td><td>12 / 180%</td><td><code>--glass-thin</code></td><td><code>.ultraThinMaterial</code></td></tr>
+          <tr><td>Regular</td><td>white 56%</td><td>#161E40 50%</td><td>22 / 180%</td><td><code>--glass</code></td><td><code>.regularMaterial</code> / <code>.toolbarBackground</code></td></tr>
+          <tr><td>Thick</td><td>#FAFBFF 78%</td><td>#141B3A 76%</td><td>30 / 180%</td><td><code>--glass-thick</code></td><td><code>.thickMaterial</code> / <code>.presentationBackground</code></td></tr>
+          <tr><td>Scrim</td><td>ink 30%</td><td>black 52%</td><td>none</td><td><code>--scrim</code></td><td>system sheet dimming</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 class="sub">Icons</h3>
+      <p>One drawn set on a 24-point grid, 1.75 stroke, round ends; SF Symbols take their place in the Apple app. Icons beside a word are hidden from screen readers; icon-only controls carry a label.</p>
+      <div class="panel" id="iconGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px"></div>
+
+      <h3 class="sub">Motion</h3>
+      <p>One authored moment: segment fields refract into place on first load. Everything else is quick feedback. With Reduce Motion on, movement becomes a 150 ms cross-fade and charts appear complete.</p>
+      <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px" class="mgrid">
+        <div class="tblwrap"><table class="spec">
+          <thead><tr><th>Token</th><th>Value</th><th>Use</th><th>SwiftUI</th></tr></thead>
+          <tbody>
+            <tr><td><code>--dur-press</code></td><td>120 ms</td><td>press scale 0.97</td><td><code>.snappy(duration: 0.12)</code></td></tr>
+            <tr><td><code>--dur-state</code></td><td>200 ms</td><td>selection, chips</td><td><code>.smooth(duration: 0.2)</code></td></tr>
+            <tr><td><code>--dur-sheet</code></td><td>380 ms</td><td>sheets, split panes</td><td><code>.spring(response: 0.38, dampingFraction: 0.86)</code></td></tr>
+            <tr><td><code>--dur-chart</code></td><td>640 ms</td><td>forecast fan unfolds once</td><td><code>.easeOut(duration: 0.64)</code></td></tr>
+            <tr><td><code>--ease-glide</code></td><td>cubic-bezier(.22,1,.36,1)</td><td>arrivals</td><td>spring above</td></tr>
+            <tr><td><code>--ease-exit</code></td><td>cubic-bezier(.4,0,1,1), 65% duration</td><td>dismissals</td><td><code>.easeIn</code></td></tr>
+          </tbody>
+        </table></div>
+        <div>
+          <div class="mdemo" id="mdemo">
+            <div class="segtile" style="--c:var(--seg-ustech)"><span class="tn">US tech</span><span class="tm">Top 5 · 6 months</span></div>
+            <div class="scrim"></div>
+            <div class="sheet"><div class="grabber"></div><p style="font:650 15px/20px var(--font-text)">Sheets rise on a spring and dim what is behind them.</p></div>
+          </div>
+          <button class="btn btn-tinted" id="mdemoBtn" type="button" style="margin-top:12px" aria-controls="mdemo" aria-expanded="false">Show the sheet</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMPONENTS ================= -->
+  <section class="block" id="components" style="background:var(--ground-2)">
+    <div class="wrap">
+      <h2>Components</h2>
+      <p class="intro">Each module is composed the same way on every screen. States are drawn, not described. These follow the theme toggle at the top of the page.</p>
+
+      <h3 class="sub">Buttons</h3>
+      <p>No buy, sell or order control exists anywhere. The strongest action in MP is recording a decision in your own journal.</p>
+      <div class="panel" id="btnStates" style="display:grid;gap:14px"></div>
+
+      <h3 class="sub">Segmented control and horizon selector</h3>
+      <p>Long-term horizons lead. Short-term forecasts (1 to 20 sessions) sit behind their own labelled control and never share the long-term row.</p>
+      <div class="grid2">
+        <div class="panel" style="display:grid;gap:14px">
+          <div><div class="label">Horizon, default</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px">
+            <div class="segctl lg" role="group" aria-label="Forecast horizon"><button type="button" aria-pressed="false">3 months</button><button type="button" aria-pressed="true">6 months</button><button type="button" aria-pressed="false">12 months</button></div>
+            <button type="button" class="chip" style="border:0;min-height:34px"><svg class="ico s16" aria-hidden="true"><use href="#i-clock"/></svg>Short-term: 1 to 20 sessions<svg class="ico s14" aria-hidden="true"><use href="#i-chev-d"/></svg></button>
+          </div></div>
+          <div><div class="label">Hover and focus</div><div class="segctl lg" style="margin-top:6px"><button type="button" aria-pressed="false" style="color:var(--ink)">3 months</button><button type="button" aria-pressed="true" style="outline:2px solid var(--focus);outline-offset:1px">6 months</button><button type="button" aria-pressed="false">12 months</button></div></div>
+          <div><div class="label">12 months unavailable (no approved model)</div><div class="segctl lg" style="margin-top:6px"><button type="button" aria-pressed="false">3 months</button><button type="button" aria-pressed="true">6 months</button><button type="button" aria-pressed="false" disabled>12 months</button></div></div>
+        </div>
+        <div class="panel" style="display:grid;gap:14px;align-content:start">
+          <div class="label">Short-term, opened</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span class="chip stale" style="min-height:28px"><svg class="ico s14" aria-hidden="true"><use href="#i-clock"/></svg>Short-term</span>
+            <div class="segctl" role="group" aria-label="Short-term horizon"><button type="button" aria-pressed="true">5 sessions</button><button type="button" aria-pressed="false">10</button><button type="button" aria-pressed="false">20</button></div>
+          </div>
+          <p class="small muted">The short-term view carries an amber "Short-term" label and its own calibration. It is never presented as investing guidance.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Chips: status, freshness and provider</h3>
+      <p>Each chip pairs a shape with a word, so it survives grayscale and colour-blindness.</p>
+      <div class="panel" style="display:grid;gap:14px">
+        <div><div class="label">Delivery status</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Owner-selected</span><span class="chip impl"><span class="dot"></span>Implemented</span></div></div>
+        <div><div class="label">Freshness and provider</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px" id="freshChips"></div></div>
+      </div>
+
+      <h3 class="sub">Holding row</h3>
+      <p>Round logo, name, venue, value and today's change on the first line; the 6-month range and the ranked action on the second. Every range bar in a list shares one scale (−20% to +36%), so rows compare at a glance.</p>
+      <div class="grid2">
+        <div><div class="label" style="margin-bottom:6px">Default · pressed · selected</div><div class="card" id="rowsA"></div></div>
+        <div><div class="label" style="margin-bottom:6px">Stale · privacy on · loading</div><div class="card" id="rowsB"></div></div>
+      </div>
+
+      <h3 class="sub">Segment tiles and the top-5 card</h3>
+      <p>Tiles are the colourful entry points; the list inside is always on a solid surface. A score appears only when growth, protection and opportunity are all eligible. A missing fifth place is said, not hidden.</p>
+      <div class="grid3" style="align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start" id="tilesComp"></div>
+        <div class="card top5" id="t5us"></div>
+        <div class="card top5" id="t5in"></div>
+      </div>
+
+      <h3 class="sub">Forecast range and price chart</h3>
+      <p>A forecast is never a bare number. History is a solid line; the live forecast is a saffron fan (50% inner, 80% outer) around a median; an evaluated past forecast is an outline with its mint outcome; scenarios are dotted and claim no likelihood. Hover or use the arrow keys on the chart for exact values.</p>
+      <div class="grid2" style="align-items:start">
+        <div class="card fcard" id="fcComp"></div>
+        <div style="display:grid;gap:16px;align-content:start">
+          <div class="card fcard">
+            <div class="label">Forecast range, inline (6 months)</div>
+            <div id="rangeBig" style="margin-top:10px"></div>
+          </div>
+          <div class="card fcard">
+            <div class="label">Three kinds of figure</div>
+            <div style="display:grid;gap:10px;margin-top:10px;font-size:14px">
+              <div style="display:flex;gap:10px;align-items:center"><span class="lg-hist" style="width:28px"></span><span><b>History</b> · what happened, solid line</span></div>
+              <div style="display:flex;gap:10px;align-items:center"><span style="display:flex;gap:4px;align-items:center;width:28px"><span class="lg-past"></span><span class="lg-sc"></span></span><span><b>Evaluated forecast</b> · outline range plus its scored outcome</span></div>
+              <div style="display:flex;gap:10px;align-items:center"><span class="lg-scen" style="width:28px"></span><span><b>Scenario</b> · 3 to 5 years, dotted, no likelihood stated</span></div>
+            </div>
+          </div>
+          <div class="card fcard" id="proofComp"></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Ranked-action badge</h3>
+      <p>Decision support, with a reason and the uncertainty beside it. The icon carries the meaning; the tint is a hint, not the message.</p>
+      <div class="panel" style="display:grid;gap:14px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="badges"></div>
+        <div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline);padding:14px;display:grid;gap:6px;max-width:520px">
+          <div style="display:flex;gap:8px;align-items:center"><span id="trimBadge"></span><span style="font:650 15px/20px var(--font-text)">NVIDIA, 6 months</span></div>
+          <p class="small muted">NVIDIA is 13.5% of the portfolio and has the widest 80% range of your holdings (−18.5% to +34.0%). Trimming would narrow the portfolio's range. Decision support only: MP never places trades.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Approval sheet and toast</h3>
+      <p>The sheet records a decision in your journal. It never moves money. Figures inside the sheet sit on a solid card.</p>
+      <div class="grid2">
+        <div class="mdemo open" style="height:auto;min-height:440px;background:var(--ground)" id="sheetComp"></div>
+        <div style="display:grid;gap:14px;align-content:start">
+          <div class="label">Toast, after recording</div>
+          <div class="toast glass" role="status"><span class="ok"><svg class="ico s14" style="stroke-width:2.5" aria-hidden="true"><use href="#i-check"/></svg></span>Decision recorded in your journal<button class="btn btn-plain" type="button" style="margin-left:auto;min-height:36px">Undo</button></div>
+          <div class="toast glass" role="status"><span class="ok" style="background:var(--fall)"><svg class="ico s14" style="stroke-width:2.5" aria-hidden="true"><use href="#i-x"/></svg></span>Couldn't save. You're offline; we'll retry.<button class="btn btn-plain" type="button" style="margin-left:auto;min-height:36px">Retry</button></div>
+          <p class="small muted">Toasts announce through a polite live region, never take focus, and leave after 4 seconds unless they hold an action.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Tab bar, sidebar and search</h3>
+      <p>Tab bar on iPhone and at phone width; sidebar from 768 pt up. Both are glass over the field, with five destinations at most.</p>
+      <div class="grid3">
+        <div class="matdemo" style="justify-content:flex-end;padding:0;min-height:180px"><div class="tabbar glass" id="tabComp" style="padding-bottom:10px"></div></div>
+        <div class="matdemo" style="padding:0;min-height:180px;justify-content:flex-start"><div class="side glass" id="sideComp" style="margin:10px;border-radius:18px"></div></div>
+        <div class="panel" style="display:grid;gap:12px;align-content:start">
+          <div class="label">Search, idle and with results</div>
+          <div class="search"><svg class="ico s18" aria-hidden="true"><use href="#i-search"/></svg>Search instruments<kbd>⌘K</kbd></div>
+          <div class="search" style="color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 2px var(--focus)"><svg class="ico s18" aria-hidden="true"><use href="#i-search"/></svg>ni</div>
+          <div class="card" style="box-shadow:var(--shadow-2)" id="searchRes"></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Every state</h3>
+      <p>Freshness and provider stay on screen in every state, the skeleton included. Nothing hides behind a spinner.</p>
+      <div class="grid3" id="statesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= SCREENS ================= -->
+  <section class="block" id="screens">
+    <div class="wrap">
+      <h2>Screens</h2>
+      <p class="intro">Real product screens at true point sizes, scaled to fit. Each appears in light and dark. Figures are the shared illustrative set for MP-62; none are real holdings.</p>
+
+      <h3 class="sub">iPhone · home</h3>
+      <p>Holdings first. Scroll on and the top 5 per segment follow, with the glass bars blurring the colour fields as they pass beneath.</p>
+      <div class="boards two" id="bHome"></div>
+
+      <h3 class="sub">iPhone · instrument detail</h3>
+      <p>Apple at 6 months: the range, how it was drawn, and the proof behind it: calibration, track record and model version, each one tap away.</p>
+      <div class="boards two" id="bDetail"></div>
+
+      <h3 class="sub">iPad · split view</h3>
+      <p>Glass sidebar, holdings list, and the selected instrument's forecast side by side.</p>
+      <div class="boards" id="bIpad"></div>
+
+      <h3 class="sub">Desktop · web dashboard</h3>
+      <p>Professional density: a sortable holdings table with shared-scale ranges, the selected forecast, its proof, provider health and the top 5 per segment on one screen.</p>
+      <div class="boards" id="bDesk"></div>
+
+      <h3 class="sub">PWA · 390 px</h3>
+      <p>The web app at phone width: denser one-line rows, a web navigation bar, and keyboard focus drawn.</p>
+      <div class="boards two" id="bPwa"></div>
+    </div>
+  </section>
+
+  <!-- ================= MAPPING ================= -->
+  <section class="block" id="mapping" style="background:var(--ground-2)">
+    <div class="wrap">
+      <h2>Mapping</h2>
+      <p class="intro">Each token and component is named once, with its CSS custom property for the SvelteKit PWA and its SwiftUI equivalent, so both doors build from one system. SwiftUI colours live in an asset catalog with Any and Dark appearances.</p>
+      <h3 class="sub">Tokens</h3>
+      <p>Values are given above; this is the naming contract.</p>
+      <div class="tblwrap"><table class="spec" id="mapTok"><thead><tr><th>Token</th><th>CSS custom property</th><th>SwiftUI</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+      <h3 class="sub">Components</h3>
+      <p>One component per module; props in brackets.</p>
+      <div class="tblwrap"><table class="spec" id="mapComp"><thead><tr><th>Component</th><th>Web (Svelte)</th><th>SwiftUI</th><th>Built from</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>MyPrediction · Prism (Option B) · MP-62 options round 1 · 3 November 2026. Proposed, not approved UX; nothing is built from this page. MP cannot trade and gives no personalised advice. Every figure is illustrative. Typefaces: Bricolage Grotesque and Instrument Sans (SIL Open Font License). No Monzo or Apple brand assets are used.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+/* ---------- theme ---------- */
+const root = document.documentElement;
+const ctl = document.getElementById('themectl');
+function setTheme(t, save){
+  if (t === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t);
+  ctl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.t === t)));
+  if (save) { try { localStorage.setItem('prism-theme', t); } catch (e) {} }
+  requestAnimationFrame(measure);
+}
+let saved = 'system'; try { saved = localStorage.getItem('prism-theme') || 'system'; } catch (e) {}
+ctl.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setTheme(b.dataset.t, true); });
+
+/* ---------- data (shared MP-62 illustrative set) ---------- */
+const SEG = {
+  uslarge:{name:'US large caps', mk:'US', c:'--seg-uslarge', note:'S&P 500 leaders'},
+  ustech:{name:'US tech', mk:'US', c:'--seg-ustech', note:'Nasdaq-100 technology', lead:['MSFT','74']},
+  usetf:{name:'US ETFs', mk:'US', c:'--seg-usetf', note:'US-listed funds'},
+  n50:{name:'Nifty 50', mk:'IN', c:'--seg-n50', note:'India large caps', lead:['ICICIBANK','72']},
+  midcap:{name:'India midcap', mk:'IN', c:'--seg-midcap', note:'India mid-sized companies'},
+  inetf:{name:'India ETFs', mk:'IN', c:'--seg-inetf', note:'NSE-listed funds'},
+  uketf:{name:'UK ETFs', mk:'UK', c:'--seg-uketf', note:'LSE-listed funds'},
+  metals:{name:'Gold & silver', mk:'XAU', c:'--seg-metals', note:'Gold: forecast unavailable', gold:true}
+};
+const H = [
+  {n:'Apple', t:'AAPL', v:'XNAS', val:'14,820.50', day:1.9, med:6.2, lo:-9.8, hi:21.4, act:'Hold', c:'--seg-ustech', lg:'A'},
+  {n:'NVIDIA', t:'NVDA', v:'XNAS', val:'11,402.10', day:3.4, med:9.1, lo:-18.5, hi:34.0, act:'Trim', c:'--seg-ustech', lg:'N'},
+  {n:'SPDR S&P 500 ETF Trust', t:'SPY', v:'ARCX', val:'18,960.00', day:0.8, med:4.3, lo:-7.1, hi:15.2, act:'Add', c:'--seg-usetf', lg:'S'},
+  {n:'AstraZeneca', t:'AZN', v:'XLON', val:'9,215.75', day:-0.6, med:3.0, lo:-8.4, hi:13.9, act:'Hold', c:'--seg-uketf', lg:'Az'},
+  {n:'HSBC', t:'HSBA', v:'XLON', val:'6,104.20', day:0.3, med:2.1, lo:-10.2, hi:12.6, act:'Pause', c:'--seg-uketf', lg:'H', stale:'16:35'},
+  {n:'Reliance', t:'RELIANCE', v:'XNSE', val:'8,940.30', day:1.1, med:7.4, lo:-12.0, hi:24.9, act:'Add', c:'--seg-n50', lg:'R'},
+  {n:'Nippon India Nifty 50 BeES', t:'NIFTYBEES', v:'XNSE', val:'15,169.55', day:0.5, med:5.0, lo:-6.9, hi:16.2, act:'Hold', c:'--seg-inetf', lg:'NB'}
+];
+const K50 = 0.6745/1.2816; // 50% half-width from the 80% one, normal approximation (illustrative)
+H.forEach(h => { h.lo50 = +(h.med - (h.med - h.lo)*K50).toFixed(1); h.hi50 = +(h.med + (h.hi - h.med)*K50).toFixed(1); });
+const byT = Object.fromEntries(H.map(h => [h.t, h]));
+const T5 = {
+  ustech:[['MSFT','Microsoft',74,'--seg-ustech','M'],['NVDA','NVIDIA',71,'--seg-ustech','N'],['AAPL','Apple',68,'--seg-ustech','A'],['AMZN','Amazon',66,'--seg-ustech','Am']],
+  n50:[['ICICIBANK','ICICI Bank',72,'--seg-n50','IC'],['HDFCBANK','HDFC Bank',69,'--seg-n50','HD'],['TCS','Tata Consultancy Services',66,'--seg-n50','T'],['INFY','Infosys',64,'--seg-n50','In'],['SBIN','State Bank of India',61,'--seg-n50','SB']]
+};
+const ALLOC = [['US','--mark-us',53.4],['India','--mark-in',28.5],['UK','--mark-uk',18.1]];
+
+/* ---------- helpers ---------- */
+const ic = (id, cls='') => `<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const minus = '−';
+const pct = (v, d=1) => (v < 0 ? minus : '+') + Math.abs(v).toFixed(d) + '%';
+const money = (s, size) => { const [l, p] = s.split('.'); return `<span class="amt"${size?` style="font-size:${size}px"`:''}>£${l}<span class="p">.${p}</span></span>`; };
+const chg = (v, txt) => `<span class="chg ${v<0?'down':'up'}">${ic(v<0?'down':'up','fill')}${txt || pct(v)}</span>`;
+const logo = (c, l, sm) => `<span class="logo${sm?' sm':''}" style="--c:var(${c})" aria-hidden="true">${l}</span>`;
+const ACT = {Add:'plus', Hold:'equal', Pause:'pause', Trim:'trim', Rebalance:'rebalance'};
+const badge = a => `<span class="badge b-${a.toLowerCase()}">${ic(ACT[a])}${a}</span>`;
+const fresh = (who, cls='fresh', txt='Fresh') => `<span class="chip ${cls}">${cls==='stale'?ic('clock','s14'):cls==='offline'?ic('wifi-off','s14'):'<span class="dot"></span>'}${who} · ${txt}</span>`;
+
+/* mini range on a shared scale */
+const RMIN = -20, RMAX = 36;
+function range(h, w=150, ht=16){
+  const x = v => ((v - RMIN)/(RMAX - RMIN))*w;
+  const y0 = 3, y1 = ht - 3, ym = ht/2;
+  return `<svg class="cx" viewBox="0 0 ${w} ${ht}" width="100%" height="${ht}" preserveAspectRatio="none" role="img" aria-label="6-month forecast: median ${pct(h.med)}, 80% range ${pct(h.lo)} to ${pct(h.hi)}">
+    <rect x="0" y="${ym-1}" width="${w}" height="2" rx="1" fill="var(--surface-3)"/>
+    <rect class="b80" x="${x(h.lo)}" y="${y0}" width="${x(h.hi)-x(h.lo)}" height="${y1-y0}" rx="4"/>
+    <rect class="b50" x="${x(h.lo50)}" y="${y0+2}" width="${x(h.hi50)-x(h.lo50)}" height="${y1-y0-4}" rx="3"/>
+    <line x1="${x(0)}" x2="${x(0)}" y1="0" y2="${ht}" stroke="var(--ink-3)" stroke-width="1"/>
+    <rect x="${x(h.med)-1.25}" y="${y0-1}" width="2.5" height="${y1-y0+2}" rx="1.25" fill="var(--fc-line)"/>
+  </svg>`;
+}
+
+function hrow(h, o={}){
+  const val = o.priv ? `<span class="priv">£••••</span>` : `£${h.val.split('.')[0]}<span class="pp">.${h.val.split('.')[1]}</span>`;
+  const stale = h.stale && !o.nostale;
+  return `<div class="hrow${o.sel?' sel':''}${o.pressed?' pressed':''}${stale?' is-stale':''}">
+    ${logo(h.c, h.lg)}
+    <div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div>
+    <div><div class="val">${val}</div>${stale ? `<span class="chg" style="color:var(--warn);justify-content:flex-end;font-size:12px">${ic('clock','s14')}16:35</span>` : chg(h.day)}</div>
+    <div class="fl"><div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span>${badge(h.act)}</div>
+    ${stale ? `<div class="stalenote"><span class="chip stale">${ic('clock','s14')}Stale: last price 16:35 (Yahoo)</span></div>` : ''}
+  </div>`;
+}
+function skelRow(){
+  return `<div class="hrow"><span class="logo sk" style="background-size:200% 100%"></span><div><div class="sk" style="height:14px;width:70%"></div><div class="sk" style="height:10px;width:40%;margin-top:6px"></div></div><div><div class="sk" style="height:14px;width:72px"></div><div class="sk" style="height:10px;width:40px;margin:6px 0 0 auto"></div></div><div class="fl"><div class="sk" style="height:10px;flex:1"></div><span class="chip fresh"><span class="dot"></span>Last good 21:15</span></div></div>`;
+}
+function tile(k, o={}){
+  const s = SEG[k];
+  const lead = o.nolead && !s.gold ? '' : s.lead ? `<span class="lead">Leads: <b>${s.lead[0]}</b> ${s.lead[1]}</span>` : s.gold ? `<span class="lead">${ic('ban','s14')}Gold forecast unavailable</span>` : `<span class="lead">View top 5 ${ic('chev-r','s14')}</span>`;
+  return `<div class="segtile${o.sel?' sel':''}" style="--c:var(${s.c})${o.h?`;min-height:${o.h}px`:''}"><span class="mk">${s.mk}</span><div><div class="tn">${s.name}</div>${o.compact?'':`<div class="tm">${s.note}</div>`}</div>${lead}</div>`;
+}
+function top5(k){
+  const s = SEG[k], rows = T5[k];
+  let html = `<div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>6 months · ranked ${k==='ustech'?'Nasdaq-100 technology names':'Nifty 50 constituents'}</p></div>`;
+  rows.forEach((r,i) => { html += `<div class="t5r"><span class="rk">${i+1}</span>${logo(r[3], r[4], true)}<div class="tt">${r[0]}<span>${r[1]}</span></div><div class="score" aria-label="Score ${r[2]} of 100"><b>${r[2]}</b><i style="--v:${r[2]}%"></i></div></div>`; });
+  if (rows.length < 5) html += `<div class="t5r withheld"><span class="rk">5</span><span class="logo sm" style="background:var(--surface-3);color:var(--ink-3)">${ic('ban','s14')}</span><div class="tt" style="grid-column:3/5">Withheld: no other eligible listing</div></div>`;
+  html += `<div class="t5foot">Score = growth 35% + protection 40% + opportunity 25%, shown only when all three are eligible.</div>`;
+  return html;
+}
+function alloc(){
+  return `<div class="alloc" role="img" aria-label="Allocation: US 53.4%, India 28.5%, UK 18.1%">${ALLOC.map(a=>`<i style="--c:var(${a[1]});width:${a[2]}%"></i>`).join('')}</div><div class="allocl">${ALLOC.map(a=>`<span style="--c:var(${a[1]})">${a[0]} <b>${a[2]}%</b></span>`).join('')}</div>`;
+}
+function valcard(size=44){
+  return `<div class="card valcard">
+    <div class="top"><span class="label">Portfolio value</span><span class="chip illus">Illustrative</span></div>
+    ${money('84,612.40', size)}
+    <div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:14px">today</span></div>
+    <div class="meta">As of 21:15 London · data cutoff 21:00</div>
+    <div style="margin-top:14px">${alloc()}</div>
+  </div>`;
+}
+
+/* ---------- forecast chart ---------- */
+function rng(seed){ let s = seed; return () => (s = (s*16807) % 2147483647) / 2147483647; }
+function path(h, seed){
+  // weekly illustrative history, 12 months, ending at 0% (= today's price)
+  const r = rng(seed), n = 52, pts = [0]; let v = 0;
+  let st = 0; for (let i = 1; i <= n; i++){ st = .55*st + (r() - .5) * 3.4; v += st; pts.push(v); }
+  const start = -h.med*1.6 - 6, end = pts[n];
+  return pts.map((p,i) => p - end*(i/n) - (pts[0])*(1 - i/n) + start*(1 - i/n));
+}
+function fcChart(h, o){
+  const W = o.w, Ht = o.h, ml = 34, mr = 46, mt = 12, mb = 22;
+  const hist = path(h, o.seed || 7);
+  const i0 = 13, i1 = 39, b = hist[i0], out = hist[i1], pm = out - b + 1.5, plo = pm - 9.5, phi = pm + 9;
+  const ymin = Math.min(h.lo, ...hist, b + plo) - 3, ymax = Math.max(h.hi, ...hist, b + phi + 5) + 3;
+  const X = m => ml + ((m + 12)/18)*(W - ml - mr);
+  const Y = v => mt + (1 - (v - ymin)/(ymax - ymin))*(Ht - mt - mb);
+  const hp = hist.map((v,i) => `${i?'L':'M'}${X(-12 + i*12/52).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
+  const N = 24, fan = (lo, hi) => { const up = [], dn = []; for (let i=0;i<=N;i++){ const f=i/N, m=f*6, s=Math.sqrt(f); up.push(`${X(m).toFixed(1)} ${Y(h.med*f + (hi-h.med)*s).toFixed(1)}`); dn.unshift(`${X(m).toFixed(1)} ${Y(h.med*f - (h.med-lo)*s).toFixed(1)}`);} return 'M' + up.join('L') + 'L' + dn.join('L') + 'Z'; };
+  // evaluated past forecast: made 9 months ago, scored 3 months ago
+  const past = (() => { const up = [], dn = []; for (let i=0;i<=N;i++){ const f=i/N, m=-9 + f*6, s=Math.sqrt(f); up.push(`${X(m).toFixed(1)} ${Y(b + pm*f + (phi-pm)*s).toFixed(1)}`); dn.push(`${X(m).toFixed(1)} ${Y(b + pm*f - (pm-plo)*s).toFixed(1)}`);} return 'M' + up.join('L') + 'M' + dn.join('L'); })();
+  const pastTop = Y(b + phi);
+  const ticks = []; for (let t = Math.ceil(ymin/10)*10; t <= ymax; t += 10) ticks.push(t);
+  const xl = [[-12,'Nov 2025'],[-6,'May'],[0,'Now'],[6,'May 2027']];
+  const scen = o.scen ? `<path d="M${X(0)} ${Y(0)} C ${X(2)} ${Y(4)}, ${X(4)} ${Y(-6)}, ${X(6)} ${Y(-14)}" fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="1.5 3" stroke-linecap="round"/>` : '';
+  const id = 'c' + Math.random().toString(36).slice(2,7);
+  return `<svg class="cx${o.inter?' inter':''}" id="${id}" viewBox="0 0 ${W} ${Ht}" width="100%" role="img" ${o.inter?'tabindex="0"':''} aria-label="${h.n}: 12 months of history then a 6-month forecast. Median ${pct(h.med)}; 50% range ${pct(h.lo50)} to ${pct(h.hi50)}; 80% range ${pct(h.lo)} to ${pct(h.hi)}. A past forecast scored 3 months ago landed inside its 80% range." data-h="${h.t}">
+    ${ticks.map(t => `<line class="${t===0?'zero':'grid'}" x1="${ml}" x2="${W-mr}" y1="${Y(t)}" y2="${Y(t)}"/><text x="${ml-6}" y="${Y(t)+3.5}" text-anchor="end">${t===0?'0%':(t>0?'+':minus)+Math.abs(t)+'%'}</text>`).join('')}
+    <path class="past" d="${past}"/>
+    <path class="b80" d="${fan(h.lo,h.hi)}"/><path class="b50" d="${fan(h.lo50,h.hi50)}"/>
+    <line class="now" x1="${X(0)}" x2="${X(0)}" y1="${mt-4}" y2="${Ht-mb}"/>
+    ${scen}
+    <path class="hist" d="${hp}"/>
+    <path class="med" d="M${X(0)} ${Y(0)} L${X(6)} ${Y(h.med)}"/>
+    <circle class="scd" cx="${X(-3)}" cy="${Y(out)}" r="5"/><circle class="scr" cx="${X(-3)}" cy="${Y(out)}" r="8"/>
+    ${o.labels!==false?`<line x1="${X(-3)}" x2="${X(-3)}" y1="${pastTop}" y2="${Y(b+plo)}" stroke="var(--fc-line)" stroke-width="1" stroke-dasharray="2 3" opacity=".8"/><text class="scl" x="${X(-3)}" y="${pastTop-6}" text-anchor="middle">Scored: inside</text>`:''}
+    <circle class="nowdot" cx="${X(0)}" cy="${Y(0)}" r="4.5"/>
+    <text class="fcl" x="${X(6)+4}" y="${Y(h.med)+3.5}">${pct(h.med)}</text>
+    <text class="lbl" x="${X(6)+4}" y="${Math.min(Y(h.hi)+3.5, Y(h.med)-9)}">${pct(h.hi)}</text>
+    <text class="lbl" x="${X(6)+4}" y="${Math.max(Y(h.lo)+3.5, Y(h.med)+16)}">${pct(h.lo)}</text>
+    ${xl.map(([m,l]) => `<text x="${X(m)}" y="${Ht-6}" text-anchor="${m===-12?'start':m===6?'end':'middle'}">${l}</text>`).join('')}
+    ${o.inter?`<line class="xh" x1="0" x2="0" y1="${mt-4}" y2="${Ht-mb}"/>`:''}
+  </svg>`;
+}
+function legend(){ return `<div class="legend"><span><i class="lg-hist"></i>History</span><span><i class="lg-50"></i>50% range</span><span><i class="lg-80"></i>80% range</span><span><i class="lg-med"></i>Median</span><span><i class="lg-past"></i>Past forecast</span><span><i class="lg-sc"></i>Scored outcome</span></div>`; }
+function fcard(h, o={}){
+  return `<div class="fh"><div><div class="label">6-month forecast · ${h.t}</div><div class="big">${`<span class="amt">${pct(h.med).replace('%','')}<span class="p">%</span></span>`}<span class="muted" style="font-size:14px">median</span></div></div><span class="chip fc">${ic('fan','s14')}Evaluated model</span></div>
+  <div class="rng"><span>80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b><span>50% range</span><b>${pct(h.lo50)} to ${pct(h.hi50)}</b></div>
+  <div style="margin-top:10px">${fcChart(h, {w:o.w||340, h:o.h||190, seed:o.seed||11, inter:o.inter, scen:o.scen})}</div>
+  ${legend()}
+  <div class="fmeta"><span>As of 21:15 London</span><span>Data cutoff 21:00</span><span>Horizon 3 May 2027</span><span>R2-HGB v3</span></div>
+  ${o.table?`<details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:600">Chart as a table</summary><table class="ht" style="margin-top:6px"><thead><tr><th>Horizon</th><th class="r">Median</th><th class="r">50% range</th><th class="r">80% range</th></tr></thead><tbody>${[1/3,2/3,1].map((f,i)=>{const s=Math.sqrt(f);const r=v=>pct(+v.toFixed(1));return `<tr><td>${['2 months','4 months','6 months'][i]}</td><td class="r">${r(h.med*f)}</td><td class="r">${r(h.med*f-(h.med-h.lo50)*s)} to ${r(h.med*f+(h.hi50-h.med)*s)}</td><td class="r">${r(h.med*f-(h.med-h.lo)*s)} to ${r(h.med*f+(h.hi-h.med)*s)}</td></tr>`}).join('')}</tbody></table><p class="small muted" style="margin-top:6px">50% ranges are derived for this board from the 80% ranges; illustrative.</p></details>`:''}`;
+}
+function proof(compact){
+  const miss = new Set([3,9,14,20,23,29,33,38,44,47,50]);
+  return `<div class="label">Proof · 6-month task</div>
+  <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px;flex-wrap:wrap"><span class="amt" style="font-size:30px">79<span class="p">%</span></span><span class="small muted">of 80% ranges held, over 52 scored forecasts</span></div>
+  <div class="calbar" role="img" aria-label="Observed 79% against a target of 80%"><i></i><b></b></div>
+  <div class="small muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>Observed 79%</span><span>Target 80%</span></div>
+  ${compact?'':`<div class="cal" role="img" aria-label="52 scored forecasts: 41 inside their 80% range, 11 outside">${Array.from({length:52},(_,i)=>`<i class="${miss.has(i)?'miss':''}"></i>`).join('')}</div>
+  <div class="legend"><span><i class="lg-sc"></i>Inside range (41)</span><span><i style="width:9px;height:9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ink-3)"></i>Outside (11)</span></div>`}
+  <div class="proofmodel" style="display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hairline)">${ic('cube')}<div style="flex:1"><div style="font:650 14px/18px var(--font-text)">Model R2-HGB v3</div><div class="small muted">Approved 1 Oct 2026</div></div>${ic('chev-r','s18')}</div>`;
+}
+
+/* ---------- foundations content ---------- */
+document.getElementById('heroTiles').innerHTML = Object.keys(SEG).map(k => tile(k,{compact:true})).join('') +
+  `<div class="prism-glass"><span class="solid amt" style="font-size:24px">£84,612<span class="p">.40</span></span><p>Glass carries the controls.<br>Solid carries the figures.</p></div>`;
+
+const TOK = [
+  ['--ink','Primary text','--surface',4.5],['--ink-2','Secondary text','--surface',4.5],['--ink-3','Tertiary text, captions','--surface-2',4.5],
+  ['--ink','Text on ground','--ground',4.5],['--rise','Up: arrow, sign and text','--surface',4.5],['--fall','Down: arrow, sign and text','--surface',4.5],
+  ['--warn','Stale, short-term label','--warn-tint',4.5],['--fc-ink','Forecast figures','--surface',4.5],['--scored-ink','Scored outcome text','--surface',4.5],
+  ['--link','Links, plain buttons','--surface',4.5],['--focus','Focus ring','--ground',3],['--btn-ink','Primary button label','--btn',4.5],
+  ['--hairline-2','Control edges','--surface',1.4],['--fc-line','Median line (graphic)','--surface',3]
+];
+function parse(c, under){
+  c = c.trim();
+  if (c[0]==='#'){ const h = c.slice(1); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16),1]; }
+  const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return [0,0,0,1];
+  const p = m[1].split(',').map(Number); const a = p[3] ?? 1;
+  if (a < 1 && under) return [0,1,2].map(i => p[i]*a + under[i]*(1-a)).concat(1);
+  return [p[0],p[1],p[2],1];
+}
+const L = c => { const f = v => { v/=255; return v<=.03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); }; return .2126*f(c[0]) + .7152*f(c[1]) + .0722*f(c[2]); };
+const CR = (a,b) => { const x=L(a), y=L(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+const hex = c => '#' + c.slice(0,3).map(v => Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();
+const probeL = document.createElement('div'); probeL.className = 'scheme-light';
+const probeD = document.createElement('div'); probeD.className = 'scheme-dark';
+probeL.hidden = probeD.hidden = true; document.body.append(probeL, probeD);
+function tv(probe, name){ return getComputedStyle(probe).getPropertyValue(name).trim(); }
+function pair(probe, fg, bg){ const surf = parse(tv(probe,'--surface')); const b = parse(tv(probe,bg), surf); const f = parse(tv(probe,fg), b); return [f,b,CR(f,b)]; }
+function measure(){
+  const tb = document.querySelector('#tokTable tbody'); if (!tb) return;
+  tb.innerHTML = TOK.map(([fg,role,bg,need]) => {
+    const [fl,bl,rl] = pair(probeL, fg, bg), [fd,bd,rd] = pair(probeD, fg, bg);
+    const ok = r => r >= need ? `<span class="pass">${ic('check','s14')}${r.toFixed(2)}:1</span>` : `<span class="failc">${r.toFixed(2)}:1</span>`;
+    return `<tr><td><code>${fg}</code></td><td>${role}</td><td><span class="sw" style="background:${hex(fl)}"></span> ${hex(fl)}</td><td><code>${bg}</code> ${ok(rl)}</td><td><span class="sw" style="background:${hex(fd)}"></span> ${hex(fd)}</td><td>${ok(rd)}</td><td>${need===1.4?'edge':need+':1'}</td></tr>`;
+  }).join('');
+  const sb = document.querySelector('#segTable tbody');
+  sb.innerHTML = Object.entries(SEG).map(([k,s]) => {
+    const c = parse(tv(probeL, s.c)), g = parse(tv(probeD,'--ground'));
+    const w = CR([255,255,255,1], c), e = CR(c, g);
+    const sw = s.c.replace('--seg-','');
+    return `<tr><td><span class="sw" style="background:${hex(c)}"></span></td><td>${s.name}</td><td>${hex(c)}</td><td><span class="pass">${ic('check','s14')}${w.toFixed(2)}:1</span></td><td>${e.toFixed(2)}:1 ${e>=3?'':'<span class="small muted">+ 0.5 pt light edge</span>'}</td><td><code>${s.c}</code></td><td><code>Color.segment.${sw}</code></td></tr>`;
+  }).join('');
+}
+
+const TYPE = [
+  ['Amount','£84,612.40',"44 / 48",'760','Bricolage','--t-amount','Font.prism.amount','display'],
+  ['Large title','Portfolio','34 / 41','780','Bricolage','--t-large','.largeTitle','display'],
+  ['Title 1','Top 5 by segment','28 / 34','740','Bricolage','--t-title1','.title','display'],
+  ['Title 2','Holdings','22 / 28','720','Bricolage','--t-title2','.title2','display'],
+  ['Title 3','6-month forecast','20 / 25','650','Instrument','--t-title3','.title3','text'],
+  ['Headline','Apple','17 / 22','600','Instrument','--t-headline','.headline','text'],
+  ['Body','Decision support, not advice.','17 / 22','400','Instrument','--t-body','.body','text'],
+  ['Callout','80% range −9.8% to +21.4%','16 / 21','500','Instrument','--t-callout','.callout','text'],
+  ['Subheadline','AAPL · XNAS','15 / 20','500','Instrument','--t-subhead','.subheadline','text'],
+  ['Footnote','As of 21:15 London','13 / 18','500','Instrument','--t-footnote','.footnote','text'],
+  ['Caption 1','Data cutoff 21:00','12 / 16','600','Instrument','--t-caption','.caption','text'],
+  ['Caption 2','PORTFOLIO','11 / 13','600','Instrument','--t-caption2','.caption2','text']
+];
+document.querySelector('#typeTable tbody').innerHTML = TYPE.map(([n,s,sz,w,f,css,sw,fam]) => {
+  const [a,b] = sz.split(' / ');
+  return `<tr><td>${n}</td><td style="font-family:var(--font-${fam});font-size:${a}px;line-height:${b}px;font-weight:${w};letter-spacing:${fam==='display'?'-.02em':'0'};${fam==='display'?'font-variation-settings:\'opsz\' 48,\'wdth\' 92;':''}white-space:nowrap">${s}</td><td style="white-space:nowrap">${sz}</td><td>${w}</td><td>${f}</td><td><code>${css}</code></td><td><code>${sw}</code></td></tr>`;
+}).join('');
+document.getElementById('numCol').innerHTML = H.map(h => `<tr><td>${h.t}</td><td class="r">£${h.val}</td><td class="r">${chg(h.day)}</td><td class="r" style="color:var(--fc-ink)">${pct(h.med)}</td></tr>`).join('');
+document.getElementById('spaceRow').innerHTML = [4,8,12,16,20,24,32,48].map(s => `<div style="display:flex;align-items:center;gap:10px"><span class="small" style="width:22px;text-align:right">${s}</span><span style="height:10px;width:${s*3}px;border-radius:3px;background:var(--seg-uslarge)"></span><code>--sp-${s}</code></div>`).join('');
+document.getElementById('radRow').innerHTML = [['xs',8,'chips'],['sm',12,'fields'],['md',16,'buttons'],['card',22,'cards'],['tile',24,'tiles'],['sheet',30,'sheets']].map(([n,r,u]) => `<div style="display:grid;gap:4px;justify-items:start"><span style="width:56px;height:44px;border-radius:${r}px;background:var(--surface-2);box-shadow:inset 0 0 0 1.5px var(--hairline-2)"></span><span class="small"><b>${r}</b> ${u}</span></div>`).join('');
+const ICONS = [['home','Portfolio'],['fan','Forecasts'],['grid','Segments'],['target','Track record'],['sliders','Settings'],['search','Search'],['clock','Stale'],['wifi-off','Offline'],['alert','Error'],['info','About'],['shield','Protection'],['cube','Model'],['split','Disagreement'],['ban','Abstaining'],['db','Provider'],['eye-off','Privacy'],['plus','Add'],['equal','Hold'],['pause','Pause'],['trim','Trim'],['rebalance','Rebalance'],['lock','Permission'],['scenario','Scenario'],['layers','Materials']];
+document.getElementById('iconGrid').innerHTML = ICONS.map(([i,n]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:12px;background:var(--surface-2)">${ic(i,'s24')}<span class="small muted">${n}</span></div>`).join('');
+const md = document.getElementById('mdemo'), mb = document.getElementById('mdemoBtn');
+mb.addEventListener('click', () => { const o = md.classList.toggle('open'); mb.setAttribute('aria-expanded', String(o)); mb.textContent = o ? 'Hide the sheet' : 'Show the sheet'; });
+
+/* ---------- components content ---------- */
+const btnRow = (label, cls, txt, icn) => `<div style="display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center"><span class="label">${label}</span><div style="display:flex;gap:10px;flex-wrap:wrap">
+  <button class="btn ${cls}" type="button">${icn?ic(icn,'s18'):''}${txt}</button><button class="btn ${cls} is-hover" type="button" tabindex="-1">Hover</button><button class="btn ${cls} is-press" type="button" tabindex="-1">Pressed</button><button class="btn ${cls} is-focus" type="button" tabindex="-1">Focus</button><button class="btn ${cls}" type="button" disabled>Disabled</button><button class="btn ${cls}" type="button" tabindex="-1" aria-busy="true"><span class="spin" aria-hidden="true"></span>Saving</button></div></div>`;
+document.getElementById('btnStates').innerHTML = btnRow('Primary','btn-primary','Record decision','check') + btnRow('Tinted','btn-tinted','View proof','shield') + btnRow('Glass (on fields)','btn-glass','Open segment','grid') + btnRow('Plain','btn-plain','Track record');
+document.querySelector('#btnStates .btn-glass')?.closest('div[style]')?.parentElement && (() => { const r = document.querySelectorAll('#btnStates > div')[2]; r.style.cssText += ';background:linear-gradient(120deg,var(--seg-ustech),var(--seg-n50));padding:12px;border-radius:16px'; r.querySelector('.label').style.color = '#fff'; })();
+document.getElementById('freshChips').innerHTML = fresh('Twelve Data') + fresh('Yahoo') + `<span class="chip stale">${ic('clock','s14')}Stale · last price 16:35</span><span class="chip partial"><span class="dot"></span>Partial · 6 of 7 priced</span><span class="chip offline">${ic('wifi-off','s14')}Offline · from 21:15</span><span class="chip">${ic('db','s14')}Yahoo · UK and India intraday</span><span class="chip fc">${ic('fan','s14')}Forecast</span><span class="chip illus">Illustrative</span>`;
+document.getElementById('rowsA').innerHTML = hrow(byT.AAPL) + hrow(byT.NVDA,{pressed:true}) + hrow(byT.SPY,{sel:true});
+document.getElementById('rowsB').innerHTML = hrow(byT.HSBA) + hrow(byT.RELIANCE,{priv:true}) + skelRow();
+document.getElementById('tilesComp').innerHTML = Object.keys(SEG).map(k => tile(k,{sel:k==='ustech',compact:true,h:104})).join('');
+document.getElementById('t5us').innerHTML = top5('ustech');
+document.getElementById('t5in').innerHTML = top5('n50');
+function renderComp(){
+  const el = document.getElementById('fcComp'); const w = Math.round(Math.max(300, Math.min(560, el.clientWidth - 32)));
+  if (el.dataset.w == w) return; el.dataset.w = w;
+  const open = el.querySelector('details')?.open;
+  el.innerHTML = fcard(byT.AAPL, {w, h:Math.round(Math.max(200, w*.5)), inter:true, table:true}) + `<div class="legend"><span><i class="lg-scen"></i>Scenarios (3 to 5 years) open on their own chart, dotted, with no likelihood stated.</span></div>`;
+  if (open) el.querySelector('details').open = true;
+  el.querySelectorAll('svg.cx.inter').forEach(wire);
+  renderRange();
+}
+document.getElementById('proofComp').innerHTML = proof();
+function renderRange(){ const rb = document.getElementById('rangeBig'); rb.innerHTML = (() => { const h = byT.AAPL, w = Math.round(Math.max(280, Math.min(520, rb.clientWidth))), X = v => 10 + ((v+20)/56)*(w-20);
+  return `<svg class="cx" viewBox="0 0 ${w} 74" width="100%" role="img" aria-label="Apple 6-month forecast range: 80% from ${pct(h.lo)} to ${pct(h.hi)}, 50% from ${pct(h.lo50)} to ${pct(h.hi50)}, median ${pct(h.med)}">
+  <rect class="b80" x="${X(h.lo)}" y="20" width="${X(h.hi)-X(h.lo)}" height="22" rx="11"/><rect class="b50" x="${X(h.lo50)}" y="24" width="${X(h.hi50)-X(h.lo50)}" height="14" rx="7"/>
+  <line class="zero" x1="${X(0)}" x2="${X(0)}" y1="12" y2="50"/><rect x="${X(h.med)-1.5}" y="16" width="3" height="30" rx="1.5" fill="var(--fc-line)"/>
+  <text class="fcl" x="${X(h.med)}" y="11" text-anchor="middle">Median ${pct(h.med)}</text>
+  <text class="lbl" x="${X(h.lo)}" y="62" text-anchor="middle">${pct(h.lo)}</text><text x="${X(h.lo50)}" y="62" text-anchor="middle">${pct(h.lo50)}</text><text x="${X(0)}" y="72" text-anchor="middle">0%</text><text x="${X(h.hi50)}" y="62" text-anchor="middle">${pct(h.hi50)}</text><text class="lbl" x="${X(h.hi)}" y="62" text-anchor="middle">${pct(h.hi)}</text></svg>
+  <div class="fmeta"><span>6 months to 3 May 2027</span><span>As of 21:15 · cutoff 21:00</span><span>80% held 79% of the time</span></div>`; })(); }
+document.getElementById('badges').innerHTML = ['Add','Hold','Pause','Trim','Rebalance'].map(badge).join('');
+document.getElementById('trimBadge').innerHTML = badge('Trim');
+document.getElementById('sheetComp').innerHTML = `<div class="dfield" style="top:-60px;height:300px"></div><div style="position:relative;padding:20px 16px;opacity:.7">${valcard(32)}</div><div class="scrim" style="opacity:1"></div>
+  <div class="sheet" style="transform:none;position:absolute;left:0;right:0;bottom:0">
+    <div class="grabber"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between"><h4 style="font:720 20px/25px var(--font-display)">Record your decision</h4><button class="iconbtn btn-tinted" type="button" style="width:32px;height:32px" aria-label="Close">${ic('x','s16')}</button></div>
+    <div class="card" style="margin-top:12px;padding:12px 14px;display:grid;gap:6px">
+      <div style="display:flex;gap:10px;align-items:center">${logo('--seg-ustech','N')}<div style="flex:1"><div style="font:650 15px/20px var(--font-text)">NVIDIA · Trim</div><div class="small muted">6 months · median +9.1% · 80% range −18.5% to +34.0%</div></div></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">This saves the decision and its reasons to your journal, so the outcome can be scored later. MP does not place trades; any change happens in your own broker.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn btn-tinted" type="button">Not now</button><button class="btn btn-primary" type="button">Record decision</button></div>
+  </div>`;
+const tabs = (on=0) => [['home','Portfolio'],['fan','Forecasts'],['grid','Segments'],['target','Record'],['sliders','Settings']].map(([i,n],k) => `<button class="tb${k===on?' on':''}" type="button"${k===on?' aria-current="page"':''}>${ic(i,'s24')}${n}</button>`).join('');
+document.getElementById('tabComp').innerHTML = tabs(0);
+const side = (on=0) => `<div class="sh">MYPREDICTION</div>` + [['home','Portfolio','7'],['fan','Forecasts',''],['grid','Segments','8'],['target','Track record',''],['db','Data sources',''],['sliders','Settings','']].map(([i,n,c],k) => `<div class="si${k===on?' on':''}">${ic(i,'s18')}${n}${c?`<span class="n">${c}</span>`:''}</div>`).join('');
+document.getElementById('sideComp').innerHTML = side(0);
+document.getElementById('searchRes').innerHTML = [['NVDA','NVIDIA','XNAS · US tech','--seg-ustech','N'],['NIFTYBEES','Nippon India Nifty 50 BeES','XNSE · India ETFs','--seg-inetf','NB'],['INFY','Infosys','XNSE · Nifty 50','--seg-n50','In']].map((r,i) => `<div class="t5r" style="grid-template-columns:30px 1fr auto"><span>${logo(r[3],r[4],true)}</span><div class="tt">${r[1]}<span>${r[0]} · ${r[2]}</span></div>${i===0?'<span class="chip">In portfolio</span>':ic('chev-r','s16')}</div>`).join('');
+
+const STATES = [
+  ['grid','Empty','No holdings yet. Add the instruments you want MP to watch; MP never connects to a broker.', `<button class="btn btn-primary" type="button" style="justify-self:start">Add a holding</button>`],
+  ['clock','Loading','Prices are refreshing. Last good figures stay labelled with their time.', `<div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${skelRow()}</div>`],
+  ['clock','Stale','HSBC last priced 16:35. Its forecast is held and the action paused until prices return.', fresh('Yahoo','stale','delayed since 16:35')],
+  ['layers','Partial','6 of 7 holdings priced. Portfolio value excludes HSBC until Yahoo responds.', `<span class="chip partial"><span class="dot"></span>Partial · 6 of 7</span>`],
+  ['alert','Error','Forecasts didn\'t load: Twelve Data returned an error at 21:14. Prices are unaffected.', `<button class="btn btn-tinted" type="button" style="justify-self:start">${ic('refresh','s18')}Try again</button>`],
+  ['wifi-off','Offline','You\'re offline. Showing figures from 21:15; nothing updates until you reconnect.', `<span class="chip offline">${ic('wifi-off','s14')}Offline · from 21:15</span>`],
+  ['cube','No model','No approved model for 12 months yet. 3 and 6 months are available.', `<span class="chip proposed"><span class="dot"></span>12-month model proposed</span>`],
+  ['ban','Abstaining','The model abstained for AstraZeneca at 12 months: too little comparable history for a calibrated range.', `<span class="chip">${ic('ban','s14')}Abstained · no range shown</span>`],
+  ['split','Disagreement','R2-HGB v3 and the baseline disagree on direction for Reliance at 3 months. Both ranges are shown; no action is ranked.', `<div style="display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;font:600 12px/16px var(--font-text);color:var(--ink-2)"><span>Baseline</span>${range({...byT.RELIANCE,med:-1.5,lo:-14,hi:11,lo50:-7.5,hi50:4})}<span>R2-HGB v3</span>${range({...byT.RELIANCE,med:2.8,lo:-6.5,hi:12.4,lo50:-1.6,hi50:7.6})}</div>`],
+  ['ban','Forecast unavailable','Gold (XAU/USD): forecast unavailable while its valuation convention is open (SCI-D08). Price history still shows.', `<div class="segtile" style="--c:var(--seg-metals);min-height:64px"><span class="tn">Gold · XAU/USD</span><span class="lead">${ic('ban','s14')}Forecast unavailable</span></div>`],
+  ['lock','Permission denied','You can view this portfolio but not record decisions. Ask its owner for editor access.', `<button class="btn btn-primary" type="button" disabled style="justify-self:start">Record decision</button>`],
+  ['eye-off','Privacy','Amounts hidden. Percentages and ranges stay visible. Tap to show for 30 seconds.', `<div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${hrow(byT.AZN,{priv:true})}</div>`]
+];
+document.getElementById('statesGrid').innerHTML = STATES.map(([i,n,p,x]) => `<div class="card state"><div class="sh"><span class="ic">${ic(i,'s18')}</span>${n}</div><p>${p}</p>${x}<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px">${n==='Offline'?fresh('Twelve Data','offline','last 21:15'):n==='Error'?`<span class="chip error">${ic('alert','s14')}Twelve Data · error 21:14</span>`:n==='Stale'?fresh('Twelve Data'):fresh('Twelve Data')}</div></div>`).join('');
+
+/* ---------- device screens ---------- */
+const sbar = () => `<div class="island"></div><div class="sbar"><span>9:41</span><span class="si"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.5 5.6 8.9a3.4 3.4 0 0 1 4.8 0zM2.9 6.3a7.4 7.4 0 0 1 10.2 0l-1.4 1.5a5.4 5.4 0 0 0-7.4 0zM.3 3.6a11.2 11.2 0 0 1 15.4 0l-1.4 1.5a9.2 9.2 0 0 0-12.6 0z" fill="currentColor"/></svg><svg width="27" height="13" viewBox="0 0 27 13" aria-hidden="true"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2.4" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2z" fill="currentColor" opacity=".45"/></svg></span></div>`;
+const homeInd = '<div class="home-ind"></div>';
+const tabbar = on => `<div class="dtab glass"><div class="tabbar">${tabs(on)}</div></div>`;
+
+function scrHomeTop(){
+  return `${sbar()}<div class="dfield"></div>
+  <div class="content" style="padding-top:54px">
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0"><span class="tbtn glass">${ic('search','s18')}</span><span class="tbtn glass">${ic('eye-off','s18')}</span><span class="tbtn glass">${ic('person','s18')}</span></div>
+    <div class="ltitle" style="margin-top:2px">Portfolio</div>
+    <div class="on-glass" style="display:flex;gap:6px;padding:6px 16px 12px;flex-wrap:wrap">${fresh('Twelve Data')}${fresh('Yahoo')}</div>
+    <div style="padding:0 16px">${valcard()}</div>
+    <div class="sech"><h3>Holdings</h3><div class="segctl" role="group" aria-label="Horizon"><button type="button" aria-pressed="false">3M</button><button type="button" aria-pressed="true">6M</button><button type="button" aria-pressed="false">12M</button></div></div>
+    <div class="list card">${H.slice(0,5).map(h => hrow(h)).join('')}</div>
+  </div>${tabbar(0)}${homeInd}`;
+}
+function scrHomeScrolled(){
+  return `${sbar()}
+  <div class="content" style="margin-top:-176px">
+    <div class="list card">${H.slice(4).map(h => hrow(h)).join('')}</div>
+    <div class="sech" style="padding-top:26px;flex-direction:column;align-items:flex-start;gap:2px"><h3>Top 5 by segment</h3><p class="small muted">6 months · score = growth 35% + protection 40% + opportunity 25%</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 16px 0">${Object.keys(SEG).map(k => tile(k,{sel:k==='ustech',compact:true,h:86})).join('')}</div>
+    <div class="card top5" style="margin:14px 16px 0">${top5('ustech')}</div>
+  </div>
+  <div class="navbar glass"><div class="nb"><span></span><span class="nbt">Portfolio</span><span style="display:flex;gap:4px"><span class="tbtn">${ic('search','s18')}</span></span></div></div>
+  ${tabbar(0)}${homeInd}`;
+}
+function scrDetail(){
+  const h = byT.AAPL;
+  return `${sbar()}<div class="dfield" style="opacity:calc(var(--field-o)*.7)"></div>
+  <div class="content" style="padding-top:98px">
+    <div style="display:flex;align-items:center;gap:12px;padding:6px 16px 0">${logo(h.c,h.lg)}<div style="flex:1;min-width:0"><div style="font:760 28px/32px var(--font-display);letter-spacing:-.025em">Apple</div><div class="small muted">AAPL · XNAS · US tech</div></div></div>
+    <div class="on-glass" style="display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap">${fresh('Twelve Data')}<span class="chip">Your holding <b style="color:var(--ink);margin:0 4px">£14,820.50</b>${chg(h.day)}</span></div>
+    <div style="display:flex;gap:8px;align-items:center;padding:14px 16px 10px"><div class="segctl" role="group" aria-label="Horizon" style="flex:1"><button type="button" aria-pressed="false" aria-label="3 months">3M</button><button type="button" aria-pressed="true" aria-label="6 months">6M</button><button type="button" aria-pressed="false" aria-label="12 months">12M</button></div><span class="chip" style="min-height:34px">${ic('clock','s14')}Short-term</span></div>
+    <div class="card fcard" style="margin:0 16px">${fcard(h,{w:326,h:186,seed:11})}</div>
+    <div class="card" style="margin:12px 16px 0;padding:14px 16px;display:grid;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center">${badge('Hold')}<span style="font:650 15px/20px var(--font-text)">Ranked action</span><span class="chip illus" style="margin-left:auto">Decision support</span></div>
+      <p class="small muted">Apple is 17.5% of the portfolio. The median is positive but the 80% range still includes a loss of 9.8%, so adding would raise concentration.</p>
+    </div>
+    <div class="card fcard" style="margin:12px 16px 0">${proof()}</div>
+  </div>
+  <div class="navbar glass"><div class="nb"><span style="display:flex;align-items:center;color:var(--link);font:500 17px/1 var(--font-text)">${ic('chev-l','s24')}Portfolio</span><span class="nbt">AAPL</span><span class="tbtn">${ic('info','s24')}</span></div></div>
+  ${tabbar(1)}${homeInd}`;
+}
+function scrIpad(){
+  const h = byT.NVDA;
+  return `<div class="dfield" style="left:-10%;right:40%;top:-80px;height:900px"></div>
+  <div style="position:absolute;inset:0;display:grid;grid-template-columns:248px 360px 1fr">
+    <div class="glass" style="position:relative;z-index:2;display:flex;flex-direction:column;padding-top:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px">${ic('sidebar','s24')}<span class="tbtn">${ic('person','s18')}</span></div>
+      <div style="padding:10px 12px 0"><div class="search">${ic('search','s18')}Search</div></div>
+      <div class="side" style="flex:1">${side(0)}</div>
+      <div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label">Data</span>${fresh('Twelve Data')}${fresh('Yahoo')}<span class="small muted">As of 21:15 · cutoff 21:00</span></div>
+    </div>
+    <div style="position:relative;z-index:1;background:var(--ground);border-right:1px solid var(--hairline);overflow:hidden;padding-top:24px">
+      <div class="ltitle">Holdings</div>
+      <div style="padding:12px 12px 0">${valcard(36)}</div>
+      <div class="sech" style="padding:16px 16px 8px"><h3 style="font-size:17px;font-family:var(--font-text);font-weight:650">7 holdings · 6 months</h3><span class="small muted">By value</span></div>
+      <div class="list card" style="margin:0 12px">${H.map(x => hrow(x,{sel:x.t==='NVDA'})).join('')}</div>
+    </div>
+    <div style="position:relative;z-index:1;background:var(--ground);overflow:hidden;padding:24px 24px 0">
+      <div style="display:flex;align-items:center;gap:14px">${logo(h.c,h.lg)}<div style="flex:1;min-width:0"><div style="font:760 30px/34px var(--font-display);letter-spacing:-.025em">NVIDIA</div><div class="small muted">NVDA · XNAS · US tech</div></div><div style="text-align:right"><div style="font:650 17px/22px var(--font-text)">£11,402.10</div>${chg(h.day)}</div></div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap"><div class="segctl lg"><button type="button" aria-pressed="false">3 months</button><button type="button" aria-pressed="true">6 months</button><button type="button" aria-pressed="false">12 months</button></div><span class="chip" style="min-height:34px">${ic('clock','s14')}Short-term</span>${fresh('Twelve Data')}</div>
+      <div class="card fcard" style="margin-top:14px">${fcard(h,{w:490,h:210,seed:23})}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+        <div class="card fcard" style="display:grid;gap:8px;align-content:start"><div style="display:flex;gap:8px;align-items:center">${badge('Trim')}<span style="font:650 15px/20px var(--font-text)">Ranked action</span></div><p class="small muted">13.5% of the portfolio, with the widest 80% range you hold. Trimming narrows the portfolio's range. MP never places trades.</p><button class="btn btn-primary" type="button" style="min-height:40px;font-size:15px">Record decision</button></div>
+        <div class="card fcard">${proof(true)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+function scrDesk(){
+  const a = byT.AAPL;
+  const row = h => `<tr class="${h.t==='AAPL'?'sel':''}"><td><div class="inst">${logo(h.c,h.lg,true)}<div style="min-width:0"><b>${h.n}</b><span>${h.t} · ${h.v}</span></div></div></td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${h.stale?`<span class="chg" style="color:var(--warn)">${ic('clock','s14')}Stale 16:35</span>`:chg(h.day)}</td><td class="r" style="color:var(--fc-ink);font-weight:650">${pct(h.med)}</td><td style="width:124px">${range(h,124,16)}</td><td class="r muted">${pct(h.lo)} to ${pct(h.hi)}</td><td>${badge(h.act)}</td></tr>`;
+  const t5compact = k => top5(k).replace(/<div class="t5foot">[\s\S]*?<\/div>/,'');
+  return `<div class="glass" style="position:absolute;inset:0 0 auto;height:38px;z-index:5;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:0">
+      <span style="display:flex;gap:7px"><i style="width:12px;height:12px;border-radius:50%;background:#FF5F57"></i><i style="width:12px;height:12px;border-radius:50%;background:#FEBC2E"></i><i style="width:12px;height:12px;border-radius:50%;background:#28C840"></i></span>
+      <span style="margin:0 auto;display:flex;align-items:center;gap:6px;padding:4px 14px;border-radius:8px;background:var(--glass-thin);font:500 12px/1 var(--font-text);color:var(--ink-2)">${ic('lock','s14')}MyPrediction · Portfolio</span></div>
+    <div class="dfield" style="left:-5%;right:70%;top:-60px;height:1000px"></div>
+    <div style="position:absolute;inset:38px 0 0;display:grid;grid-template-columns:224px 1fr">
+      <div class="glass" style="position:relative;z-index:2;display:flex;flex-direction:column;border-radius:0">
+        <div style="display:flex;align-items:center;gap:10px;padding:16px 18px 6px;font:720 17px/1 var(--font-display)"><span class="brand-mark" aria-hidden="true"></span>MyPrediction</div>
+        <div class="side" style="flex:1">${side(0)}</div>
+        <div class="on-glass" style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start"><span class="label">Providers</span>${fresh('Twelve Data')}${fresh('Yahoo')}<span class="small muted">Yahoo: UK and India intraday</span></div>
+      </div>
+      <div class="desk" style="position:relative;z-index:1;overflow:hidden;background:var(--ground)">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 24px 12px;border-bottom:1px solid var(--hairline)">
+          <h1 style="font:780 26px/30px var(--font-display);letter-spacing:-.025em">Portfolio</h1><span class="chip illus">Illustrative figures</span>
+          <div class="search" style="margin-left:auto;width:260px">${ic('search','s18')}Search instruments<kbd>⌘K</kbd></div>
+          <div class="segctl"><button type="button" aria-pressed="false">3M</button><button type="button" aria-pressed="true">6M</button><button type="button" aria-pressed="false">12M</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;padding:14px 24px">
+          <div style="display:grid;gap:14px;align-content:start;min-width:0">
+            <div class="card" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding:16px 20px">
+              <div><div style="display:flex;gap:8px;align-items:center"><span class="label">Portfolio value</span><span class="chip illus">Illustrative</span></div>${money('84,612.40',40)}<div style="display:flex;gap:8px;align-items:center;margin-top:6px;font-size:14px">${chg(1,'+£1,236.18 (1.48%)')}<span class="muted">today</span></div></div>
+              <div><div class="small muted" style="margin-bottom:8px">As of 21:15 London · data cutoff 21:00 · ${fresh('Twelve Data')} ${fresh('Yahoo')}</div>${alloc()}</div>
+            </div>
+            <div class="card" style="overflow:hidden"><div style="display:flex;align-items:center;gap:10px;padding:12px 14px 4px"><h3 style="font:720 17px/22px var(--font-display)">Holdings</h3><span class="small muted">6-month forecasts on one scale, −20% to +36%</span><span class="chip stale" style="margin-left:auto">${ic('clock','s14')}HSBC stale since 16:35</span></div>
+              <table class="ht dk"><thead><tr><th>Instrument</th><th class="r">Value</th><th class="r">Today</th><th class="r">Median</th><th>50% / 80% range</th><th class="r">80% range</th><th>Action</th></tr></thead><tbody>${H.map(row).join('')}</tbody></table></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start">
+              <div class="card top5 dk5">${t5compact('ustech')}</div>
+              <div class="card top5 dk5">${t5compact('n50')}</div>
+            </div>
+          </div>
+          <div style="display:grid;gap:14px;align-content:start">
+            <div class="card fcard">${fcard(a,{w:348,h:150,seed:11})}</div>
+            <div class="card fcard">${proof(true)}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${Object.keys(SEG).map(k => tile(k,{sel:k==='ustech',compact:true,h:40,nolead:true})).join('')}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+function scrPwa(){
+  return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
+  <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px">
+    <span class="brand-mark" aria-hidden="true"></span><span style="font:720 17px/1 var(--font-display)">Portfolio</span>
+    <div class="search" style="margin-left:auto;flex:1;max-width:170px;min-height:36px;font-size:14px">${ic('search','s16')}Search</div>
+  </div>
+  <div class="dfield"></div>
+  <div class="content" style="padding-top:112px">
+    <div class="on-glass" style="display:flex;gap:6px;padding:0 12px 10px;flex-wrap:wrap">${fresh('Twelve Data')}${fresh('Yahoo')}<span class="chip illus">Illustrative</span></div>
+    <div style="padding:0 12px">${valcard(38)}</div>
+    <div class="sech" style="padding:16px 12px 8px"><h3 style="font-size:19px">Holdings</h3><div class="segctl" role="group" aria-label="Horizon"><button type="button" aria-pressed="false">3M</button><button type="button" aria-pressed="true" style="outline:2px solid var(--focus);outline-offset:1px">6M</button><button type="button" aria-pressed="false">12M</button></div></div>
+    <div class="card" style="margin:0 12px;overflow:hidden">
+      <table class="ht pwa" style="font-size:13px"><thead><tr><th>Holding</th><th class="r">Value</th><th class="r">6M</th><th>Action</th></tr></thead><tbody>
+      ${H.map(h => `<tr><td><div class="inst">${logo(h.c,h.lg,true)}<div><b>${h.t}</b><span>${h.stale?`<span style="color:var(--warn);font-weight:600">Stale 16:35</span>`:chg(h.day)}</span></div></div></td><td class="r" style="font-weight:600">£${h.val.split('.')[0]}</td><td class="r"><div style="color:var(--fc-ink);font-weight:650">${pct(h.med)}</div><div style="width:64px;margin-left:auto">${range(h,64,12)}</div></td><td>${badge(h.act)}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
+  </div>
+  <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px;padding-bottom:18px"><div class="tabbar">${tabs(0)}</div></nav>${homeInd}`;
+}
+
+function boardHTML(kind, w, h, inner, scheme, cap){
+  const cls = kind === 'phone' ? 'dev' : kind === 'tab' ? 'dev tab' : 'dev win';
+  const pad = kind === 'phone' ? 20 : kind === 'tab' ? 36 : 0;
+  return `<figure style="margin:0;min-width:0"><figcaption class="bcap"><span class="tag">${scheme==='light'?'Light':'Dark'}</span>${cap}</figcaption>
+    <div class="board" data-w="${w+pad}" data-h="${h+pad}"><div class="${cls} scheme-${scheme}" style="width:${w+pad}px;height:${h+pad}px;left:calc(50% - ${(w+pad)/2}px)"><div class="scr" style="width:${w}px;height:${h}px" role="img" aria-label="${cap}, ${scheme} theme">${inner}</div></div></div></figure>`;
+}
+function both(id, kind, w, h, fn, cap, orderPairs){
+  const el = document.getElementById(id);
+  el.innerHTML = (orderPairs || [['light',fn,cap],['dark',fn,cap]]).map(([s,f,c]) => boardHTML(kind,w,h,f(),s,c)).join('');
+}
+both('bHome','phone',390,844,null,null,[['light',scrHomeTop,'iPhone 390 × 844 · top'],['light',scrHomeScrolled,'scrolled to the top 5'],['dark',scrHomeTop,'iPhone 390 × 844 · top'],['dark',scrHomeScrolled,'scrolled to the top 5']]);
+both('bDetail','phone',390,844,scrDetail,'iPhone · Apple, 6 months');
+both('bIpad','tab',1180,820,scrIpad,'iPad 1180 × 820 · split view');
+both('bDesk','win',1440,900,scrDesk,'Desktop browser 1440 × 900');
+both('bPwa','phone',390,844,scrPwa,'PWA in a 390 px browser');
+
+function fit(){
+  document.querySelectorAll('.board').forEach(b => {
+    const w = +b.dataset.w, h = +b.dataset.h, k = Math.min(1, b.clientWidth / w);
+    b.firstElementChild.style.transform = `scale(${k})`;
+    b.style.height = (h * k) + 'px';
+  });
+}
+fit(); new ResizeObserver(fit).observe(document.documentElement);
+
+/* ---------- chart hover + keyboard ---------- */
+function wire(svg){
+  const h = byT[svg.dataset.h]; const vb = svg.viewBox.baseVal; const W = vb.width, ml = 34, mr = 46; svg.parentElement.querySelectorAll('.cxtip').forEach(t => t.remove());
+  const tip = document.createElement('div');
+  tip.style.cssText = 'position:absolute;pointer-events:none;padding:8px 10px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow-2);font:500 12px/16px var(--font-text);color:var(--ink);white-space:nowrap;z-index:5';
+  tip.hidden = true; tip.className = 'cxtip'; tip.setAttribute('role','status');
+  const host = svg.parentElement; host.style.position = 'relative'; host.append(tip);
+  const xh = svg.querySelector('.xh'); let m = 0;
+  const hist = path(h, 11);
+  function show(mo){
+    m = Math.max(-12, Math.min(6, mo));
+    const x = ml + ((m+12)/18)*(W-ml-mr); xh.setAttribute('x1',x); xh.setAttribute('x2',x); svg.classList.add('hov');
+    let html;
+    if (m <= 0){ const v = hist[Math.round((m+12)/12*52)]; html = `<b>${m===0?'Now':Math.abs(Math.round(m))+' months ago'}</b><br>History ${pct(v)} vs today`; }
+    else { const f = m/6, s = Math.sqrt(f), r = v => pct(+v.toFixed(1)); html = `<b>Forecast, ${m.toFixed(0)} month${m>=1.5?'s':''} ahead</b><br><span style="color:var(--fc-ink)">Median ${r(h.med*f)}</span><br>50%: ${r(h.med*f-(h.med-h.lo50)*s)} to ${r(h.med*f+(h.hi50-h.med)*s)}<br>80%: ${r(h.med*f-(h.med-h.lo)*s)} to ${r(h.med*f+(h.hi-h.med)*s)}`; }
+    tip.innerHTML = html; tip.hidden = false;
+    const px = (x / W) * svg.clientWidth; tip.style.left = Math.min(Math.max(0, px - 70), svg.clientWidth - 150) + 'px'; tip.style.top = (svg.offsetTop - 8) + 'px'; tip.style.transform = 'translateY(-100%)';
+  }
+  svg.addEventListener('pointermove', e => { const r = svg.getBoundingClientRect(); const x = (e.clientX - r.left)/r.width*W; show(Math.round(((x-ml)/(W-ml-mr))*18 - 12)); });
+  svg.addEventListener('pointerleave', () => { tip.hidden = true; svg.classList.remove('hov'); });
+  svg.addEventListener('focus', () => show(m || 6));
+  svg.addEventListener('blur', () => { tip.hidden = true; svg.classList.remove('hov'); });
+  svg.addEventListener('keydown', e => { if (e.key === 'ArrowLeft'){ show(m-1); e.preventDefault(); } if (e.key === 'ArrowRight'){ show(m+1); e.preventDefault(); } });
+}
+renderComp(); let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderComp, 150); });
+
+/* ---------- mapping ---------- */
+const MT = [
+  ['Ground','--ground','Color.prism.ground','page and screen background'],
+  ['Surface / 2 / 3','--surface, --surface-2, --surface-3','Color.prism.surface, .surface2, .surface3','every figure sits on one of these'],
+  ['Ink 1 / 2 / 3','--ink, --ink-2, --ink-3','.foregroundStyle(.primary / .secondary / .tertiary) via Color.prism.ink*','all text, measured above'],
+  ['Hairline','--hairline, --hairline-2','Divider().overlay(Color.prism.hairline)','separators, control edges'],
+  ['Glass thin / regular / thick','--glass-thin, --glass, --glass-thick','.ultraThinMaterial, .regularMaterial, .thickMaterial','control layer only'],
+  ['Scrim','--scrim','system sheet dimming','sheets'],
+  ['Rise / fall','--rise, --fall (+ -tint)','Color.prism.rise, .fall','always with arrow and sign'],
+  ['Warn','--warn, --warn-tint','Color.prism.warn','stale, short-term'],
+  ['Forecast','--fc-ink, --fc-line, --fc-50, --fc-80','Color.prism.forecast + .opacity(0.46 / 0.20)','MP saffron'],
+  ['Scored outcome','--scored, --scored-ink','Color.prism.scored','MP mint'],
+  ['Segment fields','--seg-uslarge … --seg-metals','Color.segment.uslarge … .metals','tiles, logos, top-5 headers'],
+  ['Market marks','--mark-us, --mark-uk, --mark-in','Color.mark.us, .uk, .in','charts only, validated'],
+  ['Focus / link','--focus, --link','.tint(Color.prism.link); system focus ring','keyboard focus 2 px, offset 2'],
+  ['Type','--font-display, --font-text, --t-*','Font.prism.amount, .largeTitle … (Font.custom relativeTo:)','tabular figures on'],
+  ['Numerals','font-variant-numeric: tabular-nums','.monospacedDigit()','every figure'],
+  ['Spacing','--sp-4 … --sp-48','Spacing.s4 … .s48 (CGFloat)','4-point grid'],
+  ['Radii','--r-xs 8, --r-sm 12, --r-md 16, --r-card 22, --r-tile 24, --r-sheet 30','RoundedRectangle(cornerRadius:, style: .continuous)','continuous corners on Apple'],
+  ['Elevation','--shadow-1 / 2 / 3','.shadow(color:radius:y:) per level; dark uses stroke + glow','e0 to e3'],
+  ['Motion','--dur-*, --ease-glide, --ease-exit','.snappy, .smooth, .spring(response: 0.38, dampingFraction: 0.86)','Reduce Motion: cross-fade'],
+  ['Blur','--blur 22px, --sat 180%','built into materials','no custom blur on Apple']
+];
+document.querySelector('#mapTok tbody').innerHTML = MT.map(r => `<tr><td>${r[0]}</td><td><code>${r[1]}</code></td><td><code>${r[2]}</code></td><td class="muted">${r[3]}</td></tr>`).join('');
+const MC = [
+  ['Button','<Button variant="primary|tinted|glass|plain">','Button + .buttonStyle(PrismButtonStyle(.primary))','--btn, --r-md, --dur-press'],
+  ['Segmented control','<Segmented options value>','Picker + .pickerStyle(.segmented)','--surface-3, --thumb'],
+  ['Horizon selector','<HorizonSelector long short>','HorizonPicker(long:short:)','segmented + Short-term menu'],
+  ['Chip','<Chip kind="fresh|stale|partial|offline|status">','StatusChip(kind:)','--warn, --rise, shapes'],
+  ['Holding row','<HoldingRow holding horizon privacy>','HoldingRow(holding:horizon:)','logo, amt, RangeMini, ActionBadge'],
+  ['Range, mini','<RangeMini median p50 p80 scale>','RangeMini(forecast:scale:) using Canvas','--fc-50, --fc-80, --fc-line'],
+  ['Forecast card','<ForecastCard forecast>','ForecastCard(forecast:) with Swift Charts AreaMark + LineMark','chart, legend, as-of, model'],
+  ['Price chart','<ForecastChart history forecast scored>','Chart { LineMark; AreaMark; PointMark }','--history, --fc-*, --scored'],
+  ['Proof panel','<ProofPanel calibration model>','ProofPanel(calibration:model:)','--scored, cal strip'],
+  ['Ranked-action badge','<ActionBadge action reason>','ActionBadge(.trim)','icon + word'],
+  ['Segment tile','<SegmentTile segment selected>','SegmentTile(segment:) on Color.segment.*','--seg-*, --r-tile'],
+  ['Top-5 card','<TopFive segment rows>','TopFiveCard(segment:)','tile header + solid list'],
+  ['Value card','<ValueCard total change allocation>','ValueCard(total:change:)','amt, alloc, meta'],
+  ['Approval sheet','<DecisionSheet action>','.sheet { DecisionSheet() }.presentationDetents([.medium])','--glass-thick, card'],
+  ['Toast','<Toast kind action>','ToastView in .overlay, AccessibilityNotification.Announcement','--glass, aria-live polite'],
+  ['Tab bar','<TabBar>','TabView','--glass, five items max'],
+  ['Sidebar','<Sidebar>','NavigationSplitView sidebar','--glass, width ≥ 768'],
+  ['Search','<SearchField>','.searchable(text:)','--surface-3, ⌘K on web'],
+  ['State panel','<StatePanel kind>','StatePanel(kind:) incl. ContentUnavailableView','empty to permission denied']
+];
+document.querySelector('#mapComp tbody').innerHTML = MC.map(r => `<tr><td>${r[0]}</td><td><code>${r[1].replace(/</g,'&lt;')}</code></td><td><code>${r[2]}</code></td><td class="muted">${r[3]}</td></tr>`).join('');
+
+setTheme(saved, false);
+})();
+</script>
