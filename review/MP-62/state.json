@@ -2,7 +2,7 @@
   "issue": "MP-62",
   "deliverable": "Prism Journeys and the flip on all eight journeys (MP-62, MP-178), with the gates that hold them",
   "round_count": 4,
-  "status": "round 4 fixed, waiting on the owner",
+  "status": "round 4 fixed; round 5 held by the owner",
   "rounds": [
     {
       "round": 1,
@@ -3528,7 +3528,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Waiting on the owner. Round 5, the last the rule allows, would cover git diff b58ae49..HEAD and its direct joins.",
+      "next_round": "Owner, 4 Nov 2026: \"Hold round 5\". It waits for the owner's decisions on the flip rules. It is the last round the rule allows, and would cover git diff b58ae49..HEAD and its direct joins. Round 4's fixes stay not independently reviewed until then.",
       "blocking_findings": [
         "R4-h1",
         "R4-h2",
