@@ -1745,6 +1745,14 @@
     "docs/planning/story-readiness-2026-11-03/",
     "docs/planning/trace.json"
    ]
+  },
+  {
+   "key": "MP-178",
+   "summary": "Design a flip so the owner can switch a journey between its two drawn options",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }

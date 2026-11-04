@@ -178,3 +178,9 @@ device, and behind an open sheet's scrim it reads 5.46:1 at full brightness and 
 3:1 floor at full brightness. Every piece of MP's own text holds 4.5:1 and 3:1.
 
 Not reviewed by an independent reviewer, not seen on a real phone at 20% brightness, and no owner has walked the journeys.
+
+## Both options, with a flip: the owner's question, 4 November 2026
+
+The owner, on seeing the options: "Can I have both A and B implemented , user should have an option to flip it for more
+engaging experience." Which journeys flip is not yet answered, so no journey's option is picked. MP-178 designs the flip,
+and MP-62's acceptance ("the owner picks one per journey") changes with the owner's answer.
