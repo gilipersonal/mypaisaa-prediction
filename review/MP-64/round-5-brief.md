@@ -84,8 +84,6 @@ Each lane also reports the joins into its part: a figure, id, name or promise th
 - `review_regress --every`: 459 run, 2 retired, 0 failed. MP-64's ledger: 148 of 148.
 - Journeys page: facts 251 of 251, Approvals walked, presses 163 of 163.
 
-This is the last round the rule allows. Report what truly must not merge as blocking; polish stays P3 and non-blocking.
-
 ## What to return
 
 Report only what no gate measures. For each finding: id (R5-<lane letter><n>), severity P0-P3, blocking yes/no, file:line, evidence, the correction.
