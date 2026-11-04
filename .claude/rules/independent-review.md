@@ -88,4 +88,3 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 35. **A control that holds state is tested across a change of state**: press it, change the state or the device, then press it again. A check that turns and returns inside one state misses it (MP-178 R3-s1, R3-h2).
 36. **A label names the question that settles it**: read the question before citing it. A claim the records leave open carries the id of the record that would close it (MP-178 R3-j3, R3-r1).
 37. **A figure stated beside its inputs is computed from them**: a rate, a sum or a count that the page's own rows cannot produce is false, however illustrative (MP-178 R3-j2).
-
