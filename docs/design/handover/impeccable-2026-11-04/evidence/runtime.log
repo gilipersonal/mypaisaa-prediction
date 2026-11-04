@@ -1,0 +1,9 @@
+ok   docs/design/prism/index.html chrome light 390px: texts 1980, worst 3:1 at 20%, frames 98.9% ok (p95 16.8 ms), LoAF 0, CLS 0, tapped 12
+ok   docs/design/prism/index.html chrome light 1440px: texts 3585, worst 3:1 at 20%, frames 96.9% ok (p95 16.8 ms), LoAF 0, CLS 0, tapped 12
+ok   docs/design/prism/index.html chrome dark 390px: texts 1980, worst 3.03:1 at 20%, frames 99.0% ok (p95 16.8 ms), LoAF 0, CLS 0, tapped 12
+FAIL docs/design/prism/index.html chrome dark 1440px: texts 3585, worst 3.03:1 at 20%, frames 96.0% ok (p95 16.8 ms), LoAF 50.69999998807907, CLS 0, tapped 12
+  - a long animation frame of 51 ms (at most 50)
+ok   docs/design/prism/index.html webkit light 390px: texts 1849, worst 3:1 at 20%, frames 99.2% ok (p95 18 ms), LoAF not measured in this engine, CLS not measured in this engine, tapped 12
+ok   docs/design/prism/index.html webkit light 1440px: texts 3585, worst 3:1 at 20%, frames 98.2% ok (p95 18 ms), LoAF not measured in this engine, CLS not measured in this engine, tapped 12
+ok   docs/design/prism/index.html webkit dark 390px: texts 1849, worst 3.03:1 at 20%, frames 97.1% ok (p95 18 ms), LoAF not measured in this engine, CLS not measured in this engine, tapped 12
+ok   docs/design/prism/index.html webkit dark 1440px: texts 3585, worst 3.03:1 at 20%, frames 96.0% ok (p95 19 ms), LoAF not measured in this engine, CLS not measured in this engine, tapped 12

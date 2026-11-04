@@ -1,0 +1,15 @@
+{
+  "local_links": [],
+  "findings": {
+    "count": 14,
+    "unique": 14,
+    "severities": {
+      "P1": 5,
+      "P2": 8,
+      "P3": 1
+    }
+  },
+  "source_changes": [],
+  "json_valid": true,
+  "pass": true
+}

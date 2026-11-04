@@ -1,0 +1,24 @@
+[
+ {
+  "engine": "chrome",
+  "theme": "dark",
+  "width": 1440,
+  "texts": 3585,
+  "textsInSideScroll": 0,
+  "textsNeverShown": 55,
+  "worstText": {
+   "text": "UK ETFs",
+   "el": "div.tn",
+   "full": 4.95,
+   "dim": 3.03
+  },
+  "tapped": 12,
+  "frames": 1142,
+  "frameShare": 0.975,
+  "p95": 16.8,
+  "longestLoaf": 0,
+  "cls": 0,
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ }
+]
