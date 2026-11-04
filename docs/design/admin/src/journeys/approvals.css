@@ -1,0 +1,27 @@
+/* Approvals and configuration only: the proposal's head, who-did-what line, before and after rows and the draft form. Everything else is Prism. */
+.aappr-min { min-width: 0; flex: 1; }
+.aappr-t { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.aappr-big { font: 700 22px/28px var(--font-text); letter-spacing: -.015em; text-wrap: balance; }
+.aappr-gap { margin-top: 8px; }
+.aappr-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; min-width: 0; }
+.aappr-tags .chip { max-width: 100%; }
+.aappr-head { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; min-width: 0; }
+.aappr-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.aappr-chain > div { display: flex; align-items: center; gap: 6px; min-height: 40px; min-width: 0; padding: 6px 8px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-1); color: var(--ink); font: 600 12px/16px var(--font-text); letter-spacing: 0; }
+.aappr-chain > div.me { background: var(--btn); color: var(--btn-ink); }
+.aappr-ch { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 9px 0; align-items: baseline; }
+.aappr-ch + .aappr-ch { border-top: 1px solid var(--hairline); }
+.aappr-full { grid-column: 1 / -1; }
+.aappr-to { display: inline-flex; align-items: center; gap: 6px; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; white-space: nowrap; }
+.aappr-to .was { font-weight: 400; color: var(--ink-2); }
+.aappr-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-width: 0; }
+.aappr-acts .aact { min-width: 0; }
+.aappr-rowh { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; min-width: 0; }
+.aappr-rowh b { flex: 1 1 120px; min-width: 0; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aappr-count { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.aappr-count b { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.aappr-out { display: grid; gap: 8px; justify-items: start; }
+.aappr-form { display: grid; gap: 10px; margin-top: 10px; }
+.aappr-field { display: grid; gap: 4px; min-width: 0; }
+.aappr-field input { width: 100%; min-height: var(--tap); padding: 0 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink); font: 400 15px/20px var(--font-text); }
+.aappr-field input::placeholder { color: var(--ink-2); }

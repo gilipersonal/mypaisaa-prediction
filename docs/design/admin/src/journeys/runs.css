@@ -1,0 +1,39 @@
+/* Runs and health only: the four-step clock, alarm rows, a moment line and the two-run compare. Everything else is Prism. */
+.aruns-tag { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.aruns-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.aruns-mhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.aruns-mhead > div { display: grid; gap: 2px; min-width: 0; }
+.aruns-mhead b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aruns-clock { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.aruns-step { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 8px; border-radius: var(--r-xs); background: var(--surface-2); }
+.aruns-step b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.aruns-off { font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.aruns-mark { display: inline-flex; align-items: center; gap: 4px; font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.aruns-step.done .aruns-mark { color: var(--rise); }
+.aruns-step.miss, .aruns-step.late { background: var(--warn-tint); }
+.aruns-step.miss *, .aruns-step.late * { color: var(--warn); }
+.aruns-step.gap { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline-2); }
+.aruns-alarms { display: grid; margin-top: 4px; }
+.aruns-alarm { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; min-width: 0; }
+.aruns-alarm + .aruns-alarm { border-top: 1px solid var(--hairline); }
+.aruns-alarm > div { display: grid; min-width: 0; }
+.aruns-alarm b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.aruns-tls { display: grid; gap: 8px; margin-top: 8px; }
+.aruns-tl { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.aruns-tl > div { display: grid; min-width: 0; }
+.aruns-tl b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.aruns-tt { font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.aruns-attempts { display: grid; gap: 8px; margin-top: 8px; }
+.aruns-attempt { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.aruns-cmp { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 76px; gap: 8px; padding: 8px 0; align-items: baseline; }
+.aruns-cmp + .aruns-cmp { border-top: 1px solid var(--hairline); }
+.aruns-cmp.diff .small:not(.muted) { font-weight: 600; }
+.aruns-same { display: inline-flex; align-items: center; gap: 4px; justify-content: flex-end; font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.aruns-cmp.diff .aruns-same { color: var(--warn); }
+.aruns-who { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; margin-top: 8px; }
+.aruns-who b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.aruns-ul { margin: 4px 0 0; padding-left: 18px; font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
+.aruns-filters, .aruns-states { display: flex; gap: 6px; flex-wrap: wrap; }
+.aruns-states { margin-top: 8px; }
+.aruns-filters .chip { min-height: 32px; padding: 6px 12px; cursor: pointer; }
+@media (max-width: 640px) { .aruns-step { padding: 8px 6px; } }

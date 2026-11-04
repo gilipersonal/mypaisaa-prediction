@@ -8,8 +8,8 @@
     ['layers', 'warn', '1 original due for renewal', 'Indian funds statement, due in Dec 2026', 'files']
   ];
   const PLACE_LINE = {
-    files: '6 originals kept · 1 draft waiting', audit: 'Lineage complete · digest only', runs: 'Last run Tue 21:15 · succeeded', agents: 'Claude off until credit is verified',
-    models: 'R2-HGB v4 waits on you · US tech 12 months paused', approvals: 'Settings v10 · catalogue v15', costs: '£46.42 committed · day 18 of 30', incidents: '1 open · last restore passed', identity: '3 healthy sign-in paths'
+    files: '6 originals kept · 1 draft waiting', audit: 'Lineage complete · digest only', runs: 'Last run Tue 21:15 · succeeded', agents: '7 routes · 5 code workers',
+    models: 'R2-HGB v4 waits on you · US tech 12 months paused', approvals: 'Settings v9 · catalogue v14', costs: '£46.42 committed · day 18 of 30', incidents: '1 open · last restore passed', identity: '3 healthy sign-in paths'
   };
   const needs = ctx => list(NEEDS.map(([i, t, a, b]) => item(lead(i, t), a, b, ic('chev-r', 's18'), '', false, true)).join(''));
   const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, PLACE_LINE[k], ic('chev-r', 's18'), '', false, true)).join(''));

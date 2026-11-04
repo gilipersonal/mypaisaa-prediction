@@ -98,7 +98,10 @@ function frame(ctx, spec) {
   const sideList = () => adminSide(ctx.journey);
   const backBtn = (size, style) => `<button class="jback" type="button" aria-label="Back to ${spec.back}" style="${style}">${ic('chev-l', size)}<span>${spec.back}</span></button>`;
   if (ctx.kind === 'iphone') {
-    const nav = spec.back ? `<div class="navbar glass"><div class="nb">${backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em')}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true, spec)}${spec.actions || ''}</span></div></div>` : '';
+    /* A back label that would run into the centred title gives way, as on iOS: the chevron stays, and it keeps its name for a screen reader. */
+    const fits = spec.back && spec.back.length * 9 + spec.title.length * 4.8 + 40 < 190;
+    const back = fits ? backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em') : `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>`;
+    const nav = spec.back ? `<div class="navbar glass"><div class="nb">${back}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true, spec)}${spec.actions || ''}</span></div></div>` : '';
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
       ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx, false, spec)}${spec.actions || tb('search', 'Search')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
       <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh)}</div>
@@ -188,8 +191,8 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You pick one</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
-  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (Recommended)' : ''}`]), sum.at.o, 'Option', 'full');
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You pick one</span><span class="chip owner">${(j.options.find(x => x.rec) || {}).id ? `${j.options.find(x => x.rec).id.toUpperCase()} · ${j.options.find(x => x.rec).name} (Recommended)` : ''}</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
   $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
@@ -287,7 +290,11 @@ const OPEN = [
   ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Every non-financial expiry is illustrative and labelled.'],
   ['Restart evidence has no open id. POLICY-003 says it still needs specifying.', 'Labelled Proposed · POLICY-003, as the owner journey does.'],
   ['Pause switches: only the POLICY-003 scope pause has a rule. Optional work and a feature have no contract or actor. (CT-14, CT-16)', 'Drawn as proposed.'],
-  ['Who cancels a run, and who records what happens to an orphan file? (MP-109, MP-45)', 'Drawn as you, labelled proposed.'],
+  ['Who cancels a run, and who records what happens to an orphan file? (MP-109, MP-45)', 'No control cancels a run: the state shows, and the inventory lists no such act. An orphan is drawn as yours, labelled proposed.'],
+  ['MP-162 shows the HSBC notice as dismissed, and admin holds inc_0012 as acknowledged. Are a notice and an incident two records?', 'Drawn as two records. No record says so.'],
+  ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'The clock screens follow POLICY-002. The owner wording stays on each run, word for word.'],
+  ['Who marks an incident mitigated? (CT-14)', 'Labelled proposed, with no control.'],
+  ['Does an overdue exercise have a threshold? (CT-14)', 'No number is shown.'],
   ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.']
 ];
 function showInventory() {

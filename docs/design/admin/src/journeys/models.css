@@ -1,0 +1,30 @@
+/* Models and evaluations only: the stage strip, the trial weeks, the score cells and the who-did-what row. Everything else is Prism. */
+.amodels-tag { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.amodels-end { display: inline-flex; align-items: center; gap: 4px; }
+.amodels-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.amodels-head > div { display: grid; gap: 2px; min-width: 0; flex: 1 1 140px; }
+.amodels-head b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.amodels-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.amodels-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.amodels-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.amodels-chain > div { min-width: 0; padding: 8px; border-radius: var(--r-xs); background: var(--surface-2); }
+.amodels-chain > div:last-child { background: var(--surface-3); }
+.amodels-chain b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.amodels-weeks { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 5px; margin-top: 10px; }
+.amodels-weeks i { display: grid; place-items: center; height: 30px; border-radius: 9px; background: var(--surface-3); color: var(--ink); }
+.amodels-weeks i.pause { background: var(--warn-tint); color: var(--warn); }
+.amodels-weeks i.off { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline-2); }
+.amodels-wk { display: flex; justify-content: space-between; margin-top: 4px; }
+.amodels-score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+.amodels-score > div { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 8px; border-radius: var(--r-xs); background: var(--surface-2); }
+.amodels-score > div.on { background: var(--surface-3); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.amodels-score b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.amodels-pipe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr)); gap: 6px; }
+.amodels-pipe li { display: grid; gap: 2px; min-width: 0; padding: 8px 10px; border-radius: var(--r-xs); background: var(--surface); box-shadow: var(--shadow-1); }
+.amodels-pipe li span { color: var(--ink-2); }
+.amodels-pipe li b { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.amodels-pipe li.has { background: var(--surface-3); }
+.amodels-pipe li.has span { color: var(--ink); }
+.amodels-who, .amodels-stack { display: grid; gap: 8px; margin-top: 8px; }
+.amodels-who > div, .amodels-stack > div { display: grid; min-width: 0; }
+.amodels-who b, .amodels-stack b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }

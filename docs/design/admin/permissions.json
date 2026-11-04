@@ -555,6 +555,17 @@
    "step_up_note": "Open",
    "audit": "Audit `[inferred: \"each step is audited\"]`",
    "source": "PH02-S02"
+  },
+  {
+   "id": "A51",
+   "action": "Refuse a proposal",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: no record names it",
+   "audit": "Proposal closes as refused; audit class open (CT-03)",
+   "source": "PH02-S03; GAP-CT-02"
   }
  ],
  "refused": [

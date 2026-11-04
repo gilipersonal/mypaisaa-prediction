@@ -821,7 +821,7 @@ def check_journeys(html: str, ids: tuple[str, ...] = JOURNEY_IDS) -> list[str]:
         return fails
     heads = JOURNEY_HEAD.findall(script)
     if tuple(heads) != ids:
-        fails.append(f"the page holds journeys {heads}; the {len(ids)}, in order, are {list(ids)}")
+        fails.append(f"the page holds journeys {heads}; the {'eight' if ids == JOURNEY_IDS else len(ids)}, in order, are {list(ids)}")
     if ids == JOURNEY_IDS and "__prismFlipless" in script:
         fails.append("the journeys page says it has no flip, and the owner kept both options with a flip")
     for name, body in zip(heads, JOURNEY_HEAD.split(script)[2::2]):
@@ -1100,6 +1100,7 @@ JOURNEY_MUTATIONS = {
     "journey-missing": (_sub("/* ---------- journey: cost ---------- */\nJ.add({ id: 'cost', stories: ['MP-153'], options: "
                              "[{ id: 'a', rec: true }, { id: 'b' }] });", ""), "the eight, in order"),
     "journey-moved": (_sub("journey: home ----", "journey: holdings ----"), "the eight, in order"),
+    "journeys-say-flipless": (_sub("journey: home ----", "journey: home ---- window.__prismFlipless"), "has no flip"),
     "no-recommendation": (_sub("J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a', rec: true }",
                                "J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a' }"), "forecast recommends 0"),
     "two-recommended": (_sub("J.add({ id: 'journal', stories: ['MP-153'], options: [{ id: 'a', rec: true }, { id: 'b' }]",
