@@ -18,7 +18,7 @@ export default {
     }
   },
   'R1-s7': ({ view, lacks, has }) => {
-    has(read('docs/design/admin/src/shell.js'), /Does it also cover replay, restore and pause\?/);
+    has(read('docs/design/reviews/MP-64/decision.md'), /Account recovery only \(Recommended\)/);
     for (const o of ['a', 'b']) lacks(view("home", o, `${o}-home`, "web", "default").text, /(?<!account )recovery works anywhere/);
   },
   'R1-s8': ({ perms, must }) => {

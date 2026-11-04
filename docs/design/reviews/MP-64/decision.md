@@ -15,9 +15,9 @@
 | Incidents and recovery | "A Incident timeline (Recommended)" |
 | Identity and devices | "A Paths first (Recommended)" |
 
-Where admin lives: "Under Settings, phones read only". A phone keeps recovery: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Journeys: "Keep nine (Recommended)". The owner accepted Admin home and A51. iPhone passkey: "I'll join the Developer Program". MP-164 says "until the owner says to join the Developer Program"; whether the answer or the purchase lifts the bar is asked on the page, and it is drawn as barred. MP-179 tracks it.
+Where admin lives: "Under Settings, phones read only". A phone keeps recovery: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Journeys: "Keep nine (Recommended)". The owner accepted Admin home and A51. iPhone passkey: "I'll join the Developer Program". MP-164 says "until the owner says to join the Developer Program"; asked what lifts the bar: "The purchase (Recommended)". MP-179 tracks it. May a phone acknowledge an incident: "Yes, acknowledge only (Recommended)". Does recovery on a phone also cover replay, restore and pause: "Account recovery only (Recommended)".
 
-On a phone, `permissions.json` marks each act live or off. That split is the maker's reading, for the owner to correct, and the page asks. Live: reading, acknowledging an incident, revoking a device, cancelling or resuming a recovery. Enrolling a passkey stays off while MP-164 holds. The owner journeys are unchanged: approving there on a phone is MP-55, not admin.
+On a phone, `permissions.json` marks each act live or off. Acknowledging is the owner's answer, and the rest of the split is the maker's reading, for the owner to correct. Live: reading, acknowledging an incident, revoking a device, cancelling or resuming a recovery. Enrolling a passkey stays off while MP-164 holds. The owner journeys are unchanged: approving there on a phone is MP-55, not admin.
 
 The owner's words that started this: "lets get started", then "Skip to MP-64" (4 November 2026). The story says the owner picks one
 option per journey, so there is no flip here; the flip answer of 4 November covers the eight owner journeys only.

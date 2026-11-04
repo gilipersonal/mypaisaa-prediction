@@ -1817,7 +1817,7 @@
       ],
       "planning_group": "admin",
       "jira_key": "MP-28",
-      "owner_answer": "Owner, 4 November 2026 (MP-64): \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\". \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. \"In admin, under Settings (Recommended)\" for budget changes. \"Keep nine (Recommended)\", so Agents is its own journey. Which act is live on a phone, launch depth and the pause switches stay open."
+      "owner_answer": "Owner, 4 November 2026 (MP-64): \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\". \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. \"In admin, under Settings (Recommended)\" for budget changes. \"Keep nine (Recommended)\", so Agents is its own journey. \"Yes, acknowledge only (Recommended)\" and \"Account recovery only (Recommended)\". The rest of the phone split, launch depth and the pause switches stay open."
     },
     {
       "id": "CT-17",
