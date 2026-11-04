@@ -2947,7 +2947,10 @@
         "R4-s13"
       ],
       "blocking": 18,
-      "result": "42 findings, 18 blocking, no P0, 3 P1. Every blocking one is fixed and held by a ledger check."
+      "result": "42 findings, 18 blocking, no P0, 3 P1. Every blocking one is fixed and held by a ledger check.",
+      "fix_commit": "1a331c2",
+      "post_fix_gates": "Walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems; design_admin_facts 0 problems, 173 of 173 checks; journey facts 251 of 251; every ledger 459 run, 2 retired; MP-64 ledger 148 of 148.",
+      "publication": "Prism Admin v10 and Journeys v11 republished privately and read back. Confluence rec-apple-testing and any PH-07 authority text, and Jira MP-163, MP-164, MP-167 and MP-168, wait on the owner's yes for R4-s5."
     }
   ]
 }
