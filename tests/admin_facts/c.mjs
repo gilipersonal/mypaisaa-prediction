@@ -4,6 +4,10 @@ import { spawnSync } from 'node:child_process';
 const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const row = (perms, id) => perms.actions.find((a) => a.id === id);
 export default {
+  'R3-owner-scope': ({ has }) => {
+    has(read('docs/design/journeys/src/journeys/approvals.js'), /One scope waits\./);
+    has(read('docs/design/admin/src/journeys/models.js'), /leaves the others free \(the owner, 4 November 2026\)/);
+  },
   'R2-s3': ({ perms, must }) => { must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control'); },
   'R2-s7': ({ has, lacks }) => {
     const t = read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json');

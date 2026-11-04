@@ -3226,9 +3226,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
-  ['Does one scope\'s lapsed approval hold a whole promotion, or only that scope? The owner journey holds it; admin draws the promotion as live, with that scope kept apart. (POLICY-003)', 'Drawn as that scope only, labelled proposed.'],
-  ['MP-68 refuses a reversal because a sale on 2 Nov depends on it, and no record gives the sale. Files draws an illustrative one.', 'Sold 4 Apple at £170.00, marked illustrative. Holdings does not name it.'],
-  ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
+    ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
   ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
   ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
   ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],
@@ -4651,7 +4649,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const yesNo = () => `<div class="amodels-acts">${act('A25', 'Promote R2-HGB v4', 'primary')}${act('A26', 'Reject this candidate')}</div>${para(STEP)}${para('A rejected candidate stays readable with its evidence.')}`;
   const proof = () => box(`${lbl('The evidence')}<div style="margin-top:8px">${kv(CHECKED())}</div><div class="amodels-score">${[['v4', '0.188', true], ['Rules', '0.197'], ['Base rate', '0.203']].map(([a, b, on]) => `<div class="${on ? 'on' : ''}"><span class="small muted">${a}</span><b>${b}</b></div>`).join('')}</div><p class="small muted" style="margin-top:8px">Brier score, lower is better. Rules are scored through R0-RULEMAP, qualified for v5. No 3, 6 or 12-month forecast has matured yet.</p><div style="margin-top:8px">${proposed('SCI-D03')}</div>`);
   const OVERLAP = () => '<p class="small">The promotion binds the 5-point band and the settings change moves it to 4, so approving one sends the other back to its check.</p>';
-  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">R2-HGB v3's approval expired on US tech, 12 months, so it cannot be the safe fallback there. The owner journey holds a whole promotion until a safe version is approved. This draws one scope's lapse as leaving the others free: promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p><div style="margin-top:8px">${proposed('POLICY-003')}</div>`);
+  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">R2-HGB v3's approval expired on US tech, 12 months, so it cannot be the safe fallback there. One scope's lapse leaves the others free (the owner, 4 November 2026): promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
   const impact = () => changes() + SCOPES() + OVERLAP();
   const decideOK = () => promoteHead() + chain() + proof() + impact() + yesNo() + R5();
   const phone = ctx => ctx.kind === 'iphone' || ctx.kind === 'pwa';

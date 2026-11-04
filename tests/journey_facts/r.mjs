@@ -56,7 +56,7 @@ const INBOXES = ['aa-queue', 'ab-notices'], NOTICE_LIVE = ['default', 'stale', '
 const DECISIONS = ['Refuse', 'Confirm', 'Approve', 'Approve this', 'Stay on v1', 'Switch forward', 'Keep paused', 'Restart', 'Continue with passkey', 'Sign in and approve', 'Sign in again', 'Revoke this approval', 'Roll back', 'See the evidence', 'Dismiss'];
 const LIVE = [
   [LISTINGS, ['Refuse', 'Confirm'], ['default', 'noModel', 'disagreement']],
-  [MODELS, ['Refuse', 'Approve'], ['default']],
+  [MODELS, ['Refuse', 'Approve'], ['default', 'noModel']],   // the owner, 4 Nov 2026: only that scope waits
   [SETTINGS, ['Refuse', 'Approve'], ['default']],
   // No new score is no gate on the owner's yes (MP-159, owner answers 6 and 15), so Abstaining keeps the decision his.
   [RESTARTS, ['Stay on v1', 'Switch forward'], ['default', 'disagreement', 'abstention']],
@@ -356,7 +356,7 @@ const FACTS = {
       has(v.text, /Not applied/, `${said(at)}: the chip`);
       lacks(v.text, /Refused/, `${said(at)}: confirmed is not refused`);
     });
-    each({ journey: A, option: 'b', screen: 'ab-model', state: 'noModel' }, (v, at) => lacks(v.text, /Approved 1 Oct 2026|Active/, `${said(at)}: beside an expired approval`));
+    each({ journey: A, option: 'b', screen: 'ab-model', state: 'noModel' }, (v, at) => lacks(v.text, /Approved 1 Oct 2026|Active(?! model)/, `${said(at)}: beside an expired approval`));
     each({ journey: R }, (v, at) => lacks(v.text, /beat earnings next week/, `${said(at)}: results are on 18 Nov`));
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /Version 4/, `${said(at)}: no way to version 4`));
     each({ journey: R, option: 'a', screen: 'ra-card', state: 'stale' }, (v, at) => has(v.html, /aria-label="Card version"/, `${said(at)}: no version control`));
@@ -564,7 +564,9 @@ const FACTS = {
         lacks(v.text, /Fri 6 Nov/, `${said(at)}: an expiry with no open proposal`);
         lacks(v.text, /This changes which approved artefact/, `${said(at)}: a change with no open proposal`);
       });
-      each({ journey: A, option, screen: model, state: ['error', 'noModel', 'disagreement'] }, (v, at) => {
+      // The owner, 4 Nov 2026 (MP-64): "Only that scope waits (Recommended)", so No model keeps an open proposal, with US tech, 12 months apart.
+      each({ journey: A, option, screen: model, state: 'noModel' }, (v, at) => { has(v.text, /This approval is bound to/, `${said(at)}: an open proposal`); has(v.text, /US tech, 12 months stays paused/, `${said(at)}: the scope that waits`); });
+      each({ journey: A, option, screen: model, state: ['error', 'disagreement'] }, (v, at) => {
         lacks(v.text, /This approval is bound to/, `${said(at)}: bound on a blocked or refused proposal`);
         has(v.text, /What this proposed/, `${said(at)}: not retitled`);
         lacks(v.text, /This changes which approved artefact/, `${said(at)}: a change on a blocked or refused proposal`);

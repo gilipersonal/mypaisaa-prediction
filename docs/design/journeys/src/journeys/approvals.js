@@ -130,7 +130,8 @@
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
   const modelRail = ctx => {
     if (ctx.state === 'default' || ctx.state === 'offline') return bound() + limits('This changes which approved artefact issues forecasts.');
-    if (['error', 'noModel', 'disagreement'].includes(ctx.state)) return bound('What this proposed', ctx.state === 'noModel' ? 'None eligible' : 'R2-HGB v3') + limits('This proposal cannot go ahead, so it changes nothing.');
+    if (ctx.state === 'noModel') return bound('This approval is bound to', 'None on US tech, 12 months; R2-HGB v3 elsewhere') + limits('This changes which approved artefact issues forecasts. US tech, 12 months stays paused.');
+    if (['error', 'disagreement'].includes(ctx.state)) return bound('What this proposed', 'R2-HGB v3') + limits('This proposal cannot go ahead, so it changes nothing.');
     return '';
   };
   const modelCore = (ctx, o = {}) => {
@@ -142,7 +143,7 @@
       error: () => head(status.refused) + stateCard('alert', 'The evidence changed', 'The evidence hash no longer matches what this proposal was built on, so it cannot be approved. The trial stays readable, and code rebuilds the proposal.', '', `<span class="chip error">Evidence hash mismatch</span>`),
       stale: () => head(`<span class="chip stale">Count paused</span>`) + evidence({ count: '6 of 8 scored weeks', stop: 7, label: 'Count paused after six scored weeks and a week that could not be scored', text: 'The week of 12 Oct could not be scored, so the count is paused at 6. The trial still needs 8 scored weeks.' }),
       offline: () => banner('', 'Offline.', 'You can read the evidence. Approving needs a connection and a fresh sign-in.', 'wifi-off') + head() + trail + evidence() + scoreTable(),
-      noModel: () => banner('fall', 'Previous model not eligible.', 'R2-HGB v3 can no longer be the safe fallback, because its approval has expired. Until you approve a safe version, this cannot be promoted.', 'cube') + head(status.blocked) + evidence(),
+      noModel: () => banner('warn', 'One scope waits.', 'R2-HGB v3 can no longer be the safe fallback on US tech, 12 months, because its approval has expired. That scope stays paused until you restart it. The others can still be promoted.', 'cube') + head() + trail + evidence() + scoreTable() + changeCard(MODEL_ROWS.map(r => (r[0] === 'If it slips' ? [r[0], r[1], 'Back to v3, except US tech, 12 months', r[3]] : r))),
       disagreement: () => head(status.blocked) + stateCard('split', 'It beat one comparator, not both', 'R2-HGB v4 beat the base rate but not the current rules on walk-forward history, so it cannot be promoted. A rejected candidate stays readable with its evidence.', '', `<span class="chip">Beats base rate</span><span class="chip error">Behind the rules</span>`) + scoreTable({ v4: '0.199' }),
       abstention: () => head(`<span class="chip">Awaiting maturity</span>`) + stateCard('ban', 'Not enough has matured yet', 'The 8 weeks ran cleanly, but too little walk-forward history has matured at 12 months to calibrate c8. It waits rather than guess, and nothing can be approved until then.', '', '<span class="chip">Calibration withheld</span>') + evidence()
     });
@@ -150,7 +151,7 @@
   const modelYes = ctx => {
     const st = ctx.state;
     if (st === 'offline') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
-    if (st === 'default') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: CT2 } };
+    if (st === 'default' || st === 'noModel') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: CT2 } };
     return null;
   };
 

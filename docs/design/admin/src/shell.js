@@ -293,9 +293,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
-  ['Does one scope\'s lapsed approval hold a whole promotion, or only that scope? The owner journey holds it; admin draws the promotion as live, with that scope kept apart. (POLICY-003)', 'Drawn as that scope only, labelled proposed.'],
-  ['MP-68 refuses a reversal because a sale on 2 Nov depends on it, and no record gives the sale. Files draws an illustrative one.', 'Sold 4 Apple at £170.00, marked illustrative. Holdings does not name it.'],
-  ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
+    ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
   ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
   ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
   ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],
