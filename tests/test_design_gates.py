@@ -38,6 +38,14 @@ class DesignGatesTests(unittest.TestCase):
         with self.assertRaises(dg.Fail):
             dg.measure("text", "a", "b", {"--a": "#000000", "--b": "rgba(255, 255, 255, 0.5)"})
 
+    def test_every_journeys_mutation_is_refused_with_its_reason(self):
+        base = dg.good_journeys()
+        self.assertEqual(dg.check_journeys(base), [])
+        for name, (mutate, expect) in dg.JOURNEY_MUTATIONS.items():
+            with self.subTest(name):
+                fails = dg.check_journeys(mutate(base))
+                self.assertTrue(any(expect in f for f in fails), (name, fails))
+
     def test_a_missing_gated_page_fails(self):
         self.assertEqual(dg.check(["docs/design/reviews/MP-62/no-such-page.html"]), 1)
 

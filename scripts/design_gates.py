@@ -34,6 +34,11 @@ pairs are measured from tokens.json by scripts/design_tokens.py. Here the gate p
 exact ink, MA's fonts and no others, the generated tokens and the icon set unchanged in the page, the twelve sections
 in the owner's order, the Claude component unchanged, and the same motion rules.
 
+Prism Journeys, docs/design/journeys/index.html, is built from the picked system (check_journeys): the same proof of
+what can drift, and all eight owner journeys in the page in their order, each with exactly one recommended option and
+its stories named. scripts/design_journeys_check.mjs walks every rendered state and docs/design/journeys/build.py
+--check proves the page is current.
+
 The gate fails closed: a missing page, theme block, token or JSON block, a colour it cannot read, a dark block that
 differs from its twin, or a measured token set anywhere but the three theme blocks is a failure, not a skip. It reads
 the page's own CSS and script; scripts/design_runtime.mjs measures the rendered page.
@@ -51,6 +56,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/MP-62/hybrid-b/index.html")
 PICKED = "docs/design/prism/index.html"
+JOURNEYS = "docs/design/journeys/index.html"
+JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
 PRISM = ROOT / "docs/design/prism"
 MA_INK = {"ink": ("#14171F", "#F3F5F8"), "ink-2": ("#4E5462", "#C5CCD7")}
 SECTIONS = ("Principles", "Three depths", "Foundations", "Components", "Patterns", "States", "Layout", "Screens",
@@ -670,21 +677,20 @@ def markup(html: str) -> list[str]:
     return fails
 
 
-def check_prism(html: str) -> list[str]:
-    """What the owner asked of the picked system, read from the page and from tokens.json."""
+def prism_core(html: str) -> tuple[list[str], str, str]:
+    """What can drift on any page made from Prism: tokens, MA's ink and fonts, the icon set. (fails, css, script)."""
     fails = []
     try:
         css, script, _ = page_parts(html)
         rules(css)
     except Fail as e:
-        return [str(e)]
+        return [str(e)], "", ""
     try:
         tokens = json.loads((PRISM / "tokens.json").read_text())
         want_css = (PRISM / "tokens.css").read_text()
         want_icons = (PRISM / "icons.svg").read_text()
-        want_claude = (SHARED / "claude.html").read_text()
     except (OSError, ValueError) as e:
-        return [f"a Prism source file cannot be read ({e})"]
+        return [f"a Prism source file cannot be read ({e})"], "", ""
     block = re.search(r"/\* prism-tokens:start \*/.*?/\* prism-tokens:end \*/", css, flags=re.S)
     if block is None:
         fails.append("the generated tokens are not in the page between the prism-tokens markers")
@@ -724,6 +730,21 @@ def check_prism(html: str) -> list[str]:
     ico = [dict(decls(b)) for sel, b, _ in rules(css) if ".ico" in norm_sel(sel)]
     if not any(r.get("stroke-linecap") == "square" and r.get("stroke-linejoin") == "miter" for r in ico):
         fails.append("no .ico rule sets square ends and mitred corners, so icons would render soft")
+    for k in ("--cl-s1", "--cl-s2", "--cl-s3"):
+        if not re.search(rf"{k}\s*:", css):
+            fails.append(f"{k}, a shape of the Claude mark, is not set")
+    return fails, css, script
+
+
+def check_prism(html: str) -> list[str]:
+    """What the owner asked of the picked system, read from the page and from tokens.json."""
+    fails, css, script = prism_core(html)
+    if not css:
+        return fails
+    try:
+        want_claude = (SHARED / "claude.html").read_text()
+    except OSError as e:
+        return [f"a Prism source file cannot be read ({e})"]
     index = next((n for n in re.findall(r"<nav\b.*?</nav>", html, flags=re.S) if "Principles" in n), None)
     if index is None:
         fails.append("no section index: a <nav> listing the twelve sections")
@@ -736,9 +757,28 @@ def check_prism(html: str) -> list[str]:
         fails.append("no Claude component between the mp-claude markers")
     elif block != claude_of(want_claude):
         fails.append("the page's Claude component differs from shared/claude.html")
-    for k in ("--cl-s1", "--cl-s2", "--cl-s3"):
-        if not re.search(rf"{k}\s*:", css):
-            fails.append(f"{k}, a shape of the Claude mark, is not set")
+    return markup(html) + fails + motion(css, script)
+
+
+JOURNEY_HEAD = re.compile(r"/\* -{10} journey: ([a-z]+) -{10} \*/")
+
+
+def check_journeys(html: str) -> list[str]:
+    """The journeys page: what can drift from Prism, and all eight journeys, each with one recommended option."""
+    fails, css, script = prism_core(html)
+    if not css:
+        return fails
+    heads = JOURNEY_HEAD.findall(script)
+    if tuple(heads) != JOURNEY_IDS:
+        fails.append(f"the page holds journeys {heads}; the eight, in order, are {list(JOURNEY_IDS)}")
+    for name, body in zip(heads, JOURNEY_HEAD.split(script)[2::2]):
+        if len(re.findall(r"\bJ\.add\(", body)) != 1:
+            fails.append(f"journey {name} does not register once with J.add()")
+        recs = len(re.findall(r"\brec\s*:\s*true\b", body))
+        if recs != 1:
+            fails.append(f"journey {name} recommends {recs} options; exactly one")
+        if not re.search(r"\bstories\s*:\s*\[\s*['\"]MP-\d+", body):
+            fails.append(f"journey {name} names no stories")
     return markup(html) + fails + motion(css, script)
 
 
@@ -752,7 +792,7 @@ def check_page(html: str) -> tuple[list[str], list[tuple]]:
 
 
 def check(paths: list[str]) -> int:
-    targets = paths or [*GATED, PICKED]
+    targets = paths or [*GATED, PICKED, JOURNEYS]
     extra = [str(p.relative_to(ROOT)) for p in (ROOT / "docs/design").rglob("*.html")
              if 'id="mp-design-gates"' in p.read_text(errors="ignore")] if not paths else []
     bad = 0
@@ -764,12 +804,16 @@ def check(paths: list[str]) -> int:
             continue
         if rel == PICKED or p == ROOT / PICKED:
             fails, rows = check_prism(p.read_text()), None
+        elif rel == JOURNEYS or p == ROOT / JOURNEYS:
+            fails, rows = check_journeys(p.read_text()), "journeys"
         else:
             fails, rows = check_page(p.read_text())
         for f in fails:
             print(f"FAIL {rel}: {f}")
         bad += len(fails)
-        if not fails and rows is None:
+        if not fails and rows == "journeys":
+            print(f"design-gates: {rel}: the eight journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
+        elif not fails and rows is None:
             print(f"design-gates: {rel}: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold")
         elif not fails:
             print(f"design-gates: {rel}: {len(rows)} pair measurements pass at full and 20% brightness; motion rules hold")
@@ -986,8 +1030,49 @@ PRISM_MUTATIONS = {
 }
 
 
+def good_journeys() -> str:
+    """A small journeys page: the good Prism page without its index and Claude block, and eight registered journeys."""
+    body = re.sub(r'<nav aria-label="Sections">.*?</nav>', "", good_prism(), flags=re.S)
+    body = re.sub(r"<!-- mp-claude:start -->.*?<!-- mp-claude:end -->", "", body, flags=re.S)
+    journeys = "\n".join(f"/* ---------- journey: {j} ---------- */\nJ.add({{ id: '{j}', stories: ['MP-153'], options: "
+                         f"[{{ id: 'a', rec: true }}, {{ id: 'b' }}] }});" for j in JOURNEY_IDS)
+    return f"{body}\n<script>{journeys}</script>"
+
+
+JOURNEY_MUTATIONS = {
+    "journey-missing": (_sub("/* ---------- journey: cost ---------- */\nJ.add({ id: 'cost', stories: ['MP-153'], options: "
+                             "[{ id: 'a', rec: true }, { id: 'b' }] });", ""), "the eight, in order"),
+    "journey-moved": (_sub("journey: home ----", "journey: holdings ----"), "the eight, in order"),
+    "no-recommendation": (_sub("J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a', rec: true }",
+                               "J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a' }"), "forecast recommends 0"),
+    "two-recommended": (_sub("J.add({ id: 'journal', stories: ['MP-153'], options: [{ id: 'a', rec: true }, { id: 'b' }]",
+                             "J.add({ id: 'journal', stories: ['MP-153'], options: [{ id: 'a', rec: true }, { id: 'b', rec: true }]"),
+                        "journal recommends 2"),
+    "no-stories": (_sub("J.add({ id: 'privacy', stories: ['MP-153'],", "J.add({ id: 'privacy', stories: [],"), "privacy names no stories"),
+    "not-registered": (_sub("J.add({ id: 'research',", "J.other({ id: 'research',"), "research does not register"),
+    "tokens-edited": (_sub("--ink: #14171F;", "--ink: #000000;"), "differ from tokens.css"),
+    "other-face": (_sub("family=Nunito:wght@700;800", "family=Poppins:wght@700"), "Google Fonts loads Poppins"),
+    "icon-edited": (_sub('<symbol id="i-home"', '<symbol id="i-house"'), "differs from docs/design/prism/icons.svg"),
+    "dangling-icon": (_sub('<use href="#i-home"/>', '<use href="#i-nope"/>'), "#i-nope has no symbol"),
+    "infinite-loop": (_sub(".bar {", ".s { animation: spin 1s linear infinite; } .bar {"), "loops forever"),
+    "small-text": (_sub(".bar {", ".s { font-size: 10px; } .bar {"), "text at 10 px"),
+}
+
+
 def selftest() -> int:
     bad = 0
+    journeys = good_journeys()
+    fails = check_journeys(journeys)
+    if fails:
+        print("selftest: FAIL the good journeys page is refused, so the harness proves nothing:")
+        for f in fails:
+            print(f"  {f}")
+        return 1
+    for name, (mutate, expect) in JOURNEY_MUTATIONS.items():
+        fails = check_journeys(mutate(journeys))
+        if not any(expect in f for f in fails):
+            print(f"selftest: FAIL journeys {name}: expected a failure containing {expect!r}, got {fails or 'a pass'}")
+            bad += 1
     prism = good_prism()
     fails = check_prism(prism)
     if fails:
@@ -1020,7 +1105,7 @@ def selftest() -> int:
             bad += 1
     if bad:
         return 1
-    print(f"selftest: both good pages pass and all {len(MUTATIONS) + len(PRISM_MUTATIONS) + 1} mutations are refused")
+    print(f"selftest: the three good pages pass and all {len(MUTATIONS) + len(PRISM_MUTATIONS) + len(JOURNEY_MUTATIONS) + 1} mutations are refused")
     return 0
 
 

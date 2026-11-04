@@ -64,6 +64,7 @@ jobs:
           python3 -m unittest discover -s tests -p test_design_sync.py -v
       - name: Every gated design holds 20% brightness contrast and its smoothness rules
         run: |
+          python3 docs/design/journeys/build.py --check
           python3 scripts/design_gates.py check
           python3 scripts/design_gates.py selftest
           python3 scripts/design_tokens.py check

@@ -1491,7 +1491,7 @@ const SEG = {
   midcap: { name: 'India midcap', mk: 'IN', c: '--seg-midcap', sw: 'segMidcap', note: 'India mid-sized companies' },
   inetf: { name: 'India ETFs', mk: 'IN', c: '--seg-inetf', sw: 'segInetf', note: 'NSE-listed funds' },
   uketf: { name: 'UK ETFs', mk: 'UK', c: '--seg-uketf', sw: 'segUketf', note: 'LSE-listed funds' },
-  metals: { name: 'Gold & silver', mk: 'XAU', c: '--seg-metals', sw: 'segMetals', note: 'Gold: forecast unavailable', gold: true }
+  metals: { name: 'Gold & silver', mk: 'XAU', c: '--seg-metals', sw: 'segMetals', note: 'Gold and silver: forecast unavailable', gold: true }
 };
 const H = [
   { n: 'Apple', t: 'AAPL', v: 'XNAS', val: '14,820.50', day: 1.9, med: 6.2, lo: -9.8, hi: 21.4, act: 'Hold', c: '--seg-ustech', lg: 'A' },
@@ -1557,12 +1557,12 @@ function skelRow() {
 }
 function tile(k, o = {}) {
   const s = SEG[k];
-  const lead = o.nolead ? '' : s.lead ? `<span class="lead"><span><span class="lw">Leads: </span>${s.lead[0]}</span> <b>${s.lead[1]}</b></span>` : s.gold ? `<span class="lead">${ic('ban', 's14')}Gold forecast unavailable</span>` : `<span class="lead">View top 5 ${ic('chev-r', 's14')}</span>`;
+  const lead = o.nolead ? '' : s.lead ? `<span class="lead"><span><span class="lw">Leads: </span>${s.lead[0]}</span> <b>${s.lead[1]}</b></span>` : s.gold ? `<span class="lead">${ic('ban', 's14')}Forecast unavailable</span>` : `<span class="lead">View top 5 ${ic('chev-r', 's14')}</span>`;
   return `<div class="segtile${o.sel ? ' sel' : ''}${o.slim ? ' slim' : ''}" style="--c:var(${s.c})${o.h ? `;min-height:${o.h}px` : ''}${o.i != null ? `;--i:${o.i}` : ''}"${o.nomo ? '' : ' data-mo="card"'}><span class="mk">${s.mk}</span><div><div class="tn">${s.name}</div>${o.compact ? '' : `<div class="tm">${s.note}</div>`}</div>${lead}</div>`;
 }
 function top5(k, foot = true) {
   const s = SEG[k], rows = T5[k];
-  let html = `<div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>6 months · ranked ${k === 'ustech' ? 'Nasdaq-100 technology names' : 'Nifty 50 constituents'}</p></div>`;
+  let html = `<div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>3 to 12 months · ranked ${k === 'ustech' ? 'Nasdaq-100 technology names' : 'Nifty 50 constituents'}</p></div>`;
   rows.forEach((r, i) => { html += `<div class="t5r" data-mo="rise"><span class="rk">${i + 1}</span>${logo(r[3], r[4], true)}<div class="tt">${r[0]}<span>${r[1]}</span></div><div class="score" role="img" aria-label="Score ${r[2]} of 100"><b>${r[2]}</b><i><u data-mo="barx" style="--v:${r[2]}%"></u></i></div></div>`; });
   if (rows.length < 5) html += `<div class="t5r withheld" data-mo="rise"><span class="rk">5</span><span class="logo sm" style="background:var(--surface-3);color:var(--ink-2)">${ic('ban', 's14')}</span><div class="tt" style="grid-column:3/5">Withheld: no other eligible listing</div></div>`;
   if (foot) html += `<div class="t5foot">Score = growth 35% + protection 40% + opportunity 25%, shown only when all three are eligible. Illustrative.</div>`;
@@ -2017,7 +2017,7 @@ function renderStates() {
     ['cube', 'No model', 'No approved model for 12 months yet. 3 and 6 months are available.', pill('proposed', '', '12-month model proposed')],
     ['ban', 'Abstaining', 'The model abstained for AstraZeneca at 12 months: too little comparable history for a calibrated range.', pill('', 'ban', 'Abstained · no range shown')],
     ['split', 'Disagreement', 'R2-HGB v3 and the baseline disagree on direction for Reliance at 3 months. Both ranges show, and no action is ranked.', `<div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:center;font:600 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2)"><span>Baseline</span>${range({ ...byT.RELIANCE, med: -1.5, lo: -14, hi: 11, lo50: -7.5, hi50: 4 })}<span>R2-HGB v3</span>${range({ ...byT.RELIANCE, med: 2.8, lo: -6.5, hi: 12.4, lo50: -1.6, hi50: 7.6 })}</div>`],
-    ['ban', 'Forecast unavailable', 'Gold (XAU/USD): forecast unavailable while its valuation convention is open (SCI-D08). Price history still shows.', `<div class="segtile" style="--c:var(--seg-metals);min-height:64px"><span class="tn">Gold · XAU/USD</span><span class="lead">${ic('ban', 's14')}Forecast unavailable</span></div>`],
+    ['ban', 'Forecast unavailable', 'Gold and silver (XAU/USD, XAG/USD): forecast unavailable while their valuation conventions are open (SCI-D08). Price history still shows.', `<div class="segtile" style="--c:var(--seg-metals);min-height:64px"><span class="tn">Gold · XAU/USD</span><span class="lead">${ic('ban', 's14')}Forecast unavailable</span></div>`],
     ['lock', 'Permission denied', 'You can view this portfolio but not record decisions. Ask its owner for editor access.', `<button class="btn sm btn-primary" type="button" disabled>Record decision</button>`],
     ['eye-off', 'Privacy', 'Amounts hidden. Percentages and ranges stay visible. Tap to show for 30 seconds.', `<div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${hrow(byT.AZN, { priv: true, nomo: true })}</div>`]
   ];

@@ -235,7 +235,7 @@ async function measurePage(pw, engine, file, theme, width) {
     await page.waitForTimeout(400);
     const over = await page.evaluate(() => document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
     if (over > 0) issues.push(`the page scrolls sideways by ${over} px`);
-    const floor = /docs\/design\/prism\//.test(file) ? [4.5, 3] : [7, 3.5];   // the owner chose MA's ink for Prism (brief-r4.md)
+    const floor = /docs\/design\/(prism|journeys)\//.test(file) ? [4.5, 3] : [7, 3.5];   // the owner chose MA's ink for Prism (brief-r4.md)
     const sweep = await page.evaluate(SWEEP);
     const texts = sweep.results;
     res.texts = texts.length;

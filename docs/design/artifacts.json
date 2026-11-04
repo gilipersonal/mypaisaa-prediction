@@ -52,7 +52,15 @@
    "slug": "ds-option-b-prism",
    "source": "docs/design/prism/index.html",
    "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "dd2712418a1a62e003565bd8e29f35f6caf73c62b64708710127d13fc2b3bea6",
+   "published_sha256": "e53ff269ab5e248524c1c80e42566fa61fcb705f06e91a311efe753583d57ca7",
+   "published_at": "2026-11-04",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "960487b06dae18f06b6cd1cf6aefddc0c7091d9ec0da2d2a09f82ceb8b4e4bec",
    "published_at": "2026-11-04",
    "jira": "MP-62"
   }

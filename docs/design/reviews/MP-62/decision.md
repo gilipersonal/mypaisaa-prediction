@@ -136,3 +136,45 @@ text nodes sit in side-scrolling boards or below a device's fold and were not sw
 were. The versioning, deprecation and per-surface pattern details are the maker's proposals, marked so. SF Symbol names
 are from memory, unchecked against Apple's app. Whether "motion animations for claude" means motion inside the app is still
 to be confirmed by the owner.
+
+## The journeys, 4 November 2026
+
+The owner, answering "Shall I draw the remaining journeys and states in Prism next?": "Yes, draw them".
+
+[docs/design/journeys/](../../journeys/README.md) draws MP-62's eight owner journeys in Prism: home, holdings and imports,
+forecast and proof, research and chat, the action journal, cost, owner approvals, privacy and recovery. Each has two
+options that differ in structure, with one recommended; every screen is drawn in every state on iPhone, iPad, desktop and
+phone web, in light and dark. Admin journeys are MP-64. No option is picked yet; the owner picks one per journey, and the
+picks go here with their words.
+
+| Journey | A (recommended) | B |
+| --- | --- | --- |
+| Home | Tile board | Ledger |
+| Holdings and imports | Review desk | One question at a time |
+| Forecast and proof | One horizon | Ladder |
+| Research and chat | Brief first | One thread |
+| Action journal | Timeline | Three lanes |
+| Cost | Meter and ladder | Pill and burn-up |
+| Owner approvals | One queue | In place |
+| Privacy and recovery | One privacy centre | In place, with a checkup |
+
+The state inventory is on the page, generated from the screens: every screen against every state, with the reason wherever
+a state cannot occur. Marking a state not applicable where it truly cannot occur is the maker's reading of "every screen
+shows", put to the owner.
+
+Two Prism facts were corrected from the records while drawing: the top 5 reads "3 to 12 months" (SCI-D09, the owner's
+answer), not "6 months", and gold and silver are both unavailable for formal tasks (MP-135), not gold alone.
+
+Checked on 4 November 2026 and nothing is installed: SvelteKit 3.1.1 with Svelte 5.57.3 on npm, matching SvelteKit 3 in
+`TECH-STACK.md`; simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro
+(M4 and M5). Supported devices stay open (MP40-Q12), so the frames are drawing sizes, not a device promise.
+
+The owner's open questions the screens wait on are listed on the page under the inventory. Three are new from drawing:
+where Research, Approvals and Imports live in the navigation; MP-144 allowing "buy or watch" for a candidate, drawn as Watch
+only because MP never trades; and whether the portfolio total includes cash.
+
+The iPhone status bar is the one text exempt from the 20% measure. The operating system draws it, here only to show the
+device, and behind an open sheet's scrim it reads 5.46:1 at full brightness and 2.01:1 at 20%. The exemption keeps the
+3:1 floor at full brightness. Every piece of MP's own text holds 4.5:1 and 3:1.
+
+Not reviewed by an independent reviewer, not seen on a real phone at 20% brightness, and no owner has walked the journeys.
