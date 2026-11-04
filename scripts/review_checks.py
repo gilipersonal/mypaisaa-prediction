@@ -88,6 +88,7 @@ CHECKS = (
                           "scripts/design_journeys_press.mjs", "scripts/design_runtime.mjs"),
           (("node", "scripts/design_journeys_check.mjs", "--selftest"),
            ("node", "scripts/design_journeys_check.mjs", "docs/design/journeys/index.html"),
+           ("node", "scripts/design_journeys_press.mjs", "--selftest"),
            ("node", "scripts/design_journeys_press.mjs", "docs/design/journeys/index.html"),
            ("node", "scripts/design_runtime.mjs", "docs/design/journeys/index.html"),
            ("node", "scripts/design_runtime.mjs", "docs/design/prism/index.html")),

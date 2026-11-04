@@ -1,7 +1,7 @@
-// Lane r of MP-62 review rounds 1 and 2: Research and Approvals, proved on the rendered screens.
+// Lane r of MP-62 review rounds 1, 2 and 3: Research and Approvals, proved on the rendered screens.
 const CLAUDE_OFF = /Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in\./;
 const R = 'research', A = 'approvals';
-const SURFACES = ['iphone', 'ipad', 'web', 'pwa'];
+const SURFACES = ['iphone', 'ipad', 'web', 'pwa'], WIDE = ['ipad', 'web'];
 const STATES = ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
 const said = (at) => `${at.journey}.${at.screen} ${at.surface} ${at.state}`;
 // a real, enabled control carrying this name: a span, or a disabled button, is not one
@@ -22,11 +22,22 @@ const inbox = (text) => text.match(NOTICE_ROW) || [];
 const unread = (text) => (text.match(/detected \w+ \d\d:\d\d Unread\b/g) || []).length;
 const waits = (text) => (text.match(/(\d) decisions? wait on you/) || [])[1];
 // a promise that Claude returns, which only Cost's condition may make
-const CLAUDE_BACK = /\b(back|return|returns|returning|resume|resumes|again|next month|this month|by itself|automatically|lifts?|resets?|once the)\b/i;
+const CLAUDE_BACK = /\b(back|return|returns|returning|resume|resumes|again|next month|this month|by itself|automatically|lifts?|resets?|once the|until)\b/i;
+// the same promise with no Claude in the sentence: a wait that ends by itself
+const WAIT = /\b(until|once|when|after)\b[^.]*\b(budget|credit|cap|allowance|hold|spend)\b|\b(budget|credit|cap|allowance|hold)\b[^.]*\b(clears?|lifts?|resets?)\b/i;
 const sentences = (t) => t.split(/(?<=[.!?])\s+/);
+// one element to its own closing tag, so what follows it is not read as part of it
+const own = (html) => { let depth = 0; for (const m of html.matchAll(/<(\/?)div\b[^>]*>/g)) { depth += m[1] ? -1 : 1; if (!depth) return html.slice(0, m.index + m[0].length); } return html; };
+// the first banner a screen draws, which is the one its state gives it
+const bannerOf = (html) => { const at = html.indexOf('<div class="jbanner'); return at < 0 ? '' : own(html.slice(at)); };
+// the status chip an outcome carries
+const CHIPS = ['Approved', 'Refused', 'Expired', 'Not applied'];
+const chipOf = (html) => CHIPS.filter((n) => html.includes(`>${n}</span>`)).join(', ');
+// the import's rows as a screen draws them, Holdings' and Approvals' alike
+const importRows = (text) => (text.match(/(?:Apple|HSBC, HSBA · XLON|AstraZeneca) [\d,]+ → [\d,]+ units/g) || []).join(' | ');
 const RAISE = [/\b(raise|raising|lift|lifting|increase|increasing|expand|expanding|top up|bump|double|extend)\b[^.·]{0,40}\b(cap|budget|ceiling|allowance|limit)\b/i, /\b(cap|budget|ceiling|allowance)\b[^.·]{0,30}\b(raised|lifted|increased|expanded|to £\d+)/i];
 
-export default {
+const FACTS = {
   'R1-r1': ({ each, has, lacks }) => {
     for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result']]) {
       each({ journey: A, option, screen, state: 'default' }, (v, at) => {
@@ -174,7 +185,7 @@ export default {
   'R1-r11': ({ each, has, lacks, must }) => {
     each({ journey: R }, (v, at) => {
       lacks(v.text, /hold lifts/, `${said(at)}: waiting does not bring Claude back`);
-      for (const line of sentences(v.text)) if (/\bClaude\b/.test(line) && CLAUDE_BACK.test(line)) must(CLAUDE_OFF.test(line), `${said(at)}: a promised return without Cost's condition: "${line.slice(0, 120)}"`);
+      for (const line of sentences(v.text)) if ((/\bClaude\b/.test(line) && CLAUDE_BACK.test(line)) || WAIT.test(line)) must(CLAUDE_OFF.test(line), `${said(at)}: a promised return without Cost's condition: "${line.slice(0, 120)}"`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['a', 'ra-ask'], ['b', 'rb-ask'], ['b', 'rb-today'], ['a', 'ra-alert'], ['b', 'rb-alert']]) each({ journey: R, option, screen, state: 'noModel' }, (v, at) => has(v.text, CLAUDE_OFF, `${said(at)}: not Cost's condition`));
   },
@@ -219,7 +230,7 @@ export default {
     each({ journey: R, option: 'a', screen: 'ra-brief', state: 'default' }, (v, at) => {
       has(v.text, /Yahoo · HSBC late/, `${said(at)}: the chip`);
       has(v.text, /Late: its last price is 14:10, before the UK close/, `${said(at)}: the HSBC row`);
-      has(v.text, /Late but inside the freshness limit.*Proposed · MP40-Q6/, `${said(at)}: the limit is proposed`);
+      has(v.text, /Late but inside the freshness limit.*Proposed · FIN-OD-06/, `${said(at)}: the limit is proposed`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
       each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
@@ -273,8 +284,8 @@ export default {
     for (const journey of [R, A]) {
       each({ journey }, (v, at) => {
         for (const part of v.html.split(/(?=<div class="hrow)/).slice(1)) {
-          const row = part.slice(0, part.indexOf('<div class="hrow', 10) > 0 ? part.indexOf('<div class="hrow', 10) : undefined);
-          if (row.includes('#i-chev-r') && row.indexOf('#i-chev-r') < 1400) must(/^<div class="hrow[^>]*role="button" tabindex="0" aria-label="[^"]+"/.test(row), `${said(at)}: a row with a chevron is not a control: ${row.slice(0, 120)}`);
+          const row = own(part);
+          if (row.includes('#i-chev-r')) must(/^<div class="hrow[^>]*role="button" tabindex="0" aria-label="[^"]+"/.test(row), `${said(at)}: a row with a chevron is not a control: ${row.slice(0, 120)}`);
         }
       });
     }
@@ -317,13 +328,11 @@ export default {
       has(v.text, /Approve with a fresh sign-in/, `${said(at)}: no step-up`);
       has(v.text, /Environment Production/, `${said(at)}: not the listing's sheet`);
       has(v.text, /Payload hash 2d7a…b310/, `${said(at)}: not the listing's sheet`);
-      has(v.text, /Proposed · CT-01/, `${said(at)}: the listing's sign-in is open`);
+      has(v.text, /Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the listing's sign-in and its expiry are open`);
     });
     for (const [option, screen] of [['a', 'aa-listing'], ['b', 'ab-chat']]) {
-      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => {
-        has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in/, `${said(at)}: the foot`);
-        has(v.text, /Proposed · CT-01/, `${said(at)}: the listing's sign-in is open`);
-      });
+      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · confirming needs a connection and a fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
     }
   },
 
@@ -334,7 +343,11 @@ export default {
       each({ journey: A, option, screen, state: ['default', 'offline', 'disagreement', 'noModel'] }, (v, at) => {
         has(v.text, /This approval is bound to/, `${said(at)}: no bound card`);
         for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', 'Proposed · SCI-D07']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
+        has(v.text, /Your approval then has 15 minutes to apply\. Proposed · CT-02/, `${said(at)}: the window's label is not beside it`);
       });
+      each({ journey: A, option, screen, state: ['default', 'disagreement'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'noModel' }, (v, at) => {
         has(v.text, /Bound to R2-HGB v3 on US tech, 12 months/, `${said(at)}: the foot does not name the model`);
         has(v.text, /Artefact R2-HGB v3/, `${said(at)}: the card does not name the model`);
@@ -348,7 +361,7 @@ export default {
   'R2-r4': ({ view, each, has, must }) => {
     for (const surface of SURFACES) for (const state of STATES) {
       const a = view(A, 'a', 'aa-listing', surface, state).text, b = view(A, 'b', 'ab-chat', surface, state).text;
-      for (const re of [/Taiwan Semiconductor/, /watch-only/, /Expires 18:00/, /Bound to catalogue v14/, /Cannot widen authority/]) must(re.test(a) === re.test(b), `aa-listing and ab-chat, ${surface} ${state}: only one shows ${re}`);
+      for (const re of [/Taiwan Semiconductor/, /watch-only/, /Expires 18:00/, /Bound to catalogue v14/, /Cannot widen authority/, /Twelve Data end of day/]) must(re.test(a) === re.test(b), `aa-listing and ab-chat, ${surface} ${state}: only one shows ${re}`);
     }
     each({ journey: A, option: 'b', screen: 'ab-chat', state: ['default', 'loading', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => {
       has(v.text, /Taiwan Semiconductor/, `${said(at)}: the proposal is not named`);
@@ -425,7 +438,10 @@ export default {
       has(v.text, /Now 33\.4%/, `${said(at)}: the bar's label`);
       has(v.html, /calbar[^>]*><i data-mo="barx" style="width:66\.8%/, `${said(at)}: the bar has not moved`);
     });
-    for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => lacks(v.text, /13\.5%|31\.0%/, `${said(at)}: a figure from the full total`));
+    for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
+      lacks(v.text, /13\.5%|31\.0%|15\.0%/, `${said(at)}: a figure from the full total`);
+      has(v.text, /16\.2% NVIDIA look-through share of the known total/, `${said(at)}: the overlap on the known total`);
+    });
     for (const [option, screen] of [['a', 'ra-ask'], ['b', 'rb-ask']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /its shares are of the full total/, `${said(at)}: which total the answer uses`));
     each({ journey: A, option: 'a', screen: 'aa-queue', state: 'stale' }, (v, at) => {
       has(v.text, /£78,508\.20 known, 6 of 7 priced/, `${said(at)}: the known total`);
@@ -434,7 +450,7 @@ export default {
   },
 
   // Revoking can be reached, and is the same import as Holdings'.
-  'R2-r9': ({ each, has, lacks, must }) => {
+  'R2-r9': ({ view, each, has, lacks, must }) => {
     for (const [option, screen] of [['a', 'aa-queue'], ['b', 'ab-home']]) each({ journey: A, option, screen, state: 'empty' }, (v, at) => {
       must(opensTo(v.html, 'Statement import, 9 of 11 rows'), `${said(at)}: nothing leads to the approved import`);
       has(v.text, /Live until 21:33/, `${said(at)}: the window`);
@@ -451,7 +467,11 @@ export default {
         has(v.text, /ledger revision 213/, `${said(at)}: the revision`);
       });
       each({ journey: A, option, screen, state: ['default', 'offline'] }, (v, at) => {
-        for (const w of [/Draft revision 6/, /7f3a…c21e/, /Expected revision 213/, /Expires 21:33/, /Apple 60 → 64 units/, /AstraZeneca 85 → 75 units/, /ISA cash £4,012\.60 → £4,142\.83/]) has(v.text, w, `${said(at)}: ${w}`);
+        for (const w of [/Draft revision 6/, /7f3a…c21e/, /Expected revision 213/, /Expires 21:33/, /Apple 60 → 64 units/, /HSBC, HSBA · XLON 700 → 730 units/, /AstraZeneca 85 → 75 units/, /ISA cash £4,012\.60 → £4,142\.83/]) has(v.text, w, `${said(at)}: ${w}`);
+        for (const [o, s] of [['a', 'a-live'], ['b', 'b-live']]) {
+          const theirs = importRows(view('holdings', o, s, at.surface, at.state).text);
+          must(theirs.includes('HSBC') && importRows(v.text) === theirs, `${said(at)}: "${importRows(v.text)}" against Holdings' ${s}, "${theirs}"`);
+        }
       });
       each({ journey: A, option, screen, state: 'stale' }, (v, at) => {
         must(enabled(v.html, 'Sign in and approve'), `${said(at)}: an expired approval on an unchanged payload is renewed`);
@@ -495,6 +515,32 @@ export default {
       each({ journey: A, option, screen: model, state: 'noModel' }, (v, at) => lacks(v.text, /Previous safe R2-HGB v3/, `${said(at)}: v3 can no longer be the safe fallback`));
       each({ journey: A, option, screen: model, state: ['default', 'offline'] }, (v, at) => has(v.text, /This approval is bound to/, `${said(at)}: an open proposal`));
     }
+    // A step-up's rail stands beside its sheet on iPad and desktop: bound until the record moves, and only then what was proposed.
+    for (const [option, model, set, res] of [['a', 'aa-step', 'aa-setting-step', 'aa-restart-step'], ['b', 'ab-model-step', 'ab-setting-step', 'ab-restart-step']]) {
+      for (const screen of [model, set, res]) {
+        each({ journey: A, option, screen, surface: WIDE, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'abstention'] }, (v, at) => {
+          has(v.text, /This approval is bound to/, `${said(at)}: a sign-in that can still approve`);
+          lacks(v.text, /What this propos/, `${said(at)}: a proposal retitled while it can still be approved`);
+        });
+        each({ journey: A, option, screen, surface: WIDE, state: 'disagreement' }, (v, at) => {
+          has(v.text, /this approval is refused/, `${said(at)}: the sheet`);
+          lacks(v.text, /This approval is bound to/, `${said(at)}: bound beside a refused approval`);
+          has(v.text, /What this proposed/, `${said(at)}: not retitled`);
+        });
+      }
+      each({ journey: A, option, screen: res, surface: WIDE, state: 'noModel' }, (v, at) => {
+        has(v.text, /This approval is bound to/, `${said(at)}: the restart's rail`);
+        has(v.text, /Artefact R2-HGB v3/, `${said(at)}: the restart's rail`);
+      });
+      each({ journey: A, option, screen: res, surface: WIDE, state: 'disagreement' }, (v, at) => lacks(v.text, /The proposal waits for your yes/, `${said(at)}: waits beside a refused approval`));
+      // The sheet promises only what the proposal has: a switch forward has no expiry to keep.
+      each({ journey: A, option, screen: res, state: ['error', 'offline'] }, (v, at) => {
+        lacks(v.text, /keeps its expiry/, `${said(at)}: this proposal has no expiry`);
+        has(v.text, /The proposal still waits for your yes\./, `${said(at)}: what it keeps`);
+      });
+      for (const screen of [model, set]) each({ journey: A, option, screen, state: ['error', 'offline'] }, (v, at) => has(v.text, /The proposal keeps its expiry\./, `${said(at)}: what it keeps`));
+    }
+    for (const [option, screen] of [['a', 'aa-listing-step'], ['b', 'ab-step']]) each({ journey: A, option, screen, state: ['error', 'offline'] }, (v, at) => has(v.text, /The proposal keeps its expiry\./, `${said(at)}: what it keeps`));
   },
 
   // Each approve button leads to a drawn step-up and a drawn outcome, on both options.
@@ -513,10 +559,12 @@ export default {
         must(v.html.includes('aria-modal="true"') && !v.na, `${said(at)}: no sheet`);
         for (const w of [/Restart a paused scope/, /Artefact R2-HGB v3/, /Previous safe None eligible/, /Expires 15 minutes after you approve/]) has(v.text, w, `${said(at)}: ${w}`);
       });
-      each({ journey: A, option, screen: setOut, state: 'default' }, (v, at) => has(v.text, /Approved\. The weekly band is 4 points\./, `${said(at)}: no outcome`));
-      each({ journey: A, option, screen: setOut, state: 'error' }, (v, at) => has(v.text, /Approved, not applied\./, `${said(at)}: a failed write`));
-      each({ journey: A, option, screen: resOut, state: 'default' }, (v, at) => has(v.text, /Switched forward\. R1-LGB v2 is active\./, `${said(at)}: no outcome`));
-      each({ journey: A, option, screen: resOut, state: 'noModel' }, (v, at) => has(v.text, /Restarted\. US tech, 12 months is issuing\./, `${said(at)}: no outcome`));
+      const SET = { default: [/Approved\. The weekly band is 4 points\./, 'Approved'], loading: [/Applying · approved at 09:16/, ''], empty: [/You refused\. Nothing changed\./, 'Refused'], error: [/Approved, not applied\./, 'Not applied'], stale: [/Expired\. It cannot be approved\./, 'Expired'], offline: [/Approved, result not seen yet\./, ''], disagreement: [/Already decided on your iPad\./, 'Approved'] };
+      const RES = { default: [/Switched forward\. R1-LGB v2 is active\./, 'Approved'], loading: [/Applying · approved at 09:18/, ''], empty: [/You stayed on v1\. Nothing changed\./, 'Refused'], error: [/Refused by MP\. Nothing changed\./, 'Refused'], stale: [/Expired\. It did not apply\./, 'Expired'], offline: [/Approved, result not seen yet\./, ''], noModel: [/Restarted\. US tech, 12 months is issuing\./, 'Approved'], disagreement: [/Already decided on your iPad\./, 'Approved'] };
+      for (const [screen, want] of [[setOut, SET], [resOut, RES]]) for (const [state, [re, chip]] of Object.entries(want)) each({ journey: A, option, screen, state }, (v, at) => {
+        has(v.text, re, `${said(at)}: ${re}`);
+        must(chipOf(v.html) === chip, `${said(at)}: the chip reads "${chipOf(v.html)}", not "${chip}"`);
+      });
     }
   },
 
@@ -578,4 +626,150 @@ export default {
   'R2-r20': ({ each, has }) => each({ journey: R, option: 'b', screen: 'rb-card', state: 'default' }, (v, at) => { for (const w of ['Stance', 'Overlap', 'Benchmark', 'Valuation', 'Earnings', 'Profile', 'Scenario']) has(v.text, new RegExp(w), `${said(at)}: no way to ${w}`); }),
   'R2-r21': ({ each, lacks }) => each({ journey: R, option: 'b', screen: 'rb-memory', state: 'noModel' }, (v, at) => lacks(v.text, /What do you remember about me/, `${said(at)}: the thread takes no questions`)),
   'R2-r22': ({ each, lacks }) => each({ journey: R, option: 'b', screen: 'rb-today', state: 'loading' }, (v, at) => lacks(v.text, /stays readable above/, `${said(at)}: nothing is drawn above`)),
+
+  // Round 3. Each listing's expiry says MP40-Q9, every other proposal's expiry and window CT-02, beside the fact and not only on the screen.
+  'R3-r1': ({ each, has }) => {
+    const LISTING = /[Ee]xpires? (?:today |Today, )?18:00|Expired(?: at)? 18:00|after 18:00|Taiwan Semiconductor, 18:00/;
+    const OTHER = /[Ee]xpire[sd]? (?:Fri|Mon)|closed on (?:Fri|Mon)|Expires 15 minutes|The 15 minutes closed|15 min once approved · (?:needs|switching)|Waits for your yes/;
+    each({ journey: A }, (v, at) => {
+      if (LISTING.test(v.text)) has(v.text, /Proposed · MP40-Q9/, `${said(at)}: a listing's expiry with no label`);
+      if (OTHER.test(v.text)) has(v.text, /Proposed · CT-02/, `${said(at)}: an expiry with no label`);
+    });
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => {
+      for (const re of [/Expires today 18:00 Proposed · MP40-Q9/, /Expires Fri 18:00 Proposed · CT-02/, /Expires Mon 18:00 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+    });
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'default' }, (v, at) => has(v.text, /Watch Barclays BARC · XLON · expired 08:14 Run again Proposed · MP40-Q9/, `${said(at)}: a past listing's expiry`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Waits for your yes Proposed · CT-02/, `${said(at)}: the restart's row`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', surface: WIDE, state: 'default' }, (v, at) => has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the peek`));
+    each({ journey: A, option: 'b', screen: 'ab-home', state: 'default' }, (v, at) => has(v.text, /Next: Taiwan Semiconductor, 18:00 Proposed · MP40-Q9/, `${said(at)}: the strip`));
+    for (const [option, screen, sheet] of [['a', 'aa-listing', 'aa-listing-step'], ['b', 'ab-chat', 'ab-step']]) {
+      each({ journey: A, option, screen, state: ['default', 'offline', 'noModel', 'disagreement'] }, (v, at) => {
+        has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the head`);
+        has(v.text, /expires 18:00 · [a-z ]*fresh sign-in Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the foot`);
+      });
+      each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
+      each({ journey: A, option, screen: sheet, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Expires Today, 18:00 Proposed · CT-01 Proposed · MP40-Q9/, `${said(at)}: the sheet`));
+    }
+    for (const [option, screen] of [['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
+    for (const [option, model, step, set, setStep] of [['a', 'aa-model', 'aa-step', 'aa-setting', 'aa-setting-step'], ['b', 'ab-model', 'ab-model-step', 'ab-setting', 'ab-setting-step']]) {
+      each({ journey: A, option, screen: model, state: 'default' }, (v, at) => {
+        for (const re of [/Expires Fri 18:00 Proposed · CT-02/, /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, /expires Fri 18:00 · needs a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+      });
+      each({ journey: A, option, screen: model, state: 'offline' }, (v, at) => {
+        for (const re of [/Expires Fri 18:00 Proposed · CT-02/, /expires Fri 18:00 · approving needs a connection and a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+      });
+      each({ journey: A, option, screen: set, state: 'default' }, (v, at) => {
+        for (const re of [/Expires Mon 18:00 Proposed · CT-02/, /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, /expires Mon 18:00 · needs a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+      });
+      each({ journey: A, option, screen: set, state: 'offline' }, (v, at) => {
+        for (const re of [/Expires Mon 18:00 Proposed · CT-02/, /expires Mon 18:00 · approving needs a connection and a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+      });
+      each({ journey: A, option, screen: set, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired setting`));
+      each({ journey: A, option, screen: step, state: ['default', 'error', 'offline'] }, (v, at) => has(v.text, /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: setStep, state: ['default', 'error', 'offline'] }, (v, at) => has(v.text, /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
+    }
+    for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result'], ['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired proposal`));
+    for (const [option, screen, sheet] of [['a', 'aa-restart', 'aa-restart-step'], ['b', 'ab-restart', 'ab-restart-step']]) {
+      each({ journey: A, option, screen, state: ['default', 'noModel'] }, (v, at) => has(v.text, /Waits for your yes Proposed · CT-02/, `${said(at)}: the head`));
+      each({ journey: A, option, screen: sheet, state: ['default', 'noModel', 'error', 'offline'] }, (v, at) => has(v.text, /Expires 15 minutes after you approve Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the sheet`));
+    }
+    each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'stale', 'offline', 'error'] }, (v, at) => has(v.text, /Watch Barclays Nobody · expired Wed 08:14 Expired Proposed · MP40-Q9/, `${said(at)}: the record`));
+    each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'stale', 'offline'] }, (v, at) => has(v.text, /Earlier proposal Thu 22 Oct · nobody acted Expired Proposed · MP40-Q9/, `${said(at)}: the history`));
+  },
+
+  // The late-price rule is labelled in the stale banner that states it, and beside the rule in the brief, on both sides of the flip.
+  'R3-r2': ({ each, has, must }) => {
+    for (const [journey, option, screen] of [[A, 'a', 'aa-queue'], [A, 'b', 'ab-home'], [R, 'a', 'ra-brief'], [R, 'b', 'rb-today'], [R, 'a', 'ra-alert'], [R, 'b', 'rb-alert']]) each({ journey, option, screen, state: 'stale' }, (v, at) => {
+      const b = bannerOf(v.html);
+      must(/(?:leaves|left) the total until its price returns/.test(b), `${said(at)}: the banner does not state the rule: "${b.slice(0, 120)}"`);
+      must(b.includes('Proposed · FIN-OD-06'), `${said(at)}: the banner states the rule flat`);
+    });
+    for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
+      each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /it left the total until its price returns\.? Proposed · FIN-OD-06/i, `${said(at)}: the changes state the rule flat`));
+      each({ journey: R, option, screen, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /inside the freshness limit, so its forecast is held\.? Proposed · FIN-OD-06/, `${said(at)}: the changes state the rule flat`));
+    }
+  },
+
+  // Option A shows what code checked wherever Option B does, with Confirm live or not.
+  'R3-r3': ({ each, has, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-listing'], ['b', 'ab-chat']]) {
+      each({ journey: A, option, screen, state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => {
+        has(v.text, /Coverage Twelve Data end of day, Yahoo delayed/, `${said(at)}: no source or delay beside the decision`);
+        has(v.text, /Busiest minute 30 of the 45-credit cap/, `${said(at)}: what code checked`);
+      });
+      each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, /Coverage Timed out at 09:14/, `${said(at)}: where the check stopped`));
+      each({ journey: A, option, screen, state: 'loading' }, (v, at) => has(v.text, /Coverage Asking Twelve Data and Yahoo/, `${said(at)}: what is being checked`));
+      each({ journey: A, option, screen, state: 'empty' }, (v, at) => lacks(v.text, /What code check/, `${said(at)}: nothing is checked on a decided proposal`));
+    }
+  },
+
+  // A window that closed says what happened, and offers the way back.
+  'R3-r4': ({ each, has, lacks, must }) => {
+    for (const [option, screen] of [['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => {
+      has(v.text, /Expired\. It did not apply\./, `${said(at)}: the title`);
+      lacks(v.text, /cannot be approved/, `${said(at)}: against "Approve again"`);
+      has(v.text, /Approve again for a new window/, `${said(at)}: the way back`);
+      must(enabled(v.html, 'Sign in and approve'), `${said(at)}: a dead end`);
+    });
+  },
+
+  // Each tightened check, and the state no check held: nothing can be approved offline, on any proposal.
+  'R3-r5': (a) => {
+    for (const id of ['R1-r11', 'R2-r2', 'R2-r3', 'R2-r8', 'R2-r9', 'R2-r10', 'R2-r11']) FACTS[id](a);
+    for (const [option, screen, no, yes] of [['a', 'aa-listing', 'Refuse', 'Confirm'], ['b', 'ab-chat', 'Refuse', 'Confirm'], ['a', 'aa-model', 'Refuse', 'Approve'], ['b', 'ab-model', 'Refuse', 'Approve'], ['a', 'aa-setting', 'Refuse', 'Approve'], ['b', 'ab-setting', 'Refuse', 'Approve'], ['a', 'aa-restart', 'Stay on v1', 'Switch forward'], ['b', 'ab-restart', 'Stay on v1', 'Switch forward']]) {
+      a.each({ journey: A, option, screen, state: 'offline' }, (v, at) => {
+        for (const name of [no, yes]) {
+          a.must(new RegExp(`<button\\b[^>]*\\bdisabled\\b[^>]*>${esc(name)}</button>`).test(v.html), `${said(at)}: no disabled ${name}`);
+          a.must(!enabled(v.html, name), `${said(at)}: ${name} is live offline`);
+        }
+      });
+    }
+  },
+
+  'R3-r7': (a) => FACTS['R2-r10'](a),
+
+  // The sign-in label stays with the act after the decision, and on the stop control.
+  'R3-r8': ({ each, has }) => {
+    const LABEL = 'Proposed · CT-01';
+    each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'error', 'stale', 'offline'] }, (v, at) => has(v.text, new RegExp(`Taiwan Semiconductor added You · Wed 09:02 · catalogue v15 · fresh sign-in Approved ${LABEL}`), `${said(at)}: the record`));
+    each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'error', 'stale', 'offline'] }, (v, at) => has(v.text, new RegExp(`Confirmed by you Wed 09:02 · catalogue v15 · fresh sign-in Approved ${LABEL}`), `${said(at)}: the history`));
+    for (const [option, res, rev] of [['a', 'aa-restart-result', 'aa-revoke'], ['b', 'ab-restart-result', 'ab-revoke']]) {
+      each({ journey: A, option, screen: res, state: ['default', 'noModel'] }, (v, at) => has(v.text, new RegExp(`Applied at 09:18 with your fresh sign-in\\..*? Approved ${LABEL}`), `${said(at)}: the outcome`));
+      each({ journey: A, option, screen: res, state: 'stale' }, (v, at) => has(v.text, new RegExp(`Expired Proposed · CT-02 ${LABEL}`), `${said(at)}: signing in again`));
+      each({ journey: A, option, screen: rev, state: 'abstention' }, (v, at) => has(v.text, new RegExp(`Fresh sign-in needed .*?Sign in again ${LABEL}`), `${said(at)}: a stop control behind an unnamed rule`));
+    }
+  },
+
+  'R3-r9': ({ each, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen }, (v, at) => lacks(v.text, /15 minutes to apply\. Proposed · SCI-D07/, `${said(at)}: SCI-D07 does not hold the window`));
+  },
+
+  // Plain slips: the Reliance turn sits under Reliance, with no median.
+  'R3-r10': ({ each, lacks, must }) => {
+    each({ journey: R, option: 'a', screen: 'ra-ask', state: 'disagreement' }, (v, at) => must(v.html.includes('aria-label="Back to Reliance"'), `${said(at)}: Back names another holding`));
+    each({ journey: R, option: 'a', screen: 'ra-ask', state: 'default' }, (v, at) => must(v.html.includes('aria-label="Back to NVIDIA"'), `${said(at)}: Back`));
+    // the thread's pinned calendar still lists NVIDIA's results, which is not a forecast
+    for (const [option, screen, other] of [['a', 'ra-ask', /NVIDIA|NVDA|\+9\.1%/], ['b', 'rb-ask', /NVDA|\+9\.1%/]]) each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => {
+      lacks(v.text, other, `${said(at)}: another holding beside this answer`);
+      must(!/median [−+]/.test(v.html), `${said(at)}: a median on a split`);
+    });
+  },
+  'R3-r11': ({ each, has }) => each({ journey: A, option: 'b', screen: 'ab-home', surface: WIDE, state: 'loading' }, (v, at) => has(v.text, /Checking what waits on you/, `${said(at)}: nothing says proposals are loading`)),
+  'R3-r12': ({ each, must }) => {
+    for (const [option, screen] of [['a', 'aa-revoke'], ['b', 'ab-revoke']]) each({ journey: A, option, screen, state: ['empty', 'error'] }, (v, at) => must(enabled(v.html, 'Back to Imports'), `${said(at)}: Holdings' way out`));
+  },
+  'R3-r13': ({ each, has, lacks }) => {
+    each({ journey: A }, (v, at) => lacks(v.text, /one retry/, `${said(at)}: MP-78 gives no count`));
+    for (const [option, screen] of [['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, /for a retry inside its window/, `${said(at)}: the window`));
+  },
+  'R3-r14': ({ each, lacks }) => {
+    for (const journey of [R, A]) each({ journey }, (v, at) => lacks(v.text, /Proposed · MP40-Q6/, `${said(at)}: MP40-Q6 is about billing data, not a late price`));
+  },
+  'R3-r15': ({ each, lacks, must }) => {
+    for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'empty' }, (v, at) => {
+      lacks(v.text, /[Ll]ast good/, `${said(at)}: a card that was never built has no last good version`);
+      must(!/class="sk"|\bsk\b" style/.test(v.html), `${said(at)}: a loading skeleton in Empty`);
+    });
+  },
 };
+export default FACTS;

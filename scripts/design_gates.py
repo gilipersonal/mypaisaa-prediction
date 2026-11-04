@@ -699,7 +699,9 @@ def markup(html: str) -> list[str]:
             k, v = VENDOR.sub("", k.strip().lower()), " ".join(v.split())
             if k in ("animation", "animation-iteration-count") and "infinite" in v.lower():
                 fails.append(f"an inline style loops forever ('{k}: {v}'); stop after at most {MAX_ITERATIONS}")
-            if "${" in v or "${" in k:   # a value computed in the script; the rendered size is measured by the walker
+            if "${" in v or "${" in k:
+                if re.search(r"\banimation\b[^;]*\binfinite\b", k + " " + v):
+                    fails.append(f"an inline style loops forever inside a computed value ('{v}')")   # a value computed in the script; the rendered size is measured by the walker
                 continue
             if k in ("font-size", "font"):
                 why = font_problem(v, k == "font")
@@ -777,6 +779,9 @@ def prism_core(html: str) -> tuple[list[str], str, str]:
             if k in names:
                 fails.append(f"{k} is set in '{sel.strip()}'{' inside ' + enc[0] if enc else ''}, outside tokens.css; "
                              "a value that changes goes in tokens.json")
+    for k in sorted(names):
+        if re.search(rf"""style\s*=\s*["'][^"']*{re.escape(k)}\s*:""", html) or re.search(rf"""setProperty\(\s*['"]{re.escape(k)}['"]""", html):
+            fails.append(f"{k} is set inline or by a script, outside tokens.css; a value that changes goes in tokens.json")
     return fails, css, script
 
 
@@ -1120,6 +1125,9 @@ JOURNEY_MUTATIONS = {
     "second-light-block": (_sub(".bar {", ":root, .scheme-light { --ink: #BBBBBB; } .bar {"), "outside tokens.css"),
     "second-dark-block": (_sub(".bar {", ':root[data-theme="dark"], .scheme-dark { --ink: #333333; } .bar {'), "outside tokens.css"),
     "inline-infinite-computed": (_sub('<div class="board">', '<div class="board" style="animation: spin ${d}s linear infinite">'), "inline style loops forever"),
+    "inline-infinite-in-a-value": (_sub('<div class="board">', """<div class="board" style="${x ? 'animation: spin 1s linear infinite;' : ''}">"""), "loops forever"),
+    "inline-token": (_sub('<div class="board">', '<div class="board" style="--ink: #BBBBBB">'), "set inline or by a script"),
+    "script-token": (_sub('<div class="board">', """<div class="board"><script>document.body.style.setProperty('--ink', '#BBBBBB')</script>"""), "set inline or by a script"),
 }
 
 

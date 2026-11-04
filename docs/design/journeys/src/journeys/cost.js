@@ -53,6 +53,7 @@
   const keyOf = m => `<div class="allocl" style="margin-top:0">${m.keys.map(([c, t, v]) => `<span style="--c:var(${c})">${t} <b>${v}</b></span>`).join('')}${m.to ? `<span style="--c:var(--fc-80)">Forecast</span>` : ''}<span style="--c:var(--hairline-2)">Reserve from £70</span></div>`;
   const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? proposed(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
   const dayOf = m => `November · day ${m.day} of 30`;
+  const lastGood = 'Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.';
 
   /* the compact meter, pinned above the dock on a phone so holdings stay first: the figure, one scale in one colour, the forecast */
   function strip(ctx) {
@@ -65,7 +66,7 @@
   }
   function hero(ctx) {
     const m = month(ctx);
-    if (ctx.state === 'loading') return box(`<div class="cost-row"><span class="label">${dayOf(m)}</span>${illus()}</div>${sk('180px', 40)}${sk('100%', 12)}${sk('70%')}<div class="cost-status">${chipOf(m.st)}<p class="small muted">Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.</p></div>`);
+    if (ctx.state === 'loading') return box(`<div class="cost-row"><span class="label">${dayOf(m)}</span>${illus()}</div>${sk('180px', 40)}${sk('100%', 12)}${sk('70%')}<div class="cost-status">${chipOf(m.st)}<p class="small muted">${lastGood}</p></div>`);
     return box(`<div class="cost-row"><span class="label">${dayOf(m)}</span>${illus()}</div>
       <div class="cost-fig">${money(m.so, 40)}<span class="small muted">${m.word}</span></div>
       <div class="cost-row"><span class="small muted">Forecast for the month</span><b>${m.fc}</b></div>
@@ -120,10 +121,16 @@
     ['£85', 'Pause', 'New optional paid work pauses, and each pause shows its reason.'],
     ['£100', 'Ceiling', 'The limit of the month. It is not an instant AWS shut-off: hard caps on requests, concurrency, timeouts and retention back it.']
   ];
+  const firstOf = s => ({ default: '27p away', stale: '27p away', offline: '27p away', loading: 'Last good: 27p away', empty: 'Plan: 27p away', noModel: '£13.52 away', error: 'Estimated: 27p away', disagreement: 'Reached' }[s] || 'Not known');
+  const rungHead = (v, t, status, reached) => `<span class="v">${v}</span><span class="t">${t}</span><span class="chip ${reached ? 'stale' : 'illus'}">${status}</span>`;
   function rungs(ctx) {
-    const s = ctx.state, first = { default: '27p away', stale: '27p away', offline: '27p away', loading: 'Last good: 27p away', empty: 'Plan: 27p away', noModel: '£13.52 away', error: 'Estimated: 27p away', disagreement: 'Reached' }[s] || 'Not known';
-    const rest = first === 'Not known' ? 'Not known' : 'Not reached';
-    return RUNGS.map(([v, t, p], i) => `<div class="cost-rung" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><span class="chip ${i === 0 && first === 'Reached' ? 'stale' : 'illus'}">${i === 0 ? first : rest}</span><p>${p}</p></div>`).join('');
+    const first = firstOf(ctx.state), rest = first === 'Not known' ? 'Not known' : 'Not reached';
+    return RUNGS.map(([v, t, p], i) => `<div class="cost-rung" data-mo="rise">${rungHead(v, t, i === 0 ? first : rest, i === 0 && first === 'Reached')}<p>${p}</p></div>`).join('');
+  }
+  /* Limits holds what The lines holds: the state's own sentence and how far the first line is, in every state */
+  function whereYouAre(ctx) {
+    const m = month(ctx), load = ctx.state === 'loading', first = firstOf(ctx.state), [v, t] = RUNGS[0];
+    return box(`${head('Where you are', chipOf(m.st))}${load ? sk('100%', 12) : lad(m)}<div class="cost-rung" data-mo="rise">${rungHead(v, t, first, first === 'Reached')}</div><p class="small muted">${load ? lastGood : m.say}</p>`);
   }
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
   const always = () => box(`${head('Never paused')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window is kept for them.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
@@ -223,10 +230,13 @@
   const overRail = (ctx, k) => (ctx.state === 'empty' ? '' : howHere(k)) + stillOn();
 
   /* ---------- does the month fit ---------- */
-  const fitTable = () => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>A month</th><th class="r">Claude off</th><th class="r">Claude on</th></tr></thead><tbody>${[
+  const FIT = [
     ['Ordinary', '£46.48', '£54.73'], ['Top-5 scan at its £5 cap', '£51.48', '£59.73'], ['Adverse rates', '£50.87', '£59.89'],
     ['Apple fee month, whole', '£141.52', '£149.77'], ['Apple fee month, without the fee', '£46.48', '£54.73']
-  ].map(r => `<tr data-mo="rise"><td style="white-space:normal">${r[0]}</td><td class="r">${r[1]}</td><td class="r"><b style="font-weight:600">${r[2]}</b></td></tr>`).join('')}</tbody></table></div>`;
+  ];
+  const fitTable = () => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>A month</th><th class="r">Claude off</th><th class="r">Claude on</th></tr></thead><tbody>${FIT.map(r => `<tr data-mo="rise"><td style="white-space:normal">${r[0]}</td><td class="r">${r[1]}</td><td class="r"><b style="font-weight:600">${r[2]}</b></td></tr>`).join('')}</tbody></table></div>`;
+  /* the same months as option B's log reads, one row each */
+  const fitRows = () => list(FIT.map(([t, off, on]) => li('', t, `Claude off ${off}`, `Claude on ${on}`)));
   const barTo = (v, c, t) => `<div class="cost-row"><span class="cost-mini" role="img" aria-label="${t}"><i data-mo="barx" style="--c:var(${c});width:${(v / 150) * 100}%"></i></span></div>`;
   function apple(ctx) {
     if (ctx.state === 'loading') return skCard('Apple fee month', 3);
@@ -235,26 +245,26 @@
       <div class="cost-row"><span class="small">Judged without the $99 fee</span><b>£54.73</b></div>${barTo(54.73, C.claude, 'Month without the fee £54.73 on a scale to £150')}
       <p class="small muted">Optional work runs while the month without the fee stays under £60, £75 and £85. The full month and its flags stay on record.</p>`);
   }
-  function fitCard(ctx) {
+  function fitCard(ctx, months = fitTable) {
     const s = ctx.state, terms = '<p class="small muted">The fit stays conditional on the Grow 55 checkout price, listing rights and the measured workload. £59.73 is 27p under the warning, and that margin leaves out about £0.15 of data transfer, Terraform state and the scan\'s compute and storage, which are not yet in the model.</p>';
     if (s === 'loading') return skCard('Planned months', 5);
-    if (s === 'empty') return stateCard('clock', 'Not measured yet', 'The full launch workload has not run on dev. These are the planned months, not measurements.', '', chipOf(['', 'Unmeasured', 'clock'])) + box(`${head('Planned months', illus())}${fitTable()}${terms}`);
+    if (s === 'empty') return stateCard('clock', 'Not measured yet', 'The full launch workload has not run on dev. These are the planned months, not measurements.', '', chipOf(['', 'Unmeasured', 'clock'])) + box(`${head('Planned months', illus())}${months()}${terms}`);
     const top = { error: banner('fall', 'The measurement failed.', 'The dev run stopped at 21:14. The planned months stay here, and nothing changes until it is re-run.', 'alert'),
       stale: banner('warn', 'Rates are old.', 'These months use the rates of 3 November. Prices or FX may have moved since.', 'clock'),
       offline: banner('', 'Offline.', 'Saved figures from 21:15.', 'wifi-off'),
       disagreement: banner('warn', 'The measurement and the plan differ.', 'Measured £62.73 against a planned £59.73: past the £60 warning. The result and your options come to you, and nothing is cut silently.', 'split'),
       abstention: banner('', 'Conditional.', 'MP will not say the month fits until checkout confirms $29 for Grow 55, with its terms and the measured workload.', 'ban') }[s] || '';
-    return top + box(`${head('Planned months', illus())}${fitTable()}<p class="small muted">Adverse rates with the scan at its cap reach £64.89, past the warning. Claude off with the scan is a cautious bound, because the scan needs Claude.</p>${terms}${s === 'default' || s === 'noModel' ? `<div class="cost-row"><span class="small">Full workload measured on dev</span>${chipOf(['', 'Not yet', 'clock'])}</div>` : ''}`);
+    return top + box(`${head('Planned months', illus())}${months()}<p class="small muted">Adverse rates with the scan at its cap reach £64.89, past the warning. Claude off with the scan is a cautious bound, because the scan needs Claude.</p>${terms}${s === 'default' || s === 'noModel' ? `<div class="cost-row"><span class="small">Full workload measured on dev</span>${chipOf(['', 'Not yet', 'clock'])}</div>` : ''}`);
   }
 
   /* ---------- home ---------- */
   /* Home shows prices, so its value and rows follow the shared story. Ready: HSBC is late but inside the limit. Stale: it leaves the total. Error: the last good run shows in full. */
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('MP40-Q6')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('FIN-OD-06')}`);
   const rowsOf = (ctx, n) => `<div class="sech" style="padding:6px 0 0" data-mo="rise"><h3>Holdings</h3><span class="cost-chips" style="align-items:center"><span class="small muted">6 months</span>${illus('Decision support')}</span></div><div class="list card" style="margin:0">${H.slice(0, n).map(h => (ctx.state === 'stale' ? hrow(h) : late(hrow(h)))).join('')}</div>`;
   function valueOf(ctx) {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
     if (ctx.state === 'error') return v.replace('As of 21:15 London · data cutoff 21:00', 'Last good run Mon 21:15 · cutoff 21:00').replace('>today<', '>last good run<');
-    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('84,612.40', size), money('78,508.20', size)).replace(/<div class="d">[\s\S]*?<\/div>/, '<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span></div>');
+    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('84,612.40', size), money('78,508.20', size)).replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('FIN-OD-06')}</div>`).replace(/53\.4/g, '57.6').replace(/28\.5/g, '30.7').replace(/18\.1/g, '11.7');
     return v;
   }
   const top5s = ctx => (wide(ctx) ? `<div class="card top5 dk5" data-mo="card">${top5('ustech')}</div>` : '');
@@ -319,7 +329,7 @@
     }[s] || [];
     const spent = s === 'noModel' ? [] : [['18 Nov', [['clock', 'Nightly explanations reserved', 'Held at worst case', '£0.34']]], ['17 Nov', [['check', 'Event analysis settled', 'The bill replaced the hold', '£0.22']]], ['14 Nov', [['ban', 'Top-5 batch refused', '£3.20 could cross the £5 cap', 'Refused']]]];
     const days = extra.concat([['Thresholds this month', [LINES[s]]]], spent, [['1 Nov', [['check', 'Twelve Data invoice', 'Fixed. Due on the 1st', '£27.84']]]]);
-    const m = month(ctx), sofar = li('', m.word[0].toUpperCase() + m.word.slice(1), dayOf(m), `£${m.so}`);
+    const m = month(ctx), sofar = li('', m.word[0].toUpperCase() + m.word.slice(1), dayOf({ day: m.last || m.day }), `£${m.so}`);
     return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows]) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}`).join('')}`);
   }
   const limitTable = ctx => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>Line</th><th>What changes</th></tr></thead><tbody>${[
@@ -401,7 +411,7 @@
       }, {
         id: 'cost-b-limits', title: 'Limits',
         note: 'One table for the lines, the scan cap, Claude and the Apple fee month.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always() + (ctx.state === 'loading' ? '' : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}`)), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always() + whereYouAre(ctx), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
       }, {
         id: 'cost-b-warned', title: 'Warned at £60',
         note: 'A notice opens this. The same chart, with the forecast past the first line. Nothing stops at £60.',
@@ -418,7 +428,7 @@
         id: 'cost-b-fit', title: 'Does the month fit',
         note: 'Your recorded figures, the same as option A. The Apple fee month is judged without its fee, as you answered in COST-Q4.',
         na: { noModel: 'These planned months already show Claude on and off side by side, and no forecasting model is on this page' },
-        render: ctx => page(ctx, { tab: 0, back: 'Limits', title: 'Does it fit', body: fitCard(ctx), rail: apple(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'Limits', title: 'Does it fit', body: fitCard(ctx, fitRows), rail: apple(ctx) })
       }]
     }]
   });

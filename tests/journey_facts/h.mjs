@@ -1,4 +1,4 @@
-// What each fixed finding of lane h (home and forecast) holds on the rendered screens (MP-62 rounds 1 and 2).
+// What each fixed finding of lane h (home and forecast) holds on the rendered screens (MP-62 rounds 1 to 3).
 import { readFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -53,6 +53,56 @@ const pressed = (j, o, s, surface, state, extra = {}) => {
   const html = sc.render({ kind: surface, state, scheme: 'light', journey: j, option: o, screen: s, ...extra });
   return { html, text: words(html) };
 };
+/* R3-h4: a flip keeps the name, from the ladder and its technical mode, in every state and on every device */
+const ladderHeads = ({ each, view, must }) => {
+  for (const screen of ['b-ladder', 'b-technical']) each({ journey: 'forecast', option: 'b', screen, surface: ALL }, (v, at) => {
+    must(head(v.html), `${screen} ${at.surface} ${at.state}: no instrument head`);
+    const f = flips(v.html);
+    must(f.length === 1, `${screen} ${at.surface} ${at.state}: ${f.length} flips`);
+    const [, oo, ss] = f[0].split('|');
+    must(head(view('forecast', oo, ss, at.surface, at.state).html) === head(v.html), `${screen} ${at.surface} ${at.state}: ${head(v.html)} turns to another name on ${ss}`);
+  });
+};
+/* R3-h5: who abstains and who splits, by horizon: 0 is 3 months, 1 is 6, 2 is 12. Read off the rendered rows, so a name added to the page's tables is caught. */
+const OUTS = { abstention: { AZN: 1, AAPL: 2 }, disagreement: { RELIANCE: 1, AAPL: 0 } };
+const HELD = ['AAPL', 'NVDA', 'SPY', 'AZN', 'HSBA', 'RELIANCE', 'NIFTYBEES'];
+const ROOT_NAMES = [...HELD, 'MSFT', 'JPM', 'ICICIBANK', 'XAU/USD'];
+const SAYS_OUT = /split|disagree|abstain/i;
+const nameIn = (r, names) => names.filter((t) => new RegExp(`(^|[\\s>])${t.replace('/', '\\/')}(?=[\\s<·]|$)`).test(words(r)));
+const holdingRows = (html) => html.slice(0, html.indexOf('home-link')).split(/(?=<div class="hrow|<tr[ >])/).filter((r) => /^<(div class="hrow|tr[ >])/.test(r) && !r.includes('<th'));
+const flaggedOnly = ({ each, view, must }) => {
+  const holdsAt = (where, rows, names, state, hz, cell) => {
+    must(rows.length === names.length, `${where}: ${rows.length} rows of ${names.length}`);
+    for (const r of rows) {
+      const found = nameIn(r, names);
+      must(found.length === 1, `${where}: a row reads as ${found.join(', ') || 'no name'}`);
+      const t = found[0], text = cell ? cell(r, hz) : r;
+      must(SAYS_OUT.test(words(text)) === (OUTS[state][t] === hz), `${where}: ${t} at ${['3', '6', '12'][hz]} months ${SAYS_OUT.test(words(text)) ? 'shows out' : 'does not show out'}: ${words(text).slice(0, 120)}`);
+    }
+  };
+  const td = (r, hz, from) => r.split(/(?=<td)/).filter((x) => x.startsWith('<td'))[from + hz] || '';
+  for (const state of ['disagreement', 'abstention']) for (const surface of ALL) for (const hz of [0, 1, 2]) {
+    holdsAt(`a-portfolio ${surface} ${state}`, holdingRows(pressed('home', 'a', 'a-portfolio', surface, state, { hz: String(hz) }).html), HELD, state, hz);
+    const list = pressed('forecast', 'a', 'a-forecasts', surface, state, { hz: String(hz) }).html.split(/(?=<div class="hrow fc-rootrow)/).slice(1);
+    holdsAt(`a-forecasts ${surface} ${state}`, list, ROOT_NAMES, state, hz);
+    const table = pressed('forecast', 'b', 'b-forecasts', surface, state).html.split(/(?=<tr[ >])/).filter((r) => r.includes('fc-rowbtn'));
+    holdsAt(`b-forecasts ${surface} ${state}`, table, ROOT_NAMES, state, hz, (r, i) => td(r, i, 1));
+    if (WIDE.includes(surface)) holdsAt(`b-ledger ${surface} ${state}`, holdingRows(pressed('home', 'b', 'b-ledger', surface, state).html), HELD, state, hz, (r, i) => td(r, i, 3));
+  }
+  // and on the ranked lists: at 6 months only Apple's split is named, and only Apple drops out
+  for (const state of ['disagreement', 'abstention']) for (const screen of SEGS) each({ journey: 'home', option: 'a', screen, state }, (v, at) => {
+    for (const name of LISTS[listOf(screen)]) if (name !== 'AAPL') {
+      const r = rowFor(v.html, name);
+      must(r, `${screen} ${at.surface} ${state}: no row for ${name}`);
+      must(!SAYS_OUT.test(words(r)), `${screen} ${at.surface} ${state}: ${name} reads as out`);
+    }
+  });
+};
+/* what a tile and a list row draw for US tech: rank, ticker, score. A not-ranked or withheld row has no digit rank, so it is left out on both sides. */
+const ranked = (part) => [...part.matchAll(/<span class="rk">(\d)<\/span>(?:(?!<span class="rk">)[^])*?class="(?:tk|tt)">([A-Z.]+)(?:(?!<span class="rk">)[^])*?<b>(\d+)<\/b>/g)].map((m) => `${m[1]} ${m[2]} ${m[3]}`);
+const techTile = (html) => html.split('class="segtile home-tile').find((p) => p.includes('>US tech<')) || '';
+const techCard = (html) => html.split('class="card top5"').find((p) => p.includes('Top 5 · US tech')) || '';
+const LATE_RULE = /freshness limit|Late: last price|Stale: last price|left out|Out of the total|HSBC is stale|Stale input|Held · late price|Stale · held|HSBC's (price|source|last price)/i;
 
 export default {
   'R1-h1': ({ each, has, lacks, must }) => {
@@ -150,8 +200,8 @@ export default {
     });
   },
   'R1-h10': ({ each, has, lacks }) => {
-    each({ journey: 'home', screen: 'a-portfolio', state: 'disagreement' }, (v, at) => { has(v.text, /3 actions · 1 conflict shown/, `${at.surface}: the pill miscounts`); lacks(v.text, /2 actions/, `${at.surface}: 2 actions over three`); });
-    each({ journey: 'home', screen: 'a-portfolio', state: 'abstention' }, (v, at) => { has(v.text, /3 actions · 1 abstention/, `${at.surface}: the pill miscounts`); lacks(v.text, /2 actions/, `${at.surface}: 2 actions over three`); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'disagreement' }, (v, at) => { has(v.text, /3 actions ·/, `${at.surface}: the pill miscounts`); lacks(v.text, /2 actions/, `${at.surface}: 2 actions over three`); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'abstention' }, (v, at) => { has(v.text, /3 actions ·/, `${at.surface}: the pill miscounts`); lacks(v.text, /2 actions/, `${at.surface}: 2 actions over three`); });
   },
   'R1-h12': ({ each, has, lacks, must }) => {
     for (const screen of ['a-forecasts', 'b-forecasts']) each({ journey: 'forecast', screen, state: 'default' }, (v, at) => {
@@ -212,7 +262,7 @@ export default {
       for (const re of [/21:00 Twelve Data/, /16:35 Yahoo/, /14:10 Yahoo · late/, /10:00 Yahoo/]) has(v.text, re, `${at.surface}: ${re}`);
       lacks(v.text, /\s21:15 (Twelve Data|Yahoo)/, `${at.surface}: a row's price time is the run's`);
     });
-    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · MP40-Q6/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · FIN-OD-06/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'stale' }, (v, at) => {
       has(v.text, /78,508/, `${at.surface}: HSBC stays in the total`);
       has(v.text, /6 of 7 priced/, `${at.surface}: the count`);
@@ -259,7 +309,8 @@ export default {
     }
   },
   /* ---------- round 2 ---------- */
-  'R2-h1': ({ each, view, must }) => {
+  'R2-h1': (api) => {
+    const { each, view, must } = api;
     // the flip keeps the instrument, from the horizon pages and the dossier, in all nine states
     for (const [option, screen] of [['a', 'a-instrument'], ['a', 'a-technical'], ['a', 'a-3m'], ['a', 'a-12m'], ['b', 'b-forecast']]) each({ journey: 'forecast', option, screen, surface: ALL }, (v, at) => {
       must(head(v.html), `${screen} ${at.surface} ${at.state}: no instrument head`);
@@ -269,12 +320,8 @@ export default {
       must(head(other.html) === head(v.html), `${screen} ${at.surface} ${at.state}: ${head(v.html)} turns to ${head(other.html)} on ${ss}`);
     });
     each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'disagreement' }, (v, at) => must(flips(v.html)[0] === 'forecast|b|b-forecast', `${at.surface}: the flip does not go to the dossier`));
-    // the ladder turning back. It waits on one thing: FLIP_TO still sends b-ladder and b-technical to a-instrument and a-technical in these two states, which draw the holding in question, not Apple
-    for (const screen of ['b-ladder', 'b-technical']) each({ journey: 'forecast', option: 'b', screen, surface: ALL }, (v, at) => {
-      const [, oo, ss] = flips(v.html)[0].split('|');
-      if (['disagreement', 'abstention'].includes(at.state) && ['a-instrument', 'a-technical'].includes(ss)) return;
-      must(head(view('forecast', oo, ss, at.surface, at.state).html) === head(v.html), `${screen} ${at.surface} ${at.state}: ${head(v.html)} turns to another name on ${ss}`);
-    });
+    // the ladder turning back, in every state
+    ladderHeads(api);
     // Short-term names no instrument in No model, so its flip to gold changes none
     each({ journey: 'forecast', option: 'a', screen: 'a-short', state: 'noModel' }, (v, at) => { must(v.html.includes('aria-label="Back to Forecasts"'), `${at.surface}: back names an instrument`); must(!v.html.includes('aria-label="Forecast horizon"'), `${at.surface}: a switch with no instrument`); });
     // the horizon switch stays on one instrument, at every horizon and in every state
@@ -335,9 +382,9 @@ export default {
   'R2-h6': ({ each, has, must }) => {
     for (const screen of ['b-ledger', 'b-12m']) each({ journey: 'home', option: 'b', screen, surface: ALL }, (v, at) => {
       has(v.text, /Top 5/, `${screen} ${at.surface} ${at.state}: no top 5`);
-      if (at.state === 'empty') return;
       has(v.text, /MSFT/, `${screen} ${at.surface} ${at.state}: the list is not drawn`);
-      must(v.text.indexOf('Top 5') > v.text.indexOf('NIFTYBEES'), `${screen} ${at.surface} ${at.state}: the top 5 is not below the holdings`);
+      const above = at.state === 'empty' ? 'No holdings yet' : 'NIFTYBEES';
+      must(v.text.includes(above) && v.text.indexOf('Top 5') > v.text.indexOf(above), `${screen} ${at.surface} ${at.state}: the top 5 is not below the holdings`);
     });
   },
   'R2-h7': ({ each, view, has, lacks, must }) => {
@@ -409,9 +456,8 @@ export default {
       has(a3.text, /Models split/i, `${surface}: Apple is not flagged at 3 months`);
       lacks(a3.text, /Rules and models disagree · no action|Disagree · no action/, `${surface}: Reliance is flagged at 3 months`);
     }
-    // no other name, on any Home or Forecast screen
-    const other = /\b(JPM|INFY|AMZN|META|HDFCBANK|IWM)\b,? (is split|is not ranked|lost|abstained|dropped)|(split|disagree|abstained) on (JPM|INFY|AMZN|META|HDFCBANK|IWM)\b|\b(JPM|INFY|AMZN|META|HDFCBANK|IWM) and (JPM|INFY|AMZN|META|HDFCBANK|IWM)\b/;
-    for (const journey of ['home', 'forecast']) each({ journey, state: ['disagreement', 'abstention'], surface: ['iphone', 'web'] }, (v, at) => lacks(v.text, other, `${at.screen} ${at.surface} ${at.state}: another name`));
+    // no other name: read off the rendered rows of Home and Forecast
+    flaggedOnly({ each, view, must });
     // the root and the board agree with the table
     each({ journey: 'forecast', option: 'b', screen: 'b-forecasts', state: 'disagreement', surface: 'web' }, (v) => {
       must(tableRow(v.html, 'JPM').includes('+6.4%'), 'JPM stands');
@@ -429,6 +475,7 @@ export default {
     each({ journey: 'home', option: 'a', screen: 'a-action', state: 'empty' }, (v, at) => { has(v.text, /Nothing is suggested for NVIDIA today/, `${at.surface}: the sheet`); lacks(v.html, /b-trim/, `${at.surface}: Trim behind the sheet`); });
     each({ journey: 'home', option: 'b', screen: 'b-open', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.surface}: Trim beside the unclassified sheet`));
     each({ journey: 'home', option: 'b', screen: 'b-open', state: 'empty' }, (v, at) => { has(v.text, /No holdings yet/, `${at.surface}: the empty ledger`); lacks(v.text, /NVIDIA/, `${at.surface}: a sheet with no holdings`); });
+    for (const [o, screen] of [['a', 'a-portfolio'], ['b', 'b-ledger'], ['a', 'a-brief'], ['b', 'b-brief']]) each({ journey: 'home', option: o, screen, state: 'noModel' }, (v, at) => { has(v.text, /No label/, `${screen} ${at.surface}: the row`); lacks(v.html, /b-trim/, `${screen} ${at.surface}: Trim on a row the sheet calls unclassified`); });
   },
   'R2-h13': ({ each, view, has, must }) => {
     const words_ = { default: /Spot quotes/, loading: /The last good quotes from 21:15/, empty: /No top 5 yet/, error: /Last good run Mon 21:15 · cutoff 21:00/, stale: /Gold and silver are not affected/, offline: /Quotes from 21:15, saved on this device/, noModel: /No model can cover these yet/ };
@@ -497,6 +544,123 @@ export default {
   'R2-h25': ({ each, has, lacks }) => {
     each({ journey: 'forecast', option: 'a', screen: 'a-12m', state: 'default' }, (v, at) => { has(v.text, /Proof · 12-month task/, `${at.surface}: the 6-month record under a 12-month forecast`); has(v.text, /over 26 scored forecasts/, `${at.surface}: the 12-month record`); lacks(v.text, /Observed 79%/, `${at.surface}: the 6-month figure`); });
     each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'default' }, (v, at) => has(v.text, /Proof · 6-month task/, `${at.surface}: the 6-month proof moved`));
+    for (const surface of PHONES) {
+      const v = pressed('forecast', 'b', 'b-forecast', surface, 'default', { hz: '2' });
+      has(v.text, /Proof · 12-month task/, `b-forecast ${surface}: the 6-month proof under 12 months`);
+      lacks(v.text, /over 52 scored|Observed 79%|Coverage 79%|Direction, 52 scored/, `b-forecast ${surface}: a 6-month figure under 12 months`);
+    }
+    for (const surface of ALL) {
+      const v = pressed('forecast', 'b', 'b-proof', surface, 'default', { hz: '2' });
+      has(v.text, /Proof · 12-month task/, `b-proof ${surface}: the 6-month proof`);
+      has(v.text, /over 26 scored forecasts/, `b-proof ${surface}: the 12-month record`);
+      has(v.text, /Exploratory/, `b-proof ${surface}: 12 months is not exploratory`);
+      has(v.text, /Coverage 77%/, `b-proof ${surface}: the coverage is not 12 months'`);
+      has(v.html, /26 scored forecasts: 20 inside their 80% range, 6 outside/, `b-proof ${surface}: the dots are not 12 months'`);
+      lacks(v.text, /Observed 79%|Coverage 79%|over 52 scored|Direction, 52 scored|first due 1 Apr 2027/, `b-proof ${surface}: a 6-month figure under 12 months`);
+    }
+  },
+  'R3-h1': ({ must, has, lacks }) => {
+    // a row's name holds on every frame it can turn to, at every horizon, and the state's own subject does not creep back in
+    for (const surface of ALL) for (const [state, other] of [['disagreement', /Reliance|RELIANCE/], ['abstention', /AstraZeneca|\bAZN\b/]]) for (const hz of ['0', '1', '2']) {
+      for (const [o, s] of [['a', 'a-instrument'], ['a', 'a-technical'], ['b', 'b-forecast'], ['b', 'b-ladder'], ['b', 'b-technical']]) {
+        const v = pressed('forecast', o, s, surface, state, { hz, t: 'AAPL' });
+        must(head(v.html) === 'Apple', `${s} ${surface} ${state} at ${hz}: the row's Apple became ${head(v.html)}`);
+        lacks(v.text, other, `${s} ${surface} ${state} at ${hz}: another name on Apple's frame`);
+      }
+      for (const [o, s] of [['a', 'a-proof'], ['a', 'a-views'], ['a', 'a-evidence'], ['b', 'b-proof'], ['b', 'b-views'], ['b', 'b-evidence']]) {
+        const v = pressed('forecast', o, s, surface, state, { hz, t: 'AAPL' });
+        has(v.html, /aria-label="Back to AAPL"/, `${s} ${surface} ${state} at ${hz}: back leaves Apple`);
+        lacks(v.text, other, `${s} ${surface} ${state} at ${hz}: another name on Apple's frame`);
+      }
+    }
+    // a marked horizon stays marked on its tabs: no range for the abstained one, no median for the split one
+    for (const surface of ALL) for (const [o, s] of [['a', 'a-proof'], ['a', 'a-views'], ['a', 'a-evidence'], ['b', 'b-proof'], ['b', 'b-views'], ['b', 'b-evidence']]) {
+      lacks(pressed('forecast', o, s, surface, 'abstention', { hz: '2', t: 'AAPL' }).text, /\+12\.4%|\+33\.9%/, `${s} ${surface}: Apple's abstained 12 months`);
+      lacks(pressed('forecast', o, s, surface, 'disagreement', { hz: '0', t: 'AAPL' }).text, /\+3\.1%/, `${s} ${surface}: Apple's split 3 months`);
+    }
+    // the horizon that stands reads as Ready, at that horizon
+    has(pressed('forecast', 'b', 'b-views', 'web', 'abstention', { hz: '1', t: 'AAPL' }).text, /Median, 6M \+6\.2%/, 'Apple at 6 months stands on Views');
+    // a name the state draws nowhere gives way: a frame remembered from Ready cannot put Apple over HSBC's stale banner, or over gold
+    must(head(pressed('forecast', 'b', 'b-forecast', 'web', 'stale', { t: 'AAPL' }).html) === 'HSBC', 'Apple over the stale banner');
+    must(head(pressed('forecast', 'b', 'b-forecast', 'web', 'noModel', { t: 'AAPL' }).html) === 'Gold', 'Apple over gold');
+  },
+  'R3-h3': ({ each, view, has, lacks, must }) => {
+    // Empty is no holdings: the daily run has happened, so Tiles and Ledger draw the same lists, and neither marks a holding
+    for (const surface of ALL) {
+      for (const [a, b] of [['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m']]) for (const state of STATES) {
+        const left = view('home', 'a', a, surface, state).html, right = view('home', 'b', b, surface, state).html;
+        const l = ranked(techTile(left)), r = ranked(techCard(right));
+        must(l.length >= 3 && l.join() === r.join(), `${a} ${surface} ${state}: Tiles read ${l}, Ledger reads ${r}`);
+      }
+      for (const screen of ['b-ledger', 'b-12m']) {
+        const v = view('home', 'b', screen, surface, 'empty');
+        lacks(v.text, /You hold it/, `${screen} ${surface}: a holding marked with no holdings`);
+        lacks(v.text, /no list and no score/, `${screen} ${surface}: says no list while its partner draws them`);
+      }
+      // Empty on the Segments tab is the first morning, before any run: both options say no list
+      has(view('home', 'a', 'a-board', surface, 'empty').text, /First list after the first daily run/, `a-board ${surface}: a list before the first run`);
+      has(view('home', 'b', 'b-top5', surface, 'empty').text, /Until the first run, no list and no score exists/, `b-top5 ${surface}: a list before the first run`);
+    }
+  },
+  'R3-h4': ladderHeads,
+  'R3-h5': flaggedOnly,
+  'R3-h6': ({ has, lacks }) => {
+    for (const surface of ALL) {
+      for (const [s, re] of [['b-forecast', /Horizon 3 Nov 2027/], ['b-proof', /Proof · 12-month task/], ['b-views', /Median, 12M \+12\.4%/], ['b-evidence', /\+12\.4% at 12M/]]) {
+        const v = pressed('forecast', 'b', s, surface, 'default', { hz: '2' });
+        has(v.html, />12 months<\/span>/, `${s} ${surface}: the title leaves 12 months`);
+        lacks(v.html, />6 months<\/span>/, `${s} ${surface}: the title reads 6 months`);
+        has(v.text, re, `${s} ${surface}: the body is not at 12 months`);
+      }
+      const e = pressed('forecast', 'b', 'b-evidence', surface, 'default', { hz: '2' }), m = pressed('forecast', 'b', 'b-views', surface, 'default', { hz: '2' });
+      has(e.text, /matures 3 Nov 2027/, `${surface}: the outcome date`);
+      has(e.text, /AAPL · 12-month return/, `${surface}: the record's task`);
+      has(m.text, /Held 77% of 26 scored in walk-forward testing\. Exploratory/, `${surface}: the model view`);
+    }
+    for (const surface of WIDE) for (const s of ['a-proof', 'a-views']) has(pressed('forecast', 'a', s, surface, 'default', { hz: '2' }).html, /<span class="chip">12 months<\/span>/, `${s} ${surface}: the chip stays on 6 months`);
+  },
+  'R3-h7': ({ each, must, has, lacks }) => {
+    // the tile has room for a mark and hidden words; the row says it where it can be read. Both say what is true of Apple.
+    for (const screen of ['a-board', 'a-portfolio']) each({ journey: 'home', option: 'a', screen, state: 'disagreement' }, (v, at) => {
+      const li = techTile(v.html).split('<li>').find((r) => r.includes('class="tk">AAPL')) || '';
+      has(li, /<span class="sr">, split at 3 months<\/span>/, `${screen} ${at.surface}: the tile`);
+      lacks(li, /rules and models disagree/i, `${screen} ${at.surface}: the conflict is Reliance's`);
+    });
+    each({ journey: 'home', option: 'b', screen: 'b-top5', state: 'disagreement' }, (v, at) => {
+      const r = techCard(v.html).split(/(?=<div class="t5r)/).find((x) => /class="tt">AAPL\b/.test(x)) || '';
+      must(r, `${at.surface}: no Apple row`);
+      has(words(r.replace(/<span class="sr">[^<]*<\/span>/g, '')), /split at 3 months/, `${at.surface}: the row does not say it in visible text`);
+      lacks(r, /rules and models disagree/i, `${at.surface}: the conflict is Reliance's`);
+    });
+  },
+  'R3-h8': ({ each, has, lacks, must }) => {
+    const heads = (html) => [...html.matchAll(/<th[^>]*>([^]*?)<\/th>/g)].map((m) => m[1]);
+    for (const [screen, want] of [['b-ledger', 'Action, 6M'], ['b-12m', 'Action, 12M']]) each({ journey: 'home', option: 'b', screen, surface: WIDE, state: STATES.filter((s) => s !== 'empty') }, (v, at) => must(heads(v.html).includes(want), `${screen} ${at.surface} ${at.state}: the Action column names no horizon: ${heads(v.html).join(' | ').slice(0, 160)}`));
+  },
+  'R3-h9': ({ each, has, lacks }) => {
+    for (const screen of ['a-brief', 'b-brief']) {
+      each({ journey: 'home', screen, state: 'disagreement' }, (v, at) => { has(v.text, /One conflict moves an action\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One conflict\./, `${screen} ${at.surface}: one conflict, then a second`); });
+      each({ journey: 'home', screen, state: 'abstention' }, (v, at) => { has(v.text, /One abstention moves an action\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One abstention\./, `${screen} ${at.surface}: one abstention, then a second`); });
+    }
+    each({ journey: 'home', screen: 'a-portfolio', state: 'abstention' }, (v, at) => { has(v.text, /Two holdings abstained\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 abstentions/, `${at.surface}: the pill counts another figure`); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'disagreement' }, (v, at) => { has(v.text, /Two holdings are split\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 conflicts/, `${at.surface}: the pill counts another figure`); });
+  },
+  'R3-h10': ({ each, lacks }) => {
+    each({ journey: 'home', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.screen} ${at.surface}: Trim, with action thresholds unapproved`));
+  },
+  /* the late-price rule cites FIN-OD-06 on every price use, on both sides of a flip. MP40-Q6 stays on billing and cost freshness only. */
+  'R3-h-late': ({ each, view, has, lacks, must }) => {
+    for (const journey of ['home', 'forecast']) each({ journey }, (v, at) => {
+      lacks(v.text.replace(/Billing 39 h old · Proposed · MP40-Q6/g, ''), /MP40-Q6/, `${at.screen} ${at.surface} ${at.state}: a price use cites the billing question`);
+      if (LATE_RULE.test(v.text)) has(v.text, /Proposed · FIN-OD-06/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
+    });
+    for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state: 'stale' }, (v, at) => has(v.text, /Billing 39 h old · Proposed · MP40-Q6/, `${screen} ${at.surface}: billing keeps its own question`));
+    for (const state of ['default', 'stale']) for (const journey of ['home', 'forecast']) each({ journey, state }, (v, at) => {
+      for (const f of flips(v.html)) {
+        const [, oo, ss] = f.split('|'), other = view(journey, oo, ss, at.surface, state);
+        if (/Proposed · FIN-OD-06/.test(v.text) && LATE_RULE.test(other.text)) has(other.text, /Proposed · FIN-OD-06/, `${at.screen} ${at.surface} ${state}: the label goes on the turn to ${ss}`);
+      }
+    });
   },
   'R2-h23': ({ each, has }) => {
     each({ journey: 'home', option: 'b', screen: 'b-ledger', state: 'default', surface: WIDE }, (v, at) => has(v.text, /−9\.8% to \+21\.4%/, `${at.surface}: the range is rounded across the flip`));

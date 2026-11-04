@@ -82,6 +82,7 @@ table.ht .home-range { display: block; width: 74px; }
 .home-flag .home-sub { font-size: 12px; line-height: 16px; }
 .jbanner .chip.proposed { margin-top: 4px; }
 .t5r .tt span.home-q { white-space: normal; overflow: visible; }
+.home-t5 .tt > svg { display: inline-block; vertical-align: -2px; }
 /* a table keeps its table: the row's name is the real control, and it reaches across the row */
 .home-rowbtn { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .home-rowbtn::after { content: ""; position: absolute; inset: 0; }

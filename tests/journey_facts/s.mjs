@@ -1,4 +1,4 @@
-// MP-62 rounds 1 and 2, lane s, the cost and privacy part: what each fix holds, on the rendered screens.
+// MP-62 rounds 1 to 3, lane s, the cost and privacy part: what each fix holds, on the rendered screens.
 const COST_HOME = [['a', 'cost-a-home'], ['b', 'cost-b-home'], ['b', 'cost-b-sheet']];
 const PHONES = ['iphone', 'pwa'];
 const OVER_SCREENS = [['a', 'cost-a-warned'], ['a', 'cost-a-reduced'], ['a', 'cost-a-paused'], ['b', 'cost-b-warned'], ['b', 'cost-b-reduced'], ['b', 'cost-b-paused']];
@@ -27,6 +27,18 @@ function burnEnd(html, must, where) {
   const med = svg.match(/<path class="med" d="M[\d.]+ [\d.]+L[\d.]+ ([\d.]+)"/), band = svg.match(/<path class="b80" d="M[\d.]+ [\d.]+L[\d.]+ ([\d.]+)L[\d.]+ ([\d.]+)Z"/);
   return { med: med && at(+med[1]), hi: band && at(+band[1]), lo: band && at(+band[2]) };
 }
+// what The lines states in each state, which Limits must state too: its own sentence, and how far the first line is
+const SAYS = {
+  default: /Forecast up to £59\.73\. That is 27p under the £60 warning/, loading: /Last good: £46\.42 committed, forecast up to £59\.73/, empty: /Only the data invoice so far/,
+  error: /The AWS collector failed at 06:10 .*the month is at least £44\.40/, stale: /AWS has sent no new bill for 39 hours\. Past 36, optional work waits/, offline: /Nothing updates until you reconnect/,
+  noModel: /so every Claude call is refused/, disagreement: /The bill counts, which takes the forecast past £60/, abstention: /stays unknown, never £0\. Its £15 allocation is held/,
+};
+const FIRST_LINE = {
+  default: /£60 Warn 27p away/, loading: /£60 Warn Last good: 27p away/, empty: /£60 Warn Plan: 27p away/, error: /£60 Warn Estimated: 27p away/, stale: /£60 Warn 27p away/, offline: /£60 Warn 27p away/,
+  noModel: /£60 Warn £13\.52 away/, disagreement: /£60 Warn Reached/, abstention: /£60 Warn Not known/,
+};
+// where the page states the late-price rule in its own words, outside the provider chips every frame carries
+const PRICE_RULE = /(?:Late|Stale): last price|left out until|inside the freshness limit|past the freshness limit|HSBC price is (?:late|stale)/;
 // how old a record is, in minutes, as the offline table writes it at 21:15
 function minutesOld(age) {
   const a = age.replace(/^Saved /i, ''), clock = (t) => (21 * 60 + 15) - (+t.slice(0, 2) * 60 + +t.slice(3, 5));
@@ -123,7 +135,7 @@ export default {
   'R1-s11': ({ each, has, lacks }) => {
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /Yahoo · Fresh/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); lacks(v.text, /16:35/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /today/, `${here(at)}: the last good run is not today`); });
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Proposed · MP40-Q6/, here(at)); });
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Proposed · FIN-OD-06/, here(at)); });
     for (const [option, screen] of COST_HOME) {
       each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /£78,508/, here(at)); lacks(v.text, /£84,612/, here(at)); });
       each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /As of 21:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
@@ -346,5 +358,90 @@ export default {
   'R2-s21': ({ each, must, has, lacks }) => {
     each({ journey: 'privacy', option: 'a', screen: 'privacy-a-data', state: 'abstention' }, (v, at) => { must(count(v.text, /Deleted original/g) === 1, `${here(at)}: ${count(v.text, /Deleted original/g)} deleted rows`); has(v.text, /One deleted original is left out/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-checkup', state: 'abstention' }, (v, at) => { has(v.text, /One deleted original is left out/, here(at)); lacks(v.text, /Two deleted/, here(at)); });
+  },
+
+  // Both options of the lines state the same risk, in every state, on every device: the state's own sentence and how far the first line is.
+  'R3-s3': ({ view, must, has }) => {
+    for (const surface of SURFACES) for (const state of STATES) {
+      const a = view('cost', 'a', 'cost-a-limits', surface, state), b = view('cost', 'b', 'cost-b-limits', surface, state), at = `${surface} ${state}`, where = b.text.split('Where you are')[1];
+      must(where, `${at}: Limits has no Where you are`);
+      has(a.text, SAYS[state], `${at}: The lines does not say ${SAYS[state]}`);
+      has(where, SAYS[state], `${at}: Where you are does not say ${SAYS[state]}`);
+      has(a.text, FIRST_LINE[state], `${at}: The lines does not show ${FIRST_LINE[state]}`);
+      has(where, FIRST_LINE[state], `${at}: Where you are does not show ${FIRST_LINE[state]}`);
+      must(/class="chip stale">Reached</.test(a.html) === /class="chip stale">Reached</.test(b.html), `${at}: only one side marks the line reached`);
+      if (state !== 'loading') { const chip = (t) => (t.match(/Where you are (.*?) £60 £75/) || [])[1]; must(chip(a.text) && chip(a.text) === chip(b.text), `${at}: "${chip(a.text)}" and "${chip(b.text)}"`); }
+    }
+  },
+
+  // No model is about India: HSBC keeps its forecast, held, and the notice says so, as Privacy and Home do in that state.
+  'R3-s8': ({ each, must, has, lacks }) => {
+    for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) each({ journey: 'privacy', option, screen, state: 'noModel' }, (v, at) => {
+      must(v.na, `${here(at)}: it draws what Ready draws, so it needs its reason`);
+      has(v.text, /Forecast held Its action is Pause until its price returns/, `${here(at)}: the forecast is not held`);
+      lacks(v.text, /No forecast to hold|No approved model covers/, `${here(at)}: the notice says HSBC has no model`);
+    });
+    each({ journey: 'privacy', state: 'noModel' }, (v, at) => lacks(v.text, /covers HSBC/, here(at)));
+    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'noModel' }, (v, at) => { has(v.text, /No approved model covers India yet/, here(at)); has(v.text, /HSBC HSBA .*\+2\.1% · 6M Pause/, `${here(at)}: HSBC lost its forecast`); });
+  },
+
+  // The log dates a figure by where it stops, as the burn-up does.
+  'R3-s14': ({ each, has, lacks }) => {
+    each({ journey: 'cost', option: 'b', screen: 'cost-b-log', state: 'error' }, (v, at) => { has(v.text, /Last reconciled November · day 16 of 30 £37\.69/, here(at)); lacks(v.text, /day 18 of 30/, here(at)); });
+    each({ journey: 'cost', option: 'b', screen: 'cost-b-burn', state: 'error' }, (v, at) => has(v.text, /Figures stop at 16 Nov/, here(at)));
+    each({ journey: 'cost', option: 'b', screen: 'cost-b-log', state: 'default' }, (v, at) => has(v.text, /Committed so far November · day 18 of 30 £46\.42/, here(at)));
+  },
+
+  // The late-price rule cites FIN-OD-06 wherever a screen states it, Stale and both sides of a flip included. MP40-Q6 stays on billing data and cost freshness.
+  'R3-s-label': ({ each, must, has, lacks }) => {
+    let seen = 0;
+    for (const journey of ['cost', 'privacy']) each({ journey }, (v, at) => {
+      lacks(v.html, /(?:last price 14:10 \(Yahoo\)|price is (?:late|stale)|freshness limit)(?:(?!class="card|class="privacy-box).)*Proposed · MP40-Q6/s, `${here(at)}: a price under a billing question`);
+      if (!PRICE_RULE.test(v.text)) return;
+      seen++;
+      has(v.text, /Proposed · FIN-OD-06/, `${here(at)}: the rule is stated and not labelled`);
+    });
+    must(seen >= 180, `only ${seen} views state the rule, so the check has lost what it reads`);
+    for (const [option, screen] of COST_HOME) {
+      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => has(v.text, /is left out until its price returns\. Proposed · FIN-OD-06/, here(at)));
+      each({ journey: 'cost', option, screen, state: 'default', surface: ['ipad', 'web'] }, (v, at) => { if (screen !== 'cost-b-sheet') has(v.text, /Late: last price 14:10 \(Yahoo\) Proposed · FIN-OD-06/, here(at)); });
+    }
+    for (const [option, screen] of [['a', 'privacy-a-centre'], ['b', 'privacy-b-home']]) {
+      each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => has(v.text, /HSBC is left out until its price returns Proposed · FIN-OD-06/, here(at)));
+      each({ journey: 'privacy', option, screen, state: 'default' }, (v, at) => has(v.text, /Late: last price 14:10 \(Yahoo\) Proposed · FIN-OD-06/, here(at)));
+    }
+    for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) for (const state of ['default', 'stale']) each({ journey: 'privacy', option, screen, state }, (v, at) => has(v.text, /performs no action\. Proposed · FIN-OD-06/, here(at)));
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-notices', state: ['default', 'stale'] }, (v, at) => has(v.text, /never performs an action\. Proposed · FIN-OD-06/, here(at)));
+    each({ journey: 'privacy' }, (v, at) => lacks(v.text, /MP40-Q6/, `${here(at)}: Privacy has no billing data`));
+    for (const [option, screen, state] of [['a', 'cost-a-month', 'stale'], ['a', 'cost-a-warned', 'stale'], ['a', 'cost-a-limits', 'default'], ['b', 'cost-b-limits', 'default'], ['a', 'cost-a-sources', 'default'], ['b', 'cost-b-log', 'default']]) each({ journey: 'cost', option, screen, state }, (v, at) => has(v.text, /Proposed · MP40-Q6/, `${here(at)}: billing lost its label`));
+  },
+
+  // A flip that lands on the same facts shows them another way, on every surface, so it never changes nothing.
+  'R3-s-pairs': ({ view, must, has }) => {
+    const part = (t, x, y) => { const i = t.indexOf(x), j = t.indexOf(y, i); must(i >= 0 && j > i, `no "${x}" to "${y}" in: ${t.slice(0, 120)}`); return t.slice(i, j); };
+    const figures = (t) => (t.match(/£\d+\.\d\d/g) || []).sort().join(' ');
+    for (const surface of SURFACES) for (const state of STATES) {
+      const at = `${surface} ${state}`;
+      if (state !== 'loading') {
+        const a = part(view('cost', 'a', 'cost-a-fit', surface, state).text, 'Planned months', 'The fit stays conditional'), b = part(view('cost', 'b', 'cost-b-fit', surface, state).text, 'Planned months', 'The fit stays conditional');
+        must(a !== b, `${at}: the two sides of the fit read the same`);
+        must(figures(a) && figures(a) === figures(b), `${at}: the fit shows "${figures(a)}" and "${figures(b)}"`);
+      }
+      if (['default', 'stale', 'offline', 'disagreement', 'abstention', 'noModel'].includes(state)) {
+        const a = part(view('privacy', 'a', 'privacy-a-notice', surface, state).text, 'HSBC price is', 'This notice performs no action'), b = part(view('privacy', 'b', 'privacy-b-notice', surface, state).text, 'HSBC price is', 'This notice performs no action');
+        must(a !== b, `${at}: the two sides of the notice read the same`);
+        for (const w of [/Last price 14:10/, /Detected 16:50/, /Forecast held/]) { has(a, w, at); has(b, w, at); }
+        has(a, /Decision support Last price 14:10/, `${at}: the centre leads with the evidence`);
+        has(b, /Decision support Forecast held/, `${at}: in place leads with what changes`);
+      }
+    }
+  },
+
+  // With HSBC out of the total, the shares are of the known total, on Cost's Home as on Home.
+  'R3-s-shares': ({ each, has, lacks }) => {
+    for (const [option, screen] of COST_HOME) {
+      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /US 57\.6%/, here(at)); has(v.text, /India 30\.7%/, here(at)); has(v.text, /UK 11\.7%/, here(at)); lacks(v.text, /53\.4%|28\.5%|18\.1%/, `${here(at)}: the shares still count HSBC`); });
+      each({ journey: 'cost', option, screen, state: 'default' }, (v, at) => has(v.text, /US 53\.4%/, here(at)));
+    }
   },
 };

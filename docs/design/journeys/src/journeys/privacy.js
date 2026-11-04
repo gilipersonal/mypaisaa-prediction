@@ -24,6 +24,7 @@
   const sk = (w, h = 14) => `<span class="sk" style="height:${h}px;width:${w}"></span>`;
   const skCard = (t, n = 3) => box(`${head(t, chipOf(['fresh', 'Last good 21:15']))}<div style="display:grid;gap:10px">${Array.from({ length: n }, (_, i) => sk(`${92 - i * 12}%`)).join('')}</div>`);
   const NA_MODEL = 'No forecast is on this screen, so a missing model cannot arise';
+  const NA_NOTICE = 'The missing model is for India. This notice is about HSBC, so nothing changes';
   const NA_LOCKED = where => `A locked-out owner cannot reach this page. That state is on ${where}`;
   const CHIP_ROWS = list => `<div class="privacy-chips">${list}</div>`;
 
@@ -74,7 +75,7 @@
 
   /* ---------- privacy mode: money masked, percentages kept ---------- */
   const maskRow = (h, mid) => `<div class="hrow" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div><div class="vv"><div class="val"><span class="priv">£••••</span></div>${chg(h.day)}</div><div class="fl">${mid}</div></div>`;
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('MP40-Q6')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('FIN-OD-06')}`);
   function masked(ctx, h) {
     const s = ctx.state;
     if (s === 'noModel' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model · no action</span>`);
@@ -96,7 +97,7 @@
   }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
-  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;font-size:15px;line-height:20px">${s === 'stale' ? '<span class="small muted">HSBC is left out until its price returns</span>' : `${chg(1, '+1.48%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
+  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('FIN-OD-06')}` : `${chg(1, '+1.48%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
   const maskCopy = 'Amounts hidden. Percentages and ranges stay visible. Tap to show for 30 seconds.';
   function modeCard(ctx) {
     if (ctx.state === 'loading') return skCard('Privacy mode', 3);
@@ -145,7 +146,7 @@
     if (s === 'loading') return skCard('Notices', 3);
     if (s === 'empty') return box(`${head('Notices')}<p class="small muted">No notices yet. Silence is not a sign that nothing is wrong: check your record and data status.</p>`);
     const top = { error: banner('fall', 'Notices did not load.', 'They failed at 21:14. Nothing is lost: every notice stays on the server.', 'alert'), stale: banner('warn', 'From 14:10.', 'Newer notices appear once this refreshes.', 'clock'), offline: banner('', 'Offline.', 'Notices saved at 21:15. Each rebuilds from the server when you reconnect.', 'wifi-off'), disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'), abstention: banner('', '2 notices held.', 'Quiet hours are 22:00 to 07:00. They arrive with the 07:30 brief, and they are already in this inbox.', 'clock') }[s] || '';
-    return box(`${head('Notices', `<span class="small muted">${n === 4 ? 'By time detected' : '2 unread'}</span>`)}${top}${s === 'error' ? '' : noticeRows(n, s === 'stale')}<p class="small muted">Opening a notice shows its evidence. It never performs an action.</p>`);
+    return box(`${head('Notices', `<span class="small muted">${n === 4 ? 'By time detected' : '2 unread'}</span>`)}${top}${s === 'error' ? '' : noticeRows(n, s === 'stale')}<p class="small muted">Opening a notice shows its evidence. It never performs an action.</p>${s === 'error' ? '' : CHIP_ROWS(proposed('FIN-OD-06'))}`);
   }
   function pushCard(ctx) {
     const s = ctx.state;
@@ -274,7 +275,8 @@
   }
 
   /* ---------- one notice, opened: its evidence, and no action ---------- */
-  function noticeOne(ctx) {
+  /* the centre leads with the evidence, in place with what it changes for the holding: the same three rows */
+  function noticeOne(ctx, inPlace = false) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Notice', 3);
     const top = {
@@ -284,8 +286,8 @@
       disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'),
       abstention: banner('', 'Held for quiet hours.', 'It arrived with the 07:30 brief.', 'clock')
     }[s] || '';
-    const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), s === 'noModel' ? li('cube', 'No forecast to hold', 'No approved model covers HSBC yet', '') : li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
-    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(rows)}<p class="small muted">${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'} This notice performs no action.</p>${CHIP_ROWS(proposed('MP40-Q6'))}`}`)}`;
+    const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
+    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'} This notice performs no action.</p>`}${CHIP_ROWS(proposed('FIN-OD-06'))}`)}`;
   }
 
   /* ---------- the checkup, and notices in place ---------- */
@@ -366,7 +368,7 @@
       }, {
         id: 'privacy-a-notice', title: 'A notice',
         note: 'Tap a notice. It shows its evidence and performs no action.',
-        na: { empty: 'With no notices yet, there is none to open' },
+        na: { empty: 'With no notices yet, there is none to open', noModel: NA_NOTICE },
         render: ctx => homePage(ctx, { tab: 4, back: 'Privacy', title: 'Notice', body: noticeOne(ctx) })
       }, {
         id: 'privacy-a-devices', title: 'Devices and sessions',
@@ -439,8 +441,8 @@
       }, {
         id: 'privacy-b-notice', title: 'A notice',
         note: 'Tap a notice. It shows its evidence and performs no action.',
-        na: { empty: 'With no notices yet, there is none to open' },
-        render: ctx => homePage(ctx, { tab: 0, back: 'Notices', title: 'Notice', body: noticeOne(ctx) })
+        na: { empty: 'With no notices yet, there is none to open', noModel: NA_NOTICE },
+        render: ctx => homePage(ctx, { tab: 0, back: 'Notices', title: 'Notice', body: noticeOne(ctx, true) })
       }, {
         id: 'privacy-b-delete', title: 'Delete an original',
         note: 'Record, then the file. The confirmation sits on the record it changes.',

@@ -10,7 +10,7 @@ const SEGP = { uslarge: 'XNAS', ustech: 'XNAS', usetf: 'ARCX', uketf: 'XLON', n5
 const stamp = (h, st) => { const [at, who] = PRICE[h.v], t = h.t === 'HSBA' ? '14:10' : at; return { t: st === 'error' ? `Mon ${t}` : t, who }; };
 const held = (t, st) => st !== 'empty' && !!byT[t];
 const INDIA = ['n50', 'midcap', 'inetf'];
-/* who abstains and who splits, by horizon: 0 is 3 months, 1 is 6, 2 is 12. Forecast reads the same table. No other name. */
+/* who abstains and who splits, by horizon: 0 is 3 months, 1 is 6, 2 is 12. Forecast keeps the same table, and a check holds the two equal. No other name. */
 const OUT = { abstention: { AZN: 1, AAPL: 2 }, disagreement: { RELIANCE: 1, AAPL: 0 } };
 const isOut = (st, t, hz) => !!OUT[st] && OUT[st][t] === hz;
 
@@ -53,7 +53,8 @@ const sup = 'Actions are decision support, not advice. MyPrediction places no tr
 const watch = `<span class="badge">${ic('target', 's16')}Watch</span>`;
 const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:190px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>` : ctx.kind === 'pwa' ? tb('search', 'Search') : '';
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
-const q6 = '<span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q6</span>';
+/* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
+const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · FIN-OD-06</span>';
 /* a browser's offline copy is an open question; the Apple apps have their own answer */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
 /* the month, in the words and figures of the cost journey: one row after the holdings, whichever way Cost is flipped */
@@ -71,7 +72,7 @@ const COST = {
 const costRow = ctx => { const c = COST[ctx.state] || COST.default; return `<button class="card home-link" type="button" data-mo="card">${ic('layers', 's18')}<span>Running cost<small>${c[0]}</small><small>${c[1]}</small></span>${ic('chev-r', 's18')}</button>`; };
 
 /* ---------- holdings ---------- */
-const flagChip = st => (st === 'stale' ? `<span class="chip stale">${ic('clock', 's14')}Stale: last price 14:10 (Yahoo)</span><span class="home-sub">Left out of the total until its price returns.</span>${q6}` : `<span class="chip stale">${ic('clock', 's14')}Late: last price 14:10 (Yahoo)</span>${q6}`);
+const flagChip = st => (st === 'stale' ? `<span class="chip stale">${ic('clock', 's14')}Stale: last price 14:10 (Yahoo)</span><span class="home-sub">Left out of the total until its price returns.</span>${qLate}` : `<span class="chip stale">${ic('clock', 's14')}Late: last price 14:10 (Yahoo)</span>${qLate}`);
 function hRow(h, o = {}) {
   const st = o.state, flag = h.t === 'HSBA', [l, p] = h.val.split('.'), s = stamp(h, st), hz = o.hz ?? 1, f = atHz(h, hz);
   const fl = o.fl !== undefined ? o.fl : `<div class="rangewrap">${rangeAt(h, hz, 150, 16, o.split)}</div><span class="fcv">${o.split ? `${pct(f.lo)} to ${pct(f.hi)}` : pct(f.med)} · ${HZ[hz].s}</span>${o.act !== undefined ? o.act : badge(h.act)}`;
@@ -94,15 +95,16 @@ function pTr(h, o = {}) {
   return `<tr class="${o.sel ? 'sel' : ''}" data-mo="rise"><td>${nameBtn(h, h.t, `<span>${flag ? `<span style="color:var(--warn);font-weight:600">${st === 'stale' ? 'Stale' : 'Late'}</span>` : chg(h.day)}</span><span class="home-fresh">${CCY[h.v]} · ${s.who} ${s.t}</span>`, true)}</td><td class="r" style="font-weight:600">£${h.val.split('.')[0]}</td><td class="r">${fc}</td><td>${o.act !== undefined ? o.act : badge(h.act)}</td></tr>`;
 }
 /* the rows in one state, on the three forms a holding takes. HSBC's late and stale flags are in the rows themselves. */
+const noLabel = '<span class="small muted">No label</span>';
 const flagged = {
-  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : {}),
+  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
   disagreement: (t, hz) => (!isOut('disagreement', t, hz) ? {} : { split: true, chip: `<span class="chip">${ic('split', 's14')}${t === 'RELIANCE' ? 'Rules and models disagree' : 'Models split'} · no action</span>`, flS: 'Split', flT: t === 'RELIANCE' ? 'Disagree · no action' : 'Split · no action', act: '<span class="small muted">None</span>' }),
-  abstention: (t, hz) => (isOut('abstention', t, hz) ? { fl: `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`, flS: 'None', flT: 'Abstained · no range', act: '<span class="small muted">None</span>' } : {})
+  abstention: (t, hz) => (isOut('abstention', t, hz) ? { fl: `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`, flS: 'Abstained', flT: 'Abstained · no range', act: '<span class="small muted">None</span>' } : {})
 };
 const mods = (ctx, t) => (flagged[ctx.state] ? flagged[ctx.state](t, ctx.hz ?? 1) : {});
 const rowOf = (ctx, h, sel) => ({ ...mods(ctx, h.t), ...(ctx.over || {})[h.t], sel: h.t === sel, state: ctx.state, hz: ctx.hz });
 /* the row behind a suggested action says what its sheet says */
-const sheetOver = st => ({ empty: { NVDA: { act: '<span class="small muted">None</span>' } }, noModel: { NVDA: { act: '<span class="small muted">No label</span>' } } }[st]);
+const sheetOver = st => ({ empty: { NVDA: { act: '<span class="small muted">None</span>' } } }[st]);
 const rangeLine = (h, hz) => { const f = atHz(h, hz); return `<div class="small muted" style="font-size:12px;line-height:16px;white-space:normal">${pct(f.lo)} to ${pct(f.hi)}</div>`; };
 const dayWord = st => (st === 'error' ? 'Monday' : 'today');
 const lateFoot = st => `<div class="t5foot home-flag">${flagChip(st)}</div>`;
@@ -121,7 +123,7 @@ const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip 
 const holdingsNote = {
   loading: () => banner('', 'Refreshing.', 'The last good rows from 21:15 stay here, with their ranges and flags, until the run lands.', 'refresh'),
   error: () => banner('fall', 'Holdings did not refresh.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Every row below is from that one version.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>`,
-  stale: () => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £78,508.20 known, 6 of 7 priced. Its forecast stays held and its action stays Pause until its price returns. ${q6}`, 'clock'),
+  stale: () => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £78,508.20 known, 6 of 7 priced. Its forecast stays held and its action stays Pause until its price returns. ${qLate}`, 'clock'),
   offline: ctx => banner('', 'Offline.', `Holdings from 21:15, saved on this device. Nothing here is fresh analysis until you reconnect.${q12(ctx)}`, 'wifi-off'),
   noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
   disagreement: () => banner('', 'Two holdings are split.', 'At 6 months the rules and the model disagree on Reliance. At 3 months the models split on Apple. Each shows its range and no median there, and no action is ranked there.', 'split'),
@@ -168,16 +170,16 @@ const BL = {
   stale: ['Late brief · issued 09:12', 'MyPrediction was down at 07:30'],
   offline: ['Saved brief · 07:30', 'Readable offline, not updating'],
   noModel: ['Today\'s brief · 07:30', 'India is rules only: no approved model'],
-  disagreement: ['Today\'s brief · 07:30', '3 actions · 1 conflict shown'],
-  abstention: ['Today\'s brief · 07:30', '3 actions · 1 abstention']
+  disagreement: ['Today\'s brief · 07:30', '3 actions · 2 conflicts'],
+  abstention: ['Today\'s brief · 07:30', '3 actions · 2 abstentions']
 };
 const briefPill = ctx => { const b = BL[ctx.state]; return `<button class="home-pill" type="button">${ic('clock', 's18')}<span class="home-pt"><b>${b[0]}</b><span class="t">${b[1]}</span></span>${ic('chev-r', 's18')}</button>`; };
 const stamps = () => `<div class="home-stamps">${['US closed Mon 21:00', 'UK closed Mon 16:35', 'India closed Mon 10:00'].map(s => `<span class="chip" data-mo="chip">${s}</span>`).join('')}</div>`;
-const ACTS = [['NVDA', 'Trim', () => 'Widest 80% range of the holdings, and 13.5% of the portfolio.'], ['SPY', 'Add', () => 'Among the narrowest 80% ranges of the holdings: −7.1% to +15.2%.'], ['HSBA', 'Pause', st => (st === 'stale' ? 'Last price 14:10, past the freshness limit. Out of the total until its price returns.' : 'Last price 14:10, before the 16:35 UK close. Late but inside the limit, so its forecast is held.')]];
+const ACTS = [['NVDA', 'Trim', () => 'Widest 80% range of the holdings, and 13.5% of the portfolio.'], ['SPY', 'Add', () => 'Among the narrowest 80% ranges of the holdings: −7.1% to +15.2%.'], ['HSBA', 'Pause', st => `${st === 'stale' ? 'Last price 14:10, past the freshness limit. Out of the total until its price returns.' : 'Last price 14:10, before the 16:35 UK close. Late but inside the limit, so its forecast is held.'} ${qLate}`]];
 const actRows = (ctx, n = 3) => {
-  const skip = ctx.state === 'disagreement' ? 'RELIANCE' : ctx.state === 'abstention' ? 'AZN' : '';
-  const rows = ACTS.slice(0, n).map(([t, a, why]) => `<div class="home-act" role="button" tabindex="0" data-mo="rise">${badge(a)}<b>${byT[t].n}</b><span class="home-sub">${why(ctx.state)}</span></div>`).join('');
-  const extra = skip === 'RELIANCE' ? `<div class="home-act" role="button" tabindex="0" data-mo="rise"><span class="chip">${ic('split', 's14')}Split</span><b>Reliance</b><span class="home-sub">Rules and models disagree, so no action is ranked.</span></div>` : skip === 'AZN' ? `<div class="home-act" role="button" tabindex="0" data-mo="rise"><span class="chip">${ic('ban', 's14')}None</span><b>AstraZeneca</b><span class="home-sub">The model abstained at 6 months, so no action is ranked.</span></div>` : '';
+  const skip = ctx.state === 'disagreement' ? 'RELIANCE' : ctx.state === 'abstention' ? 'AZN' : '', tick = t => (ctx.tick ? ` · ${t}` : '');
+  const rows = ACTS.slice(0, n).map(([t, a, why]) => `<div class="home-act" role="button" tabindex="0" data-mo="rise">${mods(ctx, t).act ?? badge(a)}<b>${byT[t].n}${tick(t)}</b><span class="home-sub">${why(ctx.state)}</span></div>`).join('');
+  const extra = skip === 'RELIANCE' ? `<div class="home-act" role="button" tabindex="0" data-mo="rise"><span class="chip">${ic('split', 's14')}Split</span><b>Reliance${tick('RELIANCE')}</b><span class="home-sub">Rules and models disagree, so no action is ranked.</span></div>` : skip === 'AZN' ? `<div class="home-act" role="button" tabindex="0" data-mo="rise"><span class="chip">${ic('ban', 's14')}None</span><b>AstraZeneca${tick('AZN')}</b><span class="home-sub">The model abstained at 6 months, so no action is ranked.</span></div>` : '';
   return rows + extra;
 };
 function briefCard(ctx) {
@@ -202,8 +204,8 @@ function briefBody(ctx) {
     stale: banner('warn', 'Late.', 'MyPrediction was down at 07:30, so this was issued at 09:12, once. Timestamps are from the last eligible close.', 'clock'),
     offline: banner('', 'Saved copy.', `This brief reached the device at 07:31. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off'),
     noModel: banner('', 'India is rules only.', 'No approved model covers India, so its items come from rules, labelled heuristic, with no ranges.', 'cube'),
-    disagreement: banner('', 'One conflict.', 'Rules and models disagree on Reliance at 6 months. It is listed, with no action ranked. The models also split on Apple at 3 months, which moves no action here.', 'split'),
-    abstention: banner('', 'One abstention.', 'The model abstained on AstraZeneca at 6 months, so it carries no action this morning. Apple abstained at 12 months, which moves no action here.', 'ban')
+    disagreement: banner('', 'One conflict moves an action.', 'Rules and models disagree on Reliance at 6 months. It is listed, with no action ranked. The models also split on Apple at 3 months, which moves no action here.', 'split'),
+    abstention: banner('', 'One abstention moves an action.', 'The model abstained on AstraZeneca at 6 months, so it carries no action this morning. Apple abstained at 12 months, which moves no action here.', 'ban')
   }[st] || '';
   if (st === 'loading') return { left: `<div class="card home-card" data-mo="card"><div class="label">Issuing 07:30 brief</div><p class="home-sub">Reading the stored close for each market. Yesterday's brief stays readable below.</p><span class="sk" style="height:14px;width:80%"></span><span class="sk" style="height:14px;width:60%"></span></div>` + section('Yesterday, 07:30 · decision support', `<ul class="home-ul"><li><b>Hold</b> Apple: median +6.2% at 6 months, 80% range −9.8% to +21.4%.</li><li><b>Add</b> Reliance: median +7.4% at 6 months, 80% range −12.0% to +24.9%.</li></ul>`), right: '' };
   if (st === 'empty') return { left: stateCard('clock', 'No brief yet', 'Your first brief arrives at 07:30 London tomorrow, with actions first, then risks, changes and upcoming events.', ''), right: '' };
@@ -211,6 +213,8 @@ function briefBody(ctx) {
 }
 
 /* ---------- the top 5 board ---------- */
+/* which part an abstained horizon takes: MP-135 feeds growth and protection from the same forecasts, and only growth is drawn missing */
+const qParts = '<span class="chip proposed"><span class="dot"></span>Proposed · MP-135</span>';
 /* a split on a list: the list reads 6 months, so the score, the range and the action stand */
 const FLAG = { disagreement: { AAPL: 'split at 3 months' } };
 /* an abstained horizon takes a part from the score, so the name is not ranked (POLICY-006). AstraZeneca is on no list. */
@@ -246,11 +250,11 @@ const boardNote = {
   loading: () => banner('', 'Re-ranking.', 'The last good lists stay here until the daily run lands.', 'refresh'),
   empty: () => stateCard('grid', 'No lists yet', 'The top 5 are ranked after each daily forecast run. Until the first run, no list and no score exists.'),
   error: () => banner('fall', 'Today\'s ranking run failed.', 'The lists from 2 November stay current, with their date, until a run succeeds.', 'alert'),
-  stale: () => banner('warn', 'HSBC is stale.', 'Its last price is 14:10. It is in none of these lists, so they stand as ranked until its price returns.', 'clock'),
+  stale: () => banner('warn', 'HSBC is stale.', `Its last price is 14:10. It is in none of these lists, so they stand as ranked until its price returns. ${qLate}`, 'clock'),
   offline: ctx => banner('', 'Offline.', `Lists from 21:15, saved on this device.${q12(ctx)}`, 'wifi-off'),
   noModel: () => banner('', 'India is not ranked.', 'No approved model covers India yet, so the Nifty 50, India midcap and India ETF lists wait. A missing part is never zero.', 'cube'),
   disagreement: () => banner('', 'One name is split.', 'The models split on Apple at 3 months, so no median stands there. Its 6-month figures and its score stand. Reliance is on none of these lists.', 'split'),
-  abstention: () => banner('', 'One name lost a part.', 'Apple lost its growth part when the model abstained at 12 months, so it shows as not ranked, and nothing fills the gap. AstraZeneca is on none of these lists.', 'ban')
+  abstention: () => banner('', 'One name lost a part.', `Apple lost its growth part when the model abstained at 12 months, so it shows as not ranked, and nothing fills the gap. AstraZeneca is on none of these lists. ${qParts}`, 'ban')
 };
 const noteOf = ctx => (boardNote[ctx.state] ? boardNote[ctx.state](ctx) : '');
 const legendT = (st, noHold) => `<div class="legend">${noHold || st === 'empty' ? '' : `<span>${ic('check', 's14')}You hold it</span>`}<span>Score out of 100</span><span>Ranked on 3 to 12 months, re-ranked daily</span>${rankLine(st) ? `<span>${rankLine(st)}</span>` : ''}<span>Illustrative</span></div>`;
@@ -260,7 +264,7 @@ const rule = () => `<div class="card home-card" data-mo="card"><h4>How a list is
 const SEGSUB = { ustech: 'Nasdaq-100 technology names' };
 const segHead = k => { const s = SEG[k]; return `<div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>${SEGSUB[k] || s.note} · ranked on 3 to 12 months · re-ranked daily</p></div>`; };
 const rankFoot = (k, st) => { const [t, who] = PRICE[SEGP[k]]; return `<div class="t5foot">${rankLine(st)} · ${who} ${st === 'error' ? 'Mon ' : ''}${t}. Illustrative.</div>`; };
-const actOf = t => (byT[t] ? badge(byT[t].act) : watch);
+const actOf = (t, st) => mods({ state: st }, t).act ?? (byT[t] ? badge(byT[t].act) : watch);
 const splitWord = (t, st) => ((FLAG[st] || {})[t] ? ` · ${FLAG[st][t]}` : '');
 const rangeText = f => `80% range ${pct(f.lo)} to ${pct(f.hi)}`;
 const pxLine = (k, st) => { const [t, who] = PRICE[SEGP[k]]; return `${who} ${st === 'error' ? 'Mon ' : ''}${t}`; };
@@ -268,7 +272,7 @@ function segPhone(k, st) {
   const list = rowsOf(k, st);
   const rows = list.map((r, i) => { const f = fcOf(r[0]); return `<div class="t5r home-t5" role="button" tabindex="0" data-mo="rise"><span class="rk">${i + 1}</span>${logo(SEG[k].c, r[5], true)}<div class="tt">${r[0]}<span>${r[1]}${held(r[0], st) ? ' · You hold it' : ' · Candidate'}${splitWord(r[0], st)}</span></div><div class="score" role="img" aria-label="Score ${score(r)} of 100"><b>${score(r)}</b><i><u data-mo="barx" style="--v:${score(r)}%"></u></i></div>
     <div class="home-parts">Growth ${r[2]} · Protection ${r[3]} · Opportunity ${r[4]}</div>
-    <div class="home-fl"><div class="rangewrap">${range(f)}</div><span class="fcv">${pct(f.med)} · 6M</span>${actOf(r[0])}</div>
+    <div class="home-fl"><div class="rangewrap">${range(f)}</div><span class="fcv">${pct(f.med)} · 6M</span>${actOf(r[0], st)}</div>
     <div class="home-parts">${rangeText(f)} · ${pxLine(k, st)}</div></div>`; }).join('');
   return rows + (list.length < 5 ? withheld(k, st, list.length + 1) : '') + nrOf(k, st).map(n => notRanked(k, n)).join('');
 }
@@ -276,14 +280,14 @@ const withheld = (k, st, n) => `<div class="t5r withheld" data-mo="rise"><span c
 const notRanked = (k, n) => `<div class="t5r home-t5" role="button" tabindex="0" data-mo="rise"><span class="rk">–</span>${logo(SEG[k].c, n[2], true)}<div class="tt">${n[0]}<span>${n[1]} · ${byT[n[0]] ? 'You hold it' : 'Candidate'}</span></div><div class="home-nr">Not ranked</div><div class="home-parts">Growth ${n[3]} · Protection ${n[4]} · Opportunity ${n[5] === '–' ? 'not eligible' : n[5]}</div></div>`;
 function segTable(k, st) {
   const list = rowsOf(k, st);
-  const tr = (r, i) => { const f = fcOf(r[0]); return `<tr data-mo="rise"><td class="r">${i + 1}</td><td>${nameBtn({ c: SEG[k].c, lg: r[5] }, r[0], `${held(r[0], st) ? 'You hold it' : 'Candidate'}${splitWord(r[0], st)}`)}</td><td class="home-n"><div class="score" style="grid-template-columns:24px 34px"><b>${score(r)}</b><i><u data-mo="barx" style="--v:${score(r)}%"></u></i></div></td><td class="home-n">${r[2]}</td><td class="home-n">${r[3]}</td><td class="home-n">${r[4]}</td><td><span style="color:var(--fc-ink);font-weight:600">${pct(f.med)}</span><span class="home-range">${range(f, 74, 12)}</span><span class="home-rt">${pct(f.lo)} to ${pct(f.hi)}</span></td><td>${actOf(r[0])}</td></tr>`; };
+  const tr = (r, i) => { const f = fcOf(r[0]); return `<tr data-mo="rise"><td class="r">${i + 1}</td><td>${nameBtn({ c: SEG[k].c, lg: r[5] }, r[0], `${held(r[0], st) ? 'You hold it' : 'Candidate'}${splitWord(r[0], st)}`)}</td><td class="home-n"><div class="score" style="grid-template-columns:24px 34px"><b>${score(r)}</b><i><u data-mo="barx" style="--v:${score(r)}%"></u></i></div></td><td class="home-n">${r[2]}</td><td class="home-n">${r[3]}</td><td class="home-n">${r[4]}</td><td><span style="color:var(--fc-ink);font-weight:600">${pct(f.med)}</span><span class="home-range">${range(f, 74, 12)}</span><span class="home-rt">${pct(f.lo)} to ${pct(f.hi)}</span></td><td>${actOf(r[0], st)}</td></tr>`; };
   const nr = n => `<tr data-mo="rise"><td class="r">–</td><td>${nameBtn({ c: SEG[k].c, lg: n[2] }, n[0], byT[n[0]] ? 'You hold it' : 'Candidate')}</td><td><b style="font-weight:600">Not ranked</b></td><td class="home-n">${n[3]}</td><td class="home-n">${n[4]}</td><td class="home-n">${n[5]}</td><td colspan="2"><span class="muted">${n[6]}</span></td></tr>`;
   return `<table class="ht dk home-seg"><thead><tr><th class="r">#</th><th>Listing</th><th>Score</th><th class="home-n">Growth</th><th class="home-n">Protect.</th><th class="home-n">Opport.</th><th>6M, 80% range</th><th>Action</th></tr></thead><tbody>${list.map(tr).join('')}${list.length < 5 ? `<tr data-mo="rise"><td class="r">${list.length + 1}</td><td colspan="7"><span class="muted">${whyGap(k, st)}. Nothing is filled in.</span></td></tr>` : ''}${nrOf(k, st).map(nr).join('')}</tbody></table>`;
 }
 const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Source open (SCI-D08)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable: the valuation convention is open (SCI-D08). Neither metal is ranked, and nothing stands in for a score. Source open (SCI-D08).</span></div></div>`;
 const indiaWait = () => stateCard('cube', 'No approved model', 'No approved model covers India yet, so this list is not ranked. A missing part is never zero, and prices and holdings still work.');
 /* US tech's own line in a state, in the same words on both options */
-const TECHSAY = { disagreement: { ustech: ['Apple is split at 3 months.', 'The models split there, so no median stands. Its 6-month figures, its score and its action stand.'] }, abstention: { ustech: ['Apple dropped out.', 'It lost its growth part when the model abstained at 12 months, so it is not ranked, and nothing fills the gap.'] } };
+const TECHSAY = { disagreement: { ustech: ['Apple is split at 3 months.', 'The models split there, so no median stands. Its 6-month figures, its score and its action stand.'] }, abstention: { ustech: ['Apple dropped out.', `It lost its growth part when the model abstained at 12 months, so it is not ranked, and nothing fills the gap. ${qParts}`] } };
 const listStands = name => banner('', 'This list stands.', `No approved model covers India yet. ${name} has its model, so its ranking is unchanged.`, 'cube');
 function segMain(ctx, k = 'ustech') {
   const st = ctx.state, name = SEG[k].name, metals = () => metalsCard(st);
@@ -292,7 +296,7 @@ function segMain(ctx, k = 'ustech') {
     loading: () => banner('', 'Refreshing.', 'The last good quotes from 21:15 stay here until the refresh lands.', 'refresh') + dim(metals()),
     empty: () => stateCard('grid', 'No top 5 yet', 'Gold and silver stay unranked until a valuation convention is set (SCI-D08). Nothing stands in for a list.') + metals(),
     error: () => banner('fall', 'Prices did not refresh.', 'Last good run Mon 21:15 · cutoff 21:00.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + metals(),
-    stale: () => banner('warn', 'HSBC is stale.', 'Gold and silver are not affected, and they stay unranked (SCI-D08).', 'clock') + metals(),
+    stale: () => banner('warn', 'HSBC is stale.', `Gold and silver are not affected, and they stay unranked (SCI-D08). ${qLate}`, 'clock') + metals(),
     offline: () => banner('', 'Offline.', `Quotes from 21:15, saved on this device.${q12(ctx)}`, 'wifi-off') + metals(),
     noModel: () => banner('', 'No model can cover these yet.', 'Gold and silver wait for a valuation convention (SCI-D08), so no forecast and no score exist.', 'cube') + metals()
   });
@@ -338,7 +342,7 @@ function actionSheet(ctx) {
     loading: [head(`<span class="sk" style="height:26px;width:72px"></span>`), `<span class="lab">Reading the last published ranking</span><span class="sk" style="height:14px;width:90%;margin-top:8px"></span><span class="sk" style="height:14px;width:70%;margin-top:6px"></span><p class="home-sub" style="margin-top:10px;color:var(--ink)">Last good 21:15. Its reasons load here, and nothing is guessed.</p>`, false],
     empty: [head(`<span class="chip">${ic('equal', 's14')}No action</span>`), `<p class="lead">Nothing is suggested for NVIDIA today: no action band applies. Its range and score stay on its forecast.</p>`, false],
     error: [head(badge('Trim')), banner('fall', 'Reasons did not load.', 'Last good run Mon 21:15 · cutoff 21:00. The action comes from that run. Its reasons stay hidden rather than guessed.', 'alert') + `<div class="acts"><button class="btn sm btn-tinted" type="button">${ic('refresh', 's16')}Try again</button><button class="btn sm btn-tinted" type="button">Not now</button></div>`, false],
-    stale: [head(`<span class="chip stale">${ic('clock', 's14')}Stale</span>`, 'HSBC'), banner('warn', 'This action is stale.', 'HSBC\'s last price is 14:10, past the freshness limit. Pause is held, not current, until its price returns.', 'clock') + `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Last forecast issued: median ${pct(hs.med)}, 80% range ${pct(hs.lo)} to ${pct(hs.hi)}.</li><li>Out of the total: £78,508.20 known, 6 of 7 priced.</li></ul>` + ids(''), false],
+    stale: [head(`<span class="chip stale">${ic('clock', 's14')}Stale</span>`, 'HSBC'), banner('warn', 'This action is stale.', `HSBC's last price is 14:10, past the freshness limit. Pause is held, not current, until its price returns. ${qLate}`, 'clock') + `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Last forecast issued: median ${pct(hs.med)}, 80% range ${pct(hs.lo)} to ${pct(hs.hi)}.</li><li>Out of the total: £78,508.20 known, 6 of 7 priced.</li></ul>` + ids(''), false],
     offline: [head(badge('Trim')), banner('', 'Offline.', `Saved at 21:15. Recording a decision waits until you reconnect.${q12(ctx)}`, 'wifi-off') + why + cf, false],
     noModel: [head(`<span class="chip proposed"><span class="dot"></span>Unclassified</span>`), `<p class="lead">Action thresholds are not approved yet (FIN-OD-07), so this shows its evidence and no label, rather than a guess.</p>` + noLabel + ids(), false],
     disagreement: [head(`<span class="chip">${ic('split', 's14')}Conflicted</span>`, 'Reliance'), `<span class="lab">Each side</span><div class="home-kv"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range, 6M</span><b>${pct(rel.lo)} to ${pct(rel.hi)}</b></div><p class="lead">Rules and models disagree, so no action is ranked. Both stay on the forecast.</p>` + ids(''), false],
@@ -374,7 +378,7 @@ function searchMain(ctx, opts = {}) {
     loading: () => list(rows, boardNote.loading()).replace('<div class="list card" style="margin:0">', '<div class="list card home-dim" aria-busy="true" style="margin:0">'),
     empty: () => `<div class="search on" data-mo="fade">${ic('search', 's18')}xauusdt</div>${stateCard('search', 'No listing matches "xauusdt"', 'Try a ticker like XAU or a name like Gold. Outside the 150-name catalogue, ask Claude in chat: code checks coverage and cost, and you confirm before anything is added.', btn('Ask in chat', 'tinted'))}`,
     error: () => list(rows, banner('fall', 'That list did not save.', 'Your list stays at v4. Try again; a repeat cannot save it twice.', 'alert')),
-    stale: () => list(RES.map(r => resRow(r, r[0] === 'HSBA' ? { score: ic('clock', 's18') } : {})).join(''), banner('warn', 'HSBC is stale.', 'Its last price is 14:10, until its price returns. Every other result is current.', 'clock')),
+    stale: () => list(RES.map(r => resRow(r, r[0] === 'HSBA' ? { score: ic('clock', 's18') } : {})).join(''), banner('warn', 'HSBC is stale.', `Its last price is 14:10, until its price returns. Every other result is current. ${qLate}`, 'clock')),
     offline: () => `${field}${banner('', 'Offline.', `Search covers your 7 holdings and 9 saved names on this device. The wider catalogue returns when you reconnect.${q12(ctx)}`, 'wifi-off')}<div class="list card" style="margin:0">${resRow(RES[1])}${resRow(RES[2])}</div>`,
     noModel: () => list(RES.map(r => resRow(r, /· XNSE/.test(r[1]) ? { score: '–' } : {})).join('') + un, banner('', 'India results have no score.', 'No approved model covers India, so ICICIBANK, BANKBEES and HDFCBANK are not ranked. A listing with unverified rights shows as unavailable, never with made-up data.', 'cube')),
     disagreement: () => list(rows, banner('', 'No conflict in these results.', 'Rules and models disagree on Reliance at 6 months, and the models split on Apple at 3 months. Neither is in this search.', 'split')),
@@ -409,7 +413,7 @@ const ldgr3 = (h, m, st) => {
   return `<tr data-mo="rise"><td>${nameBtn(h, h.n, `${h.t} · ${CCY[h.v]}`)}</td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${flag ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}${s.t}</span>` : chg(h.day)}</td>${st === 'noModel' && m.flS !== undefined ? blank(m.fl.replace(/<[^>]+>/g, '') || m.flS) : cell(0) + cell(1) + cell(2)}<td>${m.act !== undefined ? m.act : badge(h.act)}</td><td>${dataCell(h, st)}</td></tr>`;
 };
 function ledgerFull(ctx) {
-  return `<div class="card" data-mo="card"><table class="ht dk"><thead><tr><th>Instrument</th><th class="r">Value</th><th class="r">${ctx.state === 'error' ? 'Monday' : 'Today'}</th><th class="r">3 months</th><th class="r">6 months</th><th class="r">12 months<br>Exploratory</th><th>Action</th><th>Data</th></tr></thead><tbody>${H.map(h => ldgr3(h, mods(ctx, h.t), ctx.state)).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
+  return `<div class="card" data-mo="card"><table class="ht dk"><thead><tr><th>Instrument</th><th class="r">Value</th><th class="r">${ctx.state === 'error' ? 'Monday' : 'Today'}</th><th class="r">3 months</th><th class="r">6 months</th><th class="r">12 months<br>Exploratory</th><th>Action, ${HZ[ctx.hz ?? 1].s}</th><th>Data</th></tr></thead><tbody>${H.map(h => ldgr3(h, mods(ctx, h.t), ctx.state)).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
 }
 const openCell = ctx => `<tr class="home-open"><td colspan="4">${actionSheet(ctx).replace('class="sheet home-sheet"', 'class="home-sheet"').replace('<div class="grabber"></div>', '')}</td></tr>`;
 function ledgerB(ctx, open) {
@@ -421,20 +425,20 @@ function ledgerB(ctx, open) {
     noModel: () => holdingsNote.noModel() + body(), disagreement: () => holdingsNote.disagreement() + body(), abstention: () => holdingsNote.abstention() + body()
   });
 }
-const t5Row = (k, r, i, st) => { const f = fcOf(r[0]), s = SEG[k]; return `<div class="t5r home-t5" role="button" tabindex="0" data-mo="rise"><span class="rk">${i + 1}</span>${logo(s.c, r[5], true)}<div class="tt">${r[0]}${(FLAG[st] || {})[r[0]] ? ` ${ic('split', 's14')}<span class="sr">, rules and models disagree</span>` : ''}<span>${r[1]}${held(r[0], st) ? ' · You hold it' : ''}</span></div><div class="score" role="img" aria-label="Score ${score(r)} of 100"><b>${score(r)}</b><i><u data-mo="barx" style="--v:${score(r)}%"></u></i></div><div class="home-parts">${pct(f.med)} · ${rangeText(f)} · 6M</div><div class="home-parts">${pxLine(k, st)}</div></div>`; };
-const t5Card = (k, st) => {
+const t5Row = (k, r, i, st, noHold) => { const f = fcOf(r[0]), s = SEG[k]; return `<div class="t5r home-t5" role="button" tabindex="0" data-mo="rise"><span class="rk">${i + 1}</span>${logo(s.c, r[5], true)}<div class="tt">${r[0]}${(FLAG[st] || {})[r[0]] ? ` ${ic('split', 's14')}` : ''}<span>${r[1]}${!noHold && held(r[0], st) ? ' · You hold it' : ''}${splitWord(r[0], st)}</span></div><div class="score" role="img" aria-label="Score ${score(r)} of 100"><b>${score(r)}</b><i><u data-mo="barx" style="--v:${score(r)}%"></u></i></div><div class="home-parts">${pct(f.med)} · ${rangeText(f)} · 6M</div><div class="home-parts">${pxLine(k, st)}</div></div>`; };
+const t5Card = (k, st, noHold) => {
   const s = SEG[k];
   if (k === 'metals') return metalsCard(st);
   if (st === 'noModel' && INDIA.includes(k)) return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>${s.note} · 3 to 12 months</p></div><div class="t5foot" style="display:flex;gap:6px;align-items:flex-start;border-top:0">${ic('cube', 's14')}<span>Not ranked until an approved model covers India at 3 to 12 months. A missing part is never zero.</span></div></div>`;
   const rows = rowsOf(k, st);
-  return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>${s.note} · 3 to 12 months · re-ranked daily</p></div>${rows.map((r, i) => t5Row(k, r, i, st)).join('')}${rows.length < 5 ? withheld(k, st, rows.length + 1) : ''}${nrOf(k, st).map(n => notRanked(k, n)).join('')}<div class="t5foot">${rankLine(st)}. Score = growth 35% + protection 40% + opportunity 25%, shown only when all three are eligible. Illustrative.</div></div>`;
+  return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${s.c})"><h4>Top 5 · ${s.name}</h4><p>${s.note} · 3 to 12 months · re-ranked daily</p></div>${rows.map((r, i) => t5Row(k, r, i, st, noHold)).join('')}${rows.length < 5 ? withheld(k, st, rows.length + 1) : ''}${nrOf(k, st).map(n => notRanked(k, n)).join('')}<div class="t5foot">${rankLine(st)}. Score = growth 35% + protection 40% + opportunity 25%, shown only when all three are eligible. Illustrative.</div></div>`;
 };
 const pickTile = (k, on) => { const s = SEG[k], sel = k === on; return `<button class="segtile slim${sel ? ' sel' : ''}" type="button" aria-pressed="${sel}" style="--c:var(${s.c});min-height:44px" data-mo="card"><span class="mk">${s.mk}</span><span class="tn">${s.name}</span></button>`; };
 const picker = (ctx, on) => `<div class="home-pick${isWide(ctx) ? ' w4' : ''}">${ORDER.map(k => pickTile(k, on)).join('')}</div>`;
 function switcher(ctx, on = 'ustech') {
   if (on === 'metals') return picker(ctx, on) + segMain(ctx, on);
   const st = ctx.state, next = ORDER[(ORDER.indexOf(on) + 1) % ORDER.length];
-  const pair = isWide(ctx) ? `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start">${t5Card(on, st)}${t5Card(next, st)}</div>` : t5Card(on, st);
+  const pair = isWide(ctx) ? `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start">${t5Card(on, st, ctx.nohold)}${t5Card(next, st, ctx.nohold)}</div>` : t5Card(on, st, ctx.nohold);
   const main = () => `${picker(ctx, on)}${pair}`;
   return region(ctx, {
     what: 'The lists', ok: main,
@@ -487,10 +491,10 @@ function homeA(ctx, hz0 = 1) {
   });
 }
 function homeB(ctx, hz0 = 1) {
-  const hz = +(ctx.hz ?? hz0), c = { ...ctx, hz }, wide = isWide(ctx);
+  const hz = +(ctx.hz ?? hz0), c = { ...ctx, hz }, wide = isWide(ctx), empty = ctx.state === 'empty';
   return frame(ctx, {
     tab: 0, title: 'Portfolio', webActions: webSearch(ctx),
-    body: `${strip(ctx)}${wide ? `<div class="home-sub">${sup}</div>` : `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px" data-mo="rise"><span class="label">7 holdings</span>${H36(hz)}</div>${hzNote(hz)}`}${ledgerB(c)}${wide ? `${costRow(ctx)}${briefCard(ctx)}` : `<div class="home-sub">${sup}</div>${costRow(ctx)}<div class="card" data-mo="card">${briefPill(ctx)}</div>`}${sec('Top 5 by segment')}${switcher(ctx)}`
+    body: `${strip(ctx)}${wide ? `<div class="home-sub">${sup}</div>` : `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px" data-mo="rise"><span class="label">7 holdings</span>${H36(hz)}</div>${hzNote(hz)}`}${ledgerB(c)}${wide ? `${costRow(ctx)}${briefCard(ctx)}` : `<div class="home-sub">${sup}</div>${costRow(ctx)}<div class="card" data-mo="card">${briefPill(ctx)}</div>`}${sec('Top 5 by segment')}${switcher(empty ? { ...ctx, state: 'default', nohold: true } : ctx)}`
   });
 }
 const OTHERS = ORDER.filter(k => k !== 'ustech');
@@ -505,13 +509,13 @@ J.add({
     why: 'Your holdings come first with their ranges, and one board below shows all eight top 5s at a glance, in Prism\'s segment colours. A tile opens its list, so home stays calm.',
     cost: 'A tile holds each name\'s rank and score and its segment\'s price time, not its range: at 12 px on colour, five ranges will not fit. Each name\'s median, 80% range and reasons are one tap away, in that segment\'s list. A phone also scrolls past seven rows to reach the board.',
     screens: [{
-      id: 'a-portfolio', title: 'Portfolio', note: 'Holdings first, then the running cost, then the board. The brief floats above the dock on a phone, so it never pushes a holding down; on iPad and desktop it takes the rail.',
+      id: 'a-portfolio', title: 'Portfolio', note: 'Holdings first, then the running cost, then the board. The brief floats above the dock on a phone, so it never pushes a holding down; on iPad and desktop it takes the rail. Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
       render: ctx => homeA(ctx)
     }, {
       id: 'a-12m', title: 'Portfolio at 12 months', note: 'The horizon switch redraws every row. 12 months is labelled exploratory, because it rests on 11 blocks.',
       render: ctx => homeA(ctx, 2)
     }, {
-      id: 'a-board', title: 'Segments', note: 'The Segments tab: the same board that sits under the holdings, with a list behind every tile. Each list below carries its names\' ranges.',
+      id: 'a-board', title: 'Segments', note: 'The Segments tab: the same board that sits under the holdings, with a list behind every tile. Each list below carries its names\' ranges. Empty here means the first morning, before any daily run, so no list exists yet.',
       render: ctx => frame(ctx, { tab: 2, title: 'Segments', webActions: webSearch(ctx), body: `${noteOf(ctx)}${board(ctx)}${legendT(ctx.state)}${rule()}` })
     }, {
       id: 'a-segment', title: 'One segment', note: 'What a tile opens: every name with its median, 80% range and price time. A not-ranked listing shows the parts it has; the withheld fifth place stays empty.',
@@ -535,7 +539,7 @@ J.add({
     why: 'Holdings, the top 5 and the 150-name universe share one row, and a row opens where it sits. More fits on a phone, search and segments are one place, and desktop shows 3, 6 and 12 months at once.',
     cost: 'One segment shows at a time, so you lose the all-eight view, and Prism\'s colour gives way to rows.',
     screens: [{
-      id: 'b-ledger', title: 'Ledger', note: 'A compact row for every holding, then the running cost and the brief, then the top 5 below the holdings. Desktop widens the row to all three long horizons.',
+      id: 'b-ledger', title: 'Ledger', note: 'A compact row for every holding, then the running cost and the brief, then the top 5 below the holdings. Desktop widens the row to all three long horizons. Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
       render: ctx => homeB(ctx)
     }, {
       id: 'b-12m', title: 'Ledger at 12 months', note: 'On a phone the horizon switch redraws every row. Desktop already shows all three, with 12 months labelled exploratory.',
@@ -548,10 +552,10 @@ J.add({
         rail: isWide(ctx) && ctx.state !== 'empty' ? actionSheet(ctx).replace('class="sheet home-sheet"', 'class="card home-card home-sheet"').replace('<div class="grabber"></div>', '') : ''
       })
     }, {
-      id: 'b-brief', title: 'Daily brief', note: 'What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock.',
-      render: ctx => { const b = briefBody(ctx); return frame(ctx, { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
+      id: 'b-brief', title: 'Daily brief', note: 'What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock. Each action row carries its ticker, as a ledger row does.',
+      render: ctx => { const b = briefBody({ ...ctx, tick: true }); return frame(ctx, { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
     }, {
-      id: 'b-top5', title: 'Top 5 in place', note: 'The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range.',
+      id: 'b-top5', title: 'Top 5 in place', note: 'The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. Empty here means the first morning, before any daily run, so no list exists yet.',
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', webActions: webSearch(ctx), body: switcher(ctx) })
     }, ...OTHERS.map(k => ({
       id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? 'The picker on Gold & silver: prices and no list until a valuation convention is set (SCI-D08).' : `The picker on ${SEG[k].name}.`,

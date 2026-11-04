@@ -7,12 +7,14 @@
   const support = `<span class="chip illus" data-mo="chip">Decision support</span>`;
   const supportFoot = `<div class="t5foot">Decision support, not advice. MyPrediction places no trades. Illustrative.</div>`;
   const proposed = ref => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${ref}</span>`;
-  /* MP-158 ties an entry to the exact action shown, so with no action there is nothing to record against. The records do not say so outright */
+  /* MP-158 ties an entry to the exact action shown, so with no action there is nothing to record against. The records do not say so outright.
+     Disagreement is drawn the other way: both sides show, no action is ranked, and it stays recordable. That is open too, so it carries the same label */
   const needsAction = `<div class="journal-acts">${proposed('MP-158')}</div>`;
-  const limit = `<div class="journal-acts">${proposed('MP40-Q6')}</div>`;
-  /* what a browser keeps offline is an open owner question, so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? `<div class="journal-acts">${proposed('MP40-Q12')}</div>` : '');
-  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept(ctx);
+  /* how old a price may be is FIN-OD-06, source freshness, so every use of the late-price rule says so */
+  const limit = `<div class="journal-acts">${proposed('FIN-OD-06')}</div>`;
+  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
+  const kept = `<div class="journal-acts">${proposed('MP40-Q12')}</div>`;
+  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept;
   /* a failed read or save is not a failed price, so the price chips stay as they are */
   const notPrices = ctx => (ctx.state === 'error' ? 'default' : undefined);
   const waiting = t => chipMark(ic('clock', 's14'), t);
@@ -35,12 +37,12 @@
   const ABSTAINED = { over: { azn: 'Recorded against a ranked action on 3 Mar. Fell 11.6%, outside its 80% range.' } };
   const overs = st => ({ disagreement: AMENDED, abstention: ABSTAINED }[st] || {});
   const sayAmended = () => banner('', '1 outcome was amended.', 'NVIDIA’s close was corrected on 30 Oct, from +12.4% to +11.9%. The first and corrected scores both stay.', 'split');
-  const sayRanking = () => banner('', 'Rules and models differ on Reliance.', 'Both sides show, and no action is ranked.', 'split');
+  const sayRanking = () => banner('', 'Rules and models differ on Reliance.', `At 6 months the baseline shows ${pct(BASE.med)} and R2-HGB v3 ${pct(byT.RELIANCE.med)}, and no action is ranked.`, 'split') + needsAction;
   const sayBehind = () => banner('warn', 'Outcomes and rankings are behind.', 'Last joined 14:10. Your entries are complete; the newest scores may be missing. HSBC last priced 14:10, past the freshness limit, so its action holds at Pause until its price returns.', 'clock') + limit;
   const sayAbstain = () => banner('', 'The model abstains on AstraZeneca today.', 'No action is ranked, so no new entry can be recorded for it. Your entry of 3 Mar stands.', 'ban') + needsAction;
   const sayNoModel = () => banner('', 'No approved model for new actions.', 'Your entries keep the model they cited, and outcomes are still scored by code. No action waits for you until one is approved.', 'cube');
   const SAY_OFF = 'Showing your journal from 21:15. New entries stay as drafts until you reconnect.';
-  const sayLoadFailed = () => stateCard('alert', 'The journal did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh'));
+  const sayLoadFailed = () => stateCard('alert', 'The journal did not load', 'The read failed at 21:14. These are your entries as of 21:05 today. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh'));
   const status = d => ({
     wait: waiting(d.left),
     in: chipMark('<i class="lg-sc" aria-hidden="true"></i>', 'Scored'),
@@ -62,6 +64,7 @@
   const SAY_THIN = 'Last joined 14:10, so a newer score may be missing here.';
   const sideCard = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('split', 's18')}</span><span style="flex:1;min-width:0">You and the ranking</span></div><p>You differed from the ranked action 4 times in 7 decisions. 3 have scored so far, too few to show a rate.</p><button class="btn btn-plain sm" type="button" style="justify-self:start">See where you differed${ic('chev-r', 's14')}</button></div>`;
   const never = `<p class="small muted">Saved with the action, evidence and policy version you saw. No trade is placed and your holdings do not change.</p>`;
+  const neverSplit = `<p class="small muted">Saved with both sides, the evidence and the policy version you saw. No action was ranked. No trade is placed and your holdings do not change.</p>`;
 
   /* ---------- a ranked action, with its reasons, uncertainty, impact and horizon (MP-144) ---------- */
   const reasons = (h) => `<ul class="journal-why">
@@ -84,19 +87,20 @@
   const choose = (on = 1) => `<div style="margin-top:12px">${seg(['I acted', 'I chose not to'], on, 'What you did', 'lg full')}</div>`;
   const sheetDid = (t = 'Kept all 60 units.') => `<div style="margin-top:10px">${field('What you did, at your broker', t, 1)}</div>`;
   const sheetWhy = (t = whyText) => `<div style="margin-top:10px">${field('Why, in your words', t)}</div>`;
-  const sheetFoot = (right) => `<div style="margin-top:10px">${never}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">${btn('Not now', 'tinted sm')}${right}</div>`;
+  const sheetFoot = (right, saved = never) => `<div style="margin-top:10px">${saved}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">${btn('Not now', 'tinted sm')}${right}</div>`;
   const pickState = st => ({ stale: byT.HSBA, disagreement: byT.RELIANCE, abstention: byT.AZN }[st] || byT.NVDA);
   const pastOn = st => {
-    const k = st === 'abstention' ? 'azn' : 'nvda', h = D[k].h;
-    return listCard([k], { head: `<div class="journal-head"><h3>Your entries on ${h.n}</h3></div>` });
+    /* in Empty no action label exists, so today's entry cannot have been made */
+    const keys = st === 'abstention' ? ['azn'] : st === 'noModel' ? ['fresh', 'nvda'] : ['nvda'], h = D[keys[0]].h;
+    return listCard(keys, { head: `<div class="journal-head"><h3>Your entries on ${h.n}</h3></div>` });
   };
   const recordBody = (ctx) => {
     const st = ctx.state, h = pickState(st);
     if (st === 'loading') return actionCard(h, ctx).replace('Ranked action', 'Ranked action · last good 21:15');
     if (st === 'empty') return `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('sliders', 's18')}</span>No action label yet</div><p>The thresholds that turn a score into an action are not approved, so this shows its evidence and no label. A guessed action is worse than none. There is nothing to record against yet.</p>${components()}<p>Score 71 · growth 35%, protection 40%, opportunity 25%. Illustrative.</p></div>`;
-    if (st === 'noModel') return held('No approved model', 'No approved model covers NVIDIA now, so no action is ranked and there is nothing to record against. Your earlier entries keep what they cited.', 'cube') + needsAction;
+    if (st === 'noModel') return held('No approved model', 'No approved model covers NVIDIA now, so no action is ranked and there is nothing new to record against. Your entries, today’s included, keep what they cited.', 'cube') + needsAction;
     if (st === 'abstention') return held('The model abstained on AstraZeneca', 'Too little comparable history for a calibrated range, so no action is ranked. An entry needs an action, so there is nothing to record against until it can be ranked.') + needsAction;
-    if (st === 'disagreement') return `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar"><div class="w"><b>No action ranked</b>Reliance · 6 months</div>${chipMark(ic('split', 's14'), 'Rules and models differ')}</div><p class="small muted">The rules point down and the model points up. Both show, and neither is picked for you.</p>${dual()}${fcMeta()}</div>`;
+    if (st === 'disagreement') return `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar"><div class="w"><b>No action ranked</b>Reliance · 6 months</div>${chipMark(ic('split', 's14'), 'Rules and models differ')}</div><p class="small muted">The rules point down and the model points up. Both show, and neither is picked for you.</p>${dual()}${fcMeta()}</div>` + needsAction;
     if (st === 'stale') return banner('warn', 'This action is stale.', 'HSBC last priced 14:10, past the freshness limit, so its action holds at Pause until its price returns.', 'clock') + limit + `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar">${badge('Pause')}<div class="w"><b>Ranked action, stale</b>HSBC · 6 months</div>${support}</div><p class="small muted">Your entry will record that the action was stale when you decided.</p>${fcMeta()}</div>`;
     return actionCard(h, ctx);
   };
@@ -110,7 +114,7 @@
       case 'error': return wrap(sheetTop('Not saved yet') + `<div style="margin-top:10px">${banner('fall', 'That did not save.', 'Your draft is kept. Trying again cannot save it twice.', 'alert')}</div>` + nv + sheetWhy() + sheetFoot(btn('Try again', 'primary sm', 'refresh')));
       case 'offline': return wrap(sheetTop() + `<div style="margin-top:10px">${off(ctx, 'Your draft stays here and saves when you reconnect.')}</div>` + nv + choose() + sheetDid() + sheetWhy() + sheetFoot(btn('Keep draft', 'primary sm')));
       case 'stale': return wrap(sheetTop() + sheetSolid(h, 'HSBC · Pause, stale', '6 months · last price 14:10 · illustrative') + choose(0) + sheetDid('Paused new money.') + sheetWhy('Waiting until its price returns.') + sheetFoot(go));
-      case 'disagreement': return wrap(sheetTop() + sheetSolid(h, 'Reliance · No action ranked', '6 months · rules and models differ · illustrative') + choose(0) + sheetDid('Added 10 units.') + sheetWhy('On the rules alone, for now.') + sheetFoot(go));
+      case 'disagreement': return wrap(sheetTop() + sheetSolid(h, 'Reliance · No action ranked', '6 months · rules and models differ · illustrative') + choose(0) + sheetDid('Paused new money.') + sheetWhy('On the rules alone, for now.') + sheetFoot(go, neverSplit + needsAction));
       default: return wrap(sheetTop() + nv + choose() + sheetDid() + sheetWhy() + sheetFoot(go));
     }
   };
@@ -169,18 +173,17 @@
   /* ---------- Option B: three lanes ---------- */
   const toDecide = (t, ctx) => {
     const h = byT[t], split = ctx.state === 'disagreement' && t === 'RELIANCE';
-    return `<div class="journal-e lane" role="button" tabindex="0" data-mo="rise">${logo(h.c, h.lg, true)}<div class="m"><b>${h.n}</b><span>Ranked today · 6 months</span></div><div class="l">${split ? chipMark(ic('split', 's14'), 'No action ranked') : `${badge(h.act)}${support}`}</div><div class="o">${split ? `Rules and models differ: baseline ${pct(BASE.med)}, R2-HGB v3 ${pct(h.med)}.` : `${pct(h.lo)} to ${pct(h.hi)}, 80% range · median ${pct(h.med)}`}</div></div>`;
+    return `<div class="journal-e lane" role="button" tabindex="0" data-mo="rise">${logo(h.c, h.lg, true)}<div class="m"><b>${h.n}</b><span>${split ? 'Not ranked today' : 'Ranked today'} · 6 months</span></div><div class="l">${split ? chipMark(ic('split', 's14'), 'No action ranked') : `${badge(h.act)}${support}`}</div><div class="o">${split ? `Rules and models differ: baseline ${pct(BASE.med)}, R2-HGB v3 ${pct(h.med)}.` : `${pct(h.lo)} to ${pct(h.hi)}, 80% range · median ${pct(h.med)}`}</div></div>`;
   };
   const lane = (t, n, items) => `<section class="journal-lane"><h3>${t}<span>${n}</span></h3><div class="card" style="padding:2px 0" data-mo="card">${items}</div></section>`;
   const laneA = ctx => ctx.state === 'noModel' ? `<div class="journal-e lane"><div class="o" style="grid-column:1/3">Nothing to decide until a model is approved.</div></div>` : toDecide('RELIANCE', ctx);
   const laneB = () => WAITING.map(k => entry(k, { lane: true })).join('') + supportFoot;
   const laneC = ctx => SCORED.map(k => entry(k, { lane: true, ...overs(ctx.state) })).join('') + supportFoot;
-  const boardOk = (ctx, o = {}) => phone(ctx)
-    ? `<div data-mo="rise">${seg([`To decide ${ctx.state === 'noModel' ? 0 : 1}`, `Waiting ${WAITING.length}`, `Scored ${SCORED.length}`], o.on ?? 0, 'Lane', 'full')}</div>` + `<div class="card" style="padding:2px 0" data-mo="card">${[laneA, laneB, laneC][o.on ?? 0](ctx)}</div>`
-    : `<div class="journal-lanes">${lane('To decide', { noModel: 'None ranked', disagreement: '1, none ranked' }[ctx.state] || '1 ranked', laneA(ctx))}${lane('Waiting', '3 for a horizon, 1 unresolved', laneB())}${lane('Scored', `${SCORED.length} of ${ALL.length}`, laneC(ctx))}</div>`;
+  /* every lane stays drawn on a phone, stacked, so a flip keeps each entry, its status and the disputed HSBC outcome (MP-178) */
+  const boardOk = ctx => `<div class="journal-lanes${phone(ctx) ? ' stack' : ''}">${lane('To decide', { noModel: 'None ranked', disagreement: '1, none ranked' }[ctx.state] || '1 ranked', laneA(ctx))}${lane('Waiting', '3 for a horizon, 1 unresolved', laneB())}${lane('Scored', `${SCORED.length} of ${ALL.length}`, laneC(ctx))}</div>`;
   const decideForm = (ctx, o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('target', 's18')}</span>Your decision</div>${seg(['I acted', 'I chose not to'], o.on ?? 1, 'What you did', 'lg full')}
     <div style="display:grid;gap:6px"><span class="label">What you did, at your broker</span><div class="journal-pick">${['Add', 'Hold', 'Pause', 'Trim', 'Rebalance'].map(a => `<button type="button" aria-pressed="${a === o.did}">${ic({ Add: 'plus', Hold: 'equal', Pause: 'pause', Trim: 'trim', Rebalance: 'rebalance' }[a], 's16')}${a}</button>`).join('')}</div></div>
-    ${field('How much, in your words', o.size || 'Kept all 60 units.', 1)}${field('Why, in your words', o.why || whyText)}${never}</div>`;
+    ${field('How much, in your words', o.size || 'Kept all 60 units.', 1)}${field('Why, in your words', o.why || whyText)}${o.saved || never}</div>`;
 
 
   J.add({
@@ -199,7 +202,7 @@
         }
       }, {
         id: 'a-pick', title: 'Record a decision',
-        note: 'Where Record a decision leads: the ranked actions still open. MP-158 ties an entry to the exact action shown, so with no action there is nothing to record against.',
+        note: 'Where Record a decision leads: the ranked actions still open. MP-158 ties an entry to the exact action shown, so with no action there is nothing to record against. Disagreement is drawn the other way: both sides show, no action is ranked, and it stays recordable. Which is right is open (Proposed · MP-158).',
         render: ctx => {
           const open = () => `<div class="card" style="padding:2px 0" data-mo="card">${laneA(ctx)}${supportFoot}</div>`;
           const body = region(ctx, {
@@ -210,7 +213,7 @@
             stale: () => banner('warn', 'HSBC is stale.', 'Its last price, 14:10, is past the freshness limit. Its action holds at Pause until its price returns, so it is not listed.', 'clock') + limit + open(),
             offline: () => off(ctx, 'Showing ranked actions from 21:15. New entries stay as drafts until you reconnect.') + open(),
             noModel: () => banner('', 'No approved model.', 'No action is ranked, so there is nothing to record against.', 'cube') + needsAction,
-            disagreement: () => banner('', 'Rules and models differ on Reliance.', 'Both show on its row, and no action is ranked.', 'split') + open(),
+            disagreement: () => banner('', 'Rules and models differ on Reliance.', 'Both show on its row, and no action is ranked.', 'split') + needsAction + open(),
             abstention: () => banner('', 'The model abstained on AstraZeneca.', 'It has no ranked action, so it is not listed.', 'ban') + needsAction + open()
           });
           return frame(ctx, { tab: 3, title: 'Record a decision', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this list'), body });
@@ -248,7 +251,7 @@
             ok: () => counts() + list(),
             loading: () => tally() + skel(3),
             empty: () => stateCard('check', 'You have followed every ranked action', 'There is nothing to compare yet. If you decide differently, it appears here with what happened.'),
-            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + counts() + list(),
+            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + counts() + list(),
             stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + counts() + list(),
             offline: () => off(ctx, 'Showing this comparison from 21:15.') + counts() + list(),
             disagreement: () => sayAmended() + sayLeftOut() + counts() + list(),
@@ -263,10 +266,10 @@
       cost: 'It reads like a to-do list, which can press a long-term investor to act when doing nothing is fine. Time order, the honest shape of a journal, sits one step away.',
       screens: [{
         id: 'b-board', title: 'Three lanes',
-        note: 'Three columns from iPad up; one lane at a time on a phone. Deciding to do nothing still clears a card, so an empty lane is never a target.',
+        note: 'Three columns from iPad up; stacked on a phone, so every entry and its status stay in view. Deciding to do nothing still clears a card, so an empty lane is never a target.',
         render: ctx => {
           const p = phone(ctx), proved = () => (p ? '' : proofCard(ctx));
-          const board = (o = {}) => `${p ? '' : wrapUp()}${boardOk(ctx, o)}${p ? '' : `<div class="journal-low"><div>${sideCard()}</div>${proofCard(ctx)}</div>`}`;
+          const board = () => `${p ? '' : wrapUp()}${boardOk(ctx)}${p ? '' : `<div class="journal-low"><div>${sideCard()}</div>${proofCard(ctx)}</div>`}`;
           const body = region(ctx, {
             ok: () => board(),
             loading: () => (p ? skel(3) : `<div class="journal-lanes">${skel(2)}${skel(3)}${skel(3)}</div>`) + proved(),
@@ -274,7 +277,7 @@
             error: () => sayLoadFailed() + board(),
             stale: () => sayBehind() + board(),
             offline: () => off(ctx, SAY_OFF) + board(),
-            noModel: () => sayNoModel() + board({ on: 1 }),
+            noModel: () => sayNoModel() + board(),
             disagreement: () => sayAmended() + sayRanking() + board(),
             abstention: () => sayAbstain() + board()
           });
@@ -285,7 +288,7 @@
         note: 'Drawn at the moment before it saves: NVIDIA then joins the Waiting lane as today’s entry. Record decision then raises Prism’s sheet to confirm, as everywhere. This page records what you did at your broker. It offers no way to do it. MP-158 names two answers; which action you took and how much sit inside them.',
         render: ctx => {
           const st = ctx.state, h = pickState(st), p = phone(ctx), none = ['empty', 'noModel', 'abstention'].includes(st);
-          const form = none ? '' : st === 'stale' ? decideForm(ctx, { on: 0, did: 'Pause', size: 'Paused new money.', why: 'Waiting until its price returns.' }) : st === 'disagreement' ? decideForm(ctx, { on: 0, did: 'Add', size: 'Added 10 units.', why: 'On the rules alone, for now.' }) : decideForm(ctx);
+          const form = none ? '' : st === 'stale' ? decideForm(ctx, { on: 0, did: 'Pause', size: 'Paused new money.', why: 'Waiting until its price returns.' }) : st === 'disagreement' ? decideForm(ctx, { on: 0, did: 'Pause', size: 'Paused new money.', why: 'On the rules alone, for now.', saved: neverSplit }) : decideForm(ctx);
           const notes = { error: banner('fall', 'That did not save.', 'Your draft is kept. Trying again cannot save it twice.', 'alert'), offline: off(ctx, 'Your draft stays here and saves when you reconnect.') }[st] || '';
           const label = st === 'error' ? 'Try again' : st === 'offline' ? 'Keep draft' : st === 'loading' ? 'Saving' : 'Record decision';
           const go = `<button class="btn sm btn-primary" type="button" style="width:100%"${st === 'loading' ? ' disabled' : ''}>${st === 'loading' ? '<span class="spin" aria-hidden="true"></span>' : ''}${label}</button>`;
@@ -308,14 +311,14 @@
         id: 'b-differ', title: 'Every decision, compared', na: naDiffer,
         note: 'The whole journal as one comparison, filtered to where you differed. Counts stand in for a rate until enough have scored; how many is enough is not set.',
         render: ctx => {
-          const p = phone(ctx), none = ctx.state === 'empty', over = overs(ctx.state).over || {};
+          const p = phone(ctx), none = ctx.state === 'empty', { over = {}, marks = {} } = overs(ctx.state);
           const filter = `<div data-mo="rise">${seg(none ? ['All 3', 'Differed 0', 'Followed 3'] : [`All ${ALL.length}`, `Differed ${DIFFERED.length}`, 'Followed 3'], 1, 'Show', 'full')}</div>`;
-          const table = () => p ? listCard(DIFFERED, { noDiffer: true, ...overs(ctx.state) }) : `<div class="card journal-wide" data-mo="card"><table class="ht"><thead><tr><th>Holding</th><th>Decided</th><th>Ranked</th><th>You</th><th>What happened</th></tr></thead><tbody>${DIFFERED.map(k => { const d = D[k]; return `<tr data-mo="rise"><td><div class="inst">${logo(d.h.c, d.h.lg, true)}<div style="min-width:0"><b>${d.h.t}</b><span>${d.hz}</span></div></div></td><td>${d.on}</td><td>${badge(d.ranked)}</td><td style="white-space:normal">${d.you}</td><td style="white-space:normal">${over[k] || d.line}</td></tr>`; }).join('')}</tbody></table>${supportFoot}</div>`;
+          const table = () => p ? listCard(DIFFERED, { noDiffer: true, ...overs(ctx.state) }) : `<div class="card journal-wide" data-mo="card"><table class="ht"><thead><tr><th>Holding</th><th>Decided</th><th>Ranked</th><th>You</th><th>What happened</th></tr></thead><tbody>${DIFFERED.map(k => { const d = D[k]; return `<tr data-mo="rise"><td><div class="inst">${logo(d.h.c, d.h.lg, true)}<div style="min-width:0"><b style="max-width:none;white-space:normal">${d.h.n}</b><span>${d.hz}</span></div></div></td><td>${d.on}</td><td>${badge(d.ranked)}</td><td style="white-space:normal">${d.you}</td><td style="white-space:normal"><div>${marks[k] || status(d)}</div><div style="margin-top:4px">${over[k] || d.line}</div></td></tr>`; }).join('')}</tbody></table>${supportFoot}</div>`;
           const body = filter + region(ctx, {
             ok: () => table(),
             loading: () => skel(3),
             empty: () => stateCard('check', 'No differences yet', 'You have followed every ranked action so far, so there is nothing to compare.'),
-            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + table(),
+            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + table(),
             stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + table(),
             offline: () => off(ctx, 'Showing this comparison from 21:15.') + table(),
             disagreement: () => sayAmended() + sayLeftOut() + table(),

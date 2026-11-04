@@ -12,7 +12,9 @@ const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flip
 /* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. Proposed: it is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
-const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Meter', 'Pill'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
+const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
+/* A name of its own, where the view a flip lands on is not its option's usual one. */
+const FLIP_AT = { 'cost-a-home': 'Meter', 'cost-b-home': 'Pill', 'b-forecast': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
 const FLIPS = {
   home: pairs(['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m'], ['a-board', 'b-top5'], ['a-segment', 'b-explore'], ['a-seg-uslarge', 'b-top5-uslarge'], ['a-seg-n50', 'b-top5-n50'], ['a-seg-midcap', 'b-top5-midcap'], ['a-seg-usetf', 'b-top5-usetf'], ['a-seg-uketf', 'b-top5-uketf'], ['a-seg-inetf', 'b-top5-inetf'], ['a-seg-metals', 'b-top5-metals'], ['a-brief', 'b-brief'], ['a-search', 'b-search']),
@@ -28,15 +30,19 @@ const FLIPS = {
 const FLIP_TO = { forecast: { disagreement: { 'a-instrument': 'b-forecast', 'a-technical': 'b-forecast', 'b-ladder': 'a-3m', 'b-technical': 'a-3m' }, abstention: { 'a-instrument': 'b-forecast', 'a-technical': 'b-forecast', 'b-ladder': 'a-12m', 'b-technical': 'a-12m' } } };
 /* States a pair does not flip in: a commit in flight or unknown, and a permission refused. */
 const FLIP_OFF = { holdings: { 'a-done': ['loading', 'error', 'offline'], 'b-done': ['loading', 'error', 'offline'], 'a-private': ['error'], 'b-private': ['error'] } };
+/* Where a screen turns to in a state. One lookup, for the control and for a frame that stays turned as the state changes. */
+function flipTarget(journey, screen, state) {
+  const map = FLIPS[journey];
+  if (!map || ((FLIP_OFF[journey] || {})[screen] || []).includes(state)) return null;
+  return ((FLIP_TO[journey] || {})[state] || {})[screen] || map[screen] || Object.keys(map).find(k => map[k] === screen) || null;
+}
+const flipName = (journey, option, to) => FLIP_AT[to] || FLIP_NAMES[journey][option === 'a' ? 0 : 1];
 function flipHTML(ctx, iconOnly, spec) {
-  const map = FLIPS[ctx.journey];
-  if (!map || !ctx.screen || (spec && spec.sheet)) return '';
-  if (((FLIP_OFF[ctx.journey] || {})[ctx.screen] || []).includes(ctx.state)) return '';
-  const moved = ((FLIP_TO[ctx.journey] || {})[ctx.state] || {})[ctx.screen];
-  const to = moved || map[ctx.screen] || Object.keys(map).find(k => map[k] === ctx.screen);
+  if (!ctx.screen || (spec && spec.sheet)) return '';
+  const to = flipTarget(ctx.journey, ctx.screen, ctx.state);
   if (!to) return '';
   const other = ctx.option === 'a' ? 'b' : 'a';
-  return flipBtn(FLIP_NAMES[ctx.journey][other === 'a' ? 0 : 1], `data-flip="${ctx.journey}|${other}|${to}"`, iconOnly);
+  return flipBtn(flipName(ctx.journey, other, to), `data-flip="${ctx.journey}|${other}|${to}"`, iconOnly);
 }
 
 /* ---------- chrome: a journey writes its content once, and each device frames it ---------- */
@@ -172,7 +178,7 @@ function show() {
   $('#jsummary').textContent = j.summary;
   $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here, proposed)' : ''}`]), sum.at.o, 'Option', 'full');
-  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); sum.flipped = {}; show(); };
+  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
   $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
@@ -181,25 +187,31 @@ function show() {
   const scheme = () => { const t = root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); };
   const row = $('#jrow');
   row.classList.toggle('wide', surf[2] !== 'phone');
-  /* A turned slot stays turned across states and devices, until it is turned back or the option changes. */
+  /* A slot remembers the side it is on and the state it turned in, and stays turned until it is turned back. In another state a turned
+     frame shows its screen's partner for that state, by the same lookup the control uses. */
   const slotKey = s => `${j.id}|${o.id}|${s.id}`;
+  const screenOf = (oid, id) => (((j.options.find(x => x.id === oid) || {}).screens) || []).find(x => x.id === id);
   const sideOf = s => {
-    const f = sum.flipped[slotKey(s)];
-    return f ? { oid: f[0], sc: j.options.find(x => x.id === f[0]).screens.find(x => x.id === f[1]) } : { oid: o.id, sc: s };
+    const f = sum.flipped[slotKey(s)], base = { oid: o.id, sc: s };
+    if (!f) return base;
+    if (f.st === sum.at.st) { const sc = screenOf(f.o, f.s); return sc ? { oid: f.o, sc } : base; }
+    const to = f.o === o.id ? null : flipTarget(j.id, s.id, sum.at.st), sc = to && screenOf(f.o, to);
+    return sc ? { oid: f.o, sc } : base;
   };
   const ctxFor = (oid, sc, extra = {}) => ({ kind: surf[0], state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme(), journey: j.id, option: oid, screen: sc.id, ...extra });
   const noteFor = sc => { const r = (sc.na || {})[sum.at.st]; return r ? `This state does not apply here: ${r}` : sc.note || ''; };
-  /* the caption, note, group name and data-at follow what the frame shows; a turned frame says so */
+  /* the caption, note, group name and data-at follow what the frame shows; a turned frame says so, and keeps its own theme */
+  const frameScheme = box => ($('.dev', box).className.includes('scheme-dark') ? 'dark' : 'light');
   const dress = (box, oid, sc) => {
-    const scr = $('.scr', box), cap = $('.bcap', box), note = $('.jnote', box), scheme_ = scheme();
+    const scr = $('.scr', box), cap = $('.bcap', box), note = $('.jnote', box), sch = frameScheme(box);
     scr.dataset.at = `${j.id}|${oid}|${sc.id}`;
-    scr.setAttribute('aria-label', `${sc.title}, ${scheme_} theme`);
-    cap.innerHTML = `<span class="tag">${scheme_ === 'light' ? 'Light' : 'Dark'}</span>${sc.title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${FLIP_NAMES[j.id][oid === 'a' ? 0 : 1]}</span>`}`;
+    scr.setAttribute('aria-label', `${sc.title}, ${sch} theme`);
+    cap.innerHTML = `<span class="tag">${sch === 'light' ? 'Light' : 'Dark'}</span>${sc.title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${flipName(j.id, oid, sc.id)}</span>`}`;
     note.textContent = noteFor(sc);
   };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
-    return `<div data-slot="${s.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
+    return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
   };
   const settle = el => {
     (el.matches('[data-slot]') ? [el] : $$('[data-slot]', el)).forEach(box => { const s = o.screens.find(x => x.id === box.dataset.slot), side = sideOf(s); dress(box, side.oid, side.sc); });
@@ -207,21 +219,30 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* the flip turns this one frame, as the app would. The rest of the row stays where it is. */
+  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+     the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
     if (!b) return;
-    const box = b.closest('[data-slot]'), s = o.screens.find(x => x.id === box.dataset.slot), scr = b.closest('.scr'), key = slotKey(s);
-    if (sum.flipped[key]) delete sum.flipped[key]; else { const f = b.dataset.flip.split('|'); sum.flipped[key] = [f[1], f[2]]; }
-    (window.__prismNoFit ? (el, fn) => fn() : flipTurn)(scr, () => {
-      const { oid, sc } = sideOf(s);
-      scr.innerHTML = sc.render(ctxFor(oid, sc, { hz: scr.dataset.hz, mode: scr.dataset.mode }));
+    const box = b.closest('[data-slot]'), s = box && o.screens.find(x => x.id === box.dataset.slot);
+    if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;   // a frame left over from the view just left
+    const scr = b.closest('.scr'), key = slotKey(s), was = sum.flipped[key], here = scr.dataset.at, cur = here.split('|');
+    const saved = { hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t }, back = !!(was && was.from && was.landed === here);
+    let [, oo, ss] = b.dataset.flip.split('|'), extra = saved;
+    if (back) [oo, ss, extra] = was.from;
+    const to = screenOf(oo, ss);
+    if (!to) return;
+    if (oo === o.id && ss === s.id) delete sum.flipped[key];
+    else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, from: back ? null : [cur[1], cur[2], saved] };
+    (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
+      Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
+      scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
       $$('svg.cx.inter', scr).forEach(wire);
       $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
-      dress(box, oid, sc);
+      dress(box, oo, to);
       const next = $('[data-flip]', scr);
       if (next) next.focus({ preventScroll: true });
-      $('#jlive').textContent = `${sc.title}: ${FLIP_NAMES[j.id][oid === 'a' ? 0 : 1]} view`;
+      $('#jlive').textContent = `${to.title}: ${flipName(j.id, oo, to.id)} view`;
     });
   };
   /* Screens draw one at a time, each after the press has answered, so a long journey never holds a frame. The walker draws them all. */
@@ -245,16 +266,21 @@ const OPEN = [
   ['Does the portfolio total include cash?', 'The shared total holds no cash; £5,542.85 shows apart.'],
   ['How does the flip behave? Which view does each journey start in, is the choice kept per device, and is it one flip per journey?', 'Proposed · MP-178: each journey starts in A, keeps your choice on that device, and flips on its own. No flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written.'],
   ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Cost flips between a meter and a pill on its own Home screens. The Home journey keeps a plain row after the holdings.'],
-  ['When is a late price still used in the total? (MP40-Q6)', 'Proposed: Ready keeps HSBC at its 14:10 price, inside the limit, with its forecast held. Stale leaves it out of the total.'],
+  ['When is a late price still used in the total? (FIN-OD-06)', 'Proposed: Ready keeps HSBC at its 14:10 price, inside the limit, with its forecast held. Stale leaves it out of the total.'],
+  ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
   ['Action thresholds (FIN-OD-07)', 'Every action label is provisional. No model shows the unclassified case.'],
   ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
   ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Labelled proposed: unlock on your device.'],
   ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed.'],
   ['Weekend brief (MP40-Q11)', 'Not drawn.'],
+  ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Proposed: Reliance stays Ambiguous, and its one found rate is shown without being picked.'],
+  ['Can a disagreement with no ranked action be recorded at all? (MP-158)', 'Proposed: it can, saved with both sides.'],
+  ['Does revoking an approval need a fresh sign-in? (CT-01)', 'Proposed: drawn when the session is stale. Neither MP-55 nor CT-01 names it.'],
+  ['Does an abstained horizon take only growth, or protection too? (MP-135)', 'Proposed: only growth; protection stands.'],
   ['Do units count as amounts when amounts are hidden? (MP-84)', 'Proposed: units stay in view; money is masked.'],
   ['How does rebasing a part of a history work? (FIN-OD-03)', 'Labelled proposed, and its approval is disabled.'],
   ['With the model abstaining at 12 months, does a holding keep its action at 3 and 6 months? (MP-144)', 'Proposed: Apple is not ranked in US tech, and its Hold stands.'],
-  ['How long does an approved switch forward or restart stay open? (SCI-D07)', 'Proposed: 15 minutes after you approve.'],
+  ['How long does an approved switch forward or restart stay open? (CT-02)', 'Proposed: 15 minutes after you approve.'],
   ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
   ['Can a decision be recorded against an abstention? (MP-158)', 'Proposed: no new entry, because an entry ties to the exact action shown. Past entries stand, and a disagreement stays recordable.'],
   ['Where do track records by horizon and regime live? (MP-154)', 'Not drawn. The journal shows only the scored decisions.'],
@@ -283,7 +309,7 @@ function showInventory() {
   }).join('')}</tr>`))));
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The figures, the freshness, the provider status and the risk stay the same; only the layout changes. Proposed: no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written. So screens such as a proposal, a sign-in or a record in progress show no flip control.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The figures both sides show, the freshness, the provider status and the risk stay the same; a side may hold more. Proposed: no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source. A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on all eight journeys, with a flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }

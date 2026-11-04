@@ -13,6 +13,7 @@ const AGREED = {
   journal: [/You differed \d+/i],
   cost: [/£46\b/, /£39\b/, /£100/],
   approvals: [/£78,508/],
+  research: [/31\.0%/, /33\.4%/, /−18\.5%/, /79% of 52/],
 };
 
 // every rendered flip: fn(journey, option, screen, surface, state, target option, target screen)

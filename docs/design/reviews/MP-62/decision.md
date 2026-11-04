@@ -188,7 +188,7 @@ reviewed as a deliverable. The fixes are not independently reviewed; that is rou
 
 What HSBC's price means changed so the journeys agree. Its stale time was 16:35, which is the UK close. It is now 14:10: in Ready it is
 late but inside the freshness limit and stays in the total; in Stale it is past the limit and leaves the total, which reads £78,508.20,
-6 of 7 priced. The limit is proposed (MP40-Q6).
+6 of 7 priced. The limit is proposed (FIN-OD-06).
 
 ## Both options, with a flip: the owner's question, 4 November 2026
 
@@ -209,7 +209,16 @@ The owner: "Yes, run round 2". Four new reviewers on `e5dbc07`, the delta since 
 blocking, no P0. All 68 are fixed and held by `review/MP-62/fixed.json`. The record is [round-2.md](../../../../review/MP-62/round-2.md).
 
 The flip changed most. It had been drawn on live proposals, drafts and behind open sheets, against the proposed rule, so it now shows only where
-the owner reads. Approvals flips at the queue, not on a proposal. A turned frame stays turned, says so, and comes back to where it started. A pair
-now shows the same facts in every state, which needed the two options to agree on who abstains, what a stale total holds, and one journal.
+the owner reads. Approvals flips at the queue, not on a proposal.
 
-The fixes in round 2 are not independently reviewed. That would be round 3, if the owner asks for it.
+## Review round 3, 4 November 2026
+
+The owner: "Yes, run round 3". Four new reviewers on `fc1303d`, the delta since round 2's snapshot and its joins. They found 66 issues, 38 blocking, no P0. All 38 are fixed
+and held by `review/MP-62/fixed.json`. The record is [round-3.md](../../../../review/MP-62/round-3.md).
+
+Round 2 had claimed a turned frame comes back to where it started and that a pair shows the same facts in every state. Round 3 found both untrue in places, and they now hold as far as
+the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The shared
+figures, freshness, provider status and risk stay the same across a flip, and a side may hold more. The checks compare freshness on every pair, and agreed figures for each journey's
+key numbers, not every figure on every screen.
+
+The fixes in round 3 are not independently reviewed. That would be round 4, if the owner asks for it.

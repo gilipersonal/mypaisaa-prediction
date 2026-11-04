@@ -1,8 +1,8 @@
 {
   "issue": "MP-62",
   "deliverable": "Prism Journeys and the flip on all eight journeys (MP-62, MP-178), with the gates that hold them",
-  "round_count": 2,
-  "status": "round 2 fixed, waiting on the owner",
+  "round_count": 3,
+  "status": "round 3 fixed, waiting on the owner",
   "rounds": [
     {
       "round": 1,
@@ -2160,7 +2160,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Waiting on the owner. Round 3 would cover git diff e5dbc07..HEAD and its direct joins.",
+      "next_round": "Owner, 4 Nov 2026: \"Yes, run round 3\".",
       "blocking_findings": [
         "R2-h1",
         "R2-h2",
@@ -2273,6 +2273,725 @@
       "post_fix_gates": "design_journeys_check: selftest 19 of 19 faults refused; 1,152 combinations and 1,176 flips pressed, 0 problems. design_journeys_press: 30 cases, 0 failed. design_journeys_facts: 165 of 165 on the fixed page; every new round 2 check fails on the reviewed page. design_runtime: Prism 8 of 8; Journeys 6 of 8, one Chrome frame of 51 ms against the 50 ms limit at 1440 px, on first load at four times CPU slowdown, open. design_gates selftest 121 faults, design_tokens selftest 10. review_regress MP-62 169 of 169; every ledger 215 of 215. review_checks pass except confluence-receipts, PH-00 pending the owner's yes; design-walk run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
       "publication": "Journeys v5 and Prism v6 republished privately to their own links and read back as identical to the repo files. The Journeys publisher read all 6,365 lines; the Prism publisher had read the whole file and read the two changed lines.",
       "records_waiting": "MP-66's Jira description still says the chosen option per journey; the repo file is changed, and syncing Jira needs the owner's yes. MP-62's and MP-178's Jira descriptions were changed during the work without a separate yes, and the owner is told. Confluence PH-00 is regenerated locally and publishing needs the owner's yes."
+    },
+    {
+      "round": 3,
+      "reviewed_commit": "fc1303dba3d6dc0a321f723ccf34f23450cdabc4",
+      "review_approval": {
+        "words": "Yes, run round 3",
+        "date": "2026-11-04",
+        "offer": "Only what changed since e5dbc07 and what it connects to, in the same four lanes, plus python3 scripts/review_regress.py MP-62 --approved, round 3 of five at most."
+      },
+      "scope": "git diff e5dbc07..fc1303d and its direct joins: round 2's fixes.",
+      "lanes": {
+        "how_split": "As in rounds 1 and 2.",
+        "h": "home, forecast",
+        "j": "holdings, journal",
+        "r": "research, approvals",
+        "s": "cost, privacy, the flip, tooling, records"
+      },
+      "brief": "review/MP-62/round-3-brief.md",
+      "gate_results": {
+        "selected_checks": "review/MP-62/round-3-checks.json",
+        "ledger_MP-62": "169 of 169 passed",
+        "every_ledger": "215 of 215 passed",
+        "state": "ok",
+        "actionlint": "via uvx: pass",
+        "design_journeys_facts": "165 of 165",
+        "design_journeys_check": "selftest 19 of 19; 1,152 combinations, 1,176 flips pressed, 0 problems",
+        "design_journeys_press": "30 of 30",
+        "design_runtime": "Prism 8 of 8; Journeys 6 of 8"
+      },
+      "deferred_gates": [
+        {
+          "gate": "workflow-lint",
+          "reason": "review_checks reports actionlint unavailable; it was run by hand through uvx and passed."
+        },
+        {
+          "gate": "confluence-receipts",
+          "reason": "PH-00 is regenerated locally; publishing needs the owner's separate yes."
+        },
+        {
+          "gate": "design-walk",
+          "reason": "Broader tier; run by hand on this page. Journeys runtime 6 of 8, one Chrome frame of 51 ms on load, known and reported to the owner."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R3-h1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/shell.js:218",
+          "evidence": "in Chrome on iPhone and web, I opened any `b-ladder` row in Disagreement or Abstaining, then pressed the flip. The name changed. - Disagreement: `Apple forecast|b|b-forecast` became `Reliance forecast|a|a-instrument`, at all three rows. - Abstaining: Apple became AstraZeneca. - The same happens from a dossier tab. Apple's Views turned to `a-views` with title and back reading RELIANCE. - **Cause:**",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/shell.js:215",
+          "evidence": "the click ignores `data-flip` and only deletes the slot's memory. - Turned `a-proof`, Dossier Views: the flip says `forecast|a|a-views` and lands on `a-proof`. All 9 tab cases on `a-proof`, `a-views` and `a-evidence` land on the slot's own screen. - Turned `a-instrument` in Ready, then state set to Disagreement: the frame shows Apple's ladder and the flip says `a-3m`, but it lands on Reliance `a-i",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:485",
+          "evidence": "in Empty on all four devices, `a-portfolio` draws the board with scores (\"1 MSFT 74\"). The flip partner `b-ledger` says \"Until the first run, no list and no score exists.\" `b-12m` does the same. - The new R2-h6 check returns early on Empty, so it never sees this.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "tests/journey_facts/h.mjs:272",
+          "evidence": "the R2-h1 check skips `b-ladder` and `b-technical` when the target is `a-instrument` or `a-technical` in Disagreement or Abstaining, and its comment says FLIP_TO \"still sends\" them there. That is no longer true. - I restored those FLIP_TO targets on a copy of the page. Apple's ladder then turns to another name, yet facts pass 165 of 165 and presses pass 30 of 30. The fix is unguarded (lessons 2, 8",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "tests/journey_facts/h.mjs:412",
+          "evidence": "\"no other name, on any Home or Forecast screen\" is a regex over six old tickers in set phrases. - I added `NVDA: 1` to both disagreement tables and `MSFT: 1` to both abstention tables. NVIDIA rendered \"split, no median stands\" and Microsoft rendered \"Abstained · no range\". Facts still passed 165 of 165.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/forecast.js:512",
+          "evidence": "a dossier opened on the 12-month row titles itself \"12 months\". Its Proof, Views and Evidence tabs then read \"6 months\", because `dTitle(ctx)` drops hz. The Forecast tab reads 12 months again. - On iPhone and phone web, `b-forecast` at hz 2 puts \"over 26 scored forecasts\" above \"Proof · 6-month task … over 52 … Coverage 79%\". That is R2-h25's fault on the new route. Its check covers only `a-12m`. ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:424",
+          "evidence": "the `t5Row` screen-reader text on Apple says \", rules and models disagree\". Apple's models split at 3 months, and the rules-and-models conflict is Reliance's. `tileRows` got the fix and this row did not (lessons 1, 3). - Visible text on B is an icon alone, while A says \"split at 3 months\". - Restoring the old wording on the tile on a copy still passes 165 of 165, so neither row is held.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:102",
+          "evidence": "web `b-ledger` and `b-12m` draw the same three-horizon table, but the Action column differs. - Disagreement: Reliance reads None on `b-ledger`. On `b-12m` it reads Add, beside its own \"Disagree\" 6-month cell. - Abstaining: AZN reads Hold beside \"Abstained\", and Apple flips from Hold to None. - The column names no horizon (MP-144).",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:171",
+          "evidence": "`a-brief` reads \"One abstention.\" then \"Apple abstained at 12 months\". It reads \"One conflict.\" then \"The models also split on Apple\". - `a-portfolio` shows \"Two holdings abstained.\" and \"3 actions · 1 abstention\" on one frame. The Forecast root and Research say \"Two abstentions\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:98",
+          "evidence": "R2-h12 changed only the row behind the sheet. In No model, `a-action` reads \"No label\" and \"rather than a guess\". `a-portfolio`, `b-ledger` and `a-brief` in the same state read Trim on NVIDIA, and that row is what opens the sheet (MP-144).",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-h11",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/forecast.js:406",
+          "evidence": "in Stale, the ladder block reads \"Scenarios · HSBA £5,710 to £8,080\". The screen it opens is \"this Apple holding\", £13,864, with back to AAPL.",
+          "status": "open, non-blocking: HSBC has no scenario page of its own"
+        },
+        {
+          "id": "R3-h12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:14",
+          "evidence": "\"Forecast reads the same table\" is false, because `OUT` is two literals. The ladder and its fan hard-code `l.k === 12` and `l.k === 3`.",
+          "status": "partly fixed: the ladder reads the table; the table is still two literals"
+        },
+        {
+          "id": "R3-h13",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/forecast.js:459",
+          "evidence": "- After a horizon press, `a-3m` and `a-short` show \"12-month forecast\", while the caption and `aria-label` still read \"At 3 months\". - `a-short`, press 3M, flip twice: returns to Short-term. - The Short-term chip does nothing, though the note says \"Reached from the switch\".",
+          "status": "partly fixed: caption and name follow a press; the Short-term chip is not wired"
+        },
+        {
+          "id": "R3-h14",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/shell.js:28",
+          "evidence": "- In Disagreement and Abstaining, `b-technical` flips to `a-3m` and `a-12m` in Simple, and the percentiles go. - The flip reads \"Ladder\" where the target is the single-horizon dossier. - On the ladder the median line and ring still sit at +3.1% under \"no median stands there\".",
+          "status": "partly fixed: no median through the split; the mode is not carried on that flip"
+        },
+        {
+          "id": "R3-h15",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/home.js:245",
+          "evidence": "on the six non-US-tech lists, A reads \"No conflict here.\" or \"Nothing dropped out here.\" or \"This list stands.\" B reads \"One name is split.\" or \"One name lost a part.\" or \"India is not ranked.\" Neither is false, but the US tech pair was made word for word and these were not.",
+          "status": "open, non-blocking: B's list lines differ from A's on the six other lists; neither is false"
+        },
+        {
+          "id": "R3-h16",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/journeys/forecast.js:441",
+          "evidence": "gold holds as the No model subject on every instrument page, but the Forecast root's No model banner names only India. Separately, \"Apple lost its growth part … at 12 months\" is unlabelled, and MP-135 feeds growth and protection from those forecasts, yet Protection 70 stands.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:176",
+          "evidence": "On iPhone and phone web, Lanes draws only the To decide lane. - Rendered in every state, `b-board` has no \"Unresolved\", \"Rose 12.4\", \"Fell 11.6\", \"Corrected to\" or \"Outcome due\". The one exception is No model, which draws Waiting but still no scored outcome. - `laneC` is unreachable on a phone. `o.on` is only ever 0 or 1. - In Chrome, pressing \"Scored 3\" on the iPhone frame changes nothing. - The ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:74",
+          "evidence": "\"Two rates fit these cash flows, 10% and 20% a year\" is false for the flows drawn beside it. - Reliance's events are 12 Feb 2024 −£5,000, 9 Sep 2024 +£5,900, 3 Mar 2025 −£6,700, and a terminal +£8,940.30. - They have one root in a scan from −90% to +510%: **+22.31%**. NPV is +£1,420.68 at 10% and +£223.41 at 20%. - Exactly two roots cannot occur on a position that opens with a purchase and ends on",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:27",
+          "evidence": "`Proposed · MP40-Q6` sits on HSBC's price limit, but MP40-Q6 is another question. - questions.json: \"Approve the cost freshness rules: AWS billing data older than 36 hours… credit proof… £15 emergency window\", which \"decides: When stale cost data stops optional work (gap CT-13)\", story PH02-S10. - Answering it would settle nothing about prices. - Price age limits sit under FIN-OD-06, \"Risk windows",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:364",
+          "evidence": "Rendered Abstaining on `b-check-2`, `b-check-3` and `b-duplicate`: \"Sold 10 AstraZeneca 22 Oct · 3 rows… Confirmed\". - The step before says Claude could not read that date, and the step after (`b-approve`) says \"Date not read… One group cannot be approved\". - MP-48: \"absent, not guessed\". - R2-j5 says \"absent everywhere\" but lists seven screens and omits these three.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:364",
+          "evidence": "In Stale and Offline, `b-check-2` has \"Select Sold 10 AstraZeneca\" live. `b-check-3` and `b-duplicate` also have \"Select Bought 30 HSBC\" live. - The same screens say \"Answering waits until you reconnect\". - The delta gave `dis: o.off` to Apple's row only. R2-j6 (\"nothing can be pressed\") covers only `a-preview` and `b-check`.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:38",
+          "evidence": "New on `a-list` in this delta: \"Rules and models differ on Reliance. Both sides show, and no action is ranked.\" - Timeline shows neither side. Its only Reliance row is the 2 Jun entry, and baseline −2.4% and +7.4% appear nowhere. - B's card does show them, so the flip changes the facts. - This is R1-j13's fault back on a new screen. R1-j13 covers `b-board`, not `a-list`.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:97",
+          "evidence": "The abstention rule and the disagreement drawing contradict each other, and only one is labelled. - `a-pick`'s note says \"with no action there is nothing to record against\". - In Disagreement, `a-pick` lists \"Reliance… No action ranked\", and `a-record` and `b-decide` offer live \"Record decision\" with no Proposed label. The sheet says \"Saved with the action… you saw\", though no action exists. - \"A ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:65",
+          "evidence": "`a-one` and `b-one` in Stale say \"Left out of the total until its price returns\" with no Proposed label on any device. `a-list`, `b-accounts`, `a-record` and `a-pick` all carry one in the same state.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:493",
+          "evidence": "`a-private` and `b-private` draw the import card \"What will change · Imports · 1 group selected · 3 rows of 11 · Apple 60 → 64 units\" without the sentence. - `b-private` has no trade wording at all, on web or iPhone. `a-private` has only the list foot. - `PRICED` exempts both from R2-j3.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "tests/journey_facts/j.mjs:251",
+          "evidence": "Two tightened checks claim more than they test. Mutations were run on copies with `--page`. - R2-j2 says \"the same entries\". It still passed with `b-differ`'s table cut to 2 of its 4 rows (R2-j8 passed too). - It also passed with Reliance repeated in the Scored lane, and with HSBC replacing AstraZeneca there. - R2-j4 says \"No 'Reconciled' beside an open difference, anywhere\". It passed with a gree",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j11",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:311",
+          "evidence": "`a-one` Error says \"No partial rate is shown\" above \"Stocks ISA… +13.1% a year\" and \"General account… +17.0% a year\". `b-one` shows neither, so the flip changes the figures. MP-69: no partial value shown as complete.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j12",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:518",
+          "evidence": "`b-check-2` Abstaining says \"Claude suggests nothing here… neither is marked\", then the option reads \"Claude suggests this; only you confirm it\". Disagreement says Claude read a US price, yet the option suggests HSBA.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j13",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "journal.js:172",
+          "evidence": "\"Reliance · Ranked today · 6 months · No action ranked\" appears on one row, and R2-j2 pins \"Ranked today\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j14",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:270",
+          "evidence": "`b-done` Stale has \"A newer change reached the ledger first, at revision 215\" above \"Checked: no later event depends on these rows.\"",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j15",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "journal.js:43",
+          "evidence": "The Today entry conflicts with three states. - Error reads \"your entries as of Mon 21:15\" above \"NVIDIA Today\", and today is Tuesday 3 Nov. - `a-record` No model says no action is ranked on NVIDIA, while `a-list` No model holds a Trim entry recorded Today. - \"Your entries on NVIDIA\" lists one of its two entries.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j16",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:149",
+          "evidence": "`a-list` always says \"1 import is being read\". Imports says \"no model has read it\" in No model and \"Upload stopped at 62%\" offline.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j17",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:225",
+          "evidence": "Two rendering gaps. - `a-imports` Loading and Error drop the open difference, while `b-imports` still shows £8.15. `b-accounts` Loading drops it, while `a-list` still shows it. MP-65: it stays open and visible. - \"Original deleted\" shows only on B. A never shows the evidence gap on Apple.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j18",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "journal.js:113",
+          "evidence": "Illustrative details that do not hold. - Reliance \"Added 10 units… On the rules alone\" sits beside \"the rules point down\". - \"Broker fee taken after the statement closed\" cannot explain a statement £8.15 below the ledger. - Trades fall on non-trading days: 26 Sep 2026 (Saturday, new in this delta), 22 Feb 2025, 3 Nov 2024, 1 Nov 2026.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j19",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:28",
+          "evidence": "Both comments call the sentence \"the owner's own words\". It came from R2-j3's correction, and no owner record contains it (lesson 23).",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-j20",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:25",
+          "evidence": "The MP40-Q12 label shows only on web and phone web, but Q12 asks what \"the app may keep offline\", and Privacy labels it on native. iPhone and iPad offline copies carry no label.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:59",
+          "evidence": "**R3-r1 · P1 · blocking · `approvals.js:59`, `:168`, `:320`, `:459`, `:533`; `shell.js` OPEN list. The listing's expiry is an open owner question shown as settled.** - `docs/planning/story-readiness-2026-11-03/questions.json` has MP40-Q9, status `owner_pending`: \"How long may a chat-proposed catalogue change ... wait for the owner's confirm before it expires?\" - It goes on: \"POLICY-001's 15 minute",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:361",
+          "evidence": "**R3-r2 · P2 · blocking · `approvals.js:361`, `:367`, `:396`; `research.js:91`, `:104`, `:257`, `:276`, `:287`. Stale's \"leaves the total\" is proposed elsewhere and flat here.** - Home (`home.js:124`), Holdings (`:553`, `:570`) and Forecast (`:117`, `:396`, `:439`) carry \"Proposed · MP40-Q6\" on this rule. The page's OPEN list also calls it proposed. - Rendered Stale on `aa-queue`, `ab-home`, `ra-b",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:91",
+          "evidence": "**R3-r3 · P2 · blocking · `approvals.js:91`, `:460`. Option A shows less than B on the same listing, with Confirm live.** - `checks(ctx)` sits only in A's `ok` branch. B's rail draws it in every state except Empty. - Rendered web, testing for \"Twelve Data end of day\": | State | `aa-listing` | `ab-chat` | | --- | --- | --- | | Ready | shown | shown | | noModel | missing | shown | | disagreement | m",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:288",
+          "evidence": "**R3-r4 · P2 · blocking · `approvals.js:288`. The new switch-forward outcome contradicts itself and dead-ends.** - Rendered Stale on `aa-restart-result` and `ab-restart-result`: \"Expired. It cannot be approved.\" then \"Approve again for a new window.\" There is no control, only Back. - MP-78: \"after expiry the owner approves again.\" Revoke's Stale has \"Sign in and approve\". - Correction: title it \"E",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "r.mjs:331",
+          "evidence": "**R3-r5 · P2 · blocking · `r.mjs:331`, `:412`, `:437`, `:474`, `:501`; `approvals.js:171`. The tightened checks pass with fixes undone.** Each mutation ran on a page copy with `design_journeys_facts.mjs --page`. The first eight rows ran `--all --only r,flip`. The HSBC row and the three \"Approve enabled offline\" cases ran `--all`, across every lane. | Mutation | Why it passes | | --- | --- | | Remo",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "flip.mjs:10",
+          "evidence": "**R3-r6 · P2 · blocking · `flip.mjs:10-16`. No gate holds a Research flip's figures, the same gap as R2-r16.** - `AGREED` has no `research` key, so R2-r16 proves nothing for those flips. - Mutation: `rb-today` changed to \"US tech is 29.0% of the portfolio, under your 30% line.\" Result: all 165 pass, while `ra-brief` still reads 31.0%, above the line. - Correction: add `research` to `AGREED` with 3",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:257",
+          "evidence": "**R3-r7 · P2 · blocking · `approvals.js:257`, `:495`, `:581`, `:159`, `:161`. R2-r10's fault survives on the restart step-up.** - `aa-restart-step` and `ab-restart-step` disagreement on web: the sheet says \"this approval is refused\" beside a rail titled \"This approval is bound to\". I captured this for `aa-restart-step` on web and read the matching rail text in its rendered dump. - `stepBound` (`:1",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:191",
+          "evidence": "**R3-r8 · P2 · blocking · `approvals.js:191`, `:422`, `:284`, `:290`, `:310`. CT-01 is labelled before the decision and flat after it.** - `:53` says the acts the records do not name \"say so\". - The listing's record rows (\"· fresh sign-in\") and restart's outcomes (\"Applied at 09:18 with your fresh sign-in\") carry no chip. - Revoke's Abstaining (\"Fresh sign-in needed\") carries no chip either. MP-55",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:256",
+          "evidence": "**R3-r9 · P3 · not blocking · `approvals.js:256`, `shell.js:257`. The 15-minute window cites a question that does not hold it.** - SCI-D07 is \"Worse-week scoring rule and exact safety triggers\". Its `still_open` says nothing about approval windows. - POLICY-001 is \"15-minute import/correction approval window\". CT-02 owns proposal expiry. - An owner answering SCI-D07 would not settle this. - Correc",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:327",
+          "evidence": "**R3-r10 · P3 · not blocking · `research.js:327`, `:195`. The Reliance turn sits under NVIDIA.** - `ra-ask` disagreement on web: Back reads \"NVIDIA\", and the rail shows \"6-month forecast · NVDA ... +9.1% median\" beside an answer about a horizon with no median. - Correction: draw the rail and Back from `subject(ctx)`.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:406",
+          "evidence": "**R3-r11 · P3 · not blocking · `approvals.js:406`. Loading hides what waits on iPad and desktop in B.** - Phones show \"Checking what waits on you, Last good 21:15\". `homeRail` drops the strip on wide screens, so nothing there says proposals are loading. A says \"expiry times come from the server\". - Correction: remove the loading guard.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:304",
+          "evidence": "**R3-r12 · P3 · not blocking · `approvals.js:304`, `:306`. Revoke loses Holdings' way out.** - Revoke's Error says \"To undo it, reverse the import.\" with no control, and Empty has none either. Holdings' same two states have \"Back to Imports\". - Correction: add the button to both.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r13",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:240",
+          "evidence": "**R3-r13 · P3 · not blocking · `approvals.js:240`, `:413`. \"for one retry\" is not in the records.** - MP-78: \"a retry with the same payload and version inside the window is idempotent\", with no count. - Correction: say \"for a retry inside its window\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r14",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:91",
+          "evidence": "**R3-r14 · P3 · not blocking, already there · `research.js:91`, `:276`, `shell.js:248`, with Home, Holdings, Forecast, Journal and Privacy. MP40-Q6 is the wrong question for a late price.** - The record reads \"Approve the cost freshness rules: AWS billing data older than 36 hours...\". FIN-OD-06 holds \"source freshness\". - Five checks hold the literal label (`h.mjs:215`, `j.mjs:33`, `:37`, `:337`, ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-r15",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:175",
+          "evidence": "**R3-r15 · P3 · not blocking, already there · `research.js:175`. Empty shows a loading skeleton.** - `ra-card` Empty reads \"No research card yet\" then \"Last good 21:15\" twice, for a card that was never built. - Correction: return nothing in Empty. **Covered:** - The delta in `research.js`, `approvals.js` and `r.mjs`. - `FLIPS` and `frame()`, the Holdings revoke join, the Claude card, and the 15 st",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/journeys/src/shell.js:215",
+          "evidence": "a turned frame shows the wrong instrument after a state change. The press stores the target screen as it stood in that state, so `FLIP_TO` is skipped when the state moves. - **Evidence:** - Forecast A, iPhone: press the flip on `a-instrument` in Ready, then choose Disagreement. The frame stays on `forecast|b|b-ladder` with \"A Apple AAPL\", while `FLIP_TO` sends that slot to Reliance's dossier. - Pr",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "shell.js:218",
+          "evidence": "a dossier opened from a ladder row flips to another instrument, and does not come back to itself. The flip passes `hz` and `mode` but drops `scr.dataset.t`, and `a-instrument` draws the state's own subject. - **Evidence:** - Forecast B, iPhone, Disagreement: press a ladder row and the frame shows `b-forecast`, \"A Apple AAPL\". Press the flip and it shows `a-instrument`, \"R Reliance RELIANCE\". - In ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/journeys/src/journeys/cost.js:404",
+          "evidence": "Flip B of The lines drops the risk that A states, against \"Risk, staleness and uncertainty stay in view in both options\". - **Evidence (rendered text, iPhone):** - Disagreement: A reads \"The bill counts, which takes the forecast past £60\" and \"£60 Warn Reached\". B reads only \"Where you are Estimate and bill differ £60 £75 £85 £100 £0\". The forecast figure and \"reached\" appear nowhere visible on B.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "shell.js:211",
+          "evidence": "quick presses can lose frames. `show()` installs the new `row.onclick` at once, but the old frames stay until the first staged draw. Slot ids repeat across journeys (`a-list`, `a-one`, `a-12m`). A flip on an old Holdings frame therefore writes `sum.flipped['journal|a|a-list'] = ['b','b-accounts']`, and Journal has no such screen. - **Evidence:** - Real taps 80 ms apart, TOC Journal then the old `a",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "shell.js:216",
+          "evidence": "the press pass never presses the real flip. It sets `__prismNoFit`, and the shell swaps `flipTurn` for `(el, fn) => fn()` under that flag. Lesson 32 is not met. - **Evidence:** - Page copy where `flipTurn` never calls `swap()`, so no flip ever turns: `--only cost --surfaces iphone --themes light` gives \"48 flips pressed, 0 problem(s)\". - Copy with reduced motion removed from `flipTurn`: 0 problems",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_journeys_press.mjs:80",
+          "evidence": "the \"flip keeps a pressed horizon\" case cannot fail. `/12M/` matches the switch label \"3M 6M 12M\", which is always on screen. - **Evidence:** a copy where the flip drops `hz` gives \"presses: 30 cases, 0 failed\". The script has no `--selftest` at all (lesson 8). Case 2's `/3M/` has the same fault.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "review/MP-62/fixed.js",
+          "evidence": "`round-2.md` says R2-s3's behaviour \"is proved by pressing\", but `PRESS` never reads `.jnote`. - **Evidence:** a copy with `noteFor = sc => sc.note || ''` keeps the ledger's grep pattern and gives \"36 combinations walked, 72 flips pressed, 0 problem(s)\". Lessons 2 and 34 are not met.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/journeys/src/journeys/privacy.js:287",
+          "evidence": "the No model state contradicts itself within Privacy. The delta moved the story to India, and the notice was left behind. - **Evidence:** `privacy-a-notice` and `privacy-b-notice` read \"No forecast to hold No approved model covers HSBC yet\". `privacy-a-centre` in the same state reads \"No approved model covers India yet\" and shows HSBC \"+2.1% · 6M\", Pause. Home agrees with the centre.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "shell.js:15",
+          "evidence": "the flip names a view it does not turn to, against Prism's anatomy (\"the name of the view it turns to\") and WCAG 2.4.6. - **Evidence:** - R2-s21 renamed Burn-up to Pill, which reversed the fault. On 7 of 8 cost pairs \"Pill\" lands on a screen with no pill: `cost-a-month` on web shows a visible \"Pill\" button that lands on the burn-up. - `FLIP_TO`: on `a-instrument` in Disagreement, \"Flip to Ladder\" ",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "shell.js:286",
+          "evidence": "the records overclaim what a flip changes, which is MP-178's acceptance line. - **Evidence:** - Inventory: \"only the layout changes\". Yet `privacy-a-data` holds Originals and the checkup holds devices and sign-in paths, `cost-a-sources` reads \"The figures\" against `cost-b-log`'s \"What happened\", and R3-s3 applies. - `cost-a-fit`/`cost-b-fit` share 99.1% of their words, and `a-brief`/`b-brief` 99.5",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s11",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "shell.js:194",
+          "evidence": "a turned frame can name the wrong theme. `dress` reads the page theme, not the frame's. - **Evidence:** switch the theme to Dark, then flip. The caption reads \"DarkThe month by day\" and the group name \"dark theme\", while the frame keeps `dev scheme-light` and light ink `#14171F`. `redraw` then reads that label and passes dark on.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "shell.js:175",
+          "evidence": "turned frames clear inconsistently, and the flip can vanish inside a turned frame. - **Evidence:** - The Option control on Cost cleared Home's turned frame, against \"each journey flips on its own\". - `J.go` and the TOC do not clear. Going to B and back through inventory ticks left Home's frame turned, against the comment \"until … the option changes\". - A frame turned to `b-done` or `b-private` los",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s13",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_gates.py:693",
+          "evidence": "the token and inline-style gates miss forms lesson 11 expects them to read. - **Evidence (`check_journeys` on mutated pages):** `style=\"--ink: #BBBBBB\"` passes, `setProperty('--ink', …)` passes, and `style=\"${x ? 'animation: spin 1s linear infinite;' : ''}\"` passes.",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s14",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:322",
+          "evidence": "the log dates its figure two days late in Error. - **Evidence:** the log reads \"Last reconciled November · day 18 of 30 £37.69\", while the burn-up says day 16 and \"Figures stop at 16 Nov\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R3-s15",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/journeys/README.md:3",
+          "evidence": "the README has fallen behind the page. - **Evidence:** line 3 says \"one recommended\" where the page says \"starts here, proposed\". `design_journeys_press.mjs` is not listed.",
+          "status": "fixed"
+        }
+      ],
+      "next_round": "Decided by the owner after round 3 is reported.",
+      "blocking_findings": [
+        "R3-h1",
+        "R3-h2",
+        "R3-h3",
+        "R3-h4",
+        "R3-h5",
+        "R3-h6",
+        "R3-h7",
+        "R3-h8",
+        "R3-h9",
+        "R3-h10",
+        "R3-j1",
+        "R3-j2",
+        "R3-j3",
+        "R3-j4",
+        "R3-j5",
+        "R3-j6",
+        "R3-j7",
+        "R3-j8",
+        "R3-j9",
+        "R3-j10",
+        "R3-r1",
+        "R3-r2",
+        "R3-r3",
+        "R3-r4",
+        "R3-r5",
+        "R3-r6",
+        "R3-r7",
+        "R3-r8",
+        "R3-s1",
+        "R3-s2",
+        "R3-s3",
+        "R3-s4",
+        "R3-s5",
+        "R3-s6",
+        "R3-s7",
+        "R3-s8",
+        "R3-s9",
+        "R3-s10"
+      ],
+      "nonblocking_findings": [
+        "R3-h11",
+        "R3-h12",
+        "R3-h13",
+        "R3-h14",
+        "R3-h15",
+        "R3-h16",
+        "R3-j11",
+        "R3-j12",
+        "R3-j13",
+        "R3-j14",
+        "R3-j15",
+        "R3-j16",
+        "R3-j17",
+        "R3-j18",
+        "R3-j19",
+        "R3-j20",
+        "R3-r9",
+        "R3-r10",
+        "R3-r11",
+        "R3-r12",
+        "R3-r13",
+        "R3-r14",
+        "R3-r15",
+        "R3-s11",
+        "R3-s12",
+        "R3-s13",
+        "R3-s14",
+        "R3-s15"
+      ],
+      "blocking": 38,
+      "result": "66 findings, 38 blocking. Every blocking one is fixed and held by a ledger check.",
+      "new_gates": [
+        "scripts/design_journeys_check.mjs: one flip on the real path with its animation, with reduced motion and with motion on; the note under the frame; a selftest case for every refusal",
+        "scripts/design_journeys_press.mjs: 140 cases and its own selftest",
+        "scripts/design_gates.py: tokens set inline or by a script; a loop inside a computed value",
+        "tests/journey_facts: research figures join the agreed list; a schedule's XNPV at each stated rate"
+      ]
     }
   ]
 }

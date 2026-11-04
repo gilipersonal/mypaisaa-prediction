@@ -28,6 +28,8 @@
   const pad = ctx => (wide(ctx) ? '' : '<div style="height:44px" aria-hidden="true"></div>');
   const info = (label, icon = 'info') => `<button class="tbtn" type="button" aria-label="${label}">${ic(icon, 's24')}</button>`;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
+  /* when a late price leaves the total is open (FIN-OD-06), so every screen that states the rule says so */
+  const LATE = proposed('FIN-OD-06');
   /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
   const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
   /* when today's run failed, the last good run shows in full, so one screen never mixes two versions */
@@ -88,7 +90,7 @@
   }).join('');
   const riskRow = ctx => item(lead('alert', 'warn'), `US tech is ${share(ctx).us} of ${share(ctx).of}`, 'Material · above your 30% line · detected Tue 22:15 · held by quiet hours', ic('chev-r', 's18'), '', false, true);
   const hsbcLine = ctx => (ctx.state === 'stale' ? 'Stale, so it left the total until its price returns' : 'Late but inside the freshness limit, so its forecast is held');
-  const changes = ctx => list((ctx.state === 'stale' ? '' : item(lead('up'), 'Portfolio up £1,236.18 (1.48%)', 'Tuesday, by code from the ledger')) + item(lead('fan'), 'SPY median rose from +4.1% to +4.3%', '6 months · run Tue 21:15 · R2-HGB v3') + item(lead('clock', 'warn'), 'HSBC last priced 14:10', hsbcLine(ctx), '', ctx.state === 'stale' ? '' : proposed('MP40-Q6')));
+  const changes = ctx => list((ctx.state === 'stale' ? '' : item(lead('up'), 'Portfolio up £1,236.18 (1.48%)', 'Tuesday, by code from the ledger')) + item(lead('fan'), 'SPY median rose from +4.1% to +4.3%', '6 months · run Tue 21:15 · R2-HGB v3') + item(lead('clock', 'warn'), 'HSBC last priced 14:10', hsbcLine(ctx), '', LATE));
   const soon = () => box(`${lbl('Coming up')}<div style="margin-top:8px">${kv([['Thu 5 Nov', 'Bank of England rate decision'], ['Wed 18 Nov', 'NVIDIA results'], ['Fri 4 Dec', 'RBI rate decision']])}</div>`);
   const briefSrc = () => sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3', '3 · Yahoo, 14:10');
   const CONFLICTS = ['Two conflicts.', 'Rules and models disagree on Reliance at 6 months, so no action is ranked for it. The models also split on Apple at 3 months, which shows its range and no median.'];
@@ -101,7 +103,7 @@
       loading: () => box(`${lbl('Tue 3 Nov · last brief, until today\'s loads')}<span class="sk" style="height:22px;width:86%;margin-top:10px"></span><span class="sk" style="height:14px;width:60%;margin-top:8px"></span>`) + skel(4),
       empty: () => stateCard('clock', 'The next brief comes at 07:30', 'It leads with ranked actions, then risks, changes and what is coming up. Alerts held overnight arrive with it.', bs('Read Tuesday\'s brief'), `<span class="chip">Scheduled · 07:30 London</span>`) + box(`${lbl('Moves with daylight saving')}<p class="small muted" style="margin-top:4px">Always 07:30 in London, with India, UK and US shown on their own clocks.</p>`),
       error: () => banner('warn', 'Late.', 'MP was down at 07:30. This brief was issued on recovery at 08:12, once.', 'clock') + main({ when: 'Wed 4 Nov · issued late, 08:12 London', text: 'Alerts found during the outage carry their detection time.' }),
-      stale: () => banner('warn', 'Some evidence is pending.', 'HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. The brief never waits on this morning\'s batch: it quotes the last valid evidence, dated.', 'clock') + main({ title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }),
+      stale: () => banner('warn', 'Some evidence is pending.', `HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. The brief never waits on this morning's batch: it quotes the last valid evidence, dated. ${LATE}`, 'clock') + main({ title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }),
       offline: () => banner('', 'Offline.', 'This is the 07:30 brief, saved on this device. Asking and sources wait until you reconnect.', 'wifi-off') + main(),
       noModel: () => banner('', 'Written by template.', `Every figure is the same; only the written explanations wait. ${CLAUDE_OFF}`, 'ban') + main({ text: 'A plain template, labelled so. Issued on time.' }),
       disagreement: () => banner('', ...CONFLICTS, 'split') + main({ title: 'Three ranked actions and one risk held overnight.', split: true }),
@@ -172,7 +174,8 @@
     });
   };
   const cardRail = ctx => {
-    if (ctx.state === 'loading' || ctx.state === 'empty') return skel(2);
+    if (ctx.state === 'empty') return '';
+    if (ctx.state === 'loading') return skel(2);
     return askCard(ctx, `Ask about ${subject(ctx).n}`, { live: true }) + (wide(ctx) ? sec('More cards') : '') + minis(ctx);
   };
 
@@ -192,7 +195,8 @@
       abstention: () => `${ask('Sell my NVIDIA now.')}${cl('Refused', `${SAY(`MyPrediction cannot place trades, and I can't either. I can show the forecast, its range and the proof, so you can decide.`)}${act(clBtn('Show the forecast'))}`, '', 'Claude refused')}${ask('Will NVIDIA beat earnings on 18 Nov?')}${cl('No cited answer', `${SAY(`I can't answer that from cited evidence. No model scores that question and no source covers it yet, so I won't guess.`)}${act(clBtn('Show the forecast'))}`, '', 'No cited answer')}${ask('Compare NVIDIA with Apple')}${cl('Cap reached', `${SAY(`Today's chat cap is reached, so I can't answer this one. The stored explanations still work.`)}${act(clBtn('See stored explanations', false))}`, '', 'Daily chat cap reached')}`
     });
   };
-  const askRail = ctx => `${box(fcard(N, { w: 340, h: 168, seed: 23 }))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
+  const askAbout = ctx => (ctx.state === 'disagreement' ? subject(ctx) : N);
+  const askRail = ctx => `${ctx.state === 'disagreement' ? stanceFor(ctx) : box(fcard(N, { w: 340, h: 168, seed: 23 }))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
 
   /* ---------- a figure's source (MP-81): citation, hash, times and rights, always read as untrusted data ---------- */
   const soft = 'box-shadow:inset 0 0 0 1px var(--hairline)';
@@ -254,7 +258,7 @@
     loading: () => box(`${lbl('Detected Tue 22:15 · loading its evidence')}<span class="sk" style="height:22px;width:80%;margin-top:10px"></span><span class="sk" style="height:8px;margin-top:12px"></span><span class="sk" style="height:40px;margin-top:12px"></span>`),
     empty: () => stateCard('shield', 'No risk alerts', 'No material risk found on eligible data as of 21:15, across 7 of 7 holdings. This says what was checked, not that nothing can go wrong.', '', fresh('Checked', 'fresh', '21:15')),
     error: () => stateCard('alert', 'Some checks could not run', 'Twelve Data failed at 21:14, so Apple, NVIDIA and SPY were not checked on the latest close. This is not an all-clear.', '', `<span class="chip error">Source unavailable</span><span class="chip">4 of 7 checked</span>`) + alertCard(ctx),
-    stale: () => banner('warn', 'Based on older data.', 'HSBC is from 14:10, so it left the total until its price returns. It is not in US tech, so this alert stands, on the known total of £78,508.20.', 'clock') + alertCard(ctx),
+    stale: () => banner('warn', 'Based on older data.', `HSBC is from 14:10, so it left the total until its price returns. It is not in US tech, so this alert stands, on the known total of £78,508.20. ${LATE}`, 'clock') + alertCard(ctx),
     offline: () => banner('', 'Offline.', 'This alert was saved at 08:02. Asking why waits until you reconnect.', 'wifi-off') + alertCard(ctx),
     noModel: () => banner('', 'Claude is off.', 'Code found this alert, so it stands, and asking why waits. Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.', 'ban') + alertCard(ctx),
     disagreement: () => banner('', 'Sources differ on the close.', 'On Yahoo\'s NVIDIA price US tech is 30.9%; on Twelve Data\'s it is 31.0%. Both are above your line.', 'split') + alertCard(ctx)
@@ -273,7 +277,7 @@
     <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px">${lbl('Actions')}${illus('Decision support')}</div>
     <div style="margin:4px -16px 0">${actionRows(ctx, o)}</div>
     <div style="margin-top:10px">${lbl('Risks')}<p class="small" style="margin-top:2px">US tech is ${share(ctx).us} of ${share(ctx).of}, above your 30% line.</p></div>
-    <div style="margin-top:10px">${lbl('Changes')}<p class="small" style="margin-top:2px">${ctx.state === 'stale' ? '' : 'Up £1,236.18 (1.48%) on Tuesday. '}SPY median rose from +4.1% to +4.3%. HSBC last priced 14:10: ${hsbcLine(ctx).charAt(0).toLowerCase() + hsbcLine(ctx).slice(1)}.</p>${ctx.state === 'stale' ? '' : `<div style="margin-top:6px">${proposed('MP40-Q6')}</div>`}</div>
+    <div style="margin-top:10px">${lbl('Changes')}<p class="small" style="margin-top:2px">${ctx.state === 'stale' ? '' : 'Up £1,236.18 (1.48%) on Tuesday. '}SPY median rose from +4.1% to +4.3%. HSBC last priced 14:10: ${hsbcLine(ctx).charAt(0).toLowerCase() + hsbcLine(ctx).slice(1)}.</p><div style="margin-top:6px">${LATE}</div></div>
     <div style="margin-top:10px">${lbl('Coming up')}<p class="small" style="margin-top:2px">Thu 5 Nov Bank of England. Wed 18 Nov NVIDIA results. Fri 4 Dec RBI.</p></div>
     <p class="small muted" style="margin-top:10px">Last closes: India Tue 10:00, UK Tue 16:35, US Tue 21:00, London time. Illustrative.</p><div style="margin-top:10px">${briefSrc()}</div>${o.foot || ''}`, 'Daily brief');
   const threadRisk = ctx => post('MyPrediction', 'Risk alert · with the brief', `<p style="margin-top:6px;font:600 15px/20px var(--font-text);letter-spacing:-.01em">US tech reached ${share(ctx).us} of ${share(ctx).of}, above your 30% line.</p><p class="small muted" style="margin-top:2px">Detected Tue 22:15, held by quiet hours. Investment risk, not an incident. It acts on nothing.</p>`, 'Risk alert');
@@ -284,7 +288,7 @@
       loading: () => post('MyPrediction', 'Loading today', `<span class="sk" style="height:20px;width:84%;margin-top:10px"></span><span class="sk" style="height:14px;width:62%;margin-top:8px"></span>`, 'Loading') + skel(2),
       empty: () => stateCard('clock', 'Nothing in today\'s thread yet', 'The brief is the first post, at 07:30 London. Ask anything before then and it starts the thread.', bs('Read Tuesday\'s thread'), '<span class="chip">Scheduled · 07:30 London</span>'),
       error: () => banner('warn', 'Late.', 'MP was down at 07:30. The brief was posted on recovery at 08:12, once.', 'clock') + threadBrief(ctx, { when: 'Daily brief · late, 08:12' }) + threadRisk(ctx),
-      stale: () => banner('warn', 'Some evidence is pending.', 'HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. The brief quotes the last valid evidence, dated.', 'clock') + threadBrief(ctx, { title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }) + threadRisk(ctx),
+      stale: () => banner('warn', 'Some evidence is pending.', `HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. The brief quotes the last valid evidence, dated. ${LATE}`, 'clock') + threadBrief(ctx, { title: 'Four ranked actions, one on a stale price, and one risk held overnight.' }) + threadRisk(ctx),
       offline: () => banner('', 'Offline.', 'The thread is saved up to 08:02. New questions wait until you reconnect.', 'wifi-off') + threadBrief(ctx) + threadRisk(ctx),
       noModel: () => banner('', 'Claude is off.', `The brief was posted from a template and is labelled so. The thread takes no questions. ${CLAUDE_OFF}`, 'ban') + threadBrief(ctx, { when: 'Template brief · 07:30' }) + threadRisk(ctx),
       disagreement: () => banner('', ...CONFLICTS, 'split') + threadBrief(ctx, { title: 'Three ranked actions and one risk held overnight.', split: true }) + threadRisk(ctx),
@@ -324,7 +328,7 @@
         render: ctx => fr(ctx, { tab: 1, back: 'Brief', title: subject(ctx).n, actions: info('About these cards'), body: cardBody(ctx), rail: cardRail(ctx) + pad(ctx), accessory: askBar(ctx, `Ask about ${subject(ctx).n}`, { live: true }) })
       }, {
         id: 'ra-ask', title: 'Ask why', note: 'Ready shows Claude writing. Loading shows a stopped turn, asked again. Abstaining shows a refusal, no cited answer and the daily cap reached. No model shows Claude off. Error shows a failed tool.',
-        render: ctx => fr(ctx, { tab: 1, back: 'NVIDIA', title: 'Ask why', actions: info('What Claude may read'), body: askThread(ctx) + askCard(ctx, 'Ask a follow-up') + pad(ctx), rail: wide(ctx) ? askRail(ctx) : '', accessory: askBar(ctx, 'Ask a follow-up') })
+        render: ctx => fr(ctx, { tab: 1, back: askAbout(ctx).n, title: 'Ask why', actions: info('What Claude may read'), body: askThread(ctx) + askCard(ctx, 'Ask a follow-up') + pad(ctx), rail: wide(ctx) ? askRail(ctx) : '', accessory: askBar(ctx, 'Ask a follow-up') })
       }, {
         id: 'ra-source', title: 'Source opened', note: 'A citation opens beside the answer on iPad and desktop, and as a sheet on a phone. Abstaining shows a quarantined item; Disagreement shows two sources that differ.',
         na: { noModel: 'A stored source is a document, not a forecast, so no model is involved in opening it.' },
@@ -349,7 +353,7 @@
         render: ctx => fr(ctx, { fresh: ctx.state === 'error' ? 'default' : undefined, tab: 0, title: 'Today', actions: tb('search', 'Search the thread') + tb('layers', 'Notes Claude holds'), body: todayBody(ctx) + pad(ctx), rail: wide(ctx) ? pinned(ctx) : '', accessory: askBar(ctx, 'Add to today\'s thread') })
       }, {
         id: 'rb-card', title: 'Card in the thread', note: 'The card arrives as a post when asked for, with the smaller cards after it. No model here means no approved model for the horizon; Claude stays on. Each state is drawn where it is true: disagreement on Reliance, abstaining on AstraZeneca, both at 6 months.',
-        render: ctx => fr(ctx, { tab: 0, back: 'Today', title: subject(ctx).n, body: threadCard(ctx) + pad(ctx), rail: ctx.state === 'loading' || ctx.state === 'empty' ? (wide(ctx) ? skel(2) : '') : minis(ctx) + askCard(ctx, 'Add to today\'s thread', { live: true }), accessory: askBar(ctx, 'Add to today\'s thread', { live: true }) })
+        render: ctx => fr(ctx, { tab: 0, back: 'Today', title: subject(ctx).n, body: threadCard(ctx) + pad(ctx), rail: ctx.state === 'empty' ? '' : ctx.state === 'loading' ? (wide(ctx) ? skel(2) : '') : minis(ctx) + askCard(ctx, 'Add to today\'s thread', { live: true }), accessory: askBar(ctx, 'Add to today\'s thread', { live: true }) })
       }, {
         id: 'rb-ask', title: 'Ask why', note: 'The same answer, inside the day\'s thread. Loading shows a stopped turn; Abstaining shows a refusal, no cited answer and the daily cap reached; No model shows Claude off.',
         render: ctx => fr(ctx, { tab: 0, back: 'Today', title: 'Today', body: dayline('Brief · 07:30 · Risk alert · Bull and bear') + askThread(ctx) + pad(ctx), rail: wide(ctx) ? askRail(ctx) + pinned(ctx) : '', accessory: askBar(ctx, 'Add to today\'s thread') })

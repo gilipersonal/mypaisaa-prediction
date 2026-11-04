@@ -21,11 +21,14 @@
   const LAST = 'Last good run Mon 21:15 · cutoff 21:00';
   const CLAUDE_OFF = 'Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.';
   const LATE = 'HSBC last priced 14:10, before the 16:35 UK close. That is inside the freshness limit, so it stays in the total.';
-  /* what a browser keeps offline is an open owner question, so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? `<div class="holdings-acts">${proposed('MP40-Q12')}</div>` : '');
-  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
-  const limit = `<div class="holdings-acts">${proposed('MP40-Q6')}</div>`;
-  /* the owner's own words, on every import, typed entry, draft, live approval, receipt and approve sheet */
+  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
+  const kept = `<div class="holdings-acts">${proposed('MP40-Q12')}</div>`;
+  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept;
+  /* how old a price may be is FIN-OD-06, source freshness, so every use of the late-price rule says so */
+  const limit = `<div class="holdings-acts">${proposed('FIN-OD-06')}</div>`;
+  /* a line and the open question it rests on, inside one measure */
+  const flagged = (t, ref) => `<span class="holdings-late" style="margin-top:0"><span>${t}</span>${proposed(ref)}</span>`;
+  /* one sentence, word for word, on every import, typed entry, draft, live approval, receipt and approve sheet */
   const NO_TRADE = 'This records what already happened at your broker. It places no trade.';
   const noTrade = `<p class="holdings-note">${NO_TRADE}</p>`;
   const imp = (ctx, spec) => frame(ctx, spec.sheet ? spec : { ...spec, body: noTrade + spec.body });
@@ -44,7 +47,7 @@
     SPY: { at: 'General account', units: '40 units', gain: '+£3,160.00', ret: '+9.8% a year', ev: ['ok', 'Available'], s: ['ok', 'Available'] },
     AZN: { at: 'Stocks ISA', units: '85 units', gain: '+£1,015.75', ret: 'No rate found', ev: ['amb', 'Nonconvergent'], s: ['amb', 'Nonconvergent'] },
     HSBA: { at: 'Stocks ISA', units: '700 units', gain: '+£804.20', ret: '+8.1% a year', ev: ['old', 'Price 14:10'], s: ['old', 'Late'] },
-    RELIANCE: { at: 'India demat', units: '120 units', gain: '+£1,240.30', ret: 'No single rate', ev: ['amb', 'Two rates fit'], s: ['amb', 'Ambiguous'] },
+    RELIANCE: { at: 'India demat', units: '120 units', gain: '+£1,240.30', ret: 'No single rate', ev: ['amb', 'Ambiguous'], s: ['amb', 'Ambiguous'] },
     NIFTYBEES: { at: 'India demat', units: '4,200 units', gain: 'Unavailable', ret: 'Unavailable', ev: ['none', 'Snapshot only'], s: ['none', 'Unavailable'] }
   };
   /* the measures of one holding: name, figure, status, why. Each has its own status, set before any wording (MP-69) */
@@ -62,7 +65,7 @@
       ['Money-weighted return', 'Unavailable', ev('none', 'Unavailable'), 'Needs dated cash flows. Never shown as zero.']
     ],
     HSBA: [
-      ['Value', '£6,104.20', ev('old', 'Stale'), 'Last price 14:10, Yahoo. Left out of the total until its price returns.'],
+      ['Value', '£6,104.20', ev('old', 'Stale'), flagged('Last price 14:10, Yahoo. Left out of the total until its price returns.', 'FIN-OD-06')],
       ['Cost basis', '£5,300.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£804.20 (+15.2%)', ev('old', 'Stale'), 'Uses the 14:10 price.'],
       ['Money-weighted return', '+8.1% a year', ev('old', 'Stale'), 'Uses the 14:10 price as its closing value.']
@@ -71,13 +74,13 @@
       ['Value', '£8,940.30', ev('ok', 'Available'), 'Priced 10:00, Yahoo. FX 20:58.'],
       ['Cost basis', '£7,700.00', ev('ok', 'Available'), 'Broker figure in INR, dated FX labelled estimated.'],
       ['Gain', '+£1,240.30 (+16.1%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), 'Two rates fit these cash flows, 10% and 20% a year. Neither is picked.']
+      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), flagged('These cash flows change direction three times, so more than one rate could fit. The search found +22.3% a year and cannot prove it is the only one, so none is picked.', 'FIN-OD-04')]
     ],
     AZN: [
       ['Value', '£9,215.75', ev('ok', 'Available'), 'Priced 16:35, Yahoo.'],
       ['Cost basis', '£8,200.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£1,015.75 (+12.4%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No rate found', ev('amb', 'Nonconvergent'), 'The search stopped at its limit with no rate. Same inputs give the same result. Diagnostics kept.']
+      ['Money-weighted return', 'No rate found', ev('amb', 'Nonconvergent'), flagged('The search stopped at its limit with no rate, which does not prove there is none. Same inputs give the same result. Diagnostics kept.', 'FIN-OD-04')]
     ]
   }[h.t]);
   const accountsOf = h => ({
@@ -121,8 +124,8 @@
     if (h.stale) return `<span class="chip stale">${ic('clock', 's14')}Held</span>`;
     return `<div style="display:flex;align-items:center;gap:6px"><span style="width:38px;color:var(--fc-ink);font-weight:600;text-align:right">${pct(h.med)}</span><span style="width:56px;display:block">${range(h, 56, 14)}</span></div><div class="small muted" style="font-size:12px;line-height:16px;white-space:nowrap">${pct(h.lo)} to ${pct(h.hi)}</div>`;
   };
-  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${proposed('MP40-Q6')}</div>`}</div>`;
-  const retCell = l => (l.ret.startsWith('+') ? l.ret.replace(' a year', '') : l.ret === 'Unavailable' ? '' : `<span class="muted">${{ 'No single rate': 'Two rates', 'No rate found': 'No rate' }[l.ret]}</span>`);
+  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${proposed('FIN-OD-06')}</div>`}</div>`;
+  const retCell = l => (l.ret.startsWith('+') ? l.ret.replace(' a year', '') : l.ret === 'Unavailable' ? '' : `<span class="muted">${{ 'No single rate': 'Not proved', 'No rate found': 'No rate' }[l.ret]}</span>`);
   const evCell = (h, ctx) => (h.t === 'HSBA' && ctx.state === 'stale' ? ev('old', 'Stale') : ev(...L[h.t].s));
   const holdTable = (ctx, title = 'Holdings') => {
     const gain = ctx.kind === 'web', na = `<span class="muted" aria-label="Unavailable">–</span>`;
@@ -145,8 +148,10 @@
   const partialCard = ctx => valueCard(ctx, { label: 'Known value, 6 of 7 priced', val: '78,508.20', partial: true, chip: ev('part', 'Partial'), sub: partialSub() });
   const coverage = ctx => `<div class="card" style="padding:14px 16px" data-mo="card"><div class="label">What your evidence supports</div>
     ${(ctx.state === 'stale' ? [['Value', 6], ['Cost basis', 6], ['Gain', 5], ['Return', 3]] : [['Value', 7], ['Cost basis', 6], ['Gain', 6], ['Return', 4]]).map(([k, n]) => `<div class="holdings-cov"><span>${k}</span><i role="img" aria-label="${k}: ${n} of 7 holdings"><u data-mo="barx" style="--v:${Math.round(n / 7 * 100)}%"></u></i><b>${n} of 7</b></div>`).join('')}
-    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Two rates fit Reliance, and no rate was found for AstraZeneca, so none is picked. Older statements fill the gaps.</p></div>`;
-  const toImports = (n = '1 import is being read · 1 difference open', t = 'General account, Q3 · cash differs by £8.15. Nothing here changes until you approve it.') => `<button class="card holdings-link" type="button" data-mo="card"><span class="ic">${ic('layers', 's18')}</span><span>${n}<small>${t}</small></span>${ic('chev-r', 's18')}</button>`;
+    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. No single rate is proved for Reliance, and no rate was found for AstraZeneca, so none is picked. Older statements fill the gaps.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}</div></div>`;
+  const IMPORT_NOW = { loading: '1 import is uploading', error: '3 files not taken in', stale: '1 import last seen at 21:09', offline: '1 upload stopped at 62%', noModel: '1 scan is queued, not read', disagreement: '', abstention: '1 import is ready for you' };
+  const importNow = st => [IMPORT_NOW[st] ?? '1 import is being read', '1 difference open'].filter(Boolean).join(' · ');
+  const toImports = (n, t = 'General account, Q3 · cash differs by £8.15. Nothing here changes until you approve it.') => `<button class="card holdings-link" type="button" data-mo="card"><span class="ic">${ic('layers', 's18')}</span><span>${n}<small>${t}</small></span>${ic('chev-r', 's18')}</button>`;
   /* a candidate you do not hold: visibly apart from what you own (MP-144) */
   const watchCard = ctx => (['noModel', 'empty', 'loading'].includes(ctx.state) ? '' : `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('target', 's18')}</span><span style="flex:1;min-width:0">Not held, to watch<span class="holdings-sub">A candidate, not a holding. It adds nothing to your value.</span></span></div>
     <div class="holdings-acc" style="padding:0">${logo('--seg-ustech', 'M', true)}<div style="min-width:0"><b>Microsoft</b><span>MSFT · 6M ${pct(7)}, ${pct(-8.8)} to ${pct(22)}, 80% range</span></div><span class="badge">${ic('target', 's16')}Watch</span></div>
@@ -182,7 +187,7 @@
     <div class="holdings-acts">${draftChip}<span class="cl-chip"><span class="cl-mark s" aria-hidden="true"><i></i><i></i><i></i></span>${o.claude || 'Read by Claude, no tools, 1 field flagged'}</span></div></div>`;
   const change = (o = {}) => `<div class="card" style="padding:14px 16px;display:grid;gap:10px" data-mo="card"><div class="holdings-bar"><div class="w"><b>What will change</b>${o.sub || '1 group selected · 3 rows of 11'}</div>${illus()}</div>
     <div class="holdings-ba">${(o.rows || [['Apple, Stocks ISA', '60 → 64 units'], ['Cash, Stocks ISA', '£4,012.60 → £3,335.81']]).map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join('')}</div>
-    <p class="small muted">${o.note || 'Changes value, cost basis, gain and return on Apple, and your ISA cash. 2 groups need you. The duplicate and the transfer stay listed.'}</p>${o.go === false ? '' : btn('Review and approve', 'primary sm')}</div>`;
+    <p class="small muted">${o.note || 'Changes value, cost basis, gain and return on Apple, and your ISA cash. 2 groups need you. The duplicate and the transfer stay listed.'}</p>${o.trade ? noTrade : ''}${o.go === false ? '' : btn('Review and approve', 'primary sm')}</div>`;
   const pending = (n = '1 group') => `<div class="holdings-bar"><div class="w"><b>${n} · 3 rows</b>2 groups need you</div>${btn('Review', 'primary sm')}</div>`;
   const mismatch = (o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('split', 's18')}</span>Statement and rows differ by £12.40</div>
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
@@ -222,11 +227,11 @@
   const readyCard = (ctx, go) => running(ctx, { at: 3, chip: ev('ok', 'Ready for you'), body: `<p>Claude read 10 of the 11 rows in full. 1 field it could not read is blank, not guessed, and waits for you.</p>${acts(btn(go, 'primary sm'))}` });
   const importsPlace = (ctx, head, go) => region(ctx, {
     ok: () => head + running(ctx) + openWork(),
-    loading: () => head + uploading(),
+    loading: () => head + uploading() + openWork(),
     empty: () => head + stateCard('layers', 'No imports yet', 'Bring in a statement to start your ledger. Every row waits for your review, and nothing changes until you approve it.'),
-    error: () => head + failures(),
+    error: () => head + failures() + openWork(),
     stale: () => head + reconnecting() + openWork('stale'),
-    offline: () => off(ctx, 'Uploads need a connection. Past imports are shown from 21:15.') + interrupted(),
+    offline: () => off(ctx, 'Uploads need a connection. Past imports are shown from 21:15.') + interrupted() + openDiff(),
     noModel: () => head + scansOff() + openWork(),
     disagreement: () => head + openDiff() + openWork('disagreement'),
     abstention: () => head + readyCard(ctx, go) + openWork('abstention')
@@ -263,14 +268,14 @@
     <div class="holdings-ba" style="margin-top:12px"><span>Ledger revision</span><b>213 → 214</b><span>Receipt</span><b>R-0213</b><span>Apple</span><b>64 units</b><span>HSBC, HSBA · XLON</span><b>730 units</b><span>AstraZeneca</span><b>75 units</b><span>ISA cash</span><b>£4,142.83</b></div>
     <p class="small muted" style="margin-top:10px">2 rows stay in the draft and remain visible: the duplicate and the pending transfer.</p></div>`;
   const original = hold => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('lock', 's18')}</span>Original kept to Oct 2028</div><p>isa-oct-2026-scan.pdf stays private and renewable. Deleting it keeps these ledger rows, marked evidence unavailable, and a restore can never bring it back.</p>${hold ? acts(dis('Renew'), dis('Delete original', 'plain')) : acts(btn('Renew', 'tinted sm'), btn('Delete original', 'plain sm'))}</div>`;
-  const refusal = () => banner('fall', 'Reversal refused.', 'A sale on 1 Nov depends on these units. Approve its correction together with this reversal, or leave both as they are.', 'ban');
+  const refusal = () => banner('fall', 'Reversal refused.', 'A sale on 2 Nov depends on these units. Approve its correction together with this reversal, or leave both as they are.', 'ban');
   const correction = (o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('refresh', 's18')}</span>Correct a row</div><p>Sold 8, not 10? A correction reverses every leg of the original and commits its replacement together. The original stays on record.</p>
     <div class="holdings-ba"><span>Reverse: Sold 10 AstraZeneca</span><b>+10 · −£1,072.01</b><span>Replace: Sold 8 AstraZeneca</span><b>−8 · +£856.81</b><span>AstraZeneca after</span><b>77 units</b><span>ISA cash after</span><b>£3,927.63</b></div>${o.refused ? refusal() + acts(btn('Review both together', 'primary sm'), btn('Review this correction', 'plain sm')) : o.stale ? acts(btn('Refresh', 'primary sm', 'refresh'), dis('Review and approve'), btn('Reverse the import', 'plain sm')) : acts(btn('Review and approve', 'primary sm'), btn('Reverse the import', 'plain sm'))}</div>`;
   const reversal = (o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('rebalance', 's18')}</span>Reverse this import</div><p>A reversal has its own preview and approval. Later events are checked first, and the original rows stay on record.</p>
-    <div class="holdings-ba"><span>Apple</span><b>64 → 60 units</b><span>HSBC</span><b>730 → 700 units</b><span>AstraZeneca</span><b>75 → 85 units</b><span>ISA cash</span><b>£4,142.83 → £4,012.60</b></div>${o.refused ? refusal() : '<p>Checked: no later event depends on these rows.</p>'}${o.stale ? acts(btn('Refresh', 'primary sm', 'refresh'), dis('Review and approve'), btn('Correct one row', 'plain sm')) : acts(btn(o.refused ? 'Review both together' : 'Review and approve', 'primary sm'), btn('Correct one row', 'plain sm'))}</div>`;
+    <div class="holdings-ba"><span>Apple</span><b>64 → 60 units</b><span>HSBC</span><b>730 → 700 units</b><span>AstraZeneca</span><b>75 → 85 units</b><span>ISA cash</span><b>£4,142.83 → £4,012.60</b></div>${o.refused ? refusal() : `<p>${o.stale ? 'Not checked against revision 215.' : 'Checked: no later event depends on these rows.'}</p>`}${o.stale ? acts(btn('Refresh', 'primary sm', 'refresh'), dis('Review and approve'), btn('Correct one row', 'plain sm')) : acts(btn(o.refused ? 'Review both together' : 'Review and approve', 'primary sm'), btn('Correct one row', 'plain sm'))}</div>`;
 
   /* the same outcome on both sides of the receipt. The sale is what changes direction, and AstraZeneca already has no rate (MP-72) */
-  const noRateNow = () => stateCard('split', 'AstraZeneca still has no rate', 'Sold 10 adds one more dated flow to its cash flows. The search still stops at its limit with no rate, so none is picked, and the rest of its figures stand.', '', ev('amb', 'Nonconvergent'));
+  const noRateNow = () => stateCard('split', 'AstraZeneca still has no rate', 'Sold 10 adds one more dated flow to its cash flows. The search still stops at its limit with no rate, so none is picked, and the rest of its figures stand.', '', ev('amb', 'Nonconvergent') + proposed('FIN-OD-04'));
   const staleChange = () => banner('warn', 'This change is out of date.', 'A newer change reached the ledger first, at revision 215. Refresh it before you approve. Only one change can win.', 'clock');
   const commitFailed = () => stateCard('alert', 'The commit did not finish', 'Nothing is visible and your ledger stays at revision 213. Retrying repeats the same operation, so it can never commit twice.', btn('Retry safely', 'primary sm', 'refresh')) + stillApproved({ failed: true });
   const cancelled = () => stateCard('x', 'Draft cancelled', 'Nothing was committed, and your ledger stays at revision 213. The original stays, so you can start again.', btn('Back to Imports', 'tinted sm'));
@@ -279,7 +284,7 @@
   const mRow = ([k, v, s, n]) => `<div class="holdings-m" data-mo="rise"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span><span class="n">${n}</span></div>`;
   const hHead = (ctx, h, o = {}) => `<div class="card valcard" data-mo="card"><div class="holdings-bar">${logo(h.c, h.lg)}<div class="w"><b>${h.n}</b>${h.t} · ${h.v} · ${L[h.t].units}</div>${illus()}</div>
     <div style="margin-top:10px">${money(h.val, phone(ctx) ? 40 : 36)}</div><div class="d">${h.stale ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}Last price ${h.stale}</span>` : `${chg(h.day)}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span>`}</div><div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div></div>`;
-  const acctCard = h => `<div class="card" style="padding:0 0 4px" data-mo="card"><div class="holdings-head"><h3>In your accounts</h3></div>${accountsOf(h).map(([n, u, v, b, r]) => `<div class="holdings-m" data-mo="rise"><span class="k">${n} · ${u}</span><span class="v">${v}</span><span class="r2">${r}</span><span class="n">${b}</span></div>`).join('')}</div>`;
+  const acctCard = (h, ctx) => `<div class="card" style="padding:0 0 4px" data-mo="card"><div class="holdings-head"><h3>In your accounts</h3></div>${accountsOf(h).map(([n, u, v, b, r]) => `<div class="holdings-m" data-mo="rise"><span class="k">${n} · ${u}</span><span class="v">${v}</span><span class="r2">${ctx.state === 'error' ? 'Not shown' : r}</span><span class="n">${b}</span></div>`).join('')}</div>`;
   /* the reasons behind a ranked action on a holding, in the same parts as the ranking (MP-144). Computed by code, illustrative */
   const WHY = { AAPL: ['Protection leads, and no part is weak.', 'Growth 68, Protection 70, Opportunity 65 · score 68 · Policy v1'], NIFTYBEES: ['Protection leads, and its growth and opportunity sit close together.', 'Growth 58, Protection 76, Opportunity 56 · score 65 · Policy v1'] };
   const actionRow = h => `<div class="holdings-bar" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--hairline)">${badge(h.act)}<div class="w">Ranked action · 6 months</div><span class="chip illus">Decision support</span></div><p class="small muted" style="margin-top:8px">${WHY[h.t][0]} Your return is not part of it.</p><p class="small muted" style="margin-top:4px">${WHY[h.t][1]}</p>`;
@@ -294,8 +299,8 @@
       ${actionRow(h)}
       <div style="margin-top:10px">${btn('Record decision', 'tinted sm')}</div></div>`;
   };
-  const SRC = { gen: ['CSV', 'General account, Q3', 'Committed 24 Oct · R-0212'], isa: ['PDF', 'ISA statement, September', 'Committed 6 Oct · R-0210'], ind: ['PDF', 'India demat, September', 'Committed 2 Oct · R-0209'] };
-  const sourcesOf = h => ({ AAPL: [SRC.isa, SRC.gen], NIFTYBEES: [SRC.ind], RELIANCE: [SRC.ind], AZN: [SRC.isa], HSBA: [SRC.isa] }[h.t]);
+  const SRC = { gen: ['CSV', 'General account, Q3', 'Committed 24 Oct · R-0212'], isa: ['PDF', 'ISA statement, September', 'Committed 6 Oct · R-0210'], ind: ['PDF', 'India demat, September', 'Committed 2 Oct · R-0209'], gone: ['PDF', 'ISA statement, January 2024', 'Original deleted · its ledger event stays'] };
+  const sourcesOf = h => ({ AAPL: [SRC.isa, SRC.gen, SRC.gone], NIFTYBEES: [SRC.ind], RELIANCE: [SRC.ind], AZN: [SRC.isa], HSBA: [SRC.isa] }[h.t]);
   const provenance = h => `<div class="card top5" style="padding:2px 0 6px" data-mo="card"><div class="holdings-head"><h3>Where this comes from</h3></div>
     ${sourcesOf(h).map(([k, n, s]) => `<div class="holdings-acc" style="grid-template-columns:30px minmax(0,1fr)" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0"><b>${n}</b><span>${s}</span></div></div>`).join('')}</div>`;
   const oneTop = (ctx, h) => {
@@ -311,7 +316,7 @@
       ? `<div class="card" style="padding:4px 0" data-mo="card">${measures(h).slice(0, 3).map(mRow).join('')}${mRow(['Money-weighted return', 'Not shown', ev('bad', 'Integrity failed'), 'The cash flows did not balance at 21:14. No partial rate is shown. It is tried again on the next run.'])}</div>`
       : `<div class="card" style="padding:4px 0" data-mo="card"><div class="holdings-head"><h3>What your evidence supports</h3></div>${measures(h).map(mRow).join('')}</div>`;
     const gap = st === 'empty' ? stateCard('layers', 'Snapshot only', 'You have units and a value, with no purchases behind them. Older statements fill the history through a rebuild you approve. Forecasts you have seen stay as they were.', btn('Go to Imports', 'tinted sm', 'chev-r')) : '';
-    const body = `${top}${list}${gap}${st === 'error' ? stateCard('alert', 'One measure failed', 'Value, cost basis and gain are sound. Only the return failed its check, so only the return is held back.') : ''}${acctCard(h)}`;
+    const body = `${top}${list}${gap}${st === 'error' ? stateCard('alert', 'One measure failed', 'Value, cost basis and gain are sound. Only the return failed its check, so only the return is held back.') : ''}${acctCard(h, ctx)}`;
     return { body, rail: `${fcAction(h, ctx)}${provenance(h)}` };
   };
 
@@ -324,7 +329,7 @@
   const accCard = (a, ctx) => { const part = ctx.state === 'stale' && a.known; return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${a.c})"><h4>${a.n}</h4><p>${a.m}</p></div>
     ${a.rows.map(([t, u, v]) => { const h = byT[t], stale = h.stale; return `<div class="holdings-acc" data-mo="rise">${logo(h.c, h.lg, true)}<div style="min-width:0"><b>${h.n}</b><span>${t} · ${u}</span></div><div><div class="r">${v}</div>${stale ? `<span style="text-align:right;color:var(--warn)">${ctx.state === 'stale' ? 'Stale' : 'Late'} · ${h.stale} · ${ctx.state === 'noModel' ? 'No forecast' : 'forecast held'}</span>` : `<span style="text-align:right">${fcSmall(h, ctx)}</span>`}</div></div>${ctx.state === 'disagreement' && t === 'RELIANCE' ? `<div class="holdings-sides"><span>${sides()}</span>${dual()}</div>` : ''}`; }).join('')}
     <div class="holdings-foot"><div><span>${part ? 'Known, 2 of 3' : 'Holdings'}</span><b>${part ? a.known : a.hold}</b></div><div><span>Cash</span><b>${a.cash}</b></div><div><span>Return</span><b>${part ? a.retStale : a.ret}</b></div></div>
-    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${proposed('MP40-Q6')}</div></div>` : ''}</div>`; };
+    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${proposed('FIN-OD-06')}</div></div>` : ''}</div>`; };
   const fcSmall = (h, ctx) => {
     const st = ctx.state;
     if (st === 'noModel') return 'No forecast';
@@ -334,10 +339,11 @@
   };
   const accSummary = (ctx, o = {}) => `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${o.label || 'All accounts'}</span>${o.chip || illus()}</div>${money(o.val || '84,612.40', phone(ctx) ? 40 : 36)}${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today · 3 accounts</span></div>`}<div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>${statsTwo(ctx, o.partial)}</div>`;
   const accSummaryPartial = ctx => accSummary(ctx, { label: 'Known value, 6 of 7 priced', val: '78,508.20', chip: ev('part', 'Partial'), partial: true, sub: partialSub() });
-  /* what built each position: units and costs add up to the holding, and the dates give its stated return */
+  /* what built each position: units and costs add up to the holding, and each dated schedule, closed at its value on 3 Nov 2026, gives its stated rate.
+     Reliance and AstraZeneca change direction three times, so neither has a proved single rate (FIN-14, proposed FIN-OD-04) */
   const EVENTS = {
-    AAPL: [['plus', 'Bought 40', '22 Apr 2025 · Stocks ISA · £5,280.00', 'Statement, page 1', ''], ['plus', 'Bought 28', '22 Feb 2025 · General account · £3,612.40', 'CSV, row 12', ''], ['plus', 'Bought 20', '16 Jan 2024 · Stocks ISA · £2,640.00', 'Original deleted', 'none']],
-    HSBA: [['plus', 'Bought 200', '5 Jun 2025 · £1,700.00', 'Statement, page 2', ''], ['plus', 'Bought 500', '3 Nov 2024 · £3,600.00', 'Statement, page 2', '']],
+    AAPL: [['plus', 'Bought 40', '22 Apr 2025 · Stocks ISA · £5,280.00', 'Statement, page 1', ''], ['plus', 'Bought 28', '21 Feb 2025 · General account · £3,612.40', 'CSV, row 12', ''], ['plus', 'Bought 20', '16 Jan 2024 · Stocks ISA · £2,640.00', 'Original deleted', 'none']],
+    HSBA: [['plus', 'Bought 200', '5 Jun 2025 · £1,700.00', 'Statement, page 2', ''], ['plus', 'Bought 500', '4 Nov 2024 · £3,600.00', 'Statement, page 2', '']],
     RELIANCE: [['plus', 'Bought 100', '3 Mar 2025 · £6,700.00', 'Statement, page 3', ''], ['trim', 'Sold 80', '9 Sep 2024 · £5,900.00', 'Statement, page 3', ''], ['plus', 'Bought 100', '12 Feb 2024 · £5,000.00', 'Statement, page 3', '']],
     AZN: [['plus', 'Bought 5', '3 Mar 2026 · £500.00', 'Statement, page 1', ''], ['plus', 'Bought 20', '8 Apr 2025 · £2,000.00', 'Statement, page 1', ''], ['trim', 'Sold 40', '2 Dec 2024 · £3,920.00', 'Statement, page 1', ''], ['plus', 'Bought 100', '14 Jun 2024 · £9,500.00', 'Statement, page 1', '']]
   };
@@ -361,8 +367,8 @@
   };
   const groupList = (o = {}) => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>Groups</h3>${o.chip || `<button class="btn btn-plain sm" type="button">All 11 rows${ic('chev-r', 's14')}</button>`}</div>
     ${gRow(G.a, { on: !o.none, dis: o.off, chip: ev('ok', 'Ready'), nofx: true })}
-    ${(o.resolved && !o.unread) || o.at >= 2 ? gRow(G.c, { on: true, chip: ev('ok', 'Confirmed'), nofx: true }) : gRow(G.c, { dis: true, d: o.unread ? 'Date not read' : '', chip: o.unread ? ev('none', 'Date not read') : ev('old', 'Question 1'), nofx: true })}
-    ${o.resolved || o.at >= 3 ? gRow(G.b, { on: true, m: 'Stocks ISA · HSBA · XLON', chip: ev('ok', 'HSBA chosen'), nofx: true }) : gRow(G.b, { dis: true, chip: ev('amb', 'Question 2'), nofx: true })}
+    ${!o.unread && (o.resolved || o.at >= 2) ? gRow(G.c, { on: true, dis: o.off, chip: ev('ok', 'Confirmed'), nofx: true }) : gRow(G.c, { dis: true, d: o.unread ? 'Date not read' : '', chip: o.unread ? ev('none', 'Date not read') : ev('old', 'Question 1'), nofx: true })}
+    ${o.resolved || o.at >= 3 ? gRow(G.b, { on: true, dis: o.off, m: 'Stocks ISA · HSBA · XLON', chip: ev('ok', 'HSBA chosen'), nofx: true }) : gRow(G.b, { dis: true, chip: ev('amb', 'Question 2'), nofx: true })}
     ${gRow(G.e, { dis: true, chip: ev('part', o.resolved ? 'Stays pending' : 'Question 3'), nofx: true })}
     ${gRow(G.d, { dis: true, chip: ev('none', 'Duplicate'), nofx: true })}</div>`;
 
@@ -387,7 +393,7 @@
     stale: () => banner('warn', 'Resumed, and out of date.', 'You left this draft at 21:09. Your ledger has since moved to revision 214, so check it again before you add it.', 'clock') + manualForm(ctx),
     offline: () => off(ctx, 'Adding to preview waits until you reconnect. Your draft reached the server at 21:09.') + manualForm(ctx, { off: true }),
     noModel: () => claudeOff('Typed rows never use it, so this works as usual.') + manualForm(ctx),
-    disagreement: () => banner('', 'This matches a row you already have.', 'Same date, units and account as a row on receipt R-0212. It can still go to preview, where it shows as a duplicate.', 'split') + manualForm(ctx, { date: '26 Sep 2026' }),
+    disagreement: () => banner('', 'This matches a row you already have.', 'Same date, units and account as a row on receipt R-0212. It can still go to preview, where it shows as a duplicate.', 'split') + manualForm(ctx, { date: '25 Sep 2026' }),
     abstention: () => banner('', 'A snapshot has no history behind it.', 'It records units and a value as an observation. No purchase is invented.', 'ban') + manualForm(ctx, { snap: true })
   });
   const manualScreen = (id, top = '') => ({
@@ -446,11 +452,11 @@
   const diffCard = (ctx, o = {}) => `<div class="card state" data-mo="card">${fileHead(o.chip || ev('amb', 'Difference open'), 'General account, Q3', 'Committed 24 Oct · R-0212')}
     <div class="holdings-ba"><span>Cash on the statement</span><b>£1,522.10</b><span>Cash in the ledger</span><b>${o.ledger || '£1,530.25'}</b><span>Difference</span><b>${o.by || '£8.15'}</b><span>Kind</span><b>${o.kind || 'Cash'}</b></div>
     <p>No plug trade clears this, and nothing is overwritten. A change to the facts goes through a correction.</p></div>`;
-  const resolveCard = (ctx, o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('check', 's18')}</span>Resolve it, with a reason</div><div class="holdings-form">${fld('Your reason', 'Broker fee taken after the statement closed.', { wide: 1, off: o.off })}${fld('Source', 'Broker message, 3 Oct', { wide: 1, off: o.off })}</div>${acts(o.off ? dis('Resolve', 'primary') : btn('Resolve', 'primary sm'), btn('Find the row', 'tinted sm'), btn('Keep it open', 'plain sm'))}</div>`;
+  const resolveCard = (ctx, o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('check', 's18')}</span>Resolve it, with a reason</div><div class="holdings-form">${fld('Your reason', 'Broker fee on the statement, missing from the ledger.', { wide: 1, off: o.off })}${fld('Source', 'Broker message, 3 Oct', { wide: 1, off: o.off })}</div>${acts(o.off ? dis('Resolve', 'primary') : btn('Resolve', 'primary sm'), btn('Find the row', 'tinted sm'), btn('Keep it open', 'plain sm'))}</div>`;
   const diffBody = ctx => region(ctx, {
     ok: () => diffCard(ctx) + resolveCard(ctx),
     loading: () => stateCard('refresh', 'Reconciling again', 'New evidence arrived, so these figures are being checked. The difference stays open and visible meanwhile.') + diffCard(ctx),
-    empty: () => stateCard('check', 'Nothing open', 'Your last difference was resolved by you on 24 Oct, with your reason: “Broker fee taken after the statement closed.” The reason stays on the receipt.', '', ev('ok', 'Resolved by you')),
+    empty: () => stateCard('check', 'Nothing open', 'Your last difference was resolved by you on 24 Oct, with your reason: “Broker fee on the statement, missing from the ledger.” The reason stays on the receipt.', '', ev('ok', 'Resolved by you')),
     error: () => banner('fall', 'That did not save.', 'Your reason is kept, and the difference stays open. Trying again cannot save it twice.', 'alert') + diffCard(ctx) + resolveCard(ctx),
     stale: () => banner('warn', 'Reconciled again at 21:09.', 'A newer statement arrived and the difference stands. Your reason has not been saved yet.', 'clock') + diffCard(ctx) + resolveCard(ctx),
     offline: () => off(ctx, 'Showing this difference from 21:15. It stays open, and resolving it waits until you reconnect.') + diffCard(ctx) + resolveCard(ctx, { off: true }),
@@ -473,7 +479,7 @@
     stale: () => stateCard('clock', 'This approval expired', 'It expired at 21:33 with no commit started, so nothing was committed. The rows have not changed, so a fresh approval is enough.', btn('Sign in and approve', 'primary sm')),
     offline: () => off(ctx, 'Revoking needs a connection. If no commit starts by 21:33, this approval expires by itself.') + stillApproved().replace(btn('Revoke approval', 'plain sm'), dis('Revoke approval', 'plain')),
     disagreement: () => stateCard('alert', 'Refused for a stale revision', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', btn('Refresh preview', 'primary sm', 'refresh')),
-    abstention: () => stateCard('lock', 'Fresh sign-in needed', 'Your sign-in is too old for this step, and a Face ID unlock alone does not count. Nothing has changed.', btn('Sign in again', 'primary sm'))
+    abstention: () => stateCard('lock', 'Fresh sign-in needed', 'Your sign-in is too old for this step, and a Face ID unlock alone does not count. Nothing has changed.', btn('Sign in again', 'primary sm'), proposed('CT-01'))
   });
   const liveScreen = (id, top = '') => ({
     id, title: 'Approved, until the commit starts', na: naApprove,
@@ -490,7 +496,7 @@
     render: ctx => {
       const no = ctx.state === 'error', s = parts(ctx);
       const body = no ? stateCard('lock', 'Permission denied', 'This session cannot read your holdings, so no figure shows. Sign in again to carry on.', btn('Sign in again', 'primary sm')) : banner('', 'Amounts hidden.', 'Money is masked and percentages stay, here and in Imports.', 'eye-off') + acts(proposed('MP-84')) + mask(s.body);
-      const rail = no ? '' : mask(s.rail) + (ctx.state === 'empty' ? '' : mask(change({ go: false, sub: 'Imports · 1 group selected · 3 rows of 11' })));
+      const rail = no ? '' : mask(s.rail) + (ctx.state === 'empty' ? '' : mask(change({ go: false, trade: true, sub: 'Imports · 1 group selected · 3 rows of 11' })));
       return frame(ctx, { tab: 0, title: 'Amounts hidden', back, fresh: no ? 'default' : undefined, actions: tb('eye-off', 'Show amounts'), body, rail });
     }
   });
@@ -505,12 +511,12 @@
     stale: () => stale214('Your ledger moved to revision 214. Refresh to check the rows again. Nothing you answered is lost.') + o.card({ off: true }),
     offline: () => off(ctx, `Your draft is safe on the server at revision ${o.rev - 1}. Answering waits until you reconnect.`) + o.card({ off: true }),
     noModel: () => banner('', 'Claude is off.', `${CLAUDE_OFF} ${o.noClaude}`, 'cube') + o.card({ noClaude: true }),
-    disagreement: () => banner('', o.split[0], o.split[1], 'split') + o.card(),
-    abstention: () => banner('', o.blank[0], o.blank[1], 'ban') + o.card()
+    disagreement: () => banner('', o.split[0], o.split[1], 'split') + o.card({ noClaude: true }),
+    abstention: () => banner('', o.blank[0], o.blank[1], 'ban') + o.card({ noClaude: true })
   });
   const stepScreen = (id, title, top, note, o) => ({
     id, title, note,
-    render: ctx => imp(ctx, { tab: 4, title: top, back: 'Check', fresh: 'default', actions: tools(eyeBtn(), tb('x', 'Cancel')), body: stepBody(ctx, o), rail: groupList({ at: o.rev - 4, off: ['stale', 'offline'].includes(ctx.state) }) })
+    render: ctx => imp(ctx, { tab: 4, title: top, back: 'Check', fresh: 'default', actions: tools(eyeBtn(), tb('x', 'Cancel')), body: stepBody(ctx, o), rail: groupList({ at: o.rev - 4, off: ['stale', 'offline'].includes(ctx.state), unread: ctx.state === 'abstention' }) })
   });
   const q2 = stepScreen('b-check-2', 'Check: which listing', 'Check 2 of 3', 'Claude suggests a listing and only you confirm it. Only this group waits on the choice.', {
     rev: 6, none: 'This group’s listing is already chosen: HSBA · XLON.', noClaude: 'So no listing is suggested here, and you still choose.',
@@ -556,7 +562,7 @@
       disagreement: () => saySplit() + val() + rows(),
       abstention: () => sayAbstain() + val() + rows()
     });
-    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? partialCard(ctx) : st === 'error' ? valueCard(ctx, { meta: LAST }) : st === 'loading' ? valueCard(ctx, { meta: 'Last good 21:15 · refreshing' }) : valueCard(ctx))) + coverage(ctx) + watchCard(ctx) + toImports();
+    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? partialCard(ctx) : st === 'error' ? valueCard(ctx, { meta: LAST }) : st === 'loading' ? valueCard(ctx, { meta: 'Last good 21:15 · refreshing' }) : valueCard(ctx))) + coverage(ctx) + watchCard(ctx) + toImports(importNow(st));
     return { body, rail };
   };
   const acctParts = ctx => {
@@ -573,7 +579,7 @@
       disagreement: () => saySplit() + (p ? accSummary(ctx) : '') + cards(),
       abstention: () => sayAbstain() + (p ? accSummary(ctx) : '') + cards()
     });
-    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? accSummaryPartial(ctx) : st === 'error' ? accSummary(ctx, { meta: LAST }) : st === 'loading' ? accSummary(ctx, { meta: 'Last good 21:15 · refreshing' }) : accSummary(ctx))) + coverage(ctx) + watchCard(ctx) + toImports('Imports', 'Statements, drafts and open differences, for every account.');
+    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? accSummaryPartial(ctx) : st === 'error' ? accSummary(ctx, { meta: LAST }) : st === 'loading' ? accSummary(ctx, { meta: 'Last good 21:15 · refreshing' }) : accSummary(ctx))) + coverage(ctx) + watchCard(ctx) + (st === 'loading' ? toImports('Imports · 1 difference open', 'General account, Q3 · cash differs by £8.15.') : toImports('Imports', 'Statements, drafts and open differences, for every account.'));
     return { body, rail };
   };
   const accountPick = () => `<div class="card top5" style="padding:4px 0" data-mo="card"><div class="holdings-head"><h3>Add a statement</h3></div>${ACC.map(a => `<button class="holdings-acc holdings-btn" type="button" data-mo="rise"><span class="logo sm" style="--c:var(${a.c})" aria-hidden="true">${ic('layers', 's16')}</span><span class="t"><b>${a.n}</b><span>${a.ev[1]}</span></span>${ic('chev-r', 's18')}</button>`).join('')}</div>`;
@@ -592,7 +598,7 @@
         render: ctx => frame(ctx, { tab: 0, title: 'Holdings', back: 'Portfolio', actions: eyeBtn(), webActions: `${btn('Imports', 'tinted sm', 'layers')}${eyeBtn()}`, ...listParts(ctx) })
       }, privateScreen('a-private', listParts, 'Holdings'), {
         id: 'a-one', title: 'One holding',
-        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance with two possible rates, Abstaining AstraZeneca with no rate found.',
+        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance, whose flows change direction, so one rate found is not proved the only one, Abstaining AstraZeneca with no rate found. How far the search goes and what proves a single rate are open (Proposed · FIN-OD-04).',
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
