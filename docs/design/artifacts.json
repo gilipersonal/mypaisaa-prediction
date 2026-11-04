@@ -60,15 +60,15 @@
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "d85232c704a8b77af58be67fff01a1a098b9c0e012c4a8fd59ad8ef1cf1238fa",
+   "published_sha256": "9087834bde1dbe8da8a7a605ac4c9e28cf6d124ad2b1034020bf6b37b01241ff",
    "published_at": "2026-11-04",
-   "jira": "MP-178"
+   "jira": "MP-64"
   },
   {
    "slug": "ds-admin",
    "source": "docs/design/admin/index.html",
    "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "e2d1332ab7c35a8ea9731ff703f759304e12e9d614244e43d9428ab07507f795",
+   "published_sha256": "56ef51e13116aaf13bebd683674665761a9098a39f290bc683b0383eac75c659",
    "published_at": "2026-11-04",
    "jira": "MP-64"
   }
