@@ -1,0 +1,63 @@
+/* ---------- Prism Journeys: the page around the screens. Prism's own rules come first; these only lay out the review. ---------- */
+.jmain { min-width: 0; padding-block: 28px 64px; padding-inline: var(--gl) var(--gr); }
+.jhead h1 { font: 700 34px/41px var(--font-text); letter-spacing: -.02em; text-wrap: balance; }
+.jhead .intro { margin-top: 8px; max-width: 68ch; }
+.jhead .metarow { margin-top: 12px; }
+.jctl { display: grid; gap: 10px; margin-top: 20px; padding: 14px 16px; border-radius: var(--r-card); background: var(--surface); box-shadow: var(--shadow-1); }
+.jctl-row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: center; }
+.jctl .label { color: var(--ink-2); }
+.jstates { display: flex; flex-wrap: wrap; gap: 6px; }
+.jstates button { min-height: 36px; padding: 0 12px; border: 0; border-radius: var(--r-xs); background: var(--surface-2); color: var(--ink-2); font: 500 13px/18px var(--font-text); transition: transform var(--mo-fast) var(--mo-snappy); }
+.jstates button:active { transform: scale(.96); }
+.jstates button[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); font-weight: 600; }
+.jstates button:disabled { color: var(--ink-2); background: transparent; box-shadow: inset 0 0 0 1px var(--hairline); cursor: not-allowed; }
+.jwhy { display: grid; gap: 6px; margin-top: 14px; max-width: 76ch; }
+.jwhy p { font-size: 15px; line-height: 22px; color: var(--ink-2); }
+.jwhy b { color: var(--ink); font-weight: 600; }
+.jrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 410px), 1fr)); gap: 20px 24px; margin-top: 20px; }
+.jrow.wide { grid-template-columns: minmax(0, 1fr); }
+.jrow .board { padding-bottom: 20px; content-visibility: visible; }
+.jnote { margin: 8px 0 0; font-size: 13px; line-height: 18px; color: var(--ink-2); max-width: 60ch; }
+/* a screen scrolls inside its device, as the app would */
+.jscroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: none; z-index: 1; }
+.jscroll::-webkit-scrollbar { display: none; }
+.jbody { position: relative; display: grid; gap: 12px; padding: 0 16px; min-width: 0; }
+.jbody > * { min-width: 0; }
+.jspace { height: 128px; }
+.jspace.tall { height: 196px; }
+.jback { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.jweb { position: absolute; inset: 0; display: grid; grid-template-columns: var(--side-w) minmax(0, 1fr); }
+.jipad { position: absolute; inset: 0; display: grid; grid-template-columns: var(--ipad-side-w) minmax(0, 1fr); }
+.jpane { position: relative; min-width: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; background: var(--ground); }
+.jpane::-webkit-scrollbar { display: none; }
+.jside { position: relative; z-index: 2; display: flex; flex-direction: column; min-height: 0; }
+.jcols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; padding: 0 24px 24px; align-items: start; }
+.jcols.one { grid-template-columns: minmax(0, 1fr); }
+.jcols > div { display: grid; gap: 14px; min-width: 0; }
+.jtop { display: flex; align-items: center; gap: 12px; padding: 16px 24px 10px; flex-wrap: wrap; }
+.jtop .ttl { font: 700 28px/34px var(--font-text); letter-spacing: -.02em; }
+.jtop .acts { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.jfresh { display: flex; gap: 6px; flex-wrap: wrap; }
+.jsheet { position: absolute; inset: 0; z-index: 24; display: flex; align-items: flex-end; }
+.jsheet .scrim { position: absolute; inset: 0; background: var(--scrim); }
+.jsheet .sheet { position: relative; width: 100%; max-height: 86%; overflow-y: auto; }
+.jsheet.center { align-items: center; justify-content: center; }
+.jsheet.center .sheet { width: 520px; border-radius: var(--r-sheet); }
+.jbanner { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: var(--r-md); font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); background: var(--surface); box-shadow: var(--shadow-1); }
+.jbanner .ico { flex: none; margin-top: 1px; }
+.jbanner.warn { background: var(--warn-tint); color: var(--warn); }
+.jbanner.fall { background: var(--fall-tint); color: var(--fall); }
+.jbanner b { font-weight: 600; }
+.jinv h2 { font: 700 28px/34px var(--font-text); letter-spacing: -.02em; }
+.jinv .tblwrap { margin-top: 14px; }
+.jinv td.y, .jinv td.n { text-align: center; }
+.jinv td.y button { min-width: 44px; min-height: 36px; border: 0; background: transparent; color: var(--rise); cursor: pointer; display: inline-grid; place-items: center; }
+.jinv td.n { color: var(--ink-2); font-size: 12px; line-height: 16px; }
+.jinv .sum { margin-top: 10px; font-size: 15px; line-height: 22px; color: var(--ink-2); }
+.jinv tr.jgrp td { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+@media (max-width: 720px) { .jctl-row { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+
+/* ---------- Prism Admin ---------- */
+.aact { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.arefuse { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink-2); font: 400 13px/18px var(--font-text); }
+.arefuse svg { flex: none; margin-top: 1px; }

@@ -65,6 +65,9 @@ jobs:
       - name: Design pages hold their tokens, contrast by token and motion rules; rendered checks run locally
         run: |
           python3 docs/design/journeys/build.py --check
+          python3 docs/design/admin/build.py --check
+          node scripts/design_admin_facts.mjs --selftest
+          node scripts/design_admin_facts.mjs
           python3 scripts/design_gates.py check
           python3 scripts/design_gates.py selftest
           node scripts/design_journeys_facts.mjs --selftest

@@ -166,7 +166,7 @@ const REAL = async (reduced) => {
 
 const pw = require(PW);
 const b = await pw.chromium.launch({ channel: 'chrome' });
-let problems = 0, combos = 0, want = 0, flipsPressed = 0;
+let problems = 0, combos = 0, want = 0, flipsPressed = 0, flipless = false;   // Prism Admin has no flip (MP-64); design_gates refuses the flag on the journeys page
 const say = (m) => { problems++; if (problems <= 60) console.log('FAIL ' + m); };
 try {
   for (const theme of THEMES) {
@@ -180,6 +180,7 @@ try {
     for (const e of errs) say(`${theme}: an error while the page loaded: ${e}`);
     if (!await p.evaluate(() => !!window.__prismJourneys)) { say(`${theme}: the page has no journeys to walk`); await c.close(); continue; }
     await p.evaluate(() => { window.__prismNoFit = window.__prismInstantFlip = true; });   // measure every frame at its true size
+    flipless = await p.evaluate(() => window.__prismFlipless === true);
     const shape = await p.evaluate(() => ({ m: window.__prismJourneys.matrix(), states: window.__prismStates.map((s) => s[0]), surfaces: window.__prismSurfaces.map((s) => s[0]), recs: window.__prismJourneys.all().map((j) => [j.id, j.options.length, j.options.filter((o) => o.rec).length]) }));
     for (const [id, n, rec] of shape.recs) {
       if (ONLY && !ONLY.includes(id)) continue;
@@ -210,8 +211,8 @@ try {
           for (const x of [...new Set(a.low)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.clipped)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.label)].slice(0, 2)) say(`${where}: ${x}`);
-          if (!a.flips) say(`${where}: no screen can flip`);
-          if (theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
+          if (!a.flips && !flipless) say(`${where}: no screen can flip`);
+          if (!flipless && theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
             const pr = await p.evaluate(PRESS, st);
             for (const x of [...new Set(pr.out)].slice(0, 4)) say(`${where}: ${x}`);
             flipsPressed += pr.pressed;
@@ -220,7 +221,7 @@ try {
         }
       }
     }
-    if (theme === THEMES[0] && shape.m.length) {
+    if (!flipless && theme === THEMES[0] && shape.m.length) {
       const row = shape.m.find((r) => !ONLY || ONLY.includes(r.j) && r.o === 'b') || shape.m[0];
       await p.evaluate(([j]) => window.__prismJourneys.go(j, 'a', 'iphone', 'default'), [row.j]);
       errs.length = 0;
@@ -234,8 +235,8 @@ try {
 }
 const b2 = await pw.chromium.launch({ channel: 'chrome' });
 if (!combos || combos !== want) say(`walked ${combos} combinations of ${want}: the walk did not cover the page`);
-if (!flipsPressed) say('no flip was pressed');
-{ // with motion on, a flip turns: one press, on the first journey walked
+if (!flipsPressed && !flipless) say('no flip was pressed');
+if (!flipless) { // with motion on, a flip turns: one press, on the first journey walked
   const c = await b2.newContext({ viewport: { width: 1440, height: 1000 }, colorScheme: 'light' });
   const p = await c.newPage();
   await p.route('https://j.test/**', (r) => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: wrap }));

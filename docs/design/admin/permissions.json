@@ -1,0 +1,657 @@
+{
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, drafted from the records for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved. No audit operation vocabulary is approved (CT-03). Nothing here approves a design or a build.",
+ "actions": [
+  {
+   "id": "A01",
+   "action": "Read audit, query lineage",
+   "journeys": [
+    "audit"
+   ],
+   "step_up": "no",
+   "step_up_note": "No, read; freshness of source access open",
+   "audit": "Source access has \"privacy-safe evidence\"",
+   "source": "PH01-S04; CT-03 acceptance"
+  },
+  {
+   "id": "A02",
+   "action": "Open an original or its extracted text",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open (CT-01); needs \"current owner authorization and a short-lived access path\" `[history]`",
+   "audit": "Access event; class open (CT-03)",
+   "source": "AOR:61"
+  },
+  {
+   "id": "A03",
+   "action": "Read cost, runs, health",
+   "journeys": [
+    "costs",
+    "runs"
+   ],
+   "step_up": "no",
+   "step_up_note": "No: read access is \"distinct from controls\"",
+   "audit": "None named",
+   "source": "GAP-CT-16"
+  },
+  {
+   "id": "A04",
+   "action": "Upload a file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open (not on the matrix)",
+   "audit": "AuditEvidence, SourceReceipt",
+   "source": "PH01-S06"
+  },
+  {
+   "id": "A05",
+   "action": "Decide a duplicate collision",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision; audit class open",
+   "source": "PH01-S12"
+  },
+  {
+   "id": "A06",
+   "action": "Cancel a draft",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Open (CT-03)",
+   "source": "FP:53-83"
+  },
+  {
+   "id": "A07",
+   "action": "Approve an import",
+   "journeys": [
+    "files",
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "OwnerApproval, AuditEvidence, CommitReceipt in the same logical commit",
+   "source": "PH01-S14, PH01-S04"
+  },
+  {
+   "id": "A08",
+   "action": "Approve a partial group set",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "New hash, as 7",
+   "source": "POLICY-005"
+  },
+  {
+   "id": "A09",
+   "action": "Revoke an approval before commit",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open. \"Neither MP-55 nor CT-01 names it\"",
+   "audit": "Open (records revoked_at)",
+   "source": "J:shell:285; OwnerApproval schema"
+  },
+  {
+   "id": "A10",
+   "action": "Approve a correction",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence",
+   "source": "PH02-S03, PH01-S18"
+  },
+  {
+   "id": "A11",
+   "action": "Approve a reversal",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes `[inferred from \"corrections\"; operation is its own enum value]`",
+   "audit": "As 10",
+   "source": "PH01-S18, schema"
+  },
+  {
+   "id": "A12",
+   "action": "Approve a baseline rebuild",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, 15-minute window",
+   "audit": "As 10, new generation",
+   "source": "POLICY-012 POL:201"
+  },
+  {
+   "id": "A13",
+   "action": "Financial reprocessing",
+   "journeys": [
+    "files",
+    "incidents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ReplayRequest, AuditEvidence",
+   "source": "PH08-S06"
+  },
+  {
+   "id": "A14",
+   "action": "Non-financial reprocess into a new draft revision",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; a new revision voids any approval",
+   "audit": "New revision; audit class open",
+   "source": "PH01-S08"
+  },
+  {
+   "id": "A15",
+   "action": "Record an orphan's disposition",
+   "journeys": [
+    "files",
+    "audit"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "\"recorded disposition\"; actor unnamed",
+   "source": "PH01-S05, FS:43"
+  },
+  {
+   "id": "A16",
+   "action": "Delete an original",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "DeletionTombstone, AuditEvidence",
+   "source": "PH01-S05, PH02-S14"
+  },
+  {
+   "id": "A17",
+   "action": "Renew or extend an original",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence",
+   "source": "PH01-S05, PH02-S14"
+  },
+  {
+   "id": "A18",
+   "action": "Request an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, \"fresh sign-in for the request\"",
+   "audit": "AuditEvidence (owner, environment, revision)",
+   "source": "PH01-S26"
+  },
+  {
+   "id": "A19",
+   "action": "Download an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence",
+   "source": "PH01-S26"
+  },
+  {
+   "id": "A20",
+   "action": "Delete a stored export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence",
+   "source": "PH01-S26"
+  },
+  {
+   "id": "A21",
+   "action": "Revoke an export link early",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; the behaviour itself is open (FIN-OD-08)",
+   "audit": "Open",
+   "source": "FOD:147"
+  },
+  {
+   "id": "A22",
+   "action": "Correct a memory note",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New version; class open",
+   "source": "PH05-S15"
+  },
+  {
+   "id": "A23",
+   "action": "Forget a memory note",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "DeletionTombstone",
+   "source": "PH05-S15"
+  },
+  {
+   "id": "A24",
+   "action": "Approve a route model, tool or budget change",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; a budget change is Yes under 34",
+   "audit": "Manifest version; audit class open",
+   "source": "PH05-S06"
+  },
+  {
+   "id": "A25",
+   "action": "Promote a model",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, \"fresh authentication bound to the exact payload\"",
+   "audit": "PromotionRecord, OwnerApproval, PromotionDecision",
+   "source": "PH04-S18"
+  },
+  {
+   "id": "A26",
+   "action": "Reject a candidate",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "PromotionRecord (to rejected)",
+   "source": "PH04-S18"
+  },
+  {
+   "id": "A27",
+   "action": "Switch forward after a revert",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; drawn with a fresh sign-in, tagged `Proposed · CT-01`",
+   "audit": "PromotionRecord",
+   "source": "PH04-S19; J:approvals:296"
+  },
+  {
+   "id": "A28",
+   "action": "Restart a paused scope",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; same",
+   "audit": "PromotionRecord, tagged `Proposed · POLICY-003`",
+   "source": "DL:219; J:approvals:302"
+  },
+  {
+   "id": "A29",
+   "action": "Approve self-correction bands",
+   "journeys": [
+    "models",
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes `[inferred: a sensitive setting]`",
+   "audit": "Audit, setting version",
+   "source": "PH05-S14"
+  },
+  {
+   "id": "A30",
+   "action": "Label calibration samples, approve release thresholds",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "EvalLabel",
+   "source": "PH05-S13"
+  },
+  {
+   "id": "A31",
+   "action": "Change a sensitive setting",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ApprovalRequest, OwnerApproval, AuditEvidence",
+   "source": "PH05-S14"
+  },
+  {
+   "id": "A32",
+   "action": "Roll back a setting",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New version, \"its own audit record\"",
+   "source": "PH05-S14"
+  },
+  {
+   "id": "A33",
+   "action": "Approve a ranking policy version",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Policy version",
+   "source": "PH06-S05"
+  },
+  {
+   "id": "A34",
+   "action": "Change a threshold or allocation",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit, new version",
+   "source": "PH02-S10, PH02-S08"
+  },
+  {
+   "id": "A35",
+   "action": "Approve paid cash beyond credit",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit",
+   "source": "PH02-S09"
+  },
+  {
+   "id": "A36",
+   "action": "Confirm a watch-only listing or segment",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "\"the authentication PH-02 requires for a configuration change\": level open; drawn `Proposed · CT-01`",
+   "audit": "Catalogue version, owner approval record",
+   "source": "PH03-S03, PH05-S11"
+  },
+  {
+   "id": "A37",
+   "action": "Set or withdraw a risk-acceptance scope",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Entitlement, AuditEvidence",
+   "source": "PH03-S02"
+  },
+  {
+   "id": "A38",
+   "action": "Activate or deactivate a market extension",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "ExtensionApproval",
+   "source": "PH09-S01"
+  },
+  {
+   "id": "A39",
+   "action": "Approve alert thresholds or a quiet-hour exception",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; edits are \"versioned/audited\"",
+   "audit": "Audit, policy version",
+   "source": "PH06-S12; CT-18"
+  },
+  {
+   "id": "A40",
+   "action": "Acknowledge or resolve an incident",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "IncidentRecord; recorded resolution",
+   "source": "PH08-S05"
+  },
+  {
+   "id": "A41",
+   "action": "Broad replay or a new paid external call",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ReplayRequest with the owner's approval",
+   "source": "PH08-S06"
+  },
+  {
+   "id": "A42",
+   "action": "Approve switching authority to a restored copy",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "RecoveryExercise; AuditEvidence read",
+   "source": "PH08-S03"
+  },
+  {
+   "id": "A43",
+   "action": "Use a pause switch by hand",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; only the runbook names them",
+   "audit": "Open",
+   "source": "PH08-S09"
+  },
+  {
+   "id": "A44",
+   "action": "Start a prod release",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "outside",
+   "step_up_note": "Not an MP step-up: a GitHub workflow only the owner can start",
+   "audit": "ReleaseEvidence (owner's start)",
+   "source": "PH08-S01, DL:203"
+  },
+  {
+   "id": "A45",
+   "action": "Waive a release gate",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "outside",
+   "step_up_note": "Not an MP step-up: \"in words\"",
+   "audit": "ReleaseEvidence, owner's words",
+   "source": "PH08-S07"
+  },
+  {
+   "id": "A46",
+   "action": "Link an identity",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit, opaque references",
+   "source": "PH02-S01, S02"
+  },
+  {
+   "id": "A47",
+   "action": "Unlink a path",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "A48",
+   "action": "Enrol a passkey",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "A49",
+   "action": "Revoke a session or device",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "Audit",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "A50",
+   "action": "Cancel a recovery in progress",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Audit `[inferred: \"each step is audited\"]`",
+   "source": "PH02-S02"
+  }
+ ],
+ "refused": [
+  {
+   "id": "R1",
+   "act": "Edit the ledger outside the controlled writer",
+   "source": "PH00-S06 negative; PH02-S05; PH02-S11"
+  },
+  {
+   "id": "R2",
+   "act": "Edit a projection by hand",
+   "source": "PH01-S16"
+  },
+  {
+   "id": "R3",
+   "act": "Edit a stored observation, the owner included",
+   "source": "PH03-S05"
+  },
+  {
+   "id": "R4",
+   "act": "Move a frozen cutoff or backdate an origin, the owner included",
+   "source": "PH03-S09"
+  },
+  {
+   "id": "R5",
+   "act": "Promote with fewer than 8 scored weeks, failing a comparator, or with a different artefact, an expired approval or a changed evidence hash",
+   "source": "PH04-S18"
+  },
+  {
+   "id": "R6",
+   "act": "Delete evidence without a recorded tombstone",
+   "source": "PH00-S06 negative"
+  },
+  {
+   "id": "R7",
+   "act": "Edit or delete an audit record outside the approved deletion policy",
+   "source": "PH01-S04"
+  },
+  {
+   "id": "R8",
+   "act": "Household or multi-user administration",
+   "source": "PH00-S06 negative"
+  },
+  {
+   "id": "R9",
+   "act": "Remove the last usable sign-in path",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "R10",
+   "act": "Recover by email equality, SMS or a support route",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "R11",
+   "act": "Destructive restore into production",
+   "source": "PH08-S03"
+  },
+  {
+   "id": "R12",
+   "act": "Replay across environments",
+   "source": "PH08-S06"
+  },
+  {
+   "id": "R13",
+   "act": "Rehearse a rollback in prod",
+   "source": "PH08-S04"
+  },
+  {
+   "id": "R14",
+   "act": "Any settings change granting a route a tool, source, budget, infrastructure permission or approval authority",
+   "source": "PH05-S14"
+  },
+  {
+   "id": "R15",
+   "act": "Force a partial publish",
+   "source": "PH01-S15"
+  },
+  {
+   "id": "R16",
+   "act": "A financial write offline",
+   "source": "PH07-S04, PH06-S04"
+  },
+  {
+   "id": "R17",
+   "act": "Any runbook step bypassing the writer, step-up or release workflow",
+   "source": "PH08-S09"
+  },
+  {
+   "id": "R18",
+   "act": "Make an original public",
+   "source": "PH01-S05"
+  },
+  {
+   "id": "R19",
+   "act": "A trade or an order",
+   "source": "ARCH:52"
+  }
+ ]
+}
