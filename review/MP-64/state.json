@@ -1812,7 +1812,10 @@
       "new_gates": [
         "design_admin_facts: a named act that is drawn; an act drawn in a journey its row does not list; start again and choose read as writes",
         "design_admin_press: a theme press repaints only the view on screen"
-      ]
+      ],
+      "fix_commit": "c9c9d5d",
+      "post_fix_gates": "Walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems; design_admin_facts 0 problems, 107 of 107 checks; every ledger 406 run, 2 retired; MP-64 ledger 95 of 95.",
+      "publication": "Prism Admin v6 republished privately and read back. Confluence ph-07 is pending: PH-07.json changed, and publishing it and syncing MP-164 need the owner's own yes."
     }
   ]
 }
