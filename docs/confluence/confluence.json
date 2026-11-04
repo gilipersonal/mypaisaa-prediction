@@ -182,8 +182,8 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 6,
-   "sha256": "cbc3cd71b5dca45e8b31c322f571db7dfafd77da61e79277cc7353d50c4af41b"
+   "version": 7,
+   "sha256": "9be17a7c9b2ab5b108f79d2f550cc79e7d49b87ea5873591b2efe477a9e17667"
   },
   "rec-perimeter": {
    "id": "6390123",
