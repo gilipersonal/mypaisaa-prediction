@@ -2,7 +2,7 @@
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
   "round_count": 4,
-  "status": "round 4 running",
+  "status": "round 4 fixed, waiting on the owner",
   "rounds": [
     {
       "round": 1,
@@ -2519,8 +2519,435 @@
         }
       ],
       "manual_verification": [],
-      "findings": [],
-      "next_round": "Decided after the findings."
+      "findings": [
+        {
+          "id": "R4-f1",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/home.js:21",
+          "evidence": "**In Conflicting, the picked Admin home never says production is recorded lost.** Evidence: Incidents Conflicting says \"Production is recorded lost, so inc_0014 is open and Recovery holds the copy\" (`incidents.js:74`). This round added that fact to Home, but only in `FIRST.conflict[2]` (`home.js:26`",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:33",
+          "evidence": "**Queue Partial states a held-apart count in the state that says the count is unknown.** Evidence: `a-queue` Partial prints \"The quarantine list did not answer, so what is held apart is unknown. It is not shown as nothing held.\", then \"Held apart: Quarantine not read, Unknown, not zero\", and the rai",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f3",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/audit.js:177",
+          "evidence": "**Expired, on the picked Explorer: \"Records current · 11:40\" sits above a row stamped 18:00.** Evidence: `audit b b-explore expired iphone` prints \"Records current · 11:40\" and then \"Watch Taiwan Semiconductor · Nobody · expired 18:00\". The chip comes from `shell.js:68`, which has no `expired` entry",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f4",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:29",
+          "evidence": "**The new countdown is measured from 11:40 in lists read earlier.** Evidence: \"link valid 22 min\" is right at 11:40 for a link issued at 11:02. `qKept`'s default also prints it in the queue's Stale (\"From 11:12\"), Offline (\"from 11:20\") and Failed (\"this is the list from 11:20\") states, confirmed in",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f5",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:87",
+          "evidence": "**The revision rule was widened in four places and missed a fifth.** Evidence: lines 59, 61, 83 and 233 now include answers on a duplicate or a transfer. `a-compare` Empty still says \"An edit, a reprocess, a remap or an exclusion makes the next one.\" Its own rail, on the same screen, gives the longe",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f6",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:69",
+          "evidence": "**\"A blank is never filled in\" now sits above \"Add the date\".** Evidence: draft Partial's banner keeps the old sentence, while this round's row says \"Type it from your statement\" with an A56 button, and Compare reads \"22 Oct, added by you\". The banner means Claude never guesses, but it reads as if t",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f7",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:238",
+          "evidence": "**A note lost its antecedent.** The same applies at line 262. Evidence: the edit removed \"a later evening\" but left \"Partial and Failed read as that later moment\", so \"that\" now points at nothing. Correction: \"Partial and Failed read as a later evening, not the 11:38 of the chip.\"",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f8",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/audit.js:177",
+          "evidence": "**The new row is the only one in the record list with no day.** Evidence: \"Nobody · expired 18:00\" sits among \"Wed 11:02\", \"Wed 08:14\" and \"Tue 21:33\". This list spans the account's lifetime, so a bare time cannot be placed. Correction: \"Nobody · expired Wed 18:00\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/audit.js:163",
+          "evidence": "**In Failed, two of the three checks are marked and Restore is not.** Evidence: `audit b b-gaps error desktop` prints Commits and Delivery as \"From 11:20, not vouched for\", and Restore as \"Exercise rx_0007 passed, Sun 1 Nov\" with \"Tombstones reapplied first\". All three come from the same read. The r",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:147",
+          "evidence": "**The same export reads differently on the owner page, with nothing saying why.** Evidence: this round moved Files to \"Ready · link valid 22 min\". `docs/design/journeys/src/journeys/privacy.js:200` still says \"Ready · link valid 42 min\" over the same pin, \"Revision 213 · root 9f3a…c21\", and the same",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/files.js:32",
+          "evidence": "**The oversized file now waits on a decision but is not under \"Needs you\".** Evidence: this round gave it A81 and A82, and it says \"not read until you decide\". It stays in \"Held apart\", and Files A's reason for existing is that \"every file is sorted by what it needs\". The `a-queue` note explains onl",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-f12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/journeys/home.js:20",
+          "evidence": "**Home Failed: the Runs line is the one place without its time, and option A's rail still shows Tuesday's run as the last run.** Evidence: the picked B banner says \"each place shows its line from 11:20\", but this round's Runs tile reads \"US run Tue · failed\" with no suffix, unlike its neighbours. Th",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:115",
+          "evidence": "**The picked a-evals says the thresholds control opens only once the values arrive, and then draws it open with no values.** Evidence, Models A, a-evals, Ready, in page order: - \"Proposed value: Arrives with the proposal.\" - \"Each row carries its proposed value here before you approve it, and the co",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/runs.js:49",
+          "evidence": "**Partial turned the dead-letter alarm from Unknown to a green \"0 items\", while the same state says the queue was not read.** Evidence, from the diff: - `:49` was `'This source did not answer', WARN('Unknown')`. It is now `'Read at 11:40', OK('0 items')`. - The same round moved the unread queue to C",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/runs.js:265",
+          "evidence": "**The new `ukMon` row brings back R2-m8's fault in a phrasing its check does not search.** Evidence, a-clock Partial, in order: - \"India and the US answered. The UK record did not, so it shows unknown and never on time.\" - UK card: \"Watermark Not read. Last success Not read. Next due Not read.\" - Th",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:66",
+          "evidence": "**This round took `expired` out of the \"What this proposed\" list, so a-decide Expired now binds a new approval to the window it just said ran out.** Evidence, a-decide Expired: - Banner: \"Expired. It did not apply.\" - R5: \"An expired approval is refused at execution. A new one gets a new window.\" - ",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m5",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:177",
+          "evidence": "**In Expired, the a-pipe rows and the screens they open disagree (lesson 31).** Evidence: - a-pipe Expired keeps \"R2-HGB v4 ... expires Fri 18:00, Ready for you\" and \"Rules v6, Waits for your yes\". - Following the rows: a-decide and a-evidence say \"Expired\" and \"Your approval ran out\". a-rules says ",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m6",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/runs.js:41",
+          "evidence": "**`ukMon` makes What ran look exhaustive, and it is not.** Evidence: - The list is newest first and now holds Wed India, Tue US, Tue UK, Mon US, Mon UK. India's Tue and Mon runs are absent, though Stale (`:267`) gives India \"Last success Tue 10:15\". The option's `why` says \"A missed run shows as a g",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m7",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:41",
+          "evidence": "**The same approval, a81f…60de, is bound to different lines in admin and the owner journey (lessons 7, 27).** Evidence: - `BIND` has no Environment and no Expected version. - `STEP_MODEL` (`docs/design/journeys/src/journeys/approvals.js:179`) has \"Environment Production\" and \"Expected version Models",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-m8",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:92",
+          "evidence": "**The Prod to Production fix stops at this lane (lesson 1).** Evidence: lane m and the owner journey now say \"Environment Production\", while `['Environment', 'Prod']` remains at `admin/src/journeys/approvals.js:235`, `incidents.js:45` and `identity.js:257`. Those files belong to other lanes. This re",
+          "status": "fixed by the coordinator: Environment reads Production everywhere"
+        },
+        {
+          "id": "R4-m9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "m",
+          "anchor": "docs/design/admin/src/journeys/models.js:254",
+          "evidence": "**R3-m1's bare scope survives in a label its check does not read (unpicked option).** Evidence: the b-scope screen title is \"All segments, one scope\", while its bind says \"All segments, except US tech, 12 months and India midcap, 3 months\". The check reads only the rendered `Scope` row and head. Cor",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a1",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/admin/src/journeys/costs.js:176",
+          "evidence": "**This month's forecast states one figure, and the same moment states another everywhere else (lesson 27).** Evidence: `ca-credit` Ready prints \"This month's forecast £54.73 £53.54\". On the same day 18 and clock, `ca-lines` Ready prints \"Forecast for the month up to £59.73\", `ca-budget` allocates it",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/admin/src/journeys/costs.js:175",
+          "evidence": "**In Failed, \"at most\" is built from a lower bound.** Evidence: `ca-credit` Failed prints \"£6.71 of Claude is already spent, and the £0.34 hold settles or releases, so at most £53.53.\" The same state says that figure stops at 18:00 (\"What the calls cost, to 18:00\"), and the lanes say \"Internal estim",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/admin/src/journeys/costs.js:339",
+          "evidence": "**The change moved to a later day on one screen and not on the screen that reports it (lessons 27, 3).** Evidence: this delta gave `ca-change` Expired `day: 19` and the chip \"A day later\", because the change \"expires tomorrow 18:00\" from day 18. `ca-budget` Expired (also `:363`, `cb-budget`) still p",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/admin/src/journeys/approvals.js:159",
+          "evidence": "**\"What was already sent\" cites a decision that does not cover it, and the story's own words were dropped (lessons 36, 4).** Evidence: the row reads \"What was already sent / Disposition pending / Its treatment is open. Proposed · DATA-DEC-04\". `catalogue.json` DATA-DEC-04 is \"Approve grant withdrawa",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/journeys/src/journeys/approvals.js:149",
+          "evidence": "**The exact scope now binds on the owner page, and the owner page does not say what happens to the two scopes it leaves out (lessons 31, 27).** Evidence: - `aa-model` No model: \"That scope stays paused until you restart it. The others can still be promoted.\" One screen line later the bound scope exc",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "a",
+          "anchor": "docs/design/journeys/src/journeys/approvals.js:132",
+          "evidence": "**One approval, one payload hash, two values on a bound line (lesson 31).** Evidence: MP-156 says the approval binds \"previous safe version\". Owner Ready, in `bound` and `STEP_MODEL` (`:179`): \"Previous safe R2-HGB v3\". Admin `models.js:41`, same hash `a81f…60de`, a constant: \"R2-HGB v3, where eligi",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a7",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "a",
+          "anchor": "docs/design/admin/src/journeys/costs.js:200",
+          "evidence": "**The rollback target is not checked against what it must pay for (lesson 16).** Evidence: \"If you roll back to v1\" shows Claude and evaluations £15 to £13. The Allocations card directly above prints \"Forecast £13.24\", and `ca-credit` says paid use is approved \"Up to £15.00\" and \"Inside the Claude a",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-a8",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "a",
+          "anchor": "docs/design/journeys/src/journeys/approvals.js:201",
+          "evidence": "**Three smaller gaps left by this delta, each a copy or outcome that stops short (lessons 28, 29).** Evidence: - Owner `aa-result` No model has no \"probation\", no tonight's forecasts and no revert rule. Ready's rail shows them in `NEXT()`, and the same model goes on the same probation. - Admin `appr",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/incidents.js:35",
+          "evidence": "**inc_0014, the worst incident on the page, is the only one that cannot be opened, acknowledged or resolved.** Evidence: - `I14` is used only by `statusOf`, `incRows` and `nowBand` (:40, :42, :306). `inc(ctx)` (:36) returns I13 or I12, so `a-detail` and `b-escalate` in Conflicting show inc_0012. - `",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/runs.js:38",
+          "evidence": "**Runs tells a different story of inc_0012 from Incidents in Conflicting and Partial (lessons 27, 31, 46).** R3-s3 fixed the link from Incidents into Runs. The way back is still wrong. Evidence, same state chip on both sides: - Conflicting status, three answers for one record. `incidents a-list` and",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/home.js:21",
+          "evidence": "**The picked Admin home never says production is recorded lost (AGENTS.md \"Never hide risk\", lessons 27, 38).** Evidence: - Round 3 added \"Production recorded lost · HSBC price late, reopened\" to `FIRST.conflict` (:26), which only Option A draws. - The owner picked B. `b-home` conflict reads \"Incide",
+          "status": "fixed: the same finding as R4-f1"
+        },
+        {
+          "id": "R4-s4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/identity.js:167",
+          "evidence": "**The revoke sentence is missing where a passkey is actually at stake, because R3-s1 checks a hand list of screens (lessons 7, 31, 44).** Evidence, a scan of every Identity view with a Revoke step or control and without \"What a revoke does to a passkey held on that device is not recorded.\": - `a-los",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/planning/story-readiness-2026-11-03/stories/PH-07.json:147",
+          "evidence": "**The phrasing R2-s7 and R3-s9 removed survives in another form in the same stories, and the check cannot see it (lessons 1, 3, 4).** Evidence: - `PH-07.json` lines 11, 147, 217, 482, 616: \"no TestFlight, Apple push or Sign in with Apple until the owner says.\" That is the authority text of MP-168, M",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/incidents.js:168",
+          "evidence": "**The Replay screen says the request is inside the allowlist and, in the same card, that nobody knows whether it is (lessons 36, 47).** Evidence, `a-replay` default: \"Reason inc_0012 · late price, no newer price found\", \"Your approval Not needed, inside the allowlist\", then the new \"Whether a late p",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s7",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/identity.js:238",
+          "evidence": "**\"Revoking needs no iPhone passkey\" disagrees with the owner Privacy journey, and the disagreement is not on the page's list (lessons 31, 47; `plan-sync.md` rule 3).** Evidence: `docs/design/journeys/src/journeys/privacy.js:328` draws the lost-device button \"Revoke with a passkey\" on every device, ",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s8",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/identity.js:139",
+          "evidence": "**Three new open questions sit on screens with no question recorded, and one tells the owner \"until you answer\" (lesson 36; `plan-sync.md` rule 3).** Evidence: - `a-enrol` on phone web: \"Whether a browser passkey on a phone counts is not recorded, so enrolling is drawn on the Mac alone until you ans",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/shell.js:16",
+          "evidence": "**R3-s7's fix leaves the phone's Link Google screen pointing two ways.** Evidence, `a-link` on iPhone, top of the body: \"Account recovery works here. Other changes happen on iPad or desktop.\" Below it: \"Link Google: on your Mac: the proof needs your Mac passkey\". The iPad says the iPad cannot do it.",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/incidents.js:126",
+          "evidence": "**Partial still claims a link through the record that did not answer.** Evidence: `a-evidence` partial shows \"Run run_8cf7 · UK · not read\" and directly below it \"Trace Linked from run_8cf7\", under a banner saying \"The other links opened\". Correction: add `trace: ['search', 'Trace', 'Not read, it li",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/admin/src/journeys/incidents.js:399",
+          "evidence": "**The note \"run_8bf3 is minted here.\" is out of date and reads as a maker's aside.** Evidence: `runs.js:40` draws the same run, \"Forecast run, Mon 2 Nov 16:50 run_8bf3 · UK\", in `a-clock`. The note shows on the Compare and pick card the owner reads. Correction: delete the sentence, or say \"run_8bf3 ",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "Jira MP-64",
+          "evidence": "**The issue's last word is out of date (`jira-flow.md` habit 3).** Evidence: read today, the latest comment, 21:09, says \"Jira MP-163 and Confluence PH-07 need the owner's yes, so the confluence-receipts check shows ph-07 pending\". MP-163 changed at 21:12 and PH-07 v6 was read back at 21:13. The own",
+          "status": "fixed"
+        },
+        {
+          "id": "R4-s13",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "tests/admin_facts/s.mjs:177",
+          "evidence": "**Round 3's fixes are held only in part. Undoing several of them fails no check (lessons 2, 34).** Evidence: I reversed 14 of the delta's changes one at a time in a scratch copy, rebuilt, and ran `design_admin_facts.mjs --facts`. Caught: - Dropping `Not classed` or the `nowBand` row: R3-s5. - Revert",
+          "status": "fixed"
+        }
+      ],
+      "next_round": "Round 5 is the last the rule allows. It would cover the fixes since the reviewed commit and their direct joins, and needs its own yes.",
+      "blocking_findings": [
+        "R4-f1",
+        "R4-f2",
+        "R4-m1",
+        "R4-m2",
+        "R4-m3",
+        "R4-m4",
+        "R4-a1",
+        "R4-a2",
+        "R4-a3",
+        "R4-a4",
+        "R4-a5",
+        "R4-a6",
+        "R4-s1",
+        "R4-s2",
+        "R4-s3",
+        "R4-s4",
+        "R4-s5",
+        "R4-s6"
+      ],
+      "nonblocking_findings": [
+        "R4-f3",
+        "R4-f4",
+        "R4-f5",
+        "R4-f6",
+        "R4-f7",
+        "R4-f8",
+        "R4-f9",
+        "R4-f10",
+        "R4-f11",
+        "R4-f12",
+        "R4-m5",
+        "R4-m6",
+        "R4-m7",
+        "R4-m8",
+        "R4-m9",
+        "R4-a7",
+        "R4-a8",
+        "R4-s7",
+        "R4-s8",
+        "R4-s9",
+        "R4-s10",
+        "R4-s11",
+        "R4-s12",
+        "R4-s13"
+      ],
+      "blocking": 18,
+      "result": "42 findings, 18 blocking, no P0, 3 P1. Every blocking one is fixed and held by a ledger check."
     }
   ]
 }

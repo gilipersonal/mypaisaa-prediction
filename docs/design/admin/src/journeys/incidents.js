@@ -33,7 +33,7 @@
   const I12 = { id: 'inc_0012', name: 'HSBC price late', cls: 'Data quality', at: 'Tue 16:50', sub: 'Last price 14:10 · detected Tue 16:50', i: 'clock', tone: 'warn' };
   const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:14', sub: 'Twelve Data failed at 21:14 · detected Tue 21:14', i: 'alert', tone: 'fall' };
   const I14 = { id: 'inc_0014', name: 'Production recorded lost', cls: 'Not classed', at: '', sub: 'A restored copy waits in Recovery', i: 'alert', tone: 'fall' };
-  const inc = ctx => (ctx.state === 'error' ? I13 : I12);
+  const inc = ctx => (ctx.state === 'error' ? I13 : ctx.state === 'conflict' ? I14 : I12);
   const ST = {
     open: chip('error', 'Open', 'alert'), ack: chip('stale', 'Acknowledged', 'clock'), done: chip('', 'Resolved', 'check'), again: chip('error', 'Reopened', 'refresh')
   };
@@ -42,7 +42,7 @@
   const incRows = ctx => list((ctx.state === 'error' ? [I13, I12] : ctx.state === 'conflict' ? [I14, I12] : [I12]).map(i => incRow(ctx, i)).join(''));
   const incHead = ctx => {
     const i = inc(ctx);
-    return card(`${head(i.name, statusOf(ctx, i))}${kv([['Incident', i.id], ['Class', i.cls], ['Opened by', `Code · ${i.at}`], ['Environment', 'Prod']])}`);
+    return card(`${head(i.name, tags(statusOf(ctx, i), i === I14 ? proposed('CT-14') : ''))}${kv([['Incident', i.id], ['Class', i.cls], ['Opened by', i.at ? `Code · ${i.at}` : 'Code'], ['Environment', 'Production']])}`);
   };
   const who = () => note('Code opens incidents. You acknowledge and resolve them. Agents cannot close an incident.');
 
@@ -84,7 +84,7 @@
     error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Reads stay open while it is unresolved.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a later step may have landed. Nothing here is newer than that.', 'clock'),
     offline: banner('', 'Offline.', 'This timeline is from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: banner('warn', 'A newer record says Reopened.', 'You opened this as Acknowledged, and the fault came back. Your view stays at that version and nothing was applied.', 'split'),
+    conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(proposed('CT-14'))}`,
     expired: ctx => `${phone(ctx) ? banner('warn', 'A resolution did not land in time.', 'Nothing was recorded, so inc_0012 stays Acknowledged. Resolving happens on iPad or desktop.', 'clock') : banner('warn', 'Your resolution did not land in time.', 'The request passed its time, so nothing was recorded and inc_0012 stays Acknowledged. Your words stay in the box.', 'clock')}${tags(proposed('CT-02'))}`,
     denied: ctx => `${signNote('This timeline stays readable.')}${tags(proposed('CT-01'))}`
   };
@@ -96,8 +96,18 @@
   const MIT = 'When this counts as mitigated, and who says so, is not recorded.';
   const pt = (st, t, s, x = '') => `<li class="${st}"${st === 'now' ? ' aria-current="step"' : ''}><span class="pt">${st === 'done' ? ic('check', 's14') : st === 'warn' ? ic('alert', 's14') : ''}</span><div style="min-width:0"><b>${st === 'done' ? '<span class="sr">Done: </span>' : st === 'now' ? '<span class="sr">Now: </span>' : ''}${t}</b><p>${s}</p>${x ? `<div class="x">${x}</div>` : ''}</div></li>`;
   const tl = (name, rows) => `<ol class="aincidents-tl" aria-label="${name}">${rows.join('')}</ol>`;
-  function timeline(ctx) {
+  const ack14 = () => act('A40', 'Acknowledge', 'primary');
+  const close14 = ctx => `${phone(ctx) ? '' : field(ctx)}${act('A75', 'Resolve this incident', 'primary')}`;
+  const CLOSE14 = 'A switch does not close this. An incident closes only with a recorded resolution, and only you record it.';
+  const again12 = (ctx, inner) => card(`${head('HSBC price late', ST.again)}${kv([['Incident', 'inc_0012'], ['Class', 'Data quality']])}${note('You opened this as Acknowledged, and the fault came back. Your view stays at that version, and nothing was applied.')}${inner}`);
+  function timeline(ctx, i = inc(ctx)) {
     const s = ctx.state;
+    if (i === I14) return tl('What happened to inc_0014', [
+      pt('done', 'Detected', 'How production came to be recorded lost is not recorded.', tags(proposed('CT-14'))),
+      pt('now', 'Acknowledge', 'Waiting for you.', ack14()),
+      pt('', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
+      pt('', 'Resolve', CLOSE14, close14(ctx))
+    ]);
     if (s === 'error') return tl('What happened to inc_0013', [
       pt('done', 'Detected', `Code opened it · Tue 21:14. ${NOTICE}`),
       pt('now', 'Acknowledge', 'Waiting for you.', ackTool(ctx)),
@@ -113,7 +123,7 @@
     return tl('What happened to inc_0012', [
       pt('done', 'Detected', 'Code opened it · Tue 16:50 · last price 14:10'),
       pt('done', 'Acknowledged', 'You · Tue 17:05'),
-      s === 'conflict' ? pt('warn', 'Reopened', 'Code · the fault recurred, so the incident reopened by itself.') : pt('now', 'Mitigate', `Code re-runs the collection, within its bound. ${MIT}`, mitTool(ctx)),
+      s === 'conflict' ? pt('warn', 'Reopened', 'Code · the fault recurred, so the incident reopened by itself.') : pt('now', 'Mitigate', `Code re-runs the collection, within its bound, if a late price counts as a missed collection. ${MIT}`, mitTool(ctx)),
       pt('', 'Resolve', 'You close it, with a recorded resolution. It reopens if the fault recurs.', resolveTool(ctx))
     ]);
   }
@@ -135,10 +145,10 @@
         alert: ['alert', 'Alert', 'Missed forecast run, with the stalled collector linked'], run: ['refresh', 'Run', 'run_8d02 · failed at 21:14'], job: ['layers', 'Job', 'job_3e9a · collect · failed'],
         trace: ['search', 'Trace', 'tr_51c2'], source: ['db', 'Source', 'Twelve Data'], model: ['cube', 'Model', 'None. No forecast was written by this run']
       } : {}),
-      ...(s === 'partial' ? { run: ['refresh', 'Run', 'run_8cf7 · UK · not read'], job: ['layers', 'Job', 'UK collect · not read'] } : {}),
+      ...(s === 'partial' ? { run: ['refresh', 'Run', 'run_8cf7 · UK · not read'], job: ['layers', 'Job', 'UK collect · not read'], trace: ['search', 'Trace', 'Not read, it links from run_8cf7'] } : {}),
       ...(s === 'conflict' ? { source: ['db', 'Source', 'Two sources disagree · both hashes kept'] } : {})
     };
-    const out = [...Object.values(rows)].map(([i, t, sub]) => (t === 'Model' ? row(i, t, sub) : opens(i, t, sub, '', s === 'error' || (s === 'partial' && (t === 'Job' || t === 'Run')) ? 'warn' : '')));
+    const out = [...Object.values(rows)].map(([i, t, sub]) => (t === 'Model' ? row(i, t, sub) : opens(i, t, sub, '', s === 'error' || (s === 'partial' && ['Job', 'Run', 'Trace'].includes(t)) ? 'warn' : '')));
     if (s === 'error') out.splice(3, 0, opens('info', 'Request', 'req_a90f · the failed call', '', 'warn'));
     if (s === 'denied') out.push(row('shield', 'Audit', 'Permission denied, not empty', tags(chip('stale', 'Denied', 'lock')), 'warn'));
     return list(out.join(''));
@@ -147,7 +157,7 @@
   const twoRuns = ctx => {
     if (ctx.state === 'error') return card(`${head('Monday and Tuesday, US')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '21:00'], ['Result', 'Succeeded'], ['Priced', '7 of 7']])}</div><div>${lbl('run_8d02')}${kv([['Due', 'Tue 21:15'], ['Cutoff', 'Held at Mon 21:00'], ['Result', 'Failed at 21:14'], ['Priced', 'Not known']])}</div></div>`);
     const unread = ctx.state === 'partial';
-    return card(`${head('Monday and Tuesday, UK')}<div class="aincidents-two"><div>${lbl('run_8bf3')}${kv([['Run', 'Mon 16:50'], ['Close', '16:35'], ['Result', 'Succeeded'], ['HSBC', 'Priced to the 16:35 close']])}</div><div>${lbl('run_8cf7')}${kv([['Run', 'Tue 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Late · last price 14:10']])}</div></div>`);
+    return card(`${head('Monday and Tuesday, UK')}<div class="aincidents-two"><div>${lbl('run_8bf3')}${kv([['Run', 'Mon 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Priced to the 16:35 close']])}</div><div>${lbl('run_8cf7')}${kv([['Run', 'Tue 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Late · last price 14:10']])}</div></div>`);
   };
   const T_EV = {
     what: 'The evidence', rows: 5, loading: 'Reading the linked records.',
@@ -163,20 +173,20 @@
   const evRail = () => `${card(`${head('What this record holds')}${note('Ids and references only. An incident carries no holdings or secrets, and each link opens its own record.')}`)}${refused('R3', 'A stored price cannot be edited, by you or by anyone. A missing price stays missing.')}${refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by you or by anyone.')}`;
 
   /* ---------- replay: what code may do by itself, what needs you, what is refused ---------- */
-  const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found';
+  const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found', IFMISSED = 'Not needed if a late price counts as a missed collection';
   const REQ = {
-    default: ['Auto-retrying', 'stale', UK, WHY12, '1', 'Not needed, inside the allowlist'],
+    default: ['Auto-retrying', 'stale', UK, WHY12, '1', IFMISSED],
     error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', UK, WHY12, '1', 'Refused on recheck'],
     expired: ['Expired', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Ran out, so nothing ran'],
     denied: ['Awaiting you', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Awaiting you, with a fresh sign-in'],
-    empty: ['Replayed', '', UK, WHY12, '1', 'Not needed, inside the allowlist'],
+    empty: ['Replayed', '', UK, WHY12, '1', IFMISSED],
     partial: ['Held', 'stale', UK, WHY12, '1', 'Not known until the UK run answers'],
     stale: ['As read at 11:12', 'stale', UK, WHY12, '1', 'Not known since 11:12'],
     offline: ['As read at 11:20', 'stale', UK, WHY12, '1', 'Not known since 11:20']
   };
   const reqOf = ctx => REQ[ctx.state] || REQ.default;
-  const reqKv = ctx => { const r = reqOf(ctx); return kv([['Scope', r[2]], ['Reason', r[3]], ['Items', r[4]], ['Job', ctx.state === 'error' ? 'job_3e9a' : 'UK collect, Tue 16:50'], ['Environment', 'Prod'], ['Your approval', r[5]]]); };
+  const reqKv = ctx => { const r = reqOf(ctx); return kv([['Scope', r[2]], ['Reason', r[3]], ['Items', r[4]], ['Job', ctx.state === 'error' ? 'job_3e9a' : 'UK collect, Tue 16:50'], ['Environment', 'Production'], ['Your approval', r[5]]]); };
   const reqChip = ctx => { const r = reqOf(ctx); return chip(r[1], r[0], r[1] === 'error' ? 'alert' : r[1] ? 'clock' : 'check'); };
   const KEYSAFE = 'It keeps the original business id, with a new attempt and new trace links, so it cannot commit or notify twice. It rechecks permissions, retention, deletion and the latest config first.';
   const AUTO = ['Retry an idempotent job, within its bounds', 'Replay a dead-letter item, up to a limit', 'Re-run a missed collection', 'Resume a durable workflow'];
@@ -184,19 +194,19 @@
   /* an approve exists only on a request awaiting you, beside the exact thing it binds; everywhere else the screen says why not */
   const AWAITS = ctx => ctx.state === 'error';
   const WHYNOT = {
-    default: 'Not needed. This request is inside the allowlist, so code runs it and nothing waits on you.',
+    default: 'Not needed if a late price counts as a missed collection. Then code runs it, and nothing waits on you.',
     empty: 'No request is open, so there is nothing to approve.',
     partial: 'Held. This request cannot be checked against its collect job yet.',
     expired: 'Refused. This approval ran out, and a new request needs a new approval.',
     conflict: 'Refused on recheck. The changed config needs a new request.'
   };
   const bind = rows => `<div class="aincidents-bind">${kv(rows)}</div>`;
-  const askBroad = ctx => ask('Broad replay of job_3e9a', 'Beyond the allowlist. You approve exactly this, and any changed line needs a new approval.', `${act('A41', 'Approve this replay', 'primary')}${act('A60', 'Decline this replay')}`, `${bind([['Owner', 'You'], ['Environment', 'Prod'], ['Action', 'Broad replay, all of job_3e9a'], ['Payload', '3c9e…a1f4'], ['Expected config', 'Settings v9'], ['Expires', 'Not set yet']])}${tags(proposed('CT-02'))}`);
-  const askFin = ctx => ask('Financial reprocessing, ISA statement, Oct 2026', 'Nothing is visible and your ledger stays at revision 213. Only the controlled writer commits this, and only this exact change.', `${act('A13', 'Approve reprocessing')}${act('A60', 'Decline reprocessing')}`, `${bind([['Owner', 'You'], ['Environment', 'Prod'], ['Selection', '9 of 11 rows · draft revision 6'], ['Selected rows hash', '7f3a…c21e'], ['Expected ledger', 'Revision 213'], ['Starts', 'Within 15 minutes of your approval']])}${note('This records what already happened at your broker. It places no trade.')}`);
+  const askBroad = ctx => ask('Broad replay of job_3e9a', 'Beyond the allowlist. You approve exactly this, and any changed line needs a new approval.', `${act('A41', 'Approve this replay', 'primary')}${act('A60', 'Decline this replay')}`, `${bind([['Owner', 'You'], ['Environment', 'Production'], ['Action', 'Broad replay, all of job_3e9a'], ['Payload', '3c9e…a1f4'], ['Expected config', 'Settings v9'], ['Expires', 'Not set yet']])}${tags(proposed('CT-02'))}`);
+  const askFin = ctx => ask('Financial reprocessing, ISA statement, Oct 2026', 'Nothing is visible and your ledger stays at revision 213. Only the controlled writer commits this, and only this exact change.', `${act('A13', 'Approve reprocessing')}${act('A60', 'Decline reprocessing')}`, `${bind([['Owner', 'You'], ['Environment', 'Production'], ['Selection', '9 of 11 rows · draft revision 6'], ['Selected rows hash', '7f3a…c21e'], ['Expected ledger', 'Revision 213'], ['Starts', 'Within 15 minutes of your approval']])}${note('This records what already happened at your broker. It places no trade.')}`);
   const declined = () => note('Declining closes the request as declined, on the record. Nothing runs.');
   const whyNot = ctx => `${note('A broad replay, a new paid external call or financial reprocessing needs you. Each shows its exact change here first, and only then asks.')}${ctx.state === 'offline' ? refused('R16', 'No financial write offline. It is refused until you reconnect, with this reason on the record.') : held(WHYNOT[ctx.state] || WAIT[ctx.state])}`;
   const asks = ctx => (AWAITS(ctx) ? `${askBroad(ctx)}${askFin(ctx)}${declined()}${note(LINE)}` : whyNot(ctx));
-  const NEEDS = { error: 'These need you', denied: 'Held until you sign in', partial: 'Held until the UK run answers', stale: 'Held until this refreshes', offline: 'Held until you reconnect', expired: 'Nothing to approve', conflict: 'Nothing to approve' };
+  const NEEDS = { default: 'Nothing waits on you if CT-14 says so', error: 'These need you', denied: 'Held until you sign in', partial: 'Held until the UK run answers', stale: 'Held until this refreshes', offline: 'Held until you reconnect', expired: 'Nothing to approve', conflict: 'Nothing to approve' };
   const needsYou = ctx => card(`${head(NEEDS[ctx.state] || 'Nothing waits on you')}${asks(ctx)}`);
   const never = () => `${refused('R12', 'A replay never crosses environments. Prod items stay in prod and dev items stay in dev.')}${refused('R1', 'A replay never edits the ledger. Only the controlled writer commits to it.')}`;
   const costCard = ctx => card(`${head('What this spends')}${kv([['Twelve Data credits', '55 a minute'], ['Normal work', '45 a minute'], ['Kept for incidents and retries', '10 a minute'], ['This request', ctx.state === 'error' ? 'job_3e9a, on Twelve Data' : 'UK listings read Yahoo, not these credits'], ['New paid call', ctx.state === 'error' ? 'Yours to approve' : 'None in this request']])}${note('This shows Wed 4 Nov. The cost month, day 18 of 30, is its own illustrative calendar, so reconciling sits in Costs and budgets.')}${list(opens('target', 'Costs and budgets', 'Estimate, usage and bill, and the runs behind a spike'))}`);
@@ -234,7 +244,7 @@
   };
   const switchTool = ctx => {
     if (ctx.state !== 'conflict') return held(NOSWITCH[ctx.state] || WAIT[ctx.state]);
-    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Prod'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. How production comes to be recorded lost is not recorded either.')}${tags(proposed('CT-14'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
+    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Production'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. How production comes to be recorded lost is not recorded either.')}${tags(proposed('CT-14'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
   };
   const switchCard = ctx => card(`${head('Switch to a restored copy')}${note('Only if production is lost. The copy takes no authority until reconciliation passes and you approve the switch.')}${switchTool(ctx)}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}`);
   const KINDS = [['App, by Lambda alias', 'Passed'], ['Contract, old reader still works', 'Passed'], ['Model and calibration revert', 'Passed'], ['Failed import reversal', 'Passed']];
@@ -303,7 +313,8 @@
   const nowBand = ctx => {
     const i = inc(ctx);
     if (ctx.state === 'empty') return card(`${head('Right now')}${note('No incident is open, so no procedure is running.')}`);
-    return `${sec('Right now')}${list(`${ctx.state === 'conflict' ? incRow(ctx, I14) : ''}${opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : ctx.state === 'conflict' ? 'reopened, back to step 3 of 5' : 'step 3 of 5, code is recovering'}`, tags(statusOf(ctx, i)), i.tone)}`)}`;
+    if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, proposed('CT-14')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
+    return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, code is recovering'}`, tags(statusOf(ctx, i)), i.tone))}`;
   };
   const T_BOOK = {
     ...T_LIST, what: 'The runbook', rows: 5, loading: 'Reading the runbook and what is running.',
@@ -313,8 +324,14 @@
   };
   const bookRail = ctx => `${still(ctx)}${card(`${head('The rule')}${note('Agents have no operational authority. The runbook is written and walked on dev, with synthetic data, and you sign it off.')}`)}${refused('R17', 'No runbook step goes around the controlled writer, a fresh sign-in or the release workflow.')}`;
 
-  function escalate(ctx) {
-    const s = ctx.state, i = inc(ctx);
+  function escalate(ctx, i = inc(ctx)) {
+    const s = ctx.state;
+    if (i === I14) return steps('Incident escalation for inc_0014', [
+      st(1, 'done', 'code', 'Code opens one incident', 'inc_0014. How production came to be recorded lost is not recorded.', tags(proposed('CT-14'))),
+      st(2, 'now', 'you', 'Acknowledge', 'Waiting for you.', ack14()),
+      st(3, '', 'you', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
+      st(4, '', 'you', 'Resolve', CLOSE14, close14(ctx))
+    ]);
     if (s === 'empty') return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', 'inc_0012 · data quality · Tue 16:50'), st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'), st(3, 'done', 'code', 'Code recovers, within its bounds', 'HSBC prices came back.'),
       st(4, 'done', 'you', 'Ask for more', 'Not needed.'), st(5, 'done', 'you', 'Resolve', 'You, with a recorded resolution: HSBC prices are back from Yahoo.')
@@ -324,7 +341,7 @@
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),
       i === I13 ? st(2, 'now', 'you', 'Acknowledge', `Waiting for you. ${NOTICE}`, ackTool(ctx)) : st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'),
-      s === 'conflict' ? st(3, 'warn', 'code', 'Code recovers, within its bounds', 'The fault recurred, so the incident reopened and this step starts again.') : st(3, i === I13 ? '' : 'now', 'code', 'Code recovers, within its bounds', `It re-runs the collection. ${MIT}`, i === I13 ? tags(proposed('CT-14')) : mitTool(ctx)),
+      s === 'conflict' ? st(3, 'warn', 'code', 'Code recovers, within its bounds', 'The fault recurred, so the incident reopened and this step starts again.') : st(3, i === I13 ? '' : 'now', 'code', 'Code recovers, within its bounds', `It re-runs the collection, if a late price counts as a missed collection. ${MIT}`, i === I13 ? tags(proposed('CT-14')) : mitTool(ctx)),
       st(4, '', 'you', 'Ask for more, if it stays', 'A broad replay, a new paid call or financial reprocessing needs your approval.', moreRow),
       st(5, '', 'you', 'Resolve', 'You close it, with a recorded resolution. It reopens if the fault recurs.', i === I13 ? '' : resolveTool(ctx))
     ]);
@@ -333,7 +350,7 @@
     const s = ctx.state, bad = s === 'error', off = false, refusedNow = s === 'conflict';
     const third = bad ? st(3, 'warn', 'code', 'It stopped at its bound', 'It kept failing, so it escalated. It will not run again by itself.') : refusedNow ? st(3, 'warn', 'code', 'It was refused on recheck', 'The latest config changed after this request was written.') : st(3, s === 'empty' ? 'done' : s === 'default' ? 'now' : '', 'code', s === 'empty' ? 'It replayed inside its bound' : 'Run inside its bound', `One of four things code may do alone: ${AUTO.map(a => a.toLowerCase()).join('; ')}.`, tags(proposed('CT-14')));
     return steps('Replay', [
-      st(1, off ? '' : 'done', 'code', 'Check it is eligible', 'Idempotent, in this environment, and inside the allowlist. Agents have no recovery authority.'),
+      st(1, off ? '' : 'done', 'code', 'Check it is eligible', bad ? 'Idempotent, in this environment, and inside the allowlist. Agents have no recovery authority.' : 'Idempotent and in this environment. Inside the allowlist only if a late price counts as a missed collection. Agents have no recovery authority.', bad ? '' : `${note('Whether a late price counts as a missed collection is open.')}${tags(proposed('CT-14'))}`),
       st(2, off ? '' : 'done', 'code', 'Write the request', off ? 'Scope, reason, items and idempotency keys, with your approval where it is needed.' : '', off ? '' : `${reqKv(ctx)}${tags(reqChip(ctx))}`),
       third,
       st(4, bad || s === 'denied' ? 'now' : '', 'you', 'Approve anything more', 'Beyond the allowlist, the step is yours.', asks(ctx)),
@@ -392,11 +409,11 @@
         id: 'a-detail', title: 'One incident', note: 'The timeline is the record: detect, acknowledge, mitigate, resolve. Failed shows inc_0013, the failed run.',
         render: ctx => frame(ctx, {
           title: inc(ctx).name, back: 'Incidents',
-          body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => card(timeline(ctx)))}`,
-          rail: `${list(`${opens('layers', 'Evidence', 'Alert, run, job, trace, source and model')}${opens('refresh', 'Replay', plain(reqChip(ctx)))}${opens('db', 'Recovery', 'Last restore passed Sun 1 Nov')}`)}${who()}`
+          body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => `${card(timeline(ctx))}${ctx.state === 'conflict' ? again12(ctx, timeline(ctx, I12)) : ''}`)}`,
+          rail: `${list(ctx.state === 'conflict' ? `${opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov')}${opens('layers', 'Evidence for inc_0012', 'Alert, run, job, trace, source and model')}${opens('refresh', 'Replay for inc_0012', plain(reqChip(ctx)))}` : `${opens('layers', 'Evidence', 'Alert, run, job, trace, source and model')}${opens('refresh', 'Replay', plain(reqChip(ctx)))}${opens('db', 'Recovery', 'Last restore passed Sun 1 Nov')}`)}${who()}`
         })
       }, {
-        id: 'a-evidence', title: 'Evidence', note: 'Each link opens its own record. Two runs on one market clock sit side by side, so the change is a row. run_8bf3 is minted here.',
+        id: 'a-evidence', title: 'Evidence', note: 'Each link opens its own record. Two runs on one market clock sit side by side, so the change is a row.',
         render: ctx => frame(ctx, {
           title: 'Evidence', back: 'Incident',
           body: view(ctx, T_EV, () => `${evRows(ctx)}${twoRuns(ctx)}`),
@@ -440,8 +457,8 @@
         id: 'b-escalate', title: 'Incident escalation', note: 'The open incident runs through the procedure, and its evidence sits beside it.',
         render: ctx => frame(ctx, {
           title: 'Incident escalation', back: 'Runbook',
-          body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => card(escalate(ctx)))}`,
-          rail: `${sec('Evidence')}${evRows(ctx)}${twoRuns(ctx)}${refused('R3', 'A stored price cannot be edited, by you or by anyone. A missing price stays missing.')}`
+          body: `${ctx.state === 'loading' ? '' : incHead(ctx)}${view(ctx, T_DET, () => `${card(escalate(ctx))}${ctx.state === 'conflict' ? again12(ctx, escalate(ctx, I12)) : ''}`)}`,
+          rail: `${sec(ctx.state === 'conflict' ? 'Evidence for inc_0012' : 'Evidence')}${evRows(ctx)}${twoRuns(ctx)}${refused('R3', 'A stored price cannot be edited, by you or by anyone. A missing price stays missing.')}`
         })
       }, {
         id: 'b-replay', title: 'Replay', note: 'The same bands as a procedure: eligible, written, run, approved, proved.',

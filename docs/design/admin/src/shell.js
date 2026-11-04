@@ -13,7 +13,7 @@ const onPhone = () => curKind === 'iphone' || curKind === 'pwa';
 function act(id, label, kind = 'tinted', icon = '') {
   const p = perm(id);
   if (p.step_up === 'outside') throw new Error(`${id} is not an MP control: say where it happens, and draw no button`);
-  if (onPhone() && p.phone !== 'live') return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone_note ? p.phone_note.replace(/^Mac only/, 'on your Mac') : 'on iPad or desktop'}</span></span>`;
+  if (onPhone() && p.phone !== 'live') return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone_note && /^Mac only/.test(p.phone_note) ? 'on your Mac' : 'on iPad or desktop'}</span></span>`;
   const guard = p.step_up === 'yes' ? '<span class="small">Asks for a fresh sign-in</span>' : p.step_up === 'open' ? proposed('CT-01') : '';
   return `<span class="aact" data-act="${id}"><button class="btn btn-${kind}" type="button">${p.step_up === 'yes' ? ic('lock', 's18') : (icon ? ic(icon, 's18') : '')}${label}</button>${guard}</span>`;
 }
@@ -65,7 +65,7 @@ const WEBTABS = [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments
 function freshRow(ctx) {
   const c = (k, t, i) => `<span class="chip ${k}">${i ? ic(i, 's14') : '<span class="dot"></span>'}${t}</span>`;
   const st = ctx.state;
-  const chip = { offline: c('offline', 'Offline · from 11:20', 'wifi-off'), error: c('error', 'Records failed 11:38 · last good 11:20', 'alert'), stale: c('stale', 'Index lagging · from 11:12', 'clock'), loading: c('fresh', 'Refreshing · last good 11:20'), partial: c('stale', 'Partial · 3 of 4 sources', 'clock'), conflict: c('stale', 'Older version · a newer record exists', 'split') }[st] || c('fresh', 'Records current · 11:40');
+  const chip = { offline: c('offline', 'Offline · from 11:20', 'wifi-off'), error: c('error', 'Records failed 11:38 · last good 11:20', 'alert'), stale: c('stale', 'Index lagging · from 11:12', 'clock'), loading: c('fresh', 'Refreshing · last good 11:20'), partial: c('stale', 'Partial · 3 of 4 sources', 'clock'), conflict: c('stale', 'Older version · a newer record exists', 'split'), expired: c('fresh', 'Records current · 18:05') }[st] || c('fresh', 'Records current · 11:40');
   return `<div class="jfresh on-glass">${chip}</div>`;
 }
 const banner = (kind, title, text, icon = 'info') => `<div class="jbanner ${kind}" role="status">${ic(icon, 's18')}<div><b>${title}</b> ${text}</div></div>`;
@@ -295,6 +295,11 @@ function show() {
 const OPEN = [
     ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
   ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Not recorded. The screens say so.'],
+  ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Each page stays as drawn.'],
+  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until the purchase.'],
+  ['How does production come to be recorded lost, and who records it? (CT-14)', 'Labelled proposed.'],
+  ['Is a late price a missed collection, inside the replay allowlist? (CT-14)', 'Drawn as a condition, not a fact.'],
+  ['What happens to Yahoo values already sent to Anthropic? No record decides it.', 'Not drawn. It needs its own record.'],
   ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
   ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
   ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],

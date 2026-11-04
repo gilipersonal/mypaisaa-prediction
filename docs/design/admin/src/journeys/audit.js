@@ -152,7 +152,7 @@
 
   /* ---------- what this can prove, and what is missing ---------- */
   const claimBox = () => box(`${lbl('What the digests show')}${claim()}${text('Each record carries a digest of the one before it, so a check can show whether the chain still matches. No outside anchor exists yet, so it cannot show that nobody with deep access rewrote the chain.')}`);
-  const CHECKS = (o = {}) => list((o.range ? rowAt('alert', 'Records from 28 Oct to 30 Oct', 'They do not match their digests', chipset(fail('Not vouched for')), 'fall') : '') + rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(note('Tombstones reapplied first'))));
+  const CHECKS = (o = {}) => list((o.range ? rowAt('alert', 'Records from 28 Oct to 30 Oct', 'They do not match their digests', chipset(fail('Not vouched for')), 'fall') : '') + rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(o.r || note('Tombstones reapplied first'))));
   const orphanRow = (go = true) => rowAt('lock', 'Unmatched object', 'No receipt · quarantined · source_orphans', `${text('Audit only reads. What happens to this object is recorded in Files.')}${go ? `<div class="aaudit-gap">${inFiles()}</div>` : ''}`);
   const delNote = () => text('Deletion removes content only. Tombstones and audit records stay, and tombstones are applied before restored content is readable.');
   const gaps = ctx => region(ctx, {
@@ -160,8 +160,8 @@
     loading: () => claimBox() + skel(3),
     empty: () => claimBox() + stateCard('check', 'No gaps found in what was checked', 'That covers only what the query read. Silence is not a sign that nothing is wrong.', bs('Check again', 'tinted', 'refresh')),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so delivery is unknown, not fine.', 'clock') + claimBox() + CHECKS({ d: part('Unknown') }) + list(orphanRow()),
-    error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ range: true, c: hold('From 11:20, not vouched for'), d: hold('From 11:20, not vouched for') }) + noEdit(),
-    stale: () => lagged() + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12') }) + list(orphanRow()),
+    error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ range: true, c: hold('From 11:20, not vouched for'), d: hold('From 11:20, not vouched for'), r: hold('From 11:20, not vouched for') }) + noEdit(),
+    stale: () => lagged() + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12'), r: hold('From 11:12') }) + list(orphanRow()),
     offline: () => off(ctx, 'Showing the checks from 11:20.') + claimBox() + CHECKS() + list(orphanRow(false)),
     conflict: () => banner('warn', 'Two records disagree.', 'A manifest and the index read differently for R-0212. Both stay as written. The manifest is the one used until the index catches up.', 'split') + claimBox() + CHECKS({ c: hold('R-0212 differs', 'split') }) + noEdit(),
     expired: () => banner('warn', 'Logs and traces run out. Audit does not.', 'Logs last 14 days, traces 30 and run summaries 90. These checks read audit records, so none has expired, and an answer that leans on an old log says so.', 'clock') + claimBox() + CHECKS(),
@@ -174,7 +174,7 @@
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
   const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved 21:18, expired 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
-  const CH_X = [['clock', 'Watch Taiwan Semiconductor', 'Nobody · expired 18:00', hold('Expired'), proposed('MP40-Q9')], ...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
+  const CH_X = [['clock', 'Watch Taiwan Semiconductor', 'Nobody · expired Wed 18:00', hold('Expired'), proposed('MP40-Q9')], ...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
   const bar = () => `<div class="aaudit-bar" data-mo="rise"><span class="chip illus">${mono('recorded_changes')}</span><span class="chip illus">Account lifetime</span><span class="chip illus">Revision 213</span>${bs('Filter', 'tinted', 'sliders')}</div>`;
   const expBody = ctx => region(ctx, {
     what: 'Recorded changes', rows: 7, ok: () => bar() + chRows(8),
@@ -267,7 +267,7 @@
       cost: 'You build the question yourself from filters and record names. A phone shows the list and the lineage one above the other.',
       covers: { compare: 'b-compare', decide: 'n/a: audit is read-only. Approve and reject live in Approvals and configuration and in Files and imports, and each decision lands here as a record.', source: 'b-lineage', correct: 'n/a: a record is never corrected here. A correction is a new record, made in Files and imports, and it points back at this one.', config: 'n/a: audit reads configuration changes and makes none. They are made in Approvals and configuration, and show in this list.', cost: 'n/a: audit holds references, never amounts. Cost is reconciled in Costs and budgets.', recover: 'b-gaps' },
       screens: [{
-        id: 'b-explore', title: 'Recorded changes and lineage', note: 'The Approvals journey’s promise, "the full audit sits in the admin area, for search across all of them", lands here. On iPad and desktop the lineage sits beside the list. Expired is the exception to the clock: it reads as that evening, past 18:00.',
+        id: 'b-explore', title: 'Recorded changes and lineage', note: 'The Approvals journey’s promise, "the full audit sits in the admin area, for search across all of them", lands here. On iPad and desktop the lineage sits beside the list.',
         render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: expBody(ctx) + gapLink(ctx) + phoneJump(ctx), rail: paneFor(ctx) + paneLinks(ctx) })
       }, {
         id: 'b-filter', title: 'Filter records', note: 'The fields are AuditQuery’s: kind, dates, the thing asked about, the pinned revision.',

@@ -156,7 +156,7 @@
       + pol('layers', 'Market extensions', chip('illus', 'proposed', 'clock'), [['Taiwan, XTAI', 'Not eligible in the first release'], ['Contract tests', 'Not yet'], ['Point-in-time replay', 'Not yet'], ['Shadow evidence', 'Not yet'], ['Credits and cash against £100', 'Not yet']], 'An extension needs its own evidence and your activation before any listing in it becomes eligible. Deactivating rolls its version pointer back and keeps its history.', off(act('A38', 'Activate this extension')));
   };
   /* S10 covers one use: sending Yahoo values already inside S6 or S7 to Claude routes (catalogue.json). S6 and S7 are scopes of their own */
-  const SCOPE_ROWS = [['Yahoo values to Claude routes', 'risk_accepted', 'Stops at once'], ['Yahoo prices, S6 and S7', '', 'Unchanged', 'They have their own scopes, so collection, storage and display carry on.'], ['Cached projections and affected derivations', '', 'Unavailable for that use'], ['What was already sent', '', 'Disposition pending', `Its treatment is open.${tags(proposed('DATA-DEC-04'))}`]];
+  const SCOPE_ROWS = [['Yahoo values to Claude routes', 'risk_accepted', 'Stops at once'], ['Yahoo prices, S6 and S7', '', 'Unchanged', 'They have their own scopes, so collection, storage and display carry on.'], ['Cached projections and affected derivations', '', 'Unavailable for that use'], ['Stored data, backups and models', '', 'Disposition pending', `They follow the treatment you approve, which is still open.${tags(proposed('DATA-DEC-04'))}`]];
   const SCOPE_END = [['Withdrawn', 'Use stopped, disposition pending. The record keeps who withdrew it and when.'], ['Gate unavailable', 'Every use it covers fails closed, so nothing widens while it is down.']];
   const scopeEffect = () => changeCard(SCOPE_ROWS, 'If you withdraw S10') + ends(SCOPE_END);
   const policiesCore = ctx => region(ctx, {
@@ -177,7 +177,7 @@
   const SETTINGS = ['Signal weight band', 'Weekly band', 'Risk settings', 'Ranking settings', 'Agent settings'];
   const WAIT = 'Waits for a value', NOT = 'Not checked';
   const CHECKS = (o = {}) => kv([['Allowed range', o.range || WAIT], ['Expected impact', o.impact || WAIT], ['Evidence', o.evid || WAIT], ['Cost', o.cost || WAIT], ['How to roll it back', 'A new version, with its own record']]);
-  const proposeBase = (ctx, o = {}) => head('sliders', 'Signal weight band', `${o.ver || 'Settings v9'} · at most 10% a month · code only`, tags(proposed('SCI-D10'))) + box(`${lbl('Your change')}<div class="aappr-form"><label class="aappr-field"><span class="small">Setting</span><select aria-label="Setting"${o.dead || !wide(ctx) ? ' disabled' : ''}>${SETTINGS.map((t, i) => `<option${i === 0 ? ' selected' : ''}>${t}</option>`).join('')}</select></label>${field(ctx, 'New value', 'Enter a value inside the allowed range', o.val || '', o.dead)}${field(ctx, 'Why', 'Say why, for the record', o.why || '', o.dead)}</div><div class="aappr-acts aappr-gap">${o.run || act('A58', 'Run the check', 'primary', 'refresh')}</div>`) + box(`${lbl(o.t || 'What code checks before you can approve')}<div class="aappr-gap">${CHECKS(o.rows)}</div>`);
+  const proposeBase = (ctx, o = {}) => head('sliders', 'Signal weight band', `${o.ver || 'Settings v9'} · at most 10% a month · code only`, tags(proposed('SCI-D10'))) + box(`${lbl('Your change')}<div class="aappr-form"><label class="aappr-field"><span class="small">Setting</span><select aria-label="Setting"${o.dead || !wide(ctx) ? ' disabled' : ''}>${SETTINGS.map((t, i) => `<option${i === 0 ? ' selected' : ''}>${t}</option>`).join('')}</select></label>${field(ctx, 'New value', 'Enter a value inside the allowed range', o.val || '', o.dead)}${field(ctx, 'Why', 'Say why, for the record', o.why || '', o.dead)}</div><p class="small muted aappr-gap">Only the signal weight band is worked here.</p>${tags(CT2)}<div class="aappr-acts aappr-gap">${o.run || act('A58', 'Run the check', 'primary', 'refresh')}</div>`) + box(`${lbl(o.t || 'What code checks before you can approve')}<div class="aappr-gap">${CHECKS(o.rows)}</div>`);
   const DRAFT = { val: '8%', why: 'Steadier signals' };
   /* Ready is your draft, checked: every row answered, and A31 live. Empty is before there is a draft */
   const CHECKED = { ...DRAFT, t: 'What code checked', rows: { range: 'Inside the 10% limit', impact: 'Signals move less', evid: '26 weeks of replay', cost: '£0' } };
@@ -232,7 +232,7 @@
     expired: () => banner('warn', 'Taiwan Semiconductor expired at 18:00.', 'An expired proposal cannot be approved, and nothing was added. Catalogue v14 stays current.', 'clock') + waiting(3, 'Next: Promote R2-HGB v4, Fri 18:00', Q.slice(1)) + famRows({ catC: chip('stale', 'Expired', 'clock') }),
     denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Each change says what it needs before you press it, and nothing is pre-approved.', 'lock') + waiting(4, 'Next: Taiwan Semiconductor, 18:00') + famRows()
   });
-  const authority = () => box(`${lbl('Who can do what')}<div class="aappr-gap">${chain()}</div><div class="aappr-gap">${kv([['Environment', 'Prod'], ['Approvals bind', 'One exact change'], ['Rechecked', 'When it applies']])}</div>`) + refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.') + refused('R8', 'MP has one owner, you. Nobody can approve on your behalf, and there are no accounts to grant this to.');
+  const authority = () => box(`${lbl('Who can do what')}<div class="aappr-gap">${chain()}</div><div class="aappr-gap">${kv([['Environment', 'Production'], ['Approvals bind', 'One exact change'], ['Rechecked', 'When it applies']])}</div>`) + refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.') + refused('R8', 'MP has one owner, you. Nobody can approve on your behalf, and there are no accounts to grant this to.');
   const Q = [
     ['plus', 'Watch Taiwan Semiconductor', 'TSM · XNYS · Claude proposed in chat', 'Expires today 18:00', Q9],
     ['cube', 'Promote R2-HGB v4', 'All segments, except US tech, 12 months and India midcap, 3 months. Passed its shadow trial, 8 of 8 weeks. Decided in Models and evaluations', 'Expires Fri 18:00', CT2],
@@ -298,19 +298,19 @@
         id: 'aa-now', title: 'In force now', note: 'Where the Approvals journey\'s "the full audit sits in the admin area" lands for settings. The full audit itself is in Audit.',
         render: ctx => frame(ctx, { title: 'Approvals', back: 'Admin', body: nowCore(ctx), rail: `${proposeBtn(ctx)}${authority()}` })
       }, {
-        id: 'aa-band', title: 'One family, by version', note: 'A family opens to its versions, then to what would change. Rollback sits with the versions. Expired reads as that later moment, Mon 18:00, not the 11:40 of Ready.',
+        id: 'aa-band', title: 'One family, by version', note: 'A family opens to its versions, then to what would change. Rollback sits with the versions.',
         render: ctx => frame(ctx, { title: 'Self-correction', back: 'In force', body: bandCore(ctx, () => versions(ctx)), rail: bandRail(ctx) })
       }, {
         id: 'aa-propose', title: 'Propose a change', note: 'You can draft a change yourself. It takes the same path as Claude\'s: code checks it, then you decide.',
         render: ctx => frame(ctx, { title: 'Propose', back: 'In force', body: proposeCore(ctx), rail: proposeRail(ctx) })
       }, {
-        id: 'aa-listing', title: 'Listings and catalogue', note: 'Catalogue v14 stays current until v15 is written. There is never a half-added listing. Expired reads as that evening, past 18:00, not the 11:40 of Ready.',
+        id: 'aa-listing', title: 'Listings and catalogue', note: 'Catalogue v14 stays current until v15 is written. There is never a half-added listing.',
         render: ctx => frame(ctx, { title: 'Catalogue', back: 'In force', body: listingCore(ctx), rail: listingRail(ctx) })
       }, {
         id: 'aa-policies', title: 'Ranking, alerts, scopes, markets', note: 'Each shut control says what it waits on. No record sets these values, so the screen gives none.',
         render: ctx => frame(ctx, { title: 'Policies', back: 'In force', body: policiesCore(ctx), rail: policiesRail(ctx) })
       }, {
-        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, not to the 11:40 of Ready.',
+        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
         render: ctx => frame(ctx, { title: 'Import', back: 'In force', body: importCore(ctx), rail: importRail(ctx) })
       }]
     }, {
@@ -328,7 +328,7 @@
         id: 'ab-listing', title: 'A listing request', note: 'Claude can propose and cannot add. A confirmation covers this listing and this catalogue version only.',
         render: ctx => frame(ctx, { title: 'Listing', back: 'Requests', body: listingCore(ctx), rail: listingRail(ctx) })
       }, {
-        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, not to the 11:40 of Ready.',
+        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
         render: ctx => frame(ctx, { title: 'Import', back: 'Requests', body: importCore(ctx), rail: importRail(ctx) })
       }, {
         id: 'ab-new', title: 'Raise a request', note: 'A request you write goes the same way as one Claude drafts. The other kinds wait on their open questions.',

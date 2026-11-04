@@ -216,7 +216,11 @@ export default {
   },
   'R3-a3': ({ each, view, has, lacks }) => {
     for (const [o, screen] of [['a', 'ca-credit'], ['b', 'cb-credit']]) {
-      for (const [state, used] of [['default', 7.06], ['stale', 7.06], ['expired', 7.06], ['error', 6.71]]) {
+      {
+        const r = row(view('costs', o, screen, 'web', 'error').text, "This month's forecast");
+        has(r, /£54\.73 At least £53\.19/, 'Failed: what is spent stays in the month, and £6.71 is a lower bound'); lacks(r, /at most/); has(r, /later calls are not added/);
+      }
+      for (const [state, used] of [['default', 7.06], ['stale', 7.06], ['expired', 7.06]]) {
         const v = view('costs', o, screen, 'web', state).text, to = 46.48 + used, r = row(v, "This month's forecast");
         has(r, new RegExp(`£54\\.73 £${to.toFixed(2).replace('.', '\\.')}`), `${state}: the row does not tie to the Claude already spent`);
         has(r, new RegExp(`at most £${(to + 0.34).toFixed(2).replace('.', '\\.')}`));
@@ -232,7 +236,7 @@ export default {
     for (const [option, step, res] of [['a', 'aa-step', 'aa-result'], ['b', 'ab-model-step', 'ab-model-result']]) {
       const st = o.view('approvals', option, step, 'iphone', 'noModel'), rs = o.view('approvals', option, res, 'web', 'noModel');
       o.must(!st.na && !rs.na, `${step}: still marked as not applying`);
-      o.must(/Previous safe R2-HGB v3, where eligible/.test(st.text) && /Approve with a fresh sign-in/.test(st.text), `${step}: the sheet does not bind the waiting scope`);
+      o.must(/Previous safe R2-HGB v3, where eligible/.test(st.text) && /Approve with a fresh sign-in/.test(st.text) && /US tech, 12 months stays paused/.test(st.text), `${step}: the sheet does not bind the waiting scope`);
       o.must(/Promoted where v3 was eligible\./.test(rs.text) && /US tech, 12 months stays paused, and its restart still waits on you/.test(rs.text), `${res}: no outcome for the waiting scope`);
     }
   },
@@ -266,5 +270,38 @@ export default {
       each({ journey: 'costs', screen, state: 'error', surface: WIDE }, (v) => { must(liveBtn(v.html, /Withdraw paid use/).length === 1, 'A76 is shut in Failed'); has(v.text, /can only lower spend/); });
       each({ journey: 'costs', screen, state: 'error', surface: PHONE }, (v) => must(!liveBtn(v.html, /Withdraw paid use/).length, 'A76 is live on a phone in Failed'));
     }
+  },
+  // Round 4.
+  'R4-a1': ({ each, has }) => {
+    for (const screen of ['ca-credit', 'cb-credit']) each({ journey: 'costs', screen, state: ['default', 'stale', 'error', 'expired', 'partial', 'offline'], surface: 'web' }, (v) => has(v.text, /£54\.73 is before the scan at its cap\. The month's forecast, up to £59\.73, falls to the same figure\./));
+  },
+  'R4-a2': ({ each, has, lacks }) => {
+    each({ journey: 'costs', state: 'error' }, (v) => { lacks(v.text, /Up to £6\.71/, 'a lower bound reads as a ceiling'); lacks(v.text, /at most £53/); });
+    for (const screen of ['ca-credit', 'cb-credit']) each({ journey: 'costs', screen, state: 'error', surface: 'web' }, (v) => has(row(v.text, 'Cash Counted'), /At least £6\.71/));
+  },
+  'R4-a3': ({ each, has }) => {
+    for (const screen of ['ca-budget', 'cb-budget', 'ca-change', 'cb-change']) each({ journey: 'costs', screen, state: 'expired' }, (v) => { has(v.text, /A day later/); has(v.text, /day 19 of 30/); });
+  },
+  'R4-a4': ({ each, has, lacks }) => {
+    each({ journey: 'approvals', screen: 'aa-policies', state: ['default', 'stale', 'partial', 'error', 'offline', 'conflict', 'expired', 'denied', 'empty'], surface: 'web' }, (v) => { has(row(v.text, 'Stored data, backups and models'), /Disposition pending/); has(v.text, /Proposed · DATA-DEC-04/); lacks(v.text, /What was already sent/); });
+  },
+  'R4-a5': () => {
+    const o = ownerPage();
+    for (const [option, screen, res] of [['a', 'aa-model', 'aa-result'], ['b', 'ab-model', 'ab-model-result']]) {
+      for (const surface of ['web', 'iphone']) for (const state of ['default', 'offline', 'noModel']) { const t = o.view('approvals', option, screen, surface, state).text; for (const w of ['Two scopes this does not settle', 'US tech, 12 months Stays paused', 'India midcap, 3 months Stays on R1-LGB v1', 'each keeps its own yes']) o.must(t.includes(w), `${screen} ${surface} ${state}: "${w}"`); }
+      const n = o.view('approvals', option, screen, 'web', 'noModel').text;
+      o.must(n.includes('The rest of its scope can still be promoted') && !n.includes('The others can'), `${screen}: "the others" is untrue of India midcap`);
+      const r = o.view('approvals', option, res, 'web', 'noModel').text;
+      o.must(r.includes('India midcap, 3 months stays on R1-LGB v1') && /on probation|probation/i.test(r), `${res}: the outcome stops short`);
+    }
+  },
+  'R4-a6': ({ view, must }) => {
+    const o = ownerPage(), LINES = [`Scope ${SCOPE_WORDS}`, 'Tasks 3, 6, 12 months', 'Calibrator c8', 'Limits 5 points, 10%', 'Previous safe R2-HGB v3, where eligible'];
+    for (const [option, screen, step] of [['a', 'aa-model', 'aa-step'], ['b', 'ab-model', 'ab-model-step']]) {
+      for (const state of ['default', 'noModel']) for (const w of LINES) { o.must(o.view('approvals', option, screen, 'web', state).text.includes(w), `${screen} ${state}: "${w}"`); o.must(o.view('approvals', option, step, 'iphone', state).text.includes(w), `${step} ${state}: "${w}"`); }
+    }
+    let m = null;
+    try { m = view('models', 'a', 'a-decide', 'web', 'default').text; } catch (e) { m = null; }   // a partial page has no Models
+    if (m) for (const w of LINES) must(m.includes(w), `admin Models binds a different line for the same hash: "${w}"`);
   },
 };

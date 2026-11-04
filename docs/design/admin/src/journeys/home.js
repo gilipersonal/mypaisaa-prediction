@@ -17,8 +17,8 @@
     loading: Object.fromEntries(Object.keys(PLACE_LINE).map(k => [k, 'Reading · last good 11:20'])),
     empty: { files: '8 originals kept · nothing waiting', models: 'No candidate waits · no scope paused', incidents: 'None open · last restore passed', approvals: 'Settings v10 · catalogue v15' },
     partial: { costs: 'Not read: billing did not answer' },
-    error: { ...suffix('from 11:20'), runs: 'US run Tue · failed', models: 'R2-HGB v4 incomplete · US tech 12 months paused · from 11:20', audit: 'Query incomplete · from 11:20', incidents: '2 not resolved · last restore passed · from 11:20' }, stale: suffix('from 11:12'), offline: suffix('from 11:20'),
-    conflict: { approvals: 'Settings v10 was written at 09:01', runs: 'US run Tue · held', models: 'R2-HGB v4 evidence changed · US tech 12 months paused', incidents: '2 not resolved · last restore passed' },
+    error: { ...suffix('from 11:20'), runs: 'US run Tue · failed · from 11:20', models: 'R2-HGB v4 incomplete · US tech 12 months paused · from 11:20', audit: 'Query incomplete · from 11:20', incidents: '2 not resolved · last restore passed · from 11:20' }, stale: suffix('from 11:12'), offline: suffix('from 11:20'),
+    conflict: { approvals: 'Settings v10 was written at 09:01', runs: 'US run Tue · held', models: 'R2-HGB v4 evidence changed · US tech 12 months paused', incidents: '2 not resolved · production recorded lost' },
     expired: { approvals: 'Taiwan Semiconductor expired at 18:00' }
   };
   const lineOf = (ctx, k) => (LINES[ctx.state] || {})[k] ?? PLACE_LINE[k];
@@ -38,7 +38,7 @@
     error: banner('fall', 'Could not check what waits.', 'Records failed at 11:38. Open proposals keep their expiry, and each place shows its line from 11:20.', 'alert'),
     stale: banner('warn', WAIT, 'From 11:12 · each rechecks itself when opened.', 'clock'),
     offline: banner('', WAIT, 'From 11:20. Reading only. No financial write offline.', 'wifi-off'),
-    conflict: banner('warn', 'Settings changed while you read.', `Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied. ${WAITS(3, '2 incidents')}`, 'split'),
+    conflict: `${banner('warn', 'Settings changed while you read.', `Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied. ${WAITS(3, '2 incidents')} Production is recorded lost.`, 'split')}<div>${proposed('CT-14')}</div>`,
     expired: banner('warn', WAITS(3), 'Taiwan Semiconductor expired at 18:00. It changed nothing.', 'clock'),
     denied: `${banner('warn', 'Reading needs no fresh sign-in. Some changes do.', `Each says so before you press it. ${WAIT}`, 'lock')}<div>${proposed('CT-01')}</div>`
   }[ctx.state]);
@@ -57,11 +57,11 @@
       why: 'Admin is opened when something is wrong or waiting, so the first thing on screen is what needs you. The nine places follow, each with one line of status.',
       cost: 'A long list on a phone. The places sit below the fold when much is waiting.',
       screens: [{
-        id: 'a-home', title: 'Admin home', note: 'Expired reads as that evening, past 18:00, not the 11:40 of Ready. Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date, so they sit outside the count.',
+        id: 'a-home', title: 'Admin home', note: 'Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date, so they sit outside the count.',
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
           body: state(ctx, () => `${sec('Needs you')}${needs(ctx)}${sec('Places')}${places(ctx)}`, 'Admin'),
-          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', 'Tue 21:15 · cutoff 21:00'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
+          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', ctx.state === 'error' ? 'Mon 21:15 · cutoff 21:00, last good' : 'Tue 21:15 · cutoff 21:00'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
         })
       }]
     }, {
@@ -69,7 +69,7 @@
       why: 'A plain directory. Every place is the same size, so nothing is pushed out of reach, and the shape never changes with what is waiting.',
       cost: 'What needs you is one line among nine, so an open incident is easier to miss.',
       screens: [{
-        id: 'b-home', title: 'Admin home', note: 'Expired reads as that evening, past 18:00, not the 11:40 of Ready. Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date, so they sit outside the count.',
+        id: 'b-home', title: 'Admin home', note: 'Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date, so they sit outside the count.',
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
           body: bBody(ctx),

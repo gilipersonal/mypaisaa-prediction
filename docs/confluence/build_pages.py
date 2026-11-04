@@ -964,7 +964,7 @@ def rec_web_quality(s: str) -> str:
 def rec_apple_testing(s: str) -> str:
     checked = "checked 2 Nov 2026"
     return (banner("proposed", "A proposal. No Apple app exists, no screen is designed and the supported devices are not agreed (PL-14, MP-30). "
-                   "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the owner says when.",
+                   "Testing on simulators costs nothing. For now the owner has chosen no paid Apple Developer Program (3 November 2026): the app runs as free local builds that expire after 7 days, so no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
                    ["ARCHITECTURE.md", "AGENTS.md", "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
             + gif(s, "device-matrix", "A Maestro flow across iPhone and iPad sizes, then a free local build on the owner's devices; TestFlight later, if the owner joins.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 4, "Apple testing on the owner's Mac, free local builds for now, and the private TestFlight beta later.", LUCID_QUALITY)

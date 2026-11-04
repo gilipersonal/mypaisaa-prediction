@@ -152,7 +152,7 @@
   /* ---------- Claude, credit and cash (MP-90): shown in Denied as Claude off, because then every call is refused ---------- */
   const creditOn = ctx => {
     const gross = ctx.state === 'error' ? '£6.71' : ctx.state === 'empty' ? 'None yet' : '£7.06';
-    return box(`${head('Gross, credit and cash', illus())}<div class="acosts-gap">${sumRows([['Claude gross usage', ctx.state === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross], ['Credit applied', 'A shared credit is reported, not proven', 'Unknown'], ['Cash', 'Counted in full until a bill proves credit', ctx.state === 'empty' ? 'None yet' : `Up to ${gross}`]])}</div><p class="small muted acosts-gap">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p>${tags(proposed('MP40-Q6'), proposed('CT-13'))}`);
+    return box(`${head('Gross, credit and cash', illus())}<div class="acosts-gap">${sumRows([['Claude gross usage', ctx.state === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross], ['Credit applied', 'A shared credit is reported, not proven', 'Unknown'], ['Cash', 'Counted in full until a bill proves credit', ctx.state === 'empty' ? 'None yet' : ctx.state === 'error' ? `At least ${gross}` : `Up to ${gross}`]])}</div><p class="small muted acosts-gap">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p>${tags(proposed('MP40-Q6'), proposed('CT-13'))}`);
   };
   const two = on => box(`${head('Claude', on ? chip('fresh', 'On') : chip('', 'Off', 'ban'))}<div class="acosts-two"><div class="${on ? 'on' : ''}"><span>On</span><b>£54.73</b>${p('A month, up to £59.73 with the scan at its cap.')}</div><div class="${on ? '' : 'on'}"><span>Off</span><b>£46.48</b>${p('A month. No Claude calls.')}</div></div>${p(on ? 'Claude is on because you approved paid use. Admissible credit is zero until a bill proves it.' : CLAUDE_OFF)}`);
   const creditCore = ctx => region(ctx, {
@@ -172,8 +172,9 @@
   const PAID_BIND = [['Action', 'Approve paid cash beyond credit'], ['Amount', 'Up to £15.00'], ['Period', 'November'], ['Environment', 'Production'], ['Expected version', 'None approved yet'], ['Payload hash', 'e7d2…41b6'], ['Expires', 'Tomorrow, 18:00']];
   /* What is spent stays in the month, so withdrawing saves only what has not run: £46.48 plus the Claude gross this state shows */
   const wdRows = ctx => {
-    const used = ctx.state === 'error' ? 6.71 : ctx.state === 'empty' ? 0 : 7.06, to = 46.48 + used;
-    return [['Claude', 'On', 'Off', 'Forecasts and figures run as usual, because Claude only explains.'], ['This month\'s forecast', '£54.73', gbp(to), used ? `${gbp(used)} of Claude is already spent, and the £0.34 hold settles or releases, so at most ${gbp(to + 0.34)}.` : 'Nothing is spent yet, so the month is the Claude-off month.'], ['A full month', '£54.73', '£46.48'], ['Chat and research', '', 'Unavailable', 'Each shows the reason.'], ['Open reservations', '', 'Settle or release', 'Work already held reconciles, and nothing is sent twice.'], ['Paid use version', 'v1', 'v2'], ['To turn it back on', '', 'Credit or approval', CLAUDE_OFF]];
+    const st = ctx.state, used = st === 'error' ? 6.71 : st === 'empty' ? 0 : 7.06, to = 46.48 + used, scan = '£54.73 is before the scan at its cap. The month\'s forecast, up to £59.73, falls to the same figure.';
+    const note = st === 'error' ? `£6.71 of Claude is reported to 18:00, and later calls are not added, so at least this much. ${scan}` : used ? `${gbp(used)} of Claude is already spent, and the £0.34 hold settles or releases, so at most ${gbp(to + 0.34)}. ${scan}` : 'Nothing is spent yet, so the month is the Claude-off month.';
+    return [['Claude', 'On', 'Off', 'Forecasts and figures run as usual, because Claude only explains.'], ['This month\'s forecast', '£54.73', st === 'error' ? `At least ${gbp(to)}` : gbp(to), note], ['A full month', '£54.73', '£46.48'], ['Chat and research', '', 'Unavailable', 'Each shows the reason.'], st === 'empty' ? ['Open reservations', '', 'None yet'] : ['Open reservations', '', 'Settle or release', 'Work already held reconciles, and nothing is sent twice.'], ['Paid use version', 'v1', 'v2'], ['To turn it back on', '', 'Credit or approval', CLAUDE_OFF]];
   };
   const WD_END = [['Withdrawn', 'Claude stays off until credit is verified or you approve paid use again. No paid fallback switches on by itself.'], ['Not applied', 'The write failed part way, so paid use v1 stays current and nothing was half-changed.']];
   const creditRail = ctx => {
@@ -197,7 +198,7 @@
   const never = () => box(`${head('Never paused')}${tags(...['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chip('fresh', t)))}<p class="small muted acosts-gap">These stay available at every threshold.</p>`);
   const budVersions = ctx => {
     const rb = act('A34', 'Roll back to v1'), shut = ['offline', 'denied', 'error', 'partial'].includes(ctx.state);
-    return `${sec('Versions', illus())}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · AWS £24 · Claude and evaluations £13 · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${deltaCard([['AWS allocation', '£22', '£24'], ['Claude and evaluations', '£15', '£13'], ['The £70 plan', '', 'Unchanged', '£30 + £24 + £13 + £3.']], 'If you roll back to v1')}${['error', 'partial'].includes(ctx.state) ? p('Rolling back waits until the billing records load.') : ''}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
+    return `${sec('Versions', illus())}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · AWS £23 · Claude and evaluations £14 · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${deltaCard([['AWS allocation', '£22', '£23'], ['Claude and evaluations', '£15', '£14'], ['The £70 plan', '', 'Unchanged', '£30 + £23 + £14 + £3.'], ['Against the month', '', 'Fits', 'Forecast AWS £18.64 and Claude £13.24 stay inside both.']], 'If you roll back to v1')}${['error', 'partial'].includes(ctx.state) ? p('Rolling back waits until the billing records load.') : ''}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
   };
   const budgetBase = ctx => rungs(ctx) + allocs(ctx) + budVersions(ctx);
   const budgetCore = ctx => ONE() + region(ctx, {
@@ -336,7 +337,7 @@
         render: ctx => cp(ctx, { title: 'Credit', back: 'Costs', body: creditCore(ctx), rail: creditRail(ctx) })
       }, {
         id: 'ca-budget', title: 'Lines and allocations', note: 'Budget changes live here, in admin under Settings (the owner, 4 November 2026), so the Settings wording on the owner cost journey stays true.',
-        render: ctx => cp(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
+        render: ctx => cp(ctx, { day: ctx.state === 'expired' ? 19 : 0, title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }, {
         id: 'ca-change', title: 'Change a line', note: 'You pick the line or allocation and its value, code checks it, then you decide. The £55 is an example. Empty draws it applied, Failed part way, Conflicting refused. Expired reads as a later moment, past tomorrow 18:00.',
         render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), day: ctx.state === 'expired' ? 19 : 0, title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })
@@ -360,7 +361,7 @@
         render: ctx => cp(ctx, { title: 'Credit', back: 'Costs', body: creditCore(ctx), rail: creditRail(ctx) })
       }, {
         id: 'cb-budget', title: 'Lines and allocations', note: 'Budget changes live here, in admin under Settings (the owner, 4 November 2026), so the Settings wording on the owner cost journey stays true.',
-        render: ctx => cp(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
+        render: ctx => cp(ctx, { day: ctx.state === 'expired' ? 19 : 0, title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }, {
         id: 'cb-change', title: 'Change a line', note: 'You pick the line or allocation and its value, code checks it, then you decide. The £55 is an example. Empty draws it applied, Failed part way, Conflicting refused. Expired reads as a later moment, past tomorrow 18:00.',
         render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), day: ctx.state === 'expired' ? 19 : 0, title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })

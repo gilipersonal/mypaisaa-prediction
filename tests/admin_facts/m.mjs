@@ -61,7 +61,7 @@ export default {
       has(t, /run_8d6e/); has(t, /run_8cf7/); has(t, /run_8d02/); has(t, /run_8c41/);
     }
     /* Partial: the UK record did not answer, so its run has no id or time here (R3-m15) */
-    { const t = view('runs', 'a', 'a-clock', 'web', 'partial').text; has(t, /run_8d6e/); has(t, /UK Run not read Unknown/); lacks(t, /run_8cf7/); }
+    { const t = view('runs', 'a', 'a-clock', 'web', 'partial').text; has(t, /run_8d6e/); has(t, /UK, Tue Run not read Unknown/); lacks(t, /run_8cf7/); }
     lacks(view('runs', 'a', 'a-clock', 'web', 'stale').text, /run_8d6e/, 'Stale says India has no record and still lists its run');
     has(view('runs', 'a', 'a-clock', 'web', 'default').text, /India Wed 10:15 · UK and US Tue/);
     each({ journey: 'runs' }, (v) => lacks(v.text, /about 180 end-of-day listings/));
@@ -204,7 +204,7 @@ export default {
     /* follow the row into its screen, in each state: the chip on one is the chip on the other (lesson 31) */
     const CHIPS = ['Waits for your yes', 'Unknown', 'mapping not qualified', 'Refused', 'Expired', 'Loading'];
     const chipOf = (t) => CHIPS.find((c) => t.includes(c));
-    for (const st of ['default', 'partial', 'error', 'stale', 'offline', 'conflict', 'denied']) {
+    for (const st of ['default', 'partial', 'error', 'stale', 'offline', 'conflict', 'expired', 'denied']) {
       const row = view('models', 'a', 'a-pipe', 'web', st).text.match(/Rules v6 shadow[^,]*?(Waits for your yes|Unknown|mapping not qualified|Refused)/);
       must(row, `a-pipe ${st}: no Rules v6 row`);
       must(view('models', 'a', 'a-rules', 'web', st).text.includes(row[1]), `${st}: the row says ${row[1]}, a-rules says ${chipOf(view('models', 'a', 'a-rules', 'web', st).text)}`);
@@ -217,6 +217,7 @@ export default {
       has(t, /Missed daily run India Wed 10:15 · US Tue · UK not read Unknown/);
       lacks(t, /UK and US Tue/);
       lacks(t, /(run_8cf7[^.]{0,40})Succeeded/);
+      lacks(t, /(run_8bf3|UK)[^.]{0,30}Succeeded/, `${sc}: a UK success while the UK is unread`);
     }
   },
   'R2-m9': ({ view, has, lacks }) => {
@@ -299,6 +300,65 @@ export default {
       const v = view('models', o, `${o}-live`, 'web', 'default');
       has(v.text, /4 decisions wait on you\. 1 paused scope waits on your restart\. Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date\./);
       must(/second line/.test(v.note), `${o}-live: the note leaves the others out`);
+    }
+  },
+
+  // Round 4.
+  'R4-m1': ({ each, must }) => {
+    for (const [option, screen] of [['a', 'a-evals'], ['b', 'b-evals']]) each({ journey: 'models', option, screen, surface: ['web', 'ipad'] }, (v, at) => {
+      if (!/Arrives with the proposal/.test(v.text)) return;
+      must(/data-act="A72"/.test(v.html), `${screen} ${at.state}: A72 is gone`);
+      must(/data-act="A72"><button disabled /.test(v.html), `${screen} ${at.state}: A72 is enabled beside a proposal that has not arrived`);
+      must(/Opens when a proposal carries its values/.test(v.text), `${screen} ${at.state}: no line says when it opens`);
+      must(!/b6e2/.test(v.text), `${screen} ${at.state}: a hash of nothing`);
+      must(/\(CT-10, CT-11\)/.test(v.text) && !/ARC-09/.test(v.text), `${screen} ${at.state}: the wrong open question`);
+    });
+  },
+  'R4-m2': ({ view, must, has, lacks }) => {
+    /* Partial: the alarm, the queue row and the item all say the UK collection was not read (lesson 31) */
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
+      const t = view('runs', o, sc, 'web', 'partial').text;
+      has(t, /Dead-letter queues UK collection not read Unknown/);
+      has(t, /Stale collector UK collection not read Unknown/);
+      lacks(t, /Dead-letter queues [^.]{0,30}0 items/);
+    }
+    has(view('runs', 'b', 'b-queues', 'web', 'partial').text, /Collection UK not read Unknown/);
+    for (const st of ['partial', 'stale']) must(!/None is held now/.test(view('runs', 'b', 'b-dead', 'web', st).text), `b-dead ${st}: claims none is held`);
+    must(/None is held now/.test(view('runs', 'b', 'b-dead', 'web', 'default').text), 'b-dead Ready lost its sentence');
+  },
+  'R4-m3': ({ view, has, lacks }) => {
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
+      const t = view('runs', o, sc, 'web', 'partial').text;
+      has(t, /UK, Mon Run not read Unknown/);
+      lacks(t, /run_8bf3|run_8cf7/);
+      has(t, /The UK run record did not/);
+    }
+    for (const [o, sc] of [['b', 'b-queues'], ['b', 'b-dead'], ['a', 'a-recover']]) has(view('runs', o, sc, 'web', 'partial').text, /UK run record did not/);
+    has(view('runs', 'a', 'a-clock', 'web', 'default').text, /run_8bf3 · UK Succeeded/);
+  },
+  'R4-m4': ({ view, must }) => {
+    for (const [o, sc] of [['a', 'a-decide'], ['b', 'b-scope']]) {
+      const v = view('models', o, sc, 'web', 'expired');
+      must(/data-act="A25"/.test(v.html), `${sc}: A25 is gone`);
+      const bind = v.text.split('This approval is bound to')[1] || '';
+      must(bind, `${sc}: no bind`);
+      must(!/Fri 6 Nov/.test(bind) && !/a81f/.test(bind), `${sc}: a new approval bound to the old window or hash`);
+      must(/A new window, shown before you approve/.test(bind), `${sc}: the bind names no new window`);
+    }
+  },
+  'R4-s2-runs': ({ view, journeys, has, must }) => {
+    has(view('runs', 'a', 'a-clock', 'web', 'conflict').text, /inc_0012 · detected Tue 16:50 Reopened/);
+    has(view('runs', 'a', 'a-recover', 'web', 'conflict').text, /Reopened/);
+    must(!/Disagreement/.test(view('runs', 'a', 'a-recover', 'web', 'conflict').text), 'a state that is not an incident state');
+    const p = view('runs', 'a', 'a-recover', 'web', 'partial').text;
+    has(p, /The incident answered and the UK run record did not/);
+    has(p, /Collect not read/);
+    must(!/Collect found no newer price|Still none/.test(p), 'a-recover Partial tells the unread run as read');
+    /* follow the id into Incidents wherever that journey is on the page (lesson 31) */
+    if (journeys().includes('incidents')) for (const st of ['default', 'stale', 'offline', 'conflict', 'denied']) {
+      const word = (t) => (t.match(/inc_0012[^]{0,120}?(Acknowledged|Reopened|Resolved)/) || [])[1];
+      const a = word(view('runs', 'a', 'a-clock', 'web', st).text), b = word(view('incidents', 'a', 'a-list', 'web', st).text);
+      must(a === b, `${st}: Runs says ${a}, Incidents says ${b}`);
     }
   },
 };

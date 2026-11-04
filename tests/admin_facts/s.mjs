@@ -1,4 +1,5 @@
 // Lane s, MP-64 round 1: Incidents and Identity. Each check tests what its fix does, on every device and state it applies to.
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load } from '../../scripts/design_journeys_facts.mjs';
@@ -141,7 +142,7 @@ export default {
     for (const [o, s] of REPLAY) for (const kind of ALL) for (const st of STATES) {
       const t = view('incidents', o, s, kind, st).text;
       if (/Awaiting you/.test(t)) must(!/Nothing waits on you/.test(t), `${s} ${st} ${kind} awaits you and says nothing does`);
-      if (/\bheld\b|Held/.test(t)) must(!/Not needed, inside the allowlist|Nothing waits on you/.test(t), `${s} ${st} ${kind} is held and says not needed`);
+      if (/\bheld\b|Held/.test(t)) must(!/Not needed|Nothing waits on you/.test(t), `${s} ${st} ${kind} is held and says not needed`);
     }
     has(view('incidents', 'a', 'a-replay', 'web', 'denied').text, /Held until you sign in/);
     for (const st of ['denied', 'partial', 'stale', 'offline', 'expired']) must(!/aria-current="step"[^>]*>\s*<span class="n">3/.test(view('incidents', 'b', 'b-replay', 'web', st).html), `b-replay ${st} shows step 3 running`);
@@ -181,6 +182,7 @@ export default {
     for (const kind of ['iphone', 'ipad', 'pwa']) has(view('identity', 'a', 'a-lost', kind, 'default').text, LINE);
     has(view('identity', 'b', 'b-revoke', 'web', 'default').text, LINE);
     has(view('identity', 'b', 'b-device', 'web', 'default').text, LINE);
+    must(/What does a revoke do to a passkey/.test(readFileSync(page(), 'utf8')), 'the page lost the open question on what a revoke does to a passkey');
     must(/Revoke iPhone/.test(view('identity', 'a', 'a-devices', 'web', 'default').text), 'the iPhone stopped being revocable');
   },
   'R3-s2': ({ view, each, has, lacks }) => {
@@ -198,7 +200,7 @@ export default {
     }
     has(view('incidents', 'a', 'a-list', 'web', 'partial').text, /The UK run record did not answer/);
     lacks(view('incidents', 'a', 'a-list', 'web', 'partial').text, /Runs, sources and alerts answered/);
-    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) { const t = view('incidents', o, s, 'web', 'conflict').text; has(t, /reconcile_required, counted as neither/); lacks(t, /run_8d02 · succeeded/); }
+    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) { const t = view('incidents', o, s, 'web', 'conflict').text; has(t, /reconcile_required, counted as neither/); lacks(t, /run_8d02 · succeeded/); lacks(view('incidents', o, s, 'web', 'partial').text, /job link unavailable/i); }
   },
   'R3-s4': ({ each, must }) => {
     each({ journey: 'incidents', state: 'expired' }, (v, at) => must(!/are back|access expired|No new HSBC price/.test(v.text), `Expired tells two stories at ${at.screen}`));
@@ -206,6 +208,8 @@ export default {
   'R3-s5': ({ view, each, must, has, lacks }) => {
     for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) for (const kind of ALL) { const t = view('incidents', o, s, kind, 'conflict').text; has(t, /Production recorded lost/); has(t, /inc_0014/); has(t, /Proposed · CT-14/); }
     has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /Not classed\s*1 open · inc_0014/);
+    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) has(view('incidents', o, s, 'web', 'conflict').text, /Production\s*Recorded lost · inc_0014/);
+    has(view('incidents', 'b', 'b-runbook', 'web', 'conflict').text, /Production is also recorded lost/);
     must(live(view('incidents', 'a', 'a-recovery', 'web', 'conflict').html, 'A42'), 'the switch left the state production is lost');
     each({ journey: 'incidents', state: STATES.filter((x) => x !== 'conflict') }, (v) => lacks(v.text, /inc_0014/));
   },
@@ -220,4 +224,64 @@ export default {
     each({ journey: 'identity' }, (v) => lacks(v.text, /if the lost one held a passkey/));
     for (const [o, s] of LOST) for (const kind of ALL) has(view('identity', o, s, kind, 'default').text, /On a device you control\. Each step is on your audit trail/);
   },
+  'R3-s11': ({ view, has, lacks }) => {
+    for (const s of ['b-device', 'b-revoke']) { const v = view('identity', 'b', s, 'ipad', 'expired'); has(v.text, /Phone web/); lacks(v.text, /iPhone[\s\S]{0,40}Expired/); }
+    has(view('identity', 'a', 'a-lost', 'ipad', 'default').text, /Revoke iPhone/);
+  },
+  'R3-s12': ({ view, must }) => {
+    for (const [o, s] of [['a', 'a-devices'], ['b', 'b-devices']]) for (const kind of ['ipad', 'web', 'pwa']) { const t = view('identity', o, s, kind, 'default').text; const row = t.slice(t.indexOf('iPhone Active'), t.indexOf('iPhone Active') + 140); must(/Waiting on MP-179/.test(row), `the iPhone row on ${s} ${kind} has no MP-179 label`); }
+  },
+  'R3-s15': ({ view, has }) => {
+    const n = view('identity', 'a', 'a-enrol', 'web', 'default').note;
+    has(n, /iPhone and iPad say why not until the Developer Program is bought \(MP-179\), with CT-17 and PL-09 still open/);
+    has(n, /until you answer whether a browser passkey counts/);
+  },
+  'R3-s16': ({ view, must, lacks }) => {
+    for (const [o, s] of REPLAY) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) lacks(view('incidents', o, s, 'web', st).text, /inc_0012 · missed collection/);
+    for (const o of ['a', 'b']) must(/Twelve Data listing spends credits/.test(option('incidents', o).covers.cost) && /Yahoo listing spends none/.test(option('incidents', o).covers.cost), 'covers.cost lost the split between listings');
+  },
+  'R4-s1': ({ view, must, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-detail'], ['b', 'b-escalate']]) {
+      for (const kind of ALL) {
+        const v = view('incidents', o, s, kind, 'conflict');
+        has(v.text, /Production recorded lost[\s\S]*Incident\s*inc_0014\s*Class\s*Not classed/);
+        has(v.text, /Proposed · CT-14/);
+        must(live(v.html, 'A40'), `no live acknowledge for inc_0014 on ${s} ${kind}`);
+        has(v.text, /Switch in Recovery/);
+        has(v.text, /inc_0012/);
+        has(v.text, /Reopened/);
+      }
+      for (const kind of BIG) { const v = view('incidents', o, s, kind, 'conflict'); must(live(v.html, 'A75'), `no live resolve for inc_0014 on ${s} ${kind}`); has(v.text, /closes only with a recorded resolution/); must(/textarea/.test(v.html), 'no recorded resolution box'); }
+      for (const kind of PHONES) must(!/textarea/.test(view('incidents', o, s, kind, 'conflict').html), `a text box on a phone, ${s}`);
+    }
+    has(view('incidents', 'a', 'a-detail', 'web', 'conflict').text, /Evidence for inc_0012/);
+    for (const st of STATES.filter((x) => x !== 'conflict')) lacks(view('incidents', 'a', 'a-detail', 'web', st).text, /inc_0014/);
+  },
+  'R4-s2': ({ view, journeys, must, has, lacks }) => {
+    for (const s of ['a-list', 'a-evidence']) has(view('incidents', 'a', s, 'web', 'partial').text, /The UK run record did not answer/);
+    const status = { conflict: 'Reopened', default: 'Acknowledged' };
+    has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /HSBC price late[\s\S]*Reopened/);
+    has(view('incidents', 'a', 'a-list', 'web', 'default').text, /HSBC price late[\s\S]*Acknowledged/);
+    if (!journeys().includes('runs')) return;
+    for (const [st, word] of Object.entries(status)) for (const s of ['a-clock', 'a-recover']) { const t = view('runs', 'a', s, 'web', st).text; if (/inc_0012/.test(t)) must(new RegExp(`inc_0012[\\s\\S]{0,120}${word}`).test(t), `Runs ${s} ${st} does not read ${word} for inc_0012`); }
+    has(view('runs', 'a', 'a-recover', 'web', 'partial').text, /UK run record did not/);
+    lacks(view('runs', 'a', 'a-recover', 'web', 'conflict').text, /Disagreement/);
+  },
+  'R4-s4': ({ view, each, must, has }) => {
+    const LINE = /What a revoke does to a passkey held on that device is not recorded\./;
+    each({ journey: 'identity' }, (v, at) => { if (live(v.html, 'A49')) must(LINE.test(v.text), `live A49 with no sentence at ${JSON.stringify(at)}`); });
+    for (const [o, s] of LOST) for (const kind of ALL) for (const st of STATES.filter((x) => !['loading', 'denied'].includes(x))) has(view('identity', o, s, kind, st).text, LINE);
+    for (const kind of ALL) has(view('identity', 'b', 'b-devices', kind, 'error').text, LINE);
+  },
+  'R4-s6': ({ view, each, must, has, lacks }) => {
+    const NOTE = /Whether a late price counts as a missed collection is open/;
+    for (const [o, s] of REPLAY) for (const kind of ALL) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) { const t = view('incidents', o, s, kind, st).text; has(t, NOTE); has(t, /Proposed · CT-14/); }
+    each({ journey: 'incidents' }, (v, at) => { if (at.state !== 'error') lacks(v.text, /Not needed, inside the allowlist|is inside the allowlist/); });
+    for (const [o, s] of REPLAY) { has(view('incidents', o, s, 'web', 'default').text, /Not needed if a late price counts as a missed collection/); }
+    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Nothing waits on you if CT-14 says so/);
+    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /if a late price counts as a missed collection/);
+    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /if a late price counts as a missed collection/);
+    has(view('incidents', 'b', 'b-replay', 'web', 'default').text, /Inside the allowlist only if a late price counts as a missed collection/);
+  },
+  'R4-s10': ({ view, has }) => { has(view('incidents', 'a', 'a-evidence', 'web', 'partial').text, /Trace\s*Not read, it links from run_8cf7/); },
 };

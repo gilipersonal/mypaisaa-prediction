@@ -205,17 +205,17 @@ export default {
   'R3-f6': ({ view, must, lacks }) => {
     for (const [o, s] of [['a', 'a-gaps'], ['b', 'b-gaps']]) {
       const t = view('audit', o, s, 'web', 'error').text;
-      must((t.match(/From 11:20, not vouched for/g) || []).length === 2, `${s}: commits or delivery read bare`);
+      must((t.match(/From 11:20, not vouched for/g) || []).length === 3, `${s}: commits, delivery or restore read bare`);
       lacks(t, /commit_completeness|outbox_delivery/);
     }
   },
-  'R3-f7': ({ view, has }) => {
-    for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) has(view('home', o, s, 'web', 'expired').note, /Expired reads as that evening, past 18:00, not the 11:40 of Ready/);
+  'R3-f7': ({ view, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) { has(view('home', o, s, 'web', 'expired').text, /Records current · 18:05/); lacks(view('home', o, s, 'web', 'expired').note, /11:40/); }
   },
   'R3-f8': ({ view, has }) => {
     has(view('audit', 'b', 'b-explore', 'web', 'expired').text, /Watch Taiwan Semiconductor/);
     has(view('audit', 'a', 'a-who', 'web', 'expired').text, /Watch Taiwan Semiconductor/);
-    has(view('audit', 'b', 'b-explore', 'web', 'expired').note, /Expired is the exception/);
+    has(view('audit', 'b', 'b-explore', 'web', 'expired').text, /Records current · 18:05/);
   },
   'R3-f9': ({ view, must, has }) => {
     const v = view('files', 'a', 'a-draft', 'web', 'partial');
@@ -234,10 +234,50 @@ export default {
   'R3-m7': ({ view, journeys, has, lacks }) => {
     for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) {
       const e = view('home', o, s, 'web', 'error').text, c = view('home', o, s, 'web', 'conflict').text;
-      has(e, /US run Tue · failed/); lacks(e, /succeeded/); has(e, /R2-HGB v4 incomplete/); lacks(e, /R2-HGB v4 waits/); has(e, /Query incomplete/);
-      has(c, /US run Tue · held/); lacks(c, /succeeded/); has(c, /2 not resolved/); has(e, /2 not resolved/);
+      has(e, /US run Tue · failed · from 11:20/); lacks(e, /succeeded/); has(e, /R2-HGB v4 incomplete/); lacks(e, /R2-HGB v4 waits/); has(e, /Query incomplete/);
+      has(c, /US run Tue · held/); lacks(c, /succeeded/); has(c, /2 not resolved/); has(e, /2 not resolved/); if (o === 'a') has(e, /Mon 21:15 · cutoff 21:00, last good/);
     }
     if (journeys().includes('runs')) { has(view('runs', 'a', 'a-clock', 'web', 'error').text, /run_8d02/); lacks(view('runs', 'a', 'a-clock', 'web', 'error').text, /succeeded/, 'Runs says otherwise'); }
+  },
+  'R3-f11': ({ view, has }) => {
+    const t = view('files', 'a', 'a-queue', 'web', 'error').text;
+    for (const r of [/Unmatched object/, /Open work/, /Kept/]) has(t, r);
+  },
+  'R3-f12': ({ view, has }) => {
+    has(view('files', 'a', 'a-draft', 'web', 'default').text, /deciding a duplicate or a transfer/);
+    has(view('files', 'a', 'a-draft', 'web', 'default').text, /your answer makes a new draft revision/);
+  },
+  'R3-f15': ({ view, has }) => { has(view('home', 'b', 'b-home', 'web', 'empty').text, /Settings v10 · catalogue v15/); },
+  'R3-f16': ({ view, has, lacks }) => {
+    const e = view('home', 'a', 'a-home', 'web', 'expired').text;
+    has(e, /3 decisions wait on you/); lacks(e, /4 decisions|Next: Taiwan Semiconductor/);
+    has(view('home', 'a', 'a-home', 'web', 'conflict').text, /3 decisions wait on you/);
+  },
+  'R4-f1': ({ view, must, has, lacks }) => {
+    for (const k of ALL) {
+      const v = view('home', 'b', 'b-home', k, 'conflict');
+      has(tile(v, 'Incidents and recovery'), /production recorded lost/);
+      lacks(tile(v, 'Incidents and recovery'), /last restore passed/);
+      has(v.html, /Production is recorded lost/); has(v.text, /Proposed · CT-14/);
+    }
+    for (const k of PHONES) { const h = view('home', 'b', 'b-home', k, 'conflict').html; must(h.indexOf('Production is recorded lost') < h.indexOf('ahome-grid'), `${k}: below the first view`); }
+    lacks(view('home', 'b', 'b-home', 'web', 'default').text, /recorded lost/);
+  },
+  'R4-f2': ({ view, each, has, lacks }) => {
+    const t = view('files', 'a', 'a-queue', 'web', 'partial').text;
+    has(t, /2 files refused at the door/); lacks(t, /3 files not taken in|1 more is held apart/);
+    each({ journey: 'files', option: 'a', screen: 'a-queue', surface: 'web', state: ['default', 'stale', 'offline', 'conflict', 'expired', 'denied'] }, (v) => has(v.text, /3 files not taken in/));
+  },
+  'R4-f4': ({ view, lacks, has }) => {
+    for (const st of ['stale', 'offline', 'error', 'expired']) lacks(view('files', 'a', 'a-queue', 'web', st).text, /link valid/, `${st}: a countdown from a read it was not made at`);
+    has(view('files', 'a', 'a-queue', 'web', 'error').text, /export failed 11:38/);
+    has(view('files', 'a', 'a-queue', 'web', 'default').text, /link valid 22 min/);
+  },
+  'R4-f9': ({ view, must }) => {
+    for (const [st, chip, n] of [['error', /From 11:20, not vouched for/g, 3], ['stale', /From 11:12/g, 3]]) {
+      const t = view('audit', 'b', 'b-gaps', 'web', st).text.replace(/Index lagging · from 11:12/g, '');
+      must((t.match(chip) || []).length >= n, `${st}: a check reads bare`);
+    }
   },
   'R1-s7-home': ({ each, has, lacks }) => {
     each({ journey: 'home', surface: ALL }, (v) => { has(v.text, /account recovery works anywhere/); lacks(v.text.replace(/account recovery/g, '').replace(/Incidents and recovery/g, ''), /\brecovery\b/); });

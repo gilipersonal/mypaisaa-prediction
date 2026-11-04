@@ -8,7 +8,7 @@
     "PH07-S02",
     "PH07-S03"
    ],
-   "note": "Bridge, native journeys, and free local builds. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says."
+   "note": "Bridge, native journeys, and free local builds. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179)."
   },
   "L7-S02": {
    "disposition": "split",
@@ -144,7 +144,7 @@
      "role": "reads"
     }
    ],
-   "authority": "The owner uses the app; the API authorises every private read and command. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "authority": "The owner uses the app; the API authorises every private read and command. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
    "states": [
     "loading",
     "ready",
@@ -214,7 +214,7 @@
      "role": "reads"
     }
    ],
-   "authority": "The owner builds and installs. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "authority": "The owner builds and installs. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
    "states": [
     "installed",
     "expiring_soon",
@@ -479,7 +479,7 @@
      "role": "emits"
     }
    ],
-   "authority": "The owner grants or revokes permission. Code sends from the outbox. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "authority": "The owner grants or revokes permission. Code sends from the outbox. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
    "states": [
     "permission_not_asked",
     "granted",
@@ -613,7 +613,7 @@
      "role": "reads"
     }
    ],
-   "authority": "The maker proposes; only the owner classifies a capability. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the owner says.",
+   "authority": "The maker proposes; only the owner classifies a capability. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
    "states": [
     "proposed",
     "owner_launch",

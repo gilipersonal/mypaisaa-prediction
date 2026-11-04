@@ -2078,5 +2078,293 @@
     0
    ]
   }
+ },
+ {
+  "id": "R4-f1",
+  "finding": "**In Conflicting, the picked Admin home never says production is recorded lost.** Evidence: Incidents Conflicting says \"Production is recorded lost, so inc_0014 is open and Recovery holds the copy\" (`incidents.js:74`). T",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-f1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-f2",
+  "finding": "**Queue Partial states a held-apart count in the state that says the count is unknown.** Evidence: `a-queue` Partial prints \"The quarantine list did not answer, so what is held apart is unknown. It is not shown as nothin",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-f2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-m1",
+  "finding": "**The picked a-evals says the thresholds control opens only once the values arrive, and then draws it open with no values.** Evidence, Models A, a-evals, Ready, in page order: - \"Proposed value: Arrives with the proposal",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-m1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-m2",
+  "finding": "**Partial turned the dead-letter alarm from Unknown to a green \"0 items\", while the same state says the queue was not read.** Evidence, from the diff: - `:49` was `'This source did not answer', WARN('Unknown')`. It is no",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-m2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-m3",
+  "finding": "**The new `ukMon` row brings back R2-m8's fault in a phrasing its check does not search.** Evidence, a-clock Partial, in order: - \"India and the US answered. The UK record did not, so it shows unknown and never on time.\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-m3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-m4",
+  "finding": "**This round took `expired` out of the \"What this proposed\" list, so a-decide Expired now binds a new approval to the window it just said ran out.** Evidence, a-decide Expired: - Banner: \"Expired. It did not apply.\" - R5",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-m4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a1",
+  "finding": "**This month's forecast states one figure, and the same moment states another everywhere else (lesson 27).** Evidence: `ca-credit` Ready prints \"This month's forecast £54.73 £53.54\". On the same day 18 and clock, `ca-lin",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a2",
+  "finding": "**In Failed, \"at most\" is built from a lower bound.** Evidence: `ca-credit` Failed prints \"£6.71 of Claude is already spent, and the £0.34 hold settles or releases, so at most £53.53.\" The same state says that figure sto",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a3",
+  "finding": "**The change moved to a later day on one screen and not on the screen that reports it (lessons 27, 3).** Evidence: this delta gave `ca-change` Expired `day: 19` and the chip \"A day later\", because the change \"expires tom",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a4",
+  "finding": "**\"What was already sent\" cites a decision that does not cover it, and the story's own words were dropped (lessons 36, 4).** Evidence: the row reads \"What was already sent / Disposition pending / Its treatment is open. P",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a5",
+  "finding": "**The exact scope now binds on the owner page, and the owner page does not say what happens to the two scopes it leaves out (lessons 31, 27).** Evidence: - `aa-model` No model: \"That scope stays paused until you restart ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-a6",
+  "finding": "**One approval, one payload hash, two values on a bound line (lesson 31).** Evidence: MP-156 says the approval binds \"previous safe version\". Owner Ready, in `bound` and `STEP_MODEL` (`:179`): \"Previous safe R2-HGB v3\". ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-a6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s1",
+  "finding": "**inc_0014, the worst incident on the page, is the only one that cannot be opened, acknowledged or resolved.** Evidence: - `I14` is used only by `statusOf`, `incRows` and `nowBand` (:40, :42, :306). `inc(ctx)` (:36) retu",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s2",
+  "finding": "**Runs tells a different story of inc_0012 from Incidents in Conflicting and Partial (lessons 27, 31, 46).** R3-s3 fixed the link from Incidents into Runs. The way back is still wrong. Evidence, same state chip on both s",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s3",
+  "finding": "**The picked Admin home never says production is recorded lost (AGENTS.md \"Never hide risk\", lessons 27, 38).** Evidence: - Round 3 added \"Production recorded lost · HSBC price late, reopened\" to `FIRST.conflict` (:26), ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-f1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s4",
+  "finding": "**The revoke sentence is missing where a passkey is actually at stake, because R3-s1 checks a hand list of screens (lessons 7, 31, 44).** Evidence, a scan of every Identity view with a Revoke step or control and without ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-s4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s5",
+  "finding": "**The phrasing R2-s7 and R3-s9 removed survives in another form in the same stories, and the check cannot see it (lessons 1, 3, 4).** Evidence: - `PH-07.json` lines 11, 147, 217, 482, 616: \"no TestFlight, Apple push or S",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s6",
+  "finding": "**The Replay screen says the request is inside the allowlist and, in the same card, that nobody knows whether it is (lessons 36, 47).** Evidence, `a-replay` default: \"Reason inc_0012 · late price, no newer price found\", ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R4-s6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
  }
 ]

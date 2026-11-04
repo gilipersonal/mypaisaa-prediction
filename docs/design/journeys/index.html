@@ -5551,12 +5551,14 @@ J.add({
   const scoreTable = (o = {}) => box(`${lbl('Against both comparators · Brier score, lower is better')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Walk-forward</th><th class="r">v4</th><th class="r">Rules</th><th class="r">Base rate</th></tr></thead><tbody><tr><td>3, 6, 12 months</td><td class="r"><b>${o.v4 || '0.188'}</b></td><td class="r">0.197</td><td class="r">0.203</td></tr></tbody></table></div><div style="margin-top:8px">${proposed('SCI-D03')}</div><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv([['Clean running', '8 of 8 scored weeks'], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']])}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
   const MODEL_ROWS = [['Active model', 'v3', 'v4'], ['Calibrator', 'c7', 'c8'], ['Width of the portfolio\'s 80% range', '24.7 pts', '23.5 pts', '1.2 points narrower.'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v3 by itself', 'On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it.']];
   const PREV_PAUSED = 'R2-HGB v3, where eligible';
-  const bound = (title = 'This approval is bound to', prev = 'R2-HGB v3') => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
+  const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
+  /* the two scopes the exact scope leaves out, in admin Models' words */
+  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">Promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
   const modelRail = ctx => {
-    if (ctx.state === 'default' || ctx.state === 'offline') return bound() + limits('This changes which approved artefact issues forecasts.');
-    if (ctx.state === 'noModel') return bound('This approval is bound to', PREV_PAUSED) + limits('This changes which approved artefact issues forecasts. US tech, 12 months stays paused.');
-    if (['error', 'disagreement'].includes(ctx.state)) return bound('What this proposed', 'R2-HGB v3') + limits('This proposal cannot go ahead, so it changes nothing.');
+    if (ctx.state === 'default' || ctx.state === 'offline') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts.');
+    if (ctx.state === 'noModel') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts. US tech, 12 months stays paused.');
+    if (['error', 'disagreement'].includes(ctx.state)) return bound('What this proposed') + limits('This proposal cannot go ahead, so it changes nothing.');
     return '';
   };
   const modelCore = (ctx, o = {}) => {
@@ -5568,7 +5570,7 @@ J.add({
       error: () => head(status.refused) + stateCard('alert', 'The evidence changed', 'The evidence hash no longer matches what this proposal was built on, so it cannot be approved. The trial stays readable, and code rebuilds the proposal.', '', `<span class="chip error">Evidence hash mismatch</span>`),
       stale: () => head(`<span class="chip stale">Count paused</span>`) + evidence({ count: '6 of 8 scored weeks', stop: 7, label: 'Count paused after six scored weeks and a week that could not be scored', text: 'The week of 12 Oct could not be scored, so the count is paused at 6. The trial still needs 8 scored weeks.' }),
       offline: () => banner('', 'Offline.', 'You can read the evidence. Approving needs a connection and a fresh sign-in.', 'wifi-off') + head() + trail + evidence() + scoreTable(),
-      noModel: () => banner('warn', 'One scope waits.', 'R2-HGB v3 can no longer be the safe fallback on US tech, 12 months, because its approval has expired. That scope stays paused until you restart it. The others can still be promoted.', 'cube') + head() + trail + evidence() + scoreTable() + changeCard(MODEL_ROWS.map(r => (r[0] === 'If it slips' ? [r[0], r[1], 'Back to v3 by itself, where v3 is eligible', r[3]] : r[0] === 'Active model' ? [r[0], r[1], 'v4, where v3 issues'] : r))),
+      noModel: () => banner('warn', 'One scope waits.', 'R2-HGB v3 can no longer be the safe fallback on US tech, 12 months, because its approval has expired. That scope stays paused until you restart it. The rest of its scope can still be promoted.', 'cube') + head() + trail + evidence() + scoreTable() + changeCard(MODEL_ROWS.map(r => (r[0] === 'If it slips' ? [r[0], r[1], 'Back to v3 by itself, where v3 is eligible', r[3]] : r[0] === 'Active model' ? [r[0], r[1], 'v4, where v3 issues'] : r))),
       disagreement: () => head(status.blocked) + stateCard('split', 'It beat one comparator, not both', 'R2-HGB v4 beat the base rate but not the current rules on walk-forward history, so it cannot be promoted. A rejected candidate stays readable with its evidence.', '', `<span class="chip">Beats base rate</span><span class="chip error">Behind the rules</span>`) + scoreTable({ v4: '0.199' }),
       abstention: () => head(`<span class="chip">Awaiting maturity</span>`) + stateCard('ban', 'Not enough has matured yet', 'The 8 weeks ran cleanly, but too little walk-forward history has matured at 12 months to calibrate c8. It waits rather than guess, and nothing can be approved until then.', '', '<span class="chip">Calibration withheld</span>') + evidence()
     });
@@ -5598,19 +5600,19 @@ J.add({
       default: return sheetWrap('Approve with a fresh sign-in', p('You approve exactly this. If any line changes, it needs a new approval.') + rows + NOT + go(bs('Continue with passkey', 'primary', 'lock')));
     }
   };
-  const STEP_MODEL = [['Action', 'Promote a model'], ['Change', 'R2-HGB v3 to v4'], ['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Environment', 'Production'], ['Evidence hash', '9c1e…44ab'], ['Payload hash', 'a81f…60de'], ['Limits', '5 points, 10%'], ['Previous safe', 'R2-HGB v3'], ['Expected version', 'Models v22'], ['Expires', 'Fri 6 Nov, 18:00']];
+  const STEP_MODEL = [['Action', 'Promote a model'], ['Change', 'R2-HGB v3 to v4'], ['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Environment', 'Production'], ['Evidence hash', '9c1e…44ab'], ['Payload hash', 'a81f…60de'], ['Limits', '5 points, 10%'], ['Previous safe', PREV_PAUSED], ['Expected version', 'Models v22'], ['Expires', 'Fri 6 Nov, 18:00']];
   const STEP_TSM = [['Action', 'Add a watch-only listing'], ['Change', 'Catalogue v14 to v15'], ['Listing', 'TSM · XNYS'], ['Environment', 'Production'], ['Payload hash', '2d7a…b310'], ['Expires', 'Today, 18:00']];
   const STEP_SET = [['Action', 'Change a setting'], ['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
   /* on a refused step the rail shows what was proposed, not what is bound */
-  const stepBound = ctx => bound(ctx.state === 'disagreement' ? 'What this proposed' : undefined, ctx.state === 'noModel' ? PREV_PAUSED : undefined);
-  /* with one scope waiting the sheet binds what the proposal binds */
-  const stepModel = ctx => (ctx.state === 'noModel' ? STEP_MODEL.map(r => (r[0] === 'Previous safe' ? [r[0], PREV_PAUSED] : r)) : STEP_MODEL);
+  /* the sheet binds the same lines in No model, and says the waiting scope stays out of it */
+  const stepTag = ctx => (ctx.state === 'noModel' ? `${CT2}<span class="chip stale">${ic('pause', 's14')}US tech, 12 months stays paused</span>` : CT2);
+  const stepBound = ctx => bound(ctx.state === 'disagreement' ? 'What this proposed' : undefined);
 
   /* ---------- after the decision (MP-55, MP-114, MP-159) ---------- */
   const outcome = (i, tone, title, text, extra = '') => `<div class="card fcard" data-mo="card"><span class="logo" style="--c:var(--${tone}-tint);color:var(--${tone});margin-bottom:10px" aria-hidden="true">${ic(i, 's24')}</span><p style="font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">${title}</p><p class="small muted" style="margin-top:6px">${text}</p>${extra}</div>`;
   const resultCore = ctx => region(ctx, {
     what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. R2-HGB v4 is on probation.', 'Applied at 09:14 with your fresh sign-in. It writes forecasts from tonight\'s run.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(MODEL_ROWS.slice(0, 2), 'What changed'),
-    noModel: () => outcome('check', 'rise', 'Promoted where v3 was eligible.', 'Applied at 09:14 with your fresh sign-in. US tech, 12 months stays paused, and its restart still waits on you.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard([[MODEL_ROWS[0][0], MODEL_ROWS[0][1], 'v4, where v3 issues'], MODEL_ROWS[1]], 'What changed'),
+    noModel: () => outcome('check', 'rise', 'Promoted where v3 was eligible.', 'Applied at 09:14 with your fresh sign-in. US tech, 12 months stays paused, and its restart still waits on you. India midcap, 3 months stays on R1-LGB v1.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard([[MODEL_ROWS[0][0], MODEL_ROWS[0][1], 'v4, where v3 issues'], MODEL_ROWS[1]], 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:14')}<p class="small muted" style="margin-top:4px">The previous version stays current until this finishes, and an interrupted promotion completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Promote', 'Writing the promotion record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'R2-HGB v3 stays active. The candidate stays readable with its evidence, and a repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
@@ -5620,7 +5622,7 @@ J.add({
   });
   const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Tonight 21:15', 'First forecasts from v4, labelled with their version', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
   const safeBox = t => box(`${lbl('Why this is safe')}<p class="small muted" style="margin-top:4px">${t}</p>`);
-  const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : ctx.state === 'noModel' ? safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
+  const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : ctx.state === 'noModel' ? NEXT() + safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
   /* ---------- the record (MP-114): every decision, by whoever made it ---------- */
   const REC = [
@@ -5941,7 +5943,7 @@ J.add({
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
       }, {
         id: 'aa-step', title: 'Step-up', note: 'Every line is bound to the approval. Disagreement shows the record moving mid-way; Abstaining shows it failing closed.',
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, stepModel(ctx), CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, stepTag(ctx)) })
       }, {
         id: 'aa-result', title: 'Outcome', note: 'Ready is approved. Empty is you refusing. Error is MP refusing at execution. Stale is expired.',
         na: naPromoted,
@@ -5990,7 +5992,7 @@ J.add({
         }
       }, {
         id: 'ab-model-step', title: 'Step-up for a promotion', note: 'The same sheet, over the models page. Every line is bound to the approval.',
-        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, stepModel(ctx), CT2) })
+        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, stepTag(ctx)) })
       }, {
         id: 'ab-model-result', title: 'Promotion outcome', note: 'On the models page. Ready is approved and on probation. Empty is you refusing. Error is MP refusing at execution. Stale is expired.',
         na: naPromoted,

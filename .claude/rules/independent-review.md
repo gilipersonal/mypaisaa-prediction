@@ -98,3 +98,5 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 45. **A write has its whole path or none**: what changes, the bound version, how it ends and how it goes back, on every act an option draws (MP-64 R1-a3, R2-m4, R2-m5, R2-a2, R2-a11).
 46. **A state keeps one story across a journey's screens**: a failed world names one fault, one source and one run (MP-64 R1-m9, R2-a6, R2-s2).
 47. **A fix's new sentence needs its own record**: a claim added to close a finding is read like any other, and a saving, a scope or a side effect the records do not state is a new fault (MP-64 R3-s1, R3-a1, R3-a3, R3-f5).
+48. **A fix goes on the picked option first**: a fact added to the other option leaves the picked one wrong (MP-64 R4-f1, R4-s3).
+49. **A checked phrase is searched in every form**: one check for one wording let the same rule survive in five records (MP-64 R4-s5, lesson 3).

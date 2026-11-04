@@ -15,6 +15,7 @@ export default {
     must(/is marked named/.test(read('scripts/design_admin_facts.mjs')) && /its row does not list'\]/.test(read('scripts/design_admin_facts.mjs')), 'a selftest case for the two rules is gone');
   },
   'R3-s9': ({ lacks }) => { lacks(read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json'), /says to join/); },
+  'R4-s5': ({ lacks }) => { for (const f of ['docs/planning/story-readiness-2026-11-03/stories/PH-07.json', 'docs/confluence/build_pages.py']) lacks(read(f), /until the owner says/); },
   'R2-s3': ({ perms, must, lacks }) => {
     must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control');
     lacks(read('docs/design/admin/src/shell.js'), /Who marks an incident mitigated\? \(CT-14\)', 'Labelled proposed, with no control/);
