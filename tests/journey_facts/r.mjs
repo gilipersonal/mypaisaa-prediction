@@ -1,8 +1,9 @@
-// Lane r of MP-62 review rounds 1, 2 and 3: Research and Approvals, proved on the rendered screens.
+// Lane r of MP-62 review rounds 1 to 4: Research and Approvals, proved on the rendered screens.
 const CLAUDE_OFF = /Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in\./;
 const R = 'research', A = 'approvals';
 const SURFACES = ['iphone', 'ipad', 'web', 'pwa'], WIDE = ['ipad', 'web'];
 const STATES = ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
+const SHEET_STATES = STATES.filter((s) => s !== 'noModel');
 const said = (at) => `${at.journey}.${at.screen} ${at.surface} ${at.state}`;
 // a real, enabled control carrying this name: a span, or a disabled button, is not one
 const esc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -24,18 +25,74 @@ const waits = (text) => (text.match(/(\d) decisions? wait on you/) || [])[1];
 // a promise that Claude returns, which only Cost's condition may make
 const CLAUDE_BACK = /\b(back|return|returns|returning|resume|resumes|again|next month|this month|by itself|automatically|lifts?|resets?|once the|until)\b/i;
 // the same promise with no Claude in the sentence: a wait that ends by itself
-const WAIT = /\b(until|once|when|after)\b[^.]*\b(budget|credit|cap|allowance|hold|spend)\b|\b(budget|credit|cap|allowance|hold)\b[^.]*\b(clears?|lifts?|resets?)\b/i;
+const WAIT = /\b(until|once|when|after)\b[^.]*\b(budget|credit|cap|allowance|hold|spend)\b|\b(budget|credit|cap|allowance|hold)\b[^.]*\b(clears?|lifts?|resets?)\b|\b(waits?|back|returns?|resumes?|reopens?|available)\b[^.]*\b(tomorrow|next (?:month|week|cycle)|this month|in the morning)\b/i;
 const sentences = (t) => t.split(/(?<=[.!?])\s+/);
 // one element to its own closing tag, so what follows it is not read as part of it
 const own = (html) => { let depth = 0; for (const m of html.matchAll(/<(\/?)div\b[^>]*>/g)) { depth += m[1] ? -1 : 1; if (!depth) return html.slice(0, m.index + m[0].length); } return html; };
+// what a person sees in a piece of a screen, for a piece the harness's view does not hand over
+const words = (html) => html.replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ').trim();
+// a sheet and a rail stand side by side on iPad and desktop, so a check on one must not read the other
+const sheetOf = (html) => { const at = html.indexOf('<div class="sheet"'); return at < 0 ? '' : own(html.slice(at)); };
+const railOf = (html) => {
+  const at = html.indexOf('<div class="jcols"');
+  if (at < 0) return '';
+  const cols = own(html.slice(at)), open = cols.indexOf('>') + 1, body = own(cols.slice(open));
+  return cols.slice(open + body.length, -'</div>'.length);
+};
 // the first banner a screen draws, which is the one its state gives it
 const bannerOf = (html) => { const at = html.indexOf('<div class="jbanner'); return at < 0 ? '' : own(html.slice(at)); };
 // the status chip an outcome carries
 const CHIPS = ['Approved', 'Refused', 'Expired', 'Not applied'];
 const chipOf = (html) => CHIPS.filter((n) => html.includes(`>${n}</span>`)).join(', ');
 // the import's rows as a screen draws them, Holdings' and Approvals' alike
-const importRows = (text) => (text.match(/(?:Apple|HSBC, HSBA · XLON|AstraZeneca) [\d,]+ → [\d,]+ units/g) || []).join(' | ');
+const importRows = (text) => (text.match(/(?:Apple|HSBC, HSBA · XLON|AstraZeneca) [\d,]+ → [\d,]+ units|ISA cash £[\d,.]+ → £[\d,.]+/g) || []).join(' | ');
 const RAISE = [/\b(raise|raising|lift|lifting|increase|increasing|expand|expanding|top up|bump|double|extend)\b[^.·]{0,40}\b(cap|budget|ceiling|allowance|limit)\b/i, /\b(cap|budget|ceiling|allowance)\b[^.·]{0,30}\b(raised|lifted|increased|expanded|to £\d+)/i];
+
+// The decision controls, and the only (screen, state) each may be live in. Any pair not named here has none live, on any surface.
+const button = (html) => [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].map(([, attrs, inner]) => ({ name: words(inner), off: /(?<![-\w])disabled\b/.test(attrs) }));
+const STEPS = ['aa-listing-step', 'aa-step', 'aa-setting-step', 'aa-restart-step', 'ab-step', 'ab-model-step', 'ab-setting-step', 'ab-restart-step'];
+const LISTINGS = ['aa-listing', 'ab-chat'], MODELS = ['aa-model', 'ab-model'], SETTINGS = ['aa-setting', 'ab-setting'], RESTARTS = ['aa-restart', 'ab-restart'], REVOKES = ['aa-revoke', 'ab-revoke'];
+const INBOXES = ['aa-queue', 'ab-notices'], NOTICE_LIVE = ['default', 'stale', 'noModel', 'disagreement', 'abstention'];
+const DECISIONS = ['Refuse', 'Confirm', 'Approve', 'Approve this', 'Stay on v1', 'Switch forward', 'Keep paused', 'Restart', 'Continue with passkey', 'Sign in and approve', 'Sign in again', 'Revoke this approval', 'Roll back', 'See the evidence', 'Dismiss'];
+const LIVE = [
+  [LISTINGS, ['Refuse', 'Confirm'], ['default', 'noModel', 'disagreement']],
+  [MODELS, ['Refuse', 'Approve'], ['default']],
+  [SETTINGS, ['Refuse', 'Approve'], ['default']],
+  // No new score is no gate on the owner's yes (MP-159, owner answers 6 and 15), so Abstaining keeps the decision his.
+  [RESTARTS, ['Stay on v1', 'Switch forward'], ['default', 'disagreement', 'abstention']],
+  [RESTARTS, ['Keep paused', 'Restart'], ['noModel']],
+  [STEPS, ['Continue with passkey'], ['default', 'stale']],
+  [['aa-restart-step', 'ab-restart-step'], ['Continue with passkey'], ['noModel']],
+  [STEPS, ['Approve this'], ['empty']],
+  [['aa-restart-result', 'ab-restart-result'], ['Sign in and approve'], ['stale']],
+  [REVOKES, ['Revoke this approval'], ['default']],
+  [REVOKES, ['Sign in and approve'], ['stale']],
+  [REVOKES, ['Sign in again'], ['abstention']],
+  [['aa-record'], ['Roll back'], ['default', 'error', 'stale']],
+  [INBOXES, ['See the evidence', 'Dismiss'], NOTICE_LIVE],
+  [['ab-home'], ['See the evidence', 'Dismiss'], NOTICE_LIVE, WIDE],
+];
+// What a state draws and holds off, so a control cannot pass by going missing.
+const HELD_OFF = [
+  [LISTINGS, ['Refuse', 'Confirm'], ['loading', 'error', 'offline']],
+  [MODELS, ['Refuse', 'Approve'], ['offline']],
+  [SETTINGS, ['Refuse', 'Approve'], ['offline']],
+  [RESTARTS, ['Stay on v1', 'Switch forward'], ['offline']],
+  [STEPS, ['Continue with passkey'], ['offline']],
+  [REVOKES, ['Revoke this approval'], ['offline']],
+  [['aa-record'], ['Roll back'], ['offline']],
+  [INBOXES, ['See the evidence', 'Dismiss'], ['offline']],
+  [['ab-home'], ['See the evidence', 'Dismiss'], ['offline'], WIDE],
+];
+const rowsFor = (table, at) => table.filter(([screens, , states, surfaces]) => screens.includes(at.screen) && states.includes(at.state) && (!surfaces || surfaces.includes(at.surface))).flatMap(([, names]) => names);
+// The lines each step-up binds, read in the sheet alone: a phone has no rail to cover a line the sheet drops.
+const BOUND_LINES = {
+  listing: ['Action Add a watch-only listing', 'Change Catalogue v14 to v15', 'Listing TSM · XNYS', 'Environment Production', 'Payload hash 2d7a…b310', 'Expires Today, 18:00'],
+  model: ['Action Promote a model', 'Change R2-HGB v3 to v4', 'Artefact 4be1…09fa', 'Calibrator c8', 'Tasks 3, 6, 12 months', 'Scope All segments', 'Environment Production', 'Evidence hash 9c1e…44ab', 'Payload hash a81f…60de', 'Limits 5 points, 10%', 'Previous safe R2-HGB v3', 'Expected version Models v22', 'Expires Fri 6 Nov, 18:00'],
+  setting: ['Action Change a setting', 'Owner You', 'Environment Production', 'Setting Weekly band', 'Value 4 points', 'Current version v9', 'Payload hash 1b7c…d3e4', 'Expires Mon 9 Nov, 18:00'],
+  forward: ['Action Switch forward', 'Change R1-LGB v1 to v2', 'Artefact R1-LGB v2 · 7e20…c4d1', 'Calibrator c5', 'Tasks 3 months', 'Scope India midcap', 'Evidence hash b3f6…2a90', 'Limits 5 points, 10%', 'Previous safe R1-LGB v1', 'Expected version Models v22', 'Environment Production', 'Payload hash e19c…7a45', 'Expires 15 minutes after you approve'],
+  restart: ['Action Restart a paused scope', 'Change Paused to issuing', 'Artefact R2-HGB v3 · 91d4…e7b2', 'Calibrator c7', 'Tasks 12 months', 'Scope US tech', 'Evidence hash d52a…08c3', 'Limits 5 points, 10%', 'Previous safe None eligible', 'Expected version Models v22', 'Environment Production', 'Payload hash 40fb…c6e8', 'Expires 15 minutes after you approve'],
+};
 
 const FACTS = {
   'R1-r1': ({ each, has, lacks }) => {
@@ -230,7 +287,7 @@ const FACTS = {
     each({ journey: R, option: 'a', screen: 'ra-brief', state: 'default' }, (v, at) => {
       has(v.text, /Yahoo · HSBC late/, `${said(at)}: the chip`);
       has(v.text, /Late: its last price is 14:10, before the UK close/, `${said(at)}: the HSBC row`);
-      has(v.text, /Late but inside the freshness limit.*Proposed · FIN-OD-06/, `${said(at)}: the limit is proposed`);
+      has(v.text, /Late but inside the freshness limit.*Proposed · DATA-DEC-02/, `${said(at)}: the limit is proposed`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
       each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
@@ -340,12 +397,12 @@ const FACTS = {
   'R2-r3': ({ each, has, lacks }) => {
     for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) {
       each({ journey: A, option, screen }, (v, at) => lacks(v.text, /No expiry/, `${said(at)}: an approval with no expiry`));
-      each({ journey: A, option, screen, state: ['default', 'offline', 'disagreement', 'noModel'] }, (v, at) => {
+      each({ journey: A, option, screen, state: ['default', 'offline', 'disagreement', 'abstention', 'noModel'] }, (v, at) => {
         has(v.text, /This approval is bound to/, `${said(at)}: no bound card`);
-        for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', 'Proposed · SCI-D07']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
+        for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', at.state === 'noModel' ? 'Proposed · POLICY-003' : 'Proposed · SCI-D07']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
         has(v.text, /Your approval then has 15 minutes to apply\. Proposed · CT-02/, `${said(at)}: the window's label is not beside it`);
       });
-      each({ journey: A, option, screen, state: ['default', 'disagreement'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: ['default', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'noModel' }, (v, at) => {
@@ -491,7 +548,7 @@ const FACTS = {
   },
 
   // Nothing says an approval is bound where none can happen.
-  'R2-r10': ({ each, has, lacks }) => {
+  'R2-r10': ({ each, has, lacks, must }) => {
     for (const [option, set, model] of [['a', 'aa-setting', 'aa-model'], ['b', 'ab-setting', 'ab-model']]) {
       each({ journey: A, option, screen: set, state: ['loading', 'empty', 'abstention'] }, (v, at) => {
         lacks(v.text, /This approval is bound to/, `${said(at)}: bound with no open proposal`);
@@ -528,9 +585,18 @@ const FACTS = {
           has(v.text, /What this proposed/, `${said(at)}: not retitled`);
         });
       }
+      // The sheet repeats these rows, so the rail is read on its own: a rail bound to the other model must not pass on the sheet's words.
       each({ journey: A, option, screen: res, surface: WIDE, state: 'noModel' }, (v, at) => {
-        has(v.text, /This approval is bound to/, `${said(at)}: the restart's rail`);
-        has(v.text, /Artefact R2-HGB v3/, `${said(at)}: the restart's rail`);
+        const rail = words(railOf(v.html));
+        must(sheetOf(v.html).includes('R2-HGB v3'), `${said(at)}: no sheet to tell the rail from`);
+        has(rail, /This approval is bound to/, `${said(at)}: the restart's rail reads "${rail.slice(0, 80)}"`);
+        has(rail, /Artefact R2-HGB v3 · 91d4/, `${said(at)}: the restart's rail does not name its model`);
+        lacks(rail, /R1-LGB/, `${said(at)}: the rail is bound to another model than the sheet`);
+      });
+      each({ journey: A, option, screen: res, surface: WIDE, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'abstention'] }, (v, at) => {
+        const rail = words(railOf(v.html));
+        has(rail, /Artefact R1-LGB v2 · 7e20/, `${said(at)}: the switch's rail does not name its model`);
+        lacks(rail, /R2-HGB/, `${said(at)}: the rail is bound to another model than the sheet`);
       });
       each({ journey: A, option, screen: res, surface: WIDE, state: 'disagreement' }, (v, at) => lacks(v.text, /The proposal waits for your yes/, `${said(at)}: waits beside a refused approval`));
       // The sheet promises only what the proposal has: a switch forward has no expiry to keep.
@@ -629,8 +695,8 @@ const FACTS = {
 
   // Round 3. Each listing's expiry says MP40-Q9, every other proposal's expiry and window CT-02, beside the fact and not only on the screen.
   'R3-r1': ({ each, has }) => {
-    const LISTING = /[Ee]xpires? (?:today |Today, )?18:00|Expired(?: at)? 18:00|after 18:00|Taiwan Semiconductor, 18:00/;
-    const OTHER = /[Ee]xpire[sd]? (?:Fri|Mon)|closed on (?:Fri|Mon)|Expires 15 minutes|The 15 minutes closed|15 min once approved · (?:needs|switching)|Waits for your yes/;
+    const LISTING = /[Ee]xpires? (?:today |Today, )?18:00|Expired(?: at)? 18:00|after 18:00|Taiwan Semiconductor, 18:00|Your confirmation holds, for a retry inside its window/;
+    const OTHER = /[Ee]xpire[sd]? (?:Fri|Mon)|closed on (?:Fri|Mon)|Expires 15 minutes|The 15 minutes closed|15 min once approved · (?:needs|switching)|[Ww]aits for your yes|Your approval holds, for a retry inside its window|stays with what waits on you/;
     each({ journey: A }, (v, at) => {
       if (LISTING.test(v.text)) has(v.text, /Proposed · MP40-Q9/, `${said(at)}: a listing's expiry with no label`);
       if (OTHER.test(v.text)) has(v.text, /Proposed · CT-02/, `${said(at)}: an expiry with no label`);
@@ -639,7 +705,7 @@ const FACTS = {
       for (const re of [/Expires today 18:00 Proposed · MP40-Q9/, /Expires Fri 18:00 Proposed · CT-02/, /Expires Mon 18:00 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
     });
     each({ journey: A, option: 'a', screen: 'aa-queue', state: 'default' }, (v, at) => has(v.text, /Watch Barclays BARC · XLON · expired 08:14 Run again Proposed · MP40-Q9/, `${said(at)}: a past listing's expiry`));
-    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Waits for your yes Proposed · CT-02/, `${said(at)}: the restart's row`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the restart's row`));
     each({ journey: A, option: 'a', screen: 'aa-queue', surface: WIDE, state: 'default' }, (v, at) => has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the peek`));
     each({ journey: A, option: 'b', screen: 'ab-home', state: 'default' }, (v, at) => has(v.text, /Next: Taiwan Semiconductor, 18:00 Proposed · MP40-Q9/, `${said(at)}: the strip`));
     for (const [option, screen, sheet] of [['a', 'aa-listing', 'aa-listing-step'], ['b', 'ab-chat', 'ab-step']]) {
@@ -665,13 +731,14 @@ const FACTS = {
         for (const re of [/Expires Mon 18:00 Proposed · CT-02/, /expires Mon 18:00 · approving needs a connection and a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
       });
       each({ journey: A, option, screen: set, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired setting`));
-      each({ journey: A, option, screen: step, state: ['default', 'error', 'offline'] }, (v, at) => has(v.text, /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
-      each({ journey: A, option, screen: setStep, state: ['default', 'error', 'offline'] }, (v, at) => has(v.text, /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
+      // every state of a sheet draws its rows, so every state keeps the label beside the fact
+      each({ journey: A, option, screen: step, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: setStep, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
     }
     for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result'], ['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired proposal`));
     for (const [option, screen, sheet] of [['a', 'aa-restart', 'aa-restart-step'], ['b', 'ab-restart', 'ab-restart-step']]) {
-      each({ journey: A, option, screen, state: ['default', 'noModel'] }, (v, at) => has(v.text, /Waits for your yes Proposed · CT-02/, `${said(at)}: the head`));
-      each({ journey: A, option, screen: sheet, state: ['default', 'noModel', 'error', 'offline'] }, (v, at) => has(v.text, /Expires 15 minutes after you approve Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen, state: ['default', 'noModel', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the head`));
+      each({ journey: A, option, screen: sheet }, (v, at) => has(words(sheetOf(v.html)), /Expires 15 minutes after you approve Proposed · CT-01 Proposed · CT-02/, `${said(at)}: the sheet`));
     }
     each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'stale', 'offline', 'error'] }, (v, at) => has(v.text, /Watch Barclays Nobody · expired Wed 08:14 Expired Proposed · MP40-Q9/, `${said(at)}: the record`));
     each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'stale', 'offline'] }, (v, at) => has(v.text, /Earlier proposal Thu 22 Oct · nobody acted Expired Proposed · MP40-Q9/, `${said(at)}: the history`));
@@ -682,11 +749,11 @@ const FACTS = {
     for (const [journey, option, screen] of [[A, 'a', 'aa-queue'], [A, 'b', 'ab-home'], [R, 'a', 'ra-brief'], [R, 'b', 'rb-today'], [R, 'a', 'ra-alert'], [R, 'b', 'rb-alert']]) each({ journey, option, screen, state: 'stale' }, (v, at) => {
       const b = bannerOf(v.html);
       must(/(?:leaves|left) the total until its price returns/.test(b), `${said(at)}: the banner does not state the rule: "${b.slice(0, 120)}"`);
-      must(b.includes('Proposed · FIN-OD-06'), `${said(at)}: the banner states the rule flat`);
+      must(b.includes('Proposed · DATA-DEC-02'), `${said(at)}: the banner states the rule flat`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
-      each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /it left the total until its price returns\.? Proposed · FIN-OD-06/i, `${said(at)}: the changes state the rule flat`));
-      each({ journey: R, option, screen, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /inside the freshness limit, so its forecast is held\.? Proposed · FIN-OD-06/, `${said(at)}: the changes state the rule flat`));
+      each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /it left the total until its price returns\.? Proposed · DATA-DEC-02/i, `${said(at)}: the changes state the rule flat`));
+      each({ journey: R, option, screen, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /inside the freshness limit, so its forecast is held\.? Proposed · DATA-DEC-02/, `${said(at)}: the changes state the rule flat`));
     }
   },
 
@@ -715,15 +782,7 @@ const FACTS = {
 
   // Each tightened check, and the state no check held: nothing can be approved offline, on any proposal.
   'R3-r5': (a) => {
-    for (const id of ['R1-r11', 'R2-r2', 'R2-r3', 'R2-r8', 'R2-r9', 'R2-r10', 'R2-r11']) FACTS[id](a);
-    for (const [option, screen, no, yes] of [['a', 'aa-listing', 'Refuse', 'Confirm'], ['b', 'ab-chat', 'Refuse', 'Confirm'], ['a', 'aa-model', 'Refuse', 'Approve'], ['b', 'ab-model', 'Refuse', 'Approve'], ['a', 'aa-setting', 'Refuse', 'Approve'], ['b', 'ab-setting', 'Refuse', 'Approve'], ['a', 'aa-restart', 'Stay on v1', 'Switch forward'], ['b', 'ab-restart', 'Stay on v1', 'Switch forward']]) {
-      a.each({ journey: A, option, screen, state: 'offline' }, (v, at) => {
-        for (const name of [no, yes]) {
-          a.must(new RegExp(`<button\\b[^>]*\\bdisabled\\b[^>]*>${esc(name)}</button>`).test(v.html), `${said(at)}: no disabled ${name}`);
-          a.must(!enabled(v.html, name), `${said(at)}: ${name} is live offline`);
-        }
-      });
-    }
+    for (const id of ['R1-r11', 'R2-r2', 'R2-r3', 'R2-r8', 'R2-r9', 'R2-r10', 'R2-r11', 'R4-r1']) FACTS[id](a);
   },
 
   'R3-r7': (a) => FACTS['R2-r10'](a),
@@ -769,6 +828,115 @@ const FACTS = {
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'empty' }, (v, at) => {
       lacks(v.text, /[Ll]ast good/, `${said(at)}: a card that was never built has no last good version`);
       must(!/class="sk"|\bsk\b" style/.test(v.html), `${said(at)}: a loading skeleton in Empty`);
+    });
+  },
+
+  // Round 4. No screen, in any state, offers a decision it may not take: the table above names every live one.
+  'R4-r1': ({ each, must }) => {
+    each({ journey: A }, (v, at) => {
+      if (v.na) return;
+      const drawn = button(v.html), live = drawn.filter((b) => !b.off).map((b) => b.name);
+      const want = rowsFor(LIVE, at);
+      for (const name of DECISIONS) must(live.includes(name) === want.includes(name), `${said(at)}: ${name} is ${live.includes(name) ? 'live, and the table holds it off' : 'not live, and the table has it live'}`);
+      for (const name of rowsFor(HELD_OFF, at)) must(drawn.some((b) => b.off && b.name === name), `${said(at)}: no disabled ${name}`);
+    });
+  },
+
+  // The rail is read apart from the sheet: R2-r10's rail checks, split before they test.
+  'R4-r2': (a) => FACTS['R2-r10'](a),
+
+  // A row that opens something is named by everything on it, its status too. Its children are presentational, so the name is all a screen reader gets.
+  'R4-r3': ({ each, must, has }) => {
+    const same = (t) => words(t).replace(/[.,]/g, '').replace(/\s+/g, ' ');
+    let rows = 0;
+    for (const journey of [R, A]) each({ journey }, (v, at) => {
+      for (const m of v.html.matchAll(/<(\w+)\b[^>]*\brole="button"[^>]*>/g)) {
+        rows++;
+        must(m[1] === 'div', `${said(at)}: an open ${m[1]} this check cannot read to its end`);
+        const name = (m[0].match(/aria-label="([^"]*)"/) || [])[1], seen = same(own(v.html.slice(m.index)));
+        must(name, `${said(at)}: a row that opens with no name: "${seen.slice(0, 80)}"`);
+        must(seen && same(name).includes(seen), `${said(at)}: the name "${name}" drops what shows: "${seen}"`);
+      }
+    });
+    must(rows > 100, `only ${rows} open rows were read`);
+    const name = (html) => [...html.matchAll(/role="button" tabindex="0" aria-label="([^"]*)"/g)].map((m) => m[1]).join(' | ');
+    each({ journey: A, option: 'a', screen: 'aa-record', state: 'default' }, (v, at) => {
+      for (const re of [/R2-HGB v4 promoted, You · Wed 09:14 · on probation, Approved/, /Taiwan Semiconductor added, You · Wed 09:02 · catalogue v15 · fresh sign-in, Approved, Proposed · CT-01/, /Watch Barclays, Nobody · expired Wed 08:14, Expired, Proposed · MP40-Q9/, /Let the chat route add listings, Code · Tue 17:20 · would widen authority, Blocked/, /R1-LGB v2 reverted to v1, Code · Mon 22:20 · 2 bad weeks on probation, Automatic/, /Statement import approval revoked, You · Fri 30 Oct · before the commit started, Revoked/]) has(name(v.html), re, `${said(at)}: ${re}`);
+    });
+    for (const [option, screen] of [['a', 'ra-memory'], ['b', 'rb-memory']]) {
+      each({ journey: R, option, screen, state: 'default' }, (v, at) => {
+        for (const re of [/Analyst note says chip demand is cooling, Built from an untrusted news item, Tainted/, /Keep answers short, detail on request, Preference · corrected by you, 2 Oct · v2, Corrected/]) has(name(v.html), re, `${said(at)}: ${re}`);
+      });
+      each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => has(name(v.html), /NVIDIA is under 10% of my portfolio, Note from chat, 3 Sep · ledger says 13\.5% at 21:15, Left out/, `${said(at)}: the note's status`));
+    }
+  },
+
+  // The late-price limit is DATA-DEC-02 wherever a screen states it, and no other question holds it.
+  'R4-r4': ({ each, has, lacks }) => {
+    const RULE = /(?:leaves?|left) the total|left out until its price returns|freshness limit/;
+    for (const journey of [R, A]) each({ journey }, (v, at) => {
+      lacks(v.text, /Proposed · FIN-OD-06/, `${said(at)}: the limit is DATA-DEC-02`);
+      if (RULE.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${said(at)}: the limit stated flat`);
+    });
+  },
+
+  // No new score is not a wait on the owner's yes: the decision stays his, and the screen offers it.
+  'R4-r5': ({ each, has, lacks, must }) => {
+    for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen, state: 'abstention' }, (v, at) => {
+      lacks(v.text, /[Nn]othing can be approved|waits rather than guess|withheld/, `${said(at)}: a gate no record sets`);
+      has(v.text, /code has no new score to show/, `${said(at)}: what is missing`);
+      has(v.text, /the decision stays yours/, `${said(at)}: whose decision it is`);
+      for (const name of ['Stay on v1', 'Switch forward']) must(enabled(v.html, name), `${said(at)}: ${name} is not live`);
+    });
+  },
+
+  // Waiting for the yes is settled. What CT-02 leaves open is that the proposal stays open, so that is what the label sits on.
+  'R4-r6': ({ each, has, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen, state: ['default', 'noModel'] }, (v, at) => {
+      has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the label is not on what it leaves open`);
+      lacks(v.text, /(?<!· )[Ww]aits for your yes Proposed · CT-02/, `${said(at)}: the label sits on a settled fact`);
+    });
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the queue's row`));
+  },
+
+  // SCI-D07 does not hold restarting: POLICY-003 leaves restart evidence open, so that is what labels it.
+  'R4-r7': ({ each, has, lacks }) => {
+    each({ journey: A }, (v, at) => { if (/gives it a fresh approval|has a fresh approval/.test(v.text)) has(v.text, /Proposed · POLICY-003/, `${said(at)}: a fresh approval no record gives`); });
+    for (const screen of ['aa-restart', 'aa-restart-step', 'aa-restart-result', 'ab-restart', 'ab-restart-step', 'ab-restart-result']) each({ journey: A, option: screen[1], screen, state: 'noModel' }, (v, at) => {
+      has(v.text, /Proposed · POLICY-003/, `${said(at)}: restarting is labelled by the wrong question`);
+      lacks(v.text, /Proposed · SCI-D07/, `${said(at)}: SCI-D07 does not hold restarting`);
+    });
+  },
+
+  // The retry window is open, so a failed write says so, under the question that holds each kind.
+  'R4-r8': ({ each, has }) => {
+    for (const [option, screen, re] of [['a', 'aa-setting-result', /Not applied Proposed · CT-02/], ['b', 'ab-setting-result', /Not applied Proposed · CT-02/], ['a', 'aa-after', /Not applied Proposed · MP40-Q9/], ['b', 'ab-after', /Not applied Proposed · MP40-Q9/]]) each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, re, `${said(at)}: the window stated flat`));
+  },
+
+  // Smaller holes: each step-up's lines in the sheet alone, the import's cash, and a wait with no budget word. R3-r1, R1-r11 and R2-r9 hold the rest.
+  'R4-r9': (a) => {
+    const { each, must } = a;
+    const lines = (want) => (v, at) => { const sheet = words(sheetOf(v.html)); for (const line of want) must(sheet.includes(line), `${said(at)}: the sheet drops "${line}"`); };
+    for (const [option, listing, model, set, res] of [['a', 'aa-listing-step', 'aa-step', 'aa-setting-step', 'aa-restart-step'], ['b', 'ab-step', 'ab-model-step', 'ab-setting-step', 'ab-restart-step']]) {
+      each({ journey: A, option, screen: listing, state: SHEET_STATES }, lines(BOUND_LINES.listing));
+      each({ journey: A, option, screen: model, state: SHEET_STATES }, lines(BOUND_LINES.model));
+      each({ journey: A, option, screen: set, state: SHEET_STATES }, lines(BOUND_LINES.setting));
+      each({ journey: A, option, screen: res, state: SHEET_STATES }, lines(BOUND_LINES.forward));
+      each({ journey: A, option, screen: res, state: 'noModel' }, lines(BOUND_LINES.restart));
+    }
+    for (const id of ['R1-r11', 'R2-r9', 'R3-r1']) FACTS[id](a);
+  },
+
+  // Keep paused has an outcome of its own, and it says where the proposal goes.
+  'R4-r10': ({ each, has, lacks, must }) => {
+    for (const [option, screen] of [['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'abstention' }, (v, at) => {
+      must(!v.na, `${said(at)}: marked not applicable, so Keep paused has no outcome`);
+      has(v.text, /You kept it paused\. Nothing changed\./, `${said(at)}: no outcome for Keep paused`);
+      has(v.text, /stays paused, so its forecasts stay withheld/, `${said(at)}: what stays`);
+      has(v.text, /The proposal stays with what waits on you/, `${said(at)}: where the proposal goes`);
+      has(v.text, /Still paused Proposed · CT-02/, `${said(at)}: the status and its label`);
+      lacks(v.text, /Restarted|Switched forward|You stayed on v1/, `${said(at)}: another outcome's words`);
+      must(chipOf(v.html) === '', `${said(at)}: the chip reads "${chipOf(v.html)}"`);
     });
   },
 };

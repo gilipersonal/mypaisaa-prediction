@@ -8,11 +8,11 @@
 const isWide = ctx => ctx.kind === 'ipad' || ctx.kind === 'web';
 const A = byT.AAPL;
 const scaled = (h, f) => { const r = v => +v.toFixed(1), s = Math.sqrt(f), m = h.med * f; return { ...h, med: r(m), lo: r(m - (h.med - h.lo) * s), hi: r(m + (h.hi - h.med) * s), lo50: r(m - (h.med - h.lo50) * s), hi50: r(m + (h.hi50 - h.med) * s) }; };
-/* each horizon's own walk-forward record, beside its coverage in longOf. Illustrative. */
+/* each horizon's own walk-forward record, beside its coverage in longOf. The baseline shows only where a horizon is split, and 12 months never is. Illustrative. */
 const REC = [
   { hit: '61%', err: '4.7 pts', cal: '0.98', turn: '1.1', bench: '+1.4 pts', baseHeld: 84, baseErr: '5.6 pts', embargo: '3 months + 1 session', due: '1 Jan 2027' },
   { hit: '58%', err: '8.9 pts', cal: '0.96', turn: '0.6', bench: '+3.1 pts', baseHeld: 83, baseErr: '10.4 pts', embargo: '6 months + 1 session', due: '1 Apr 2027' },
-  { hit: '62%', err: '15.8 pts', cal: '0.91', turn: '0.3', bench: '+5.2 pts', baseHeld: 81, baseErr: '18.1 pts', embargo: '12 months + 1 session', due: '1 Oct 2027' }
+  { hit: '62%', err: '15.8 pts', cal: '0.91', turn: '0.3', bench: '+5.2 pts', embargo: '12 months + 1 session', due: '1 Oct 2027' }
 ];
 const longOf = h => [
   { k: 3, n: '3 months', f: scaled(h, .5), held: 81, scored: 104, blocks: 44, due: '3 Feb 2027' },
@@ -39,15 +39,17 @@ const who = st => subj(st, 1);
 const pick = (ctx, hz = 1) => { const t = ctx.t && byT[ctx.t]; return t && (t === subj(ctx.state, 0) || t === subj(ctx.state, 1)) ? t : subj(ctx.state, hz); };
 const backOf = ctx => pick(ctx).t;
 /* what proof, views and evidence read: the frame's name at the frame's horizon. In Disagreement or Abstaining, a horizon the table
-   marks keeps that state, and any other reads as Ready, so an abstained horizon never shows a range under its own title. */
-const clear = ctx => { const h = pick(ctx), hz = +(ctx.hz ?? 1), calm = ['disagreement', 'abstention'].includes(ctx.state) && !isOut(ctx.state, h.t, hz); return { ...ctx, state: calm ? 'default' : ctx.state, h, hz }; };
+   marks keeps that state, and any other reads as Ready, so an abstained horizon never shows a range under its own title. The one thing
+   a horizon cannot change is what the rules read: a 200-day average and a drawdown are the same at 3 months as at 12, so Reliance keeps
+   its Pause on every tab in Disagreement. */
+const clear = ctx => { const h = pick(ctx), hz = +(ctx.hz ?? 1), calm = ['disagreement', 'abstention'].includes(ctx.state) && !isOut(ctx.state, h.t, hz); return { ...ctx, state: calm ? 'default' : ctx.state, h, hz, pause: ctx.state === 'disagreement' && h.t === 'RELIANCE' }; };
 /* the models split on Apple: the two sides are the model and the baseline, not rules and models as on Reliance */
 const modelSplit = c => c.state === 'disagreement' && c.h.t !== 'RELIANCE';
 const shortH = st => (st === 'stale' ? byT.HSBA : A);
 const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK · GBP', AZN: 'AZN · XLON · UK · GBP', RELIANCE: 'RELIANCE · XNSE · India · INR' };
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · FIN-OD-06</span>';
+const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
 const LASTGOOD = 'Last good run Mon 21:15 · cutoff 21:00';
 const asOf = st => (st === 'error' ? 'Last good run Mon 21:15' : st === 'stale' ? 'Held from Mon 21:15' : 'As of 21:15 London');
@@ -210,8 +212,9 @@ const KEY = [
 ];
 const keyLead = () => `<div class="fc-sub" data-mo="fade">A horizon always says which state it is in. None is removed, and none is given a made-up number.</div>`;
 const keyA = ctx => `${keyLead()}<div class="card" data-mo="card">${KEY.map(k => (k.state ? shortRow(k, ctx) : `<div class="fc-lad sm" data-mo="rise"><div class="hzn">${k.n}</div><div></div>${k.chip()}<div class="why">${k.why}</div></div>`)).join('')}</div>`;
-/* the ladder's order: the long horizons first, then short-term, then all seven */
-const keyB = ctx => { const long = k => /months/.test(k.n); return `${keyLead()}<div class="card" data-mo="card">${[...KEY.filter(long), ...KEY.filter(k => !long(k))].map(k => ladRow(k.state ? k : { ...k, state: 'key' }, ctx)).join('')}</div>`; };
+/* the ladder's order: the long horizons, nearest first, then short-term, nearest first, then all seven */
+const keyRank = k => (/months/.test(k.n) ? parseInt(k.n, 10) : k.n === 'Next day' ? 100 : /sessions/.test(k.n) ? 100 + parseInt(k.n, 10) : 999);
+const keyB = ctx => `${keyLead()}<div class="card" data-mo="card">${[...KEY].sort((a, b) => keyRank(a) - keyRank(b)).map(k => ladRow(k.state ? k : { ...k, state: 'key' }, ctx)).join('')}</div>`;
 const naHelp = Object.fromEntries(['loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'].map(k => [k, 'This page explains the labels. It reads no data, so this state cannot change it.']));
 
 /* ---------- proof ---------- */
@@ -230,14 +233,14 @@ const hzRecord = () => `<div class="card" data-mo="card">${LONG.map(l => `<div c
 const proofTop = hz => `<div class="card fcard" data-mo="card">${proofAt(hz, false)}</div>`;
 function proofMain(c) {
   const ctx = c, hz = c.hz, l = LONG[hz], r = REC[hz];
-  const tested = () => `<div class="card fc-card" data-mo="card"><h4>Hit rate never stands alone</h4>${metrics(ctx, hz)}<p class="fc-sub">Walk-forward scores, not live ones. A judge or evaluation score is never shown as accuracy.</p></div>`;
+  const tested = () => `<div class="card fc-card" data-mo="card">${l.blocks < 20 ? `<div class="fc-vh"><h4>Hit rate never stands alone</h4>${stateChip('exploratory')}</div>` : '<h4>Hit rate never stands alone</h4>'}${metrics(ctx, hz)}<p class="fc-sub">Walk-forward scores, not live ones. A judge or evaluation score is never shown as accuracy.</p></div>`;
   const ok = () => proofTop(hz) + tested() + (isWide(ctx) ? '' : hzRecord() + walk(hz) + sheets());
   return region(ctx, {
     what: 'The proof', ok,
     loading: () => banner('', 'Refreshing.', 'The last good record from 21:15 stays here until the run lands.', 'refresh') + dim(ok()),
-    empty: () => stateCard('clock', 'Awaiting maturity', 'No 12-month outcome has matured live: a 12-month record waits a year, so no live record is claimed. The first is due 1 Oct 2027.', '', '<span class="chip">0 matured live</span>') + hzRecord(),
+    empty: () => stateCard('clock', 'Awaiting maturity', `No ${l.k}-month outcome has matured live: a ${l.k}-month record waits ${l.k === 12 ? 'a year' : `${l.k} months`}, so no live record is claimed. The first is due ${r.due}.`, '', '<span class="chip">0 matured live</span>') + hzRecord(),
     error: () => stateCard('alert', 'Proof unavailable', 'The record did not load at 21:14. The forecast still shows, and its calibration line stays labelled with its time.', btn('Try again', 'tinted', 'refresh')),
-    stale: () => banner('warn', 'One grade waits.', `HSBC's matured forecast waits for its price. Nobody edits a past score, and the rest of the record is current. ${qLate}`, 'clock') + ok(),
+    stale: () => banner('warn', 'HSBC\'s price is stale.', `No live forecast has matured yet, so no grade is held up. A grade that falls due waits until its price returns. Nobody edits a past score. ${qLate}`, 'clock') + ok(),
     offline: () => banner('', 'Saved at 21:15.', `The record on your device. New grades arrive when you reconnect.${q12(ctx)}`, 'wifi-off') + ok(),
     noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast while its valuation convention is open (SCI-D08). There is nothing here to score, and no record is claimed.'),
     disagreement: () => banner('', 'Baseline comparison.', 'R2-HGB v3 and the baseline sit together so you can weigh them. Rules carry no scored record.', 'split') + `<div class="card fc-card" data-mo="card"><div class="fc-kv"><span>R2-HGB v3 · coverage</span><b>${l.held}%</b><span>Baseline · coverage</span><b>${r.baseHeld}%</b><span>R2-HGB v3 · error</span><b>${r.err}</b><span>Baseline · error</span><b>${r.baseErr}</b></div></div>` + ok(),
@@ -251,7 +254,7 @@ const clMark = '<span class="cl-mark s" aria-hidden="true"><i></i><i></i><i></i>
 function vRules(c) {
   const st = c.state;
   if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4><span class="chip proposed"><span class="dot"></span>Proposed · SCI-D08</span></div><div class="fc-kv"><span>Reads</span><b>Nothing</b></div><p class="fc-sub">Rules read nothing for gold without a valuation convention.</p></div>`;
-  const body = st === 'disagreement' && !modelSplit(c) ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is below its 200-day average.</li><li>Drawdown of 11% from its high.</li></ul>`
+  const body = c.pause ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is below its 200-day average.</li><li>Drawdown of 11% from its high.</li></ul>`
     : st === 'stale' ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Last price is past the freshness limit.</li><li>Nothing newer to read until its price returns.</li></ul>`
       : `<div class="fc-kv"><span>Reads</span><b>Hold</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is above its 200-day average.</li><li>Valuation is above its 5-year median.</li></ul>`;
   return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4><span class="chip illus">Heuristic</span></div>${body}<p class="fc-sub">Strength is a label, not a probability.</p></div>`;
@@ -272,12 +275,13 @@ function vClaude(c) {
     : st === 'disagreement' ? `The rules read <span class="cl-fig">Pause</span><span class="cl-ref">1</span> after an <span class="cl-fig">11%</span><span class="cl-ref">2</span> drawdown, while the model's 80% range runs <span class="cl-fig">${pct(f.lo)} to ${pct(f.hi)}</span><span class="cl-ref">3</span>. Each side is working from different evidence.`
     : st === 'stale' ? `The last forecast has a median of <span class="cl-fig">${pct(f.med)}</span><span class="cl-ref">3</span>, issued before the price stopped. The rules read <span class="cl-fig">Pause</span><span class="cl-ref">1</span> until it returns.`
       : st === 'abstention' ? `The model abstained, so I can only describe the rules, which read <span class="cl-fig">Hold</span><span class="cl-ref">1</span>.`
+        : c.pause ? `The median of <span class="cl-fig">${pct(f.med)}</span><span class="cl-ref">3</span> sits inside a range that still includes a loss of <span class="cl-fig">${Math.abs(f.lo).toFixed(1)}%</span><span class="cl-ref">3</span>. The rules read <span class="cl-fig">Pause</span><span class="cl-ref">1</span> after an <span class="cl-fig">11%</span><span class="cl-ref">2</span> drawdown, and they disagree with the model at 6 months.`
         : `The median of <span class="cl-fig">${pct(f.med)}</span><span class="cl-ref">3</span> sits inside a range that still includes a loss of <span class="cl-fig">${Math.abs(f.lo).toFixed(1)}%</span><span class="cl-ref">3</span>. The rules read <span class="cl-fig">Hold</span><span class="cl-ref">1</span>, so the two agree on direction.`;
   return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${clMark}<h4>Claude</h4><span class="chip illus">Words only</span></div><p class="cl-a" style="font-size:15px;line-height:20px">${text}</p><ul class="cl-src">${(st === 'abstention' ? ['1 Rules v1'] : ['1 Rules v1', `2 Price · ${provider}`, '3 R2-HGB v3']).map(s => `<li>${s}</li>`).join('')}</ul><p class="fc-sub">Every figure comes from code. Claude supplied none.</p></div>`;
 }
 const compare = s => {
   const st = s.state, ms = modelSplit(s), c = (l, v) => `<div data-mo="rise"><span class="label">${l}</span><b>${v}</b></div>`;
-  return `<div class="fc-cmp">${c('Rules', st === 'noModel' ? 'Nothing' : (st === 'disagreement' && !ms) || st === 'stale' ? 'Pause' : 'Hold')}${c('Models', st === 'noModel' ? 'None' : st === 'abstention' ? 'Abstained' : ms ? 'Split' : st === 'disagreement' ? 'Points up' : pct(longOf(s.h)[s.hz].f.med))}${c('Together', ms ? 'No median' : st === 'disagreement' ? 'Disagree' : st === 'noModel' ? 'Neither runs' : st === 'abstention' ? 'One side' : st === 'stale' ? 'Held' : 'Agree')}</div>`;
+  return `<div class="fc-cmp">${c('Rules', st === 'noModel' ? 'Nothing' : s.pause || st === 'stale' ? 'Pause' : 'Hold')}${c('Models', st === 'noModel' ? 'None' : st === 'abstention' ? 'Abstained' : ms ? 'Split' : st === 'disagreement' ? 'Points up' : pct(longOf(s.h)[s.hz].f.med))}${c('Together', ms ? 'No median' : st === 'disagreement' ? 'Disagree' : s.pause ? 'Disagree at 6M' : st === 'noModel' ? 'Neither runs' : st === 'abstention' ? 'One side' : st === 'stale' ? 'Held' : 'Agree')}</div>`;
 };
 const split = st => `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Contribution split</h4><span class="chip proposed"><span class="dot"></span>Experimental</span></div>${st === 'noModel' ? '<p class="fc-sub">No split: neither side runs for gold, and nothing is folded into a single score.</p>' : st === 'abstention' ? '<p class="fc-sub">No split: one side is missing, and it is never folded into a single score.</p>' : `<div class="fc-split" role="img" aria-label="Rules 38%, models 62%. Experimental, with no probability of its own."><i data-mo="barx" style="width:38%;background:var(--ink-2)"></i><i data-mo="barx" style="width:62%;background:var(--fc-line)"></i></div><div class="fc-kv"><span>Rules</span><b>38%</b><span>Models</span><b>62%</b></div><p class="fc-sub">How much each side moved this view. It carries no probability of its own.</p>`}</div>`;
 const f7 = () => `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Contribution policy</h4><span class="chip">Not qualified</span></div><p class="fc-sub">Week 3 of 8 in replay and shadow. It appears only after beating simple rules for 8 weeks and your yes, and then only as a simulation.</p></div>`;
@@ -290,7 +294,7 @@ function viewsMain(c) {
     offline: banner('', 'Saved at 21:15.', `All three views are from your device.${q12(ctx)}`, 'wifi-off'),
     noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its valuation convention is set (SCI-D08). No combined reading is made.', 'cube'),
     disagreement: modelSplit(c) ? banner('', `Models disagree at ${HN[c.hz]}.`, 'Each keeps its own range, no median stands, and no action is ranked there.', 'split') : banner('', 'Rules and models disagree.', 'Each side keeps its own evidence, and no action is ranked.', 'split'),
-    abstention: banner('', 'The model abstained.', 'The rules still show. Nothing is folded into one score.', 'ban')
+    abstention: banner('', `The model abstained at ${HN[c.hz]}.`, 'The rules still show. Nothing is folded into one score.', 'ban')
   }[st] || '';
   const three = () => `${isWide(ctx) ? '' : compare(c)}<div class="${isWide(ctx) ? 'fc-3' : ''}" style="${isWide(ctx) ? '' : 'display:grid;gap:12px'}">${vRules(c)}${vModels(c)}${vClaude(c)}</div><div style="display:grid;grid-template-columns:${isWide(ctx) ? 'repeat(2,minmax(0,1fr))' : 'minmax(0,1fr)'};gap:${isWide(ctx) ? 14 : 12}px;align-items:start">${split(st)}${f7()}</div>`;
   if (st === 'loading') return lead + dim(three());
@@ -381,11 +385,15 @@ function evidenceMain(c) {
     abstention: () => banner('', 'An abstention is a record too.', 'It is stored and dated, and it has no outcome to score.', 'ban') + chain(c)
   });
 }
+/* one stored record, one link: the id comes from the name, the horizon and the version, so no two records share it */
+const linkId = (h, l, v) => { let n = 7; for (const ch of `${h.t}|${l.k}|${v}`) n = (n * 31 + ch.charCodeAt(0)) >>> 0; return `fc-${(n & 0xffffff).toString(16).padStart(6, '0')}`; };
+const recordLink = id => `<div class="fc-link2">${ic('lock', 's16')}<span>mypaisapp.com/e/${id}</span></div>${btn('Copy link', 'tinted').replace('class="btn', 'class="btn sm')}<p class="fc-sub">Opens this same record on the web and in the Apple app, and only for you.</p>`;
 function recordCard(c) {
   const st = c.state, h = c.h, l = st === 'noModel' ? null : longOf(h)[c.hz], held = st === 'stale';
   if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><h4>No forecast record</h4><p class="fc-sub">No forecast was issued for gold, so there is no record to link to.</p></div>`;
   if (st === 'empty' || st === 'error') return `<div class="card fc-card" data-mo="card"><h4>Why links work this way</h4><p class="fc-sub">An expired session asks you to sign in, then returns to the record. A link to a superseded record opens it, with a pointer to what replaced it.</p></div>`;
-  const card = `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Forecast ${held ? 'v2' : 'v3'}</h4><span class="chip">${held ? 'Held' : 'Current'}</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>${held ? 'Mon 21:15 London' : '21:15 London'}</b><span>Data cutoff</span><b>21:00</b><span>Model</span><b>R2-HGB v3</b><span>Replaces</span><b>${held ? 'v1' : 'v2'} · kept, annotated</b></div><div class="fc-link2">${ic('lock', 's16')}<span>mypaisapp.com/e/fc-8f21c3</span></div>${btn('Copy link', 'tinted').replace('class="btn', 'class="btn sm')}<p class="fc-sub">Opens this same record on the web and in the Apple app, and only for you.</p></div>`;
+  if (st === 'abstention') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Abstention record</h4><span class="chip">Abstained</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>21:15 London</b><span>Data cutoff</span><b>21:00</b><span>Model</span><b>R2-HGB v3</b><span>Reason</span><b>Too little comparable history</b></div>${recordLink(linkId(h, l, 'abstained'))}</div>`;
+  const card = `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Forecast ${held ? 'v2' : 'v3'}</h4><span class="chip">${held ? 'Held' : 'Current'}</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>${held ? 'Mon 21:15 London' : '21:15 London'}</b><span>Data cutoff</span><b>21:00</b><span>Model</span><b>R2-HGB v3</b><span>Replaces</span><b>${held ? 'v1' : 'v2'} · kept, annotated</b></div>${recordLink(linkId(h, l, held ? 'v2' : 'v3'))}</div>`;
   return st === 'loading' ? dim(card) : card;
 }
 
@@ -471,9 +479,10 @@ const redraw = (scr, id, extra = {}) => {
   scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: id, hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t });
   $$('svg.cx.inter', scr).forEach(wire);
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
-  scr.setAttribute('aria-label', `${(id === 'a-3m' || id === 'a-12m') && extra.hz !== undefined ? `At ${HN[extra.hz]}` : s.title}, ${scheme} theme`);
+  const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;
+  scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
   const cap = box && $('.bcap', box), note = box && $('.jnote', box);
-  if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = (id === 'a-3m' || id === 'a-12m') && extra.hz !== undefined ? `At ${HN[extra.hz]}` : s.title;
+  if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;
   if (note) note.textContent = na ? `This state does not apply here: ${na}` : s.note || '';
 };
 /* the keyboard stays where it was: the pressed control comes back with the redraw */
@@ -522,6 +531,8 @@ function ladderB(ctx, mode0 = 0) {
 const horizon36 = (ctx, hz) => `<div class="fc-hz" data-mo="rise">${H36(hz, 'full')}</div>`;
 /* Short-term keeps its own name; in No model the short-term model is paused for every listing, so it has no switch and no name */
 const shortA = ctx => { const gold = ctx.state === 'noModel', sw = gold ? '' : hzSwitch(ctx, 1, true); return frame(ctx, { tab: 1, back: gold ? 'Forecasts' : shortH(ctx.state).t, title: 'Short-term', actions: tb('info', 'About short-term'), accessory: sw, body: `<span class="fc-wl"></span>${isWide(ctx) ? sw : ''}${shortMain(ctx)}`, rail: isWide(ctx) ? `<div class="card fc-card" data-mo="card"><h4>Why it sits apart</h4>${shortFoot()}</div>` : '' }); };
+/* a horizon page's name follows the horizon it shows: the shell and redraw both read this */
+const atHorizon = hz0 => ds => `At ${HN[+(ds.hz ?? hz0)]}`;
 /* the dossier: one name, its horizon in the title */
 const dTitle = ctx => (ctx.state === 'noModel' ? 'XAU/USD' : HN[+(ctx.hz ?? 1)]);
 function dossierF(ctx) {
@@ -544,10 +555,10 @@ J.add({
       id: 'a-instrument', title: 'Instrument at a horizon', note: 'The switch floats above the dock on a phone, and sits at the top on iPad and desktop. Each state is drawn where it is true: stale on HSBC, abstaining on AstraZeneca, disagreement on Reliance, and no model on gold, forecast unavailable at every horizon (SCI-D08).',
       render: ctx => instrA(ctx, 1)
     }, {
-      id: 'a-3m', title: 'At 3 months', note: 'The same page at 3 months, on its own fan and its own horizon date.',
+      id: 'a-3m', title: 'At 3 months', titleFor: atHorizon(0), note: 'The same page at 3 months, on its own fan and its own horizon date.',
       render: ctx => instrA(ctx, 0)
     }, {
-      id: 'a-12m', title: 'At 12 months', note: '12 months is exploratory: 11 blocks, under the 20 a claim needs. It abstains on Apple in the Abstaining state.',
+      id: 'a-12m', title: 'At 12 months', titleFor: atHorizon(2), note: '12 months is exploratory: 11 blocks, under the 20 a claim needs. It abstains on Apple in the Abstaining state.',
       render: ctx => instrA(ctx, 2)
     }, {
       id: 'a-technical', title: 'Technical mode', note: 'More of the working: percentiles, calibration, the task and the dataset. Simple and technical read the same forecast, and both keep its uncertainty.',

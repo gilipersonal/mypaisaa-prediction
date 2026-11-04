@@ -52,6 +52,7 @@
   }
   const keyOf = m => `<div class="allocl" style="margin-top:0">${m.keys.map(([c, t, v]) => `<span style="--c:var(${c})">${t} <b>${v}</b></span>`).join('')}${m.to ? `<span style="--c:var(--fc-80)">Forecast</span>` : ''}<span style="--c:var(--hairline-2)">Reserve from £70</span></div>`;
   const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? proposed(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
+  const askOf = m => (m.q ? `<div class="cost-chips">${proposed(m.q)}</div>` : '');
   const dayOf = m => `November · day ${m.day} of 30`;
   const lastGood = 'Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.';
 
@@ -130,7 +131,7 @@
   /* Limits holds what The lines holds: the state's own sentence and how far the first line is, in every state */
   function whereYouAre(ctx) {
     const m = month(ctx), load = ctx.state === 'loading', first = firstOf(ctx.state), [v, t] = RUNGS[0];
-    return box(`${head('Where you are', chipOf(m.st))}${load ? sk('100%', 12) : lad(m)}<div class="cost-rung" data-mo="rise">${rungHead(v, t, first, first === 'Reached')}</div><p class="small muted">${load ? lastGood : m.say}</p>`);
+    return box(`${head('Where you are', chipOf(m.st))}${load ? sk('100%', 12) : lad(m)}<div class="cost-rung" data-mo="rise">${rungHead(v, t, first, first === 'Reached')}</div><p class="small muted">${load ? lastGood : m.say}</p>${askOf(m)}`);
   }
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
   const always = () => box(`${head('Never paused')}<div class="cost-chips">${['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window is kept for them.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
@@ -148,7 +149,7 @@
   const laneRows = ctx => list((LANES[ctx.state] || LANES.default).map(([t, s, age, kind]) => li('', t, s, `<span class="chip ${kind}">${kind === 'fresh' ? '<span class="dot"></span>' : kind === 'stale' ? ic('clock', 's14') : kind === 'error' ? ic('alert', 's14') : kind === 'offline' ? ic('wifi-off', 's14') : ic('ban', 's14')}${age}</span>`)).concat(li('', 'Billing pages', 'Monthly cap of 120. Past it, a collection waits and shows as partial', ctx.state === 'empty' ? '0 of 120' : '54 of 120')));
   function sourcesCard(ctx) {
     if (ctx.state === 'loading') return skCard('How old each figure is');
-    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p>${ctx.state === 'abstention' ? '' : `<div class="cost-chips">${proposed('MP40-Q5: Anthropic admin key')}</div>`}`);
+    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p><div class="cost-chips">${proposed('MP40-Q5: Anthropic admin key')}</div>`);
   }
   function committedCard(ctx, o = {}) {
     const s = ctx.state;
@@ -259,12 +260,12 @@
 
   /* ---------- home ---------- */
   /* Home shows prices, so its value and rows follow the shared story. Ready: HSBC is late but inside the limit. Stale: it leaves the total. Error: the last good run shows in full. */
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('FIN-OD-06')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
   const rowsOf = (ctx, n) => `<div class="sech" style="padding:6px 0 0" data-mo="rise"><h3>Holdings</h3><span class="cost-chips" style="align-items:center"><span class="small muted">6 months</span>${illus('Decision support')}</span></div><div class="list card" style="margin:0">${H.slice(0, n).map(h => (ctx.state === 'stale' ? hrow(h) : late(hrow(h)))).join('')}</div>`;
   function valueOf(ctx) {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
     if (ctx.state === 'error') return v.replace('As of 21:15 London · data cutoff 21:00', 'Last good run Mon 21:15 · cutoff 21:00').replace('>today<', '>last good run<');
-    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('84,612.40', size), money('78,508.20', size)).replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('FIN-OD-06')}</div>`).replace(/53\.4/g, '57.6').replace(/28\.5/g, '30.7').replace(/18\.1/g, '11.7');
+    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('84,612.40', size), money('78,508.20', size)).replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('DATA-DEC-02')}</div>`).replace(/53\.4/g, '57.6').replace(/28\.5/g, '30.7').replace(/18\.1/g, '11.7');
     return v;
   }
   const top5s = ctx => (wide(ctx) ? `<div class="card top5 dk5" data-mo="card">${top5('ustech')}</div>` : '');
@@ -330,7 +331,7 @@
     const spent = s === 'noModel' ? [] : [['18 Nov', [['clock', 'Nightly explanations reserved', 'Held at worst case', '£0.34']]], ['17 Nov', [['check', 'Event analysis settled', 'The bill replaced the hold', '£0.22']]], ['14 Nov', [['ban', 'Top-5 batch refused', '£3.20 could cross the £5 cap', 'Refused']]]];
     const days = extra.concat([['Thresholds this month', [LINES[s]]]], spent, [['1 Nov', [['check', 'Twelve Data invoice', 'Fixed. Due on the 1st', '£27.84']]]]);
     const m = month(ctx), sofar = li('', m.word[0].toUpperCase() + m.word.slice(1), dayOf({ day: m.last || m.day }), `£${m.so}`);
-    return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows]) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}`).join('')}`);
+    return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows], i) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}${i === 0 ? askOf(m) : ''}`).join('')}`);
   }
   const limitTable = ctx => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>Line</th><th>What changes</th></tr></thead><tbody>${[
     ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Fewer optional backfills, challengers and Claude jobs'], ['£85 Pause', 'New optional paid work pauses, with its reason'],
@@ -365,7 +366,7 @@
       }, {
         id: 'cost-a-limits', title: 'The lines',
         note: 'Code applies the lines. Only you change one, in Settings, with a fresh sign-in, so this page has no control.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in.</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The lines', webActions: illus('Read only'), body: (ctx.state === 'loading' ? hero(ctx) : box(`${head('Where you are', chipOf(month(ctx).st))}${lad(month(ctx))}<p class="small muted">${month(ctx).say}</p>${askOf(month(ctx))}`)) + box(`${head('The lines')}<p class="small muted">Each line is judged on the forecast for the month, before paid work starts. Code applies them. Only you change one, in Settings, with a fresh sign-in.</p><div>${rungs(ctx)}</div>`) + always(), rail: scan(ctx) + claudeCard(ctx) })
       }, {
         id: 'cost-a-warned', title: 'Warned at £60',
         note: 'A notice opens this. Nothing stops at £60, and the page says how far the next line is.',
@@ -407,11 +408,11 @@
       }, {
         id: 'cost-b-log', title: 'What happened',
         note: 'Every invoice, reservation, refusal and threshold, newest first.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'What happened', body: log(ctx), rail: drill(ctx) + creditCard(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'What happened', body: log(ctx), rail: sourcesCard(ctx) + drill(ctx) + creditCard(ctx) })
       }, {
         id: 'cost-b-limits', title: 'Limits',
         note: 'One table for the lines, the scan cap, Claude and the Apple fee month.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always() + whereYouAre(ctx), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'Limits', webActions: illus('Read only'), body: whereYouAre(ctx) + box(`${head('Every limit', illus())}${limitTable(ctx)}<p class="small muted">Code applies these. Only you change one, in Settings, with a fresh sign-in.</p>`) + always(), rail: claudeCard(ctx) + scan(ctx) + apple(ctx) })
       }, {
         id: 'cost-b-warned', title: 'Warned at £60',
         note: 'A notice opens this. The same chart, with the forecast past the first line. Nothing stops at £60.',

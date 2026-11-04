@@ -54,7 +54,7 @@ const watch = `<span class="badge">${ic('target', 's16')}Watch</span>`;
 const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:190px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>` : ctx.kind === 'pwa' ? tb('search', 'Search') : '';
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · FIN-OD-06</span>';
+const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
 /* a browser's offline copy is an open question; the Apple apps have their own answer */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
 /* the month, in the words and figures of the cost journey: one row after the holdings, whichever way Cost is flipped */
@@ -253,7 +253,7 @@ const boardNote = {
   stale: () => banner('warn', 'HSBC is stale.', `Its last price is 14:10. It is in none of these lists, so they stand as ranked until its price returns. ${qLate}`, 'clock'),
   offline: ctx => banner('', 'Offline.', `Lists from 21:15, saved on this device.${q12(ctx)}`, 'wifi-off'),
   noModel: () => banner('', 'India is not ranked.', 'No approved model covers India yet, so the Nifty 50, India midcap and India ETF lists wait. A missing part is never zero.', 'cube'),
-  disagreement: () => banner('', 'One name is split.', 'The models split on Apple at 3 months, so no median stands there. Its 6-month figures and its score stand. Reliance is on none of these lists.', 'split'),
+  disagreement: () => banner('', 'One name is split.', `The models split on Apple at 3 months, so no median stands there. Its 6-month figures and its score stand. Reliance is on none of these lists. ${qParts}`, 'split'),
   abstention: () => banner('', 'One name lost a part.', `Apple lost its growth part when the model abstained at 12 months, so it shows as not ranked, and nothing fills the gap. AstraZeneca is on none of these lists. ${qParts}`, 'ban')
 };
 const noteOf = ctx => (boardNote[ctx.state] ? boardNote[ctx.state](ctx) : '');
@@ -287,7 +287,7 @@ function segTable(k, st) {
 const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Source open (SCI-D08)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable: the valuation convention is open (SCI-D08). Neither metal is ranked, and nothing stands in for a score. Source open (SCI-D08).</span></div></div>`;
 const indiaWait = () => stateCard('cube', 'No approved model', 'No approved model covers India yet, so this list is not ranked. A missing part is never zero, and prices and holdings still work.');
 /* US tech's own line in a state, in the same words on both options */
-const TECHSAY = { disagreement: { ustech: ['Apple is split at 3 months.', 'The models split there, so no median stands. Its 6-month figures, its score and its action stand.'] }, abstention: { ustech: ['Apple dropped out.', `It lost its growth part when the model abstained at 12 months, so it is not ranked, and nothing fills the gap. ${qParts}`] } };
+const TECHSAY = { disagreement: { ustech: ['Apple is split at 3 months.', `The models split there, so no median stands. Its 6-month figures, its score and its action stand. ${qParts}`] }, abstention: { ustech: ['Apple dropped out.', `It lost its growth part when the model abstained at 12 months, so it is not ranked, and nothing fills the gap. ${qParts}`] } };
 const listStands = name => banner('', 'This list stands.', `No approved model covers India yet. ${name} has its model, so its ranking is unchanged.`, 'cube');
 function segMain(ctx, k = 'ustech') {
   const st = ctx.state, name = SEG[k].name, metals = () => metalsCard(st);
@@ -474,12 +474,17 @@ doc.addEventListener('segchange', e => {
   const s = J.all().find(j => j.id === 'home').options.find(o => o.id === oid).screens.find(x => x.id === id);
   if (!s) return;
   scr.dataset.hz = e.detail;
-  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light', journey: 'home', option: oid, screen: id, hz: e.detail });
+  const box = scr.closest('[data-slot]'), cap = box && $('.bcap', box), title = s.titleFor ? s.titleFor(scr.dataset) : s.title, scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light';
+  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: oid, screen: id, hz: e.detail });
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
+  scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
+  if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;
   const b = $$('[aria-label="Forecast horizon"] > button', scr)[e.detail];
   if (b) b.focus({ preventScroll: true });
 });
 
+/* a frame's name follows the horizon it shows: the shell and the press above both read this */
+const atMonths = (name, hz0) => ds => `${name} at ${[3, 6, 12][+(ds.hz ?? hz0)]} months`;
 /* the two home layouts, at any horizon */
 function homeA(ctx, hz0 = 1) {
   const hz = +(ctx.hz ?? hz0), c = { ...ctx, hz }, wide = isWide(ctx), st = ctx.state, empty = st === 'empty';
@@ -494,10 +499,20 @@ function homeB(ctx, hz0 = 1) {
   const hz = +(ctx.hz ?? hz0), c = { ...ctx, hz }, wide = isWide(ctx), empty = ctx.state === 'empty';
   return frame(ctx, {
     tab: 0, title: 'Portfolio', webActions: webSearch(ctx),
-    body: `${strip(ctx)}${wide ? `<div class="home-sub">${sup}</div>` : `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px" data-mo="rise"><span class="label">7 holdings</span>${H36(hz)}</div>${hzNote(hz)}`}${ledgerB(c)}${wide ? `${costRow(ctx)}${briefCard(ctx)}` : `<div class="home-sub">${sup}</div>${costRow(ctx)}<div class="card" data-mo="card">${briefPill(ctx)}</div>`}${sec('Top 5 by segment')}${switcher(empty ? { ...ctx, state: 'default', nohold: true } : ctx)}`
+    body: `${strip(ctx)}${wide ? `<div class="home-sub">${sup}</div>` : `<div style="display:flex;align-items:center;justify-content:space-between;gap:8px" data-mo="rise"><span class="label">${empty ? 'Holdings' : '7 holdings'}</span>${H36(hz)}</div>${hzNote(hz)}`}${ledgerB(c)}${wide ? `${costRow(ctx)}${briefCard(ctx)}` : `<div class="home-sub">${sup}</div>${costRow(ctx)}<div class="card" data-mo="card">${briefPill(ctx)}</div>`}${sec('Top 5 by segment')}${switcher(empty ? { ...ctx, state: 'default', nohold: true } : ctx)}`
   });
 }
 const OTHERS = ORDER.filter(k => k !== 'ustech');
+/* what Empty means on each kind of frame, one phrase each, so two frames that differ say why */
+const EMPTY = {
+  holdings: 'Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
+  lists: 'Empty here means the first morning, before any daily run, so no list exists yet.',
+  brief: 'Empty is the first morning; a weekend brief waits on MP40-Q11.',
+  band: 'Empty here means a holding with no action band.',
+  rows: 'Empty here means no holdings yet, so no row opens.',
+  metals: 'Empty here means no list, as in every state.',
+  search: 'Empty here means a search that finds nothing.'
+};
 const naMetals = { disagreement: 'No forecast runs for gold or silver, so there is nothing to disagree.', abstention: 'No forecast runs for gold or silver, so none can abstain.' };
 const segFrame = (ctx, k) => frame(ctx, { tab: 2, back: 'Segments', title: SEG[k].name, actions: tb('info', 'How a list is made'), webActions: webSearch(ctx), body: `<span class="home-wl"></span>${segMain(ctx, k)}`, rail: segRail(ctx, k) });
 
@@ -509,29 +524,29 @@ J.add({
     why: 'Your holdings come first with their ranges, and one board below shows all eight top 5s at a glance, in Prism\'s segment colours. A tile opens its list, so home stays calm.',
     cost: 'A tile holds each name\'s rank and score and its segment\'s price time, not its range: at 12 px on colour, five ranges will not fit. Each name\'s median, 80% range and reasons are one tap away, in that segment\'s list. A phone also scrolls past seven rows to reach the board.',
     screens: [{
-      id: 'a-portfolio', title: 'Portfolio', note: 'Holdings first, then the running cost, then the board. The brief floats above the dock on a phone, so it never pushes a holding down; on iPad and desktop it takes the rail. Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
+      id: 'a-portfolio', title: 'Portfolio', note: `Holdings first, then the running cost, then the board. The brief floats above the dock on a phone, so it never pushes a holding down; on iPad and desktop it takes the rail. ${EMPTY.holdings}`,
       render: ctx => homeA(ctx)
     }, {
-      id: 'a-12m', title: 'Portfolio at 12 months', note: 'The horizon switch redraws every row. 12 months is labelled exploratory, because it rests on 11 blocks.',
+      id: 'a-12m', title: 'Portfolio at 12 months', titleFor: atMonths('Portfolio', 2), note: `The horizon switch redraws every row. 12 months is labelled exploratory, because it rests on 11 blocks. ${EMPTY.holdings}`,
       render: ctx => homeA(ctx, 2)
     }, {
-      id: 'a-board', title: 'Segments', note: 'The Segments tab: the same board that sits under the holdings, with a list behind every tile. Each list below carries its names\' ranges. Empty here means the first morning, before any daily run, so no list exists yet.',
+      id: 'a-board', title: 'Segments', note: `The Segments tab: the same board that sits under the holdings, with a list behind every tile. Each list below carries its names' ranges. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 2, title: 'Segments', webActions: webSearch(ctx), body: `${noteOf(ctx)}${board(ctx)}${legendT(ctx.state)}${rule()}` })
     }, {
-      id: 'a-segment', title: 'One segment', note: 'What a tile opens: every name with its median, 80% range and price time. A not-ranked listing shows the parts it has; the withheld fifth place stays empty.',
+      id: 'a-segment', title: 'One segment', note: `What a tile opens: every name with its median, 80% range and price time. A not-ranked listing shows the parts it has; the withheld fifth place stays empty. ${EMPTY.lists}`,
       render: ctx => segFrame(ctx, 'ustech')
     }, ...OTHERS.map(k => ({
-      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? 'Gold and silver have prices and no list until a valuation convention is set (SCI-D08).' : `What the ${SEG[k].name} tile opens.`,
+      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? `Gold and silver have prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `What the ${SEG[k].name} tile opens. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => segFrame(ctx, k)
     })), {
-      id: 'a-action', title: 'Suggested action', note: 'What a holding\'s action opens: reasons, uncertainty, what would change, and the versions behind it. Recording goes to the journal; nothing acts on it. No model shows the unclassified case, which holds until FIN-OD-07 is approved.',
-      render: ctx => { const base = ctx.state === 'empty' ? { ...ctx, state: 'default' } : ctx; return frame(ctx, { tab: 0, title: 'Portfolio', body: `${value(base)}${ledger({ ...base, over: sheetOver(ctx.state) })}`, sheet: actionSheet(ctx) }); }
+      id: 'a-action', title: 'Suggested action', note: `What a holding's action opens: reasons, uncertainty, what would change, and the versions behind it. Recording goes to the journal; nothing acts on it. No model shows the unclassified case, which holds until FIN-OD-07 is approved. ${EMPTY.band}`,
+      render: ctx => { const base = ctx.state === 'empty' ? { ...ctx, state: 'default' } : ctx; return frame(base, { tab: 0, title: 'Portfolio', body: `${value(base)}${ledger({ ...base, over: sheetOver(ctx.state) })}`, sheet: actionSheet(ctx) }); }
     }, {
-      id: 'a-brief', title: 'Daily brief', note: 'Actions, then risks, changes and upcoming events, with each market on its own clock. Empty is the first morning; a weekend brief waits on MP40-Q11.',
+      id: 'a-brief', title: 'Daily brief', note: `Actions, then risks, changes and upcoming events, with each market on its own clock. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody(ctx); return frame(ctx, { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
     }, {
-      id: 'a-search', title: 'Search', note: 'Holdings, watch-only and the 150-name universe stay visibly apart. Search cannot add a listing: that goes through chat, a coverage check and your confirm.',
+      id: 'a-search', title: 'Search', note: `Holdings, watch-only and the 150-name universe stay visibly apart. Search cannot add a listing: that goes through chat, a coverage check and your confirm. ${EMPTY.search}`,
       render: ctx => frame(ctx, { tab: 0, back: 'Portfolio', title: 'Search', actions: '<span></span>', body: searchMain(ctx), rail: searchRail(ctx) })
     }]
   }, {
@@ -539,33 +554,33 @@ J.add({
     why: 'Holdings, the top 5 and the 150-name universe share one row, and a row opens where it sits. More fits on a phone, search and segments are one place, and desktop shows 3, 6 and 12 months at once.',
     cost: 'One segment shows at a time, so you lose the all-eight view, and Prism\'s colour gives way to rows.',
     screens: [{
-      id: 'b-ledger', title: 'Ledger', note: 'A compact row for every holding, then the running cost and the brief, then the top 5 below the holdings. Desktop widens the row to all three long horizons. Empty here means no holdings yet: the lists still show, because a ranking needs no holdings (MP-135).',
+      id: 'b-ledger', title: 'Ledger', note: `A compact row for every holding, then the running cost and the brief, then the top 5 below the holdings. Desktop widens the row to all three long horizons. ${EMPTY.holdings}`,
       render: ctx => homeB(ctx)
     }, {
-      id: 'b-12m', title: 'Ledger at 12 months', note: 'On a phone the horizon switch redraws every row. Desktop already shows all three, with 12 months labelled exploratory.',
+      id: 'b-12m', title: 'Ledger at 12 months', titleFor: atMonths('Ledger', 2), note: `On a phone the horizon switch redraws every row. Desktop already shows all three, with 12 months labelled exploratory. ${EMPTY.holdings}`,
       render: ctx => homeB(ctx, 2)
     }, {
-      id: 'b-open', title: 'A row opened', note: 'A tap opens the reasons in the row on a phone, and in the rail on iPad and desktop, with the ledger still in view.',
+      id: 'b-open', title: 'A row opened', note: `A tap opens the reasons in the row on a phone, and in the rail on iPad and desktop, with the ledger still in view. ${EMPTY.rows}`,
       render: ctx => frame(ctx, {
         tab: 0, title: 'Portfolio', webActions: webSearch(ctx),
         body: `<span class="home-wl"></span>${strip(ctx)}${ledgerB({ ...ctx, over: sheetOver(ctx.state) }, true)}`,
         rail: isWide(ctx) && ctx.state !== 'empty' ? actionSheet(ctx).replace('class="sheet home-sheet"', 'class="card home-card home-sheet"').replace('<div class="grabber"></div>', '') : ''
       })
     }, {
-      id: 'b-brief', title: 'Daily brief', note: 'What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock. Each action row carries its ticker, as a ledger row does.',
+      id: 'b-brief', title: 'Daily brief', note: `What the brief row opens: actions, then risks, changes and upcoming events, each market on its own clock. Each action row carries its ticker, as a ledger row does. ${EMPTY.brief}`,
       render: ctx => { const b = briefBody({ ...ctx, tick: true }); return frame(ctx, { tab: 0, back: 'Portfolio', title: 'Daily brief', actions: tb('info', 'About the brief'), body: b.left, rail: b.right }); }
     }, {
-      id: 'b-top5', title: 'Top 5 in place', note: 'The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. Empty here means the first morning, before any daily run, so no list exists yet.',
+      id: 'b-top5', title: 'Top 5 in place', note: `The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', webActions: webSearch(ctx), body: switcher(ctx) })
     }, ...OTHERS.map(k => ({
-      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? 'The picker on Gold & silver: prices and no list until a valuation convention is set (SCI-D08).' : `The picker on ${SEG[k].name}.`,
+      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? `The picker on Gold & silver: prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `The picker on ${SEG[k].name}. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', webActions: webSearch(ctx), body: `${k === 'metals' ? '<span class="home-wl"></span>' : ''}${switcher(ctx, k)}`, rail: k === 'metals' ? segRail(ctx, k) : '' })
     })), {
-      id: 'b-explore', title: 'One segment', note: 'The Segments tab. A segment\'s list is a filter on the universe: search and segments share a screen. Gold and silver keep their own place in the picker.',
+      id: 'b-explore', title: 'One segment', note: `The Segments tab. A segment's list is a filter on the universe: search and segments share a screen. Gold and silver keep their own place in the picker. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 2, title: 'Segments', webActions: webSearch(ctx), body: `<span class="home-wl"></span>${explorer(ctx)}`, rail: segRail(ctx, 'ustech') })
     }, {
-      id: 'b-search', title: 'Search', note: 'Typing narrows the same ledger. The candidate opens beside it on iPad and desktop, and below it on a phone.',
+      id: 'b-search', title: 'Search', note: `Typing narrows the same ledger. The candidate opens beside it on iPad and desktop, and below it on a phone. ${EMPTY.search}`,
       render: ctx => frame(ctx, { tab: 2, title: 'Segments', webActions: webSearch(ctx), body: searchMain(ctx), rail: searchRail(ctx) })
     }]
   }]

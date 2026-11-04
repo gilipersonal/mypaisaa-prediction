@@ -10,8 +10,8 @@
   /* ---------- Prism rows and small parts, composed the same way on every screen ---------- */
   const bs = (label, kind = 'tinted', icon = '') => `<button class="btn sm btn-${kind}" type="button">${icon ? ic(icon, 's16') : ''}${label}</button>`;
   const lead = (i, tone = '') => { const [bg, fg] = tone === 'warn' ? ['--warn-tint', '--warn'] : tone === 'fall' ? ['--fall-tint', '--fall'] : tone === 'rise' ? ['--rise-tint', '--rise'] : tone === 'sel' ? ['--surface', '--ink'] : ['--surface-2', '--ink']; return `<span class="logo" style="--c:var(${bg});color:var(${fg});--ic2:var(--link)" aria-hidden="true">${ic(i, 's18')}</span>`; };
-  /* open marks a row that opens something: a real control, named by its own visible words */
-  const item = (l, t, s, r = '', x = '', sel = false, open = false) => `<div class="hrow${sel ? ' sel' : ''}" data-mo="rise"${open ? ` role="button" tabindex="0" aria-label="${plain(t)}, ${plain(s)}${x ? `, ${plain(x)}` : ''}"` : ''}>${l}<div style="min-width:0"><div class="nm" style="white-space:normal">${t}</div><div class="tk" style="white-space:normal">${s}</div></div><div class="vv" style="justify-self:end;text-align:right">${r}</div>${x ? `<div class="fl" style="display:block">${x}</div>` : ''}</div>`;
+  /* open marks a row that opens something: a real control, named by all its visible words, its status too */
+  const item = (l, t, s, r = '', x = '', sel = false, open = false) => `<div class="hrow${sel ? ' sel' : ''}" data-mo="rise"${open ? ` role="button" tabindex="0" aria-label="${[t, s, r, x].map(plain).filter(Boolean).join(', ')}"` : ''}>${l}<div style="min-width:0"><div class="nm" style="white-space:normal">${t}</div><div class="tk" style="white-space:normal">${s}</div></div><div class="vv" style="justify-self:end;text-align:right">${r}</div>${x ? `<div class="fl" style="display:block">${x}</div>` : ''}</div>`;
   const list = rows => `<div class="list card" style="margin:0" data-mo="card">${rows}</div>`;
   const sec = (t, r = '') => `<div class="sech" style="padding:8px 4px 0" data-mo="rise"><h3 style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${t}</h3>${r}</div>`;
   const kv = rows => `<dl class="kv">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
@@ -41,7 +41,7 @@
   const status = {
     approved: '<span class="chip fresh"><span class="dot"></span>Approved</span>', refused: `<span class="chip error">${ic('x', 's14')}Refused</span>`, expired: expiry('Expired'),
     blocked: `<span class="chip error">${ic('ban', 's14')}Blocked</span>`, auto: `<span class="chip">${ic('refresh', 's14')}Automatic</span>`,
-    revoked: `<span class="chip error">${ic('ban', 's14')}Revoked</span>`, notApplied: `<span class="chip stale">${ic('clock', 's14')}Not applied</span>`
+    revoked: `<span class="chip error">${ic('ban', 's14')}Revoked</span>`, notApplied: `<span class="chip stale">${ic('clock', 's14')}Not applied</span>`, paused: `<span class="chip stale">${ic('pause', 's14')}Still paused</span>`
   };
   /* what would change, line by line: before, after, and why */
   const change = rows => rows.map(([k, a, b, s], i) => `<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;padding:9px 0;align-items:baseline;${i ? 'border-top:1px solid var(--hairline);' : ''}"><span class="small muted">${k}</span><span style="display:inline-flex;align-items:center;gap:6px;font:600 15px/20px var(--font-text);letter-spacing:-.01em;white-space:nowrap">${a ? `<span style="font-weight:400;color:var(--ink-2)">${a}</span>${ic('chev-r', 's14')}` : ''}${b}</span>${s ? `<span class="small muted" style="grid-column:1/-1">${s}</span>` : ''}</div>`).join('');
@@ -54,8 +54,10 @@
   const CT = proposed('CT-01');
   /* how long a chat-proposed listing waits is open (MP40-Q9), and so are every other proposal's expiry and the 15-minute window on switching forward or restarting (CT-02). POLICY-001's 15 minutes covers financial writes only */
   const Q9 = proposed('MP40-Q9'), CT2 = proposed('CT-02');
-  /* when a late price leaves the total is open (FIN-OD-06) */
-  const LATE = proposed('FIN-OD-06');
+  /* only your yes restarts a paused scope (POLICY-003). What evidence a restart needs, and so what the yes gives the model, is left open by POLICY-003 itself */
+  const RESTARTS = proposed('POLICY-003');
+  /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02) */
+  const LATE = proposed('DATA-DEC-02');
   /* chips set under an outcome, or anywhere two sit together */
   const tags = (...c) => `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${c.join('')}</div>`;
 
@@ -243,7 +245,7 @@
     what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. The weekly band is 4 points.', 'Applied at 09:16 with your fresh sign-in. Settings v10 keeps v9 as its previous version.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(SET_ROWS, 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:16')}<p class="small muted" style="margin-top:4px">Settings v9 stays current until this finishes. A change that fails part way leaves v9 in place.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and settings v9'), step('Write', 'Settings v10', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'Settings v9 stays current. A repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
-    error: () => outcome('alert', 'fall', 'Approved, not applied.', 'The write failed part way, so settings v9 stays current and nothing was half-changed. Your approval holds, for a retry inside its window.', `<div style="margin-top:10px">${status.notApplied}</div>`) + bs('Try again', 'primary', 'refresh'),
+    error: () => outcome('alert', 'fall', 'Approved, not applied.', 'The write failed part way, so settings v9 stays current and nothing was half-changed. Your approval holds, for a retry inside its window.', tags(status.notApplied, CT2)) + bs('Try again', 'primary', 'refresh'),
     stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'The window closed on Mon 9 Nov at 18:00, before a decision. Nothing changed, and a repeat backs off with a visible reason.', tags(status.expired, CT2)),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:16. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:16, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
@@ -251,7 +253,8 @@
   const setResultRail = ctx => (ctx.state === 'default' ? changeCard(SET_WHY.slice(3), 'If you change your mind') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
   /* ---------- switching forward and restarting (MP-159, owner answers 6 and 15): only your yes does either ---------- */
-  const WAITS = 'Waits for your yes';
+  /* that it waits for your yes is settled (MP-159, owner answers 6 and 15). That the proposal stays open, with no expiry of its own, is what CT-02 leaves open */
+  const WAITS = 'Stays open · waits for your yes';
   const fwdHead = (chip = expiry(WAITS, 'illus') + CT2) => headCard(lead('refresh'), 'Switch forward to R1-LGB v2', 'India midcap, 3 months · reverted by code Mon 22:20', chip);
   const pauseHead = () => headCard(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Paused by code · previous model not eligible', expiry(WAITS, 'illus') + CT2);
   const FWD_ROWS = [['Active model', 'v1', 'v2'], ['Scope', '', 'India midcap, 3 months'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v1 by itself']];
@@ -260,7 +263,7 @@
   const FWD_BIND = [['Artefact', 'R1-LGB v2 · 7e20…c4d1'], ['Calibrator', 'c5'], ['Tasks', '3 months'], ['Scope', 'India midcap'], ['Evidence hash', 'b3f6…2a90'], ['Limits', '5 points, 10%'], ['Previous safe', 'R1-LGB v1'], ['Expected version', 'Models v22'], ['Expires', '15 minutes after you approve']];
   const RESTART_BIND = [['Artefact', 'R2-HGB v3 · 91d4…e7b2'], ['Calibrator', 'c7'], ['Tasks', '12 months'], ['Scope', 'US tech'], ['Evidence hash', 'd52a…08c3'], ['Limits', '5 points, 10%'], ['Previous safe', 'None eligible'], ['Expected version', 'Models v22'], ['Expires', '15 minutes after you approve']];
   const bindCard = (title, rows, open = true) => box(`${lbl(title)}<div style="margin-top:8px">${kv(rows)}</div>${open ? '<p class="small muted" style="margin-top:8px">The proposal waits for your yes. Your approval then has 15 minutes to apply.</p>' : ''}<div style="margin-top:8px">${CT2}</div>`);
-  const restartBound = ctx => (ctx.state === 'noModel' ? bindCard('This approval is bound to', RESTART_BIND) : ['default', 'offline', 'disagreement'].includes(ctx.state) ? bindCard('This approval is bound to', FWD_BIND) : ctx.state === 'stale' ? bindCard('What this proposes', FWD_BIND) : '');
+  const restartBound = ctx => (ctx.state === 'noModel' ? bindCard('This approval is bound to', RESTART_BIND) : ['default', 'offline', 'disagreement', 'abstention'].includes(ctx.state) ? bindCard('This approval is bound to', FWD_BIND) : ctx.state === 'stale' ? bindCard('What this proposes', FWD_BIND) : '');
   /* a step-up is bound to its change until the record moves: only then does its rail show what was proposed */
   const restartStepBound = ctx => (ctx.state === 'disagreement' ? bindCard('What this proposed', FWD_BIND, false) : bindCard('This approval is bound to', ctx.state === 'noModel' ? RESTART_BIND : FWD_BIND));
   const WAITING = 'The proposal still waits for your yes.';
@@ -276,19 +279,19 @@
       error: () => fwdHead(`<span class="chip error">Not loaded</span>`) + stateCard('alert', 'The scores did not load', 'They failed at 21:14. Nothing can be approved until they load, and v1 stays active.', bs('Try again', 'tinted', 'refresh')),
       stale: () => banner('warn', 'Showing scores from 14:10.', 'A newer scored week may exist. This proposal rechecks itself before you can approve it.', 'clock') + fwdHead() + whyBack() + changeCard(FWD_ROWS, 'What this proposes'),
       offline: () => banner('', 'Offline.', 'You can read the scores. Approving needs a connection and a fresh sign-in.', 'wifi-off') + fwdHead() + trail + whyBack() + changeCard(FWD_ROWS),
-      noModel: () => banner('fall', 'A forecast scope is paused.', 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes, and nothing restarts itself.', 'cube') + pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) + `<div>${proposed('SCI-D07')}</div>`,
+      noModel: () => banner('fall', 'A forecast scope is paused.', 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes, and nothing restarts itself.', 'cube') + pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) + `<div>${RESTARTS}</div>`,
       disagreement: () => banner('', 'The evidence splits.', 'v2 trails v1 on matured forecasts and leads on walk-forward history. Neither settles it, so the decision stays yours.', 'split') + fwdHead() + trail + whyBack() + changeCard(FWD_ROWS),
-      abstention: () => fwdHead(`<span class="chip">Awaiting maturity</span>`) + stateCard('ban', 'Nothing new has matured', 'No matured paired forecasts exist since the revert, so code has no new score to show. It waits rather than guess, and nothing can be approved until then.', '', '<span class="chip">Score withheld</span>')
+      abstention: () => banner('', 'Nothing new has matured.', 'No paired forecast has matured since the revert, so code has no new score to show. The scores below still stand, and the decision stays yours.', 'clock') + fwdHead() + trail + whyBack() + changeCard(FWD_ROWS)
     });
   };
   const restartYes = ctx => {
     const st = ctx.state, tag = CT + CT2, o = { no: 'Stay on v1', tag }, foot = 'Bound to R1-LGB v2 · 15 min once approved';
     if (st === 'offline') return { yes: 'Switch forward', foot: `${foot} · switching forward needs a connection and a fresh sign-in`, o: { ...o, off: true } };
-    if (st === 'default' || st === 'disagreement') return { yes: 'Switch forward', foot: `${foot} · needs a fresh sign-in`, o };
+    if (st === 'default' || st === 'disagreement' || st === 'abstention') return { yes: 'Switch forward', foot: `${foot} · needs a fresh sign-in`, o };
     return st === 'noModel' ? { yes: 'Restart', foot: 'Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in', o: { no: 'Keep paused', tag } } : null;
   };
-  const restartRail = ctx => (['default', 'loading', 'offline', 'noModel', 'disagreement'].includes(ctx.state) ? limits(ctx.state === 'noModel' ? 'This restarts one paused scope.' : 'This changes which approved artefact issues forecasts.') : '');
-  const restartStep = ctx => (ctx.state === 'noModel' ? pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) : fwdHead() + chain('Code reverted', 'Code scored', 'You decide') + changeCard(FWD_ROWS));
+  const restartRail = ctx => (['default', 'loading', 'offline', 'noModel', 'disagreement', 'abstention'].includes(ctx.state) ? limits(ctx.state === 'noModel' ? 'This restarts one paused scope.' : 'This changes which approved artefact issues forecasts.') : '');
+  const restartStep = ctx => (ctx.state === 'noModel' ? pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) + `<div>${RESTARTS}</div>` : fwdHead() + chain('Code reverted', 'Code scored', 'You decide') + changeCard(FWD_ROWS));
   const restartResult = ctx => region(ctx, {
     what: 'This decision', ok: () => outcome('check', 'rise', 'Switched forward. R1-LGB v2 is active.', 'Applied at 09:18 with your fresh sign-in. It writes forecasts for India midcap, 3 months, from tonight\'s run.', tags(status.approved, CT)) + changeCard(FWD_ROWS.slice(0, 1), 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:18')}<p class="small muted" style="margin-top:4px">R1-LGB v1 stays active until this finishes, and it completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Switch', 'Writing the new record', 'now'))}</div>`),
@@ -296,10 +299,11 @@
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
     stale: () => outcome('clock', 'warn', 'Expired. It did not apply.', 'The 15 minutes closed before this applied, so nothing changed. Approve again for a new window.', tags(status.expired, CT2, CT)) + bs('Sign in and approve', 'primary', 'lock'),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:18. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
-    noModel: () => outcome('check', 'rise', 'Restarted. US tech, 12 months is issuing.', 'Applied at 09:18 with your fresh sign-in. R2-HGB v3 has a fresh approval, and forecasts return from the next run.', tags(status.approved, CT)) + changeCard(RESTART_ROWS.slice(0, 2), 'What changed') + `<div>${proposed('SCI-D07')}</div>`,
+    noModel: () => outcome('check', 'rise', 'Restarted. US tech, 12 months is issuing.', 'Applied at 09:18 with your fresh sign-in. R2-HGB v3 has a fresh approval, and forecasts return from the next run.', tags(status.approved, CT)) + changeCard(RESTART_ROWS.slice(0, 2), 'What changed') + `<div>${RESTARTS}</div>`,
+    abstention: () => outcome('pause', 'warn', 'You kept it paused. Nothing changed.', 'US tech, 12 months stays paused, so its forecasts stay withheld. The proposal stays with what waits on you, and nothing restarts without your yes.', tags(status.paused, CT2)),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:18, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
-  const restartResultRail = ctx => (ctx.state === 'default' ? box(`${lbl('What happens next')}<p class="small muted" style="margin-top:4px">If it slips, it goes back to v1 by itself and tells you. Switching forward again needs your yes.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div>`) : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
+  const restartResultRail = ctx => (ctx.state === 'abstention' ? safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : ctx.state === 'default' ? box(`${lbl('What happens next')}<p class="small muted" style="margin-top:4px">If it slips, it goes back to v1 by itself and tells you. Switching forward again needs your yes.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div>`) : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
   /* ---------- revoking before the commit starts (MP-55, MP-78): an approved change that has not started can still be stopped ---------- */
   /* the same import as Holdings' a-live and b-live: its rows, hash, times and recovery */
@@ -419,7 +423,7 @@
       what: 'This listing', ok: () => outcome('check', 'rise', 'Confirmed. It joins from the next close.', 'Catalogue v15 was made with your approval record. Its data capability starts as a candidate until the first close confirms it.', `<div style="margin-top:10px">${status.approved}</div>`) + row('TSM · XNYS · watch-only', `<span class="chip">Next close</span>`),
       loading: () => box(`${lbl('Applying your confirmation')}<p class="small muted" style="margin-top:4px">Catalogue v14 stays current until v15 is written. There is never a half-added listing.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval and the catalogue version'), step('Write', 'Catalogue v15', 'now'))}</div>`),
       empty: () => outcome('x', 'fall', 'You refused. Nothing was added.', 'Catalogue v14 stays current. The chat keeps this proposal, marked refused, and a repeat backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
-      error: () => outcome('alert', 'fall', 'Confirmed, not applied.', 'The catalogue write failed, so v14 stays current and nothing was half-added. Your confirmation holds, for a retry inside its window.', `<div style="margin-top:10px">${status.notApplied}</div>`) + bs('Try again', 'primary', 'refresh'),
+      error: () => outcome('alert', 'fall', 'Confirmed, not applied.', 'The catalogue write failed, so v14 stays current and nothing was half-added. Your confirmation holds, for a retry inside its window.', tags(status.notApplied, Q9)) + bs('Try again', 'primary', 'refresh'),
       stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'Confirming after 18:00 is refused, and nothing is added. Code runs the check again for a fresh proposal, in this same chat.', tags(status.expired, Q9)) + bs('Run the check again', 'primary', 'refresh'),
       offline: () => banner('', 'Offline.', 'Your confirmation reached MP. The result shows when you reconnect.', 'wifi-off') + row('TSM · XNYS · waiting for the result', `<span class="chip">Unknown</span>`),
       noModel: () => outcome('check', 'rise', 'Added, with no forecast yet.', 'Prices are tracked from the next close. No approved model covers TSM, so no forecast shows until one qualifies.', `<div style="margin-top:10px">${status.approved}</div>`) + row('TSM · XNYS · prices only', `<span class="chip">${ic('cube', 's14')}No model</span>`),
@@ -494,7 +498,7 @@
         na: naResult,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: setResult(ctx), rail: setResultRail(ctx) })
       }, {
-        id: 'aa-restart', title: 'Switch forward or restart', note: 'Ready switches a reverted model forward. No model restarts a paused scope. Nothing does either without your yes.',
+        id: 'aa-restart', title: 'Switch forward or restart', note: 'Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours. Nothing does either without your yes.',
         render: ctx => {
           const y = restartYes(ctx);
           return fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', body: restartCore(ctx), rail: `${y ? decideCard(ctx, y.yes, y.foot, y.o) : ''}${restartBound(ctx)}${restartRail(ctx)}${pad(ctx)}`, accessory: y ? decideBar(ctx, y.yes, y.foot, y.o) : '' });
@@ -503,8 +507,7 @@
         id: 'aa-restart-step', title: 'Step-up to switch or restart', note: 'Ready is the sheet for switching forward. No model is the sheet for restarting. Every line is bound to the approval.',
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT + CT2, WAITING) })
       }, {
-        id: 'aa-restart-result', title: 'Switch or restart outcome', note: 'Ready is switched forward. No model is restarted. Empty is you staying on v1. Error is MP refusing at execution. Stale is a window that closed.',
-        na: { abstention: naResult.abstention },
+        id: 'aa-restart-result', title: 'Switch or restart outcome', note: 'Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Error is MP refusing at execution. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
       }, {
         id: 'aa-step', title: 'Step-up', note: 'Every line is bound to the approval. Disagreement shows the record moving mid-way; Abstaining shows it failing closed.',
@@ -580,7 +583,7 @@
         na: naResult,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Decision', body: setResult(ctx), rail: setResultRail(ctx) })
       }, {
-        id: 'ab-restart', title: 'Switch forward or restart', note: 'On the models page. Ready switches a reverted model forward. No model restarts a paused scope.',
+        id: 'ab-restart', title: 'Switch forward or restart', note: 'On the models page. Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours.',
         render: ctx => {
           const y = restartYes(ctx);
           return fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', body: restartCore(ctx), rail: `${y ? decideCard(ctx, y.yes, y.foot, y.o) : ''}${restartBound(ctx)}${restartRail(ctx)}${pad(ctx)}`, accessory: y ? decideBar(ctx, y.yes, y.foot, y.o) : '' });
@@ -589,8 +592,7 @@
         id: 'ab-restart-step', title: 'Step-up to switch or restart', note: 'The same sheet, over the models page. Ready is switching forward. No model is restarting.',
         render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT + CT2, WAITING) })
       }, {
-        id: 'ab-restart-result', title: 'Switch or restart outcome', note: 'On the models page. Ready is switched forward. No model is restarted. Empty is you staying on v1. Stale is a window that closed.',
-        na: { abstention: naResult.abstention },
+        id: 'ab-restart-result', title: 'Switch or restart outcome', note: 'On the models page. Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: 1, back: 'Models', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
       }, {
         id: 'ab-revoke', title: 'Revoke an approval', note: 'The same import as Holdings. Ready is approved and not started. Empty is revoked. Error is a commit that started first. Disagreement is refused for a stale revision. Abstaining is a step-up.',

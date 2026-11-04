@@ -10,8 +10,8 @@
   /* MP-158 ties an entry to the exact action shown, so with no action there is nothing to record against. The records do not say so outright.
      Disagreement is drawn the other way: both sides show, no action is ranked, and it stays recordable. That is open too, so it carries the same label */
   const needsAction = `<div class="journal-acts">${proposed('MP-158')}</div>`;
-  /* how old a price may be is FIN-OD-06, source freshness, so every use of the late-price rule says so */
-  const limit = `<div class="journal-acts">${proposed('FIN-OD-06')}</div>`;
+  /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
+  const limit = `<div class="journal-acts">${proposed('DATA-DEC-02')}</div>`;
   /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
   const kept = `<div class="journal-acts">${proposed('MP40-Q12')}</div>`;
   const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept;
@@ -23,7 +23,7 @@
   /* the journal: seven illustrative entries, today being 3 Nov 2026. 'st' is the outcome state from MP-130 and MP-154 */
   const D = {
     fresh: { h: byT.NVDA, on: 'Today', hz: '6 months', ranked: 'Trim', you: 'You chose not to', differ: true, st: 'wait', left: 'Due 3 May', line: 'Nothing is scored before 3 May 2027.' },
-    spy: { h: byT.SPY, on: '21 Aug 2026', hz: '3 months', ranked: 'Add', you: 'You added 6 units', st: 'wait', left: '18 days', line: 'Outcome due 21 Nov 2026.' },
+    spy: { h: byT.SPY, on: '21 Aug 2026', hz: '3 months', ranked: 'Add', you: 'You added 6 units', st: 'wait', left: '17 days', line: 'Outcome due 20 Nov 2026.' },
     rel: { h: byT.RELIANCE, on: '2 Jun 2026', hz: '3 months', ranked: 'Add', you: 'You chose not to', differ: true, st: 'in', line: 'Rose 5.1%, inside its 80% range.' },
     aapl: { h: byT.AAPL, on: '12 May 2026', hz: '6 months', ranked: 'Hold', you: 'You held', st: 'wait', left: '9 days', line: 'Outcome due 12 Nov 2026.' },
     nvda: { h: byT.NVDA, on: '28 Apr 2026', hz: '6 months', ranked: 'Trim', you: 'You chose not to', differ: true, st: 'in', line: 'Rose 12.4%, inside its 80% range.' },

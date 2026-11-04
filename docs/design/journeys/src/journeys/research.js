@@ -18,8 +18,8 @@
   /* ---------- Prism rows and small parts, composed the same way on every screen ---------- */
   const bs = (label, kind = 'tinted', icon = '') => `<button class="btn sm btn-${kind}" type="button">${icon ? ic(icon, 's16') : ''}${label}</button>`;
   const lead = (i, tone = '') => { const [bg, fg] = tone === 'warn' ? ['--warn-tint', '--warn'] : tone === 'fall' ? ['--fall-tint', '--fall'] : tone === 'sel' ? ['--surface', '--ink'] : ['--surface-2', '--ink']; return `<span class="logo" style="--c:var(${bg});color:var(${fg});--ic2:var(--link)" aria-hidden="true">${ic(i, 's18')}</span>`; };
-  /* open marks a row that opens something: a real control, named by its own visible words */
-  const item = (l, t, s, r = '', x = '', sel = false, open = false) => `<div class="hrow${sel ? ' sel' : ''}" data-mo="rise"${open ? ` role="button" tabindex="0" aria-label="${plain(t)}, ${plain(s)}"` : ''}>${l}<div style="min-width:0"><div class="nm" style="white-space:normal">${t}</div><div class="tk" style="white-space:normal">${s}</div></div><div class="vv" style="justify-self:end;text-align:right">${r}</div>${x ? `<div class="fl" style="display:block">${x}</div>` : ''}</div>`;
+  /* open marks a row that opens something: a real control, named by all its visible words, its status too */
+  const item = (l, t, s, r = '', x = '', sel = false, open = false) => `<div class="hrow${sel ? ' sel' : ''}" data-mo="rise"${open ? ` role="button" tabindex="0" aria-label="${[t, s, r, x].map(plain).filter(Boolean).join(', ')}"` : ''}>${l}<div style="min-width:0"><div class="nm" style="white-space:normal">${t}</div><div class="tk" style="white-space:normal">${s}</div></div><div class="vv" style="justify-self:end;text-align:right">${r}</div>${x ? `<div class="fl" style="display:block">${x}</div>` : ''}</div>`;
   const list = rows => `<div class="list card" style="margin:0" data-mo="card">${rows}</div>`;
   const sec = (t, r = '') => `<div class="sech" style="padding:8px 4px 0" data-mo="rise"><h3 style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${t}</h3>${r}</div>`;
   const kv = rows => `<dl class="kv">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
@@ -28,8 +28,8 @@
   const pad = ctx => (wide(ctx) ? '' : '<div style="height:44px" aria-hidden="true"></div>');
   const info = (label, icon = 'info') => `<button class="tbtn" type="button" aria-label="${label}">${ic(icon, 's24')}</button>`;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
-  /* when a late price leaves the total is open (FIN-OD-06), so every screen that states the rule says so */
-  const LATE = proposed('FIN-OD-06');
+  /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
+  const LATE = proposed('DATA-DEC-02');
   /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
   const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
   /* when today's run failed, the last good run shows in full, so one screen never mixes two versions */

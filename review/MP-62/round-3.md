@@ -6,7 +6,7 @@ Snapshot: `fc1303dba3d6dc0a321f723ccf34f23450cdabc4`, branch `MP-178-journey-fli
 Lanes as before, with four new reviewers. Result: 66 findings, 38 blocking, no P0. All 38 are fixed and held by `fixed.json`.
 
 Round 2's record said R2-s3's behaviour was proved by pressing. It was not, until this round added the note to the press pass (R3-s7). R3-s1, s2, s4, s5, s6, s7, s9, s10 and R3-h2 are text checks in the ledger because the
-ledger runs in CI, which has no browser. Their behaviour is proved by `node scripts/design_journeys_check.mjs`, `node scripts/design_journeys_press.mjs` and their selftests, in the `design-walk` check.
+ledger runs in CI, which has no browser. Round 4 found three of those claims too strong: R3-s4, R3-s6 and R3-s9 could be undone with their checks passing. R4-s6 gave each a real check.
 
 | Finding | Severity | Blocking | Anchor | Status |
 | --- | --- | --- | --- | --- |
@@ -67,7 +67,7 @@ ledger runs in CI, which has no browser. Their behaviour is proved by `node scri
 | R3-s4 | P2 | yes | `shell.js:211` | fixed |
 | R3-s5 | P2 | yes | `shell.js:216` | fixed |
 | R3-s6 | P2 | yes | `scripts/design_journeys_press.mjs:80` | fixed |
-| R3-s7 | P2 | yes | `review/MP-62/fixed.js` | fixed |
+| R3-s7 | P2 | yes | `review/MP-62/fixed.json` | fixed |
 | R3-s8 | P2 | yes | `docs/design/journeys/src/journeys/privacy.js:287` | fixed |
 | R3-s9 | P2 | yes | `shell.js:15` | fixed |
 | R3-s10 | P2 | yes | `shell.js:286` | fixed |

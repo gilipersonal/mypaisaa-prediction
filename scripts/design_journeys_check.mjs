@@ -130,6 +130,18 @@ const PRESS = (st) => {
   return { pressed, out };
 };
 
+// A press on a frame the page is leaving. Staged drawing leaves old frames up for a moment: such a press must do nothing.
+const QUICK = async ([j, o, surface, st]) => {
+  window.__prismNoFit = false;
+  window.__prismJourneys.go(j, o, surface, st);
+  const old = document.querySelector('#jrow [data-flip]');
+  if (old) old.click();
+  await new Promise((r) => setTimeout(r, 900));
+  window.__prismNoFit = true;
+  const want = window.__prismJourneys.matrix().find((r) => r.j === j && r.o === o).screens.length;
+  return document.querySelectorAll('#jrow .scr').length === want ? [] : ['a quick press lost frames'];
+};
+
 // One flip on the real path, with its animation: it must swap, speak, and honour the context's motion setting.
 const REAL = async (reduced) => {
   window.__prismInstantFlip = false;
@@ -141,7 +153,7 @@ const REAL = async (reduced) => {
   await new Promise((r) => setTimeout(r, 70));
   const t = getComputedStyle(scr).transform;
   if (reduced && t !== 'none') out.push('reduced motion still turns the frame');
-  if (!reduced && t === 'none') out.push('the frame does not turn');
+  if (!reduced && (t === 'none' || /^matrix(3d)?\(1, 0, 0,/.test(t))) out.push('the frame does not turn');   // a perspective alone is not a turn
   await new Promise((r) => setTimeout(r, 700));
   if (scr.dataset.at === at) out.push('on the real path the flip never swapped');
   if (!live.textContent) out.push('nothing told assistive technology');
@@ -207,6 +219,13 @@ try {
           }
         }
       }
+    }
+    if (theme === THEMES[0] && shape.m.length) {
+      const row = shape.m.find((r) => !ONLY || ONLY.includes(r.j) && r.o === 'b') || shape.m[0];
+      await p.evaluate(([j]) => window.__prismJourneys.go(j, 'a', 'iphone', 'default'), [row.j]);
+      errs.length = 0;
+      for (const x of await p.evaluate(QUICK, [row.j, 'b', 'iphone', 'default'])) say(`${row.j}: ${x}`);
+      for (const e of errs) say(`${row.j}: a quick press threw: ${e}`);
     }
     await c.close();
   }
@@ -274,6 +293,8 @@ function selftest() {
     'a note that stays': [page.replace('const noteFor = sc => { const r = (sc.na || {})[sum.at.st];', 'const noteFor = sc => { const r = null;'), 'note under the frame'],
     'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
     'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
+    'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
+    'a frame that does not turn': [page.replace('rotateY(-90deg)', 'rotateY(0deg)').replace('rotateY(90deg)', 'rotateY(0deg)'), 'the frame does not turn'],
     'a caption that stays': [page.replace('cap.innerHTML = `<span class="tag">', 'cap.dataset.x = `<span class="tag">'), 'does not follow'],
     'a frame that does not say it turned': [page.replace('Turned to ${oid.toUpperCase()}', 'Showing ${oid.toUpperCase()}'), 'does not say so'],
     'focus that leaves the flip': [page.replace('if (next) next.focus({ preventScroll: true });', ''), 'focus left the flip'],

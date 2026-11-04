@@ -82,6 +82,15 @@ export default {
       for (const re of AGREED[j] || []) a.must(re.test(x) === re.test(y), `${j} ${s} and ${ss}, ${surface} ${state}: only one side shows ${re}`);
     });
   },
+  // A flip names the view it lands on. Each name lands only where that name is true.
+  'R3-s9': (a) => {
+    const land = { Pill: /^cost-b-home$/, Meter: /^cost-a-home$/, Dossier: /^b-(forecast|proof|views|evidence)$/, Ladder: /^(b-ladder|b-forecasts|b-technical|b-hzstates|b-scenarios|cost-a-(month|limits|warned|reduced|paused))$/, 'Burn-up': /^cost-b-(burn|warned|reduced|paused)$/ };
+    let n = 0;
+    for (const j of a.journeys()) for (const o of a.options(j)) for (const s of a.screens(j, o)) for (const state of STATES) {
+      for (const m of a.view(j, o, s, 'web', state).html.matchAll(/aria-label="Flip to ([^"]+)" data-flip="[^"|]+\|[^"|]+\|([^"]+)"/g)) { n++; if (land[m[1]]) a.must(land[m[1]].test(m[2]), `${j}.${s} ${state} says ${m[1]} and lands on ${m[2]}`); }
+    }
+    a.must(n > 100, `only ${n} flips were read`);
+  },
   // Record and history are not a pair; a record does not flip.
   'R2-r7': ({ view, must }) => {
     for (const surface of SURFACES) must(!flips(view('approvals', 'a', 'aa-record', surface).html).length && !flips(view('approvals', 'b', 'ab-history', surface).html).length, `${surface}: a record flips`);

@@ -3413,7 +3413,7 @@
   "check": {
    "type": "file",
    "file": "scripts/design_journeys_press.mjs",
-   "pattern": "a flip that drops the horizon is refused",
+   "pattern": "the flip drops the press",
    "present": true
   }
  },
@@ -3447,10 +3447,16 @@
   "id": "R3-s9",
   "finding": "the flip names a view it does not turn to, against Prism's anatomy (\"the name of the view it turns to\") and WCAG 2.4.6. - **Evidence:** - R2-s21 renamed Burn-up to Pill, which reversed the fault. On 7 of 8 cost pairs \"Pi",
   "check": {
-   "type": "file",
-   "file": "docs/design/journeys/src/shell.js",
-   "pattern": "const FLIP_AT = \\{ 'cost-a-home': 'Meter', 'cost-b-home': 'Pill', 'b-forecast': 'Dossier' \\}",
-   "present": true
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R3-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
   }
  },
  {
@@ -3472,6 +3478,686 @@
     "node",
     "scripts/design_journeys_facts.mjs",
     "R3-s14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h1",
+  "finding": "a horizon or detail pressed on a turned frame is lost when you flip back. This delta introduced it: `if (back) [oo, ss, extra] = was.from;` restores the values saved before the first flip. `back` compares only the screen",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_journeys_press.mjs",
+   "pattern": "turned",
+   "present": true
+  }
+ },
+ {
+  "id": "R4-h2",
+  "finding": "`b-ledger` and `b-12m` in Empty, on iPhone and PWA, read \"7 holdings\" directly above \"No holdings yet\". The label is a literal with no Empty test; the sidebar's \"7\" is already removed in Empty. - **Evidence:** rendered i",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h3",
+  "finding": "the new `clear` reads a calm horizon as Ready, so Reliance contradicts itself in one state. - **Evidence, in Chrome, Disagreement:** `a-instrument` (Reliance), press 3M, flip, Views. | Reliance tab | Compare row | Rules ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h4",
+  "finding": "the R3-s9 fault remains on three screens. `b-forecast` is named Dossier, but `a-proof`, `a-views` and `a-evidence` still say Ladder and land on dossier tabs, which draw no ladder. - **Evidence:** rendered `data-flip=\"for",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R3-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h5",
+  "finding": "the new \"At N months\" caption and screen name fall back to the wrong horizon. They update only when that press carries `hz`, and `dress` always writes `sc.title`. - **Evidence, in Chrome:** - `a-3m`, press 6M, press Tech",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h6",
+  "finding": "`recordCard` claims a current forecast on an abstained horizon. The delta widened this from AZN at 6 months to Apple at 12. - **Evidence:** `b-evidence` web, Abstaining, `t: AAPL`, hz 2. The chain says \"Abstained: too li",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h7",
+  "finding": "the two meanings of Empty reach only `a-portfolio`, `b-ledger`, `a-board` and `b-top5`. - **Evidence:** - In Empty, `a-portfolio` tiles show \"1 MSFT 74\", and the frame a tile opens, `a-segment`, says \"Until the first run",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h8",
+  "finding": "`flaggedOnly` replaced the old \"no other name\" regex and lost its text-wide refusals. It reads rows only. - **Evidence:** on a scratch copy I added \"JPM is split at 3 months too.\" to the board banner. - R2-h7 and R3-h5 e",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h9",
+  "finding": "most of the new per-horizon figures have no check. - **Evidence:** I mutated eight values one at a time, and R2-h25 plus R3-h6 exit 0 on each: 12-month hit 58%, calibration 0.96, error 8.9 pts, benchmark +3.1 pts, turnov",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h13",
+  "finding": "**R4-h13 · P3 · blocking: no · `docs/design/journeys/src/journeys/forecast.js:233`** The 12-month \"Hit rate never stands alone\" card carries no Exploratory label, though it shows the highest hit rate (62%) and \"+5.2 pts ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h14",
+  "finding": "**R4-h14 · P3 · blocking: no · `docs/design/journeys/src/journeys/forecast.js:238`** Proof's Empty card stayed 12-month after the per-horizon pass: `b-proof` titled 6 months reads \"No 12-month outcome… first due 1 Oct 20",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h15",
+  "finding": "**R4-h15 · P3 · blocking: no · `docs/design/journeys/src/journeys/forecast.js:240`, `:220`** Already there, but both lines were edited. In Stale, the banner says \"HSBC's matured forecast waits for its price\", while the s",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h17",
+  "finding": "**R4-h17 · P3 · blocking: no · `docs/design/journeys/src/journeys/home.js:256`, `:290`** A split 3 months has no median, yet \"its score stands\" is stated as settled. Abstention gets `Proposed · MP-135` for the same open ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h17"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-h18",
+  "finding": "**R4-h18 · P3 · blocking: no · `docs/design/journeys/src/journeys/forecast.js`, `a-views`, `:220`, `keyB`** - `a-views` on a phone names no horizon when Apple abstained at 12 months. - \"Walk-forward folds 22\" stays fixed",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-h18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j1",
+  "finding": "AstraZeneca's \"No rate found / The search stopped at its limit with no rate\" is false for the flows drawn beside it. - **Evidence, schedule:** −£9,500 on 14 Jun 2024, +£3,920 on 2 Dec 2024, −£2,000 on 8 Apr 2025, −£500 o",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j2",
+  "finding": "HSBC shows \"+8.1% a year\" on a stale valuation, and the delta pins it. - **Evidence, spec:** Line 63 says: \"stale valuation or broken reconciliation withholds the dependent net XIRR\". - **Evidence, screens:** - `a-one` a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j3",
+  "finding": "The new sample reason \"Broker fee on the statement, missing from the ledger.\" closes the difference with a reason, leaving a known missing fee out of the ledger. - **Evidence:** The card above the reason says \"A change t",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j4",
+  "finding": "The \"Two rates\" fix on the wide table is not held by any check. - **Evidence:** I put `'No single rate': 'Two rates'` back into `retCell` on a copy. `design_journeys_facts.mjs --all --page` still printed 213 of 213. R3-j",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j5",
+  "finding": "\"Outcome due 21 Nov 2026 / 18 days\" falls on a Saturday. - **Evidence:** FND-DEC-002 and spec line 81 roll a month anniversary back to the preceding valid session, and MP-130 says \"the rolled anniversary\". SPY's 3-month ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j6",
+  "finding": "`b-duplicate` contradicts itself on one screen. - **Evidence:** - Disagreement says \"the amounts are 4p apart\" above \"+£41.16 / +£41.16 · Same date, amount and account\". - Abstaining says \"Claude could not read the row's",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j7",
+  "finding": "In Abstaining, the commit does not match what was approved. - **Evidence:** `a-approve` and `b-approve` read \"Commit 2 groups, 6 of 11 rows… Cash → £3,070.82 · Left out: Sold 10 AstraZeneca, date not read\". The next scre",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j8",
+  "finding": "The new +22.3% is a GBP rate on INR flows with no \"estimated\" label. - **Evidence:** MP-72 requires dated reference FX \"labelled estimated\" and lists \"Estimated FX, labelled\" as a state. Reliance's cost row says FX is es",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j9",
+  "finding": "\"Older statements fill the gaps. Proposed · FIN-OD-04\" reads as if older statements settle Reliance and AstraZeneca, and they cannot.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-j10",
+  "finding": "Two new lines are not held. - **Evidence:** Each of the `IMPORT_NOW` lines for Stale, Loading and Disagreement, set back to \"being read\" one at a time, left lane j's checks passing. Removing the holdings `CT-01` chip pri",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-j10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r1",
+  "finding": "**R4-r1 · P2 · blocking · `r.mjs:716-727`. No check holds the decision controls off, and R3-r5's claim fails.** - R3-r5's comment says \"nothing can be approved offline, on any proposal\". It tests only Refuse and Approve ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r2",
+  "finding": "**R4-r2 · P2 · blocking · `r.mjs:531-534`. \"The restart's rail\" check reads the sheet, not the rail.** - Mutation: `restartStepBound` always uses `FWD_BIND`, so on iPad and desktop the rail reads \"Artefact R1-LGB v2 · In",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r3",
+  "finding": "**R4-r3 · P2 · blocking · `approvals.js:14`, `:203`; `research.js:22`. Status chips are missing from row names, so assistive technology does not get them.** - The delta adds `x` to the row's `aria-label` but leaves `r` o",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r4",
+  "finding": "**R4-r4 · P2 · blocking · `approvals.js:58`, `research.js:32`, `shell.js:269`. The late-price label cites a question that hands off, and it marks a settled rule proposed.** - FIN-OD-06 is \"Risk windows and source freshne",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r5",
+  "finding": "**R4-r5 · P2 · not blocking, already there · `approvals.js:281`. Restart's Abstaining invents a gate on the owner's yes.** - It says \"No matured paired forecasts exist since the revert ... nothing can be approved until t",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r6",
+  "finding": "**R4-r6 · P3 · not blocking · `approvals.js:255-256`. \"Proposed · CT-02\" sits on a settled fact.** - The chip reads \"Waits for your yes\", which is MP-159 and owner answers 6 and 15. What CT-02 leaves open is that the pro",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r7",
+  "finding": "**R4-r7 · P3 · not blocking, already there · `approvals.js:279`, `:299`, `shell.js:289`. SCI-D07 does not hold restarting.** - Its record covers bad-week scoring and safety triggers. \"This yes gives it a fresh approval\" ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r8",
+  "finding": "**R4-r8 · P3 · not blocking · `approvals.js:246`, `:422`. The retry window is stated flat.** - \"for a retry inside its window\" carries no label on `aa-setting-result`, `ab-setting-result`, `aa-after` or `ab-after`. Those",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r9",
+  "finding": "**R4-r9 · P3 · not blocking · `r.mjs:27`, `:37`, `:633-674`. Smaller holes in the tightened checks. Each of these passes:** - Removing the CT-02 chip from `fwdHead` in Stale, Disagreement or Offline, or from the model an",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-r10",
+  "finding": "**R4-r10 · P3 · not blocking, already there · `approvals.js:288`, `:292-301`. \"Keep paused\" has no outcome.** - Stay on v1 reaches Empty, but no state draws Keep paused or says what happens to the proposal. - **Correctio",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-r10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s1",
+  "finding": "R3-s3's fix put B's risk at the bottom of the page, so a flip to Limits on a phone hides it. This breaks \"Risk, staleness and uncertainty stay in view in both options\". - **Evidence:** - iPhone, in Ready, Disagreement an",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s2",
+  "finding": "the owner's acceptance line was narrowed without his word, against lesson 23. - **Evidence:** - MP-178 says \"Flipping shows the same figures\". The three records now say the figures both sides show stay the same, and \"a s",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "May one side hold more",
+   "present": true
+  }
+ },
+ {
+  "id": "R4-s3",
+  "finding": "a press inside a turned frame is lost on the way back, so the flip changes the horizon or detail unasked. The code comment says the second press gives way \"unless the owner has moved on inside the frame\", but `back` test",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "what was pressed inside the turned frame comes home with it",
+   "present": true
+  }
+ },
+ {
+  "id": "R4-s4",
+  "finding": "a turned Technical frame loses its way home after a state change, against \"a second press returns to what the frame showed\". - **Evidence (20 cases in 2,464 turned frames):** - `a-technical` turned in Ready, then Disagre",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "home\\.dataset\\.flip = ",
+   "present": true
+  }
+ },
+ {
+  "id": "R4-s5",
+  "finding": "R3-s9 is only partly fixed. The flip still names views it does not turn to, against Prism's \"the name of the view it turns to\" (`prism/index.html:1908`) and WCAG 2.4.6. - **Evidence:** - `a-proof` says \"Flip to Ladder\" a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R3-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s6",
+  "finding": "three blocking fixes can be undone with their checks still passing, although `round-3.md` says the walker, the press pass and their selftests prove their behaviour. This fails lessons 2, 9 and 34. - **Evidence (each on a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R3-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s7",
+  "finding": "No model is marked not applicable on A notice, but it can occur. - **Evidence:** - The reason reads \"The missing model is for India. This notice is about HSBC, so nothing changes\", which admits the state occurs. - It app",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-s7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s8",
+  "finding": "the Where you are card states proposed rules with no label beside them, against lessons 25 and 36. R3-s3 copied `m.say` into B without `m.q`. - **Evidence:** - Stale: \"Past 36, optional work waits\" has no chip in its car",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-s8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s9",
+  "finding": "the sources and log pair does not keep freshness, against README:59 (\"must show the same freshness\"). - **Evidence:** A shows \"Age 15 h\" and \"Age 3 h\". `cost-b-log` shows no lane age. R2-s7 compares `.jfresh` chips only.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R4-s16",
+  "finding": "`Proposed · FIN-OD-06` follows \"It never performs an action\", which is MP-162's settled negative, so it reads as proposed.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R4-s16"
    ],
    "timeout_seconds": 60,
    "expected_exit_codes": [

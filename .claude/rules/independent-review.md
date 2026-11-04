@@ -88,3 +88,5 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 35. **A control that holds state is tested across a change of state**: press it, change the state or the device, then press it again. A check that turns and returns inside one state misses it (MP-178 R3-s1, R3-h2).
 36. **A label names the question that settles it**: read the question before citing it. A claim the records leave open carries the id of the record that would close it (MP-178 R3-j3, R3-r1).
 37. **A figure stated beside its inputs is computed from them**: a rate, a sum or a count that the page's own rows cannot produce is false, however illustrative (MP-178 R3-j2).
+38. **Risk in view means in the first view**: a fix that adds the risk below the fold has not kept it in view on a phone (MP-178 R4-s1).
+39. **A status says what the system knows**: "no rate found" claims more than "the search ran out of budget", and the rows beside it can prove it false (MP-178 R4-j1).

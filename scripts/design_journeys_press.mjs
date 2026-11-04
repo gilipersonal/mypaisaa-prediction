@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Presses the horizon, detail and dossier switches on Home and Forecast in a real browser, and asserts what the frame then shows
-// (R2-h1, R2-h5, R2-h15, R2-h18, R2-h19, R3-h1, R3-h2). A check that needs a press cannot run in tests/journey_facts: that harness has no browser.
+// (R2-h1, R2-h5, R2-h15, R2-h18, R2-h19, R3-h1, R3-h2, R4-h1, R4-h5). A check that needs a press cannot run in tests/journey_facts: that harness has no browser.
 //
 //   perl -e 'alarm shift; exec @ARGV' 280 node scripts/design_journeys_press.mjs docs/design/journeys/index.html
 import { createRequire } from 'module';
@@ -18,14 +18,22 @@ if (process.argv.includes('--selftest')) {
   const built = spawnSync('python3', ['docs/design/journeys/build.py', '--only', 'home,forecast', '--out', good], { cwd: resolve(dirname(self), '..'), encoding: 'utf8' });
   if (built.status !== 0) { console.log(`selftest: FAIL could not build: ${built.stderr}`); process.exit(2); }
   const html = readFileSync(good, 'utf8'), bad = join(tmp, 'bad.html');
-  const lost = html.replace('saved = { hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t }', 'saved = {}');
-  if (lost === html) { console.log('selftest: FAIL the mutation did not apply'); process.exit(2); }
-  writeFileSync(bad, lost);
   const run = (f) => spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '200', 'node', self, f], { encoding: 'utf8' });
-  const a = run(good), b = run(bad);
+  const a = run(good);
   if (a.status !== 0) { console.log(`selftest: FAIL the good page is refused:\n${a.stdout.slice(0, 400)}`); process.exit(1); }
-  if (b.status === 0) { console.log('selftest: FAIL a flip that drops the horizon passed'); process.exit(1); }
-  console.log('selftest: the good page passes and a flip that drops the horizon is refused');
+  // each fault: what to break in the built page, and the reason the run must give
+  for (const [what, from, to, why] of [
+    ['a flip that drops the horizon', 'saved = { hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t }', 'saved = { mode: scr.dataset.mode, t: scr.dataset.t }', 'the flip drops the press'],
+    ['a press lost on the way home', "['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });", '', 'the press on the turned frame is lost'],
+    ['a name stuck on the old horizon', 'const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;\n  scr.setAttribute', 'const title = s.title;\n  scr.setAttribute', 'the caption reads'],
+  ]) {
+    const broken = html.replace(from, to);
+    if (broken === html) { console.log(`selftest: FAIL ${what}: the mutation did not apply`); process.exit(2); }
+    writeFileSync(bad, broken);
+    const b = run(bad);
+    if (b.status !== 1 || !b.stdout.includes(why)) { console.log(`selftest: FAIL ${what} was not refused for that reason: exit ${b.status}\n${b.stdout.slice(0, 300)}`); process.exit(1); }
+  }
+  console.log('selftest: the good page passes, and a flip that drops the horizon, a press lost on the way home and a stuck name are each refused');
   process.exit(0);
 }
 const page = process.argv[2];
@@ -199,6 +207,70 @@ try {
     if (r.at0 !== 'forecast|b|b-forecast') fail(`${slot} turned, then ${st}: the frame shows ${r.at0}`);
     if (r.at !== r.to) fail(`${slot} turned, then ${st}: the flip says ${r.to} and lands on ${r.at}`);
     if (r.a !== name || r.b !== name) fail(`${slot} turned, then ${st}: ${r.a} turned to ${r.b}`);
+  }
+  // R4-h1: what is pressed on a turned frame comes home with it. Each row: start here, flip, press, flip back. Home's wide ledger and the ladder
+  // have no horizon switch, so those turn from the side that has one's partner.
+  for (const surface of ['iphone', 'web']) for (const [j, o, slot, group, i, at, want, not] of [
+    ['home', surface === 'web' ? 'b' : 'a', surface === 'web' ? 'b-ledger' : 'a-portfolio', 'Forecast horizon', 2, surface === 'web' ? 'home|b|b-ledger' : 'home|a|a-portfolio', surface === 'web' ? /Action, 12M/ : /· 12M/, surface === 'web' ? /Action, 6M/ : /· 6M/],
+    ['forecast', 'b', 'b-forecast', 'Forecast horizon', 2, 'forecast|b|b-forecast', /12-month forecast · AAPL/, /6-month forecast/],
+    ['forecast', 'a', 'a-instrument', 'Detail', 1, 'forecast|a|a-instrument', /10th percentile/, /zz/],
+    ['forecast', 'b', 'b-ladder', 'Detail', 1, 'forecast|b|b-ladder', /10th/, /zz/],
+  ]) {
+    n++;
+    await go(j, o, surface, 'default');
+    const where = `${j}.${o} ${surface} ${slot}: turned, ${group} ${i}, back`;
+    const r = await frame(slot, () => {
+      const [group, i] = arg, f = scr.querySelector('[data-flip]');
+      if (!f) return { err: 'no flip' };
+      f.click();
+      const e = press(group, i);
+      if (e) return { err: e };
+      scr.querySelector('[data-flip]').click();
+      return { at: scr.dataset.at, text: text(), turned: /Turned to/.test(box.querySelector('.bcap').textContent) };
+    }, [group, i]);
+    if (r.err) { fail(`${where}: ${r.err}`); continue; }
+    if (r.at !== at || r.turned) fail(`${where}: it came back to ${r.at}, turned ${r.turned}`);
+    if (!want.test(r.text)) fail(`${where}: the press on the turned frame is lost, no ${want} in ${r.text.slice(0, 200)}`);
+    if (not.test(r.text)) fail(`${where}: the press on the turned frame is lost, ${not} still shows`);
+  }
+  // R4-h1: a ladder row's dossier, turned, pressed, and home again, lands on what was pressed, not the row it opened from
+  for (const surface of ['iphone', 'web']) {
+    n++;
+    await go('forecast', 'b', surface, 'default');
+    const r = await frame('b-ladder', () => {
+      scr.querySelectorAll('[data-dossier]')[2].click();
+      scr.querySelector('[data-flip]').click();
+      const e = press('Forecast horizon', 0);
+      if (e) return { err: e };
+      scr.querySelector('[data-flip]').click();
+      return { at: scr.dataset.at, text: text() };
+    });
+    if (r.err) { fail(`ladder row, ${surface}: ${r.err}`); continue; }
+    if (r.at !== 'forecast|b|b-forecast') fail(`ladder row, ${surface}: it came back to ${r.at}`);
+    if (!/3-month forecast · AAPL/.test(r.text) || /12-month forecast/.test(r.text)) fail(`ladder row, ${surface}: the press on the turned frame is lost: ${r.text.slice(0, 200)}`);
+  }
+  // R4-h5: a horizon frame's caption and screen name follow what it shows, whichever press came last, and across a flip
+  for (const surface of ['iphone', 'web']) for (const [j, o, slot, presses, flipBack, title] of [
+    ['forecast', 'a', 'a-3m', [['Forecast horizon', 1], ['Detail', 1]], false, 'At 6 months'],
+    ['forecast', 'a', 'a-3m', [['Forecast horizon', 1]], true, 'At 6 months'],
+    ['forecast', 'a', 'a-12m', [['Forecast horizon', 0]], false, 'At 3 months'],
+    ['forecast', 'a', 'a-12m', [['Forecast horizon', 0], ['Forecast horizon', 2]], false, 'At 12 months'],
+    ['home', 'a', 'a-12m', [['Forecast horizon', 0]], false, 'Portfolio at 3 months'],
+    ['home', 'a', 'a-12m', [['Forecast horizon', 1]], true, 'Portfolio at 6 months'],
+    ...(surface === 'iphone' ? [['home', 'b', 'b-12m', [['Forecast horizon', 0]], false, 'Ledger at 3 months']] : []),
+  ]) {
+    n++;
+    await go(j, o, surface, 'default');
+    const where = `${j}.${o} ${surface} ${slot} ${presses.map((x) => x.join(' ')).join(', ')}${flipBack ? ', flip and back' : ''}`;
+    const r = await frame(slot, () => {
+      const [presses, flipBack] = arg;
+      for (const [g, i] of presses) { const e = press(g, i); if (e) return { err: e }; }
+      if (flipBack) { scr.querySelector('[data-flip]').click(); scr.querySelector('[data-flip]').click(); }
+      return { cap: box.querySelector('.bcap').textContent, label: scr.getAttribute('aria-label') };
+    }, [presses, flipBack]);
+    if (r.err) { fail(`${where}: ${r.err}`); continue; }
+    if (!r.cap.includes(title)) fail(`${where}: the caption reads ${r.cap}`);
+    if (!r.label.startsWith(`${title},`)) fail(`${where}: the screen is named ${r.label}`);
   }
   for (const e of errs) fail('page error: ' + e);
   await c.close();

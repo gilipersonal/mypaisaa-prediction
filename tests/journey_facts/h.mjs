@@ -1,4 +1,4 @@
-// What each fixed finding of lane h (home and forecast) holds on the rendered screens (MP-62 rounds 1 to 3).
+// What each fixed finding of lane h (home and forecast) holds on the rendered screens (MP-62 rounds 1 to 4).
 import { readFileSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -98,6 +98,30 @@ const flaggedOnly = ({ each, view, must }) => {
     }
   });
 };
+/* R4-h8: the rows above show who is out; this reads the words, on every screen. Every listed name counts, as a ticker and as a name, read off the
+   rendered lists so a new listing is covered without touching this file. */
+const listedNames = (each) => {
+  const found = new Map();
+  for (const [journey, option] of [['home', 'a'], ['home', 'b'], ['forecast', 'a']]) each({ journey, option, surface: 'iphone', state: 'default' }, (v) => {
+    for (const m of v.html.matchAll(/class="tt">([A-Z][A-Z0-9.\/]+)(?:<svg[^]*?<\/svg>|\s)*<span>([^·<]+)/g)) found.set(m[1], m[2].trim());
+    for (const m of v.html.matchAll(/class="nm">([^<]+)<\/div><div class="tk[^"]*">([A-Z][A-Z0-9.\/]+)/g)) found.set(m[2], m[1].trim());
+  });
+  return found;
+};
+const escaped = (s) => s.replace(/[.*+?^${}()|[\]\\\/&]/g, '\\$&');
+const anyOf = (names) => `(?<![A-Za-z0-9.])(?:${[...names].sort((a, b) => b.length - a.length).map(escaped).join('|')})(?![A-Za-z0-9])`;
+/* every form the old list refused, over every name: a name said to be out, out "on" a name, and two names side by side */
+const saidOut = (names) => { const n = anyOf(names); return new RegExp(`${n},?(?: too| also)? (?:is split|is not ranked|lost|abstained|dropped|splits|disagrees?|abstains?)|(?:split|disagree|abstained) on (?:the )?${n}|${n} and ${n}`); };
+/* the prose of a frame, sentence by sentence, for phrasings no list of forms foresaw */
+const sentences = (html) => [...html.replace(/<svg[\s\S]*?<\/svg>/g, ' ').matchAll(/<(p|li)\b[^>]*>([^]*?)<\/\1>|class="(?:jbanner[^"]*|home-sub|fc-sub|t5foot[^"]*)"[^>]*>([^]*?)<\/(?:div|span)>/g)].flatMap((m) => words(m[2] || m[3] || '').split(/(?<=[.!?])\s+/));
+/* the screen's own record, as the page holds it, for what a frame is called */
+const screenOf = (j, o, s) => pageJourneys().find((x) => x.id === j).options.find((x) => x.id === o).screens.find((x) => x.id === s);
+/* each horizon's walk-forward record, as a frame reads it */
+const RECORD = (r) => [`Hit rate ${r.hit}`, `Error ${r.err}`, `Calibration ${r.cal}`, `Turnover ${r.turn}`, `Benchmark ${r.bench}`, `Embargo ${r.embargo}`, `first due ${r.due}`];
+const REC3 = { hit: '61%', err: '4.7 pts', cal: '0.98', turn: '1.1', bench: '+1.4 pts', embargo: '3 months + 1 session', due: '1 Jan 2027' };
+const REC6 = { hit: '58%', err: '8.9 pts', cal: '0.96', turn: '0.6', bench: '+3.1 pts', embargo: '6 months + 1 session', due: '1 Apr 2027' };
+const REC12 = { hit: '62%', err: '15.8 pts', cal: '0.91', turn: '0.3', bench: '+5.2 pts', embargo: '12 months + 1 session', due: '1 Oct 2027' };
+const recordLink = (t) => (t.match(/mypaisapp\.com\/e\/(fc-[0-9a-f]{6})/) || [])[1];
 /* what a tile and a list row draw for US tech: rank, ticker, score. A not-ranked or withheld row has no digit rank, so it is left out on both sides. */
 const ranked = (part) => [...part.matchAll(/<span class="rk">(\d)<\/span>(?:(?!<span class="rk">)[^])*?class="(?:tk|tt)">([A-Z.]+)(?:(?!<span class="rk">)[^])*?<b>(\d+)<\/b>/g)].map((m) => `${m[1]} ${m[2]} ${m[3]}`);
 const techTile = (html) => html.split('class="segtile home-tile').find((p) => p.includes('>US tech<')) || '';
@@ -262,7 +286,7 @@ export default {
       for (const re of [/21:00 Twelve Data/, /16:35 Yahoo/, /14:10 Yahoo · late/, /10:00 Yahoo/]) has(v.text, re, `${at.surface}: ${re}`);
       lacks(v.text, /\s21:15 (Twelve Data|Yahoo)/, `${at.surface}: a row's price time is the run's`);
     });
-    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · FIN-OD-06/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · DATA-DEC-02/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'stale' }, (v, at) => {
       has(v.text, /78,508/, `${at.surface}: HSBC stays in the total`);
       has(v.text, /6 of 7 priced/, `${at.surface}: the count`);
@@ -648,19 +672,172 @@ export default {
   'R3-h10': ({ each, lacks }) => {
     each({ journey: 'home', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.screen} ${at.surface}: Trim, with action thresholds unapproved`));
   },
-  /* the late-price rule cites FIN-OD-06 on every price use, on both sides of a flip. MP40-Q6 stays on billing and cost freshness only. */
+  /* the late-price rule cites DATA-DEC-02 on every price use, on both sides of a flip. MP40-Q6 stays on billing and cost freshness only. */
   'R3-h-late': ({ each, view, has, lacks, must }) => {
     for (const journey of ['home', 'forecast']) each({ journey }, (v, at) => {
       lacks(v.text.replace(/Billing 39 h old · Proposed · MP40-Q6/g, ''), /MP40-Q6/, `${at.screen} ${at.surface} ${at.state}: a price use cites the billing question`);
-      if (LATE_RULE.test(v.text)) has(v.text, /Proposed · FIN-OD-06/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
+      if (LATE_RULE.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
     });
     for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state: 'stale' }, (v, at) => has(v.text, /Billing 39 h old · Proposed · MP40-Q6/, `${screen} ${at.surface}: billing keeps its own question`));
     for (const state of ['default', 'stale']) for (const journey of ['home', 'forecast']) each({ journey, state }, (v, at) => {
       for (const f of flips(v.html)) {
         const [, oo, ss] = f.split('|'), other = view(journey, oo, ss, at.surface, state);
-        if (/Proposed · FIN-OD-06/.test(v.text) && LATE_RULE.test(other.text)) has(other.text, /Proposed · FIN-OD-06/, `${at.screen} ${at.surface} ${state}: the label goes on the turn to ${ss}`);
+        if (/Proposed · DATA-DEC-02/.test(v.text) && LATE_RULE.test(other.text)) has(other.text, /Proposed · DATA-DEC-02/, `${at.screen} ${at.surface} ${state}: the label goes on the turn to ${ss}`);
       }
     });
+  },
+  /* ---------- round 4. R4-h1 needs a press, so it lives in scripts/design_journeys_press.mjs. ---------- */
+  'R4-h2': ({ each, has, lacks }) => {
+    // no count and no late holding over "No holdings yet"
+    for (const [o, screen] of [['a', 'a-portfolio'], ['a', 'a-12m'], ['b', 'b-ledger'], ['b', 'b-12m']]) each({ journey: 'home', option: o, screen, state: 'empty', surface: ALL }, (v, at) => {
+      has(v.text, /No holdings yet/, `${screen} ${at.surface}: not the empty ledger`);
+      lacks(v.text, /\d+ holdings|HSBC late/, `${screen} ${at.surface}: a holding named over no holdings`);
+    });
+    // a-action's Empty is a holding with no action band: its rows stand, so HSBC is still late on the chip, as on its own row
+    each({ journey: 'home', option: 'a', screen: 'a-action', state: 'empty' }, (v, at) => {
+      has(v.text, /Late: last price 14:10|14:10 Yahoo · late/, `a-action ${at.surface}: HSBC's row`);
+      has(v.text, /HSBC late/, `a-action ${at.surface}: the chip calls Yahoo fresh over a late row`);
+    });
+    for (const screen of ['b-ledger', 'b-12m']) {
+      each({ journey: 'home', option: 'b', screen, state: 'empty', surface: PHONES }, (v, at) => has(v.text, /Holdings/, `${screen} ${at.surface}: the row lost its label`));
+      each({ journey: 'home', option: 'b', screen, state: 'default', surface: PHONES }, (v, at) => has(v.text, /7 holdings/, `${screen} ${at.surface}: the count goes where there are holdings`));
+    }
+  },
+  'R4-h3': ({ has, lacks }) => {
+    // a 200-day average does not depend on the horizon: Reliance reads Pause on every tab in Disagreement, and its compare row and Claude say the same
+    for (const surface of ALL) for (const [o, s] of [['a', 'a-views'], ['b', 'b-views']]) for (const hz of ['0', '1', '2']) for (const extra of [{ hz }, { hz, t: 'RELIANCE' }]) {
+      const { text } = pressed('forecast', o, s, surface, 'disagreement', extra), where = `${s} ${surface} at ${hz}${extra.t ? ' from the row' : ''}`;
+      has(text, /Reads Pause/, `${where}: the rules do not read Pause`);
+      has(text, /Price is below its 200-day average/, `${where}: the rules' body`);
+      has(text, /Drawdown of 11% from its high/, `${where}: the drawdown`);
+      has(text, /The rules read Pause/, `${where}: Claude`);
+      lacks(text, /above its 200-day|Reads Hold|agree on direction|Together Agree|Rules Hold/, `${where}: the rules change with the horizon`);
+      if (PHONES.includes(surface)) has(text, /Rules Pause Models \S+(?: up)? Together Disagree/, `${where}: the compare row`);
+    }
+    // only Reliance: Apple's rules read Hold on every tab, and Ready is unchanged
+    for (const surface of ALL) for (const hz of ['0', '1', '2']) {
+      const apple = pressed('forecast', 'b', 'b-views', surface, 'disagreement', { hz, t: 'AAPL' }).text;
+      has(apple, /Reads Hold/, `Apple ${surface} at ${hz}: Reliance's Pause reached Apple`);
+      lacks(apple, /below its 200-day|Drawdown of 11%/, `Apple ${surface} at ${hz}: Reliance's rules on Apple's frame`);
+      has(pressed('forecast', 'b', 'b-views', surface, 'default', { hz }).text, /Reads Hold/, `Ready ${surface} at ${hz}: the rules moved`);
+    }
+  },
+  'R4-h5': ({ must }) => {
+    // what the shell and a redraw both ask: a frame's name is the horizon it shows. The press itself is scripts/design_journeys_press.mjs.
+    for (const [j, o, s, hz0, name] of [['forecast', 'a', 'a-3m', 0, (m) => `At ${m} months`], ['forecast', 'a', 'a-12m', 2, (m) => `At ${m} months`], ['home', 'a', 'a-12m', 2, (m) => `Portfolio at ${m} months`], ['home', 'b', 'b-12m', 2, (m) => `Ledger at ${m} months`]]) {
+      const sc = screenOf(j, o, s);
+      must(typeof sc.titleFor === 'function', `${j} ${s}: no titleFor, so a press keeps the old name`);
+      must(sc.titleFor({}) === sc.title && sc.title === name([3, 6, 12][hz0]), `${j} ${s}: an unpressed frame reads ${sc.titleFor({})}`);
+      [3, 6, 12].forEach((m, i) => { for (const hz of [String(i), i]) must(sc.titleFor({ hz }) === name(m), `${j} ${s} at ${hz}: reads ${sc.titleFor({ hz })}`); });
+    }
+  },
+  'R4-h6': ({ has, lacks, must }) => {
+    // an abstained horizon has an abstention record, not a current forecast
+    for (const surface of ALL) for (const [o, s] of [['a', 'a-evidence'], ['b', 'b-evidence']]) for (const [extra, task] of [[{ hz: '2', t: 'AAPL' }, /AAPL · 12-month return/], [{ hz: '1' }, /AZN · 6-month return/]]) {
+      const { text } = pressed('forecast', o, s, surface, 'abstention', extra), where = `${s} ${surface} ${extra.t || 'AZN'}`;
+      has(text, /Abstention record/, `${where}: no abstention record`);
+      has(text, task, `${where}: the record's task`);
+      lacks(text, /Forecast v\d|Current|Replaces|kept, annotated/, `${where}: a version beside a chain that abstained`);
+      must(recordLink(text), `${where}: no link`);
+    }
+    // the horizon that stands keeps its forecast record
+    has(pressed('forecast', 'b', 'b-evidence', 'web', 'abstention', { hz: '1', t: 'AAPL' }).text, /Forecast v3 Current/, 'Apple at 6 months stands');
+    // one record, one link: no two share an id, and a record keeps its id across option and device
+    const seen = new Map();
+    for (const [state, t, hzs, what] of [['default', 'AAPL', ['0', '1', '2'], 'v3'], ['disagreement', 'RELIANCE', ['0', '1', '2'], 'v3'], ['abstention', 'AZN', ['0', '2'], 'v3'], ['abstention', 'AZN', ['1'], 'abstained'], ['abstention', 'AAPL', ['2'], 'abstained'], ['stale', 'HSBA', ['0', '1', '2'], 'v2']]) for (const hz of hzs) {
+      const ids = new Set(ALL.flatMap((surface) => ['a-evidence', 'b-evidence'].map((s) => recordLink(pressed('forecast', s[0], s, surface, state, { hz, t }).text))));
+      must(ids.size === 1 && [...ids][0], `${t} at ${hz} ${state}: links ${[...ids].join(', ')}`);
+      const id = [...ids][0], me = `${t} ${hz} ${what}`;
+      must(!seen.has(id) || seen.get(id) === me, `${me} shares ${id} with ${seen.get(id)}`);
+      seen.set(id, me);
+    }
+    must(seen.size === 13, `${seen.size} records, expected 13`);
+  },
+  'R4-h7': ({ screens, view, must }) => {
+    // every Home frame says which Empty it means, so a tile that shows a list and the frame it opens can both be true
+    const meaning = (s) => (/metals$/.test(s) ? /Empty here means no list, as in every state\./ : ['a-portfolio', 'a-12m', 'b-ledger', 'b-12m'].includes(s) ? /Empty here means no holdings yet: the lists still show, because a ranking needs no holdings \(MP-135\)\./
+      : /brief$/.test(s) ? /Empty is the first morning; a weekend brief waits on MP40-Q11\./ : s === 'a-action' ? /Empty here means a holding with no action band\./ : s === 'b-open' ? /Empty here means no holdings yet, so no row opens\./
+        : /search$/.test(s) ? /Empty here means a search that finds nothing\./ : /Empty here means the first morning, before any daily run, so no list exists yet\./);
+    for (const o of ['a', 'b']) {
+      const all = screens('home', o);
+      must(all.length >= 8, `home ${o}: ${all.length} screens`);
+      for (const s of all) must(meaning(s).test(view('home', o, s).note || ''), `${s}: the note does not say which Empty it means: ${(view('home', o, s).note || '').slice(-90)}`);
+    }
+  },
+  'R4-h8': ({ each, must }) => {
+    const names = listedNames(each);
+    must(names.size >= 39, `only ${names.size} listed names were found`);
+    for (const state of ['disagreement', 'abstention']) {
+      const others = [...names].filter(([t]) => !(t in OUTS[state])).flatMap(([t, n]) => [t, n]), said = saidOut(others), named = new RegExp(anyOf(others));
+      for (const journey of ['home', 'forecast']) each({ journey, state }, (v, at) => {
+        const m = v.text.match(said);
+        must(!m, `${at.screen} ${at.surface} ${state}: ${m && m[0]}`);
+        for (const line of sentences(v.html)) if (SAYS_OUT.test(line)) { const n = line.match(named); must(!n, `${at.screen} ${at.surface} ${state}: "${line.slice(0, 90)}" puts ${n && n[0]} out`); }
+      });
+    }
+  },
+  'R4-h9': ({ each, has, lacks, must }) => {
+    // every REC value on a pressed render, and no 6-month value under another horizon
+    for (const surface of ALL) for (const [o, s] of [['a', 'a-proof'], ['b', 'b-proof'], ...(PHONES.includes(surface) ? [['b', 'b-forecast']] : [])]) {
+      for (const [hz, rec] of [['0', REC3], ['1', REC6], ['2', REC12]]) {
+        const { text } = pressed('forecast', o, s, surface, 'default', { hz });
+        for (const want of RECORD(rec)) must(text.includes(want), `${s} ${surface} at ${hz}: no "${want}"`);
+        if (rec !== REC6) for (const six of RECORD(REC6)) must(!text.includes(six), `${s} ${surface} at ${hz}: the 6-month "${six}"`);
+      }
+    }
+    for (const surface of ALL) for (const [hz, cal] of [['0', '0.98'], ['1', '0.96'], ['2', '0.91']]) {
+      const { text } = pressed('forecast', 'a', 'a-instrument', surface, 'default', { hz, mode: '1' });
+      has(text, new RegExp(`Calibration slope ${cal}`), `${surface} at ${hz}: the technical card`);
+    }
+    // the baseline shows where a horizon is split: 12 months never is
+    for (const surface of ALL) for (const [o, s] of [['a', 'a-proof'], ['b', 'b-proof']]) {
+      const apple = pressed('forecast', o, s, surface, 'disagreement', { hz: '0', t: 'AAPL' }).text, reliance = pressed('forecast', o, s, surface, 'disagreement', { hz: '1' }).text;
+      for (const re of [/R2-HGB v3 · coverage 81%/, /Baseline · coverage 84%/, /R2-HGB v3 · error 4\.7 pts/, /Baseline · error 5\.6 pts/]) has(apple, re, `${s} ${surface}: Apple at 3 months lacks ${re}`);
+      lacks(apple, /Baseline · coverage 83%|Baseline · error 10\.4 pts/, `${s} ${surface}: a 6-month baseline at 3 months`);
+      for (const re of [/R2-HGB v3 · coverage 79%/, /Baseline · coverage 83%/, /R2-HGB v3 · error 8\.9 pts/, /Baseline · error 10\.4 pts/]) has(reliance, re, `${s} ${surface}: Reliance at 6 months lacks ${re}`);
+      lacks(pressed('forecast', o, s, surface, 'disagreement', { hz: '2', t: 'AAPL' }).text, /Baseline · (coverage|error)|undefined/, `${s} ${surface}: a baseline at 12 months`);
+    }
+    // the four layout choices that held on nothing: the brief's ticker, figures first, the key's order, and the flip's name
+    each({ journey: 'home', option: 'b', screen: 'b-brief', state: 'default' }, (v, at) => { for (const re of [/NVIDIA · NVDA/, /SPDR S&P 500 ETF Trust · SPY/, /HSBC · HSBA/]) has(v.text, re, `b-brief ${at.surface}: ${re}`); });
+    each({ journey: 'home', option: 'a', screen: 'a-brief', state: 'default' }, (v, at) => lacks(v.text, /NVIDIA · NVDA/, `a-brief ${at.surface}: the ticker is the ledger's`));
+    const before = (t, a, b) => t.includes(a) && t.includes(b) && t.indexOf(a) < t.indexOf(b);
+    each({ journey: 'forecast', option: 'b', screen: 'b-scenarios', state: 'default' }, (v, at) => must(before(v.text, 'At 3 years', 'Scenarios · this holding'), `b-scenarios ${at.surface}: the figures do not lead`));
+    each({ journey: 'forecast', option: 'a', screen: 'a-scenarios', state: 'default' }, (v, at) => must(before(v.text, 'Scenarios · this holding', 'At 3 years'), `a-scenarios ${at.surface}: the chart does not lead`));
+    const order = ['6 months', '12 months', 'Next day', '5 sessions', '10 sessions', '10 sessions', '20 sessions', '20 sessions', 'All seven'];
+    each({ journey: 'forecast', option: 'b', screen: 'b-hzstates', state: 'default' }, (v, at) => { const got = [...v.html.matchAll(/class="hzn">([^<]+)/g)].map((m) => m[1]); must(got.join() === order.join(), `b-hzstates ${at.surface}: ${got.join(', ')}`); });
+    const flipsTo = (html, name) => new RegExp(`aria-label="Flip to ${name}" data-flip=`).test(html);
+    for (const screen of ['a-proof', 'a-views', 'a-evidence']) each({ journey: 'forecast', option: 'a', screen, state: 'default' }, (v, at) => must(flipsTo(v.html, 'Dossier'), `${screen} ${at.surface}: a dossier tab is not called Dossier`));
+    for (const state of ['disagreement', 'abstention']) each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state }, (v, at) => must(flipsTo(v.html, 'Dossier'), `a-instrument ${at.surface} ${state}: it lands on the dossier`));
+    each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'default' }, (v, at) => must(flipsTo(v.html, 'Ladder'), `a-instrument ${at.surface}: it lands on the ladder`));
+  },
+  'R4-h13': ({ must }) => {
+    const card = (hz) => pressed('forecast', 'b', 'b-proof', 'web', 'default', { hz }).html.split('Hit rate never stands alone')[1] || '';
+    must(/^<\/h4><span class="chip proposed"[^>]*><span class="dot"><\/span>Exploratory/.test(card('2')), 'the 12-month card has no Exploratory label');
+    must(card('0') && !/^<\/h4><span class="chip/.test(card('0')) && !/^<\/h4><span class="chip/.test(card('1')), '3 and 6 months are not exploratory');
+  },
+  'R4-h14': ({ has, lacks }) => {
+    for (const surface of ALL) for (const [hz, k, due, not] of [['0', 3, '1 Jan 2027', /No 6-month|No 12-month|1 Apr 2027/], ['1', 6, '1 Apr 2027', /No 3-month|No 12-month|1 Oct 2027/], ['2', 12, '1 Oct 2027', /No 3-month|No 6-month|1 Apr 2027/]]) {
+      const { text } = pressed('forecast', 'b', 'b-proof', surface, 'empty', { hz });
+      has(text, new RegExp(`No ${k}-month outcome has matured live`), `${surface} at ${hz}: the card's horizon`);
+      has(text, new RegExp(`The first is due ${due}`), `${surface} at ${hz}: the card's date`);
+      lacks(text, not, `${surface} at ${hz}: another horizon's words`);
+    }
+  },
+  'R4-h15': ({ each, has, lacks }) => {
+    for (const [o, screen] of [['a', 'a-proof'], ['b', 'b-proof']]) each({ journey: 'forecast', option: o, screen, state: 'stale' }, (v, at) => {
+      has(v.text, /Live, matured 0/, `${screen} ${at.surface}: no live record`);
+      has(v.text, /No live forecast has matured yet/, `${screen} ${at.surface}: the banner`);
+      lacks(v.text, /matured forecast|One grade waits/, `${screen} ${at.surface}: a matured forecast, with none matured`);
+    });
+  },
+  'R4-h17': ({ each, has }) => {
+    for (const [o, screen, line] of [['a', 'a-board', /its score stand\. Reliance is on none of these lists\. Proposed · MP-135/], ['b', 'b-top5', /its score stand\. Reliance is on none of these lists\. Proposed · MP-135/], ['a', 'a-segment', /its action stand\. Proposed · MP-135/], ['b', 'b-explore', /its action stand\. Proposed · MP-135/]]) each({ journey: 'home', option: o, screen, state: 'disagreement' }, (v, at) => has(v.text, line, `${screen} ${at.surface}: a score over a split horizon, as settled`));
+  },
+  'R4-h18': ({ has }) => {
+    for (const surface of ALL) {
+      has(pressed('forecast', 'a', 'a-views', surface, 'abstention', { hz: '2', t: 'AAPL' }).text, /The model abstained at 12 months\./, `a-views ${surface}: no horizon`);
+      has(pressed('forecast', 'b', 'b-views', surface, 'abstention', { hz: '1' }).text, /The model abstained at 6 months\./, `b-views ${surface}: no horizon`);
+    }
   },
   'R2-h23': ({ each, has }) => {
     each({ journey: 'home', option: 'b', screen: 'b-ledger', state: 'default', surface: WIDE }, (v, at) => has(v.text, /−9\.8% to \+21\.4%/, `${at.surface}: the range is rounded across the flip`));

@@ -188,7 +188,7 @@ reviewed as a deliverable. The fixes are not independently reviewed; that is rou
 
 What HSBC's price means changed so the journeys agree. Its stale time was 16:35, which is the UK close. It is now 14:10: in Ready it is
 late but inside the freshness limit and stays in the total; in Stale it is past the limit and leaves the total, which reads £78,508.20,
-6 of 7 priced. The limit is proposed (FIN-OD-06).
+6 of 7 priced. The limit is proposed (DATA-DEC-02).
 
 ## Both options, with a flip: the owner's question, 4 November 2026
 
@@ -217,8 +217,16 @@ The owner: "Yes, run round 3". Four new reviewers on `fc1303d`, the delta since 
 and held by `review/MP-62/fixed.json`. The record is [round-3.md](../../../../review/MP-62/round-3.md).
 
 Round 2 had claimed a turned frame comes back to where it started and that a pair shows the same facts in every state. Round 3 found both untrue in places, and they now hold as far as
-the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The shared
-figures, freshness, provider status and risk stay the same across a flip, and a side may hold more. The checks compare freshness on every pair, and agreed figures for each journey's
-key numbers, not every figure on every screen.
+the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The freshness, provider status and risk stay the same across a flip. Proposed, for the owner to accept: the figures both sides show stay the same, and a side may hold more. The checks compare freshness on every pair,
+and agreed key figures on six of the eight journeys, not every figure on every screen.
 
-The fixes in round 3 are not independently reviewed. That would be round 4, if the owner asks for it.
+## Review round 4, 4 November 2026
+
+The owner: "Yes, run round 4". Four new reviewers on `b58ae49`, the delta since round 3's snapshot and its joins. They found 54 issues, 25 blocking, no P0, 3 P1. All 25 are fixed and held by
+`review/MP-62/fixed.json`. The record is [round-4.md](../../../../review/MP-62/round-4.md). Across the four rounds the blocking findings ran 70, 68, 38, 25, and the P1 findings 23, 24, 9, 3.
+
+The late-price limit is now labelled DATA-DEC-02, the data catalogue's decision on when a price may be used as current. MP-65 settles that a price past the limit leaves the total and the reason shows; the limit itself is open.
+
+MP-178's line, "Flipping shows the same figures", stands as the owner wrote it. An earlier round narrowed it in these records without the owner's word. That narrowing is now marked proposed and put to the owner.
+
+The fixes in round 4 are not independently reviewed. Round 5 would be the last the rule allows.

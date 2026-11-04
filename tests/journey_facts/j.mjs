@@ -1,4 +1,4 @@
-// What each fixed finding of lane j holds, proved on the rendered Holdings and Journal screens (MP-62 rounds 1 to 3).
+// What each fixed finding of lane j holds, proved on the rendered Holdings and Journal screens (MP-62 rounds 1 to 4).
 const WIDE = ['ipad', 'web'], PHONES = ['iphone', 'pwa'], ALL_SURFACES = [...WIDE, ...PHONES];
 const STATES = ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
 const backTo = (v, name) => v.html.includes(`aria-label="Back to ${name}"`);
@@ -44,6 +44,77 @@ const rootCount = (f) => { let n = 0, last = xnpv(f, -0.9); for (let r = -0.899;
 const holds = (f, pct) => xnpv(f, (pct - 0.05) / 100) * xnpv(f, (pct + 0.05) / 100) <= 0;
 const rateOf = (t) => Number(t.replace('−', '-').replace('+', ''));
 const returnRow = (t) => (t.match(/Money-weighted return([^]*?)(?:In your accounts|What built this position)/) || [])[1];
+const sideRow = (t) => returnRow(t) || (t.match(/Money-weighted return([^]*?)$/) || [])[1];
+const closing = (t) => num((t.match(/Value £([\d,.]+)/) || [])[1] || 'x');
+const weekday = (t) => { const d = new Date(utc(t)).getUTCDay(); return d > 0 && d < 6; };
+const LISTED = ['default', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
+// Every phrasing of "there is no rate". AstraZeneca's flows hold a root, so none of these is true of them.
+const NO_RATE = /No rate found|no rate (?:was )?found|found no rate|with no rate|(?:has|have|had) no rate\b|no rate exists|no root|there is none|at its limit/i;
+// AstraZeneca turns three times and changes sign between 0% and 10%, so a rate exists and nothing proves it the only one.
+// What the screens say is what MP-72 says budget exhaustion is, on every screen that speaks of it.
+const astraRate = ({ each, view, must, has, lacks }) => {
+  for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => {
+    const f = flowsOf(view('holdings', 'b', 'b-one', at.surface, 'abstention').text, closing(v.text)), row = sideRow(v.text);
+    must(f.length >= 5 && row, `AstraZeneca ${s} ${at.surface}: no schedule or return row to read`);
+    must(turns(f) === 3, `AstraZeneca ${s} ${at.surface}: Nonconvergent needs flows that change direction, found ${turns(f)} turns`);
+    must(xnpv(f, 0) > 0 && xnpv(f, 0.1) < 0 && rootCount(f) >= 1, `AstraZeneca ${s} ${at.surface}: the drawn flows no longer hold a root between 0% and 10% (XNPV ${xnpv(f, 0).toFixed(2)} and ${xnpv(f, 0.1).toFixed(2)})`);
+    has(row, /No rate stated/, `AstraZeneca ${s} ${at.surface}: wrong status`); has(row, /Nonconvergent/, `AstraZeneca ${s} ${at.surface}: no status`);
+    has(row, /used its budget before it could separate the possible rates, so none is stated/, `AstraZeneca ${s} ${at.surface}: not what MP-72 says budget exhaustion is`);
+    has(row, /Proposed · FIN-OD-04/, `AstraZeneca ${s} ${at.surface}: the rule is open`);
+    lacks(row, /\d% a year/, `AstraZeneca ${s} ${at.surface}: a rate beside No rate stated`);
+  });
+  each({ journey: 'holdings' }, (v, at) => lacks(v.text, NO_RATE, `${at.screen} ${at.surface} ${at.state}: a claim that no rate exists`));
+  for (const o of ['a', 'b']) lacks(view('holdings', o, `${o}-one`).note, NO_RATE, `${o}-one: the note claims no rate`);
+  each({ journey: 'holdings', screen: 'a-list', surface: PHONES, state: LISTED }, (v, at) => has(v.text, /AZN[^]{0,200}?Return No rate stated Nonconvergent/, `${at.surface} ${at.state}: the row hides the status`));
+  each({ journey: 'holdings', screen: 'a-one', state: 'abstention' }, (v, at) => has(v.text, /Stocks ISA · 85 units £9,215\.75 No rate stated/, `${at.surface}: the account row`));
+  for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /still uses its budget before it can separate the possible rates, so none is stated/, `${s} ${at.surface}: the receipt says otherwise`));
+};
+// Stale withholds the rate that rests on the stale value; Late keeps it, and the drawn schedule gives it, on both forms of the list.
+const hsbcRate = ({ each, view, must, has, lacks }) => {
+  each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => {
+    const b = view('holdings', 'b', 'b-one', at.surface, 'stale').text, f = flowsOf(b, closing(b)), m = v.text.match(/HSBA\b[^]{0,120}?([+−]\d+\.\d)%/);
+    must(f.length >= 3 && m, `HSBC ${at.surface}: no schedule or stated rate to compute`);
+    must(m[1] === '+8.1', `HSBC ${at.surface}: Late states ${m[1]}, not +8.1`);
+    must(turns(f) === 1 && rootCount(f) === 1, `HSBC ${at.surface}: not a plain schedule`);
+    must(holds(f, rateOf(m[1])), `HSBC ${at.surface}: XNPV at ${m[1]}% is ${xnpv(f, rateOf(m[1]) / 100).toFixed(2)}, not zero`);
+  });
+  each({ journey: 'holdings', state: 'stale' }, (v, at) => lacks(v.text, /\+8\.1%/, `${at.screen} ${at.surface}: a rate on a stale valuation`));
+  for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => {
+    const row = sideRow(v.text);
+    must(row, `HSBC ${s} ${at.surface}: no return row to read`);
+    has(row, /Withheld Stale/, `HSBC ${s} ${at.surface}: not withheld, with status Stale`);
+    has(row, /until its price returns/, `HSBC ${s} ${at.surface}: no way back`);
+    lacks(row, /\d% a year/, `HSBC ${s} ${at.surface}: a rate beside Withheld`);
+  });
+  each({ journey: 'holdings', screen: 'a-one', state: 'stale' }, (v, at) => has(v.text, /Stocks ISA · 700 units £6,104\.20 Withheld · Stale/, `${at.surface}: the account row`));
+  each({ journey: 'holdings', screen: 'a-list', surface: PHONES, state: 'stale' }, (v, at) => has(v.text, /HSBA[^]{0,120}?Return Withheld Stale/, `${at.surface}: the row`));
+  each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'stale' }, (v, at) => has(v.text, /HSBA[^]{0,40}?Withheld Held Stale/, `${at.surface}: the table`));
+  each({ journey: 'holdings', screen: 'a-list', state: LISTED.filter((x) => x !== 'stale') }, (v, at) => has(v.text, /HSBA[^]{0,120}?\+8\.1%/, `${at.surface} ${at.state}: Late lost its rate`));
+};
+// Neither form of the list falls back to two rates, and each status has its short form in the table.
+const tableRates = ({ each, has, lacks }) => {
+  each({ journey: 'holdings' }, (v, at) => lacks(v.text, /two rates/i, `${at.screen} ${at.surface} ${at.state}: two rates these flows cannot produce`));
+  each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: LISTED }, (v, at) => {
+    has(v.text, /RELIANCE £[\d,]+(?: \+£[\d,]+)? Not proved/, `${at.surface} ${at.state}: the table's Reliance status`);
+    has(v.text, /AZN £[\d,]+(?: \+£[\d,]+)? Not stated/, `${at.surface} ${at.state}: the table's AstraZeneca status`);
+    lacks(v.text, /undefined/, `${at.surface} ${at.state}: a status with no short form`);
+  });
+};
+// A resolution changes no fact, so the reason cannot be a known gap left in the ledger, and a later fee cannot put the statement below it.
+const honestReason = ({ each, has, lacks }) => {
+  const REASON = 'Broker confirmed a print error on the statement; the ledger figure stands.', dot = REASON.replace('.', '\\.');
+  for (const s of ['a-difference', 'b-difference']) {
+    each({ journey: 'holdings', screen: s }, (v, at) => lacks(v.html, /taken after the statement closed|Broker fee on the statement|missing from the ledger/, `${s} ${at.surface} ${at.state}: a reason that leaves a known gap in the ledger`));
+    each({ journey: 'holdings', screen: s, state: ['default', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.html, new RegExp(`value="${dot}"`), `${s} ${at.surface} ${at.state}: the reason`));
+    each({ journey: 'holdings', screen: s, state: 'empty' }, (v, at) => has(v.text, new RegExp(`“${dot}”`), `${s} ${at.surface}: the resolved reason`));
+  }
+};
+// What Holdings says of imports is what Imports shows, in every state, and a step-up rests on a label.
+const importLine = ({ each, has, lacks }) => {
+  for (const [state, t] of [['noModel', /queued, not read/], ['offline', /stopped at 62%/], ['error', /3 files not taken in/], ['abstention', /ready for you/], ['stale', /1 import last seen at 21:09/], ['loading', /1 import is uploading/], ['disagreement', /1 difference open/]]) each({ journey: 'holdings', screen: 'a-list', state }, (v, at) => { has(v.text, t, `${at.surface} ${state}: not what Imports shows`); lacks(v.text, /is being read/, `${at.surface} ${state}: not what Imports shows`); });
+  each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => has(v.text, /1 import is being read/, `${at.surface}: Ready lost its line`));
+  for (const s of ['a-live', 'b-live']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Proposed · CT-01/, `${s} ${at.surface}: the step-up is not labelled`));
+};
 // A date Claude could not read is absent on the three steps too, and Ready still shows it.
 const unreadSteps = ({ each, has, lacks }) => {
   for (const s of ['b-check-2', 'b-check-3', 'b-duplicate']) {
@@ -97,11 +168,11 @@ export default {
   'R1-j2': ({ each, has, lacks, must }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => {
       has(v.text, /HSBC last priced 14:10/, `${at.surface}: Ready does not say how HSBC is treated`);
-      has(v.text, /Proposed · FIN-OD-06/, `${at.surface}: the freshness limit is not labelled proposed`);
+      has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: the freshness limit is not labelled proposed`);
       has(v.text, /84,612/, `${at.surface}: HSBC should stay in the total`);
       lacks(v.text, /Stale|16:35 ·|Price 16:35/, `${at.surface}: Ready calls HSBC stale`);
     });
-    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => { has(v.text, /Late · 14:10/, `${at.surface}: HSBC is not late`); has(v.text, /Proposed · FIN-OD-06/, `${at.surface}: no label`); });
+    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => { has(v.text, /Late · 14:10/, `${at.surface}: HSBC is not late`); has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: no label`); });
     for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => {
       has(v.text, /78,508/, `${s} ${at.surface}: no known subtotal`);
       has(v.text, /6 of 7 priced/, `${s} ${at.surface}: no count`);
@@ -169,7 +240,7 @@ export default {
   },
   'R1-j7': ({ each, has, lacks }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'abstention' }, (v, at) => { lacks(v.text, /value and return stand|\+6\.4%/, `${at.surface}: AstraZeneca still has a return`); has(v.text, /Nonconvergent/, `${at.surface}: no status`); });
-    each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'abstention' }, (v, at) => { lacks(v.text, /AstraZeneca[^]{0,60}Two rates/, `${at.surface}: the table calls it two rates`); has(v.text, /No rate/, `${at.surface}: the table has no status`); });
+    each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'abstention' }, (v, at) => { lacks(v.text, /AstraZeneca[^]{0,60}Two rates/, `${at.surface}: the table calls it two rates`); has(v.text, /Not stated/, `${at.surface}: the table has no status`); });
     for (const s of ['a-list', 'b-accounts']) {
       each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => { for (const t of ['Value: 7 of 7', 'Cost basis: 6 of 7', 'Gain: 6 of 7', 'Return: 4 of 7']) has(v.html, new RegExp(`${t} holdings`), `${s} ${at.surface}: wrong coverage, no ${t}`); });
       each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { for (const t of ['Value: 6 of 7', 'Cost basis: 6 of 7', 'Gain: 5 of 7', 'Return: 3 of 7']) has(v.html, new RegExp(`${t} holdings`), `${s} ${at.surface}: wrong stale coverage, no ${t}`); });
@@ -392,7 +463,7 @@ export default {
         has(v.text, /Gain on 6 of 7/, `${s} ${at.surface} ${at.state}: no gain count`);
         has(v.text, /Return on 4 of 7/, `${s} ${at.surface} ${at.state}: no return count`);
         has(v.text, /What your evidence supports/, `${s} ${at.surface} ${at.state}: no evidence card`);
-        has(v.text, /No single rate is proved for Reliance, and no rate was found for AstraZeneca/, `${s} ${at.surface} ${at.state}: the gaps are hidden`);
+        has(v.text, /No single rate is proved for Reliance\. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated\./, `${s} ${at.surface} ${at.state}: the gaps are hidden`);
       });
       each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Gain on 5 of 7/, `${s} ${at.surface}: no gain count`); has(v.text, /Return on 3 of 7/, `${s} ${at.surface}: no return count`); });
     }
@@ -406,7 +477,7 @@ export default {
     });
     for (const s of ['a-list', 'b-board']) {
       each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /Rules and models differ on Reliance/, `${s} ${at.surface}: Reliance is not named`));
-      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Last joined 14:10/, `${s} ${at.surface}: outcomes`); has(v.text, /HSBC last priced 14:10/, `${s} ${at.surface}: rankings`); has(v.text, /Proposed · FIN-OD-06/, `${s} ${at.surface}: no label`); });
+      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Last joined 14:10/, `${s} ${at.surface}: outcomes`); has(v.text, /HSBC last priced 14:10/, `${s} ${at.surface}: rankings`); has(v.text, /Proposed · DATA-DEC-02/, `${s} ${at.surface}: no label`); });
     }
     each({ journey: 'journal', screen: 'b-board', state: 'disagreement' }, (v, at) => { has(v.text, /Amended/, `${at.surface}: no mark`); has(v.text, /Corrected to \+11\.9%/, `${at.surface}: no corrected line`); });
     each({ journey: 'journal', screen: 'b-board', state: 'abstention' }, (v, at) => has(v.text, /Recorded against a ranked action on 3 Mar/, `${at.surface}: the entry reads differently from A`));
@@ -456,11 +527,11 @@ export default {
       must(buttons(v.html).some((b) => re.test(b.text) && /Nippon India Nifty 50 BeES/.test(b.text)), `${s} ${at.surface} ${state}: the row is not a control`);
     });
   },
-  // No root the flows cannot produce. The sale is what changes direction, and AstraZeneca already has no rate.
+  // No root the flows cannot produce. The sale adds a flow, and AstraZeneca's search still uses its budget first.
   'R2-j15': ({ each, has, lacks }) => {
     for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => {
       lacks(v.text, /third change of direction|Two rates now fit|two rates now fit|12% and 19%|Apple has no single return/, `${s} ${at.surface}: a root the flows cannot produce`);
-      has(v.text, /AstraZeneca still has no rate/, `${s} ${at.surface}: wrong holding`);
+      has(v.text, /AstraZeneca still has no stated rate/, `${s} ${at.surface}: wrong holding`);
       has(v.text, /Nonconvergent/, `${s} ${at.surface}: no status`);
     });
   },
@@ -543,21 +614,22 @@ export default {
   // Lanes on a phone keep what Timeline shows, including the disputed HSBC outcome, and no control pretends to switch.
   'R3-j1': ({ each, has, lacks }) => {
     each({ journey: 'journal', screen: 'b-board', surface: PHONES, state: STAGES }, (v, at) => {
-      for (const t of [/Unresolved/, /A dividend is disputed/, /Rose 5\.1%/, /Fell 11\.6%/, /Outcome due 21 Nov 2026/, /Nothing is scored before 3 May 2027/, /3 for a horizon, 1 unresolved/]) has(v.text, t, `${at.surface} ${at.state}: no ${t}`);
+      for (const t of [/Unresolved/, /A dividend is disputed/, /Rose 5\.1%/, /Fell 11\.6%/, /Outcome due 20 Nov 2026/, /Nothing is scored before 3 May 2027/, /3 for a horizon, 1 unresolved/]) has(v.text, t, `${at.surface} ${at.state}: no ${t}`);
       has(v.text, at.state === 'disagreement' ? /Corrected to \+11\.9%/ : /Rose 12\.4%/, `${at.surface} ${at.state}: NVIDIA's outcome`);
       lacks(v.html, /aria-label="Lane"/, `${at.surface} ${at.state}: a lane switch that changes nothing`);
     });
   },
   // Every stated rate is one the drawn schedule produces, and a status is one its flows can produce.
-  'R3-j2': ({ each, view, must, has, lacks }) => {
-    const close = (t) => num((t.match(/Value £([\d,.]+)/) || [])[1] || 'x');
-    for (const [state, name, rate] of [['default', 'Apple', '+14.2'], ['stale', 'HSBC', '+8.1']]) each({ journey: 'holdings', screen: 'b-one', state }, (v, at) => {
-      const f = flowsOf(v.text, close(v.text)), row = returnRow(v.text);
-      must(f.length >= 3 && row, `${name} ${at.surface}: no schedule to compute`);
-      must(turns(f) === 1 && rootCount(f) === 1, `${name} ${at.surface}: not a plain schedule`);
-      has(row, new RegExp(`\\${rate}% a year`), `${name} ${at.surface}: not the stated rate`);
-      must(holds(f, rateOf(rate)), `${name} ${at.surface}: XNPV at ${rate}% is ${xnpv(f, rateOf(rate) / 100).toFixed(2)}, not zero`);
+  'R3-j2': (api) => {
+    const { each, view, must, has, lacks } = api;
+    each({ journey: 'holdings', screen: 'b-one', state: 'default' }, (v, at) => {
+      const f = flowsOf(v.text, closing(v.text)), row = returnRow(v.text);
+      must(f.length >= 3 && row, `Apple ${at.surface}: no schedule to compute`);
+      must(turns(f) === 1 && rootCount(f) === 1, `Apple ${at.surface}: not a plain schedule`);
+      has(row, /\+14\.2% a year/, `Apple ${at.surface}: not the stated rate`);
+      must(holds(f, 14.2), `Apple ${at.surface}: XNPV at +14.2% is ${xnpv(f, 0.142).toFixed(2)}, not zero`);
     });
+    hsbcRate(api);
     // Apple account by account: the rates A states against the flows B draws
     each({ journey: 'holdings', screen: 'a-one', state: 'default' }, (v, at) => {
       const b = view('holdings', 'b', 'b-one', at.surface, 'default').text;
@@ -570,7 +642,7 @@ export default {
     });
     // Reliance: three turns, so no proved single rate, and any rate named is a root of these flows
     for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => {
-      const f = flowsOf(view('holdings', 'b', 'b-one', at.surface, 'disagreement').text, close(v.text)), row = returnRow(v.text) || (v.text.match(/Money-weighted return([^]*?)$/) || [])[1];
+      const f = flowsOf(view('holdings', 'b', 'b-one', at.surface, 'disagreement').text, closing(v.text)), row = sideRow(v.text);
       must(turns(f) === 3, `Reliance ${s} ${at.surface}: Ambiguous needs flows that change direction, found ${turns(f)} turns`);
       has(row, /No single rate/, `Reliance ${s} ${at.surface}: a headline rate`); has(row, /Ambiguous/, `Reliance ${s} ${at.surface}: no status`); has(row, /Proposed · FIN-OD-04/, `Reliance ${s} ${at.surface}: the rule is open`);
       const named = [...row.matchAll(/([+−]?\d+(?:\.\d+)?)% a year/g)].map((m) => m[1]);
@@ -578,21 +650,18 @@ export default {
       for (const r of named) must(holds(f, rateOf(r)), `Reliance ${s} ${at.surface}: ${r}% is not a rate these flows produce (XNPV ${xnpv(f, rateOf(r) / 100).toFixed(2)})`);
       lacks(v.text, /Two rates|Not proved a year/, `Reliance ${s} ${at.surface}: two rates these flows cannot produce`);
     });
-    // AstraZeneca: no rate is claimed, and no-root is not claimed either
-    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => {
-      const row = returnRow(v.text) || (v.text.match(/Money-weighted return([^]*?)$/) || [])[1];
-      has(row, /No rate found/, `AstraZeneca ${s} ${at.surface}: wrong status`); has(row, /does not prove there is none/, `AstraZeneca ${s} ${at.surface}: a missing rate is not proof of none (FIN-AC-20)`); has(row, /Proposed · FIN-OD-04/, `AstraZeneca ${s} ${at.surface}: the rule is open`);
-      lacks(row, /\d% a year/, `AstraZeneca ${s} ${at.surface}: a rate beside No rate found`);
-    });
+    // AstraZeneca: no rate is claimed, and no-root is not claimed either; two rates are claimed nowhere
+    astraRate(api);
+    tableRates(api);
     // the same open rule on both sides of the flip, and on the receipt that repeats it
-    for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Older statements fill the gaps\. Proposed · FIN-OD-04/, `${s} ${at.surface} ${at.state}: the rule is open`));
+    for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: ['loading', ...LISTED] }, (v, at) => { has(v.text, /snapshot with no history\. Older statements fill the gaps\. No single rate/, `${s} ${at.surface} ${at.state}: older statements cannot settle a rate`); has(v.text, /so none is stated\. Proposed · FIN-OD-04/, `${s} ${at.surface} ${at.state}: the rule is open`); });
     for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Proposed · FIN-OD-04/, `${s} ${at.surface}: the rule is open`));
   },
-  // The late-price rule cites FIN-OD-06, on every screen that states it, on both sides of each flip.
+  // The late-price rule cites DATA-DEC-02, on every screen that states it, on both sides of each flip.
   'R3-j3': ({ each, has, lacks }) => {
     const rule = /freshness limit|left out of the total|left out until its price returns/i;
-    for (const journey of ['holdings', 'journal']) each({ journey }, (v, at) => { lacks(v.text, /Proposed · MP40-Q6/, `${journey} ${at.screen} ${at.surface} ${at.state}: a price cites the billing question`); if (rule.test(v.text)) has(v.text, /Proposed · FIN-OD-06/, `${journey} ${at.screen} ${at.surface} ${at.state}: the rule has no label`); });
-    for (const [journey, ids] of [['holdings', ['a-list', 'b-accounts', 'a-private', 'b-private', 'a-one', 'b-one']], ['journal', ['a-list', 'b-board', 'a-record', 'b-decide', 'a-pick']]]) for (const s of ids) each({ journey, screen: s, state: 'stale' }, (v, at) => has(v.text, /Proposed · FIN-OD-06/, `${journey} ${s} ${at.surface}: no label`));
+    for (const journey of ['holdings', 'journal']) each({ journey }, (v, at) => { lacks(v.text, /Proposed · MP40-Q6/, `${journey} ${at.screen} ${at.surface} ${at.state}: a price cites the billing question`); if (rule.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${journey} ${at.screen} ${at.surface} ${at.state}: the rule has no label`); });
+    for (const [journey, ids] of [['holdings', ['a-list', 'b-accounts', 'a-private', 'b-private', 'a-one', 'b-one']], ['journal', ['a-list', 'b-board', 'a-record', 'b-decide', 'a-pick']]]) for (const s of ids) each({ journey, screen: s, state: 'stale' }, (v, at) => has(v.text, /Proposed · DATA-DEC-02/, `${journey} ${s} ${at.surface}: no label`));
   },
   'R3-j4': unreadSteps,
   'R3-j5': stepTicks,
@@ -611,7 +680,7 @@ export default {
     each({ journey: 'journal', screen: 'a-record', state: 'default' }, (v, at) => has(v.text, /Saved with the action/, `${at.surface}: Ready lost its line`));
   },
   'R3-j8': ({ each, has }) => {
-    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => has(v.text, /Left out of the total until its price returns\. Proposed · FIN-OD-06/, `${s} ${at.surface}: the rule has no label beside it`));
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => has(v.text, /Left out of the total until its price returns\. Proposed · DATA-DEC-02/, `${s} ${at.surface}: the rule has no label beside it`));
   },
   'R3-j9': maskedTrade,
   // The two tightened checks catch what they claim: entries compared in order, and any "Reconciled" beside an open difference.
@@ -639,18 +708,15 @@ export default {
     for (const s of ['a-list', 'b-board', 'a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'error' }, (v, at) => { lacks(v.text, /as of Mon/, `${s} ${at.surface}: Monday's read beside today's entry`); has(v.text, /as of 21:05 today/, `${s} ${at.surface}: no time`); });
     each({ journey: 'journal', screen: 'a-record', state: 'noModel' }, (v, at) => { has(v.text, /today’s included/, `${at.surface}: today's entry is not explained`); has(v.text, /Your entries on NVIDIA/, `${at.surface}: no entries`); has(v.text, /NVIDIA Today/, `${at.surface}: one of two entries`); has(v.text, /NVIDIA 28 Apr 2026/, `${at.surface}: one of two entries`); });
   },
-  'R3-j16': ({ each, has, lacks }) => {
-    for (const [state, t] of [['noModel', /queued, not read/], ['offline', /stopped at 62%/], ['error', /3 files not taken in/], ['abstention', /ready for you/]]) each({ journey: 'holdings', screen: 'a-list', state }, (v, at) => { has(v.text, t, `${at.surface} ${state}: not what Imports shows`); lacks(v.text, /is being read/, `${at.surface} ${state}: not what Imports shows`); });
-    each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => has(v.text, /1 import is being read/, `${at.surface}: Ready lost its line`));
-  },
+  'R3-j16': importLine,
   'R3-j17': ({ each, has }) => {
     for (const s of ['a-imports', 'b-imports']) each({ journey: 'holdings', screen: s, state: ['loading', 'error', 'offline'] }, (v, at) => has(v.text, /cash differs by £8\.15|£8\.15 away from the ledger/, `${s} ${at.surface} ${at.state}: the open difference is hidden`));
     each({ journey: 'holdings', screen: 'b-accounts', state: 'loading' }, (v, at) => has(v.text, /cash differs by £8\.15/, `${at.surface}: the open difference is hidden`));
     for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => has(v.text, /Original deleted/, `${s} ${at.surface}: the evidence gap is hidden`));
   },
   // Trades fall on trading days, and what is written beside them can be true.
-  'R3-j18': ({ each, must, has, lacks }) => {
-    const weekday = (t) => { const d = new Date(utc(t)).getUTCDay(); return d > 0 && d < 6; };
+  'R3-j18': (api) => {
+    const { each, must, has, lacks } = api;
     for (const state of ['default', 'stale', 'disagreement', 'abstention']) each({ journey: 'holdings', screen: 'b-one', state }, (v, at) => {
       const ds = [...v.text.matchAll(/(?:Bought|Sold) \d+ (\d{1,2} \w{3} \d{4})/g)].map((m) => m[1]);
       must(ds.length >= 2, `${state} ${at.surface}: no events to read`);
@@ -658,7 +724,47 @@ export default {
     });
     for (const s of ['a-manual', 'b-manual']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => must(weekday((v.html.match(/value="(\d{1,2} \w{3} \d{4})"/) || [])[1]), `${s} ${at.surface}: not a trading day`));
     for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /A sale on 2 Nov/, `${s} ${at.surface}: a Sunday sale`));
-    for (const s of ['a-difference', 'b-difference']) each({ journey: 'holdings', screen: s, state: ['default', 'empty'] }, (v, at) => lacks(v.html, /taken after the statement closed/, `${s} ${at.surface}: a later fee cannot put the statement below the ledger`));
+    honestReason(api);
     for (const s of ['a-record', 'b-decide']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => { lacks(v.html, /Added 10 units/, `${s} ${at.surface}: adding, on rules that point down`); has(v.html, /Paused new money/, `${s} ${at.surface}: no entry`); });
   },
+
+  // ---------- round 4 ----------
+  'R4-j1': astraRate,
+  'R4-j2': hsbcRate,
+  'R4-j3': honestReason,
+  'R4-j4': tableRates,
+  // An outcome falls on a session: an anniversary on a weekend rolls back (FND-DEC-002), and the days left count to that date, today being 3 Nov 2026.
+  'R4-j5': ({ each, must }) => {
+    let seen = 0;
+    each({ journey: 'journal' }, (v, at) => { for (const m of v.text.matchAll(/(?:Outcome due|scored before) (\d{1,2} \w{3} \d{4})/g)) { seen++; must(weekday(m[1]), `${at.screen} ${at.surface} ${at.state}: ${m[1]} is not a session`); } });
+    must(seen, 'no due dates to read');
+    each({ journey: 'journal', screen: 'a-list', state: STAGES }, (v, at) => {
+      const due = entriesOf(v.html).map((e) => [e, (e.line.match(/Outcome due (\d{1,2} \w{3} \d{4})/) || [])[1]]).filter((x) => x[1]);
+      must(due.length >= 2, `${at.surface} ${at.state}: no due entries to read`);
+      for (const [e, d] of due) { const n = Math.round((utc(d) - utc('3 Nov 2026')) / 864e5); must(e.status === `${n} days`, `${at.surface} ${at.state}: ${e.name} is due ${d}, ${n} days away, and shows "${e.status}"`); }
+    });
+  },
+  // The duplicate card says what its banner says: a near match in Disagreement, no account in Abstaining.
+  'R4-j6': ({ each, has, lacks }) => {
+    each({ journey: 'holdings', screen: 'b-duplicate', state: 'disagreement' }, (v, at) => { has(v.text, /On this statement \+£41\.16 Your typed entry, entered on 21 Oct, R-0211 \+£41\.12/, `${at.surface}: not 4p apart`); has(v.text, /Same date and account, 4p apart/, `${at.surface}: the card`); lacks(v.text, /Same date, amount and account/, `${at.surface}: the same amount, 4p apart`); });
+    each({ journey: 'holdings', screen: 'b-duplicate', state: 'abstention' }, (v, at) => { has(v.text, /Same date and amount, so it is left out/, `${at.surface}: the card`); lacks(v.text, /Same date, amount and account/, `${at.surface}: an account it could not read`); });
+    each({ journey: 'holdings', screen: 'b-duplicate', state: 'default' }, (v, at) => { has(v.text, /Same date, amount and account, so it is left out/, `${at.surface}: Ready lost its line`); lacks(v.text, /\+£41\.12/, `${at.surface}: Ready is an exact match`); });
+  },
+  // Abstaining approves 6 rows while the date is blank, so a 9-row receipt says the date came first.
+  'R4-j7': ({ each, has, lacks }) => {
+    for (const s of ['a-done', 'b-done']) {
+      each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /All 9 rows, all at once, at 21:22\. You added the missing date first, then approved again\./, `${s} ${at.surface}: 9 rows with no word of how`));
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => lacks(v.text, /You added the missing date/, `${s} ${at.surface}: Ready had no blank date`));
+    }
+    for (const s of ['a-approve', 'b-approve']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Commit 2 groups, 6 of 11 rows/, `${s} ${at.surface}: the approval changed`));
+  },
+  // An INR holding's GBP rate is labelled estimated, as its cost row is.
+  'R4-j8': ({ each, has }) => {
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => has(sideRow(v.text) || '', /\+22\.3% a year[^]*?FX estimated from dated reference rates\. Proposed · FIN-OD-04/, `${s} ${at.surface}: a GBP rate on INR flows, not labelled`));
+  },
+  // Older statements answer the snapshot, not the rates after it.
+  'R4-j9': ({ each, has, lacks }) => {
+    for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: ['loading', ...LISTED] }, (v, at) => { has(v.text, /is a snapshot with no history\. Older statements fill the gaps\. No single rate is proved/, `${s} ${at.surface} ${at.state}: the sentence is not with the snapshot`); lacks(v.text, /none is stated\. Older statements/, `${s} ${at.surface} ${at.state}: older statements cannot settle a rate`); });
+  },
+  'R4-j10': importLine,
 };
