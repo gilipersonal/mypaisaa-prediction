@@ -130,7 +130,7 @@ export default {
   'R2-f4': ({ view, has, lacks }) => {
     for (const [o, s] of [['b', 'b-compare'], ['b', 'b-record'], ['a', 'a-record']]) for (const k of ['iphone', 'web']) {
       const t = view('audit', o, s, k, 'expired').text;
-      lacks(t, /R-0210|ref_a3c1|Ledger revision 21[01]\b|aud_4c17|apr_52be|evt_77d3/, `${o}.${s} ${k}: another record's rows`);
+      lacks(t, /R-0210|ref_a3c0|ref_a3c1|Ledger revision 21[01]\b|aud_4c17|apr_52be|evt_77d3/, `${o}.${s} ${k}: another record's rows`);
       has(t, /Ledger revision 213/);
     }
   },
@@ -149,7 +149,7 @@ export default {
     for (const k of PHONES) for (const st of ['default', 'partial', 'stale', 'offline', 'conflict', 'expired', 'denied']) {
       const h = view('home', 'b', 'b-home', k, st).html, top = h.slice(h.indexOf('jbanner'), h.indexOf('ahome-grid'));
       must(h.indexOf('jbanner') >= 0 && h.indexOf('jbanner') < h.indexOf('ahome-grid'), `${k} ${st}: banner below the tiles`);
-      has(top, /1 incident not resolved/, `${k} ${st}: the first view drops the incident`);
+      has(top, /\d incidents? not resolved/, `${k} ${st}: the first view drops the incident`);
       has(top, /\d decisions wait on you/, `${k} ${st}: the first view drops the count`);
     }
   },
@@ -169,6 +169,75 @@ export default {
   },
   'R2-m10-home': ({ view, has }) => {
     for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) for (const k of ALL) { const t = view('home', o, s, k, 'default').text; has(t, /4 decisions wait on you/); has(t, /1 paused scope waits on your restart/); }
+  },
+  'R3-f1': ({ view, each, must, has }) => {
+    each({ journey: 'files', surface: WIDE }, (v, at) => {
+      if (/isa-2019-to-2026\.pdf/.test(v.text) && !['offline', 'error'].includes(at.state)) must(acted(v, 'A81') && acted(v, 'A82'), `${JSON.stringify(at)}: held, and nothing can decide it`);
+      if (at.state === 'offline') must(!acted(v, 'A81') && !acted(v, 'A82'), `${JSON.stringify(at)}: live offline`);
+    });
+    has(view('files', 'a', 'a-queue', 'web', 'default').text, /3 files not taken in/);
+    has(view('files', 'a', 'a-queue', 'web', 'default').text, /Discard/);
+  },
+  'R3-f2': ({ each, must, lacks }) => {
+    const minutes = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    for (const journey of ['audit', 'files']) each({ journey, surface: 'web', state: ['stale', 'offline', 'error'] }, (v, at) => {
+      const read = minutes(at.state === 'stale' ? '11:12' : '11:20');
+      for (const m of v.text.matchAll(/Wed (\d\d:\d\d)/g)) must(minutes(m[1]) <= read, `${JSON.stringify(at)}: a record from ${m[1]} in a list read earlier`);
+      lacks(v.text, /link valid 42 min/);
+    });
+  },
+  'R3-f3': ({ view, must, has, lacks }) => {
+    const fields = (st) => [...view('audit', 'b', 'b-record', 'web', st).html.matchAll(/<dt>([^<]*)<\/dt>/g)].map((m) => m[1]).filter((x) => !['Sampling', 'Kept for', 'Paging'].includes(x)).join('|');
+    must(fields('default') === fields('expired'), `fields differ: ${fields('expired')}`);
+    const t = view('audit', 'b', 'b-record', 'web', 'expired').text;
+    has(t, /apr_6c03/); has(t, /src_2f7b/); has(t, /You, Writer or Nobody/); lacks(t, /Approved 21:18 ·/);
+    has(view('audit', 'b', 'b-explore', 'web', 'expired').text, /aud_5b19/);
+  },
+  'R3-f4': ({ view, has, lacks }) => {
+    const t = view('audit', 'b', 'b-compare', 'web', 'expired').text;
+    has(t, /ref_b7e2/); lacks(t, /ref_a3c0/);
+    lacks(view('audit', 'b', 'b-compare', 'web', 'empty').text, /An expiry/);
+  },
+  'R3-f5': ({ view, has, lacks }) => {
+    const t = view('audit', 'b', 'b-compare', 'web', 'expired').text;
+    has(t, /nothing reached your ledger/); lacks(t, /at your broker/);
+  },
+  'R3-f6': ({ view, must, lacks }) => {
+    for (const [o, s] of [['a', 'a-gaps'], ['b', 'b-gaps']]) {
+      const t = view('audit', o, s, 'web', 'error').text;
+      must((t.match(/From 11:20, not vouched for/g) || []).length === 2, `${s}: commits or delivery read bare`);
+      lacks(t, /commit_completeness|outbox_delivery/);
+    }
+  },
+  'R3-f7': ({ view, has }) => {
+    for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) has(view('home', o, s, 'web', 'expired').note, /Expired reads as that evening, past 18:00, not the 11:40 of Ready/);
+  },
+  'R3-f8': ({ view, has }) => {
+    has(view('audit', 'b', 'b-explore', 'web', 'expired').text, /Watch Taiwan Semiconductor/);
+    has(view('audit', 'a', 'a-who', 'web', 'expired').text, /Watch Taiwan Semiconductor/);
+    has(view('audit', 'b', 'b-explore', 'web', 'expired').note, /Expired is the exception/);
+  },
+  'R3-f9': ({ view, must, has }) => {
+    const v = view('files', 'a', 'a-draft', 'web', 'partial');
+    must(acted(v, 'A56'), 'the blank date cannot be filled'); has(v.text, /Add the date/);
+    for (const t of [/£4,012\.60 → £3,070\.82/, /b41d…9e07/, /Commit 2 groups, 6 of 11 rows/, /Left out and still listed: Sold 10 AstraZeneca/]) has(v.text, t);
+    must(v.text.indexOf('£3,070.82') < v.text.indexOf('Approve these 2 groups'), 'the approval sits above what it binds');
+  },
+  'R3-f10': ({ view, must, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-fix'], ['b', 'b-after']]) {
+      const v = view('files', o, s, 'web', 'conflict');
+      for (const t of [/Expected revision 215/, /Payload hash/, /15 minutes after approval/, /Reverse: Sold 4 Apple/, /Replace: Sold 4 Apple/]) has(v.text, t);
+      lacks(v.text, /all it binds/); has(v.note, /revision 215/);
+      must(v.html.indexOf('Illustrative', v.html.indexOf('This approval binds')) > 0, 'the binds are not marked');
+    }
+  },
+  'R3-m7': ({ view, journeys, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) {
+      const e = view('home', o, s, 'web', 'error').text, c = view('home', o, s, 'web', 'conflict').text;
+      has(e, /US run Tue · failed/); lacks(e, /succeeded/); has(e, /R2-HGB v4 incomplete/); lacks(e, /R2-HGB v4 waits/); has(e, /Query incomplete/);
+      has(c, /US run Tue · held/); lacks(c, /succeeded/); has(c, /2 not resolved/); has(e, /2 not resolved/);
+    }
+    if (journeys().includes('runs')) { has(view('runs', 'a', 'a-clock', 'web', 'error').text, /run_8d02/); lacks(view('runs', 'a', 'a-clock', 'web', 'error').text, /succeeded/, 'Runs says otherwise'); }
   },
   'R1-s7-home': ({ each, has, lacks }) => {
     each({ journey: 'home', surface: ALL }, (v) => { has(v.text, /account recovery works anywhere/); lacks(v.text.replace(/account recovery/g, '').replace(/Incidents and recovery/g, ''), /\brecovery\b/); });

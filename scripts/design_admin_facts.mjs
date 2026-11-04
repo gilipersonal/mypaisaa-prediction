@@ -90,7 +90,8 @@ function selftest() {
     ['a write outside act', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<button class="btn">Retry safely</button>'; }, 'reads like a write'],
     ['an action undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-act="A16"/g, ''); } }, 'A16'],
     ['a refusal undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-refuse="R8"/g, ''); } }, 'refusal R8'],
-    ['a named act drawn', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A63"><button>Do it</button></span>'; }, 'A63'],
+    ['a named act drawn', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A63" data-phone-off="1"><button>Do it</button></span>'; }, 'is marked named'],
+    ['an act outside its journeys', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A41" data-phone-off="1"><button>Do it</button></span>'; }, 'its row does not list'],
     ['a journey removed', (js) => { js.splice(2, 1); }, 'it needs'],
   ];
   let bad = 0;

@@ -592,7 +592,7 @@
    "acceptance": {
     "positive": [
      "The table lists widgets, share-sheet statement intake, Spotlight search and deep links, Siri and App Intents, Live Activities for long jobs, Apple push, Sign in with Apple, on-device passkeys and TestFlight, each with its privacy, availability, cost and fallback.",
-     "Capabilities that need the paid Apple Developer Program are marked later until the owner says to join, with today's fallback (Web Push, Google sign-in, local builds).",
+     "Capabilities that need the paid Apple Developer Program are marked later until the Developer Program is bought (MP-179), with today's fallback (Web Push, Google sign-in, local builds).",
      "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words."
     ],
     "negative": [

@@ -32,12 +32,13 @@
   const runRow = (title, sub, status, sel = false) => item(lead('refresh'), title, sub, `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', sel, true);
   const ind = () => runRow('Forecast run, Wed 4 Nov 10:15', 'run_8d6e · India · issued 11:15', OK('Succeeded'));
   const ukr = () => runRow('Forecast run, Tue 3 Nov 16:50', 'run_8cf7 · UK · HSBC late', OK('Succeeded'));
-  const ukUnread = () => runRow('Forecast run, Tue 3 Nov 16:50', 'run_8cf7 · UK · not read', WARN('Unknown'));
+  const ukUnread = () => runRow('UK', 'Run not read', WARN('Unknown'));
   const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 7 of 7 priced · finished 21:30') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
   const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 7 of 7 priced', status);
   const hsbc = (status = WARN('Acknowledged')) => item(lead('alert', 'warn'), 'HSBC price late', 'inc_0012 · detected Tue 16:50', `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', false, true);
   const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When it goes wrong', 'tinted', 'alert')}</div>`;
-  const ranOK = (o = {}) => `${sec('What ran')}${list((o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + mon() + hsbc())}${links()}`;
+  const ukMon = () => runRow('Forecast run, Mon 2 Nov 16:50', 'run_8bf3 · UK', OK('Succeeded'));
+  const ranOK = (o = {}) => `${sec('What ran')}${list((o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + mon() + ukMon() + hsbc())}${links()}`;
   const ranFailed = () => `${sec('What ran')}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + mon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
 
   /* ---------- health: four alarms, and what they are not allowed to hide ---------- */
@@ -45,7 +46,7 @@
     default: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
     loading: [['Missed daily run', 'Last good 11:20', PLAIN('Reading')], ['Stale collector', 'Last good 11:20', PLAIN('Reading')], ['Dead-letter queues', 'Last good 11:20', PLAIN('Reading')], ['Error rate', 'Last good 11:20', PLAIN('Reading')]],
     empty: [['Missed daily run', 'No run has been due yet', PLAIN('No evidence yet')], ['Stale collector', 'No collection yet', PLAIN('No evidence yet')], ['Dead-letter queues', 'No job has run', PLAIN('No evidence yet')], ['Error rate', 'Nothing to measure', PLAIN('No evidence yet')]],
-    partial: [['Missed daily run', 'India Wed 10:15 · US Tue · UK not read', WARN('Unknown')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'This source did not answer', WARN('Unknown')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
+    partial: [['Missed daily run', 'India Wed 10:15 · US Tue · UK not read', WARN('Unknown')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
     error: [['Missed daily run', 'US, Tue · inc_0013', BAD('Alarm')], ['Stale collector', 'Twelve Data recovered · India collected Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'job_3e9a · quarantined with its reason', BAD('1 item')], ['Error rate', 'Cleared · read at 11:20', OK('No alarm')]],
     stale: [['Missed daily run', 'From 11:12', WARN('Unknown')], ['Stale collector', 'India: nothing recorded since Tue 10:15', BAD('Alarm')], ['Dead-letter queues', 'From 11:12', WARN('Unknown')], ['Error rate', 'From 11:12', WARN('Unknown')]],
     offline: [['Missed daily run', 'From 11:20', WARN('Not current')], ['Stale collector', 'From 11:20', WARN('Not current')], ['Dead-letter queues', 'From 11:20', WARN('Not current')], ['Error rate', 'From 11:20', WARN('Not current')]],
@@ -57,7 +58,7 @@
   const RULE = 'A health check never reports OK while a dead-letter queue holds items or a daily run was missed.';
   const STREAM = { expired: [WARN('closed: expired or revoked'), 'This status was re-read by polling at 11:40. Sign in again to bring the stream back.'], offline: [WARN('Reconnecting', 'wifi-off'), 'The durable records are the truth, so this re-reads them when it reconnects.'], error: [WARN('gap: full re-read', 'refresh'), 'A missed range re-reads the durable records, not the stream.'], default: [PLAIN('polling fallback'), 'Clients poll until the streaming proof passes.'] };
   const health = ctx => { const [c, t] = STREAM[ctx.state] || STREAM.default; return box(`${lbl('Health')}<div class="aruns-alarms">${alarmRows(ctx)}</div><p class="small muted" style="margin-top:8px">${RULE}</p>`) + box(`${lbl('Live status')}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">${c}${proposed('PL-04')}</div><p class="small muted" style="margin-top:8px">${t}</p>`); };
-  const CHECKS = { default: [WARN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], error: [WARN('Delayed quote'), 'Twelve Data is back, and UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], stale: [WARN('Daily status only'), 'Past the freshness tolerance, a listing shows daily status only.'], offline: [PLAIN('From 11:20'), 'Checks run on the server whether or not you are online.'], loading: [PLAIN('Reading'), 'Last good 11:20.'], empty: [PLAIN('Market closed'), 'No check runs on a closed market or a holiday.'], partial: [WARN('Daily status only'), 'Yahoo did not answer for UK listings, so they show daily status only.'] };
+  const CHECKS = { default: [WARN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], error: [WARN('Delayed quote'), 'Twelve Data is back, and UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], stale: [WARN('Daily status only'), 'Past the freshness tolerance, a listing shows daily status only.'], offline: [PLAIN('From 11:20'), 'Checks run on the server whether or not you are online.'], loading: [PLAIN('Reading'), 'Last good 11:20.'], empty: [PLAIN('Market closed'), 'No check runs on a closed market or a holiday.'], partial: [PLAIN('Not read'), 'UK checks not read.'] };
   const checks = ctx => { const [c, t] = CHECKS[ctx.state] || CHECKS.default; return box(`${lbl('30-minute checks, separate from this clock')}<div style="margin-top:8px">${c}</div><p class="small muted" style="margin-top:8px">${t}</p>`); };
   const railClock = ctx => `${ctx.state === 'offline' ? '' : `<div>${refresh()}</div>`}${health(ctx)}${checks(ctx)}`;
 
@@ -172,7 +173,7 @@
   const listOK = () => `${list(LIST.wed() + LIST.tue() + LIST.job() + LIST.uk() + LIST.mon())}`;
   const QUEUES = {
     default: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'Waiting: 0', OK('0 dead-lettered')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
-    partial: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'Waiting: 0', OK('0 dead-lettered')], ['Claude routes, 7 queues', 'This source did not answer', WARN('Unknown')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
+    partial: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'UK not read', WARN('Unknown')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
     error: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'job_3e9a · quarantined', BAD('1 dead-lettered')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
     conflict: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'job_3e9a · reconcile_required', WARN('Held', 'split')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]]
   };
@@ -182,7 +183,7 @@
     what: 'The run list', rows: 6, ok: () => listOK() + para('Newest first. Run summaries are kept 90 days, and forecasts, scores and audit stay longer.'),
     loading: () => `<div class="small muted">Last good 11:20</div>` + skel(5),
     empty: () => stateCard('grid', 'No run or job on record yet', 'The first collection starts at +15 after the first eligible close. Silence is not a sign that nothing is wrong, so this never reads as healthy.'),
-    partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK record did not, so its run shows unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'run_8cf7', 'Forecast run, UK · not read', WARN('Unknown')) + LIST.mon()),
+    partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK record did not, so its run shows unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'UK', 'Run not read', WARN('Unknown')) + LIST.mon()),
     error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:14') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.mon()),
     stale: () => banner('warn', 'Stale.', 'From 11:12, and India\'s 10:15 run does not appear. stale: its last success is older than its next due time.', 'clock') + list(LIST.tue() + LIST.job() + LIST.uk() + LIST.mon()),
     offline: () => offline(ctx, 'the run list') + listOK(),
@@ -212,7 +213,7 @@
     what: 'The queues', rows: 5, ok: () => queueRows() + para('Past its bound, an item goes to its dead-letter queue and quarantine with a reason. Claude\'s 7 queues are one each, so a fault in one route cannot reach another.'),
     loading: () => `<div class="small muted">Last good 11:20</div>` + skel(5),
     empty: () => stateCard('layers', 'No queue has held work yet', 'An empty queue before the first run is no evidence of health. It says nothing has run.'),
-    partial: () => banner('warn', 'Partial.', 'Claude\'s queues did not answer, so their depth shows unknown, never none.', 'clock') + queueRows('partial'),
+    partial: () => banner('warn', 'Partial.', 'The UK record did not answer, so Collection shows unknown, never none.', 'clock') + queueRows('partial'),
     error: () => banner('fall', 'A dead-letter queue holds an item.', 'So health cannot read OK, whatever else is passing.', 'alert') + queueRows('error'),
     stale: () => banner('warn', 'Stale.', 'Queue depths are from 11:12, and a queue moves by the minute, so none is shown as zero.', 'clock') + fromTime('From 11:12'),
     offline: () => offline(ctx, 'the queues') + fromTime('From 11:20'),
@@ -229,7 +230,7 @@
     what: 'This item', rows: 4, ok: deadOK,
     loading: () => skel(4),
     empty: () => stateCard('check', 'No dead-letter item on record', 'Nothing has reached a dead-letter queue, and no job has run yet either, so this proves nothing.', bs('Back to the queues', 'tinted')),
-    partial: () => banner('warn', 'Part of this is unread.', 'Claude\'s queues did not answer, so an item may be there that this does not show.', 'clock') + deadOK(),
+    partial: () => banner('warn', 'Part of this is unread.', 'The UK record did not answer, so an item may be there that this does not show.', 'clock') + deadOK(),
     error: () => deadHead() + failTL() + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0013', 'primary')}</div>`,
     stale: () => banner('warn', 'Stale.', 'From 11:12. A newer dead-letter item may exist, so the alarm is unknown, not clear.', 'clock') + deadOK(),
     offline: () => offline(ctx, 'this item') + deadOK(),

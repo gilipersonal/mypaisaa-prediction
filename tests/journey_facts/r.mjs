@@ -62,7 +62,7 @@ const LIVE = [
   [RESTARTS, ['Stay on v1', 'Switch forward'], ['default', 'disagreement', 'abstention']],
   [RESTARTS, ['Keep paused', 'Restart'], ['noModel']],
   [STEPS, ['Continue with passkey'], ['default', 'stale']],
-  [['aa-restart-step', 'ab-restart-step'], ['Continue with passkey'], ['noModel']],
+  [['aa-restart-step', 'ab-restart-step', 'aa-step', 'ab-model-step'], ['Continue with passkey'], ['noModel']],   // only that scope waits, so a promotion still reaches its sheet
   [STEPS, ['Approve this'], ['empty']],
   [['aa-restart-result', 'ab-restart-result'], ['Sign in and approve'], ['stale']],
   [REVOKES, ['Revoke this approval'], ['default']],
@@ -571,7 +571,7 @@ const FACTS = {
         has(v.text, /What this proposed/, `${said(at)}: not retitled`);
         lacks(v.text, /This changes which approved artefact/, `${said(at)}: a change on a blocked or refused proposal`);
       });
-      each({ journey: A, option, screen: model, state: 'noModel' }, (v, at) => lacks(v.text, /Previous safe R2-HGB v3/, `${said(at)}: v3 can no longer be the safe fallback`));
+      each({ journey: A, option, screen: model, state: 'noModel' }, (v, at) => lacks(v.text, /Previous safe R2-HGB v3(?!, where eligible)/, `${said(at)}: v3 can no longer be the safe fallback`));
       each({ journey: A, option, screen: model, state: ['default', 'offline'] }, (v, at) => has(v.text, /This approval is bound to/, `${said(at)}: an open proposal`));
     }
     // A step-up's rail stands beside its sheet on iPad and desktop: bound until the record moves, and only then what was proposed.

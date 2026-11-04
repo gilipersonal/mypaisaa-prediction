@@ -557,7 +557,8 @@
    "step_up_note": "Yes",
    "audit": "AuditEvidence with opaque references; class open (CT-03)",
    "source": "PH02-S01, S02",
-   "phone": "off"
+   "phone": "off",
+   "phone_note": "Mac only: the proof needs your Mac passkey"
   },
   {
    "id": "A47",
@@ -951,9 +952,9 @@
     "models"
    ],
    "step_up": "open",
-   "step_up_note": "Open",
+   "step_up_note": "Open. No record lists the choices (SCI-D03)",
    "audit": "Rules version record and AuditEvidence; class open (CT-03)",
-   "source": "PH04-S06",
+   "source": "PH04-S06; evaluation protocol; SCI-D03",
    "phone": "off"
   },
   {
@@ -981,6 +982,30 @@
    "source": "PH05-S03",
    "phone": "off",
    "control": "named"
+  },
+  {
+   "id": "A81",
+   "action": "Split and resend a held file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New SourceReceipt and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S06; Holdings journey",
+   "phone": "off"
+  },
+  {
+   "id": "A82",
+   "action": "Discard a held file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: the deletion row of PH02-S03 names it, because stored bytes go. Level open (CT-01)",
+   "audit": "DeletionTombstone and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S06; PH02-S03; Holdings journey",
+   "phone": "off"
   }
  ],
  "refused": [

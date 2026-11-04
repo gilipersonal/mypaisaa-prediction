@@ -6,13 +6,23 @@ const row = (perms, id) => perms.actions.find((a) => a.id === id);
 export default {
   'R3-owner-scope': ({ has }) => {
     has(read('docs/design/journeys/src/journeys/approvals.js'), /One scope waits\./);
-    has(read('docs/design/admin/src/journeys/models.js'), /leaves the others free \(the owner, 4 November 2026\)/);
+    has(read('docs/design/admin/src/journeys/models.js'), /Only that scope waits \(Recommended\)/);
   },
-  'R2-s3': ({ perms, must }) => { must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control'); },
+  'R3-s6': ({ lacks }) => { lacks(read('docs/design/admin/src/shell.js'), /Who marks an incident mitigated\? \(CT-14\)', 'Labelled proposed, with no control/); },
+  'R3-s8': ({ must }) => {
+    const r = spawnSync('node', ['scripts/design_admin_facts.mjs', '--selftest'], { encoding: 'utf8', cwd: new URL('../../', import.meta.url).pathname });
+    must(r.status === 0, `the selftest fails: ${r.stdout.slice(-200)}`);
+    must(/is marked named/.test(read('scripts/design_admin_facts.mjs')) && /its row does not list'\]/.test(read('scripts/design_admin_facts.mjs')), 'a selftest case for the two rules is gone');
+  },
+  'R3-s9': ({ lacks }) => { lacks(read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json'), /says to join/); },
+  'R2-s3': ({ perms, must, lacks }) => {
+    must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control');
+    lacks(read('docs/design/admin/src/shell.js'), /Who marks an incident mitigated\? \(CT-14\)', 'Labelled proposed, with no control/);
+  },
   'R2-s7': ({ has, lacks }) => {
     const t = read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json');
     has(t, /until the Developer Program is bought/);
-    lacks(t, /until the owner says to join the Developer Program/);
+    lacks(t, /says to join/);
   },
   'R2-m6': ({ perms, must }) => { for (const id of ['A78', 'A79', 'A80']) must(row(perms, id), `${id} is missing`); },
   'R2-f14': ({ view, lacks }) => { for (const o of ['a', 'b']) lacks(view('home', o, `${o}-home`, 'web', 'default').text, /account account/); },

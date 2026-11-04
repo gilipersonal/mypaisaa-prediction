@@ -174,4 +174,50 @@ export default {
     each({ journey: 'incidents', state: 'empty' }, (v) => lacks(v.text, /No exercise has finished/));
     for (const [o, s] of SWITCH) has(view('incidents', o, s, 'web', 'empty').text, /rx_0007, Sun 1 Nov, (stays|is still) the last pass/);
   },
+  'R3-s1': ({ view, each, must, has, lacks }) => {
+    each({ journey: 'identity' }, (v) => lacks(`${v.text} ${v.note}`, /touches no passkey/));
+    const LINE = /What a revoke does to a passkey held on that device is not recorded\./;
+    for (const kind of ALL) { const t = view('identity', 'a', 'a-devices', kind, 'default').text; has(t, LINE); has(t, /Proposed · CT-17/); }
+    for (const kind of ['iphone', 'ipad', 'pwa']) has(view('identity', 'a', 'a-lost', kind, 'default').text, LINE);
+    has(view('identity', 'b', 'b-revoke', 'web', 'default').text, LINE);
+    has(view('identity', 'b', 'b-device', 'web', 'default').text, LINE);
+    must(/Revoke iPhone/.test(view('identity', 'a', 'a-devices', 'web', 'default').text), 'the iPhone stopped being revocable');
+  },
+  'R3-s2': ({ view, each, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-evidence'], ['b', 'b-escalate']]) {
+      const t = view('incidents', o, s, 'web', 'default').text;
+      has(t, /run_8bf3/); has(t, /HSBC\s*Priced to the 16:35 close/); has(t, /HSBC\s*Late · last price 14:10/);
+      each({ journey: 'incidents', option: o, screen: s, state: STATES.filter((x) => x !== 'error') }, (v) => lacks(v.text, /7 of 7|run_8d02 ·/));
+    }
+    has(view('incidents', 'a', 'a-evidence', 'web', 'default').note, /the change is a row/);
+  },
+  'R3-s3': ({ view, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-evidence'], ['b', 'b-escalate']]) {
+      const t = view('incidents', o, s, 'web', 'partial').text;
+      has(t, /run_8cf7 · UK · not read/); has(t, /Result\s*Unknown/); has(t, /HSBC\s*Not read/); lacks(t, /Late · last price 14:10/);
+    }
+    has(view('incidents', 'a', 'a-list', 'web', 'partial').text, /The UK run record did not answer/);
+    lacks(view('incidents', 'a', 'a-list', 'web', 'partial').text, /Runs, sources and alerts answered/);
+    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) { const t = view('incidents', o, s, 'web', 'conflict').text; has(t, /reconcile_required, counted as neither/); lacks(t, /run_8d02 · succeeded/); }
+  },
+  'R3-s4': ({ each, must }) => {
+    each({ journey: 'incidents', state: 'expired' }, (v, at) => must(!/are back|access expired|No new HSBC price/.test(v.text), `Expired tells two stories at ${at.screen}`));
+  },
+  'R3-s5': ({ view, each, must, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) for (const kind of ALL) { const t = view('incidents', o, s, kind, 'conflict').text; has(t, /Production recorded lost/); has(t, /inc_0014/); has(t, /Proposed · CT-14/); }
+    has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /Not classed\s*1 open · inc_0014/);
+    must(live(view('incidents', 'a', 'a-recovery', 'web', 'conflict').html, 'A42'), 'the switch left the state production is lost');
+    each({ journey: 'incidents', state: STATES.filter((x) => x !== 'conflict') }, (v) => lacks(v.text, /inc_0014/));
+  },
+  'R3-s7': ({ view, must, has, perms }) => {
+    must(/^Mac only/.test(perms.actions.find((p) => p.id === 'A46').phone_note), 'A46 has no Mac note');
+    for (const [o, s] of [['a', 'a-link'], ['b', 'b-add']]) {
+      for (const kind of PHONES) has(view('identity', o, s, kind, 'default').text, /Link Google: on your Mac/);
+      has(view('identity', o, s, 'ipad', 'default').text, /Link Google from your Mac/);
+    }
+  },
+  'R3-s10': ({ view, each, has, lacks }) => {
+    each({ journey: 'identity' }, (v) => lacks(v.text, /if the lost one held a passkey/));
+    for (const [o, s] of LOST) for (const kind of ALL) has(view('identity', o, s, kind, 'default').text, /On a device you control\. Each step is on your audit trail/);
+  },
 };

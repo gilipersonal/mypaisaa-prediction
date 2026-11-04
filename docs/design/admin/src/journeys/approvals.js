@@ -152,15 +152,16 @@
     const stop = ['offline', 'denied', 'error', 'partial', 'conflict'].includes(ctx.state), a = h => (stop ? off(h) : h);
     return pol('grid', 'Ranking policy', chip('illus', 'draft_policy', 'clock'), [['Growth', '35'], ['Protection', '40'], ['Opportunity', '25']], 'A combined score exists only when all three are eligible. No action band classifies a listing until normalisation, ties and thresholds are approved, so this cannot be approved yet.', off(act('A33', 'Approve this policy version', 'primary')), proposed('FIN-OD-07'))
       + pol('alert', 'Alerts and quiet hours', chip('illus', 'No values proposed', 'clock'), [['Quiet hours', '22:00 to 07:00 London'], ['Held alerts arrive', '07:30 brief'], ['Exceptions approved', 'None']], 'You approve the material and critical thresholds and any quiet-hour exception. No record sets their values yet, so nothing is here to approve.', off(act('A39', 'Approve these thresholds')), proposed('CT-18') + proposed('MP40-Q11'))
-      + pol('shield', 'Risk-acceptance scopes', o.scope || chip('fresh', 'risk_accepted'), [['Scopes', 'S1 to S10'], ['Claude routes', 'S9 Grow 55, S10 Yahoo, prod'], ['Basis', 'owner_risk_acceptance']], 'Your accepted risk, never a licence. Gate code checks every use and cannot widen a scope. Withdrawing one stops that use.', a(act('A37', 'Withdraw S10, Yahoo')), proposed('DATA-DEC-04') + proposed('DATA-DEC-15'))
+      + pol('shield', 'Risk-acceptance scopes', o.scope || chip('fresh', 'risk_accepted'), [['Scopes', 'S1 to S10'], ['Claude routes', 'S9 Grow 55, S10 Yahoo, prod'], ['Basis', 'owner_risk_acceptance']], 'Your accepted risk, never a licence. Gate code checks every use and cannot widen a scope. Withdrawing one stops that use.', a(act('A37', 'Withdraw S10, Yahoo to Claude')), proposed('DATA-DEC-04') + proposed('DATA-DEC-15'))
       + pol('layers', 'Market extensions', chip('illus', 'proposed', 'clock'), [['Taiwan, XTAI', 'Not eligible in the first release'], ['Contract tests', 'Not yet'], ['Point-in-time replay', 'Not yet'], ['Shadow evidence', 'Not yet'], ['Credits and cash against £100', 'Not yet']], 'An extension needs its own evidence and your activation before any listing in it becomes eligible. Deactivating rolls its version pointer back and keeps its history.', off(act('A38', 'Activate this extension')));
   };
-  const SCOPE_ROWS = [['New use of Yahoo', 'risk_accepted', 'Stops at once'], ['Cached projections', '', 'Unavailable for that use'], ['Stored data, backups and models', '', 'Disposition pending', 'They follow the treatment you approve, which is still open.'], ['To turn it back on', '', 'Set the scope again', 'A new entitlement record, by you.']];
+  /* S10 covers one use: sending Yahoo values already inside S6 or S7 to Claude routes (catalogue.json). S6 and S7 are scopes of their own */
+  const SCOPE_ROWS = [['Yahoo values to Claude routes', 'risk_accepted', 'Stops at once'], ['Yahoo prices, S6 and S7', '', 'Unchanged', 'They have their own scopes, so collection, storage and display carry on.'], ['Cached projections and affected derivations', '', 'Unavailable for that use'], ['What was already sent', '', 'Disposition pending', `Its treatment is open.${tags(proposed('DATA-DEC-04'))}`]];
   const SCOPE_END = [['Withdrawn', 'Use stopped, disposition pending. The record keeps who withdrew it and when.'], ['Gate unavailable', 'Every use it covers fails closed, so nothing widens while it is down.']];
   const scopeEffect = () => changeCard(SCOPE_ROWS, 'If you withdraw S10') + ends(SCOPE_END);
   const policiesCore = ctx => region(ctx, {
     what: 'These policies', rows: 4, ok: () => policies(ctx),
-    empty: () => stateCard('check', 'Nothing here waits on you', 'Nothing here can be decided yet. Each card says what it waits on.') + policies(ctx),
+    empty: () => stateCard('check', 'Nothing here waits on you', 'Nothing here is waiting for a decision. Each proposed card says what it waits on.') + policies(ctx),
     partial: () => banner('warn', 'Scope gate did not answer.', 'The gate is unavailable, so every use it covers fails closed until it returns. The other three policies answered.', 'clock') + policies(ctx, { scope: chip('error', 'gate unavailable (fail closed)', 'ban') }),
     error: () => stateCard('alert', 'These policies did not load', 'They failed at 11:38. Rankings, alerts and scopes keep running on the versions in force, and nothing can be approved until this loads.', btn('Try again', 'tinted', 'refresh')) + policies(ctx),
     stale: () => banner('warn', 'Capability proof is old.', 'S10\'s proof is past its review date, so its use is marked stale proof, not passed. Index from 11:12.', 'clock') + policies(ctx, { scope: chip('stale', 'stale proof', 'clock') }),
@@ -173,20 +174,22 @@
 
   /* ---------- propose a change: you write it, code checks it, then you decide ---------- */
   const field = (ctx, l, ph, v = '', dead = false) => `<label class="aappr-field"><span class="small">${l}</span><input type="text" placeholder="${ph}" value="${v}" aria-label="${l}"${dead || !wide(ctx) ? ' disabled' : ''}></label>`;
+  const SETTINGS = ['Signal weight band', 'Weekly band', 'Risk settings', 'Ranking settings', 'Agent settings'];
   const WAIT = 'Waits for a value', NOT = 'Not checked';
   const CHECKS = (o = {}) => kv([['Allowed range', o.range || WAIT], ['Expected impact', o.impact || WAIT], ['Evidence', o.evid || WAIT], ['Cost', o.cost || WAIT], ['How to roll it back', 'A new version, with its own record']]);
-  const proposeBase = (ctx, o = {}) => head('sliders', 'Signal weight band', `${o.ver || 'Settings v9'} · at most 10% a month · code only`, tags(proposed('SCI-D10'))) + box(`${lbl('Your change')}<div class="aappr-form">${field(ctx, 'New value', 'Enter a value inside the allowed range', o.val || '', o.dead)}${field(ctx, 'Why', 'Say why, for the record', o.why || '', o.dead)}</div><div class="aappr-acts aappr-gap">${o.run || act('A58', 'Run the check', 'primary', 'refresh')}</div>`) + box(`${lbl(o.t || 'What code checks before you can approve')}<div class="aappr-gap">${CHECKS(o.rows)}</div>`);
+  const proposeBase = (ctx, o = {}) => head('sliders', 'Signal weight band', `${o.ver || 'Settings v9'} · at most 10% a month · code only`, tags(proposed('SCI-D10'))) + box(`${lbl('Your change')}<div class="aappr-form"><label class="aappr-field"><span class="small">Setting</span><select aria-label="Setting"${o.dead || !wide(ctx) ? ' disabled' : ''}>${SETTINGS.map((t, i) => `<option${i === 0 ? ' selected' : ''}>${t}</option>`).join('')}</select></label>${field(ctx, 'New value', 'Enter a value inside the allowed range', o.val || '', o.dead)}${field(ctx, 'Why', 'Say why, for the record', o.why || '', o.dead)}</div><div class="aappr-acts aappr-gap">${o.run || act('A58', 'Run the check', 'primary', 'refresh')}</div>`) + box(`${lbl(o.t || 'What code checks before you can approve')}<div class="aappr-gap">${CHECKS(o.rows)}</div>`);
   const DRAFT = { val: '8%', why: 'Steadier signals' };
   /* Ready is your draft, checked: every row answered, and A31 live. Empty is before there is a draft */
   const CHECKED = { ...DRAFT, t: 'What code checked', rows: { range: 'Inside the 10% limit', impact: 'Signals move less', evid: '26 weeks of replay', cost: '£0' } };
   const ALLNOT = t => ({ range: t, impact: t, evid: t, cost: t });
   const yours = () => chain('You drafted', 'Code checked', 'You decide');
   const PROP_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Signal weight band'], ['Value', '8% a month'], ['Current version', 'v9'], ['Payload hash', 'c3a8…60f2'], ['Expires', 'Tue 10 Nov, 18:00']];
-  const PROP_END = [['Approved', 'Applied with your fresh sign-in. Settings v10 keeps v9 as its previous version.'], ['You refused', 'Nothing changed. Settings v9 stays current.'], ['Approved, not applied', 'The write failed part way, so settings v9 stays current. Your approval holds, for a retry inside its window.'], ['Also moves', 'Approving moves settings to v10, so a proposal waiting against v9 is refused and rebuilt.']];
+  /* the endings follow the version in force. Conflicting has no endings until the draft restarts on v10 */
+  const propEnd = st => { const [cur, next] = st === 'empty' ? ['v10', 'v11'] : ['v9', 'v10']; return [['Approved', `Applied with your fresh sign-in. Settings ${next} keeps ${cur} as its previous version.`], ['You refused', `Nothing changed. Settings ${cur} stays current.`], ['Approved, not applied', `The write failed part way, so settings ${cur} stays current. Your approval holds, for a retry inside its window.`], ...(st === 'empty' ? [] : [['Also moves', 'Narrow a self-correction band is refused and rebuilt on v10, and Promote R2-HGB v4 binds the 10% limit, so it goes back to its check.']])]; };
   const proposeCore = ctx => region(ctx, {
     what: 'This draft', rows: 3, ok: () => yours() + proposeBase(ctx, CHECKED),
     loading: () => head('sliders', 'Signal weight band', 'Reading the setting', tags(ST.loading)) + skel(2),
-    empty: () => stateCard('sliders', 'No draft yet', 'Pick a setting to change. It shows its version, its allowed range and what code checks before you can approve.', act('A58', 'Choose a setting', 'tinted', 'sliders')) + proposeBase(ctx),
+    empty: () => stateCard('sliders', 'No draft yet', 'Pick a setting below. It shows its version, its allowed range and what code checks before you can approve.') + proposeBase(ctx, { ver: 'Settings v10' }),
     partial: () => banner('warn', 'Partly checked.', 'Range and cost answered. Impact and evidence did not, so this cannot go further yet.', 'clock') + proposeBase(ctx, { ...DRAFT, t: 'What code has checked so far', rows: { range: 'Inside the 10% limit', cost: '£0', impact: NOT, evid: NOT } }),
     error: () => stateCard('alert', 'The check failed', 'It stopped at 11:38. Your draft is kept below, nothing is proposed and settings v9 stays current.', btn('Try again', 'tinted', 'refresh')) + proposeBase(ctx, { ...DRAFT, rows: ALLNOT(NOT) }),
     stale: () => banner('warn', 'Index lagging.', 'Settings v9 is from 11:12. If the version has moved, your draft is rebuilt before you can approve it.', 'clock') + yours() + proposeBase(ctx, CHECKED),
@@ -198,8 +201,8 @@
   const proposeRail = ctx => {
     const s = ctx.state, tail = refused('R14', 'A memory note, chat message or agent proposal can draft a change but never apply one. No change can widen what a route may do.');
     if (s === 'loading') return skel(1);
-    if (['default', 'stale', 'offline', 'denied'].includes(s)) return decision(ctx, { foot: 'Bound to settings v9 · expires Tue 18:00. It is rechecked when it applies.', yes: act('A31', 'Approve this change', 'primary'), nay: no(), tag: CT2 }) + (s === 'denied' || !wide(ctx) ? '' : `<p class="small">${STEP}</p>`) + bindCard('This approval is bound to', PROP_BIND, CT2) + ends(PROP_END) + tail;
-    return `${box(`${lbl('Your decision')}<p class="small muted aappr-gap">This stays shut until code has checked a value. Then it binds you, the environment, the setting, the value, the current version and an expiry, and it is rechecked when it applies.</p><div class="aappr-acts aappr-gap">${off(act('A31', 'Approve this change', 'primary'))}</div>${tags(CT2)}`)}${ends(PROP_END)}${tail}`;
+    if (['default', 'stale', 'offline', 'denied'].includes(s)) return decision(ctx, { foot: 'Bound to settings v9 · expires Tue 18:00. It is rechecked when it applies.', yes: act('A31', 'Approve this change', 'primary'), nay: no(), tag: CT2 }) + (s === 'denied' || !wide(ctx) ? '' : `<p class="small">${STEP}</p>`) + bindCard('This approval is bound to', PROP_BIND, CT2) + ends(propEnd(s)) + tail;
+    return `${box(`${lbl('Your decision')}<p class="small muted aappr-gap">This stays shut until code has checked a value. Then it binds you, the environment, the setting, the value, the current version and an expiry, and it is rechecked when it applies.</p><div class="aappr-acts aappr-gap">${off(act('A31', 'Approve this change', 'primary'))}</div>${tags(CT2)}`)}${s === 'conflict' ? '' : ends(propEnd(s))}${tail}`;
   };
 
   /* ---------- what is current (A) and what is asked (B) ---------- */
@@ -214,7 +217,7 @@
   ];
   const famRows = o => `${sec('Where each stands')}${list(FAM(o).map(([i, t, s, x]) => item(lead(i), t, s, ic('chev-r', 's18'), x, false, true)).join(''))}`;
   /* each of the 4 opens where it is decided: two have a family here, the import its own screen, the promotion Models and evaluations */
-  const PAUSED = '1 paused scope waits on your restart.';
+  const PAUSED = '1 paused scope waits on your restart. Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date.';
   /* The count stays the 4 dated decisions. The paused scope has no expiry, so it sits beside them, not inside the count (R2-m10) */
   const restart = () => `${list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible. Decided in Models and evaluations', ic('chev-r', 's18'), tags(chip('illus', 'Stays open · waits for your yes', 'clock'), CT2), false, true))}${p('It has no expiry, so it sits outside the dated count.')}`;
   const waiting = (n, s, r = Q) => `${sec(`${n} decisions wait on you`)}${p(`${PAUSED} ${s}`)}${list(r.map(q => item(lead(q[0]), q[1], q[2], ic('chev-r', 's18'), tags(expiry(q[3]), q[4] || ''), false, true)).join(''))}${restart()}`;
@@ -232,7 +235,7 @@
   const authority = () => box(`${lbl('Who can do what')}<div class="aappr-gap">${chain()}</div><div class="aappr-gap">${kv([['Environment', 'Prod'], ['Approvals bind', 'One exact change'], ['Rechecked', 'When it applies']])}</div>`) + refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.') + refused('R8', 'MP has one owner, you. Nobody can approve on your behalf, and there are no accounts to grant this to.');
   const Q = [
     ['plus', 'Watch Taiwan Semiconductor', 'TSM · XNYS · Claude proposed in chat', 'Expires today 18:00', Q9],
-    ['cube', 'Promote R2-HGB v4', 'Passed its shadow trial, 8 of 8 weeks. Decided in Models and evaluations', 'Expires Fri 18:00', CT2],
+    ['cube', 'Promote R2-HGB v4', 'All segments, except US tech, 12 months and India midcap, 3 months. Passed its shadow trial, 8 of 8 weeks. Decided in Models and evaluations', 'Expires Fri 18:00', CT2],
     ['sliders', 'Narrow a self-correction band', 'Probabilities: 5 to 4 points a week', 'Expires Mon 18:00', CT2],
     ['layers', 'Confirm a statement import', '11 rows · ledger revision 213', '15 min once approved']
   ];

@@ -56,10 +56,12 @@ export default {
     must(view('models', 'a', 'a-decide', 'iphone', 'default').text.includes('v4 0.188'), 'no proof on a phone');
   },
   'R1-m5': ({ view, must, has, lacks, each }) => {
-    for (const st of ['default', 'partial', 'offline', 'error', 'conflict', 'expired', 'denied']) {
+    for (const st of ['default', 'offline', 'error', 'conflict', 'expired', 'denied']) {
       const t = view('runs', 'a', 'a-clock', 'web', st).text;
       has(t, /run_8d6e/); has(t, /run_8cf7/); has(t, /run_8d02/); has(t, /run_8c41/);
     }
+    /* Partial: the UK record did not answer, so its run has no id or time here (R3-m15) */
+    { const t = view('runs', 'a', 'a-clock', 'web', 'partial').text; has(t, /run_8d6e/); has(t, /UK Run not read Unknown/); lacks(t, /run_8cf7/); }
     lacks(view('runs', 'a', 'a-clock', 'web', 'stale').text, /run_8d6e/, 'Stale says India has no record and still lists its run');
     has(view('runs', 'a', 'a-clock', 'web', 'default').text, /India Wed 10:15 · UK and US Tue/);
     each({ journey: 'runs' }, (v) => lacks(v.text, /about 180 end-of-day listings/));
@@ -113,7 +115,8 @@ export default {
     lacks(view('models', 'a', 'a-bands', 'web', 'empty').text, /Overlay overlay active/);
     const p = view('models', 'a', 'a-pipe', 'web', 'partial').text;
     lacks(p, /Ready for you|8 of 8 scored weeks/);
-    for (const st of ['error', 'conflict']) { const t = view('models', 'a', 'a-pipe', 'web', st).text; lacks(t, /Waiting on you|Ready for you/); has(t, /Not ready for you/); }
+    for (const st of ['error', 'conflict']) { const t = view('models', 'a', 'a-pipe', 'web', st).text; lacks(t, /Ready for you/); has(t, /Not ready for you/); }   // Failed keeps Rules v6 under Waiting on you (R3-m5); v4 stays out of it
+    lacks(view('models', 'a', 'a-pipe', 'web', 'conflict').text, /Waiting on you/);
     for (const st of ['partial', 'error', 'conflict', 'expired']) lacks(view('models', 'a', 'a-evidence', 'web', st).text, /ready for the owner/);
     const cost = view('agents', 'a', 'a-cost', 'web', 'partial').text; lacks(cost, /Settled\. The bill replaced the hold|£0\.22/); has(cost, /Settled figure not read/);
     const r = view('agents', 'a', 'a-roster', 'web', 'empty').text; lacks(r, /admitted|Claude is on/); has(r, /With no valid manifest, no call can start/);
@@ -174,7 +177,7 @@ export default {
   'R2-m4': ({ each, must }) => {
     for (const [option, screen] of [['a', 'a-bands'], ['b', 'b-bands']]) each({ journey: 'models', option, screen }, (v, at) => {
       if (!/data-act="A29"/.test(v.html)) return;
-      for (const re of [/Expected impact Slower correction/, /Evidence 26 weeks of replay/, /Cost a month £0/, /How to roll it back A new version/, /approving one sends the other back to its check/, /Environment Prod/, /Owner You/]) must(re.test(v.text), `${screen} ${at.state}: A29 with no ${re}`);
+      for (const re of [/Expected impact Slower correction/, /Evidence 26 weeks of replay/, /Cost a month £0/, /How to roll it back A new version/, /approving one sends the other back to its check/, /Environment Production/, /Owner You/, /Current version v9/]) must(re.test(v.text), `${screen} ${at.state}: A29 with no ${re}`);
     });
   },
   'R2-m5': ({ view, each, has, must }) => {
@@ -206,7 +209,7 @@ export default {
       must(row, `a-pipe ${st}: no Rules v6 row`);
       must(view('models', 'a', 'a-rules', 'web', st).text.includes(row[1]), `${st}: the row says ${row[1]}, a-rules says ${chipOf(view('models', 'a', 'a-rules', 'web', st).text)}`);
     }
-    for (const st of ['error', 'conflict']) must(!/Not ready for you[^]*Waits for your yes/.test(view('models', 'a', 'a-pipe', 'web', st).text.split('Live')[0]), `${st}: a waiting row under Not ready`);
+    for (const st of ['error', 'conflict']) must(!/waits? (for|on) you/i.test(view('models', 'a', 'a-pipe', 'web', st).text.split('Not ready for you')[1].split('Live')[0]), `${st}: a waiting row under Not ready`);
   },
   'R2-m8': ({ view, has, lacks }) => {
     for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
@@ -250,5 +253,52 @@ export default {
     /* the kind: an approval that ran out on a proposal that stays open always offers the way on */
     each({ journey: 'models', option: 'a', screen: 'a-live', state: 'expired', surface: 'web' }, (v) => must(/data-act="A27"/.test(v.html), 'a-live Expired: no way on'));
     each({ journey: 'models', option: 'a', screen: 'a-decide', state: 'expired', surface: 'web' }, (v) => must(/data-act="A25"/.test(v.html), 'a-decide Expired: no way on'));
+  },
+
+  // Round 3. Hold the kind: every state and sibling screen, and no claim the records do not make.
+  'R3-m1': ({ each, must }) => {
+    const EXC = 'All segments, except US tech, 12 months and India midcap, 3 months';
+    for (const [option, screen] of [['a', 'a-decide'], ['b', 'b-scope']]) each({ journey: 'models', option, screen }, (v, at) => {
+      if (!/Stays paused/.test(v.text) && !/data-act="A25"/.test(v.html)) return;
+      must(!/Scope All segments(?!, except)/.test(v.text), `${screen} ${at.state} ${at.surface}: a bare Scope All segments`);
+      must(!/· all segments(?!, except)/.test(v.text), `${screen} ${at.state} ${at.surface}: a bare all segments in the head`);
+      if (at.surface === 'web' && at.state === 'default') must(v.text.includes(`Scope ${EXC}`), `${screen}: the bind names no exact scope`);
+    });
+  },
+  'R3-m2': ({ view, has, lacks, each }) => {
+    /* Failed tells one story: no mapping for v5 or v6, one base-rate value */
+    for (const [o, sc] of [['a', 'a-rules'], ['b', 'b-rules'], ['a', 'a-pipe']]) has(view('models', o, sc, 'web', 'error').text, /v5 or v6/);
+    has(view('models', 'a', 'a-evidence', 'web', 'error').text, /No rules mapping qualified for v5 or v6/);
+    for (const [o, sc] of [['a', 'a-evidence'], ['a', 'a-decide']]) has(view('models', o, sc, 'web', 'error').text, /This trial also waits on your decision about the rules mapping/);
+    each({ journey: 'models', state: 'error', surface: 'web' }, (v, at) => {
+      lacks(v.text, /Base rate 0\.203/, `${at.screen}: a base rate beside a failed evaluation`);
+      lacks(v.text, /mapping qualified for v6/, `${at.screen}: v6 alone`);
+    });
+  },
+  'R3-m3': ({ view, lacks }) => {
+    for (const [o, sc] of [['a', 'a-evidence'], ['b', 'b-scope']]) for (const st of ['partial', 'error']) lacks(view('models', o, sc, 'web', st).text, /23\.5|1\.2 points narrower/);
+  },
+  'R3-m4': ({ view, has, must }) => {
+    for (const o of OPT) {
+      const v = view('models', o, `${o}-rules`, 'web', 'error');
+      must(/data-act="A78"/.test(v.html), `${o}-rules: A78 is gone`);
+      has(v.text, /No record lists the choices yet, so none is drawn\./);
+      has(v.text, /Meanwhile Rules v6 stays in shadow and Rules v5 stays current\./);
+      must(/data-act="A78"[\s\S]*Proposed · SCI-D03[\s\S]*No record lists the choices/.test(v.html), `${o}-rules: the open id is not under the control`);
+    }
+  },
+  'R3-m5': ({ view, has, lacks, must }) => {
+    const t = view('models', 'a', 'a-pipe', 'web', 'error').text;
+    must(t.indexOf('Waiting on you') >= 0 && t.indexOf('Waiting on you') < t.indexOf('Rules v6 shadow') && t.indexOf('Rules v6 shadow') < t.indexOf('Not ready for you'), 'Rules v6 is not under Waiting on you');
+    has(t.split('Not ready for you')[1].split('Live')[0], /R2-HGB v4/);
+    lacks(t.split('Not ready for you')[1].split('Live')[0], /Rules v6/);
+    lacks(t, /incomplete, never green, and no rules mapping/);
+  },
+  'R3-m6': ({ view, has, must }) => {
+    for (const o of OPT) {
+      const v = view('models', o, `${o}-live`, 'web', 'default');
+      has(v.text, /4 decisions wait on you\. 1 paused scope waits on your restart\. Rules v6, a switch forward, a factor, a route change and the release thresholds stay open with no date\./);
+      must(/second line/.test(v.note), `${o}-live: the note leaves the others out`);
+    }
   },
 };

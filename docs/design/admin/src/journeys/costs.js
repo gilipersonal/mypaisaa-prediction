@@ -20,8 +20,8 @@
   const deltaCard = (r, t = 'Exactly what would change') => box(`${lbl(t)}<div class="acosts-gap">${delta(r)}</div>`);
   /* the cost month's own clock. The chip in the frame is admin's records clock, Wed 4 Nov, and the two never mean the same day */
   const CLOCK = { offline: ['offline', 'Offline · from 21:15', 'wifi-off'], loading: ['fresh', 'Refreshing · last good 21:15'], error: ['error', 'Collector failed 06:10', 'alert'], stale: ['stale', 'Billing 39 h old', 'clock'], partial: ['stale', 'Partial · page cap reached', 'clock'], empty: ['', 'New month', 'clock'] };
-  const clock = ctx => `<div class="acosts-clock" data-mo="rise">${chip(...(CLOCK[ctx.state] || ['fresh', 'Estimates to 21:15']))}<span class="small muted">This screen shows the cost month, day ${ctx.state === 'empty' ? 1 : 18} of 30. The Records chip is admin's own clock, Wed 4 Nov.</span></div>`;
-  const cp = (ctx, spec) => frame(ctx, { ...spec, body: clock(spec.asReady ? { ...ctx, state: 'default' } : ctx) + spec.body });
+  const clock = (ctx, day) => `<div class="acosts-clock" data-mo="rise">${chip(...(day === 19 ? ['stale', 'A day later', 'clock'] : CLOCK[ctx.state] || ['fresh', 'Estimates to 21:15']))}<span class="small muted">This screen shows the cost month, day ${day || (ctx.state === 'empty' ? 1 : 18)} of 30. The Records chip is admin's own clock, Wed 4 Nov.</span></div>`;
+  const cp = (ctx, spec) => frame(ctx, { ...spec, body: clock(spec.asReady ? { ...ctx, state: 'default' } : ctx, spec.day) + spec.body });
   const ends = rows => box(`${lbl('How this can end')}${rows.map(([t, x]) => `<div class="acosts-end"><b>${t}</b><span class="small muted">${x}</span></div>`).join('')}`);
   const fieldOf = (ctx, l, inner) => `<label class="acosts-field"><span class="small">${l}</span>${inner}</label>`;
   const shutField = (ctx, dead) => (dead || !wide(ctx) ? ' disabled' : '');
@@ -168,16 +168,20 @@
   });
   /* Claude is on in Ready, so paid use is already approved: A35 opens only where Claude is off, which Denied draws */
   const PAID = [['Amount', 'Up to £15.00'], ['Period', 'November'], ['Scope', 'Claude and evaluations'], ['Version', 'Paid use v1'], ['Approved', '1 Nov, with a fresh sign-in']];
-  const PAID_ROWS = [['Claude', 'Off', 'On'], ['Month forecast', '£46.48', '£54.73', 'Up to £59.73 with the scan at its cap, 27p under the £60 warning.'], ['Against the plan', '', 'Inside £15', 'Inside the Claude and evaluations allocation and the £70 plan. The £100 ceiling is untouched.']];
+  const PAID_ROWS = [['Claude', 'Off', 'On'], ['A full month', '£46.48', '£54.73', 'Up to £59.73 with the scan at its cap, 27p under the £60 warning. This month has fewer days left to run.'], ['Against the plan', '', 'Inside £15', 'Inside the Claude and evaluations allocation and the £70 plan. The £100 ceiling is untouched.']];
   const PAID_BIND = [['Action', 'Approve paid cash beyond credit'], ['Amount', 'Up to £15.00'], ['Period', 'November'], ['Environment', 'Production'], ['Expected version', 'None approved yet'], ['Payload hash', 'e7d2…41b6'], ['Expires', 'Tomorrow, 18:00']];
-  const WD_ROWS = [['Claude', 'On', 'Off'], ['Month forecast', '£54.73', '£46.48', 'Forecasts and figures run as usual, because Claude only explains.'], ['Chat and research', '', 'Unavailable', 'Each shows the reason.'], ['Open reservations', '', 'Settle', 'Work already held reconciles, and nothing is sent twice.'], ['Paid use version', 'v1', 'v2'], ['To turn it back on', '', 'A new approval', 'Approve paid use again, with a fresh sign-in.']];
+  /* What is spent stays in the month, so withdrawing saves only what has not run: £46.48 plus the Claude gross this state shows */
+  const wdRows = ctx => {
+    const used = ctx.state === 'error' ? 6.71 : ctx.state === 'empty' ? 0 : 7.06, to = 46.48 + used;
+    return [['Claude', 'On', 'Off', 'Forecasts and figures run as usual, because Claude only explains.'], ['This month\'s forecast', '£54.73', gbp(to), used ? `${gbp(used)} of Claude is already spent, and the £0.34 hold settles or releases, so at most ${gbp(to + 0.34)}.` : 'Nothing is spent yet, so the month is the Claude-off month.'], ['A full month', '£54.73', '£46.48'], ['Chat and research', '', 'Unavailable', 'Each shows the reason.'], ['Open reservations', '', 'Settle or release', 'Work already held reconciles, and nothing is sent twice.'], ['Paid use version', 'v1', 'v2'], ['To turn it back on', '', 'Credit or approval', CLAUDE_OFF]];
+  };
   const WD_END = [['Withdrawn', 'Claude stays off until credit is verified or you approve paid use again. No paid fallback switches on by itself.'], ['Not applied', 'The write failed part way, so paid use v1 stays current and nothing was half-changed.']];
   const creditRail = ctx => {
     const s = ctx.state, y = act('A35', 'Approve paid use beyond credit', 'primary');
     if (s === 'loading') return skel(2);
     const stop = ['offline', 'error'].includes(s), wd = act('A76', 'Withdraw paid use');
     if (s === 'denied') return `${deltaCard(PAID_ROWS)}${box(`${lbl('Your decision')}<p class="small muted acosts-gap">Only you approve paid cash beyond credit. No paid fallback switches on by itself, and no agent raises spending.</p><div class="acosts-acts acosts-gap">${y}</div>${wide(ctx) ? `<p class="small acosts-gap">${STEP}</p>` : ''}`)}${box(`${lbl('This approval is bound to')}<div class="acosts-gap">${kv(PAID_BIND)}</div>${tags(proposed('CT-02'), proposed('CT-13'))}`)}${box(`${lbl('Claude off')}${p('Claude off: the month forecast is £46.48.')}`)}`;
-    return `${box(`${head('Paid use', chip('fresh', 'Approved'))}<div class="acosts-gap">${kv(PAID)}</div><p class="small muted acosts-gap">Already approved for November, so this stays shut. It opens when Claude is off. No paid fallback switches on by itself, and no agent raises spending.</p><div class="acosts-acts acosts-gap">${off(y)}</div>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}<div class="acosts-gap">${stop ? off(wd) : wd}</div>${tags(proposed('CT-13'), proposed('MP40-Q6'))}`)}${deltaCard(WD_ROWS, 'If you withdraw paid use')}${ends(WD_END)}`;
+    return `${box(`${head('Paid use', chip('fresh', 'Approved'))}<div class="acosts-gap">${kv(PAID)}</div><p class="small muted acosts-gap">Already approved for November, so this stays shut. It opens when Claude is off. No paid fallback switches on by itself, and no agent raises spending.</p><div class="acosts-acts acosts-gap">${off(y)}</div>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}<div class="acosts-gap">${stop ? off(wd) : wd}</div>${s === 'error' ? p('This waits until the collector is back. Whether it should is your call.') : ''}${tags(proposed('CT-13'), proposed('MP40-Q6'))}`)}${deltaCard(wdRows(ctx), 'If you withdraw paid use')}${ends(WD_END)}`;
   };
 
   /* ---------- the lines and allocations (MP-103): code applies them, only you change one ---------- */
@@ -193,7 +197,7 @@
   const never = () => box(`${head('Never paused')}${tags(...['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chip('fresh', t)))}<p class="small muted acosts-gap">These stay available at every threshold.</p>`);
   const budVersions = ctx => {
     const rb = act('A34', 'Roll back to v1'), shut = ['offline', 'denied', 'error', 'partial'].includes(ctx.state);
-    return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · an allocation differs · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
+    return `${sec('Versions', illus())}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · AWS £24 · Claude and evaluations £13 · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${deltaCard([['AWS allocation', '£22', '£24'], ['Claude and evaluations', '£15', '£13'], ['The £70 plan', '', 'Unchanged', '£30 + £24 + £13 + £3.']], 'If you roll back to v1')}${['error', 'partial'].includes(ctx.state) ? p('Rolling back waits until the billing records load.') : ''}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
   };
   const budgetBase = ctx => rungs(ctx) + allocs(ctx) + budVersions(ctx);
   const budgetCore = ctx => ONE() + region(ctx, {
@@ -218,11 +222,12 @@
   const CH_ROWS = [['Warn line', '£60', '£55'], ['Budgets version', 'v2', 'v3']];
   const CH_WHY = [['Against the month', '', '£4.73 past it', 'Forecast up to £59.73 would pass £55, so a notice reaches you. Nothing stops.'], ['Against £100 and the plan', '', 'Unchanged', 'The £100 ceiling, the £70 plan, the £30 reserve, £75 and £85 stay as they are.'], ['Evidence', '', 'This month\'s forecast', 'Up to £59.73, from the saved figures to 21:15.'], ['Allowed range', '', 'Below £75', `Inside the £100 ceiling. No record sets a range.${tags(proposed('CT-13'))}`], ['Cost a month', '', '£0'], ['How to roll it back', '', 'A new version', 'A rollback makes v4 equal to v2, with its own record. Nothing is overwritten.']];
   const WHY_T = 'Impact, evidence, cost and rollback';
+  const CH_END = [['Approved', 'Applied with your fresh sign-in. Budgets v3 keeps v2 as its previous version.'], ['Not now', 'Your draft stays until it expires. Nothing changes.'], ['Approved, not applied', 'The write failed part way, so Budgets v2 stays current. Your approval holds, for a retry inside its window.']];
   const CH_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Warn line'], ['Value', '£55'], ['Current version', 'Budgets v2'], ['Payload hash', '5e2c…a7f1'], ['Expires', 'Tomorrow, 18:00']];
   const chHead = (c = chip('stale', 'Expires tomorrow 18:00', 'clock')) => box(`<div class="acosts-row"><b>Move the warning line</b>${illus('Example')}</div>${p('£60 to £55 · you drafted this')}${tags(c, proposed('CT-02'))}`, 'display:grid;gap:6px');
   const chain = () => `<div class="acosts-chain" role="list" aria-label="Who did what" data-mo="rise"><div role="listitem">${ic('person', 's16')}<span>You drafted</span></div><div role="listitem">${ic('check', 's16')}<span>Code checked</span></div><div role="listitem" class="me">${ic('person', 's16')}<span>You decide</span></div></div>`;
   const LINES_TO = ['Warn line, £60', 'Reduce line, £75', 'Pause line, £85', 'Market data, £30', 'AWS, £22', 'Claude and evaluations, £15', 'Forecast and price uncertainty, £3'];
-  const draftCard = (ctx, o = {}) => box(`${lbl('Your change')}<div class="acosts-form">${fieldOf(ctx, 'Line or allocation', `<select aria-label="Line or allocation"${shutField(ctx, o.dead)}>${LINES_TO.map((t, i) => `<option${i === 0 ? ' selected' : ''}>${t}</option>`).join('')}</select>`)}${fieldOf(ctx, 'New value', `<input type="text" value="£55" aria-label="New value"${shutField(ctx, o.dead)}>`)}${fieldOf(ctx, 'Why', `<input type="text" value="An earlier notice" aria-label="Why"${shutField(ctx, o.dead)}>`)}</div><div class="acosts-acts acosts-gap">${o.run || act('A58', 'Run the check', 'tinted', 'refresh')}</div>`);
+  const draftCard = (ctx, o = {}) => box(`${lbl('Your change')}<div class="acosts-form">${fieldOf(ctx, 'Line or allocation', `<select aria-label="Line or allocation"${shutField(ctx, o.dead)}>${LINES_TO.map((t, i) => `<option${i === 0 ? ' selected' : ''}>${t}</option>`).join('')}</select>`)}${fieldOf(ctx, 'New value', `<input type="text" value="£55" aria-label="New value"${shutField(ctx, o.dead)}>`)}${fieldOf(ctx, 'Why', `<input type="text" value="An earlier notice" aria-label="Why"${shutField(ctx, o.dead)}>`)}</div><div class="acosts-acts acosts-gap">${o.run || act('A58', 'Run the check', 'tinted', 'refresh')}</div><p class="small muted acosts-gap">Only the warning line is worked here. What code checks for an allocation is open.</p>${tags(proposed('CT-13'))}`);
   const chOk = (ctx, o) => draftCard(ctx, o) + chHead() + chain() + deltaCard(CH_ROWS) + deltaCard(CH_WHY, WHY_T);
   const again = ctx => draftCard(ctx, { dead: true, run: act('A58', 'Draft it again', 'primary') });
   const changeCore = ctx => region(ctx, {
@@ -241,8 +246,9 @@
     const s = ctx.state, y = act('A34', 'Approve this change', 'primary');
     if (s === 'loading') return skel(2);
     if (s === 'empty' || s === 'error') return box(`${lbl('Your decision')}${p(s === 'empty' ? 'Already decided.' : 'Your approval holds. The previous version stays current until this applies.')}`) + never();
+    if (s === 'conflict' || s === 'expired') return `${box(`${lbl('Your decision')}<p class="small muted acosts-gap">${s === 'expired' ? 'An expired change cannot be approved.' : 'Refused against v2. Nothing to decide on it.'}</p><div class="acosts-acts acosts-gap">${off(y)}</div>`)}${box(`${lbl('What this proposed')}<div class="acosts-gap">${kv(CH_BIND.map(r => (r[0] === 'Expires' && s === 'expired' ? [r[0], 'Expired'] : r)))}</div>${tags(proposed('CT-02'), proposed('CT-13'))}`)}${box(`${lbl('The ceiling')}${p('The £100 ceiling is not a control here.')}`)}`;
     const live = s === 'default' || s === 'stale';
-    return `${box(`${lbl('Your decision')}<p class="small muted acosts-gap">Bound to Budgets v2 · expires tomorrow 18:00. A stale, replayed or expired approval is refused.</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}${bs('Not now', 'plain')}</div><p class="small muted acosts-gap">Not now keeps your draft until it expires. Nothing changes.</p>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${wide(ctx) ? `<p class="small acosts-gap">${STEP}</p>` : ''}${s === 'denied' && wide(ctx) ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}`)}${box(`${lbl(['conflict', 'expired'].includes(s) ? 'What this proposed' : 'This approval is bound to')}<div class="acosts-gap">${kv(CH_BIND)}</div>${tags(proposed('CT-02'), proposed('CT-13'))}`)}${box(`${lbl('The ceiling')}${p('The £100 ceiling is not a control here.')}`)}`;
+    return `${box(`${lbl('Your decision')}<p class="small muted acosts-gap">Bound to Budgets v2 · expires tomorrow 18:00. A stale, replayed or expired approval is refused.</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}${bs('Not now', 'plain')}</div><p class="small muted acosts-gap">Not now keeps your draft until it expires. Nothing changes.</p>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${wide(ctx) ? `<p class="small acosts-gap">${STEP}</p>` : ''}${s === 'denied' && wide(ctx) ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}`)}${box(`${lbl('This approval is bound to')}<div class="acosts-gap">${kv(CH_BIND)}</div>${tags(proposed('CT-02'), proposed('CT-13'))}`)}${ends(CH_END)}${box(`${lbl('The ceiling')}${p('The £100 ceiling is not a control here.')}`)}`;
   };
 
   /* ---------- from a spike: every line of the month, largest first. They add up to the month ---------- */
@@ -333,7 +339,7 @@
         render: ctx => cp(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }, {
         id: 'ca-change', title: 'Change a line', note: 'You pick the line or allocation and its value, code checks it, then you decide. The £55 is an example. Empty draws it applied, Failed part way, Conflicting refused. Expired reads as a later moment, past tomorrow 18:00.',
-        render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })
+        render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), day: ctx.state === 'expired' ? 19 : 0, title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })
       }]
     }, {
       id: 'b', name: 'From a spike',
@@ -357,7 +363,7 @@
         render: ctx => cp(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }, {
         id: 'cb-change', title: 'Change a line', note: 'You pick the line or allocation and its value, code checks it, then you decide. The £55 is an example. Empty draws it applied, Failed part way, Conflicting refused. Expired reads as a later moment, past tomorrow 18:00.',
-        render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })
+        render: ctx => cp(ctx, { asReady: ['empty', 'error'].includes(ctx.state), day: ctx.state === 'expired' ? 19 : 0, title: 'Change a line', back: 'Budgets', body: changeCore(ctx), rail: changeRail(ctx) })
       }]
     }]
   });

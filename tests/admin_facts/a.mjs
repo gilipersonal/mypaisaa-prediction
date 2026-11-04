@@ -1,5 +1,10 @@
 // Lane a, MP-64 round 1: Approvals and configuration, Costs and budgets. Each check tests what the fix does on rendered screens, in the
 // states and devices it applies to (lessons 2, 3, 11). Option B shares these parts, so a finding on both is walked on both.
+import { api, load } from '../../scripts/design_journeys_facts.mjs';
+
+// The owner Approvals page, for the findings that join it. OWNER_PAGE lets a proof undo a fix on a copy.
+const ownerPage = () => api(load(process.env.OWNER_PAGE || new URL('../../docs/design/journeys/index.html', import.meta.url).pathname));
+const SCOPE_WORDS = 'All segments, except US tech, 12 months and India midcap, 3 months';
 const COSTS_LINES = ['ca-lines', 'cb-spikes'];
 const WIDE = ['ipad', 'web'], PHONE = ['iphone', 'pwa'];
 const liveBtn = (html, re) => [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].filter(m => !/disabled/.test(m[1]) && re.test(m[2].replace(/<[^>]+>/g, ' ')));
@@ -34,7 +39,7 @@ export default {
       has(view('costs', o, screen, 'web', 'error').text, /Approved, not applied/);
       each({ journey: 'costs', option: o, screen: budget, surface: WIDE }, (v) => { if (v.text.includes('The lines')) has(v.text, /£100 ceiling is not a control here/); });
       const off = view('costs', o, credit, 'web', 'denied');
-      for (const re of [/Up to £15\.00/, /November/, /Payload hash/, /Expires/, /Month forecast/]) has(off.text, re);
+      for (const re of [/Up to £15\.00/, /November/, /Payload hash/, /Expires/, /A full month/]) has(off.text, re);
       lacks(view('costs', o, screen, 'iphone', 'default').html.replace(/data-act="A34" data-phone-off/g, ''), /data-act="A34"/);
     }
   },
@@ -107,7 +112,7 @@ export default {
   },
   'R1-a15': ({ each, view, has, lacks }) => {
     for (const screen of ['ca-lines', 'ca-line', 'ca-held', 'ca-credit', 'ca-budget', 'ca-change', 'cb-spikes', 'cb-credit', 'cb-budget', 'cb-change']) each({ journey: 'costs', screen }, (v, at) => {
-      if (at.state !== 'loading') has(v.text, /This screen shows the cost month, day (18|1) of 30\. The Records chip is admin's own clock/);
+      if (at.state !== 'loading') has(v.text, /This screen shows the cost month, day (18|19|1) of 30\. The Records chip is admin's own clock/);
     });
     has(view('costs', 'a', 'ca-lines', 'web', 'offline').text, /Offline · from 21:15/);
     for (const s of ['ca-held', 'ca-credit']) lacks(view('costs', 'a', s, 'web', 'error').text.replace(/Records failed 11:38 · last good 11:20/g, ''), /11:38|11:20/);
@@ -189,6 +194,70 @@ export default {
     for (const [o, screen] of [['a', 'aa-now'], ['b', 'ab-queue']]) {
       each({ journey: 'approvals', option: o, screen, state: ['default', 'stale', 'offline', 'denied', 'conflict', 'expired', 'partial'] }, (v) => { has(v.text, /1 paused scope waits on your restart\./); has(v.text, /Restart US tech, 12 months/); has(v.text, /outside the dated count/); });
       has(view('approvals', o, screen, 'web', 'default').text, /4 decisions wait on you|4 decisions? wait/);
+    }
+  },
+  // Round 3: no sentence without its record, and a sum beside its inputs is computed from them.
+  'R3-a1': ({ each, has, lacks }) => {
+    for (const [journey, screen] of [['approvals', 'aa-policies'], ['approvals', 'ab-new']]) each({ journey, screen, surface: 'web', state: ['default', 'stale', 'partial', 'conflict', 'expired', 'denied', 'offline', 'empty', 'error'] }, (v, at) => {
+      if (screen === 'ab-new') { lacks(v.text, /New use of Yahoo/); return; }
+      has(row(v.text, 'Yahoo values to Claude routes'), /Stops at once/); has(row(v.text, 'Yahoo prices, S6 and S7'), /Unchanged/); lacks(v.text, /New use of Yahoo|Set the scope again/); has(v.text, /Cached projections and affected derivations/); has(v.text, /Withdraw S10, Yahoo to Claude/);
+    });
+  },
+  'R3-a2': ({ each, has, lacks }) => {
+    const o = ownerPage();
+    for (const [option, screen, step] of [['a', 'aa-model', 'aa-step'], ['b', 'ab-model', 'ab-model-step']]) {
+      for (const state of ['default', 'noModel', 'offline']) { const t = o.view('approvals', option, screen, 'web', state).text; o.must(t.includes(`Scope ${SCOPE_WORDS}`), `${screen} ${state}: the bound scope`); o.must(t.includes('Tasks 3, 6, 12 months'), `${screen} ${state}: the tasks`); }
+      for (const state of ['default', 'noModel']) o.must(o.view('approvals', option, step, 'iphone', state).text.includes(`Scope ${SCOPE_WORDS}`), `${step} ${state}: the sheet's scope`);
+      const n = o.view('approvals', option, screen, 'web', 'noModel').text;
+      for (const w of ['R2-HGB v3, where eligible', 'Back to v3 by itself, where v3 is eligible', 'v4, where v3 issues']) o.must(n.includes(w), `${screen}: "${w}"`);
+      o.must(!/elsewhere/.test(n), `${screen}: "elsewhere" is untrue of India midcap`);
+    }
+    for (const [option, screen] of [['a', 'aa-now'], ['b', 'ab-queue']]) each({ journey: 'approvals', option, screen, state: ['default', 'stale', 'partial', 'denied', 'offline'] }, (v) => has(v.text, new RegExp(SCOPE_WORDS)));
+  },
+  'R3-a3': ({ each, view, has, lacks }) => {
+    for (const [o, screen] of [['a', 'ca-credit'], ['b', 'cb-credit']]) {
+      for (const [state, used] of [['default', 7.06], ['stale', 7.06], ['expired', 7.06], ['error', 6.71]]) {
+        const v = view('costs', o, screen, 'web', state).text, to = 46.48 + used, r = row(v, "This month's forecast");
+        has(r, new RegExp(`£54\\.73 £${to.toFixed(2).replace('.', '\\.')}`), `${state}: the row does not tie to the Claude already spent`);
+        has(r, new RegExp(`at most £${(to + 0.34).toFixed(2).replace('.', '\\.')}`));
+      }
+      has(row(view('costs', o, screen, 'web', 'empty').text, "This month's forecast"), /£46\.48/);
+      has(row(view('costs', o, screen, 'web', 'default').text, 'A full month'), /£54\.73 £46\.48/);
+      has(row(view('costs', o, screen, 'web', 'denied').text, 'A full month'), /£46\.48 £54\.73/);
+      lacks(view('costs', o, screen, 'web', 'denied').text, /Month forecast/);
+    }
+  },
+  'R3-a4': () => {
+    const o = ownerPage();
+    for (const [option, step, res] of [['a', 'aa-step', 'aa-result'], ['b', 'ab-model-step', 'ab-model-result']]) {
+      const st = o.view('approvals', option, step, 'iphone', 'noModel'), rs = o.view('approvals', option, res, 'web', 'noModel');
+      o.must(!st.na && !rs.na, `${step}: still marked as not applying`);
+      o.must(/Previous safe R2-HGB v3, where eligible/.test(st.text) && /Approve with a fresh sign-in/.test(st.text), `${step}: the sheet does not bind the waiting scope`);
+      o.must(/Promoted where v3 was eligible\./.test(rs.text) && /US tech, 12 months stays paused, and its restart still waits on you/.test(rs.text), `${res}: no outcome for the waiting scope`);
+    }
+  },
+  'R3-a5': ({ each, has }) => {
+    for (const [option, screen] of [['a', 'aa-propose'], ['b', 'ab-new']]) each({ journey: 'approvals', option, screen, state: ['default', 'stale', 'offline', 'denied', 'partial', 'error', 'expired'], surface: 'web' }, (v) => { has(v.text, /Narrow a self-correction band is refused and rebuilt on v10/); has(v.text, /Promote R2-HGB v4 binds the 10% limit/); });
+  },
+  'R3-a6': ({ each, has, lacks, must }) => {
+    for (const screen of ['ca-change', 'cb-change']) each({ journey: 'costs', screen, state: ['conflict', 'expired'], surface: WIDE }, (v, at) => {
+      lacks(v.text, /Not now|Bound to Budgets v2|until it expires|expires tomorrow/); must(!liveBtn(v.html, /Approve this change/).length, 'A34 is live on a closed change');
+      if (at.state === 'expired') { has(v.text, /An expired change cannot be approved/); has(v.text, /Expires Expired/); has(v.text, /day 19 of 30/); lacks(v.text, /Tomorrow, 18:00/); } else has(v.text, /Refused against v2/);
+    });
+  },
+  'R3-a7': ({ each, view, has, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-propose'], ['b', 'ab-new']]) {
+      each({ journey: 'approvals', option, screen, state: 'conflict', surface: WIDE }, (v) => lacks(v.text, /keeps v9 as its previous|Settings v9 stays current|settings v9 stays current|Settings v9 ·/));
+      const e = view('approvals', option, screen, 'web', 'empty').text; has(e, /Settings v11 keeps v10/); lacks(e, /Settings v9/);
+    }
+  },
+  'R3-a8': ({ each, view, has, lacks, must }) => {
+    for (const [option, screen] of [['a', 'aa-propose'], ['b', 'ab-new']]) {
+      const v = view('approvals', option, screen, 'web', 'default');
+      must(/<select\b(?![^>]*disabled)[^>]*aria-label="Setting"|<select aria-label="Setting">/.test(v.html), 'no live choice of setting');
+      for (const re of [/Signal weight band/, /Weekly band/, /Risk settings/, /Agent settings/]) has(v.html, re);
+      lacks(view('approvals', option, screen, 'web', 'empty').text, /Choose a setting/);
+      each({ journey: 'approvals', option, screen, surface: PHONE }, (x, at) => must(![...x.html.matchAll(/<select\b[^>]*>/g)].some(m => !/disabled/.test(m[0])), `${at.state}: a live select on a phone`));
     }
   },
 };
