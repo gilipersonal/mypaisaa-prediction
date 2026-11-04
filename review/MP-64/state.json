@@ -1,8 +1,8 @@
 {
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
-  "round_count": 1,
-  "status": "round 1 fixed, waiting on the owner",
+  "round_count": 2,
+  "status": "round 2 running",
   "rounds": [
     {
       "round": 1,
@@ -1051,6 +1051,37 @@
       "fix_commit": "b7e91e2",
       "post_fix_gates": "On the build before one whitespace fix: walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems. On b7e91e2: design_admin_facts 0 problems, 61 of 61 checks hold, walker selftest 33 of 33, review_regress MP-64 56 of 56; every ledger 367 run, 2 retired before that fix.",
       "publication": "Prism Admin v4 republished privately and read back. The publisher read the whole diff from v3."
+    },
+    {
+      "round": 2,
+      "reviewed_commit": "0d1ab4eae441376556b648572b51ff59536fc83e",
+      "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 2 (Recommended)\"",
+      "scope": "git diff 6705fc1..0d1ab4e and its direct joins",
+      "lanes": {
+        "f": "home, files, audit",
+        "m": "runs, agents, models",
+        "a": "approvals, costs",
+        "s": "incidents, identity, shell, inventory, scripts, records"
+      },
+      "brief": "review/MP-64/round-2-brief.md",
+      "gate_results": [
+        "review_checks --base 6705fc1 --run: see round-2-checks.json",
+        "actionlint by hand: pass",
+        "design_journeys_check: 1,600 combinations, 0 problems; selftest 33 of 33",
+        "design_admin_facts 0 problems, 61 of 61 checks, selftest 12 of 12",
+        "design_admin_press: 0 problems",
+        "design_runtime on mains power: see below",
+        "review_regress --every: 367 run, 2 retired, 0 failed; MP-64 56 of 56"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design-walk on docs/design/journeys/index.html",
+          "why": "Its files did not change; the walk with the new checks ran on Approvals and Privacy only."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "next_round": "Decided after the findings."
     }
   ]
 }
