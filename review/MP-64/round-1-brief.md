@@ -3,7 +3,7 @@
 You are one of four independent reviewers. You saw none of the making. Read the files as a stranger. You are read-only: never edit,
 commit, push, publish, or write to Jira or anything outside your own scratch folder.
 
-Snapshot: branch `MP-64-admin-journeys`, commit `SNAPSHOT`, in `/Users/arundutta/projects/mypaisaa-prediction`. Nothing is built: this
+Snapshot: branch `MP-64-admin-journeys`, commit `6705fc1c023d1f2c9739e63b56f486fa9cd2b0d7`, in `/Users/arundutta/projects/mypaisaa-prediction`. Nothing is built: this
 is a design page. **Round 1 covers everything in your lane.**
 
 ## The issue and its acceptance, word for word

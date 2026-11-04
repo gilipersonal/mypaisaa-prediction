@@ -6,7 +6,7 @@
   "rounds": [
     {
       "round": 1,
-      "reviewed_commit": "PENDING",
+      "reviewed_commit": "6705fc1c023d1f2c9739e63b56f486fa9cd2b0d7",
       "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 1\"",
       "scope": "The whole deliverable, picked options in depth",
       "lanes": {
