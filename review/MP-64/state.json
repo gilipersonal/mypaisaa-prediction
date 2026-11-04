@@ -1,8 +1,8 @@
 {
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
-  "round_count": 4,
-  "status": "round 4 fixed, waiting on the owner",
+  "round_count": 5,
+  "status": "round 5 running",
   "rounds": [
     {
       "round": 1,
@@ -2951,6 +2951,36 @@
       "fix_commit": "1a331c2",
       "post_fix_gates": "Walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems; design_admin_facts 0 problems, 173 of 173 checks; journey facts 251 of 251; every ledger 459 run, 2 retired; MP-64 ledger 148 of 148.",
       "publication": "Prism Admin v10 and Journeys v11 republished privately and read back. Confluence rec-apple-testing and any PH-07 authority text, and Jira MP-163, MP-164, MP-167 and MP-168, wait on the owner's yes for R4-s5."
+    },
+    {
+      "round": 5,
+      "reviewed_commit": "eacda924ea4c470026075344edc16b7cae625671",
+      "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 5 (Recommended)\"",
+      "scope": "git diff 1fd5ff6..eacda92 and its direct joins",
+      "lanes": {
+        "f": "home, files, audit",
+        "m": "runs, agents, models",
+        "a": "approvals, costs",
+        "s": "incidents, identity, shell, inventory, scripts, records"
+      },
+      "brief": "review/MP-64/round-5-brief.md",
+      "gate_results": [
+        "review_checks --base 1fd5ff6 --run: see round-5-checks.json",
+        "design_journeys_check: 1,600 combinations, 0 problems",
+        "design_admin_facts 0 problems, 173 of 173 checks",
+        "design_admin_press: 0 problems",
+        "design_runtime on mains power: admin 8 of 8",
+        "review_regress --every: 459 run, 2 retired, 0 failed; MP-64 148 of 148"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design-walk on docs/design/journeys/index.html beyond Approvals",
+          "why": "Only the Approvals journey changed."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "next_round": "None: this is the last round the rule allows."
     }
   ]
 }
