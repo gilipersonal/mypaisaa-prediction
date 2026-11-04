@@ -288,6 +288,6 @@ Asked one by one, with the options on screen. Picks: Admin home "B Nine places".
 
 CT-16, where admin lives: "Under Settings, phones read only". Asked whether a phone may still run recovery when other devices are gone: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Number of journeys: "Keep nine (Recommended)", so Agents is its own journey. The owner accepted Admin home and action A51, Refuse a proposal. These picks are not UX approval (MP-66) and not permission to build.
 
-iPhone passkey against MP-164: "I'll join the Developer Program". Nothing is bought and no date is set, so the records that say the programme is not bought stay true, and MP-164's bar stands until it is. The $99 fee already has its exception month. MP-179 tracks it.
+iPhone passkey against MP-164: "I'll join the Developer Program". Nothing is bought and no date is set, so the records that say the programme is not bought stay true. MP-164 says "until the owner says to join the Developer Program"; whether this answer or the purchase lifts the bar is an open question, and the designs draw it as barred. The $99 fee already has its exception month. MP-179 tracks it.
 
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

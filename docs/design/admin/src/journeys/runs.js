@@ -30,56 +30,60 @@
 
   /* ---------- what ran ---------- */
   const runRow = (title, sub, status, sel = false) => item(lead('refresh'), title, sub, `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', sel, true);
-  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · 7 of 7 priced · finished 21:30') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
-  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · 7 of 7 priced', status);
+  const ind = () => runRow('Forecast run, Wed 4 Nov 10:15', 'run_8d6e · India · issued 11:15', OK('Succeeded'));
+  const ukr = () => runRow('Forecast run, Tue 3 Nov 16:50', 'run_8cf7 · UK · HSBC late', OK('Succeeded'));
+  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 7 of 7 priced · finished 21:30') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
+  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 7 of 7 priced', status);
   const hsbc = (status = WARN('Acknowledged')) => item(lead('alert', 'warn'), 'HSBC price late', 'inc_0012 · detected Tue 16:50', `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', false, true);
-  const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When a run goes wrong', 'tinted', 'alert')}</div>`;
-  const ranOK = () => `${sec('What ran')}${list(tue() + mon() + hsbc())}${links()}`;
-  const ranFailed = () => `${sec('What ran')}${list(tue(BAD('Failed'), 'run_8d02 · Twelve Data failed at 21:14') + mon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
+  const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When it goes wrong', 'tinted', 'alert')}</div>`;
+  const ranOK = (o = {}) => `${sec('What ran')}${list((o.noIndia ? '' : ind()) + (o.tue || tue()) + ukr() + mon() + hsbc())}${links()}`;
+  const ranFailed = () => `${sec('What ran')}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + mon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
 
   /* ---------- health: four alarms, and what they are not allowed to hide ---------- */
   const ALARM = {
-    default: [['Missed daily run', 'Last run Tue 21:15', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
+    default: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
     loading: [['Missed daily run', 'Last good 11:20', PLAIN('Reading')], ['Stale collector', 'Last good 11:20', PLAIN('Reading')], ['Dead-letter queues', 'Last good 11:20', PLAIN('Reading')], ['Error rate', 'Last good 11:20', PLAIN('Reading')]],
     empty: [['Missed daily run', 'No run has been due yet', PLAIN('No evidence yet')], ['Stale collector', 'No collection yet', PLAIN('No evidence yet')], ['Dead-letter queues', 'No job has run', PLAIN('No evidence yet')], ['Error rate', 'Nothing to measure', PLAIN('No evidence yet')]],
-    partial: [['Missed daily run', 'Last run Tue 21:15', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'This source did not answer', WARN('Unknown')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
-    error: [['Missed daily run', 'US, Tue · inc_0013', BAD('Alarm')], ['Stale collector', 'Twelve Data, since 21:14', BAD('Alarm')], ['Dead-letter queues', 'job_3e9a · quarantined with its reason', BAD('1 item')], ['Error rate', 'Read at 11:20', BAD('Alarm')]],
+    partial: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'This source did not answer', WARN('Unknown')], ['Error rate', 'Read at 11:40', OK('No alarm')]],
+    error: [['Missed daily run', 'US, Tue · inc_0013', BAD('Alarm')], ['Stale collector', 'Twelve Data recovered · India collected Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'job_3e9a · quarantined with its reason', BAD('1 item')], ['Error rate', 'Cleared · read at 11:20', OK('No alarm')]],
     stale: [['Missed daily run', 'From 11:12', WARN('Unknown')], ['Stale collector', 'India: nothing recorded since Tue 10:15', BAD('Alarm')], ['Dead-letter queues', 'From 11:12', WARN('Unknown')], ['Error rate', 'From 11:12', WARN('Unknown')]],
     offline: [['Missed daily run', 'From 11:20', WARN('Not current')], ['Stale collector', 'From 11:20', WARN('Not current')], ['Dead-letter queues', 'From 11:20', WARN('Not current')], ['Error rate', 'From 11:20', WARN('Not current')]],
-    conflict: [['Missed daily run', 'Last run Tue 21:15', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Reconciler', 'job_3e9a · reconcile_required', WARN('1 open', 'split')]],
-    expired: [['Missed daily run', 'Last run Tue 21:15', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40 by polling', OK('0 items')], ['Stream', 'Your session closed it', WARN('Closed')]],
-    denied: [['Missed daily run', 'Last run Tue 21:15', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]]
+    conflict: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')], ['Reconciler', 'job_3e9a · reconcile_required', WARN('1 open', 'split')]],
+    expired: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40 by polling', OK('0 items')], ['Error rate', 'Read at 11:40 by polling', OK('No alarm')], ['Stream', 'Your session closed it', WARN('Closed')]],
+    denied: [['Missed daily run', 'India Wed 10:15 · UK and US Tue', OK('No alarm')], ['Stale collector', 'Last collect Wed 10:15', OK('No alarm')], ['Dead-letter queues', 'Read at 11:40', OK('0 items')], ['Error rate', 'Read at 11:40', OK('No alarm')]]
   };
   const alarmRows = ctx => ALARM[ctx.state].map(([a, b, c]) => `<div class="aruns-alarm"><div><b>${a}</b><span class="small muted">${b}</span></div>${c}</div>`).join('');
   const RULE = 'A health check never reports OK while a dead-letter queue holds items or a daily run was missed.';
   const STREAM = { expired: [WARN('closed: expired or revoked'), 'This status was re-read by polling at 11:40. Sign in again to bring the stream back.'], offline: [WARN('Reconnecting', 'wifi-off'), 'The durable records are the truth, so this re-reads them when it reconnects.'], error: [WARN('gap: full re-read', 'refresh'), 'A missed range re-reads the durable records, not the stream.'], default: [PLAIN('polling fallback'), 'Clients poll until the streaming proof passes.'] };
   const health = ctx => { const [c, t] = STREAM[ctx.state] || STREAM.default; return box(`${lbl('Health')}<div class="aruns-alarms">${alarmRows(ctx)}</div><p class="small muted" style="margin-top:8px">${RULE}</p>`) + box(`${lbl('Live status')}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">${c}${proposed('PL-04')}</div><p class="small muted" style="margin-top:8px">${t}</p>`); };
-  const CHECKS = { default: [WARN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], error: [WARN('Daily status only'), 'Twelve Data is failing, so US listings show daily status, never a stale value as current.'], stale: [WARN('Daily status only'), 'Past the freshness tolerance, a listing shows daily status only.'], offline: [PLAIN('From 11:20'), 'Checks run on the server whether or not you are online.'], loading: [PLAIN('Reading'), 'Last good 11:20.'], empty: [PLAIN('Market closed'), 'No check runs on a closed market or a holiday.'], partial: [PLAIN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. India checks did not answer, so they show unknown.'] };
+  const CHECKS = { default: [WARN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], error: [WARN('Delayed quote'), 'Twelve Data is back, and UK listings read Yahoo, labelled with its delay. A delayed quote is never called real-time.'], stale: [WARN('Daily status only'), 'Past the freshness tolerance, a listing shows daily status only.'], offline: [PLAIN('From 11:20'), 'Checks run on the server whether or not you are online.'], loading: [PLAIN('Reading'), 'Last good 11:20.'], empty: [PLAIN('Market closed'), 'No check runs on a closed market or a holiday.'], partial: [PLAIN('Delayed quote'), 'UK listings read Yahoo, labelled with its delay. India checks did not answer, so they show unknown.'] };
   const checks = ctx => { const [c, t] = CHECKS[ctx.state] || CHECKS.default; return box(`${lbl('30-minute checks, separate from this clock')}<div style="margin-top:8px">${c}</div><p class="small muted" style="margin-top:8px">${t}</p>`); };
   const railClock = ctx => `${ctx.state === 'offline' ? '' : `<div>${refresh()}</div>`}${health(ctx)}${checks(ctx)}`;
 
   /* ---------- a run: what it used, what it decided, what it cost ---------- */
   const moment = (t, a, b = '') => `<div class="aruns-tl"><span class="aruns-tt">${t}</span><div><b>${a}</b>${b ? `<span class="small muted">${b}</span>` : ''}</div></div>`;
   const runHead = (title, sub, c, line = NORMAL) => box(`<div class="aruns-mhead"><div><b>${title}</b><span class="small muted">${sub}</span></div>${c}</div><p class="small" style="margin-top:8px">${line}</p>`);
-  const head8d = (c = OK('Succeeded'), line = NORMAL) => runHead('Forecast run, Tue 3 Nov 21:15', 'run_8d02 · US close', c, line);
+  const head8d = (c = OK('Succeeded'), line = NORMAL) => runHead('Forecast run, Tue 3 Nov 21:15', 'run_8d02 · after the US close', c, line);
+  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('21:40', 'The +40 retry failed', 'Still no close · dead-lettered with its reason')}${moment('22:00', 'Frozen at +60: no input set', 'Recorded as missed_origin, never backfilled')}</div>`);
   const timeline = () => box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:20', 'US tech, 12 months paused by code', 'Previous model not eligible. Other scopes kept issuing')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`);
-  const EVID = [['Settings', 'v9'], ['Catalogue', 'v14'], ['Models', 'R2-HGB v3 · R1-LGB v1'], ['Sources', 'Twelve Data · Yahoo'], ['Collect job', 'job_3e9a'], ['Trace', 'tr_51c2 · linked across a queue or batch'], ['Guard decisions', 'Calendar current · credit reserved · cutoff kept']];
+  const EVID = [['Release', 'rel_0031'], ['Settings', 'v9'], ['Catalogue', 'v14'], ['Models', 'R2-HGB v3 · R1-LGB v1'], ['Sources', 'Twelve Data · Yahoo'], ['Collect job', 'job_3e9a'], ['Trace', 'tr_51c2 · linked across a queue or batch'], ['Guard decisions', 'Calendar current · credit reserved · cutoff kept']];
   const evidence = (rows = EVID) => box(`${lbl('Exact versions and guards')}<div style="margin-top:8px">${kv(rows)}</div><p class="small muted" style="margin-top:8px">References only, never document content, prompts, tokens or holding values.</p>`);
-  const costOn = () => box(`${lbl('Cost reservation · cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Market data', 'Reserved · 45 credits a minute of 55'], ['Nightly explanations', 'Held £0.34']])}</div><p class="small muted" style="margin-top:8px">That date is the cost month's, not this run's. Claude's hold is its worst case, and it settles once.</p><div style="margin-top:10px">${bs('Open Costs and budgets', 'tinted')}</div>`);
-  const costOff = () => box(`${lbl('Cost reservation')}<div style="margin-top:8px">${kv([['Market data', 'Reserved · 45 credits a minute of 55'], ['Claude', 'Refused before it started']])}</div><p class="small muted" style="margin-top:8px">No verified credit and no paid approval, so every Claude call is refused. ${CLAUDE_OFF} This is the run's date, not the cost month's.</p><div style="margin-top:10px">${bs('Open Costs and budgets', 'tinted')}</div>`);
-  const costHeld = () => box(`${lbl('Cost reservation · cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Nightly explanations', 'Held £0.34'], ['Status', 'ambiguous']])}</div><p class="small muted" style="margin-top:8px">An ambiguous call keeps its reservation until it is reconciled from the provider's usage report. It is never repeated.</p>`);
+  const costOn = () => box(`${lbl('Cost reservation · cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Market data cap', '45 credits a minute of 55'], ['Nightly explanations', 'Held £0.34']])}</div><p class="small muted" style="margin-top:8px">That date is the cost month's, not this run's. Claude's hold is its worst case, and it settles once.</p><div style="margin-top:10px">${bs('Open Costs and budgets', 'tinted')}</div>`);
+  const costOff = () => box(`${lbl('Cost reservation')}<div style="margin-top:8px">${kv([['Market data cap', '45 credits a minute of 55'], ['Claude', 'Refused before it started']])}</div><p class="small muted" style="margin-top:8px">No verified credit and no paid approval, so every Claude call is refused. ${CLAUDE_OFF} This is the run's date, not the cost month's.</p><div style="margin-top:10px">${bs('Open Costs and budgets', 'tinted')}</div>`);
+  const costHeld = () => box(`${lbl('Cost reservation')}<div style="margin-top:8px">${kv([['Twelve Data credits', 'Held · ambiguous']])}</div><p class="small muted" style="margin-top:8px">A timeout keeps its reservation as ambiguous until it is reconciled. It is never repeated.</p>`);
+  const jobDoor = (sub = 'job_3e9a · attempt 1 of 3') => list(item(lead('db'), 'Collect job', sub, ic('chev-r', 's18'), '', false, true));
   const open = (extra = '') => `<div class="aruns-acts">${bs('Open in Audit', 'tinted', 'shield')}${extra}</div>`;
-  const runOK = (ctx, cost = costOn) => head8d() + timeline() + evidence() + cost() + open();
+  const runOK = (ctx, cost = costOn) => head8d() + timeline() + jobDoor() + evidence() + cost() + open();
   const ranOut = 'The worker\'s lease ran out at 21:17, so the job resumed from its last durable step. The idempotency key held it to one result.';
   const runRegion = ctx => region(ctx, {
     what: 'This run', rows: 4, ok: () => runOK(ctx),
     loading: () => head8d(chip('', 'Loading'), 'Last good 11:20') + skel(3),
     empty: () => stateCard('grid', 'This run has no record yet', 'Tonight\'s run is due 21:15. Nothing starts early, and no record means not run, never passed.', bs('Back to the clock', 'tinted')),
-    partial: () => banner('warn', 'Missing span.', 'One span of tr_51c2 did not arrive. The activity stays complete from the durable records.', 'clock') + head8d() + timeline() + evidence(EVID.map(r => (r[0] === 'Trace' ? ['Trace', 'tr_51c2 · missing span'] : r))) + costOn() + open(),
-    error: () => head8d(BAD('Failed'), `${FAIL_LINE} ${LAST_GOOD}`) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · job_3e9a')}${moment('21:14', 'No input set', 'Recorded as missed_origin, never backfilled')}</div>`) + evidence(EVID.filter(r => !['Trace', 'Guard decisions'].includes(r[0])).concat([['Trace', 'tr_51c2 · complete trace'], ['Incident', 'inc_0013 · open'], ['Request', 'req_a90f']])) + open(bs('Open inc_0013', 'primary')) + para('These records are from 11:20, the last good read.'),
+    partial: () => banner('warn', 'Missing span.', 'One span of tr_51c2 did not arrive. The activity stays complete from the durable records.', 'clock') + head8d() + timeline() + jobDoor() + evidence(EVID.map(r => (r[0] === 'Trace' ? ['Trace', 'tr_51c2 · missing span'] : r))) + costOn() + open(),
+    error: () => head8d(BAD('Failed'), `${FAIL_LINE} ${LAST_GOOD}`) + failTL() + jobDoor('job_3e9a · 3 attempts, all failed') + evidence(EVID.filter(r => !['Trace', 'Guard decisions'].includes(r[0])).concat([['Trace', 'tr_51c2 · complete trace'], ['Incident', 'inc_0013 · open'], ['Request', 'req_a90f']])) + open(bs('Open inc_0013', 'primary')) + para('These records are from 11:20, the last good read.'),
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This run is as of 11:12. It finished, so its evidence will not change, but a linked incident may be newer.', 'clock') + runOK(ctx),
-    offline: () => offline(ctx, 'this run') + head8d() + timeline() + evidence() + costOn(),
-    conflict: () => banner('warn', 'reconcile_required.', 'The run says succeeded, and a provider usage report shows a call its job does not: ambiguous_external_outcome. Nothing is repeated while this stands.', 'split') + head8d(WARN('reconcile_required', 'split')) + timeline() + evidence() + costHeld() + tagged(proposed('CT-05'), 'The reconciler\'s outcomes are not approved yet.') + open(),
+    offline: () => offline(ctx, 'this run') + head8d() + timeline() + jobDoor() + evidence() + costOn(),
+    conflict: () => banner('warn', 'reconcile_required.', 'job_3e9a sent a Twelve Data call and got no answer: ambiguous_external_outcome. Its credits stay held, and nothing is repeated while this stands.', 'split') + head8d(WARN('reconcile_required', 'split')) + timeline() + jobDoor('job_3e9a · reconcile_required') + evidence() + costHeld() + tagged(proposed('CT-05'), 'The reconciler\'s outcomes are not approved yet.') + open(),
     expired: () => banner('warn', 'Lease expired.', ranOut, 'clock') + head8d(OK('Succeeded · resumed')) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:17', 'Lease expired', 'Resumed from the last durable step')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`) + evidence() + open(),
     denied: () => banner('warn', 'That link was refused: permission_denied.', 'It was made in dev, and prod refuses it. This run stays open to read, because reading needs no fresh sign-in.', 'lock') + runOK(ctx, costOff)
   });
@@ -87,8 +91,8 @@
 
   /* ---------- a job: attempts, lease, trace, retention ---------- */
   const attempt = (n, b, c) => `<div class="aruns-attempt"><span class="aruns-tt">${n}</span><div class="small muted">${b}</div>${c}</div>`;
-  const ATTEMPTS_OK = () => attempt('1', 'Twelve Data · about 180 end-of-day listings', OK('Succeeded'));
-  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:14', BAD('Failed'));
+  const ATTEMPTS_OK = () => attempt('1', 'Twelve Data · US listings', OK('Succeeded'));
+  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:14', BAD('Failed')) + attempt('+40', '21:40 · the one missing-close retry · failed', BAD('Failed'));
   const attemptsBox = (rows, foot = 'At most 3 attempts, with 2 and 8-second waits.') => box(`${lbl('Attempts')}<div class="aruns-attempts">${rows}</div><p class="small muted" style="margin-top:8px">${foot}</p>`);
   const jobKV = (state = 'succeeded', lease = 'Released') => box(`${lbl('The durable record')}<div style="margin-top:8px">${kv([['State', state], ['Business id', 'collect · US · Tue 3 Nov'], ['Idempotency key', 'Held · one result per key'], ['Lease', lease], ['Accepted, started, terminal', 'Each has evidence']])}</div>`);
   const traceBox = (t = 'linked across a queue or batch', x = 'Queued, resumed and scheduled work starts a new trace, joined by business ids and span links.') => box(`${lbl('Trace')}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${id('tr_51c2')}${PLAIN(t)}</div><p class="small muted" style="margin-top:8px">${x}</p>`);
@@ -103,7 +107,7 @@
     error: () => jobHead(BAD('dead-lettered')) + attemptsBox(ATTEMPTS_BAD(), 'Past its bound, the item went to its dead-letter queue and quarantine with a reason.') + jobKV('dead-lettered, quarantined') + traceBox('complete trace', 'Follow req_a90f from here. The trace points to access-controlled evidence, not its content.'),
     stale: () => banner('warn', 'Stale.', 'This job record is from 11:12, while the index catches up. A terminal job does not change, so its attempts stand.', 'clock') + jobOK(),
     offline: () => offline(ctx, 'this job') + jobOK(),
-    conflict: () => jobHead(WARN('reconcile_required', 'split')) + banner('warn', 'Sent, with no answer on record.', 'Attempt 1 has a provider charge and no response, so it is reconciled from the provider\'s report rather than repeated.', 'split') + attemptsBox(attempt('1', 'Twelve Data · ambiguous_external_outcome', WARN('Unknown', 'split'))) + jobKV('reconcile_required') + tagged(proposed('CT-05'), 'What the reconciler may conclude, and any stuck-run threshold, is open.'),
+    conflict: () => jobHead(WARN('reconcile_required', 'split')) + banner('warn', 'Sent, with no answer on record.', 'Attempt 1 went out and no answer came back, so its credits stay held and it is reconciled, not repeated.', 'split') + attemptsBox(attempt('1', 'Twelve Data · ambiguous_external_outcome', WARN('Unknown', 'split'))) + jobKV('reconcile_required') + tagged(proposed('CT-05'), 'What the reconciler may conclude, and any stuck-run threshold, is open.'),
     expired: () => jobHead(OK('succeeded · resumed')) + banner('warn', 'Lease expired.', ranOut, 'clock') + attemptsBox(ATTEMPTS_OK()) + jobKV('succeeded', 'Expired at 21:17, then taken again') + traceBox(),
     denied: () => banner('warn', 'A span\'s evidence was refused.', 'The trace points to access-controlled evidence, and this session cannot open it. The job record stays readable.', 'lock') + jobOK()
   });
@@ -120,14 +124,14 @@
     loading: () => box(`${lbl('Comparing run_8d02 and run_8c41')}<span class="sk" style="height:96px;margin-top:10px"></span>`),
     empty: () => stateCard('split', 'One run, so nothing to compare', 'A comparison needs two recorded runs. The next one is due tonight 21:15.'),
     partial: () => banner('warn', 'One side is short.', 'The summary for run_8c41 answered and its span links did not. Anything unread shows unknown, and is never counted as the same.', 'clock') + cmpTable(CMP.map(r => (r[0] === 'Collect attempts' ? [r[0], r[1], 'Unknown'] : r))) + WHY(),
-    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Started', '21:15', '21:15'], ['Priced', 'None: no input set', '7 of 7'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + box(`${lbl('Why they differ')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · inc_0013')}</div>`),
+    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Due', '21:15', '21:15'], ['Priced', 'None: no input set', '7 of 7'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + failTL(),
     stale: () => banner('warn', 'Stale.', 'Both summaries are from 11:12. Each run has finished, so a later change would be a linked incident, not a new figure.', 'clock') + cmpOK(),
     offline: () => offline(ctx, 'this comparison') + cmpOK(),
-    conflict: () => banner('warn', 'run_8d02 has an open reconcile.', 'Its cost line is unsettled, so this compares versions only. A comparison never settles a reconcile.', 'split') + cmpTable(CMP.concat([['Cost reservation', 'ambiguous', 'settled']])) + WHY(),
+    conflict: () => banner('warn', 'run_8d02 has an open reconcile.', 'Its Twelve Data credits are unsettled, so this compares versions only. A comparison never settles a reconcile.', 'split') + cmpTable(CMP.concat([['Twelve Data credits', 'ambiguous', 'settled']])) + WHY(),
     expired: () => banner('warn', 'Past retention.', 'You asked to compare against a run older than 90 days. Its summary has gone, so this shows the two you can compare. Its forecasts, scores and audit stay.', 'clock') + cmpOK(),
     denied: () => banner('warn', 'Compare needs no fresh sign-in.', 'A refused link never blanks what you may read, so both runs stay open here.', 'lock') + cmpOK()
   });
-  const railCmp = ctx => (ctx.state === 'error' ? `${box(`${lbl('Reads')}<p class="small muted" style="margin-top:6px">The failed run stays beside the good one, so the gap is plain. Nothing is hidden and nothing is rewritten.</p>`)}` : `${box(`${lbl('Reads')}<p class="small muted" style="margin-top:6px">Comparing two runs writes nothing. Open a row to see the run it came from.</p>`)}`);
+  const railCmp = ctx => (ctx.state === 'error' ? `${box(`${lbl('Reads')}<p class="small muted" style="margin-top:6px">The failed run stays beside the good one, so the gap is plain. Nothing is hidden and nothing is rewritten.</p>`)}` : `${box(`${lbl('Reads')}<p class="small muted" style="margin-top:6px">Comparing two runs writes nothing.</p>`)}`);
 
   /* ---------- when a run goes wrong: what code may do, what needs you, what nobody may do ---------- */
   const ladder = (a, b) => box(`${lbl('Who may do what')}<div class="aruns-who"><div><b>Code, within bounds</b>${a}</div><div><b>Needs you, on the incident</b>${b}</div></div><div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${proposed('CT-14')}<span class="small muted">The limits on code are not approved yet, so none is shown.</span></div>`);
@@ -136,7 +140,7 @@
   const lateHead = (c = WARN('Acknowledged')) => runHead('HSBC price late', 'inc_0012 · UK close, Tue 3 Nov', c, 'Late: last price 14:10 (Yahoo)');
   const lateTL = () => box(`${lbl('The UK clock, Tue')}<div class="aruns-tls">${moment('14:10', 'Last price', 'Before the 16:35 UK close · Yahoo')}${moment('16:50', 'Detected at +15', 'Collect found no newer price')}${moment('17:15', 'Retried at +40', 'Still none')}${moment('17:35', 'Frozen at +60', 'The cutoff did not move for it')}</div><div style="margin-top:8px">${proposed('DATA-DEC-02')}</div>`);
   const failHead = () => runHead('Forecast run failed', 'inc_0013 · run_8d02', BAD('Open'), `${FAIL_LINE} ${LAST_GOOD}`);
-  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('Then', 'Dead-lettered with its reason', 'Replay: bound reached: escalated')}${moment('Result', 'missed_origin', 'Recorded, never backfilled into a past origin')}</div>`);
+
   const recoverOK = () => lateHead() + lateTL() + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0012', 'primary')}</div>`;
   const recoverRegion = ctx => region(ctx, {
     what: 'This failure', rows: 4, ok: recoverOK,
@@ -195,7 +199,7 @@
     error: () => detailBHead(BAD('Failed'), `${FAIL_LINE} ${LAST_GOOD}`) + attemptsBox(ATTEMPTS_BAD(), 'Past its bound, the item went to its dead-letter queue and quarantine with a reason.') + jobKV('dead-lettered, quarantined') + evidence(EVID.filter(r => !['Guard decisions'].includes(r[0])).concat([['Incident', 'inc_0013 · open'], ['Request', 'req_a90f']])) + open(bs('Open inc_0013', 'primary')),
     stale: () => banner('warn', 'Stale.', 'This run is as of 11:12. It finished, so its attempts stand, but a linked incident may be newer.', 'clock') + detailOK(),
     offline: () => offline(ctx, 'this run') + head8d() + attemptsBox(ATTEMPTS_OK()) + jobKV() + evidence() + costOn(),
-    conflict: () => detailBHead(WARN('reconcile_required', 'split')) + banner('warn', 'Sent, with no answer on record.', 'Attempt 1 has a provider charge and no response, so it is reconciled rather than repeated.', 'split') + attemptsBox(attempt('1', 'Twelve Data · ambiguous_external_outcome', WARN('Unknown', 'split'))) + jobKV('reconcile_required') + costHeld() + tagged(proposed('CT-05'), 'What the reconciler may conclude is open.'),
+    conflict: () => detailBHead(WARN('reconcile_required', 'split')) + banner('warn', 'Sent, with no answer on record.', 'Attempt 1 went out and no answer came back, so its credits stay held and it is reconciled, not repeated.', 'split') + attemptsBox(attempt('1', 'Twelve Data · ambiguous_external_outcome', WARN('Unknown', 'split'))) + jobKV('reconcile_required') + costHeld() + tagged(proposed('CT-05'), 'What the reconciler may conclude is open.'),
     expired: () => detailBHead(OK('Succeeded · resumed')) + banner('warn', 'Lease expired.', ranOut, 'clock') + attemptsBox(ATTEMPTS_OK()) + jobKV('succeeded', 'Expired at 21:17, then taken again') + evidence() + open(),
     denied: () => banner('warn', 'That link was refused: permission_denied.', 'It was made in dev, and prod refuses it. This run stays open to read, because reading needs no fresh sign-in.', 'lock') + detailOK(costOff)
   });
@@ -247,7 +251,7 @@
       },
       screens: [{
         id: 'a-clock', title: 'Tonight\'s clock',
-        note: 'At 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002 and the question is in the report.',
+        note: 'At 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002. See What these screens wait on, under State inventory.',
         render: ctx => frame(ctx, {
           title: 'Tonight\'s clock', back: 'Admin',
           body: region(ctx, {
@@ -256,9 +260,9 @@
             empty: () => stateCard('clock', 'No market has run yet', 'The first collection starts at +15 after the first eligible close. No run means no evidence, and never a pass.') + us(PLAIN('Waiting for close'), DUE, [['Watermark', 'None yet'], ['Last success', 'None yet'], ['Next due', 'Tonight 21:15']]),
             partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK record did not, so it shows unknown and never on time.', 'clock') + india() + uk(WARN('Unknown'), GAP, [['Watermark', 'Not read'], ['Last success', 'Not read'], ['Next due', 'Not read']]) + us() + ranOK(),
             error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}.`, 'alert') + india() + uk() + us(BAD('missed_origin · Tue'), DUE, [['Watermark', 'Mon close'], ['Last success', 'Mon 21:15'], ['Next due', 'Tonight 21:15']], para('Tuesday stays missed, and is never backfilled. Tonight runs normally.')) + ranFailed(),
-            stale: () => banner('warn', 'Stale.', 'From 11:12. India has no record of its 10:15 collection, so it is stale, not on time.', 'clock') + india(WARN('stale'), ['late', 'late', 'late', 'late'], [['Watermark', 'Tue close'], ['Last success', 'Tue 10:15'], ['Next due', 'Today 10:15, past']], para('stale: its last success is older than its next due time.')) + uk() + us() + ranOK(),
+            stale: () => banner('warn', 'Stale.', 'From 11:12. India has no record of its 10:15 collection, so it is stale, not on time.', 'clock') + india(WARN('stale'), ['late', 'late', 'late', 'late'], [['Watermark', 'Tue close'], ['Last success', 'Tue 10:15'], ['Next due', 'Today 10:15, past']], para('stale: its last success is older than its next due time.')) + uk() + us() + ranOK({ noIndia: true }),
             offline: () => offline(ctx, 'the clock') + india() + uk() + us() + ranOK(),
-            conflict: () => banner('warn', 'Two records disagree.', 'India\'s run says issued at 11:15, and its job says reconcile_required. It counts as neither until the reconciler settles it.', 'split') + india(WARN('reconcile_required', 'split'), ['done', 'done', 'done', 'gap']) + uk() + us() + ranOK(),
+            conflict: () => banner('warn', 'Two records disagree.', 'US, Tue: run_8d02 says succeeded, and job_3e9a says reconcile_required, because a Twelve Data call got no answer. It counts as neither until the reconciler settles it.', 'split') + india() + uk() + us(WARN('reconcile_required · Tue', 'split')) + ranOK({ tue: tue(WARN('reconcile_required', 'split')) }),
             expired: () => banner('warn', 'The live stream closed.', 'Your session ended it, so this is a fresh read at 11:40, not a live view. Reading needs no sign-in here.', 'clock') + india() + uk() + us() + ranOK(),
             denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Nothing here can be changed, so nothing here asks for one. A refused act says so, and it never blanks what you may read.', 'lock') + refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by anyone, you included.') + india() + uk() + us() + ranOK()
           }),
@@ -266,7 +270,7 @@
         })
       }, {
         id: 'a-run', title: 'Run run_8d02',
-        note: 'One run shows the exact versions, guards, attempts and reservation behind it. The 21:15 start, 21:30 finish and 21:00 cutoff are the owner journeys\'. POLICY-002 would freeze at 22:00, and the question is in the report. In Failed, 21:14 comes before the 21:15 start: same question. The reservation is from the cost month and says so. Denied shows Claude off, with no Claude spend.',
+        note: 'One run shows the exact versions, guards, attempts and reservation behind it. The 21:15 start, 21:30 finish and 21:00 cutoff are the owner journeys\', and POLICY-002 would freeze at 22:00. The owner journeys read one nightly run across the portfolio, and PH03-S09 runs each market apart, so this run shows all 7 holdings as they do. Both questions are under State inventory, What these screens wait on. Failed keeps the owner\'s 21:14, before the 21:15 start, and records missed_origin only at the 22:00 freeze. Denied shows Claude off, with no Claude spend.',
         render: ctx => frame(ctx, { title: 'run_8d02', back: 'Tonight\'s clock', body: runRegion(ctx), rail: railRun(ctx) })
       }, {
         id: 'a-job', title: 'Job job_3e9a',
@@ -292,23 +296,23 @@
       },
       screens: [{
         id: 'b-list', title: 'Every run',
-        note: 'run_8cf7 and run_8d6e are ids minted for this list, named in the report.',
+        note: 'run_8cf7 and run_8d6e are illustrative ids.',
         render: ctx => frame(ctx, {
-          title: 'Every run', back: 'Admin',
+          title: 'Runs', back: 'Admin',
           body: filters('All') + listRegion(ctx),
           rail: railList(ctx)
         })
       }, {
         id: 'b-detail', title: 'Run run_8d02',
         note: 'Attempts and evidence on one screen, with no separate job screen.',
-        render: ctx => frame(ctx, { title: 'run_8d02', back: 'Every run', body: detailRegion(ctx), rail: railDetail(ctx) })
+        render: ctx => frame(ctx, { title: 'run_8d02', back: 'Runs', body: detailRegion(ctx), rail: railDetail(ctx) })
       }, {
         id: 'b-queues', title: 'Queues',
         note: 'Depths are shown only where the records were read. Unknown is never zero.',
-        render: ctx => frame(ctx, { title: 'Queues', back: 'Every run', body: queueRegion(ctx), rail: railQueue() })
+        render: ctx => frame(ctx, { title: 'Queues', back: 'Runs', body: queueRegion(ctx), rail: railQueue() })
       }, {
         id: 'b-compare', title: 'Compare two runs',
-        render: ctx => frame(ctx, { title: 'Compare', back: 'Every run', body: cmpRegion(ctx), rail: railCmp(ctx) })
+        render: ctx => frame(ctx, { title: 'Compare', back: 'Runs', body: cmpRegion(ctx), rail: railCmp(ctx) })
       }, {
         id: 'b-dead', title: 'Dead-letter item',
         render: ctx => frame(ctx, { title: 'Dead-letter item', back: 'Queues', body: deadRegion(ctx), rail: railRecover() })

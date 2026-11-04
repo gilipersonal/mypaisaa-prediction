@@ -15,15 +15,15 @@
 | Incidents and recovery | "A Incident timeline (Recommended)" |
 | Identity and devices | "A Paths first (Recommended)" |
 
-Where admin lives: "Under Settings, phones read only". A phone keeps recovery: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Journeys: "Keep nine (Recommended)". The owner accepted Admin home and A51. iPhone passkey: "I'll join the Developer Program"; nothing is bought yet, so MP-164's bar stands and enrolling stays on the Mac until it is.
+Where admin lives: "Under Settings, phones read only". A phone keeps recovery: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Journeys: "Keep nine (Recommended)". The owner accepted Admin home and A51. iPhone passkey: "I'll join the Developer Program". MP-164 says "until the owner says to join the Developer Program"; whether the answer or the purchase lifts the bar is asked on the page, and it is drawn as barred. MP-179 tracks it.
 
-On a phone, `permissions.json` marks each act live or off. Reading, acknowledging or resolving an incident, revoking, enrolling and cancelling a recovery stay live. Everything else shows where to do it. The owner journeys are unchanged: approving there on a phone is MP-55, not admin. That line is the maker's reading, for the owner to correct.
+On a phone, `permissions.json` marks each act live or off. That split is the maker's reading, for the owner to correct, and the page asks. Live: reading, acknowledging an incident, revoking a device, cancelling or resuming a recovery. Enrolling a passkey stays off while MP-164 holds. The owner journeys are unchanged: approving there on a phone is MP-55, not admin.
 
 The owner's words that started this: "lets get started", then "Skip to MP-64" (4 November 2026). The story says the owner picks one
 option per journey, so there is no flip here; the flip answer of 4 November covers the eight owner journeys only.
 
 Drawn: nine admin journeys and Admin home, two options each, 105 screens, in ten states, on iPhone, iPad, desktop and phone web, in
-light and dark. Page: `docs/design/admin/index.html`, synced privately to https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf. Permission inventory: `docs/design/admin/permissions.json`, 51 actions and 19
+light and dark. Page: `docs/design/admin/index.html`, synced privately to https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf. Permission inventory: `docs/design/admin/permissions.json`, 76 actions and 19
 refused acts. Facts behind the page: [facts.md](facts.md). Brief: [brief.md](brief.md).
 
 | Journey | Option A, screens | Option B, screens |

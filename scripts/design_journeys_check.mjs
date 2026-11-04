@@ -264,7 +264,7 @@ function selftest() {
   const run = (html, extra = ['--only', 'privacy']) => {
     const f = join(tmp, 'case.html');
     writeFileSync(f, html);
-    const r = spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '120', 'node', self, f, '--themes', 'light', '--surfaces', 'iphone', ...extra], { encoding: 'utf8' });
+    const r = spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '120', 'node', self, f, '--themes', 'light', ...(extra.includes('--surfaces') ? [] : ['--surfaces', 'iphone']), ...extra], { encoding: 'utf8' });
     return { status: r.status, out: r.stdout + r.stderr };
   };
   const css = (rule) => page.replace('</style>', `${rule}</style>`);
@@ -297,6 +297,8 @@ function selftest() {
     'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
     'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
     'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
+    'a back label on the title': [css('.navbar .nbt { text-align: left; padding-left: 0; }'), 'back label runs into the title'],
+    'a chip out of the sidebar': [css('.jside .chip { position: relative; left: 400px; }'), 'runs out of the sidebar', ['--only', 'privacy', '--surfaces', 'web']],
     'a frame that does not turn': [page.replace('rotateY(-90deg)', 'rotateY(0deg)').replace('rotateY(90deg)', 'rotateY(0deg)'), 'the frame does not turn'],
     'a caption that stays': [page.replace('cap.innerHTML = `<span class="tag">', 'cap.dataset.x = `<span class="tag">'), 'does not follow'],
     'a frame that does not say it turned': [page.replace('Turned to ${oid.toUpperCase()}', 'Showing ${oid.toUpperCase()}'), 'does not say so'],

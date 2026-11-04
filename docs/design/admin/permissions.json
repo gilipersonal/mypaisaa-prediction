@@ -1,5 +1,5 @@
 {
- "about": "Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, drafted from the records for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved. No audit operation vocabulary is approved (CT-03). Nothing here approves a design or a build. phone: live or off. The owner, 4 November 2026: phones read and acknowledge, changes happen on iPad or desktop, and recovery stays live on a phone.",
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live or off. The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. Which act is live on a phone is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. Nothing here approves a design or a build.",
  "actions": [
   {
    "id": "A01",
@@ -21,8 +21,8 @@
    ],
    "step_up": "open",
    "step_up_note": "Open (CT-01); needs \"current owner authorization and a short-lived access path\" `[history]`",
-   "audit": "Access event; class open (CT-03)",
-   "source": "AOR:61",
+   "audit": "Access event in AuditEvidence; class open (CT-03)",
+   "source": "audit and observability requirements (history)",
    "phone": "live"
   },
   {
@@ -34,7 +34,7 @@
    ],
    "step_up": "no",
    "step_up_note": "No: read access is \"distinct from controls\"",
-   "audit": "None named",
+   "audit": "None for a read; access events are open (CT-03)",
    "source": "GAP-CT-16",
    "phone": "live"
   },
@@ -58,7 +58,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "New draft revision; audit class open",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
    "source": "PH01-S12",
    "phone": "off"
   },
@@ -70,22 +70,23 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "Open (CT-03)",
-   "source": "FP:53-83",
+   "audit": "Draft closes as cancelled, and AuditEvidence; class open (CT-03)",
+   "source": "financial policies, draft states",
    "phone": "off"
   },
   {
    "id": "A07",
    "action": "Approve an import",
    "journeys": [
-    "files",
-    "approvals"
+    "approvals",
+    "files"
    ],
    "step_up": "yes",
-   "step_up_note": "Yes",
+   "step_up_note": "Yes. Named, because in this story no import has every group settled, so A08 is the control drawn",
    "audit": "OwnerApproval, AuditEvidence, CommitReceipt in the same logical commit",
    "source": "PH01-S14, PH01-S04",
-   "phone": "off"
+   "phone": "off",
+   "control": "named"
   },
   {
    "id": "A08",
@@ -95,7 +96,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "New hash, as 7",
+   "audit": "OwnerApproval on a new hash, AuditEvidence, CommitReceipt in the same logical commit",
    "source": "POLICY-005",
    "phone": "off"
   },
@@ -107,13 +108,13 @@
    ],
    "step_up": "open",
    "step_up_note": "Open. \"Neither MP-55 nor CT-01 names it\"",
-   "audit": "Open (records revoked_at)",
-   "source": "J:shell:285; OwnerApproval schema",
+   "audit": "OwnerApproval.revoked_at, and AuditEvidence; class open (CT-03)",
+   "source": "Approvals journey; OwnerApproval schema",
    "phone": "off"
   },
   {
    "id": "A10",
-   "action": "Approve a correction",
+   "action": "Approve a correction, alone or with the reversal it depends on",
    "journeys": [
     "files"
    ],
@@ -125,13 +126,13 @@
   },
   {
    "id": "A11",
-   "action": "Approve a reversal",
+   "action": "Approve a reversal, alone or with the correction that replaces it",
    "journeys": [
     "files"
    ],
    "step_up": "yes",
    "step_up_note": "Yes `[inferred from \"corrections\"; operation is its own enum value]`",
-   "audit": "As 10",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence",
    "source": "PH01-S18, schema",
    "phone": "off"
   },
@@ -143,8 +144,8 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes, 15-minute window",
-   "audit": "As 10, new generation",
-   "source": "POLICY-012 POL:201",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence, new generation",
+   "source": "POLICY-012",
    "phone": "off"
   },
   {
@@ -168,7 +169,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open; a new revision voids any approval",
-   "audit": "New revision; audit class open",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
    "source": "PH01-S08",
    "phone": "off"
   },
@@ -176,8 +177,7 @@
    "id": "A15",
    "action": "Record an orphan's disposition",
    "journeys": [
-    "files",
-    "audit"
+    "files"
    ],
    "step_up": "open",
    "step_up_note": "Open",
@@ -239,8 +239,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Named by the deletion row of PH02-S03; level open (CT-01)",
    "audit": "AuditEvidence",
    "source": "PH01-S26",
    "phone": "off"
@@ -253,8 +253,8 @@
    ],
    "step_up": "open",
    "step_up_note": "Open; the behaviour itself is open (FIN-OD-08)",
-   "audit": "Open",
-   "source": "FOD:147",
+   "audit": "Export record and AuditEvidence; class open (CT-03)",
+   "source": "FIN-OD-08",
    "phone": "off"
   },
   {
@@ -265,7 +265,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "New version; class open",
+   "audit": "New memory note version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S15",
    "phone": "off"
   },
@@ -275,21 +275,21 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Named by the deletion row of PH02-S03; level open (CT-01)",
    "audit": "DeletionTombstone",
    "source": "PH05-S15",
    "phone": "off"
   },
   {
    "id": "A24",
-   "action": "Approve a route model, tool or budget change",
+   "action": "Approve a reviewed change to a route model or tool",
    "journeys": [
     "agents"
    ],
    "step_up": "open",
-   "step_up_note": "Open; a budget change is Yes under 34",
-   "audit": "Manifest version; audit class open",
+   "step_up_note": "Open. This is a reviewed code change to a manifest, not a setting, which is how it differs from R14",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S06",
    "phone": "off"
   },
@@ -350,13 +350,13 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes `[inferred: a sensitive setting]`",
-   "audit": "Audit, setting version",
+   "audit": "New setting version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S14",
    "phone": "off"
   },
   {
    "id": "A30",
-   "action": "Label calibration samples, approve release thresholds",
+   "action": "Label calibration samples",
    "journeys": [
     "models"
    ],
@@ -386,7 +386,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "New version, \"its own audit record\"",
+   "audit": "New setting version equal to the old one, with its own AuditEvidence",
    "source": "PH05-S14",
    "phone": "off"
   },
@@ -410,7 +410,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit, new version",
+   "audit": "New version and AuditEvidence; class open (CT-03)",
    "source": "PH02-S10, PH02-S08",
    "phone": "off"
   },
@@ -422,7 +422,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S09",
    "phone": "off"
   },
@@ -470,19 +470,19 @@
    ],
    "step_up": "open",
    "step_up_note": "Open; edits are \"versioned/audited\"",
-   "audit": "Audit, policy version",
+   "audit": "New policy version and AuditEvidence; class open (CT-03)",
    "source": "PH06-S12; CT-18",
    "phone": "off"
   },
   {
    "id": "A40",
-   "action": "Acknowledge or resolve an incident",
+   "action": "Acknowledge an incident",
    "journeys": [
     "incidents"
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "IncidentRecord; recorded resolution",
+   "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
    "source": "PH08-S05",
    "phone": "live"
   },
@@ -506,7 +506,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "RecoveryExercise; AuditEvidence read",
+   "audit": "OwnerApproval and AuditEvidence; class open (CT-03)",
    "source": "PH08-S03",
    "phone": "off"
   },
@@ -518,7 +518,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open; only the runbook names them",
-   "audit": "Open",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH08-S09",
    "phone": "off"
   },
@@ -554,7 +554,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit, opaque references",
+   "audit": "AuditEvidence with opaque references; class open (CT-03)",
    "source": "PH02-S01, S02",
    "phone": "off"
   },
@@ -566,7 +566,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
    "phone": "off"
   },
@@ -578,9 +578,10 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
-   "phone": "live"
+   "phone": "off",
+   "phone_note": "Mac only while MP-164 holds"
   },
   {
    "id": "A49",
@@ -590,7 +591,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
-   "audit": "Audit",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
    "phone": "live"
   },
@@ -602,7 +603,7 @@
    ],
    "step_up": "open",
    "step_up_note": "Open",
-   "audit": "Audit `[inferred: \"each step is audited\"]`",
+   "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
    "phone": "live"
   },
@@ -616,6 +617,318 @@
    "step_up_note": "Open: no record names it",
    "audit": "Proposal closes as refused; audit class open (CT-03)",
    "source": "PH02-S03; GAP-CT-02",
+   "phone": "off"
+  },
+  {
+   "id": "A52",
+   "action": "Retry a commit on the same approval",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: the approval still binds it, and no record says whether a retry asks again",
+   "audit": "CommitReceipt or the failed manifest, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S15",
+   "phone": "off"
+  },
+  {
+   "id": "A53",
+   "action": "Refresh a stale preview into a new draft revision",
+   "journeys": [
+    "files",
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S14; financial specification",
+   "phone": "off"
+  },
+  {
+   "id": "A54",
+   "action": "Retry an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Export record and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S26",
+   "phone": "off"
+  },
+  {
+   "id": "A55",
+   "action": "Resolve a difference, with a reason and a source",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Owner resolution with its reason and source, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S17",
+   "phone": "off"
+  },
+  {
+   "id": "A56",
+   "action": "Edit, exclude, remap or select rows in a draft",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A57",
+   "action": "Run a coverage check on a listing",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Credit reservation, catalogue check and AuditEvidence; class open (CT-03)",
+   "source": "PH03-S03",
+   "phone": "off"
+  },
+  {
+   "id": "A58",
+   "action": "Draft a configuration change",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "no",
+   "step_up_note": "No: a draft changes nothing",
+   "audit": "ApprovalRequest in draft; no audit record until it is proposed (CT-02)",
+   "source": "PH05-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A59",
+   "action": "Resume a recovery",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence for each step; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "live"
+  },
+  {
+   "id": "A60",
+   "action": "Decline a replay or a restore switch",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: added by the maker, because the story asks for reject and no record names this act",
+   "audit": "Request closes as declined, and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S06; CT-02",
+   "phone": "off"
+  },
+  {
+   "id": "A61",
+   "action": "Admit a factor out of shadow",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Factor admission record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S04",
+   "phone": "off"
+  },
+  {
+   "id": "A62",
+   "action": "Approve a rules version",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Rules version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S05; PH04-S18",
+   "phone": "off"
+  },
+  {
+   "id": "A63",
+   "action": "Approve a feature block for a candidate",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Feature block record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S07; PH04-S14",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A64",
+   "action": "Decide which failures block a release",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Release-gate record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S12",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A65",
+   "action": "Decide a refusal fallback for a route",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S05; ARC-06b-O2",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A66",
+   "action": "Approve a task version or threshold",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Task version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S01; PH04-S10",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A67",
+   "action": "Qualify an event kind",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Qualification record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S12",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A68",
+   "action": "Approve the use of a detector",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Detector version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S15",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A69",
+   "action": "Approve the F7 policy",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Policy version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S16; PH06-S07",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A70",
+   "action": "Approve a new source",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Source record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S01",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A71",
+   "action": "Choose the listings on 30-minute checks",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Catalogue version and AuditEvidence; class open (CT-03)",
+   "source": "PH03-S10",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A72",
+   "action": "Approve release thresholds",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Release-threshold record; class open (CT-03)",
+   "source": "PH05-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A73",
+   "action": "Approve a change to a route budget",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: budget expansion is named by PH02-S03. Level open (CT-01)",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH02-S03; PH05-S06",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A74",
+   "action": "Mark an incident mitigated",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: no record says who marks it (CT-14)",
+   "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S05",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A75",
+   "action": "Resolve an incident",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "IncidentRecord with its recorded resolution, and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S05",
+   "phone": "off"
+  },
+  {
+   "id": "A76",
+   "action": "Withdraw paid use",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New version and AuditEvidence; class open (CT-03)",
+   "source": "PH02-S09; CT-13",
    "phone": "off"
   }
  ],

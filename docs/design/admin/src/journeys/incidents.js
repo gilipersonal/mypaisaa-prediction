@@ -22,10 +22,10 @@
     denied: 'Needs a fresh sign-in first.'
   };
   const held = t => `<span class="small muted aincidents-held">${ic('pause', 's16')}${t}</span>`;
+  const phone = ctx => ctx.kind === 'iphone' || ctx.kind === 'pwa';
   const can = (ctx, html, o = {}) => {
     const s = ctx.state;
-    if (s === 'offline' && o.fin) return refused('R16', 'No financial write offline. It is refused until you reconnect, with this reason on the record.');
-    if (s === 'partial' && o.whole) return held('Held. Job records did not answer, so this cannot be checked against job_3e9a.');
+    if ((o.why || {})[s]) return held(o.why[s]);
     return WAIT[s] ? held(WAIT[s]) : html;
   };
 
@@ -88,7 +88,8 @@
     denied: ctx => `${signNote('This timeline stays readable.')}${tags(proposed('CT-01'))}`
   };
   const field = (ctx) => `<label class="aincidents-fieldl"><span class="label">Recorded resolution</span><textarea class="aincidents-field" rows="2" aria-label="Recorded resolution">${ctx.state === 'expired' ? 'HSBC prices are back from Twelve Data.' : ''}</textarea></label>`;
-  const resolveTool = ctx => `${field(ctx)}${can(ctx, act('A40', 'Resolve this incident', 'primary'))}`;
+  const resolveTool = ctx => `${phone(ctx) ? '' : field(ctx)}${can(ctx, act('A75', 'Resolve this incident', 'primary'))}`;
+  const mitTool = ctx => `${tags(proposed('CT-14'))}${can(ctx, act('A74', 'Mark as mitigated'))}`;
   const ackTool = ctx => can(ctx, act('A40', 'Acknowledge', 'primary'));
   const NOTICE = 'A notice went out through Web Push. That records an attempt, not that you read it, and your inbox keeps it either way.';
   const MIT = 'When this counts as mitigated, and who says so, is not recorded.';
@@ -111,7 +112,7 @@
     return tl('What happened to inc_0012', [
       pt('done', 'Detected', 'Code opened it · Tue 16:50 · last price 14:10'),
       pt('done', 'Acknowledged', 'You · Tue 17:05'),
-      s === 'conflict' ? pt('warn', 'Reopened', 'Code · the fault recurred, so the incident reopened by itself.') : pt('now', 'Mitigate', `Code re-runs a missed collection, within its bound. ${MIT}`, tags(proposed('CT-14'))),
+      s === 'conflict' ? pt('warn', 'Reopened', 'Code · the fault recurred, so the incident reopened by itself.') : pt('now', 'Mitigate', `Code re-runs a missed collection, within its bound. ${MIT}`, mitTool(ctx)),
       pt('', 'Resolve', 'You close it, with a recorded resolution. It reopens if the fault recurs.', resolveTool(ctx))
     ]);
   }
@@ -143,7 +144,7 @@
   };
   const twoRuns = ctx => {
     const bad = ctx.state === 'error';
-    return card(`${head('Monday and Tuesday')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '21:00'], ['Result', 'Succeeded'], ['Priced', '7 of 7'], ['HSBC', 'Before this incident']])}</div><div>${lbl('run_8d02')}${kv([['Started', 'Tue 21:15'], ['Cutoff', bad ? 'Held at Mon 21:00' : '21:00'], ['Result', bad ? 'Failed at 21:14' : 'Succeeded'], ['Priced', bad ? 'Not known' : '7 of 7'], ['HSBC', bad ? 'Not known' : 'Late · last price 14:10']])}</div></div>`);
+    return card(`${head('Monday and Tuesday')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '21:00'], ['Result', 'Succeeded'], ['Priced', '7 of 7'], ['HSBC', 'Before this incident']])}</div><div>${lbl('run_8d02')}${kv([[bad ? 'Due' : 'Started', 'Tue 21:15'], ['Cutoff', bad ? 'Held at Mon 21:00' : '21:00'], ['Result', bad ? 'Failed at 21:14' : 'Succeeded'], ['Priced', bad ? 'Not known' : '7 of 7'], ['HSBC', bad ? 'Not known' : 'Late · last price 14:10']])}</div></div>`);
   };
   const T_EV = {
     what: 'The evidence', rows: 5, loading: 'Reading the linked records, by id.',
@@ -163,22 +164,37 @@
     default: ['Auto-retrying', 'stale', 'HSBC price, Tuesday collection', 'inc_0012 · missed collection', '1', 'Not needed, inside the allowlist'],
     error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', 'HSBC price, Tuesday collection', 'inc_0012 · missed collection', '1', 'Refused on recheck'],
-    expired: ['Expired', 'stale', 'Tuesday collect job', 'inc_0012 · missed collection', 'All of job_3e9a', 'Ran out, so nothing ran']
+    expired: ['Expired', 'stale', 'Tuesday collect job', 'inc_0012 · missed collection', 'All of job_3e9a', 'Ran out, so nothing ran'],
+    denied: ['Awaiting you', 'stale', 'Tuesday collect job', 'inc_0012 · missed collection', 'All of job_3e9a', 'Awaiting you, with a fresh sign-in'],
+    empty: ['Replayed', '', 'HSBC price, Tuesday collection', 'inc_0012 · missed collection', '1', 'Not needed, inside the allowlist']
   };
   const reqOf = ctx => REQ[ctx.state] || REQ.default;
   const reqKv = ctx => { const r = reqOf(ctx); return kv([['Scope', r[2]], ['Reason', r[3]], ['Items', r[4]], ['Job', 'job_3e9a'], ['Environment', 'Prod'], ['Your approval', r[5]]]); };
-  const reqChip = ctx => { const r = reqOf(ctx); return chip(r[1], r[0], r[1] === 'error' ? 'alert' : 'clock'); };
+  const reqChip = ctx => { const r = reqOf(ctx); return chip(r[1], r[0], r[1] === 'error' ? 'alert' : r[1] ? 'clock' : 'check'); };
   const KEYSAFE = 'It keeps the original business id, with a new attempt and new trace links, so it cannot commit or notify twice. It rechecks permissions, retention, deletion and the latest config first.';
   const AUTO = ['Retry an idempotent job, within its bounds', 'Replay a dead-letter item, up to a limit', 'Re-run a missed collection', 'Resume a durable workflow'];
   const autoCard = () => card(`${head('Code does these by itself', proposed('CT-14'))}${list(AUTO.map(a => row('refresh', a, 'Its limit is not set yet')).join(''))}${note('A replay that keeps failing stops at its bound and escalates to an incident. Agents have no recovery authority.')}`);
-  const askBroad = (ctx, primary) => ask('Broad replay, or a new paid external call', 'Beyond the allowlist. You approve the exact scope above, and it is bound to prod.', can(ctx, act('A41', 'Approve this replay', primary ? 'primary' : 'tinted'), { whole: true }));
-  const askFin = ctx => ask('Financial reprocessing', 'Anything that reaches the ledger. Only the controlled writer commits it, and only the exact change you approved.', can(ctx, act('A13', 'Approve reprocessing'), { fin: true, whole: true }));
-  const needsYou = ctx => card(`${head('These need you')}${askBroad(ctx, ctx.state === 'error')}${askFin(ctx)}${note(LINE)}${tags(proposed('CT-02'))}`);
+  /* an approve exists only on a request awaiting you, beside the exact thing it binds; everywhere else the screen says why not */
+  const AWAITS = ctx => ctx.state === 'error';
+  const WHYNOT = {
+    default: 'Not needed. This request is inside the allowlist, so code runs it and nothing waits on you.',
+    empty: 'No request is open, so there is nothing to approve.',
+    partial: 'Held. Job records did not answer, so this cannot be checked against job_3e9a.',
+    expired: 'Refused. This approval ran out, and a new request needs a new approval.',
+    conflict: 'Refused on recheck. The changed config needs a new request.'
+  };
+  const bind = rows => `<div class="aincidents-bind">${kv(rows)}</div>`;
+  const askBroad = ctx => ask('Broad replay of job_3e9a', 'Beyond the allowlist. You approve exactly this, and any changed line needs a new approval.', `${act('A41', 'Approve this replay', 'primary')}${act('A60', 'Decline this replay')}`, `${bind([['Owner', 'You'], ['Environment', 'Prod'], ['Action', 'Broad replay, all of job_3e9a'], ['Payload', '3c9e…a1f4'], ['Expected config', 'Settings v9'], ['Expires', 'Not set yet']])}${tags(proposed('CT-02'))}`);
+  const askFin = ctx => ask('Financial reprocessing, ISA statement, Oct 2026', 'Nothing is visible and your ledger stays at revision 213. Only the controlled writer commits this, and only this exact change.', `${act('A13', 'Approve reprocessing')}${act('A60', 'Decline reprocessing')}`, `${bind([['Owner', 'You'], ['Environment', 'Prod'], ['Selection', '9 of 11 rows · draft revision 6'], ['Selected rows hash', '7f3a…c21e'], ['Expected ledger', 'Revision 213'], ['Starts', 'Within 15 minutes of your approval']])}${note('This records what already happened at your broker. It places no trade.')}`);
+  const declined = () => note('Declining closes the request as declined, on the record. Nothing runs.');
+  const whyNot = ctx => `${note('A broad replay, a new paid external call or financial reprocessing needs you. Each shows its exact change here first, and only then asks.')}${ctx.state === 'offline' ? refused('R16', 'No financial write offline. It is refused until you reconnect, with this reason on the record.') : held(WHYNOT[ctx.state] || WAIT[ctx.state])}`;
+  const asks = ctx => (AWAITS(ctx) ? `${askBroad(ctx)}${askFin(ctx)}${declined()}${note(LINE)}` : whyNot(ctx));
+  const needsYou = ctx => card(`${head(AWAITS(ctx) ? 'These need you' : 'Nothing waits on you')}${asks(ctx)}`);
   const never = () => `${refused('R12', 'A replay never crosses environments. Prod items stay in prod and dev items stay in dev.')}${refused('R1', 'A replay never edits the ledger. Only the controlled writer commits to it.')}`;
-  const costCard = ctx => card(`${head('What this spends')}${kv([['Market data credits', '55 a minute'], ['Normal work', '45 a minute'], ['Kept for incidents and retries', '10 a minute'], ['New paid call', ctx.state === 'error' ? 'Yours to approve' : 'None in this request']])}${note('This shows Wed 4 Nov. The cost month, day 18 of 30, is its own illustrative calendar, so no spend is joined to this request here.')}${list(opens('target', 'Costs and budgets', 'Estimate, usage and bill, and the runs behind a spike'))}`);
+  const costCard = ctx => card(`${head('What this spends')}${kv([['Market data credits', '55 a minute'], ['Normal work', '45 a minute'], ['Kept for incidents and retries', '10 a minute'], ['New paid call', ctx.state === 'error' ? 'Yours to approve' : 'None in this request']])}${note('This shows Wed 4 Nov. The cost month, day 18 of 30, is its own illustrative calendar, so reconciling sits in Costs and budgets.')}${list(opens('target', 'Costs and budgets', 'Estimate, usage and bill, and the runs behind a spike'))}`);
   const T_REP = {
     what: 'This replay', rows: 4, loading: 'Reading the replay request and its allowlist.',
-    empty: banner('', 'Nothing to replay.', 'No request is open and nothing is awaiting you. The rules below stay as they are.', 'check'),
+    empty: banner('', 'Nothing to replay.', 'No request is open and nothing is awaiting you. The last one finished: replayed, and nothing committed or notified twice.', 'check'),
     partial: banner('warn', 'Job records did not answer.', 'This request cannot be checked against job_3e9a, so approving is held.', 'clock'),
     error: banner('fall', 'This replay stopped at its bound.', 'It kept failing, so it stopped and escalated to inc_0013. It will not run again by itself.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The request may have moved on. Approving is held until this refreshes.', 'clock'),
@@ -202,7 +218,17 @@
   }[ctx.state] || 'rx_0007 · passed Sun 1 Nov · in an isolated target, which took no authority.');
   const restoreCard = ctx => card(`${head('Restore exercise', rxState(ctx))}${note(rxLine(ctx))}${rxRows(ctx)}${note('Reconciled by counts, hashes and financial balances. Tombstones are applied before restored content is readable, so deleted content never comes back.')}${tags(proposed('CT-04'))}`);
   const objectives = () => card(`${head('Recovery point and time')}${note('Agreed per record class, and none is agreed yet, so no figure shows.')}${tags(proposed('CT-14'))}`);
-  const switchCard = ctx => card(`${head('Switch to a restored copy')}${note('Only if production is lost. The copy takes no authority until reconciliation passes and you approve the switch.')}${ctx.state === 'error' || ctx.state === 'empty' ? held('No reconciled copy waits, so there is nothing to switch to.') : can(ctx, act('A42', 'Approve this switch', 'tinted'))}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}`);
+  /* a switch exists only when production is recorded lost and a reconciled copy waits (Conflicting), bound to that copy */
+  const NOSWITCH = {
+    default: 'Production is not lost, so there is nothing to switch.', partial: 'Production is not lost, so there is nothing to switch.',
+    error: 'No reconciled copy waits, so there is nothing to switch to.', empty: 'No reconciled copy waits, so there is nothing to switch to.',
+    expired: 'rx_0007 no longer covers what is stored now, so it is no target. A new exercise comes first.'
+  };
+  const switchTool = ctx => {
+    if (ctx.state !== 'conflict') return held(NOSWITCH[ctx.state] || WAIT[ctx.state]);
+    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Prod'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. How production comes to be recorded lost is not recorded either.')}${tags(proposed('CT-14'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
+  };
+  const switchCard = ctx => card(`${head('Switch to a restored copy')}${note('Only if production is lost. The copy takes no authority until reconciliation passes and you approve the switch.')}${switchTool(ctx)}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}`);
   const KINDS = [['App, by Lambda alias', 'Passed'], ['Contract, old reader still works', 'Passed'], ['Model and calibration revert', 'Passed'], ['Failed import reversal', 'Passed']];
   const rehearse = ctx => {
     const rows = KINDS.map(([k, v], i) => [k, ctx.state === 'partial' && i === 1 ? 'Unknown' : v]);
@@ -218,10 +244,12 @@
     error: banner('fall', 'A restore exercise stopped with a mismatch.', 'A failed exercise opens an incident and blocks the next release until it is fixed and re-run.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The gate report is older than this release, so it reads stale, not green.', 'clock'),
     offline: banner('', 'Offline.', 'Showing recovery records from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split'),
+    conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, so the two differ by whatever came after. Drift blocks the release until it is resolved through Terraform.', 'split')}${tags(proposed('CT-14'))}`,
     expired: `${banner('warn', 'A new exercise is overdue.', 'An import change landed after rx_0007, so rx_0007 no longer covers what is stored now.', 'clock')}${tags(proposed('CT-14'))}`,
     denied: ctx => `${signNote('Every exercise and its result stay readable.')}${tags(proposed('CT-01'))}`
   };
+
+  const T_REL = { ...T_REC, conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split') };
 
   /* ---------- pause switches: only the POLICY-003 scope pause has a rule ---------- */
   const PAUSES = ctx => {
@@ -232,6 +260,7 @@
       ['A feature', 'Holds one feature. Nothing else changes.', 'Pause a feature', proposed('CT-16')]
     ];
   };
+  const PAUSEWHY = { conflict: 'Held. Code changed this scope, so read what it did before you press anything.' };
   const keeps = () => card(`${head('What keeps running')}${note('Sign-in, ledger reads, audit and recovery stay available at every cost threshold.')}${note('A pause is scoped. POLICY-003 is not authority for a blanket application shutdown, so no switch here stops all of MP.')}`);
   const elsewhere = () => list(`${opens('fan', 'Restart a paused scope', 'In Models and evaluations, with its evidence')}${opens('sliders', 'Alert thresholds and quiet hours', 'In Approvals and configuration')}`);
   const T_PAU = {
@@ -287,20 +316,20 @@
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),
       i === I13 ? st(2, 'now', 'you', 'Acknowledge', `Waiting for you. ${NOTICE}`, ackTool(ctx)) : st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'),
-      s === 'conflict' ? st(3, 'warn', 'code', 'Code recovers, within its bounds', 'The fault recurred, so the incident reopened and this step starts again.') : st(3, i === I13 ? '' : 'now', 'code', 'Code recovers, within its bounds', `It re-runs a missed collection. ${MIT}`, tags(proposed('CT-14'))),
+      s === 'conflict' ? st(3, 'warn', 'code', 'Code recovers, within its bounds', 'The fault recurred, so the incident reopened and this step starts again.') : st(3, i === I13 ? '' : 'now', 'code', 'Code recovers, within its bounds', `It re-runs a missed collection. ${MIT}`, i === I13 ? tags(proposed('CT-14')) : mitTool(ctx)),
       st(4, '', 'you', 'Ask for more, if it stays', 'A broad replay, a new paid call or financial reprocessing needs your approval.', moreRow),
       st(5, '', 'you', 'Resolve', 'You close it, with a recorded resolution. It reopens if the fault recurs.', i === I13 ? '' : resolveTool(ctx))
     ]);
   }
   function replaySteps(ctx) {
-    const s = ctx.state, bad = s === 'error', off = s === 'empty', refusedNow = s === 'conflict';
-    const third = bad ? st(3, 'warn', 'code', 'It stopped at its bound', 'It kept failing, so it escalated. It will not run again by itself.') : refusedNow ? st(3, 'warn', 'code', 'It was refused on recheck', 'The latest config changed after this request was written.') : st(3, off ? '' : 'now', 'code', 'Run inside its bound', `One of four things code may do alone: ${AUTO.map(a => a.toLowerCase()).join('; ')}.`, tags(proposed('CT-14')));
+    const s = ctx.state, bad = s === 'error', off = false, refusedNow = s === 'conflict';
+    const third = bad ? st(3, 'warn', 'code', 'It stopped at its bound', 'It kept failing, so it escalated. It will not run again by itself.') : refusedNow ? st(3, 'warn', 'code', 'It was refused on recheck', 'The latest config changed after this request was written.') : st(3, s === 'empty' ? 'done' : 'now', 'code', s === 'empty' ? 'It replayed inside its bound' : 'Run inside its bound', `One of four things code may do alone: ${AUTO.map(a => a.toLowerCase()).join('; ')}.`, tags(proposed('CT-14')));
     return steps('Replay', [
       st(1, off ? '' : 'done', 'code', 'Check it is eligible', 'Idempotent, in this environment, and inside the allowlist. Agents have no recovery authority.'),
       st(2, off ? '' : 'done', 'code', 'Write the request', off ? 'Scope, reason, items and idempotency keys, with your approval where it is needed.' : '', off ? '' : `${reqKv(ctx)}${tags(reqChip(ctx))}`),
       third,
-      st(4, bad ? 'now' : '', 'you', 'Approve anything more', 'Beyond the allowlist, the step is yours.', `${askBroad(ctx, bad)}${askFin(ctx)}${note(LINE)}${tags(proposed('CT-02'))}`),
-      st(5, '', 'code', 'Prove nothing doubled', KEYSAFE)
+      st(4, bad ? 'now' : '', 'you', 'Approve anything more', 'Beyond the allowlist, the step is yours.', asks(ctx)),
+      st(5, s === 'empty' ? 'done' : '', 'code', 'Prove nothing doubled', KEYSAFE)
     ]);
   }
   function restoreSteps(ctx) {
@@ -310,7 +339,7 @@
       st(2, f, 'code', 'Apply tombstones again', 'Before restored content is readable, so deleted content never comes back.', tags(proposed('CT-04'))),
       bad ? st(3, 'warn', 'code', 'Reconcile', 'Stopped with a mismatch on the ledger. The next release is blocked until it is fixed and re-run.') : st(3, f, 'code', 'Reconcile', 'By counts, hashes and financial balances.'),
       st(4, s === 'empty' || bad ? '' : 'done', 'code', 'Record the exercise', rxLine(ctx)),
-      st(5, '', 'you', 'Switch, only if production is lost', 'The copy takes no authority until reconciliation passes and you approve.', s === 'error' || s === 'empty' ? held('No reconciled copy waits, so there is nothing to switch to.') : can(ctx, act('A42', 'Approve this switch', 'tinted')))
+      st(5, s === 'conflict' ? 'now' : '', 'you', 'Switch, only if production is lost', 'The copy takes no authority until reconciliation passes and you approve.', switchTool(ctx))
     ]);
   }
   function releaseSteps(ctx) {
@@ -324,7 +353,7 @@
     ]);
   }
   function pauseSteps(ctx) {
-    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b)), tags(tag)));
+    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag)));
     return steps('Pause switches', [
       st(1, 'done', 'you', 'Say what is wrong', 'Read the incident first, so the pause fits the fault.'),
       st(2, 'now', 'you', 'Choose the smallest switch', 'Only the forecast scope pause has a rule today. Who may press the other two is open.', rows.join('')),
@@ -343,7 +372,7 @@
       id: 'a', name: 'Incident timeline', rec: true,
       why: 'Admin is opened when something went wrong, so it starts from what happened and follows it from detect to resolve. Replay and recovery hang off the record they serve.',
       cost: 'A calm monthly check starts on a list of faults. Restore and rollback sit one step away from it.',
-      covers: { compare: 'a-evidence', decide: 'a-replay', source: 'a-evidence', correct: 'a-replay', config: 'a-pause', cost: 'a-replay', recover: 'a-recovery' },
+      covers: { compare: 'a-evidence', decide: 'a-replay', source: 'a-evidence', correct: 'a-replay', config: 'a-pause', cost: 'n/a: A replay spends market data credits from the 10 a minute kept for incidents and retries, not cash of its own. Estimate, usage and bill are reconciled in Costs and budgets, on Line by line and What is held.', recover: 'a-recovery' },
       screens: [{
         id: 'a-list', title: 'Incidents',
         render: ctx => frame(ctx, {
@@ -369,7 +398,7 @@
         id: 'a-replay', title: 'Replay', note: 'Three bands: what code may do, what needs you, what is refused.',
         render: ctx => frame(ctx, {
           title: 'Replay', back: 'Incident',
-          body: view(ctx, T_REP, () => `${ctx.state === 'empty' ? '' : card(`${head('This request', reqChip(ctx))}${reqKv(ctx)}${note(KEYSAFE)}`)}${needsYou(ctx)}${never()}`),
+          body: view(ctx, T_REP, () => `${card(`${head(ctx.state === 'empty' ? 'The last request' : 'This request', reqChip(ctx))}${reqKv(ctx)}${note(KEYSAFE)}`)}${needsYou(ctx)}${never()}`),
           rail: `${autoCard()}${costCard(ctx)}`
         })
       }, {
@@ -383,7 +412,7 @@
         id: 'a-pause', title: 'Pause switches', note: 'The three the runbook names. Only the forecast scope pause has a rule, so the others are labelled.',
         render: ctx => frame(ctx, {
           title: 'Pause switches', back: 'Incidents',
-          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b)), tags(tag))).join(''))),
+          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag))).join(''))),
           rail: `${keeps()}${elsewhere()}${refused('R17', 'No pause goes around the controlled writer, a fresh sign-in or the release workflow.')}`
         })
       }]
@@ -391,7 +420,7 @@
       id: 'b', name: 'Runbook first',
       why: 'Recovery is rare, so you read the procedure rather than remember it. Each step says whose it is, and restore, replay and rollback are steps you can see coming.',
       cost: 'What happened tonight is one band above the procedures, and a small incident gets the same steps as a large one.',
-      covers: { compare: 'b-escalate', decide: 'b-replay', source: 'b-escalate', correct: 'b-replay', config: 'b-pause', cost: 'b-replay', recover: 'b-restore' },
+      covers: { compare: 'b-escalate', decide: 'b-replay', source: 'b-escalate', correct: 'b-replay', config: 'b-pause', cost: 'n/a: A replay spends market data credits from the 10 a minute kept for incidents and retries, not cash of its own. Estimate, usage and bill are reconciled in Costs and budgets, on Line by line and What is held.', recover: 'b-restore' },
       screens: [{
         id: 'b-runbook', title: 'Runbook', note: 'The procedures MP-126 names, with what is running now on top. A signed-off procedure is yours, and a drafted one says so.',
         render: ctx => frame(ctx, {
@@ -424,7 +453,7 @@
         id: 'b-release', title: 'Release and rollback', note: 'Two steps here happen outside MP, so they are named and offer no control.',
         render: ctx => frame(ctx, {
           title: 'Release and rollback', back: 'Runbook',
-          body: view(ctx, T_REC, () => procCard('rel_0031', gateChip(ctx), releaseSteps(ctx))),
+          body: view(ctx, T_REL, () => procCard('rel_0031', gateChip(ctx), releaseSteps(ctx))),
           rail: rehearse(ctx)
         })
       }, {

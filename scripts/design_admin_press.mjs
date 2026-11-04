@@ -5,7 +5,7 @@
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 const require = createRequire(import.meta.url);
-const pw = require('/Users/arundutta/projects/mypaisa-agent/scripts/node_modules/playwright-core');
+const pw = require(process.env.PLAYWRIGHT_CORE || '/Users/arundutta/projects/mypaisa-agent/scripts/node_modules/playwright-core');
 const url = 'file://' + resolve(process.argv[2] || 'docs/design/admin/index.html');
 const b = await pw.chromium.launch({ channel: 'chrome' });
 let bad = 0;
@@ -47,7 +47,18 @@ try {
     await p.waitForTimeout(700);
     must(await p.locator(`.scr[data-at="audit|${to}"]`).count() === 1, `${width}: Open did not reach ${to}`);
     must(await p.locator('#jinv').isHidden(), `${width}: the compare view stayed over the screen`);
-    await p.reload(); await p.waitForTimeout(400);
+    // lesson 35: press, change the view, come back; a cleared pick stays cleared, and a journey opens on its pick
+    await p.goto(url + '#compare'); await p.reload(); await p.waitForTimeout(500);
+    await p.click('[data-cj="audit"]');
+    await p.click('[data-pick="b"]');
+    await p.reload(); await p.waitForTimeout(500);
+    await p.click('[data-cj="audit"]');
+    must(await p.locator('[data-pick][aria-pressed="true"]').count() === 0, `${width}: a cleared pick came back after a reload`);
+    await p.evaluate(() => { try { localStorage.clear(); } catch (e) { /* nothing kept */ } });
+    await p.goto(url); await p.reload(); await p.waitForTimeout(500);
+    await p.evaluate(() => document.querySelector('#toc a[href="#audit"]').click());
+    await p.waitForTimeout(300);
+    must(await p.evaluate(() => /^audit\.b/.test(location.hash.slice(1))), `${width}: the journey list did not open Audit on its pick`);
     for (const e of errs) must(false, `${width}: ${e}`);
     await c.close();
   }

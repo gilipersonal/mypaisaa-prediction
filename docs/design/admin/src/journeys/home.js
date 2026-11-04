@@ -7,13 +7,40 @@
     ['layers', 'warn', '1 original due for renewal', 'Indian funds statement, due in Dec 2026', 'files']
   ];
   const PLACE_LINE = {
-    files: '6 originals kept · 1 draft waiting', audit: 'Lineage complete · digest only', runs: 'Last run Tue 21:15 · succeeded', agents: '7 routes · 5 code workers',
-    models: 'R2-HGB v4 waits on you · US tech 12 months paused', approvals: 'Settings v9 · catalogue v14', costs: '£46.42 committed · day 18 of 30', incidents: '1 open · last restore passed', identity: '3 healthy sign-in paths'
+    files: '8 originals kept · 1 draft waiting', audit: 'Lineage complete · digest only', runs: 'US run Tue 21:15 · succeeded', agents: '7 routes · 5 code workers',
+    models: 'R2-HGB v4 waits on you · US tech 12 months paused', approvals: 'Settings v9 · catalogue v14', costs: '£46.42 committed · day 18 of 30', incidents: '1 not resolved · last restore passed', identity: '2 usable paths · 1 waiting on MP-179'
   };
+  /* each state changes what a place can say, so no line claims more than the records know */
+  const suffix = t => Object.fromEntries(Object.entries(PLACE_LINE).map(([k, v]) => [k, `${v} · ${t}`]));
+  const LINES = {
+    loading: Object.fromEntries(Object.keys(PLACE_LINE).map(k => [k, 'Reading · last good 11:20'])),
+    empty: { files: '8 originals kept · nothing waiting', models: 'No candidate waits · no scope paused', incidents: 'None open · last restore passed' },
+    partial: { costs: 'Not read: billing did not answer' },
+    error: suffix('from 11:20'), stale: suffix('from 11:12'), offline: suffix('from 11:20'),
+    conflict: { approvals: 'Settings v10 was written at 09:01' },
+    expired: { approvals: 'Watch Barclays expired Wed 08:14' }
+  };
+  const lineOf = (ctx, k) => (LINES[ctx.state] || {})[k] ?? PLACE_LINE[k];
+  const hot = ctx => ctx.state !== 'empty';   // an incident is open in every world but Empty
   const needs = ctx => list(NEEDS.map(([i, t, a, b]) => item(lead(i, t), a, b, ic('chev-r', 's18'), '', false, true)).join(''));
-  const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, PLACE_LINE[k], ic('chev-r', 's18'), '', false, true)).join(''));
-  const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" aria-label="${name}. ${PLACE_LINE[k]}" data-mo="card">${lead(i)}<b>${name}</b><span class="small">${PLACE_LINE[k]}</span></div>`).join('')}</div>`;
-  const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and recovery works anywhere.</p>`;
+  const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, lineOf(ctx, k), ic('chev-r', 's18'), '', false, true)).join(''));
+  const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" aria-label="${name}. ${lineOf(ctx, k)}" data-mo="card">${lead(i, k === 'incidents' && hot(ctx) ? 'warn' : '')}<b>${name}</b><span class="small">${lineOf(ctx, k)}</span></div>`).join('')}</div>`;
+  const WAIT = '4 decisions wait on you. 1 incident not resolved.';
+  /* follows the owner Approvals strip: what it says changes with what is known */
+  const topOf = ctx => ({
+    default: banner('warn', WAIT, 'Next: Taiwan Semiconductor, 18:00. HSBC price late, detected Tue 16:50.', 'alert'),
+    loading: banner('', 'Checking what waits on you.', 'Last good 11:20.', 'clock'),
+    empty: banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check'),
+    partial: banner('warn', '3 of 4 sources answered.', `Costs and budgets did not answer, so its line is unknown, not zero. ${WAIT}`, 'clock'),
+    error: banner('fall', 'Could not check what waits.', 'Records failed at 11:38. Open proposals keep their expiry, and each place shows its line from 11:20.', 'alert'),
+    stale: banner('warn', WAIT, 'From 11:12 · each rechecks itself when opened.', 'clock'),
+    offline: banner('', WAIT, 'From 11:20. Reading only. No financial write offline.', 'wifi-off'),
+    conflict: banner('warn', 'Settings changed while you read.', 'Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied.', 'split'),
+    expired: banner('warn', WAIT, 'One proposal ran out with nobody acting: Watch Barclays, Wed 08:14. It changed nothing.', 'clock'),
+    denied: banner('warn', 'Reading needs no fresh sign-in. Changing something does.', `Each action says so before you press it. ${WAIT}`, 'lock')
+  }[ctx.state]);
+  const bBody = ctx => `${wide(ctx) && ctx.state !== 'empty' ? '' : topOf(ctx)}${ctx.state === 'error' ? `<div>${bs('Try again', 'tinted', 'refresh')}</div>` : ''}${tiles(ctx)}`;
+  const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and account account recovery works anywhere.</p>`;
   const state = (ctx, ok, what) => region(ctx, {
     what, rows: 5, ok,
     empty: () => banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check') + places(ctx),
@@ -21,13 +48,13 @@
   });
   J.add({
     id: 'home', title: 'Admin home', stories: ['MP-64'],
-    summary: 'Where admin starts: what needs you first, then the nine places. Cost stays one tap from the main app as well (MP-142).',
+    summary: 'Where admin starts: nine places of equal size, each with one line of status, and what waits on you beside them or, on a phone, above them. Cost stays one tap from the main app as well (MP-142).',
     options: [{
       id: 'a', name: 'What needs you', rec: true,
       why: 'Admin is opened when something is wrong or waiting, so the first thing on screen is what needs you. The nine places follow, each with one line of status.',
       cost: 'A long list on a phone. The places sit below the fold when much is waiting.',
       screens: [{
-        id: 'a-home', title: 'Admin home', note: 'The promise on the Approvals journey, "the full audit sits in the admin area", lands here.',
+        id: 'a-home', title: 'Admin home',
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
           body: state(ctx, () => `${sec('Needs you')}${needs(ctx)}${sec('Places')}${places(ctx)}`, 'Admin'),
@@ -42,8 +69,8 @@
         id: 'b-home', title: 'Admin home',
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
-          body: state(ctx, () => tiles(ctx), 'Admin'),
-          rail: `${banner('', '4 decisions wait on you.', 'Next: Taiwan Semiconductor, 18:00.', 'check')}${note()}`
+          body: bBody(ctx),
+          rail: `${wide(ctx) && ctx.state !== 'empty' ? topOf(ctx) : ''}${note()}`
         })
       }]
     }]

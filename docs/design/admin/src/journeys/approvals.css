@@ -25,3 +25,7 @@
 .aappr-field { display: grid; gap: 4px; min-width: 0; }
 .aappr-field input { width: 100%; min-height: var(--tap); padding: 0 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink); font: 400 15px/20px var(--font-text); }
 .aappr-field input::placeholder { color: var(--ink-2); }
+.aappr-end { display: grid; gap: 2px; padding: 9px 0; }
+.aappr-end + .aappr-end { border-top: 1px solid var(--hairline); }
+.aappr-end b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aappr-field input:disabled { opacity: 1; color: var(--ink-2); }

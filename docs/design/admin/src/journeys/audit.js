@@ -57,7 +57,7 @@
   };
   const ansCard = (t, [a, b, x]) => box(`${lbl(t)}<div class="aaudit-a">${a}</div><div class="small muted">${b}</div>${x}`);
   const answer = (o = {}) => `${ansCard('Who changed it', o.who || ANS.who())}${ansCard('From which document', o.doc || ANS.doc())}${ansCard('What you approved', o.app || ANS.app())}${ansCard('Which forecasts used it', o.fc || ANS.fc())}`;
-  const verdict = (o = {}) => `<div class="aaudit-v" data-mo="rise">${chipset(o.c || good('Complete lineage'), note('Illustrative'))}<p class="small">${TARGET}</p></div>`;
+  const verdict = (o = {}) => `<div class="aaudit-v" data-mo="rise">${chipset(o.c || good('Complete lineage'), note('Illustrative'))}<p class="small">${o.t || TARGET}</p></div>`;
   const ansBody = ctx => region(ctx, {
     what: 'This answer', rows: 4, ok: () => verdict() + answer() + ansLinks(),
     loading: () => verdict({ c: note('Reading') }) + skel(4),
@@ -67,7 +67,7 @@
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This answer was built from manifests at 11:12. A newer change may not show yet.', 'clock') + verdict({ c: hold('From manifests, 11:12') }) + answer(),
     offline: () => off(ctx, 'Showing the answer saved at 11:20.') + verdict({ c: hold('offline_cached', 'wifi-off') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, text('Opening it needs a connection.')] }),
     conflict: () => banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split') + verdict({ c: hold('superseded', 'split') }) + answer({ who: ['You approved it, and the controlled writer committed it', 'Recorded 6 Oct · a later correction exists', chipset(note('Code checked'), note('Claude drafted'), mine('You decided'))] }) + `<div class=\"aaudit-row\">${bs('Read the newer record', 'tinted', 'layers')}</div>`,
-    expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval') }) + answer({ who: ['Nobody changed it', 'No commit started', ''], app: ['Your approval, then nothing', 'Approved 21:18 · expired 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
+    expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved 21:18 · expired 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
     denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that may ask. ${FRESH}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, chipset(proposed('CT-01'))] })
   });
   const ansLinks = () => list(rowGo('split', 'Follow the chain', 'Source, ledger, risk, forecast, action, outcome, audit') + rowGo('shield', 'Read the full record', mono('aud_4c17')));
@@ -83,9 +83,9 @@
     ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'],
     ['Audit', `${mono('aud_4c17')}`, 'resolved']
   ];
-  const fChip = s => (s === 'resolved' ? good('resolved') : s === 'Not yet' ? note('Not yet') : s.startsWith('!') ? fail(s.slice(1)) : hold(s));
+  const fChip = s => (s === 'resolved' ? good('resolved') : s === 'Not yet' || s === 'None' ? note(s) : s.startsWith('!') ? fail(s.slice(1)) : hold(s));
   /* a stale or saved chain says so on every step, so no old step reads green */
-  const allAs = (rows, label) => Object.fromEntries(rows.filter(r => r[2] === 'resolved').map(r => [r[0], [r[1], label]]));
+  const allAs = (rows, label, more = []) => Object.fromEntries(rows.filter(r => ['resolved', ...more].includes(r[2])).map(r => [r[0], [r[1], label]]));
   const chainOf = (rows = FOLLOW, over = {}) => `<ol class="aaudit-chain card" data-mo="card" aria-label="The chain, step by step">${rows.map(([t, s, c], i) => { const r = over[t] || [s, c]; return `<li><span class="n" aria-hidden="true">${i + 1}</span><div><b>${t}</b><span class="small muted">${r[0]}</span>${chipset(fChip(r[1]))}</div></li>`; }).join('')}</ol>`;
   const follow = ctx => region(ctx, {
     what: 'This chain', rows: 7, ok: () => chainOf() + `<div class="aaudit-row">${inFiles('Open the source in Files')}</div>`,
@@ -129,6 +129,7 @@
     ['check', 'R-0211 AstraZeneca dividend, typed', 'Writer · 21 Oct · 1 row · you approved', good('Committed')],
     ['check', 'R-0210 ISA statement, September', 'Writer · 6 Oct · 12 rows · you approved', good('Committed')]
   ];
+  const chErr = () => CH.map((r, i) => [r[0], r[1], r[2], i === 5 ? fail('In the affected range') : hold('From 11:20, not vouched for')]);
   const chRows = (sel = -1, rows = CH) => list(rows.map((r, i) => rowGo(r[0], r[1], r[2], chipset(r[3], r[4]), '', i === sel)).join(''));
   const clocks = () => box(`${lbl('Two clocks')}${text('The economic date is when a thing happened. The recorded time is when MP learned it. They are asked separately.')}<div class="aaudit-gap">${kv([['R-0210, economic date', 'Sep 2026'], ['R-0210, recorded', '6 Oct']])}</div>`);
   const clockBar = (on = 0) => `<div data-mo="rise">${seg(['Recorded time', 'Economic date'], on, 'Which clock', 'full')}</div>`;
@@ -137,7 +138,7 @@
     loading: () => clockBar() + skel(7),
     empty: () => stateCard('shield', 'No recorded changes', 'Nothing has been recorded in this range. Silence is not a sign that nothing is wrong.'),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Export access did not answer, so that row is missing from this page and shows as unknown.', 'clock') + clockBar() + chRows(-1, [['info', 'Export access', 'Unknown, not none', note('Not read')], ...CH.slice(1)]),
-    error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so that range is marked.`, trying()) + clockBar() + chRows(-1, CH.map((r, i) => (i === 5 ? [r[0], r[1], r[2], fail('In the affected range')] : r))),
+    error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so that range is marked.`, trying()) + clockBar() + chRows(-1, chErr()),
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This list is from 11:12. The newest change may not show yet.', 'clock') + clockBar() + chRows(-1, CH.slice(1)),
     offline: () => off(ctx, 'Showing recorded changes from 11:20.') + clockBar() + chRows(),
     conflict: () => banner('warn', 'New records arrived while you read.', 'This page stays at the place you opened, and a bounded page never reshuffles. Refresh to see them.', 'split') + clockBar() + chRows() + `<div class=\"aaudit-row\">${bs('Show the newer records', 'tinted', 'refresh')}</div>`,
@@ -148,12 +149,12 @@
   /* ---------- what this can prove, and what is missing ---------- */
   const claimBox = () => box(`${lbl('What the digests show')}${claim()}${text('Each record carries a digest of the one before it, so a check can show whether the chain still matches. No outside anchor exists yet, so it cannot show that nobody with deep access rewrote the chain.')}`);
   const CHECKS = (o = {}) => list(rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(note('Tombstones reapplied first'))));
-  const orphanRow = (go = true) => rowAt('lock', 'Unmatched object', 'No receipt · quarantined · source_orphans', `${text('Audit only reads. This opens the file in Files, where what happens to it is recorded.')}${go ? `<div class="aaudit-gap">${act('A15', 'Record it in Files')}</div>` : ''}`);
+  const orphanRow = (go = true) => rowAt('lock', 'Unmatched object', 'No receipt · quarantined · source_orphans', `${text('Audit only reads. What happens to this object is recorded in Files.')}${go ? `<div class="aaudit-gap">${inFiles()}</div>` : ''}`);
   const delNote = () => text('Deletion removes content only. Tombstones and audit records stay, and tombstones are applied before restored content is readable.');
   const gaps = ctx => region(ctx, {
     what: 'These checks', rows: 4, ok: () => claimBox() + sec('Is anything missing?') + CHECKS() + list(orphanRow()) + delNote() + noEdit(),
     loading: () => claimBox() + skel(3),
-    empty: () => claimBox() + stateCard('check', 'No gaps found in what was checked', 'That covers only what the query read. Silence is not a sign that nothing is wrong.', bs('Run the checks again', 'tinted', 'refresh')),
+    empty: () => claimBox() + stateCard('check', 'No gaps found in what was checked', 'That covers only what the query read. Silence is not a sign that nothing is wrong.', bs('Check again', 'tinted', 'refresh')),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so delivery is unknown, not fine.', 'clock') + claimBox() + CHECKS({ d: part('Unknown') }) + list(orphanRow()),
     error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ c: fail('Not vouched for') }) + noEdit(),
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'Checks ran on manifests at 11:12, so these say nothing about anything newer.', 'clock') + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12') }) + list(orphanRow()),
@@ -165,35 +166,54 @@
   const gapRail = () => `${box(`${lbl('Rules, read only')}<div class="aaudit-gap">${kv([['Sampling', 'None'], ['Kept for', 'Account lifetime'], ['Paging', 'Bounded, no general scan']])}</div>${text('Which records are classed how, and how integrity is anchored, are not decided.')}${chipset(proposed('CT-03'), proposed('FIN-OD-08'))}`)}${refs()}`;
 
   /* ---------- option B: the explorer, with a lineage pane ---------- */
-  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'Not yet'], ['Dependencies', 'Later events on these rows', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved']];
-  const pane = (over = {}) => `${sec('Lineage', chipset(over.c || good('Complete lineage')))}${chainOf(PANE, over)}`;
+  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
+  /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
+  const PANE_X = [['Source', 'ISA statement, Oct 2026', 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', 'Approved 21:18 · expired 21:33', 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', 'This expiry is the record', 'resolved']];
+  const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
+  const CH_X = [['clock', 'Statement import approval expired', 'Nobody · 21:33 · no commit started', hold('Expired')], ...CH];
   const bar = () => `<div class="aaudit-bar" data-mo="rise"><span class="chip illus">${mono('recorded_changes')}</span><span class="chip illus">Account lifetime</span><span class="chip illus">Revision 213</span>${bs('Filter', 'tinted', 'sliders')}</div>`;
   const expBody = ctx => region(ctx, {
     what: 'Recorded changes', rows: 7, ok: () => bar() + chRows(8),
     loading: () => bar() + skel(7),
     empty: () => bar() + stateCard('shield', 'No records match', 'Nothing was recorded for these filters. Widen them. Silence is not a sign that nothing is wrong.', bs('Clear filters')),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Export access did not answer, so it shows as unknown.', 'clock') + bar() + chRows(8, [['info', 'Export access', 'Unknown, not none', note('Not read')], ...CH.slice(1)]),
-    error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so that range is marked.`, trying()) + bar() + chRows(8, CH.map((r, i) => (i === 5 ? [r[0], r[1], r[2], fail('In the affected range')] : r))),
+    error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so the query gives no partial answer. The last good list stays, marked.`, trying()) + sec('Last good list, 11:20') + bar() + chRows(8, chErr()),
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This list is from 11:12. The newest change may not show yet.', 'clock') + bar() + chRows(7, CH.slice(1)),
     offline: () => off(ctx, 'Showing recorded changes from 11:20.') + bar() + chRows(8),
     conflict: () => banner('warn', 'New records arrived while you read.', 'This page stays where you opened it, and a bounded page never reshuffles.', 'split') + bar() + chRows(8) + `<div class=\"aaudit-row\">${bs('Show the newer records', 'tinted', 'refresh')}</div>`,
-    expired: () => banner('warn', 'One thing here ran out.', 'Watch Barclays expired with nobody acting, so it changed nothing.', 'clock') + bar() + chRows(1),
-    denied: () => banner('warn', 'Refused and denied acts stay on the record.', `You can read them all. ${FRESH}`, 'lock') + bar() + chRows(3)
+    expired: () => banner('warn', 'An approval ran out.', 'It expired at 21:33 with no commit started, so nothing was committed. Its own short lineage sits with it.', 'clock') + bar() + chRows(0, CH_X),
+    denied: () => banner('warn', 'Refused and denied acts stay on the record.', `You can read them all. ${FRESH}`, 'lock') + bar() + chRows(8)
   });
   const paneFor = ctx => region(ctx, {
     what: 'Lineage', rows: 7, ok: () => pane(),
     loading: () => skel(5),
     empty: () => text('Choose a record to see its lineage.'),
     partial: () => pane({ c: part('Source unavailable'), Source: ['Evidence unavailable · tombstone recorded', 'Source unavailable'] }),
-    error: () => pane({ c: fail('Query incomplete'), Forecast: [`${mono('INTEGRITY_INCOMPLETE')} · not answered`, '!Not answered'] }),
+    error: () => pane({ c: fail('Query incomplete'), ...allAs(PANE, 'Not vouched for', ['None', 'Not yet']), Forecast: [`${mono('INTEGRITY_INCOMPLETE')} · not answered`, '!Not answered'] }),
     stale: () => pane({ c: hold('From manifests, 11:12'), ...allAs(PANE, 'stale') }),
     offline: () => pane({ c: hold('offline_cached', 'wifi-off'), ...allAs(PANE, 'offline_cached') }),
     conflict: () => pane({ c: hold('superseded', 'split'), Correction: ['A newer record exists', 'superseded'] }),
-    expired: () => pane({ c: hold('Expired approval'), Approval: ['Approved 21:18 · expired 21:33', 'Expired'], 'Before and after': ['No commit started', 'Not yet'], Forecast: ['None', 'Not yet'] }),
+    expired: () => pane({ t: 'Lineage of this expired approval', c: hold('Expired approval') }, PANE_X),
     denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] })
   });
+  /* a full screen says why: the pane beside the list leans on the list's own banner */
+  const linWhy = ctx => ({
+    loading: banner('', 'Reading this lineage.', 'The last good copy is from 11:20.', 'clock'),
+    partial: banner('warn', 'Lineage with an unavailable source.', 'The original was deleted with a tombstone. Its ledger events stay, marked evidence unavailable.', 'clock'),
+    error: stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct do not match their digests, so this gives no partial answer. No step below is vouched for. This names the range, not a cause or an actor.`, trying()),
+    stale: banner('warn', 'Index lagging, with fallback to manifests.', 'This lineage was read from manifests at 11:12. A newer step may not show yet.', 'clock'),
+    offline: off(ctx, 'Showing the lineage saved at 11:20.'),
+    conflict: banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split'),
+    expired: banner('warn', 'This approval expired.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock'),
+    denied: banner('warn', 'You can read this lineage.', `Opening the original is the part that needs more. ${FRESH}`, 'lock')
+  }[ctx.state] || '');
+  const paneLinks = ctx => (ctx.state === 'empty' ? '' : list(rowGo('split', 'Before and after', 'Opens Before and after') + rowGo('layers', 'Open full lineage', 'Opens Full lineage') + rowGo('shield', 'Read the record', 'Opens One record')));
+  const gapLink = ctx => (ctx.state === 'empty' ? '' : list(rowGo('shield', 'Gaps and integrity', 'Commits, delivery, orphans and restore · opens Gaps and integrity')));
+  const phoneJump = ctx => (wide(ctx) || ctx.state === 'empty' ? '' : list(rowGo('split', ctx.state === 'expired' ? 'Lineage of this expired approval' : 'Lineage of R-0210', 'Opens Full lineage · the steps follow the list')));
+  const KINDS = Q.map(([, t, k], i) => [i === 0 ? 'Who changed this, from which document, what you approved, which forecasts used it' : t, k]);
+  const kinds = () => `<div class="aaudit-kinds" role="radiogroup" aria-label="Kind of question">${KINDS.map(([t, k], i) => `<button type="button" role="radio" aria-checked="${i === 1}" class="aaudit-k${i === 1 ? ' on' : ''}"><span>${t}</span>${mono(k)}</button>`).join('')}</div>`;
   const field = (l, v) => `<div class="aaudit-f"><span class="label">${l}</span><span class="v">${v}</span></div>`;
-  const filterSheet = ctx => { const s = ctx.state, go = s === 'offline' ? text('Filtering needs a connection. These are the saved filters.') : `<div class="aaudit-gap">${act('A01', 'Show these records', 'primary', 'search')}</div>`; return `<div class="sheet aaudit-sheet" role="dialog" aria-modal="true" aria-labelledby="aaudit-fl" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="aaudit-fl">Filter records</h4>${{ loading: banner('', 'Reading the list of kinds.', 'The saved filters stay.', 'clock'), empty: banner('', 'No filters set.', 'That reads the whole account lifetime, page by bounded page.', 'info'), partial: banner('warn', 'Export access is not answering.', 'You can still filter on the rest.', 'clock'), error: banner('fall', 'Filters did not load.', 'The saved filters stay. Query incomplete at 11:38.', 'alert'), stale: banner('warn', 'Index lagging.', 'Filters run on manifests until it catches up.', 'clock'), conflict: banner('warn', 'Your ledger moved to revision 214.', 'The pin stays on 213 until you change it.', 'split'), expired: banner('warn', 'A range this old has no logs or traces.', 'Audit records stay. Logs last 14 days and traces 30.', 'clock'), denied: banner('warn', 'Filtering needs no fresh sign-in.', FRESH, 'lock') }[s] || ''}${off2(ctx)}<div>${lbl('Kind of question')}<div class="aaudit-gap">${seg(['Changes', 'Lineage', 'Commits', 'Exports'], 0, 'Kind of question', 'full')}</div></div>${clockBar()}${field('From', 'Account start')}${field('To', 'Wed 4 Nov')}${field('This thing', 'Any')}${field('Pinned to', 'Ledger revision 213')}${text('Each page is bounded, so a wide range reads page by page. There is no general scan.')}${go}</div>`; };
+  const filterSheet = ctx => { const s = ctx.state, go = s === 'offline' ? text('Filtering needs a connection. These are the saved filters.') : `<div class="aaudit-gap">${act('A01', 'Show these records', 'primary', 'search')}</div>`; return `<div class="sheet aaudit-sheet" role="dialog" aria-modal="true" aria-labelledby="aaudit-fl" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="aaudit-fl">Filter records</h4>${{ loading: banner('', 'Reading the list of kinds.', 'The saved filters stay.', 'clock'), empty: banner('', 'No filters set.', 'That reads the whole account lifetime, page by bounded page.', 'info'), partial: banner('warn', 'Export access is not answering.', 'You can still filter on the rest.', 'clock'), error: banner('fall', 'Filters did not load.', 'The saved filters stay. Query incomplete at 11:38.', 'alert'), stale: banner('warn', 'Index lagging.', 'Filters run on manifests until it catches up.', 'clock'), conflict: banner('warn', 'Your ledger moved to revision 214.', 'The pin stays on 213 until you change it.', 'split'), expired: banner('warn', 'A range this old has no logs or traces.', 'Audit records stay. Logs last 14 days and traces 30.', 'clock'), denied: banner('warn', 'Filtering needs no fresh sign-in.', FRESH, 'lock') }[s] || ''}${off2(ctx)}<div>${lbl('Kind of question')}<div class="aaudit-gap">${kinds()}</div></div>${clockBar()}${field('From', 'Account start')}${field('To', 'Wed 4 Nov')}${field('This thing', 'Any')}${field('Pinned to', 'Ledger revision 213')}${text('Each page is bounded, so a wide range reads page by page. There is no general scan.')}${go}</div>`; };
   const off2 = ctx => (ctx.state === 'offline' ? off(ctx, 'Showing saved filters.') : '');
   const beforeAfter = (o = {}) => box(`${lbl('Before and after')}<div class="aaudit-gap">${kv([['Before', o.b || 'Ledger revision 210'], ['After', o.a || 'Ledger revision 211'], ['Before reference', mono('ref_a3c0')], ['After reference', mono('ref_a3c1')]])}</div>${text('References, not values. The figures themselves are in your ledger, so this never shows an amount.')}`);
   const cmpBody = ctx => region(ctx, {
@@ -218,7 +238,7 @@
       cost: 'A question you did not expect means reading the recorded changes instead. Browsing is one screen, not the main view.',
       covers: { compare: 'a-who', decide: 'n/a: audit is read-only. Approve and reject live in Approvals and configuration and in Files and imports, and each decision lands here as a record.', source: 'a-follow', correct: 'n/a: a record is never corrected here. A correction is a new record, made in Files and imports, and it points back at this one.', config: 'n/a: audit reads configuration changes and makes none. They are made in Approvals and configuration, and show in recorded changes.', cost: 'n/a: audit holds references, never amounts. Cost is reconciled in Costs and budgets.', recover: 'a-gaps' },
       screens: [{
-        id: 'a-ask', title: 'Ask the record', note: 'The approvals journey’s promise, "the full audit sits in the admin area", lands here. Denied acts sit under recorded_changes by inference from FIN-AP-04.',
+        id: 'a-ask', title: 'Ask the record', note: 'Denied acts sit under recorded_changes by inference from FIN-AP-04.',
         render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: askBody(ctx), rail: refs() })
       }, {
         id: 'a-answer', title: 'The answer', note: 'An amount never appears: audit holds references only. The ids aud_, src_, evt_, cmt_ and apr_52be are minted for this drawing.',
@@ -242,14 +262,14 @@
       cost: 'You build the question yourself from filters and record names. A phone shows the list and the lineage one above the other.',
       covers: { compare: 'b-compare', decide: 'n/a: audit is read-only. Approve and reject live in Approvals and configuration and in Files and imports, and each decision lands here as a record.', source: 'b-lineage', correct: 'n/a: a record is never corrected here. A correction is a new record, made in Files and imports, and it points back at this one.', config: 'n/a: audit reads configuration changes and makes none. They are made in Approvals and configuration, and show in this list.', cost: 'n/a: audit holds references, never amounts. Cost is reconciled in Costs and budgets.', recover: 'b-gaps' },
       screens: [{
-        id: 'b-explore', title: 'Recorded changes and lineage', note: 'The list is the home of this option. On iPad and desktop the lineage sits beside it.',
-        render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: expBody(ctx), rail: paneFor(ctx) })
+        id: 'b-explore', title: 'Recorded changes and lineage', note: 'The Approvals journey’s promise, "the full audit sits in the admin area, for search across all of them", lands here. On iPad and desktop the lineage sits beside the list.',
+        render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: expBody(ctx) + gapLink(ctx) + phoneJump(ctx), rail: paneFor(ctx) + paneLinks(ctx) })
       }, {
         id: 'b-filter', title: 'Filter records', note: 'The fields are AuditQuery’s: kind, dates, the thing asked about, the pinned revision.',
         render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: bar() + chRows(8), sheet: filterSheet(ctx) })
       }, {
         id: 'b-lineage', title: 'Full lineage',
-        render: ctx => frame(ctx, { title: 'Lineage', back: 'Audit', body: paneFor(ctx) + `<div class="aaudit-row">${inFiles('Open the source in Files')}</div>`, rail: refs() })
+        render: ctx => frame(ctx, { title: 'Lineage', back: 'Audit', body: linWhy(ctx) + paneFor(ctx) + (ctx.state === 'expired' ? '' : `<div class="aaudit-row">${inFiles('Open the source in Files')}</div>`), rail: refs() })
       }, {
         id: 'b-compare', title: 'Before and after', note: 'An explorer keeps the two clocks side by side, because the same record reads differently on each.',
         render: ctx => frame(ctx, { title: 'Before and after', back: 'Audit', body: cmpBody(ctx), rail: refs() })

@@ -1,0 +1,898 @@
+[
+ {
+  "id": "R1-f1",
+  "finding": "**The picked Audit's lineage stops at the forecast, so the prediction-to-outcome trail is gone.** Evidence: `PANE` has seven steps: Source, Draft, Approval, Before and after, Correction, Dependencies, Forecast. Risk, Act",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f2",
+  "finding": "**On a phone, controls that change the ledger or a draft stay live, outside the inventory.** Evidence: `node scripts/design_admin_text.mjs files a a-approve error iphone` prints an enabled primary \"Retry safely\" on a com",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f3",
+  "finding": "**The inventory misses acts that Files names, so it does not list \"every admin action\".** Evidence: `files.js:115` says a difference stays open \"until you fix it or resolve it with a reason\", and no control follows. PH01",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f4",
+  "finding": "**Explorer's filter offers 4 of AuditQuery's 9 kinds, while its note says it holds AuditQuery's fields.** Evidence: the segment is `['Changes', 'Lineage', 'Commits', 'Exports']`. `financial/contracts.schema.json:2262-227",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f5",
+  "finding": "**Nothing on the picked Audit leads to Gaps and integrity, Before and after, or Full lineage.** Evidence: `b-explore` holds a Filter button, record rows and a static lineage pane. No control names those three screens, an",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f6",
+  "finding": "**In two Explorer states the lineage beside the list belongs to a different record.** Evidence: expired selects row 1, \"Watch Barclays · Nobody · expired Wed 08:14\", while the pane shows the ISA statement with \"Approved ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f7",
+  "finding": "**`b-lineage` reuses the pane, so its failure states give no reason and read as mostly fine.** Evidence: `paneFor` has no banners, which works beside `b-explore` but not as a full screen. `audit b b-lineage error web` pr",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f8",
+  "finding": "**Home B's Empty state contradicts itself and the option's own promise.** Evidence: `home b b-home empty web` shows \"Nothing waits on you.\" with the rail still saying \"4 decisions wait on you.\" The lines beneath still re",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f9",
+  "finding": "**Home B ignores its state.** Evidence: `QUIET` is used only by option A. The rail banner is one fixed string in Loading, Failed, Stale and Offline, where owner `approvals.js:393` changes it per state (\"Checking what wai",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f10",
+  "finding": "**On a phone, the only signal of what needs the owner sits far below the first view, and it omits the incident.** Evidence: measured on iPhone at `#home.b.iphone.default`: Incidents tile top at 1,054 px, banner at 1,314 ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f11",
+  "finding": "**The refused reversal's only way forward is missing, and the button offered is for another correction.** Evidence: the banner says \"A sale on 2 Nov depends on these units. Approve its correction together with this rever",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f12",
+  "finding": "**Files A's draft offers the wrong approval.** Evidence: A07 \"Approve this import\" is the draft's primary with 3 of 5 groups selected, and it leads to A08's sheet, \"Approve these 3 groups\". `files.js:209` says A07 \"takes",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f13",
+  "finding": "**The £12.40 difference is invisible when approving.** Evidence: `a-fix` in Ready lists \"This statement, cash £12.40\" as open, so the Ready path carries it. Ready a-draft and a-approve never mention it, and no state of t",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f14",
+  "finding": "**Audit's worked source does not exist in Files.** Evidence: Audit's \"Open in Files\" and \"Open the source in Files\" go to \"ISA statement, September\", `src_1e08`, R-0210, a PDF committed 6 Oct (`holdings.js:219`). The six",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f15",
+  "finding": "**Files never shows a deleted original with its tombstone.** Evidence: PH01-S05 lists \"Deleted, with tombstone\" as a state and says evidence joins \"show the source as deleted\". a-keep draws deleting, partly failed and re",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f16",
+  "finding": "**The cost promise has no destination.** Evidence: \"The amount sits in Costs and budgets\" has no link, and `costs.js` has no import or statement line (search: only reservations for runs and the top-5 scan). PH01-S02: imp",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-f16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m1",
+  "finding": "- **Anchor:** `models.js:21` (`trial`), used by `evidenceOK` at `:24` and every state of a-evidence. - **Evidence:** Admin says \"For 3, 6 and 12 months these 8 weeks check clean running and calibration.\" PH04-S18 says th",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m2",
+  "finding": "- **Anchor:** `docs/design/admin/permissions.json` (51 actions, A25 at `:297`), `agents.js:170`, `models.js:171`. - **Evidence:** MP-64 asks for an inventory of \"every admin action\". These owner acts have no row, and a s",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m3",
+  "finding": "- **Anchor:** `agents.js:33` and `:32` (roster), `:52` (a-route), `models.js:129-143` (a-pipe), `:25` (a-evidence), `runs.js:72` (a-run). - **Evidence:** Each frame's only navigation is the Admin sidebar, and rows and bu",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m4",
+  "finding": "- **Anchor:** `models.js:44`, `:188`. - **Evidence:** `decideOK` draws head, chain, changes, the two buttons and R5. There is no trial and no score, and the evidence appears only as a hash in the rail. PH05-S14 says a pr",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m5",
+  "finding": "- **Anchor:** `runs.js:33-37`, `:42`, `:65-66`, `:114`; `home.js:11` (lane f join). - **Evidence:** PH03-S09 says \"The US, UK and India run separately\". a-clock draws that, yet: - run_8d02 is labelled \"US close\" and show",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m6",
+  "finding": "- **Anchor:** `runs.js:79`, `:91`, `:139`, note at `:269`. - **Evidence:** a-run in Failed shows \"21:14 Twelve Data failed\" then, at the same 21:14, \"No input set · Recorded as missed_origin\". On the same journey collect",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m7",
+  "finding": "- **Anchor:** `runs.js:46`, `:57`, `:258`. - **Evidence:** In the same frame, the alarm reads \"Stale collector: Twelve Data, since 21:14\", and the check reads \"Twelve Data is failing\". India shows Wed 10:15 last success ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m8",
+  "finding": "- **Anchor:** `agents.js:141`, `runs.js:46`, `runs.js:169`. - **Evidence:** a-work in Failed says the Explanations worker failed at 21:14 and \"its item went to the dead-letter queue\". Runs in Failed says \"Dead-letter que",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m9",
+  "finding": "- **Anchor:** `runs.js:49`, `:82`, `:106`, `:70`, `:261`. - **Evidence:** - a-clock's banner says \"India's run ... and its job says reconcile_required\", while the alarm in the same frame names job_3e9a, which is \"collect",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m10",
+  "finding": "- **Anchor:** `models.js:29`, `:157` (Option B). - **Evidence:** a-evidence in Partial says \"Under 20 non-overlapping blocks answered, so this evidence is labelled exploratory until the rest reads.\" In PH04-S09, explorat",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m11",
+  "finding": "- **Anchor and evidence (lesson 29):** - `models.js:81`, `:88`: a-bands Empty says \"no overlay\", and `bandLimits` beneath it says \"Overlay: overlay active\". - `models.js:135`, `:124`: a-pipe Partial says scores did not a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m12",
+  "finding": "- **Anchor:** `agents.js:47`, note at `:183`. - **Evidence:** PH05-S06: each manifest names \"model id, effort, live or batch mode, queue, tools, outbound context boundary, budget caps and forbidden operations\". Tools, ou",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-m13",
+  "finding": "- **Anchor:** `docs/design/admin/permissions.json:358`, `models.js:103`. - **Evidence:** A30 is \"Label calibration samples, approve release thresholds\", audit \"EvalLabel\". A release threshold is not a label: PH05-S13 lis",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-m13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a1",
+  "finding": "**`costs.js:73`.** In the Failed state on iPad and desktop, \"The month\" row shows Estimate **£0.00** and Held **£0.00**, directly above \"it is not shown, never £0\". `colSum` treats 'Not shown' as 0 and the row prints it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a2",
+  "finding": "**`approvals.js:97, 100, 101, 128, 167`.** Controls that write or spend are drawn with plain `bs()`, so they are not in the inventory and stay live on a phone. - \"Run the check again\" (primary on conflict and expired) st",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a3",
+  "finding": "**`costs.js:163, 189-192`.** The two writes this journey exists for, A34 and A35, are a button and nothing else. No screen draws what is being changed, the new value, its effect on the plan, the version, or what follows.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a4",
+  "finding": "**`approvals.js:95, 197, 268`.** The picked option's routes end in dead ends (lesson 28). - \"4 decisions wait on you\" has a chevron, and Option A draws no list of them. Its `cost` says what waits \"sits one level down, in",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a5",
+  "finding": "**`approvals.js:66-69, 270`.** `covers.decide` and `covers.recover` point at `aa-band`, but neither ending is drawn in Option A. - Pressing \"Refuse\" (A51) leads nowhere, and MP-114's `denied` state with its visible back-",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a6",
+  "finding": "**`approvals.js:227`.** Approving the band sends the waiting promotion back to its check, and only the unpicked option says so. Option B: \"The promotion binds the 5-point band and the settings change moves it to 4, so ap",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a7",
+  "finding": "**`costs.js:71-76, 268`.** From Costs A's first screen there is no way to Held, Credit or Lines and allocations, where the owner put budget changes. `ca-lines` has no rail and no control for them. On iPad and desktop the",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a8",
+  "finding": "**`costs.js:147, 163`.** `ca-credit` Ready says Claude is **On**, credit applied is **Unknown**, \"Claude on means you approved paid use or credit is verified\" and \"Admissible credit is zero\". Those can only be true if pa",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a9",
+  "finding": "**`costs.js:117`.** `ca-line` is the AWS line. Expired says \"A reservation on this line expired\", but AWS has Held: None on `ca-lines`, and the only open hold is Claude's Nightly explanations (£0.34, `costs.js:123`). The",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a10",
+  "finding": "**`approvals.js:165, 172`.** Propose, Partial: the banner says \"Range and cost answered. Impact and evidence did not\". `CHECKS(v)` writes one value into all four rows, so the screen prints `Allowed range Not checked … Co",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a11",
+  "finding": "**`approvals.js:173, 176`.** Failed says \"Your draft is kept\", and the fields show only placeholders. Conflicting says \"a draft against v9 stops here. Start again from v10\", and the same screen keeps the head \"Settings v",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a12",
+  "finding": "**`approvals.js:66-69`.** `aa-band` Conflicting has no current version. The rows read `v10 · proposed / A different v10 was written at 09:01 / Proposed`, `v9 · previous`, `v8 · previous`. A written v10 carries a Proposed",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a13",
+  "finding": "**`approvals.js:144, 154, 156`.** `shut` covers only offline and denied. So \"Withdraw S10, Yahoo\" (A37) stays live under Failed, which says \"nothing can be approved until this loads\", under Partial with the scope gate un",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a14",
+  "finding": "**`costs.js:55, 82, 133`.** One Failed moment gives three accounts (lesson 27). - Estimate is 'Not shown' on `ca-lines`, while the lanes on the same screen say Internal estimates \"Live · to 21:15 · Now\", and the Stale st",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a15",
+  "finding": "**`shell.js:65-69`, `costs.js:85, 133`.** Costs prints two clocks as one. `frame` passes `spec.fresh`, and admin's `freshRow` ignores it. Evidence: - Offline: chip \"Offline · from 11:20\" above \"Internal estimates, Saved ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-a16",
+  "finding": "**Join: `files.js:50`, `costs.js:123, 260`.** Files says \"The amount sits in Costs and budgets\", and Costs lists MP-42 in `stories`. MP-42 positive: \"Import activity appears in the main per-environment cost view, linked ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-a16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s1",
+  "finding": "**The owner's \"phone keeps recovery\" cannot finish on any phone, and the inventory says it can.** Evidence: - The owner was asked whether a phone may still run recovery when other devices are gone: \"Yes, recovery only (R",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s2",
+  "finding": "**Replay offers Approve with nothing to approve, including on an expired request.** Evidence: - `can()` holds a control only in loading, offline, stale, conflict, denied and partial. `empty`, `default` and `expired` fall",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s3",
+  "finding": "**\"Approve this switch\" is live when production is fine and when the copy is known to be behind.** Evidence: - Default: production is healthy, the only copy mentioned is exercise rx_0007 from Sun 1 Nov, and \"Approve this",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s4",
+  "finding": "**The inventory does not list every admin action, the README's guarantee is false, and phones can press changes.** Evidence: README says \"Screens draw controls from it, so a screen cannot grow an action it does not list\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s5",
+  "finding": "**\"Approve and reject\" is claimed for Incidents, and nothing can be rejected.** Evidence: `covers.decide` is `a-replay`, and the Coverage page prints it under \"Approve and reject\". `incidents.js` holds no reject, decline",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s6",
+  "finding": "**The maker's reading is recorded as the owner's words (lesson 23).** Evidence: the owner said \"Under Settings, phones read only\" and \"Yes, recovery only (Recommended)\". Both `owner_answer` in CT-16 and the `about` of pe",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s7",
+  "finding": "**\"Recovery\" has two meanings, and one was chosen without saying so.** Evidence: Home says \"recovery works anywhere\". On a phone, the journey named Incidents and recovery has a Recovery screen where restore switch, repla",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s8",
+  "finding": "**Six rows do not map to an audit record, which is a Done-when of MP-64.** Evidence: - A42 reads \"RecoveryExercise; AuditEvidence read\". That copies PH08-S03's contract roles: the exercise writes RecoveryExercise and rea",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s9",
+  "finding": "**Step-up marks contradict the page's own definition.** Evidence: the page says \"Open means no record says\". PH02-S03's matrix names \"deletion\", and so does CT-01's recommendation, yet A20 Delete a stored export and A23 ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s10",
+  "finding": "**A run fails before it starts (lessons 26, 37).** Evidence: `a-evidence` in error shows run_8d02 \"Started Tue 21:15\", \"Failed at 21:14\". Incident and Twelve Data failure are at 21:14. Runs draws \"Collect started 21:15\" ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s11",
+  "finding": "**Cost reconciliation is claimed where the screen disclaims it.** Evidence: `covers.cost` is `a-replay`. Its card says \"no spend is joined to this request here\", and shows only the credit rate plus a link. Nothing reconc",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R1-s11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ }
+]

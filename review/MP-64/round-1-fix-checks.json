@@ -1,0 +1,203 @@
+{
+  "base": "MP-178-journey-flip",
+  "paths": [
+    ".claude/rules/independent-review.md",
+    ".github/workflows/verify.yml",
+    "docs/design/admin/README.md",
+    "docs/design/admin/build.py",
+    "docs/design/admin/index.html",
+    "docs/design/admin/permissions.json",
+    "docs/design/admin/src/journeys/agents.css",
+    "docs/design/admin/src/journeys/agents.js",
+    "docs/design/admin/src/journeys/approvals.css",
+    "docs/design/admin/src/journeys/approvals.js",
+    "docs/design/admin/src/journeys/audit.css",
+    "docs/design/admin/src/journeys/audit.js",
+    "docs/design/admin/src/journeys/costs.css",
+    "docs/design/admin/src/journeys/costs.js",
+    "docs/design/admin/src/journeys/files.css",
+    "docs/design/admin/src/journeys/files.js",
+    "docs/design/admin/src/journeys/home.css",
+    "docs/design/admin/src/journeys/home.js",
+    "docs/design/admin/src/journeys/identity.css",
+    "docs/design/admin/src/journeys/identity.js",
+    "docs/design/admin/src/journeys/incidents.css",
+    "docs/design/admin/src/journeys/incidents.js",
+    "docs/design/admin/src/journeys/models.css",
+    "docs/design/admin/src/journeys/models.js",
+    "docs/design/admin/src/journeys/runs.css",
+    "docs/design/admin/src/journeys/runs.js",
+    "docs/design/admin/src/shell.css",
+    "docs/design/admin/src/shell.html",
+    "docs/design/admin/src/shell.js",
+    "docs/design/artifacts.json",
+    "docs/design/reviews/MP-64/brief.md",
+    "docs/design/reviews/MP-64/decision.md",
+    "docs/design/reviews/MP-64/facts.md",
+    "docs/design/reviews/MP-64/fix-round-1.md",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/ma-reconciliation-2026-11-02/gap-register.json",
+    "docs/planning/trace.json",
+    "review/MP-64/fixed.json",
+    "review/MP-64/round-1-brief.md",
+    "review/MP-64/round-1-checks.json",
+    "review/MP-64/round-1-lane-a.md",
+    "review/MP-64/round-1-lane-f.md",
+    "review/MP-64/round-1-lane-m.md",
+    "review/MP-64/round-1-lane-s.md",
+    "review/MP-64/round-1.md",
+    "review/MP-64/state.json",
+    "scripts/design_admin_facts.mjs",
+    "scripts/design_admin_press.mjs",
+    "scripts/design_admin_text.mjs",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/design_journeys_facts.mjs",
+    "scripts/design_runtime.mjs",
+    "scripts/review_checks.py",
+    "tests/admin_facts/a.mjs",
+    "tests/admin_facts/c.mjs",
+    "tests/admin_facts/f.mjs",
+    "tests/admin_facts/m.mjs",
+    "tests/admin_facts/s.mjs"
+  ],
+  "unmapped": [],
+  "deferred": [
+    "design-walk"
+  ],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "3c3e23b1a0c80a56a9e6a8e4df9ceb4e18c01680333cc8406519144dd7169799",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "review-checks": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.2,
+      "fingerprint": "dfd0cd455bcbcd4789b191ab42883a9d19137c37a35bed4fa3cb8f0fd24adf30",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_review_checks.py"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "04bdcd26cd80f4251c7e8da04af8a307907ffb8bf2046ed23ef9e74f5c240ec2",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "fa41a2510f8fef6821edc9bf115020e3ce828903dbcbc82058637ae4a8f88556",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 6.5,
+      "fingerprint": "4a1e2c0c15a52a78a4e6761f02a476300b6dbc1e27b9efac9e3a51343d910281",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "design-sync": {
+      "status": "FAIL",
+      "detail": "python3 scripts/design_sync.py check exited 1: PENDING: ds-admin: docs/design/admin/index.html changed since it was synced to https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf; republish it",
+      "seconds": 0.0,
+      "fingerprint": "1f8c532d45b1f949b2924cd091dac13d9cd8c528fe84a9fd53c0f8d6158802bd",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 54.3,
+      "fingerprint": "6fa1f8ba392e217c57afb93d7a4da66fedaa142d86821d501fa56fd23538b75d",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 docs/design/admin/build.py --check",
+        "node scripts/design_admin_facts.mjs --selftest",
+        "node scripts/design_admin_facts.mjs",
+        "node scripts/design_admin_facts.mjs --facts",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "node scripts/design_journeys_facts.mjs --selftest",
+        "node scripts/design_journeys_facts.mjs --all",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.5,
+      "fingerprint": "42cf0c516e1042e2d85f11a35c82908fa68ab32d9562079713469d3f42de30ba",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "2638f83d784278032399925a919e059ee85bd45aea4d12ad52054869cedcad68",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "pr-policy": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "ee8f384120fe3467f059b979884c51523a8ee58e5316cfe20dafd88c13a9b4fe",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_pr_policy.py"
+      ]
+    },
+    "reconciliation-pack": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "88d2f40386abdd8030b27c0285e9b06ec4d816fe1fb9911c71d371e92e255268",
+      "steps": [
+        "python3 docs/planning/ma-reconciliation-2026-11-02/validate.py"
+      ]
+    },
+    "workflow-lint": {
+      "status": "UNAVAILABLE",
+      "detail": "missing tool: actionlint",
+      "seconds": 0.0,
+      "fingerprint": "d0c585f754b322dbf224ed9441a76db030a81f8a720ee62c9f5d57a75f18961e",
+      "steps": [
+        "actionlint -color .github/workflows/jira-key.yml .github/workflows/verify.yml"
+      ]
+    },
+    "whitespace": {
+      "status": "FAIL",
+      "detail": "docs/design/admin/index.html:4090: trailing whitespace.\n+  \ndocs/design/admin/src/journeys/runs.js:143: trailing whitespace.\n+",
+      "seconds": 0.0
+    }
+  }
+}

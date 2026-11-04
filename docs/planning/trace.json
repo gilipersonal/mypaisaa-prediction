@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-02",
+ "as_of": "2026-11-04",
  "source": "Jira MP via the Atlassian MCP (cloudId 81c51173-bbea-4905-bbc5-1a880fa348bb)",
  "jql": "project = MP ORDER BY key ASC",
  "code_from": "git log main --no-renames --name-only -E --grep '^MP-<n>:' at d98eb55; a folder below the top level holding five or more of an issue's files is listed as the folder",

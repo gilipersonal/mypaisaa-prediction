@@ -22,10 +22,13 @@
   const nameRow = (i, n, s, c) => item(lead(i), n, s, `<span class="aagents-end">${c}${ic('chev-r', 's18')}</span>`, '', false, true);
   const qual = n => (n === 'Evaluation judges' ? PLAIN('advisory_only') : OK('qualified'));
   const routeRows = (f = qual) => list(ROUTES.map(([n, s], i) => nameRow('cube', n, s, f(n, i))).join(''));
-  const workerRows = (f = n => PLAIN(n === 'Data steward' ? 'running' : 'idle')) => list(WORKERS.map(([n, s]) => nameRow('sliders', n, s, f(n))).join(''));
-  const roster = (r, w) => `${sec('7 Claude routes')}${routeRows(r)}${sec('5 code workers')}${workerRows(w)}`;
+  const workerRows = (f = n => PLAIN(n === 'Data steward' ? 'running' : 'idle')) => list(WORKERS.map(([n, s]) => item(lead('sliders'), n, s, f(n))).join(''));
+  const door = (n, s, i = 'layers') => item(lead(i), n, s, ic('chev-r', 's18'), '', false, true);
+  const placesA = () => `${sec('Also here')}${list(door('Factors in shadow', 'Only you admit a factor', 'split') + door('Memory notes', 'What agents keep, with its source', 'layers') + door('Route costs', 'Reservations and limits', 'target') + door('Work and failures', 'What each worker is doing', 'refresh'))}`;
+  const placesB = () => list(door('Versions', 'Compare, approve, roll back', 'layers') + door('Runs', 'What this route did', 'refresh') + door('Cost', 'Reservations and limits', 'target') + door('Notes', 'What this route keeps', 'layers') + door('Factors in shadow', 'Only you admit a factor', 'split'));
+  const roster = (r, w) => `${sec('7 Claude routes')}${routeRows(r)}${sec('5 code workers')}${workerRows(w)}${placesA()}`;
   const runnerBox = (ctx) => {
-    const line = { error: [BAD('Failed closed', 'ban'), 'The policy store did not answer, so every tool call fails closed.'], denied: [PLAIN('credit_unverified'), `${OFF_REFUSED} ${NOT_PROOF}`], loading: [PLAIN('Reading'), 'Last good 11:20.'], stale: [WARN('From 11:12'), 'The runner state may be newer than this.'], offline: [WARN('From 11:20', 'wifi-off'), 'The runner state may be newer than this.'] }[ctx.state] || [OK('admitted'), `Claude is on. Every call reserves its maximum cost first. ${NOT_PROOF}`];
+    const line = { empty: [PLAIN('No manifest'), 'With no valid manifest, no call can start.'], error: [BAD('Failed closed', 'ban'), 'The policy store did not answer, so every tool call fails closed.'], denied: [PLAIN('credit_unverified'), `${OFF_REFUSED} ${NOT_PROOF}`], loading: [PLAIN('Reading'), 'Last good 11:20.'], stale: [WARN('From 11:12'), 'The runner state may be newer than this.'], offline: [WARN('From 11:20', 'wifi-off'), 'The runner state may be newer than this.'] }[ctx.state] || [OK('admitted'), `Claude is on because you approved paid use. Every call reserves its maximum cost first. ${NOT_PROOF}`];
     return box(`${lbl('The shared runner')}<div style="margin-top:8px">${line[0]}</div><p class="small muted" style="margin-top:8px">${line[1]}</p><div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">${proposed('CT-13')}<span class="small">Credit unknown</span></div>`);
   };
   const authority = () => box(`${lbl('What no agent can do')}<p class="small muted" style="margin-top:6px">${FORBID}</p>`) + refused('R1', 'An agent cannot write the ledger. Only the controlled writer commits, and only an exact change you approved.');
@@ -44,9 +47,9 @@
   });
 
   /* ---------- one manifest: what a route may do, as code enforces it ---------- */
-  const MANIFEST = [['Model', 'Opus 5.5 · <code>claude-opus-5-5</code>'], ['Effort', 'medium, to start'], ['Mode', 'Batch'], ['Queue', 'Its own, with a dead-letter queue'], ['Role and key', 'Its own, in Terraform'], ['Daily limit', 'At most three analyses'], ['Prompt cache', '5 minutes · no cache-warming'], ['Batch expiry', '24 hours']];
+  const MANIFEST = [['Model', 'Opus 5.5 · <code>claude-opus-5-5</code>'], ['Effort', 'medium, to start'], ['Mode', 'Batch'], ['Queue', 'Its own, with a dead-letter queue'], ['Tools', 'None inside the batch'], ['Outbound context', 'Derived values only'], ['Budget caps', 'Reserves its maximum first'], ['Role and key', 'Its own, in Terraform'], ['Daily limit', 'At most three analyses'], ['Prompt cache', '5 minutes · no cache-warming'], ['Batch expiry', '24 hours']];
   const manifestBox = (title = 'Event analysis · manifest v2', c = OK('active'), rows = MANIFEST) => box(`<div class="aagents-head"><b>${title}</b>${c}</div><div style="margin-top:8px">${kv(rows)}</div>`);
-  const openBits = () => `${tagged(proposed('ARC-06b-O4'), 'Its prompt, tool list and qualifying cases are not approved.')}${tagged(proposed('ARC-06b-O3'), 'No per-route daily cost cap is approved.')}${tagged(proposed('ARC-06b-O2'), 'What happens on a refusal is not approved.')}`;
+  const openBits = () => `${tagged(proposed('ARC-06b-O4'), 'Its prompt, its outbound context entry and its qualifying cases are not approved. Derived values only is the triage route\'s rule, DATA-DEC-12.')}${tagged(proposed('ARC-06b-O3'), 'No per-route daily cap on turns, tokens or tool calls is approved.')}${tagged(proposed('ARC-06b-O2'), 'What happens on a refusal is not approved.')}`;
   const forbidBox = () => box(`${lbl('Forbidden operations')}<div class="aagents-chips">${['Trade', 'Write the ledger', 'Publish or change a forecast', 'Promote a model', 'Change model weights', 'Read secrets'].map(t => chip('illus', t, 'ban')).join('')}</div><p class="small muted" style="margin-top:8px">The runtime checks each call against this manifest. A prompt cannot ask its way past it.</p>`);
   const qualBox = (c = OK('qualified'), t = 'Passed its suite on this model and effort. A changed model, prompt or tool runs it again, with its cost reserved first.') => box(`${lbl('Qualification')}<div style="margin-top:8px">${c}</div><p class="small muted" style="margin-top:8px">${t}</p>`);
   const manifestState = ctx => region(ctx, {
@@ -57,7 +60,7 @@
     error: () => banner('fall', 'The policy store is unavailable.', 'It failed at 11:38, so every tool call fails closed. This is the last manifest read, at 11:20.', 'alert') + manifestBox('Event analysis · manifest v2', BAD('Failed closed', 'ban')) + forbidBox(),
     stale: () => banner('warn', 'Stale.', 'This manifest is from 11:12. A newer version would show in Versions.', 'clock') + manifestBox() + forbidBox(),
     offline: () => offline(ctx, 'this manifest') + manifestBox() + forbidBox(),
-    conflict: () => banner('warn', 'uncovered.', 'A tool in v3 has no mapped case, which blocks readiness. The route stays on v2 until one exists.', 'split') + manifestBox('Event analysis · manifest v2', WARN('v3 uncovered', 'split')) + forbidBox(),
+    conflict: () => banner('warn', 'uncovered.', 'v3 changes the model and has no mapped case, which blocks readiness. The route stays on v2 until one exists.', 'split') + manifestBox('Event analysis · manifest v2', WARN('v3 uncovered', 'split')) + forbidBox(),
     expired: () => banner('warn', 'Qualification expired.', 'A changed model or rubric resets it, so the route needs its suite again before any switch-on.', 'clock') + manifestBox() + forbidBox() + openBits(),
     denied: () => banner('warn', 'That read was refused.', 'A route reads only its own key parameter, and nobody reads it here. The manifest itself stays open.', 'lock') + manifestBox() + forbidBox()
   });
@@ -75,7 +78,7 @@
   const versionsState = (ctx, body = () => cmpBox() + chain() + bind() + decide()) => region(ctx, {
     what: 'These versions', rows: 4, ok: body,
     loading: () => box(`${lbl('Comparing v2 and v3')}<span class="sk" style="height:96px;margin-top:10px"></span>`),
-    empty: () => stateCard('check', 'No change waits on you', 'Route v2 is the only version. A change arrives as a reviewed code change, and any model, tool or budget change then waits here.'),
+    empty: () => stateCard('check', 'No change waits on you', 'No newer version exists, and v2 stays active. A change arrives as a reviewed code change, and any model, tool or budget change then waits here.'),
     partial: () => banner('warn', 'Partial.', 'The comparison answered and the coverage report did not, so this cannot be approved yet. It stays open.', 'clock') + cmpBox() + chain() + bind(),
     error: () => banner('fall', 'v3 failed validation.', 'invalid (fails closed): the route stays on v2, its last valid version. Nothing needs you, and nothing changed.', 'alert') + cmpBox(CMP.slice(0, 4).concat([['Qualification', 'qualified', 'invalid']])),
     stale: () => banner('warn', 'Stale.', 'This comparison is from 11:12. It rechecks itself before you can approve, so approval waits for a fresh read.', 'clock') + cmpBox() + chain() + bind(),
@@ -101,7 +104,7 @@
     stale: () => banner('warn', 'Stale.', 'These notes are from 11:12, so a correction may not show yet.', 'clock') + notes(rows, ''),
     offline: () => offline(ctx, 'these notes') + notes(rows, ''),
     conflict: () => banner('warn', 'corrected.', 'This note was corrected on your iPad, so it stays at the version you opened and nothing was applied. Reopen it to correct the newest.', 'split') + notes(rows.map(r => [r[0], r[1], r === rows[0] ? WARN('corrected', 'split') : r[2]]), ''),
-    expired: () => banner('warn', 'Expired.', 'A note past its expiry is no longer used. It stays listed, so you can see what was kept.', 'clock') + notes(rows.map(r => [r[0], r[1].replace(/expires .*/, 'expired Oct 2026'), PLAIN('expired')])),
+    expired: () => banner('warn', 'Expired.', 'A note past its expiry is no longer used. It stays listed, so you can see what was kept.', 'clock') + notes(rows.map(r => [r[0], r[1].replace(/expires .*/, 'expired Oct 2026'), (r === FEES ? r[2] : '') + PLAIN('expired')])),
     denied: () => banner('warn', 'That note was refused.', 'A dev note cannot be opened in prod, because a note never crosses owner or environment scope. Your prod notes stay open.', 'lock') + notes(rows)
   });
   const railMem = () => `${box(`${lbl('Each note records')}<div style="margin-top:8px">${kv([['Scope', 'Owner and environment'], ['Author', 'Its route'], ['Taint', 'Carried into what is built from it'], ['Version', 'A correction is a new one']])}</div>`)}${refused('R6', 'Forgetting records a tombstone, and evidence is never deleted without one. Required financial audit evidence stays.')}${refused('R8', 'Multi-user administration does not exist. MP has one owner, so a note has one owner scope.')}`;
@@ -109,8 +112,9 @@
   /* ---------- cost: what is reserved, refused and known ---------- */
   const rRow = (a, b, c) => item(lead(c === 'Refused' ? 'ban' : c === '£0.22' ? 'check' : 'clock'), a, b, chip(c === 'Refused' ? 'illus' : '', c));
   const REFUSED_ROWS = () => list(rRow('Nightly explanations', 'No verified credit, Claude is off', 'Refused') + rRow('Top-5 batch', 'No verified credit, Claude is off', 'Refused') + rRow('Event analysis', 'No verified credit, Claude is off', 'Refused'));
-  const MONTH = () => box(`${lbl('Cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Claude so far', '£7.06'], ['Dev', '£1.20'], ['Prod', '£5.46'], ['Local', '£0.40'], ['Top-5 scan', '£2.12 of £5']])}</div><p class="small muted" style="margin-top:8px">Gross usage, by environment. It is not split by route, because no per-route cap is approved. These dates are the cost month's, not a run's.</p>`);
+  const MONTH = () => box(`${lbl('Cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Claude so far', '£7.06'], ['Dev', '£1.20'], ['Prod', '£5.46'], ['Local', '£0.40'], ['Top-5 scan', '£2.12 of £5']])}</div><p class="small muted" style="margin-top:8px">Gross usage, by environment. It is not split by route, because that split needs the Anthropic admin key. These dates are the cost month's, not a run's.</p>`);
   const HOLDS = () => list(rRow('Nightly explanations', 'Reserved at its worst case', '£0.34') + rRow('Event analysis, 17 Nov', 'Settled. The bill replaced the hold', '£0.22') + rRow('Top-5 batch, 14 Nov', 'Refused: £3.20 could cross the £5 cap', 'Refused'));
+  const HOLDS_UNREAD = () => list(rRow('Nightly explanations', 'Reserved at its worst case', '£0.34') + rRow('Event analysis, 17 Nov', 'Settled figure not read', 'Unknown') + rRow('Top-5 batch, 14 Nov', 'Refused: £3.20 could cross the £5 cap', 'Refused'));
   const CAPS = () => box(`${lbl('Limits')}<div style="margin-top:8px">${kv([['Claude and evaluations', '£15 a month, shared across routes'], ['Admissible credit', 'Zero · credit unknown'], ['Opus', 'At most three analyses a day']])}</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">${proposed('ARC-06b-O3')}${proposed('CT-13')}</div>`);
   const USAGE = () => tagged(proposed('MP40-Q5: Anthropic admin key'), 'Usage by route needs this key. Without it, that split shows unavailable, never zero.');
   const STATES = () => box(`${lbl('A reservation is one of')}<div class="aagents-chips">${['reserved', 'dispatched', 'ambiguous', 'settled', 'cancel_pending', 'released', 'refused'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">Every call reserves its maximum cost before it starts, and reconciles once.</p>`);
@@ -119,15 +123,15 @@
     what: 'Route costs', rows: 3, ok: () => MONTH() + HOLDS() + CAPS() + toCost(),
     loading: () => `<div class="small muted">Last good 11:20</div>${skel(3)}`,
     empty: () => stateCard('target', 'No call has been attempted', 'No reservation is on record, so there is nothing to reconcile. That is no evidence of what a route costs.') + CAPS(),
-    partial: () => banner('warn', 'Partial.', 'Reservations answered. Anthropic usage did not, so what is settled shows unknown, never zero.', 'clock') + USAGE() + HOLDS() + CAPS(),
+    partial: () => banner('warn', 'Partial.', 'Reservations answered. Anthropic usage did not, so what is settled shows unknown, never zero.', 'clock') + USAGE() + HOLDS_UNREAD() + CAPS(),
     error: () => banner('fall', 'Reservations did not load.', 'They failed at 11:38, so what is held right now is not on screen.', 'alert') + stateCard('alert', 'Unknown', 'An unknown or unreconciled amount is shown as unknown, never as zero.', bs('Try again', 'tinted', 'refresh')) + CAPS(),
     stale: () => banner('warn', 'Stale.', 'Reservations are from 11:12. The server admits a call, never this copy.', 'clock') + MONTH() + HOLDS() + CAPS(),
     offline: () => offline(ctx, 'route costs') + MONTH() + HOLDS() + CAPS(),
     conflict: () => banner('warn', 'A call was sent and no answer came.', 'An ambiguous call keeps its reservation until the provider\'s usage report settles it.', 'split') + box(`${lbl('Cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Nightly explanations', 'Held £0.34 · ambiguous'], ['Event analysis, 17 Nov', 'Settled £0.22'], ['Top-5 batch, 14 Nov', 'Refused']])}</div><p class="small muted" style="margin-top:8px">These dates are the cost month's, not the run's.</p>`) + toCost(),
-    expired: () => banner('warn', 'A batch expired.', 'Its 24 hours passed, so the reservation was released and the last dated evidence stayed. It never falls back to a paid live call.', 'clock') + box(`${lbl('Cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Top-5 batch', 'Released']])}</div>`) + toCost(),
+    expired: () => banner('warn', 'A batch expired.', 'Its 24 hours passed, so its unused reservation was released and the last dated evidence stayed. It never falls back to a paid live call.', 'clock') + box(`${lbl('Cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Triage batch', 'Unused reservation released'], ['Nightly explanations', 'Held £0.34 until it reconciles']])}</div>`) + toCost(),
     denied: () => claudeOff() + REFUSED_ROWS() + para('No Claude spend shows, because none is admitted. Refused calls reserve nothing. Paid use is decided in Costs and budgets.') + CAPS() + toCost()
   });
-  const railCost = () => `${STATES()}${USAGE()}${box(`${lbl('Calendars')}<p class="small muted" style="margin-top:6px">This page's runs are dated Wed 4 Nov. Cost lines, when shown, are the cost month's, and say so.</p>`)}`;
+  const railCost = () => `${STATES()}${USAGE()}${box(`${lbl('Calendars')}<p class="small muted" style="margin-top:6px">Runs on this page are dated Mon 2 to Wed 4 Nov. Cost lines are the cost month's, and say so.</p>`)}`;
 
   /* ---------- work and failures ---------- */
   const STATEWORDS = ['idle', 'queued', 'running', 'awaiting_owner', 'cancelled', 'dead_lettered', 'failed'];
@@ -137,8 +141,8 @@
     what: 'Worker state', rows: 3, ok: workOK,
     loading: () => skel(3),
     empty: () => stateCard('refresh', 'No work on record', 'No route or worker has been asked to do anything yet. That is no evidence that they work.'),
-    partial: () => banner('warn', 'Partial.', 'Route workers answered. Code workers did not, so their work shows unknown.', 'clock') + workOK(),
-    error: () => banner('fall', 'It failed at 21:14.', 'The Explanations worker stopped, and its item went to the dead-letter queue. A paid call whose outcome is ambiguous is reconciled, not repeated.', 'alert') + list(workRow('Nightly explanations', 'interrupted · spent cost recorded', BAD('dead_lettered')) + workRow('Event analysis', 'Waiting', PLAIN('queued'))) + `<div>${bs('Open Incidents and recovery', 'primary', 'alert')}</div>`,
+    partial: () => banner('warn', 'Partial.', 'Route workers answered. Code workers did not, so their work shows unknown.', 'clock') + workOK() + list(item(lead('sliders'), 'Code workers', 'Not read', WARN('Unknown'))),
+    error: () => banner('fall', 'Nothing to explain yet.', 'run_8d02 failed at 21:14, so Nightly explanations waits on it. Nothing here is dead-lettered: the one item is job_3e9a, in Runs and health.', 'alert') + list(workRow('Nightly explanations', 'Waits on run_8d02', PLAIN('queued')) + workRow('Event analysis', 'Batch · next items picked by code', PLAIN('queued'))) + `<div>${bs('Open inc_0013', 'primary', 'alert')}</div>`,
     stale: () => banner('warn', 'Stale.', 'Worker state is from 11:12, and a worker may have finished since.', 'clock') + workOK(),
     offline: () => offline(ctx, 'worker state') + workOK(),
     conflict: () => banner('warn', 'A restart met a finished result.', 'The worker resumed from its checkpoint, and one result per request id stands.', 'split') + list(workRow('Nightly explanations', 'Two attempts · one result', WARN('reconciled', 'split'))),
@@ -146,6 +150,25 @@
     denied: () => claudeOff() + list(workRow('Nightly explanations', 'Refused before it started', chip('illus', 'Refused')) + workRow('Event analysis', 'Refused before it started', chip('illus', 'Refused')) + workRow('Statement extraction', 'isa-oct-2026-scan.pdf · This scan is queued and no model has read it.', PLAIN('queued')))
   });
   const railWork = () => `${box(`${lbl('Worker states')}<div class="aagents-chips">${STATEWORDS.map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A dead-lettered message is never replayed automatically beyond the ops policy.</p><div style="margin-top:8px">${proposed('CT-14')}</div>`)}${box(`${lbl('Runner states')}<div class="aagents-chips">${['credit_unverified', 'admitted', 'running', 'interrupted', 'refused_budget', 'reconciled', 'cache_cold'].map(PLAIN).join('')}</div>`)}`;
+
+  /* ---------- factors: in shadow until they add accuracy and you say yes (MP-97) ---------- */
+  const factHead = (c = OWN('Waits for your yes')) => box(`<div class="aagents-head"><b>Earnings surprise factor, v2</b>${c}</div><span class="small muted">Structured factors · Haiku 5.5, batched · shadow</span>`);
+  const factEv = (abl = 'Adds accuracy over the baseline') => box(`${lbl('Why it could be admitted')}<div style="margin-top:8px">${kv([['Ablation', abl], ['Compared on', 'The same dates and folds'], ['Hindsight', 'Prospective only'], ['Evidence hash', 'e3a9…51c0']])}</div><p class="small muted" style="margin-top:8px">No factor is admitted on extraction quality alone.</p><div style="margin-top:8px">${proposed('SCI-D03')}</div>`);
+  const factBind = () => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv([['Factor', 'Earnings surprise, v2'], ['Evidence hash', 'e3a9…51c0'], ['Payload hash', '5d18…a3f2'], ['Environment', 'Prod'], ['Expires', WAIT]])}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
+  const factYes = () => `<div class="aagents-acts">${act('A61', 'Admit this factor', 'primary')}</div>${para('Leaving it unadmitted changes nothing: it stays in shadow, and no forecast uses it.')}`;
+  const factState = ctx => region(ctx, {
+    what: 'This factor', rows: 3, ok: () => factHead() + factEv() + factBind() + factYes(),
+    loading: () => factHead(chip('', 'Loading')) + skel(2),
+    empty: () => stateCard('split', 'No factor has finished shadow', 'Every factor stays in shadow until the ablation shows it adds accuracy. Nothing waits on you here.'),
+    partial: () => banner('warn', 'incomplete.', 'The factor answered and the ablation did not, so nothing can be admitted yet. It stays in shadow.', 'clock') + factHead(WARN('Unknown')) + factEv('Not read'),
+    error: () => banner('fall', 'The ablation failed.', 'It failed at 21:14, so it is incomplete, never green. The factor stays in shadow.', 'alert') + factHead(BAD('incomplete')) + factEv('Not read'),
+    stale: () => banner('warn', 'Stale.', 'This is from 11:12. It rechecks itself before you can admit it, so the control returns after that.', 'clock') + factHead() + factEv() + factBind(),
+    offline: () => offline(ctx, 'this factor') + factHead() + factEv() + factBind(),
+    conflict: () => banner('warn', 'hindsight_flagged.', 'A batch reached back past its cutoff. Where contamination cannot be bounded, only prospectively extracted factors count, so this evidence no longer stands.', 'split') + factHead(WARN('hindsight_flagged', 'split')) + factEv('Being rerun'),
+    expired: () => banner('warn', 'late (missed the cutoff).', 'The last batch missed the +60 freeze, so the forecast used the previous frozen set, labelled with its age. A late factor is kept for the next origin, never backdated.', 'clock') + factHead(WARN('late')) + factEv(),
+    denied: () => banner('warn', 'A fresh sign-in may be needed.', `${STEP} Whether this act needs one is open.`, 'lock') + factHead() + factEv() + factBind() + factYes()
+  });
+  const railFact = () => `${box(`${lbl('A factor is one of')}<div class="aagents-chips">${['shadow', 'frozen', 'late', 'hindsight_flagged', 'admitted', 'withdrawn'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A withdrawn factor leaves future origins. Past predictions keep their original input references.</p>`)}${box(`${lbl('What a route returns')}<p class="small muted" style="margin-top:6px">Claude returns categories and cited spans only. Any number used as a model input is computed by code.</p>`)}`;
 
   /* ---------- Option B: one route, whole ---------- */
   const SHORT = ['Triage', 'Event analysis', 'Factors', 'Extraction', 'Explanations', 'Chat', 'Judges'];
@@ -181,11 +204,15 @@
       }, {
         id: 'a-route', title: 'Event analysis',
         note: 'Reading a manifest is the source inspection: it is what code enforces, not what a prompt asks.',
-        render: ctx => frame(ctx, { title: 'Event analysis', back: 'Agents', body: manifestState(ctx), rail: railManifest(ctx) })
+        render: ctx => frame(ctx, { title: 'Event analysis', back: 'Agents', body: manifestState(ctx) + (ctx.state === 'empty' ? '' : `<div class="aagents-acts">${bs('Versions', 'tinted', 'layers')}</div>`), rail: railManifest(ctx) })
       }, {
         id: 'a-versions', title: 'Compare versions',
-        note: 'Manifest v2 to v3 and its payload hash are illustrative, named in the report.',
+        note: 'Manifest v2 to v3 and its payload hash are illustrative.',
         render: ctx => frame(ctx, { title: 'Versions', back: 'Event analysis', body: versionsState(ctx), rail: railVersions(ctx) })
+      }, {
+        id: 'a-factors', title: 'Factors in shadow',
+        note: 'The factor, its hashes and its standing proposal are illustrative. It has no expiry of its own, so it sits outside the dated queue, as switching forward does.',
+        render: ctx => frame(ctx, { title: 'Factors', back: 'Agents', body: factState(ctx), rail: railFact() })
       }, {
         id: 'a-memory', title: 'Memory notes',
         render: ctx => frame(ctx, { title: 'Memory notes', back: 'Agents', body: memState(ctx), rail: railMem() })
@@ -204,10 +231,10 @@
       screens: [{
         id: 'b-route', title: 'One route',
         note: 'The route picker holds all seven. Code workers have no model, so they appear as a list under it.',
-        render: ctx => frame(ctx, { title: 'Agents', back: 'Admin', body: picker() + manifestState(ctx), rail: `${railManifest(ctx)}${sec('5 code workers')}${workerRows(ctx.state === 'partial' ? () => WARN('Unknown') : undefined)}${refused('R14', 'No setting can grant a route a tool, source, budget, infrastructure permission or approval authority.')}` })
+        render: ctx => frame(ctx, { title: 'Agents', back: 'Admin', body: picker() + manifestState(ctx) + placesB(), rail: `${railManifest(ctx)}${sec('5 code workers')}${workerRows(ctx.state === 'partial' ? () => WARN('Unknown') : undefined)}${refused('R14', 'No setting can grant a route a tool, source, budget, infrastructure permission or approval authority.')}` })
       }, {
         id: 'b-versions', title: 'This route\'s versions',
-        note: 'Manifest v2 to v3 and its payload hash are illustrative, named in the report.',
+        note: 'Manifest v2 to v3 and its payload hash are illustrative.',
         render: ctx => frame(ctx, { title: 'Versions', back: 'Event analysis', body: versionsState(ctx, () => LADDER() + cmpBox() + chain() + bind() + decide()), rail: railVersions(ctx) })
       }, {
         id: 'b-runs', title: 'This route\'s runs',
@@ -215,6 +242,10 @@
       }, {
         id: 'b-cost', title: 'This route\'s cost',
         render: ctx => frame(ctx, { title: 'Cost', back: 'Event analysis', body: costState(ctx), rail: railCost() })
+      }, {
+        id: 'b-factors', title: 'Factors in shadow',
+        note: 'The factor, its hashes and its standing proposal are illustrative. It has no expiry of its own, so it sits outside the dated queue, as switching forward does.',
+        render: ctx => frame(ctx, { title: 'Factors', back: 'Agents', body: factState(ctx), rail: railFact() })
       }, {
         id: 'b-memory', title: 'Notes from this route',
         note: 'A note sits under the route that wrote it. "Show the 6-month view first" sits under Chat.',

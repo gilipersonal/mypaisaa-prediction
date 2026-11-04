@@ -68,6 +68,7 @@ jobs:
           python3 docs/design/admin/build.py --check
           node scripts/design_admin_facts.mjs --selftest
           node scripts/design_admin_facts.mjs
+          node scripts/design_admin_facts.mjs --facts
           python3 scripts/design_gates.py check
           python3 scripts/design_gates.py selftest
           node scripts/design_journeys_facts.mjs --selftest
