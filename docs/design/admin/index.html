@@ -1009,6 +1009,23 @@ footer p + p { margin-top: 6px; }
 .arefuse svg { flex: none; margin-top: 1px; }
 .navbar .nbt { padding-inline: 52px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .jside .chip { white-space: normal; max-width: 100%; }
+.acmp-tabs { margin-top: 14px; }
+.acmp-opt { display: grid; gap: 8px; margin-top: 24px; min-width: 0; }
+.acmp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.acmp-head h3 { font: 600 20px/25px var(--font-text); letter-spacing: -.01em; }
+.acmp-head .btn { margin-left: auto; }
+.acmp-why { max-width: 76ch; font-size: 15px; line-height: 22px; color: var(--ink-2); }
+.acmp-why b { color: var(--ink); font-weight: 600; }
+.acmp-row { display: flex; gap: 14px; overflow-x: auto; min-width: 0; padding: 4px 2px 14px; border-radius: var(--r-sm); }
+.acard { flex: none; display: grid; align-content: start; justify-items: start; gap: 6px; width: var(--cw); }
+.acard-frame { width: var(--cw); overflow: hidden; border-radius: var(--cr); }
+[hidden] { display: none !important; }
+.acard h4 { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.acard p { font-size: 13px; line-height: 18px; color: var(--ink-2); }
+.acmp-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 20px; }
+.acmp-out { display: grid; gap: 8px; margin-top: 20px; padding: 14px 16px; }
+.acmp-out textarea { width: 100%; min-height: 72px; padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink); font: 400 15px/22px var(--font-text); resize: vertical; }
+.acmp-copy { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .ahome-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 12px; }
 .ahome-tile { display: grid; gap: 6px; align-content: start; padding: 14px 16px; min-height: 112px; }
 .ahome-tile b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
@@ -2601,7 +2618,7 @@ const J = {
     if (SURFACES.some(s => s[0] === hash[2])) sum.at.s = hash[2];
     if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
     buildToc();
-    if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'coverage') showCoverage(); else show();
+    if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
     addEventListener('resize', fitFrames);
   },
   /* for scripts/design_journeys_check.mjs: every combination the review can reach */
@@ -2617,12 +2634,13 @@ window.__prismSurfaces = SURFACES;
 
 function buildToc() {
   const toc = $('#toc');
-  toc.innerHTML = sum.journeys.map((j, i) => `<a href="#${j.id}" data-i="${i}">${j.title}</a>`).join('') + `<a href="#inventory" data-i="inv">State inventory</a><a href="#permissions" data-i="perm">Permission inventory</a><a href="#coverage" data-i="cov">What each journey covers</a>`;
+  toc.innerHTML = sum.journeys.map((j, i) => `<a href="#${j.id}" data-i="${i}">${j.title}</a>`).join('') + `<a href="#compare" data-i="cmp">Compare and pick</a><a href="#inventory" data-i="inv">State inventory</a><a href="#permissions" data-i="perm">Permission inventory</a><a href="#coverage" data-i="cov">What each journey covers</a>`;
   toc.addEventListener('click', e => {
     const a = e.target.closest('a'); if (!a) return;
     e.preventDefault();
     if (a.dataset.i === 'inv') { showInventory(); return; }
     if (a.dataset.i === 'perm') { showPermissions(); return; }
+    if (a.dataset.i === 'cmp') { showCompare(); return; }
     if (a.dataset.i === 'cov') { showCoverage(); return; }
     sum.at.j = +a.dataset.i; sum.at.o = 0; show();
     scrollTo({ top: 0 });
@@ -2648,6 +2666,7 @@ function fitFrames() {
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
   $('#jinv').hidden = true;
+  sum.cmp = null;
   ['#jrow', '#jwhy', '.jctl', '.jhead'].forEach(s => { $(s).hidden = false; });
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
@@ -2780,6 +2799,7 @@ function showInventory() {
 const COVER = [['compare', 'Investigate and compare'], ['decide', 'Approve and reject'], ['source', 'Inspect the source'], ['correct', 'Reprocess and correct'], ['config', 'Change configuration'], ['cost', 'Reconcile cost'], ['recover', 'Failure, replay, restore, rollback, delete']];
 function pageOnly(id) {
   mark(id);
+  sum.cmp = null;
   ['#jrow', '#jwhy', '.jctl', '.jhead'].forEach(s => { $(s).hidden = true; });
   const inv = $('#jinv'); inv.hidden = false;
   return inv;
@@ -2806,6 +2826,68 @@ function showCoverage() {
   const rows = sum.journeys.filter(j => j.id !== 'home').flatMap(j => j.options.map(o => `<tr><td>${j.title} · ${o.id.toUpperCase()}</td>${COVER.map(([k]) => { const v = (o.covers || {})[k] || ''; const sc = o.screens.find(s => s.id === v); return `<td>${sc ? sc.title : v.replace(/^n\/a: /, 'Not here: ')}</td>`; }).join('')}</tr>`)).join('');
   inv.innerHTML = `<h2>What each journey covers</h2><p class="sum">MP-64 asks each journey for these. Stale, conflicting, expired and denied are states of every screen. Each cell names the screen that does it, or says why it does not belong in this journey.</p><div class="tblwrap" tabindex="0" role="region" aria-label="Inventory"><table class="spec"><thead><tr><th>Journey</th>${COVER.map(([, t]) => `<th>${t}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
   try { history.replaceState(null, '', '#coverage'); } catch (e) { /* the view still shows */ }
+}
+
+/* Compare and pick: one card per screen, both options side by side, in the Ready state. The frames are the real screens, drawn small and inert;
+   a card's button opens the full screen. Nothing is picked until the owner presses, and a pick leaves this page only when the owner copies it. */
+const CMP_KEY = 'mp64-picks';
+function picksLoad() { try { return JSON.parse(localStorage.getItem(CMP_KEY)) || {}; } catch (e) { return {}; } }
+function picksSave(p) { try { localStorage.setItem(CMP_KEY, JSON.stringify(p)); } catch (e) { /* the picks still show on this page, and copy */ } }
+const CMP_DEV = { iphone: ['iPhone', 390, 844, 'phone', .5], web: ['Desktop', 1200, 950, 'win', .36] };
+function picksText(p) {
+  const name = (j, v) => (v === 'x' ? 'neither' : `${v.toUpperCase()}, ${j.options.find(o => o.id === v).name}`);
+  const done = sum.journeys.filter(j => p[j.id]);
+  return done.length ? `MP-64 picks. ${done.map(j => `${j.title}: ${name(j, p[j.id])}`).join('. ')}.` : '';
+}
+function showCompare() {
+  const inv = pageOnly('cmp');
+  sum.cmp = sum.cmp || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: picksLoad() };
+  if (!sum.cmpWatch && typeof MutationObserver === 'function') {
+    sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
+    sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+  drawCompare();
+  try { history.replaceState(null, '', '#compare'); } catch (e) { /* the view still shows */ }
+  inv.onclick = e => {
+    const c = sum.cmp, t = e.target.closest('[data-cj],[data-cdev],[data-pick],[data-open],[data-copy]');
+    if (!t) return;
+    if (t.dataset.cj) { c.j = t.dataset.cj; drawCompare(); $(`[data-cj="${c.j}"]`, inv).focus({ preventScroll: true }); return; }
+    if (t.dataset.cdev) { c.dev = t.dataset.cdev; drawCompare(); $(`[data-cdev="${c.dev}"]`, inv).focus({ preventScroll: true }); return; }
+    if (t.dataset.pick) {
+      const v = t.dataset.pick;
+      if (c.picks[c.j] === v) delete c.picks[c.j]; else c.picks[c.j] = v;
+      picksSave(c.picks); drawCompare();
+      $(`[data-pick="${v}"]`, inv).focus({ preventScroll: true });
+      $('#jlive').textContent = c.picks[c.j] ? `${sum.journeys.find(j => j.id === c.j).title}: picked` : 'Pick cleared';
+      return;
+    }
+    if (t.dataset.open) {
+      const [oid, sid] = t.dataset.open.split('|');
+      J.go(c.j, oid, c.dev, 'default');
+      const at = `${c.j}|${oid}|${sid}`;
+      let n = 0;
+      const seek = () => { const el = $(`.scr[data-at="${at}"]`); if (el) el.closest('.bfig').scrollIntoView({ block: 'start' }); else if (n++ < 60) setTimeout(seek, 32); };
+      seek();
+      return;
+    }
+    const text = picksText(c.picks), area = $('#cmpText', inv), said = $('#cmpSaid', inv);
+    const fall = () => { area.focus(); area.select(); said.textContent = 'Selected. Copy it from the box.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => { said.textContent = 'Copied. Paste it to Claude to record your picks.'; }, fall); else fall();
+  };
+}
+function drawCompare() {
+  const inv = $('#jinv'), c = sum.cmp, j = sum.journeys.find(x => x.id === c.j), [dn, w, h, kind, z] = CMP_DEV[c.dev];
+  const t = root.getAttribute('data-theme'), sch = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const picked = sum.journeys.filter(x => c.picks[x.id]).length, text = picksText(c.picks);
+  const card = (o, s) => `<article class="acard" style="--cw:${Math.round((w + (kind === 'win' ? 0 : 20)) * z)}px;--cr:${kind === 'win' ? 6 : 32}px"><div class="acard-frame" inert aria-hidden="true"><div class="dev${kind === 'win' ? ' win' : ''} scheme-${sch}" style="--w:${w}px;--h:${h}px;zoom:${z}"><div class="scr">${s.render({ kind: c.dev, state: 'default', scheme: sch, journey: j.id, option: o.id, screen: s.id })}</div></div></div><h4>${s.title}</h4>${s.note ? `<p>${s.note}</p>` : ''}<button class="btn sm btn-tinted" type="button" data-open="${o.id}|${s.id}" aria-label="Open ${s.title}, option ${o.id.toUpperCase()}">Open</button></article>`;
+  const opt = o => `<section class="acmp-opt" aria-label="Option ${o.id.toUpperCase()}, ${o.name}"><div class="acmp-head"><h3>${o.id.toUpperCase()} · ${o.name}</h3>${o.rec ? '<span class="chip owner">Recommended</span>' : ''}<span class="small">${o.screens.length} ${o.screens.length === 1 ? 'screen' : 'screens'}</span><button class="btn sm ${c.picks[j.id] === o.id ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="${o.id}" aria-pressed="${c.picks[j.id] === o.id}">${c.picks[j.id] === o.id ? `${ic('check', 's16')}Picked` : `Pick ${o.id.toUpperCase()}`}</button></div><p class="acmp-why">${o.why}${o.cost ? ` <b>What it costs.</b> ${o.cost}` : ''}</p><div class="acmp-row" tabindex="0" role="region" aria-label="Screens of option ${o.id.toUpperCase()}">${o.screens.map(s => card(o, s)).join('')}</div></section>`;
+  inv.innerHTML = `<h2>Compare and pick</h2><p class="sum">One card per screen, both options, in the Ready state, for the journey you choose. Nothing is picked until you press. ${picked} of ${sum.journeys.length} picked.</p>
+    <div class="jstates acmp-tabs" role="group" aria-label="Journey">${sum.journeys.map(x => `<button type="button" data-cj="${x.id}" aria-pressed="${x.id === c.j}">${c.picks[x.id] ? `${x.title} · ${c.picks[x.id] === 'x' ? 'neither' : c.picks[x.id].toUpperCase()}` : x.title}</button>`).join('')}</div>
+    <div class="jstates acmp-tabs" role="group" aria-label="Device">${Object.entries(CMP_DEV).map(([k, v]) => `<button type="button" data-cdev="${k}" aria-pressed="${k === c.dev}">${v[0]}</button>`).join('')}</div>
+    <p class="sum" style="color:var(--ink)">${j.summary}</p>${j.options.map(opt).join('')}
+    <div class="acmp-foot"><button class="btn sm ${c.picks[j.id] === 'x' ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="x" aria-pressed="${c.picks[j.id] === 'x'}">${c.picks[j.id] === 'x' ? `${ic('check', 's16')}Neither` : 'Neither, draw new options'}</button><span class="small">A journey you reject gets its own new options round. The others are kept.</span></div>
+    <div class="card acmp-out"><label class="label" for="cmpText">Your picks so far</label><textarea id="cmpText" readonly rows="3" placeholder="Nothing picked yet">${text}</textarea><div class="acmp-copy"><button class="btn sm btn-primary" type="button" data-copy="1"${text ? '' : ' disabled'}>Copy my picks</button><span class="small" id="cmpSaid" role="status">Picks stay in this browser until you paste them to Claude.</span></div></div>`;
+  $$('[data-mo]', inv).forEach(n => n.removeAttribute('data-mo'));
 }
 
 /* ---------- journey: home ---------- */
