@@ -811,9 +811,18 @@
    "key": "MP-62",
    "summary": "Design the owner's product journeys and every screen state for web, iPhone and iPad",
    "type": "Story",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/",
+    "docs/design/journeys/",
+    "docs/design/reviews/MP-62/",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/design_journeys_facts.mjs",
+    "tests/journey_facts/",
+    "review/MP-62/"
+   ]
   },
   {
    "key": "MP-63",
@@ -827,9 +836,17 @@
    "key": "MP-64",
    "summary": "Design every admin journey before the first build",
    "type": "Story",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/admin/",
+    "docs/design/reviews/MP-64/",
+    "scripts/design_admin_facts.mjs",
+    "scripts/design_admin_press.mjs",
+    "scripts/design_admin_text.mjs",
+    "tests/admin_facts/",
+    "review/MP-64/"
+   ]
   },
   {
    "key": "MP-65",
@@ -1750,9 +1767,14 @@
    "key": "MP-178",
    "summary": "Design a flip so the owner can switch a journey between its two drawn options",
    "type": "Story",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/README.md",
+    "tests/journey_facts/flip.mjs",
+    "scripts/design_journeys_press.mjs"
+   ]
   },
   {
    "key": "MP-179",
