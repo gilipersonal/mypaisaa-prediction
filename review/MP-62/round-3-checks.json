@@ -1,0 +1,165 @@
+{
+  "base": "e5dbc07",
+  "paths": [
+    ".claude/rules/independent-review.md",
+    "docs/confluence/pages/ph-00.html",
+    "docs/design/artifacts.json",
+    "docs/design/journeys/README.md",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/approvals.js",
+    "docs/design/journeys/src/journeys/cost.js",
+    "docs/design/journeys/src/journeys/forecast.css",
+    "docs/design/journeys/src/journeys/forecast.js",
+    "docs/design/journeys/src/journeys/holdings.css",
+    "docs/design/journeys/src/journeys/holdings.js",
+    "docs/design/journeys/src/journeys/home.css",
+    "docs/design/journeys/src/journeys/home.js",
+    "docs/design/journeys/src/journeys/journal.js",
+    "docs/design/journeys/src/journeys/privacy.js",
+    "docs/design/journeys/src/journeys/research.js",
+    "docs/design/journeys/src/shell.html",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/prism/index.html",
+    "docs/design/reviews/MP-62/decision.md",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-00.json",
+    "review/MP-62/fixed.json",
+    "review/MP-62/round-2-brief.md",
+    "review/MP-62/round-2-checks.json",
+    "review/MP-62/round-2-lane-h.md",
+    "review/MP-62/round-2-lane-j.md",
+    "review/MP-62/round-2-lane-r.md",
+    "review/MP-62/round-2-lane-s.md",
+    "review/MP-62/round-2-postfix-checks.json",
+    "review/MP-62/round-2.md",
+    "review/MP-62/state.json",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/design_journeys_press.mjs",
+    "scripts/design_tokens.py",
+    "scripts/review_checks.py",
+    "tests/journey_facts/flip.mjs",
+    "tests/journey_facts/h.mjs",
+    "tests/journey_facts/j.mjs",
+    "tests/journey_facts/r.mjs",
+    "tests/journey_facts/s.mjs"
+  ],
+  "unmapped": [],
+  "deferred": [
+    "design-walk"
+  ],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "27669339f5e39c37e80c9c8b73854e5d7749d6244e90b32e163dd9681a8ed036",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "review-checks": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.2,
+      "fingerprint": "570bc9d38a9ad0d98fad361dd7e8ba0e06f1f248a93a172f0c2f2bb67df1a6fb",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_review_checks.py"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "cb3334ec3c62cf53b59b9e8d2fb09fe22196de86b5f601b02f201df587c5c49e",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "047dab3d06157518b5c8cbd20507d925ccc126591c4f3a18ace87b28f04fa46f",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 6.6,
+      "fingerprint": "2abc359f43e111eee75550d33c324fd5172d104b70baad097d1248b8d83276f4",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "confluence-receipts": {
+      "status": "FAIL",
+      "detail": "python3 docs/confluence/build_pages.py check exited 1: wrote 38 pages to docs/confluence/pages | PENDING: ph-00: changed since it was published",
+      "seconds": 0.1,
+      "fingerprint": "0589eadea56f14ec9b48deb3b4978812eee18193868d38eb23db55d03e24c208",
+      "steps": [
+        "python3 docs/confluence/build_pages.py selftest",
+        "python3 docs/confluence/build_pages.py check",
+        "python3 -m unittest discover -s tests -p test_confluence_receipts.py"
+      ]
+    },
+    "design-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "3093546f451d66fd0b7a2f5bf6d191547d5caf58699ad6a9eb38511df76d9cc6",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.5,
+      "fingerprint": "db1cf340b66c4c058bdbc03d7371092e3b8b3fd615b353874d4add24d29c5f43",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "node scripts/design_journeys_facts.mjs --selftest",
+        "node scripts/design_journeys_facts.mjs --all",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.7,
+      "fingerprint": "a228facd5ef25ce05f1ba837fb4361c9c6d270dd9bdc7d4d5295e84114f267dc",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "65c7ddc64bbfae6e47126591a2080affbe85b7e6abc942f132120ce97613eff3",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

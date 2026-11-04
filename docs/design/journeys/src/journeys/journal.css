@@ -39,8 +39,9 @@
 .journal-ba .k { font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .journal-ba .v { font: 800 28px/32px var(--font-figure); letter-spacing: -.03em; }
 .journal-ba .n { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
-/* Option B: three lanes where the width allows, one at a time on a phone */
+/* Option B: three lanes where the width allows, stacked on a phone */
 .journal-lanes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
+.journal-lanes.stack { grid-template-columns: minmax(0, 1fr); }
 .journal-lane { display: grid; gap: 10px; min-width: 0; }
 .journal-lane > h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 4px; font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
 .journal-lane > h3 span { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }

@@ -1,8 +1,9 @@
 # Prism Journeys (MP-62)
 
-Every owner journey of MyPrediction, drawn in [Prism](../prism/README.md): two options each with one recommended, every
+Every owner journey of MyPrediction, drawn in [Prism](../prism/README.md): two options each, kept with a flip, every
 screen in every state, on iPhone, iPad, desktop and phone web, in light and dark. `index.html` is one interactive page,
-synced to a private Claude artifact. The owner picks one option per journey (`docs/design/reviews/MP-62/decision.md`).
+synced to a private Claude artifact. The owner keeps both options on all eight journeys, with a flip between them (MP-178,
+`docs/design/reviews/MP-62/decision.md`).
 Admin journeys are MP-64, not here. Nothing here is product code: UX is not approved and nothing may be built.
 
 ## How it is made
@@ -14,7 +15,7 @@ Admin journeys are MP-64, not here. Nothing here is product code: UX is not appr
 | `src/shell.*` | The page around the screens, the device chrome and the state helpers |
 | `build.py` | Takes tokens, components, icons, helpers and frames from `docs/design/prism/` as they stand, and writes `index.html` |
 
-`node scripts/design_journeys_facts.mjs --all` renders every screen with no browser and proves each fixed review finding still holds; the checks are in `tests/journey_facts/`.
+`node scripts/design_journeys_facts.mjs --all` renders every screen with no browser and proves each fixed review finding still holds; the checks are in `tests/journey_facts/`. `node scripts/design_journeys_press.mjs PAGE` presses the horizon, detail and dossier switches.
 
 `python3 docs/design/journeys/build.py` builds everything. `python3 docs/design/journeys/build.py --only home,forecast --out /tmp/x.html`
 builds a partial page for one designer's preview. `node scripts/design_journeys_check.mjs PAGE [--only home]` walks every
@@ -51,6 +52,14 @@ of a screen in the selected state. Give only what differs. Also `banner(kind, ti
 `stateCard(icon, title, text, action, foot)`, `btn(label, kind, icon)`, `skel(n)`, `freshRow(ctx)`.
 
 Frames on iPad and desktop scale to fit the page down to 70%, then scroll; the checker measures them at their true size.
+
+## The flip
+
+`FLIPS` in `src/shell.js` says which screen turns to which. `frame()` draws the control from it, so a journey adds nothing. A pair must
+show the same freshness, provider status and risk in every state. The figures both sides show stay the same, and a side may hold more (the owner, 4 November 2026). In some states a screen has another partner (`FLIP_TO`), or does not flip (`FLIP_OFF`).
+
+The owner's rules, 4 November 2026 (MP-178): each journey starts in A, the choice is kept per device, each journey flips on its
+own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written.
 
 ## States
 

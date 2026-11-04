@@ -256,15 +256,22 @@ def selftest() -> int:
             bad += 1
     global CSS, SWIFT
     keep = CSS, SWIFT
-    with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+    failed = []
+    with tempfile.TemporaryDirectory() as tmp:
         for name in ("CSS", "SWIFT"):
             stale = Path(tmp) / f"{name}.txt"
             stale.write_text("stale")
             CSS, SWIFT = (stale, keep[1]) if name == "CSS" else (keep[0], stale)
-            if check() != 1:
-                print(f"selftest: FAIL a stale {name} passed")
-                bad += 1
+            said = io.StringIO()
+            with contextlib.redirect_stdout(said):
+                code = check()
+            want = "tokens.css is stale" if name == "CSS" else "PrismTokens.swift is stale"
+            if code != 1 or want not in said.getvalue():
+                failed.append(name)
         CSS, SWIFT = keep
+    for name in failed:
+        print(f"selftest: FAIL a stale {name} was not refused for that reason")
+        bad += 1
     if bad:
         return 1
     print(f"selftest: the real tokens pass and all {len(cases) + 2} mutations are refused")

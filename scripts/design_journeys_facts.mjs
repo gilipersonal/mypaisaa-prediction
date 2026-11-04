@@ -64,7 +64,7 @@ export function api(journeys) {
   const S = (j, o, s) => { const x = O(j, o).screens.find((y) => y.id === s); if (!x) throw new Error(`no screen ${j}.${o}.${s}; there are ${O(j, o).screens.map((y) => y.id).join(', ')}`); return x; };
   const view = (j, o, s, surface = 'iphone', state = 'default', scheme = 'light') => {
     const sc = S(j, o, s);
-    const html = sc.render({ kind: surface, state: (sc.na || {})[state] ? 'default' : state, scheme, journey: j, option: o });
+    const html = sc.render({ kind: surface, state: (sc.na || {})[state] ? 'default' : state, scheme, journey: j, option: o, screen: s });
     return { html, text: textOf(html), note: sc.note || '', na: (sc.na || {})[state] };
   };
   const must = (c, m) => { if (!c) throw new Error(m); };

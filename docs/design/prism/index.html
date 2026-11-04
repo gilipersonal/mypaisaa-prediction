@@ -667,6 +667,9 @@ details summary { cursor: pointer; color: var(--link); font-weight: 600; min-hei
 .list { margin: 0 16px; }
 .tbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); border: 0; background: transparent; position: relative; }
 .tbtn::after { content: ""; position: absolute; inset: -4px; }
+.flipbtn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink); font: 600 13px/18px var(--font-text); cursor: pointer; transition: transform var(--mo-fast) var(--mo-snappy); }
+.flipbtn:active { transform: scale(.96); }
+.flipbtn.icon { padding: 0; }
 
 /* dense tables on the iPad, the desktop and the PWA */
 table.ht { border-collapse: collapse; width: 100%; font-size: 13px; line-height: 18px; letter-spacing: 0; }
@@ -908,6 +911,7 @@ footer p + p { margin-top: 6px; }
 <symbol id="i-rebalance" viewBox="0 0 24 24"><path d="M3 8h15"/><path d="M14 4l4 4-4 4"/><path d="M21 16H6"/><path d="M10 12l-4 4 4 4"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 12l8.5-4.8v9.6L12 21.5z"/><path d="M12 2.5 20.5 7.2v9.6L12 21.5l-8.5-4.7V7.2z"/><path d="M3.5 7.2 12 12l8.5-4.8"/><path d="M12 12v9.5"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24"><path d="M3 12h6l4-6h8"/><path d="M9 12l4 6h8"/><path d="M18 3l3 3-3 3"/><path d="M18 15l3 3-3 3"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3v18l-8-4V7z"/><path d="M12 3v18"/><path d="M12 3 4 7v10l8 4"/><path d="M16 6.5 20 9v6l-4 2.5"/></symbol>
 <symbol id="i-db" viewBox="0 0 24 24"><ellipse style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" cx="12" cy="5.5" rx="8" ry="3"/><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M2 14l10 5.5L22 14"/></symbol>
 <symbol id="i-scenario" viewBox="0 0 24 24"><path d="M3 18 21 6" stroke-dasharray="2 3"/><path d="M3 18 21 18" stroke-dasharray="2 3"/><path d="M3 18 21 12"/></symbol>
@@ -1767,6 +1771,20 @@ function fitChart(slot, h, opts) {
   } else draw(420);
 }
 
+/* ---------- flip: one place, two views. The figures stay; only the view turns. ---------- */
+const flipBtn = (name, attrs = '', iconOnly = false) => `<button class="flipbtn${iconOnly ? ' icon' : ''}" type="button" aria-label="Flip to ${name}" ${attrs}>${ic('flip', 's18')}${iconOnly ? '' : `<span>${name}</span>`}</button>`;
+function flipTurn(el, swap) {
+  if (!el.animate) { swap(); return; }
+  const out = RM.matches ? [{ opacity: 1 }, { opacity: 0 }] : [{ transform: 'perspective(1600px) rotateY(0deg)', opacity: 1 }, { transform: 'perspective(1600px) rotateY(-90deg)', opacity: .5 }];
+  const back = RM.matches ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'perspective(1600px) rotateY(90deg)', opacity: .5 }, { transform: 'perspective(1600px) rotateY(0deg)', opacity: 1 }];
+  const leave = el.animate(out, { duration: RM.matches ? 120 : 180, easing: 'ease-in', fill: 'forwards' });
+  leave.onfinish = () => {
+    swap();
+    leave.cancel();
+    el.animate(back, { duration: RM.matches ? 120 : 340, easing: getComputedStyle(document.documentElement).getPropertyValue('--mo-smooth').trim() || 'ease-out' });
+  };
+}
+
 /* ---------- the hero, now; everything else a small job at a time ---------- */
 $('#heroTiles').innerHTML = Object.keys(SEG).map((k, i) => tile(k, { compact: true, nomo: true, i })).join('') +
   `<div class="prism-glass"><span class="solid amt" style="font-size:24px">£84,612<span class="p">.40</span></span><p>Glass carries the controls.<br>Solid carries the figures.</p></div>`;
@@ -1846,7 +1864,7 @@ function renderNumerals() {
   $('#spaceRow').innerHTML = [4, 8, 12, 16, 20, 24, 32, 48].map(s => `<div style="display:flex;align-items:center;gap:10px"><span class="small" style="width:22px;text-align:right">${s}</span><span style="height:10px;width:${s * 3}px;border-radius:3px;background:var(--seg-uslarge)"></span><code>--sp-${s}</code></div>`).join('');
   $('#radRow').innerHTML = [['xs', 'chips'], ['sm', 'fields'], ['md', 'buttons'], ['card', 'cards'], ['tile', 'tiles'], ['sheet', 'sheets']].map(([n, u]) => `<div style="display:grid;gap:4px;justify-items:start"><span style="width:56px;height:44px;border-radius:var(--r-${n});background:var(--surface-2);box-shadow:inset 0 0 0 1.5px var(--hairline-2)"></span><span class="small"><b>${parseInt(tv(probeL, '--r-' + n), 10)}</b> ${u}</span></div>`).join('');
 }
-const ICONS = [['home', 'Portfolio', 'house', 'hierarchical'], ['fan', 'Forecasts', 'chart.line.uptrend.xyaxis', 'hierarchical'], ['grid', 'Segments', 'square.grid.2x2', 'hierarchical'], ['target', 'Track record', 'scope', 'hierarchical'], ['sliders', 'Settings', 'slider.horizontal.3', 'hierarchical'], ['search', 'Search', 'magnifyingglass', 'hierarchical'], ['sidebar', 'Sidebar', 'sidebar.left', 'hierarchical'], ['person', 'Account', 'person', 'hierarchical'], ['clock', 'Stale', 'clock', 'hierarchical'], ['alert', 'Error', 'exclamationmark.triangle', 'hierarchical'], ['info', 'About', 'info.circle', 'hierarchical'], ['ban', 'Abstaining', 'nosign', 'hierarchical'], ['lock', 'Permission', 'lock', 'hierarchical'], ['shield', 'Protection', 'checkmark.shield', 'hierarchical'], ['trim', 'Trim', 'scissors', 'hierarchical'], ['cube', 'Model', 'cube', 'hierarchical'], ['db', 'Provider', 'cylinder.split.1x2', 'hierarchical'], ['layers', 'Materials', 'square.3.layers.3d', 'hierarchical'], ['wifi-off', 'Offline', 'wifi.slash', 'monochrome'], ['eye-off', 'Privacy', 'eye.slash', 'monochrome'], ['refresh', 'Refresh', 'arrow.clockwise', 'monochrome'], ['plus', 'Add', 'plus', 'monochrome'], ['equal', 'Hold', 'equal', 'monochrome'], ['pause', 'Pause', 'pause', 'monochrome'], ['rebalance', 'Rebalance', 'arrow.left.arrow.right', 'monochrome'], ['split', 'Disagreement', 'arrow.triangle.branch', 'monochrome'], ['scenario', 'Scenario', 'chart.line.flattrend.xyaxis', 'monochrome'], ['check', 'Done', 'checkmark', 'monochrome'], ['x', 'Close', 'xmark', 'monochrome'], ['chev-l', 'Back', 'chevron.left', 'monochrome'], ['chev-r', 'Open', 'chevron.right', 'monochrome'], ['chev-d', 'Expand', 'chevron.down', 'monochrome'], ['up', 'Rise', 'arrowtriangle.up.fill', 'monochrome'], ['down', 'Fall', 'arrowtriangle.down.fill', 'monochrome']];
+const ICONS = [['flip', 'Flip a view', 'rectangle.2.swap', 'hierarchical'], ['home', 'Portfolio', 'house', 'hierarchical'], ['fan', 'Forecasts', 'chart.line.uptrend.xyaxis', 'hierarchical'], ['grid', 'Segments', 'square.grid.2x2', 'hierarchical'], ['target', 'Track record', 'scope', 'hierarchical'], ['sliders', 'Settings', 'slider.horizontal.3', 'hierarchical'], ['search', 'Search', 'magnifyingglass', 'hierarchical'], ['sidebar', 'Sidebar', 'sidebar.left', 'hierarchical'], ['person', 'Account', 'person', 'hierarchical'], ['clock', 'Stale', 'clock', 'hierarchical'], ['alert', 'Error', 'exclamationmark.triangle', 'hierarchical'], ['info', 'About', 'info.circle', 'hierarchical'], ['ban', 'Abstaining', 'nosign', 'hierarchical'], ['lock', 'Permission', 'lock', 'hierarchical'], ['shield', 'Protection', 'checkmark.shield', 'hierarchical'], ['trim', 'Trim', 'scissors', 'hierarchical'], ['cube', 'Model', 'cube', 'hierarchical'], ['db', 'Provider', 'cylinder.split.1x2', 'hierarchical'], ['layers', 'Materials', 'square.3.layers.3d', 'hierarchical'], ['wifi-off', 'Offline', 'wifi.slash', 'monochrome'], ['eye-off', 'Privacy', 'eye.slash', 'monochrome'], ['refresh', 'Refresh', 'arrow.clockwise', 'monochrome'], ['plus', 'Add', 'plus', 'monochrome'], ['equal', 'Hold', 'equal', 'monochrome'], ['pause', 'Pause', 'pause', 'monochrome'], ['rebalance', 'Rebalance', 'arrow.left.arrow.right', 'monochrome'], ['split', 'Disagreement', 'arrow.triangle.branch', 'monochrome'], ['scenario', 'Scenario', 'chart.line.flattrend.xyaxis', 'monochrome'], ['check', 'Done', 'checkmark', 'monochrome'], ['x', 'Close', 'xmark', 'monochrome'], ['chev-l', 'Back', 'chevron.left', 'monochrome'], ['chev-r', 'Open', 'chevron.right', 'monochrome'], ['chev-d', 'Expand', 'chevron.down', 'monochrome'], ['up', 'Rise', 'arrowtriangle.up.fill', 'monochrome'], ['down', 'Fall', 'arrowtriangle.down.fill', 'monochrome']];
 function renderIcons() {
   const grid = `<svg class="gridlines" viewBox="0 0 24 24" aria-hidden="true">${Array.from({ length: 25 }, (_, i) => `<line x1="${i}" x2="${i}" y1="0" y2="24"/><line y1="${i}" y2="${i}" x1="0" x2="24"/>`).join('')}</svg>`;
   $('#icoPeek').innerHTML = `
@@ -1885,6 +1903,9 @@ const CMP = [
       <p class="small muted">The short-term view carries its own label and its own calibration. It is never presented as investing guidance.</p>
     </div></div>`,
     anatomy: 'Track, lens, labels. A short-term chip sits apart.', states: 'Default, hover, pressed, selected, focus, disabled.', sizes: 'Regular 32, large 40. Hit area 44 in both.', a11y: 'A group of pressed buttons, or a picker in the Apple app. A disabled segment says why in the text beside it.', do: 'Lead with 3, 6 and 12 months.', dont: 'Mix short-term sessions into the long-term row.', web: '<Segmented options value> <HorizonSelector long short>', swift: 'Picker(...).pickerStyle(.segmented)' },
+  { id: 'flip', split: true, dw: '520px', name: 'Flip', status: OWNER, lede: 'The owner keeps both views of a journey. One tap turns between them. Freshness, provider status, risk and the figures both sides show stay the same, and one side may show more. Each journey has its own flip, starts in A and keeps your choice on that device.',
+    demo: () => `<div class="panel" data-mo-frame="wait" style="display:grid;gap:12px"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px" data-mo="rise"><div class="label">Holdings, tap to turn</div>${flipBtn('Ledger', 'id="flipDemoBtn"')}</div><div id="flipDemo" class="card" style="box-shadow:inset 0 0 0 1px var(--hairline);padding:14px" data-mo="card">${flipSample(0)}</div><p class="small muted">Illustrative. Reduced motion turns this into a short crossfade.</p></div>`,
+    anatomy: 'Icon, and the name of the view it turns to.', states: 'Rest, pressed, focus. Absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written.', sizes: '44 by 44 at least. Icon only in a narrow top bar, with its full name for assistive technology.', a11y: 'A button named "Flip to Ledger". Focus stays on the control, which now names the other view. The turn is never the only sign of the change.', do: 'Keep every figure, range, risk and freshness mark the same in both views.', dont: 'Offer it where a step binds the owner. A flip never changes what an approval binds.', web: '<FlipView a b>', swift: 'rotation3DEffect, .opacity with Reduce Motion' },
   { id: 'chips', name: 'Chips', status: OWNER, lede: 'Each chip pairs a shape with a word, so it survives grayscale and colour blindness. Status, freshness and provider all use one form.',
     demo: () => `<div class="panel" data-mo-frame="wait" style="display:grid;gap:14px"><div data-mo="rise"><div class="label">Delivery status</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Owner-selected</span><span class="chip impl"><span class="dot"></span>Implemented</span><span class="chip depr">Deprecated</span></div></div>
       <div data-mo="rise"><div class="label">Freshness and provider, illustrative</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">${fresh('Twelve Data')}${fresh('Yahoo')}<span class="chip stale">${ic('clock', 's14')}Stale · last price 14:10</span><span class="chip partial"><span class="dot"></span>Partial · 6 of 7 priced</span><span class="chip offline">${ic('wifi-off', 's14')}Offline · from 21:15</span><span class="chip">${ic('db', 's14')}Yahoo · UK and India intraday</span><span class="chip fc">${ic('fan', 's14')}Forecast</span><span class="chip illus">Illustrative</span></div></div></div>`,
@@ -1937,6 +1958,10 @@ const CMP = [
     demo: () => `<div class="panel" data-mo-frame="wait" style="display:grid;gap:12px"><div class="label">Idle, and with results</div><div class="search" data-mo="rise">${ic('search', 's18')}Search instruments<kbd>⌘K</kbd></div><div class="search on" data-mo="rise">${ic('search', 's18')}ni</div><div class="card" style="box-shadow:var(--shadow-2)" data-mo="card">${[['NVDA', 'NVIDIA', 'XNAS · US tech', '--seg-ustech', 'N'], ['NIFTYBEES', 'Nippon India Nifty 50 BeES', 'XNSE · India ETFs', '--seg-inetf', 'NB'], ['INFY', 'Infosys', 'XNSE · Nifty 50', '--seg-n50', 'In']].map((r, i) => `<div class="t5r" style="grid-template-columns:30px minmax(0,1fr) auto">${logo(r[3], r[4], true)}<div class="tt">${r[1]}<span>${r[0]} · ${r[2]}</span></div>${i === 0 ? '<span class="chip">In portfolio</span>' : ic('chev-r', 's16')}</div>`).join('')}</div></div>`,
     anatomy: 'Icon, field, shortcut, results.', states: 'Idle, focus, results, no result.', sizes: '44 tall.', a11y: 'A search landmark. Results are a list with their count announced.', do: 'Say what to try when nothing matches.', dont: 'Offer a trade from a result.', web: '<SearchField> ⌘K', swift: '.searchable(text:)' }
 ];
+const flipSample = n => {
+  const r = [byT.AAPL, byT.NVDA, byT.SPY];
+  return n ? `<div class="label">Ledger</div>${r.map(h => `<div style="display:flex;justify-content:space-between;gap:10px;padding:6px 0"><span>${h.n}</span><b>£${h.val}</b></div>`).join('')}` : `<div class="label">Tiles</div><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:6px">${r.map(h => `<div style="min-width:0"><b style="display:block">£${h.val}</b><span class="small muted">${h.n}</span></div>`).join('')}</div>`;
+};
 function cmpJob(c) {
   return () => {
     const a = doc.createElement('article'); a.className = 'cmp' + (c.split ? ' split' : ''); a.id = 'c-' + c.id; if (c.dw) a.style.setProperty('--dw', c.dw);
@@ -1944,6 +1969,16 @@ function cmpJob(c) {
     $('#cmpList').append(a);
     const fc = $('#fcComp', a); if (fc) fitChart(fc, byT.AAPL, { seed: 11, inter: true });
     const rb = $('#rangeBig', a); if (rb) fitRange(rb);
+    const fb = $('#flipDemoBtn', a);
+    if (fb) {
+      let on = 0;
+      fb.addEventListener('click', () => flipTurn($('#flipDemo', a), () => {
+        on = 1 - on;
+        $('#flipDemo', a).innerHTML = flipSample(on);
+        fb.setAttribute('aria-label', `Flip to ${on ? 'Tiles' : 'Ledger'}`);
+        $('span', fb).textContent = on ? 'Tiles' : 'Ledger';
+      }));
+    }
     watch(a);
   };
 }
@@ -2198,6 +2233,7 @@ function renderMotion() {
     ['--mo-smooth', curve([.22, 1, .36, 1]), 'Content arriving', '.smooth'], ['--mo-snappy', curve([.3, 1.25, .5, 1]), 'Controls answering a touch', '.snappy(extraBounce: 0.08)'], ['--mo-bouncy', curve([.3, 1.18, .5, 1]), 'Success moments only', '.bouncy'], ['--mo-sheet', curve([.32, .72, 0, 1]), 'Sheets', 'the system sheet']
   ].map(r => `<tr><td><code>${r[0]}</code></td><td>${r[1]}</td><td>${r[2]}</td><td><code>${r[3]}</code></td></tr>`).join('');
   $('#moRoles tbody').innerHTML = [
+    ['flip', 'Turns a quarter, swaps the view, turns back', 'Fast out, base in, smooth', 'Two views of one place; a crossfade with reduced motion'],
     ['rise', 'Up 12 px and in', 'Base, smooth, 45 ms apart', 'Rows, titles, list items'], ['card', 'Up 16 px, from 97%, and in', 'Slow, smooth', 'Cards and tiles'], ['chip', 'Up 8 px, from 90%, and in', 'Base, snappy', 'Chips settle'], ['draw', 'A clip wipes left to right', 'Draw, smooth', 'The chart line and bands'], ['dot', 'From 30% and in', 'Base, bouncy, after the draw', 'The now dot, the scored mark'], ['label', 'Up 12 px and in', 'Base, smooth, after the draw', 'Chart labels'], ['barx', 'Scale from the left', 'Slow, smooth', 'Allocation, score and calibration bars'], ['sheet', 'Up from below', 'Slow, sheet', 'Sheets'], ['fade', 'In', 'Base, linear', 'Bars and quiet furniture'], ['pop', 'From 40% and in', 'Base, bouncy', 'Success marks only']
   ].map(r => `<tr><td><code>${r[0]}</code></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
   const n = byT.NVDA;
@@ -2271,6 +2307,7 @@ function renderMapping() {
     ['Scored', '--scored, --scored-ink', 'Prism.Palette.scored, .scoredInk', 'mint'],
     ['Link and focus', '--link, --focus', '.tint(Prism.Palette.link)', 'focus ring 2 px, offset 2'],
     ['Action', '--btn, --btn-ink', 'Prism.Palette.btn, .btnInk', 'primary button'],
+    ['Flip', '.flipbtn, flipTurn()', 'rotation3DEffect with Prism.Motion.smooth', 'two views of one place'],
     ['Segment fields', '--seg-uslarge to --seg-metals, --on-seg', 'Prism.Palette.segUslarge to .segMetals', 'tiles, logos, top-5 headers'],
     ['Market marks', '--mark-us, --mark-uk, --mark-in', 'Prism.Palette.markUs, .markUk, .markIn', 'charts only'],
     ['Type', '--font-figure, --font-text, --font-mono', '.system(.body); .rounded at .heavy for figures', 'Dynamic Type on every style'],

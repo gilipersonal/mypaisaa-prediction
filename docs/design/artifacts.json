@@ -49,20 +49,20 @@
    "jira": "MP-62"
   },
   {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "b4da547bdb71b3cbc824fb44a7de9621c2496ecf39cbd79a1bccfbebdca29405",
-   "published_at": "2026-11-04",
-   "jira": "MP-62"
-  },
-  {
    "slug": "ds-option-b-prism",
    "source": "docs/design/prism/index.html",
    "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "b3bec4ff7594231be1a29ca39ed3cddfdc48916bc20316453ab58771ba4998d1",
+   "published_sha256": "4124f577c33229ba42efa8d5b9f723bea141a3962b1dc539229765125e5484ce",
    "published_at": "2026-11-04",
-   "jira": "MP-62"
+   "jira": "MP-178"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "d85232c704a8b77af58be67fff01a1a098b9c0e012c4a8fd59ad8ef1cf1238fa",
+   "published_at": "2026-11-04",
+   "jira": "MP-178"
   }
  ]
 }

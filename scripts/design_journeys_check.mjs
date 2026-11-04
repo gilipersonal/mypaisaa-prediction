@@ -10,7 +10,9 @@
 // with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 11 px or lighter than 400,
 // text below 4.5:1 and 3:1 at 20% on its ground, a state that draws exactly what the ready state draws, an icon with no
 // symbol, a card that clips its content, anything that runs past its column or card, a button under 44 px, any other
-// control under WCAG's 24 px, or a ranked-action badge on a screen that does not say decision support.
+// control under WCAG's 24 px, a control pushed off the top bar, a ranked-action badge on a screen that does not say decision
+// support, or an option with no flip. On the first theme it also presses every flip in three states: the flip must be
+// reachable, change the frame, carry the caption and group name with it, keep the freshness, keep focus, and come back.
 //
 // Contrast reads the ground up the tree, multiplying opacity on the way. Glass is judged by the static tokens, composited
 // over mid grey here. A gradient is judged by its worst stop, and text on an image the walker cannot read is a failure.
@@ -38,14 +40,15 @@ const AUDIT = () => {
   const over = (f, b) => { const a = f[3] + b[3] * (1 - f[3]); return a ? [0, 1, 2].map((i) => (f[i] * f[3] + b[i] * b[3] * (1 - f[3])) / a).concat(a) : [0, 0, 0, 0]; };
   const lum = (c) => { const ch = (v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * ch(c[0]) + 0.7152 * ch(c[1]) + 0.0722 * ch(c[2]); };
   const ratio = (a, b, k) => { const [h, l] = [lum(a), lum(b)].sort((x, y) => y - x); return (k * h + 0.05) / (k * l + 0.05); };
-  const out = { screens: 0, empties: [], wide: [], trade: [], small: [], low: [], clipped: [], label: [], sig: [] };
+  const out = { screens: 0, empties: [], wide: [], trade: [], small: [], low: [], clipped: [], label: [], flips: document.querySelectorAll('#jrow [data-flip]').length, sig: [] };
   document.querySelectorAll('#jrow .scr').forEach((scr) => {
     out.screens++;
     const text = scr.innerText.replace(/\s+/g, ' ').trim();
-    out.sig.push(text.length + ':' + text.slice(0, 400));
+    out.sig.push(text.length + ':' + text);
     if (text.length < 20) out.empties.push(scr.getAttribute('aria-label'));
     scr.querySelectorAll('.jscroll, .jpane').forEach((p) => { if (p.scrollWidth > p.clientWidth + 1) out.wide.push(`${scr.getAttribute('aria-label')} is ${p.scrollWidth - p.clientWidth} px too wide`); });
-    scr.querySelectorAll('button, a, [role="button"]').forEach((b) => { if (/^\s*(buy|sell|place (an )?order|trade)\b/i.test(b.textContent)) out.trade.push(b.textContent.trim().slice(0, 40)); });
+    scr.querySelectorAll('button, a, input, [role="button"]').forEach((b) => { for (const s of [b.textContent, b.getAttribute('aria-label'), b.value]) if (s && /^\s*(buy|sell|place\b.*\border|execute\b.*\border|trade)\b/i.test(s)) out.trade.push(s.trim().slice(0, 40)); });
+    { const box = scr.getBoundingClientRect(); scr.querySelectorAll('.tbtn, .flipbtn, .btn').forEach((b) => { const a = b.getBoundingClientRect(); if (a.width && a.right > box.right + 1 && !b.closest('.jscroll, .jpane')) out.clipped.push(`${scr.getAttribute('aria-label')}: "${(b.getAttribute('aria-label') || b.textContent).trim().slice(0, 24)}" is pushed ${Math.round(a.right - box.right)} px off the top bar`); }); }
     const walker = document.createTreeWalker(scr, NodeFilter.SHOW_TEXT);
     const seen = new Set();
     for (let t = walker.nextNode(); t; t = walker.nextNode()) {
@@ -91,9 +94,79 @@ const AUDIT = () => {
   return out;
 };
 
+// Press every flip on the row, and turn it back. A flip is only proved by pressing it (lesson 32).
+const PRESS = (st) => {
+  const out = [];
+  const nas = {};
+  for (const row of window.__prismJourneys.matrix()) for (const s of row.screens) nas[`${row.j}|${row.o}|${s.id}`] = s.na;
+  const text = (n) => n.innerText.replace(/\s+/g, ' ').trim();
+  const chips = (s) => { const c = s.querySelector('.jfresh'); return c ? text(c) : ''; };
+  let pressed = 0;
+  for (const box of document.querySelectorAll('#jrow [data-slot]')) {
+    const b = box.querySelector('[data-flip]');
+    if (!b) continue;
+    const scr = box.querySelector('.scr'), name = scr.getAttribute('aria-label');
+    b.scrollIntoView({ block: 'center', inline: 'center' });
+    const r = b.getBoundingClientRect(), hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    if (!hit || !b.contains(hit)) out.push(`${name}: the flip cannot be pressed, ${hit ? hit.className : 'nothing'} is on it`);
+    const before = text(scr), had = chips(scr), at = scr.dataset.at;
+    b.click();
+    pressed++;
+    const cap = box.querySelector('.bcap').textContent, label = scr.getAttribute('aria-label').replace(/, (light|dark) theme$/, '');
+    if (scr.dataset.at === at || text(scr) === before) out.push(`${name}: pressing the flip changed nothing`);
+    const reason = (nas[scr.dataset.at] || {})[st], note = box.querySelector('.jnote').textContent;
+    if (reason ? !note.includes(reason) : /does not apply here/.test(note)) out.push(`${name}: the note under the frame does not follow, "${note.slice(0, 50)}"`);
+    if (!cap.includes(label)) out.push(`${name}: the caption "${cap}" does not follow "${label}"`);
+    if (!/Turned to/.test(cap)) out.push(`${name}: a turned frame does not say so`);
+    if (chips(scr) !== had) out.push(`${name}: freshness "${had}" became "${chips(scr)}"`);
+    if (scr.querySelector('[aria-modal="true"]')) out.push(`${name}: it turns to a screen with a sheet open`);
+    const next = scr.querySelector('[data-flip]');
+    if (!next) { out.push(`${name}: no way back`); continue; }
+    if (document.activeElement !== next) out.push(`${name}: focus left the flip`);
+    next.click();
+    if (scr.dataset.at !== at) out.push(`${name}: it does not come back to ${at}`);
+    if (text(scr) !== before) out.push(`${name}: it comes back different`);
+  }
+  return { pressed, out };
+};
+
+// A press on a frame the page is leaving. Staged drawing leaves old frames up for a moment: such a press must do nothing.
+const QUICK = async ([j, o, surface, st]) => {
+  window.__prismNoFit = false;
+  window.__prismJourneys.go(j, o, surface, st);
+  const old = document.querySelector('#jrow [data-flip]');
+  if (old) old.click();
+  await new Promise((r) => setTimeout(r, 900));
+  window.__prismNoFit = true;
+  const want = window.__prismJourneys.matrix().find((r) => r.j === j && r.o === o).screens.length;
+  return document.querySelectorAll('#jrow .scr').length === want ? [] : ['a quick press lost frames'];
+};
+
+// One flip on the real path, with its animation: it must swap, speak, and honour the context's motion setting.
+const REAL = async (reduced) => {
+  window.__prismInstantFlip = false;
+  const out = [], b = document.querySelector('#jrow [data-flip]');
+  if (!b) { window.__prismInstantFlip = true; return ['no flip to press on the real path']; }
+  const scr = b.closest('.scr'), at = scr.dataset.at, live = document.querySelector('#jlive');
+  live.textContent = '';
+  b.click();
+  await new Promise((r) => setTimeout(r, 70));
+  const t = getComputedStyle(scr).transform;
+  if (reduced && t !== 'none') out.push('reduced motion still turns the frame');
+  if (!reduced && (t === 'none' || /^matrix(3d)?\(1, 0, 0,/.test(t))) out.push('the frame does not turn');   // a perspective alone is not a turn
+  await new Promise((r) => setTimeout(r, 700));
+  if (scr.dataset.at === at) out.push('on the real path the flip never swapped');
+  if (!live.textContent) out.push('nothing told assistive technology');
+  const next = scr.querySelector('[data-flip]');
+  if (next) { next.click(); await new Promise((r) => setTimeout(r, 700)); }
+  if (scr.dataset.at !== at) out.push('on the real path it did not come back');
+  window.__prismInstantFlip = true;
+  return out;
+};
+
 const pw = require(PW);
 const b = await pw.chromium.launch({ channel: 'chrome' });
-let problems = 0, combos = 0, want = 0;
+let problems = 0, combos = 0, want = 0, flipsPressed = 0;
 const say = (m) => { problems++; if (problems <= 60) console.log('FAIL ' + m); };
 try {
   for (const theme of THEMES) {
@@ -106,7 +179,7 @@ try {
     await p.waitForTimeout(800);
     for (const e of errs) say(`${theme}: an error while the page loaded: ${e}`);
     if (!await p.evaluate(() => !!window.__prismJourneys)) { say(`${theme}: the page has no journeys to walk`); await c.close(); continue; }
-    await p.evaluate(() => { window.__prismNoFit = true; });   // measure every frame at its true size
+    await p.evaluate(() => { window.__prismNoFit = window.__prismInstantFlip = true; });   // measure every frame at its true size
     const shape = await p.evaluate(() => ({ m: window.__prismJourneys.matrix(), states: window.__prismStates.map((s) => s[0]), surfaces: window.__prismSurfaces.map((s) => s[0]), recs: window.__prismJourneys.all().map((j) => [j.id, j.options.length, j.options.filter((o) => o.rec).length]) }));
     for (const [id, n, rec] of shape.recs) {
       if (ONLY && !ONLY.includes(id)) continue;
@@ -137,16 +210,45 @@ try {
           for (const x of [...new Set(a.low)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.clipped)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.label)].slice(0, 2)) say(`${where}: ${x}`);
+          if (!a.flips) say(`${where}: no screen can flip`);
+          if (theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
+            const pr = await p.evaluate(PRESS, st);
+            for (const x of [...new Set(pr.out)].slice(0, 4)) say(`${where}: ${x}`);
+            flipsPressed += pr.pressed;
+            if (st === 'default' && surface === (SURF || shape.surfaces)[0]) for (const x of await p.evaluate(REAL, true)) say(`${where}: ${x}`);
+          }
         }
       }
+    }
+    if (theme === THEMES[0] && shape.m.length) {
+      const row = shape.m.find((r) => !ONLY || ONLY.includes(r.j) && r.o === 'b') || shape.m[0];
+      await p.evaluate(([j]) => window.__prismJourneys.go(j, 'a', 'iphone', 'default'), [row.j]);
+      errs.length = 0;
+      for (const x of await p.evaluate(QUICK, [row.j, 'b', 'iphone', 'default'])) say(`${row.j}: ${x}`);
+      for (const e of errs) say(`${row.j}: a quick press threw: ${e}`);
     }
     await c.close();
   }
 } finally {
   await b.close();
 }
+const b2 = await pw.chromium.launch({ channel: 'chrome' });
 if (!combos || combos !== want) say(`walked ${combos} combinations of ${want}: the walk did not cover the page`);
-console.log(`design-journeys: ${combos} combinations walked, ${problems} problem(s)${problems > 60 ? ' (first 60 shown)' : ''}`);
+if (!flipsPressed) say('no flip was pressed');
+{ // with motion on, a flip turns: one press, on the first journey walked
+  const c = await b2.newContext({ viewport: { width: 1440, height: 1000 }, colorScheme: 'light' });
+  const p = await c.newPage();
+  await p.route('https://j.test/**', (r) => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: wrap }));
+  await p.goto('https://j.test/');
+  await p.waitForTimeout(800);
+  if (ONLY) await p.evaluate(([j]) => { window.__prismNoFit = true; window.__prismJourneys.go(j, 'a', 'iphone', 'default'); }, [ONLY[0]]);
+  else await p.evaluate(() => { window.__prismNoFit = true; window.__prismJourneys.go('home', 'a', 'iphone', 'default'); });
+  await p.waitForTimeout(150);
+  for (const x of await p.evaluate(REAL, false)) say(`with motion on: ${x}`);
+  await c.close();
+}
+await b2.close();
+console.log(`design-journeys: ${combos} combinations walked, ${flipsPressed} flips pressed, ${problems} problem(s)${problems > 60 ? ' (first 60 shown)' : ''}`);
 process.exit(problems ? 1 : 0);
 
 // Each case breaks a copy of a real page and names the failure it expects (lessons 8 and 9).
@@ -176,6 +278,27 @@ function selftest() {
     'a control too small': [css('.tbtn { width: 12px !important; height: 12px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }'), "under WCAG's 24"],
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],
+    'no flip': [page.replace(/data-flip="\$\{ctx\.journey\}/, 'data-off="${ctx.journey}'), 'no screen can flip'],
+    'a trade by its name': [page.replace("tb('search', 'Search')", "tb('search', 'Buy Apple')"), 'Buy Apple'],
+    'a sideways scroll': [css('.jbody { min-width: 900px; }'), 'px too wide'],
+    'a clipped card': [css('.scr .card { overflow: hidden; } .scr .card > * { min-width: 900px; }'), 'clips'],
+    'a state that draws Ready': [page.replace("state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme()", "state: 'default', scheme: scheme()"), 'draws exactly what Ready draws'],
+    'a flip that never swaps': [page.replace('swap();\n    leave.cancel();', 'leave.cancel();'), 'never swapped'],
+    'no word to assistive technology': [page.replace("$('#jlive').textContent =", "$('#jlive').title ="), 'nothing told'],
+    'reduced motion ignored': [page.replace(/RM\.matches \? \[\{ opacity: 1 \}/, 'false ? [{ opacity: 1 }').replace(/RM\.matches \? \[\{ opacity: 0 \}/, 'false ? [{ opacity: 0 }'), 'reduced motion still turns'],
+    'a flip that cannot be pressed': [css('.flipbtn { pointer-events: none; }'), 'cannot be pressed'],
+    'no way back': [page.replace("const other = ctx.option === 'a' ? 'b' : 'a';\n  return flipBtn", "if (ctx.option === 'b') return '';\n  const other = 'b';\n  return flipBtn"), 'no way back'],
+    'a press that changes nothing': [page.replace('scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));', ''), 'changed nothing'],
+    'freshness that changes': [page.replace(/\$\{freshRow\(ctx, spec\.fresh\)\}/g, '${ctx.option === \'b\' ? \'<div class="jfresh">Other</div>\' : freshRow(ctx, spec.fresh)}'), 'freshness'],
+    'a note that stays': [page.replace('const noteFor = sc => { const r = (sc.na || {})[sum.at.st];', 'const noteFor = sc => { const r = null;'), 'note under the frame'],
+    'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
+    'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
+    'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
+    'a frame that does not turn': [page.replace('rotateY(-90deg)', 'rotateY(0deg)').replace('rotateY(90deg)', 'rotateY(0deg)'), 'the frame does not turn'],
+    'a caption that stays': [page.replace('cap.innerHTML = `<span class="tag">', 'cap.dataset.x = `<span class="tag">'), 'does not follow'],
+    'a frame that does not say it turned': [page.replace('Turned to ${oid.toUpperCase()}', 'Showing ${oid.toUpperCase()}'), 'does not say so'],
+    'focus that leaves the flip': [page.replace('if (next) next.focus({ preventScroll: true });', ''), 'focus left the flip'],
+    'a control off the top bar': [css('.jtop .acts, .flipbtn { margin-right: -60px; } .scr .navbar .tbtn, .scr .tbtn { transform: translateX(460px); }'), 'off the top bar'],
   };
   let bad = 0;
   for (const [name, [html, want, extra]] of Object.entries(cases)) {

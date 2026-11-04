@@ -4,7 +4,7 @@
    Program. Revocation time and assurance levels are open (CT-01, CT-17), so no exact window is promised. */
 {
   const wide = ctx => ctx.kind === 'web' || ctx.kind === 'ipad';
-  /* A failed export is not a failed price, so a screen with no price on it keeps the price chips as they are. Home shows prices, so it takes the state as it stands. */
+  /* A failed export is not a failed price, so a screen with no price on it keeps the price chips as they are. A screen that shows or quotes a price (Privacy, Home, a notice about a price) takes the state as it stands. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
   const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="privacy-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + (spec.body || '') });
@@ -74,24 +74,35 @@
 
   /* ---------- privacy mode: money masked, percentages kept ---------- */
   const maskRow = (h, mid) => `<div class="hrow" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div><div class="vv"><div class="val"><span class="priv">£••••</span></div>${chg(h.day)}</div><div class="fl">${mid}</div></div>`;
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('MP40-Q6')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
   function masked(ctx, h) {
     const s = ctx.state;
-    if (s === 'noModel') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model</span>`);
-    if (s === 'abstention' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`);
-    if (s === 'disagreement' && h.t === 'RELIANCE') return maskRow(h, `<div style="flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;font:600 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2)"><span>Baseline</span>${range({ ...h, med: -1.5, lo: -14, hi: 11, lo50: -7.5, hi50: 4 })}<span>${pct(-1.5)}</span><span>R2-HGB v3</span>${range({ ...h, med: 2.8, lo: -6.5, hi: 12.4, lo50: -1.6, hi50: 7.6 })}<span>${pct(2.8)}</span></div>`);
+    if (s === 'noModel' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model · no action</span>`);
+    if (s === 'abstention' && h.t === 'AZN') return maskRow(h, `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`);
+    if (s === 'disagreement' && h.t === 'RELIANCE') return maskRow(h, `<div style="flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;font:600 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2)"><span>Baseline</span>${range({ ...h, med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 })}<span>${pct(-2.4)}</span><span>R2-HGB v3</span>${range(h)}<span>${pct(h.med)}</span></div>`);
     if (s === 'offline') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="chip offline">${ic('clock', 's14')}Saved 21:15</span>`);
     return s === 'stale' ? hrow(h, { priv: true }) : late(hrow(h, { priv: true }));
   }
+  /* both options hide the same rows: Apple, the holding this state is about, and HSBC */
+  const maskedRows = ctx => [byT.AAPL, { noModel: byT.RELIANCE, disagreement: byT.RELIANCE, abstention: byT.AZN }[ctx.state] || byT.NVDA, byT.HSBA].map(h => masked(ctx, h)).join('');
+  /* what the state says about the holdings: one set of words on Privacy and on Home with amounts hidden */
+  const homeSay = s => ({
+    error: () => stateCard('alert', 'Today\'s run failed', 'It failed at 21:14, so the last good run shows in full, with its percentages.', btn('Try again', 'tinted', 'refresh'), 'Last good run Mon 21:15 · cutoff 21:00'),
+    stale: () => banner('warn', 'Stale.', 'HSBC last priced 14:10. Its forecast is held and its action paused until its price returns.', 'clock'),
+    offline: () => banner('', 'Offline.', 'Saved copies. Each row shows its age, and nothing updates until you reconnect.', 'wifi-off'),
+    noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
+    disagreement: () => banner('', 'Rules and models disagree on Reliance.', 'Both ranges stay visible at 6 months, and Reliance has no ranked action.', 'split'),
+    abstention: () => banner('', 'The model abstained on AstraZeneca at 6 months.', 'Too little comparable history for a calibrated range, so none is shown.', 'ban')
+  }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
-  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;font-size:15px;line-height:20px">${s === 'stale' ? '<span class="small muted">HSBC is left out until its price returns</span>' : `${chg(1, '+1.48%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
+  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.48%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
   const maskCopy = 'Amounts hidden. Percentages and ranges stay visible. Tap to show for 30 seconds.';
   function modeCard(ctx) {
     if (ctx.state === 'loading') return skCard('Privacy mode', 3);
     if (ctx.state === 'empty') return box(`${head('Privacy mode', sw('Hide amounts', true))}<p class="small muted">No holdings yet, so nothing is hidden. It stays on for the first one you add.</p>`);
-    const rows = [byT.AAPL, byT.RELIANCE].map(h => masked(ctx, h)).join('');
-    return box(`${head('Privacy mode', sw('Hide amounts', true))}<p class="small muted">${maskCopy}</p><div class="privacy-list">${maskValue()}</div><div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${supported(rows)}${rows}</div>`);
+    const rows = maskedRows(ctx);
+    return box(`${head('Privacy mode', sw('Hide amounts', true))}<p class="small muted">${maskCopy}</p><div class="privacy-list">${maskValue(ctx.state)}</div><div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${supported(rows)}${rows}</div>`);
   }
 
   /* ---------- what shows outside the app ---------- */
@@ -102,31 +113,33 @@
   /* each less private option is off until you turn it on */
   const LESS = [['Holding names on the lock screen', 'Off shows neutral text only'], ['Holdings in widgets', 'Off shows no holdings'], ['Values in shared content', 'Off leaves out holdings values']];
   const lessRows = (ctx) => LESS.map(([t, d], i) => li('', t, ctx.state === 'disagreement' && i === 1 ? 'On from your Mac. Off here until it syncs' : d, ctx.state === 'error' && i === 1 ? chipOf(['error', 'Not saved', 'alert']) : sw(t, false, ctx.state === 'offline')));
+  /* a change that did not save, or has not reached this device, shows with these options on every screen that holds them */
+  const lessNote = s => ({
+    empty: () => banner('', 'Private defaults.', 'You have not changed anything here, so nothing confidential shows.', 'shield'),
+    error: () => banner('fall', 'That change did not save.', 'The private default stays in force. Try again.', 'alert'),
+    stale: () => banner('warn', 'Last synced 14:10.', 'The private defaults stay in force until the next sync.', 'clock'),
+    offline: () => banner('', 'Offline.', 'Anything less private waits until you reconnect.', 'wifi-off'),
+    disagreement: () => banner('', 'Turned on from your Mac.', 'Holdings in widgets is on there and has not reached this device. The private default stays here until it does.', 'split')
+  }[s] || (() => ''))();
+  const outsideHead = ctx => `${head('Outside the app', chipOf(['fresh', 'Private default']))}${lessNote(ctx.state)}${glances()}`;
   function outside(ctx) {
     if (ctx.state === 'loading') return skCard('Outside the app', 2);
-    return box(`${head('Outside the app', chipOf(['fresh', 'Private default']))}${glances()}${list([...lessRows(ctx), li('shield', 'Shared content', 'Leaves out holdings values. Nothing is attached without you', '')])}`);
+    return box(`${outsideHead(ctx)}${list([...lessRows(ctx), li('shield', 'Shared content', 'Leaves out holdings values. Nothing is attached without you', '')])}`);
   }
   function lessCard(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Less private options', 3);
-    const top = {
-      empty: banner('', 'Private defaults.', 'You have not changed anything here, so nothing confidential shows.', 'shield'),
-      error: banner('fall', 'That change did not save.', 'The private default stays in force. Try again.', 'alert'),
-      stale: banner('warn', 'Last synced 14:10.', 'The private defaults stay in force until the next sync.', 'clock'),
-      offline: banner('', 'Offline.', 'Anything less private waits until you reconnect.', 'wifi-off'),
-      disagreement: banner('', 'Turned on from your Mac.', 'Holdings in widgets is on there and has not reached this device. The private default stays here until it does.', 'split')
-    }[s] || '';
-    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${top}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}`);
+    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${lessNote(s)}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}`);
   }
 
   /* ---------- notices ---------- */
   const NOTICES = [
     ['alert', 'Cost close to the £60 warning', 'Forecast up to £59.73 · 08:12', 1],
-    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1],
+    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1, 'DATA-DEC-02'],
     ['fan', 'Morning brief', '3 items · 07:30', 0],
     ['check', 'Forecast run finished', '21 runs · yesterday 21:30', 0]
   ];
-  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, s, go, u ? 'unread' : '')));
+  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u, q]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, q ? s + CHIP_ROWS(proposed(q)) : s, go, u ? 'unread' : '')));
   function inbox(ctx, n = 3) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Notices', 3);
@@ -191,15 +204,18 @@
       stale: [chipOf(['stale', 'Link expired', 'clock']), 'The one-hour link ended. A new request needs a fresh sign-in, and an expired link starts nothing.', smbtn('Request a new link', 'primary')],
       offline: [chipOf(['offline', 'Needs a connection', 'wifi-off']), 'Exports are built and kept on the server. Nothing is requested until you reconnect.', smbtn('Request an export', 'tinted', true)],
       disagreement: [chipOf(['fresh', 'Ready · link valid 42 min']), 'Revision 214 published while this was building. This export stays on revision 213, whole, and never mixes the two.', smbtn('Download', 'primary')],
-      abstention: [chipOf(['fresh', 'Ready · link valid 42 min']), 'Two deleted originals are left out and stay out. Their ledger events show as evidence unavailable.', smbtn('Download', 'primary')]
+      abstention: [chipOf(['fresh', 'Ready · link valid 42 min']), 'One deleted original is left out and stays out. Its ledger events show as evidence unavailable.', smbtn('Download', 'primary')]
     }[s] || [];
     return box(`${head('Export your data', v[0])}<p class="small muted">${v[1]}</p>${s === 'empty' ? '' : rev}${v[2]}`);
   }
+  /* the age of each record on this device. The checkup quotes the oldest from this one list. */
+  const agesOf = s => (s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 21:15', 'Saved 21:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h']);
+  const oldestOf = s => agesOf(s)[s === 'stale' ? 4 : 2].replace('Saved', 'saved');
   function offlineCopy(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Offline copy', 4);
     if (s === 'empty') return box(`${head('Offline copy', proposed('MP40-Q12'))}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
-    const ages = s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 21:15', 'Saved 21:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h'];
+    const ages = agesOf(s);
     const rows = ['Holdings', 'Prices', 'Forecasts', 'Notices', 'Cost'].map((n, i) => `<tr data-mo="rise"><td>${n}</td><td class="r">${ages[i]}</td></tr>`).join('');
     const top = { error: banner('warn', 'Copy rebuilt.', 'A damaged copy was thrown away and rebuilt from the server at 21:14.', 'refresh'), stale: banner('warn', 'Older than usual.', 'Each record keeps its own age and is never shown as fresh.', 'clock') }[s] || '';
     const where = browser(ctx) ? 'This is what the Apple app keeps. What this browser keeps is not settled yet.' : 'Encrypted on this device. Sign-out or a revoke clears it, and approvals, imports and settings never run offline.';
@@ -258,50 +274,57 @@
   }
 
   /* ---------- one notice, opened: its evidence, and no action ---------- */
-  function noticeOne(ctx) {
+  /* the centre leads with the evidence, in place with what it changes for the holding: the same three rows */
+  function noticeOne(ctx, inPlace = false) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Notice', 3);
     const top = {
       error: banner('fall', 'The evidence did not load.', 'It failed at 21:14. The notice stays in your inbox.', 'alert'),
       stale: banner('warn', 'Past the limit.', 'HSBC leaves the total until its price returns.', 'clock'),
       offline: banner('', 'Offline.', 'Saved at 21:15. Its evidence rebuilds from the server when you reconnect.', 'wifi-off'),
+      noModel: banner('', 'India has no approved model yet.', 'HSBC keeps its forecast, held.', 'cube'),
       disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'),
       abstention: banner('', 'Held for quiet hours.', 'It arrived with the 07:30 brief.', 'clock')
     }[s] || '';
-    const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), s === 'noModel' ? li('cube', 'No forecast to hold', 'No approved model covers HSBC yet', '') : li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
-    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(rows)}<p class="small muted">${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'} This notice performs no action.</p>${CHIP_ROWS(proposed('MP40-Q6'))}`}`)}`;
+    const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
+    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">This notice performs no action. ${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'}</p>`}${CHIP_ROWS(proposed('DATA-DEC-02'))}`)}`;
   }
 
   /* ---------- the checkup, and notices in place ---------- */
   function checkup(ctx) {
-    const s = ctx.state, gone = target(ctx);
+    const s = ctx.state, gone = target(ctx), age = oldestOf(s);
     if (s === 'loading') return skCard('Privacy checkup', 6);
+    const renew = tap('clock', 'Renew an original', 'Indian funds statement, Dec 2024, is due in Dec 2026', go);
+    /* what the rest of this state says is wrong, here first. Anything listed here leaves Looks good. */
     const need = {
-      default: tap('clock', 'Renew an original', 'Indian funds statement, Dec 2024, is due in Dec 2026', go),
-      empty: tap('alert', 'Add a second sign-in path', 'Only this device can sign in. Losing it would lock you out', go),
-      error: tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go),
-      stale: tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go),
-      disagreement: tap('split', 'A device has not checked in', `${gone} is revoked but shows signed in on the ${gone} itself`, go)
-    }[s];
+      default: [renew],
+      empty: [tap('alert', 'Add a second sign-in path', 'Only this device can sign in. Losing it would lock you out', go)],
+      error: [tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go), tap('alert', 'A revoke did not finish', `${gone} is still signed in. Try again`, go), tap('alert', 'A privacy change did not save', 'The private default stays in force. Try again', go), tap('alert', 'Originals did not load', 'They failed at 21:14. Nothing is deleted or changed', go)],
+      stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'Apple app · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
+      offline: [renew],
+      disagreement: [tap('split', 'A device has not checked in', `${gone} is revoked but shows signed in on the ${gone} itself`, go), tap('ban', 'Phone notifications are blocked', 'On here, denied in this device\'s settings. Your inbox still has everything', go), renew]
+    }[s] || [];
     const good = [
-      ['lock', 'Sign-in paths', s === 'empty' ? 'One left' : '3 healthy · 2 passkeys and Google'],
-      ['person', 'Devices', '4 signed in · newest added 2 days ago'],
-      ['eye-off', 'Lock screen and widgets', 'Nothing confidential shows'],
-      ['shield', 'Notifications', 'Web Push on · quiet 22:00 to 07:00'],
-      ['db', 'Offline copy', browser(ctx) ? 'Apple app · oldest record 3 h' : 'Encrypted · oldest record 3 h']
-    ];
-    return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 21:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need ? box(`${head('Needs you', '<span class="small muted">1 item</span>')}${list([need])}`) : ''}${box(`${head('Looks good', '<span class="small muted">Checked 21:15</span>')}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
+      s !== 'empty' && ['lock', 'Sign-in paths', '3 healthy · 2 passkeys and Google'],
+      !['empty', 'error', 'disagreement'].includes(s) && ['person', 'Devices', s === 'stale' ? '4 signed in at 14:10 · newest added 2 days ago' : '4 signed in · newest added 2 days ago'],
+      s !== 'error' && ['eye-off', 'Lock screen and widgets', s === 'stale' ? 'Private defaults · last synced 14:10' : s === 'disagreement' ? 'Private here · Holdings in widgets is on from your Mac' : 'Nothing confidential shows'],
+      !['error', 'disagreement'].includes(s) && ['shield', 'Notifications', { empty: 'Not asked yet · quiet 22:00 to 07:00', offline: 'Web Push on · changes wait until you reconnect', abstention: 'Web Push on · held for quiet hours until 07:30' }[s] || 'Web Push on · quiet 22:00 to 07:00'],
+      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'Apple app' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:14' : ''} · oldest record ${age}`]
+    ].filter(Boolean);
+    return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 21:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need.length ? box(`${head('Needs you', `<span class="small muted">${need.length} item${need.length > 1 ? 's' : ''}</span>`)}${list(need)}`) : ''}${box(`${head('Looks good', `<span class="small muted">Checked ${s === 'stale' ? '14:10' : '21:15'}</span>`)}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
   }
+  const PATH_IN = { iphone: 'Your iPhone passkey', ipad: 'Google', web: 'Your Mac passkey', pwa: 'Google' };
+  const SEEN = { iPhone: '40 min ago', iPad: '2 h ago' };
   function lostSteps(ctx) {
-    const s = ctx.state;
-    const three = s === 'stale' ? 'That approval expired, so the iPhone is not yet revoked. Approve it again.' : 'Ends its sessions, closes its live streams and clears its offline copy when it next connects.';
-    return `<ol class="privacy-steps">${step(1, 'Signed in from another path', 'Your Mac passkey, just now', 'done')}${step(2, 'Which device?', 'iPhone, last active 40 min ago', 'done')}${step(3, 'Revoke it', three, 'now')}${step(4, 'Add a replacement passkey', 'On the new phone, when you have it.')}</ol>`;
+    const s = ctx.state, gone = target(ctx);
+    const three = s === 'stale' ? `That approval expired, so the ${gone} is not yet revoked. Approve it again.` : 'Ends its sessions, closes its live streams and clears its offline copy when it next connects.';
+    return `<ol class="privacy-steps">${step(1, 'Signed in from another path', `${PATH_IN[ctx.kind]}, just now`, 'done')}${step(2, 'Which device?', `${gone}, last active ${SEEN[gone]}`, 'done')}${step(3, 'Revoke it', three, 'now')}${step(4, 'Add a replacement passkey', `On the new ${gone}, when you have it.`)}</ol>`;
   }
   function lostFlow(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Recover a lost device', 4);
     if (s === 'empty') return stateCard('check', 'No device is marked lost', 'If you lose one, start here from any other path. Your sign-in paths stay as they are until the last step.', smbtn('A device is lost', 'primary'));
-    const top = { error: banner('fall', 'The revoke did not finish.', 'The iPhone is still signed in. Your other paths are unchanged. Try again.', 'alert'), offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'), disagreement: banner('fall', 'That approval no longer matches.', 'The device list changed after you confirmed, so it is refused. Check it and approve again.', 'split') }[s] || '';
+    const top = { error: banner('fall', 'The revoke did not finish.', `The ${target(ctx)} is still signed in. Your other paths are unchanged. Try again.`, 'alert'), offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'), disagreement: banner('fall', 'That approval no longer matches.', 'The device list changed after you confirmed, so it is refused. Check it and approve again.', 'split') }[s] || '';
     return `${top}${box(`${head('Recover a lost device', chipOf(['', 'In progress', 'clock']))}${lostSteps(ctx)}<div class="privacy-chips">${smbtn(s === 'stale' || s === 'disagreement' ? 'Approve again' : s === 'error' ? 'Try again' : 'Revoke with a passkey', 'primary', s === 'offline')}${smbtn('Stop for now', 'plain')}</div>`)}`;
   }
   const lostAfter = () => box(`${head('If you stop here')}<p class="small muted">Your old paths stay, and the new one stays unconfirmed. You can resume or cancel: it is never half-applied.</p><div class="privacy-chips">${chipOf(['fresh', 'On your audit trail'])}${proposed('CT-17')}</div>`);
@@ -313,15 +336,8 @@
     const s = ctx.state;
     if (s === 'loading') return skel(3);
     if (s === 'empty') return stateCard('grid', 'No holdings yet', 'Add what you hold and MyPrediction starts watching it. It never connects to a broker. Amounts stay hidden when you do.', btn('Add a holding'));
-    const say = {
-      error: stateCard('alert', 'Today\'s run failed', 'It failed at 21:14, so the last good run shows in full, with its percentages.', btn('Try again', 'tinted', 'refresh'), 'Last good run Mon 21:15 · cutoff 21:00'),
-      stale: banner('warn', 'Stale.', 'HSBC last priced 14:10. Its forecast is held and its action paused until its price returns.', 'clock'),
-      offline: banner('', 'Offline.', 'Saved copies. Each row shows its age, and nothing updates until you reconnect.', 'wifi-off'),
-      noModel: banner('', 'No approved model.', 'Today\'s moves stay. No forecast percentage is made up.', 'cube'),
-      disagreement: banner('', 'Models disagree on Reliance.', 'Both ranges stay visible, and Reliance has no ranked action.', 'split'),
-      abstention: banner('', 'The model abstained on Reliance.', 'Too little comparable history for a calibrated range.', 'ban')
-    }[s] || banner('', 'Amounts hidden.', 'Percentages and ranges stay visible. Tap to show for 30 seconds.', 'eye-off');
-    const rows = [byT.AAPL, ['disagreement', 'abstention'].includes(s) ? byT.RELIANCE : byT.NVDA, byT.HSBA].map(h => masked(ctx, h)).join('');
+    const say = homeSay(s) || banner('', 'Amounts hidden.', 'Percentages and ranges stay visible. Tap to show for 30 seconds.', 'eye-off');
+    const rows = maskedRows(ctx);
     return `${box(maskValue(s))}${say}<div class="list card" style="margin:0">${supported(rows)}${rows}</div>`;
   }
   J.add({
@@ -344,16 +360,16 @@
       }, {
         id: 'privacy-a-centre', title: 'Privacy centre',
         note: 'Settings, then Privacy. Money is masked and percentages stay; nothing confidential shows outside the app.',
-        render: ctx => page(ctx, {
+        render: ctx => homePage(ctx, {
           tab: 4, back: 'Settings', title: 'Privacy',
-          body: ({ error: banner('fall', 'That change did not save.', 'The private default stays in force. Try again.', 'alert'), stale: banner('warn', 'Last synced 14:10.', 'The private defaults stay in force until the next sync.', 'clock'), offline: banner('', 'Offline.', 'Hiding amounts still works. Anything less private waits until you reconnect.', 'wifi-off'), noModel: banner('', 'No approved model.', 'Today\'s move stays. There is no forecast percentage to keep, and none is made up.', 'cube'), disagreement: banner('', 'Models disagree on Reliance.', 'Both ranges stay visible. Only money is hidden.', 'split'), abstention: banner('', 'The model abstained on Reliance.', 'No range is shown, and hiding amounts does not change that.', 'ban') }[ctx.state] || '') + modeCard(ctx) + (wide(ctx) ? '' : outside(ctx)) + pushCard(ctx),
+          body: homeSay(ctx.state) + modeCard(ctx) + (wide(ctx) ? '' : outside(ctx)) + pushCard(ctx),
           rail: (wide(ctx) ? outside(ctx) : '') + inbox(ctx, 3)
         })
       }, {
         id: 'privacy-a-notice', title: 'A notice',
         note: 'Tap a notice. It shows its evidence and performs no action.',
         na: { empty: 'With no notices yet, there is none to open' },
-        render: ctx => page(ctx, { tab: 4, back: 'Privacy', title: 'Notice', body: noticeOne(ctx) })
+        render: ctx => homePage(ctx, { tab: 4, back: 'Privacy', title: 'Notice', body: noticeOne(ctx) })
       }, {
         id: 'privacy-a-devices', title: 'Devices and sessions',
         note: 'Revoke any device with a fresh sign-in. The last sign-in path can never be removed.',
@@ -395,7 +411,7 @@
         render: ctx => homePage(ctx, {
           tab: 0, title: 'Portfolio', actions: tb('search', 'Search') + `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`, webActions: wide(ctx) ? `<button class="btn sm btn-primary" type="button" aria-pressed="true">${ic('eye-off', 's18')}Amounts hidden</button>` : `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`,
           body: homeHidden(ctx),
-          rail: box(`${head('Outside the app', chipOf(['fresh', 'Private default']))}${glances()}`)
+          rail: box(outsideHead(ctx))
         })
       }, {
         id: 'privacy-b-checkup', title: 'Privacy checkup',
@@ -426,7 +442,7 @@
         id: 'privacy-b-notice', title: 'A notice',
         note: 'Tap a notice. It shows its evidence and performs no action.',
         na: { empty: 'With no notices yet, there is none to open' },
-        render: ctx => page(ctx, { tab: 0, back: 'Notices', title: 'Notice', body: noticeOne(ctx) })
+        render: ctx => homePage(ctx, { tab: 0, back: 'Notices', title: 'Notice', body: noticeOne(ctx, true) })
       }, {
         id: 'privacy-b-delete', title: 'Delete an original',
         note: 'Record, then the file. The confirmation sits on the record it changes.',

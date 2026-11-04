@@ -144,8 +144,8 @@ The owner, answering "Shall I draw the remaining journeys and states in Prism ne
 [docs/design/journeys/](../../journeys/README.md) draws MP-62's eight owner journeys in Prism: home, holdings and imports,
 forecast and proof, research and chat, the action journal, cost, owner approvals, privacy and recovery. Each has two
 options that differ in structure, with one recommended; every screen is drawn in every state on iPhone, iPad, desktop and
-phone web, in light and dark. Admin journeys are MP-64. No option is picked yet; the owner picks one per journey, and the
-picks go here with their words.
+phone web, in light and dark. Admin journeys are MP-64. The owner later chose to keep both options on all eight, with a flip (below),
+which supersedes picking one per journey.
 
 | Journey | A (recommended) | B |
 | --- | --- | --- |
@@ -188,10 +188,45 @@ reviewed as a deliverable. The fixes are not independently reviewed; that is rou
 
 What HSBC's price means changed so the journeys agree. Its stale time was 16:35, which is the UK close. It is now 14:10: in Ready it is
 late but inside the freshness limit and stays in the total; in Stale it is past the limit and leaves the total, which reads £78,508.20,
-6 of 7 priced. The limit is proposed (MP40-Q6).
+6 of 7 priced. The limit is proposed (DATA-DEC-02).
 
 ## Both options, with a flip: the owner's question, 4 November 2026
 
 The owner, on seeing the options: "Can I have both A and B implemented , user should have an option to flip it for more
-engaging experience." Which journeys flip is not yet answered, so no journey's option is picked. MP-178 designs the flip,
-and MP-62's acceptance ("the owner picks one per journey") changes with the owner's answer.
+engaging experience." Asked which journeys should flip, the owner answered: "Flip all eight". The maker had recommended three.
+
+So both options stay on all eight journeys, and no single option is picked. MP-178 draws the flip, and MP-62's acceptance now says
+so. The flip control went into Prism first (the `Flip` component, the `flip` icon and `flipTurn()`). `FLIPS` in
+`docs/design/journeys/src/shell.js` says which screen turns to which.
+
+The owner's answers, 4 November 2026: "A, kept per device (Recommended)", "Keep the strict rule (Recommended)", "Yes, one side may show more (Recommended)". So each journey starts in A, the choice is kept
+per device, each journey flips on its own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written. That last rule is what
+keeps a flip from changing what an approval binds (MP-55). The figures both sides show stay the same, and one side may show more.
+
+## Review round 2, 4 November 2026
+
+The owner: "Yes, run round 2". Four new reviewers on `e5dbc07`, the delta since round 1's snapshot and its joins. They found 95 issues, 68
+blocking, no P0. All 68 are fixed and held by `review/MP-62/fixed.json`. The record is [round-2.md](../../../../review/MP-62/round-2.md).
+
+The flip changed most. It had been drawn on live proposals, drafts and behind open sheets, against the proposed rule, so it now shows only where
+the owner reads. Approvals flips at the queue, not on a proposal.
+
+## Review round 3, 4 November 2026
+
+The owner: "Yes, run round 3". Four new reviewers on `fc1303d`, the delta since round 2's snapshot and its joins. They found 66 issues, 38 blocking, no P0. All 38 are fixed
+and held by `review/MP-62/fixed.json`. The record is [round-3.md](../../../../review/MP-62/round-3.md).
+
+Round 2 had claimed a turned frame comes back to where it started and that a pair shows the same facts in every state. Round 3 found both untrue in places, and they now hold as far as
+the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The freshness, provider status and risk stay the same across a flip. The checks compare freshness on every pair,
+and agreed key figures on six of the eight journeys, not every figure on every screen.
+
+## Review round 4, 4 November 2026
+
+The owner: "Yes, run round 4". Four new reviewers on `b58ae49`, the delta since round 3's snapshot and its joins. They found 54 issues, 25 blocking, no P0, 3 P1. All 25 are fixed and held by
+`review/MP-62/fixed.json`. The record is [round-4.md](../../../../review/MP-62/round-4.md). Across the four rounds the blocking findings ran 70, 68, 38, 25, and the P1 findings 23, 24, 9, 3.
+
+The late-price limit is now labelled DATA-DEC-02, the data catalogue's decision on when a price may be used as current. MP-65 settles that a price past the limit leaves the total and the reason shows; the limit itself is open.
+
+MP-178's line, "Flipping shows the same figures", was narrowed in these records in an earlier round without the owner's word. It was marked proposed and put to the owner, who then accepted it: "Yes, one side may show more (Recommended)".
+
+The fixes in round 4 are not independently reviewed. Round 5 would be the last the rule allows.

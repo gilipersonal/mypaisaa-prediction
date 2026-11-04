@@ -11,6 +11,7 @@
 .privacy-li .t { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; min-width: 0; }
 .privacy-li .s { font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
 .privacy-li .e { text-align: right; min-width: 0; }
+.privacy-li .s .privacy-chips { margin-top: 4px; }
 .privacy-li.plain { grid-template-columns: minmax(0, 1fr) auto; }
 .privacy-li.tap { min-height: 44px; cursor: pointer; }
 .privacy-rows-h { padding: 10px 16px 0; }
