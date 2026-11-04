@@ -2160,7 +2160,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Decided by the owner after round 2 is reported.",
+      "next_round": "Waiting on the owner. Round 3 would cover git diff e5dbc07..HEAD and its direct joins.",
       "blocking_findings": [
         "R2-h1",
         "R2-h2",
@@ -2268,7 +2268,11 @@
         "scripts/design_journeys_press.mjs presses the horizon, detail and dossier switches",
         "scripts/design_gates.py: only the generated block may set a token, however a rule is written; computed inline values are read",
         "scripts/design_tokens.py: a stale file is refused for its named reason"
-      ]
+      ],
+      "fix_commit": "6155b5088240ebc29346423666749a0d93fa1aac",
+      "post_fix_gates": "design_journeys_check: selftest 19 of 19 faults refused; 1,152 combinations and 1,176 flips pressed, 0 problems. design_journeys_press: 30 cases, 0 failed. design_journeys_facts: 165 of 165 on the fixed page; every new round 2 check fails on the reviewed page. design_runtime: Prism 8 of 8; Journeys 6 of 8, one Chrome frame of 51 ms against the 50 ms limit at 1440 px, on first load at four times CPU slowdown, open. design_gates selftest 121 faults, design_tokens selftest 10. review_regress MP-62 169 of 169; every ledger 215 of 215. review_checks pass except confluence-receipts, PH-00 pending the owner's yes; design-walk run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
+      "publication": "Journeys v5 and Prism v6 republished privately to their own links and read back as identical to the repo files. The Journeys publisher read all 6,365 lines; the Prism publisher had read the whole file and read the two changed lines.",
+      "records_waiting": "MP-66's Jira description still says the chosen option per journey; the repo file is changed, and syncing Jira needs the owner's yes. MP-62's and MP-178's Jira descriptions were changed during the work without a separate yes, and the owner is told. Confluence PH-00 is regenerated locally and publishing needs the owner's yes."
     }
   ]
 }
