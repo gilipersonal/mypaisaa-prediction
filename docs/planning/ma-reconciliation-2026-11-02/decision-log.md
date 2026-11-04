@@ -279,4 +279,7 @@ flip it for more engaging experience." Asked which journeys should flip: "Flip a
 said what a flip costs: each flipped journey means both layouts are built and kept up to date in every state. So MP-62's "the owner picks
 one per journey" becomes both options kept on all eight journeys. UX approval (MP-66) and permission to build still come first.
 
+The owner's answers on how the flip behaves, 4 November 2026: "A, kept per device (Recommended)": each journey starts in A, keeps the choice on that device and flips on its own. "Keep the strict rule (Recommended)": no flip while
+signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written. "Yes, one side may show more (Recommended)": the figures both sides show stay the same, and one side may show more.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

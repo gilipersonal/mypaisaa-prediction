@@ -2,7 +2,7 @@
   "issue": "MP-62",
   "deliverable": "Prism Journeys and the flip on all eight journeys (MP-62, MP-178), with the gates that hold them",
   "round_count": 4,
-  "status": "round 4 fixed; round 5 held by the owner",
+  "status": "round 4 fixed; the owner's flip answers applied; round 5 not yet asked",
   "rounds": [
     {
       "round": 1,
@@ -3528,7 +3528,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Owner, 4 Nov 2026: \"Hold round 5\". It waits for the owner's decisions on the flip rules. It is the last round the rule allows, and would cover git diff b58ae49..HEAD and its direct joins. Round 4's fixes stay not independently reviewed until then.",
+      "next_round": "The owner answered the flip questions on 4 Nov 2026. Round 5, the last the rule allows, would cover git diff b58ae49..HEAD and its direct joins, and needs its own yes. Round 4's fixes stay not independently reviewed until then.",
       "blocking_findings": [
         "R4-h1",
         "R4-h2",
@@ -3597,7 +3597,7 @@
       "fix_commit": "0a66d04453ef1ee4d5e3a1710c946d848381aa3c",
       "post_fix_gates": "design_journeys_check: selftest 31 of 31 faults refused; 1,152 combinations and 1,176 flips pressed, 0 problems. design_journeys_press: selftest passes; 163 cases, 0 failed. design_journeys_facts: 251 of 251 on the fixed page; R4-h8, R4-j10 and R4-r2 also hold on the reviewed page and were proved on mutated copies. design_runtime: Prism 8 of 8; Journeys 8 of 8. design_gates selftest 124 faults. review_regress MP-62 267 of 267; every ledger 313 of 313. review_checks pass; design-walk run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
       "publication": "Journeys v7 republished privately to its own link and read back byte for byte; the publisher read all 6,497 lines. Prism did not change in this round.",
-      "records_waiting": "MP-66's Jira description and Confluence PH-00 still wait on the owner's yes."
+      "records_waiting": "None. The owner said yes on 4 Nov 2026: MP-66's Jira description is synced and read back, and Confluence PH-00 is published as version 5 and read back as matching what was sent (721 parts)."
     }
   ]
 }

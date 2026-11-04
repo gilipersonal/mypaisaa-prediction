@@ -199,9 +199,9 @@ So both options stay on all eight journeys, and no single option is picked. MP-1
 so. The flip control went into Prism first (the `Flip` component, the `flip` icon and `flipTurn()`). `FLIPS` in
 `docs/design/journeys/src/shell.js` says which screen turns to which.
 
-Proposed by the maker, for the owner to accept or refuse: each journey starts in A, the choice is kept per device, each journey
-flips on its own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a
-record being written. That last rule is what keeps a flip from changing what an approval binds (MP-55).
+The owner's answers, 4 November 2026: "A, kept per device (Recommended)", "Keep the strict rule (Recommended)", "Yes, one side may show more (Recommended)". So each journey starts in A, the choice is kept
+per device, each journey flips on its own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written. That last rule is what
+keeps a flip from changing what an approval binds (MP-55). The figures both sides show stay the same, and one side may show more.
 
 ## Review round 2, 4 November 2026
 
@@ -217,7 +217,7 @@ The owner: "Yes, run round 3". Four new reviewers on `fc1303d`, the delta since 
 and held by `review/MP-62/fixed.json`. The record is [round-3.md](../../../../review/MP-62/round-3.md).
 
 Round 2 had claimed a turned frame comes back to where it started and that a pair shows the same facts in every state. Round 3 found both untrue in places, and they now hold as far as
-the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The freshness, provider status and risk stay the same across a flip. Proposed, for the owner to accept: the figures both sides show stay the same, and a side may hold more. The checks compare freshness on every pair,
+the checks reach: a press takes its target from the control, a second press returns to what the frame showed, and a turned frame takes its partner for the state it is in. The freshness, provider status and risk stay the same across a flip. The checks compare freshness on every pair,
 and agreed key figures on six of the eight journeys, not every figure on every screen.
 
 ## Review round 4, 4 November 2026
@@ -227,6 +227,6 @@ The owner: "Yes, run round 4". Four new reviewers on `b58ae49`, the delta since 
 
 The late-price limit is now labelled DATA-DEC-02, the data catalogue's decision on when a price may be used as current. MP-65 settles that a price past the limit leaves the total and the reason shows; the limit itself is open.
 
-MP-178's line, "Flipping shows the same figures", stands as the owner wrote it. An earlier round narrowed it in these records without the owner's word. That narrowing is now marked proposed and put to the owner.
+MP-178's line, "Flipping shows the same figures", was narrowed in these records in an earlier round without the owner's word. It was marked proposed and put to the owner, who then accepted it: "Yes, one side may show more (Recommended)".
 
 The fixes in round 4 are not independently reviewed. Round 5 would be the last the rule allows.

@@ -2604,7 +2604,8 @@
    "file": "docs/design/prism/index.html",
    "pattern": "name: 'Flip', status: PROPOSED",
    "present": true
-  }
+  },
+  "retired": "The owner accepted the flip rules on 4 Nov 2026 (MP-178), so they are no longer marked proposed."
  },
  {
   "id": "R2-s15",
@@ -4047,7 +4048,8 @@
    "file": "docs/design/journeys/src/shell.js",
    "pattern": "May one side hold more",
    "present": true
-  }
+  },
+  "retired": "The owner accepted the flip rules on 4 Nov 2026 (MP-178), so they are no longer marked proposed."
  },
  {
   "id": "R4-s3",
