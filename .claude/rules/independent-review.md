@@ -85,4 +85,3 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 32. **A control is proved by pressing it**: what it changes, what follows it, where focus lands and whether it comes back. Counting that it exists proves nothing (MP-178 R2-h5, R2-s3, R2-s8, R2-s9).
 33. **A form that records a past act says so**, in one sentence, on every screen of the flow; units, price and a primary button read as an order otherwise (MP-178 R2-j3).
 34. **A check is proved by undoing its fix**: failing on an old page is not enough, because the old page may fail for another reason (MP-178 R2-h18, R2-r17, R2-j21).
-

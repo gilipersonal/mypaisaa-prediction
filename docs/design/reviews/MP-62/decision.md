@@ -200,7 +200,16 @@ so. The flip control went into Prism first (the `Flip` component, the `flip` ico
 `docs/design/journeys/src/shell.js` says which screen turns to which.
 
 Proposed by the maker, for the owner to accept or refuse: each journey starts in A, the choice is kept per device, each journey
-flips on its own, and there is no flip while signed out, during a step-up, or on an approval or record in progress. That last
-rule is what keeps a flip from changing what an approval binds (MP-55).
+flips on its own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a
+record being written. That last rule is what keeps a flip from changing what an approval binds (MP-55).
 
-Not reviewed: the flip, and round 1's fixes. The owner has not asked for round 2.
+## Review round 2, 4 November 2026
+
+The owner: "Yes, run round 2". Four new reviewers on `e5dbc07`, the delta since round 1's snapshot and its joins. They found 95 issues, 68
+blocking, no P0. All 68 are fixed and held by `review/MP-62/fixed.json`. The record is [round-2.md](../../../../review/MP-62/round-2.md).
+
+The flip changed most. It had been drawn on live proposals, drafts and behind open sheets, against the proposed rule, so it now shows only where
+the owner reads. Approvals flips at the queue, not on a proposal. A turned frame stays turned, says so, and comes back to where it started. A pair
+now shows the same facts in every state, which needed the two options to agree on who abstains, what a stale total holds, and one journal.
+
+The fixes in round 2 are not independently reviewed. That would be round 3, if the owner asks for it.
