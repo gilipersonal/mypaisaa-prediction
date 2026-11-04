@@ -25,7 +25,7 @@ export default {
       for (const st of ['partial', 'error', 'stale', 'offline', 'conflict']) {
         must(!/data-act="A61"/.test(view('agents', o, `${o}-factors`, 'web', st).html), `agents.${o} ${st}: A61 is live`);
       }
-      for (const st of ['partial', 'error', 'stale', 'offline', 'conflict', 'expired']) {
+      for (const st of ['partial', 'error', 'stale', 'offline', 'conflict']) {   // Expired offers a new window (R2-m12)
         must(!/data-act="A62"/.test(view('models', o, `${o}-rules`, 'web', st).html), `models.${o} ${st}: A62 is live`);
       }
       must(/data-phone-off/.test(view('agents', o, `${o}-factors`, 'iphone', 'default').html), `agents.${o}: A61 is live on a phone`);
@@ -93,7 +93,7 @@ export default {
   'R1-m9': ({ view, must, has, lacks }) => {
     const c = view('runs', 'a', 'a-clock', 'web', 'conflict').text;
     lacks(c, /India's run says issued/);
-    has(c, /Tue 21:15.*reconcile_required/);
+    has(c, /Tue 3 Nov 21:15.*reconcile_required/);
     must(/reconcile_required · Tue/.test(c), 'the US row is not in conflict');
     for (const [o, sc] of [['a', 'a-run'], ['a', 'a-job'], ['b', 'b-detail']]) {
       const t = view('runs', o, sc, 'web', 'conflict').text;
@@ -134,5 +134,121 @@ export default {
       must(/data-act="A72"[\s\S]*?Approve release thresholds/.test(h), `${sc}: no A72`);
       must(!/data-act="A30"[^>]*>(?:(?!data-act).)*Approve release thresholds/s.test(h), `${sc}: A30 still approves thresholds`);
     }
+  },
+
+  // Round 2. Each holds the kind of fault, across every state and sibling screen it can reach.
+  'R2-m1': ({ view, each, has, lacks, must }) => {
+    for (const o of OPT) {
+      const r = view('models', o, `${o}-rules`, 'web', 'default').text;
+      has(r, /Mapping R0-RULEMAP · qualified for v6/);
+      has(r, /Rule strength itself stays a heuristic/);
+      lacks(r, /Rule strength is a heuristic, never a probability/);
+      const n = view('models', o, `${o}-rules`, 'web', 'error');
+      has(n.text, /mapping not qualified/); has(n.text, /not scoreable/); has(n.text, /Mapping R0-RULEMAP · not qualified/);
+      lacks(n.text, /Rules v6 0\.194/);
+      lacks(n.text, /These scores come through/);
+      must(/data-act="A78"/.test(n.html), `${o}: no A78 where the mapping failed`);
+      must(!/data-act="A62"/.test(n.html), `${o}: A62 is live with no mapping`);
+    }
+    has(view('models', 'a', 'a-pipe', 'web', 'error').text, /Rules v6 shadow · not scoreable · waits for you/);
+    has(view('models', 'a', 'a-evidence', 'web', 'error').text, /Rules Not scoreable/);
+    has(view('models', 'b', 'b-board', 'web', 'error').text, /Rules v6 Not scoreable/);
+    each({ journey: 'models', option: 'a', screen: 'a-evidence', state: 'default' }, (v) => has(v.text, /R0-RULEMAP/));
+  },
+  'R2-m2': ({ each, has, must }) => {
+    for (const [option, screen] of [['a', 'a-decide'], ['b', 'b-scope']]) each({ journey: 'models', option, screen }, (v, at) => {
+      if (!/data-act="A25"/.test(v.html)) return;
+      must(/US tech, 12 months Stays paused/.test(v.text), `${screen} ${at.state}: A25 with no word on the paused scope`);
+      must(/India midcap, 3 months Stays on R1-LGB v1/.test(v.text), `${screen} ${at.state}: A25 with no word on India midcap`);
+      has(v.text, /Where v3 is not eligible, the scope pauses instead/);
+    });
+  },
+  'R2-m3': ({ each, must }) => {
+    for (const [option, screen] of [['a', 'a-decide'], ['b', 'b-scope']]) each({ journey: 'models', option, screen }, (v, at) => {
+      if (!/data-act="A25"/.test(v.html)) return;
+      must(/0\.188/.test(v.text) && /0\.197/.test(v.text) && /8 of 8 scored weeks/.test(v.text), `${screen} ${at.state}: A25 away from its proof`);
+      must(/approving one sends the other back to its check/.test(v.text), `${screen} ${at.state}: A25 with no overlap`);
+      must(/What would change/.test(v.text), `${screen} ${at.state}: A25 with no consequences`);
+    });
+  },
+  'R2-m4': ({ each, must }) => {
+    for (const [option, screen] of [['a', 'a-bands'], ['b', 'b-bands']]) each({ journey: 'models', option, screen }, (v, at) => {
+      if (!/data-act="A29"/.test(v.html)) return;
+      for (const re of [/Expected impact Slower correction/, /Evidence 26 weeks of replay/, /Cost a month £0/, /How to roll it back A new version/, /approving one sends the other back to its check/, /Environment Prod/, /Owner You/]) must(re.test(v.text), `${screen} ${at.state}: A29 with no ${re}`);
+    });
+  },
+  'R2-m5': ({ view, each, has, must }) => {
+    for (const o of OPT) {
+      const sc = `${o}-evals`;
+      const t = view('models', o, sc, 'web', 'default');
+      has(t.text, /Release thresholds Judge agreement Not approved yet/);
+      has(t.text, /Labelling opens one sample at a time/);
+      must(/This approval is bound to[\s\S]*data-act="A72"/.test(t.html), `${sc}: A72 has no bind`);
+      each({ journey: 'models', option: o, screen: sc, surface: 'web' }, (v, at) => {
+        const live = ['default', 'conflict'].includes(at.state);
+        must(/data-act="A72"/.test(v.html) === live, `${sc} ${at.state}: A72 live is ${!live}`);
+      });
+      for (const st of ['empty', 'partial', 'error', 'stale', 'expired', 'denied']) has(view('models', o, sc, 'web', st).text, /Labelling and thresholds (open|wait|return)/);
+    }
+  },
+  'R2-m6-screens': ({ view, has }) => {
+    for (const o of OPT) {
+      has(view('agents', o, `${o}-factors`, 'web', 'default').text, /No record names who withdraws a factor/);
+      has(view('models', o, `${o}-rules`, 'web', 'default').text, /No record names who withdraws a rules version/);
+    }
+  },
+  'R2-m7': ({ view, must }) => {
+    /* follow the row into its screen, in each state: the chip on one is the chip on the other (lesson 31) */
+    const CHIPS = ['Waits for your yes', 'Unknown', 'mapping not qualified', 'Refused', 'Expired', 'Loading'];
+    const chipOf = (t) => CHIPS.find((c) => t.includes(c));
+    for (const st of ['default', 'partial', 'error', 'stale', 'offline', 'conflict', 'denied']) {
+      const row = view('models', 'a', 'a-pipe', 'web', st).text.match(/Rules v6 shadow[^,]*?(Waits for your yes|Unknown|mapping not qualified|Refused)/);
+      must(row, `a-pipe ${st}: no Rules v6 row`);
+      must(view('models', 'a', 'a-rules', 'web', st).text.includes(row[1]), `${st}: the row says ${row[1]}, a-rules says ${chipOf(view('models', 'a', 'a-rules', 'web', st).text)}`);
+    }
+    for (const st of ['error', 'conflict']) must(!/Not ready for you[^]*Waits for your yes/.test(view('models', 'a', 'a-pipe', 'web', st).text.split('Live')[0]), `${st}: a waiting row under Not ready`);
+  },
+  'R2-m8': ({ view, has, lacks }) => {
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
+      const t = view('runs', o, sc, 'web', 'partial').text;
+      has(t, /Missed daily run India Wed 10:15 · US Tue · UK not read Unknown/);
+      lacks(t, /UK and US Tue/);
+      lacks(t, /(run_8cf7[^.]{0,40})Succeeded/);
+    }
+  },
+  'R2-m9': ({ view, has, lacks }) => {
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
+      const t = view('runs', o, sc, 'web', 'conflict').text;
+      has(t, /India Wed 10:15 · UK Tue · US Tue held Held/);
+      lacks(t, /UK and US Tue/);
+    }
+    const t = view('runs', 'a', 'a-clock', 'web', 'conflict').text;
+    has(t, /Last success Mon 21:15 · Tue held by the reconciler/);
+    has(t, /Watermark Mon close · Tue held/);
+    has(t, /Proposed · CT-05/);
+  },
+  'R2-m10': ({ view, has, must }) => {
+    for (const o of OPT) {
+      const v = view('models', o, `${o}-live`, 'web', 'default');
+      has(v.text, /4 decisions wait on you\. 1 paused scope waits on your restart\./);
+      must(/4 dated decisions/.test(v.note), `${o}-live: no note on the count`);
+    }
+  },
+  'R2-m11': ({ each, must }) => {
+    for (const screen of ['a-route', 'b-route']) each({ journey: 'agents', screen }, (v, at) => {
+      if (!/Outbound context Derived values only/.test(v.text)) return;
+      for (const id of ['ARC-06b-O4', 'ARC-06b-O3', 'ARC-06b-O2']) must(v.text.includes(`Proposed · ${id}`), `${screen} ${at.state} ${at.surface}: the manifest has no ${id}`);
+    });
+  },
+  'R2-m12': ({ view, must, each }) => {
+    for (const o of OPT) {
+      const v = view('models', o, `${o}-rules`, 'web', 'expired');
+      must(/Approve again for a new window/.test(v.text), `${o}-rules: Expired is a dead end`);
+      must(/data-act="A62"/.test(v.html), `${o}-rules: Expired offers no way on`);
+      must(/This approval is bound to/.test(v.text), `${o}-rules: Expired has no bind`);
+    }
+    /* the kind: an approval that ran out on a proposal that stays open always offers the way on */
+    each({ journey: 'models', option: 'a', screen: 'a-live', state: 'expired', surface: 'web' }, (v) => must(/data-act="A27"/.test(v.html), 'a-live Expired: no way on'));
+    each({ journey: 'models', option: 'a', screen: 'a-decide', state: 'expired', surface: 'web' }, (v) => must(/data-act="A25"/.test(v.html), 'a-decide Expired: no way on'));
   },
 };

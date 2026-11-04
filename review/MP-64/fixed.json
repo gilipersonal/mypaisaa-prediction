@@ -894,5 +894,629 @@
     0
    ]
   }
+ },
+ {
+  "id": "R2-f1",
+  "finding": "**A transfer can only be settled by a control that does not exist, and the act is missing from the inventory.** Evidence: `gPend` says \"Not income until you say. It stays pending and visible.\" with no control. New in thi",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f2",
+  "finding": "**A partial draft says 3 selected and 9 of 11 rows directly above \"Approve these 2 groups\".** Evidence: `files a a-draft partial web` prints \"5 groups 3 selected · 9 of 11 rows\", then Sold 10 AstraZeneca \"Left out\", then",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f3",
+  "finding": "**The £12.40 difference is still invisible on three live approvals, the same fault as R1-f13.** Evidence: R1-f13 put `openDiff()` on Ready's draft and sheet. A08 is also live, with no mention of the difference, on `a-dra",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f4",
+  "finding": "**Following the new links from the expired approval opens a different record.** Evidence: in Expired, `b-explore` selects \"Statement import approval expired\", and its lineage is the short trail for ISA statement, Oct 202",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f5",
+  "finding": "**A lagging index is drawn as a third outcome that PH01-S04 does not allow.** Evidence: PH01-S04 recovery: \"If an index lags, the query falls back to authoritative manifest joins and returns the complete lineage, or repo",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f6",
+  "finding": "**Home's Expired state and the Approvals screen it opens disagree on the count and on what expired.** Evidence: Home Expired says \"4 decisions wait on you\" and \"Watch Barclays, Wed 08:14\", tile \"Watch Barclays expired We",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f7",
+  "finding": "**Home's Conflicting state drops the incident and the count from the first view on a phone.** Evidence: every other known state carries `WAIT` in the banner; Conflicting says only \"Settings changed while you read.\" On iP",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f8",
+  "finding": "**\"Approve both together\" approves a preview that is never drawn.** Evidence: `bothBox` says \"The combined preview names every row before you approve\", and its only button is a live A11 \"Approve both together\", on the sa",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f14",
+  "finding": "**\"account account recovery\" on every Home frame.** Evidence: `home b b-home default iphone` prints \"and account account recovery works anywhere.\" It renders in both options, four devices, ten states, in the sentence tha",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-f14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m1",
+  "finding": "**The picked a-rules scores rules as a probability, with no qualified mapping anywhere on the page.** Evidence: - PH04-S05 negative: \"Rule strength is never shown or scored as a probability without a qualified mapping (P",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m2",
+  "finding": "**A25 is live in the same world that makes it unpromotable in the owner journey, and its consequences are false for two of its scopes.** Evidence: - Owner journey `docs/design/journeys/src/journeys/approvals.js:145`, noM",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m3",
+  "finding": "**The R1-m4 evidence and the new overlap sentence reach only Ready. Two states keep A25 live without them.** Evidence: - a-decide Expired renders banner, R5, `promoteHead`, then a live \"Sign in and approve again\" (A25). ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m4",
+  "finding": "**A29 in Models is a bare version of the same act in Approvals: no overlap, no impact, no evidence, no cost, no rollback.** Evidence: - `bandOK` is `bandHead + bandLimits + bandBind + bandYes`, with A29 live in Ready, Pa",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m5",
+  "finding": "**A72 and A30 are buttons and nothing else, and A72 stays live when nothing can support it (lessons 28, 32; same fault as R1-a3).** Evidence: - `JUDGE` draws \"Label calibration samples\" and \"Approve release thresholds\". ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m6",
+  "finding": "**The inventory still misses owner acts these journeys name, so \"every admin action\" is not met (lesson 20).** Evidence, from reading each PH04 and PH05 `authority` against the 76 rows: - PH04-S06: \"The owner decides wha",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m7",
+  "finding": "**In Failed and Conflicting, a-pipe puts \"Waits for your yes\" under the heading \"Not ready for you\", and it disagrees with a-rules (lessons 27, 31).** Evidence: - `node scripts/design_admin_text.mjs models a a-pipe error",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m8",
+  "finding": "**a-clock Partial says the UK record did not answer, then reports on the UK (lesson 39).** Evidence: - The banner (`:261`) reads \"The UK record did not, so it shows unknown and never on time\". The UK card reads Not read.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m9",
+  "finding": "**a-clock Conflicting says the US night \"counts as neither\", and the card counts it as a success (lesson 39).** Evidence: - Banner: \"It counts as neither until the reconciler settles it.\" - `us(WARN('reconcile_required ·",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m10",
+  "finding": "**Home and Approvals count 4 decisions while a scope is paused. The owner journey counts 5 (lessons 27, 31).** Evidence: - Owner journey `approvals.js:382`, noModel: `queueHero(5)` plus a row \"Restart US tech, 12 months\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m11",
+  "finding": "**The R1-m12 \"Proposed\" labels show only in Ready and Expired. Six states print the same manifest as settled (lesson 25).** Evidence: - `openBits()` says \"Derived values only is the triage route's rule, DATA-DEC-12\" and ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-m12",
+  "finding": "**a-rules Expired is a dead end (lesson 28).** Evidence: - Banner: \"Expired. It did not apply. Your approval ran out\". There is no control and no next step. - `rulesBind` and the screen's note say the proposal itself has",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-m12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a1",
+  "finding": "**A live write sits directly under the sentence that says it cannot happen.** In `ca-credit` Offline the banner reads \"Paid use cannot be changed until you reconnect\" and the rail prints R16, \"No financial write offline.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a2",
+  "finding": "**A budget change does not show what MP-114 requires of a setting.** MP-142 says \"budget changes are settings (PH05-S14)\". MP-114 positive: \"Each setting has a versioned schema with allowed ranges; a proposed change show",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a3",
+  "finding": "**There is nowhere to say which line, or what value.** `budgetRail` offers A58 \"Change a line\", and the next screen, `ca-change`, opens at \"£60 to £55 · you drafted this\". `changeCore` has no field, no choice of line and",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a4",
+  "finding": "**A budget change can be rolled back only from the moment it was applied.** A32 appears once in `costs.js`, in `ca-change` Empty. `ca-budget` (`:178-205`) names no current version, no previous version and no rollback, th",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a5",
+  "finding": "**Rolling back a budget is drawn as a change with no required step-up.** MP-103: \"Only the owner changes a threshold or an allocation, with step-up.\" A rollback from £55 to £60 moves a threshold. It is drawn with A32, wh",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a6",
+  "finding": "**Costs' Failed and Stale tell two different stories on one journey (lesson 27), and Failed reports a normal condition as a fault.** `ca-credit` Failed says \"Claude usage stops at 18:00. The figures after that did not ar",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a7",
+  "finding": "**`aa-listing` Failed shows the check that failed as done.** The card: \"The coverage probe stopped at 09:14 ... nothing can be confirmed until a check finishes.\" The rail on the same screen, under \"What code checked\": \"C",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a8",
+  "finding": "**A change the owner drafts never reaches a decision.** A31 \"Approve this change\" is shut in every state on every device (walk: live in none). No state of `aa-propose` shows a value with all four checks passed: `CHECKS` ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a9",
+  "finding": "**One action, one state, two answers.** `shutRb` covers Offline and Denied only, so A32 is live in `aa-band` Failed, with the chip \"Records failed 11:38 · last good 11:20\", and in Partial. `ab-outcomes` (`:252`) shuts th",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a10",
+  "finding": "**A live primary button on a read-only phone.** `aa-propose` Conflicting on iPhone reads \"Changes happen on iPad or desktop\", \"Run the check: on iPad or desktop\", then `bs('Start again from v10', 'primary')`, live. It st",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-a11",
+  "finding": "**Two withdrawals are a bare button (lesson 28).** \"An option the owner may pick alone must draw every outcome itself.\" - A76 \"Withdraw paid use\": no screen says Claude turns off, chat and research show as unavailable, t",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-a11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s1",
+  "finding": "**A lost iPhone cannot be revoked anywhere in Identity, and the page says so as a rule.** Evidence: - PH02-S02 (MP-87): \"the power to revoke any session or device, so that losing a phone neither locks me out nor lets som",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s2",
+  "finding": "**inc_0012 names the wrong source and the wrong run, so the provenance trail disagrees with Runs and every owner journey.** Evidence: - `EV.source` is \"Twelve Data · HSBA · XLON\". The recorded resolution reads \"HSBC pric",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s3",
+  "finding": "**\"Mark as mitigated\" is a drawn write control, and three records say it is not.** Evidence: - `mitTool` calls `act('A74', 'Mark as mitigated')`. It is live on the web and iPad in `a-detail` default, partial and expired,",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s4",
+  "finding": "**Evidence, Denied, promises a denied row that is not drawn.** Evidence: `T_EV.denied` says \"The Audit link came back permission denied, so it shows as denied, not as empty.\" `EV` holds alert, run, job, trace, source and",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s5",
+  "finding": "**Replay contradicts itself on one screen in Denied, Partial and Stale.** Evidence: - `a-replay denied`: the request reads \"Awaiting you\" and \"Your approval: Awaiting you, with a fresh sign-in\", and the card below is hea",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s6",
+  "finding": "**Screens still say the iPhone row waits on the owner's answer, which he has given.** Evidence: - The owner answered \"I'll join the Developer Program\", and asked what lifts the bar, \"The purchase (Recommended)\". - `:101`",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s7",
+  "finding": "**The owner's answer on what lifts the bar did not reach the story it changes.** Evidence: - MP-164's negative still reads \"until the owner says to join the Developer Program\". Read literally, the owner has now said so. ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R2-s7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
  }
 ]

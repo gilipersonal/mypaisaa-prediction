@@ -94,3 +94,6 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 41. **A control is drawn only where its act can happen**: approve needs something waiting, in that state, with its binding on screen; an expired or empty request says why not (MP-64 R1-s2, R1-s3).
 42. **A question's option text is not the owner's answer**: quote the label they picked, say what the option read, and mark the rest of the reading as proposed (MP-64 R1-s6).
 43. **Measure timing on mains power**: on battery WebKit runs at 30 frames a second, so a runtime failure there proves nothing, and a pass elsewhere must be rerun (MP-64).
+44. **A fix is read in every state of its screen and its siblings**: round 2 of MP-64 found round 1's faults again one state along (MP-64 R2-f3, R2-m3, R2-m11). Hold the kind with a walk, not the line.
+45. **A write has its whole path or none**: what changes, the bound version, how it ends and how it goes back, on every act an option draws (MP-64 R1-a3, R2-m4, R2-m5, R2-a2, R2-a11).
+46. **A state keeps one story across a journey's screens**: a failed world names one fault, one source and one run (MP-64 R1-m9, R2-a6, R2-s2).

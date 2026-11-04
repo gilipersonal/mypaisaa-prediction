@@ -202,7 +202,7 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You picked ${PICKS[j.id].toUpperCase()} · ${j.options.find(p => p.id === PICKS[j.id]).name}</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You picked ${PICKS[j.id].toUpperCase()} · ${j.options.find(p => p.id === PICKS[j.id]).name}</span>${sum.keep && sum.keep.picks[j.id] !== PICKS[j.id] ? '<span class="chip stale">Changed in Compare, not recorded</span>' : ''}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
@@ -293,6 +293,11 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
+  ['Does one scope\'s lapsed approval hold a whole promotion, or only that scope? The owner journey holds it; admin draws the promotion as live, with that scope kept apart. (POLICY-003)', 'Drawn as that scope only, labelled proposed.'],
+  ['MP-68 refuses a reversal because a sale on 2 Nov depends on it, and no record gives the sale. Files draws an illustrative one.', 'Sold 4 Apple at £170.00, marked illustrative. Holdings does not name it.'],
+  ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
+  ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
+  ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
   ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],
   ['The story fails at 21:14, before the +15 start at 21:15. (POLICY-002)', 'Drawn as a run due at 21:15 that failed at 21:14, as the owner journeys say.'],
   ['Holdings says 6 originals are kept, and the receipts name 8.', 'Drawn as 8. The owner journeys stay as they are.'],
@@ -312,6 +317,7 @@ const OPEN = [
 ];
 function showInventory() {
   mark('inv');
+  sum.cmp = null;
   ['#jrow', '#jwhy', '.jctl', '.jhead'].forEach(s => { $(s).hidden = true; });
   const inv = $('#jinv'); inv.hidden = false;
   let cells = 0, drawn = 0, na = 0;
@@ -362,13 +368,13 @@ function showCoverage() {
   try { history.replaceState(null, '', '#coverage'); } catch (e) { /* the view still shows */ }
 }
 
-/* Compare and pick: one card per screen, both options side by side, in the Ready state. The frames are the real screens, drawn small and inert;
+/* Compare and pick: one card per screen, option by option, in the Ready state. The frames are the real screens, drawn small and inert;
    a card's button opens the full screen. The owner's picks start marked, and a change leaves this page only when the owner copies it. */
 /* The owner's picks, 4 November 2026 (docs/design/reviews/MP-64/decision.md). */
 const PICKS = { home: 'b', files: 'a', audit: 'b', runs: 'a', agents: 'a', models: 'a', approvals: 'a', costs: 'a', incidents: 'a', identity: 'a' };
 const CMP_KEY = 'mp64-picks';
 function picksLoad() { try { return JSON.parse(localStorage.getItem(CMP_KEY)) || null; } catch (e) { return null; } }
-function picksSave(p) { try { localStorage.setItem(CMP_KEY, JSON.stringify(p)); } catch (e) { /* the picks still show on this page, and copy */ } }
+function picksSave(p) { try { localStorage.setItem(CMP_KEY, JSON.stringify(Object.fromEntries(Object.keys(PICKS).map(k => [k, p[k] || ''])))); } catch (e) { /* the picks still show on this page, and copy */ } }
 const CMP_DEV = { iphone: ['iPhone', 390, 844, 'phone', .5], web: ['Desktop', 1200, 950, 'win', .36] };
 function picksText(p) {
   const name = (j, v) => (v === 'x' ? 'neither' : `${v.toUpperCase()}, ${j.options.find(o => o.id === v).name}`);
@@ -377,7 +383,7 @@ function picksText(p) {
 }
 function showCompare() {
   const inv = pageOnly('cmp');
-  sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: picksLoad() || { ...PICKS } };
+  sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...(picksLoad() || {}) } };
   sum.cmp = sum.keep;
   if (!sum.cmpWatch && typeof MutationObserver === 'function') {
     sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
@@ -418,7 +424,7 @@ function drawCompare() {
   const picked = sum.journeys.filter(x => c.picks[x.id]).length, text = picksText(c.picks);
   const card = (o, s) => `<article class="acard" style="--cw:${Math.round((w + (kind === 'win' ? 0 : 20)) * z)}px;--cr:${kind === 'win' ? 6 : 32}px"><div class="acard-frame" inert aria-hidden="true"><div class="dev${kind === 'win' ? ' win' : ''} scheme-${sch}" style="--w:${w}px;--h:${h}px;zoom:${z}"><div class="scr">${s.render({ kind: c.dev, state: 'default', scheme: sch, journey: j.id, option: o.id, screen: s.id })}</div></div></div><h4>${s.title}</h4>${s.note ? `<p>${s.note}</p>` : ''}<button class="btn sm btn-tinted" type="button" data-open="${o.id}|${s.id}" aria-label="Open ${s.title}, option ${o.id.toUpperCase()}">Open</button></article>`;
   const opt = o => `<section class="acmp-opt" aria-label="Option ${o.id.toUpperCase()}, ${o.name}"><div class="acmp-head"><h3>${o.id.toUpperCase()} · ${o.name}</h3>${o.rec ? '<span class="chip owner">Recommended</span>' : ''}<span class="small">${o.screens.length} ${o.screens.length === 1 ? 'screen' : 'screens'}</span><button class="btn sm ${c.picks[j.id] === o.id ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="${o.id}" aria-pressed="${c.picks[j.id] === o.id}">${c.picks[j.id] === o.id ? `${ic('check', 's16')}Picked` : `Pick ${o.id.toUpperCase()}`}</button></div><p class="acmp-why">${o.why}${o.cost ? ` <b>What it costs.</b> ${o.cost}` : ''}</p><div class="acmp-row" tabindex="0" role="region" aria-label="Screens of option ${o.id.toUpperCase()}">${o.screens.map(s => card(o, s)).join('')}</div></section>`;
-  inv.innerHTML = `<h2>Compare and pick</h2><p class="sum">One card per screen, option by option, in the Ready state, for the journey you choose. Your picks of 4 November are marked. Change one here, and copy the result to Claude. ${picked} of ${sum.journeys.length} picked.</p>
+  inv.innerHTML = `<h2>Compare and pick</h2><p class="sum">One card per screen, option by option, in the Ready state, for the journey you choose. ${sum.journeys.every(x => c.picks[x.id] === PICKS[x.id]) ? 'Your picks of 4 November are marked.' : 'Changed from your picks of 4 November, and not recorded until you copy this to Claude.'} ${picked} of ${sum.journeys.length} picked.</p>
     <div class="jstates acmp-tabs" role="group" aria-label="Journey">${sum.journeys.map(x => `<button type="button" data-cj="${x.id}" aria-pressed="${x.id === c.j}">${c.picks[x.id] ? `${x.title} · ${c.picks[x.id] === 'x' ? 'neither' : c.picks[x.id].toUpperCase()}` : x.title}</button>`).join('')}</div>
     <div class="jstates acmp-tabs" role="group" aria-label="Device">${Object.entries(CMP_DEV).map(([k, v]) => `<button type="button" data-cdev="${k}" aria-pressed="${k === c.dev}">${v[0]}</button>`).join('')}</div>
     <p class="sum" style="color:var(--ink)">${j.summary}</p>${j.options.map(opt).join('')}
@@ -427,4 +433,4 @@ function drawCompare() {
   $$('[data-mo]', inv).forEach(n => n.removeAttribute('data-mo'));
 }
 
-const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === PICKS[j.id]));
+const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.keep ? sum.keep.picks : PICKS)[j.id]));

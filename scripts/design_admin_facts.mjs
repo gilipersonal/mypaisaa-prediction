@@ -23,7 +23,7 @@ const PROPOSED = /^(CT-\d+|PL-\d+|FC-\d+|FIN-OD-\d+|MP40-Q\d+|SCI-D\d+|DATA-DEC-
 // A proposal names a record that exists, so an id must appear in the planning pack (lesson 36).
 const planning = (() => { const out = []; const walkDir = (d) => { for (const n of readdirSync(d)) { const p = join(d, n); if (statSync(p).isDirectory()) walkDir(p); else if (/\.(json|md)$/.test(n)) out.push(readFileSync(p, 'utf8')); } }; walkDir(join(ROOT, 'docs/planning')); return out.join('\n'); })();
 // A button outside act() that reads like a write. Plain btn and bs are for moving around (R1-s4).
-const WRITE = /\b(retry|refresh|run|resume|approve|confirm|reject|decline|delete|revoke|renew|save|apply|enrol|link|unlink|promote|restart|pause|replay|restore|switch|resolve|acknowledge|export|upload|reprocess|rebuild|correct|reverse|withdraw|forget|label)\b/i;
+const WRITE = /\b(retry|refresh|run|resume|approve|confirm|reject|decline|delete|revoke|renew|save|apply|enrol|link|unlink|promote|restart|pause|replay|restore|switch|resolve|acknowledge|export|upload|reprocess|rebuild|correct|reverse|withdraw|forget|label|start again|choose)\b/i;
 const NAV = /^(try again|sign in again|not now|back|close|cancel)$/i;
 // One owner, no household; no over-claimed integrity; no word the records do not use for a pause (lesson 21).
 const BARRED = [[/\b(household|team member|invite a user|add a user|admin role|other users?)\b/i, 'a multi-user word'], [/tamper[- ]?proof/i, 'an integrity claim'], [/kill switch/i, '"kill switch", which no record uses'], [/—/, 'an em dash'], [/\b(buy|sell|place an order|submit an order)\b/i, 'a trade word']];
@@ -37,7 +37,7 @@ function walk(journeys, fn) {
 }
 
 export function problems(journeys, whole = true) {
-  const out = [], acts = new Set(), refused = new Set(), live = new Set();
+  const out = [], acts = new Set(), refused = new Set(), live = new Set(), drawnIn = new Map();
   const heads = journeys.map((j) => j.id);
   if (whole && heads.join() !== IDS.join()) out.push(`the page holds ${heads}; it needs ${IDS}`);
   for (const j of journeys) {
@@ -56,7 +56,7 @@ export function problems(journeys, whole = true) {
     }
   }
   walk(journeys, (html, at, where) => {
-    for (const m of html.matchAll(/data-act="(A\d+)"/g)) acts.add(m[1]);
+    for (const m of html.matchAll(/data-act="(A\d+)"/g)) { acts.add(m[1]); if (!drawnIn.has(m[1])) drawnIn.set(m[1], new Set()); drawnIn.get(m[1]).add(where.j.id); }
     for (const m of html.matchAll(/data-refuse="(R\d+)"/g)) refused.add(m[1]);
     if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) if (PERMS.actions.find((p) => p.id === m[1]).phone !== 'live') out.push(`${at}: ${m[1]} is a live control on a phone`);
     if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) live.add(m[1]);
@@ -68,6 +68,8 @@ export function problems(journeys, whole = true) {
   });
   if (whole) {
     for (const p of PERMS.actions) if (p.step_up !== 'outside' && p.control !== 'named' && !acts.has(p.id)) out.push(`${p.id} (${p.action}) has no control on any screen`);
+    for (const p of PERMS.actions) if (p.control === 'named' && acts.has(p.id)) out.push(`${p.id} (${p.action}) is marked named, and a screen draws it`);
+    for (const [id, js2] of drawnIn) { const p = PERMS.actions.find((x) => x.id === id); for (const j of js2) if (!p.journeys.includes(j)) out.push(`${id} is drawn in ${j}, and its row does not list that journey`); }
     for (const p of PERMS.actions) if (p.phone === 'live' && !live.has(p.id)) out.push(`${p.id} (${p.action}) is marked live on a phone, and no phone screen draws it live`);
     for (const p of PERMS.actions) if (!p.audit || /^(open|audit|none named)\b/i.test(p.audit) || /\[inferred|as \d/i.test(p.audit)) out.push(`${p.id}: the audit column does not name a record: "${p.audit}"`);
     for (const r of NEEDED) if (!refused.has(r)) out.push(`refusal ${r} is drawn nowhere`);
@@ -88,6 +90,7 @@ function selftest() {
     ['a write outside act', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<button class="btn">Retry safely</button>'; }, 'reads like a write'],
     ['an action undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-act="A16"/g, ''); } }, 'A16'],
     ['a refusal undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-refuse="R8"/g, ''); } }, 'refusal R8'],
+    ['a named act drawn', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A63"><button>Do it</button></span>'; }, 'A63'],
     ['a journey removed', (js) => { js.splice(2, 1); }, 'it needs'],
   ];
   let bad = 0;

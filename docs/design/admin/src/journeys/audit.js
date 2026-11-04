@@ -16,6 +16,9 @@
   const off = (ctx, t) => banner('', 'Offline.', `${t} Audit is read-only, so nothing here waits to be sent. No financial write offline.`, 'wifi-off') + (browser(ctx) ? `<div class="aaudit-chips">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
   const refs = () => box(`${lbl('What audit holds')}${text('References only, never document content, prompts, tokens or holding values. The amount itself is in your ledger.')}${text('Unsampled, for the lifetime of your account.')}${chipset(proposed('CT-03'))}`);
   const claim = () => chipset(`<span class="chip">${mono('digest_only')}</span>`, proposed('FIN-OD-08'));
+  /* PH01-S04: a lagging index falls back to the manifests and returns the complete lineage, so a lag is not a doubtful answer. One phrase everywhere (lesson 7) */
+  const LAG = 'Read from the manifests at 11:12, so this is complete to ledger revision 213. Anything after that pin is not part of this question.';
+  const lagged = () => banner('warn', 'Index lagging, with fallback to manifests.', LAG, 'clock');
   const trying = () => bs('Try again', 'tinted', 'refresh');
   const inFiles = (t = 'Open in Files') => bs(t, 'tinted', 'layers');
   const noEdit = () => refused('R7', 'An audit record cannot be edited or deleted here. Only the controlled writer and the protected approval and deletion paths add to it.');
@@ -40,7 +43,7 @@
     empty: () => stateCard('shield', 'Nothing recorded yet', 'Audit starts with your first import or approval. Until then there is nothing to ask, and that is not proof nothing happened elsewhere.') + refs(),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so that question is held. An answer that needs it says what is missing.', 'clock') + sec('Ask') + qList({ mark: { outbox_delivery: 'Held, source not answering' } }) + askBox(),
     error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} The records failed at 11:38. Answers from 11:20 stay, labelled with their time.`, trying()) + sec('Ask') + qList() + askBox({ go: false }),
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'Answers read the manifests, so each shows its own time. Nothing recorded is lost, and a newer change may not show yet.', 'clock') + sec('Ask') + qList() + askBox(),
+    stale: () => lagged() + sec('Ask') + qList() + askBox(),
     offline: () => off(ctx, 'Asking needs a connection. Your last answer, from 11:20, is saved.') + rowsBox(rowGo('shield', 'Your last answer', `${TARGET} · saved 11:20`, chipset(hold('offline_cached', 'wifi-off')))) + sec('Ask') + qList(),
     conflict: () => banner('warn', 'Your ledger moved to revision 214.', 'Your question stays pinned to 213, so its answer cannot shift while you read. Change the pin to ask about 214.', 'split') + sec('Ask') + qList() + askBox({ pin: 'Ledger revision 213, not the latest' }),
     expired: () => banner('warn', 'Logs and traces run out. Audit does not.', 'Logs last 14 days, traces 30 and run summaries 90. Audit lasts your account’s lifetime, so an answer from an old run shows what it no longer has.', 'clock') + sec('Ask') + qList() + askBox(),
@@ -64,7 +67,7 @@
     empty: () => stateCard('search', 'No recorded change', 'No record matches this in the range you asked. Silence is not a sign that nothing is wrong, so check the range, or the pin.', bs('Change the question')),
     partial: () => banner('warn', 'Lineage with an unavailable source.', 'The original was deleted with a tombstone. Its ledger events stay, marked evidence unavailable.', 'clock') + verdict({ c: part('Source unavailable') }) + answer({ doc: ['Evidence unavailable', `Tombstone recorded · source ${mono('src_1e08')}`, ''] }) + ansLinks(),
     error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor.', 'alert') + verdict({ c: fail('Query incomplete') }) + answer({ fc: ['Not answered', `${mono('INTEGRITY_INCOMPLETE')} · the forecasts part reads the affected range`, ''] }) + `<div class=\"aaudit-row\">${bs('See the affected range', 'tinted', 'shield')}</div>`,
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This answer was built from manifests at 11:12. A newer change may not show yet.', 'clock') + verdict({ c: hold('From manifests, 11:12') }) + answer(),
+    stale: () => lagged() + verdict({ c: hold('From manifests, 11:12') }) + answer(),
     offline: () => off(ctx, 'Showing the answer saved at 11:20.') + verdict({ c: hold('offline_cached', 'wifi-off') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, text('Opening it needs a connection.')] }),
     conflict: () => banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split') + verdict({ c: hold('superseded', 'split') }) + answer({ who: ['You approved it, and the controlled writer committed it', 'Recorded 6 Oct · a later correction exists', chipset(note('Code checked'), note('Claude drafted'), mine('You decided'))] }) + `<div class=\"aaudit-row\">${bs('Read the newer record', 'tinted', 'layers')}</div>`,
     expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved 21:18 · expired 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
@@ -93,7 +96,7 @@
     empty: () => stateCard('search', 'not_found', 'This link points at nothing MP has recorded. No step is guessed.', bs('Back to the answer')),
     partial: () => banner('warn', 'Lineage with an unavailable source.', 'The chain carries on from the ledger. The step it cannot show says why.', 'clock') + chainOf(FOLLOW, { Source: ['Evidence unavailable · tombstone recorded', 'Source unavailable'] }),
     error: () => banner('fall', 'Twelve Data failed at 21:14.', `Last good run Mon 21:15 · cutoff 21:00. Run ${mono('run_8d02')} failed, with incident ${mono('inc_0013')} and request ${mono('req_a90f')}.`, 'alert') + chainOf(FOLLOW, { Forecast: [`${mono('run_8c41')} · Mon 21:15, the last good run`, 'Held from Mon 21:15'], Action: ['Held from Mon 21:15', 'Held from Mon 21:15'] }),
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'Each step shows the time it was read. No step is shown as newer than that.', 'clock') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'stale'), Forecast: [`${mono('run_8d02')} · from manifests, 11:12`, 'stale'] }),
+    stale: () => lagged() + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · from manifests, 11:12`, 'resolved'] }),
     offline: () => off(ctx, 'Showing the chain saved at 11:20.') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'offline_cached'), Forecast: [`${mono('run_8d02')} · saved 11:20`, 'offline_cached'] }),
     conflict: () => banner('warn', 'A step was superseded.', 'A newer ledger event replaced this one. Each forecast keeps the inputs it was made with, and none is rewritten.', 'split') + chainOf(FOLLOW, { Ledger: [`R-0210 · event ${mono('evt_77d3')} · a newer event exists`, 'superseded'] }),
     expired: () => banner('warn', 'Logs for the first run are gone.', 'The first run to use this fee was on 6 Oct, and logs last 14 days. Its run summary and its audit record stay.', 'clock') + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · the 6 Oct run keeps its summary, not its logs`, 'Logs expired'] }),
@@ -102,17 +105,18 @@
 
   /* ---------- one record ---------- */
   const RECORD = [['Audit id', mono('aud_4c17')], ['Scope', 'Prod'], ['Actor', 'Writer'], ['Operation', mono('publish_owner_confirmed_import')], ['Target', `${mono('evt_77d3')} and 11 more`], ['Commit', mono('cmt_2a61')], ['Source', mono('src_1e08')], ['Approval', mono('apr_52be')], ['Before', 'Ledger revision 210'], ['After', 'Ledger revision 211'], ['Reason', 'You approved this import'], ['Recorded', '6 Oct'], ['Economic date', 'Sep 2026'], ['Previous digest', mono('e4b0…91c2')], ['This digest', mono('5d2a…7f10')], ['Integrity anchor', 'None'], ['Retention', 'Account lifetime · POLICY-010']];
+  const RECORD_X = [['Audit id', mono('aud_5b19')], ['Scope', 'Prod'], ['Actor', 'Nobody'], ['Operation', 'Not named'], ['Target', 'Statement import approval · draft revision 6'], ['Commit', 'None, no commit started'], ['Source', 'ISA statement, Oct 2026'], ['Approved', '21:18'], ['Before', 'Ledger revision 213'], ['After', 'None'], ['Reason', 'No commit started in its 15 minutes'], ['Recorded', 'Tue 21:33'], ['Economic date', 'None'], ['This digest', mono('c19e…03ad')], ['Integrity anchor', 'None'], ['Retention', 'Account lifetime · POLICY-010']];
   const recBox = (rows = RECORD) => `<div class="aaudit-kv">${box(kv(rows))}</div>${claim()}`;
   const recBody = ctx => region(ctx, {
     what: 'This record', rows: 6, ok: () => recBox() + noEdit(),
     loading: () => skel(6),
     empty: () => stateCard('search', 'not_found', 'No record has this id in this environment. A record from dev never shows in prod.', bs('Back to the answer')),
     partial: () => banner('warn', 'Part of this record is unavailable.', 'The source reference resolves to a tombstone. Every other field stands.', 'clock') + recBox(RECORD.map(r => (r[0] === 'Source' ? ['Source', 'Evidence unavailable, tombstone recorded'] : r))) + noEdit(),
-    error: () => banner('fall', 'Integrity check failed.', 'This record is outside the affected range, 28 Oct to 30 Oct, so its digest still matches. That says nothing about the range itself.', 'alert') + recBox() + noEdit(),
-    stale: () => banner('warn', 'Read from manifests at 11:12.', 'Index lagging, with fallback to manifests. The record itself never changes.', 'clock') + recBox(),
+    error: () => banner('fall', 'Integrity check failed.', 'This record’s own digest still matches: it was written before the affected range, 28 Oct to 30 Oct. A lineage that includes it stays incomplete, because later steps read that range.', 'alert') + recBox() + noEdit(),
+    stale: () => lagged() + recBox(),
     offline: () => off(ctx, 'Showing this record from 11:20.') + recBox(),
     conflict: () => banner('warn', 'Superseded, not changed.', 'A newer record points back at this one. This record stays exactly as it was written.', 'split') + recBox([['Superseded by', mono('aud_5a02')], ...RECORD]) + noEdit(),
-    expired: () => banner('warn', 'Nothing here expires.', 'The retention on this record is your account’s lifetime. Its source link is the short-lived part, and opening it asks again.', 'clock') + recBox(),
+    expired: () => banner('warn', 'This record is of an expiry.', 'The approval ran out on Tue at 21:33 with no commit started, so nothing changed. The record itself stays for your account’s lifetime.', 'clock') + recBox(RECORD_X) + chipset(proposed('CT-03')) + noEdit(),
     denied: () => banner('warn', 'You can read this whole record.', `Refused requests are recorded too, by reference. ${FRESH}`, 'lock') + recBox() + noEdit()
   });
   const recRail = () => `${box(`${lbl('Open questions on this record')}${text('Which actor an owner’s act records is open. It is drawn as You or Writer here, and the actor list is not approved.')}${chipset(proposed('CT-03'))}`)}${refs()}`;
@@ -139,7 +143,7 @@
     empty: () => stateCard('shield', 'No recorded changes', 'Nothing has been recorded in this range. Silence is not a sign that nothing is wrong.'),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Export access did not answer, so that row is missing from this page and shows as unknown.', 'clock') + clockBar() + chRows(-1, [['info', 'Export access', 'Unknown, not none', note('Not read')], ...CH.slice(1)]),
     error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so that range is marked.`, trying()) + clockBar() + chRows(-1, chErr()),
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This list is from 11:12. The newest change may not show yet.', 'clock') + clockBar() + chRows(-1, CH.slice(1)),
+    stale: () => lagged() + clockBar() + chRows(),
     offline: () => off(ctx, 'Showing recorded changes from 11:20.') + clockBar() + chRows(),
     conflict: () => banner('warn', 'New records arrived while you read.', 'This page stays at the place you opened, and a bounded page never reshuffles. Refresh to see them.', 'split') + clockBar() + chRows() + `<div class=\"aaudit-row\">${bs('Show the newer records', 'tinted', 'refresh')}</div>`,
     expired: () => banner('warn', 'One thing here ran out.', 'Watch Barclays expired with nobody acting, so it changed nothing. A proposal that expires ends here.', 'clock') + clockBar() + chRows(1),
@@ -148,7 +152,7 @@
 
   /* ---------- what this can prove, and what is missing ---------- */
   const claimBox = () => box(`${lbl('What the digests show')}${claim()}${text('Each record carries a digest of the one before it, so a check can show whether the chain still matches. No outside anchor exists yet, so it cannot show that nobody with deep access rewrote the chain.')}`);
-  const CHECKS = (o = {}) => list(rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(note('Tombstones reapplied first'))));
+  const CHECKS = (o = {}) => list((o.range ? rowAt('alert', 'Records from 28 Oct to 30 Oct', 'They do not match their digests', chipset(fail('Not vouched for')), 'fall') : '') + rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(note('Tombstones reapplied first'))));
   const orphanRow = (go = true) => rowAt('lock', 'Unmatched object', 'No receipt · quarantined · source_orphans', `${text('Audit only reads. What happens to this object is recorded in Files.')}${go ? `<div class="aaudit-gap">${inFiles()}</div>` : ''}`);
   const delNote = () => text('Deletion removes content only. Tombstones and audit records stay, and tombstones are applied before restored content is readable.');
   const gaps = ctx => region(ctx, {
@@ -156,8 +160,8 @@
     loading: () => claimBox() + skel(3),
     empty: () => claimBox() + stateCard('check', 'No gaps found in what was checked', 'That covers only what the query read. Silence is not a sign that nothing is wrong.', bs('Check again', 'tinted', 'refresh')),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so delivery is unknown, not fine.', 'clock') + claimBox() + CHECKS({ d: part('Unknown') }) + list(orphanRow()),
-    error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ c: fail('Not vouched for') }) + noEdit(),
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'Checks ran on manifests at 11:12, so these say nothing about anything newer.', 'clock') + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12') }) + list(orphanRow()),
+    error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ range: true }) + noEdit(),
+    stale: () => lagged() + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12') }) + list(orphanRow()),
     offline: () => off(ctx, 'Showing the checks from 11:20.') + claimBox() + CHECKS() + list(orphanRow(false)),
     conflict: () => banner('warn', 'Two records disagree.', 'A manifest and the index read differently for R-0212. Both stay as written. The manifest is the one used until the index catches up.', 'split') + claimBox() + CHECKS({ c: hold('R-0212 differs', 'split') }) + noEdit(),
     expired: () => banner('warn', 'Logs and traces run out. Audit does not.', 'Logs last 14 days, traces 30 and run summaries 90. These checks read audit records, so none has expired, and an answer that leans on an old log says so.', 'clock') + claimBox() + CHECKS(),
@@ -170,7 +174,7 @@
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
   const PANE_X = [['Source', 'ISA statement, Oct 2026', 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', 'Approved 21:18 · expired 21:33', 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', 'This expiry is the record', 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
-  const CH_X = [['clock', 'Statement import approval expired', 'Nobody · 21:33 · no commit started', hold('Expired')], ...CH];
+  const CH_X = [...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
   const bar = () => `<div class="aaudit-bar" data-mo="rise"><span class="chip illus">${mono('recorded_changes')}</span><span class="chip illus">Account lifetime</span><span class="chip illus">Revision 213</span>${bs('Filter', 'tinted', 'sliders')}</div>`;
   const expBody = ctx => region(ctx, {
     what: 'Recorded changes', rows: 7, ok: () => bar() + chRows(8),
@@ -178,10 +182,10 @@
     empty: () => bar() + stateCard('shield', 'No records match', 'Nothing was recorded for these filters. Widen them. Silence is not a sign that nothing is wrong.', bs('Clear filters')),
     partial: () => banner('warn', '3 of 4 sources answered.', 'Export access did not answer, so it shows as unknown.', 'clock') + bar() + chRows(8, [['info', 'Export access', 'Unknown, not none', note('Not read')], ...CH.slice(1)]),
     error: () => stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct cannot be vouched for, so the query gives no partial answer. The last good list stays, marked.`, trying()) + sec('Last good list, 11:20') + bar() + chRows(8, chErr()),
-    stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This list is from 11:12. The newest change may not show yet.', 'clock') + bar() + chRows(7, CH.slice(1)),
+    stale: () => lagged() + bar() + chRows(8),
     offline: () => off(ctx, 'Showing recorded changes from 11:20.') + bar() + chRows(8),
     conflict: () => banner('warn', 'New records arrived while you read.', 'This page stays where you opened it, and a bounded page never reshuffles.', 'split') + bar() + chRows(8) + `<div class=\"aaudit-row\">${bs('Show the newer records', 'tinted', 'refresh')}</div>`,
-    expired: () => banner('warn', 'An approval ran out.', 'It expired at 21:33 with no commit started, so nothing was committed. Its own short lineage sits with it.', 'clock') + bar() + chRows(0, CH_X),
+    expired: () => banner('warn', 'An approval ran out.', 'It expired at 21:33 with no commit started, so nothing was committed. Its own short lineage sits with it.', 'clock') + bar() + chRows(2, CH_X),
     denied: () => banner('warn', 'Refused and denied acts stay on the record.', `You can read them all. ${FRESH}`, 'lock') + bar() + chRows(8)
   });
   const paneFor = ctx => region(ctx, {
@@ -190,22 +194,23 @@
     empty: () => text('Choose a record to see its lineage.'),
     partial: () => pane({ c: part('Source unavailable'), Source: ['Evidence unavailable · tombstone recorded', 'Source unavailable'] }),
     error: () => pane({ c: fail('Query incomplete'), ...allAs(PANE, 'Not vouched for', ['None', 'Not yet']), Forecast: [`${mono('INTEGRITY_INCOMPLETE')} · not answered`, '!Not answered'] }),
-    stale: () => pane({ c: hold('From manifests, 11:12'), ...allAs(PANE, 'stale') }),
+    stale: () => pane({ c: hold('From manifests, 11:12') }),
     offline: () => pane({ c: hold('offline_cached', 'wifi-off'), ...allAs(PANE, 'offline_cached') }),
-    conflict: () => pane({ c: hold('superseded', 'split'), Correction: ['A newer record exists', 'superseded'] }),
+    conflict: () => pane({ c: hold('superseded', 'split'), Correction: [`Superseded by ${mono('aud_5a02')}`, 'superseded'] }),
     expired: () => pane({ t: 'Lineage of this expired approval', c: hold('Expired approval') }, PANE_X),
-    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] })
+    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + chipset(proposed('CT-01'))
   });
   /* a full screen says why: the pane beside the list leans on the list's own banner */
   const linWhy = ctx => ({
+    empty: stateCard('search', 'not_found', 'This link points at nothing MP has recorded. No step is guessed.', bs('Back to Audit')),
     loading: banner('', 'Reading this lineage.', 'The last good copy is from 11:20.', 'clock'),
     partial: banner('warn', 'Lineage with an unavailable source.', 'The original was deleted with a tombstone. Its ledger events stay, marked evidence unavailable.', 'clock'),
     error: stateCard('alert', 'Query incomplete', `${mono('INTEGRITY_INCOMPLETE')} Records from 28 Oct to 30 Oct do not match their digests, so this gives no partial answer. No step below is vouched for. This names the range, not a cause or an actor.`, trying()),
-    stale: banner('warn', 'Index lagging, with fallback to manifests.', 'This lineage was read from manifests at 11:12. A newer step may not show yet.', 'clock'),
+    stale: lagged(),
     offline: off(ctx, 'Showing the lineage saved at 11:20.'),
     conflict: banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split'),
     expired: banner('warn', 'This approval expired.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock'),
-    denied: banner('warn', 'You can read this lineage.', `Opening the original is the part that needs more. ${FRESH}`, 'lock')
+    denied: banner('warn', 'You can read this lineage.', `Opening the original is the part that may need more. ${FRESH}`, 'lock')
   }[ctx.state] || '');
   const paneLinks = ctx => (ctx.state === 'empty' ? '' : list(rowGo('split', 'Before and after', 'Opens Before and after') + rowGo('layers', 'Open full lineage', 'Opens Full lineage') + rowGo('shield', 'Read the record', 'Opens One record')));
   const gapLink = ctx => (ctx.state === 'empty' ? '' : list(rowGo('shield', 'Gaps and integrity', 'Commits, delivery, orphans and restore · opens Gaps and integrity')));
@@ -213,19 +218,19 @@
   const KINDS = Q.map(([, t, k], i) => [i === 0 ? 'Who changed this, from which document, what you approved, which forecasts used it' : t, k]);
   const kinds = () => `<div class="aaudit-kinds" role="radiogroup" aria-label="Kind of question">${KINDS.map(([t, k], i) => `<button type="button" role="radio" aria-checked="${i === 1}" class="aaudit-k${i === 1 ? ' on' : ''}"><span>${t}</span>${mono(k)}</button>`).join('')}</div>`;
   const field = (l, v) => `<div class="aaudit-f"><span class="label">${l}</span><span class="v">${v}</span></div>`;
-  const filterSheet = ctx => { const s = ctx.state, go = s === 'offline' ? text('Filtering needs a connection. These are the saved filters.') : `<div class="aaudit-gap">${act('A01', 'Show these records', 'primary', 'search')}</div>`; return `<div class="sheet aaudit-sheet" role="dialog" aria-modal="true" aria-labelledby="aaudit-fl" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="aaudit-fl">Filter records</h4>${{ loading: banner('', 'Reading the list of kinds.', 'The saved filters stay.', 'clock'), empty: banner('', 'No filters set.', 'That reads the whole account lifetime, page by bounded page.', 'info'), partial: banner('warn', 'Export access is not answering.', 'You can still filter on the rest.', 'clock'), error: banner('fall', 'Filters did not load.', 'The saved filters stay. Query incomplete at 11:38.', 'alert'), stale: banner('warn', 'Index lagging.', 'Filters run on manifests until it catches up.', 'clock'), conflict: banner('warn', 'Your ledger moved to revision 214.', 'The pin stays on 213 until you change it.', 'split'), expired: banner('warn', 'A range this old has no logs or traces.', 'Audit records stay. Logs last 14 days and traces 30.', 'clock'), denied: banner('warn', 'Filtering needs no fresh sign-in.', FRESH, 'lock') }[s] || ''}${off2(ctx)}<div>${lbl('Kind of question')}<div class="aaudit-gap">${kinds()}</div></div>${clockBar()}${field('From', 'Account start')}${field('To', 'Wed 4 Nov')}${field('This thing', 'Any')}${field('Pinned to', 'Ledger revision 213')}${text('Each page is bounded, so a wide range reads page by page. There is no general scan.')}${go}</div>`; };
+  const filterSheet = ctx => { const s = ctx.state, go = s === 'offline' ? text('Filtering needs a connection. These are the saved filters.') : `<div class="aaudit-gap">${act('A01', 'Show these records', 'primary', 'search')}</div>`; return `<div class="sheet aaudit-sheet" role="dialog" aria-modal="true" aria-labelledby="aaudit-fl" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="aaudit-fl">Filter records</h4>${{ loading: banner('', 'Reading the list of kinds.', 'The saved filters stay.', 'clock'), empty: banner('', 'No filters set.', 'That reads the whole account lifetime, page by bounded page.', 'info'), partial: banner('warn', 'Export access is not answering.', 'You can still filter on the rest.', 'clock'), error: banner('fall', 'Filters did not load.', 'The saved filters stay. Query incomplete at 11:38.', 'alert'), stale: banner('warn', 'Index lagging.', 'Filters run on manifests until it catches up.', 'clock'), conflict: banner('warn', 'Your ledger moved to revision 214.', 'The pin stays on 213 until you change it.', 'split'), expired: banner('warn', 'A range this old has no logs or traces.', 'Audit records stay. Logs last 14 days and traces 30.', 'clock'), denied: banner('warn', 'Filtering needs no fresh sign-in.', FRESH, 'lock') }[s] || ''}${off2(ctx)}<div>${lbl('Kind of question')}<div class="aaudit-gap">${kinds()}</div></div>${field('From', 'Account start')}${field('To', 'Wed 4 Nov')}${field('This thing', 'Any')}${field('Pinned to', 'Ledger revision 213')}${text('Each page is bounded, so a wide range reads page by page. There is no general scan.')}${go}</div>`; };
   const off2 = ctx => (ctx.state === 'offline' ? off(ctx, 'Showing saved filters.') : '');
-  const beforeAfter = (o = {}) => box(`${lbl('Before and after')}<div class="aaudit-gap">${kv([['Before', o.b || 'Ledger revision 210'], ['After', o.a || 'Ledger revision 211'], ['Before reference', mono('ref_a3c0')], ['After reference', mono('ref_a3c1')]])}</div>${text('References, not values. The figures themselves are in your ledger, so this never shows an amount.')}`);
+  const beforeAfter = (o = {}) => box(`${lbl('Before and after')}<div class="aaudit-gap">${kv([['Before', o.b || 'Ledger revision 210'], ['After', o.a || 'Ledger revision 211'], ['Before reference', mono('ref_a3c0')], ...(o.noAfter ? [] : [['After reference', mono('ref_a3c1')]])])}</div>${text('References, not values. The figures themselves are in your ledger, so this never shows an amount.')}`);
   const cmpBody = ctx => region(ctx, {
     what: 'This change', rows: 4, ok: () => beforeAfter() + clocks() + `<div class="aaudit-row">${inFiles('Compare the revisions in Files')}</div>`,
     loading: () => skel(4),
     empty: () => stateCard('search', 'Nothing to compare', 'This record changed nothing, so it has no before and after. An expiry or a refusal is like that.'),
     partial: () => banner('warn', 'Part of this is unavailable.', 'The after reference did not answer. It is unknown, not unchanged.', 'clock') + beforeAfter({ a: 'Unknown' }) + clocks(),
-    error: () => banner('fall', 'Integrity check failed.', 'This record is outside the affected range, 28 Oct to 30 Oct. It is compared as written.', 'alert') + beforeAfter() + clocks(),
-    stale: () => banner('warn', 'Read from manifests at 11:12.', 'Index lagging, with fallback to manifests.', 'clock') + beforeAfter() + clocks(),
+    error: () => banner('fall', 'Integrity check failed.', 'This record’s own digest still matches: it was written before the affected range, 28 Oct to 30 Oct. A lineage that includes it stays incomplete, because later steps read that range.', 'alert') + beforeAfter() + clocks(),
+    stale: () => lagged() + beforeAfter() + clocks(),
     offline: () => off(ctx, 'Showing this comparison from 11:20.') + beforeAfter() + clocks(),
     conflict: () => banner('warn', 'Superseded.', 'A correction now follows this change. Each stays as it was written, and the newer one points back here.', 'split') + beforeAfter() + box(`${lbl('Correction')}${text('Recorded after this change. Open it to compare it in turn.')}<div class="aaudit-gap">${bs('Open the newer record', 'tinted', 'layers')}</div>`) + clocks(),
-    expired: () => banner('warn', 'This approval expired.', 'It expired at 21:33 with no commit started, so there is no after.', 'clock') + beforeAfter({ a: 'None, no commit started' }) + clocks(),
+    expired: () => banner('warn', 'This approval expired.', 'It expired at 21:33 with no commit started, so there is no after.', 'clock') + beforeAfter({ b: 'Ledger revision 213', a: 'None, no commit started', noAfter: true }) + box(`${lbl('Two clocks')}<div class="aaudit-gap">${kv([['Recorded', 'Tue 21:33'], ['Economic date', 'None: nothing happened at your broker']])}</div>`),
     denied: () => banner('warn', 'You can read this comparison.', FRESH, 'lock') + beforeAfter() + clocks()
   });
 
@@ -268,8 +273,8 @@
         id: 'b-filter', title: 'Filter records', note: 'The fields are AuditQuery’s: kind, dates, the thing asked about, the pinned revision.',
         render: ctx => frame(ctx, { title: 'Audit', back: 'Admin', body: bar() + chRows(8), sheet: filterSheet(ctx) })
       }, {
-        id: 'b-lineage', title: 'Full lineage',
-        render: ctx => frame(ctx, { title: 'Lineage', back: 'Audit', body: linWhy(ctx) + paneFor(ctx) + (ctx.state === 'expired' ? '' : `<div class="aaudit-row">${inFiles('Open the source in Files')}</div>`), rail: refs() })
+        id: 'b-lineage', title: 'Full lineage', note: 'Partial assumes this record’s original was deleted. Files’ own deleted example is the ISA statement of January 2024.',
+        render: ctx => frame(ctx, { title: 'Lineage', back: 'Audit', body: linWhy(ctx) + (ctx.state === 'empty' ? '' : paneFor(ctx)) + (['empty', 'partial', 'expired'].includes(ctx.state) ? '' : `<div class="aaudit-row">${inFiles('Open the source in Files')}</div>`) + (ctx.state === 'conflict' ? `<div class="aaudit-row">${bs('Read the newer record', 'tinted', 'layers')}</div>` : ''), rail: refs() })
       }, {
         id: 'b-compare', title: 'Before and after', note: 'An explorer keeps the two clocks side by side, because the same record reads differently on each.',
         render: ctx => frame(ctx, { title: 'Before and after', back: 'Audit', body: cmpBody(ctx), rail: refs() })

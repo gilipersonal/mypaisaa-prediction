@@ -47,6 +47,12 @@ try {
     await p.waitForTimeout(700);
     must(await p.locator(`.scr[data-at="audit|${to}"]`).count() === 1, `${width}: Open did not reach ${to}`);
     must(await p.locator('#jinv').isHidden(), `${width}: the compare view stayed over the screen`);
+    // R2-s8: a theme press repaints only the view on screen
+    await p.goto(url + '#compare'); await p.reload(); await p.waitForTimeout(500);
+    await p.evaluate(() => document.querySelector('#toc a[href="#inventory"]').click());
+    await p.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+    await p.waitForTimeout(150);
+    must(/State inventory/.test(await p.locator('#jinv h2').first().textContent()), `${width}: a theme press repainted Compare over the inventory`);
     // lesson 35: press, change the view, come back; a cleared pick stays cleared, and a journey opens on its pick
     await p.goto(url + '#compare'); await p.reload(); await p.waitForTimeout(500);
     await p.click('[data-cj="audit"]');

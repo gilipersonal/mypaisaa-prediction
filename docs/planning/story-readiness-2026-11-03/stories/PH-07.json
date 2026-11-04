@@ -193,7 +193,7 @@
      "Sign-in in the app uses Cognito with Google through the system browser with PKCE, and tokens are kept in the Keychain."
     ],
     "negative": [
-     "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the owner says to join the Developer Program.",
+     "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the Developer Program is bought (owner, 4 November 2026: \"The purchase (Recommended)\", MP-179).",
      "No build is distributed to anyone else, and CI does not sign Apple builds."
     ],
     "recovery": [

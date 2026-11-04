@@ -92,7 +92,8 @@
    "id": "A08",
    "action": "Approve a partial group set",
    "journeys": [
-    "files"
+    "files",
+    "approvals"
    ],
    "step_up": "yes",
    "step_up_note": "Yes",
@@ -696,7 +697,8 @@
    "id": "A58",
    "action": "Draft a configuration change",
    "journeys": [
-    "approvals"
+    "approvals",
+    "costs"
    ],
    "step_up": "no",
    "step_up_note": "No: a draft changes nothing",
@@ -901,11 +903,10 @@
     "incidents"
    ],
    "step_up": "open",
-   "step_up_note": "Open: no record says who marks it (CT-14)",
+   "step_up_note": "Open: no record says who marks it (CT-14), and the screen labels it",
    "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
    "source": "PH08-S05",
-   "phone": "off",
-   "control": "named"
+   "phone": "off"
   },
   {
    "id": "A75",
@@ -930,6 +931,56 @@
    "audit": "New version and AuditEvidence; class open (CT-03)",
    "source": "PH02-S09; CT-13",
    "phone": "off"
+  },
+  {
+   "id": "A77",
+   "action": "Say where a transfer came from",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
+   "source": "Holdings journey; PH01-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A78",
+   "action": "Decide what happens when no rules mapping qualifies",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Rules version record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S06",
+   "phone": "off"
+  },
+  {
+   "id": "A79",
+   "action": "Approve the deterministic templates",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Template version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S08",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A80",
+   "action": "Raise the event analysis cap",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: budget expansion is named by PH02-S03. Level open (CT-01)",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S03",
+   "phone": "off",
+   "control": "named"
   }
  ],
  "refused": [

@@ -59,11 +59,12 @@
     if (s === 'loading') return top + skel(2);
     if (s === 'empty') return top + ends(BAND_END);
     const open = ['default', 'stale', 'offline', 'denied', 'partial'].includes(s);
-    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: s === 'default' || s === 'stale' }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'expired' ? 'An expired proposal cannot be approved.' : 'Nothing to decide on this version. Code rebuilds the proposal.'}</p>${s === 'expired' ? '' : `<div class="aappr-gap">${bs('See the rebuilt proposal')}</div>`}<div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
+    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: s === 'default' || s === 'stale' }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'expired' ? 'An expired proposal cannot be approved.' : 'Nothing to decide on this version. Code rebuilds the proposal, and it returns to In force when it is ready.'}</p><div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
   };
   /* Option A reads the band as versions, option B as a request's life */
+  const proposeBtn = ctx => { const b = act('A58', 'Propose a change', 'tinted', 'plus'); return `<div class="aappr-acts">${ctx.state === 'offline' ? off(b) : b}</div>`; };
   const versions = ctx => {
-    const s = ctx.state, shutRb = s === 'offline' || s === 'denied', propose = `<div class="aappr-acts">${bs('Propose a change', 'tinted', 'plus')}</div>`;
+    const s = ctx.state, shutRb = ['offline', 'denied', 'error', 'partial'].includes(s), propose = proposeBtn(ctx);
     const tail = t => `${p(t)}${propose}`;
     if (s === 'empty') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Weekly band 4 points · 10% a month · approved at 09:16', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
     if (s === 'conflict') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Written at 09:01 · weekly band 5 points · 10% a month · another setting moved', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${sec('Refused')}${list(item(lead('ban', 'fall'), 'Weekly band 4 points', 'Proposed against v9, so refused', ST.refused))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
@@ -93,7 +94,8 @@
     return `${sec('Versions')}${list(item(lead('plus'), 'v15 · proposed', s === 'expired' ? 'Expired 18:00 · never current' : '4 watch-only listings · not current', chip(s === 'expired' ? 'stale' : 'proposed', s === 'expired' ? 'Expired' : 'Proposed')) + item(lead('check', 'rise'), 'v14 · current', '3 watch-only listings', chip('fresh', 'Current')))}`;
   };
   const lstOk = ctx => lstHead() + chain() + changeCard(TSM_ROWS) + catVersions(ctx);
-  const checks = (done = true) => box(`${lbl('What code checked')}<div class="aappr-gap">${kv([['Identity', 'TSM on XNYS, the US listing'], ['Coverage', 'Twelve Data end of day, Yahoo delayed'], ['Busiest minute', '30 of the 45-credit cap, unchanged'], ['Rights and budget', done ? 'Recorded, no tier change needed' : 'Not finished']])}</div>`);
+  /* what code has finished, as far as this state got: done, partial (rights open) or stopped (the probe timed out) */
+  const checks = (at = 'done') => box(`${lbl(at === 'stopped' ? 'What code checked before it stopped' : 'What code checked')}<div class="aappr-gap">${kv([['Identity', 'TSM on XNYS, the US listing'], ['Coverage', at === 'stopped' ? 'Timed out, no result' : 'Twelve Data end of day, Yahoo delayed'], ['Busiest minute', at === 'stopped' ? 'Not finished' : '30 of the 45-credit cap, unchanged'], ['Rights and budget', at === 'done' ? 'Recorded, no tier change needed' : 'Not finished']])}</div>`);
   const others = () => `${sec('Cannot be approved')}${list(item(lead('clock', 'warn'), 'Watch Barclays', 'BARC · XLON · expired 08:14', ST.expired, Q9) + item(lead('ban', 'fall'), '2330 on XTAI', 'Needs new calendars and rights work, so it goes to the extension checklist', chip('', 'Not here')))}`;
   const listingCore = ctx => region(ctx, {
     what: 'This proposal', rows: 3, ok: () => lstOk(ctx) + others(),
@@ -111,8 +113,8 @@
     const s = ctx.state;
     if (s === 'loading') return skel(2);
     const tail = limits('This adds one watch-only listing.') + refused('R14', 'Letting the chat route add listings would widen authority, so code refused it on Tue at 17:20.');
-    if (s === 'empty' || s === 'error' || s === 'conflict' || s === 'expired') return (s === 'error' ? checks(false) : '') + box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'empty' ? 'Already decided.' : 'Nothing can be confirmed on this proposal.'}</p><div class="aappr-acts aappr-gap">${off(act('A36', 'Confirm this listing', 'primary'))}</div>`) + ends(LIST_END) + tail;
-    return decision(ctx, { foot: 'Bound to catalogue v14 · expires 18:00. A confirmed listing joins from its next close.', yes: act('A36', 'Confirm this listing', 'primary'), nay: no(), tag: Q9, live: s === 'default' || s === 'stale' }) + checks(s !== 'partial') + bindCard('This approval is bound to', TSM_BIND) + ends(LIST_END) + tail;
+    if (s === 'empty' || s === 'error' || s === 'conflict' || s === 'expired') return (s === 'error' ? checks('stopped') : '') + box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'empty' ? 'Already decided.' : 'Nothing can be confirmed on this proposal.'}</p><div class="aappr-acts aappr-gap">${off(act('A36', 'Confirm this listing', 'primary'))}</div>`) + ends(LIST_END) + tail;
+    return decision(ctx, { foot: 'Bound to catalogue v14 · expires 18:00. A confirmed listing joins from its next close.', yes: act('A36', 'Confirm this listing', 'primary'), nay: no(), tag: Q9, live: s === 'default' || s === 'stale' }) + checks(s === 'partial' ? 'partial' : 'done') + bindCard('This approval is bound to', TSM_BIND) + ends(LIST_END) + tail;
   };
 
   /* ---------- the import: approve, then revoke until the commit starts (MP-55, MP-78). The same import as Holdings ---------- */
@@ -153,9 +155,12 @@
       + pol('shield', 'Risk-acceptance scopes', o.scope || chip('fresh', 'risk_accepted'), [['Scopes', 'S1 to S10'], ['Claude routes', 'S9 Grow 55, S10 Yahoo, prod'], ['Basis', 'owner_risk_acceptance']], 'Your accepted risk, never a licence. Gate code checks every use and cannot widen a scope. Withdrawing one stops that use.', a(act('A37', 'Withdraw S10, Yahoo')), proposed('DATA-DEC-04') + proposed('DATA-DEC-15'))
       + pol('layers', 'Market extensions', chip('illus', 'proposed', 'clock'), [['Taiwan, XTAI', 'Not eligible in the first release'], ['Contract tests', 'Not yet'], ['Point-in-time replay', 'Not yet'], ['Shadow evidence', 'Not yet'], ['Credits and cash against £100', 'Not yet']], 'An extension needs its own evidence and your activation before any listing in it becomes eligible. Deactivating rolls its version pointer back and keeps its history.', off(act('A38', 'Activate this extension')));
   };
+  const SCOPE_ROWS = [['New use of Yahoo', 'risk_accepted', 'Stops at once'], ['Cached projections', '', 'Unavailable for that use'], ['Stored data, backups and models', '', 'Disposition pending', 'They follow the treatment you approve, which is still open.'], ['To turn it back on', '', 'Set the scope again', 'A new entitlement record, by you.']];
+  const SCOPE_END = [['Withdrawn', 'Use stopped, disposition pending. The record keeps who withdrew it and when.'], ['Gate unavailable', 'Every use it covers fails closed, so nothing widens while it is down.']];
+  const scopeEffect = () => changeCard(SCOPE_ROWS, 'If you withdraw S10') + ends(SCOPE_END);
   const policiesCore = ctx => region(ctx, {
     what: 'These policies', rows: 4, ok: () => policies(ctx),
-    empty: () => stateCard('check', 'Nothing here waits on you', 'No ranking version, threshold, scope change or extension is proposed. What is in force stays below.') + policies(ctx),
+    empty: () => stateCard('check', 'Nothing here waits on you', 'Nothing here can be decided yet. Each card says what it waits on.') + policies(ctx),
     partial: () => banner('warn', 'Scope gate did not answer.', 'The gate is unavailable, so every use it covers fails closed until it returns. The other three policies answered.', 'clock') + policies(ctx, { scope: chip('error', 'gate unavailable (fail closed)', 'ban') }),
     error: () => stateCard('alert', 'These policies did not load', 'They failed at 11:38. Rankings, alerts and scopes keep running on the versions in force, and nothing can be approved until this loads.', btn('Try again', 'tinted', 'refresh')) + policies(ctx),
     stale: () => banner('warn', 'Capability proof is old.', 'S10\'s proof is past its review date, so its use is marked stale proof, not passed. Index from 11:12.', 'clock') + policies(ctx, { scope: chip('stale', 'stale proof', 'clock') }),
@@ -164,7 +169,7 @@
     denied: () => banner('warn', 'A fresh sign-in may be needed.', 'Reading needs none. An unknown scope blocks its use, and which of these acts need a fresh sign-in is open.', 'lock') + tags(proposed('CT-01')) + policies(ctx, { scope: chip('error', 'unknown (use blocked)', 'ban') }),
     offline: () => banner('', 'Offline.', 'You can read these policies. Nothing can be changed until you reconnect.', 'wifi-off') + refused('R16', OFFLINE) + policies(ctx)
   });
-  const policiesRail = ctx => (ctx.state === 'loading' ? '' : `${limits('A policy change stays inside what you approved.')}${refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.')}`);
+  const policiesRail = ctx => (ctx.state === 'loading' ? '' : `${scopeEffect()}${limits('A policy change stays inside what you approved.')}${refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.')}`);
 
   /* ---------- propose a change: you write it, code checks it, then you decide ---------- */
   const field = (ctx, l, ph, v = '', dead = false) => `<label class="aappr-field"><span class="small">${l}</span><input type="text" placeholder="${ph}" value="${v}" aria-label="${l}"${dead || !wide(ctx) ? ' disabled' : ''}></label>`;
@@ -172,22 +177,29 @@
   const CHECKS = (o = {}) => kv([['Allowed range', o.range || WAIT], ['Expected impact', o.impact || WAIT], ['Evidence', o.evid || WAIT], ['Cost', o.cost || WAIT], ['How to roll it back', 'A new version, with its own record']]);
   const proposeBase = (ctx, o = {}) => head('sliders', 'Signal weight band', `${o.ver || 'Settings v9'} · at most 10% a month · code only`, tags(proposed('SCI-D10'))) + box(`${lbl('Your change')}<div class="aappr-form">${field(ctx, 'New value', 'Enter a value inside the allowed range', o.val || '', o.dead)}${field(ctx, 'Why', 'Say why, for the record', o.why || '', o.dead)}</div><div class="aappr-acts aappr-gap">${o.run || act('A58', 'Run the check', 'primary', 'refresh')}</div>`) + box(`${lbl(o.t || 'What code checks before you can approve')}<div class="aappr-gap">${CHECKS(o.rows)}</div>`);
   const DRAFT = { val: '8%', why: 'Steadier signals' };
+  /* Ready is your draft, checked: every row answered, and A31 live. Empty is before there is a draft */
+  const CHECKED = { ...DRAFT, t: 'What code checked', rows: { range: 'Inside the 10% limit', impact: 'Signals move less', evid: '26 weeks of replay', cost: '£0' } };
+  const ALLNOT = t => ({ range: t, impact: t, evid: t, cost: t });
+  const yours = () => chain('You drafted', 'Code checked', 'You decide');
+  const PROP_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Signal weight band'], ['Value', '8% a month'], ['Current version', 'v9'], ['Payload hash', 'c3a8…60f2'], ['Expires', 'Tue 10 Nov, 18:00']];
+  const PROP_END = [['Approved', 'Applied with your fresh sign-in. Settings v10 keeps v9 as its previous version.'], ['You refused', 'Nothing changed. Settings v9 stays current.'], ['Approved, not applied', 'The write failed part way, so settings v9 stays current. Your approval holds, for a retry inside its window.'], ['Also moves', 'Approving moves settings to v10, so a proposal waiting against v9 is refused and rebuilt.']];
   const proposeCore = ctx => region(ctx, {
-    what: 'This draft', rows: 3, ok: () => proposeBase(ctx),
+    what: 'This draft', rows: 3, ok: () => yours() + proposeBase(ctx, CHECKED),
     loading: () => head('sliders', 'Signal weight band', 'Reading the setting', tags(ST.loading)) + skel(2),
-    empty: () => stateCard('sliders', 'No draft yet', 'Pick a setting to change. It shows its version, its allowed range and what code checks before you can approve.', bs('Choose a setting', 'tinted', 'sliders')) + proposeBase(ctx),
+    empty: () => stateCard('sliders', 'No draft yet', 'Pick a setting to change. It shows its version, its allowed range and what code checks before you can approve.', act('A58', 'Choose a setting', 'tinted', 'sliders')) + proposeBase(ctx),
     partial: () => banner('warn', 'Partly checked.', 'Range and cost answered. Impact and evidence did not, so this cannot go further yet.', 'clock') + proposeBase(ctx, { ...DRAFT, t: 'What code has checked so far', rows: { range: 'Inside the 10% limit', cost: '£0', impact: NOT, evid: NOT } }),
-    error: () => stateCard('alert', 'The check failed', 'It stopped at 11:38. Your draft is kept below, nothing is proposed and settings v9 stays current.', btn('Try again', 'tinted', 'refresh')) + proposeBase(ctx, { ...DRAFT, rows: { range: NOT, impact: NOT, evid: NOT, cost: NOT } }),
-    stale: () => banner('warn', 'Index lagging.', 'Settings v9 is from 11:12. If the version has moved, your draft is rebuilt before you can approve it.', 'clock') + proposeBase(ctx),
-    offline: () => banner('', 'Offline.', 'You can read this setting. A draft waits until you reconnect, and nothing is saved as a proposal.', 'wifi-off') + proposeBase(ctx, { dead: true, run: off(act('A58', 'Run the check', 'primary', 'refresh')) }),
-    conflict: () => banner('warn', 'The setting moved.', 'Settings v10 was written at 09:01, so your draft against v9 stops here. Nothing was applied.', 'split') + proposeBase(ctx, { ...DRAFT, ver: 'Settings v10', dead: true, run: `${off(act('A58', 'Run the check', 'primary', 'refresh'))}${bs('Start again from v10', 'primary')}` }),
-    expired: () => banner('warn', 'This check expired.', 'Its result passed its time, so it must run again. Nothing was applied.', 'clock') + tags(CT2) + proposeBase(ctx, DRAFT),
-    denied: () => banner('warn', 'A fresh sign-in is needed to approve.', OLD, 'lock') + proposeBase(ctx)
+    error: () => stateCard('alert', 'The check failed', 'It stopped at 11:38. Your draft is kept below, nothing is proposed and settings v9 stays current.', btn('Try again', 'tinted', 'refresh')) + proposeBase(ctx, { ...DRAFT, rows: ALLNOT(NOT) }),
+    stale: () => banner('warn', 'Index lagging.', 'Settings v9 is from 11:12. If the version has moved, your draft is rebuilt before you can approve it.', 'clock') + yours() + proposeBase(ctx, CHECKED),
+    offline: () => banner('', 'Offline.', 'You can read this draft. It waits until you reconnect, and nothing is saved as a proposal.', 'wifi-off') + proposeBase(ctx, { ...CHECKED, dead: true, run: off(act('A58', 'Run the check', 'primary', 'refresh')) }),
+    conflict: () => banner('warn', 'The setting moved.', 'Settings v10 was written at 09:01, so your draft against v9 stops here. Nothing was applied.', 'split') + proposeBase(ctx, { ...DRAFT, rows: ALLNOT(NOT), ver: 'Settings v10', dead: true, run: `${off(act('A58', 'Run the check', 'primary', 'refresh'))}${act('A58', 'Start again from v10', 'primary')}` }),
+    expired: () => banner('warn', 'This check expired.', 'Its result passed its time, so it must run again. Nothing was applied.', 'clock') + tags(CT2) + proposeBase(ctx, { ...DRAFT, rows: ALLNOT('Expired') }),
+    denied: () => banner('warn', 'A fresh sign-in is needed to approve.', OLD, 'lock') + yours() + proposeBase(ctx, CHECKED)
   });
   const proposeRail = ctx => {
-    if (ctx.state === 'loading') return skel(1);
-    const s = ctx.state;
-    return `${box(`${lbl('Your decision')}<p class="small muted aappr-gap">This stays shut until code has checked a value. Then it binds you, the environment, the setting, the value, the current version and an expiry, and it is rechecked when it applies.</p><div class="aappr-acts aappr-gap">${off(act('A31', 'Approve this change', 'primary'))}</div>${tags(CT2)}${s === 'offline' ? `<div class="aappr-gap">${refused('R16', OFFLINE)}</div>` : ''}<p class="small aappr-gap">${STEP}</p>`)}${refused('R14', 'A memory note, chat message or agent proposal can draft a change but never apply one. No change can widen what a route may do.')}`;
+    const s = ctx.state, tail = refused('R14', 'A memory note, chat message or agent proposal can draft a change but never apply one. No change can widen what a route may do.');
+    if (s === 'loading') return skel(1);
+    if (['default', 'stale', 'offline', 'denied'].includes(s)) return decision(ctx, { foot: 'Bound to settings v9 · expires Tue 18:00. It is rechecked when it applies.', yes: act('A31', 'Approve this change', 'primary'), nay: no(), tag: CT2 }) + (s === 'denied' || !wide(ctx) ? '' : `<p class="small">${STEP}</p>`) + bindCard('This approval is bound to', PROP_BIND, CT2) + ends(PROP_END) + tail;
+    return `${box(`${lbl('Your decision')}<p class="small muted aappr-gap">This stays shut until code has checked a value. Then it binds you, the environment, the setting, the value, the current version and an expiry, and it is rechecked when it applies.</p><div class="aappr-acts aappr-gap">${off(act('A31', 'Approve this change', 'primary'))}</div>${tags(CT2)}`)}${ends(PROP_END)}${tail}`;
   };
 
   /* ---------- what is current (A) and what is asked (B) ---------- */
@@ -200,9 +212,12 @@
     ['layers', 'Market extensions', 'None active · US, UK and India only', ''],
     ['target', 'Budgets', 'Changed in Costs and budgets', '']
   ];
-  const famRows = o => `${sec('In force')}${list(FAM(o).map(([i, t, s, x]) => item(lead(i), t, s, ic('chev-r', 's18'), x, false, true)).join(''))}`;
+  const famRows = o => `${sec('Where each stands')}${list(FAM(o).map(([i, t, s, x]) => item(lead(i), t, s, ic('chev-r', 's18'), x, false, true)).join(''))}`;
   /* each of the 4 opens where it is decided: two have a family here, the import its own screen, the promotion Models and evaluations */
-  const waiting = (n, s, r = Q) => `${sec(`${n} decisions wait on you`)}${p(s)}${list(r.map(q => item(lead(q[0]), q[1], q[2], ic('chev-r', 's18'), tags(expiry(q[3]), q[4] || ''), false, true)).join(''))}`;
+  const PAUSED = '1 paused scope waits on your restart.';
+  /* The count stays the 4 dated decisions. The paused scope has no expiry, so it sits beside them, not inside the count (R2-m10) */
+  const restart = () => `${list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible. Decided in Models and evaluations', ic('chev-r', 's18'), tags(chip('illus', 'Stays open · waits for your yes', 'clock'), CT2), false, true))}${p('It has no expiry, so it sits outside the dated count.')}`;
+  const waiting = (n, s, r = Q) => `${sec(`${n} decisions wait on you`)}${p(`${PAUSED} ${s}`)}${list(r.map(q => item(lead(q[0]), q[1], q[2], ic('chev-r', 's18'), tags(expiry(q[3]), q[4] || ''), false, true)).join(''))}${restart()}`;
   const nowCore = ctx => region(ctx, {
     what: 'Settings', rows: 6, ok: () => waiting(4, 'Next: Taiwan Semiconductor, 18:00') + famRows(),
     empty: () => banner('', 'Nothing waits on you.', 'Every proposal is decided. Silence is not a sign that nothing is wrong, so what is in force always shows.', 'check') + famRows({ band: 'Settings v10 · 4 points a week, 10% a month', bandC: '', cat: 'Catalogue v15 · 4 watch-only listings', catC: '' }),
@@ -222,19 +237,19 @@
     ['layers', 'Confirm a statement import', '11 rows · ledger revision 213', '15 min once approved']
   ];
   const qRows = (ctx, r = Q) => list(r.map((q, i) => item(lead(q[0], wide(ctx) && i === 0 ? 'sel' : ''), q[1], q[2], ic('chev-r', 's18'), tags(expiry(q[3]), q[4] || ''), wide(ctx) && i === 0, true)).join(''));
-  const count = (n, s) => `<div class="card fcard aappr-count" data-mo="card"><span class="amt" style="font-size:44px">${n}</span><div class="aappr-min"><b>${n === 1 ? 'request waits' : 'requests wait'} on you</b>${p(s)}</div></div>`;
+  const count = (n, s) => `<div class="card fcard aappr-count" data-mo="card"><span class="amt" style="font-size:44px">${n}</span><div class="aappr-min"><b>${n === 1 ? 'decision waits' : 'decisions wait'} on you</b>${p(`${PAUSED} ${s}`)}</div></div>`;
   const shut = () => `${sec('Cannot be approved')}${list(item(lead('clock', 'warn'), 'Watch Barclays', 'BARC · XLON · expired 08:14', ST.expired, tags(Q9, act('A57', 'Run again'))) + item(lead('ban', 'fall'), 'Let the chat route add listings', 'Would widen authority, so code refused it', ST.blocked))}`;
   const filt = (on = 0) => `<div data-mo="rise">${seg(['Open', 'Applied', 'Refused', 'Expired'], on, 'Show requests', 'full')}</div>`;
   const queueCore = ctx => region(ctx, {
-    what: 'Change requests', rows: 4, ok: () => filt() + count(4, 'Soonest first. Nothing happens until you decide.') + qRows(ctx) + shut(),
+    what: 'Change requests', rows: 4, ok: () => filt() + count(4, 'Soonest first. Nothing happens until you decide.') + qRows(ctx) + restart() + shut(),
     empty: () => filt() + stateCard('check', 'Nothing waits on you', 'Claude and code have no open requests. This says nothing about risk: risk alerts arrive on their own.', bs('See the outcomes')),
-    partial: () => banner('warn', '1 request is not yet checked.', 'Code could not finish the check on Barclays, so it cannot be confirmed yet. A missing check is never a pass.', 'clock') + filt() + count(5, 'Soonest first. One cannot be confirmed yet.') + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', chip('', 'Not yet checked'), act('A57', 'Run again'))) + qRows(ctx),
+    partial: () => banner('warn', '1 request is not yet checked.', 'Code could not finish the check on Barclays, so it cannot be confirmed yet. A missing check is never a pass.', 'clock') + filt() + count(5, 'Soonest first. One cannot be confirmed yet.') + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', chip('', 'Not yet checked'), act('A57', 'Run again'))) + qRows(ctx) + restart(),
     error: () => stateCard('alert', 'This list did not load', 'It failed at 11:38. Nothing can be approved until it does. Open requests keep their expiry on the server, and nothing is lost.', btn('Try again', 'tinted', 'refresh')) + filt() + qRows(ctx),
-    stale: () => banner('warn', 'Index lagging.', 'From 11:12. Expiry times may have passed, and each request rechecks itself before you can approve it.', 'clock') + filt() + count(4, 'Soonest first. From 11:12.') + qRows(ctx),
-    offline: () => banner('', 'Offline.', 'Showing requests from 11:20. You can read what waits.', 'wifi-off') + refused('R16', OFFLINE) + filt() + count(4, 'Reading only until you reconnect.') + qRows(ctx),
-    conflict: () => banner('warn', 'Two requests overlap.', 'The promotion binds the 5-point band and the settings change moves it to 4, so approving one sends the other back to its check.', 'split') + filt() + count(4, 'Soonest first. 2 overlap.') + qRows(ctx),
-    expired: () => banner('warn', 'Taiwan Semiconductor expired at 18:00.', 'An expired request cannot be approved. It moved to Expired, and nothing was added.', 'clock') + filt() + count(3, 'Soonest first. Nothing happens until you decide.') + qRows(ctx, Q.slice(1)),
-    denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Each request says what it needs before you press it. Nothing is pre-approved.', 'lock') + filt() + count(4, 'Soonest first. Nothing happens until you decide.') + qRows(ctx)
+    stale: () => banner('warn', 'Index lagging.', 'From 11:12. Expiry times may have passed, and each request rechecks itself before you can approve it.', 'clock') + filt() + count(4, 'Soonest first. From 11:12.') + qRows(ctx) + restart(),
+    offline: () => banner('', 'Offline.', 'Showing requests from 11:20. You can read what waits.', 'wifi-off') + refused('R16', OFFLINE) + filt() + count(4, 'Reading only until you reconnect.') + qRows(ctx) + restart(),
+    conflict: () => banner('warn', 'Two requests overlap.', 'The promotion binds the 5-point band and the settings change moves it to 4, so approving one sends the other back to its check.', 'split') + filt() + count(4, 'Soonest first. 2 overlap.') + qRows(ctx) + restart(),
+    expired: () => banner('warn', 'Taiwan Semiconductor expired at 18:00.', 'An expired request cannot be approved. It moved to Expired, and nothing was added.', 'clock') + filt() + count(3, 'Soonest first. Nothing happens until you decide.') + qRows(ctx, Q.slice(1)) + restart(),
+    denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Each request says what it needs before you press it. Nothing is pre-approved.', 'lock') + filt() + count(4, 'Soonest first. Nothing happens until you decide.') + qRows(ctx) + restart()
   });
   const peek = ctx => (['loading', 'empty', 'error'].includes(ctx.state) ? authority() : `${box(`${lbl('Next to expire')}<p class="aappr-t aappr-gap">Watch Taiwan Semiconductor</p><div class="aappr-gap">${change(TSM_ROWS.slice(0, 3))}</div>${tags(Q9)}<div class="aappr-gap">${bs('Open this request', 'primary')}</div>`)}${authority()}`);
 
@@ -249,7 +264,7 @@
   const recRows = (ctx, r = REC) => list(r.map(x => item(lead(x[0]), x[1], x[2], x[3], x[4] || '', false, true)).join(''));
   const undo = ctx => {
     if (ctx.state === 'empty') return '';
-    const shutIt = ['offline', 'denied', 'error', 'loading'].includes(ctx.state), rb = act('A32', 'Roll back to v8');
+    const shutIt = ['offline', 'denied', 'error', 'partial', 'loading'].includes(ctx.state), rb = act('A32', 'Roll back to v8');
     const c = ctx.state === 'conflict', r = c ? act('A32', 'Roll back to v9') : rb;
     return box(`${lbl('In force now')}<p class="aappr-t aappr-gap">Settings ${c ? 'v10' : 'v9'}</p><div class="aappr-gap">${kv([['Decided by', 'You'], ['Environment', 'Production'], ['Previous', c ? 'v9, kept' : 'v8, kept'], ['Weekly band', c ? '4 points' : '5 points']])}</div><div class="aappr-acts aappr-gap">${shutIt ? off(r) : r}</div><p class="small muted aappr-gap">A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.</p>`);
   };
@@ -278,7 +293,7 @@
       covers: { compare: 'aa-band', decide: 'aa-band', source: 'aa-import', correct: 'aa-band', config: 'aa-propose', cost: COVER_COST, recover: 'aa-band' },
       screens: [{
         id: 'aa-now', title: 'In force now', note: 'Where the Approvals journey\'s "the full audit sits in the admin area" lands for settings. The full audit itself is in Audit.',
-        render: ctx => frame(ctx, { title: 'Approvals', back: 'Admin', body: nowCore(ctx), rail: `<div class="aappr-acts">${bs('Propose a change', 'tinted', 'plus')}</div>${authority()}` })
+        render: ctx => frame(ctx, { title: 'Approvals', back: 'Admin', body: nowCore(ctx), rail: `${proposeBtn(ctx)}${authority()}` })
       }, {
         id: 'aa-band', title: 'One family, by version', note: 'A family opens to its versions, then to what would change. Rollback sits with the versions. Expired reads as that later moment, Mon 18:00, not the 11:40 of Ready.',
         render: ctx => frame(ctx, { title: 'Self-correction', back: 'In force', body: bandCore(ctx, () => versions(ctx)), rail: bandRail(ctx) })

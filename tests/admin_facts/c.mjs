@@ -4,6 +4,14 @@ import { spawnSync } from 'node:child_process';
 const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const row = (perms, id) => perms.actions.find((a) => a.id === id);
 export default {
+  'R2-s3': ({ perms, must }) => { must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control'); },
+  'R2-s7': ({ has, lacks }) => {
+    const t = read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json');
+    has(t, /until the Developer Program is bought/);
+    lacks(t, /until the owner says to join the Developer Program/);
+  },
+  'R2-m6': ({ perms, must }) => { for (const id of ['A78', 'A79', 'A80']) must(row(perms, id), `${id} is missing`); },
+  'R2-f14': ({ view, lacks }) => { for (const o of ['a', 'b']) lacks(view('home', o, `${o}-home`, 'web', 'default').text, /account account/); },
   // the page-wide gate refuses a write outside act(), and every row names a record
   'R1-s4': ({ must }) => {
     const r = spawnSync('node', ['scripts/design_admin_facts.mjs'], { encoding: 'utf8', cwd: new URL('../../', import.meta.url).pathname });

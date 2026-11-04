@@ -64,7 +64,7 @@ export default {
     has(v('stale'), /each rechecks itself when opened/); has(v('stale'), /· from 11:12/);
     has(v('offline'), /No financial write offline/);
     has(v('conflict'), /Settings v10 was written at 09:01/); lacks(v('conflict'), /Admin changed while you were reading/);
-    has(v('expired'), /Watch Barclays/); lacks(v('expired'), /passed its time/);
+    has(v('expired'), /Taiwan Semiconductor expired at 18:00/); lacks(v('expired'), /passed its time/);
   },
   'R1-f10': ({ view, must, has }) => {
     for (const k of PHONES) {
@@ -109,6 +109,66 @@ export default {
   'R1-f16': ({ view, has }) => {
     has(view('files', 'a', 'a-draft', 'web', 'default').html, /<button[^>]*>[\s\S]{0,400}Open in Costs and budgets/);
     has(view('files', 'b', 'b-life', 'web', 'default').text, /Open in Costs and budgets/);
+  },
+  'R2-f1': ({ each, view, must, has }) => {
+    each({ journey: 'files', surface: WIDE }, (v, at) => must(acted(v, 'A05') === acted(v, 'A77'), `${JSON.stringify(at)}: the duplicate and the transfer are not both settled here`));
+    const t = view('files', 'a', 'a-draft', 'web', 'default');
+    has(t.text, /From outside/); has(t.text, /From General/);
+    must(!acted(view('files', 'a', 'a-draft', 'web', 'offline'), 'A77'), 'A77 while offline');
+  },
+  'R2-f2': ({ each, must }) => {
+    each({ journey: 'files', surface: ALL }, (v, at) => {
+      must(!(/Approve these 2 groups/.test(v.text) && /3 selected/.test(v.text)), `${JSON.stringify(at)}: 3 selected above an approval of 2`);
+      must(!(/Approve these 3 groups/.test(v.text) && /2 selected/.test(v.text)), `${JSON.stringify(at)}: 2 selected above an approval of 3`);
+    });
+  },
+  'R2-f3': ({ each, must }) => {
+    let n = 0;
+    each({ journey: 'files', surface: ALL }, (v, at) => { if (/Approve these 3 groups/.test(v.text)) { n++; must(/£12\.40/.test(v.text), `${JSON.stringify(at)}: approves with no word of the £12.40`); } });
+    must(n > 20, `only ${n} views approve 3 groups`);
+  },
+  'R2-f4': ({ view, has, lacks }) => {
+    for (const [o, s] of [['b', 'b-compare'], ['b', 'b-record'], ['a', 'a-record']]) for (const k of ['iphone', 'web']) {
+      const t = view('audit', o, s, k, 'expired').text;
+      lacks(t, /R-0210|ref_a3c1|Ledger revision 21[01]\b|aud_4c17|apr_52be|evt_77d3/, `${o}.${s} ${k}: another record's rows`);
+      has(t, /Ledger revision 213/);
+    }
+  },
+  'R2-f5': ({ each, view, has, lacks }) => {
+    each({ journey: 'audit', surface: ['iphone', 'web'], state: 'stale' }, (v, at) => {
+      lacks(v.text, /may not show yet|say nothing about anything newer/, JSON.stringify(at));
+      if (at.screen !== 'b-filter') has(v.text, /complete to ledger revision 213/, `${JSON.stringify(at)}: no contract wording`);
+    });
+    has(view('audit', 'b', 'b-explore', 'web', 'stale').text, /Export link issued/);
+    lacks(view('audit', 'b', 'b-lineage', 'web', 'stale').text, / stale /);
+  },
+  'R2-f6': ({ view, has, lacks }) => {
+    for (const k of ALL) { const t = view('home', 'b', 'b-home', k, 'expired').text; has(t, /3 decisions wait on you/); has(t, /Taiwan Semiconductor expired at 18:00/); lacks(t, /Watch Barclays|4 decisions/); }
+  },
+  'R2-f7': ({ view, must, has }) => {
+    for (const k of PHONES) for (const st of ['default', 'partial', 'stale', 'offline', 'conflict', 'expired', 'denied']) {
+      const h = view('home', 'b', 'b-home', k, st).html, top = h.slice(h.indexOf('jbanner'), h.indexOf('ahome-grid'));
+      must(h.indexOf('jbanner') >= 0 && h.indexOf('jbanner') < h.indexOf('ahome-grid'), `${k} ${st}: banner below the tiles`);
+      has(top, /1 incident not resolved/, `${k} ${st}: the first view drops the incident`);
+      has(top, /\d decisions wait on you/, `${k} ${st}: the first view drops the count`);
+    }
+  },
+  'R2-f8': ({ view, must, has, lacks }) => {
+    const pence = (s) => Math.round(parseFloat(s.replace(/[£,]/g, '')) * 100);
+    for (const [o, sc] of [['a', 'a-fix'], ['b', 'b-after']]) {
+      const v = view('files', o, sc, 'web', 'conflict');
+      lacks(v.text, /combined preview/);
+      const box = v.html.slice(v.html.indexOf('Both together'));
+      must(box.indexOf('Sold 4 Apple') >= 0 && box.indexOf('After both') > 0 && box.indexOf('data-act="A11"') > box.indexOf('After both'), 'the approval is not beside its rows');
+      has(box, /Illustrative/);
+      const m = v.text.match(/Cash \+(£[\d,.]+).*ISA cash (£[\d,.]+) → (£[\d,.]+)/);
+      must(m, 'no cash figures');
+      must(pence(m[2]) === pence('£4,142.83') + pence(m[1]), 'the before does not foot');
+      must(pence(m[3]) === pence(m[2]) - (pence('£4,142.83') - pence('£4,012.60')), 'the after does not foot');
+    }
+  },
+  'R2-m10-home': ({ view, has }) => {
+    for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) for (const k of ALL) { const t = view('home', o, s, k, 'default').text; has(t, /4 decisions wait on you/); has(t, /1 paused scope waits on your restart/); }
   },
   'R1-s7-home': ({ each, has, lacks }) => {
     each({ journey: 'home', surface: ALL }, (v) => { has(v.text, /account recovery works anywhere/); lacks(v.text.replace(/account recovery/g, '').replace(/Incidents and recovery/g, ''), /\brecovery\b/); });

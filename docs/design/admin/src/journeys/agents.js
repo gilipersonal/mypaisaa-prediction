@@ -14,6 +14,8 @@
   const OFFLINE_NOTE = 'Nothing can be changed until you reconnect. No financial write offline.';
   const kept = ctx => (browser(ctx) ? tagged(proposed('MP40-Q12'), 'What a browser keeps offline is open.') : '');
   const offline = (ctx, what) => banner('', 'Offline.', `Showing ${what} from 11:20. ${OFFLINE_NOTE}`, 'wifi-off') + kept(ctx);
+  const phone = ctx => ctx.kind === 'iphone' || ctx.kind === 'pwa';
+  const mayNeed = ctx => (phone(ctx) ? banner('warn', 'Change this on iPad or desktop.', 'A phone reads only, so this waits for a larger screen.', 'lock') : banner('warn', 'A fresh sign-in may be needed.', `${STEP} Whether this act needs one is open.`, 'lock'));
   const claudeOff = () => banner('warn', 'Claude off.', OFF_WORDS, 'lock');
 
   /* ---------- the roster ---------- */
@@ -56,13 +58,13 @@
     what: 'This manifest', rows: 4, ok: () => manifestBox() + forbidBox() + openBits(),
     loading: () => manifestBox('Event analysis · manifest v2', chip('', 'Loading'), [['Last good', '11:20']]) + skel(2),
     empty: () => stateCard('cube', 'This route has no manifest', 'With no valid manifest it cannot run. Its version arrives through a reviewed code change, never from a setting.'),
-    partial: () => banner('warn', 'Partial.', 'The manifest answered. Its coverage report did not, so readiness shows unknown.', 'clock') + manifestBox() + forbidBox(),
-    error: () => banner('fall', 'The policy store is unavailable.', 'It failed at 11:38, so every tool call fails closed. This is the last manifest read, at 11:20.', 'alert') + manifestBox('Event analysis · manifest v2', BAD('Failed closed', 'ban')) + forbidBox(),
-    stale: () => banner('warn', 'Stale.', 'This manifest is from 11:12. A newer version would show in Versions.', 'clock') + manifestBox() + forbidBox(),
-    offline: () => offline(ctx, 'this manifest') + manifestBox() + forbidBox(),
-    conflict: () => banner('warn', 'uncovered.', 'v3 changes the model and has no mapped case, which blocks readiness. The route stays on v2 until one exists.', 'split') + manifestBox('Event analysis · manifest v2', WARN('v3 uncovered', 'split')) + forbidBox(),
+    partial: () => banner('warn', 'Partial.', 'The manifest answered. Its coverage report did not, so readiness shows unknown.', 'clock') + manifestBox() + forbidBox() + openBits(),
+    error: () => banner('fall', 'The policy store is unavailable.', 'It failed at 11:38, so every tool call fails closed. This is the last manifest read, at 11:20.', 'alert') + manifestBox('Event analysis · manifest v2', BAD('Failed closed', 'ban')) + forbidBox() + openBits(),
+    stale: () => banner('warn', 'Stale.', 'This manifest is from 11:12. A newer version would show in Versions.', 'clock') + manifestBox() + forbidBox() + openBits(),
+    offline: () => offline(ctx, 'this manifest') + manifestBox() + forbidBox() + openBits(),
+    conflict: () => banner('warn', 'uncovered.', 'v3 changes the model and has no mapped case, which blocks readiness. The route stays on v2 until one exists.', 'split') + manifestBox('Event analysis · manifest v2', WARN('v3 uncovered', 'split')) + forbidBox() + openBits(),
     expired: () => banner('warn', 'Qualification expired.', 'A changed model or rubric resets it, so the route needs its suite again before any switch-on.', 'clock') + manifestBox() + forbidBox() + openBits(),
-    denied: () => banner('warn', 'That read was refused.', 'A route reads only its own key parameter, and nobody reads it here. The manifest itself stays open.', 'lock') + manifestBox() + forbidBox()
+    denied: () => banner('warn', 'That read was refused.', 'A route reads only its own key parameter, and nobody reads it here. The manifest itself stays open.', 'lock') + manifestBox() + forbidBox() + openBits()
   });
   const railManifest = ctx => `${qualBox(ctx.state === 'expired' ? WARN('expired') : ctx.state === 'loading' ? PLAIN('Reading') : undefined)}${box(`${lbl('Where code decides')}<p class="small muted" style="margin-top:6px">Code picks which items reach this route, not Claude, and its output is a cited, structured record.</p>`)}`;
 
@@ -85,7 +87,7 @@
     offline: () => offline(ctx, 'this comparison') + cmpBox() + chain() + bind(),
     conflict: () => banner('warn', 'The route moved to v4 while you read.', 'This approval expected v2, so it is refused for a stale revision. Nothing was applied, and v4 needs its own decision.', 'split') + cmpBox() + bind('c04e…91b7', 'v2, now v4'),
     expired: () => banner('warn', 'This proposal lapsed.', 'It passed its time, so nothing ran. A new reviewed change brings it back. No expiry for a route change is approved.', 'clock') + cmpBox() + tagged(proposed('CT-02'), 'Any expiry here is illustrative.'),
-    denied: () => banner('warn', 'A fresh sign-in may be needed.', `${STEP} Whether this act needs one is open.`, 'lock') + cmpBox() + chain() + bind() + decide()
+    denied: () => mayNeed(ctx) + cmpBox() + chain() + bind() + decide()
   });
   const railVersions = ctx => `${box(`${lbl('Rollback')}<p class="small muted" style="margin-top:6px">A manifest change is a new version, and the previous one stays available. A route whose new manifest fails validation stays on its last valid version.</p>`)}${refused('R14', 'No setting can grant a route a tool, source, budget, infrastructure permission or approval authority. Only a reviewed code change and your yes can change a manifest.')}`;
 
@@ -153,7 +155,7 @@
 
   /* ---------- factors: in shadow until they add accuracy and you say yes (MP-97) ---------- */
   const factHead = (c = OWN('Waits for your yes')) => box(`<div class="aagents-head"><b>Earnings surprise factor, v2</b>${c}</div><span class="small muted">Structured factors · Haiku 5.5, batched · shadow</span>`);
-  const factEv = (abl = 'Adds accuracy over the baseline') => box(`${lbl('Why it could be admitted')}<div style="margin-top:8px">${kv([['Ablation', abl], ['Compared on', 'The same dates and folds'], ['Hindsight', 'Prospective only'], ['Evidence hash', 'e3a9…51c0']])}</div><p class="small muted" style="margin-top:8px">No factor is admitted on extraction quality alone.</p><div style="margin-top:8px">${proposed('SCI-D03')}</div>`);
+  const factEv = (abl = 'Adds accuracy over the baseline') => box(`${lbl('Why it could be admitted')}<div style="margin-top:8px">${kv([['Ablation', abl], ['Compared on', 'The same dates and folds'], ['Hindsight', 'Prospective only'], ['Evidence hash', 'e3a9…51c0']])}</div><p class="small muted" style="margin-top:8px">No factor is admitted on extraction quality alone.</p><div class="aagents-tag" style="margin-top:8px">${proposed('SCI-D04')}<span class="small muted">Whether a factor counts when hindsight cannot be bounded, and the ablation capacity, are open.</span></div>`);
   const factBind = () => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv([['Factor', 'Earnings surprise, v2'], ['Evidence hash', 'e3a9…51c0'], ['Payload hash', '5d18…a3f2'], ['Environment', 'Prod'], ['Expires', WAIT]])}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
   const factYes = () => `<div class="aagents-acts">${act('A61', 'Admit this factor', 'primary')}</div>${para('Leaving it unadmitted changes nothing: it stays in shadow, and no forecast uses it.')}`;
   const factState = ctx => region(ctx, {
@@ -166,9 +168,9 @@
     offline: () => offline(ctx, 'this factor') + factHead() + factEv() + factBind(),
     conflict: () => banner('warn', 'hindsight_flagged.', 'A batch reached back past its cutoff. Where contamination cannot be bounded, only prospectively extracted factors count, so this evidence no longer stands.', 'split') + factHead(WARN('hindsight_flagged', 'split')) + factEv('Being rerun'),
     expired: () => banner('warn', 'late (missed the cutoff).', 'The last batch missed the +60 freeze, so the forecast used the previous frozen set, labelled with its age. A late factor is kept for the next origin, never backdated.', 'clock') + factHead(WARN('late')) + factEv(),
-    denied: () => banner('warn', 'A fresh sign-in may be needed.', `${STEP} Whether this act needs one is open.`, 'lock') + factHead() + factEv() + factBind() + factYes()
+    denied: () => mayNeed(ctx) + factHead() + factEv() + factBind() + factYes()
   });
-  const railFact = () => `${box(`${lbl('A factor is one of')}<div class="aagents-chips">${['shadow', 'frozen', 'late', 'hindsight_flagged', 'admitted', 'withdrawn'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A withdrawn factor leaves future origins. Past predictions keep their original input references.</p>`)}${box(`${lbl('What a route returns')}<p class="small muted" style="margin-top:6px">Claude returns categories and cited spans only. Any number used as a model input is computed by code.</p>`)}`;
+  const railFact = () => `${box(`${lbl('A factor is one of')}<div class="aagents-chips">${['shadow', 'frozen', 'late', 'hindsight_flagged', 'admitted', 'withdrawn'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">A withdrawn factor leaves future origins. Past predictions keep their original input references. No record names who withdraws a factor, so no control is drawn.</p>`)}${box(`${lbl('What a route returns')}<p class="small muted" style="margin-top:6px">Claude returns categories and cited spans only. Any number used as a model input is computed by code.</p>`)}`;
 
   /* ---------- Option B: one route, whole ---------- */
   const SHORT = ['Triage', 'Event analysis', 'Factors', 'Extraction', 'Explanations', 'Chat', 'Judges'];
