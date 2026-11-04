@@ -66,7 +66,10 @@ jobs:
         run: |
           python3 scripts/design_gates.py check
           python3 scripts/design_gates.py selftest
+          python3 scripts/design_tokens.py check
+          python3 scripts/design_tokens.py selftest
           python3 -m unittest discover -s tests -p test_design_gates.py -v
+          python3 -m unittest discover -s tests -p test_design_tokens.py -v
       - name: Every story is ready and every draft accounted for
         run: |
           python3 docs/planning/story-readiness-2026-11-03/stories.py check

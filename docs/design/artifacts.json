@@ -17,14 +17,6 @@
    "jira": "MP-177"
   },
   {
-   "slug": "ds-option-b-prism",
-   "source": "docs/design/reviews/MP-62/option-b/index.html",
-   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "2104ed3527568627950eacdc6e01f9ab1d7b233f4ef7445b6793d2e1c3af36e9",
-   "published_at": "2026-11-03",
-   "jira": "MP-62"
-  },
-  {
    "slug": "ds-option-a-fan",
    "source": "docs/design/reviews/MP-62/option-a/index.html",
    "artifact_url": "https://claude.ai/artifact/WpjRPNZRvfa6VKA9V5W57c",
@@ -54,6 +46,14 @@
    "artifact_url": "https://claude.ai/artifact/VQpqwidcqYQsA55WkPpyvL",
    "published_sha256": "86001d732b5c5ea170815603f80115a9f916aa420759cbd4e7302bb7bc43cec0",
    "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "dd2712418a1a62e003565bd8e29f35f6caf73c62b64708710127d13fc2b3bea6",
+   "published_at": "2026-11-04",
    "jira": "MP-62"
   }
  ]

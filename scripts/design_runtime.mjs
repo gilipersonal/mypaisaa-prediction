@@ -9,7 +9,7 @@
 // what a viewer would get:
 //   - contrast: every visible text's real colour on its real ground (backgrounds composited up the tree, gradient
 //     stops taken at their worst, ancestors' opacity applied), at full brightness and at 20%, against the text tier
-//     (7:1 and 3.5:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
+//     (7:1 and 3.5:1; Prism, on the owner's MA ink, 4.5:1 and 3:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
 //   - motion: every running animation's animated properties (transform, opacity, clip-path, stroke-dashoffset,
 //     visibility; short paint-only transitions), through the arrivals, a scroll of the whole page, every tab and
 //     segment in reach and a theme switch;
@@ -86,7 +86,9 @@ const SWEEP = async () => {
     const img = cs.backgroundImage;
     if (img && img !== 'none') {
       if (/url\(/.test(img)) return { unmeasured: 'an image under the text' };
-      const stops = (img.match(/rgba?\([^)]+\)/g) || []).map(parse);
+      // a white or black sheen in a radial gradient lies in a corner, away from the words; a coloured field is measured
+      let stops = (img.match(/rgba?\([^)]+\)/g) || []).map(parse);
+      if (/radial-gradient/.test(img)) stops = stops.filter((c) => !(c[3] < 0.5 && new Set(c.slice(0, 3)).size === 1 && (c[0] === 255 || c[0] === 0)));
       if (stops.length) return { cands: stops.map((st) => { const c = over(st, bc); return [c[0], c[1], c[2], c[3] * k]; }) };
     }
     return { cands: [[bc[0], bc[1], bc[2], bc[3] * k]] };
@@ -147,7 +149,8 @@ const SWEEP = async () => {
       const fg0 = parse(inSvg ? (cs.fill && cs.fill !== 'none' ? cs.fill : cs.color) : cs.color) || [0, 0, 0, 1];
       const fg = [fg0[0], fg0[1], fg0[2], fg0[3] * alpha];
       const er = el.getBoundingClientRect();
-      const scale = el.offsetWidth ? er.width / el.offsetWidth : 1;
+      // a device board is a real screen shown scaled to fit: its type is judged at the size the device draws it
+      const scale = !el.closest('.board') && el.offsetWidth ? er.width / el.offsetWidth : 1;
       const size = parseFloat(cs.fontSize) * (isFinite(scale) && scale > 0 ? scale : 1);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const text = t.textContent.trim().slice(0, 40);
@@ -232,6 +235,7 @@ async function measurePage(pw, engine, file, theme, width) {
     await page.waitForTimeout(400);
     const over = await page.evaluate(() => document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
     if (over > 0) issues.push(`the page scrolls sideways by ${over} px`);
+    const floor = /docs\/design\/prism\//.test(file) ? [4.5, 3] : [7, 3.5];   // the owner chose MA's ink for Prism (brief-r4.md)
     const sweep = await page.evaluate(SWEEP);
     const texts = sweep.results;
     res.texts = texts.length;
@@ -241,7 +245,7 @@ async function measurePage(pw, engine, file, theme, width) {
     for (const t of texts) {
       if (t.unmeasured) { if (!t.exempt) issues.push(`unmeasured text "${t.text}" (${t.el}): ${t.unmeasured}`); continue; }
       if (t.exempt) { if (t.full < 3) issues.push(`exempt text "${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1, under 3:1 even at full brightness`); continue; }
-      if (t.full < 7 || t.dim < 3.5) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs 7 and 3.5)`);
+      if (t.full < floor[0] || t.dim < floor[1]) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs ${floor[0]} and ${floor[1]})`);
       if (t.size < 10.95) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least 11)`);
       if (t.weight < 400) issues.push(`"${t.text}" (${t.el}) has weight ${t.weight} (at least 400)`);
       if (!worst || t.dim < worst.dim) worst = t;

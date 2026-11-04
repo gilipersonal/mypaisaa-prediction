@@ -28,6 +28,12 @@ SVG sprite, never an icon font or a Unicode glyph, drawn with square caps and mi
 resolves. One system: both pages carry docs/design/reviews/MP-62/shared/ word for word (tokens.css, icons.svg,
 claude.html), so the hybrids can differ only in identity.
 
+The picked system, docs/design/prism/index.html, is the owner's choice of 3 November 2026 and has its own proof
+(check_prism): round 1's look keeps its fields and blooms, so the sharpness rules above do not bind it, and its colour
+pairs are measured from tokens.json by scripts/design_tokens.py. Here the gate proves what the owner asked for: MA's
+exact ink, MA's fonts and no others, the generated tokens and the icon set unchanged in the page, the twelve sections
+in the owner's order, the Claude component unchanged, and the same motion rules.
+
 The gate fails closed: a missing page, theme block, token or JSON block, a colour it cannot read, a dark block that
 differs from its twin, or a measured token set anywhere but the three theme blocks is a failure, not a skip. It reads
 the page's own CSS and script; scripts/design_runtime.mjs measures the rendered page.
@@ -44,6 +50,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/MP-62/hybrid-b/index.html")
+PICKED = "docs/design/prism/index.html"
+PRISM = ROOT / "docs/design/prism"
+MA_INK = {"ink": ("#14171F", "#F3F5F8"), "ink-2": ("#4E5462", "#C5CCD7")}
+SECTIONS = ("Principles", "Three depths", "Foundations", "Components", "Patterns", "States", "Layout", "Screens",
+            "Motion", "Claude", "Contrast at 20%", "Web and SwiftUI")
 DIM = 0.2
 LIMITS = {"body": (7.0, 4.5), "text": (7.0, 3.5), "ui": (3.0, 1.8), "presence": (1.5, 1.25)}
 SHARED = ROOT / "docs/design/reviews/MP-62/shared"
@@ -659,6 +670,78 @@ def markup(html: str) -> list[str]:
     return fails
 
 
+def check_prism(html: str) -> list[str]:
+    """What the owner asked of the picked system, read from the page and from tokens.json."""
+    fails = []
+    try:
+        css, script, _ = page_parts(html)
+        rules(css)
+    except Fail as e:
+        return [str(e)]
+    try:
+        tokens = json.loads((PRISM / "tokens.json").read_text())
+        want_css = (PRISM / "tokens.css").read_text()
+        want_icons = (PRISM / "icons.svg").read_text()
+        want_claude = (SHARED / "claude.html").read_text()
+    except (OSError, ValueError) as e:
+        return [f"a Prism source file cannot be read ({e})"]
+    block = re.search(r"/\* prism-tokens:start \*/.*?/\* prism-tokens:end \*/", css, flags=re.S)
+    if block is None:
+        fails.append("the generated tokens are not in the page between the prism-tokens markers")
+    elif block.group(0).strip() != want_css.strip():
+        fails.append("the page's tokens differ from tokens.css; paste the generated block, word for word")
+    ink = tokens["color"]["ink"]
+    for name, (light, dark) in MA_INK.items():
+        t = ink.get(name, {})
+        if (t.get("$value"), t.get("$extensions", {}).get("mp", {}).get("dark")) != (light, dark):
+            fails.append(f"tokens.json {name} is not MA's ink ({light}, {dark})")
+    for ban, why in (("--ink-3", "a third ink: MA's Home board uses two"), ("Bricolage", "round 1's display face"),
+                     ("Instrument Sans", "round 1's text face"), ("font-variation-settings", "a variable-font axis MA's faces do not use"),
+                     ("--font-display", "round 1's display variable"), ("Material Symbols", "an icon font")):
+        if ban in html:
+            fails.append(f"{ban} is in the page: {why}")
+    for name, face in (("--font-figure", "Nunito"), ("--font-text", "Inter")):
+        m = re.search(rf"{name}\s*:\s*([^;]+);", css)
+        if m is None or face not in m.group(1):
+            fails.append(f"{name} is not set to MA's stack with {face}")
+    for link in re.findall(r"""fonts\.googleapis\.com/css2\?([^"']+)""", html):
+        for fam in re.findall(r"family=([A-Za-z+]+)", link):
+            if fam not in ("Inter", "Nunito"):
+                fails.append(f"Google Fonts loads {fam.replace('+', ' ')}; only Inter and Nunito")
+    for g in ("▲", "▼", "✓", "✔", "✕", "✖", "⚠"):
+        if g in html:
+            fails.append(f"the Unicode glyph {g} stands in for an icon; use the icon set")
+    m = re.search(r'<svg id="prism-icons".*?</svg>', html, flags=re.S)
+    w = re.search(r'<svg id="prism-icons".*?</svg>', want_icons, flags=re.S)
+    if m is None:
+        fails.append("the Prism icon set <svg id=\"prism-icons\"> is not in the page")
+    elif " ".join(m.group(0).split()) != " ".join(w.group(0).split()):
+        fails.append("the page's icon set differs from docs/design/prism/icons.svg")
+    ids = set(re.findall(r'<symbol id="i-([a-z0-9-]+)"', want_icons))
+    for ref in sorted(set(re.findall(r"#i-([a-z0-9-]+)", html))):
+        if ref not in ids:
+            fails.append(f"#i-{ref} has no symbol in the icon set")
+    ico = [dict(decls(b)) for sel, b, _ in rules(css) if ".ico" in norm_sel(sel)]
+    if not any(r.get("stroke-linecap") == "square" and r.get("stroke-linejoin") == "miter" for r in ico):
+        fails.append("no .ico rule sets square ends and mitred corners, so icons would render soft")
+    index = next((n for n in re.findall(r"<nav\b.*?</nav>", html, flags=re.S) if "Principles" in n), None)
+    if index is None:
+        fails.append("no section index: a <nav> listing the twelve sections")
+    else:
+        labels = [re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r"<a\b[^>]*>(.*?)</a>", index, flags=re.S)]
+        if tuple(labels) != SECTIONS:
+            fails.append(f"the section index reads {labels}; the owner's order is {list(SECTIONS)}")
+    block = claude_of(html)
+    if block is None:
+        fails.append("no Claude component between the mp-claude markers")
+    elif block != claude_of(want_claude):
+        fails.append("the page's Claude component differs from shared/claude.html")
+    for k in ("--cl-s1", "--cl-s2", "--cl-s3"):
+        if not re.search(rf"{k}\s*:", css):
+            fails.append(f"{k}, a shape of the Claude mark, is not set")
+    return markup(html) + fails + motion(css, script)
+
+
 def check_page(html: str) -> tuple[list[str], list[tuple]]:
     try:
         css, script, gates = page_parts(html)
@@ -669,7 +752,7 @@ def check_page(html: str) -> tuple[list[str], list[tuple]]:
 
 
 def check(paths: list[str]) -> int:
-    targets = paths or list(GATED)
+    targets = paths or [*GATED, PICKED]
     extra = [str(p.relative_to(ROOT)) for p in (ROOT / "docs/design").rglob("*.html")
              if 'id="mp-design-gates"' in p.read_text(errors="ignore")] if not paths else []
     bad = 0
@@ -679,11 +762,16 @@ def check(paths: list[str]) -> int:
             print(f"FAIL {rel}: the page is missing")
             bad += 1
             continue
-        fails, rows = check_page(p.read_text())
+        if rel == PICKED or p == ROOT / PICKED:
+            fails, rows = check_prism(p.read_text()), None
+        else:
+            fails, rows = check_page(p.read_text())
         for f in fails:
             print(f"FAIL {rel}: {f}")
         bad += len(fails)
-        if not fails:
+        if not fails and rows is None:
+            print(f"design-gates: {rel}: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold")
+        elif not fails:
             print(f"design-gates: {rel}: {len(rows)} pair measurements pass at full and 20% brightness; motion rules hold")
     return 1 if bad else 0
 
@@ -848,7 +936,70 @@ MUTATIONS = {
 }
 
 
+def good_prism() -> str:
+    """A small page that holds everything check_prism asks for, from the real source files."""
+    nav = "".join(f'<a href="#s{i}">{name}</a>' for i, name in enumerate(SECTIONS))
+    return f"""<title>Selftest Prism</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+{(PRISM / "tokens.css").read_text()}
+:root {{ --font-figure: ui-rounded, "SF Pro Rounded", "Nunito", system-ui; --font-text: -apple-system, "SF Pro Text", "Inter", system-ui;
+  --cl-s1: polygon(50% 6%, 30% 94%, 2% 94%); --cl-s2: polygon(50% 6%, 70% 94%, 30% 94%); --cl-s3: polygon(50% 6%, 98% 94%, 70% 94%); }}
+.ico {{ width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }}
+.bar {{ background: var(--glass); backdrop-filter: blur(22px); }}
+.board {{ content-visibility: auto; contain-intrinsic-size: auto 800px; }}
+@media (prefers-reduced-motion: reduce) {{ * {{ animation-duration: 1ms !important; }} }}
+@media (prefers-reduced-transparency: reduce) {{ .bar {{ background: var(--surface); backdrop-filter: none; }} }}
+</style>
+{(PRISM / "icons.svg").read_text()}
+<nav aria-label="Sections">{nav}</nav>
+<div class="board"><svg class="ico"><use href="#i-home"/></svg></div>
+{(SHARED / "claude.html").read_text()}
+"""
+
+
+PRISM_MUTATIONS = {
+    "tokens-edited": (_sub("--ink: #14171F;", "--ink: #000000;"), "differ from tokens.css"),
+    "no-tokens": (_sub("/* prism-tokens:start */", "/* removed */"), "not in the page between the prism-tokens markers"),
+    "third-ink": (_sub(".bar {", ".x { color: var(--ink-3); } .bar {"), "--ink-3 is in the page"),
+    "old-face": (_sub("family=Nunito:wght@700;800", "family=Bricolage+Grotesque:wght@700"), "Bricolage"),
+    "other-face": (_sub("family=Nunito:wght@700;800", "family=Poppins:wght@700"), "Google Fonts loads Poppins"),
+    "axis": (_sub(".bar {", '.x { font-variation-settings: "wdth" 92; } .bar {'), "font-variation-settings"),
+    "figure-face": (_sub('"Nunito", system-ui', 'Georgia'), "--font-figure is not set"),
+    "icon-edited": (_sub('<symbol id="i-home"', '<symbol id="i-house"'), "differs from docs/design/prism/icons.svg"),
+    "no-icons": (_sub('id="prism-icons"', 'id="other"'), "is not in the page"),
+    "dangling-icon": (_sub('<use href="#i-home"/>', '<use href="#i-nope"/>'), "#i-nope has no symbol"),
+    "soft-icon": (_sub("stroke-linecap: square; stroke-linejoin: miter;", "stroke-linecap: round; stroke-linejoin: round;"),
+                  "square ends and mitred corners"),
+    "unicode-arrow": (_sub('<div class="board">', '<div class="board">▲'), "the Unicode glyph ▲"),
+    "section-moved": (_sub('<a href="#s0">Principles</a><a href="#s1">Three depths</a>',
+                           '<a href="#s1">Three depths</a><a href="#s0">Principles</a>'), "the owner's order"),
+    "section-missing": (_sub('<a href="#s10">Contrast at 20%</a>', ''), "the owner's order"),
+    "no-index": (_sub('<nav aria-label="Sections">', '<div aria-label="Sections">'), "no section index"),
+    "claude-edited": (_sub("Why is NVIDIA ranked Trim?", "Why is NVIDIA ranked Hold?"), "differs from shared/claude.html"),
+    "no-mark-shape": (_sub("--cl-s2: polygon(50% 6%, 70% 94%, 30% 94%); ", ""), "--cl-s2"),
+    "infinite-loop": (_sub(".bar {", ".s { animation: spin 1s linear infinite; } .bar {"), "loops forever"),
+    "layout-transition": (_sub(".bar {", ".s { transition: width 200ms ease; } .bar {"), "transitions 'width'"),
+    "blur-keyframe": (_sub(".bar {", "@keyframes r { from { filter: blur(8px); } } .bar {"), "animates 'filter'"),
+    "no-transparency-fallback": (_sub("@media (prefers-reduced-transparency: reduce)", "@media (min-width: 3px)"), "reduced-transparency"),
+    "small-text": (_sub(".bar {", ".s { font-size: 10px; } .bar {"), "text at 10 px"),
+}
+
+
 def selftest() -> int:
+    bad = 0
+    prism = good_prism()
+    fails = check_prism(prism)
+    if fails:
+        print("selftest: FAIL the good Prism page is refused, so the harness proves nothing:")
+        for f in fails:
+            print(f"  {f}")
+        return 1
+    for name, (mutate, expect) in PRISM_MUTATIONS.items():
+        fails = check_prism(mutate(prism))
+        if not any(expect in f for f in fails):
+            print(f"selftest: FAIL prism {name}: expected a failure containing {expect!r}, got {fails or 'a pass'}")
+            bad += 1
     base = good_page()
     fails, _ = check_page(base)
     if fails:
@@ -856,7 +1007,6 @@ def selftest() -> int:
         for f in fails:
             print(f"  {f}")
         return 1
-    bad = 0
     for name, (mutate, expect) in MUTATIONS.items():
         page = mutate(base)
         fails, _ = check_page(page)
@@ -870,7 +1020,7 @@ def selftest() -> int:
             bad += 1
     if bad:
         return 1
-    print(f"selftest: the good page passes and all {len(MUTATIONS) + 1} mutations are refused")
+    print(f"selftest: both good pages pass and all {len(MUTATIONS) + len(PRISM_MUTATIONS) + 1} mutations are refused")
     return 0
 
 

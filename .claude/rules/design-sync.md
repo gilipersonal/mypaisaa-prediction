@@ -34,6 +34,13 @@ Confluence pages (`docs/confluence/build_pages.py`), Lucid drawings and the moti
    Run it before every PR that touches a design; `scripts/review_checks.py` selects it for design paths, and CI's
    Docs job runs it on every PR.
 
+## Every design starts from Prism
+
+The owner picked Prism as MP's design system on 3 November 2026 (MP-62). Every new MP design, journey and screen uses
+`docs/design/prism/`: the tokens in `tokens.json` (edit there, then `python3 scripts/design_tokens.py build`), the icons
+in `icons.svg` and the components, patterns and motion in `index.html`. A new value or component is added to Prism
+first, not drawn on one page. `python3 scripts/design_gates.py check` and `python3 scripts/design_tokens.py check` guard it.
+
 ## What still needs the owner
 
 - MP's order still holds for product UX: architecture sign-off, then the full UX design, then UX approval, then

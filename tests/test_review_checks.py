@@ -52,7 +52,8 @@ class SelectionTests(unittest.TestCase):
 
     def test_designs_and_their_gate_select_the_design_gates(self):
         for path in ("docs/design/reviews/MP-62/hybrid-a/index.html", "scripts/design_gates.py",
-                     "scripts/design_runtime.mjs", "tests/test_design_gates.py"):
+                     "scripts/design_runtime.mjs", "tests/test_design_gates.py", "docs/design/prism/tokens.json",
+                     "scripts/design_tokens.py", "tests/test_design_tokens.py"):
             self.assertIn("design-gates", names([path])[0], path)
 
     def test_the_signoff_builder_selects_python_errors(self):

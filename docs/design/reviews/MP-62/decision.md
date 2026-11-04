@@ -1,7 +1,7 @@
 # MP-62 design system, round 1: decision
 
-**Status: round 1 closed (C rejected); Hybrid A and Hybrid B in round 3 refinement, awaiting the owner's pick.** The
-briefs are [brief.md](brief.md), [brief-r2.md](brief-r2.md) and [brief-r3.md](brief-r3.md).
+**Status: the owner picked Prism on 3 November 2026.** The briefs are [brief.md](brief.md), [brief-r2.md](brief-r2.md),
+[brief-r3.md](brief-r3.md) and [brief-r4.md](brief-r4.md).
 
 | Option | Local file | Private Claude artifact |
 | --- | --- | --- |
@@ -92,7 +92,47 @@ separators; the SF Symbol names in the mapping are from memory, unchecked agains
 103 to 118 ms frame in `chrome light 390` during two runs while A's work was running too, which did not recur in the
 coordinator's run.
 
-## The owner's pick
+## The owner's pick (3 November 2026)
 
-Not yet made. When it is: the owner's exact words, the date, the hybrid and its scope go here, and the picked hybrid
-becomes the spec for the remaining journeys and states (MP-62).
+> "ok I will go with https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu. the first Prism design back
+>
+> But the fonts and ink should be like it is in here on MA
+> https://claude.ai/artifact/G6Dzu3QYtNPVkqyH4q9d6g#ios-iphone-v4-home."
+
+> "Also add motion animation effects like you did in last design, whole app should have subtle motion animations
+> effects."
+>
+> "And the icons can be made a little better and sharper more viusally appealing..think hard,"
+>
+> "I need structured like this [the section index of Hybrid A]. follow the best practices to create a robust design
+> systems for Desktop, mobile, PwA and it needs to be used on iOS/iPADOS too"
+
+- **Picked:** round 1's Option B · Prism, the design on that link, in place of both hybrids. Hybrid A and Hybrid B stay
+  as the record, and `option-b/index.html` stays unchanged as the first version.
+- **Changed by the same words:** its fonts and ink become those of MA's iPhone v4 Home board; subtle motion across the
+  whole app; a new icon set; the twelve-section structure; a system robust across desktop, mobile, PWA, iOS and iPadOS.
+- **Scope:** the look of the design system. It becomes the spec for the remaining journeys and states (MP-62). It does
+  not approve the UX or give permission to build.
+
+The brief is [brief-r4.md](brief-r4.md). The system lives in [docs/design/prism/](../../prism/README.md), and the owner's
+link now shows it. `tokens.json` is the one source; `tokens.css` and `PrismTokens.swift` are generated from it.
+
+Measured by the coordinator on the final file:
+
+- `python3 scripts/design_gates.py check`: MA's exact ink and fonts, the generated tokens, the icon set and the Claude
+  component unchanged in the page, the twelve sections in the owner's order, every motion rule (89 selftest faults refused);
+- `python3 scripts/design_tokens.py check`: 77 tokens, 98 pair measurements at full and 20% brightness in both themes;
+- `node scripts/design_runtime.mjs`: 8 of 8 in the final run, Chrome (CPU slowed four times) and WebKit, light and dark,
+  390 and 1440 px: every visible text at least 4.5:1 and 3:1 at 20% (worst 3.00:1), at least 97% of frames within 20 ms,
+  no layout shift in Chrome. One earlier run showed a single 51 ms frame in `chrome light 390` against the 50 ms limit; it did not recur in the next four runs of that case and its cause was not found;
+- real Mobile Safari on an iPhone 17 Pro simulator: the page renders, figures in SF Pro Rounded, glass frosts what passes
+  under it. Headless WebKit does not blur, so its ghost text was the test tool, not the page.
+
+Not reviewed by an independent reviewer, and not seen on a real phone at 20% brightness. MA's ink is measured against
+the 20% rule as first set (body 7:1 and 4.5:1, text 4.5:1 and 3:1), because it cannot reach round 3's raised text tier.
+To hold it, the light ground rose to `#F4F6FB`, the dark card deepened to `#0E142A` and glass went from 56% to 72%. The
+tightest pairs have no margin (`fall` on `fall-tint` in light at 3.00:1, white on UK ETFs at 3.03:1). At 390 px about 1,600
+text nodes sit in side-scrolling boards or below a device's fold and were not swept there; at 1440 px all but 55 to 72
+were. The versioning, deprecation and per-surface pattern details are the maker's proposals, marked so. SF Symbol names
+are from memory, unchecked against Apple's app. Whether "motion animations for claude" means motion inside the app is still
+to be confirmed by the owner.
