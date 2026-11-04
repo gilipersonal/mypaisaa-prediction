@@ -1,0 +1,156 @@
+{
+  "base": "af66cc0",
+  "paths": [
+    ".claude/rules/independent-review.md",
+    "docs/confluence/pages/ph-07.html",
+    "docs/design/admin/index.html",
+    "docs/design/admin/permissions.json",
+    "docs/design/admin/src/journeys/agents.js",
+    "docs/design/admin/src/journeys/approvals.css",
+    "docs/design/admin/src/journeys/approvals.js",
+    "docs/design/admin/src/journeys/audit.js",
+    "docs/design/admin/src/journeys/costs.js",
+    "docs/design/admin/src/journeys/files.js",
+    "docs/design/admin/src/journeys/home.js",
+    "docs/design/admin/src/journeys/identity.js",
+    "docs/design/admin/src/journeys/incidents.js",
+    "docs/design/admin/src/journeys/models.js",
+    "docs/design/admin/src/journeys/runs.js",
+    "docs/design/admin/src/shell.js",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/approvals.js",
+    "docs/design/reviews/MP-64/decision.md",
+    "docs/design/reviews/MP-64/fix-round-3.md",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json",
+    "review/MP-64/fixed.json",
+    "review/MP-64/round-3-brief.md",
+    "review/MP-64/round-3-checks.json",
+    "review/MP-64/round-3-lane-a.md",
+    "review/MP-64/round-3-lane-f.md",
+    "review/MP-64/round-3-lane-m.md",
+    "review/MP-64/round-3-lane-s.md",
+    "review/MP-64/round-3.md",
+    "review/MP-64/state.json",
+    "scripts/design_admin_facts.mjs",
+    "tests/admin_facts/a.mjs",
+    "tests/admin_facts/c.mjs",
+    "tests/admin_facts/f.mjs",
+    "tests/admin_facts/m.mjs",
+    "tests/admin_facts/s.mjs",
+    "tests/journey_facts/r.mjs"
+  ],
+  "unmapped": [],
+  "deferred": [
+    "design-walk"
+  ],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "0ffb69e1b3cfa4d26e95bef3bc6ffc4821a5a9fd8b0e8421879aa8da693527bf",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "aa2f63b54a37d7552d618ae28d4ab3c161ff9c7ea37a7699cb1fb18dabd638bd",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "3fad0007d3793a08907d00021f514888a62a1ceac5fb0a0a6e930d10e99c614b",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 6.8,
+      "fingerprint": "4c37f8fb3e7f9387c9a01e536c71f1358d5d67be8748677b638d00835fe0524c",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "confluence-receipts": {
+      "status": "FAIL",
+      "detail": "python3 docs/confluence/build_pages.py check exited 1: wrote 38 pages to docs/confluence/pages | PENDING: ph-07: changed since it was published",
+      "seconds": 0.1,
+      "fingerprint": "e2318d6fcf5071c0bfc974073d9009fd4f07ca758ec099fa8028b83e8e6c4e65",
+      "steps": [
+        "python3 docs/confluence/build_pages.py selftest",
+        "python3 docs/confluence/build_pages.py check",
+        "python3 -m unittest discover -s tests -p test_confluence_receipts.py"
+      ]
+    },
+    "design-sync": {
+      "status": "FAIL",
+      "detail": "python3 scripts/design_sync.py check exited 1: PENDING: ds-journeys: docs/design/journeys/index.html changed since it was synced to https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq; republish it | PENDING: ds-admin: docs/design/admin/index.html changed since it was synced to https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf; republish it",
+      "seconds": 0.0,
+      "fingerprint": "e7ce7f97a9f518246a78c44c7ed3a081cddf3071d86fd6d6b5742aa2bda58703",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 115.4,
+      "fingerprint": "579c48218c0a71f3bd4d31c87c5e2b004b60703d90aa191d0e6ea3290ec3c210",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 docs/design/admin/build.py --check",
+        "node scripts/design_admin_facts.mjs --selftest",
+        "node scripts/design_admin_facts.mjs",
+        "node scripts/design_admin_facts.mjs --facts",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "node scripts/design_journeys_facts.mjs --selftest",
+        "node scripts/design_journeys_facts.mjs --all",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.6,
+      "fingerprint": "c41ed66e40070929675b8e950f6fd3799bede58d2449bd27a0f96639f3c454f6",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "bb098608b4c7ca58a040191a4ab72c8f26d84afb0fdcad277ed53b1aeacc84eb",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

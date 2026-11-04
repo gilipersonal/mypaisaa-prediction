@@ -1,0 +1,45 @@
+/* Incidents and Recovery (MP-64): the incident timeline and the runbook's steps. Everything else is Prism. */
+.aincidents-tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0; }
+.aincidents-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.aincidents-head h3 { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; min-width: 0; }
+.aincidents-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; min-width: 0; }
+.aincidents-two > div { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.aincidents-ask { display: grid; gap: 8px; min-width: 0; }
+.aincidents-ask + .aincidents-ask { padding-top: 12px; border-top: 1px solid var(--hairline); }
+.aincidents-ask b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aincidents-held { display: flex; gap: 8px; align-items: flex-start; }
+.aincidents-held svg { flex: none; margin-top: 1px; }
+.aincidents-go { justify-self: start; }
+
+/* A: what happened, in order */
+.aincidents-tl { list-style: none; margin: 0; padding: 0; display: grid; }
+.aincidents-tl li { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; padding-bottom: 16px; min-width: 0; }
+.aincidents-tl li:last-child { padding-bottom: 0; }
+.aincidents-tl li::before { content: ""; position: absolute; left: 11px; top: 24px; bottom: 0; width: 2px; background: var(--hairline-2); }
+.aincidents-tl li:last-child::before { display: none; }
+.aincidents-tl .pt { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); color: var(--ink-2); box-shadow: inset 0 0 0 1.5px var(--hairline-2); }
+.aincidents-tl .done .pt { background: var(--rise-tint); color: var(--rise); box-shadow: none; }
+.aincidents-tl .now .pt { background: var(--btn); color: var(--btn-ink); box-shadow: none; }
+.aincidents-tl .warn .pt { background: var(--fall-tint); color: var(--fall); box-shadow: none; }
+.aincidents-tl b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aincidents-tl p { font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
+.aincidents-tl .x { display: grid; gap: 8px; margin-top: 8px; min-width: 0; }
+
+/* B: what you do next, step by step, each step saying whose it is */
+.aincidents-steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.aincidents-steps li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 10px; padding: 12px 0; min-width: 0; }
+.aincidents-steps li:first-child { padding-top: 0; }
+.aincidents-steps li:last-child { padding-bottom: 0; }
+.aincidents-steps li + li { border-top: 1px solid var(--hairline); }
+.aincidents-steps .n { width: 32px; height: 32px; border-radius: var(--r-xs); display: grid; place-items: center; font: 700 15px/18px var(--font-text); background: var(--surface-2); color: var(--ink-2); }
+.aincidents-steps .done .n { background: var(--rise-tint); color: var(--rise); }
+.aincidents-steps .now .n { background: var(--btn); color: var(--btn-ink); }
+.aincidents-steps .warn .n { background: var(--fall-tint); color: var(--fall); }
+.aincidents-steps .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+.aincidents-steps b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; min-width: 0; }
+.aincidents-steps p { font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
+.aincidents-steps .x { display: grid; gap: 8px; margin-top: 8px; min-width: 0; }
+
+.aincidents-field { display: block; width: 100%; min-height: 72px; padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline-2); font: 400 15px/20px var(--font-text); letter-spacing: -.01em; color: var(--ink); resize: vertical; }
+.aincidents-fieldl { display: grid; gap: 6px; }
+.aincidents-bind { padding: 12px; border-radius: var(--r-sm); background: var(--surface-2); min-width: 0; }

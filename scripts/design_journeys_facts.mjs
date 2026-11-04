@@ -122,6 +122,7 @@ function selftest() {
   return bad ? 1 : 0;
 }
 
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
 const args = process.argv.slice(2);
 const take = (flag) => { const i = args.indexOf(flag); return i >= 0 ? args.splice(i, 2)[1] : null; };
 const pageArg = take('--page'), only = take('--only');
@@ -141,4 +142,5 @@ try {
 } catch (e) {
   console.log(`CANNOT RUN: ${e.message}`);
   process.exit(2);
+}
 }

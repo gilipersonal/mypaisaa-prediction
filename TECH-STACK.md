@@ -132,7 +132,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | GitHub and Actions | Code, pull requests, CI | Implemented |
 | Jira and Confluence | Work tracking and published plans | Implemented |
 | Lucidchart | Architecture diagrams | Implemented |
-| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Not for now (owner, 3 Nov 2026): free local builds that expire after 7 days; phone notifications through the web app's Web Push until the owner says when |
+| Apple Developer Program | TestFlight, push, Sign in with Apple and passkeys on a device | Not for now (owner, 3 Nov 2026): free local builds that expire after 7 days; phone notifications through the web app's Web Push until the Developer Program is bought (MP-179) |
 
 ## 8. Quality and delivery
 

@@ -157,8 +157,8 @@
   },
   "ph-07": {
    "id": "6291589",
-   "version": 4,
-   "sha256": "377a385717c3e1ee5ac27e355235d6e2120826e26088590eb0c52e1ae02d6585"
+   "version": 6,
+   "sha256": "296277094913b6ca57224edfdbc6d46a4d6bd5a36f70ebbc2d315ff5086b6ce3"
   },
   "ph-08": {
    "id": "6291609",
@@ -182,8 +182,8 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 6,
-   "sha256": "cbc3cd71b5dca45e8b31c322f571db7dfafd77da61e79277cc7353d50c4af41b"
+   "version": 8,
+   "sha256": "b0a18f164f687990c21aeafe4a849c1c5d835c64aeebaadb8128017f6c0e3a4e"
   },
   "rec-perimeter": {
    "id": "6390123",
@@ -430,10 +430,10 @@
     "sha256": "5e0bb36d4a16dc66315d1065316c6849a23832c03f045cad24aa561c74be1752"
    },
    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
-    "id": "3011fed0-df70-443d-af9d-7d5aa1f2f9a4",
+    "id": "581181a2-55d2-441d-927b-cd82a3290772",
     "collection": "contentId-6291956",
     "attachment": "att6128904",
-    "sha256": "72b33ce3e9b8bb63cb45b8feadb530dc0d960c824e3023340e8e462eccd4cbcd"
+    "sha256": "5bf245e077ce4844b3e4395540de31fd995b8af7655039cc021647fbb15b3643"
    }
   },
   "rec-testing": {

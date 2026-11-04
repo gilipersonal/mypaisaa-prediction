@@ -86,6 +86,8 @@ const AUDIT = () => {
     scr.querySelectorAll('.card, .sheet').forEach((k) => { if (k.scrollWidth > k.clientWidth + 1 && getComputedStyle(k).overflowX !== 'auto') out.clipped.push(`${scr.getAttribute('aria-label')}: a card clips ${k.scrollWidth - k.clientWidth} px, "${k.textContent.trim().slice(0, 36)}"`); });
     scr.querySelectorAll('.jbody > *, .jcols > div > *').forEach((k) => { const a = k.getBoundingClientRect(), p = k.parentElement.getBoundingClientRect(); if (a.width && a.right > p.right + 1) out.clipped.push(`${scr.getAttribute('aria-label')}: runs ${Math.round(a.right - p.right)} px past its column, "${k.textContent.trim().slice(0, 36)}"`); });
     scr.querySelectorAll('.chip, .btn').forEach((k) => { const box = k.closest('.card, .sheet, .jbanner'); if (!box) return; const a = k.getBoundingClientRect(), p = box.getBoundingClientRect(); if (a.width && a.right > p.right + 1) out.clipped.push(`${scr.getAttribute('aria-label')}: "${k.textContent.trim().slice(0, 28)}" runs ${Math.round(a.right - p.right)} px past its card`); });
+    scr.querySelectorAll('.navbar .nb').forEach((nb) => { const t = nb.querySelector('.nbt'), l = nb.querySelector('.jback span'); if (!t || !l) return; const r = document.createRange(); r.selectNodeContents(t); const a = r.getBoundingClientRect(), c = l.getBoundingClientRect(); if (c.width && a.left < c.right + 2) out.clipped.push(`${scr.getAttribute('aria-label')}: the back label runs into the title`); });
+    scr.querySelectorAll('.jside .chip').forEach((k) => { const a = k.getBoundingClientRect(), p = k.closest('.jside').getBoundingClientRect(); if (a.width && a.right > p.right + 1) out.clipped.push(`${scr.getAttribute('aria-label')}: a sidebar chip runs out of the sidebar`); });
     scr.querySelectorAll('button.btn').forEach((k) => { const a = k.getBoundingClientRect(); if (a.height && a.height < 43.5) out.clipped.push(`${scr.getAttribute('aria-label')}: the button "${k.textContent.trim().slice(0, 24)}" is ${Math.round(a.height)} px tall, under 44`); });
     scr.querySelectorAll('button, [role="button"], summary, a[href]').forEach((k) => { if (k.closest('[aria-hidden="true"]')) return; const a = k.getBoundingClientRect(); if (a.width && a.height && (a.width < 23.5 || a.height < 23.5)) out.clipped.push(`${scr.getAttribute('aria-label')}: the control "${(k.getAttribute('aria-label') || k.textContent).trim().slice(0, 24)}" is ${Math.round(a.width)} × ${Math.round(a.height)} px, under WCAG's 24`); });
     if (scr.querySelector('.badge') && !/decision support/i.test(text)) out.label.push(`${scr.getAttribute('aria-label')}: a ranked action with no "decision support" on the screen`);
@@ -166,7 +168,7 @@ const REAL = async (reduced) => {
 
 const pw = require(PW);
 const b = await pw.chromium.launch({ channel: 'chrome' });
-let problems = 0, combos = 0, want = 0, flipsPressed = 0;
+let problems = 0, combos = 0, want = 0, flipsPressed = 0, flipless = false;   // Prism Admin has no flip (MP-64); design_gates refuses the flag on the journeys page
 const say = (m) => { problems++; if (problems <= 60) console.log('FAIL ' + m); };
 try {
   for (const theme of THEMES) {
@@ -180,6 +182,7 @@ try {
     for (const e of errs) say(`${theme}: an error while the page loaded: ${e}`);
     if (!await p.evaluate(() => !!window.__prismJourneys)) { say(`${theme}: the page has no journeys to walk`); await c.close(); continue; }
     await p.evaluate(() => { window.__prismNoFit = window.__prismInstantFlip = true; });   // measure every frame at its true size
+    flipless = await p.evaluate(() => window.__prismFlipless === true);
     const shape = await p.evaluate(() => ({ m: window.__prismJourneys.matrix(), states: window.__prismStates.map((s) => s[0]), surfaces: window.__prismSurfaces.map((s) => s[0]), recs: window.__prismJourneys.all().map((j) => [j.id, j.options.length, j.options.filter((o) => o.rec).length]) }));
     for (const [id, n, rec] of shape.recs) {
       if (ONLY && !ONLY.includes(id)) continue;
@@ -210,8 +213,8 @@ try {
           for (const x of [...new Set(a.low)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.clipped)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.label)].slice(0, 2)) say(`${where}: ${x}`);
-          if (!a.flips) say(`${where}: no screen can flip`);
-          if (theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
+          if (!a.flips && !flipless) say(`${where}: no screen can flip`);
+          if (!flipless && theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
             const pr = await p.evaluate(PRESS, st);
             for (const x of [...new Set(pr.out)].slice(0, 4)) say(`${where}: ${x}`);
             flipsPressed += pr.pressed;
@@ -220,7 +223,7 @@ try {
         }
       }
     }
-    if (theme === THEMES[0] && shape.m.length) {
+    if (!flipless && theme === THEMES[0] && shape.m.length) {
       const row = shape.m.find((r) => !ONLY || ONLY.includes(r.j) && r.o === 'b') || shape.m[0];
       await p.evaluate(([j]) => window.__prismJourneys.go(j, 'a', 'iphone', 'default'), [row.j]);
       errs.length = 0;
@@ -234,8 +237,8 @@ try {
 }
 const b2 = await pw.chromium.launch({ channel: 'chrome' });
 if (!combos || combos !== want) say(`walked ${combos} combinations of ${want}: the walk did not cover the page`);
-if (!flipsPressed) say('no flip was pressed');
-{ // with motion on, a flip turns: one press, on the first journey walked
+if (!flipsPressed && !flipless) say('no flip was pressed');
+if (!flipless) { // with motion on, a flip turns: one press, on the first journey walked
   const c = await b2.newContext({ viewport: { width: 1440, height: 1000 }, colorScheme: 'light' });
   const p = await c.newPage();
   await p.route('https://j.test/**', (r) => r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: wrap }));
@@ -261,7 +264,7 @@ function selftest() {
   const run = (html, extra = ['--only', 'privacy']) => {
     const f = join(tmp, 'case.html');
     writeFileSync(f, html);
-    const r = spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '120', 'node', self, f, '--themes', 'light', '--surfaces', 'iphone', ...extra], { encoding: 'utf8' });
+    const r = spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '120', 'node', self, f, '--themes', 'light', ...(extra.includes('--surfaces') ? [] : ['--surfaces', 'iphone']), ...extra], { encoding: 'utf8' });
     return { status: r.status, out: r.stdout + r.stderr };
   };
   const css = (rule) => page.replace('</style>', `${rule}</style>`);
@@ -294,6 +297,8 @@ function selftest() {
     'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
     'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
     'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
+    'a back label on the title': [css('.navbar .nbt { text-align: left; padding-left: 0; }'), 'back label runs into the title'],
+    'a chip out of the sidebar': [css('.jside .chip { position: relative; left: 400px; }'), 'runs out of the sidebar', ['--only', 'privacy', '--surfaces', 'web']],
     'a frame that does not turn': [page.replace('rotateY(-90deg)', 'rotateY(0deg)').replace('rotateY(90deg)', 'rotateY(0deg)'), 'the frame does not turn'],
     'a caption that stays': [page.replace('cap.innerHTML = `<span class="tag">', 'cap.dataset.x = `<span class="tag">'), 'does not follow'],
     'a frame that does not say it turned': [page.replace('Turned to ${oid.toUpperCase()}', 'Showing ${oid.toUpperCase()}'), 'does not say so'],

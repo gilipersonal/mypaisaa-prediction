@@ -122,15 +122,21 @@
     const stop = o.stop == null ? 9 : o.stop;
     return `<div style="display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:5px;margin-top:10px" role="img" aria-label="${o.label || 'Nine weeks in shadow: eight scored, and the week of 12 October paused by a data outage'}">${WEEKS.map((w, i) => { const off = i >= stop, p = i === 6 && !off; return `<i data-mo="chip" style="display:grid;place-items:center;height:30px;border-radius:9px;color:var(--surface);${off ? 'box-shadow:inset 0 0 0 1.5px var(--hairline-2)' : p ? 'box-shadow:inset 0 0 0 1.5px var(--ink-2);color:var(--ink-2)' : 'background:var(--scored)'}">${off ? '' : ic(p ? 'pause' : 'check', 's14')}</i>`; }).join('')}</div><div class="small muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>w/c 31 Aug</span><span>w/c 26 Oct</span></div>`;
   };
-  const modelHead = (chip = expiry('Expires Fri 18:00') + CT2) => headCard(lead('cube'), 'Promote R2-HGB v4', '3, 6 and 12 months · all segments', chip);
+  /* the approval binds the exact scope (MP-156). One phrase, word for word, here and in admin Approvals and Models */
+  const SCOPE = 'All segments, except US tech, 12 months and India midcap, 3 months';
+  const modelHead = (chip = expiry('Expires Fri 18:00') + CT2) => headCard(lead('cube'), 'Promote R2-HGB v4', `3, 6 and 12 months · ${SCOPE}`, chip);
   const evidence = (o = {}) => box(`<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">${lbl('Shadow trial')}<span class="small muted">${o.count || '8 of 8 scored weeks'}</span></div>${trial(o)}<p class="small muted" style="margin-top:8px">${o.text || 'The week of 12 Oct could not be scored after a data outage, so the count paused. No forecast from this trial reached you.'}</p>`);
   const scoreTable = (o = {}) => box(`${lbl('Against both comparators · Brier score, lower is better')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Walk-forward</th><th class="r">v4</th><th class="r">Rules</th><th class="r">Base rate</th></tr></thead><tbody><tr><td>3, 6, 12 months</td><td class="r"><b>${o.v4 || '0.188'}</b></td><td class="r">0.197</td><td class="r">0.203</td></tr></tbody></table></div><div style="margin-top:8px">${proposed('SCI-D03')}</div><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv([['Clean running', '8 of 8 scored weeks'], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']])}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
   const MODEL_ROWS = [['Active model', 'v3', 'v4'], ['Calibrator', 'c7', 'c8'], ['Width of the portfolio\'s 80% range', '24.7 pts', '23.5 pts', '1.2 points narrower.'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v3 by itself', 'On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it.']];
-  const bound = (title = 'This approval is bound to', prev = 'R2-HGB v3') => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', 'All segments'], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
+  const PREV_PAUSED = 'R2-HGB v3, where eligible';
+  const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
+  /* the two scopes the exact scope leaves out, in admin Models' words */
+  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">R2-HGB v3's approval expired on US tech, 12 months, so it cannot be the safe fallback there. Promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
   const modelRail = ctx => {
-    if (ctx.state === 'default' || ctx.state === 'offline') return bound() + limits('This changes which approved artefact issues forecasts.');
-    if (['error', 'noModel', 'disagreement'].includes(ctx.state)) return bound('What this proposed', ctx.state === 'noModel' ? 'None eligible' : 'R2-HGB v3') + limits('This proposal cannot go ahead, so it changes nothing.');
+    if (ctx.state === 'default' || ctx.state === 'offline') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts.');
+    if (ctx.state === 'noModel') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts. US tech, 12 months stays paused.');
+    if (['error', 'disagreement'].includes(ctx.state)) return bound('What this proposed') + limits('This proposal cannot go ahead, so it changes nothing.');
     return '';
   };
   const modelCore = (ctx, o = {}) => {
@@ -142,7 +148,7 @@
       error: () => head(status.refused) + stateCard('alert', 'The evidence changed', 'The evidence hash no longer matches what this proposal was built on, so it cannot be approved. The trial stays readable, and code rebuilds the proposal.', '', `<span class="chip error">Evidence hash mismatch</span>`),
       stale: () => head(`<span class="chip stale">Count paused</span>`) + evidence({ count: '6 of 8 scored weeks', stop: 7, label: 'Count paused after six scored weeks and a week that could not be scored', text: 'The week of 12 Oct could not be scored, so the count is paused at 6. The trial still needs 8 scored weeks.' }),
       offline: () => banner('', 'Offline.', 'You can read the evidence. Approving needs a connection and a fresh sign-in.', 'wifi-off') + head() + trail + evidence() + scoreTable(),
-      noModel: () => banner('fall', 'Previous model not eligible.', 'R2-HGB v3 can no longer be the safe fallback, because its approval has expired. Until you approve a safe version, this cannot be promoted.', 'cube') + head(status.blocked) + evidence(),
+      noModel: () => banner('warn', 'One scope waits.', 'R2-HGB v3 can no longer be the safe fallback on US tech, 12 months, because its approval has expired. That scope stays paused until you restart it. The rest of its scope can still be promoted.', 'cube') + head() + trail + evidence() + scoreTable() + changeCard(MODEL_ROWS.map(r => (r[0] === 'If it slips' ? [r[0], r[1], 'Back to v3 by itself, where v3 is eligible', r[3]] : r[0] === 'Active model' ? [r[0], r[1], 'v4, where v3 issues'] : r))),
       disagreement: () => head(status.blocked) + stateCard('split', 'It beat one comparator, not both', 'R2-HGB v4 beat the base rate but not the current rules on walk-forward history, so it cannot be promoted. A rejected candidate stays readable with its evidence.', '', `<span class="chip">Beats base rate</span><span class="chip error">Behind the rules</span>`) + scoreTable({ v4: '0.199' }),
       abstention: () => head(`<span class="chip">Awaiting maturity</span>`) + stateCard('ban', 'Not enough has matured yet', 'The 8 weeks ran cleanly, but too little walk-forward history has matured at 12 months to calibrate c8. It waits rather than guess, and nothing can be approved until then.', '', '<span class="chip">Calibration withheld</span>') + evidence()
     });
@@ -150,7 +156,7 @@
   const modelYes = ctx => {
     const st = ctx.state;
     if (st === 'offline') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
-    if (st === 'default') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: CT2 } };
+    if (st === 'default' || st === 'noModel') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: CT2 } };
     return null;
   };
 
@@ -172,16 +178,19 @@
       default: return sheetWrap('Approve with a fresh sign-in', p('You approve exactly this. If any line changes, it needs a new approval.') + rows + NOT + go(bs('Continue with passkey', 'primary', 'lock')));
     }
   };
-  const STEP_MODEL = [['Action', 'Promote a model'], ['Change', 'R2-HGB v3 to v4'], ['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', 'All segments'], ['Environment', 'Production'], ['Evidence hash', '9c1e…44ab'], ['Payload hash', 'a81f…60de'], ['Limits', '5 points, 10%'], ['Previous safe', 'R2-HGB v3'], ['Expected version', 'Models v22'], ['Expires', 'Fri 6 Nov, 18:00']];
+  const STEP_MODEL = [['Action', 'Promote a model'], ['Change', 'R2-HGB v3 to v4'], ['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Environment', 'Production'], ['Evidence hash', '9c1e…44ab'], ['Payload hash', 'a81f…60de'], ['Limits', '5 points, 10%'], ['Previous safe', PREV_PAUSED], ['Expected version', 'Models v22'], ['Expires', 'Fri 6 Nov, 18:00']];
   const STEP_TSM = [['Action', 'Add a watch-only listing'], ['Change', 'Catalogue v14 to v15'], ['Listing', 'TSM · XNYS'], ['Environment', 'Production'], ['Payload hash', '2d7a…b310'], ['Expires', 'Today, 18:00']];
   const STEP_SET = [['Action', 'Change a setting'], ['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
   /* on a refused step the rail shows what was proposed, not what is bound */
+  /* the sheet binds the same lines in No model, and says the waiting scope stays out of it */
+  const stepTag = ctx => (ctx.state === 'noModel' ? `${CT2}<span class="chip stale">${ic('pause', 's14')}US tech, 12 months stays paused</span>` : CT2);
   const stepBound = ctx => bound(ctx.state === 'disagreement' ? 'What this proposed' : undefined);
 
   /* ---------- after the decision (MP-55, MP-114, MP-159) ---------- */
   const outcome = (i, tone, title, text, extra = '') => `<div class="card fcard" data-mo="card"><span class="logo" style="--c:var(--${tone}-tint);color:var(--${tone});margin-bottom:10px" aria-hidden="true">${ic(i, 's24')}</span><p style="font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">${title}</p><p class="small muted" style="margin-top:6px">${text}</p>${extra}</div>`;
   const resultCore = ctx => region(ctx, {
-    what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. R2-HGB v4 is on probation.', 'Applied at 09:14 with your fresh sign-in. It writes forecasts from tonight\'s run.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(MODEL_ROWS.slice(0, 2), 'What changed'),
+    what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. R2-HGB v4 is on probation.', 'Applied at 09:14 with your fresh sign-in. It writes forecasts from tonight\'s run. US tech, 12 months stays paused, and its restart still waits on you. India midcap, 3 months stays on R1-LGB v1.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(MODEL_ROWS.slice(0, 2), 'What changed'),
+    noModel: () => outcome('check', 'rise', 'Promoted where v3 was eligible.', 'Applied at 09:14 with your fresh sign-in. US tech, 12 months stays paused, and its restart still waits on you. India midcap, 3 months stays on R1-LGB v1.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard([[MODEL_ROWS[0][0], MODEL_ROWS[0][1], 'v4, where v3 issues'], MODEL_ROWS[1]], 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:14')}<p class="small muted" style="margin-top:4px">The previous version stays current until this finishes, and an interrupted promotion completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Promote', 'Writing the promotion record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'R2-HGB v3 stays active. The candidate stays readable with its evidence, and a repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
@@ -191,7 +200,7 @@
   });
   const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Tonight 21:15', 'First forecasts from v4, labelled with their version', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
   const safeBox = t => box(`${lbl('Why this is safe')}<p class="small muted" style="margin-top:4px">${t}</p>`);
-  const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
+  const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : ctx.state === 'noModel' ? NEXT() + safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
   /* ---------- the record (MP-114): every decision, by whoever made it ---------- */
   const REC = [
@@ -352,7 +361,7 @@
   };
   /* a paused scope notifies the owner (MP-159), and every intent appears here (MP-162) */
   const PAUSED = ['pause', 'warn', 'US tech, 12 months paused', 'Previous model not eligible · detected Tue 21:20', 'Unread'];
-  const noticeList = ctx => (ctx.state === 'noModel' ? [NOTICE[0], PAUSED, ...NOTICE.slice(1)] : NOTICE);
+  const noticeList = () => [NOTICE[0], PAUSED, ...NOTICE.slice(1)];
   const notices = (ctx, o = {}) => sec('Notices', '<span class="small muted">By time detected</span>') + list(noticeList(ctx).map(n => noticeRow(n, ctx, o)).join('')) + `<p class="small muted" style="padding:0 4px">Every notice stays here, whether or not its push arrived. Opening one shows its evidence and never performs an action. Read state syncs across your devices.</p>`;
   /* one body for the inbox, in every state: the queue, Home's rail and Notices all read it */
   const noticeBody = ctx => region(ctx, {
@@ -372,16 +381,18 @@
   const UNCHECKED = ['One proposal is not yet checked.', 'Code could not finish the check on Barclays, so it cannot be confirmed yet.'];
   const PAUSE_TEXT = 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes. Prices and holdings still work.';
   const STALE_TEXT = `Each proposal rechecks itself before you can approve it. HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. ${LATE}`;
+  /* the paused scope sits outside the count of dated decisions, in Ready as in No model */
+  const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true));
   const inboxBody = ctx => region(ctx, {
-    what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + closed() + liveNote(),
+    what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + restartRow() + closed() + liveNote(),
     loading: () => `<div class="card fcard" data-mo="card"><span class="label">Last good 21:15 · expiry times come from the server</span><span class="sk" style="height:44px;width:60%;margin-top:10px"></span></div>` + skel(4),
     empty: () => stateCard('check', 'Nothing waits on you', 'Claude and code have no open proposals. This says nothing about risk: risk alerts arrive on their own.', bs('See the record')) + liveRow(),
     error: () => stateCard('alert', 'This list did not load', 'Nothing can be approved until it does. Open proposals keep their expiry on the server, and nothing is lost.', bs('Try again', 'tinted', 'refresh')),
-    stale: () => banner('warn', 'Showing this list from 14:10.', `Expiry times may have passed. ${STALE_TEXT}`, 'clock') + queueHero() + queue(ctx),
-    offline: () => banner('', 'Offline.', 'You can read what waits. Approving needs a connection.', 'wifi-off') + queueHero() + queue(ctx),
-    noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + queueHero(5) + list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true)) + queue(ctx),
-    disagreement: () => banner('', ...OVERLAP, 'split') + queueHero() + queue(ctx),
-    abstention: () => banner('', ...UNCHECKED, 'ban') + queueHero(5) + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', bs('Run again'))) + queue(ctx)
+    stale: () => banner('warn', 'Showing this list from 14:10.', `Expiry times may have passed. ${STALE_TEXT}`, 'clock') + queueHero() + queue(ctx) + restartRow(),
+    offline: () => banner('', 'Offline.', 'You can read what waits. Approving needs a connection.', 'wifi-off') + queueHero() + queue(ctx) + restartRow(),
+    noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + queueHero(5) + restartRow() + queue(ctx),
+    disagreement: () => banner('', ...OVERLAP, 'split') + queueHero() + queue(ctx) + restartRow(),
+    abstention: () => banner('', ...UNCHECKED, 'ban') + queueHero(5) + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', bs('Run again'))) + queue(ctx) + restartRow()
   }) + noticeBody(ctx);
   const peek = ctx => {
     if (['loading', 'empty', 'error'].includes(ctx.state)) return '';
@@ -402,20 +413,20 @@
     return v;
   };
   const homeBody = ctx => region(ctx, {
-    what: 'Holdings', rows: 3, ok: () => vc(ctx) + list0(ctx),
+    what: 'Holdings', rows: 3, ok: () => vc(ctx) + restartRow() + list0(ctx),
     loading: () => vc(ctx) + skel(3),
     empty: () => vc(ctx) + banner('', 'Nothing waits on you.', 'A strip appears here the moment a proposal needs your decision.', 'check') + liveRow() + list0(ctx),
     error: () => banner('fall', 'Proposals did not load.', 'Nothing can be approved until they do. Twelve Data failed at 21:14, so your holdings show the last good run.', 'alert') + vc(ctx) + list0(ctx),
-    stale: () => banner('warn', 'Stale.', `Proposals last updated 14:10. ${STALE_TEXT}`, 'clock') + vc(ctx) + list0(ctx),
-    offline: () => banner('', 'Offline.', 'Showing figures from 21:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + list0(ctx),
+    stale: () => banner('warn', 'Stale.', `Proposals last updated 14:10. ${STALE_TEXT}`, 'clock') + vc(ctx) + restartRow() + list0(ctx),
+    offline: () => banner('', 'Offline.', 'Showing figures from 21:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + restartRow() + list0(ctx),
     noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + vc(ctx) + list0(ctx),
-    disagreement: () => banner('', ...OVERLAP, 'split') + vc(ctx) + list0(ctx),
-    abstention: () => banner('', ...UNCHECKED, 'ban') + vc(ctx) + list0(ctx)
+    disagreement: () => banner('', ...OVERLAP, 'split') + vc(ctx) + restartRow() + list0(ctx),
+    abstention: () => banner('', ...UNCHECKED, 'ban') + vc(ctx) + restartRow() + list0(ctx)
   });
   /* the model abstained on AstraZeneca at 6 months, so its row shows no range, no median and no action */
   const noRange = h => hrow(h).replace(/<div class="fl">[\s\S]*<\/div>\s*<div class="act">[\s\S]*?<\/div>/, `<div class="fl"><span class="chip">${ic('ban', 's14')}Abstained · no range shown</span></div><div class="act"><span class="small muted">None</span></div>`);
   const list0 = ctx => `${sec('Holdings', illus('Decision support'))}<div class="list card" style="margin:0" data-mo="card">${H.slice(0, 4).map(h => (ctx.state === 'abstention' && h.t === 'AZN' ? noRange(h) : hrow(h))).join('')}</div>`;
-  const noticeLink = ctx => list(item(lead('alert', 'warn'), 'Notices', NOTICE_LINE[ctx.state] || '1 unread · newest detected Tue 22:15', ic('chev-r', 's18'), '', false, true));
+  const noticeLink = ctx => list(item(lead('alert', 'warn'), 'Notices', NOTICE_LINE[ctx.state] || '2 unread · newest detected Tue 22:15', ic('chev-r', 's18'), '', false, true));
   const homeRail = ctx => `${stripCard(ctx)}${noticeBody(ctx)}`;
   const afterCore = ctx => {
     const row = (s, chip) => list(item(logo(TSM.c, TSM.lg), TSM.n, s, chip));
@@ -451,6 +462,7 @@
 
   const naStep = { noModel: 'Signing in involves no forecast, so no model can be missing here.' };
   const naResult = { noModel: 'This screen reports a decision, not a forecast. A missing model shows on the proposal.', abstention: 'A decision is yours, so nothing can abstain on it.' };
+  const naPromoted = { abstention: naResult.abstention };
   const naSetting = { noModel: 'A band is a setting the calibrator reads, so no model can be missing from this proposal.' };
   const afterRail = () => safeBox('Claude can propose and cannot add. A confirmation covers this exact listing and this catalogue version, and nothing else.');
   const naRecord = { noModel: 'The record lists past decisions, so no forecast is on it.', disagreement: 'A record states what happened once. Nothing here can disagree: a conflict shows on the proposal.', abstention: 'A record states what happened, so nothing can abstain on it.' };
@@ -464,7 +476,7 @@
       why: 'Everything that waits on you sits in one list, soonest expiry first, and every proposal reads the same way: who did what, exactly what changes, what it cannot do. Decisions are rare and heavy, so one place that cannot be missed beats speed.',
       cost: 'A listing proposed in chat is confirmed one step away from the chat, and each decision leaves the place it concerns.',
       screens: [{
-        id: 'aa-queue', title: 'Waiting on you', note: 'Notices share the place but never act. No model shows a paused scope that needs a restart. Empty shows an approved import you can still revoke.',
+        id: 'aa-queue', title: 'Waiting on you', note: 'Notices share the place but never act. Ready shows a paused scope that needs a restart. Empty shows an approved import you can still revoke.',
         render: ctx => fr(ctx, { fresh: undefined, tab: SET(ctx), title: 'Waiting on you', actions: tb('search', 'Search') + tb('clock', 'The record'), body: inboxBody(ctx), rail: wide(ctx) ? peek(ctx) : '' })
       }, {
         id: 'aa-listing', title: 'New listing', note: 'Proposed in chat. Confirm opens the step-up. Stale shows it expired; Abstaining shows code refusing it; Error shows a check that timed out.',
@@ -511,11 +523,10 @@
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
       }, {
         id: 'aa-step', title: 'Step-up', note: 'Every line is bound to the approval. Disagreement shows the record moving mid-way; Abstaining shows it failing closed.',
-        na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, stepTag(ctx)) })
       }, {
         id: 'aa-result', title: 'Outcome', note: 'Ready is approved. Empty is you refusing. Error is MP refusing at execution. Stale is expired.',
-        na: naResult,
+        na: naPromoted,
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: resultCore(ctx), rail: resultRail(ctx) })
       }, {
         id: 'aa-after', title: 'Listing outcome', note: 'Ready joins from the next close. Empty is you refusing. Stale is expired. Error is a write that failed, confirmed but not applied.',
@@ -538,7 +549,7 @@
         render: ctx => fr(ctx, { fresh: undefined, tab: 0, title: 'Portfolio', actions: tb('alert', 'Notices') + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: tb('alert', 'Notices'), body: homeBody(ctx) + (wide(ctx) ? '' : noticeLink(ctx)) + pad(ctx), rail: wide(ctx) ? homeRail(ctx) : '', accessory: wide(ctx) ? '' : strip(ctx) })
       }, {
         id: 'ab-notices', title: 'Notices', note: 'The inbox, in the order code detected each notice. No model shows a paused scope, which notifies you. Disagreement shows a read-state conflict resolving to read.',
-        render: ctx => fr(ctx, { fresh: undefined, tab: 0, back: 'Portfolio', title: 'Notices', body: noticeBody(ctx) })
+        render: ctx => fr(ctx, { fresh: undefined, tab: 0, back: 'Portfolio', title: 'Notices', body: (ctx.state === 'noModel' ? banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') : '') + noticeBody(ctx) })
       }, {
         id: 'ab-chat', title: 'Confirm in chat', note: 'The confirm card sits in the conversation that asked for it. Confirm opens the step-up. Stale shows it expired; Abstaining shows code refusing it.',
         render: ctx => {
@@ -556,16 +567,15 @@
         id: 'ab-model', title: 'Promotion in place', note: 'On the models page, beside the model it would replace. Empty shows a trial still running; Stale shows the count paused.',
         render: ctx => {
           const y = modelYes(ctx);
-          const current = ctx.state === 'loading' ? '' : ctx.state === 'noModel' ? box(`<div style="display:flex;align-items:center;gap:8px"><span class="chip error">${ic('cube', 's14')}Approval expired</span><span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">R2-HGB v3</span></div>`) : box(`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="chip owner"><span class="dot"></span>Active</span><span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">R2-HGB v3</span></div>${proof(true)}`);
+          const current = ctx.state === 'loading' ? '' : ctx.state === 'noModel' ? box(`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="chip error">${ic('cube', 's14')}Approval expired on US tech, 12 months</span><span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">R2-HGB v3</span></div>`) : box(`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="chip owner"><span class="dot"></span>Active</span><span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">R2-HGB v3</span></div>${proof(true)}`);
           return fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', body: current + modelCore(ctx), rail: `${y ? decideCard(ctx, y.yes, y.foot, y.o) : ''}${modelRail(ctx)}${pad(ctx)}`, accessory: y ? decideBar(ctx, y.yes, y.foot, y.o) : '' });
         }
       }, {
         id: 'ab-model-step', title: 'Step-up for a promotion', note: 'The same sheet, over the models page. Every line is bound to the approval.',
-        na: naStep,
-        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, CT2) })
+        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: modelHead() + chain('Tuner built', 'Code trialled', 'You decide') + evidence(), rail: wide(ctx) ? stepBound(ctx) : '', sheet: stepFor(ctx, STEP_MODEL, stepTag(ctx)) })
       }, {
         id: 'ab-model-result', title: 'Promotion outcome', note: 'On the models page. Ready is approved and on probation. Empty is you refusing. Error is MP refusing at execution. Stale is expired.',
-        na: naResult,
+        na: naPromoted,
         render: ctx => fr(ctx, { tab: 1, back: 'Models', title: 'Decision', body: resultCore(ctx), rail: resultRail(ctx) })
       }, {
         id: 'ab-setting', title: 'Settings change', note: 'In Settings, beside the setting it would change, with its impact, evidence, cost and rollback.',

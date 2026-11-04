@@ -1,0 +1,39 @@
+/* Identity and Devices (MP-64): the count of ways back in, and numbered recovery steps. Everything else is Prism. */
+.aidentity-tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0; }
+.aidentity-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.aidentity-head h3 { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; min-width: 0; }
+.aidentity-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 14px; min-width: 0; }
+.aidentity-two > div { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.aidentity-held { display: flex; gap: 8px; align-items: flex-start; }
+.aidentity-held svg { flex: none; margin-top: 1px; }
+.aidentity-go { justify-self: start; }
+.aidentity-count { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.aidentity-count > div { display: grid; gap: 2px; min-width: 0; }
+.aidentity-count b { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.aidentity-sheet { display: grid; gap: 10px; }
+.aidentity-sheet > .card { box-shadow: inset 0 0 0 1px var(--hairline); }
+
+.aidentity-steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.aidentity-steps li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 10px; padding: 12px 0; min-width: 0; }
+.aidentity-steps li:first-child { padding-top: 0; }
+.aidentity-steps li:last-child { padding-bottom: 0; }
+.aidentity-steps li + li { border-top: 1px solid var(--hairline); }
+.aidentity-steps .n { width: 32px; height: 32px; border-radius: var(--r-xs); display: grid; place-items: center; font: 700 15px/18px var(--font-text); background: var(--surface-2); color: var(--ink-2); }
+.aidentity-steps .done .n { background: var(--rise-tint); color: var(--rise); }
+.aidentity-steps .now .n { background: var(--btn); color: var(--btn-ink); }
+.aidentity-steps .warn .n { background: var(--fall-tint); color: var(--fall); }
+.aidentity-steps b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aidentity-steps p { font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
+.aidentity-steps .x { display: grid; gap: 8px; margin-top: 8px; min-width: 0; }
+.aidentity-cover { position: absolute; inset: 0; overflow: hidden; background: var(--ground); display: flex; }
+.aidentity-cover.web { top: 38px; }
+.aidentity-cover > .dfield { left: -20%; right: -20%; top: -60px; height: 560px; }
+.aidentity-in { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; width: 100%; min-height: 0; padding: 112px 20px 44px; overflow-y: auto; scrollbar-width: none; }
+.aidentity-in::-webkit-scrollbar { display: none; }
+.aidentity-cover.wide { align-items: center; justify-content: center; }
+.aidentity-cover.wide .aidentity-in { width: 460px; max-height: 92%; padding: 28px; border-radius: var(--r-sheet); background: var(--surface); box-shadow: var(--shadow-2); }
+.aidentity-brand { display: grid; gap: 6px; justify-items: start; }
+.aidentity-brand .brand-mark { width: 56px; height: 56px; border-radius: 18px; }
+.aidentity-brand .brand-mark::after { inset: 14px; border-radius: 8px; }
+.aidentity-brand h2 { font: 700 34px/41px var(--font-text); letter-spacing: -.02em; margin-top: 6px; }
+.aidentity-brand p { font-size: 17px; line-height: 22px; color: var(--ink); }

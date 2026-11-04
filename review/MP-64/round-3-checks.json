@@ -1,0 +1,171 @@
+{
+  "base": "0d1ab4e",
+  "paths": [
+    ".claude/rules/independent-review.md",
+    "docs/confluence/confluence.json",
+    "docs/confluence/pages/ph-07.html",
+    "docs/confluence/receipts/ph-07.json",
+    "docs/design/admin/index.html",
+    "docs/design/admin/permissions.json",
+    "docs/design/admin/src/journeys/agents.js",
+    "docs/design/admin/src/journeys/approvals.js",
+    "docs/design/admin/src/journeys/audit.js",
+    "docs/design/admin/src/journeys/costs.css",
+    "docs/design/admin/src/journeys/costs.js",
+    "docs/design/admin/src/journeys/files.js",
+    "docs/design/admin/src/journeys/home.js",
+    "docs/design/admin/src/journeys/identity.js",
+    "docs/design/admin/src/journeys/incidents.js",
+    "docs/design/admin/src/journeys/models.js",
+    "docs/design/admin/src/journeys/runs.js",
+    "docs/design/admin/src/shell.js",
+    "docs/design/artifacts.json",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/approvals.js",
+    "docs/design/reviews/MP-64/decision.md",
+    "docs/design/reviews/MP-64/fix-round-2.md",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json",
+    "review/MP-64/fixed.json",
+    "review/MP-64/round-2-brief.md",
+    "review/MP-64/round-2-checks.json",
+    "review/MP-64/round-2-fix-checks.json",
+    "review/MP-64/round-2-lane-a.md",
+    "review/MP-64/round-2-lane-f.md",
+    "review/MP-64/round-2-lane-m.md",
+    "review/MP-64/round-2-lane-s.md",
+    "review/MP-64/round-2.md",
+    "review/MP-64/state.json",
+    "scripts/design_admin_facts.mjs",
+    "scripts/design_admin_press.mjs",
+    "tests/admin_facts/a.mjs",
+    "tests/admin_facts/c.mjs",
+    "tests/admin_facts/f.mjs",
+    "tests/admin_facts/m.mjs",
+    "tests/admin_facts/s.mjs",
+    "tests/journey_facts/r.mjs"
+  ],
+  "unmapped": [],
+  "deferred": [
+    "design-walk"
+  ],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "aa2ff5af8211e0127e5a1e7f5381500a00c41d6c40278e93756c7c13a97490be",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "3b4b8d10b976544196ce2a155bae4c55767d965bfa44e03b94db7771f0e1dce1",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "8f18bed623406351566af2397c0777daf95918421858aa254e1d7e7f8f420375",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 7.1,
+      "fingerprint": "d5b818ac10fb3b3d92a75332a4901db62197e7f04ed0602142354d5701ce17fe",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "confluence-receipts": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "61849de010ceeb96e9b22336cda05ca654325b01f908b9ea61346577c983d5d7",
+      "steps": [
+        "python3 docs/confluence/build_pages.py selftest",
+        "python3 docs/confluence/build_pages.py check",
+        "python3 -m unittest discover -s tests -p test_confluence_receipts.py"
+      ]
+    },
+    "design-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "90d96e4b8dc565c7922a419544baa1be83431b060267e7c26a2f62fcb4750031",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 59.9,
+      "fingerprint": "54ab8543b4d5faec1ce6784e14ccce8fa3c6b98c6bfa468dbfd8f6eb98cb03f8",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 docs/design/admin/build.py --check",
+        "node scripts/design_admin_facts.mjs --selftest",
+        "node scripts/design_admin_facts.mjs",
+        "node scripts/design_admin_facts.mjs --facts",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "node scripts/design_journeys_facts.mjs --selftest",
+        "node scripts/design_journeys_facts.mjs --all",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.8,
+      "fingerprint": "075b73047f714b3e2dd3d15de1abb3c143861a42b6b1c901b05fc7aa8af13cfd",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "1a646b2dd1471b4a39cac8d1f99bc7f796eed722413b8bc9ab2452b75c1f8673",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "reconciliation-pack": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "3987b812c5296ee74380db99bcfc8700ea5d0ffe6f9ef4ca9898f15205bfeb76",
+      "steps": [
+        "python3 docs/planning/ma-reconciliation-2026-11-02/validate.py"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

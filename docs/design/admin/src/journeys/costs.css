@@ -1,0 +1,63 @@
+/* Costs and budgets only: the £100 scale, the three-lane table and its phone rows, the allocations. Everything else is Prism. */
+.acosts-gap { margin-top: 8px; }
+.acosts-tags { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.acosts-tags .chip { max-width: 100%; }
+.acosts-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-width: 0; }
+.acosts-head, .acosts-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; flex-wrap: wrap; }
+.acosts-head b { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.acosts-row b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; text-align: right; }
+.acosts-row b .muted { font-weight: 400; }
+.acosts-w { flex: 1 1 120px; min-width: 0; }
+.acosts-big { font: 800 28px/34px var(--font-figure); letter-spacing: -.03em; }
+.acosts-fig { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.acosts-one { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-md); background: var(--surface-2); color: var(--ink); font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.acosts-one svg { flex: none; }
+.acosts-lad { position: relative; margin: 4px 0 22px; }
+.acosts-track { position: relative; height: 12px; border-radius: 6px; background: var(--surface-3); overflow: hidden; }
+.acosts-track i { position: absolute; top: 0; bottom: 0; display: block; background: var(--c); }
+.acosts-track i.fc { background: var(--fc-80); }
+.acosts-track i.unk { background: repeating-linear-gradient(135deg, var(--ink-2) 0 3px, var(--surface-3) 3px 6px); }
+.acosts-lad > b { position: absolute; top: -3px; width: 2px; height: 18px; margin-left: -1px; border-radius: 1px; background: var(--ink); }
+.acosts-lad > span { position: absolute; top: 18px; transform: translateX(-50%); font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); white-space: nowrap; }
+.acosts-lad > span.end { transform: translateX(-100%); }
+.acosts-lad > span.start { transform: none; left: 0; }
+.acosts-tw { overflow-x: auto; }
+.acosts-tw td.acosts-wrap { white-space: normal; min-width: 180px; }
+.acosts-tw b { font-weight: 600; }
+.acosts-tot td { font-weight: 600; }
+.acosts-cells { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.acosts-cells span { display: grid; gap: 2px; min-width: 0; font: 600 12px/16px var(--font-text); letter-spacing: 0; overflow-wrap: anywhere; }
+.acosts-cells i { font-style: normal; font-weight: 400; color: var(--ink-2); }
+.acosts-nolead.hrow { grid-template-columns: minmax(0, 1fr) auto; }
+.acosts-nolead.hrow > .fl { grid-column: 1 / -1; }
+.acosts-nolead.hrow + .acosts-nolead.hrow::before { left: 16px; }
+.acosts-mini { display: block; position: relative; height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
+.acosts-mini i { position: absolute; top: 0; bottom: 0; left: 0; display: block; background: var(--c); }
+.acosts-alloc { display: grid; gap: 4px; padding-top: 12px; }
+.acosts-rung { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 2px 10px; align-items: baseline; padding: 10px 0; }
+.acosts-rung + .acosts-rung { border-top: 1px solid var(--hairline); }
+.acosts-rung .v { font: 800 17px/22px var(--font-figure); letter-spacing: -.03em; }
+.acosts-rung .t { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.acosts-rung p { grid-column: 2 / -1; font-size: 13px; line-height: 18px; letter-spacing: 0; color: var(--ink-2); }
+.acosts-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 10px 0; }
+.acosts-two > div { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); min-width: 0; }
+.acosts-two > div.on { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.acosts-two span { font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.acosts-two b { font: 800 22px/28px var(--font-figure); letter-spacing: -.03em; }
+.acosts-clock { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.acosts-lnk { display: inline-flex; align-items: center; gap: 2px; min-height: 28px; padding: 0; border: 0; background: none; color: var(--ink); font: 600 13px/18px var(--font-text); cursor: pointer; }
+.acosts-ch { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 9px 0; align-items: baseline; }
+.acosts-ch + .acosts-ch { border-top: 1px solid var(--hairline); }
+.acosts-full { grid-column: 1 / -1; }
+.acosts-to { display: inline-flex; align-items: center; gap: 6px; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; white-space: nowrap; }
+.acosts-to .muted { font-weight: 400; }
+.acosts-end { display: grid; gap: 2px; padding: 9px 0; }
+.acosts-end + .acosts-end { border-top: 1px solid var(--hairline); }
+.acosts-end b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.acosts-form { display: grid; gap: 10px; margin-top: 10px; }
+.acosts-field { display: grid; gap: 4px; min-width: 0; }
+.acosts-field input, .acosts-field select { width: 100%; min-height: var(--tap); padding: 0 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink); font: 400 15px/20px var(--font-text); }
+.acosts-field input:disabled, .acosts-field select:disabled { opacity: 1; color: var(--ink-2); }
+.acosts-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.acosts-chain > div { display: flex; align-items: center; gap: 6px; min-height: 40px; min-width: 0; padding: 6px 8px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-1); color: var(--ink); font: 600 12px/16px var(--font-text); letter-spacing: 0; }
+.acosts-chain > div.me { background: var(--btn); color: var(--btn-ink); }

@@ -1,0 +1,1108 @@
+{
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live or off. The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. On 4 November 2026 the owner also answered: \"Yes, acknowledge only (Recommended)\" for a phone acknowledging an incident, \"Account recovery only (Recommended)\" for what recovery covers on a phone, so replay, restore and pause stay on iPad or desktop, and \"The purchase (Recommended)\" for what lifts MP-164's bar. The rest of the live and off split is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. Nothing here approves a design or a build.",
+ "actions": [
+  {
+   "id": "A01",
+   "action": "Read audit, query lineage",
+   "journeys": [
+    "audit"
+   ],
+   "step_up": "no",
+   "step_up_note": "No, read; freshness of source access open",
+   "audit": "Source access has \"privacy-safe evidence\"",
+   "source": "PH01-S04; CT-03 acceptance",
+   "phone": "live"
+  },
+  {
+   "id": "A02",
+   "action": "Open an original or its extracted text",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open (CT-01); needs \"current owner authorization and a short-lived access path\" `[history]`",
+   "audit": "Access event in AuditEvidence; class open (CT-03)",
+   "source": "audit and observability requirements (history)",
+   "phone": "live"
+  },
+  {
+   "id": "A03",
+   "action": "Read cost, runs, health",
+   "journeys": [
+    "costs",
+    "runs"
+   ],
+   "step_up": "no",
+   "step_up_note": "No: read access is \"distinct from controls\"",
+   "audit": "None for a read; access events are open (CT-03)",
+   "source": "GAP-CT-16",
+   "phone": "live"
+  },
+  {
+   "id": "A04",
+   "action": "Upload a file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open (not on the matrix)",
+   "audit": "AuditEvidence, SourceReceipt",
+   "source": "PH01-S06",
+   "phone": "off"
+  },
+  {
+   "id": "A05",
+   "action": "Decide a duplicate collision",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S12",
+   "phone": "off"
+  },
+  {
+   "id": "A06",
+   "action": "Cancel a draft",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Draft closes as cancelled, and AuditEvidence; class open (CT-03)",
+   "source": "financial policies, draft states",
+   "phone": "off"
+  },
+  {
+   "id": "A07",
+   "action": "Approve an import",
+   "journeys": [
+    "approvals",
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes. Named, because in this story no import has every group settled, so A08 is the control drawn",
+   "audit": "OwnerApproval, AuditEvidence, CommitReceipt in the same logical commit",
+   "source": "PH01-S14, PH01-S04",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A08",
+   "action": "Approve a partial group set",
+   "journeys": [
+    "files",
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "OwnerApproval on a new hash, AuditEvidence, CommitReceipt in the same logical commit",
+   "source": "POLICY-005",
+   "phone": "off"
+  },
+  {
+   "id": "A09",
+   "action": "Revoke an approval before commit",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open. \"Neither MP-55 nor CT-01 names it\"",
+   "audit": "OwnerApproval.revoked_at, and AuditEvidence; class open (CT-03)",
+   "source": "Approvals journey; OwnerApproval schema",
+   "phone": "off"
+  },
+  {
+   "id": "A10",
+   "action": "Approve a correction, alone or with the reversal it depends on",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence",
+   "source": "PH02-S03, PH01-S18",
+   "phone": "off"
+  },
+  {
+   "id": "A11",
+   "action": "Approve a reversal, alone or with the correction that replaces it",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes `[inferred from \"corrections\"; operation is its own enum value]`",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence",
+   "source": "PH01-S18, schema",
+   "phone": "off"
+  },
+  {
+   "id": "A12",
+   "action": "Approve a baseline rebuild",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, 15-minute window",
+   "audit": "OwnerApproval, LedgerEvent links, AuditEvidence, new generation",
+   "source": "POLICY-012",
+   "phone": "off"
+  },
+  {
+   "id": "A13",
+   "action": "Financial reprocessing",
+   "journeys": [
+    "files",
+    "incidents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ReplayRequest, AuditEvidence",
+   "source": "PH08-S06",
+   "phone": "off"
+  },
+  {
+   "id": "A14",
+   "action": "Non-financial reprocess into a new draft revision",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; a new revision voids any approval",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S08",
+   "phone": "off"
+  },
+  {
+   "id": "A15",
+   "action": "Record an orphan's disposition",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "\"recorded disposition\"; actor unnamed",
+   "source": "PH01-S05, FS:43",
+   "phone": "off"
+  },
+  {
+   "id": "A16",
+   "action": "Delete an original",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "DeletionTombstone, AuditEvidence",
+   "source": "PH01-S05, PH02-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A17",
+   "action": "Renew or extend an original",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence",
+   "source": "PH01-S05, PH02-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A18",
+   "action": "Request an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, \"fresh sign-in for the request\"",
+   "audit": "AuditEvidence (owner, environment, revision)",
+   "source": "PH01-S26",
+   "phone": "off"
+  },
+  {
+   "id": "A19",
+   "action": "Download an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence",
+   "source": "PH01-S26",
+   "phone": "live"
+  },
+  {
+   "id": "A20",
+   "action": "Delete a stored export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Named by the deletion row of PH02-S03; level open (CT-01)",
+   "audit": "AuditEvidence",
+   "source": "PH01-S26",
+   "phone": "off"
+  },
+  {
+   "id": "A21",
+   "action": "Revoke an export link early",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; the behaviour itself is open (FIN-OD-08)",
+   "audit": "Export record and AuditEvidence; class open (CT-03)",
+   "source": "FIN-OD-08",
+   "phone": "off"
+  },
+  {
+   "id": "A22",
+   "action": "Correct a memory note",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New memory note version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S15",
+   "phone": "off"
+  },
+  {
+   "id": "A23",
+   "action": "Forget a memory note",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Named by the deletion row of PH02-S03; level open (CT-01)",
+   "audit": "DeletionTombstone",
+   "source": "PH05-S15",
+   "phone": "off"
+  },
+  {
+   "id": "A24",
+   "action": "Approve a reviewed change to a route model or tool",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open. This is a reviewed code change to a manifest, not a setting, which is how it differs from R14",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S06",
+   "phone": "off"
+  },
+  {
+   "id": "A25",
+   "action": "Promote a model",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes, \"fresh authentication bound to the exact payload\"",
+   "audit": "PromotionRecord, OwnerApproval, PromotionDecision",
+   "source": "PH04-S18",
+   "phone": "off"
+  },
+  {
+   "id": "A26",
+   "action": "Reject a candidate",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "PromotionRecord (to rejected)",
+   "source": "PH04-S18",
+   "phone": "off"
+  },
+  {
+   "id": "A27",
+   "action": "Switch forward after a revert",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; drawn with a fresh sign-in, tagged `Proposed · CT-01`",
+   "audit": "PromotionRecord",
+   "source": "PH04-S19; J:approvals:296",
+   "phone": "off"
+  },
+  {
+   "id": "A28",
+   "action": "Restart a paused scope",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; same",
+   "audit": "PromotionRecord, tagged `Proposed · POLICY-003`",
+   "source": "DL:219; J:approvals:302",
+   "phone": "off"
+  },
+  {
+   "id": "A29",
+   "action": "Approve self-correction bands",
+   "journeys": [
+    "models",
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes `[inferred: a sensitive setting]`",
+   "audit": "New setting version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A30",
+   "action": "Label calibration samples",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "EvalLabel",
+   "source": "PH05-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A31",
+   "action": "Change a sensitive setting",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ApprovalRequest, OwnerApproval, AuditEvidence",
+   "source": "PH05-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A32",
+   "action": "Roll back a setting",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New setting version equal to the old one, with its own AuditEvidence",
+   "source": "PH05-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A33",
+   "action": "Approve a ranking policy version",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Policy version",
+   "source": "PH06-S05",
+   "phone": "off"
+  },
+  {
+   "id": "A34",
+   "action": "Change a threshold or allocation",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "New version and AuditEvidence; class open (CT-03)",
+   "source": "PH02-S10, PH02-S08",
+   "phone": "off"
+  },
+  {
+   "id": "A35",
+   "action": "Approve paid cash beyond credit",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH02-S09",
+   "phone": "off"
+  },
+  {
+   "id": "A36",
+   "action": "Confirm a watch-only listing or segment",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "\"the authentication PH-02 requires for a configuration change\": level open; drawn `Proposed · CT-01`",
+   "audit": "Catalogue version, owner approval record",
+   "source": "PH03-S03, PH05-S11",
+   "phone": "off"
+  },
+  {
+   "id": "A37",
+   "action": "Set or withdraw a risk-acceptance scope",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Entitlement, AuditEvidence",
+   "source": "PH03-S02",
+   "phone": "off"
+  },
+  {
+   "id": "A38",
+   "action": "Activate or deactivate a market extension",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "ExtensionApproval",
+   "source": "PH09-S01",
+   "phone": "off"
+  },
+  {
+   "id": "A39",
+   "action": "Approve alert thresholds or a quiet-hour exception",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; edits are \"versioned/audited\"",
+   "audit": "New policy version and AuditEvidence; class open (CT-03)",
+   "source": "PH06-S12; CT-18",
+   "phone": "off"
+  },
+  {
+   "id": "A40",
+   "action": "Acknowledge an incident",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S05",
+   "phone": "live"
+  },
+  {
+   "id": "A41",
+   "action": "Broad replay or a new paid external call",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "ReplayRequest with the owner's approval",
+   "source": "PH08-S06",
+   "phone": "off"
+  },
+  {
+   "id": "A42",
+   "action": "Approve switching authority to a restored copy",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "OwnerApproval and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S03",
+   "phone": "off"
+  },
+  {
+   "id": "A43",
+   "action": "Use a pause switch by hand",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open; only the runbook names them",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH08-S09",
+   "phone": "off"
+  },
+  {
+   "id": "A44",
+   "action": "Start a prod release",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "outside",
+   "step_up_note": "Not an MP step-up: a GitHub workflow only the owner can start",
+   "audit": "ReleaseEvidence (owner's start)",
+   "source": "PH08-S01, DL:203",
+   "phone": "outside"
+  },
+  {
+   "id": "A45",
+   "action": "Waive a release gate",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "outside",
+   "step_up_note": "Not an MP step-up: \"in words\"",
+   "audit": "ReleaseEvidence, owner's words",
+   "source": "PH08-S07",
+   "phone": "outside"
+  },
+  {
+   "id": "A46",
+   "action": "Link an identity",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence with opaque references; class open (CT-03)",
+   "source": "PH02-S01, S02",
+   "phone": "off",
+   "phone_note": "Mac only: the proof needs your Mac passkey"
+  },
+  {
+   "id": "A47",
+   "action": "Unlink a path",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "off"
+  },
+  {
+   "id": "A48",
+   "action": "Enrol a passkey",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "off",
+   "phone_note": "Mac only while MP-164 holds"
+  },
+  {
+   "id": "A49",
+   "action": "Revoke a session or device",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "live"
+  },
+  {
+   "id": "A50",
+   "action": "Cancel a recovery in progress",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "live"
+  },
+  {
+   "id": "A51",
+   "action": "Refuse a proposal",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: no record names it",
+   "audit": "Proposal closes as refused; audit class open (CT-03)",
+   "source": "PH02-S03; GAP-CT-02",
+   "phone": "off"
+  },
+  {
+   "id": "A52",
+   "action": "Retry a commit on the same approval",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: the approval still binds it, and no record says whether a retry asks again",
+   "audit": "CommitReceipt or the failed manifest, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S15",
+   "phone": "off"
+  },
+  {
+   "id": "A53",
+   "action": "Refresh a stale preview into a new draft revision",
+   "journeys": [
+    "files",
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S14; financial specification",
+   "phone": "off"
+  },
+  {
+   "id": "A54",
+   "action": "Retry an export",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Export record and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S26",
+   "phone": "off"
+  },
+  {
+   "id": "A55",
+   "action": "Resolve a difference, with a reason and a source",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Owner resolution with its reason and source, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S17",
+   "phone": "off"
+  },
+  {
+   "id": "A56",
+   "action": "Edit, exclude, remap or select rows in a draft",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A57",
+   "action": "Run a coverage check on a listing",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Credit reservation, catalogue check and AuditEvidence; class open (CT-03)",
+   "source": "PH03-S03",
+   "phone": "off"
+  },
+  {
+   "id": "A58",
+   "action": "Draft a configuration change",
+   "journeys": [
+    "approvals",
+    "costs"
+   ],
+   "step_up": "no",
+   "step_up_note": "No: a draft changes nothing",
+   "audit": "ApprovalRequest in draft; no audit record until it is proposed (CT-02)",
+   "source": "PH05-S14",
+   "phone": "off"
+  },
+  {
+   "id": "A59",
+   "action": "Resume a recovery",
+   "journeys": [
+    "identity"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "AuditEvidence for each step; class open (CT-03)",
+   "source": "PH02-S02",
+   "phone": "live"
+  },
+  {
+   "id": "A60",
+   "action": "Decline a replay or a restore switch",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: added by the maker, because the story asks for reject and no record names this act",
+   "audit": "Request closes as declined, and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S06; CT-02",
+   "phone": "off"
+  },
+  {
+   "id": "A61",
+   "action": "Admit a factor out of shadow",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Factor admission record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S04",
+   "phone": "off"
+  },
+  {
+   "id": "A62",
+   "action": "Approve a rules version",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Rules version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S05; PH04-S18",
+   "phone": "off"
+  },
+  {
+   "id": "A63",
+   "action": "Approve a feature block for a candidate",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Feature block record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S07; PH04-S14",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A64",
+   "action": "Decide which failures block a release",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Release-gate record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S12",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A65",
+   "action": "Decide a refusal fallback for a route",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S05; ARC-06b-O2",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A66",
+   "action": "Approve a task version or threshold",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Task version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S01; PH04-S10",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A67",
+   "action": "Qualify an event kind",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Qualification record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S12",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A68",
+   "action": "Approve the use of a detector",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Detector version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S15",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A69",
+   "action": "Approve the F7 policy",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Policy version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S16; PH06-S07",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A70",
+   "action": "Approve a new source",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Source record and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S01",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A71",
+   "action": "Choose the listings on 30-minute checks",
+   "journeys": [
+    "approvals"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Catalogue version and AuditEvidence; class open (CT-03)",
+   "source": "PH03-S10",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A72",
+   "action": "Approve release thresholds",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Release-threshold record; class open (CT-03)",
+   "source": "PH05-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A73",
+   "action": "Approve a change to a route budget",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: budget expansion is named by PH02-S03. Level open (CT-01)",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH02-S03; PH05-S06",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A74",
+   "action": "Mark an incident mitigated",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open: no record says who marks it (CT-14), and the screen labels it",
+   "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S05",
+   "phone": "off"
+  },
+  {
+   "id": "A75",
+   "action": "Resolve an incident",
+   "journeys": [
+    "incidents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "IncidentRecord with its recorded resolution, and AuditEvidence; class open (CT-03)",
+   "source": "PH08-S05",
+   "phone": "off"
+  },
+  {
+   "id": "A76",
+   "action": "Withdraw paid use",
+   "journeys": [
+    "costs"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New version and AuditEvidence; class open (CT-03)",
+   "source": "PH02-S09; CT-13",
+   "phone": "off"
+  },
+  {
+   "id": "A77",
+   "action": "Say where a transfer came from",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New draft revision and AuditEvidence; class open (CT-03)",
+   "source": "Holdings journey; PH01-S13",
+   "phone": "off"
+  },
+  {
+   "id": "A78",
+   "action": "Decide what happens when no rules mapping qualifies",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open. No record lists the choices (SCI-D03)",
+   "audit": "Rules version record and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S06; evaluation protocol; SCI-D03",
+   "phone": "off"
+  },
+  {
+   "id": "A79",
+   "action": "Approve the deterministic templates",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "Template version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S08",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A80",
+   "action": "Raise the event analysis cap",
+   "journeys": [
+    "agents"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: budget expansion is named by PH02-S03. Level open (CT-01)",
+   "audit": "Manifest version and AuditEvidence; class open (CT-03)",
+   "source": "PH05-S03",
+   "phone": "off",
+   "control": "named"
+  },
+  {
+   "id": "A81",
+   "action": "Split and resend a held file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "open",
+   "step_up_note": "Open",
+   "audit": "New SourceReceipt and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S06; Holdings journey",
+   "phone": "off"
+  },
+  {
+   "id": "A82",
+   "action": "Discard a held file",
+   "journeys": [
+    "files"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes: the deletion row of PH02-S03 names it, because stored bytes go. Level open (CT-01)",
+   "audit": "DeletionTombstone and AuditEvidence; class open (CT-03)",
+   "source": "PH01-S06; PH02-S03; Holdings journey",
+   "phone": "off"
+  }
+ ],
+ "refused": [
+  {
+   "id": "R1",
+   "act": "Edit the ledger outside the controlled writer",
+   "source": "PH00-S06 negative; PH02-S05; PH02-S11"
+  },
+  {
+   "id": "R2",
+   "act": "Edit a projection by hand",
+   "source": "PH01-S16"
+  },
+  {
+   "id": "R3",
+   "act": "Edit a stored observation, the owner included",
+   "source": "PH03-S05"
+  },
+  {
+   "id": "R4",
+   "act": "Move a frozen cutoff or backdate an origin, the owner included",
+   "source": "PH03-S09"
+  },
+  {
+   "id": "R5",
+   "act": "Promote with fewer than 8 scored weeks, failing a comparator, or with a different artefact, an expired approval or a changed evidence hash",
+   "source": "PH04-S18"
+  },
+  {
+   "id": "R6",
+   "act": "Delete evidence without a recorded tombstone",
+   "source": "PH00-S06 negative"
+  },
+  {
+   "id": "R7",
+   "act": "Edit or delete an audit record outside the approved deletion policy",
+   "source": "PH01-S04"
+  },
+  {
+   "id": "R8",
+   "act": "Household or multi-user administration",
+   "source": "PH00-S06 negative"
+  },
+  {
+   "id": "R9",
+   "act": "Remove the last usable sign-in path",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "R10",
+   "act": "Recover by email equality, SMS or a support route",
+   "source": "PH02-S02"
+  },
+  {
+   "id": "R11",
+   "act": "Destructive restore into production",
+   "source": "PH08-S03"
+  },
+  {
+   "id": "R12",
+   "act": "Replay across environments",
+   "source": "PH08-S06"
+  },
+  {
+   "id": "R13",
+   "act": "Rehearse a rollback in prod",
+   "source": "PH08-S04"
+  },
+  {
+   "id": "R14",
+   "act": "Any settings change granting a route a tool, source, budget, infrastructure permission or approval authority",
+   "source": "PH05-S14"
+  },
+  {
+   "id": "R15",
+   "act": "Force a partial publish",
+   "source": "PH01-S15"
+  },
+  {
+   "id": "R16",
+   "act": "A financial write offline",
+   "source": "PH07-S04, PH06-S04"
+  },
+  {
+   "id": "R17",
+   "act": "Any runbook step bypassing the writer, step-up or release workflow",
+   "source": "PH08-S09"
+  },
+  {
+   "id": "R18",
+   "act": "Make an original public",
+   "source": "PH01-S05"
+  },
+  {
+   "id": "R19",
+   "act": "A trade or an order",
+   "source": "ARCH:52"
+  }
+ ]
+}

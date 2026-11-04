@@ -1,0 +1,24 @@
+/* Agents only: heads, chip clusters, the three-way version compare, the note row and the route picker. Everything else is Prism. */
+.aagents-tag { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.aagents-end { display: inline-flex; align-items: center; gap: 4px; }
+.aagents-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.aagents-head b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; min-width: 0; }
+.aagents-chips, .aagents-pick { display: flex; gap: 6px; flex-wrap: wrap; }
+.aagents-chips { margin-top: 8px; }
+.aagents-pick .chip { min-height: 32px; padding: 6px 12px; cursor: pointer; }
+.aagents-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.aagents-cmp { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 8px; padding: 8px 0; align-items: baseline; }
+.aagents-cmp + .aagents-cmp { border-top: 1px solid var(--hairline); }
+.aagents-cmp.diff .small:not(.muted) { font-weight: 600; color: var(--ink); }
+.aagents-chain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.aagents-chain > div { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 8px; border-radius: var(--r-xs); background: var(--surface-2); }
+.aagents-chain > div:last-child { background: var(--surface-3); }
+.aagents-chain b { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
+.aagents-vers { display: grid; margin-top: 4px; }
+.aagents-vers > div { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px 0; }
+.aagents-vers > div + div { border-top: 1px solid var(--hairline); }
+.aagents-vers b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.aagents-note { display: grid; gap: 6px; padding: 10px 0; }
+.aagents-note:first-child { padding-top: 0; }
+.aagents-note:last-child { padding-bottom: 0; }
+.aagents-note + .aagents-note { border-top: 1px solid var(--hairline); }

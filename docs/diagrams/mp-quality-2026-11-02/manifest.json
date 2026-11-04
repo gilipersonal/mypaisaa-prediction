@@ -7,7 +7,7 @@
   "jira": "MP-36",
   "status": "PROPOSED. Today's nine CI checks are drawn as IMPLEMENTED; the ARC directions and the owner's 2 and 3 November 2026 decisions (Terraform, the owner-started release, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) as OWNER-SELECTED; nothing is deployed",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import); `--page N` is the one-page document each drawing was imported from, with use_assisted_layout false. Regenerate and re-import rather than editing exports",
-  "spec_sha256": "081f0410309f566b1bfd84b5ec02e59a63ccb32bb3a9cf7e91b3014fd383a5e7",
+  "spec_sha256": "fb39c5ca91a6799feb444a94b62e5a7b7da8eb564b92d567784556a79972dc9a",
   "pages": [
     {
       "page_number": 1,
@@ -45,11 +45,17 @@
       "page_number": 4,
       "title": "Apple testing and the private beta",
       "filename": "04-apple-testing.png",
-      "document_id": "a65eddeb-513a-4f66-82f0-23fe716d6bef",
-      "document_url": "https://lucid.app/lucidchart/a65eddeb-513a-4f66-82f0-23fe716d6bef/edit",
+      "document_id": "23768f5e-77d2-4de1-8f1f-ff7f591ec659",
+      "document_url": "https://lucid.app/lucidchart/23768f5e-77d2-4de1-8f1f-ff7f591ec659/edit",
       "document_version": 72,
-      "sha256": "72b33ce3e9b8bb63cb45b8feadb530dc0d960c824e3023340e8e462eccd4cbcd",
-      "export_date_utc": "2026-11-03",
+      "sha256": "5bf245e077ce4844b3e4395540de31fd995b8af7655039cc021647fbb15b3643",
+      "export_date_utc": "2026-11-04",
+      "source_commit": "4fb3a2caa9513430961b608e6c38733ff1fcd505",
+      "bytes": 420495,
+      "dimensions": [
+        2420,
+        1568
+      ],
       "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
@@ -141,6 +147,10 @@
     {
       "document_id": "bfc62fc2-75f7-4f70-96f1-760fcfb4a0cb",
       "reason": "MP-177: WCAG 2.2 Level AA drawn as proposed; the owner selected it on 3 Nov 2026, so drawing 6 was re-imported with it as OWNER-SELECTED"
+    },
+    {
+      "document_id": "a65eddeb-513a-4f66-82f0-23fe716d6bef",
+      "reason": "drawing 4 wording: until the Developer Program is bought (MP-179) replaced until the owner says when; the connector could not edit this document, so the owner said create new, dont edit lucid (4 Nov 2026) and drawing 4 was re-imported"
     }
   ]
 }

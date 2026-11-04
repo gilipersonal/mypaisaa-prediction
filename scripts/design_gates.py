@@ -57,6 +57,8 @@ ROOT = Path(__file__).resolve().parent.parent
 GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/MP-62/hybrid-b/index.html")
 PICKED = "docs/design/prism/index.html"
 JOURNEYS = "docs/design/journeys/index.html"
+ADMIN = "docs/design/admin/index.html"
+ADMIN_IDS = ("home", "files", "audit", "runs", "agents", "models", "approvals", "costs", "incidents", "identity")
 JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
 VENDOR = re.compile(r"^-(webkit|moz|ms|o)-(?=transition|animation)")
 # A size set relative to its parent cannot be read from the rule alone. Each entry names why it is safe; the rendered size
@@ -812,14 +814,16 @@ def check_prism(html: str) -> list[str]:
 JOURNEY_HEAD = re.compile(r"/\* -{10} journey: ([a-z]+) -{10} \*/")
 
 
-def check_journeys(html: str) -> list[str]:
+def check_journeys(html: str, ids: tuple[str, ...] = JOURNEY_IDS) -> list[str]:
     """The journeys page: what can drift from Prism, and all eight journeys, each with one recommended option."""
     fails, css, script = prism_core(html)
     if not css:
         return fails
     heads = JOURNEY_HEAD.findall(script)
-    if tuple(heads) != JOURNEY_IDS:
-        fails.append(f"the page holds journeys {heads}; the eight, in order, are {list(JOURNEY_IDS)}")
+    if tuple(heads) != ids:
+        fails.append(f"the page holds journeys {heads}; the {'eight' if ids == JOURNEY_IDS else len(ids)}, in order, are {list(ids)}")
+    if ids == JOURNEY_IDS and "__prismFlipless" in script:
+        fails.append("the journeys page says it has no flip, and the owner kept both options with a flip")
     for name, body in zip(heads, JOURNEY_HEAD.split(script)[2::2]):
         if len(re.findall(r"\bJ\.add\(", body)) != 1:
             fails.append(f"journey {name} does not register once with J.add()")
@@ -841,7 +845,7 @@ def check_page(html: str) -> tuple[list[str], list[tuple]]:
 
 
 def check(paths: list[str]) -> int:
-    targets = paths or [*GATED, PICKED, JOURNEYS]
+    targets = paths or [*GATED, PICKED, JOURNEYS, ADMIN]
     extra = [str(p.relative_to(ROOT)) for p in (ROOT / "docs/design").rglob("*.html")
              if 'id="mp-design-gates"' in p.read_text(errors="ignore")] if not paths else []
     bad = 0
@@ -855,12 +859,16 @@ def check(paths: list[str]) -> int:
             fails, rows = check_prism(p.read_text()), None
         elif rel == JOURNEYS or p == ROOT / JOURNEYS:
             fails, rows = check_journeys(p.read_text()), "journeys"
+        elif rel == ADMIN or p == ROOT / ADMIN:
+            fails, rows = check_journeys(p.read_text(), ADMIN_IDS), "admin"
         else:
             fails, rows = check_page(p.read_text())
         for f in fails:
             print(f"FAIL {rel}: {f}")
         bad += len(fails)
-        if not fails and rows == "journeys":
+        if not fails and rows == "admin":
+            print(f"design-gates: {rel}: the admin journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
+        elif not fails and rows == "journeys":
             print(f"design-gates: {rel}: the eight journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold")
         elif not fails and rows is None:
             print(f"design-gates: {rel}: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold")
@@ -1092,6 +1100,7 @@ JOURNEY_MUTATIONS = {
     "journey-missing": (_sub("/* ---------- journey: cost ---------- */\nJ.add({ id: 'cost', stories: ['MP-153'], options: "
                              "[{ id: 'a', rec: true }, { id: 'b' }] });", ""), "the eight, in order"),
     "journey-moved": (_sub("journey: home ----", "journey: holdings ----"), "the eight, in order"),
+    "journeys-say-flipless": (_sub("journey: home ----", "journey: home ---- window.__prismFlipless"), "has no flip"),
     "no-recommendation": (_sub("J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a', rec: true }",
                                "J.add({ id: 'forecast', stories: ['MP-153'], options: [{ id: 'a' }"), "forecast recommends 0"),
     "two-recommended": (_sub("J.add({ id: 'journal', stories: ['MP-153'], options: [{ id: 'a', rec: true }, { id: 'b' }]",
