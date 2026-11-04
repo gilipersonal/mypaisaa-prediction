@@ -122,8 +122,8 @@ export default {
   },
   // Round 2. Each holds the kind, not only the line.
   'R2-a1': ({ each, must }) => {
-    each({ journey: 'costs', screen: 'ca-credit', state: ['offline', 'error'], surface: WIDE }, (v, at) => must(!liveBtn(v.html, /Withdraw paid use/).length, `A76 is live in ${at.state}`));
-    each({ journey: 'costs', screen: 'cb-credit', state: ['offline', 'error'], surface: WIDE }, (v, at) => must(!liveBtn(v.html, /Withdraw paid use/).length, `A76 is live in ${at.state}`));
+    each({ journey: 'costs', screen: 'ca-credit', state: 'offline', surface: WIDE }, (v, at) => must(!liveBtn(v.html, /Withdraw paid use/).length, `A76 is live in ${at.state}`));
+    each({ journey: 'costs', screen: 'cb-credit', state: 'offline', surface: WIDE }, (v, at) => must(!liveBtn(v.html, /Withdraw paid use/).length, `A76 is live in ${at.state}`));
     for (const journey of ['costs', 'approvals']) each({ journey, state: 'offline', surface: WIDE }, (v, at) => must(!liveActs(v.html).filter(id => id !== 'A03').length, `${at.screen}: ${liveActs(v.html)} live offline`));
     each({ journey: 'costs', screen: 'ca-credit', state: 'default', surface: 'web' }, (v) => must(liveBtn(v.html, /Withdraw paid use/).length === 1, 'A76 is shut in Ready'));
   },
@@ -258,6 +258,13 @@ export default {
       for (const re of [/Signal weight band/, /Weekly band/, /Risk settings/, /Agent settings/]) has(v.html, re);
       lacks(view('approvals', option, screen, 'web', 'empty').text, /Choose a setting/);
       each({ journey: 'approvals', option, screen, surface: PHONE }, (x, at) => must(![...x.html.matchAll(/<select\b[^>]*>/g)].some(m => !/disabled/.test(m[0])), `${at.state}: a live select on a phone`));
+    }
+  },
+  // The owner, 4 Nov 2026, on R3-a9: "Allow it (Recommended)". With the AWS billing collector failed, withdrawing paid use stays possible, because it can only lower spend.
+  'R4-owner-a76': ({ each, has, must }) => {
+    for (const screen of ['ca-credit', 'cb-credit']) {
+      each({ journey: 'costs', screen, state: 'error', surface: WIDE }, (v) => { must(liveBtn(v.html, /Withdraw paid use/).length === 1, 'A76 is shut in Failed'); has(v.text, /can only lower spend/); });
+      each({ journey: 'costs', screen, state: 'error', surface: PHONE }, (v) => must(!liveBtn(v.html, /Withdraw paid use/).length, 'A76 is live on a phone in Failed'));
     }
   },
 };
