@@ -1,8 +1,8 @@
 {
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
-  "round_count": 2,
-  "status": "round 2 fixed, waiting on the owner",
+  "round_count": 3,
+  "status": "round 3 running",
   "rounds": [
     {
       "round": 1,
@@ -1816,6 +1816,37 @@
       "fix_commit": "c9c9d5d",
       "post_fix_gates": "Walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems; design_admin_facts 0 problems, 107 of 107 checks; every ledger 406 run, 2 retired; MP-64 ledger 95 of 95.",
       "publication": "Prism Admin v6 republished privately and read back. Confluence ph-07 is pending: PH-07.json changed, and publishing it and syncing MP-164 need the owner's own yes."
+    },
+    {
+      "round": 3,
+      "reviewed_commit": "af66cc03f8cfbcf87090d7fb3c82021a101a9f61",
+      "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 3 (Recommended)\"",
+      "scope": "git diff 0d1ab4e..af66cc0 and its direct joins",
+      "lanes": {
+        "f": "home, files, audit",
+        "m": "runs, agents, models",
+        "a": "approvals, costs",
+        "s": "incidents, identity, shell, inventory, scripts, records"
+      },
+      "brief": "review/MP-64/round-3-brief.md",
+      "gate_results": [
+        "review_checks --base 0d1ab4e --run: see round-3-checks.json",
+        "design_journeys_check: 1,600 combinations, 0 problems",
+        "design_admin_facts 0 problems, 108 of 108 checks, selftest 13 of 13",
+        "design_admin_press: 0 problems",
+        "design_runtime on mains power: admin 8 of 8",
+        "review_regress --every: 406 run, 2 retired, 0 failed; MP-64 95 of 95",
+        "Journeys: facts 251 of 251, Approvals walked, presses 163 of 163"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design-walk on docs/design/journeys/index.html beyond Approvals",
+          "why": "Only the Approvals journey changed."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "next_round": "Decided after the findings."
     }
   ]
 }
