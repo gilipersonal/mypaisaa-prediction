@@ -190,7 +190,7 @@
     const s = ctx.state, y = act('A34', 'Change a threshold or allocation', 'primary');
     if (s === 'loading') return skel(2);
     const live = !['offline', 'denied'].includes(s);
-    return `${box(`${lbl('Change a line')}<p class="small muted acosts-gap">Code applies the lines. Only you change one, and each change writes a new version and an audit record. The meter in the main app stays read-only.</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}</div><p class="small acosts-gap">${STEP}</p>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${s === 'denied' ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}${tags(proposed('CT-13'), proposed('CT-16'))}`)}${never()}${refused('R14', 'No setting can give a Claude route a budget. A route budget needs a reviewed change and your approval, in Agents.')}`;
+    return `${box(`${lbl('Change a line')}<p class="small muted acosts-gap">Code applies the lines. Only you change one, and each change writes a new version and an audit record. The meter in the main app stays read-only.</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}</div><p class="small acosts-gap">${STEP}</p>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${s === 'denied' ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}${tags(proposed('CT-13'))}`)}${never()}${refused('R14', 'No setting can give a Claude route a budget. A route budget needs a reviewed change and your approval, in Agents.')}`;
   };
 
   /* ---------- from a spike: every line of the month, largest first. They add up to the month ---------- */
@@ -277,7 +277,7 @@
         id: 'ca-credit', title: 'Claude, credit and cash', note: 'Denied shows Claude off: no verified credit and no paid approval.',
         render: ctx => frame(ctx, { title: 'Credit', back: 'Costs', body: creditCore(ctx), rail: creditRail(ctx) })
       }, {
-        id: 'ca-budget', title: 'Lines and allocations', note: 'Drawn here, in admin, as MP-100 says. The owner cost journey keeps its Settings wording until CT-16 is answered.',
+        id: 'ca-budget', title: 'Lines and allocations', note: 'Budget changes live here, in admin under Settings (the owner, 4 November 2026), so the Settings wording on the owner cost journey stays true.',
         render: ctx => frame(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }]
     }, {
@@ -301,7 +301,7 @@
         id: 'cb-credit', title: 'Claude, credit and cash', note: 'Denied shows Claude off: no verified credit and no paid approval.',
         render: ctx => frame(ctx, { title: 'Credit', back: 'Costs', body: creditCore(ctx), rail: creditRail(ctx) })
       }, {
-        id: 'cb-budget', title: 'Lines and allocations', note: 'Drawn here, in admin, as MP-100 says. The owner cost journey keeps its Settings wording until CT-16 is answered.',
+        id: 'cb-budget', title: 'Lines and allocations', note: 'Budget changes live here, in admin under Settings (the owner, 4 November 2026), so the Settings wording on the owner cost journey stays true.',
         render: ctx => frame(ctx, { title: 'Budgets', back: 'Costs', body: budgetCore(ctx), rail: budgetRail(ctx) })
       }]
     }]

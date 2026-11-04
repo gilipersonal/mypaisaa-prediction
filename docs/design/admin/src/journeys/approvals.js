@@ -191,7 +191,7 @@
     ['alert', 'Alerts and quiet hours', 'Quiet hours 22:00 to 07:00 London', proposed('CT-18')],
     ['shield', 'Risk-acceptance scopes', 'S1 to S10 · your accepted risk, never a licence', ''],
     ['layers', 'Market extensions', 'None active · US, UK and India only', ''],
-    ['target', 'Budgets', 'Changed in Costs and budgets', proposed('CT-16')]
+    ['target', 'Budgets', 'Changed in Costs and budgets', '']
   ];
   const famRows = o => `${sec('In force')}${list(FAM(o).map(([i, t, s, x]) => item(lead(i), t, s, ic('chev-r', 's18'), x, false, true)).join(''))}`;
   const waiting = (n, s) => list(item(lead('check'), `${n} decisions wait on you`, s, ic('chev-r', 's18'), '', false, true));

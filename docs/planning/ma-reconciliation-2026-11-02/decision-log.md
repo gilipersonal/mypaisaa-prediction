@@ -282,4 +282,12 @@ one per journey" becomes both options kept on all eight journeys. UX approval (M
 The owner's answers on how the flip behaves, 4 November 2026: "A, kept per device (Recommended)": each journey starts in A, keeps the choice on that device and flips on its own. "Keep the strict rule (Recommended)": no flip while
 signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written. "Yes, one side may show more (Recommended)": the figures both sides show stay the same, and one side may show more.
 
+## Admin journeys: the owner's picks and answers, 4 November 2026 (MP-64)
+
+Asked one by one, with the options on screen. Picks: Admin home "B Nine places". Files and imports "A Status queue (Recommended)". Audit "B Explorer". Runs and health "A Tonight's clock (Recommended)". Agents "A Roster (Recommended)". Models and evaluations "A Pipeline (Recommended)". Approvals and configuration "A Settings by version (Recommended)". Costs and budgets "A Side by side (Recommended)". Incidents and recovery "A Incident timeline (Recommended)". Identity and devices "A Paths first (Recommended)".
+
+CT-16, where admin lives: "Under Settings, phones read only". Asked whether a phone may still run recovery when other devices are gone: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Number of journeys: "Keep nine (Recommended)", so Agents is its own journey. The owner accepted Admin home and action A51, Refuse a proposal. These picks are not UX approval (MP-66) and not permission to build.
+
+iPhone passkey against MP-164: "I'll join the Developer Program". Nothing is bought and no date is set, so the records that say the programme is not bought stay true, and MP-164's bar stands until it is. The $99 fee already has its exception month. MP-179 tracks it.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

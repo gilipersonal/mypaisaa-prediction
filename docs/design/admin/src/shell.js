@@ -7,9 +7,13 @@ const PERMS = /*PERMISSIONS*/null;
 /* Every control that changes something comes from the permission inventory, so a screen cannot grow an action the inventory does not list. */
 const perm = id => { const p = PERMS.actions.find(a => a.id === id); if (!p) throw new Error(`no action ${id} in permissions.json`); return p; };
 const proposed = id => `<span class="chip proposed"><span class="dot"></span>Proposed · ${id}</span>`;
+/* The owner, 4 Nov 2026: "Under Settings, phones read only" and "Yes, recovery only". permissions.json says which acts stay live on a phone. */
+let curKind = 'web';
+const onPhone = () => curKind === 'iphone' || curKind === 'pwa';
 function act(id, label, kind = 'tinted', icon = '') {
   const p = perm(id);
   if (p.step_up === 'outside') throw new Error(`${id} is not an MP control: say where it happens, and draw no button`);
+  if (onPhone() && p.phone !== 'live') return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: on iPad or desktop</span></span>`;
   const guard = p.step_up === 'yes' ? '<span class="small">Asks for a fresh sign-in</span>' : p.step_up === 'open' ? proposed('CT-01') : '';
   return `<span class="aact" data-act="${id}"><button class="btn btn-${kind}" type="button">${p.step_up === 'yes' ? ic('lock', 's18') : (icon ? ic(icon, 's18') : '')}${label}</button>${guard}</span>`;
 }
@@ -92,6 +96,7 @@ function region(ctx, o) {
 
 /* spec: { tab, title, back, actions: html, body: html, rail: html, accessory: html, sheet: html, field: bool } */
 function frame(ctx, spec) {
+  const offNote = /data-phone-off/.test(`${spec.body || ''}${spec.rail || ''}${spec.sheet || ''}`) ? `<p class="small aphone">${ctx.journey === 'identity' ? 'Recovery works here. Other changes happen on iPad or desktop.' : 'Read and acknowledge here. Changes happen on iPad or desktop.'}</p>` : '';
   const tab = spec.tab ?? 4, field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's sixth item
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
   const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Records</span>${freshRow(ctx)}<span class="small">Wed 4 Nov · London</span></div>`;
@@ -105,13 +110,13 @@ function frame(ctx, spec) {
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
       ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx, false, spec)}${spec.actions || tb('search', 'Search')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
       <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh)}</div>
-      <div class="jbody">${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>${nav}
+      <div class="jbody">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>${nav}
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:96px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}${dtab(tab)}${homeInd}${sheet}`;
   }
   if (ctx.kind === 'pwa') {
     return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
       <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true, spec)}${spec.webActions ?? spec.actions ?? ''}</span></div>
-      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh)}</div><div class="jbody" style="padding:0 12px">${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
+      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:90px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}
       <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px" aria-label="Tabs">${tabbarEl(tab)}</nav>${homeInd}${sheet}`;
   }
@@ -130,7 +135,10 @@ function frame(ctx, spec) {
 /* ---------- the registry ---------- */
 const J = {
   /* J.add({ id, title, stories: ['MP-153'], summary, options: [{ id: 'a', name, rec: true, why, cost, screens: [{ id, title, note, na: { noModel: 'reason' }, render: ctx => frame(ctx, {...}) }] }] }) */
-  add(j) { sum.journeys.push(j); },
+  add(j) {
+    j.options.forEach(o => o.screens.forEach(s => { const r = s.render; s.render = ctx => { curKind = ctx.kind; return r(ctx); }; }));
+    sum.journeys.push(j);
+  },
   all: () => sum.journeys,
   start() {
     const hash = location.hash.slice(1).split('.');
@@ -193,7 +201,7 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You pick one</span><span class="chip owner">${(j.options.find(x => x.rec) || {}).id ? `${j.options.find(x => x.rec).id.toUpperCase()} · ${j.options.find(x => x.rec).name} (Recommended)` : ''}</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You picked ${PICKS[j.id].toUpperCase()} · ${j.options.find(p => p.id === PICKS[j.id]).name}</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
@@ -284,10 +292,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
-  ['Is Agents its own journey? The story reads as nine; ARC-08 and CT-16 list eight, with agents, models and evaluations as one domain.', 'Drawn as nine. Costs one more pick for you.'],
-  ['Where does admin live, and how much of it is on phones at launch? (CT-16)', 'Drawn as a place under Settings, on all four devices. No screen is marked launch or later.'],
-  ['Budget changes: in admin (MP-100), or in Settings (MP-142, the cost journey)? (CT-16)', 'Drawn in Costs and budgets, and the owner cost journey keeps its Settings wording until you answer.'],
-  ['iPhone passkeys: MP-164 bars them until the Developer Program is bought, and the Privacy journey shows them. (CT-17, PL-09)', 'Identity does not extend the iPhone passkey. The two records stay as they are until you answer.'],
+  ['When will you join the Developer Program? You said you will (4 Nov). Until it is bought, MP-164 bars on-device passkeys. (CT-17, PL-09)', 'Identity does not extend the iPhone passkey until it is bought. MP-179 tracks it.'],
   ['Who records which actor for an owner act? AuditEvidence has an admin actor, and MP has no admin role. (CT-03)', 'Drawn as You. The actor name is not an approved vocabulary.'],
   ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Every non-financial expiry is illustrative and labelled.'],
   ['Restart evidence has no open id. POLICY-003 says it still needs specifying.', 'Labelled Proposed · POLICY-003, as the owner journey does.'],
@@ -338,9 +343,9 @@ function drawnWhere() {
 function showPermissions() {
   const inv = pageOnly('perm'), at = drawnWhere();
   const lab = { yes: 'Yes', no: 'No', open: 'Open · CT-01', outside: 'Not an MP step-up' };
-  const rows = PERMS.actions.map(p => `<tr><td>${p.id}</td><td>${p.action}</td><td>${lab[p.step_up]}</td><td>${p.audit}</td><td>${[...(at[p.id] || [])].join(', ') || 'Named, no control'}</td><td>${p.source}</td></tr>`).join('');
+  const rows = PERMS.actions.map(p => `<tr><td>${p.id}</td><td>${p.action}</td><td>${lab[p.step_up]}</td><td>${p.phone === 'live' ? 'Yes' : p.phone === 'off' ? 'iPad or desktop' : 'Outside MP'}</td><td>${p.audit}</td><td>${[...(at[p.id] || [])].join(', ') || 'Named, no control'}</td><td>${p.source}</td></tr>`).join('');
   const ref = PERMS.refused.map(p => `<tr><td>${p.id}</td><td>${p.act}</td><td>${[...(at[p.id] || [])].join(', ') || 'Not drawn'}</td><td>${p.source}</td></tr>`).join('');
-  inv.innerHTML = `<h2>Permission inventory</h2><p class="sum">Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, from docs/design/admin/permissions.json. Yes means a story or owner record requires it. Open means no record says, so CT-01 decides. No freshness window or assurance level is approved, and no audit vocabulary is (CT-03). MP has one owner, so this lists acts, not roles.</p><div class="tblwrap" tabindex="0" role="region" aria-label="Inventory"><table class="spec"><thead><tr><th>Id</th><th>Action</th><th>Fresh sign-in</th><th>Audit record</th><th>Where drawn</th><th>Source</th></tr></thead><tbody>${rows}</tbody></table></div><h2 style="margin-top:32px">Refused</h2><p class="sum">The screen says so, and offers no control.</p><div class="tblwrap" tabindex="0" role="region" aria-label="Inventory"><table class="spec"><thead><tr><th>Id</th><th>Refused act</th><th>Where drawn</th><th>Source</th></tr></thead><tbody>${ref}</tbody></table></div>`;
+  inv.innerHTML = `<h2>Permission inventory</h2><p class="sum">Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, from docs/design/admin/permissions.json. Yes means a story or owner record requires it. Open means no record says, so CT-01 decides. No freshness window or assurance level is approved, and no audit vocabulary is (CT-03). MP has one owner, so this lists acts, not roles.</p><div class="tblwrap" tabindex="0" role="region" aria-label="Inventory"><table class="spec"><thead><tr><th>Id</th><th>Action</th><th>Fresh sign-in</th><th>On a phone</th><th>Audit record</th><th>Where drawn</th><th>Source</th></tr></thead><tbody>${rows}</tbody></table></div><h2 style="margin-top:32px">Refused</h2><p class="sum">The screen says so, and offers no control.</p><div class="tblwrap" tabindex="0" role="region" aria-label="Inventory"><table class="spec"><thead><tr><th>Id</th><th>Refused act</th><th>Where drawn</th><th>Source</th></tr></thead><tbody>${ref}</tbody></table></div>`;
   try { history.replaceState(null, '', '#permissions'); } catch (e) { /* the view still shows */ }
 }
 function showCoverage() {
@@ -351,7 +356,9 @@ function showCoverage() {
 }
 
 /* Compare and pick: one card per screen, both options side by side, in the Ready state. The frames are the real screens, drawn small and inert;
-   a card's button opens the full screen. Nothing is picked until the owner presses, and a pick leaves this page only when the owner copies it. */
+   a card's button opens the full screen. The owner's picks start marked, and a change leaves this page only when the owner copies it. */
+/* The owner's picks, 4 November 2026 (docs/design/reviews/MP-64/decision.md). */
+const PICKS = { home: 'b', files: 'a', audit: 'b', runs: 'a', agents: 'a', models: 'a', approvals: 'a', costs: 'a', incidents: 'a', identity: 'a' };
 const CMP_KEY = 'mp64-picks';
 function picksLoad() { try { return JSON.parse(localStorage.getItem(CMP_KEY)) || {}; } catch (e) { return {}; } }
 function picksSave(p) { try { localStorage.setItem(CMP_KEY, JSON.stringify(p)); } catch (e) { /* the picks still show on this page, and copy */ } }
@@ -363,7 +370,7 @@ function picksText(p) {
 }
 function showCompare() {
   const inv = pageOnly('cmp');
-  sum.cmp = sum.cmp || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: picksLoad() };
+  sum.cmp = sum.cmp || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...picksLoad() } };
   if (!sum.cmpWatch && typeof MutationObserver === 'function') {
     sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
     sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
@@ -403,11 +410,11 @@ function drawCompare() {
   const picked = sum.journeys.filter(x => c.picks[x.id]).length, text = picksText(c.picks);
   const card = (o, s) => `<article class="acard" style="--cw:${Math.round((w + (kind === 'win' ? 0 : 20)) * z)}px;--cr:${kind === 'win' ? 6 : 32}px"><div class="acard-frame" inert aria-hidden="true"><div class="dev${kind === 'win' ? ' win' : ''} scheme-${sch}" style="--w:${w}px;--h:${h}px;zoom:${z}"><div class="scr">${s.render({ kind: c.dev, state: 'default', scheme: sch, journey: j.id, option: o.id, screen: s.id })}</div></div></div><h4>${s.title}</h4>${s.note ? `<p>${s.note}</p>` : ''}<button class="btn sm btn-tinted" type="button" data-open="${o.id}|${s.id}" aria-label="Open ${s.title}, option ${o.id.toUpperCase()}">Open</button></article>`;
   const opt = o => `<section class="acmp-opt" aria-label="Option ${o.id.toUpperCase()}, ${o.name}"><div class="acmp-head"><h3>${o.id.toUpperCase()} · ${o.name}</h3>${o.rec ? '<span class="chip owner">Recommended</span>' : ''}<span class="small">${o.screens.length} ${o.screens.length === 1 ? 'screen' : 'screens'}</span><button class="btn sm ${c.picks[j.id] === o.id ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="${o.id}" aria-pressed="${c.picks[j.id] === o.id}">${c.picks[j.id] === o.id ? `${ic('check', 's16')}Picked` : `Pick ${o.id.toUpperCase()}`}</button></div><p class="acmp-why">${o.why}${o.cost ? ` <b>What it costs.</b> ${o.cost}` : ''}</p><div class="acmp-row" tabindex="0" role="region" aria-label="Screens of option ${o.id.toUpperCase()}">${o.screens.map(s => card(o, s)).join('')}</div></section>`;
-  inv.innerHTML = `<h2>Compare and pick</h2><p class="sum">One card per screen, both options, in the Ready state, for the journey you choose. Nothing is picked until you press. ${picked} of ${sum.journeys.length} picked.</p>
+  inv.innerHTML = `<h2>Compare and pick</h2><p class="sum">One card per screen, both options, in the Ready state, for the journey you choose. Your picks of 4 November are marked. Change one here, and copy the result to Claude. ${picked} of ${sum.journeys.length} picked.</p>
     <div class="jstates acmp-tabs" role="group" aria-label="Journey">${sum.journeys.map(x => `<button type="button" data-cj="${x.id}" aria-pressed="${x.id === c.j}">${c.picks[x.id] ? `${x.title} · ${c.picks[x.id] === 'x' ? 'neither' : c.picks[x.id].toUpperCase()}` : x.title}</button>`).join('')}</div>
     <div class="jstates acmp-tabs" role="group" aria-label="Device">${Object.entries(CMP_DEV).map(([k, v]) => `<button type="button" data-cdev="${k}" aria-pressed="${k === c.dev}">${v[0]}</button>`).join('')}</div>
     <p class="sum" style="color:var(--ink)">${j.summary}</p>${j.options.map(opt).join('')}
     <div class="acmp-foot"><button class="btn sm ${c.picks[j.id] === 'x' ? 'btn-primary' : 'btn-tinted'}" type="button" data-pick="x" aria-pressed="${c.picks[j.id] === 'x'}">${c.picks[j.id] === 'x' ? `${ic('check', 's16')}Neither` : 'Neither, draw new options'}</button><span class="small">A journey you reject gets its own new options round. The others are kept.</span></div>
-    <div class="card acmp-out"><label class="label" for="cmpText">Your picks so far</label><textarea id="cmpText" readonly rows="3" placeholder="Nothing picked yet">${text}</textarea><div class="acmp-copy"><button class="btn sm btn-primary" type="button" data-copy="1"${text ? '' : ' disabled'}>Copy my picks</button><span class="small" id="cmpSaid" role="status">Picks stay in this browser until you paste them to Claude.</span></div></div>`;
+    <div class="card acmp-out"><label class="label" for="cmpText">Your picks so far</label><textarea id="cmpText" readonly rows="3" placeholder="Nothing picked yet">${text}</textarea><div class="acmp-copy"><button class="btn sm btn-primary" type="button" data-copy="1"${text ? '' : ' disabled'}>Copy my picks</button><span class="small" id="cmpSaid" role="status">A change stays in this browser until you paste it to Claude.</span></div></div>`;
   $$('[data-mo]', inv).forEach(n => n.removeAttribute('data-mo'));
 }

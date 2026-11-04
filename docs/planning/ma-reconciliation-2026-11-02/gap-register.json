@@ -1816,7 +1816,8 @@
         }
       ],
       "planning_group": "admin",
-      "jira_key": "MP-28"
+      "jira_key": "MP-28",
+      "owner_answer": "Owner, 4 November 2026 (MP-64): nine journeys, with Agents its own journey; admin sits under Settings; phones read and acknowledge, changes happen on iPad or desktop, and recovery stays live on a phone; budget changes live in admin, under Settings. Launch depth of each journey and the pause switches stay open."
     },
     {
       "id": "CT-17",

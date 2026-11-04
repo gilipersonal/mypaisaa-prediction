@@ -1,6 +1,5 @@
 /* Admin home: where admin starts, and what needs the owner (MP-64, ARC-08, CT-16). Every figure is illustrative. */
 {
-  const OPEN_ID = () => proposed('CT-16');
   const QUIET = { default: 'Nothing here is urgent', loading: 'Reading the records', empty: 'Nothing waits on you', partial: '3 of 4 sources answered', error: 'Records failed at 11:38', stale: 'From 11:12', offline: 'From 11:20', conflict: 'A record changed while you read', expired: 'One request ran out of time', denied: 'A fresh sign-in is needed' };
   const NEEDS = [
     ['check', '', '4 decisions wait on you', 'Next: Taiwan Semiconductor, 18:00', 'approvals'],
@@ -14,7 +13,7 @@
   const needs = ctx => list(NEEDS.map(([i, t, a, b]) => item(lead(i, t), a, b, ic('chev-r', 's18'), '', false, true)).join(''));
   const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, PLACE_LINE[k], ic('chev-r', 's18'), '', false, true)).join(''));
   const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" aria-label="${name}. ${PLACE_LINE[k]}" data-mo="card">${lead(i)}<b>${name}</b><span class="small">${PLACE_LINE[k]}</span></div>`).join('')}</div>`;
-  const note = () => `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${OPEN_ID()}<span class="small">Where admin lives is open. Drawn under Settings.</span></div>`;
+  const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and recovery works anywhere.</p>`;
   const state = (ctx, ok, what) => region(ctx, {
     what, rows: 5, ok,
     empty: () => banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check') + places(ctx),

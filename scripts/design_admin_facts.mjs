@@ -50,9 +50,10 @@ export function problems(journeys, whole = true) {
       }
     }
   }
-  walk(journeys, (html, at) => {
+  walk(journeys, (html, at, where) => {
     for (const m of html.matchAll(/data-act="(A\d+)"/g)) acts.add(m[1]);
     for (const m of html.matchAll(/data-refuse="(R\d+)"/g)) refused.add(m[1]);
+    if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) if (PERMS.actions.find((p) => p.id === m[1]).phone !== 'live') out.push(`${at}: ${m[1]} is a live control on a phone`);
     const text = textOf(html);
     if (!text) out.push(`${at}: nothing drawn`);
     for (const [re, why] of BARRED) if (re.test(text)) out.push(`${at}: ${why}: "${text.match(re)[0]}"`);
@@ -73,6 +74,7 @@ function selftest() {
     ['a state with no reason', (js) => { js[1].options[0].screens[0].na = { stale: 'no' }; }, 'n/a with no reason'],
     ['a barred word', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<p>Hit the kill switch</p>'; }, 'kill switch'],
     ['an unknown proposal', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<p>Proposed · SOON</p>'; }, 'not a record id'],
+    ['a live control on a phone', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A07"><button>Approve</button></span>'; }, 'is a live control on a phone'],
     ['a journey removed', (js) => { js.splice(2, 1); }, 'it needs'],
   ];
   let bad = 0;

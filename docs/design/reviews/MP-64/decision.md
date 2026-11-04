@@ -1,6 +1,23 @@
 # MP-64 admin journeys: the decision
 
-**Status: waiting on the owner's pick.** Nothing here is approved. UX approval and permission to build are separate (MP-66).
+**Status: the owner picked on 4 November 2026.** These picks are not UX approval and not permission to build; both are separate (MP-66).
+
+| Journey | The owner's words |
+| --- | --- |
+| Admin home | "B Nine places" |
+| Files and imports | "A Status queue (Recommended)" |
+| Audit | "B Explorer" |
+| Runs and health | "A Tonight's clock (Recommended)" |
+| Agents | "A Roster (Recommended)" |
+| Models and evaluations | "A Pipeline (Recommended)" |
+| Approvals and configuration | "A Settings by version (Recommended)" |
+| Costs and budgets | "A Side by side (Recommended)" |
+| Incidents and recovery | "A Incident timeline (Recommended)" |
+| Identity and devices | "A Paths first (Recommended)" |
+
+Where admin lives: "Under Settings, phones read only". A phone keeps recovery: "Yes, recovery only (Recommended)". Budget changes: "In admin, under Settings (Recommended)". Journeys: "Keep nine (Recommended)". The owner accepted Admin home and A51. iPhone passkey: "I'll join the Developer Program"; nothing is bought yet, so MP-164's bar stands and enrolling stays on the Mac until it is.
+
+On a phone, `permissions.json` marks each act live or off. Reading, acknowledging or resolving an incident, revoking, enrolling and cancelling a recovery stay live. Everything else shows where to do it. The owner journeys are unchanged: approving there on a phone is MP-55, not admin. That line is the maker's reading, for the owner to correct.
 
 The owner's words that started this: "lets get started", then "Skip to MP-64" (4 November 2026). The story says the owner picks one
 option per journey, so there is no flip here; the flip answer of 4 November covers the eight owner journeys only.
@@ -24,9 +41,6 @@ refused acts. Facts behind the page: [facts.md](facts.md). Brief: [brief.md](bri
 
 ## Choices the maker made, for the owner to accept or change
 
-- **Nine journeys.** The story reads as nine if Agents stands alone; ARC-08 and CT-16 list eight.
-- **Admin home is added**, so the nine places and the promise on the Approvals journey have a destination. It is not in the story.
-- **A51, Refuse a proposal**, is added to the inventory. The story asks for approve and reject, and no record names this act.
 - **Admin's clock** is Wed 4 Nov, 11:40 London. The cost month keeps its own illustrative calendar, and screens say which they show.
 - **Ids minted for this page** are listed in the brief. They are illustrative.
 

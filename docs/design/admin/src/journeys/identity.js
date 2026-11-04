@@ -36,7 +36,7 @@
   const lineOf = n => DEVICES.find(d => d[0] === n)[1];
   const isApp = n => n === 'iPad' || n === 'iPhone';
   const OPENQ = () => tags(proposed('CT-17'), proposed('PL-09'));
-  const IPHONE = 'Shown as the Privacy journey shows it. MP-164 bars on-device passkeys until you join the Developer Program, so nothing here builds on this row.';
+  const IPHONE = 'Shown as the Privacy journey shows it. You said you will join the Developer Program. Until it is bought, MP-164 bars on-device passkeys, so nothing here builds on this row.';
   const quiet = ctx => (ctx.kind === 'pwa' ? 'Mac, Safari' : 'Phone web');
   const devRows = (ctx, flat) => {
     const s = ctx.state, here = HERE[ctx.kind], g = gone(ctx), go = flat ? (i, a, b, x, tone) => row(i, a, b, x, tone) : opens;
@@ -271,7 +271,7 @@
           rail: `${card(`${head('What a link never does')}${note('A matching email never links or merges two identities. A link that fails midway leaves both unlinked, and the attempt is audited.')}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`
         })
       }, {
-        id: 'a-enrol', title: 'Enrol a passkey', note: 'Drawn as a control on the Mac only. iPhone, iPad and phone web say why not, until CT-17 and PL-09 are answered.',
+        id: 'a-enrol', title: 'Enrol a passkey', note: 'Drawn as a control on the Mac only. iPhone, iPad and phone web say why not, until the Developer Program is bought and CT-17 and PL-09 are answered.',
         render: ctx => frame(ctx, {
           title: 'Enrol a passkey', back: 'Ways back in',
           body: view(ctx, T_ENROL, () => enrolHere(ctx)),

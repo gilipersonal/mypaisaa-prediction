@@ -1,5 +1,5 @@
 {
- "about": "Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, drafted from the records for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved. No audit operation vocabulary is approved (CT-03). Nothing here approves a design or a build.",
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07) and what it writes to the audit, drafted from the records for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved. No audit operation vocabulary is approved (CT-03). Nothing here approves a design or a build. phone: live or off. The owner, 4 November 2026: phones read and acknowledge, changes happen on iPad or desktop, and recovery stays live on a phone.",
  "actions": [
   {
    "id": "A01",
@@ -10,7 +10,8 @@
    "step_up": "no",
    "step_up_note": "No, read; freshness of source access open",
    "audit": "Source access has \"privacy-safe evidence\"",
-   "source": "PH01-S04; CT-03 acceptance"
+   "source": "PH01-S04; CT-03 acceptance",
+   "phone": "live"
   },
   {
    "id": "A02",
@@ -21,7 +22,8 @@
    "step_up": "open",
    "step_up_note": "Open (CT-01); needs \"current owner authorization and a short-lived access path\" `[history]`",
    "audit": "Access event; class open (CT-03)",
-   "source": "AOR:61"
+   "source": "AOR:61",
+   "phone": "live"
   },
   {
    "id": "A03",
@@ -33,7 +35,8 @@
    "step_up": "no",
    "step_up_note": "No: read access is \"distinct from controls\"",
    "audit": "None named",
-   "source": "GAP-CT-16"
+   "source": "GAP-CT-16",
+   "phone": "live"
   },
   {
    "id": "A04",
@@ -44,7 +47,8 @@
    "step_up": "open",
    "step_up_note": "Open (not on the matrix)",
    "audit": "AuditEvidence, SourceReceipt",
-   "source": "PH01-S06"
+   "source": "PH01-S06",
+   "phone": "off"
   },
   {
    "id": "A05",
@@ -55,7 +59,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "New draft revision; audit class open",
-   "source": "PH01-S12"
+   "source": "PH01-S12",
+   "phone": "off"
   },
   {
    "id": "A06",
@@ -66,7 +71,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "Open (CT-03)",
-   "source": "FP:53-83"
+   "source": "FP:53-83",
+   "phone": "off"
   },
   {
    "id": "A07",
@@ -78,7 +84,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "OwnerApproval, AuditEvidence, CommitReceipt in the same logical commit",
-   "source": "PH01-S14, PH01-S04"
+   "source": "PH01-S14, PH01-S04",
+   "phone": "off"
   },
   {
    "id": "A08",
@@ -89,7 +96,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "New hash, as 7",
-   "source": "POLICY-005"
+   "source": "POLICY-005",
+   "phone": "off"
   },
   {
    "id": "A09",
@@ -100,7 +108,8 @@
    "step_up": "open",
    "step_up_note": "Open. \"Neither MP-55 nor CT-01 names it\"",
    "audit": "Open (records revoked_at)",
-   "source": "J:shell:285; OwnerApproval schema"
+   "source": "J:shell:285; OwnerApproval schema",
+   "phone": "off"
   },
   {
    "id": "A10",
@@ -111,7 +120,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "OwnerApproval, LedgerEvent links, AuditEvidence",
-   "source": "PH02-S03, PH01-S18"
+   "source": "PH02-S03, PH01-S18",
+   "phone": "off"
   },
   {
    "id": "A11",
@@ -122,7 +132,8 @@
    "step_up": "yes",
    "step_up_note": "Yes `[inferred from \"corrections\"; operation is its own enum value]`",
    "audit": "As 10",
-   "source": "PH01-S18, schema"
+   "source": "PH01-S18, schema",
+   "phone": "off"
   },
   {
    "id": "A12",
@@ -133,7 +144,8 @@
    "step_up": "yes",
    "step_up_note": "Yes, 15-minute window",
    "audit": "As 10, new generation",
-   "source": "POLICY-012 POL:201"
+   "source": "POLICY-012 POL:201",
+   "phone": "off"
   },
   {
    "id": "A13",
@@ -145,7 +157,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "ReplayRequest, AuditEvidence",
-   "source": "PH08-S06"
+   "source": "PH08-S06",
+   "phone": "off"
   },
   {
    "id": "A14",
@@ -156,7 +169,8 @@
    "step_up": "open",
    "step_up_note": "Open; a new revision voids any approval",
    "audit": "New revision; audit class open",
-   "source": "PH01-S08"
+   "source": "PH01-S08",
+   "phone": "off"
   },
   {
    "id": "A15",
@@ -168,7 +182,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "\"recorded disposition\"; actor unnamed",
-   "source": "PH01-S05, FS:43"
+   "source": "PH01-S05, FS:43",
+   "phone": "off"
   },
   {
    "id": "A16",
@@ -179,7 +194,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "DeletionTombstone, AuditEvidence",
-   "source": "PH01-S05, PH02-S14"
+   "source": "PH01-S05, PH02-S14",
+   "phone": "off"
   },
   {
    "id": "A17",
@@ -190,7 +206,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "AuditEvidence",
-   "source": "PH01-S05, PH02-S14"
+   "source": "PH01-S05, PH02-S14",
+   "phone": "off"
   },
   {
    "id": "A18",
@@ -201,7 +218,8 @@
    "step_up": "yes",
    "step_up_note": "Yes, \"fresh sign-in for the request\"",
    "audit": "AuditEvidence (owner, environment, revision)",
-   "source": "PH01-S26"
+   "source": "PH01-S26",
+   "phone": "off"
   },
   {
    "id": "A19",
@@ -212,7 +230,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "AuditEvidence",
-   "source": "PH01-S26"
+   "source": "PH01-S26",
+   "phone": "live"
   },
   {
    "id": "A20",
@@ -223,7 +242,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "AuditEvidence",
-   "source": "PH01-S26"
+   "source": "PH01-S26",
+   "phone": "off"
   },
   {
    "id": "A21",
@@ -234,7 +254,8 @@
    "step_up": "open",
    "step_up_note": "Open; the behaviour itself is open (FIN-OD-08)",
    "audit": "Open",
-   "source": "FOD:147"
+   "source": "FOD:147",
+   "phone": "off"
   },
   {
    "id": "A22",
@@ -245,7 +266,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "New version; class open",
-   "source": "PH05-S15"
+   "source": "PH05-S15",
+   "phone": "off"
   },
   {
    "id": "A23",
@@ -256,7 +278,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "DeletionTombstone",
-   "source": "PH05-S15"
+   "source": "PH05-S15",
+   "phone": "off"
   },
   {
    "id": "A24",
@@ -267,7 +290,8 @@
    "step_up": "open",
    "step_up_note": "Open; a budget change is Yes under 34",
    "audit": "Manifest version; audit class open",
-   "source": "PH05-S06"
+   "source": "PH05-S06",
+   "phone": "off"
   },
   {
    "id": "A25",
@@ -278,7 +302,8 @@
    "step_up": "yes",
    "step_up_note": "Yes, \"fresh authentication bound to the exact payload\"",
    "audit": "PromotionRecord, OwnerApproval, PromotionDecision",
-   "source": "PH04-S18"
+   "source": "PH04-S18",
+   "phone": "off"
   },
   {
    "id": "A26",
@@ -289,7 +314,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "PromotionRecord (to rejected)",
-   "source": "PH04-S18"
+   "source": "PH04-S18",
+   "phone": "off"
   },
   {
    "id": "A27",
@@ -300,7 +326,8 @@
    "step_up": "open",
    "step_up_note": "Open; drawn with a fresh sign-in, tagged `Proposed · CT-01`",
    "audit": "PromotionRecord",
-   "source": "PH04-S19; J:approvals:296"
+   "source": "PH04-S19; J:approvals:296",
+   "phone": "off"
   },
   {
    "id": "A28",
@@ -311,7 +338,8 @@
    "step_up": "open",
    "step_up_note": "Open; same",
    "audit": "PromotionRecord, tagged `Proposed · POLICY-003`",
-   "source": "DL:219; J:approvals:302"
+   "source": "DL:219; J:approvals:302",
+   "phone": "off"
   },
   {
    "id": "A29",
@@ -323,7 +351,8 @@
    "step_up": "yes",
    "step_up_note": "Yes `[inferred: a sensitive setting]`",
    "audit": "Audit, setting version",
-   "source": "PH05-S14"
+   "source": "PH05-S14",
+   "phone": "off"
   },
   {
    "id": "A30",
@@ -334,7 +363,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "EvalLabel",
-   "source": "PH05-S13"
+   "source": "PH05-S13",
+   "phone": "off"
   },
   {
    "id": "A31",
@@ -345,7 +375,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "ApprovalRequest, OwnerApproval, AuditEvidence",
-   "source": "PH05-S14"
+   "source": "PH05-S14",
+   "phone": "off"
   },
   {
    "id": "A32",
@@ -356,7 +387,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "New version, \"its own audit record\"",
-   "source": "PH05-S14"
+   "source": "PH05-S14",
+   "phone": "off"
   },
   {
    "id": "A33",
@@ -367,7 +399,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "Policy version",
-   "source": "PH06-S05"
+   "source": "PH06-S05",
+   "phone": "off"
   },
   {
    "id": "A34",
@@ -378,7 +411,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit, new version",
-   "source": "PH02-S10, PH02-S08"
+   "source": "PH02-S10, PH02-S08",
+   "phone": "off"
   },
   {
    "id": "A35",
@@ -389,7 +423,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit",
-   "source": "PH02-S09"
+   "source": "PH02-S09",
+   "phone": "off"
   },
   {
    "id": "A36",
@@ -400,7 +435,8 @@
    "step_up": "open",
    "step_up_note": "\"the authentication PH-02 requires for a configuration change\": level open; drawn `Proposed · CT-01`",
    "audit": "Catalogue version, owner approval record",
-   "source": "PH03-S03, PH05-S11"
+   "source": "PH03-S03, PH05-S11",
+   "phone": "off"
   },
   {
    "id": "A37",
@@ -411,7 +447,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "Entitlement, AuditEvidence",
-   "source": "PH03-S02"
+   "source": "PH03-S02",
+   "phone": "off"
   },
   {
    "id": "A38",
@@ -422,7 +459,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "ExtensionApproval",
-   "source": "PH09-S01"
+   "source": "PH09-S01",
+   "phone": "off"
   },
   {
    "id": "A39",
@@ -433,7 +471,8 @@
    "step_up": "open",
    "step_up_note": "Open; edits are \"versioned/audited\"",
    "audit": "Audit, policy version",
-   "source": "PH06-S12; CT-18"
+   "source": "PH06-S12; CT-18",
+   "phone": "off"
   },
   {
    "id": "A40",
@@ -444,7 +483,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "IncidentRecord; recorded resolution",
-   "source": "PH08-S05"
+   "source": "PH08-S05",
+   "phone": "live"
   },
   {
    "id": "A41",
@@ -455,7 +495,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "ReplayRequest with the owner's approval",
-   "source": "PH08-S06"
+   "source": "PH08-S06",
+   "phone": "off"
   },
   {
    "id": "A42",
@@ -466,7 +507,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "RecoveryExercise; AuditEvidence read",
-   "source": "PH08-S03"
+   "source": "PH08-S03",
+   "phone": "off"
   },
   {
    "id": "A43",
@@ -477,7 +519,8 @@
    "step_up": "open",
    "step_up_note": "Open; only the runbook names them",
    "audit": "Open",
-   "source": "PH08-S09"
+   "source": "PH08-S09",
+   "phone": "off"
   },
   {
    "id": "A44",
@@ -488,7 +531,8 @@
    "step_up": "outside",
    "step_up_note": "Not an MP step-up: a GitHub workflow only the owner can start",
    "audit": "ReleaseEvidence (owner's start)",
-   "source": "PH08-S01, DL:203"
+   "source": "PH08-S01, DL:203",
+   "phone": "outside"
   },
   {
    "id": "A45",
@@ -499,7 +543,8 @@
    "step_up": "outside",
    "step_up_note": "Not an MP step-up: \"in words\"",
    "audit": "ReleaseEvidence, owner's words",
-   "source": "PH08-S07"
+   "source": "PH08-S07",
+   "phone": "outside"
   },
   {
    "id": "A46",
@@ -510,7 +555,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit, opaque references",
-   "source": "PH02-S01, S02"
+   "source": "PH02-S01, S02",
+   "phone": "off"
   },
   {
    "id": "A47",
@@ -521,7 +567,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit",
-   "source": "PH02-S02"
+   "source": "PH02-S02",
+   "phone": "off"
   },
   {
    "id": "A48",
@@ -532,7 +579,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit",
-   "source": "PH02-S02"
+   "source": "PH02-S02",
+   "phone": "live"
   },
   {
    "id": "A49",
@@ -543,7 +591,8 @@
    "step_up": "yes",
    "step_up_note": "Yes",
    "audit": "Audit",
-   "source": "PH02-S02"
+   "source": "PH02-S02",
+   "phone": "live"
   },
   {
    "id": "A50",
@@ -554,7 +603,8 @@
    "step_up": "open",
    "step_up_note": "Open",
    "audit": "Audit `[inferred: \"each step is audited\"]`",
-   "source": "PH02-S02"
+   "source": "PH02-S02",
+   "phone": "live"
   },
   {
    "id": "A51",
@@ -565,7 +615,8 @@
    "step_up": "open",
    "step_up_note": "Open: no record names it",
    "audit": "Proposal closes as refused; audit class open (CT-03)",
-   "source": "PH02-S03; GAP-CT-02"
+   "source": "PH02-S03; GAP-CT-02",
+   "phone": "off"
   }
  ],
  "refused": [
