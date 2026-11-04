@@ -63,6 +63,14 @@
    "published_sha256": "d85232c704a8b77af58be67fff01a1a098b9c0e012c4a8fd59ad8ef1cf1238fa",
    "published_at": "2026-11-04",
    "jira": "MP-178"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "e4e59390ee1d411e26c00bdecfde425ca680e781181538e37369613b74649944",
+   "published_at": "2026-11-04",
+   "jira": "MP-64"
   }
  ]
 }

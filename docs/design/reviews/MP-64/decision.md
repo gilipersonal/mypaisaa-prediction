@@ -6,7 +6,7 @@ The owner's words that started this: "lets get started", then "Skip to MP-64" (4
 option per journey, so there is no flip here; the flip answer of 4 November covers the eight owner journeys only.
 
 Drawn: nine admin journeys and Admin home, two options each, 105 screens, in ten states, on iPhone, iPad, desktop and phone web, in
-light and dark. Page: `docs/design/admin/index.html`. Permission inventory: `docs/design/admin/permissions.json`, 51 actions and 19
+light and dark. Page: `docs/design/admin/index.html`, synced privately to https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf. Permission inventory: `docs/design/admin/permissions.json`, 51 actions and 19
 refused acts. Facts behind the page: [facts.md](facts.md). Brief: [brief.md](brief.md).
 
 | Journey | Option A, screens | Option B, screens |
