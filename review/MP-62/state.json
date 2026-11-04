@@ -1123,7 +1123,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Decided by the owner after round 1 is reported.",
+      "next_round": "Waiting on the owner. Round 2 would cover git diff c1fa817..HEAD and its direct joins.",
       "blocking_findings": [
         "R1-h1",
         "R1-h2",
@@ -1256,7 +1256,10 @@
         "scripts/design_gates.py: every text size and weight is read or refused, vendor and inline forms, the stray token refusal (16 new faults)",
         "scripts/design_tokens.py: stale files and unknown types refused",
         "scripts/review_checks.py: design-walk, a broader-tier check naming the rendered checks"
-      ]
+      ],
+      "fix_commit": "18e243db95af8925d0612c6a984a78fa34df3caa",
+      "post_fix_gates": "design_journeys_check: selftest 10 of 10 faults refused; 1,152 combinations, 0 problems, before the staged drawing change, then privacy in dark, 72 combinations, 0 problems, after it. design_runtime: 8 of 8 on Journeys and 8 of 8 on Prism. design_gates selftest 117 faults, design_tokens selftest 10. design_journeys_facts 83 of 83 on the fixed page, 0 of 83 on the reviewed page. review_regress MP-62 84 of 84; every ledger 130 of 130. review_checks all pass; design-walk deferred, run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
+      "publication": "Journeys v3 and Prism v4 republished privately to their own links and read back as identical to the repo files. The publisher did not read the files in full before publishing as instructed; it compared the live copies and ran a pattern scan. A separate agent then read the Journeys page in full."
     }
   ]
 }
