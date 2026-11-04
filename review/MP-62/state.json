@@ -3528,7 +3528,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Decided by the owner after round 4 is reported.",
+      "next_round": "Waiting on the owner. Round 5, the last the rule allows, would cover git diff b58ae49..HEAD and its direct joins.",
       "blocking_findings": [
         "R4-h1",
         "R4-h2",
@@ -3593,7 +3593,11 @@
         "scripts/design_journeys_check.mjs: a press on a frame being left; a frame that does not turn",
         "scripts/design_journeys_press.mjs: 163 cases, with a turned frame, a press inside it and a flip back; its selftest asserts the reason",
         "tests/journey_facts/flip.mjs: each flip's name lands where that name is true"
-      ]
+      ],
+      "fix_commit": "0a66d04453ef1ee4d5e3a1710c946d848381aa3c",
+      "post_fix_gates": "design_journeys_check: selftest 31 of 31 faults refused; 1,152 combinations and 1,176 flips pressed, 0 problems. design_journeys_press: selftest passes; 163 cases, 0 failed. design_journeys_facts: 251 of 251 on the fixed page; R4-h8, R4-j10 and R4-r2 also hold on the reviewed page and were proved on mutated copies. design_runtime: Prism 8 of 8; Journeys 8 of 8. design_gates selftest 124 faults. review_regress MP-62 267 of 267; every ledger 313 of 313. review_checks pass; design-walk run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
+      "publication": "Journeys v7 republished privately to its own link and read back byte for byte; the publisher read all 6,497 lines. Prism did not change in this round.",
+      "records_waiting": "MP-66's Jira description and Confluence PH-00 still wait on the owner's yes."
     }
   ]
 }
