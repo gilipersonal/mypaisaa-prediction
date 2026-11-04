@@ -2913,7 +2913,7 @@
           "status": "fixed"
         }
       ],
-      "next_round": "Decided by the owner after round 3 is reported.",
+      "next_round": "Waiting on the owner. Round 4 would cover git diff fc1303d..HEAD and its direct joins.",
       "blocking_findings": [
         "R3-h1",
         "R3-h2",
@@ -2991,7 +2991,11 @@
         "scripts/design_journeys_press.mjs: 140 cases and its own selftest",
         "scripts/design_gates.py: tokens set inline or by a script; a loop inside a computed value",
         "tests/journey_facts: research figures join the agreed list; a schedule's XNPV at each stated rate"
-      ]
+      ],
+      "fix_commit": "9023236ce00e065e6bc0540e434f4e7f75aac748",
+      "post_fix_gates": "design_journeys_check: selftest 29 of 29 faults refused; 1,152 combinations and 1,176 flips pressed, 0 problems, with one flip per journey on the real path and one with motion on. design_journeys_press: selftest passes; 140 cases, 0 failed. design_journeys_facts: 213 of 213 on the fixed page, 144 on the reviewed page; R3-h4 holds on the reviewed page and was proved on a mutated copy. design_runtime: Prism 8 of 8; Journeys 6 of 8, one Chrome frame of 50 to 59 ms against the 50 ms limit at 1440 px, on first load at four times CPU slowdown, open. design_gates selftest 124 faults. review_regress MP-62 223 of 223; every ledger 269 of 269. review_checks pass except confluence-receipts, PH-00 pending the owner's yes; design-walk run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
+      "publication": "Journeys v6 republished privately to its own link and read back byte for byte; the publisher read all 6,448 lines. Prism did not change in this round.",
+      "records_waiting": "MP-66's Jira description and Confluence PH-00 still wait on the owner's yes."
     }
   ]
 }
