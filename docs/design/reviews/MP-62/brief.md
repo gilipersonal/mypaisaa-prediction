@@ -85,7 +85,7 @@ Portfolio value £84,612.40, up £1,236.18 (1.48%) today; as of 21:15 London, da
 | NVIDIA (NVDA) | XNAS | £11,402.10 | +3.4% | +9.1% (-18.5% to +34.0%) | Trim |
 | SPDR S&P 500 ETF Trust (SPY) | ARCX | £18,960.00 | +0.8% | +4.3% (-7.1% to +15.2%) | Add |
 | AstraZeneca (AZN) | XLON | £9,215.75 | -0.6% | +3.0% (-8.4% to +13.9%) | Hold |
-| HSBC (HSBA) | XLON | £6,104.20 | +0.3% | +2.1% (-10.2% to +12.6%) | Pause (stale: last price 16:35) |
+| HSBC (HSBA) | XLON | £6,104.20 | +0.3% | +2.1% (-10.2% to +12.6%) | Pause (late: last price 14:10, before the 16:35 UK close) |
 | Reliance (RELIANCE) | XNSE | £8,940.30 | +1.1% | +7.4% (-12.0% to +24.9%) | Add |
 | Nippon India Nifty 50 BeES (NIFTYBEES) | XNSE | £15,169.55 | +0.5% | +5.0% (-6.9% to +16.2%) | Hold |
 

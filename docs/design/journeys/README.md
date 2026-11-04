@@ -10,9 +10,11 @@ Admin journeys are MP-64, not here. Nothing here is product code: UX is not appr
 | File | What |
 | --- | --- |
 | `src/journeys/<id>.js` | One journey, registered with `J.add()`. Ids and order: home, holdings, forecast, research, journal, cost, approvals, privacy |
-| `src/journeys/<id>.css` | Rules only that journey needs, classes prefixed with its id. Prefer Prism's components |
+| `src/journeys/<id>.css` | Layout only that journey needs, classes prefixed with its id. Prefer Prism's components. A component a picked option keeps goes into Prism first, under `.claude/rules/design-sync.md`, before anything is built |
 | `src/shell.*` | The page around the screens, the device chrome and the state helpers |
 | `build.py` | Takes tokens, components, icons, helpers and frames from `docs/design/prism/` as they stand, and writes `index.html` |
+
+`node scripts/design_journeys_facts.mjs --all` renders every screen with no browser and proves each fixed review finding still holds; the checks are in `tests/journey_facts/`.
 
 `python3 docs/design/journeys/build.py` builds everything. `python3 docs/design/journeys/build.py --only home,forecast --out /tmp/x.html`
 builds a partial page for one designer's preview. `node scripts/design_journeys_check.mjs PAGE [--only home]` walks every

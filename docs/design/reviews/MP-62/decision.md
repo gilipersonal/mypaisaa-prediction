@@ -169,15 +169,26 @@ Checked on 4 November 2026 and nothing is installed: SvelteKit 3.1.1 with Svelte
 `TECH-STACK.md`; simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro
 (M4 and M5). Supported devices stay open (MP40-Q12), so the frames are drawing sizes, not a device promise.
 
-The owner's open questions the screens wait on are listed on the page under the inventory. Three are new from drawing:
-where Research, Approvals and Imports live in the navigation; MP-144 allowing "buy or watch" for a candidate, drawn as Watch
-only because MP never trades; and whether the portfolio total includes cash.
+The owner's open questions the screens wait on are listed on the page under the inventory, each with how it is drawn today.
 
-The iPhone status bar is the one text exempt from the 20% measure. The operating system draws it, here only to show the
-device, and behind an open sheet's scrim it reads 5.46:1 at full brightness and 2.01:1 at 20%. The exemption keeps the
-3:1 floor at full brightness. Every piece of MP's own text holds 4.5:1 and 3:1.
+Text exempt from the 20% measure: the status bars, which the operating system draws, and disabled controls. Behind an open
+sheet's scrim the iPhone status bar reads 5.46:1 at full brightness and 2.01:1 at 20%. Both must still reach 3:1 at full
+brightness. `scripts/design_journeys_check.mjs` measures every other text on every screen in every state, including
+text on gradients, at 4.5:1 and 3:1.
 
-Not reviewed by an independent reviewer, not seen on a real phone at 20% brightness, and no owner has walked the journeys.
+Not seen on a real phone at 20% brightness, and no owner has walked the journeys.
+
+## Review round 1, 4 November 2026
+
+The owner: "Review round 1 - yes". Four reviewers, journeys in pairs with the scripts joined to one pair, on `c1fa817`. They
+found 120 issues, 70 blocking. All 70 are fixed and held by `review/MP-62/fixed.json`. The record is
+[round-1.md](../../../../review/MP-62/round-1.md). The fixes took the page from 89 screens to 156: dead ends now lead somewhere, and each
+option draws its own outcomes, because the owner may pick one option alone. `docs/design/prism/` was the spec in this round, not
+reviewed as a deliverable. The fixes are not independently reviewed; that is round 2, if the owner asks for it.
+
+What HSBC's price means changed so the journeys agree. Its stale time was 16:35, which is the UK close. It is now 14:10: in Ready it is
+late but inside the freshness limit and stays in the total; in Stale it is past the limit and leaves the total, which reads £78,508.20,
+6 of 7 priced. The limit is proposed (MP40-Q6).
 
 ## Both options, with a flip: the owner's question, 4 November 2026
 

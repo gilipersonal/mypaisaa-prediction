@@ -1,0 +1,179 @@
+{
+  "base": "main",
+  "paths": [
+    ".claude/rules/design-sync.md",
+    ".github/workflows/verify.yml",
+    "docs/design/artifacts.json",
+    "docs/design/journeys/README.md",
+    "docs/design/journeys/build.py",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/approvals.js",
+    "docs/design/journeys/src/journeys/cost.css",
+    "docs/design/journeys/src/journeys/cost.js",
+    "docs/design/journeys/src/journeys/forecast.css",
+    "docs/design/journeys/src/journeys/forecast.js",
+    "docs/design/journeys/src/journeys/holdings.css",
+    "docs/design/journeys/src/journeys/holdings.js",
+    "docs/design/journeys/src/journeys/home.css",
+    "docs/design/journeys/src/journeys/home.js",
+    "docs/design/journeys/src/journeys/journal.css",
+    "docs/design/journeys/src/journeys/journal.js",
+    "docs/design/journeys/src/journeys/privacy.css",
+    "docs/design/journeys/src/journeys/privacy.js",
+    "docs/design/journeys/src/journeys/research.js",
+    "docs/design/journeys/src/shell.css",
+    "docs/design/journeys/src/shell.html",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/prism/PrismTokens.swift",
+    "docs/design/prism/README.md",
+    "docs/design/prism/icons.svg",
+    "docs/design/prism/index.html",
+    "docs/design/prism/tokens.css",
+    "docs/design/prism/tokens.json",
+    "docs/design/reviews/MP-62/brief-r2.md",
+    "docs/design/reviews/MP-62/brief-r3.md",
+    "docs/design/reviews/MP-62/brief-r4.md",
+    "docs/design/reviews/MP-62/brief.md",
+    "docs/design/reviews/MP-62/decision.md",
+    "docs/design/reviews/MP-62/hybrid-a/index.html",
+    "docs/design/reviews/MP-62/hybrid-b/index.html",
+    "docs/design/reviews/MP-62/option-a/index.html",
+    "docs/design/reviews/MP-62/option-b/index.html",
+    "docs/design/reviews/MP-62/option-c/index.html",
+    "docs/design/reviews/MP-62/shared/claude.html",
+    "docs/design/reviews/MP-62/shared/icons.svg",
+    "docs/design/reviews/MP-62/shared/tokens.css",
+    "docs/planning/future-architecture-sites-ux-direction-2026-11-02.md",
+    "docs/planning/trace.json",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/design_runtime.mjs",
+    "scripts/design_tokens.py",
+    "scripts/review_checks.py",
+    "tests/test_design_gates.py",
+    "tests/test_design_tokens.py",
+    "tests/test_review_checks.py"
+  ],
+  "unmapped": [],
+  "deferred": [],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "0a517251a41d22df9dca604a48fca3506052c138865dd2994e2ae1fe94552f21",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "review-checks": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.2,
+      "fingerprint": "974827858cceded16ffc1ab7b5fca96148e215a15e0f5b38392dca17f80a6b50",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_review_checks.py"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "c03a4baefe7101488ae1f49b21cc8591495964584fee72551f30b8b54c68d87a",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "b0345d0136aa394ddc0dad99bc7fdf7a5b023ddad7e30167ce7a856600441230",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 6.3,
+      "fingerprint": "c35031f25c079680029ac5be090de1a156c97f7e2df3e502e91b6fe246d8f31d",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "design-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "8cc7066dc56f98b662517473d83bf40c74c3a97b36dba1c9eeaebbf1e52d5e58",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 1.1,
+      "fingerprint": "f638ce2cb8b607ba247aa668c9e2e84770d4b1c295b5729666ad4f46ff79fb87",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.4,
+      "fingerprint": "e86d6cb8f700b8826e85d42b2e58d88c4b77cfb4ad5e0638e80dc5539900de58",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "7c29336db32816c4901a2416aa7fb157ffadaec260f0637417a6b5d9bb56820d",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "pr-policy": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "cbff91f6f73437288e4b1797899905ec475eb06d516d946f3276bcc7f198ca54",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_pr_policy.py"
+      ]
+    },
+    "workflow-lint": {
+      "status": "UNAVAILABLE",
+      "detail": "missing tool: actionlint",
+      "seconds": 0.0,
+      "fingerprint": "e9d7e6d76fd24f909719d86a808e9a396b89eb0c384794e1dcddc74c767f7442",
+      "steps": [
+        "actionlint -color .github/workflows/jira-key.yml .github/workflows/verify.yml"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

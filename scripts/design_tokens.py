@@ -15,11 +15,14 @@ ink for Prism on 3 November 2026, so its tiers are the 20% rule as first set: bo
 """
 from __future__ import annotations
 
+import contextlib
 import copy
 import importlib.util
+import io
 import json
 import re
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -159,6 +162,9 @@ def measure_all(tokens: dict) -> tuple[list[tuple], list[str]]:
     return rows, fails
 
 
+TYPES = {"color", "dimension", "duration", "cubicBezier"}
+
+
 def problems(tokens: dict) -> list[str]:
     out = []
     seen = {}
@@ -168,6 +174,8 @@ def problems(tokens: dict) -> list[str]:
         seen[name] = t
         if "$type" not in t:
             out.append(f"{name} has no $type")
+        elif t["$type"] not in TYPES:
+            out.append(f"{name} has the $type {t['$type']}, which the build would drop from Swift")
         if t.get("$type") == "color":
             swift = t.get("$extensions", {}).get("mp", {}).get("swift")
             if swift is None:
@@ -246,11 +254,20 @@ def selftest() -> int:
         if not any(expect in f for f in found):
             print(f"selftest: FAIL {name}: expected {expect!r}, got {found or 'a pass'}")
             bad += 1
-    if build_css(good) == build_css({**good, "extra": {"$type": "color"}}) is False:
-        bad += 1
+    global CSS, SWIFT
+    keep = CSS, SWIFT
+    with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()):
+        for name in ("CSS", "SWIFT"):
+            stale = Path(tmp) / f"{name}.txt"
+            stale.write_text("stale")
+            CSS, SWIFT = (stale, keep[1]) if name == "CSS" else (keep[0], stale)
+            if check() != 1:
+                print(f"selftest: FAIL a stale {name} passed")
+                bad += 1
+        CSS, SWIFT = keep
     if bad:
         return 1
-    print(f"selftest: the real tokens pass and all {len(cases)} mutations are refused")
+    print(f"selftest: the real tokens pass and all {len(cases) + 2} mutations are refused")
     return 0
 
 

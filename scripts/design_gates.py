@@ -58,6 +58,10 @@ GATED = ("docs/design/reviews/MP-62/hybrid-a/index.html", "docs/design/reviews/M
 PICKED = "docs/design/prism/index.html"
 JOURNEYS = "docs/design/journeys/index.html"
 JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
+VENDOR = re.compile(r"^-(webkit|moz|ms|o)-(?=transition|animation)")
+# A size set relative to its parent cannot be read from the rule alone. Each entry names why it is safe; the rendered size
+# is measured by scripts/design_journeys_check.mjs. The pence of a big figure are half the figure.
+RELATIVE_OK = {".amt .p", ".fig .p", ".pence"}
 PRISM = ROOT / "docs/design/prism"
 MA_INK = {"ink": ("#14171F", "#F3F5F8"), "ink-2": ("#4E5462", "#C5CCD7")}
 SECTIONS = ("Principles", "Three depths", "Foundations", "Components", "Patterns", "States", "Layout", "Screens",
@@ -416,7 +420,7 @@ def motion(css: str, script: str) -> list[str]:
     for sel, body, enc in rs:
         in_reduce = any(re.search(r"prefers-reduced-motion", e, re.I) for e in enc)
         keyframes = next((e for e in enc if e.lower().startswith(("@keyframes", "@-webkit-keyframes"))), None)
-        d = decls(body)
+        d = [(VENDOR.sub("", k), v) for k, v in decls(body)]
         props = {k for k, _ in d}
         if "content-visibility" in props and dict(d)["content-visibility"].startswith("auto") \
                 and "contain-intrinsic-size" in props:
@@ -483,13 +487,13 @@ def motion(css: str, script: str) -> list[str]:
                     elif float(pm.group(1)) > MAX_BLUR_PX:
                         fails.append(f"'{sel}' blurs {pm.group(1)} px; at most {MAX_BLUR_PX}")
             if k in ("font-size", "font"):
-                size = font_px(v, k == "font")
-                if size is not None and size < MIN_FONT_PX:
-                    fails.append(f"'{sel}' sets text at {size:g} px; at least {MIN_FONT_PX}")
+                why = font_problem(v, k == "font", sel)
+                if why:
+                    fails.append(f"'{sel}' {why}")
             if k in ("font-weight", "font"):
-                w = font_weight(v, k == "font")
-                if w is not None and w < MIN_WEIGHT:
-                    fails.append(f"'{sel}' sets font weight {w}; at least {MIN_WEIGHT}")
+                why = weight_problem(v, k == "font")
+                if why:
+                    fails.append(f"'{sel}' {why}")
     if not cv:
         fails.append("no rule sets content-visibility: auto with a contain-intrinsic-size; long pages must skip "
                      "off-screen boards")
@@ -509,29 +513,51 @@ def blur_args(value: str) -> list[str]:
     return out
 
 
-def font_px(v: str, shorthand: bool) -> float | None:
-    toks = split_top(v.split("/")[0] if shorthand else v, " ")
-    for t in toks:
-        m = re.fullmatch(r"(\d*\.?\d+)(px|rem)", t.strip())
-        if m:
-            return float(m.group(1)) * (16 if m.group(2) == "rem" else 1)
-        if not shorthand:
-            return None
-    return None
+KEYWORDS = {"inherit", "initial", "unset", "revert"}
 
 
-def font_weight(v: str, shorthand: bool) -> int | None:
+def font_problem(v: str, shorthand: bool, sel: str = "") -> str | None:
+    """Why a text size fails, or None. A form the gate cannot read is a failure, never a skip (lesson 8)."""
+    v = re.sub(r"\s*!important\s*$", "", v.strip(), flags=re.I)
+    if v.lower() in KEYWORDS:
+        return None
     toks = split_top(v, " ")
-    for t in toks:
-        t = t.strip().lower()
+    if shorthand:
+        size = next((t for t in toks if re.match(r"(\d*\.?\d+[a-z%]+|calc\(|clamp\(|min\(|max\(|var\()", t.lower())
+                     and not t.lower().startswith("var(--font")), None)
+        if size is None:
+            return f"sets a font with no size the gate can read ('{v}')"
+        size = size.split("/")[0]
+    else:
+        size = v
+    low = size.strip().lower()
+    m = re.fullmatch(r"(\d*\.?\d+)(px|rem|pt)", low)
+    c = re.fullmatch(r"clamp\(\s*(\d*\.?\d+)(px|rem)\s*,.*\)", low)
+    if m or c:
+        num, unit = (m or c).groups()
+        px = float(num) * {"px": 1, "rem": 16, "pt": 4 / 3}[unit]
+        return None if px >= MIN_FONT_PX else f"sets text at {px:g} px; at least {MIN_FONT_PX}"
+    if sel.strip() in RELATIVE_OK:
+        return None
+    return f"sets a text size the gate cannot read ('{size}'); use px, rem, pt or a clamp() with a px floor"
+
+
+def weight_problem(v: str, shorthand: bool) -> str | None:
+    v = re.sub(r"\s*!important\s*$", "", v.strip(), flags=re.I)
+    low = v.lower()
+    if low in KEYWORDS or low in ("normal", "bold", "bolder"):
+        return None
+    if low == "lighter":
+        return f"sets font weight lighter; at least {MIN_WEIGHT}"
+    for t in split_top(low, " "):
+        t = t.strip()
+        if re.fullmatch(r"\d{1,4}", t):
+            return None if int(t) >= MIN_WEIGHT else f"sets font weight {t}; at least {MIN_WEIGHT}"
         if t == "lighter":
-            return 100
-        if re.fullmatch(r"[1-9]00", t):
-            return int(t)
-        if re.fullmatch(r"\d*\.?\d+(px|rem|em|%)(/.*)?", t):
-            return None
-        if not shorthand:
-            return None
+            return f"sets font weight lighter; at least {MIN_WEIGHT}"
+        if shorthand:
+            continue
+        return f"sets a font weight the gate cannot read ('{v}')"
     return None
 
 
@@ -666,15 +692,27 @@ def markup(html: str) -> list[str]:
     for m in re.finditer(r"""font-size\s*=\s*["'](\d*\.?\d+)""", html):
         if float(m.group(1)) < MIN_FONT_PX:
             fails.append(f"an SVG text at font-size {m.group(1)}; draw labels at {MIN_FONT_PX} px or more")
-    for m in re.finditer(r"""style\s*=\s*"([^"]*)\"""", html):
-        for k, v in decls(m.group(1)):
+    for m in re.finditer(r"""style\s*=\s*(?:"([^"]*)"|'([^']*)')""", html):
+        for k, v in decls(m.group(1) if m.group(1) is not None else m.group(2)):
+            if "${" in v or "${" in k:   # a value computed in the script; the rendered size is measured by the walker
+                continue
+            k = VENDOR.sub("", k)
             if k in ("font-size", "font"):
-                s = font_px(v, k == "font")
-                if s is not None and s < MIN_FONT_PX:
-                    fails.append(f"an inline style sets text at {s:g} px; at least {MIN_FONT_PX}")
-            if k in ("transition",) and any(p == "all" for p, _ in transition_props(v)):
-                fails.append(f"an inline style transitions all properties ('{v}')")
+                why = font_problem(v, k == "font")
+                if why:
+                    fails.append(f"an inline style {why}")
+            if k == "transition":
+                for prop, _ in transition_props(v):
+                    if prop == "all":
+                        fails.append(f"an inline style transitions all properties ('{v}')")
+                    elif prop != "none" and prop not in TRANSITION_OK and prop not in PAINT_OK:
+                        fails.append(f"an inline style transitions '{prop}', which is layout or an expensive paint")
+            if k in ("animation", "animation-iteration-count") and "infinite" in v.lower():
+                fails.append(f"an inline style loops forever ('{k}: {v}'); stop after at most {MAX_ITERATIONS}")
     return fails
+
+
+TOKEN_BLOCKS = {":root", ":root, .scheme-light", ':root:not([data-theme="light"])', ':root[data-theme="dark"], .scheme-dark'}
 
 
 def prism_core(html: str) -> tuple[list[str], str, str]:
@@ -733,6 +771,14 @@ def prism_core(html: str) -> tuple[list[str], str, str]:
     for k in ("--cl-s1", "--cl-s2", "--cl-s3"):
         if not re.search(rf"{k}\s*:", css):
             fails.append(f"{k}, a shape of the Claude mark, is not set")
+    names = set(re.findall(r"^\s*(--[\w-]+)\s*:", want_css, flags=re.M))
+    for sel, body, enc in rules(css):
+        if " ".join(sel.split()) in TOKEN_BLOCKS:
+            continue
+        for k, _ in decls(body):
+            if k in names:
+                fails.append(f"{k} is set in '{sel.strip()}'{' inside ' + enc[0] if enc else ''}, outside tokens.css; "
+                             "a value that changes goes in tokens.json")
     return fails, css, script
 
 
@@ -1056,6 +1102,22 @@ JOURNEY_MUTATIONS = {
     "dangling-icon": (_sub('<use href="#i-home"/>', '<use href="#i-nope"/>'), "#i-nope has no symbol"),
     "infinite-loop": (_sub(".bar {", ".s { animation: spin 1s linear infinite; } .bar {"), "loops forever"),
     "small-text": (_sub(".bar {", ".s { font-size: 10px; } .bar {"), "text at 10 px"),
+    "size-em": (_sub(".bar {", ".s { font-size: .4em; } .bar {"), "cannot read"),
+    "size-percent": (_sub(".bar {", ".s { font-size: 40%; } .bar {"), "cannot read"),
+    "size-calc": (_sub(".bar {", ".s { font-size: calc(1px + 2px); } .bar {"), "cannot read"),
+    "size-var": (_sub(".bar {", ".s { font-size: var(--tiny); } .bar {"), "cannot read"),
+    "size-pt": (_sub(".bar {", ".s { font-size: 6pt; } .bar {"), "text at 8 px"),
+    "size-clamp": (_sub(".bar {", ".s { font-size: clamp(6px, 2vw, 20px); } .bar {"), "text at 6 px"),
+    "font-var-size": (_sub(".bar {", ".s { font: var(--x); } .bar {"), "cannot read"),
+    "font-no-size": (_sub(".bar {", ".s { font: bold serif; } .bar {"), "no size the gate can read"),
+    "weight-350": (_sub(".bar {", ".s { font-weight: 350; } .bar {"), "font weight 350"),
+    "weight-lighter": (_sub(".bar {", ".s { font-weight: lighter; } .bar {"), "font weight lighter"),
+    "webkit-infinite": (_sub(".bar {", ".s { -webkit-animation: spin 1s infinite; } .bar {"), "loops forever"),
+    "webkit-transition": (_sub(".bar {", ".s { -webkit-transition: width 200ms ease; } .bar {"), "transitions 'width'"),
+    "inline-infinite": (_sub('<div class="board">', '<div class="board" style="animation: spin 1s infinite">'), "inline style loops forever"),
+    "inline-layout": (_sub('<div class="board">', '<div class="board" style="transition: width 200ms">'), "inline style transitions 'width'"),
+    "inline-single-quote": (_sub('<div class="board">', """<div class="board" style='font-size: 6px'>"""), "text at 6 px"),
+    "stray-token": (_sub(".bar {", ".cost-box { --ink: #BBBBBB; --surface: #DDDDDD; } .bar {"), "outside tokens.css"),
 }
 
 

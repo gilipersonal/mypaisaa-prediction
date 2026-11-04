@@ -2,11 +2,11 @@
 .jcols:has(.home-wl) { grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr); }
 .home-sech { padding: 10px 2px 0; }
 .home-sub { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
-.home-pill { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 6px; color: var(--ink); }
-.home-pill > div { flex: 1; min-width: 0; }
+.home-pill { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 6px; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.home-pt { display: block; flex: 1; min-width: 0; }
 .home-pill b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
 .home-pill span.t { display: block; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); }
-.home-link { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 14px; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.home-link { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 8px 14px; border: 0; color: var(--ink); text-align: left; cursor: pointer; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
 .home-link > span { flex: 1; min-width: 0; }
 .home-link small { display: block; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .home-link + .home-link { box-shadow: inset 0 1px 0 var(--hairline); }
@@ -32,11 +32,12 @@
 .home-tile li { display: grid; grid-template-columns: 11px minmax(0, 1fr) auto; gap: 6px; align-items: center; font: 600 13px/18px var(--font-text); letter-spacing: 0; }
 .home-tile li .rk { font: 800 12px/16px var(--font-figure); }
 .home-tile li .tk { display: flex; align-items: center; gap: 3px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.home-tile li b { font: 800 15px/18px var(--font-figure); letter-spacing: -.03em; }
+.home-tile li b { color: inherit; font: 800 15px/18px var(--font-figure); letter-spacing: -.03em; }
+.home-tile li b.home-px { font: 600 13px/18px var(--font-text); letter-spacing: 0; }
 .home-tile li.wh { font-weight: 400; }
 .home-tile .tm { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--on-seg); }
 .home-tile .un { display: flex; gap: 6px; align-items: flex-start; font: 600 13px/18px var(--font-text); letter-spacing: 0; }
-.home-tile .sk { height: 13px; margin: 3px 0; background: var(--tile-sheen); }
+.home-tile.home-tdim { filter: saturate(.45); }
 .home-board.sm .segtile.home-tile { padding: 10px; min-height: 150px; gap: 6px; }
 .home-board.sm .mk { display: none; }
 .home-board.sm .tn { padding-right: 0; font-size: 13px; line-height: 18px; }
@@ -65,7 +66,20 @@ table.ht .home-range { display: block; width: 74px; }
 .home-sheet p.lead { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); margin-top: 6px; }
 .home-sheet .lab { display: block; margin-top: 12px; font: 600 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); }
 .home-sheet .home-ul, .home-sheet .home-kv { color: var(--ink); margin-top: 4px; }
-/* iPad's pane is narrower than the desktop's: the table gives up padding, never a column */
-.jipad .jcols:has(.home-wl) table.ht.dk th, .jipad .jcols:has(.home-wl) table.ht.dk td { padding-left: 4px; padding-right: 4px; }
-.jipad .jcols:has(.home-wl) table.ht.dk th:first-child, .jipad .jcols:has(.home-wl) table.ht.dk td:first-child { padding-left: 12px; }
+/* a table beside a rail gives up padding, never a column; on iPad a list gives up its logos too */
+.jipad .home-seg .logo { display: none; }
+.jcols:has(.home-wl) table.ht.dk th, .jcols:has(.home-wl) table.ht.dk td { padding-left: 4px; padding-right: 4px; }
+.jcols:has(.home-wl) table.ht.dk th:first-child, .jcols:has(.home-wl) table.ht.dk td:first-child { padding-left: 12px; }
 .home-wl { display: none; }
+/* the last good figures while a run is on its way: quieter, never hidden */
+.home-dim { display: grid; gap: 12px; filter: saturate(.4); }
+.home-dim.list { display: block; }
+/* a row keeps its price time and provider in view, on every width */
+.hrow .tk.home-tk { font-size: 12px; line-height: 16px; letter-spacing: -.01em; white-space: normal; }
+.home-fresh { white-space: normal; }
+.inst div > span.home-fresh { max-width: 104px; }
+.home-flag { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.home-flag .home-sub { font-size: 12px; line-height: 16px; }
+.jbanner .chip.proposed { margin-top: 4px; }
+table.ht .home-rt { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.home-act[role="button"], .t5r[role="button"] { cursor: pointer; }

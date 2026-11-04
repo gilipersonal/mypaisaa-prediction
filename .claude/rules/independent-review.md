@@ -75,3 +75,9 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 22. **A drawing's source and its export are one thing**: editing a Lucid generator without re-importing and re-exporting is not a fix. The manifest's `spec_sha256` and every page hash must match (MP-20 round 2).
 23. **An owner's rule keeps the owner's words**: a reason, example or mechanism the maker adds is marked proposed and put to the owner, never folded into the rule (MP-20 R2-S1, R2-S8).
 24. **A summary for the owner reads every record that answers a question**: journals, cards and receipts, not only the main log, and shows a partly answered item as answered and still open (MP-20 R2-p1, R2-p2).
+25. **A required label is checked on every screen that shows the thing**, not only on the screen designed for it: a ranked action in a cost card, a loading brief or a journal row is still a ranked action (MP-62 R1-s1, R1-j3, R1-h8).
+26. **A fixture is read against the world it claims**: a "stale" price stamped with the market's closing time is simply the close (MP-62 R1-h16, R1-r14).
+27. **Work split across makers is read together**: one moment shows one set of figures, and one sentence states one rule, in every journey (MP-62 R1-j2, R1-j4, R1-r11, R1-s12).
+28. **A promise on a screen has a destination**: a chevron, "opens" or "see" with nothing drawn behind it is a dead end, and an option the owner may pick alone must draw every outcome itself (MP-62 R1-j1, R1-r3, R1-r6, R1-s2, R1-s3).
+29. **A state reuses a figure only where that state leaves it true**: an abstained range draws no range, and a Claude-off screen shows no Claude spend (MP-62 R1-h2, R1-s6, R1-r7).
+30. **A walker proves it walked**: it counts what it covered against the page's matrix, reports load errors, and judges gradients and opacity rather than skipping them (MP-62 R1-s4, R1-h7).

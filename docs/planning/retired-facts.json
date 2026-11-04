@@ -135,6 +135,24 @@
     "docs/architecture-explainer/index.html",
     "docs/diagrams/*/lucid_spec.py"
    ]
+  },
+  {
+   "pattern": "6 months · ranked|6 months · score",
+   "why": "the top 5 ranks on 3 to 12 months (SCI-D09, the owner, 3 Nov 2026, MP-177), not 6 months",
+   "paths": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/journeys/*.js",
+    "docs/design/journeys/src/shell.js"
+   ]
+  },
+  {
+   "pattern": "Gold: forecast unavailable|Gold forecast unavailable",
+   "why": "gold and silver are both unavailable for formal tasks until SCI-D08 settles (MP-135)",
+   "paths": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/journeys/*.js",
+    "docs/design/journeys/src/shell.js"
+   ]
   }
  ]
 }
