@@ -80,7 +80,8 @@ MP-64 has none yet.
 - `node scripts/design_admin_facts.mjs` and its selftest (8 of 8): all ten journeys, one recommended option each, every action drawn, the coverage matrix, refusals, barred words, phone rules.
 - `node scripts/design_admin_press.mjs`: Compare and pick pressed on desktop and phone widths, 0 problems.
 - `review_regress --every`: 311 run, 2 retired, 0 failed. MP-64 has no ledger yet.
-- Deferred: `design_runtime.mjs`, because the Mac is on battery and WebKit is throttled to about 30 frames a second, so it cannot give a valid result. Motion timing is not measured this round. Copy to the clipboard has not been pressed.
+- `node scripts/design_runtime.mjs docs/design/admin/index.html` on mains power: 8 of 8, Chrome and WebKit, light and dark, phone and desktop. It loads only the first journey, the page's first frames and four taps.
+- Copy to the clipboard has not been pressed.
 
 ## What to return
 

@@ -16,13 +16,16 @@
         "s": "incidents, identity, shell, inventory, scripts, records"
       },
       "brief": "review/MP-64/round-1-brief.md",
-      "gate_results": "review_checks pass; actionlint by hand pass; walker 1,600 combinations, 0 problems; design_admin_facts and selftest pass; design_admin_press pass; every ledger 311 run, 2 retired, 0 failed",
-      "deferred_gates": [
-        {
-          "gate": "design_runtime.mjs",
-          "why": "The Mac is on battery and WebKit is throttled to about 30 frames a second, so the result would not be valid. To run on mains power."
-        }
+      "gate_results": [
+        "review_checks --base MP-178-journey-flip --run: all selected pass, workflow-lint unavailable there",
+        "actionlint by hand: pass",
+        "design_journeys_check: 1,600 combinations, 0 problems",
+        "design_admin_facts and selftest 8 of 8: pass",
+        "design_admin_press: 0 problems",
+        "design_runtime on mains power: 8 of 8",
+        "review_regress --every: 311 run, 2 retired, 0 failed"
       ],
+      "deferred_gates": [],
       "manual_verification": [],
       "findings": [],
       "next_round": "Decided after the findings."
