@@ -1,8 +1,8 @@
 {
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
-  "round_count": 3,
-  "status": "round 3 fixed, waiting on the owner",
+  "round_count": 4,
+  "status": "round 4 running",
   "rounds": [
     {
       "round": 1,
@@ -2490,6 +2490,37 @@
       "fix_commit": "03e3d89",
       "post_fix_gates": "Before one note added to Home: walker 1,600 combinations, 0 problems; design_runtime 8 of 8; design_admin_press 0 problems; every ledger 441 run, 2 retired; MP-64 130 of 130. At 03e3d89: design_admin_facts 0 problems, 143 of 143 checks; Journeys facts 251 of 251; plan_sync clean.",
       "publication": "Prism Admin v8 and Journeys v10 republished privately and read back. Confluence ph-07 is pending again: PH07-S09 changed in the repo, and MP-163 and the page need the owner's yes."
+    },
+    {
+      "round": 4,
+      "reviewed_commit": "1fd5ff61e9335d70608b2fde268f1a8ab26d4d97",
+      "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 4 (Recommended)\"",
+      "scope": "git diff af66cc0..1fd5ff6 and its direct joins",
+      "lanes": {
+        "f": "home, files, audit",
+        "m": "runs, agents, models",
+        "a": "approvals, costs",
+        "s": "incidents, identity, shell, inventory, scripts, records"
+      },
+      "brief": "review/MP-64/round-4-brief.md",
+      "gate_results": [
+        "review_checks --base af66cc0 --run: see round-4-checks.json",
+        "design_journeys_check: 1,600 combinations, 0 problems",
+        "design_admin_facts 0 problems, 144 of 144 checks, selftest 14 of 14",
+        "design_admin_press: 0 problems",
+        "design_runtime on mains power: admin 8 of 8",
+        "review_regress --every: 441 run, 2 retired, 0 failed; MP-64 130 of 130",
+        "Journeys: facts 251 of 251"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design-walk on docs/design/journeys/index.html beyond Approvals",
+          "why": "Only the Approvals journey changed."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "next_round": "Decided after the findings."
     }
   ]
 }
