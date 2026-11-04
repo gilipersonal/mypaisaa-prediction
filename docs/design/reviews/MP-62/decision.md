@@ -193,5 +193,14 @@ late but inside the freshness limit and stays in the total; in Stale it is past 
 ## Both options, with a flip: the owner's question, 4 November 2026
 
 The owner, on seeing the options: "Can I have both A and B implemented , user should have an option to flip it for more
-engaging experience." Which journeys flip is not yet answered, so no journey's option is picked. MP-178 designs the flip,
-and MP-62's acceptance ("the owner picks one per journey") changes with the owner's answer.
+engaging experience." Asked which journeys should flip, the owner answered: "Flip all eight". The maker had recommended three.
+
+So both options stay on all eight journeys, and no single option is picked. MP-178 draws the flip, and MP-62's acceptance now says
+so. The flip control went into Prism first (the `Flip` component, the `flip` icon and `flipTurn()`). `FLIPS` in
+`docs/design/journeys/src/shell.js` says which screen turns to which.
+
+Proposed by the maker, for the owner to accept or refuse: each journey starts in A, the choice is kept per device, each journey
+flips on its own, and there is no flip while signed out, during a step-up, or on an approval or record in progress. That last
+rule is what keeps a flip from changing what an approval binds (MP-55).
+
+Not reviewed: the flip, and round 1's fixes. The owner has not asked for round 2.

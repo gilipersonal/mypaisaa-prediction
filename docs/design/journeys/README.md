@@ -2,7 +2,8 @@
 
 Every owner journey of MyPrediction, drawn in [Prism](../prism/README.md): two options each with one recommended, every
 screen in every state, on iPhone, iPad, desktop and phone web, in light and dark. `index.html` is one interactive page,
-synced to a private Claude artifact. The owner picks one option per journey (`docs/design/reviews/MP-62/decision.md`).
+synced to a private Claude artifact. The owner keeps both options on all eight journeys, with a flip between them (MP-178,
+`docs/design/reviews/MP-62/decision.md`).
 Admin journeys are MP-64, not here. Nothing here is product code: UX is not approved and nothing may be built.
 
 ## How it is made
@@ -51,6 +52,12 @@ of a screen in the selected state. Give only what differs. Also `banner(kind, ti
 `stateCard(icon, title, text, action, foot)`, `btn(label, kind, icon)`, `skel(n)`, `freshRow(ctx)`.
 
 Frames on iPad and desktop scale to fit the page down to 70%, then scroll; the checker measures them at their true size.
+
+## The flip
+
+`FLIPS` in `src/shell.js` says which screen turns to which. `frame()` draws the control from it, so a journey adds nothing. A pair must
+show the same figures, freshness and provider status. No flip while signed out, during a step-up, or on an approval or record in progress.
+Which view a journey starts in, and keeping the choice per device, are proposed (MP-178).
 
 ## States
 

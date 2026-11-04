@@ -299,7 +299,7 @@
     "positive": [
      "Journeys cover the home screen with my holdings first and the top 5 per segment below (owner, 3 November 2026, MP-177) (US large caps, US tech, India Nifty 50, India midcap, one ETF list each for the US, UK and India, gold and silver), holdings and imports kept separate, per-horizon forecasts with their proof, research and chat, the action journal, cost visible from the main dashboard, owner approvals, and privacy and recovery.",
      "Every screen shows its loading, empty, error, stale, offline, no-model, disagreement and abstention states, and never hides risk, staleness or a provider's status behind a spinner.",
-     "At least two options per journey are made locally with mp-design-first, synced to private Claude HTML artifacts and recorded in docs/design/artifacts.json; the owner picks one per journey.",
+     "At least two options per journey are made locally with mp-design-first, synced to private Claude HTML artifacts and recorded in docs/design/artifacts.json; the owner keeps both options on all eight journeys, with a flip between them (owner, 4 November 2026, MP-178).",
      "Layouts adapt across web, iPhone and iPad and meet WCAG 2.2 AA (owner, 3 November 2026, MP-177).",
      "The SvelteKit version and the device list are checked against current official releases before any package is named, and nothing is described as installed."
     ],
@@ -333,7 +333,7 @@
    "authority": "Claude makes design options locally with the design skills. Only the owner chooses. Sharing beyond private artifacts needs its own yes. No build starts from a design.",
    "states": [
     "options drafted",
-    "owner chose an option",
+    "owner chose an option, or kept both with a flip",
     "owner rejected every option, so a new round starts",
     "stale: a later owner answer changes a journey, so the design is reworked"
    ],

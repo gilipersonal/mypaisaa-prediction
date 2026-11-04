@@ -668,6 +668,9 @@ details summary { cursor: pointer; color: var(--link); font-weight: 600; min-hei
 .list { margin: 0 16px; }
 .tbtn { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); border: 0; background: transparent; position: relative; }
 .tbtn::after { content: ""; position: absolute; inset: -4px; }
+.flipbtn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink); font: 600 13px/18px var(--font-text); cursor: pointer; transition: transform var(--mo-fast) var(--mo-snappy); }
+.flipbtn:active { transform: scale(.96); }
+.flipbtn.icon { padding: 0; }
 
 /* dense tables on the iPad, the desktop and the PWA */
 table.ht { border-collapse: collapse; width: 100%; font-size: 13px; line-height: 18px; letter-spacing: 0; }
@@ -1533,6 +1536,7 @@ button.cost-pick { min-height: 44px; }
 <symbol id="i-rebalance" viewBox="0 0 24 24"><path d="M3 8h15"/><path d="M14 4l4 4-4 4"/><path d="M21 16H6"/><path d="M10 12l-4 4 4 4"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 12l8.5-4.8v9.6L12 21.5z"/><path d="M12 2.5 20.5 7.2v9.6L12 21.5l-8.5-4.7V7.2z"/><path d="M3.5 7.2 12 12l8.5-4.8"/><path d="M12 12v9.5"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24"><path d="M3 12h6l4-6h8"/><path d="M9 12l4 6h8"/><path d="M18 3l3 3-3 3"/><path d="M18 15l3 3-3 3"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3v18l-8-4V7z"/><path d="M12 3v18"/><path d="M12 3 4 7v10l8 4"/><path d="M16 6.5 20 9v6l-4 2.5"/></symbol>
 <symbol id="i-db" viewBox="0 0 24 24"><ellipse style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" cx="12" cy="5.5" rx="8" ry="3"/><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M2 14l10 5.5L22 14"/></symbol>
 <symbol id="i-scenario" viewBox="0 0 24 24"><path d="M3 18 21 6" stroke-dasharray="2 3"/><path d="M3 18 21 18" stroke-dasharray="2 3"/><path d="M3 18 21 12"/></symbol>
@@ -1587,7 +1591,7 @@ button.cost-pick { min-height: 44px; }
     <section class="jinv" id="jinv" hidden></section>
   </main>
 </div>
-<footer><div class="wrap"><p>MyPrediction · Prism Journeys · MP-62 · Options for the owner to pick. Not approved UX; nothing is built from this page. MyPrediction cannot trade and gives no personalised advice. Every figure is illustrative. Inter and Nunito: SIL Open Font License. Some icon geometry follows Lucide (ISC).</p></div></footer>
+<footer><div class="wrap"><p>MyPrediction · Prism Journeys · MP-62 · Both options kept, with a flip. Not approved UX; nothing is built from this page. MyPrediction cannot trade and gives no personalised advice. Every figure is illustrative. Inter and Nunito: SIL Open Font License. Some icon geometry follows Lucide (ISC).</p></div></footer>
 <script>
 (() => {
 /* ---------- basics ---------- */
@@ -1918,6 +1922,20 @@ function fitChart(slot, h, opts) {
   } else draw(420);
 }
 
+/* ---------- flip: one place, two views. The figures stay; only the view turns. ---------- */
+const flipBtn = (name, attrs = '', iconOnly = false) => `<button class="flipbtn${iconOnly ? ' icon' : ''}" type="button" aria-label="Flip to ${name}" ${attrs}>${ic('flip', 's18')}${iconOnly ? '' : `<span>${name}</span>`}</button>`;
+function flipTurn(el, swap) {
+  if (!el.animate) { swap(); return; }
+  const out = RM.matches ? [{ opacity: 1 }, { opacity: 0 }] : [{ transform: 'perspective(1600px) rotateY(0deg)', opacity: 1 }, { transform: 'perspective(1600px) rotateY(-90deg)', opacity: .5 }];
+  const back = RM.matches ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'perspective(1600px) rotateY(90deg)', opacity: .5 }, { transform: 'perspective(1600px) rotateY(0deg)', opacity: 1 }];
+  const leave = el.animate(out, { duration: RM.matches ? 120 : 180, easing: 'ease-in', fill: 'forwards' });
+  leave.onfinish = () => {
+    swap();
+    leave.cancel();
+    el.animate(back, { duration: RM.matches ? 120 : 340, easing: getComputedStyle(document.documentElement).getPropertyValue('--mo-smooth').trim() || 'ease-out' });
+  };
+}
+
 /* ---------- device screens ---------- */
 const sbar = () => `<div class="island"></div><div class="sbar"><span>9:41</span><span class="si"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.5 5.6 8.9a3.4 3.4 0 0 1 4.8 0zM2.9 6.3a7.4 7.4 0 0 1 10.2 0l-1.4 1.5a5.4 5.4 0 0 0-7.4 0zM.3 3.6a11.2 11.2 0 0 1 15.4 0l-1.4 1.5a9.2 9.2 0 0 0-12.6 0z" fill="currentColor"/></svg><svg width="27" height="13" viewBox="0 0 27 13" aria-hidden="true"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="currentColor"/><rect x="2" y="2" width="18" height="9" rx="2.4" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2z" fill="currentColor"/></svg></span></div>`;
 const homeInd = '<div class="home-ind"></div>';
@@ -1941,6 +1959,29 @@ const SURFACES = [
   ['web', 'Desktop', 'win', 1200, 950], ['pwa', 'Phone web', 'phone', 390, 844]
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' } };
+
+/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is absent
+   while signed out, during a step-up, and on an approval or a record in progress, so it never changes what an approval binds. ---------- */
+const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Meter', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'Checkup'] };
+const pairs = (...p) => Object.fromEntries(p);
+const FLIPS = {
+  home: pairs(['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m'], ['a-board', 'b-top5'], ['a-segment', 'b-explore'], ['a-seg-uslarge', 'b-top5-uslarge'], ['a-seg-n50', 'b-top5-n50'], ['a-seg-midcap', 'b-top5-midcap'], ['a-seg-usetf', 'b-top5-usetf'], ['a-seg-uketf', 'b-top5-uketf'], ['a-seg-inetf', 'b-top5-inetf'], ['a-seg-metals', 'b-top5-metals'], ['a-brief', 'b-brief'], ['a-search', 'b-search']),
+  holdings: pairs(['a-list', 'b-accounts'], ['a-private', 'b-private'], ['a-one', 'b-one'], ['a-imports', 'b-imports'], ['a-manual', 'b-manual'], ['a-preview', 'b-check'], ['a-edit', 'b-edit'], ['a-done', 'b-done'], ['a-difference', 'b-difference'], ['a-rebuild', 'b-rebuild']),
+  forecast: pairs(['a-forecasts', 'b-forecasts'], ['a-instrument', 'b-ladder'], ['a-technical', 'b-technical'], ['a-proof', 'b-proof'], ['a-views', 'b-views'], ['a-evidence', 'b-evidence'], ['a-scenarios', 'b-scenarios'], ['a-hzstates', 'b-hzstates'], ['a-3m', 'b-ladder'], ['a-12m', 'b-ladder'], ['a-short', 'b-ladder'], ['b-forecast', 'a-instrument']),
+  research: pairs(['ra-brief', 'rb-today'], ['ra-card', 'rb-card'], ['ra-ask', 'rb-ask'], ['ra-source', 'rb-source'], ['ra-memory', 'rb-memory'], ['ra-alert', 'rb-alert']),
+  journal: pairs(['a-list', 'b-board'], ['a-one', 'b-one'], ['a-differ', 'b-differ']),
+  cost: pairs(['cost-a-home', 'cost-b-home'], ['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
+  approvals: pairs(['aa-queue', 'ab-home'], ['aa-listing', 'ab-chat'], ['aa-model', 'ab-model'], ['aa-setting', 'ab-setting'], ['aa-restart', 'ab-restart'], ['aa-record', 'ab-history'], ['ab-notices', 'aa-queue']),
+  privacy: pairs(['privacy-a-centre', 'privacy-b-checkup'], ['privacy-a-devices', 'privacy-b-devices'], ['privacy-a-notice', 'privacy-b-notice'], ['privacy-a-delete', 'privacy-b-delete'], ['privacy-a-renew', 'privacy-b-renew'], ['privacy-b-home', 'privacy-a-centre'], ['privacy-b-outside', 'privacy-a-centre'], ['privacy-b-notices', 'privacy-a-centre'], ['privacy-a-data', 'privacy-b-checkup'])
+};
+function flipHTML(ctx, iconOnly) {
+  const map = FLIPS[ctx.journey];
+  if (!map || !ctx.screen) return '';
+  const to = map[ctx.screen] || Object.keys(map).find(k => map[k] === ctx.screen);
+  if (!to) return '';
+  const other = ctx.option === 'a' ? 'b' : 'a';
+  return flipBtn(FLIP_NAMES[ctx.journey][other === 'a' ? 0 : 1], `data-flip="${ctx.journey}|${other}|${to}"`, iconOnly);
+}
 
 /* ---------- chrome: a journey writes its content once, and each device frames it ---------- */
 const WEBTABS = [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments'], ['target', 'Record'], ['sliders', 'Settings']];
@@ -1986,22 +2027,22 @@ function frame(ctx, spec) {
   const sideList = () => (ctx.state === 'empty' ? side(sideTab).replace('<span class="n">7</span>', '') : side(sideTab));
   const backBtn = (size, style) => `<button class="jback" type="button" aria-label="Back to ${spec.back}" style="${style}">${ic('chev-l', size)}<span>${spec.back}</span></button>`;
   if (ctx.kind === 'iphone') {
-    const nav = spec.back ? `<div class="navbar glass"><div class="nb">${backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em')}<span class="nbt">${spec.title}</span>${spec.actions || '<span></span>'}</div></div>` : '';
+    const nav = spec.back ? `<div class="navbar glass"><div class="nb">${backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em')}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true)}${spec.actions || ''}</span></div></div>` : '';
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
-      ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${spec.actions || tb('search', 'Search') + tb('eye-off', 'Hide amounts')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
+      ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx)}${spec.actions || tb('search', 'Search') + tb('eye-off', 'Hide amounts')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
       <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh)}</div>
       <div class="jbody">${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>${nav}
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:96px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}${dtab(tab)}${homeInd}${sheet}`;
   }
   if (ctx.kind === 'pwa') {
     return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
-      <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px">${spec.webActions ?? spec.actions ?? ''}</span></div>
+      <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true)}${spec.webActions ?? spec.actions ?? ''}</span></div>
       ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh)}</div><div class="jbody" style="padding:0 12px">${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:90px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}
       <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px" aria-label="Tabs">${tabbarEl(tab)}</nav>${homeInd}${sheet}`;
   }
   const cols = `<div class="jcols${spec.rail ? '' : ' one'}"><div>${spec.body || ''}</div>${spec.rail ? `<div>${spec.rail}</div>` : ''}</div>`;
-  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
+  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh)}${flipHTML(ctx)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
   if (ctx.kind === 'ipad') {
     return `<div class="dfield" style="left:-10%;right:40%;top:-80px;height:900px"></div><div class="jipad">
       <div class="glass jside" style="padding-top:24px" data-mo="fade"><div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px">${ic('sidebar', 's24')}<button class="tbtn" type="button" aria-label="Account">${ic('person', 's18')}</button></div><div style="padding:10px 12px 0"><div class="search">${ic('search', 's18')}Search</div></div><div class="side" style="flex:1">${sideList()}</div>${dataRow}</div>
@@ -2073,30 +2114,48 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
-  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (Recommended)' : ''}`]), sum.at.o, 'Option', 'full');
+  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
   $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
-  $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why this is recommended.' : 'What this option does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
+  $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it starts here.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
   const scheme = () => { const t = root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); };
   const row = $('#jrow');
   row.classList.toggle('wide', surf[2] !== 'phone');
   const boardFor = s => {
-    const ctx = { kind: surf[0], state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme(), journey: j.id, option: o.id };
+    const ctx = { kind: surf[0], state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme(), journey: j.id, option: o.id, screen: s.id };
     const reason = (s.na || {})[sum.at.st];
     return `<div>${boardHTML(surf[2], surf[3], surf[4], s.render(ctx), ctx.scheme, `${s.title}`)}<p class="jnote">${reason ? `This state does not apply here: ${reason}` : s.note || ''}</p></div>`;
   };
   const settle = el => { $$('svg.cx.inter', el).forEach(wire); fitFrames(); watch(row); };
-  /* The first screens draw at once and the rest one at a time, so a long journey never holds a frame. The walker draws them all. */
+  /* the flip turns this one frame, as the app would. The rest of the row stays where it is. */
+  row.onclick = e => {
+    const b = e.target.closest('[data-flip]');
+    if (!b) return;
+    const [jj, oo, ss] = b.dataset.flip.split('|');
+    const sc = sum.journeys.find(x => x.id === jj).options.find(x => x.id === oo).screens.find(x => x.id === ss);
+    const scr = b.closest('.scr'), box = b.closest('.bfig').parentElement, st = (sc.na || {})[sum.at.st] ? 'default' : sum.at.st;
+    flipTurn(scr, () => {
+      scr.innerHTML = sc.render({ kind: surf[0], state: st, scheme: scheme(), journey: jj, option: oo, screen: ss });
+      $$('svg.cx.inter', scr).forEach(wire);
+      $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
+      const cap = $('.bcap', box), note = $('.jnote', box);
+      if (cap) cap.lastChild.textContent = sc.title;
+      if (note) note.textContent = sc.note || '';
+      const next = $('[data-flip]', scr);
+      if (next) next.focus({ preventScroll: true });
+    });
+  };
+  /* Screens draw one at a time, each after the press has answered, so a long journey never holds a frame. The walker draws them all. */
   const all = o.screens, run = sum.run = {};
-  let at = window.__prismNoFit ? all.length : 2;
-  row.innerHTML = all.slice(0, at).map(boardFor).join('');
-  settle(row);
+  let at = window.__prismNoFit ? all.length : 0;
+  if (at) { row.innerHTML = all.map(boardFor).join(''); settle(row); }
   const more = () => {
     if (sum.run !== run || at >= all.length) return;
+    if (!at) row.innerHTML = '';
     row.insertAdjacentHTML('beforeend', boardFor(all[at++]));
     settle(row.lastElementChild);
     setTimeout(more, 16);
@@ -2109,7 +2168,8 @@ const OPEN = [
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],
   ['Does the portfolio total include cash?', 'The shared total holds no cash; £5,542.85 shows apart.'],
-  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'The two Cost options draw a meter and a pill; Home draws a plain row after the holdings until you pick.'],
+  ['How does the flip behave? Which view does each journey start in, is the choice kept per device, and is it one flip per journey?', 'Proposed · MP-178: each journey starts in A, keeps your choice on that device, and flips on its own. No flip while signed out, during a step-up, or on an approval or record in progress.'],
+  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Cost flips between a meter and a pill on its own Home screens. The Home journey keeps a plain row after the holdings.'],
   ['When is a late price still used in the total? (MP40-Q6)', 'Proposed: Ready keeps HSBC at its 14:10 price, inside the limit, with its forecast held. Stale leaves it out of the total.'],
   ['Action thresholds (FIN-OD-07)', 'Every action label is provisional. No model shows the unclassified case.'],
   ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
@@ -2145,7 +2205,7 @@ function showInventory() {
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Your picks are per journey. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on all eight journeys, with a flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }
 }

@@ -29,6 +29,7 @@
 <symbol id="i-rebalance" viewBox="0 0 24 24"><path d="M3 8h15"/><path d="M14 4l4 4-4 4"/><path d="M21 16H6"/><path d="M10 12l-4 4 4 4"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 12l8.5-4.8v9.6L12 21.5z"/><path d="M12 2.5 20.5 7.2v9.6L12 21.5l-8.5-4.7V7.2z"/><path d="M3.5 7.2 12 12l8.5-4.8"/><path d="M12 12v9.5"/></symbol>
 <symbol id="i-split" viewBox="0 0 24 24"><path d="M3 12h6l4-6h8"/><path d="M9 12l4 6h8"/><path d="M18 3l3 3-3 3"/><path d="M18 15l3 3-3 3"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3v18l-8-4V7z"/><path d="M12 3v18"/><path d="M12 3 4 7v10l8 4"/><path d="M16 6.5 20 9v6l-4 2.5"/></symbol>
 <symbol id="i-db" viewBox="0 0 24 24"><ellipse style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" cx="12" cy="5.5" rx="8" ry="3"/><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path style="fill:var(--ic2,currentColor);fill-opacity:var(--ic2o,.26);stroke:none" d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M12 3 22 8.5 12 14 2 8.5z"/><path d="M2 14l10 5.5L22 14"/></symbol>
 <symbol id="i-scenario" viewBox="0 0 24 24"><path d="M3 18 21 6" stroke-dasharray="2 3"/><path d="M3 18 21 18" stroke-dasharray="2 3"/><path d="M3 18 21 12"/></symbol>
