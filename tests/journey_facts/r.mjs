@@ -165,7 +165,7 @@ const FACTS = {
   'R1-r5': ({ each, has, lacks, must }) => {
     each({ journey: A, option: 'b', screen: 'ab-home' }, (v, at) => must(/<button\b(?![^>]*\bdisabled\b)[^>]*aria-label="Notices"/.test(v.html), `${said(at)}: Notices is not a real control`));
     each({ journey: A, option: 'b', screen: 'ab-home', surface: ['iphone', 'pwa'] }, (v, at) => must(opensTo(v.html, 'Notices, '), `${said(at)}: no Notices row on a phone`));
-    each({ journey: A, option: 'b', screen: 'ab-home', surface: ['iphone', 'pwa'], state: ['default', 'stale', 'offline', 'abstention'] }, (v, at) => has(v.text, /Notices 1 unread · newest detected Tue 22:15/, `${said(at)}: no Notices row on a phone`));
+    each({ journey: A, option: 'b', screen: 'ab-home', surface: ['iphone', 'pwa'], state: ['default', 'stale', 'offline', 'abstention'] }, (v, at) => has(v.text, /Notices 2 unread · newest detected Tue 22:15/, `${said(at)}: no Notices row on a phone`));   // the owner, 4 Nov 2026, "Draw the pause in Ready (Recommended)": the paused notice is unread in Ready too
     const rows = (v, at) => {
       has(v.text, /US tech is 31\.0% of the portfolio Material risk · detected Tue 22:15 Unread/, `${said(at)}: no detection time or read state`);
       has(v.text, /Dismissed/, `${said(at)}: no dismissed state`);

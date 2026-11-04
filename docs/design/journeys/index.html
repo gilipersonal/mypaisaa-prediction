@@ -2426,7 +2426,7 @@ function ledgerPwa(ctx, sel, open = '') {
   return `<div class="card" data-mo="card"><table class="ht pwa"><thead><tr><th>Holding</th><th class="r">Value</th><th class="r">${HZ[ctx.hz ?? 1].s}</th><th>Action</th></tr></thead><tbody>${H.map(h => { const m = rowOf(ctx, h, sel); return pTr(h, { ...m, fl: m.flS !== undefined ? `<span class="small">${m.flS}</span>${m.split ? rangeLine(h, ctx.hz ?? 1) : ''}` : undefined }) + (h.t === sel ? open : ''); }).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
 }
 const ledger = (ctx, sel) => (isWide(ctx) ? ledgerDesk : ctx.kind === 'pwa' ? ledgerPwa : ledgerPhone)(ctx, sel);
-const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip proposed"><span class="dot"></span>Exploratory</span> 12 months rests on 11 non-overlapping blocks, under the 20 a claim needs.</div>` : '');
+const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip proposed"><span class="dot"></span>Exploratory</span> 12 months rests on 11 non-overlapping blocks, under the 20 a claim needs.</div><div class="home-sub"><span class="chip">${ic('pause', 's14')}US tech: last issue before the pause</span></div>` : '');
 const holdingsNote = {
   loading: () => banner('', 'Refreshing.', 'The last good rows from 21:15 stay here, with their ranges and flags, until the run lands.', 'refresh'),
   error: () => banner('fall', 'Holdings did not refresh.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Every row below is from that one version.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>`,
@@ -3767,7 +3767,7 @@ const legendHz = sp => `<div class="legend"><span><i class="lg-50"></i>50% range
 /* 3 and 12 months: the same card, on its own fan and its own date */
 const baseOf = f => ({ lo: +(f.lo - 4.2).toFixed(1), hi: +(f.hi - 4.2).toFixed(1) });
 const bothSides = (l, h) => { const b = baseOf(l.f); return `<div class="fc-kv" style="margin-top:10px"><span>R2-HGB v3, 80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b></div><div style="margin-top:4px">${bar(l.f, { label: 'R2-HGB v3', split: true })}</div><div class="fc-kv" style="margin-top:10px"><span>Baseline, 80% range</span><b>${pct(b.lo)} to ${pct(b.hi)}</b></div><div style="margin-top:4px">${bar({ ...b, med: 0 }, { label: 'Baseline', split: true })}</div>`; };
-const hzCard = (ctx, l, h) => { const sp = isSplit(ctx.state, h.t, [3, 6, 12].indexOf(l.k)); return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${sp ? pill('', 'split', 'Models disagree') : l.blocks < 20 ? stateChip('exploratory') : `<span class="chip fc">${ic('fan', 's14')}Evaluated model</span>`}${sp ? '<div class="big"><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">No median stands at this horizon</span></div>' : `<div class="big"><span class="amt">${roll(pct(l.f.med).replace('%', ''))}<span class="p">%</span></span><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">median</span></div>`}</div><div class="rng"><span>80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b><span>50% range</span><b>${pct(l.f.lo50)} to ${pct(l.f.hi50)}</b></div><div style="margin-top:10px">${ladderFan(ctx, { h, to: l.k, split: sp })}</div>${sp ? bothSides(l, h) : ''}${legendHz(sp)}<div class="fmeta"><span>${asOf(ctx.state)}</span><span>Data cutoff 21:00</span><span>Horizon ${l.due}</span><span>R2-HGB v3</span><span>Illustrative</span></div>${calib(l)}</div>`; };
+const hzCard = (ctx, l, h) => { const sp = isSplit(ctx.state, h.t, [3, 6, 12].indexOf(l.k)); return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${l.k === 12 && h.c === '--seg-ustech' ? pill('', 'pause', 'Last issue before the pause') : ''}${sp ? pill('', 'split', 'Models disagree') : l.blocks < 20 ? stateChip('exploratory') : `<span class="chip fc">${ic('fan', 's14')}Evaluated model</span>`}${sp ? '<div class="big"><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">No median stands at this horizon</span></div>' : `<div class="big"><span class="amt">${roll(pct(l.f.med).replace('%', ''))}<span class="p">%</span></span><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">median</span></div>`}</div><div class="rng"><span>80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b><span>50% range</span><b>${pct(l.f.lo50)} to ${pct(l.f.hi50)}</b></div><div style="margin-top:10px">${ladderFan(ctx, { h, to: l.k, split: sp })}</div>${sp ? bothSides(l, h) : ''}${legendHz(sp)}<div class="fmeta"><span>${asOf(ctx.state)}</span><span>Data cutoff 21:00</span><span>Horizon ${l.due}</span><span>R2-HGB v3</span><span>Illustrative</span></div>${calib(l)}</div>`; };
 const twoRanges = (h = byT.RELIANCE) => `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">6-month forecast · ${h.t}</div>${pill('', 'split', 'Rules and models disagree')}</div><p class="fc-sub" style="margin-top:6px">The rules point down and the model points up. Each side shows, and no action is ranked.</p><div class="fc-kv" style="margin-top:10px"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b></div><div style="margin-top:4px">${bar(h, { label: 'R2-HGB v3', split: true })}</div><div class="fc-kv" style="margin-top:10px"><span>Baseline, 80% range</span><b>${pct(-15.5)} to ${pct(11.2)}</b></div><div style="margin-top:4px">${bar({ med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 }, { label: 'Baseline', split: true })}</div><div class="fmeta"><span>As of 21:15 London</span><span>Data cutoff 21:00</span><span>Illustrative</span></div></div>`;
 const hist = (ctx, label, seed) => `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, label, seed)}</div></div>`;
 function forecastMain(ctx, hz = 1, h = subj(ctx.state, hz)) {
@@ -5554,7 +5554,7 @@ J.add({
   const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
   /* the two scopes the exact scope leaves out, in admin Models' words */
-  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">Promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
+  const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">R2-HGB v3's approval expired on US tech, 12 months, so it cannot be the safe fallback there. Promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
   const modelRail = ctx => {
     if (ctx.state === 'default' || ctx.state === 'offline') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts.');
     if (ctx.state === 'noModel') return bound() + SCOPES() + limits('This changes which approved artefact issues forecasts. US tech, 12 months stays paused.');
@@ -5611,7 +5611,7 @@ J.add({
   /* ---------- after the decision (MP-55, MP-114, MP-159) ---------- */
   const outcome = (i, tone, title, text, extra = '') => `<div class="card fcard" data-mo="card"><span class="logo" style="--c:var(--${tone}-tint);color:var(--${tone});margin-bottom:10px" aria-hidden="true">${ic(i, 's24')}</span><p style="font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">${title}</p><p class="small muted" style="margin-top:6px">${text}</p>${extra}</div>`;
   const resultCore = ctx => region(ctx, {
-    what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. R2-HGB v4 is on probation.', 'Applied at 09:14 with your fresh sign-in. It writes forecasts from tonight\'s run.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(MODEL_ROWS.slice(0, 2), 'What changed'),
+    what: 'This decision', ok: () => outcome('check', 'rise', 'Approved. R2-HGB v4 is on probation.', 'Applied at 09:14 with your fresh sign-in. It writes forecasts from tonight\'s run. US tech, 12 months stays paused, and its restart still waits on you. India midcap, 3 months stays on R1-LGB v1.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard(MODEL_ROWS.slice(0, 2), 'What changed'),
     noModel: () => outcome('check', 'rise', 'Promoted where v3 was eligible.', 'Applied at 09:14 with your fresh sign-in. US tech, 12 months stays paused, and its restart still waits on you. India midcap, 3 months stays on R1-LGB v1.', `<div style="margin-top:10px">${status.approved}</div>`) + changeCard([[MODEL_ROWS[0][0], MODEL_ROWS[0][1], 'v4, where v3 issues'], MODEL_ROWS[1]], 'What changed'),
     loading: () => box(`${lbl('Applying · approved at 09:14')}<p class="small muted" style="margin-top:4px">The previous version stays current until this finishes, and an interrupted promotion completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Promote', 'Writing the promotion record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'R2-HGB v3 stays active. The candidate stays readable with its evidence, and a repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
@@ -5783,7 +5783,7 @@ J.add({
   };
   /* a paused scope notifies the owner (MP-159), and every intent appears here (MP-162) */
   const PAUSED = ['pause', 'warn', 'US tech, 12 months paused', 'Previous model not eligible · detected Tue 21:20', 'Unread'];
-  const noticeList = ctx => (ctx.state === 'noModel' ? [NOTICE[0], PAUSED, ...NOTICE.slice(1)] : NOTICE);
+  const noticeList = () => [NOTICE[0], PAUSED, ...NOTICE.slice(1)];
   const notices = (ctx, o = {}) => sec('Notices', '<span class="small muted">By time detected</span>') + list(noticeList(ctx).map(n => noticeRow(n, ctx, o)).join('')) + `<p class="small muted" style="padding:0 4px">Every notice stays here, whether or not its push arrived. Opening one shows its evidence and never performs an action. Read state syncs across your devices.</p>`;
   /* one body for the inbox, in every state: the queue, Home's rail and Notices all read it */
   const noticeBody = ctx => region(ctx, {
@@ -5803,16 +5803,18 @@ J.add({
   const UNCHECKED = ['One proposal is not yet checked.', 'Code could not finish the check on Barclays, so it cannot be confirmed yet.'];
   const PAUSE_TEXT = 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes. Prices and holdings still work.';
   const STALE_TEXT = `Each proposal rechecks itself before you can approve it. HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. ${LATE}`;
+  /* the paused scope sits outside the count of dated decisions, in Ready as in No model */
+  const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true));
   const inboxBody = ctx => region(ctx, {
-    what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + closed() + liveNote(),
+    what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + restartRow() + closed() + liveNote(),
     loading: () => `<div class="card fcard" data-mo="card"><span class="label">Last good 21:15 · expiry times come from the server</span><span class="sk" style="height:44px;width:60%;margin-top:10px"></span></div>` + skel(4),
     empty: () => stateCard('check', 'Nothing waits on you', 'Claude and code have no open proposals. This says nothing about risk: risk alerts arrive on their own.', bs('See the record')) + liveRow(),
     error: () => stateCard('alert', 'This list did not load', 'Nothing can be approved until it does. Open proposals keep their expiry on the server, and nothing is lost.', bs('Try again', 'tinted', 'refresh')),
-    stale: () => banner('warn', 'Showing this list from 14:10.', `Expiry times may have passed. ${STALE_TEXT}`, 'clock') + queueHero() + queue(ctx),
-    offline: () => banner('', 'Offline.', 'You can read what waits. Approving needs a connection.', 'wifi-off') + queueHero() + queue(ctx),
-    noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + queueHero(5) + list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true)) + queue(ctx),
-    disagreement: () => banner('', ...OVERLAP, 'split') + queueHero() + queue(ctx),
-    abstention: () => banner('', ...UNCHECKED, 'ban') + queueHero(5) + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', bs('Run again'))) + queue(ctx)
+    stale: () => banner('warn', 'Showing this list from 14:10.', `Expiry times may have passed. ${STALE_TEXT}`, 'clock') + queueHero() + queue(ctx) + restartRow(),
+    offline: () => banner('', 'Offline.', 'You can read what waits. Approving needs a connection.', 'wifi-off') + queueHero() + queue(ctx) + restartRow(),
+    noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + queueHero(5) + restartRow() + queue(ctx),
+    disagreement: () => banner('', ...OVERLAP, 'split') + queueHero() + queue(ctx) + restartRow(),
+    abstention: () => banner('', ...UNCHECKED, 'ban') + queueHero(5) + list(item(lead('ban'), 'Watch Barclays', 'BARC · XLON · not yet checked', bs('Run again'))) + queue(ctx) + restartRow()
   }) + noticeBody(ctx);
   const peek = ctx => {
     if (['loading', 'empty', 'error'].includes(ctx.state)) return '';
@@ -5833,20 +5835,20 @@ J.add({
     return v;
   };
   const homeBody = ctx => region(ctx, {
-    what: 'Holdings', rows: 3, ok: () => vc(ctx) + list0(ctx),
+    what: 'Holdings', rows: 3, ok: () => vc(ctx) + restartRow() + list0(ctx),
     loading: () => vc(ctx) + skel(3),
     empty: () => vc(ctx) + banner('', 'Nothing waits on you.', 'A strip appears here the moment a proposal needs your decision.', 'check') + liveRow() + list0(ctx),
     error: () => banner('fall', 'Proposals did not load.', 'Nothing can be approved until they do. Twelve Data failed at 21:14, so your holdings show the last good run.', 'alert') + vc(ctx) + list0(ctx),
-    stale: () => banner('warn', 'Stale.', `Proposals last updated 14:10. ${STALE_TEXT}`, 'clock') + vc(ctx) + list0(ctx),
-    offline: () => banner('', 'Offline.', 'Showing figures from 21:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + list0(ctx),
+    stale: () => banner('warn', 'Stale.', `Proposals last updated 14:10. ${STALE_TEXT}`, 'clock') + vc(ctx) + restartRow() + list0(ctx),
+    offline: () => banner('', 'Offline.', 'Showing figures from 21:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + restartRow() + list0(ctx),
     noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + vc(ctx) + list0(ctx),
-    disagreement: () => banner('', ...OVERLAP, 'split') + vc(ctx) + list0(ctx),
-    abstention: () => banner('', ...UNCHECKED, 'ban') + vc(ctx) + list0(ctx)
+    disagreement: () => banner('', ...OVERLAP, 'split') + vc(ctx) + restartRow() + list0(ctx),
+    abstention: () => banner('', ...UNCHECKED, 'ban') + vc(ctx) + restartRow() + list0(ctx)
   });
   /* the model abstained on AstraZeneca at 6 months, so its row shows no range, no median and no action */
   const noRange = h => hrow(h).replace(/<div class="fl">[\s\S]*<\/div>\s*<div class="act">[\s\S]*?<\/div>/, `<div class="fl"><span class="chip">${ic('ban', 's14')}Abstained · no range shown</span></div><div class="act"><span class="small muted">None</span></div>`);
   const list0 = ctx => `${sec('Holdings', illus('Decision support'))}<div class="list card" style="margin:0" data-mo="card">${H.slice(0, 4).map(h => (ctx.state === 'abstention' && h.t === 'AZN' ? noRange(h) : hrow(h))).join('')}</div>`;
-  const noticeLink = ctx => list(item(lead('alert', 'warn'), 'Notices', NOTICE_LINE[ctx.state] || '1 unread · newest detected Tue 22:15', ic('chev-r', 's18'), '', false, true));
+  const noticeLink = ctx => list(item(lead('alert', 'warn'), 'Notices', NOTICE_LINE[ctx.state] || '2 unread · newest detected Tue 22:15', ic('chev-r', 's18'), '', false, true));
   const homeRail = ctx => `${stripCard(ctx)}${noticeBody(ctx)}`;
   const afterCore = ctx => {
     const row = (s, chip) => list(item(logo(TSM.c, TSM.lg), TSM.n, s, chip));
@@ -5896,7 +5898,7 @@ J.add({
       why: 'Everything that waits on you sits in one list, soonest expiry first, and every proposal reads the same way: who did what, exactly what changes, what it cannot do. Decisions are rare and heavy, so one place that cannot be missed beats speed.',
       cost: 'A listing proposed in chat is confirmed one step away from the chat, and each decision leaves the place it concerns.',
       screens: [{
-        id: 'aa-queue', title: 'Waiting on you', note: 'Notices share the place but never act. No model shows a paused scope that needs a restart. Empty shows an approved import you can still revoke.',
+        id: 'aa-queue', title: 'Waiting on you', note: 'Notices share the place but never act. Ready shows a paused scope that needs a restart. Empty shows an approved import you can still revoke.',
         render: ctx => fr(ctx, { fresh: undefined, tab: SET(ctx), title: 'Waiting on you', actions: tb('search', 'Search') + tb('clock', 'The record'), body: inboxBody(ctx), rail: wide(ctx) ? peek(ctx) : '' })
       }, {
         id: 'aa-listing', title: 'New listing', note: 'Proposed in chat. Confirm opens the step-up. Stale shows it expired; Abstaining shows code refusing it; Error shows a check that timed out.',
@@ -5969,7 +5971,7 @@ J.add({
         render: ctx => fr(ctx, { fresh: undefined, tab: 0, title: 'Portfolio', actions: tb('alert', 'Notices') + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: tb('alert', 'Notices'), body: homeBody(ctx) + (wide(ctx) ? '' : noticeLink(ctx)) + pad(ctx), rail: wide(ctx) ? homeRail(ctx) : '', accessory: wide(ctx) ? '' : strip(ctx) })
       }, {
         id: 'ab-notices', title: 'Notices', note: 'The inbox, in the order code detected each notice. No model shows a paused scope, which notifies you. Disagreement shows a read-state conflict resolving to read.',
-        render: ctx => fr(ctx, { fresh: undefined, tab: 0, back: 'Portfolio', title: 'Notices', body: noticeBody(ctx) })
+        render: ctx => fr(ctx, { fresh: undefined, tab: 0, back: 'Portfolio', title: 'Notices', body: (ctx.state === 'noModel' ? banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') : '') + noticeBody(ctx) })
       }, {
         id: 'ab-chat', title: 'Confirm in chat', note: 'The confirm card sits in the conversation that asked for it. Confirm opens the step-up. Stale shows it expired; Abstaining shows code refusing it.',
         render: ctx => {

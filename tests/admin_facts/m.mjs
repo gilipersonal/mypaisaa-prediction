@@ -349,6 +349,7 @@ export default {
   'R4-s2-runs': ({ view, journeys, has, must }) => {
     has(view('runs', 'a', 'a-clock', 'web', 'conflict').text, /inc_0012 · detected Tue 16:50 Reopened/);
     has(view('runs', 'a', 'a-recover', 'web', 'conflict').text, /Reopened/);
+    for (const sc of ['a-clock', 'a-recover']) must(/class="chip error"[^>]*>(?:(?!<\/span>)[\s\S])*Reopened/.test(view('runs', 'a', sc, 'web', 'conflict').html), `${sc}: Reopened is not the chip Incidents draws`);
     must(!/Disagreement/.test(view('runs', 'a', 'a-recover', 'web', 'conflict').text), 'a state that is not an incident state');
     const p = view('runs', 'a', 'a-recover', 'web', 'partial').text;
     has(p, /The incident answered and the UK run record did not/);
@@ -360,5 +361,51 @@ export default {
       const a = word(view('runs', 'a', 'a-clock', 'web', st).text), b = word(view('incidents', 'a', 'a-list', 'web', st).text);
       must(a === b, `${st}: Runs says ${a}, Incidents says ${b}`);
     }
+  },
+
+  // Round 5.
+  'R5-m1': ({ view, journeys, must, each }) => {
+    /* follow A29 across both screens in each state: one proposal, one answer (lessons 27, 31) */
+    const live = (h) => { const m = h.match(/data-act="A29"[^>]*>\s*<button([^>]*)>/); return m ? !/disabled/.test(m[1]) : null; };
+    each({ journey: 'models', option: 'a', screen: 'a-bands', state: 'expired', surface: 'web' }, (v) => must(live(v.html) === true, 'a-bands Expired: A29 is not live'));
+    if (journeys().includes('approvals')) for (const st of ['default', 'loading', 'empty', 'partial', 'error', 'stale', 'offline', 'conflict', 'expired', 'denied']) {
+      const a = live(view('models', 'a', 'a-bands', 'web', st).html), b = live(view('approvals', 'a', 'aa-band', 'web', st).html);
+      must(!(a !== null && b !== null && a !== b), `${st}: A29 is ${a ? 'live' : 'disabled'} in Models and ${b ? 'live' : 'disabled'} in Approvals`);
+    }
+  },
+  'R5-m2': ({ view, must }) => {
+    for (const [o, sc, old] of [['a', 'a-decide', /a81f|Fri 6 Nov/], ['b', 'b-scope', /a81f|Fri 6 Nov/], ['a', 'a-bands', /1b7c|Mon 9 Nov/], ['b', 'b-bands', /1b7c|Mon 9 Nov/], ['a', 'a-rules', /7ac3/], ['b', 'b-rules', /7ac3/]]) {
+      const bind = view('models', o, sc, 'web', 'expired').text.split('This approval is bound to')[1] || '';
+      must(bind, `${sc}: no bind at Expired`);
+      must(/Expires A new window, shown before you approve/.test(bind), `${sc}: no new window`);
+      must(/Payload hash A new one, when you approve again/.test(bind), `${sc}: no new hash line`);
+      must(!old.test(bind), `${sc}: the old hash or date under the bind`);
+      must(!/on the new proposal/.test(bind), `${sc}: a new proposal, which CT-02 keeps for changed inputs`);
+    }
+  },
+  'R5-m3': ({ view, each, must, has }) => {
+    each({ journey: 'models' }, (v, at) => { if (/15 minutes/.test(v.text)) must(/Proposed · CT-02/.test(v.text), `${at.screen} ${at.state} ${at.surface}: 15 minutes with no CT-02`); });
+    for (const st of ['expired']) has(view('models', 'a', 'a-evidence', 'web', st).text, /This window is drawn as proposed\./);
+    for (const [o, sc] of [['a', 'a-decide'], ['a', 'a-rules'], ['b', 'b-scope'], ['b', 'b-rules']]) has(view('models', o, sc, 'web', 'default').text, /Your approval then has 15 minutes to apply\./);
+  },
+  'R5-m4': ({ view, each, must, has }) => {
+    each({ journey: 'runs', option: 'a', screen: 'a-clock' }, (v, at) => {
+      for (const [id, re] of [['run_8cf7', /run_8cf7 · UK · HSBC late/], ['run_8dc4', /run_8dc4 · UK · HSBC late/]]) if (v.text.includes(id)) must(re.test(v.text), `${at.state} ${at.surface}: ${id} does not name HSBC`);
+    });
+    has(view('runs', 'a', 'a-clock', 'web', 'expired').text, /Watermark Wed close · HSBC last price Tue 14:10/);
+  },
+  'R5-m5': ({ view, must, has }) => {
+    /* each market once per listed day, in the two lists, newest first */
+    const A = [['Wed', 'run_8d6e'], ['Tue', 'run_8d02'], ['Tue', 'run_8cf7'], ['Tue', 'run_8ce2'], ['Mon', 'run_8c41'], ['Mon', 'run_8bf3'], ['Mon', 'run_8bd0']];
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) {
+      const t = view('runs', o, sc, 'web', 'default').text, at = A.map(([, id]) => t.indexOf(id));
+      must(at.every((n) => n >= 0), `${sc}: a run is missing: ${at}`);
+      must(at.every((n, i) => !i || at[i - 1] < n), `${sc}: not in time order: ${at}`);
+      for (const [, id] of A) must(t.split(id).length === 2, `${sc}: ${id} twice`);
+    }
+    has(view('runs', 'a', 'a-clock', 'web', 'error').text, /run_8ce2[^]*run_8bd0/);
+    const s = view('runs', 'a', 'a-clock', 'web', 'stale').text;
+    must(!/run_8d6e/.test(s) && /run_8ce2/.test(s), 'Stale must drop only Wednesday');
+    for (const [o, sc] of [['a', 'a-clock'], ['b', 'b-list']]) must(/run_8ce2/.test(view('runs', o, sc, 'web', 'default').note) && /run_8bd0/.test(view('runs', o, sc, 'web', 'default').note), `${sc}: the note does not name the ids`);
   },
 };

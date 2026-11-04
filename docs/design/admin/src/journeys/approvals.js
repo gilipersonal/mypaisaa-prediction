@@ -51,15 +51,15 @@
     stale: () => banner('warn', 'Index lagging.', 'This is from 11:12. The proposal rechecks itself against the current version before you can approve it.', 'clock') + setOk(extra)(),
     offline: () => banner('', 'Offline.', 'You can read this proposal. Approving needs a connection and a fresh sign-in.', 'wifi-off') + setOk(extra)(),
     conflict: () => banner('warn', 'Refused for a stale revision.', 'Settings v10 was written at 09:01, so this proposal is refused against v9. Code rebuilds it on the new version.', 'split') + setHead(ST.refused) + extra() + changeCard(SET_ROWS, 'What this proposed'),
-    expired: () => banner('warn', 'Expired Mon 18:00.', 'An expired proposal cannot be approved, and nothing changed. A repeat backs off with a visible reason.', 'clock') + setHead(expiry('Expired') + CT2) + extra() + changeCard(SET_ROWS, 'What this proposed'),
+    expired: () => banner('warn', 'Expired. It did not apply.', 'Your approval closed before this applied, so nothing changed, and the 5-point band stays. Approve again for a new window.', 'clock') + tags(CT2) + setOk(extra)(),
     denied: () => banner('warn', 'A fresh sign-in is needed.', OLD, 'lock') + setOk(extra)()
   });
   const bandRail = (ctx, top = '') => {
     const s = ctx.state;
     if (s === 'loading') return top + skel(2);
     if (s === 'empty') return top + ends(BAND_END);
-    const open = ['default', 'stale', 'offline', 'denied', 'partial'].includes(s);
-    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: s === 'default' || s === 'stale' }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'expired' ? 'An expired proposal cannot be approved.' : 'Nothing to decide on this version. Code rebuilds the proposal, and it returns to In force when it is ready.'}</p><div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
+    const open = ['default', 'stale', 'offline', 'denied', 'partial', 'expired'].includes(s);
+    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: ['default', 'stale', 'expired'].includes(s) }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">Nothing to decide on this version. Code rebuilds the proposal, and it returns to In force when it is ready.</p><div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
   };
   /* Option A reads the band as versions, option B as a request's life */
   const proposeBtn = ctx => { const b = act('A58', 'Propose a change', 'tinted', 'plus'); return `<div class="aappr-acts">${ctx.state === 'offline' ? off(b) : b}</div>`; };
@@ -69,13 +69,13 @@
     if (s === 'empty') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Weekly band 4 points · 10% a month · approved at 09:16', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
     if (s === 'conflict') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Written at 09:01 · weekly band 5 points · 10% a month · another setting moved', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${sec('Refused')}${list(item(lead('ban', 'fall'), 'Weekly band 4 points', 'Proposed against v9, so refused', ST.refused))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
     const rb = act('A32', 'Roll back to v8');
-    return `${sec('Versions')}${list(item(lead('plus'), 'v10 · proposed', s === 'expired' ? 'Expired Mon 18:00 · never current' : 'Weekly band 4 points · not current', chip(s === 'expired' ? 'stale' : 'proposed', s === 'expired' ? 'Expired' : 'Proposed')) + item(lead('check', 'rise'), 'v9 · current', 'Weekly band 5 points · 10% a month', chip('fresh', 'Current')) + item(lead('layers'), 'v8 · previous', 'Weekly band 5 points · 10% a month · another setting differs', chip('', 'Kept'), shutRb ? off(rb) : rb))}${tail('A rollback makes a new version equal to the old one, with its own audit record. A change that fails part way leaves the previous version current. Rolling back moves the version, so a waiting proposal is refused and rebuilt.')}`;
+    return `${sec('Versions')}${list(item(lead('plus'), 'v10 · proposed', 'Weekly band 4 points · not current', chip('proposed', 'Proposed')) + item(lead('check', 'rise'), 'v9 · current', 'Weekly band 5 points · 10% a month', chip('fresh', 'Current')) + item(lead('layers'), 'v8 · previous', 'Weekly band 5 points · 10% a month · another setting differs', chip('', 'Kept'), shutRb ? off(rb) : rb))}${tail('A rollback makes a new version equal to the old one, with its own audit record. A change that fails part way leaves the previous version current. Rolling back moves the version, so a waiting proposal is refused and rebuilt.')}`;
   };
   const LIFE = ['draft', 'validated', 'awaiting_owner', 'approved', 'executing', 'succeeded'];
   const lifeOf = { default: 2, stale: 2, offline: 2, denied: 2, partial: 1, loading: 1, empty: -1 };
   const life = ctx => {
     if (ctx.state === 'empty') return '';
-    const at = lifeOf[ctx.state] ?? 2, end = { error: ['failed', 'error'], conflict: ['refused', 'error'], expired: ['expired', 'stale'] }[ctx.state];
+    const at = lifeOf[ctx.state] ?? 2, end = { error: ['failed', 'error'], conflict: ['refused', 'error'] }[ctx.state];
     return box(`${lbl('Where this request is')}${tags(...LIFE.map((t, i) => (i === at && !end ? chip('owner', t, 'chev-r') : i < at ? chip('', t, 'check') : chip('illus', t, 'clock'))), ...(end ? [chip(end[1], end[0], 'x')] : []))}<div class="aappr-gap">${p('Rejected, expired or cancelled requests end here with nothing run.')}</div>${tags(CT2)}`);
   };
 
@@ -134,7 +134,7 @@
     stale: () => banner('warn', 'Index lagging.', 'This preview is from 11:12. Approving rechecks the ledger revision, and a moved revision is refused.', 'clock') + impOk(),
     offline: () => banner('', 'Offline.', 'You can read this import. Approving and revoking need a connection.', 'wifi-off') + impOk(),
     conflict: () => outcome('split', 'warn', 'Refused for a stale revision.', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', tags(ST.refused)) + act('A53', 'Refresh preview', 'primary', 'refresh'),
-    expired: () => outcome('clock', 'warn', 'Expired. Nothing was committed.', 'It expired at 21:33 with no commit started. The rows have not changed, so a fresh approval is enough.', tags(ST.expired)) + changeCard(IMP_ROWS, 'What this proposed'),
+    expired: () => outcome('clock', 'warn', 'Expired. Nothing was committed.', 'It expired Tue 21:33 with no commit started. The rows have not changed, so a fresh approval is enough.', tags(ST.expired)) + changeCard(IMP_ROWS, 'What this proposed'),
     denied: () => banner('warn', 'A fresh sign-in is needed.', OLD, 'lock') + impOk()
   });
   const importRail = ctx => {
@@ -310,7 +310,7 @@
         id: 'aa-policies', title: 'Ranking, alerts, scopes, markets', note: 'Each shut control says what it waits on. No record sets these values, so the screen gives none.',
         render: ctx => frame(ctx, { title: 'Policies', back: 'In force', body: policiesCore(ctx), rail: policiesRail(ctx) })
       }, {
-        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
+        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 are Tue 3 Nov, as Files and Audit record them.',
         render: ctx => frame(ctx, { title: 'Import', back: 'In force', body: importCore(ctx), rail: importRail(ctx) })
       }]
     }, {
@@ -328,7 +328,7 @@
         id: 'ab-listing', title: 'A listing request', note: 'Claude can propose and cannot add. A confirmation covers this listing and this catalogue version only.',
         render: ctx => frame(ctx, { title: 'Listing', back: 'Requests', body: listingCore(ctx), rail: listingRail(ctx) })
       }, {
-        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
+        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 are Tue 3 Nov, as Files and Audit record them.',
         render: ctx => frame(ctx, { title: 'Import', back: 'Requests', body: importCore(ctx), rail: importRail(ctx) })
       }, {
         id: 'ab-new', title: 'Raise a request', note: 'A request you write goes the same way as one Claude drafts. The other kinds wait on their open questions.',

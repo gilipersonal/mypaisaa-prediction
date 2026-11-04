@@ -153,6 +153,18 @@
     "docs/design/journeys/src/journeys/*.js",
     "docs/design/journeys/src/shell.js"
    ]
+  },
+  {
+   "pattern": "until the owner says when|until the owner says to join|only when the owner says to join|until the owner decides",
+   "why": "the owner, 4 Nov 2026: \"The purchase (Recommended)\" lifts MP-164's bar, so it is until the Developer Program is bought (MP-179)",
+   "paths": [
+    "TECH-STACK.md",
+    "docs/planning/story-readiness-2026-11-03/stories/PH-07.json",
+    "docs/confluence/build_pages.py",
+    "docs/market-agent/index.html",
+    "docs/diagrams/mp-quality-2026-11-02/lucid_spec.py",
+    "docs/diagrams/mp-quality-2026-11-02/README.md"
+   ]
   }
  ]
 }

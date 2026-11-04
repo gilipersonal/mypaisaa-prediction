@@ -3020,7 +3020,8 @@ function flipHTML(ctx, iconOnly, spec) {
 /* ---------- chrome: a journey writes its content once, and each device frames it ---------- */
 const WEBTABS = [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments'], ['target', 'Record'], ['sliders', 'Settings']];
 /* Admin's freshness is the records', not the market's. It stays in view in every state. */
-function freshRow(ctx) {
+function freshRow(ctx, _m, chipText) {
+  if (chipText) return `<div class="jfresh on-glass"><span class="chip fresh"><span class="dot"></span>${chipText}</span></div>`;
   const c = (k, t, i) => `<span class="chip ${k}">${i ? ic(i, 's14') : '<span class="dot"></span>'}${t}</span>`;
   const st = ctx.state;
   const chip = { offline: c('offline', 'Offline · from 11:20', 'wifi-off'), error: c('error', 'Records failed 11:38 · last good 11:20', 'alert'), stale: c('stale', 'Index lagging · from 11:12', 'clock'), loading: c('fresh', 'Refreshing · last good 11:20'), partial: c('stale', 'Partial · 3 of 4 sources', 'clock'), conflict: c('stale', 'Older version · a newer record exists', 'split'), expired: c('fresh', 'Records current · 18:05') }[st] || c('fresh', 'Records current · 11:40');
@@ -3054,7 +3055,8 @@ function region(ctx, o) {
 
 /* spec: { tab, title, back, actions: html, body: html, rail: html, accessory: html, sheet: html, field: bool } */
 function frame(ctx, spec) {
-  const offNote = /data-phone-off/.test(`${spec.body || ''}${spec.rail || ''}${spec.sheet || ''}`) ? `<p class="small aphone">${ctx.journey === 'identity' ? 'Account recovery works here. Other changes happen on iPad or desktop.' : 'Changes happen on iPad or desktop.'}</p>` : '';
+  const offHtml = `${spec.body || ''}${spec.rail || ''}${spec.sheet || ''}`;
+  const offNote = /data-phone-off/.test(offHtml) ? `<p class="small aphone">${ctx.journey === 'identity' ? 'Account recovery works here. Other changes happen on iPad or desktop.' : /data-act="A40"(?! data-phone-off)/.test(offHtml) ? 'Acknowledging works here. Other changes happen on iPad or desktop.' : 'Changes happen on iPad or desktop.'}</p>` : '';
   const tab = spec.tab ?? 4, field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's sixth item
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
   const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Records</span>${freshRow(ctx)}<span class="small">Wed 4 Nov · London</span></div>`;
@@ -3067,19 +3069,19 @@ function frame(ctx, spec) {
     const nav = spec.back ? `<div class="navbar glass"><div class="nb">${back}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true, spec)}${spec.actions || ''}</span></div></div>` : '';
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
       ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx, false, spec)}${spec.actions || tb('search', 'Search')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
-      <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh)}</div>
+      <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh, spec.chip)}</div>
       <div class="jbody">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>${nav}
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:96px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}${dtab(tab)}${homeInd}${sheet}`;
   }
   if (ctx.kind === 'pwa') {
     return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
       <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true, spec)}${spec.webActions ?? spec.actions ?? ''}</span></div>
-      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
+      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh, spec.chip)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:90px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}
       <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px" aria-label="Tabs">${tabbarEl(tab)}</nav>${homeInd}${sheet}`;
   }
   const cols = `<div class="jcols${spec.rail ? '' : ' one'}"><div>${spec.body || ''}</div>${spec.rail ? `<div>${spec.rail}</div>` : ''}</div>`;
-  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh)}${flipHTML(ctx, false, spec)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
+  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh, spec.chip)}${flipHTML(ctx, false, spec)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
   if (ctx.kind === 'ipad') {
     return `<div class="dfield" style="left:-10%;right:40%;top:-80px;height:900px"></div><div class="jipad">
       <div class="glass jside" style="padding-top:24px" data-mo="fade"><div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px">${ic('sidebar', 's24')}<button class="tbtn" type="button" aria-label="Account">${ic('person', 's18')}</button></div><div style="padding:10px 12px 0"><div class="search">${ic('search', 's18')}Search</div></div><div class="side" style="flex:1">${sideList()}</div>${dataRow}</div>
@@ -3254,7 +3256,7 @@ const OPEN = [
     ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
   ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Not recorded. The screens say so.'],
   ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Each page stays as drawn.'],
-  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until the purchase.'],
+  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until you answer.'],
   ['How does production come to be recorded lost, and who records it? (CT-14)', 'Labelled proposed.'],
   ['Is a late price a missed collection, inside the replay allowlist? (CT-14)', 'Drawn as a condition, not a fact.'],
   ['What happens to Yahoo values already sent to Anthropic? No record decides it.', 'Not drawn. It needs its own record.'],
@@ -3591,7 +3593,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: ['This change is out of date', () => `${banner('warn', 'A newer change reached the ledger first, at revision 215.', 'Refresh it before you approve. Only one change can win.', 'clock')}${change()}${act('A53', 'Refresh preview', 'primary', 'refresh')}`],
     offline: ['You are offline', () => `${off(ctx, 'Your selection is safe on revision 6, and nothing was approved.')}${change()}${refused('R16', 'The server has to check your sign-in, so approving waits for a connection.')}${bs('Not now')}`],
     conflict: ['Refused for a stale revision', () => `${banner('fall', 'Your ledger moved to revision 214, so this approval for 213 can never commit.', 'Nothing was committed.', 'split')}${bound()}${act('A53', 'Refresh preview', 'primary', 'refresh')}`],
-    expired: ['This approval expired', () => `${banner('warn', 'It expired at 21:33 with no commit started.', 'Nothing was committed. The rows have not changed, so a fresh approval is enough.', 'clock')}${openDiff()}${bound([['Approved', '21:18'], ['Expires', '21:33']])}${text('The commit must start within 15 minutes of a new approval too.')}${acts(act('A08', 'Approve these 3 groups', 'primary'))}`],
+    expired: ['This approval expired', () => `${banner('warn', 'It expired on Tue at 21:33 with no commit started.', 'Nothing was committed. The rows have not changed, so a fresh approval is enough.', 'clock')}${openDiff()}${bound([['Approved', 'Tue 21:18'], ['Expires', 'Tue 21:33']])}${text('The commit must start within 15 minutes of a new approval too.')}${acts(act('A08', 'Approve these 3 groups', 'primary'))}`],
     denied: ['A fresh sign-in is needed', () => `${banner('warn', 'Your sign-in is too old for this step.', FRESH, 'lock')}${change()}${wide(ctx) ? bs('Sign in again', 'primary', 'lock') : `${text('Approving happens on iPad or desktop.')}${bs('Not now')}`}`]
   }[ctx.state]);
   const approveSheet = ctx => { const [t, inner] = approveOf(ctx); return `<div class="sheet afiles-sheet" role="dialog" aria-modal="true" aria-labelledby="afiles-sh-${ctx.option}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="afiles-sh-${ctx.option}">${t}</h4>${text(NO_TRADE)}${inner()}</div>`; };
@@ -3659,7 +3661,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Superseded by a newer model or prompt version.', 'Revision 6 stands and stays for comparison.', 'clock') + lifeOf(lifeWith({ 1: ['warn', 'Read by an older version', chipset(hold('Superseded'))] })),
     offline: () => off(ctx, 'Showing this life from 11:20.') + lifeOf(LIFE),
     conflict: () => banner('warn', 'Your ledger moved to revision 214.', 'This approval for 213 can never commit. Nothing was committed.', 'split') + lifeOf(lifeWith({ 3: ['bad', 'Refused for a stale revision', chipset(fail('Refresh the preview', 'split'))], 4: ['stop', 'Never started'] })),
-    expired: () => banner('warn', 'This approval expired.', 'A fresh approval is enough, because the rows have not changed.', 'clock') + lifeOf(lifeWith({ 3: ['warn', 'It expired at 21:33 with no commit started', chipset(hold('Expired'))], 4: ['stop', 'Never started'] })),
+    expired: () => banner('warn', 'This approval expired.', 'A fresh approval is enough, because the rows have not changed.', 'clock') + lifeOf(lifeWith({ 3: ['warn', 'It expired on Tue at 21:33 with no commit started', chipset(hold('Expired'))], 4: ['stop', 'Never started'] })),
     denied: () => sign('You can read this whole life.') + lifeOf(LIFE)
   });
   const mini = at => `<span class="afiles-mini" role="img" aria-label="Reached ${STAGES[at]}, stage ${at + 1} of 6">${STAGES.map((_, i) => `<i class="${i < at ? 'd' : i === at ? 'n' : ''}"></i>`).join('')}</span>`;
@@ -3828,7 +3830,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => lagged() + verdict({ c: hold('From manifests, 11:12') }) + answer(),
     offline: () => off(ctx, 'Showing the answer saved at 11:20.') + verdict({ c: hold('offline_cached', 'wifi-off') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, text('Opening it needs a connection.')] }),
     conflict: () => banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split') + verdict({ c: hold('superseded', 'split') }) + answer({ who: ['You approved it, and the controlled writer committed it', 'Recorded 6 Oct · a later correction exists', chipset(note('Code checked'), note('Claude drafted'), mine('You decided'))] }) + `<div class=\"aaudit-row\">${bs('Read the newer record', 'tinted', 'layers')}</div>`,
-    expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved 21:18 · expired 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
+    expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired on Tue at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved Tue 21:18 · expired Tue 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
     denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that may ask. ${FRESH}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, chipset(proposed('CT-01'))] })
   });
   const ansLinks = () => list(rowGo('split', 'Follow the chain', 'Source, ledger, risk, forecast, action, outcome, audit') + rowGo('shield', 'Read the full record', mono('aud_4c17')));
@@ -3910,14 +3912,14 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* ---------- what this can prove, and what is missing ---------- */
   const claimBox = () => box(`${lbl('What the digests show')}${claim()}${text('Each record carries a digest of the one before it, so a check can show whether the chain still matches. No outside anchor exists yet, so it cannot show that nobody with deep access rewrote the chain.')}`);
-  const CHECKS = (o = {}) => list((o.range ? rowAt('alert', 'Records from 28 Oct to 30 Oct', 'They do not match their digests', chipset(fail('Not vouched for')), 'fall') : '') + rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(o.r || note('Tombstones reapplied first'))));
+  const CHECKS = (o = {}) => list((o.range ? rowAt('alert', 'Records from 28 Oct to 30 Oct', 'They do not match their digests', chipset(fail('Not vouched for')), 'fall') : '') + rowAt('check', 'Commits', 'R-0212, R-0211 and R-0210 finished whole', chipset(o.c || note('commit_completeness'))) + rowAt('refresh', 'Delivery', o.ds || 'Each of these reached what follows it', chipset(o.d || note('outbox_delivery'))) + rowAt('target', 'Restore', `Exercise ${mono('rx_0007')} passed, Sun 1 Nov`, chipset(o.r || note('Tombstones reapplied first'))));
   const orphanRow = (go = true) => rowAt('lock', 'Unmatched object', 'No receipt · quarantined · source_orphans', `${text('Audit only reads. What happens to this object is recorded in Files.')}${go ? `<div class="aaudit-gap">${inFiles()}</div>` : ''}`);
   const delNote = () => text('Deletion removes content only. Tombstones and audit records stay, and tombstones are applied before restored content is readable.');
   const gaps = ctx => region(ctx, {
     what: 'These checks', rows: 4, ok: () => claimBox() + sec('Is anything missing?') + CHECKS() + list(orphanRow()) + delNote() + noEdit(),
     loading: () => claimBox() + skel(3),
     empty: () => claimBox() + stateCard('check', 'No gaps found in what was checked', 'That covers only what the query read. Silence is not a sign that nothing is wrong.', bs('Check again', 'tinted', 'refresh')),
-    partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so delivery is unknown, not fine.', 'clock') + claimBox() + CHECKS({ d: part('Unknown') }) + list(orphanRow()),
+    partial: () => banner('warn', '3 of 4 sources answered.', 'Outbox delivery did not answer, so delivery is unknown, not fine.', 'clock') + claimBox() + CHECKS({ d: part('Unknown'), ds: 'Not read: outbox_delivery did not answer' }) + list(orphanRow()),
     error: () => banner('fall', 'Integrity check failed.', 'Records from 28 Oct to 30 Oct do not match their digests. This names the range, not a cause or an actor. Nothing here repairs a record.', 'alert') + claimBox() + CHECKS({ range: true, c: hold('From 11:20, not vouched for'), d: hold('From 11:20, not vouched for'), r: hold('From 11:20, not vouched for') }) + noEdit(),
     stale: () => lagged() + claimBox() + CHECKS({ c: hold('From 11:12'), d: hold('From 11:12'), r: hold('From 11:12') }) + list(orphanRow()),
     offline: () => off(ctx, 'Showing the checks from 11:20.') + claimBox() + CHECKS() + list(orphanRow(false)),
@@ -3930,7 +3932,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   /* ---------- option B: the explorer, with a lineage pane ---------- */
   const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
-  const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved 21:18, expired 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
+  const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved Tue 21:18, expired Tue 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
   const CH_X = [['clock', 'Watch Taiwan Semiconductor', 'Nobody · expired Wed 18:00', hold('Expired'), proposed('MP40-Q9')], ...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
   const bar = () => `<div class="aaudit-bar" data-mo="rise"><span class="chip illus">${mono('recorded_changes')}</span><span class="chip illus">Account lifetime</span><span class="chip illus">Revision 213</span>${bs('Filter', 'tinted', 'sliders')}</div>`;
@@ -3967,7 +3969,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: lagged(),
     offline: off(ctx, 'Showing the lineage saved at 11:20.'),
     conflict: banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split'),
-    expired: banner('warn', 'This approval expired.', 'It expired at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock'),
+    expired: banner('warn', 'This approval expired.', 'It expired on Tue at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock'),
     denied: banner('warn', 'You can read this lineage.', `Opening the original is the part that may need more. ${FRESH}`, 'lock')
   }[ctx.state] || '');
   const paneLinks = ctx => (ctx.state === 'empty' ? '' : list(rowGo('split', 'Before and after', 'Opens Before and after') + rowGo('layers', 'Open full lineage', 'Opens Full lineage') + rowGo('shield', 'Read the record', 'Opens One record')));
@@ -4087,10 +4089,12 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 7 of 7 priced', status);
   const hsbc = (status = WARN('Acknowledged')) => item(lead('alert', 'warn'), 'HSBC price late', 'inc_0012 · detected Tue 16:50', `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', false, true);
   const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When it goes wrong', 'tinted', 'alert')}</div>`;
+  const indTue = () => runRow('Forecast run, Tue 3 Nov 10:15', 'run_8ce2 · India', OK('Succeeded'));
+  const indMon = () => runRow('Forecast run, Mon 2 Nov 10:15', 'run_8bd0 · India', OK('Succeeded'));
   const ukMon = () => runRow('Forecast run, Mon 2 Nov 16:50', 'run_8bf3 · UK', OK('Succeeded'));
   const ranHead = () => sec('What ran', '<span class="small muted">Recent runs</span>');
-  const ranOK = (o = {}) => `${ranHead()}${list((o.top || '') + (o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + mon() + (o.ukMon || ukMon()) + (o.hsbc || hsbc()))}${links()}`;
-  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + mon() + ukMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
+  const ranOK = (o = {}) => `${ranHead()}${list((o.top || '') + (o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + indTue() + mon() + (o.ukMon || ukMon()) + indMon() + (o.hsbc || hsbc()))}${links()}`;
+  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + indTue() + mon() + ukMon() + indMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
 
   /* ---------- health: four alarms, and what they are not allowed to hide ---------- */
   const ALARM = {
@@ -4205,7 +4209,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     error: () => failHead() + failTL() + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0013', 'primary')}</div>`,
     stale: () => banner('warn', 'Past the freshness limit.', 'HSBC leaves the total until its price returns: Known value, 6 of 7 priced. This view is from 11:12.', 'clock') + lateHead(WARN('Stale')) + lateTL() + ladder(AUTO, YOURS),
     offline: () => offline(ctx, 'this incident') + lateHead() + lateTL() + ladder(AUTO, YOURS),
-    conflict: () => banner('warn', 'The fault came back.', 'Two sources disagree on HSBC, so inc_0012 reopened. Both hashes are kept, and neither is overwritten.', 'split') + lateHead(WARN('Reopened', 'refresh')) + lateTL() + ladder(AUTO, YOURS),
+    conflict: () => banner('warn', 'The fault came back.', 'Two sources disagree on HSBC, so inc_0012 reopened. Both hashes are kept, and neither is overwritten.', 'split') + lateHead(BAD('Reopened', 'refresh')) + lateTL() + ladder(AUTO, YOURS),
     expired: () => banner('warn', 'Source access expired.', 'That is why collection found nothing newer after 14:10. Reading this history needs no source access.', 'clock') + lateHead() + lateTL() + ladder(AUTO, YOURS),
     denied: () => banner('warn', 'Replay needs a fresh sign-in, on the incident.', 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.', 'lock') + recoverOK()
   });
@@ -4220,9 +4224,11 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     tue: (c = OK('Succeeded'), s = 'Forecast run, US · Tue 21:15') => rowB(lead('fan'), 'run_8d02', s, c),
     job: (c = OK('Succeeded · 1 of 3'), s = 'Collect, US · Tue 21:15') => rowB(lead('db'), 'job_3e9a', s, c),
     mon: () => rowB(lead('fan'), 'run_8c41', 'Forecast run, US · Mon 21:15', OK('Succeeded')),
-    ukm: () => rowB(lead('fan'), 'run_8bf3', 'Forecast run, UK · Mon 16:50', OK('Succeeded'))
+    ukm: () => rowB(lead('fan'), 'run_8bf3', 'Forecast run, UK · Mon 16:50', OK('Succeeded')),
+    indt: () => rowB(lead('fan'), 'run_8ce2', 'Forecast run, India · Tue 10:15', OK('Succeeded')),
+    indm: () => rowB(lead('fan'), 'run_8bd0', 'Forecast run, India · Mon 10:15', OK('Succeeded'))
   };
-  const listOK = () => `${list(LIST.wed() + LIST.tue() + LIST.job() + LIST.uk() + LIST.mon() + LIST.ukm())}`;
+  const listOK = () => `${list(LIST.wed() + LIST.tue() + LIST.job() + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm())}`;
   const QUEUES = {
     default: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'Waiting: 0', OK('0 dead-lettered')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
     partial: [['Daily forecast', 'Waiting: 0', OK('0 dead-lettered')], ['Collection', 'UK not read', WARN('Unknown')], ['Claude routes, 7 queues', 'Waiting: 0', OK('0 dead-lettered')], ['Imports', 'Waiting: 0', OK('0 dead-lettered')], ['Training', 'Waiting: 0', OK('0 dead-lettered')]],
@@ -4235,11 +4241,11 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'The run list', rows: 6, ok: () => listOK() + para('Newest first. Run summaries are kept 90 days, and forecasts, scores and audit stay longer.'),
     loading: () => `<div class="small muted">Last good 11:20</div>` + skel(5),
     empty: () => stateCard('grid', 'No run or job on record yet', 'The first collection starts at +15 after the first eligible close. Silence is not a sign that nothing is wrong, so this never reads as healthy.'),
-    partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK run record did not, so its runs show unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'UK, Tue', 'Run not read', WARN('Unknown')) + LIST.mon() + rowB(lead('fan'), 'UK, Mon', 'Run not read', WARN('Unknown'))),
-    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:14') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.mon() + LIST.ukm()),
-    stale: () => banner('warn', 'Stale.', 'From 11:12, and India\'s 10:15 run does not appear. stale: its last success is older than its next due time.', 'clock') + list(LIST.tue() + LIST.job() + LIST.uk() + LIST.mon() + LIST.ukm()),
+    partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK run record did not, so its runs show unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'UK, Tue', 'Run not read', WARN('Unknown')) + LIST.indt() + LIST.mon() + rowB(lead('fan'), 'UK, Mon', 'Run not read', WARN('Unknown')) + LIST.indm()),
+    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:14') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
+    stale: () => banner('warn', 'Stale.', 'From 11:12, and India\'s 10:15 run does not appear. stale: its last success is older than its next due time.', 'clock') + list(LIST.tue() + LIST.job() + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     offline: () => offline(ctx, 'the run list') + listOK(),
-    conflict: () => banner('warn', 'One record disagrees with another.', 'job_3e9a shows an ambiguous_external_outcome, so run_8d02 waits on the reconciler. It is counted neither as clean nor as failed.', 'split') + list(LIST.wed() + LIST.tue(WARN('Waiting on job', 'split')) + LIST.job(WARN('reconcile_required', 'split')) + LIST.uk() + LIST.mon() + LIST.ukm()),
+    conflict: () => banner('warn', 'One record disagrees with another.', 'job_3e9a shows an ambiguous_external_outcome, so run_8d02 waits on the reconciler. It is counted neither as clean nor as failed.', 'split') + list(LIST.wed() + LIST.tue(WARN('Waiting on job', 'split')) + LIST.job(WARN('reconcile_required', 'split')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     expired: () => banner('warn', 'Older runs have left this list.', 'Run summaries are kept 90 days. An older run shows here only by its id in Audit, and its forecasts and scores stay.', 'clock') + listOK(),
     denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Nothing on this list can be changed from here, so nothing here asks for one. Replay and pause ask on the incident.', 'lock') + listOK()
   });
@@ -4285,7 +4291,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     partial: () => banner('warn', 'Part of this is unread.', 'The UK run record did not answer, so an item may be there that this does not show.', 'clock') + deadOK(false),
     error: () => deadHead() + failTL() + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0013', 'primary')}</div>`,
     stale: () => banner('warn', 'Stale.', 'From 11:12. A newer dead-letter item may exist, so the alarm is unknown, not clear.', 'clock') + deadOK(false),
-    offline: () => offline(ctx, 'this item') + deadOK(),
+    offline: () => offline(ctx, 'this item') + deadOK(false),
     conflict: () => runHead('job_3e9a, held', 'Collection · run_8d02', WARN('reconcile_required', 'split'), 'It is not dead-lettered and not clear. An ambiguous call is reconciled, not repeated.') + ladder(AUTO, YOURS) + tagged(proposed('CT-05'), 'What the reconciler may conclude is open.'),
     expired: () => banner('warn', 'This item\'s replay was refused for age.', 'A replay rechecks retention first, and this source access has expired. No window is approved, so none is shown.', 'clock') + ladder(AUTO, YOURS) + tagged(proposed('CT-14'), 'Replay limits are not approved yet.'),
     denied: () => banner('warn', 'Replay needs a fresh sign-in, on the incident.', 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.', 'lock') + deadOK()
@@ -4307,7 +4313,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       },
       screens: [{
         id: 'a-clock', title: 'Tonight\'s clock',
-        note: 'At 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002. See What these screens wait on, under State inventory. run_8cf7, run_8d6e, run_8bf3 and run_8dc4 are illustrative ids.',
+        note: 'In Ready, at 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002. See What these screens wait on, under State inventory. run_8cf7, run_8d6e, run_8bf3, run_8dc4, run_8ce2 and run_8bd0 are illustrative ids.',
         render: ctx => frame(ctx, {
           title: 'Tonight\'s clock', back: 'Admin',
           body: region(ctx, {
@@ -4318,8 +4324,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
             error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}.`, 'alert') + india() + uk() + us(BAD('missed_origin · Tue'), DUE, [['Watermark', 'Mon close'], ['Last success', 'Mon 21:15'], ['Next due', 'Tonight 21:15']], para('Tuesday stays missed, and is never backfilled. Tonight runs normally.')) + ranFailed(),
             stale: () => banner('warn', 'Stale.', 'From 11:12. India has no record of its 10:15 collection, so it is stale, not on time.', 'clock') + india(WARN('stale'), ['late', 'late', 'late', 'due'], [['Watermark', 'Tue close'], ['Last success', 'Tue 10:15'], ['Next due', 'Today 10:15, past']], para('stale: its last success is older than its next due time.')) + uk() + us() + ranOK({ noIndia: true }),
             offline: () => offline(ctx, 'the clock') + india() + uk() + us() + ranOK(),
-            conflict: () => banner('warn', 'Two records disagree.', 'US, Tue: run_8d02 says succeeded, and job_3e9a says reconcile_required, because a Twelve Data call got no answer. It counts as neither until the reconciler settles it.', 'split') + india() + uk() + us(WARN('reconcile_required · Tue', 'split'), DUE, [['Watermark', 'Mon close · Tue held'], ['Last success', 'Mon 21:15 · Tue held by the reconciler'], ['Next due', 'Tonight 21:15']], tagged(proposed('CT-05'), 'What a held night does to the watermark is not approved.')) + ranOK({ tue: tue(WARN('reconcile_required', 'split')), hsbc: hsbc(WARN('Reopened', 'refresh')) }),
-            expired: () => banner('warn', 'The live stream closed.', 'Your session ended it, so this is a fresh read at 18:05, not a live view. Reading needs no sign-in here.', 'clock') + india() + uk(OK('Issued 17:50'), DONE, [['Watermark', 'Wed close'], ['Last success', 'Wed 16:50'], ['Next due', 'Thu 16:50']]) + us() + ranOK({ top: runRow('Forecast run, Wed 4 Nov 16:50', 'run_8dc4 · UK · issued 17:50', OK('Succeeded')) }),
+            conflict: () => banner('warn', 'Two records disagree.', 'US, Tue: run_8d02 says succeeded, and job_3e9a says reconcile_required, because a Twelve Data call got no answer. It counts as neither until the reconciler settles it.', 'split') + india() + uk() + us(WARN('reconcile_required · Tue', 'split'), DUE, [['Watermark', 'Mon close · Tue held'], ['Last success', 'Mon 21:15 · Tue held by the reconciler'], ['Next due', 'Tonight 21:15']], tagged(proposed('CT-05'), 'What a held night does to the watermark is not approved.')) + ranOK({ tue: tue(WARN('reconcile_required', 'split')), hsbc: hsbc(BAD('Reopened', 'refresh')) }),
+            expired: () => banner('warn', 'The live stream closed.', 'Your session ended it, so this is a fresh read at 18:05, not a live view. Reading needs no sign-in here.', 'clock') + india() + uk(OK('Issued 17:50'), DONE, [['Watermark', 'Wed close · HSBC last price Tue 14:10'], ['Last success', 'Wed 16:50'], ['Next due', 'Thu 16:50']]) + us() + ranOK({ top: runRow('Forecast run, Wed 4 Nov 16:50', 'run_8dc4 · UK · HSBC late · issued 17:50', OK('Succeeded')) }),
             denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Nothing here can be changed, so nothing here asks for one. A refused act says so, and it never blanks what you may read.', 'lock') + refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by anyone, you included.') + india() + uk() + us() + ranOK()
           }),
           rail: railClock(ctx)
@@ -4352,7 +4358,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       },
       screens: [{
         id: 'b-list', title: 'Every run',
-        note: 'run_8cf7, run_8d6e and run_8bf3 are illustrative ids.',
+        note: 'run_8cf7, run_8d6e, run_8bf3, run_8ce2 and run_8bd0 are illustrative ids.',
         render: ctx => frame(ctx, {
           title: 'Runs', back: 'Admin',
           body: filters('All') + listRegion(ctx),
@@ -4673,12 +4679,13 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Showing scores from 11:12.', 'A newer scored week may exist. This proposal rechecks itself before you can approve it.', 'clock') + evidenceOK() + tail,
     offline: () => offline(ctx, 'the scores') + evidenceOK() + tail,
     conflict: () => banner('warn', 'A rescore arrived.', 'An outcome amendment made new score versions, so both show. The trial stays at the version you opened, and an evidence hash change is refused at execution.', 'split') + trial() + scores('0.188, was rescored 0.191'),
-    expired: () => banner('warn', 'Your approval ran out.', 'The 15 minutes after you approved closed. These scores stand, and approving again opens a new window.', 'clock') + evidenceOK(),
+    expired: () => banner('warn', 'Your approval ran out.', 'The 15 minutes after you approved closed. These scores stand.', 'clock') + tagged(proposed('CT-02'), 'This window is drawn as proposed.') + evidenceOK(),
     denied: () => banner('warn', 'Reading needs no fresh sign-in.', 'Scores stay open to read. Only promoting asks for one, bound to the exact payload.', 'lock') + evidenceOK() + tail
   });
 
   /* ---------- promote or reject ---------- */
   const BIND = [['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', 'All segments, except US tech, 12 months and India midcap, 3 months'], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', 'R2-HGB v3, where eligible'], ['Environment', 'Production'], ['Expected version', 'Models v22'], ['Payload hash', 'a81f…60de'], ['Expires', 'Fri 6 Nov, 18:00']];
+  const NEW_WINDOW = rows => rows.map(r => (r[0] === 'Expires' ? ['Expires', 'A new window, shown before you approve'] : r[0] === 'Payload hash' ? ['Payload hash', 'A new one, when you approve again'] : r));
   const bound = (t = 'This approval is bound to', rows = BIND) => box(`${lbl(t)}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
   const changes = () => box(`${lbl('What would change')}<div style="margin-top:8px">${kv([['Active model', 'v3 to v4, where v3 issues'], ['Calibrator', 'c7 to c8'], ['Cost a month', '£0'], ['If it slips', 'Back to v3 by itself, where v3 is eligible']])}</div><p class="small muted" style="margin-top:8px">On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it. Where v3 is not eligible, the scope pauses instead.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div>`);
   const promoteHead = (c = WARN('Expires Fri 18:00')) => head(lead('cube'), 'Promote R2-HGB v4', '3, 6 and 12 months · all segments, except US tech, 12 months and India midcap, 3 months', c);
@@ -4700,10 +4707,10 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'This needs a fresh read first.', 'This is from 11:12. It rechecks itself before you can approve, so the control returns after that.', 'clock') + promoteHead() + impact(),
     offline: () => offline(ctx, 'this proposal') + promoteHead() + impact(),
     conflict: () => banner('warn', 'The evidence changed.', 'The hash no longer matches 9c1e…44ab, so this approval could never apply. Review the new version.', 'split') + refused('R5', 'A changed evidence hash is refused at execution. An approval never moves to a different change.') + promoteHead(WARN('Refused', 'ban')) + bs('Review the new version', 'primary'),
-    expired: () => banner('warn', 'Expired. It did not apply.', 'The 15 minutes after you approved closed before the promotion applied, so v3 stays active and nothing changed. The proposal stays open to Fri 18:00.', 'clock') + refused('R5', 'An expired approval is refused at execution. A new one gets a new window.') + promoteHead() + proof() + impact() + `<div class="amodels-acts">${act('A25', 'Sign in and approve again', 'primary')}</div>`,
+    expired: () => banner('warn', 'Expired. It did not apply.', 'The 15 minutes after you approved closed before the promotion applied, so v3 stays active and nothing changed. The proposal stays open to Fri 18:00.', 'clock') + tagged(proposed('CT-02'), 'This window is drawn as proposed.') + refused('R5', 'An expired approval is refused at execution. A new one gets a new window.') + promoteHead() + proof() + impact() + `<div class="amodels-acts">${act('A25', 'Sign in and approve again', 'primary')}</div>`,
     denied: () => needSignIn(ctx, `<div class="amodels-acts">${act('A25', 'Promote R2-HGB v4', 'primary')}</div>`) + promoteHead() + proof() + impact()
   });
-  const railDecide = ctx => (['empty', 'error'].includes(ctx.state) ? box(`${lbl('Separate gates')}<p class="small muted" style="margin-top:6px">The live model gate stays separate from release approval. A judge score never stands in for a promotion decision.</p>`) : `${bound(['conflict', 'partial', 'stale'].includes(ctx.state) ? 'What this proposed' : undefined, ctx.state === 'expired' ? BIND.map(r => (r[0] === 'Expires' ? ['Expires', 'A new window, shown before you approve'] : r[0] === 'Payload hash' ? ['Payload hash', 'A new one, on the new proposal'] : r)) : BIND)}${box(`${lbl('Separate gates')}<p class="small muted" style="margin-top:6px">The live model gate stays separate from release approval. A judge score never stands in for a promotion decision.</p>`)}`);
+  const railDecide = ctx => (['empty', 'error'].includes(ctx.state) ? box(`${lbl('Separate gates')}<p class="small muted" style="margin-top:6px">The live model gate stays separate from release approval. A judge score never stands in for a promotion decision.</p>`) : `${bound(['conflict', 'partial', 'stale'].includes(ctx.state) ? 'What this proposed' : undefined, ctx.state === 'expired' ? NEW_WINDOW(BIND) : BIND)}${ctx.state === 'default' ? tagged(proposed('CT-02'), 'Your approval then has 15 minutes to apply.') : ''}${box(`${lbl('Separate gates')}<p class="small muted" style="margin-top:6px">The live model gate stays separate from release approval. A judge score never stands in for a promotion decision.</p>`)}`);
 
   /* ---------- reverted and paused: code acts, you restart ---------- */
   const revert = () => box(`<div class="amodels-head">${lead('refresh', 'warn')}<div><b>R1-LGB v2 reverted to v1</b><span class="small muted">India midcap, 3 months · Mon 22:20</span></div>${chip('owner', 'Automatic')}</div><div style="margin-top:8px"><table class="ht"><thead><tr><th>Matured pairs</th><th class="r">v2</th><th class="r">v1</th></tr></thead><tbody><tr><td>Week of 19 Oct</td><td class="r"><b>0.231</b></td><td class="r">0.219</td></tr><tr><td>Week of 26 Oct</td><td class="r"><b>0.228</b></td><td class="r">0.217</td></tr></tbody></table></div><p class="small muted" style="margin-top:8px">2 bad weeks on probation, so code reverted it. ${AUTO}</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><div style="margin-top:8px">${kv([['To switch forward', 'R1-LGB v2 · 7e20…c4d1'], ['Calibrator', 'c5'], ['Evidence hash', 'b3f6…2a90'], ['Expected version', 'Models v22']])}</div>`);
@@ -4729,7 +4736,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   /* ---------- the self-correction bands ---------- */
   const bandHead = (c = WARN('Expires Mon 18:00')) => head(lead('sliders'), 'Narrow a self-correction band', '5 to 4 points a week · settings v9 to v10', c);
   const bandLimits = (overlay = 'overlay active') => box(`${lbl('Today\'s bands, code only')}<div style="margin-top:8px">${kv([['Probabilities', 'At most 5 percentage points a week'], ['A signal\'s weight', 'At most 10% a month'], ['Overlay', overlay]])}</div><div style="margin-top:8px">${proposed('SCI-D10')}</div>`);
-  const bandBind = () => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv([['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']])}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
+  const BAND_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
+  const bandBind = (rows = BAND_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
   const bandWhy = () => box(`${lbl('Impact, evidence, cost and rollback')}<div style="margin-top:8px">${kv([['Expected impact', 'Slower correction'], ['Evidence', '26 weeks of replay'], ['Evidence hash', 'e40b…7d12'], ['Cost a month', '£0'], ['How to roll it back', 'A new version']])}</div><p class="small muted" style="margin-top:8px">After a miss, a forecast takes longer to adjust. A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.</p>${OVERLAP()}`);
   const bandYes = () => `<div class="amodels-acts">${act('A29', 'Approve this band', 'primary')}</div>${para(STEP)}`;
   const bandOK = () => bandHead() + bandLimits() + bandWhy() + bandBind() + bandYes();
@@ -4737,13 +4745,13 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'The bands', rows: 3, ok: bandOK,
     loading: () => bandHead(chip('', 'Loading')) + skel(2),
     empty: () => stateCard('sliders', 'no overlay', 'No adjustment is in force, and no change to the bands waits on you.') + bandLimits('no overlay'),
-    partial: () => banner('warn', 'step in flight, awaiting matured pairs.', 'One step is out and its pairs have not matured, so whether it helped is unknown.', 'clock') + bandHead() + bandLimits('step in flight, awaiting matured pairs') + bandWhy() + bandBind() + bandYes(),
+    partial: () => banner('warn', 'step in flight, awaiting matured pairs.', 'One step is out and its pairs have not matured, so whether it helped is unknown.', 'clock') + bandHead() + bandLimits('step in flight, awaiting matured pairs') + bandWhy() + bandBind(),
     error: () => banner('fall', 'A failed overlay step.', 'It failed at 21:14, and the previous overlay stays in force. Nothing was half-applied.', 'alert') + bandHead(chip('error', 'Held')) + bandLimits('previous overlay in force'),
     stale: () => banner('warn', 'Stale.', 'This is from 11:12. It rechecks itself before you can approve.', 'clock') + bandHead() + bandLimits() + bandBind(),
     offline: () => offline(ctx, 'the bands') + bandHead() + bandLimits() + bandBind(),
     conflict: () => banner('warn', 'Refused for a stale revision.', 'Settings v10 was written at 09:01, so this approval for v9 can never apply. Nothing was applied.', 'split') + bandHead(WARN('Refused', 'ban')) + bandLimits(),
-    expired: () => banner('warn', 'Expired. It did not apply.', 'Your approval closed before this applied, so nothing changed, and the 5-point band stays. Approve again for a new window.', 'clock') + tagged(proposed('CT-02'), 'Any expiry here is illustrative.') + bandHead() + bandLimits() + bandWhy() + bandBind() + bandYes(),
-    denied: () => needSignIn(ctx, `<div class="amodels-acts">${act('A29', 'Approve this band', 'primary')}</div>`) + bandHead() + bandLimits() + bandWhy() + bandBind()
+    expired: () => banner('warn', 'Expired. It did not apply.', 'Your approval closed before this applied, so nothing changed, and the 5-point band stays. Approve again for a new window.', 'clock') + tagged(proposed('CT-02'), 'Any expiry here is illustrative.') + bandHead() + bandLimits() + bandWhy() + bandBind(NEW_WINDOW(BAND_BIND)) + bandYes(),
+    denied: () => needSignIn(ctx, `<div class="amodels-acts">${act('A29', 'Approve this band', 'primary').replace('<button ', '<button disabled ')}</div>`) + bandHead() + bandLimits() + bandWhy() + bandBind()
   });
   const railBand = ctx => `${box(`${lbl('What an overlay cannot touch')}<p class="small muted" style="margin-top:6px">Learned parameters, features, rules, task definitions, the bands and the 35/40/25 weights. Anything outside a band waits for you: out of band, awaiting the owner.</p>`)}${ctx.state === 'error' ? '' : para('If scores worsen against the unadjusted version on later matured pairs, the adjustment rolls back by itself.')}${box(`${lbl('An overlay is one of')}<div class="amodels-chips">${['no overlay', 'overlay active', 'step in flight', 'rolled back', 'out of band', 'paused'].map(PLAIN).join('')}</div>`)}`;
 
@@ -4752,7 +4760,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const TIERS = (t2 = item(lead('check'), 'T2 full qualification', 'On a model, routing or release change', OK('qualified'))) => list(T0() + item(lead('check'), 'T1 bounded live', 'On a prompt, tool, model or SDK change', OK('passed')) + t2);
   const TIERS_OFF = () => list(T0() + item(lead('clock'), 'T1 bounded live', 'Claude is off, so it cannot run', PLAIN('not run')) + item(lead('clock'), 'T2 full qualification', 'Claude is off, so it cannot run', PLAIN('not run')));
   const JUDGE = (c = PLAIN('advisory_only'), live = true, why = '', reason = 'Too few of your labels, so judges stay advisory.') => box(`<div class="amodels-head"><div>${lbl('Evaluation judges')}</div>${c}</div><p class="small muted" style="margin-top:8px">${reason} A judge score never stands in for a realised outcome or a promotion decision.</p><p class="small muted" style="margin-top:8px">Labelling opens one sample at a time: one rubric per failure mode, with an unknown option. Your labels never develop the judge's prompt, and repeated examples do not add to the count.</p>${live ? `<div class="amodels-acts" style="margin-top:10px">${act('A30', 'Label calibration samples')}</div>` : `<p class="small" style="margin-top:8px">${why}</p>`}`);
-  const THRESH = () => box(`${lbl('Release thresholds')}<div style="margin-top:8px">${kv([['Judge agreement', 'Not approved yet'], ['Failures that block a release', 'Not approved yet'], ['Proposed value', 'Arrives with the proposal'], ['Evidence run', 'T2 run ev_2c71']])}</div><p class="small muted" style="margin-top:8px">No number is approved (CT-10, CT-11), so none is shown. Each row carries its proposed value here before you approve it.</p><div style="margin-top:10px">${lbl('This approval is bound to')}</div><div style="margin-top:8px">${kv([['Record', 'Release thresholds, first version'], ['Environment', 'Production'], ['Payload hash', 'Arrives with the proposal'], ['Expires', 'Stays open · waits for your yes']])}</div><div style="margin-top:8px">${proposed('CT-02')}</div><div class="amodels-acts" style="margin-top:10px">${act('A72', 'Approve release thresholds').replace('<button ', '<button disabled ')}</div><p class="small" style="margin-top:8px">Opens when a proposal carries its values</p>`);
+  const THRESH = () => box(`${lbl('Release thresholds')}<div style="margin-top:8px">${kv([['Judge agreement', 'Not approved yet'], ['Failures that block a release', 'Not approved yet'], ['Proposed value', 'Arrives with the proposal'], ['Evidence run', 'T2 run ev_2c71']])}</div><p class="small muted" style="margin-top:8px">No number is approved (CT-10, CT-11), so none is shown. Each row carries its proposed value here before you approve it.</p><div style="margin-top:10px">${lbl('This approval is bound to')}</div><div style="margin-top:8px">${kv([['Record', 'Release thresholds, first version'], ['Environment', 'Production'], ['Payload hash', 'Arrives with the proposal'], ['Expires', 'Arrives with the proposal']])}</div><div style="margin-top:8px">${proposed('CT-02')}</div><div class="amodels-acts" style="margin-top:10px">${act('A72', 'Approve release thresholds').replace('<button ', '<button disabled ')}</div><p class="small" style="margin-top:8px">Opens when a proposal carries its values</p>`);
   const CAMPAIGN = () => box(`${lbl('Training campaigns this month')}<div style="margin-top:8px">${kv([['Used', '1 of 2'], ['Fits', '84 of 96'], ['Instance-hours', '4.6 of 6'], ['State', 'completed']])}</div><p class="small muted" style="margin-top:8px">Two a month, 96 fits and 6 instance-hours each, 192 and 12 combined.</p>`);
   const EVALCOST = (off = false) => box(`${lbl(off ? 'Cost' : 'Cost · cost month, day 18 of 30')}<div style="margin-top:8px">${kv([['Claude and evaluations', '£15 a month, shared'], off ? ['Live evaluations', 'None admitted · Claude is off'] : ['Claude so far', '£7.06'], ['Promotion', '£0 a month']])}</div><p class="small muted" style="margin-top:8px">Every evaluation reserves its cost before calling. Spend lives in Costs and budgets.</p><div style="margin-top:10px">${bs('Open Costs and budgets', 'tinted', 'target')}</div>`);
   const evalsState = ctx => region(ctx, {
@@ -4773,10 +4781,11 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const NOMAP = 'mapping not qualified';
   const rulesHead = (c = OWN('Waits for your yes'), sub = 'Against the current rules, v5 · 8 of 8 scored weeks') => head(lead('sliders'), 'Rules v6', sub, c);
   const rulesScore = (a = '0.194', b = '0.197', c = '0.203', map = 'R0-RULEMAP · qualified for v6') => box(`${lbl('Against both comparators · Brier score, lower is better')}<div class="amodels-score">${[['Rules v6', a, a === '0.194'], ['Rules v5', b], ['Base rate', c]].map(([x, y, on]) => `<div class="${on ? 'on' : ''}"><span class="small muted">${x}</span><b>${y}</b></div>`).join('')}</div><div style="margin-top:8px">${kv([['Mapping', map]])}</div><p class="small muted" style="margin-top:8px">A rules change takes the same trial: 8 scored weeks, beating the current rules.</p><div class="amodels-tag" style="margin-top:8px">${proposed('SCI-D03')}<span class="small muted">${a === 'Not read' ? 'Scores not read.' : map.endsWith('not qualified') ? 'Without a qualified rules-to-probability mapping, the rules comparison is not scoreable.' : 'These scores come through the frozen rules-to-probability mapping, R0-RULEMAP.'} Rule strength itself stays a heuristic.</span></div>`);
-  const rulesBind = () => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv([['Rules version', 'v6'], ['Mapping', 'R0-RULEMAP · qualified for v6'], ['Environment', 'Production'], ['Evidence hash', 'f20b…7d16'], ['Previous safe', 'Rules v5'], ['Expected version', 'Rules v5'], ['Payload hash', '7ac3…e015'], ['Expires', 'Stays open · waits for your yes']])}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
+  const RULES_BIND = [['Rules version', 'v6'], ['Mapping', 'R0-RULEMAP · qualified for v6'], ['Environment', 'Production'], ['Evidence hash', 'f20b…7d16'], ['Previous safe', 'Rules v5'], ['Expected version', 'Rules v5'], ['Payload hash', '7ac3…e015'], ['Expires', 'Stays open · waits for your yes']];
+  const rulesBind = (rows = RULES_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
   const rulesYes = () => `<div class="amodels-acts">${act('A62', 'Approve Rules v6', 'primary')}</div>${para('Leaving it unapproved changes nothing: v5 stays current. A faulty version is withdrawn by returning to the previous approved one, with its history kept. No record names who does that, so no control is drawn.')}`;
   const rulesState = ctx => region(ctx, {
-    what: 'This rules version', rows: 3, ok: () => rulesHead() + rulesScore() + rulesBind() + rulesYes() + R5(),
+    what: 'This rules version', rows: 3, ok: () => rulesHead() + rulesScore() + rulesBind() + tagged(proposed('CT-02'), 'Your approval then has 15 minutes to apply.') + rulesYes() + R5(),
     loading: () => rulesHead(chip('', 'Loading')) + skel(2),
     empty: () => stateCard('sliders', 'No rules version is on trial', 'A change to indicators, pillars or thresholds is a new rules version, and it lands here after its 8 scored weeks.'),
     partial: () => banner('warn', 'incomplete.', 'The trial answered and the score table did not, so this cannot be approved yet.', 'clock') + rulesHead(WARN('Unknown')) + rulesScore('Not read', 'Not read', 'Not read', 'Not read'),
@@ -4784,12 +4793,12 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'This needs a fresh read first.', 'This is from 11:12. It rechecks itself before you can approve, so the control returns after that.', 'clock') + rulesHead() + rulesScore() + rulesBind(),
     offline: () => offline(ctx, 'this rules version') + rulesHead() + rulesScore() + rulesBind(),
     conflict: () => banner('warn', 'The evidence changed.', 'The hash no longer matches f20b…7d16, so this approval could never apply. Review the new version.', 'split') + refused('R5', 'A changed evidence hash is refused at execution. An approval never moves to a different change.') + rulesHead(WARN('Refused', 'ban')) + rulesScore(),
-    expired: () => banner('warn', 'Expired. It did not apply.', 'The 15 minutes after you approved closed before this applied, so Rules v5 stays current and nothing changed. Approve again for a new window.', 'clock') + tagged(proposed('CT-02'), 'This window is drawn as proposed.') + rulesHead() + rulesScore() + rulesBind() + rulesYes(),
+    expired: () => banner('warn', 'Expired. It did not apply.', 'The 15 minutes after you approved closed before this applied, so Rules v5 stays current and nothing changed. Approve again for a new window.', 'clock') + tagged(proposed('CT-02'), 'This window is drawn as proposed.') + rulesHead() + rulesScore() + rulesBind(NEW_WINDOW(RULES_BIND)) + rulesYes(),
     denied: () => mayNeed(ctx) + rulesHead() + rulesScore() + rulesBind() + rulesYes()
   });
   const railRules = ctx => `${box(`${lbl(ctx.state === 'empty' ? 'Who may change rules' : 'What changed')}<p class="small muted" style="margin-top:6px">${ctx.state === 'empty' ? '' : 'Rules v6 changes one pillar\'s threshold. '}Bounded self-correction cannot change rules, and no agent can. No record names who withdraws a rules version.</p>`)}${box(`${lbl('A rule output is one of')}<div class="amodels-chips">${['signal with heuristic strength', 'no_clear_view', 'insufficient_data', 'disabled', 'shadow', 'stale input'].map(PLAIN).join('')}</div>`)}`;
 
-  const EV_HEAD = { partial: ['incomplete', WARN('Unknown')], error: ['incomplete', BAD('incomplete')], conflict: ['evidence hash changed', WARN('Refused', 'ban')], expired: ['approval window closed', WARN('Expired')] };
+  const EV_HEAD = { partial: ['incomplete', WARN('Unknown')], error: ['incomplete', BAD('incomplete')], conflict: ['evidence hash changed', WARN('Refused', 'ban')], expired: ['approval window closed', WARN('Approval closed')] };
   const evHead = ctx => { if (['empty', 'loading'].includes(ctx.state)) return ''; const [a, c] = EV_HEAD[ctx.state] || ['ready for the owner', OWN('Shadow')]; return head(lead('cube'), 'R2-HGB v4', `${a} · artefact 4be1…09fa`, c); };
 
   /* ---------- Option A: the pipeline ---------- */
@@ -4968,15 +4977,15 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Index lagging.', 'This is from 11:12. The proposal rechecks itself against the current version before you can approve it.', 'clock') + setOk(extra)(),
     offline: () => banner('', 'Offline.', 'You can read this proposal. Approving needs a connection and a fresh sign-in.', 'wifi-off') + setOk(extra)(),
     conflict: () => banner('warn', 'Refused for a stale revision.', 'Settings v10 was written at 09:01, so this proposal is refused against v9. Code rebuilds it on the new version.', 'split') + setHead(ST.refused) + extra() + changeCard(SET_ROWS, 'What this proposed'),
-    expired: () => banner('warn', 'Expired Mon 18:00.', 'An expired proposal cannot be approved, and nothing changed. A repeat backs off with a visible reason.', 'clock') + setHead(expiry('Expired') + CT2) + extra() + changeCard(SET_ROWS, 'What this proposed'),
+    expired: () => banner('warn', 'Expired. It did not apply.', 'Your approval closed before this applied, so nothing changed, and the 5-point band stays. Approve again for a new window.', 'clock') + tags(CT2) + setOk(extra)(),
     denied: () => banner('warn', 'A fresh sign-in is needed.', OLD, 'lock') + setOk(extra)()
   });
   const bandRail = (ctx, top = '') => {
     const s = ctx.state;
     if (s === 'loading') return top + skel(2);
     if (s === 'empty') return top + ends(BAND_END);
-    const open = ['default', 'stale', 'offline', 'denied', 'partial'].includes(s);
-    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: s === 'default' || s === 'stale' }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">${s === 'expired' ? 'An expired proposal cannot be approved.' : 'Nothing to decide on this version. Code rebuilds the proposal, and it returns to In force when it is ready.'}</p><div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
+    const open = ['default', 'stale', 'offline', 'denied', 'partial', 'expired'].includes(s);
+    return top + (open ? decision(ctx, { foot: 'Bound to settings v9 · expires Mon 18:00. A stale, replayed or expired approval is refused.', yes: act('A29', 'Approve this band', 'primary'), nay: no(), tag: CT2, live: ['default', 'stale', 'expired'].includes(s) }) : box(`${lbl('Your decision')}<p class="small muted aappr-gap">Nothing to decide on this version. Code rebuilds the proposal, and it returns to In force when it is ready.</p><div class="aappr-acts aappr-gap">${off(act('A29', 'Approve this band', 'primary'))}</div>`)) + bindCard(open ? 'This approval is bound to' : 'What this proposed', SET_BIND, CT2) + ends(BAND_END) + limits('This changes one setting, inside the band you approved.');
   };
   /* Option A reads the band as versions, option B as a request's life */
   const proposeBtn = ctx => { const b = act('A58', 'Propose a change', 'tinted', 'plus'); return `<div class="aappr-acts">${ctx.state === 'offline' ? off(b) : b}</div>`; };
@@ -4986,13 +4995,13 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     if (s === 'empty') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Weekly band 4 points · 10% a month · approved at 09:16', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
     if (s === 'conflict') return `${sec('Versions')}${list(item(lead('check', 'rise'), 'v10 · current', 'Written at 09:01 · weekly band 5 points · 10% a month · another setting moved', chip('fresh', 'Current')) + item(lead('layers'), 'v9 · previous', 'Weekly band 5 points · 10% a month · kept with its own record', chip('', 'Kept'), act('A32', 'Roll back to v9')))}${sec('Refused')}${list(item(lead('ban', 'fall'), 'Weekly band 4 points', 'Proposed against v9, so refused', ST.refused))}${tail('A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.')}`;
     const rb = act('A32', 'Roll back to v8');
-    return `${sec('Versions')}${list(item(lead('plus'), 'v10 · proposed', s === 'expired' ? 'Expired Mon 18:00 · never current' : 'Weekly band 4 points · not current', chip(s === 'expired' ? 'stale' : 'proposed', s === 'expired' ? 'Expired' : 'Proposed')) + item(lead('check', 'rise'), 'v9 · current', 'Weekly band 5 points · 10% a month', chip('fresh', 'Current')) + item(lead('layers'), 'v8 · previous', 'Weekly band 5 points · 10% a month · another setting differs', chip('', 'Kept'), shutRb ? off(rb) : rb))}${tail('A rollback makes a new version equal to the old one, with its own audit record. A change that fails part way leaves the previous version current. Rolling back moves the version, so a waiting proposal is refused and rebuilt.')}`;
+    return `${sec('Versions')}${list(item(lead('plus'), 'v10 · proposed', 'Weekly band 4 points · not current', chip('proposed', 'Proposed')) + item(lead('check', 'rise'), 'v9 · current', 'Weekly band 5 points · 10% a month', chip('fresh', 'Current')) + item(lead('layers'), 'v8 · previous', 'Weekly band 5 points · 10% a month · another setting differs', chip('', 'Kept'), shutRb ? off(rb) : rb))}${tail('A rollback makes a new version equal to the old one, with its own audit record. A change that fails part way leaves the previous version current. Rolling back moves the version, so a waiting proposal is refused and rebuilt.')}`;
   };
   const LIFE = ['draft', 'validated', 'awaiting_owner', 'approved', 'executing', 'succeeded'];
   const lifeOf = { default: 2, stale: 2, offline: 2, denied: 2, partial: 1, loading: 1, empty: -1 };
   const life = ctx => {
     if (ctx.state === 'empty') return '';
-    const at = lifeOf[ctx.state] ?? 2, end = { error: ['failed', 'error'], conflict: ['refused', 'error'], expired: ['expired', 'stale'] }[ctx.state];
+    const at = lifeOf[ctx.state] ?? 2, end = { error: ['failed', 'error'], conflict: ['refused', 'error'] }[ctx.state];
     return box(`${lbl('Where this request is')}${tags(...LIFE.map((t, i) => (i === at && !end ? chip('owner', t, 'chev-r') : i < at ? chip('', t, 'check') : chip('illus', t, 'clock'))), ...(end ? [chip(end[1], end[0], 'x')] : []))}<div class="aappr-gap">${p('Rejected, expired or cancelled requests end here with nothing run.')}</div>${tags(CT2)}`);
   };
 
@@ -5051,7 +5060,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Index lagging.', 'This preview is from 11:12. Approving rechecks the ledger revision, and a moved revision is refused.', 'clock') + impOk(),
     offline: () => banner('', 'Offline.', 'You can read this import. Approving and revoking need a connection.', 'wifi-off') + impOk(),
     conflict: () => outcome('split', 'warn', 'Refused for a stale revision.', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', tags(ST.refused)) + act('A53', 'Refresh preview', 'primary', 'refresh'),
-    expired: () => outcome('clock', 'warn', 'Expired. Nothing was committed.', 'It expired at 21:33 with no commit started. The rows have not changed, so a fresh approval is enough.', tags(ST.expired)) + changeCard(IMP_ROWS, 'What this proposed'),
+    expired: () => outcome('clock', 'warn', 'Expired. Nothing was committed.', 'It expired Tue 21:33 with no commit started. The rows have not changed, so a fresh approval is enough.', tags(ST.expired)) + changeCard(IMP_ROWS, 'What this proposed'),
     denied: () => banner('warn', 'A fresh sign-in is needed.', OLD, 'lock') + impOk()
   });
   const importRail = ctx => {
@@ -5227,7 +5236,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
         id: 'aa-policies', title: 'Ranking, alerts, scopes, markets', note: 'Each shut control says what it waits on. No record sets these values, so the screen gives none.',
         render: ctx => frame(ctx, { title: 'Policies', back: 'In force', body: policiesCore(ctx), rail: policiesRail(ctx) })
       }, {
-        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
+        id: 'aa-import', title: 'An import to approve', note: 'The same import as Holdings. Its 21:18 and 21:33 are Tue 3 Nov, as Files and Audit record them.',
         render: ctx => frame(ctx, { title: 'Import', back: 'In force', body: importCore(ctx), rail: importRail(ctx) })
       }]
     }, {
@@ -5245,7 +5254,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
         id: 'ab-listing', title: 'A listing request', note: 'Claude can propose and cannot add. A confirmation covers this listing and this catalogue version only.',
         render: ctx => frame(ctx, { title: 'Listing', back: 'Requests', body: listingCore(ctx), rail: listingRail(ctx) })
       }, {
-        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than the 18:05 on the chip.',
+        id: 'ab-import', title: 'An import request', note: 'The same import as Holdings. Its 21:18 and 21:33 are Tue 3 Nov, as Files and Audit record them.',
         render: ctx => frame(ctx, { title: 'Import', back: 'Requests', body: importCore(ctx), rail: importRail(ctx) })
       }, {
         id: 'ab-new', title: 'Raise a request', note: 'A request you write goes the same way as one Claude drafts. The other kinds wait on their open questions.',
@@ -5433,7 +5442,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const PAID_BIND = [['Action', 'Approve paid cash beyond credit'], ['Amount', 'Up to £15.00'], ['Period', 'November'], ['Environment', 'Production'], ['Expected version', 'None approved yet'], ['Payload hash', 'e7d2…41b6'], ['Expires', 'Tomorrow, 18:00']];
   /* What is spent stays in the month, so withdrawing saves only what has not run: £46.48 plus the Claude gross this state shows */
   const wdRows = ctx => {
-    const st = ctx.state, used = st === 'error' ? 6.71 : st === 'empty' ? 0 : 7.06, to = 46.48 + used, scan = '£54.73 is before the scan at its cap. The month\'s forecast, up to £59.73, falls to the same figure.';
+    const st = ctx.state, used = st === 'error' ? 6.71 : st === 'empty' ? 0 : 7.06, to = 46.48 + used, scan = `£54.73 is before the scan at its cap. The month's forecast, up to £59.73, falls to ${gbp(to)}.`;
     const note = st === 'error' ? `£6.71 of Claude is reported to 18:00, and later calls are not added, so at least this much. ${scan}` : used ? `${gbp(used)} of Claude is already spent, and the £0.34 hold settles or releases, so at most ${gbp(to + 0.34)}. ${scan}` : 'Nothing is spent yet, so the month is the Claude-off month.';
     return [['Claude', 'On', 'Off', 'Forecasts and figures run as usual, because Claude only explains.'], ['This month\'s forecast', '£54.73', st === 'error' ? `At least ${gbp(to)}` : gbp(to), note], ['A full month', '£54.73', '£46.48'], ['Chat and research', '', 'Unavailable', 'Each shows the reason.'], st === 'empty' ? ['Open reservations', '', 'None yet'] : ['Open reservations', '', 'Settle or release', 'Work already held reconciles, and nothing is sent twice.'], ['Paid use version', 'v1', 'v2'], ['To turn it back on', '', 'Credit or approval', CLAUDE_OFF]];
   };
@@ -5459,7 +5468,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const never = () => box(`${head('Never paused')}${tags(...['Sign-in', 'Ledger reads', 'Audit', 'Recovery'].map(t => chip('fresh', t)))}<p class="small muted acosts-gap">These stay available at every threshold.</p>`);
   const budVersions = ctx => {
     const rb = act('A34', 'Roll back to v1'), shut = ['offline', 'denied', 'error', 'partial'].includes(ctx.state);
-    return `${sec('Versions', illus())}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · AWS £23 · Claude and evaluations £14 · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${deltaCard([['AWS allocation', '£22', '£23'], ['Claude and evaluations', '£15', '£14'], ['The £70 plan', '', 'Unchanged', '£30 + £23 + £14 + £3.'], ['Against the month', '', 'Fits', 'Forecast AWS £18.64 and Claude £13.24 stay inside both.']], 'If you roll back to v1')}${['error', 'partial'].includes(ctx.state) ? p('Rolling back waits until the billing records load.') : ''}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
+    return `${sec('Versions', illus())}${list(item(lead('check', 'rise'), 'v2 · current', 'Warn £60 · reduce £75 · pause £85 · the allocations above', chip('fresh', 'Current')) + item(lead('layers'), 'v1 · previous', 'The same lines · AWS £23 · Claude and evaluations £14 · kept with its own record', chip('', 'Kept'), shut ? off(rb) : rb))}${deltaCard([['AWS allocation', '£22', '£23'], ['Claude and evaluations', '£15', '£14'], ['The £70 plan', '', 'Unchanged', '£30 + £23 + £14 + £3.'], ['error', 'partial'].includes(ctx.state) ? ['Against the month', '', 'Not checked', 'A missing check is never a pass.'] : ['Against the month', '', 'Fits', `Forecast AWS ${ALLOC(ctx)[1][5].replace('Forecast ', '')} and Claude ${ALLOC(ctx)[2][5].replace('Forecast ', '')} stay inside both.`]], 'If you roll back to v1')}${['error', 'partial'].includes(ctx.state) ? p('Rolling back waits until the billing records load.') : ''}${p('A rollback makes a new version equal to the old one, with its own audit record. Nothing is overwritten.')}`;
   };
   const budgetBase = ctx => rungs(ctx) + allocs(ctx) + budVersions(ctx);
   const budgetCore = ctx => ONE() + region(ctx, {
@@ -5560,7 +5569,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* ---------- the run behind it (GAP-CT-05 names what a run links). This screen is on the run's clock ---------- */
   const RUNCAL = () => banner('', 'This shows the run\'s clock, Tue 3 Nov.', 'The hold of £0.34 is from the illustrative cost month, day 18 of 30. The two are not the same day.', 'clock');
-  const runKv = (o = {}) => box(`${lbl('Forecast run')}<div class="acosts-gap">${kv([['Run', 'run_8d02'], ...(o.failed ? [] : [['Started', 'Tue 3 Nov, 21:15']]), ['Data cutoff', '21:00'], ['Priced', o.p || '7 of 7'], ['Result', o.r || 'Succeeded'], ['Collect job', 'job_3e9a'], ['Trace', o.tr || 'tr_51c2'], ['Environment', 'Prod']])}</div>`);
+  const runKv = (o = {}) => box(`${lbl('Forecast run')}<div class="acosts-gap">${kv([['Run', 'run_8d02'], ...(o.failed ? [] : [['Started', 'Tue 3 Nov, 21:15']]), ['Data cutoff', '21:00'], ['Priced', o.p || '7 of 7'], ['Result', o.r || 'Succeeded'], ['Collect job', 'job_3e9a'], ['Trace', o.tr || 'tr_51c2'], ['Environment', 'Production']])}</div>`);
   const runLinks = (failed = false) => box(`${lbl(failed ? 'What it was due to run with' : 'What it ran with')}<div class="acosts-gap">${kv([['Settings', 'v9'], ['Catalogue', 'v14'], [failed ? 'Due to use' : 'Models', 'R2-HGB v3, R1-LGB v1'], ['Release', 'rel_0031'], ['Cost reservation', 'Nightly explanations, £0.34']])}</div><div class="acosts-gap">${bs('Open in Runs and health', 'tinted', 'refresh')}</div>`);
   const runCore = ctx => region(ctx, {
     what: 'This run', rows: 3, ok: () => RUNCAL() + runKv() + runLinks(),
@@ -5796,7 +5805,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const T_EV = {
     what: 'The evidence', rows: 5, loading: 'Reading the linked records.',
     empty: banner('', 'This incident is resolved.', 'Its evidence stays linked, and nothing here was removed when it closed.', 'check'),
-    partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7 and its collect job are not read, which is unknown, not clear. The other links opened.', 'clock'),
+    partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7, its collect job and its trace are not read, and neither is Monday\'s run_8bf3, which is unknown, not clear. The alert, the source and the model link opened.', 'clock'),
     error: banner('fall', 'Twelve Data failed at 21:14.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a link may have moved. Each record opens at its own time.', 'clock'),
     offline: banner('', 'Offline.', 'These links are from 11:20. Following one needs a connection, and the ids stay readable.', 'wifi-off'),
@@ -5809,12 +5818,12 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   /* ---------- replay: what code may do by itself, what needs you, what is refused ---------- */
   const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found', IFMISSED = 'Not needed if a late price counts as a missed collection';
   const REQ = {
-    default: ['Auto-retrying', 'stale', UK, WHY12, '1', IFMISSED],
+    default: ['Auto-retry if CT-14 allows', 'stale', UK, WHY12, '1', IFMISSED],
     error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', UK, WHY12, '1', 'Refused on recheck'],
     expired: ['Expired', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Ran out, so nothing ran'],
     denied: ['Awaiting you', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Awaiting you, with a fresh sign-in'],
-    empty: ['Replayed', '', UK, WHY12, '1', IFMISSED],
+    empty: ['Replayed', '', UK, WHY12, '1', 'None asked. Drawn as if CT-14 counts this'],
     partial: ['Held', 'stale', UK, WHY12, '1', 'Not known until the UK run answers'],
     stale: ['As read at 11:12', 'stale', UK, WHY12, '1', 'Not known since 11:12'],
     offline: ['As read at 11:20', 'stale', UK, WHY12, '1', 'Not known since 11:20']
@@ -5948,7 +5957,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     const i = inc(ctx);
     if (ctx.state === 'empty') return card(`${head('Right now')}${note('No incident is open, so no procedure is running.')}`);
     if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, proposed('CT-14')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
-    return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, code is recovering'}`, tags(statusOf(ctx, i)), i.tone))}`;
+    return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, Auto-retry if CT-14 allows'}`, tags(statusOf(ctx, i)), i.tone))}`;
   };
   const T_BOOK = {
     ...T_LIST, what: 'The runbook', rows: 5, loading: 'Reading the runbook and what is running.',
@@ -5971,7 +5980,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       st(4, 'done', 'you', 'Ask for more', 'Not needed.'), st(5, 'done', 'you', 'Resolve', 'You, with a recorded resolution: HSBC prices are back from Yahoo.')
     ]);
     const first = i === I13 ? 'inc_0013 · job failure · Tue 21:14. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
-    const moreRow = list(opens('refresh', 'Replay', i === I13 ? 'Bound reached: escalated' : 'Auto-retrying'));
+    const moreRow = list(opens('refresh', 'Replay', plain(reqChip(ctx))));
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),
       i === I13 ? st(2, 'now', 'you', 'Acknowledge', `Waiting for you. ${NOTICE}`, ackTool(ctx)) : st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'),
@@ -6286,7 +6295,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const RV = 'What a revoke does to a passkey held on that device is not recorded.';
   const rvNote = () => `${note(RV)}${tags(proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
-  const noEnd = () => `${note('No record says how recovery ends on this device until the Developer Program is bought (MP-179). Enrolling is off here, so you stay on one path.')}${OPENQ()}`;
+  const noEnd = ctx => `${note(`No record says how recovery ends on this device ${ctx.kind === 'pwa' ? 'until you answer whether a browser passkey counts' : 'until the Developer Program is bought (MP-179)'}. Enrolling is off here, so you stay on one path.`)}${OPENQ()}`;
   const lostSteps = ctx => {
     const s = ctx.state, g = gone(ctx);
     const revoke = can(ctx, act('A49', `Revoke ${g}`, 'primary'), NOEMAILBACK);
@@ -6295,7 +6304,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     if (s === 'partial') return [first, st(2, 'done', `Revoke ${g}`, 'Its sessions ended.', rvNote()), st(3, 'now', 'Enrol a replacement passkey', 'Not confirmed yet. Your old paths stay as they are until it is.', replace)];
     if (s === 'error') return [first, st(2, 'warn', `Revoke ${g}`, `This step stopped. ${g} is still signed in.`, `${act('A59', 'Resume this recovery', 'primary')}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'Waiting for step 2.')];
     if (s === 'empty') {
-      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd());
+      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd(ctx));
       return [st(1, 'done', 'Sign in with what is left', 'Google, with a fresh sign-in. It is the path that remains.'), st(2, 'now', 'Revoke what is lost', 'Ends their sessions and closes their live streams, in a time you approve.', `${lostTargets(ctx).map(n => act('A49', `Revoke ${n}`, 'primary')).join('')}${rvNote()}`), end];
     }
     return [first, st(2, 'now', `Revoke ${g}`, 'Ends its sessions and closes its live streams, in a time you approve.', `${revoke}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'On a device you control. Each step is on your audit trail.', replace)];
@@ -6307,7 +6316,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
   const lostBody = ctx => card(`${head('This recovery', lostChip(ctx))}${steps('Lost device recovery', lostSteps(ctx))}${note('If you stop before the end, your old paths stay as they are. It is resumed or cancelled, never half-applied.')}${lostTools(ctx)}${note(LINE)}`);
   /* the Mac holds the only passkey that counts today, so losing it has its own card wherever the Mac is not in your hand */
-  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd()}`));
+  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd(ctx)}`));
   const T_LOST = {
     what: 'This recovery', rows: 3, alone: ['denied'], loading: 'Waiting for your fresh sign-in.',
     empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert')),

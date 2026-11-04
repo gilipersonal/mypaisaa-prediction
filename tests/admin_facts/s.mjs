@@ -276,12 +276,37 @@ export default {
   'R4-s6': ({ view, each, must, has, lacks }) => {
     const NOTE = /Whether a late price counts as a missed collection is open/;
     for (const [o, s] of REPLAY) for (const kind of ALL) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) { const t = view('incidents', o, s, kind, st).text; has(t, NOTE); has(t, /Proposed · CT-14/); }
-    each({ journey: 'incidents' }, (v, at) => { if (at.state !== 'error') lacks(v.text, /Not needed, inside the allowlist|is inside the allowlist/); });
+    each({ journey: 'incidents' }, (v, at) => { if (at.state !== 'error') lacks(v.text, /Not needed, inside the allowlist|is inside the allowlist/); lacks(v.text, /Auto-retrying/); });
     for (const [o, s] of REPLAY) { has(view('incidents', o, s, 'web', 'default').text, /Not needed if a late price counts as a missed collection/); }
     has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Nothing waits on you if CT-14 says so/);
     has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /if a late price counts as a missed collection/);
     has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /if a late price counts as a missed collection/);
     has(view('incidents', 'b', 'b-replay', 'web', 'default').text, /Inside the allowlist only if a late price counts as a missed collection/);
   },
-  'R4-s10': ({ view, has }) => { has(view('incidents', 'a', 'a-evidence', 'web', 'partial').text, /Trace\s*Not read, it links from run_8cf7/); },
+  'R4-s10': ({ view, has }) => { const t = view('incidents', 'a', 'a-evidence', 'web', 'partial').text; has(t, /Trace\s*Not read, it links from run_8cf7/); has(t, /its trace are not read/); },
+  'R5-s3': ({ view, each, has, lacks }) => {
+    for (const [o, s] of LOST) {
+      each({ journey: 'identity', option: o, screen: s, surface: 'pwa' }, (v) => lacks(v.text, /Developer Program is bought|MP-179/));
+      has(view('identity', o, s, 'pwa', 'empty').text, /No record says how recovery ends on this device until you answer whether a browser passkey counts\./);
+      has(view('identity', o, s, 'pwa', 'default').text, /until you answer whether a browser passkey counts/);
+      for (const kind of ['iphone', 'ipad']) has(view('identity', o, s, kind, 'empty').text, /ends on this device until the Developer Program is bought \(MP-179\)/);
+    }
+  },
+  'R5-s4': ({ view, must, has, lacks }) => {
+    has(view('incidents', 'a', 'a-replay', 'web', 'default').text, /Auto-retry if CT-14 allows/);
+    has(view('incidents', 'a', 'a-detail', 'web', 'default').text, /Replay\s*Auto-retry if CT-14 allows/);
+    for (const [o, s] of REPLAY) { const t = view('incidents', o, s, 'web', 'empty').text; has(t, /Your approval\s*None asked\. Drawn as if CT-14 counts this/); has(t, /Proposed · CT-14/); lacks(t, /Not needed if/); }
+    has(view('incidents', 'b', 'b-runbook', 'web', 'default').text, /step 3 of 5, Auto-retry if CT-14 allows/);
+    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /Replay\s*Auto-retry if CT-14 allows/);
+    has(view('incidents', 'b', 'b-escalate', 'web', 'conflict').text, /Replay\s*Refused/);
+    must(!/code is recovering/.test(view('incidents', 'b', 'b-runbook', 'web', 'default').text), 'the runbook still states recovery as a fact');
+  },
+  'R5-s5': ({ view, each, has, lacks }) => {
+    each({ journey: 'incidents', option: 'a', screen: 'a-evidence', state: 'partial' }, (v) => {
+      has(v.text, /run_8cf7, its collect job and its trace are not read, and neither is Monday's run_8bf3, which is unknown, not clear\. The alert, the source and the model link opened\./);
+      has(v.text, /Result\s*Unknown/);
+      lacks(v.text, /The other links opened/);
+    });
+    has(view('incidents', 'b', 'b-escalate', 'web', 'default').text, /run_8bf3/);
+  },
 };

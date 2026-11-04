@@ -62,7 +62,8 @@ function flipHTML(ctx, iconOnly, spec) {
 /* ---------- chrome: a journey writes its content once, and each device frames it ---------- */
 const WEBTABS = [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments'], ['target', 'Record'], ['sliders', 'Settings']];
 /* Admin's freshness is the records', not the market's. It stays in view in every state. */
-function freshRow(ctx) {
+function freshRow(ctx, _m, chipText) {
+  if (chipText) return `<div class="jfresh on-glass"><span class="chip fresh"><span class="dot"></span>${chipText}</span></div>`;
   const c = (k, t, i) => `<span class="chip ${k}">${i ? ic(i, 's14') : '<span class="dot"></span>'}${t}</span>`;
   const st = ctx.state;
   const chip = { offline: c('offline', 'Offline · from 11:20', 'wifi-off'), error: c('error', 'Records failed 11:38 · last good 11:20', 'alert'), stale: c('stale', 'Index lagging · from 11:12', 'clock'), loading: c('fresh', 'Refreshing · last good 11:20'), partial: c('stale', 'Partial · 3 of 4 sources', 'clock'), conflict: c('stale', 'Older version · a newer record exists', 'split'), expired: c('fresh', 'Records current · 18:05') }[st] || c('fresh', 'Records current · 11:40');
@@ -96,7 +97,8 @@ function region(ctx, o) {
 
 /* spec: { tab, title, back, actions: html, body: html, rail: html, accessory: html, sheet: html, field: bool } */
 function frame(ctx, spec) {
-  const offNote = /data-phone-off/.test(`${spec.body || ''}${spec.rail || ''}${spec.sheet || ''}`) ? `<p class="small aphone">${ctx.journey === 'identity' ? 'Account recovery works here. Other changes happen on iPad or desktop.' : 'Changes happen on iPad or desktop.'}</p>` : '';
+  const offHtml = `${spec.body || ''}${spec.rail || ''}${spec.sheet || ''}`;
+  const offNote = /data-phone-off/.test(offHtml) ? `<p class="small aphone">${ctx.journey === 'identity' ? 'Account recovery works here. Other changes happen on iPad or desktop.' : /data-act="A40"(?! data-phone-off)/.test(offHtml) ? 'Acknowledging works here. Other changes happen on iPad or desktop.' : 'Changes happen on iPad or desktop.'}</p>` : '';
   const tab = spec.tab ?? 4, field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's sixth item
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
   const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Records</span>${freshRow(ctx)}<span class="small">Wed 4 Nov · London</span></div>`;
@@ -109,19 +111,19 @@ function frame(ctx, spec) {
     const nav = spec.back ? `<div class="navbar glass"><div class="nb">${back}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true, spec)}${spec.actions || ''}</span></div></div>` : '';
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
       ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx, false, spec)}${spec.actions || tb('search', 'Search')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
-      <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh)}</div>
+      <div style="padding:6px 16px 12px">${freshRow(ctx, spec.fresh, spec.chip)}</div>
       <div class="jbody">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>${nav}
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:96px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}${dtab(tab)}${homeInd}${sheet}`;
   }
   if (ctx.kind === 'pwa') {
     return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
       <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true, spec)}${spec.webActions ?? spec.actions ?? ''}</span></div>
-      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
+      ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh, spec.chip)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:90px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}
       <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px" aria-label="Tabs">${tabbarEl(tab)}</nav>${homeInd}${sheet}`;
   }
   const cols = `<div class="jcols${spec.rail ? '' : ' one'}"><div>${spec.body || ''}</div>${spec.rail ? `<div>${spec.rail}</div>` : ''}</div>`;
-  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh)}${flipHTML(ctx, false, spec)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
+  const head = `<div class="jtop" data-mo="rise">${spec.back ? backBtn('s18', 'font:400 15px/20px var(--font-text)') : ''}<span class="ttl">${spec.title}</span><div class="acts">${freshRow(ctx, spec.fresh, spec.chip)}${flipHTML(ctx, false, spec)}${spec.webActions ?? spec.actions ?? ''}</div></div>`;
   if (ctx.kind === 'ipad') {
     return `<div class="dfield" style="left:-10%;right:40%;top:-80px;height:900px"></div><div class="jipad">
       <div class="glass jside" style="padding-top:24px" data-mo="fade"><div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px">${ic('sidebar', 's24')}<button class="tbtn" type="button" aria-label="Account">${ic('person', 's18')}</button></div><div style="padding:10px 12px 0"><div class="search">${ic('search', 's18')}Search</div></div><div class="side" style="flex:1">${sideList()}</div>${dataRow}</div>
@@ -296,7 +298,7 @@ const OPEN = [
     ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
   ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Not recorded. The screens say so.'],
   ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Each page stays as drawn.'],
-  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until the purchase.'],
+  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until you answer.'],
   ['How does production come to be recorded lost, and who records it? (CT-14)', 'Labelled proposed.'],
   ['Is a late price a missed collection, inside the replay allowlist? (CT-14)', 'Drawn as a condition, not a fact.'],
   ['What happens to Yahoo values already sent to Anthropic? No record decides it.', 'Not drawn. It needs its own record.'],

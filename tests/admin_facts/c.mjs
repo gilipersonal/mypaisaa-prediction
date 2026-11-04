@@ -16,6 +16,16 @@ export default {
   },
   'R3-s9': ({ lacks }) => { lacks(read('docs/planning/story-readiness-2026-11-03/stories/PH-07.json'), /says to join/); },
   'R4-s5': ({ lacks }) => { for (const f of ['docs/planning/story-readiness-2026-11-03/stories/PH-07.json', 'docs/confluence/build_pages.py']) lacks(read(f), /until the owner says/); },
+  'R5-s2': ({ each, must }) => {
+    each({ journey: 'incidents', surface: ['iphone', 'pwa'] }, (v, at) => {
+      if (/data-act="A40"(?! data-phone-off)/.test(v.html) && /data-phone-off/.test(v.html)) must(/Acknowledging works here/.test(v.text), `${at.option}.${at.screen} ${at.surface} ${at.state}: the strip denies the live Acknowledge`);
+    });
+  },
+  'R5-s1': ({ must, has }) => {
+    const r = spawnSync('python3', ['scripts/check_retired_facts.py'], { encoding: 'utf8', cwd: new URL('../../', import.meta.url).pathname });
+    must(r.status === 0, `a retired fact is back: ${r.stdout.slice(-200)}`);
+    has(read('docs/planning/retired-facts.json'), /until the owner says when/);
+  },
   'R2-s3': ({ perms, must, lacks }) => {
     must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control');
     lacks(read('docs/design/admin/src/shell.js'), /Who marks an incident mitigated\? \(CT-14\)', 'Labelled proposed, with no control/);

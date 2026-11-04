@@ -273,7 +273,7 @@ export default {
   },
   // Round 4.
   'R4-a1': ({ each, has }) => {
-    for (const screen of ['ca-credit', 'cb-credit']) each({ journey: 'costs', screen, state: ['default', 'stale', 'error', 'expired', 'partial', 'offline'], surface: 'web' }, (v) => has(v.text, /£54\.73 is before the scan at its cap\. The month's forecast, up to £59\.73, falls to the same figure\./));
+    for (const screen of ['ca-credit', 'cb-credit']) each({ journey: 'costs', screen, state: ['default', 'stale', 'error', 'expired', 'partial', 'offline'], surface: 'web' }, (v) => has(v.text, /£54\.73 is before the scan at its cap\. The month's forecast, up to £59\.73, falls to £53\.(54|19)\./));
   },
   'R4-a2': ({ each, has, lacks }) => {
     each({ journey: 'costs', state: 'error' }, (v) => { lacks(v.text, /Up to £6\.71/, 'a lower bound reads as a ceiling'); lacks(v.text, /at most £53/); });
@@ -303,5 +303,44 @@ export default {
     let m = null;
     try { m = view('models', 'a', 'a-decide', 'web', 'default').text; } catch (e) { m = null; }   // a partial page has no Models
     if (m) for (const w of LINES) must(m.includes(w), `admin Models binds a different line for the same hash: "${w}"`);
+  },
+  // Round 5, the last. The owner on R5-a1: "Draw the pause in Ready (Recommended)".
+  'R5-a1': () => {
+    const o = ownerPage();
+    for (const [option, model, q] of [['a', 'aa-model', 'aa-queue'], ['b', 'ab-model', 'ab-home']]) for (const state of ['default', 'offline']) {
+      const says = o.view('approvals', option, model, 'web', state).text.includes('Stays paused');
+      o.must(says, `${model} ${state}: the scope card`);
+      o.must(o.view('approvals', option, q, 'web', state).text.includes('Restart US tech, 12 months'), `${q} ${state}: the screen says "Stays paused" and its queue has no paused row`);
+    }
+    o.must(/\b4 decisions wait on you/.test(o.view('approvals', 'a', 'aa-queue', 'web', 'default').text), 'the paused row stays outside the count');
+    for (const [option, screen] of [['a', 'aa-queue'], ['b', 'ab-notices']]) o.must(o.view('approvals', option, screen, 'web', 'default').text.includes('US tech, 12 months paused'), `${screen}: no paused notice`);
+    o.must(o.view('approvals', 'a', 'aa-model', 'web', 'default').text.includes("R2-HGB v3's approval expired on US tech, 12 months"), 'the reason line');
+    o.must(/stays paused[\s\S]*India midcap, 3 months stays on R1-LGB v1/.test(o.view('approvals', 'a', 'aa-result', 'web', 'default').text), 'the Ready outcome drops the two scopes');
+    o.must(o.view('forecast', 'a', 'a-12m', 'web', 'default').text.includes('Last issue before the pause'), 'forecast: 12-month US tech is not labelled');
+    o.must(o.view('home', 'a', 'a-12m', 'iphone', 'default').text.includes('US tech: last issue before the pause'), 'home: 12-month US tech is not labelled');
+  },
+  'R5-a2': ({ each, lacks, has }) => {
+    each({ journey: 'approvals', state: 'expired' }, (v) => lacks(v.text, /Expired Mon 18:00/, 'an expiry later than the clock on the screen'));
+    each({ journey: 'approvals', screen: 'aa-band', state: 'expired' }, (v) => has(v.text, /Expires Mon 18:00/));
+  },
+  'R5-a3': ({ each, view, has, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-import'], ['b', 'ab-import']]) each({ journey: 'approvals', option, screen, state: 'expired' }, (v) => { has(v.text, /It expired Tue 21:33 with no commit started\./); lacks(v.text, /expired at 21:33/); });
+  },
+  'R5-a4': ({ each, has, lacks }) => {
+    for (const screen of ['ca-budget', 'cb-budget']) each({ journey: 'costs', screen, surface: 'web' }, (v, at) => {
+      if (at.state === 'loading') return;
+      const r = row(v.text, 'Against the month');
+      if (['error', 'partial'].includes(at.state)) { has(r, /Not checked/); has(r, /A missing check is never a pass/); lacks(r, /Fits/); return; }
+      const aws = v.text.match(/AWS [^£]*£[\d.]+ of £22 Forecast (£[\d.]+)/), cl = v.text.match(/Claude and evaluations [^£]*£[\d.]+ of £15 Forecast (£[\d.]+)|Claude and evaluations None yet of £15 Forecast (£[\d.]+)/);
+      const a2 = aws ? aws[1] : (v.text.match(/of £22 Forecast (£[\d.]+)/) || [])[1], c2 = cl ? (cl[1] || cl[2]) : (v.text.match(/of £15 Forecast (£[\d.]+)/) || [])[1];
+      has(r, new RegExp(`Forecast AWS ${String(a2).replace('.', '\\.')} and Claude ${String(c2).replace('.', '\\.')} stay`), `${at.state}: the row does not read the Allocations figures`);
+    });
+  },
+  'R5-m1-a': ({ each, must, has, lacks }) => {
+    for (const [option, screen] of [['a', 'aa-band'], ['b', 'ab-request']]) each({ journey: 'approvals', option, screen, state: 'expired', surface: WIDE }, (v) => {
+      must(liveBtn(v.html, /Approve this band/).length === 1, 'A29 is shut here and live on a-bands');
+      has(v.text, /Expired\. It did not apply\./); has(v.text, /Approve again for a new window/); has(v.text, /Expires Mon 18:00/); lacks(v.text, /An expired proposal cannot be approved/);
+      if (option === 'a') has(v.text, /v10 · proposed/);
+    });
   },
 };

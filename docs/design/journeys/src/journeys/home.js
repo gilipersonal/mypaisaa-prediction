@@ -119,7 +119,7 @@ function ledgerPwa(ctx, sel, open = '') {
   return `<div class="card" data-mo="card"><table class="ht pwa"><thead><tr><th>Holding</th><th class="r">Value</th><th class="r">${HZ[ctx.hz ?? 1].s}</th><th>Action</th></tr></thead><tbody>${H.map(h => { const m = rowOf(ctx, h, sel); return pTr(h, { ...m, fl: m.flS !== undefined ? `<span class="small">${m.flS}</span>${m.split ? rangeLine(h, ctx.hz ?? 1) : ''}` : undefined }) + (h.t === sel ? open : ''); }).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
 }
 const ledger = (ctx, sel) => (isWide(ctx) ? ledgerDesk : ctx.kind === 'pwa' ? ledgerPwa : ledgerPhone)(ctx, sel);
-const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip proposed"><span class="dot"></span>Exploratory</span> 12 months rests on 11 non-overlapping blocks, under the 20 a claim needs.</div>` : '');
+const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip proposed"><span class="dot"></span>Exploratory</span> 12 months rests on 11 non-overlapping blocks, under the 20 a claim needs.</div><div class="home-sub"><span class="chip">${ic('pause', 's14')}US tech: last issue before the pause</span></div>` : '');
 const holdingsNote = {
   loading: () => banner('', 'Refreshing.', 'The last good rows from 21:15 stay here, with their ranges and flags, until the run lands.', 'refresh'),
   error: () => banner('fall', 'Holdings did not refresh.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Every row below is from that one version.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>`,

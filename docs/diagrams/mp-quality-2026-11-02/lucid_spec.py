@@ -516,7 +516,7 @@ def page_apple() -> dict:
     W = 2400
     s = header("p4", W, "Apple testing and the private beta",
                "Test on simulators on the owner's Mac for nothing. For now (owner, 3 Nov 2026) no paid Developer Program: free local builds that expire "
-               "after 7 days, and no TestFlight, Apple push or Sign in with Apple until the owner says when. No Apple app exists yet (PL-14). Phase PH-07.",
+               "after 7 days, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179). No Apple app exists yet (PL-14). Phase PH-07.",
                "PROPOSED; no paid Developer Program for now")
     s.append(panel("mac", 60, 170, 1140, 980, "The owner's Mac: every simulator run costs £0"))
     s.append(box("ids", 90, 220, 550, 150, "Shared test IDs: mpp.*",
@@ -539,13 +539,13 @@ def page_apple() -> dict:
 
     s.append(box("every", 1280, 200, 330, 150, "Every pull request", "GitHub's Linux runner, in seconds: Maestro's flow syntax check and the test-ID check", "teal", "prop", size=14))
     s.append(box("fornow", 1650, 200, 690, 150, "For now: no paid Apple Developer Program",
-                 "the owner's free Apple Account signs the builds. No TestFlight, Apple push or Sign in with Apple until the owner says when; "
+                 "the owner's free Apple Account signs the builds. No TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179); "
                  "phone notifications come through the web app's Web Push", "blue", "sel", size=14, width=3, extra=" (3 Nov 2026)"))
     s.append(box("local", 1280, 440, 300, 160, "Free local build from Xcode",
                  "installed on the owner's own devices over a cable or Wi-Fi; no App Store Connect key in GitHub, no Mac CI minutes", "amber", "sel", size=13))
     s.append(box("devices", 2010, 440, 330, 160, "The owner's iPhone and iPad", "real hardware: Face ID and VoiceOver, by hand; no Apple push on a free build", "blue", "sel", size=14))
     s.append(box("tf", 1280, 690, 300, 160, "TestFlight, later", "only once the owner pays: an owner-only internal group; each build lasts 90 days",
-                 "rose", "open", dashed=True, size=13, extra=" (owner decides when)"))
+                 "rose", "open", dashed=True, size=13, extra=" (once the Developer Program is bought, MP-179)"))
     s.append(heading("clock_h", 1650, 640, 520, "EACH FREE BUILD'S CLOCK", ROSE))
     for i, (id_, mark, words, tone) in enumerate([("c0", "Day 0", "installed from Xcode; a reinstall restarts it", "amber"),
                                                   ("c7", "Day 7", "expired: rebuild and reinstall to open it", "rose")]):

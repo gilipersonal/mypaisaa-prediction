@@ -2366,5 +2366,261 @@
     0
    ]
   }
+ },
+ {
+  "id": "R5-f1",
+  "finding": "**In Partial, the picked Gaps and integrity screen says delivery succeeded and says it is unknown (lesson 39).** Evidence: `audit b b-gaps partial` prints the banner \"Outbox delivery did not answer, so delivery is unknow",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-f1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-f2",
+  "finding": "**In Expired, picked screens show an approval expiring at 21:33 under a clock that reads 18:05, with no day (lessons 27, 37).** Evidence: this delta removed the \"Expired reads as that evening\" notes because the chip now ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-f2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-m1",
+  "finding": "**One band proposal, one page state, two answers: Models offers a live approve on what Approvals says cannot be approved (lessons 27, 31).** Evidence, both at Expired, both under \"Records current · 18:05 Wed 4 Nov\": - Mo",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-m1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-m2",
+  "finding": "**a-decide Expired says the proposal stays open and, on the same screen, that it is a new proposal. R4-m4's fix did not reach the two sibling screens (lessons 3, 27).** Evidence: - Banner, `:63`: \"The proposal stays open",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-m2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-m3",
+  "finding": "**\"15 minutes\" reaches a promotion with no Proposed tag on the picked a-evidence, and no earlier screen tells the owner about it (lesson 36).** Evidence: - a-evidence Expired, web and iPhone: \"The 15 minutes after you ap",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-m3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-m4",
+  "finding": "**The new 18:05 clock has the UK run succeeding on Wednesday with no HSBC caveat, while a-recover in the same state says that source cannot deliver (lessons 27, 31).** Evidence, both at Expired, one press apart (\"When it",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-m4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-m5",
+  "finding": "**\"What ran\" leaves India out of Tuesday and Monday, and on this page a missing row means a market did not run.** Evidence: - `ranOK` lists India Wed, US Tue, UK Tue, US Mon, UK Mon, with no India Tue or India Mon row. \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-m5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-a1",
+  "finding": "**Owner Ready now says a scope is paused, and nothing else in owner Ready has a paused scope (lessons 27, 29, 31).** Evidence, all in the owner page, state Ready: - `aa-model` and `ab-model` print \"Two scopes this does n",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-a1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-a2",
+  "finding": "**In Expired, a proposal expires five days after the date on the screen, and this delta removed the note that said so (lessons 26, 39).** Evidence: `aa-band` and `ab-request`, Expired, print \"Records current · 18:05\", \"W",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-a2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-a3",
+  "finding": "**The new note says the import expired later than the chip. Files and Audit say it expired the night before (lessons 27, 31).** Evidence: the notes at `:313` (`aa-import`) and `:331` (`ab-import`) now read \"Its 21:18 and",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-a3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-a4",
+  "finding": "**The new \"Against the month\" row is the same in every state, so it contradicts its own screen (lessons 29, 39, 36).** Evidence: the row is a literal: \"Against the month Fits Forecast AWS £18.64 and Claude £13.24 stay in",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-a4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-s1",
+  "finding": "**The wording R4-s5 removed survives in a root document and in a drawing, and the root document wins (rules: plan-sync 1, lessons 4, 21, 22, 49).** Evidence: - The owner's answer on what lifts the bar: \"The purchase (Rec",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-s2",
+  "finding": "**On a phone, the worst incident's screen says changes happen elsewhere, directly above a live Acknowledge (lessons 7, 27; the owner's \"Yes, acknowledge only (Recommended)\").** Evidence: R4-s1 put a live A40 and a phone-",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-s3",
+  "finding": "**Phone web gives two answers for what unblocks recovery, and the new Open row gives the third reading (lessons 7, 27, 36).** Evidence: the screen note, the a-enrol screen and the R3-s15 check all say Phone web is held \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-s3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-s4",
+  "finding": "**The R4-s6 fix conditions the sentence and leaves the status, so the card still answers the open question (lessons 36, 39, 47).** Evidence: the R4-s6 finding was that the card says the request is inside the allowlist an",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-s4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R5-s5",
+  "finding": "**R4-s10 added a row that the banner above it now contradicts (lessons 39, 47).** Evidence: `a-evidence` Partial banner: \"run_8cf7 and its collect job are not read, which is unknown, not clear. The other links opened.\" T",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_admin_facts.mjs",
+    "R5-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
  }
 ]

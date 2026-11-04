@@ -182,8 +182,8 @@
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 7,
-   "sha256": "9be17a7c9b2ab5b108f79d2f550cc79e7d49b87ea5873591b2efe477a9e17667"
+   "version": 8,
+   "sha256": "b0a18f164f687990c21aeafe4a849c1c5d835c64aeebaadb8128017f6c0e3a4e"
   },
   "rec-perimeter": {
    "id": "6390123",
@@ -430,10 +430,10 @@
     "sha256": "5e0bb36d4a16dc66315d1065316c6849a23832c03f045cad24aa561c74be1752"
    },
    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
-    "id": "3011fed0-df70-443d-af9d-7d5aa1f2f9a4",
+    "id": "581181a2-55d2-441d-927b-cd82a3290772",
     "collection": "contentId-6291956",
     "attachment": "att6128904",
-    "sha256": "72b33ce3e9b8bb63cb45b8feadb530dc0d960c824e3023340e8e462eccd4cbcd"
+    "sha256": "5bf245e077ce4844b3e4395540de31fd995b8af7655039cc021647fbb15b3643"
    }
   },
   "rec-testing": {

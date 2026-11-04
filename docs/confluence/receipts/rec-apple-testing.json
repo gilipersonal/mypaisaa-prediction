@@ -1,13 +1,13 @@
 {
  "slug": "rec-apple-testing",
  "page_id": "6291956",
- "version": 7,
- "sent_sha256": "9be17a7c9b2ab5b108f79d2f550cc79e7d49b87ea5873591b2efe477a9e17667",
- "readback_sha256": "86d5033b2300e369e932a7c0539b215583571cbdd089f7b47c70564d0a5d5443",
- "canonical_sha256": "1c09a36adcf849cddd1d5a52ad7668855313a326a2341cc0abb60649fb490772",
+ "version": 8,
+ "sent_sha256": "b0a18f164f687990c21aeafe4a849c1c5d835c64aeebaadb8128017f6c0e3a4e",
+ "readback_sha256": "753c07d2016d4eb98ced7266576eb4204a2c0102ed745f09565d950bf998a762",
+ "canonical_sha256": "6e515140ad2dbb92eecdc66b5caecbad7c5a83847832f4d1f1902b30fd628575",
  "parts": 753,
  "verdict": "match",
  "differences": [],
  "id_checked": true,
- "read_at": "2026-11-04T22:06:03Z"
+ "read_at": "2026-11-04T22:49:27Z"
 }

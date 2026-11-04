@@ -162,7 +162,7 @@
   const T_EV = {
     what: 'The evidence', rows: 5, loading: 'Reading the linked records.',
     empty: banner('', 'This incident is resolved.', 'Its evidence stays linked, and nothing here was removed when it closed.', 'check'),
-    partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7 and its collect job are not read, which is unknown, not clear. The other links opened.', 'clock'),
+    partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7, its collect job and its trace are not read, and neither is Monday\'s run_8bf3, which is unknown, not clear. The alert, the source and the model link opened.', 'clock'),
     error: banner('fall', 'Twelve Data failed at 21:14.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a link may have moved. Each record opens at its own time.', 'clock'),
     offline: banner('', 'Offline.', 'These links are from 11:20. Following one needs a connection, and the ids stay readable.', 'wifi-off'),
@@ -175,12 +175,12 @@
   /* ---------- replay: what code may do by itself, what needs you, what is refused ---------- */
   const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found', IFMISSED = 'Not needed if a late price counts as a missed collection';
   const REQ = {
-    default: ['Auto-retrying', 'stale', UK, WHY12, '1', IFMISSED],
+    default: ['Auto-retry if CT-14 allows', 'stale', UK, WHY12, '1', IFMISSED],
     error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', UK, WHY12, '1', 'Refused on recheck'],
     expired: ['Expired', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Ran out, so nothing ran'],
     denied: ['Awaiting you', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Awaiting you, with a fresh sign-in'],
-    empty: ['Replayed', '', UK, WHY12, '1', IFMISSED],
+    empty: ['Replayed', '', UK, WHY12, '1', 'None asked. Drawn as if CT-14 counts this'],
     partial: ['Held', 'stale', UK, WHY12, '1', 'Not known until the UK run answers'],
     stale: ['As read at 11:12', 'stale', UK, WHY12, '1', 'Not known since 11:12'],
     offline: ['As read at 11:20', 'stale', UK, WHY12, '1', 'Not known since 11:20']
@@ -314,7 +314,7 @@
     const i = inc(ctx);
     if (ctx.state === 'empty') return card(`${head('Right now')}${note('No incident is open, so no procedure is running.')}`);
     if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, proposed('CT-14')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
-    return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, code is recovering'}`, tags(statusOf(ctx, i)), i.tone))}`;
+    return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, Auto-retry if CT-14 allows'}`, tags(statusOf(ctx, i)), i.tone))}`;
   };
   const T_BOOK = {
     ...T_LIST, what: 'The runbook', rows: 5, loading: 'Reading the runbook and what is running.',
@@ -337,7 +337,7 @@
       st(4, 'done', 'you', 'Ask for more', 'Not needed.'), st(5, 'done', 'you', 'Resolve', 'You, with a recorded resolution: HSBC prices are back from Yahoo.')
     ]);
     const first = i === I13 ? 'inc_0013 · job failure · Tue 21:14. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
-    const moreRow = list(opens('refresh', 'Replay', i === I13 ? 'Bound reached: escalated' : 'Auto-retrying'));
+    const moreRow = list(opens('refresh', 'Replay', plain(reqChip(ctx))));
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),
       i === I13 ? st(2, 'now', 'you', 'Acknowledge', `Waiting for you. ${NOTICE}`, ackTool(ctx)) : st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'),

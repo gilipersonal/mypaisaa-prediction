@@ -279,6 +279,24 @@ export default {
       must((t.match(chip) || []).length >= n, `${st}: a check reads bare`);
     }
   },
+  'R5-f1': ({ view, has, lacks }) => {
+    for (const [o, s] of [['a', 'a-gaps'], ['b', 'b-gaps']]) {
+      const t = view('audit', o, s, 'web', 'partial').text;
+      lacks(t, /Each of these reached/); has(t, /Not read: outbox_delivery did not answer/);
+      has(view('audit', o, s, 'web', 'default').text, /Each of these reached/);
+    }
+  },
+  'R5-f2': ({ view, each, must, has }) => {
+    let n = 0;
+    for (const journey of ['files', 'audit']) each({ journey, surface: ['iphone', 'web'], state: 'expired' }, (v, at) => {
+      if (!/21:33/.test(v.text)) return;
+      n++;
+      must(/Tue (at )?21:33/.test(v.text), `${JSON.stringify(at)}: names 21:33 with no day`);
+      must(!/expired 21:33/.test(v.text) && !/\b(Approved|approved) 21:18/.test(v.text.replace(/Reason [^·]*/, '')), `${JSON.stringify(at)}: a bare time`);
+    });
+    must(n >= 12, `only ${n} views name 21:33`);
+    for (const [j, o, sc] of [['files', 'a', 'a-approve'], ['files', 'b', 'b-decide'], ['files', 'b', 'b-life'], ['audit', 'b', 'b-lineage'], ['audit', 'a', 'a-answer']]) has(view(j, o, sc, 'web', 'expired').text, /expired on Tue at 21:33/);
+  },
   'R1-s7-home': ({ each, has, lacks }) => {
     each({ journey: 'home', surface: ALL }, (v) => { has(v.text, /account recovery works anywhere/); lacks(v.text.replace(/account recovery/g, '').replace(/Incidents and recovery/g, ''), /\brecovery\b/); });
   },

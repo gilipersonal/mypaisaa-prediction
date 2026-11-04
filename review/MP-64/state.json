@@ -2,7 +2,7 @@
   "issue": "MP-64",
   "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
   "round_count": 5,
-  "status": "round 5 done, blocking findings remain; waiting on the owner",
+  "status": "five rounds done; round 5 fixes unreviewed, by the owner's word",
   "rounds": [
     {
       "round": 1,
@@ -2987,7 +2987,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/audit.js:162",
           "evidence": "**In Partial, the picked Gaps and integrity screen says delivery succeeded and says it is unknown (lesson 39).** Evidence: `audit b b-gaps partial` prints the banner \"Outbox delivery did not answer, so delivery is unknown, not fine.\", then the row \"Delivery · Each of these reached what follows it · ",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-f2",
@@ -2996,7 +2996,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/files.js:111",
           "evidence": "**In Expired, picked screens show an approval expiring at 21:33 under a clock that reads 18:05, with no day (lessons 27, 37).** Evidence: this delta removed the \"Expired reads as that evening\" notes because the chip now reads \"Records current · 18:05\", and the page date reads Wed 4 Nov. - `files a a",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-f3",
@@ -3005,7 +3005,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/approvals.js:231",
           "evidence": "**Join: in Conflicting, Home and Approvals count Promote R2-HGB v4 as waiting, and Models says it is refused (lessons 27, 31).** Evidence: - `home b b-home conflict`: \"3 decisions wait on you\", and on the same screen the Models tile reads \"R2-HGB v4 evidence changed\". - `approvals a aa-now conflict`",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-f4",
@@ -3014,7 +3014,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/home.js:41",
           "evidence": "**Home Conflicting leads with Settings and ends on the loss of production.** Evidence: rendered on iPhone and desktop, the banner is `warn`, titled \"Settings changed while you read.\", and \"Production is recorded lost.\" is its sixth and last sentence. The fix for R4-f1 and R4-s3 does keep it in the f",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-f5",
@@ -3023,7 +3023,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/home.js:20",
           "evidence": "**In Failed, two lines say the wrong moment: one 11:20 line holds an 11:38 event, and one list from 11:20 holds a row from 11:38 (lesson 39).** Evidence: - Home's Audit tile reads \"Query incomplete · from 11:20\". Audit says the failure came later: \"The records failed at 11:38. Answers from 11:20 sta",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-f6",
@@ -3032,7 +3032,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/home.js:64",
           "evidence": "**Unpicked option A: the rail still shows a plain forecast run in Conflicting.** Evidence: this delta made the rail's Forecast run row state-aware for Failed only. In Conflicting it still reads \"Tue 21:15 · cutoff 21:00\" while the tile on the same screen says \"US run Tue · held\" and Incidents says \"",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-f7",
@@ -3041,7 +3041,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/home.js:11",
           "evidence": "**Join: the picked Admin home never shows the original due for renewal.** Evidence: the changed `a-queue` note names what Home leaves out, \"Admin home counts neither held row\", which reads as if everything else in the queue reaches Home. But \"1 original due for renewal\" is a row in `NEEDS` (`home.js",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-f8",
@@ -3050,7 +3050,7 @@
           "lane": "f",
           "anchor": "docs/design/admin/src/journeys/files.js:238",
           "evidence": "**The `a-approve` and `b-decide` notes give Partial an 11:38 chip it does not have.** Evidence: both notes, reworded in this delta, say \"Partial and Failed read as a later evening, not the 11:38 of the chip\". Partial's chip reads \"Partial · 3 of 4 sources\" (`shell.js`, `freshRow`), and only Failed s",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-m1",
@@ -3059,7 +3059,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:105",
           "evidence": "**One band proposal, one page state, two answers: Models offers a live approve on what Approvals says cannot be approved (lessons 27, 31).** Evidence, both at Expired, both under \"Records current · 18:05 Wed 4 Nov\": - Models `a-bands` (changed this round): \"Expired. It did not apply. Your approval c",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-m2",
@@ -3068,7 +3068,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:66",
           "evidence": "**a-decide Expired says the proposal stays open and, on the same screen, that it is a new proposal. R4-m4's fix did not reach the two sibling screens (lessons 3, 27).** Evidence: - Banner, `:63`: \"The proposal stays open to Fri 18:00.\" The head still reads \"Expires Fri 18:00\". - Rail, same state, `:",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-m3",
@@ -3077,7 +3077,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:36",
           "evidence": "**\"15 minutes\" reaches a promotion with no Proposed tag on the picked a-evidence, and no earlier screen tells the owner about it (lesson 36).** Evidence: - a-evidence Expired, web and iPhone: \"The 15 minutes after you approved closed.\" The only tag on the screen is `Proposed · SCI-D03`, which is abo",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-m4",
@@ -3086,7 +3086,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/runs.js:272",
           "evidence": "**The new 18:05 clock has the UK run succeeding on Wednesday with no HSBC caveat, while a-recover in the same state says that source cannot deliver (lessons 27, 31).** Evidence, both at Expired, one press apart (\"When it goes wrong\"): - a-clock (changed this round): UK \"Issued 17:50\", all four steps",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-m5",
@@ -3095,7 +3095,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/runs.js:41-42",
           "evidence": "**\"What ran\" leaves India out of Tuesday and Monday, and on this page a missing row means a market did not run.** Evidence: - `ranOK` lists India Wed, US Tue, UK Tue, US Mon, UK Mon, with no India Tue or India Mon row. \"Recent runs\" was added this round and does not explain two holes inside the rang",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-m6",
@@ -3104,7 +3104,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/runs.js:55",
           "evidence": "**Option B, unpicked. b-list Expired says a UK run happened that its own list does not show (lessons 27, 29).** Evidence: `ALARM.expired`, moved to 18:05 this round, also feeds the `b-list` rail: \"Missed daily run: India and UK Wed\", \"Last collect Wed 16:50\". The list beside it, `listOK()`, is newes",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-m7",
@@ -3113,7 +3113,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:36",
           "evidence": "**Option A, picked. a-evidence Expired promises \"approving again\" with no way there (lesson 28). The fix collides with a fixed check, so it needs a decision.** Evidence: the banner, reworded this round, reads \"approving again opens a new window\". The only door from a-evidence to a-decide is \"Go to t",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-m8",
@@ -3122,7 +3122,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:152",
           "evidence": "**The \"Expired\" chip survives on a-evidence after it was removed from the three sibling heads (lesson 39).** Evidence: this round dropped `WARN('Expired')` from `promoteHead`, `rulesHead` and `bandHead`, because the proposal stays open. `EV_HEAD.expired` keeps it. So R2-HGB v4 reads \"Expired\" on a-e",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-m9",
@@ -3131,7 +3131,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/runs.js:158",
           "evidence": "**One status, two tones.** Evidence: Runs draws \"Reopened\" through `WARN`, an amber `stale` chip. Incidents draws the same word for the same incident as `chip('error', 'Reopened', 'refresh')` (`incidents.js:38`). The `R4-s2-runs` check compares only the word. Correction: use `BAD('Reopened', 'refres",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-m10",
@@ -3140,7 +3140,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/runs.js:238",
           "evidence": "**Option B, unpicked. b-dead Offline still says \"None is held now\" (lesson 39).** Evidence: this round passed `deadOK(false)` for Partial and Stale so the screen stops claiming the present. Offline, `:238`, still calls `deadOK()`: \"Showing this item from 11:20\", then \"None is held now\". `b-queues` O",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-m11",
@@ -3149,7 +3149,7 @@
           "lane": "m",
           "anchor": "docs/design/admin/src/journeys/models.js:115",
           "evidence": "**Three small joins.** - `THRESH`: \"Expires: Stays open · waits for your yes\" sits directly above a disabled button and \"Opens when a proposal carries its values\". With no proposal there is no yes to give. Change the row to \"Arrives with the proposal\". - The `a-clock` note opens \"At 11:40 India has ",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-a1",
@@ -3158,7 +3158,7 @@
           "lane": "a",
           "anchor": "docs/design/journeys/src/journeys/approvals.js:135",
           "evidence": "**Owner Ready now says a scope is paused, and nothing else in owner Ready has a paused scope (lessons 27, 29, 31).** Evidence, all in the owner page, state Ready: - `aa-model` and `ab-model` print \"Two scopes this does not settle US tech, 12 months Stays paused\" (`SCOPES`, line 135, used at line 137",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-a2",
@@ -3167,7 +3167,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/approvals.js:301",
           "evidence": "**In Expired, a proposal expires five days after the date on the screen, and this delta removed the note that said so (lessons 26, 39).** Evidence: `aa-band` and `ab-request`, Expired, print \"Records current · 18:05\", \"Wed 4 Nov · London\", then \"Expired Mon 18:00.\", \"Expired Mon 18:00 · never curren",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-a3",
@@ -3176,7 +3176,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/approvals.js:313",
           "evidence": "**The new note says the import expired later than the chip. Files and Audit say it expired the night before (lessons 27, 31).** Evidence: the notes at `:313` (`aa-import`) and `:331` (`ab-import`) now read \"Its 21:18 and 21:33 belong to the evening it is approved, so Expired here reads later than th",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-a4",
@@ -3185,7 +3185,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/costs.js:201",
           "evidence": "**The new \"Against the month\" row is the same in every state, so it contradicts its own screen (lessons 29, 39, 36).** Evidence: the row is a literal: \"Against the month Fits Forecast AWS £18.64 and Claude £13.24 stay inside both.\" - `ca-budget` and `cb-budget` Conflicting print \"AWS £11.49 of £22 F",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-a5",
@@ -3194,7 +3194,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/costs.js:175",
           "evidence": "**\"The same figure\" points at the wrong number.** Evidence: `ca-credit` Ready prints \"so at most £53.88. £54.73 is before the scan at its cap. The month's forecast, up to £59.73, falls to the same figure.\" The nearest figure before those words is £54.73, which is the Claude-on month. The figure mean",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-a6",
@@ -3203,7 +3203,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/costs.js:340",
           "evidence": "**Day 19 draws day 18's figures (lesson 29).** Evidence: `ca-budget` and `cb-budget` Expired now print \"A day later\" and \"day 19 of 30\" (also `:364`), then \"27p away\", \"AWS £11.18 of £22\" and \"Top-5 scan £2.12 of the £5 cap\", the day 18 figures. Admin home in Expired still prints \"£46.42 committed ·",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-a7",
@@ -3212,7 +3212,7 @@
           "lane": "a",
           "anchor": "docs/design/admin/src/journeys/approvals.js:159",
           "evidence": "**Two rows of one card read against each other, and one word was left behind.** Evidence: in \"If you withdraw S10\", row 2 says \"Yahoo prices, S6 and S7 Unchanged ... collection, storage and display carry on\", and the new row 4 says \"Stored data, backups and models Disposition pending\". The wording f",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s1",
@@ -3221,7 +3221,7 @@
           "lane": "s",
           "anchor": "TECH-STACK.md:135",
           "evidence": "**The wording R4-s5 removed survives in a root document and in a drawing, and the root document wins (rules: plan-sync 1, lessons 4, 21, 22, 49).** Evidence: - The owner's answer on what lifts the bar: \"The purchase (Recommended)\" (decision log, Admin journeys). - `TECH-STACK.md:135`: \"phone notific",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-s2",
@@ -3230,7 +3230,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/shell.js:99",
           "evidence": "**On a phone, the worst incident's screen says changes happen elsewhere, directly above a live Acknowledge (lessons 7, 27; the owner's \"Yes, acknowledge only (Recommended)\").** Evidence: R4-s1 put a live A40 and a phone-off A75 on the same screen for the first time. `offNote` fires on any `data-phon",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-s3",
@@ -3239,7 +3239,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/identity.js:159",
           "evidence": "**Phone web gives two answers for what unblocks recovery, and the new Open row gives the third reading (lessons 7, 27, 36).** Evidence: the screen note, the a-enrol screen and the R3-s15 check all say Phone web is held \"until you answer whether a browser passkey counts\", which is a question, not the",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-s4",
@@ -3248,7 +3248,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/incidents.js:178",
           "evidence": "**The R4-s6 fix conditions the sentence and leaves the status, so the card still answers the open question (lessons 36, 39, 47).** Evidence: the R4-s6 finding was that the card says the request is inside the allowlist and also that nobody knows. In default the condition now sits on \"Your approval\", ",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-s5",
@@ -3257,7 +3257,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/incidents.js:165",
           "evidence": "**R4-s10 added a row that the banner above it now contradicts (lessons 39, 47).** Evidence: `a-evidence` Partial banner: \"run_8cf7 and its collect job are not read, which is unknown, not clear. The other links opened.\" The list below now shows \"Trace · Not read, it links from run_8cf7\", so one of \"t",
-          "status": "open"
+          "status": "fixed by the owner's word, \"Fix all 16, no sixth round (Recommended)\"; not independently reviewed"
         },
         {
           "id": "R5-s6",
@@ -3266,7 +3266,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/shell.js:302",
           "evidence": "**The five open questions added in this range reached no record that could close them (lessons 20, 36; plan-sync rule 3; jira-flow habit 4).** Evidence: `shell.js:298` to `:302` add five questions. `gap-register.json` and the stories did not change in this range. CT-14's `decision_needed` asks for c",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s7",
@@ -3275,7 +3275,7 @@
           "lane": "s",
           "anchor": "review/MP-64/state.json (round 4",
           "evidence": "**The wording sync's external writes have no recorded yes, and the records still say they are waiting (rule: jira-flow gate, \"each scope separately\"; habit 3).** Evidence: commit `eacda92` records `rec-apple-testing` version 7 published, and MP-164's description carries the new text (updated 22:02).",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s8",
@@ -3284,7 +3284,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/identity.js:180",
           "evidence": "**The revoke sentence left the one card about the passkey at stake (lesson 7).** R4-s4's title was that the sentence was missing \"where a passkey is actually at stake\". The fix took it out of `macCard`, which says \"It holds the only passkey that counts today\" and carries a live \"Revoke Mac, Safari\",",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s9",
@@ -3293,7 +3293,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/incidents.js:340",
           "evidence": "**Unpicked option. `moreRow` always says \"Auto-retrying\" for inc_0012 (lesson 31).** R4-s1 now draws it inside the Conflicting `b-escalate` card for inc_0012, where the Replay it opens is chipped \"Refused\". It is also wrong in Partial (Held), Expired (Expired) and Denied (Awaiting you). Correction: ",
-          "status": "open"
+          "status": "fixed, not independently reviewed"
         },
         {
           "id": "R5-s10",
@@ -3302,7 +3302,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/incidents.js:91",
           "evidence": "**Two boxes with one name.** Conflicting `a-detail` and `b-escalate` on iPad and desktop now draw two textareas, both with `aria-label=\"Recorded resolution\"`, one for inc_0014 and one for inc_0012. The second sits above a refused control, so it takes words that cannot be sent. Correction: pass the i",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s11",
@@ -3311,7 +3311,7 @@
           "lane": "s",
           "anchor": "docs/design/admin/src/journeys/incidents.js:409",
           "evidence": "**The screen note is out of date.** `a-detail`'s note says \"detect, acknowledge, mitigate, resolve. Failed shows inc_0013\". Conflicting now shows inc_0014, whose timeline has a switch and no mitigate step. Correction: add \"Conflicting shows inc_0014, with a switch in place of mitigate.\"",
-          "status": "open"
+          "status": "open, non-blocking"
         },
         {
           "id": "R5-s12",
@@ -3320,10 +3320,10 @@
           "lane": "s",
           "anchor": "docs/design/reviews/MP-64/decision.md:44",
           "evidence": "**A maker's choice changed without its line changing.** `decision.md` lists \"Admin's clock is Wed 4 Nov, 11:40 London\" for the owner to accept, and `shell.js:68` now puts Expired at 18:05 on every journey. Correction: add \"Expired reads Wed 18:05, the evening the owner journeys' expiries fall in\" to",
-          "status": "open"
+          "status": "open, non-blocking"
         }
       ],
-      "next_round": "A sixth round runs only if the owner asks, and the state file records their words.",
+      "next_round": "None. The five rounds are done; a sixth runs only if the owner asks.",
       "blocking_findings": [
         "R5-f1",
         "R5-f2",
@@ -3367,7 +3367,8 @@
         "R5-s12"
       ],
       "blocking": 16,
-      "result": "38 findings, 16 blocking, no P0, 3 P1. Round 5 is the last the rule allows, so none is fixed yet: the results go to the owner."
+      "result": "38 findings, 16 blocking, no P0, 3 P1. Round 5 is the last the rule allows, so none is fixed yet: the results go to the owner.",
+      "after_round": "The owner: \"Fix all 16, no sixth round (Recommended)\", \"Draw the pause in Ready (Recommended)\", \"Yes, fix all of it (Recommended)\" and, when Lucid refused an edit, \"create new, dont edit lucid\". Drawing 4 is a new Lucid document, 23768f5e-77d2-4de1-8f1f-ff7f591ec659; rec-apple-testing is version 8, read back from the live reply."
     }
   ]
 }

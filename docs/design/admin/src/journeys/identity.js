@@ -156,7 +156,7 @@
   const RV = 'What a revoke does to a passkey held on that device is not recorded.';
   const rvNote = () => `${note(RV)}${tags(proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
-  const noEnd = () => `${note('No record says how recovery ends on this device until the Developer Program is bought (MP-179). Enrolling is off here, so you stay on one path.')}${OPENQ()}`;
+  const noEnd = ctx => `${note(`No record says how recovery ends on this device ${ctx.kind === 'pwa' ? 'until you answer whether a browser passkey counts' : 'until the Developer Program is bought (MP-179)'}. Enrolling is off here, so you stay on one path.`)}${OPENQ()}`;
   const lostSteps = ctx => {
     const s = ctx.state, g = gone(ctx);
     const revoke = can(ctx, act('A49', `Revoke ${g}`, 'primary'), NOEMAILBACK);
@@ -165,7 +165,7 @@
     if (s === 'partial') return [first, st(2, 'done', `Revoke ${g}`, 'Its sessions ended.', rvNote()), st(3, 'now', 'Enrol a replacement passkey', 'Not confirmed yet. Your old paths stay as they are until it is.', replace)];
     if (s === 'error') return [first, st(2, 'warn', `Revoke ${g}`, `This step stopped. ${g} is still signed in.`, `${act('A59', 'Resume this recovery', 'primary')}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'Waiting for step 2.')];
     if (s === 'empty') {
-      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd());
+      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd(ctx));
       return [st(1, 'done', 'Sign in with what is left', 'Google, with a fresh sign-in. It is the path that remains.'), st(2, 'now', 'Revoke what is lost', 'Ends their sessions and closes their live streams, in a time you approve.', `${lostTargets(ctx).map(n => act('A49', `Revoke ${n}`, 'primary')).join('')}${rvNote()}`), end];
     }
     return [first, st(2, 'now', `Revoke ${g}`, 'Ends its sessions and closes its live streams, in a time you approve.', `${revoke}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'On a device you control. Each step is on your audit trail.', replace)];
@@ -177,7 +177,7 @@
   };
   const lostBody = ctx => card(`${head('This recovery', lostChip(ctx))}${steps('Lost device recovery', lostSteps(ctx))}${note('If you stop before the end, your old paths stay as they are. It is resumed or cancelled, never half-applied.')}${lostTools(ctx)}${note(LINE)}`);
   /* the Mac holds the only passkey that counts today, so losing it has its own card wherever the Mac is not in your hand */
-  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd()}`));
+  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd(ctx)}`));
   const T_LOST = {
     what: 'This recovery', rows: 3, alone: ['denied'], loading: 'Waiting for your fresh sign-in.',
     empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert')),
