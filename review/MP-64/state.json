@@ -1047,7 +1047,10 @@
         "tests/admin_facts: one check per blocking finding",
         "design_journeys_check: back label into title, chip out of sidebar, with selftest cases",
         "design_runtime on the admin page added to design-walk"
-      ]
+      ],
+      "fix_commit": "b7e91e2",
+      "post_fix_gates": "On the build before one whitespace fix: walker 1,600 combinations, 0 problems; design_runtime 8 of 8 on mains power; design_admin_press 0 problems. On b7e91e2: design_admin_facts 0 problems, 61 of 61 checks hold, walker selftest 33 of 33, review_regress MP-64 56 of 56; every ledger 367 run, 2 retired before that fix.",
+      "publication": "Prism Admin v4 republished privately and read back. The publisher read the whole diff from v3."
     }
   ]
 }
