@@ -1,7 +1,20 @@
-// What each fixed finding of lane j holds, proved on the rendered Holdings and Journal screens (MP-62 round 1).
-const WIDE = ['ipad', 'web'], PHONES = ['iphone', 'pwa'];
+// What each fixed finding of lane j holds, proved on the rendered Holdings and Journal screens (MP-62 rounds 1 and 2).
+const WIDE = ['ipad', 'web'], PHONES = ['iphone', 'pwa'], ALL_SURFACES = [...WIDE, ...PHONES];
+const STATES = ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
 const backTo = (v, name) => v.html.includes(`aria-label="Back to ${name}"`);
 const countOf = (s, re) => (s.match(re) || []).length;
+const num = (t) => Number(String(t).replace(/,/g, ''));
+const pounds = (a, b) => Math.round((a - b) * 100) / 100;
+// every button a screen draws, with whether it can be pressed
+const buttons = (html) => [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].map((m) => ({ off: /\bdisabled\b/.test(m[1]), attrs: m[1], text: m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() }));
+const liveBtn = (html, label) => buttons(html).some((b) => !b.off && b.text.includes(label));
+const drawnBtn = (html, label) => buttons(html).some((b) => b.text.includes(label));
+// a screen of holdings or prices; every other Holdings screen is an import screen, so a new one is covered by default
+const PRICED = ['a-list', 'a-private', 'a-one', 'b-accounts', 'b-private', 'b-one'];
+const importScreens = (screens) => ['a', 'b'].flatMap((o) => screens('holdings', o).filter((s) => !PRICED.includes(s)).map((s) => [o, s]));
+const SENTENCE = /This records what already happened at your broker\. It places no trade\./;
+// the top bar's actions on phone web
+const barOf = (html) => (html.match(/margin-left:auto;display:flex;gap:6px;align-items:center">([\s\S]*?)<\/span><\/div>/) || [])[1];
 
 export default {
   'R1-j1': ({ view, each, screens, must, has }) => {
@@ -62,7 +75,7 @@ export default {
       each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => has(v.text, /Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in\./, `${s} ${at.surface}: No model is not drawn`));
     }
     for (const m of ['a-manual', 'b-manual']) {
-      each({ journey: 'holdings', screen: m, state: 'default' }, (v, at) => { has(v.text, /Send to preview/, `${at.surface}: no way into preview`); must(/<input/.test(v.html), `${at.surface}: no fields`); });
+      each({ journey: 'holdings', screen: m, state: 'default' }, (v, at) => { has(v.text, /Add to preview/, `${at.surface}: no way into preview`); must(/<input/.test(v.html), `${at.surface}: no fields`); });
       each({ journey: 'holdings', screen: m, state: 'error' }, (v, at) => { has(v.text, /Refused: the currency is missing/, `${at.surface}: no named refusal`); must(v.html.includes('aria-invalid="true"'), `${at.surface}: the field is not marked`); });
       each({ journey: 'holdings', screen: m, state: 'stale' }, (v, at) => has(v.text, /Resumed, and out of date/, `${at.surface}: no resume`));
       each({ journey: 'holdings', screen: m, state: 'abstention' }, (v, at) => has(v.text, /No purchase is invented/, `${at.surface}: no snapshot`));
@@ -90,8 +103,10 @@ export default {
   'R1-j7': ({ each, has, lacks }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'abstention' }, (v, at) => { lacks(v.text, /value and return stand|\+6\.4%/, `${at.surface}: AstraZeneca still has a return`); has(v.text, /Nonconvergent/, `${at.surface}: no status`); });
     each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'abstention' }, (v, at) => { lacks(v.text, /AstraZeneca[^]{0,60}Two rates/, `${at.surface}: the table calls it two rates`); has(v.text, /No rate/, `${at.surface}: the table has no status`); });
-    each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => has(v.html, /Return: 4 of 7 holdings/, `${at.surface}: wrong coverage`));
-    each({ journey: 'holdings', screen: 'a-list', state: 'stale' }, (v, at) => has(v.html, /Return: 3 of 7 holdings/, `${at.surface}: wrong stale coverage`));
+    for (const s of ['a-list', 'b-accounts']) {
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => { for (const t of ['Value: 7 of 7', 'Cost basis: 6 of 7', 'Gain: 6 of 7', 'Return: 4 of 7']) has(v.html, new RegExp(`${t} holdings`), `${s} ${at.surface}: wrong coverage, no ${t}`); });
+      each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { for (const t of ['Value: 6 of 7', 'Cost basis: 6 of 7', 'Gain: 5 of 7', 'Return: 3 of 7']) has(v.html, new RegExp(`${t} holdings`), `${s} ${at.surface}: wrong stale coverage, no ${t}`); });
+    }
   },
   'R1-j8': ({ each, has, lacks, must }) => {
     for (const s of ['a-one', 'b-one']) {
@@ -100,9 +115,20 @@ export default {
     }
     each({ journey: 'holdings', screen: 'b-one', state: 'disagreement' }, (v, at) => { has(v.text, /Sold 80/, `${at.surface}: two rates need flows both ways`); lacks(v.text, /Opening position/, `${at.surface}: one event`); });
     each({ journey: 'holdings', screen: 'b-one', state: 'stale' }, (v, at) => must(countOf(v.text, /Bought \d+/g) >= 2, `${at.surface}: one event behind a rate`));
-    each({ journey: 'holdings', screen: 'b-one', state: 'default' }, (v, at) => {
-      const units = [...v.text.matchAll(/Bought (\d+)/g)].reduce((a, m) => a + Number(m[1]), 0);
-      must(units === 88, `${at.surface}: Apple's events add to ${units} of 88 units`);
+    // default Apple, stale HSBC, disagreement Reliance, abstaining AstraZeneca: the units and cost of what built each one add to what it shows
+    for (const state of ['default', 'stale', 'disagreement', 'abstention']) each({ journey: 'holdings', screen: 'b-one', state }, (v, at) => {
+      const ev = [...v.text.matchAll(/(Bought|Sold) (\d+) (\d{1,2} \w{3} \d{4}) ·(?: [^£·]+ ·)? £([\d,.]+)/g)].map((m) => ({ buy: m[1] === 'Bought', u: Number(m[2]), at: Date.parse(m[3]), v: num(m[4]) })).sort((a, b) => a.at - b.at);
+      const units = (v.text.match(/· ([\d,]+) units/) || [])[1], basis = (v.text.match(/Cost basis £([\d,.]+)/) || [])[1];
+      must(ev.length >= 2 && units && basis, `${state} ${at.surface}: no events, units or basis to add up`);
+      const lots = [];
+      for (const e of ev) {
+        if (e.buy) { lots.push({ u: e.u, each: e.v / e.u }); continue; }
+        let left = e.u;
+        while (left > 0) { must(lots.length, `${state} ${at.surface}: sold more than was bought`); const l = lots[0], t = Math.min(l.u, left); l.u -= t; left -= t; if (!l.u) lots.shift(); }
+      }
+      const held = lots.reduce((a, l) => a + l.u, 0), cost = pounds(lots.reduce((a, l) => a + l.u * l.each, 0), 0);
+      must(held === num(units), `${state} ${at.surface}: events add to ${held} of ${units} units`);
+      must(cost === num(basis), `${state} ${at.surface}: events cost ${cost}, against a basis of ${basis}`);
     });
   },
   'R1-j9': ({ each, has, lacks }) => {
@@ -125,16 +151,24 @@ export default {
   },
   'R1-j13': ({ each, has, lacks, must }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'disagreement' }, (v, at) => has(v.text, /Baseline/, `${at.surface}: "both show" with one figure`));
-    each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'disagreement' }, (v, at) => { has(v.text, /Baseline −1\.5%/, `${at.surface}: no baseline`); has(v.text, /R2-HGB v3 \+2\.8%/, `${at.surface}: no model`); });
+    each({ journey: 'holdings', screen: 'a-list', surface: WIDE, state: 'disagreement' }, (v, at) => { has(v.text, /Baseline −2\.4%/, `${at.surface}: no baseline`); has(v.text, /R2-HGB v3 \+7\.4%/, `${at.surface}: no model`); has(v.text, /Differ · 6M/, `${at.surface}: not at 6 months`); });
+    each({ journey: 'holdings', screen: 'b-accounts', state: 'disagreement' }, (v, at) => { has(v.text, /Baseline −2\.4%/, `${at.surface}: no baseline`); has(v.text, /R2-HGB v3 \+7\.4%/, `${at.surface}: no model`); });
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => { has(v.text, /6-month forecast · RELIANCE/, `${s} ${at.surface}: not at 6 months`); has(v.text, /Pause · moderate/, `${s} ${at.surface}: the rules' side is missing`); });
+    for (const [journey, ids] of [['holdings', ['a-list', 'b-accounts', 'a-one', 'b-one']], ['journal', ['a-record', 'a-pick', 'b-board', 'b-decide']]]) for (const s of ids) each({ journey, screen: s, state: 'disagreement' }, (v, at) => lacks(v.text, /Differ · 3M|3-month forecast · RELIANCE|Reliance · 3 months|At 3 months|Ranked today · 3 months|−1\.5%|\+2\.8%/, `${s} ${at.surface}: Reliance splits at 6 months, not 3`));
     for (const s of ['a-record', 'b-decide']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => must(v.html.includes('journal-split'), `${s} ${at.surface}: both are not drawn`));
-    each({ journey: 'journal', screen: 'b-board', state: 'disagreement' }, (v, at) => { lacks(v.text, /next page/, `${at.surface}: two places`); has(v.text, /baseline −1\.5%, R2-HGB v3 \+2\.8%/, `${at.surface}: the card has no figures`); });
+    each({ journey: 'journal', screen: 'b-board', state: 'disagreement' }, (v, at) => { lacks(v.text, /next page/, `${at.surface}: two places`); has(v.text, /baseline −2\.4%, R2-HGB v3 \+7\.4%/, `${at.surface}: the card has no figures`); });
   },
   'R1-j14': ({ each, has, lacks }) => {
     each({ journey: 'holdings', screen: 'b-done', state: 'disagreement' }, (v, at) => { has(v.text, /Reversal refused/, `${at.surface}: no refusal`); lacks(v.text, /Review and approve/, `${at.surface}: approve under a refusal`); has(v.text, /Review both together/, `${at.surface}: no joint review`); });
     for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { has(v.html, /disabled>Review and approve/, `${s} ${at.surface}: approve stays live`); has(v.text, /Refresh/, `${s} ${at.surface}: no refresh`); });
   },
-  'R1-j15': ({ each, has }) => {
-    each({ journey: 'holdings', screen: 'a-preview', state: 'disagreement' }, (v, at) => { has(v.text, /£4,630\.43/, `${at.surface}: wrong statement figure`); has(v.text, /£4,642\.83/, `${at.surface}: wrong rows figure`); });
+  'R1-j15': ({ each, must }) => {
+    for (const s of ['a-preview', 'b-check', 'b-rows', 'a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => {
+      const stmt = (v.text.match(/Closing cash on the statement £([\d,.]+)/) || [])[1], rows = (v.text.match(/with the £500\.00 transfer £([\d,.]+)/) || [])[1], gap = (v.text.match(/Difference, cash £([\d,.]+)/) || [])[1], head = (v.text.match(/Statement and rows differ by £([\d,.]+)/) || [])[1];
+      must(stmt === '4,630.43', `${s} ${at.surface}: wrong statement figure ${stmt}`);
+      must(rows === '4,642.83', `${s} ${at.surface}: wrong rows figure ${rows}`);
+      must(gap === head && num(gap) === pounds(num(rows), num(stmt)), `${s} ${at.surface}: the heading ${head}, the row ${gap} and the two figures disagree`);
+    });
   },
   'R1-j16': ({ screens, each, has, must }) => {
     for (const [o, ids] of Object.entries({ a: ['a-difference', 'a-live'], b: ['b-difference', 'b-live'] })) for (const s of ids) must(screens('holdings', o).includes(s), `no ${s}`);
@@ -146,9 +180,12 @@ export default {
       each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => has(v.text, /Revoke approval/, `${at.surface}: no control`));
       each({ journey: 'holdings', screen: s, state: 'empty' }, (v, at) => has(v.text, /Approval revoked/, `${at.surface}: no revoked state`));
     }
+    for (const s of ['a-preview', 'b-check', 'b-rows', 'a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => must(drawnBtn(v.html, 'Keep it open, with a reason'), `${s} ${at.surface}: the difference stays open with no reason`));
   },
-  'R1-j17': ({ each, has, lacks }) => {
-    for (const s of ['a-imports', 'a-preview', 'a-approve', 'a-done', 'a-manual', 'a-edit', 'b-imports', 'b-add', 'b-check', 'b-approve', 'b-done']) each({ journey: 'holdings', screen: s, state: ['error', 'stale'] }, (v, at) => lacks(v.text, /Twelve Data · error|HSBC stale/, `${s} ${at.surface} ${at.state}: a price chip on a screen not about prices`));
+  'R1-j17': ({ each, has, lacks, screens, must }) => {
+    const ids = importScreens(screens);
+    must(ids.length >= 20, `only ${ids.length} import screens`);
+    for (const [option, s] of ids) each({ journey: 'holdings', option, screen: s, state: ['error', 'stale'] }, (v, at) => lacks(v.text, /Twelve Data · error|HSBC stale/, `${s} ${at.surface} ${at.state}: a price chip on a screen not about prices`));
     each({ journey: 'journal', state: 'error' }, (v, at) => lacks(v.text, /Twelve Data · error/, `${at.screen} ${at.surface}: a price chip on a read or save failure`));
     each({ journey: 'holdings', screen: 'a-list', state: 'error' }, (v, at) => has(v.text, /Twelve Data · error/, `${at.surface}: a screen of prices lost its error chip`));
   },
@@ -167,22 +204,25 @@ export default {
       });
       each({ journey: 'holdings', screen: s, state: 'default', surface: WIDE }, (v, at) => has(v.text, /Imports ·/, `${s} ${at.surface}: the import view is not masked`));
       each({ journey: 'holdings', screen: s, state: 'error' }, (v, at) => { has(v.text, /Permission denied/, `${s} ${at.surface}: no denied state`); lacks(v.text, /£\d|••••/, `${s} ${at.surface}: a figure from a refused read`); });
+      each({ journey: 'holdings', screen: s, state: ['loading', 'empty'] }, (v, at) => lacks(v.text, /£\d/, `${s} ${at.surface} ${at.state}: money shows`));
     }
   },
   'R1-j20': ({ each, has, lacks }) => {
     for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: ['default', 'empty'] }, (v, at) => { has(v.text, /Protection leads/, `${s} ${at.surface}: a badge with no reason`); has(v.text, /Policy v1/, `${s} ${at.surface}: no policy`); });
     for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => { has(v.text, /Not held, to watch/, `${s} ${at.surface}: no candidate`); has(v.text, /Watch/, `${s} ${at.surface}: no action`); });
-    each({ journey: 'holdings', screen: 'a-list', state: 'noModel' }, (v, at) => lacks(v.text, /Not held, to watch/, `${at.surface}: a candidate range with no model`));
+    for (const s of ['a-list', 'b-accounts', 'a-private', 'b-private']) each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /Not held, to watch|MSFT/, `${s} ${at.surface}: a candidate range with no model`));
   },
   'R1-j22': ({ each, has, screens, must }) => {
     each({ journey: 'journal', screen: 'a-record', state: 'default' }, (v, at) => { has(v.text, /What you did, at your broker/, `${at.surface}: no field`); has(v.text, /Kept all 60 units/, `${at.surface}: no figure`); });
     each({ journey: 'journal', screen: 'b-decide', state: 'default' }, (v, at) => {
       has(v.text, /How much, in your words/, `${at.surface}: no field`);
       must(/aria-pressed="true"[^>]*>(?:<[^>]+>)*I chose not to/.test(v.html), `${at.surface}: B records the case as I acted`);
-      must(!/journal-pick[^]*aria-pressed="true"/.test(v.html.split('How much')[0].split('What you did, at your broker')[1] || ''), `${at.surface}: B marks an action it did not take`);
+      const did = v.html.split('How much')[0].split('What you did, at your broker')[1];
+      must(did && did.includes('journal-pick'), `${at.surface}: the picks are not where this check looks`);
+      must(!/journal-pick[^]*aria-pressed="true"/.test(did), `${at.surface}: B marks an action it did not take`);
     });
     must(screens('journal', 'a').includes('a-pick'), 'Record a decision leads nowhere');
-    each({ journey: 'journal', screen: 'a-pick', state: 'default' }, (v, at) => has(v.text, /NVIDIA/, `${at.surface}: no open action`));
+    each({ journey: 'journal', screen: 'a-pick', state: 'default' }, (v, at) => has(v.text, /Reliance/, `${at.surface}: no open action`));
     each({ journey: 'journal', screen: 'a-pick', state: 'empty' }, (v, at) => has(v.text, /No ranked action is open/, `${at.surface}: no empty path`));
     each({ journey: 'journal', screen: 'a-pick', surface: PHONES, state: 'default' }, (v, at) => must(v.html.includes('role="button"'), `${at.surface}: the rows are not controls`));
   },
@@ -191,5 +231,239 @@ export default {
     each({ journey: 'holdings', screen: 'a-done', state: 'default' }, (v, at) => has(v.text, /213 → 214/, `${at.surface}: wrong revision`));
     each({ journey: 'holdings', screen: 'a-approve', state: 'default' }, (v, at) => has(v.text, /Ledger revision 213/, `${at.surface}: wrong bound revision`));
     each({ journey: 'holdings', screen: 'a-done', state: 'default' }, (v, at) => has(v.text, /Original kept to Oct 2028/, `${at.surface}: wrong retention`));
+  },
+
+  // ---------- round 2 ----------
+  // R2-j1 itself is in flip.mjs. This walks every import screen, so a new one is covered, and proves the receipt and the masked view still flip.
+  'R2-j1-screens': ({ each, must, screens }) => {
+    const turn = (v) => /data-flip=/.test(v.html);
+    const keep = ['a-imports', 'b-imports', 'a-done', 'b-done'];
+    for (const [option, s] of importScreens(screens).filter(([, id]) => !keep.includes(id))) each({ journey: 'holdings', option, screen: s }, (v, at) => must(!turn(v), `${s} ${at.surface} ${at.state}: a flip on a record, a draft, a proposal or an approval`));
+    for (const s of ['a-done', 'b-done']) {
+      each({ journey: 'holdings', screen: s, state: ['loading', 'error', 'offline'] }, (v, at) => must(!turn(v), `${s} ${at.surface} ${at.state}: a flip while a commit is in flight or unknown`));
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(turn(v), `${s} ${at.surface}: the receipt lost its flip`));
+    }
+    for (const s of ['a-private', 'b-private']) {
+      each({ journey: 'holdings', screen: s, state: 'error' }, (v, at) => must(!turn(v), `${s} ${at.surface}: a flip on a refused read`));
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(turn(v), `${s} ${at.surface}: the masked view lost its flip`));
+    }
+  },
+  // One journal: the same entries, counts and tallies on both sides of every flip, in every state. NVIDIA today is recorded, so it is not open.
+  'R2-j2': ({ each, view, must, has, lacks }) => {
+    const held = ['default', 'error', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'];
+    for (const surface of ALL_SURFACES) for (const state of held) {
+      const a = view('journal', 'a', 'a-list', surface, state), b = view('journal', 'b', 'b-board', surface, state), at = `${surface} ${state}`;
+      must(countOf(a.html, /class="journal-e"/g) === 7, `${at}: the timeline holds ${countOf(a.html, /class="journal-e"/g)} of 7`);
+      if (PHONES.includes(surface)) { has(b.text, /Waiting 4/, `${at}: the Waiting count`); has(b.text, /Scored 3/, `${at}: the Scored count`); has(b.text, state === 'noModel' ? /To decide 0/ : /To decide 1/, `${at}: the To decide count`); }
+      else {
+        must(countOf(b.html, /class="journal-e lane" data-mo="rise"/g) === 7, `${at}: the lanes hold ${countOf(b.html, /class="journal-e lane" data-mo="rise"/g)} of 7`);
+        has(b.text, /3 for a horizon, 1 unresolved/, `${at}: the Waiting lane`); has(b.text, /Scored 3 of 7/, `${at}: the Scored lane`);
+      }
+      for (const v of [a, b]) {
+        has(v.text, /1 entry recorded\. 1 outcome matured last week: NVIDIA, inside its range\. Next outcome: Apple, 12 Nov\./, `${at}: the wrap-up differs`);
+        has(v.text, /4 times in 7 decisions\. 3 have scored so far/, `${at}: the count of differences`);
+      }
+      lacks(b.html, /<b>NVIDIA<\/b><span>Ranked today/, `${at}: NVIDIA is recorded, not open`);
+      lacks(view('journal', 'a', 'a-pick', surface, state).text, /NVIDIA/, `${at}: NVIDIA is recorded, not open`);
+      if (state !== 'noModel') must(countOf(b.html, /Ranked today/g) === 1, `${at}: To decide holds ${countOf(b.html, /Ranked today/g)}`);
+    }
+    for (const surface of ALL_SURFACES) for (const state of ['default', 'loading', 'stale', 'offline', 'disagreement', 'abstention', 'error']) {
+      const a = view('journal', 'a', 'a-differ', surface, state), b = view('journal', 'b', 'b-differ', surface, state), at = `${surface} ${state}`;
+      for (const v of [a, b]) { has(v.text, /You followed 3/, `${at}: followed`); has(v.text, /You differed 4/, `${at}: differed`); has(v.text, /3 scored · 1 waiting/, `${at}: the tally`); lacks(v.text, /of 6|All 6|Differed 3|of your 6/, `${at}: a journal of six`); }
+      has(b.text, /All 7/, `${at}: B's filter`); has(b.text, /Differed 4/, `${at}: B's filter`);
+      if (state !== 'loading') { for (const v of [a, b]) { has(v.text, /NVIDIA|NVDA/, `${at}: an entry is missing`); has(v.text, /Today/, `${at}: today's entry is missing`); } }
+      for (const v of [a, b]) has(v.text, /Of the 3 scored, 2 landed inside their 80% range and 1 outside/, `${at}: how the forecasts did`);
+    }
+    for (const s of ['a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Only 3 of your 7 decisions/, `${s} ${at.surface}: the count`));
+  },
+  // The owner's own words on every import screen, in every state, on every surface. The form no longer sends anything.
+  'R2-j3': ({ each, has, lacks, screens, must }) => {
+    const ids = importScreens(screens);
+    must(ids.length >= 20, `only ${ids.length} import screens`);
+    for (const [option, s] of ids) each({ journey: 'holdings', option, screen: s }, (v, at) => { has(v.text, SENTENCE, `${s} ${at.surface} ${at.state}: not the one sentence`); lacks(v.text, /Send to preview/, `${s} ${at.surface}: reads as an order`); });
+    for (const s of ['a-manual', 'b-manual']) each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(liveBtn(v.html, 'Add to preview'), `${s} ${at.surface}: no way on`));
+    for (const s of ['a-approve', 'b-approve']) each({ journey: 'holdings', screen: s }, (v, at) => has(v.html.slice(Math.max(0, v.html.indexOf('class="sheet"'))), SENTENCE, `${s} ${at.surface} ${at.state}: the sheet does not carry it`));
+  },
+  // No "Reconciled" beside an open difference, anywhere it can be drawn.
+  'R2-j4': ({ each, has, lacks }) => {
+    each({ journey: 'holdings' }, (v, at) => lacks(v.text, /Reconciled to/, `${at.screen} ${at.surface} ${at.state}: reconciled, with a difference open`));
+    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => has(v.text, /Difference open, £8\.15/, `${at.surface}: the account hides it`));
+    each({ journey: 'holdings', screen: 'b-private', state: 'default' }, (v, at) => has(v.text, /Difference open/, `${at.surface}: the masked account hides it`));
+    each({ journey: 'holdings', screen: 'b-imports', state: 'default' }, (v, at) => has(v.text, /Difference open, £8\.15/, `${at.surface}: the account row hides it`));
+    each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => { has(v.text, /1 difference open/, `${at.surface}: the other side of the flip hides it`); has(v.text, /cash differs by £8\.15/, `${at.surface}: no figure`); });
+  },
+  // A date Claude could not read is absent everywhere, not only on the preview.
+  'R2-j5': ({ each, has, lacks }) => {
+    for (const s of ['a-preview', 'a-edit', 'b-edit', 'b-check', 'b-rows', 'a-approve', 'b-approve']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => { lacks(v.text, /22 Oct/, `${s} ${at.surface}: a date that was not read`); has(v.text, /Date not read/, `${s} ${at.surface}: not said`); });
+    for (const s of ['a-edit', 'b-edit']) each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => has(v.text, /22 Oct/, `${s} ${at.surface}: the read date is gone`));
+  },
+  // Offline and out of date, nothing can be pressed, and the tick matches the rail.
+  'R2-j6': ({ each, must, has }) => {
+    const labels = ['Confirm £107.60', 'Edit', 'Exclude group', 'Keep it anyway', 'From outside', 'From General'];
+    each({ journey: 'holdings', screen: 'a-preview', state: ['stale', 'offline'] }, (v, at) => {
+      for (const t of labels) { must(drawnBtn(v.html, t), `${at.surface} ${at.state}: ${t} is gone`); must(!liveBtn(v.html, t), `${at.surface} ${at.state}: ${t} stays live`); }
+      must(/role="radio"/.test(v.html) && !buttons(v.html).some((b) => /role="radio"/.test(b.attrs) && !b.off), `${at.surface} ${at.state}: a listing stays live`);
+    });
+    each({ journey: 'holdings', screen: 'a-preview', state: 'default' }, (v, at) => { for (const t of labels) must(liveBtn(v.html, t), `${at.surface}: ${t} is not live in Ready`); });
+    for (const s of ['a-preview', 'b-check']) each({ journey: 'holdings', screen: s, state: ['stale', 'offline'] }, (v, at) => {
+      const ticks = buttons(v.html).filter((b) => /role="checkbox"/.test(b.attrs));
+      must(ticks.length === 5 && ticks.every((b) => b.off), `${s} ${at.surface} ${at.state}: a tick stays live`);
+      must(ticks.filter((b) => /aria-checked="true"/.test(b.attrs)).length === 1, `${s} ${at.surface} ${at.state}: the ticks do not match "1 group selected"`);
+      must(ticks.some((b) => /aria-checked="true"/.test(b.attrs) && /Bought 4 Apple/.test(b.attrs)), `${s} ${at.surface} ${at.state}: Apple is not the group selected`);
+    });
+    each({ journey: 'holdings', screen: 'b-check', state: ['stale', 'offline'] }, (v, at) => has(v.text, /1 group selected · 3 rows of 11/, `${at.surface}: no rail`));
+  },
+  // Uncertainty stays in view on both sides of the flip, on every device.
+  'R2-j7': ({ each, has }) => {
+    for (const s of ['a-list', 'b-accounts']) {
+      each({ journey: 'holdings', screen: s, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention', 'loading'] }, (v, at) => {
+        has(v.text, /Gain on 6 of 7/, `${s} ${at.surface} ${at.state}: no gain count`);
+        has(v.text, /Return on 4 of 7/, `${s} ${at.surface} ${at.state}: no return count`);
+        has(v.text, /What your evidence supports/, `${s} ${at.surface} ${at.state}: no evidence card`);
+        has(v.text, /Two rates fit Reliance, and no rate was found for AstraZeneca/, `${s} ${at.surface} ${at.state}: the gaps are hidden`);
+      });
+      each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Gain on 5 of 7/, `${s} ${at.surface}: no gain count`); has(v.text, /Return on 3 of 7/, `${s} ${at.surface}: no return count`); });
+    }
+  },
+  // The amended outcome and both state facts on both sides; one banner, not two stories.
+  'R2-j8': ({ each, has, lacks }) => {
+    for (const s of ['a-list', 'b-board', 'a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => {
+      has(v.text, /1 outcome was amended/, `${s} ${at.surface}: no amendment`);
+      has(v.text, /from \+12\.4% to \+11\.9%/, `${s} ${at.surface}: both scores must stay visible`);
+      lacks(v.text, /Rose 12\.4%/, `${s} ${at.surface}: the first figure stands alone`);
+    });
+    for (const s of ['a-list', 'b-board']) {
+      each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /Rules and models differ on Reliance/, `${s} ${at.surface}: Reliance is not named`));
+      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Last joined 14:10/, `${s} ${at.surface}: outcomes`); has(v.text, /HSBC last priced 14:10/, `${s} ${at.surface}: rankings`); has(v.text, /Proposed · MP40-Q6/, `${s} ${at.surface}: no label`); });
+    }
+    each({ journey: 'journal', screen: 'b-board', surface: WIDE, state: 'disagreement' }, (v, at) => { has(v.text, /Amended/, `${at.surface}: no mark`); has(v.text, /Corrected to \+11\.9%/, `${at.surface}: no corrected line`); });
+    each({ journey: 'journal', screen: 'b-board', surface: WIDE, state: 'abstention' }, (v, at) => has(v.text, /Recorded against a ranked action on 3 Mar/, `${at.surface}: the entry reads differently from A`));
+  },
+  // One stale sentence, and the refusal on both sides.
+  'R2-j9': ({ each, has, lacks, must }) => {
+    for (const s of ['a-done', 'b-done']) {
+      each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { has(v.text, /A newer change reached the ledger first, at revision 215/, `${s} ${at.surface}: not the one sentence`); lacks(v.text, /This (correction|reversal) is out of date|Another change/, `${s} ${at.surface}: the flip changes which act is stale`); });
+      each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => { has(v.text, /Reversal refused\. A sale on 1 Nov depends on these units/, `${s} ${at.surface}: no refusal`); must(!liveBtn(v.html, 'Reverse the import'), `${s} ${at.surface}: Reverse stays live`); must(liveBtn(v.html, 'Review both together'), `${s} ${at.surface}: no joint review`); });
+    }
+    each({ journey: 'holdings', screen: 'a-done', state: 'default' }, (v, at) => must(liveBtn(v.html, 'Reverse the import'), `${at.surface}: Reverse is gone in Ready`));
+  },
+  // A commit that failed has started, so it cannot be revoked.
+  'R2-j10': ({ each, has, lacks, must }) => {
+    for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'error' }, (v, at) => {
+      lacks(v.text, /Revoke approval/, `${s} ${at.surface}: revoke after the commit started`);
+      must(liveBtn(v.html, 'Retry safely'), `${s} ${at.surface}: no retry`);
+      has(v.text, /60 → 64 units/, `${s} ${at.surface}: the bound rows are gone`);
+    });
+  },
+  // No forecast is held when no forecast exists.
+  'R2-j11': ({ each, has, lacks }) => {
+    for (const s of ['b-accounts', 'b-private']) each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => { has(v.text, /Late · 14:10 · No forecast/, `${s} ${at.surface}: wrong line`); lacks(v.text, /forecast held/, `${s} ${at.surface}: a held forecast with no model`); });
+    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => has(v.text, /Late · 14:10 · forecast held/, `${at.surface}: Ready lost the held forecast`));
+  },
+  // No partial return is shown as complete: the ISA leaves AstraZeneca out, and Stale leaves HSBC out too.
+  'R2-j12': ({ each, has, lacks }) => {
+    for (const s of ['b-accounts', 'b-private']) {
+      each({ journey: 'holdings', screen: s, state: ['default', 'offline', 'noModel', 'disagreement', 'abstention'].concat(s === 'b-accounts' ? ['error'] : []) }, (v, at) => { has(v.text, /Partial, on 2 of 3/, `${s} ${at.surface} ${at.state}: the ISA reads as complete`); lacks(v.text, /\+11\.2% a year/, `${s} ${at.surface} ${at.state}: a whole rate on part of the account`); });
+      each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Partial, on 1 of 3/, `${s} ${at.surface}: HSBC left the return in Stale`); lacks(v.text, /\+11\.2% a year/, `${s} ${at.surface}: a whole rate`); });
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => has(v.text, /Unavailable, 0 of 2/, `${s} ${at.surface}: India has no rate on either holding`));
+    }
+  },
+  // One record: the one-decision view in Stale is the entry the list shows as not scored, and it names itself on every device.
+  'R2-j13': ({ each, has, lacks, view }) => {
+    for (const s of ['a-one', 'b-one']) {
+      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /HSBC · 14 Apr/, `${s} ${at.surface}: the record is not named`); has(v.text, /Unresolved/, `${s} ${at.surface}: not the list's status`); has(v.text, /A dividend is disputed/, `${s} ${at.surface}: not the list's reason`); lacks(v.text, /NVIDIA|Waiting on FX/, `${s} ${at.surface}: a record the list shows as scored`); });
+      each({ journey: 'journal', screen: s, state: 'default', surface: 'web' }, (v) => has(v.text, /MyPrediction · NVIDIA · 28 Apr/, `${s}: web does not title the record`));
+    }
+    for (const surface of ALL_SURFACES) { const t = view('journal', 'a', 'a-list', surface, 'stale').text; has(t, /HSBC 14 Apr 2026 · 6 months Unresolved/, `${surface}: the list shows another status`); has(t, /A dividend is disputed, so nothing is scored yet/, `${surface}: the list shows another reason`); }
+  },
+  // A rebuild has a way in, in each state that can show one.
+  'R2-j14': ({ each, has, must }) => {
+    const row = { default: /Rebuild proposal ready/, noModel: /Rebuild proposal ready/, stale: /Rebuild proposal out of date/, disagreement: /Rebuild proposal held/, abstention: /Rebuild proposal, part history/ };
+    for (const s of ['a-imports', 'b-imports']) for (const [state, re] of Object.entries(row)) each({ journey: 'holdings', screen: s, state }, (v, at) => {
+      has(v.text, re, `${s} ${at.surface} ${state}: no way into the rebuild`);
+      must(buttons(v.html).some((b) => re.test(b.text) && /Nippon India Nifty 50 BeES/.test(b.text)), `${s} ${at.surface} ${state}: the row is not a control`);
+    });
+  },
+  // No root the flows cannot produce. The sale is what changes direction, and AstraZeneca already has no rate.
+  'R2-j15': ({ each, has, lacks }) => {
+    for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => {
+      lacks(v.text, /third change of direction|Two rates now fit|two rates now fit|12% and 19%|Apple has no single return/, `${s} ${at.surface}: a root the flows cannot produce`);
+      has(v.text, /AstraZeneca still has no rate/, `${s} ${at.surface}: wrong holding`);
+      has(v.text, /Nonconvergent/, `${s} ${at.surface}: no status`);
+    });
+  },
+  // The figures beside an edit and a part-closed difference add up.
+  'R2-j16': ({ each, has, lacks, must }) => {
+    for (const s of ['a-edit', 'b-edit']) {
+      each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => { has(v.text, /Cash, Stocks ISA \+£1,063\.01/, `${s} ${at.surface}: the rail ignores your figure`); lacks(v.text, /\+£1,072\.01/, `${s} ${at.surface}: the scan's cash beside your price`); });
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => has(v.text, /Cash, Stocks ISA \+£1,072\.01/, `${s} ${at.surface}: Ready lost its cash`));
+    }
+    const gap = (t) => [(t.match(/Cash on the statement £([\d,.]+)/) || [])[1], (t.match(/Cash in the ledger £([\d,.]+)/) || [])[1], (t.match(/Difference £([\d,.]+)/) || [])[1]];
+    for (const s of ['a-difference', 'b-difference']) for (const state of ['default', 'disagreement']) each({ journey: 'holdings', screen: s, state }, (v, at) => {
+      const [a, b, d] = gap(v.text);
+      must(a && b && d, `${s} ${at.surface} ${state}: the figures are not all there`);
+      must(pounds(num(b), num(a)) === num(d), `${s} ${at.surface} ${state}: £${b} less £${a} is not £${d}`);
+    });
+  },
+  // A part-history rebase is not in the records, so it is labelled and cannot be approved; nothing approved the older statements.
+  'R2-j17': ({ each, has, lacks, must }) => {
+    for (const s of ['a-rebuild', 'b-rebuild']) {
+      each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => { has(v.text, /Proposed · FIN-OD-03/, `${s} ${at.surface}: not labelled`); must(!liveBtn(v.html, 'Review and approve'), `${s} ${at.surface}: live approval of an open question`); lacks(v.text, /1 → 2/, `${s} ${at.surface}: a new generation on an open question`); });
+      each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /rows you already approved/, `${s} ${at.surface}: nothing approved the older statements`));
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(liveBtn(v.html, 'Review and approve'), `${s} ${at.surface}: Ready lost its approval`));
+    }
+  },
+  // On phone web the top bar holds the flip and the privacy control: no long button sits beside them.
+  'R2-j18': ({ each, must, screens }) => {
+    const room = 390 - 24;
+    for (const [journey, options] of [['holdings', ['a', 'b']], ['journal', ['a', 'b']]]) for (const option of options) for (const s of screens(journey, option)) each({ journey, option, screen: s, surface: 'pwa' }, (v, at) => {
+      const bar = barOf(v.html);
+      must(bar !== undefined, `${s} ${at.state}: no top bar to measure`);
+      const wide = buttons(bar).filter((b) => !/tbtn|flipbtn/.test(b.attrs));
+      const title = (v.html.match(/font:600 17px\/22px var\(--font-text\);letter-spacing:-\.01em">([^<]*)<\/span>/) || [])[1];
+      must(title !== undefined, `${s} ${at.state}: no title to measure`);
+      const used = 34 + 10 + title.length * 8.6 + 10 + buttons(bar).reduce((a, b) => a + 6 + (wide.includes(b) ? b.text.length * 7.6 + 46 : 44), 0);
+      must(used <= room, `${s} ${at.state}: the bar needs about ${Math.round(used)} of ${room}`);
+    });
+    each({ journey: 'holdings', screen: 'b-accounts', surface: 'pwa', state: 'default' }, (v) => {
+      must(/aria-label="Add statement"/.test(barOf(v.html)), 'Add statement is not in the bar as an icon');
+      must(!buttons(barOf(v.html)).some((b) => b.text.includes('Add statement')), 'Add statement is still a long button');
+      must(/aria-label="Hide amounts"/.test(barOf(v.html)), 'Hide amounts left the bar');
+    });
+  },
+  // Open, not decided: whether units count as amounts.
+  'R2-j19': ({ each, has }) => {
+    for (const s of ['a-private', 'b-private']) each({ journey: 'holdings', screen: s, state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Proposed · MP-84/, `${s} ${at.surface} ${at.state}: not labelled`));
+  },
+  // A hidden amount has a name, and masking leaves the markup whole.
+  'R2-j20': ({ each, must, lacks }) => {
+    for (const s of ['a-private', 'b-private']) each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => {
+      must(v.html.includes('<span class="sr">Amount hidden</span><span aria-hidden="true">••••</span>'), `${s} ${at.surface}: a mask with no name`);
+      lacks(v.html, /aria-label="[^"]*<span|data-roll="[^"]*£/, `${s} ${at.surface}: masking broke an attribute, or left money in one`);
+    });
+  },
+  // The journal's "Added 5 units" on 3 Mar 2026 is an event that built the position.
+  'R2-j22': ({ each, has }) => {
+    each({ journey: 'holdings', screen: 'b-one', state: 'abstention' }, (v, at) => has(v.text, /Bought 5 3 Mar 2026 · £500\.00/, `${at.surface}: the journal's purchase is not an event`));
+  },
+  'R2-j23': ({ each, has, lacks, must }) => {
+    each({ journey: 'holdings', screen: 'a-edit', state: 'empty', surface: WIDE }, (v, at) => { has(v.text, /stay as they are/, `${at.surface}: no note`); lacks(v.text, /Changes value/, `${at.surface}: changes, on a group left out`); });
+    for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /add the missing one, or keep the difference open/, `${s} ${at.surface}: no "or"`));
+    each({ journey: 'holdings', screen: 'a-preview', state: 'default' }, (v, at) => has(v.text, /the entry you typed on 21 Oct/, `${at.surface}: "same date" beside two dates`));
+    each({ journey: 'holdings', screen: 'b-duplicate', state: 'default' }, (v, at) => has(v.text, /entered on 21 Oct/, `${at.surface}: "same date" beside two dates`));
+    for (const s of ['a-manual', 'b-manual']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => must(v.html.includes('value="26 Sep 2026"') && !v.html.includes('value="2 Nov 2026"'), `${s} ${at.surface}: a November row cannot match a Q3 receipt`));
+  },
+  'R2-j24': ({ each, lacks, has }) => {
+    for (const s of ['a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => { lacks(v.text, /9 Oct|1 entry is left out/, `${s} ${at.surface}: an entry the journal does not list`); has(v.text, /No action is ranked on Reliance today/, `${s} ${at.surface}: Reliance is not named`); });
+  },
+  'R2-j25': ({ each, has, lacks }) => {
+    each({ journey: 'holdings', screen: 'a-list', state: 'noModel' }, (v, at) => lacks(v.text, /reasons for its action|forecast ranges are 80%/, `${at.surface}: a claim about forecasts with no model`));
+    each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => has(v.text, /forecast ranges are 80%/, `${at.surface}: Ready lost its foot`));
+  },
+  'R2-j26': ({ each, must }) => {
+    for (const s of ['a-done', 'b-done']) {
+      each({ journey: 'holdings', screen: s, state: ['offline', 'loading'] }, (v, at) => { for (const t of ['Renew', 'Delete original']) { must(drawnBtn(v.html, t), `${s} ${at.surface} ${at.state}: ${t} is gone`); must(!liveBtn(v.html, t), `${s} ${at.surface} ${at.state}: ${t} stays live`); } });
+      each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(liveBtn(v.html, 'Renew'), `${s} ${at.surface}: Ready lost Renew`));
+    }
   },
 };

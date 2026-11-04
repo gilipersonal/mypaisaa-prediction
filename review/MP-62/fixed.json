@@ -1335,5 +1335,1333 @@
     0
    ]
   }
+ },
+ {
+  "id": "R2-h1",
+  "finding": "pressing the flip in Chrome on `a-instrument` changes the instrument in two states. - Disagreement: `Reliance / RELIANCE · XNSE` turns to `Apple / AAPL · XNAS`, leading with \"Models disagree at 3 months.\" - Abstaining: `",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h2",
+  "finding": "`b-technical` in Abstaining sits under the banner \"12 months abstained.\" Its Technical table still reads `12 months −10.2% +0.5% +23.7% +33.9%`. This is the range R1-h2 removed from `b-ladder`, and it shows on every devi",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h3",
+  "finding": "the two sides of a flip contradict each other in Disagreement. - `a-3m` shows \"Evaluated model +3.1% median\". - `b-ladder`, which it flips to, says \"no median stands there\". - `b-forecasts` shows `+3.1% Split`, and `root",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h4",
+  "finding": "`b-forecasts`, on iPhone and web, has no \"80% range\" and no \"14:10\". Its rows read `+6.2% Evaluated`, HSBC reads `+2.1% Held`, and gold reads `None`. `a-forecasts` shows \"80% range −9.8% to +21.4%\", \"Held · late price, 1",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h5",
+  "finding": "driven in Chrome. - Any press on Forecast horizon, Detail or Dossier removes the flip (`flip: null`), because neither redraw passes `screen` and `flipHTML` returns ''. - On a flipped frame the press acts on the wrong opt",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h6",
+  "finding": "`b-ledger` ends at the running cost and the brief. \"Top 5\" and \"MSFT\" are absent on iPhone and web. Its note on `b-top5` says \"One card below the holdings\", but `b-top5` draws no holdings, and nothing on `b-ledger` opens",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h7",
+  "finding": "in No model, `a-segment` shows US tech, \"This list stands\". Its flip partner `b-explore` shows Gold & silver with the filter changed. The flip therefore changes segment, figures and message.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h8",
+  "finding": "`actionCard` uses `who(st)`, not the page's subject. - Apple's `a-3m` and `a-12m` in Abstaining read \"AstraZeneca is not ranked\". - The same two pages in Disagreement read \"No action is ranked on Reliance\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h9",
+  "finding": "`b-ladder` in Stale is HSBC at £6,104.20. Its Scenarios block reads \"£13,864 to £19,619\", computed from Apple's fixed £14,820.50 start.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h10",
+  "finding": "in No model the subject splits. - `a-instrument` is gold, but `who()` is Apple. - `a-views` and `a-proof` say back to AAPL with \"No approved model at this horizon\", while `a-forecasts` in the same state shows Apple \"Eval",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h11",
+  "finding": "Home and Forecast disagree inside one state. - Abstaining: Forecast says \"AstraZeneca at 6 months and Apple at 12 months\". Home's `a-12m` shows Apple +12.4% with its range, marks AZN abstained, and its banner says \"at 6 ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h12",
+  "finding": "- `a-action` in No model: the sheet says \"no label, rather than a guess\", while NVIDIA's row behind it reads `Trim`. - `a-action` in Empty: \"Nothing is suggested for NVIDIA today\", with `Trim` behind it. - `b-open` in Em",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h13",
+  "finding": "the metals pair differs across the flip, and the copy is false for a segment with no list. - Error, A: \"Prices did not refresh. Last good run Mon 21:15\". - Error, B: \"Today's ranking run failed. The lists from 2 November",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h14",
+  "finding": "\"$2,684.20 ... price only\" has no price time in any state. The board tile's `foot` is empty for metals. MP-153 says \"Every row shows its data freshness and provider status.\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h15",
+  "finding": "the banner says \"Open the row for both\", and Option B's why says \"One tap opens one dossier\". `fc-lad` rows have no role and no chevron. `b-ladder` contains no \"Proof\" text and no route to `b-forecast` in the markup.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h16",
+  "finding": "`a-short` on iPhone has no \"As of\", no cutoff and no `R2-HGB`. Web has neither row-level as-of nor a model. MP-145 requires as-of time, data cutoff and model version for each horizon.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h17",
+  "finding": "`<tr role=\"button\">` is new in this diff (0 to 6 rows). The AX tree of `a-portfolio` on web has 10 tables, 71 columnheaders, 11 rows and 2 cells. Apple's row is one button: \"Apple AAPL · USD £14,820.50 +1.9% +6.2% ...\". ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h17"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h18",
+  "finding": "run on mutated copies (20 of 20 still hold each time): - Both `segchange` listeners removed. R1-h13 and R1-h14 still pass, and R1-h3 is unprotected too, because none of them presses anything. - `.jspace.tall` set to 20px",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h20",
+  "finding": "`a-brief` in Error says \"code issued this\", then \"Claude writes the words\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h23",
+  "finding": "B's desktop ledger reads \"−10% to +21%\" where A reads \"−9.8% to +21.4%\". The whole-percent ranges differ across the flip.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h23"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-h25",
+  "finding": "`a-12m` carries \"Proof · 6-month task ... 79%\" directly under a forecast whose own line says 77% of 26, Exploratory. The stronger record sits beside the weaker forecast.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-h25"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j1",
+  "finding": "- The README and shell.js:12-13 both say no flip on an approval, a record in progress, or a step-up. `flipHTML` has no state gate, and every holdings pair flips in all nine states (rendered matrix: `a-done 111111111`, `a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j2",
+  "finding": "the two sides of each Journal flip are different journals. - `a-list` holds 7 entries, led by \"NVIDIA Today · You chose not to\". `b-board` holds 6; that entry is missing and NVIDIA sits in To decide as \"Ranked today\". - ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j3",
+  "finding": "- Rendered search for \"places no trade\", \"records what already happened\" or \"at your broker\" across all import screens, Ready and six other states on web. Hits are only `a-approve` and `b-approve` in Ready, Disagreement ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j4",
+  "finding": "- `b-accounts` shows a green check, \"Reconciled to 30 Sep\", on the General account. - `b-imports default` shows both on one screen: \"General account Reconciled to 30 Sep\" and \"Open the difference General account, Q3 · ca",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j5",
+  "finding": "- `b-check abstention`: the card asks \"What date was this sale?\" and shows \"?\", while the rail says \"Sold 10 AstraZeneca 22 Oct\". `groupList` is not given `unread`. - `a-edit` and `b-edit abstention`: the Date field is b",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j6",
+  "finding": "- `a-preview offline` says \"Selecting and editing wait until you reconnect\", and `stale` says the draft is out of date. - In both states Confirm £107.60, Edit, Exclude group, Keep it anyway, From outside, From General an",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j7",
+  "finding": "- Rendered, iPhone default: | View | Gain on | Evidence card | \"No rate\" | \"Two rates\" | | --- | --- | --- | --- | --- | | `a-list` | yes | yes | yes | yes | | `b-accounts` | no | no | no | no | - Web has all of them on ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j8",
+  "finding": "- Disagreement: `a-list` shows NVIDIA \"Amended… Corrected to +11.9%\". `b-board` shows \"Scored… Rose 12.4%\" with no mention of it, and its banner is about Reliance, which A never mentions. - Stale: A says \"Outcomes are be",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j9",
+  "finding": "- Stale: A says \"This correction is out of date\", B says \"This reversal is out of date\". The flip changes which act is stale. - Disagreement: B says \"Reversal refused. A sale on 1 Nov depends on these units\", while A kee",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j10",
+  "finding": "- `a-done error`: \"The commit did not finish\" with live \"Revoke approval\". - `a-live error`: \"Too late to revoke. The commit started at 21:22\". - MP-55 allows revoking only before commit submission.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j11",
+  "finding": "under No model, `b-accounts` shows HSBC \"Late · 14:10 · forecast held\", with no forecast in existence. `a-list` shows \"No forecast\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j12",
+  "finding": "- The ISA shows a plain \"Return +11.2% a year\" although AstraZeneca has no rate. - 11.22 is exactly the value-weighted mean of Apple's ISA 13.1 and HSBC's 8.1, so one holding is silently left out. - India shows \"Partial\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j13",
+  "finding": "- Stale, same record: `a-list` says NVIDIA 28 Apr \"Scored, Rose 12.4%\". `a-one` and `b-one` say \"this outcome is not known yet\", \"Waiting on FX\". - On web the Stale view never names the instrument: `b-one stale web` has ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j14",
+  "finding": "- \"Snapshot only… a rebuild you approve… Go to Imports\" leads to `a-imports`/`b-imports`, which show no rebuild or proposal in any of nine states (rendered). - No control anywhere opens `a-rebuild` or `b-rebuild`. MP-149",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j15",
+  "finding": "- The Abstaining receipt says Bought 4 Apple adds \"a third change of direction\" and two rates fit. - Apple's drawn events are all purchases, so another purchase adds no sign change. - The row that changes direction is So",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j16",
+  "finding": "- `a-edit disagreement`: you typed £106.70, Value 1,067.00, yet the rail says \"Cash, Stocks ISA +£1,072.01\". It should be +£1,063.01. - `a-difference disagreement`: a fix closed £5.05, yet the table still reads £1,522.10",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j17",
+  "finding": "- `a-rebuild abstention` invents a partial rebase: \"1,600 units kept\", \"4,200, 1,600 from the baseline\", Generation \"1 → 2\", with live Review and approve. POLICY-012 and MP-68 describe retiring the baseline, not splittin",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j17"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j18",
+  "finding": "`b-accounts default pwa`, measured in Chrome: flip 150-194, Add statement 200-361, Hide amounts 367-403, on a 390 frame with `overflow:hidden`. The privacy control is cut by 13 px, because the flip added width to the bar",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j19",
+  "finding": "the masked B view keeps \"AAPL · 60 units\", \"NIFTYBEES · 4,200 units\" and \"60 → 64 units\". With a public price these reveal the money. MP-84 says \"masks amounts\"; the README says money.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j19"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j20",
+  "finding": "`mask` writes literal `••••` with no accessible name. A screen reader gets bullets, or nothing, for every figure. MP-84 requires screen-reader use.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j22",
+  "finding": "the Journal records \"Added 5 units\" of AstraZeneca on 3 Mar 2026. \"What built this position\" has no such event; its last is 8 Apr 2025, and 100 − 40 + 25 already gives 85.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j22"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j23",
+  "finding": "- `a-edit empty`: \"85 units, unchanged\" sits above \"Changes value, cost basis, gain and return\". - `mismatch({done})` reads \"Fix a row, add the missing one, keep the difference open\", with no \"or\". - The duplicate says \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j23"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j24",
+  "finding": "\"1 entry is left out… Reliance on 9 Oct\" names an entry that `a-list` and `b-board` do not list. Disagreement still counts 7 decisions.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j24"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j25",
+  "finding": "under No model the foot still says \"each holding gives the reasons for its action, and forecast ranges are 80%\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j25"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-j26",
+  "finding": "Renew and Delete original are live in `a-done offline` and during Committing. `records()` disables its own actions offline.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-j26"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r1",
+  "finding": "**R2-r1 · P1 · blocking · `approvals.js:27`, `:392`, `:444`. Queue and Home flip show different provider status.** - Evidence, `aa-queue` then `ab-home`, rendered on web: - Error: \"Twelve Data · Fresh, Yahoo · HSBC late\"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r2",
+  "finding": "**R2-r2 · P1 · blocking · `approvals.js:396-397`, `:452-458`, `shell.js:240`. A flip changes how the same listing is approved.** - Evidence: - B has `ab-step` with `STEP_TSM`: Environment Production, Payload hash `2d7a…b",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r3",
+  "finding": "**R2-r3 · P1 · blocking · `approvals.js:226-229`, `:245-251`. Switch forward and restart bind almost nothing.** - Evidence: - Both heads show \"No expiry\". The feet read \"Bound to R1-LGB v2\" and \"Bound to this scope\". - \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r4",
+  "finding": "**R2-r4 · P1 · blocking · `approvals.js:86-87`, `:453`, `:467`. B's proposals lose what A's show.** - Evidence: - `ab-chat` offline renders no expiry at all and no \"Bound to\" line. `aa-listing` offline shows \"Expires 18:",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r5",
+  "finding": "**R2-r5 · P1 · blocking · `research.js:322`, `:276`, `:145`. The Research card flip hides missing, stale and abstained states.** - Evidence on web: - Error: A \"Valuation Input missing: forward earnings not supplied\", B \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r6",
+  "finding": "**R2-r6 · P1 · blocking · `approvals.js:297-301`, `shell.js:23`. The inbox loses notices on A, and the Notices flip lands on different facts.** - Evidence, flips pressed in the browser on iPhone from `ab-notices`: - Stal",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r7",
+  "finding": "**R2-r7 · P1 · blocking · `shell.js:23`, `approvals.js:178-185`, `:358-363`. Record and History are not one place.** - Evidence: - `aa-record` lists six decisions across models, listings and imports, with an evidence has",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r8",
+  "finding": "**R2-r8 · P2 · blocking · `approvals.js:318`, `research.js:83`, `:218`, `:227`, `:246`. Stale keeps numbers from the full total beside the reduced total.** - Evidence: - `ab-home` stale shows \"£78,508.20\" with \"US 53.4% ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r9",
+  "finding": "**R2-r9 · P2 · blocking · `approvals.js:254-267`, `:270-275`, `holdings.js:191`, `:221`, `:446-452`. Revoke cannot be reached and contradicts Holdings.** - Evidence: - No queue, home, notices or history row in any state ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r10",
+  "finding": "**R2-r10 · P2 · blocking · `approvals.js:403`, `:410`, `:467`, `:482`. \"This approval is bound to\" shows when no approval can happen.** - Evidence: - `aa-setting` Empty: \"No settings change waits\", then Value 4 points, E",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r11",
+  "finding": "**R2-r11 · P2 · blocking · `approvals.js:219-222`, `:245-250`. Settings, switch forward and restart stop at the button.** - Evidence: `stepFor` is only used with `STEP_MODEL` and `STEP_TSM`, and only the promotion and li",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r12",
+  "finding": "**R2-r12 · P2 · blocking · `approvals.js:447`, `:281-285`. `ab-notices` n/a for No model is false.** - Evidence: the reason reads \"Notices come from code, so no forecast is on this list.\" But a paused scope \"notifies the",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r13",
+  "finding": "**R2-r13 · P2 · not blocking · `approvals.js:300`, `:310`, `:329`. The Disagreement copy has no second proposal.** - Evidence: \"Two proposals touch the catalogue\" sits above four rows, and only TSM touches it. The others",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r14",
+  "finding": "**R2-r14 · P2 · blocking · `research.js:96`, `:160`. R1-r11's fault survives as \"this month\".** - Evidence: - `ra-brief` and `ra-ask` say \"Claude is off this month to stay inside the budget\". Cost says it stays off until",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r15",
+  "finding": "**R2-r15 · P2 · blocking · `shell.js:20`, `:79`, `research.js:303`. The flip on `ra-source` cannot be pressed on a phone.** - Evidence: `elementFromPoint` at the flip's centre returns `.scrim` in 8 of 8 drawn states on i",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r16",
+  "finding": "**R2-r16 · P2 · blocking · `flip.mjs:9-15`, `:37`. No gate holds a flip in these two journeys.** This overlaps lane s. - Evidence: `SAME` has no Research or Approvals pair, which is why R2-r1, R2-r4 and R2-r5 pass 88 of ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r17",
+  "finding": "**R2-r17 · P2 · blocking · `r.mjs:115`, `:216`, `:142`, `:73`, `:54`. Five checks pass with their fix undone.** Run with `--page` on mutated copies of the page, in my scratch folder: | Check | Mutation | Result | Why | |",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r8",
+    "R1-r19",
+    "R1-r11",
+    "R1-r5",
+    "R1-r3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r19",
+  "finding": "**R2-r19 · P3 · not blocking · `research.js:259`.** `rb-today` No model is the only state without `threadRisk()`, so \"detected Tue 22:15, held by quiet hours\" disappears on flip. Correction: add it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r19"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r20",
+  "finding": "**R2-r20 · P3 · not blocking · `research.js:268`.** On a phone, `rb-card` offers four quick chips, with no route to Benchmark, Profile or Stance (MP-129). Correction: add the chips.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r21",
+  "finding": "**R2-r21 · P3 · not blocking · `research.js:332`, `:259`.** `rb-memory` No model shows \"What do you remember about me?\" while Today says the thread takes no questions. Correction: drop the question in that state.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r21"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-r22",
+  "finding": "**R2-r22 · P3 · not blocking · `research.js:254`.** \"Tuesday's thread stays readable above\", with nothing drawn above it. Correction: draw it or cut the line. **Covered:** the delta in both journeys and `r.mjs`, plus `FL",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-r22"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s1",
+  "finding": "the flip sits behind an open modal on Delete an original and Renew an original (both options, all four devices) and on `ra-source` (iPhone, phone web). - `elementFromPoint` at the flip's centre returns `.scrim`, so a poi",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s2",
+  "finding": "the flip is drawn on live approvals and drafts, against the rule in `README.md:59`, Prism, `decision.md` and the title of `MP-178-never`. - Refuse plus Approve or Confirm, with \"Bound to\": `aa-listing`, `ab-chat`, `aa-mo",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s3",
+  "finding": "a state that does not apply on the other side is handled silently. - Pressing A centre in No model gives Checkup, drawn as Ready. Its note is \"Settings, then Checkup…\", the State chip stays No model, and no model text is",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "note\\.textContent = noteFor\\(sc\\)",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s4",
+  "finding": "flipping changes freshness and provider status, against acceptance line 4. Rendered chips, every pair, every device: - `privacy-b-home` to `privacy-a-centre`, Error: \"Twelve Data · error 21:14, Yahoo · Fresh\" against \"Tw",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s5",
+  "finding": "A centre and B checkup do not show the same facts. - In Disagreement and Abstaining, A says \"Models disagree on Reliance.\" and \"The model abstained on Reliance.\" B Checkup has no Reliance text, so the uncertainty leaves ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s6",
+  "finding": "B Home drops the month's figure in four states. - The pill reads \"Cost: collector failed\", \"Cost: billing late\", \"Cost: bill differs\" and \"Cost: part unknown\", with no amount and no age. - A in the same states shows £37.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s7",
+  "finding": "the flip checks do not test the flip. - `--all --only flip --page` on the pre-flip page `c1fa817`: `MP-178-targets` and `MP-178-same` both hold, on a page with no flip. - `MP-178-same` uses a hand list of 5 pairs, Ready ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s8",
+  "finding": "the page's Option switch stays false after a flip. - After flipping Cost Home: `opt: [\"A · Meter and ladder (starts here):true\", …]`, why-text \"Why it starts here…\", hash `#cost.a.iphone.default`, while the frame is B. -",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_journeys_check.mjs",
+   "pattern": "a turned frame does not say so",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s9",
+  "finding": "after a flip, `.scr` keeps its old group name: `scrLabel: \"Home with the meter, light theme\"` with caption \"Home with the pill\". This fails WCAG 4.1.2 on every flip.",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_journeys_check.mjs",
+   "pattern": "does not follow",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s10",
+  "finding": "the flip pushes Holdings B phone web's Hide amounts off the frame in all nine states: `l: 367, r: -13, w: 36`, seen in a capture. This undoes part of fixed finding R1-j19, the Hide amounts control on phone web. The R1-j1",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_journeys_check.mjs",
+   "pattern": "off the top bar",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s11",
+  "finding": "on B's over-the-line screens, the legend's \"Forecast\" line ends at `m.lo`, which is `fc - 6`. On Warned it finishes at £55.20 under the £60 line, while the text says \"Forecast £61.20 passed £60\" and the note says \"the fo",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s12",
+  "finding": "`creditCard` ignores Empty and Error (lesson 29). - Empty shows \"Claude gross usage £7.06\" on day 1, beside \"Nothing collected yet £0.00\" on `cost-a-sources` and \"Nothing spent yet this month.\" on `cost-b-log`. - Error s",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s13",
+  "finding": "Checkup's \"Looks good\" list is fixed, so it contradicts \"Needs you\" above it. - Error: \"Phone notifications stopped\" against \"Web Push on\". - Empty: \"Only this device can sign in\" against \"Devices 4 signed in\". - Stale: ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s14",
+  "finding": "the maker's proposals are folded into rules (lesson 23). - The README states \"No flip while signed out…\" flat and marks only two of the four items as proposed. - Prism labels the Flip component `status: OWNER` (Owner-sel",
+  "check": {
+   "type": "file",
+   "file": "docs/design/prism/index.html",
+   "pattern": "name: 'Flip', status: PROPOSED",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s15",
+  "finding": "the owner's decision did not reach every record (lessons 4 and 6). - MP-66, in the repo and on Jira, still requires \"the chosen option per journey\", which cannot now be recorded. The decision log names MP-66 as the next ",
+  "check": {
+   "type": "file",
+   "file": "docs/planning/story-readiness-2026-11-03/stories/PH-00.json",
+   "pattern": "option kept per journey, or both with a flip",
+   "present": true
+  }
+ },
+ {
+  "id": "R2-s16",
+  "finding": "the stray-token gate skips any rule whose selector is a token selector. Mutations of the real page, `check_journeys`: - `:root { --ink: #BBBBBB; }`, not refused. - `:root, .scheme-light { … }`, not refused. - `:root[data",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/design_gates.py",
+    "selftest"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s18",
+  "finding": "on the iPhone frame, `privacy-b-lost` reads \"Your Mac passkey, just now\", then \"iPhone, last active 40 min ago\", beside \"Passkey, iPhone · This device\". The code comment says the revoked device is never the one in your h",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s21",
+  "finding": "\"Flip to Burn-up\" on Home lands on a pill, with no burn-up in view. Export in Abstaining says \"Two deleted originals\" while Originals shows one deleted row.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R2-s21"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
  }
 ]

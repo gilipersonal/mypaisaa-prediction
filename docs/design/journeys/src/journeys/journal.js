@@ -29,6 +29,18 @@
     azn: { h: byT.AZN, on: '3 Mar 2026', hz: '6 months', ranked: 'Hold', you: 'You added 5 units', differ: true, st: 'out', line: 'Fell 11.6%, outside its 80% range.' }
   };
   const ALL = ['fresh', 'spy', 'rel', 'aapl', 'nvda', 'hsba', 'azn'];
+  /* one journal: both options read these lists, these counts and these state facts. NVIDIA today is recorded, so it is waiting, not open */
+  const WAITING = ['aapl', 'spy', 'fresh', 'hsba'], SCORED = ['nvda', 'rel', 'azn'], DIFFERED = ['fresh', 'rel', 'nvda', 'azn'];
+  const AMENDED = { over: { nvda: 'Corrected to +11.9%, inside its 80% range. The first figure, +12.4%, stays.' }, marks: { nvda: chipMark('<i class="lg-sc" aria-hidden="true"></i>', 'Amended') } };
+  const ABSTAINED = { over: { azn: 'Recorded against a ranked action on 3 Mar. Fell 11.6%, outside its 80% range.' } };
+  const overs = st => ({ disagreement: AMENDED, abstention: ABSTAINED }[st] || {});
+  const sayAmended = () => banner('', '1 outcome was amended.', 'NVIDIA’s close was corrected on 30 Oct, from +12.4% to +11.9%. The first and corrected scores both stay.', 'split');
+  const sayRanking = () => banner('', 'Rules and models differ on Reliance.', 'Both sides show, and no action is ranked.', 'split');
+  const sayBehind = () => banner('warn', 'Outcomes and rankings are behind.', 'Last joined 14:10. Your entries are complete; the newest scores may be missing. HSBC last priced 14:10, past the freshness limit, so its action holds at Pause until its price returns.', 'clock') + limit;
+  const sayAbstain = () => banner('', 'The model abstains on AstraZeneca today.', 'No action is ranked, so no new entry can be recorded for it. Your entry of 3 Mar stands.', 'ban') + needsAction;
+  const sayNoModel = () => banner('', 'No approved model for new actions.', 'Your entries keep the model they cited, and outcomes are still scored by code. No action waits for you until one is approved.', 'cube');
+  const SAY_OFF = 'Showing your journal from 21:15. New entries stay as drafts until you reconnect.';
+  const sayLoadFailed = () => stateCard('alert', 'The journal did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh'));
   const status = d => ({
     wait: waiting(d.left),
     in: chipMark('<i class="lg-sc" aria-hidden="true"></i>', 'Scored'),
@@ -41,9 +53,13 @@
       <div class="l">${badge(d.ranked)}<span>${d.you}</span>${d.differ && !o.noDiffer ? differed : ''}</div><div class="o">${(o.over && o.over[k]) || d.line}</div>${o.lane ? `<div class="o">${mark}</div>` : ''}</div>`;
   };
   const listCard = (keys, o = {}) => `<div class="card" style="padding:2px 0" data-mo="card">${o.head || ''}${keys.map(k => entry(k, o)).join('')}${supportFoot}</div>`;
-  const wrapUp = (o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('clock', 's18')}</span><span style="flex:1;min-width:0">This week</span>${illus()}</div><p>${o.t || '1 entry recorded. 1 outcome matured last week: NVIDIA, inside its range. Next outcome: Apple, 12 Nov.'}</p></div>`;
-  const tally = (n = 4) => `<div class="journal-ba"><div data-mo="card"><span class="k">You followed</span><span class="v">${roll('3')}</span><span class="n">0 scored · 2 waiting · 1 unresolved</span></div><div data-mo="card"><span class="k">You differed</span><span class="v">${roll(String(n))}</span><span class="n">3 scored${n > 3 ? ' · 1 waiting' : ''}</span></div></div>`;
+  const wrapUp = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('clock', 's18')}</span><span style="flex:1;min-width:0">This week</span>${illus()}</div><p>1 entry recorded. 1 outcome matured last week: NVIDIA, inside its range. Next outcome: Apple, 12 Nov.</p></div>`;
+  const tally = () => `<div class="journal-ba"><div data-mo="card"><span class="k">You followed</span><span class="v">${roll('3')}</span><span class="n">0 scored · 2 waiting · 1 unresolved</span></div><div data-mo="card"><span class="k">You differed</span><span class="v">${roll('4')}</span><span class="n">3 scored · 1 waiting</span></div></div>`;
   const tooFew = `<p class="small muted">Too few scored decisions to show a rate. A scored outcome grades the forecast, not you.</p>`;
+  const counts = () => tally() + tooFew;
+  const howDid = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('fan', 's18')}</span><span style="flex:1;min-width:0">How the forecasts did</span></div><p>Of the 3 scored, 2 landed inside their 80% range and 1 outside. Unresolved and waiting entries are counted apart, never as misses.</p></div>`;
+  const sayLeftOut = () => banner('', 'No action is ranked on Reliance today.', 'Rules and models differ on it, so there is nothing to differ from until one is ranked.', 'split');
+  const SAY_THIN = 'Last joined 14:10, so a newer score may be missing here.';
   const sideCard = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('split', 's18')}</span><span style="flex:1;min-width:0">You and the ranking</span></div><p>You differed from the ranked action 4 times in 7 decisions. 3 have scored so far, too few to show a rate.</p><button class="btn btn-plain sm" type="button" style="justify-self:start">See where you differed${ic('chev-r', 's14')}</button></div>`;
   const never = `<p class="small muted">Saved with the action, evidence and policy version you saw. No trade is placed and your holdings do not change.</p>`;
 
@@ -60,8 +76,9 @@
   const whyText = 'Long-term position. I accept the wider range for now.';
   const held = (title, text, icon = 'ban') => stateCard(icon, title, text);
   const field = (l, t, rows = 2) => `<label style="display:grid;gap:6px"><span class="label">${l}</span><textarea class="journal-field" rows="${rows}">${t}</textarea></label>`;
-  /* the same 3-month split the rest of the page draws for Reliance */
-  const dual = () => `<div class="journal-split" role="img" aria-label="At 3 months the baseline shows a median of minus 1.5% and R2-HGB v3 plus 2.8%, so no action is ranked"><span>Baseline</span>${range({ ...byT.RELIANCE, med: -1.5, lo: -14, hi: 11, lo50: -7.5, hi50: 4 })}<span>R2-HGB v3</span>${range({ ...byT.RELIANCE, med: 2.8, lo: -6.5, hi: 12.4, lo50: -1.1, hi50: 6.7 })}</div>`;
+  /* Reliance at 6 months, as Forecast draws it: the rules point down and the model points up, so each side shows and no one median stands */
+  const BASE = { med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 };
+  const dual = () => `<div class="journal-split" role="img" aria-label="At 6 months the baseline shows a median of minus 2.4% and R2-HGB v3 plus 7.4%, so no action is ranked"><span>Baseline</span>${range({ ...byT.RELIANCE, ...BASE })}<span>R2-HGB v3</span>${range(byT.RELIANCE)}</div>`;
   const sheetTop = (t = 'Record your decision') => `<div class="grabber"></div><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h4 id="journal-rec">${t}</h4><button class="iconbtn sm" type="button" aria-label="Close">${ic('x', 's16')}</button></div>`;
   const sheetSolid = (h, l, s) => `<div class="card" style="margin-top:12px;padding:12px 14px;display:flex;gap:10px;align-items:center" data-mo="card">${logo(h.c, h.lg)}<div style="flex:1;min-width:0"><div style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">${l}</div><div class="small muted">${s}</div></div></div>`;
   const choose = (on = 1) => `<div style="margin-top:12px">${seg(['I acted', 'I chose not to'], on, 'What you did', 'lg full')}</div>`;
@@ -79,7 +96,7 @@
     if (st === 'empty') return `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('sliders', 's18')}</span>No action label yet</div><p>The thresholds that turn a score into an action are not approved, so this shows its evidence and no label. A guessed action is worse than none. There is nothing to record against yet.</p>${components()}<p>Score 71 · growth 35%, protection 40%, opportunity 25%. Illustrative.</p></div>`;
     if (st === 'noModel') return held('No approved model', 'No approved model covers NVIDIA now, so no action is ranked and there is nothing to record against. Your earlier entries keep what they cited.', 'cube') + needsAction;
     if (st === 'abstention') return held('The model abstained on AstraZeneca', 'Too little comparable history for a calibrated range, so no action is ranked. An entry needs an action, so there is nothing to record against until it can be ranked.') + needsAction;
-    if (st === 'disagreement') return `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar"><div class="w"><b>No action ranked</b>Reliance · 3 months</div>${chipMark(ic('split', 's14'), 'Rules and models differ')}</div><p class="small muted">The baseline rules point down and R2-HGB v3 points up. Both show, and neither is picked for you.</p>${dual()}${fcMeta().replace('Horizon 3 May 2027', 'Horizon 3 Feb 2027')}</div>`;
+    if (st === 'disagreement') return `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar"><div class="w"><b>No action ranked</b>Reliance · 6 months</div>${chipMark(ic('split', 's14'), 'Rules and models differ')}</div><p class="small muted">The rules point down and the model points up. Both show, and neither is picked for you.</p>${dual()}${fcMeta()}</div>`;
     if (st === 'stale') return banner('warn', 'This action is stale.', 'HSBC last priced 14:10, past the freshness limit, so its action holds at Pause until its price returns.', 'clock') + limit + `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar">${badge('Pause')}<div class="w"><b>Ranked action, stale</b>HSBC · 6 months</div>${support}</div><p class="small muted">Your entry will record that the action was stale when you decided.</p>${fcMeta()}</div>`;
     return actionCard(h, ctx);
   };
@@ -93,7 +110,7 @@
       case 'error': return wrap(sheetTop('Not saved yet') + `<div style="margin-top:10px">${banner('fall', 'That did not save.', 'Your draft is kept. Trying again cannot save it twice.', 'alert')}</div>` + nv + sheetWhy() + sheetFoot(btn('Try again', 'primary sm', 'refresh')));
       case 'offline': return wrap(sheetTop() + `<div style="margin-top:10px">${off(ctx, 'Your draft stays here and saves when you reconnect.')}</div>` + nv + choose() + sheetDid() + sheetWhy() + sheetFoot(btn('Keep draft', 'primary sm')));
       case 'stale': return wrap(sheetTop() + sheetSolid(h, 'HSBC · Pause, stale', '6 months · last price 14:10 · illustrative') + choose(0) + sheetDid('Paused new money.') + sheetWhy('Waiting until its price returns.') + sheetFoot(go));
-      case 'disagreement': return wrap(sheetTop() + sheetSolid(h, 'Reliance · No action ranked', '3 months · rules and models differ · illustrative') + choose(0) + sheetDid('Added 10 units.') + sheetWhy('On the rules alone, for now.') + sheetFoot(go));
+      case 'disagreement': return wrap(sheetTop() + sheetSolid(h, 'Reliance · No action ranked', '6 months · rules and models differ · illustrative') + choose(0) + sheetDid('Added 10 units.') + sheetWhy('On the rules alone, for now.') + sheetFoot(go));
       default: return wrap(sheetTop() + nv + choose() + sheetDid() + sheetWhy() + sheetFoot(go));
     }
   };
@@ -109,14 +126,17 @@
   };
   const then = { med: 7.8, lo: -16.2, hi: 30.1, lo50: -4.8, hi50: 19.5, when: '28 April' };
   const thenAzn = { med: 2.4, lo: -9.8, hi: 12.6, lo50: -4, hi50: 7.8, when: '3 March' };
+  const thenHsba = { med: 1.6, lo: -9.4, hi: 11.8 };
   const scoreLines = () => `<div class="journal-kv"><span>80% range</span><b>Held</b><span>Direction</span><b>As forecast</b><span>Error against the median</span><b>4.6 points</b></div>`;
   const legendNow = () => `<div class="legend"><span><i class="lg-50"></i>50% range</span><span><i class="lg-80"></i>80% range</span><span><i class="lg-med"></i>Median</span><span><i class="lg-sc"></i>Outcome</span></div>`;
   const outcomeCard = (ctx, o = {}) => `<div class="card fcard" data-mo="card"><div class="journal-bar"><div class="w"><b>${o.t || 'Scored on 28 Oct 2026'}</b>${o.s || 'Horizon passed, every input in'}</div>${chipMark(`<i class="${o.mark || 'lg-sc'}" aria-hidden="true"></i>`, o.c || 'Inside its range')}</div>
     <div style="margin-top:6px">${landed(o.then || then, o.out ?? 12.4, { w: ctx.kind === 'web' ? 460 : 326 })}</div>${legendNow()}<div style="margin-top:10px">${o.lines || scoreLines()}</div></div>`;
-  /* the decision a state is about: Empty is one still waiting, Abstaining is the AstraZeneca entry, recorded against a ranked action before the model abstained. Entries before 1 Oct 2026 cite the version approved then */
+  /* the decision a state is about: Empty is one still waiting, Stale is the HSBC entry the list shows as unresolved, Abstaining is the AstraZeneca entry, recorded against a ranked action before the model abstained. Entries before 1 Oct 2026 cite the version approved then */
   const seen = st => st === 'empty'
     ? { title: 'Apple · 12 May', on: '12 May', year: '12 May 2026', differ: false, act: 'Hold', rows: [['6-month median', '+5.4%'], ['80% range', '−8.9% to +19.7%']], model: 'R2-HGB v2', policy: 'Policy v1', cut: '12 May 21:00', said: 'I acted. Held all 88 units. Nothing in the range changed my view.' }
-    : st === 'abstention'
+    : st === 'stale'
+      ? { title: 'HSBC · 14 Apr', on: '14 Apr', year: '14 Apr 2026', differ: false, act: 'Pause', rows: [['6-month median', pct(thenHsba.med)], ['80% range', `${pct(thenHsba.lo)} to ${pct(thenHsba.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '14 Apr 21:00', said: 'I acted. Paused new money until the next statement.' }
+      : st === 'abstention'
       ? { title: 'AstraZeneca · 3 Mar', on: '3 Mar', year: '3 Mar 2026', differ: true, act: 'Hold', rows: [['6-month median', pct(thenAzn.med)], ['80% range', `${pct(thenAzn.lo)} to ${pct(thenAzn.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '3 Mar 21:00', said: 'I acted. Added 5 units. I wanted more of it before results.' }
       : { title: 'NVIDIA · 28 Apr', on: '28 Apr', year: '28 Apr 2026', differ: true, act: 'Trim', rows: [['6-month median', pct(then.med)], ['80% range', `${pct(then.lo)} to ${pct(then.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '28 Apr 21:00', said: `I chose not to. Kept all 60 units. ${whyText}` };
   const kvs = s => `<div class="journal-kv">${s.rows.map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join('')}<span>Model</span><b>${s.model}</b><span>Ranking policy</span><b>${s.policy}</b><span>Data cutoff</span><b>${s.cut}</b></div>`;
@@ -137,7 +157,7 @@
       loading: () => stateCard('clock', 'Joining the outcome', 'Your entry and what you saw are safe. The outcome is being joined to them.') + skel(1),
       empty: () => pendingOutcome(),
       error: () => stateCard('alert', 'The score did not arrive', 'The scoring job failed at 21:14. It reruns by itself and cannot write twice. Your entry is safe.', btn('Check again', 'tinted sm', 'refresh')),
-      stale: () => stateCard('clock', 'Horizon passed, one input missing', 'The final FX rate has not arrived, so this outcome is not known yet. A missing input is never scored as a zero return. It moves the date the outcome becomes known, not the horizon.', '', waiting('Waiting on FX')),
+      stale: () => stateCard('clock', 'Horizon passed 14 Oct, one input missing', 'A dividend is disputed, so this outcome is not known yet. A missing input is never scored as a zero return. It moves the date the outcome becomes known, not the horizon.', '', status(D.hsba)),
       offline: () => off(ctx, 'Showing this entry and its score from 21:15.') + outcomeCard(ctx),
       noModel: () => banner('', 'No model is approved now.', 'The score stands against the version you saw. Later models never rewrite it.', 'cube') + outcomeCard(ctx),
       disagreement: () => outcomeCard(ctx, { t: 'Amended on 30 Oct 2026', s: 'A corrected close replaced the first one', c: 'Inside its range', out: 11.9, lines: `<div class="journal-kv"><span>First outcome</span><b>+12.4%, kept</b><span>Corrected outcome</span><b>+11.9%, current</b><span>Error against the median</span><b>4.1 points</b></div>` }),
@@ -149,15 +169,15 @@
   /* ---------- Option B: three lanes ---------- */
   const toDecide = (t, ctx) => {
     const h = byT[t], split = ctx.state === 'disagreement' && t === 'RELIANCE';
-    return `<div class="journal-e lane" role="button" tabindex="0" data-mo="rise">${logo(h.c, h.lg, true)}<div class="m"><b>${h.n}</b><span>Ranked today · ${split ? '3 months' : '6 months'}</span></div><div class="l">${split ? chipMark(ic('split', 's14'), 'No action ranked') : `${badge(h.act)}${support}`}</div><div class="o">${split ? `Rules and models differ: baseline ${pct(-1.5)}, R2-HGB v3 ${pct(2.8)}.` : `${pct(h.lo)} to ${pct(h.hi)}, 80% range · median ${pct(h.med)}`}</div></div>`;
+    return `<div class="journal-e lane" role="button" tabindex="0" data-mo="rise">${logo(h.c, h.lg, true)}<div class="m"><b>${h.n}</b><span>Ranked today · 6 months</span></div><div class="l">${split ? chipMark(ic('split', 's14'), 'No action ranked') : `${badge(h.act)}${support}`}</div><div class="o">${split ? `Rules and models differ: baseline ${pct(BASE.med)}, R2-HGB v3 ${pct(h.med)}.` : `${pct(h.lo)} to ${pct(h.hi)}, 80% range · median ${pct(h.med)}`}</div></div>`;
   };
   const lane = (t, n, items) => `<section class="journal-lane"><h3>${t}<span>${n}</span></h3><div class="card" style="padding:2px 0" data-mo="card">${items}</div></section>`;
-  const laneA = ctx => ctx.state === 'noModel' ? `<div class="journal-e lane"><div class="o" style="grid-column:1/3">Nothing to decide until a model is approved.</div></div>` : toDecide('NVDA', ctx) + toDecide('RELIANCE', ctx);
-  const laneB = () => ['aapl', 'spy', 'hsba'].map(k => entry(k, { lane: true })).join('') + supportFoot;
-  const laneC = () => ['nvda', 'rel', 'azn'].map(k => entry(k, { lane: true })).join('') + supportFoot;
+  const laneA = ctx => ctx.state === 'noModel' ? `<div class="journal-e lane"><div class="o" style="grid-column:1/3">Nothing to decide until a model is approved.</div></div>` : toDecide('RELIANCE', ctx);
+  const laneB = () => WAITING.map(k => entry(k, { lane: true })).join('') + supportFoot;
+  const laneC = ctx => SCORED.map(k => entry(k, { lane: true, ...overs(ctx.state) })).join('') + supportFoot;
   const boardOk = (ctx, o = {}) => phone(ctx)
-    ? `<div data-mo="rise">${seg([`To decide ${ctx.state === 'noModel' ? 0 : 2}`, 'Waiting 3', 'Scored 3'], o.on ?? 0, 'Lane', 'full')}</div>` + `<div class="card" style="padding:2px 0" data-mo="card">${[laneA, laneB, laneC][o.on ?? 0](ctx)}</div>`
-    : `<div class="journal-lanes">${lane('To decide', ctx.state === 'noModel' ? 'None ranked' : '2 ranked', laneA(ctx))}${lane('Waiting', '2 for a horizon, 1 unresolved', laneB())}${lane('Scored', '3 of 6', laneC())}</div>`;
+    ? `<div data-mo="rise">${seg([`To decide ${ctx.state === 'noModel' ? 0 : 1}`, `Waiting ${WAITING.length}`, `Scored ${SCORED.length}`], o.on ?? 0, 'Lane', 'full')}</div>` + `<div class="card" style="padding:2px 0" data-mo="card">${[laneA, laneB, laneC][o.on ?? 0](ctx)}</div>`
+    : `<div class="journal-lanes">${lane('To decide', { noModel: 'None ranked', disagreement: '1, none ranked' }[ctx.state] || '1 ranked', laneA(ctx))}${lane('Waiting', '3 for a horizon, 1 unresolved', laneB())}${lane('Scored', `${SCORED.length} of ${ALL.length}`, laneC(ctx))}</div>`;
   const decideForm = (ctx, o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('target', 's18')}</span>Your decision</div>${seg(['I acted', 'I chose not to'], o.on ?? 1, 'What you did', 'lg full')}
     <div style="display:grid;gap:6px"><span class="label">What you did, at your broker</span><div class="journal-pick">${['Add', 'Hold', 'Pause', 'Trim', 'Rebalance'].map(a => `<button type="button" aria-pressed="${a === o.did}">${ic({ Add: 'plus', Hold: 'equal', Pause: 'pause', Trim: 'trim', Rebalance: 'rebalance' }[a], 's16')}${a}</button>`).join('')}</div></div>
     ${field('How much, in your words', o.size || 'Kept all 60 units.', 1)}${field('Why, in your words', o.why || whyText)}${never}</div>`;
@@ -172,7 +192,7 @@
       cost: 'Nothing lines up what still needs a decision, so an action you skip stays unrecorded unless you go back to it.',
       screens: [{
         id: 'a-record', title: 'Record from a ranked action',
-        note: 'MP-158 names two answers, I acted and I chose not to, and a line for what you did. Empty shows what the story requires while action thresholds are unapproved (FIN-OD-07): evidence, and no label. Every action label here waits on that decision.',
+        note: 'Drawn at the moment before it saves: NVIDIA then joins the journal as today’s entry, and stops being open. MP-158 names two answers, I acted and I chose not to, and a line for what you did. Empty shows what the story requires while action thresholds are unapproved (FIN-OD-07): evidence, and no label. Every action label here waits on that decision.',
         render: ctx => {
           const st = ctx.state, h = pickState(st), none = ['empty', 'noModel', 'abstention'].includes(st);
           return frame(ctx, { tab: 1, title: h.t, back: 'Forecasts', fresh: notPrices(ctx), actions: tb('info', 'About this action'), body: recordBody(ctx), rail: none ? `${pastOn(st)}${phone(ctx) ? '' : proofCard(ctx)}` : `${st === 'default' || st === 'error' || st === 'offline' || st === 'loading' ? impact() : ''}${proofCard(ctx)}`, sheet: recordSheet(ctx) });
@@ -205,37 +225,36 @@
             ok: () => (p ? wrapUp() : '') + list(),
             loading: () => skel(5),
             empty: () => stateCard('target', 'No decisions yet', 'Open any ranked action and record what you did, or chose not to do. The outcome joins your entry once its horizon passes.', btn('See ranked actions', 'tinted sm', 'chev-r')),
-            error: () => stateCard('alert', 'The journal did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh')) + list(),
-            stale: () => banner('warn', 'Outcomes are behind.', 'Last joined 14:10. Your entries are complete; the newest scores may be missing.', 'clock') + list(),
-            offline: () => off(ctx, 'Showing your journal from 21:15. New entries stay as drafts until you reconnect.') + list(),
-            noModel: () => banner('', 'No approved model for new actions.', 'Your entries keep the model they cited, and outcomes are still scored by code.', 'cube') + list(),
-            disagreement: () => banner('', '1 outcome was amended.', 'NVIDIA’s close was corrected on 30 Oct. The first and corrected scores both stay.', 'split') + list({ over: { nvda: 'Corrected to +11.9%, inside its 80% range. The first figure, +12.4%, stays.' }, marks: { nvda: chipMark('<i class="lg-sc" aria-hidden="true"></i>', 'Amended') } }),
-            abstention: () => banner('', 'The model abstains on AstraZeneca today.', 'No action is ranked, so no new entry can be recorded for it. Your entry of 3 Mar stands.', 'ban') + needsAction + list({ over: { azn: 'Recorded against a ranked action on 3 Mar. Fell 11.6%, outside its 80% range.' } })
+            error: () => sayLoadFailed() + list(),
+            stale: () => sayBehind() + list(),
+            offline: () => off(ctx, SAY_OFF) + list(),
+            noModel: () => sayNoModel() + list(),
+            disagreement: () => sayAmended() + sayRanking() + list(AMENDED),
+            abstention: () => sayAbstain() + list(ABSTAINED)
           });
           const empty = ctx.state === 'empty' || ctx.state === 'loading';
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: btn('Record a decision', 'tinted sm', 'plus'), body, rail: p ? (empty ? '' : sideCard()) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}${tb('plus', 'Record a decision')}`, webActions: ctx.kind === 'pwa' ? tb('plus', 'Record a decision') : btn('Record a decision', 'tinted sm', 'plus'), body, rail: p ? (empty ? '' : `${ctx.state === 'default' ? '' : wrapUp()}${sideCard()}`) : empty ? proofCard(ctx) : `${wrapUp()}${sideCard()}${proofCard(ctx)}` });
         }
       }, {
         id: 'a-one', title: 'One decision, scored',
-        note: 'The outcome lands on the range you saw. Empty is a decision still waiting for its horizon. Stale is a missing input, which never counts as zero. Abstaining is a past entry on a holding the model abstains on today: the entry stands, and no new one can be recorded. The track record beside it pairs coverage with its sample; a hit rate never stands alone.',
-        render: ctx => { const st = ctx.state, s = seen(st); return frame(ctx, { tab: 3, title: ctx.kind === 'web' ? 'One decision' : s.title, back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this score'), body: oneBody(ctx) + yourEntry(s), rail: `${frozen(s)}${['default', 'offline', 'noModel', 'disagreement', 'abstention'].includes(st) ? whatHappened(st) : ''}${proofCard(ctx, s.model)}` }); }
+        note: 'The outcome lands on the range you saw. Empty is a decision still waiting for its horizon. Stale is the HSBC entry the journal shows as unresolved: a missing input, which never counts as zero. Abstaining is a past entry on a holding the model abstains on today: the entry stands, and no new one can be recorded. The track record beside it pairs coverage with its sample; a hit rate never stands alone.',
+        render: ctx => { const st = ctx.state, s = seen(st); return frame(ctx, { tab: 3, title: s.title, back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this score'), body: oneBody(ctx) + yourEntry(s), rail: `${frozen(s)}${['default', 'offline', 'noModel', 'disagreement', 'abstention'].includes(st) ? whatHappened(st) : ''}${proofCard(ctx, s.model)}` }); }
       }, {
         id: 'a-differ', title: 'Where you differed', na: naDiffer,
         note: 'Counts, not a rate, until enough have scored. How many is enough is not set. A scored outcome grades the forecast, never the owner, so this view makes no claim that you or the ranking was right.',
         render: ctx => {
-          const keys = ['fresh', 'rel', 'nvda', 'azn'];
-          const list = () => listCard(keys, { noDiffer: true, head: `<div class="journal-head"><h3>4 entries</h3>${illus()}</div>` });
+          const list = () => listCard(DIFFERED, { noDiffer: true, ...overs(ctx.state), head: `<div class="journal-head"><h3>${DIFFERED.length} entries</h3>${illus()}</div>` });
           const body = region(ctx, {
-            ok: () => tally() + tooFew + list(),
+            ok: () => counts() + list(),
             loading: () => tally() + skel(3),
             empty: () => stateCard('check', 'You have followed every ranked action', 'There is nothing to compare yet. If you decide differently, it appears here with what happened.'),
-            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + list(),
-            stale: () => banner('warn', 'Outcomes are behind.', 'Last joined 14:10, so a newer score may be missing here.', 'clock') + tally() + list(),
-            offline: () => off(ctx, 'Showing this comparison from 21:15.') + tally() + list(),
-            disagreement: () => banner('', '1 entry is left out.', 'Rules and models differed on Reliance on 9 Oct, so no action was ranked to differ from.', 'split') + tally() + list(),
-            abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 7 decisions have scored. Any rate would mislead, so none shows until more horizons pass.') + list()
+            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + counts() + list(),
+            stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + counts() + list(),
+            offline: () => off(ctx, 'Showing this comparison from 21:15.') + counts() + list(),
+            disagreement: () => sayAmended() + sayLeftOut() + counts() + list(),
+            abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 7 decisions have scored. Any rate would mislead, so none shows until more horizons pass.') + tally() + list()
           });
-          return frame(ctx, { tab: 3, title: 'Where you differed', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this view'), body, rail: ctx.state === 'empty' ? '' : `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('fan', 's18')}</span>How the forecasts did</div><p>Of the 3 scored, 2 landed inside their 80% range and 1 outside. Unresolved and waiting entries are counted apart, never as misses.</p></div>` });
+          return frame(ctx, { tab: 3, title: 'Where you differed', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this view'), body, rail: ctx.state === 'empty' ? '' : howDid() });
         }
       }]
     }, {
@@ -246,24 +265,24 @@
         id: 'b-board', title: 'Three lanes',
         note: 'Three columns from iPad up; one lane at a time on a phone. Deciding to do nothing still clears a card, so an empty lane is never a target.',
         render: ctx => {
-          const p = phone(ctx);
-          const week = () => wrapUp({ t: 'No entries this week. 1 outcome matured last week: NVIDIA, inside its range. Next outcome: Apple, 12 Nov.' }), strip = p ? '' : week();
+          const p = phone(ctx), proved = () => (p ? '' : proofCard(ctx));
+          const board = (o = {}) => `${p ? '' : wrapUp()}${boardOk(ctx, o)}${p ? '' : `<div class="journal-low"><div>${sideCard()}</div>${proofCard(ctx)}</div>`}`;
           const body = region(ctx, {
-            ok: () => strip + boardOk(ctx),
-            loading: () => p ? skel(3) : `<div class="journal-lanes">${skel(2)}${skel(3)}${skel(3)}</div>`,
-            empty: () => stateCard('target', 'Nothing in any lane', 'A ranked action appears here when one is published. You can leave it as long as you like; MyPrediction never places a trade.'),
-            error: () => stateCard('alert', 'The lanes did not load', 'The read failed at 21:14. These are as of Mon 21:15. Your saved entries are safe.', btn('Try again', 'tinted sm', 'refresh')) + boardOk(ctx),
-            stale: () => banner('warn', 'Rankings are behind.', 'HSBC last priced 14:10, past the freshness limit, so its action holds at Pause and stays out of To decide until its price returns.', 'clock') + limit + boardOk(ctx),
-            offline: () => off(ctx, 'Showing your lanes from 21:15. Drafts wait until you reconnect.') + boardOk(ctx),
-            noModel: () => banner('', 'No approved model.', 'To decide stays empty until one is approved. Waiting and Scored carry on.', 'cube') + boardOk(ctx, { on: 1 }),
-            disagreement: () => banner('', 'Rules and models differ on Reliance.', 'Both show on its card, and no action is ranked.', 'split') + boardOk(ctx),
-            abstention: () => banner('', 'The model abstained on AstraZeneca.', 'It has no action to decide, so it stays out of To decide, and no new entry can be recorded for it.', 'ban') + needsAction + boardOk(ctx)
+            ok: () => board(),
+            loading: () => (p ? skel(3) : `<div class="journal-lanes">${skel(2)}${skel(3)}${skel(3)}</div>`) + proved(),
+            empty: () => stateCard('target', 'Nothing in any lane', 'A ranked action appears here when one is published. You can leave it as long as you like; MyPrediction never places a trade.') + proved(),
+            error: () => sayLoadFailed() + board(),
+            stale: () => sayBehind() + board(),
+            offline: () => off(ctx, SAY_OFF) + board(),
+            noModel: () => sayNoModel() + board({ on: 1 }),
+            disagreement: () => sayAmended() + sayRanking() + board(),
+            abstention: () => sayAbstain() + board()
           });
-          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body, rail: p && ctx.state === 'default' ? week() : '' });
+          return frame(ctx, { tab: 3, title: 'Journal', fresh: notPrices(ctx), actions: `${tb('search', 'Search')}`, body, rail: p && !['empty', 'loading'].includes(ctx.state) ? `${wrapUp()}${sideCard()}` : '' });
         }
       }, {
         id: 'b-decide', title: 'Decide, on a full page',
-        note: 'Record decision then raises Prism’s sheet to confirm, as everywhere. This page records what you did at your broker. It offers no way to do it. MP-158 names two answers; which action you took and how much sit inside them.',
+        note: 'Drawn at the moment before it saves: NVIDIA then joins the Waiting lane as today’s entry. Record decision then raises Prism’s sheet to confirm, as everywhere. This page records what you did at your broker. It offers no way to do it. MP-158 names two answers; which action you took and how much sit inside them.',
         render: ctx => {
           const st = ctx.state, h = pickState(st), p = phone(ctx), none = ['empty', 'noModel', 'abstention'].includes(st);
           const form = none ? '' : st === 'stale' ? decideForm(ctx, { on: 0, did: 'Pause', size: 'Paused new money.', why: 'Waiting until its price returns.' }) : st === 'disagreement' ? decideForm(ctx, { on: 0, did: 'Add', size: 'Added 10 units.', why: 'On the rules alone, for now.' }) : decideForm(ctx);
@@ -283,26 +302,26 @@
           const end = oneBody(ctx), scored = ['default', 'offline', 'noModel', 'disagreement', 'abstention'].includes(st);
           const happened = scored ? whatHappened(st) : '';
           const body = p ? `${said}${did}${end}${happened}${proofCard(ctx, s.model)}` : `<div class="journal-trow"><div class="journal-tri${scored ? '' : ' two'}"><div>${said}</div><div>${did}</div>${scored ? `<div>${happened}</div>` : ''}</div><div class="journal-low"><div>${end}</div>${proofCard(ctx, s.model)}</div></div>`;
-          return frame(ctx, { tab: 3, title: ctx.kind === 'web' ? 'One decision' : s.title, back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this score'), body });
+          return frame(ctx, { tab: 3, title: s.title, back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this score'), body });
         }
       }, {
         id: 'b-differ', title: 'Every decision, compared', na: naDiffer,
         note: 'The whole journal as one comparison, filtered to where you differed. Counts stand in for a rate until enough have scored; how many is enough is not set.',
         render: ctx => {
-          const p = phone(ctx), keys = ['rel', 'nvda', 'azn'], none = ctx.state === 'empty';
-          const filter = `<div data-mo="rise">${seg(none ? ['All 3', 'Differed 0', 'Followed 3'] : ['All 6', 'Differed 3', 'Followed 3'], 1, 'Show', 'full')}</div>`;
-          const table = () => p ? listCard(keys, { noDiffer: true }) : `<div class="card journal-wide" data-mo="card"><table class="ht"><thead><tr><th>Holding</th><th>Decided</th><th>Ranked</th><th>You</th><th>What happened</th></tr></thead><tbody>${keys.map(k => { const d = D[k]; return `<tr data-mo="rise"><td><div class="inst">${logo(d.h.c, d.h.lg, true)}<div style="min-width:0"><b>${d.h.t}</b><span>${d.hz}</span></div></div></td><td>${d.on}</td><td>${badge(d.ranked)}</td><td style="white-space:normal">${d.you}</td><td style="white-space:normal">${d.line}</td></tr>`; }).join('')}</tbody></table>${supportFoot}</div>`;
+          const p = phone(ctx), none = ctx.state === 'empty', over = overs(ctx.state).over || {};
+          const filter = `<div data-mo="rise">${seg(none ? ['All 3', 'Differed 0', 'Followed 3'] : [`All ${ALL.length}`, `Differed ${DIFFERED.length}`, 'Followed 3'], 1, 'Show', 'full')}</div>`;
+          const table = () => p ? listCard(DIFFERED, { noDiffer: true, ...overs(ctx.state) }) : `<div class="card journal-wide" data-mo="card"><table class="ht"><thead><tr><th>Holding</th><th>Decided</th><th>Ranked</th><th>You</th><th>What happened</th></tr></thead><tbody>${DIFFERED.map(k => { const d = D[k]; return `<tr data-mo="rise"><td><div class="inst">${logo(d.h.c, d.h.lg, true)}<div style="min-width:0"><b>${d.h.t}</b><span>${d.hz}</span></div></div></td><td>${d.on}</td><td>${badge(d.ranked)}</td><td style="white-space:normal">${d.you}</td><td style="white-space:normal">${over[k] || d.line}</td></tr>`; }).join('')}</tbody></table>${supportFoot}</div>`;
           const body = filter + region(ctx, {
             ok: () => table(),
             loading: () => skel(3),
             empty: () => stateCard('check', 'No differences yet', 'You have followed every ranked action so far, so there is nothing to compare.'),
             error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of Mon 21:15, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + table(),
-            stale: () => banner('warn', 'Outcomes are behind.', 'Last joined 14:10, so a newer score may be missing.', 'clock') + table(),
+            stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + table(),
             offline: () => off(ctx, 'Showing this comparison from 21:15.') + table(),
-            disagreement: () => banner('', '1 entry is left out.', 'No action was ranked for Reliance on 9 Oct, so there was nothing to differ from.', 'split') + table(),
-            abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 6 decisions have scored. Any rate would mislead, so none shows.') + table()
+            disagreement: () => sayAmended() + sayLeftOut() + table(),
+            abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 7 decisions have scored. Any rate would mislead, so none shows until more horizons pass.') + table()
           });
-          return frame(ctx, { tab: 3, title: 'Compared', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this view'), body, rail: none ? '' : `${tally(3)}${tooFew}` });
+          return frame(ctx, { tab: 3, title: 'Compared', back: 'Journal', fresh: notPrices(ctx), actions: tb('info', 'About this view'), body, rail: none ? '' : `${counts()}${howDid()}` });
         }
       }]
     }]

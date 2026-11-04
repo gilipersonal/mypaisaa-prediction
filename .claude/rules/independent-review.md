@@ -81,3 +81,8 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 28. **A promise on a screen has a destination**: a chevron, "opens" or "see" with nothing drawn behind it is a dead end, and an option the owner may pick alone must draw every outcome itself (MP-62 R1-j1, R1-r3, R1-r6, R1-s2, R1-s3).
 29. **A state reuses a figure only where that state leaves it true**: an abstained range draws no range, and a Claude-off screen shows no Claude spend (MP-62 R1-h2, R1-s6, R1-r7).
 30. **A walker proves it walked**: it counts what it covered against the page's matrix, reports load errors, and judges gradients and opacity rather than skipping them (MP-62 R1-s4, R1-h7).
+31. **Two views of one thing are compared by following the link**, on every pair, device and state, never from a hand list of pairs (MP-178 R2-s7, R2-r16).
+32. **A control is proved by pressing it**: what it changes, what follows it, where focus lands and whether it comes back. Counting that it exists proves nothing (MP-178 R2-h5, R2-s3, R2-s8, R2-s9).
+33. **A form that records a past act says so**, in one sentence, on every screen of the flow; units, price and a primary button read as an order otherwise (MP-178 R2-j3).
+34. **A check is proved by undoing its fix**: failing on an old page is not enough, because the old page may fail for another reason (MP-178 R2-h18, R2-r17, R2-j21).
+

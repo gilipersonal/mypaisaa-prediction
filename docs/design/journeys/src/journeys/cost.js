@@ -143,7 +143,7 @@
     if (ctx.state === 'loading') return skCard('How old each figure is');
     return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p>${ctx.state === 'abstention' ? '' : `<div class="cost-chips">${proposed('MP40-Q5: Anthropic admin key')}</div>`}`);
   }
-  function committedCard(ctx) {
+  function committedCard(ctx, o = {}) {
     const s = ctx.state;
     if (s === 'loading') return skCard('What committed adds up to', 4);
     const usual = [['Settled', 'Bills paid or reconciled', '£38.40'], ['Not yet reconciled', 'Usage £6.71, estimates £0.97', '£7.68'], ['Future fixed', 'Nothing more due this month', '£0.00'], ['Open reservations', 'Held at worst case', '£0.34'], '£46.42'];
@@ -154,18 +154,18 @@
       disagreement: [['Settled', 'With the 17 Nov bill', '£38.71'], ['Not yet reconciled', 'Usage £6.71, estimates £0.97', '£7.68'], ['Future fixed', 'Nothing more due this month', '£0.00'], ['Open reservations', 'Held at worst case', '£0.34'], '£46.73'],
       abstention: [['Settled', 'Bills paid or reconciled', '£38.40'], ['Not yet reconciled', 'AWS estimates only', '£0.62'], ['Claude usage', 'Not collected', 'Unknown'], ['Open reservations', 'Held at worst case', '£0.34'], 'At least £39.36']
     }[s] || usual;
-    return box(`${head('What committed adds up to', illus())}${list(d.slice(0, 4).map(x => li('', x[0], x[1], x[2])).concat(li('', 'Committed', '', d[4], { cls: 'cost-sum' })))}`);
+    return box(`${head('What committed adds up to', illus())}${list(d.slice(0, 4).map(x => li('', x[0], x[1], x[2])).concat(li('', 'Committed', '', d[4], { cls: 'cost-sum' })))}${o.forecast ? `<div class="cost-row"><span class="small muted">Forecast for the month</span><b>${month(ctx).fc}</b></div>` : ''}`);
   }
   function creditCard(ctx) {
     if (ctx.state === 'loading') return skCard('Gross, credit and cash');
-    const off = ctx.state === 'noModel', unk = ctx.state === 'abstention';
-    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', 'What the calls cost', off ? '£0.00' : unk ? 'Unknown' : '£7.06'), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', off ? '£0.00' : unk ? 'Unknown' : 'Up to £7.06')])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+    const s = ctx.state, gross = { noModel: '£0.00', empty: '£0.00', abstention: 'Unknown', error: '£6.71' }[s] || '£7.06';
+    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', s === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', ['£0.00', 'Unknown'].includes(gross) ? gross : `Up to ${gross}`)])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
   }
   function drill(ctx) {
     if (ctx.state === 'loading') return skCard('Claude by feature', 4);
     const on = ['By provider', 'By agent', 'By model', 'By feature', 'By service'];
     const none = ctx.state === 'noModel' ? 'Claude is off, so no feature is spending.' : ctx.state === 'abstention' ? 'Features show once Claude usage is collected. Nothing is estimated in its place.' : ctx.state === 'empty' ? 'Nothing spent yet this month.' : '';
-    return box(`${head('Claude by feature', illus())}<div class="cost-chips">${on.map((t, i) => `<button type="button" class="chip ${i === 3 ? 'owner' : ''} cost-pick"${i === 3 ? ' aria-pressed="true"' : ' aria-pressed="false"'}>${t}</button>`).join('')}</div>${none ? `<p class="small muted">${none}</p>` : list([['Top-5 explanations', '£2.12'], ['Chat and research', '£1.64'], ['Event analysis', '£1.18'], ['Evaluations', '£1.12'], ['Morning brief', '£1.00']].map(([t, v]) => li('', t, '', v)))}`);
+    return box(`${head('Claude by feature', illus())}<div class="cost-chips">${on.map((t, i) => `<button type="button" class="chip ${i === 3 ? 'owner' : ''} cost-pick"${i === 3 ? ' aria-pressed="true"' : ' aria-pressed="false"'}>${t}</button>`).join('')}</div>${none ? `<p class="small muted">${none}</p>` : list([['Top-5 explanations', '£2.12'], ['Chat and research', ctx.state === 'error' ? '£1.29' : '£1.64'], ['Event analysis', '£1.18'], ['Evaluations', '£1.12'], ['Morning brief', '£1.00']].map(([t, v]) => li('', t, '', v)))}`);
   }
   function holds(ctx) {
     if (ctx.state === 'loading') return skCard('Held before work starts', 3);
@@ -188,12 +188,12 @@
     const L = OVERS[k], s = ctx.state, off = s === 'noModel', aws = off ? L.off[0] : L.aws, fc = off ? L.off[1] : L.fc;
     const bars = off ? [BARS[0], [C.aws, aws]] : [BARS[0], [C.aws, aws], [C.claude, L.cl], BARS[3]];
     const keys = off ? [KEYS[0], [C.aws, 'AWS', gbp(aws)], [C.claude, 'Claude', 'off']] : [KEYS[0], [C.aws, 'AWS', gbp(aws)], [C.claude, 'Claude', gbp(L.cl)], KEYS[3]];
-    const m = { so: off ? (27.84 + aws).toFixed(2) : L.so, word: 'committed so far', fc: gbp(fc), to: fc, lo: fc - 6, day: L.day, bars, keys, st: L.st, say: `Forecast ${gbp(fc)} passed ${L.line} on ${L.when}. ${L.does}` };
+    const m = { so: off ? (27.84 + aws).toFixed(2) : L.so, word: 'committed so far', fc: gbp(fc), to: fc, lo: fc - 6, hi: fc + 6, day: L.day, bars, keys, st: L.st, say: `Forecast ${gbp(fc)} passed ${L.line} on ${L.when}. ${L.does}` };
     if (s === 'stale') { m.st = ['stale', `${L.st[1].split(' ')[0]} · billing 39 h old`, 'clock']; m.say = `The ${L.noun} holds until AWS billing is reconciled, then the next check decides.`; m.q = 'MP40-Q6'; }
     if (s === 'error') m.word = 'last good';
     if (s === 'offline') { m.st = ['offline', 'Offline · from 21:15', 'wifi-off']; m.say = `Saved at 21:15. The ${L.noun} may have changed since then.`; }
     if (off) m.say = `Forecast ${gbp(fc)} passed ${L.line} on ${L.when}. Claude was already off, so all of this is market data and AWS.`;
-    if (s === 'disagreement') { m.st = ['stale', 'Estimate and bill differ', 'split']; m.fc = `${gbp(L.bill)} on the bill`; m.to = L.bill; m.lo = L.bill - 6; m.say = `Estimate ${gbp(fc)}, bill ${gbp(L.bill)}. The bill counts, ${L.back}`; }
+    if (s === 'disagreement') { m.st = ['stale', 'Estimate and bill differ', 'split']; m.fc = `${gbp(L.bill)} on the bill`; m.to = L.bill; m.lo = L.bill - 6; m.hi = L.bill + 6; m.say = `Estimate ${gbp(fc)}, bill ${gbp(L.bill)}. The bill counts, ${L.back}`; }
     if (s === 'abstention') { m.st = ['', 'Forecast unknown', 'ban']; m.word = 'known so far'; m.fc = 'Not shown'; m.to = 0; m.unk = 13; m.keys = [KEYS[0], [C.aws, 'AWS', gbp(aws)], [C.claude, 'Claude', `at least ${gbp(L.cl)}`], KEYS[3]]; m.say = `Claude usage stopped being collected. The ${L.noun} holds until the month is known again.`; m.q = 'MP40-Q5'; }
     return m;
   }
@@ -262,10 +262,11 @@
 
   /* ---------- option B's parts: the pill, the chart, the log ---------- */
   function pill(ctx) {
-    const m = month(ctx), s = ctx.state, pc = parseFloat(m.so);
-    const t = { loading: 'Last good £46', error: 'Cost: collector failed', stale: 'Cost: billing late', offline: '£46 · saved', noModel: `£39 of £100`, disagreement: 'Cost: bill differs', abstention: 'Cost: part unknown', empty: '£28 of £100' }[s] || '£46 of £100';
+    const m = month(ctx), s = ctx.state, pc = parseFloat(m.so), whole = `£${Math.round(pc)}`, ceil = '<span class="sr"> of £100</span>';
+    /* whole pounds where it must be short. A bill that differs by 31p keeps its pence, or the difference would not show. */
+    const t = { loading: `Last good ${whole}`, error: `${whole}${ceil} · collector failed`, stale: `${whole}${ceil} · billing 39 h old`, offline: `${whole}${ceil} · saved`, disagreement: `£${m.so}${ceil} · bill differs`, abstention: `${whole}${ceil} · part unknown` }[s] || `${whole} of £100`;
     const i = { error: 'alert', stale: 'clock', offline: 'wifi-off', disagreement: 'split', abstention: 'ban' }[s];
-    return `<button class="chip glass cost-pill" type="button" aria-label="Cost this month: ${t}. Opens the month." data-mo="chip">${i ? ic(i, 's14') : `<span class="cost-pillbar"><i style="width:${pc}%"></i></span>`}${t}</button>`;
+    return `<button class="chip glass cost-pill" type="button" data-mo="chip">${i ? ic(i, 's14') : `<span class="cost-pillbar"><i style="width:${pc}%"></i></span>`}<span><span class="sr">Cost this month: </span>${t}<span class="sr">. £${m.so} ${m.word}. ${m.st[1]}. Forecast ${m.fc}. Opens the month.</span></span></button>`;
   }
   const INC = [.7, .9, 1.1, .8, 1.6, .9, .7, 1.2, 1, .9, 1.4, 1.1, .8, 1.3, 1, 1.2, 1, 1.3, 1.4, 1.8, 2.4, 3, 3.4, 2.6, 2, 1.6, 1.2, 1];
   function burn(ctx, W = 326, Ht = 220, m = month(ctx)) {
@@ -276,8 +277,9 @@
     for (let d = 2; d <= days; d++) { v += INC[d - 2] * ((end - 27.84) / sumInc); pts.push([d, v]); }
     const line = (arr) => arr.map(([d, y], i) => `${i ? 'L' : 'M'}${X(d).toFixed(1)} ${Y(y).toFixed(1)}`).join('');
     const billed = m.last || m.day - (s === 'stale' ? 2 : 1), known = pts.filter(p => p[0] <= billed), tail = pts.filter(p => p[0] >= billed);
-    const last = pts[pts.length - 1], loTo = m.lo ?? (s === 'noModel' ? 46.48 : 54.73), hiTo = m.to;
-    const fan = s === 'abstention' ? '' : `<path class="b80" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(hiTo).toFixed(1)}L${X(30).toFixed(1)} ${Y(loTo).toFixed(1)}Z"/><path class="med" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(loTo).toFixed(1)}"/>`;
+    /* "up to" tops the band with the figure. A month past a line has a point forecast, so the line ends on it, inside its band. */
+    const last = pts[pts.length - 1], loTo = m.lo ?? (s === 'noModel' ? 46.48 : 54.73), hiTo = m.hi ?? m.to, medTo = m.lo === undefined ? loTo : m.to;
+    const fan = s === 'abstention' ? '' : `<path class="b80" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(hiTo).toFixed(1)}L${X(30).toFixed(1)} ${Y(loTo).toFixed(1)}Z"/><path class="med" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(medTo).toFixed(1)}"/>`;
     const lines = [[60, '£60 Warn'], [75, '£75 Reduce'], [85, '£85 Pause'], [100, '£100 Ceiling']];
     return `<svg class="cx" viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Spend by day this month: ${m.so} pounds on day ${last[0]}, heading ${m.fc} by day 30, against lines at £60, £75, £85 and £100. Illustrative.">
       ${lines.map(([y, t]) => `<line class="${y === 100 ? 'zero' : 'grid'}" x1="${ml}" x2="${W - mr}" y1="${Y(y)}" y2="${Y(y)}"/><text class="lbl" x="${W - mr + 4}" y="${Y(y) + 4}">${t}</text>`).join('')}
@@ -317,7 +319,8 @@
     }[s] || [];
     const spent = s === 'noModel' ? [] : [['18 Nov', [['clock', 'Nightly explanations reserved', 'Held at worst case', '£0.34']]], ['17 Nov', [['check', 'Event analysis settled', 'The bill replaced the hold', '£0.22']]], ['14 Nov', [['ban', 'Top-5 batch refused', '£3.20 could cross the £5 cap', 'Refused']]]];
     const days = extra.concat([['Thresholds this month', [LINES[s]]]], spent, [['1 Nov', [['check', 'Twelve Data invoice', 'Fixed. Due on the 1st', '£27.84']]]]);
-    return box(`${head('What happened', illus())}${days.map(([d, rows]) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}`).join('')}`);
+    const m = month(ctx), sofar = li('', m.word[0].toUpperCase() + m.word.slice(1), dayOf(m), `£${m.so}`);
+    return box(`${head('What happened', illus())}${list([sofar])}${days.map(([d, rows]) => `<div class="cost-day">${d}</div>${list(rows.map(r => li(r[0], r[1], r[2], r[3])))}`).join('')}`);
   }
   const limitTable = ctx => `<div style="overflow-x:auto"><table class="ht"><thead><tr><th>Line</th><th>What changes</th></tr></thead><tbody>${[
     ['£60 Warn', 'A notice reaches you. Nothing stops'], ['£75 Reduce', 'Fewer optional backfills, challengers and Claude jobs'], ['£85 Pause', 'New optional paid work pauses, with its reason'],
@@ -368,7 +371,7 @@
       }, {
         id: 'cost-a-sources', title: 'Where the figures come from',
         note: 'Estimates, usage and bills stay apart, each with its lag. Unknown is never shown as zero.',
-        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The figures', body: committedCard(ctx) + sourcesCard(ctx) + creditCard(ctx), rail: drill(ctx) + holds(ctx) })
+        render: ctx => page(ctx, { tab: 0, back: 'This month', title: 'The figures', body: committedCard(ctx, { forecast: true }) + sourcesCard(ctx) + creditCard(ctx), rail: drill(ctx) + holds(ctx) })
       }, {
         id: 'cost-a-fit', title: 'Does the month fit',
         note: 'Your recorded figures. The Apple fee month is judged without its fee, as you answered in COST-Q4.',

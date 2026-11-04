@@ -144,8 +144,8 @@ The owner, answering "Shall I draw the remaining journeys and states in Prism ne
 [docs/design/journeys/](../../journeys/README.md) draws MP-62's eight owner journeys in Prism: home, holdings and imports,
 forecast and proof, research and chat, the action journal, cost, owner approvals, privacy and recovery. Each has two
 options that differ in structure, with one recommended; every screen is drawn in every state on iPhone, iPad, desktop and
-phone web, in light and dark. Admin journeys are MP-64. No option is picked yet; the owner picks one per journey, and the
-picks go here with their words.
+phone web, in light and dark. Admin journeys are MP-64. The owner later chose to keep both options on all eight, with a flip (below),
+which supersedes picking one per journey.
 
 | Journey | A (recommended) | B |
 | --- | --- | --- |

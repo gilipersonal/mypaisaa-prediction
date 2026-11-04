@@ -10,7 +10,9 @@
 // with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 11 px or lighter than 400,
 // text below 4.5:1 and 3:1 at 20% on its ground, a state that draws exactly what the ready state draws, an icon with no
 // symbol, a card that clips its content, anything that runs past its column or card, a button under 44 px, any other
-// control under WCAG's 24 px, a ranked-action badge on a screen that does not say decision support, or an option with no flip.
+// control under WCAG's 24 px, a control pushed off the top bar, a ranked-action badge on a screen that does not say decision
+// support, or an option with no flip. On the first theme it also presses every flip in three states: the flip must be
+// reachable, change the frame, carry the caption and group name with it, keep the freshness, keep focus, and come back.
 //
 // Contrast reads the ground up the tree, multiplying opacity on the way. Glass is judged by the static tokens, composited
 // over mid grey here. A gradient is judged by its worst stop, and text on an image the walker cannot read is a failure.
@@ -45,7 +47,8 @@ const AUDIT = () => {
     out.sig.push(text.length + ':' + text);
     if (text.length < 20) out.empties.push(scr.getAttribute('aria-label'));
     scr.querySelectorAll('.jscroll, .jpane').forEach((p) => { if (p.scrollWidth > p.clientWidth + 1) out.wide.push(`${scr.getAttribute('aria-label')} is ${p.scrollWidth - p.clientWidth} px too wide`); });
-    scr.querySelectorAll('button, a, [role="button"]').forEach((b) => { if (/^\s*(buy|sell|place (an )?order|trade)\b/i.test(b.textContent)) out.trade.push(b.textContent.trim().slice(0, 40)); });
+    scr.querySelectorAll('button, a, input, [role="button"]').forEach((b) => { for (const s of [b.textContent, b.getAttribute('aria-label'), b.value]) if (s && /^\s*(buy|sell|place\b.*\border|execute\b.*\border|trade)\b/i.test(s)) out.trade.push(s.trim().slice(0, 40)); });
+    { const box = scr.getBoundingClientRect(); scr.querySelectorAll('.tbtn, .flipbtn, .btn').forEach((b) => { const a = b.getBoundingClientRect(); if (a.width && a.right > box.right + 1 && !b.closest('.jscroll, .jpane')) out.clipped.push(`${scr.getAttribute('aria-label')}: "${(b.getAttribute('aria-label') || b.textContent).trim().slice(0, 24)}" is pushed ${Math.round(a.right - box.right)} px off the top bar`); }); }
     const walker = document.createTreeWalker(scr, NodeFilter.SHOW_TEXT);
     const seen = new Set();
     for (let t = walker.nextNode(); t; t = walker.nextNode()) {
@@ -91,9 +94,41 @@ const AUDIT = () => {
   return out;
 };
 
+// Press every flip on the row, and turn it back. A flip is only proved by pressing it (lesson 32).
+const PRESS = () => {
+  const out = [];
+  const text = (n) => n.innerText.replace(/\s+/g, ' ').trim();
+  const chips = (s) => { const c = s.querySelector('.jfresh'); return c ? text(c) : ''; };
+  let pressed = 0;
+  for (const box of document.querySelectorAll('#jrow [data-slot]')) {
+    const b = box.querySelector('[data-flip]');
+    if (!b) continue;
+    const scr = box.querySelector('.scr'), name = scr.getAttribute('aria-label');
+    b.scrollIntoView({ block: 'center', inline: 'center' });
+    const r = b.getBoundingClientRect(), hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    if (!hit || !b.contains(hit)) out.push(`${name}: the flip cannot be pressed, ${hit ? hit.className : 'nothing'} is on it`);
+    const before = text(scr), had = chips(scr), at = scr.dataset.at;
+    b.click();
+    pressed++;
+    const cap = box.querySelector('.bcap').textContent, label = scr.getAttribute('aria-label').replace(/, (light|dark) theme$/, '');
+    if (scr.dataset.at === at) out.push(`${name}: pressing the flip changed nothing`);
+    if (!cap.includes(label)) out.push(`${name}: the caption "${cap}" does not follow "${label}"`);
+    if (!/Turned to/.test(cap)) out.push(`${name}: a turned frame does not say so`);
+    if (chips(scr) !== had) out.push(`${name}: freshness "${had}" became "${chips(scr)}"`);
+    if (scr.querySelector('[aria-modal="true"]')) out.push(`${name}: it turns to a screen with a sheet open`);
+    const next = scr.querySelector('[data-flip]');
+    if (!next) { out.push(`${name}: no way back`); continue; }
+    if (document.activeElement !== next) out.push(`${name}: focus left the flip`);
+    next.click();
+    if (scr.dataset.at !== at) out.push(`${name}: it does not come back to ${at}`);
+    if (text(scr) !== before) out.push(`${name}: it comes back different`);
+  }
+  return { pressed, out };
+};
+
 const pw = require(PW);
 const b = await pw.chromium.launch({ channel: 'chrome' });
-let problems = 0, combos = 0, want = 0;
+let problems = 0, combos = 0, want = 0, flipsPressed = 0;
 const say = (m) => { problems++; if (problems <= 60) console.log('FAIL ' + m); };
 try {
   for (const theme of THEMES) {
@@ -138,6 +173,11 @@ try {
           for (const x of [...new Set(a.clipped)].slice(0, 3)) say(`${where}: ${x}`);
           for (const x of [...new Set(a.label)].slice(0, 2)) say(`${where}: ${x}`);
           if (!a.flips) say(`${where}: no screen can flip`);
+          if (theme === THEMES[0] && ['default', 'stale', 'abstention'].includes(st)) {
+            const pr = await p.evaluate(PRESS);
+            for (const x of [...new Set(pr.out)].slice(0, 4)) say(`${where}: ${x}`);
+            flipsPressed += pr.pressed;
+          }
         }
       }
     }
@@ -147,7 +187,8 @@ try {
   await b.close();
 }
 if (!combos || combos !== want) say(`walked ${combos} combinations of ${want}: the walk did not cover the page`);
-console.log(`design-journeys: ${combos} combinations walked, ${problems} problem(s)${problems > 60 ? ' (first 60 shown)' : ''}`);
+if (!flipsPressed) say('no flip was pressed');
+console.log(`design-journeys: ${combos} combinations walked, ${flipsPressed} flips pressed, ${problems} problem(s)${problems > 60 ? ' (first 60 shown)' : ''}`);
 process.exit(problems ? 1 : 0);
 
 // Each case breaks a copy of a real page and names the failure it expects (lessons 8 and 9).
@@ -178,6 +219,14 @@ function selftest() {
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],
     'no flip': [page.replace(/data-flip="\$\{ctx\.journey\}/, 'data-off="${ctx.journey}'), 'no screen can flip'],
+    'a trade by its name': [page.replace("tb('search', 'Search')", "tb('search', 'Buy Apple')"), 'Buy Apple'],
+    'a sideways scroll': [css('.jbody { min-width: 900px; }'), 'px too wide'],
+    'a clipped card': [css('.scr .card { overflow: hidden; } .scr .card > * { min-width: 900px; }'), 'clips'],
+    'a state that draws Ready': [page.replace("state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme()", "state: 'default', scheme: scheme()"), 'draws exactly what Ready draws'],
+    'a caption that stays': [page.replace('cap.innerHTML = `<span class="tag">', 'cap.dataset.x = `<span class="tag">'), 'does not follow'],
+    'a frame that does not say it turned': [page.replace('Turned to ${oid.toUpperCase()}', 'Showing ${oid.toUpperCase()}'), 'does not say so'],
+    'focus that leaves the flip': [page.replace('if (next) next.focus({ preventScroll: true });', ''), 'focus left the flip'],
+    'a control off the top bar': [css('.jtop .acts, .flipbtn { margin-right: -60px; } .scr .navbar .tbtn, .scr .tbtn { transform: translateX(460px); }'), 'off the top bar'],
   };
   let bad = 0;
   for (const [name, [html, want, extra]] of Object.entries(cases)) {

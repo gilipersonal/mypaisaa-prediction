@@ -693,10 +693,14 @@ def markup(html: str) -> list[str]:
         if float(m.group(1)) < MIN_FONT_PX:
             fails.append(f"an SVG text at font-size {m.group(1)}; draw labels at {MIN_FONT_PX} px or more")
     for m in re.finditer(r"""style\s*=\s*(?:"([^"]*)"|'([^']*)')""", html):
-        for k, v in decls(m.group(1) if m.group(1) is not None else m.group(2)):
+        body = m.group(1) if m.group(1) is not None else m.group(2)
+        # decls() drops a part holding a brace, and a value computed in the script holds one: read those here too
+        for k, v in [tuple(p.split(":", 1)) for p in split_top(body, ";") if ":" in p]:
+            k, v = VENDOR.sub("", k.strip().lower()), " ".join(v.split())
+            if k in ("animation", "animation-iteration-count") and "infinite" in v.lower():
+                fails.append(f"an inline style loops forever ('{k}: {v}'); stop after at most {MAX_ITERATIONS}")
             if "${" in v or "${" in k:   # a value computed in the script; the rendered size is measured by the walker
                 continue
-            k = VENDOR.sub("", k)
             if k in ("font-size", "font"):
                 why = font_problem(v, k == "font")
                 if why:
@@ -707,12 +711,7 @@ def markup(html: str) -> list[str]:
                         fails.append(f"an inline style transitions all properties ('{v}')")
                     elif prop != "none" and prop not in TRANSITION_OK and prop not in PAINT_OK:
                         fails.append(f"an inline style transitions '{prop}', which is layout or an expensive paint")
-            if k in ("animation", "animation-iteration-count") and "infinite" in v.lower():
-                fails.append(f"an inline style loops forever ('{k}: {v}'); stop after at most {MAX_ITERATIONS}")
     return fails
-
-
-TOKEN_BLOCKS = {":root", ":root, .scheme-light", ':root:not([data-theme="light"])', ':root[data-theme="dark"], .scheme-dark'}
 
 
 def prism_core(html: str) -> tuple[list[str], str, str]:
@@ -772,9 +771,8 @@ def prism_core(html: str) -> tuple[list[str], str, str]:
         if not re.search(rf"{k}\s*:", css):
             fails.append(f"{k}, a shape of the Claude mark, is not set")
     names = set(re.findall(r"^\s*(--[\w-]+)\s*:", want_css, flags=re.M))
-    for sel, body, enc in rules(css):
-        if " ".join(sel.split()) in TOKEN_BLOCKS:
-            continue
+    rest = css.replace(want_css.strip(), "", 1)   # only the generated block may set a token, however a rule is written
+    for sel, body, enc in rules(rest):
         for k, _ in decls(body):
             if k in names:
                 fails.append(f"{k} is set in '{sel.strip()}'{' inside ' + enc[0] if enc else ''}, outside tokens.css; "
@@ -1118,6 +1116,10 @@ JOURNEY_MUTATIONS = {
     "inline-layout": (_sub('<div class="board">', '<div class="board" style="transition: width 200ms">'), "inline style transitions 'width'"),
     "inline-single-quote": (_sub('<div class="board">', """<div class="board" style='font-size: 6px'>"""), "text at 6 px"),
     "stray-token": (_sub(".bar {", ".cost-box { --ink: #BBBBBB; --surface: #DDDDDD; } .bar {"), "outside tokens.css"),
+    "second-root": (_sub(".bar {", ":root { --ink: #BBBBBB; } .bar {"), "outside tokens.css"),
+    "second-light-block": (_sub(".bar {", ":root, .scheme-light { --ink: #BBBBBB; } .bar {"), "outside tokens.css"),
+    "second-dark-block": (_sub(".bar {", ':root[data-theme="dark"], .scheme-dark { --ink: #333333; } .bar {'), "outside tokens.css"),
+    "inline-infinite-computed": (_sub('<div class="board">', '<div class="board" style="animation: spin ${d}s linear infinite">'), "inline style loops forever"),
 }
 
 

@@ -56,8 +56,10 @@ Frames on iPad and desktop scale to fit the page down to 70%, then scroll; the c
 ## The flip
 
 `FLIPS` in `src/shell.js` says which screen turns to which. `frame()` draws the control from it, so a journey adds nothing. A pair must
-show the same figures, freshness and provider status. No flip while signed out, during a step-up, or on an approval or record in progress.
-Which view a journey starts in, and keeping the choice per device, are proposed (MP-178).
+show the same figures, freshness and provider status, in every state.
+
+Proposed, for the owner to accept or change (MP-178): each journey starts in A, the choice is kept per device, each journey flips on its
+own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written.
 
 ## States
 

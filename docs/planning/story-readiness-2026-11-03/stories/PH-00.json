@@ -452,7 +452,7 @@
    ],
    "acceptance": {
     "positive": [
-     "A DecisionRecord holds the owner's words approving the complete UX (product and admin journeys) at an exact commit, with the chosen option per journey and each design's artifact URL and sha256.",
+     "A DecisionRecord holds the owner's words approving the complete UX (product and admin journeys) at an exact commit, with the option kept per journey, or both with a flip (owner, 4 November 2026, MP-178), and each design's artifact URL and sha256.",
      "Permission to build is a separate DecisionRecord naming the phases that may start; without it every story stays implementation_authorised false.",
      "The record lists every item still open at approval (owner questions and gaps), each with who decides it."
     ],
