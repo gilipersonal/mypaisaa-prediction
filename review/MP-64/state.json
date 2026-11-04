@@ -2486,7 +2486,10 @@
       "result": "63 findings, 35 blocking, no P0, 6 P1. Every blocking one is fixed and held by a ledger check.",
       "new_gates": [
         "design_admin_facts selftest: cases that prove the named-act and journey rules"
-      ]
+      ],
+      "fix_commit": "03e3d89",
+      "post_fix_gates": "Before one note added to Home: walker 1,600 combinations, 0 problems; design_runtime 8 of 8; design_admin_press 0 problems; every ledger 441 run, 2 retired; MP-64 130 of 130. At 03e3d89: design_admin_facts 0 problems, 143 of 143 checks; Journeys facts 251 of 251; plan_sync clean.",
+      "publication": "Prism Admin v8 and Journeys v10 republished privately and read back. Confluence ph-07 is pending again: PH07-S09 changed in the repo, and MP-163 and the page need the owner's yes."
     }
   ]
 }
