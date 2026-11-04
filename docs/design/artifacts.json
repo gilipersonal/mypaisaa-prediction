@@ -1,14 +1,6 @@
 {
  "designs": [
   {
-   "slug": "market-agent",
-   "source": "docs/market-agent/index.html",
-   "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
-   "published_sha256": "8b95b321f7777aa40074c5c631091794dedeed8dfbf7259c373af82c0d968c19",
-   "published_at": "2026-11-03",
-   "jira": "MP-20"
-  },
-  {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
@@ -57,18 +49,26 @@
    "jira": "MP-178"
   },
   {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "de273a0093d34e868a326d4b97c32ee5a61802af7ade56c8f027bc6c0a46777a",
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "e1c6718bc3a3d69e3aea06800fbb972c5d39bad2196306ace4c6e9af13fdf55f",
    "published_at": "2026-11-04",
    "jira": "MP-64"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "2e27cbbb58cc28d35fcd8188b98308c1d0626751dc41afe6b6cba729a3ce610e",
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "be9481bd04f51e1874dfd2b08b0158b3c8da1f19a71e8dc37fa895c6974a946a",
+   "published_at": "2026-11-04",
+   "jira": "MP-64"
+  },
+  {
+   "slug": "market-agent",
+   "source": "docs/market-agent/index.html",
+   "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
+   "published_sha256": "eab34c264f71a0660a4a2f2713ba2bef2fe948abf96d79671786887a5fe8bb41",
    "published_at": "2026-11-04",
    "jira": "MP-64"
   }

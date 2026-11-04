@@ -3368,7 +3368,10 @@
       ],
       "blocking": 16,
       "result": "38 findings, 16 blocking, no P0, 3 P1. Round 5 is the last the rule allows, so none is fixed yet: the results go to the owner.",
-      "after_round": "The owner: \"Fix all 16, no sixth round (Recommended)\", \"Draw the pause in Ready (Recommended)\", \"Yes, fix all of it (Recommended)\" and, when Lucid refused an edit, \"create new, dont edit lucid\". Drawing 4 is a new Lucid document, 23768f5e-77d2-4de1-8f1f-ff7f591ec659; rec-apple-testing is version 8, read back from the live reply."
+      "after_round": "The owner: \"Fix all 16, no sixth round (Recommended)\", \"Draw the pause in Ready (Recommended)\", \"Yes, fix all of it (Recommended)\" and, when Lucid refused an edit, \"create new, dont edit lucid\". Drawing 4 is a new Lucid document, 23768f5e-77d2-4de1-8f1f-ff7f591ec659; rec-apple-testing is version 8, read back from the live reply.",
+      "fix_commit": "f43fa0d",
+      "post_fix_gates": "Admin walker 1,600 combinations, 0 problems; Journeys walker 1,152 combinations, 1,176 flips, 0 problems; presses 163 of 163; design_admin_press 0 problems; design_admin_facts 0 problems, 190 of 190 checks, selftest 14 of 14; journey facts 251 of 251; every ledger 475 run, 2 retired; retired facts 15 clean. design_runtime: admin 8 of 8; Journeys 6 of 8, a long frame of 51 to 53 ms against 50 on Chrome desktop, light and dark. Left open.",
+      "publication": "Prism Admin v11, Journeys v12 and Market Agent v8 republished privately and read back; 9 designs in step. Confluence rec-apple-testing v8 with the new Lucid drawing."
     }
   ]
 }
