@@ -1,0 +1,1265 @@
+{
+  "issue": "MP-62",
+  "deliverable": "Prism Journeys: the eight owner journeys in docs/design/journeys/, with the gates that hold them",
+  "round_count": 1,
+  "status": "round 1 fixed, waiting on the owner",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_commit": "c1fa817ddaeb0ac530fd99e4246a8d13ce0e1c27",
+      "review_approval": {
+        "words": "2. Review round 1 - yes",
+        "date": "2026-11-04",
+        "offer": "Four reviewers, with the journeys in pairs and the scripts joined to one pair, plus python3 scripts/review_regress.py MP-62 --approved, up to five rounds."
+      },
+      "scope": "The journeys, their tooling and their records on the branch against main. docs/design/prism/ is the spec, not reviewed as a deliverable in this round; the owner's yes named the journeys and the scripts. The earlier option and hybrid pages are the record of past rounds.",
+      "lanes": {
+        "how_split": "The lane table has no row for design pages, and this deliverable fits lane (d) and lane (s). Lane (d) is split by journey pairs into h, j and r, and the cost and privacy pair is merged into lane s with the scripts and records, so four reviewers run.",
+        "h": "home, forecast",
+        "j": "holdings, journal",
+        "r": "research, approvals",
+        "s": "cost, privacy, tooling, tests, records"
+      },
+      "brief": "review/MP-62/round-1-brief.md",
+      "gate_results": {
+        "selected_checks": "review/MP-62/round-1-checks.json",
+        "ledger_MP-62": "no ledger yet, so no checks ran",
+        "every_ledger": "46 of 46 passed",
+        "state": "ok, no state file before this round",
+        "actionlint": "via uvx: pass",
+        "design_journeys_check": "1,152 combinations on d27db58's parent build, 0 problems; 576 phone combinations on the final build, 0 problems",
+        "design_runtime": "8 of 8 on Journeys and on Prism"
+      },
+      "deferred_gates": [
+        {
+          "gate": "workflow-lint",
+          "reason": "review_checks reports actionlint unavailable; it was run by hand through uvx and passed."
+        },
+        {
+          "gate": "--broader",
+          "reason": "Not needed: the change touches no schema, import, ledger, model target or shared code component."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R1-h1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:171",
+          "evidence": "In No model, the holdings banner says \"No approved model covers India yet\" and the brief says \"India is rules only\". The board on the same screen still shows \"Nifty 50 | ICICIBANK 72 | HDFCBANK 69 | TCS 66 | INFY 64 | SBIN 61\", under a banner reading \"India is not ranked\". Search also keeps ICICIBANK 72 and HDFCBANK 69. Growth and protection come from the forecasts, so a score with no model breaks",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:286",
+          "evidence": "The Option B ladder in Abstaining reads \"12 months abstained\" and the row says \"so no range\". The fan still draws to 12 months, labelled \"+12.4%\", \"+33.9%\", \"−10.2%\", under an \"Evaluated\" chip, and the chart's `aria-label` repeats them. In Disagreement, the 3-month median is removed from the row but stays marked on the fan.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:352",
+          "evidence": "Option B has no proof on iPad or desktop. Across all five B screens at `web`, these are all absent: `ds-2026-10-30`, \"Hit rate\", \"Benchmark\", \"Model sheet\", \"Analog sheet\", \"22 since 2015\". The Proof tab exists but pressing it changes nothing. MP-157 needs dataset, folds, baseline, sheets and hit rate with its companions.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:158",
+          "evidence": "The Top 5 has no range, uncertainty or freshness on home. Counted on `a-board` and `b-top5`, phone and desktop: 0 percentages, 0 ranges, and no \"decision support\" text. The owner's record says \"They come with their ranges and uncertainty, as decision support, not advice\". MP-153 says \"each with its range, uncertainty and freshness\". Only US tech's drill-down shows ranges (`FC` covers three names),",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h5",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "shell.js:19",
+          "evidence": "In Loading, the provider chips collapse to \"Refreshing · last good 21:15\", so Twelve Data and Yahoo disappear from the header and sidebar. The value card says \"showing 21:15\", but the rows are skeletons, so every range and HSBC's stale flag are hidden. The forecast card says \"Last good forecast 21:15\" and shows no figure. The issue and MP-153 both bar hiding risk or provider status behind loading.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h6",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:74",
+          "evidence": "The Error state shows \"As of 20:45 London | Data cutoff 21:00\", an as-of before its own cutoff, from a single-string `.replace`. A daily forecast can't exist at 20:45, before the 21:00 US close, and the page says \"Next run tomorrow 21:15\". On home, the banner says rows are \"the last loaded version, 20:45\", while the Data column prints \"21:15\" and the sidebar \"As of 21:15 · cutoff 21:00\". MP-153: \"",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h7",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/prism/index.html:776",
+          "evidence": "`.win b { color: var(--ink) }` also matches the `.dev.win` desktop frame. So desktop light tile scores are rgb(20,23,31) on tile colours, not white, at 15 px weight 800. Computed ratios are 2.90 to 3.62:1 on all seven scored tiles (for example, India midcap 2.90, UK ETFs 3.62). The gate passed because `if (gradient || !bg) continue` skips all tile text. - **Pixel sample (brightest pixel under each",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h8",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:150",
+          "evidence": "The Loading brief shows \"Hold Apple: median positive, range still includes a loss.\" and \"Add Reliance: 7.4% median at 6 months.\" The screen has no \"decision support\" text, and the Add is a bare median with no range. That breaks the issue's \"ranked actions are labelled decision support\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:141",
+          "evidence": "The brief renders in the order Actions, Changes, Risks, Upcoming (text offsets 281, 548, 645, 790 on iPhone). MP-148 and the screen's own note say actions, then risks, changes, events. Wide reading order is the same.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:113",
+          "evidence": "The pill says \"2 actions · 1 conflict shown\", while the list directly below shows Trim, Add, Pause plus Split. Abstention says \"2 actions · 1 abstention\" over the same three actions.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h11",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:133",
+          "evidence": "MP-148 is drawn twice, differently. Home says \"3 actions · 2 risks · 2 changes\" (no Reliance). Research says \"Four ranked actions and one risk held overnight\", with different events. \"No model\" also means India rules in one and Claude off in the other. They are dated a day apart, so the counts aren't strictly contradictory, but the owner would be picking two designs of one screen.",
+          "status": "open, non-blocking: one brief across Home and Research is still two drawings"
+        },
+        {
+          "id": "R1-h12",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:317",
+          "evidence": "The Forecasts tab has no root. All eleven forecast frames carry `back`, while journal and approvals go `back: 'Forecasts'` to a screen no journey draws. Option A's Segments tab also has no root (`a-segment` is tab 2 with `back: 'Portfolio'`). In Option B, tab \"Segments\" is titled \"Explore\". None of this is in the inventory's open list.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h13",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:58",
+          "evidence": "Only the 6-month instrument is drawn. After settling, pressing 12M set `aria-pressed=true` while the text was unchanged, still \"6-month forecast\". Home's 12M does the same, with rows still reading \"· 6M\". The 12-month view, where Exploratory matters most, is never drawn on an instrument, though the issue asks for per-horizon forecasts.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h14",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js",
+          "evidence": "A search of the journeys and Prism finds no simple or technical mode, no `no_clear_view` and no `cost_paused`. MP-145 requires \"both the simple and the technical mode keep material uncertainty\", and lists both states.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h15",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:64",
+          "evidence": "\"held 79% … over 52 scored\", \"Held 77% of 26 scored · Exploratory\", \"held 80% of 412\" and \"Held 79% of 52 scored.\" appear on `a-instrument`, `b-ladder`, `a-short` and `a-views`. None of the four says walk-forward. Only the Proof screen says \"not live ones\", and the model was approved 1 Oct 2026 with \"Live, matured 0\". The chart's \"Scored: inside\" reads as a live record. The Option B desktop \"12 mo",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h16",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:40",
+          "evidence": "The Stale banner says \"Yahoo stopped at 16:35\", yet Reliance and the Nifty ETF still read \"21:15 | Yahoo\". In Ready, AZN and Reliance read \"21:15\" beside \"UK closed Mon 16:35\" and \"India closed Mon 10:00\". HSBC's reason, \"Last price 16:35, so its forecast is held\", is simply the closing time, so MP-153's \"how fresh its price is\" isn't true here.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h17",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "home.js:35",
+          "evidence": "MP-153 says \"Every row shows its data freshness and provider status\". Only the desktop table does. iPhone Option A rows show neither unless stale. The phone-web ledger and Option B iPhone show \"AAPL | +1.9% | £14,820 | +6.2% | Hold\", with no time, provider or local currency.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h18",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:237",
+          "evidence": "\"close 3 Nov · received 21:02\" and \"corrected for a late FX quote at 21:11\" sit on a record with \"Data cutoff 21:00\". Both arrived after the cutoff. The checklist says \"A retry after cutoff must not backdate known-at time\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h19",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:67",
+          "evidence": "One Disagreement state on Apple names two different conflicts: \"The approved model and the baseline differ\" on the instrument, proof and chain, and \"Rules and models disagree\" on Views. Home says rules against model, and MP-144's and MP-155's case is rules against models. The instrument never shows the rules side. Short-term says \"Models disagree at 10 sessions\", but the row is unmarked and shows ",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h20",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "forecast.js:126",
+          "evidence": "\"so all four rows show the rules\", but 5 sessions still reads \"In practice · Shadow trial, week 5 of 8\". The banner says \"paused\", the rows say \"No qualified model\", and MP-145 lists `model_paused` as its own state.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h21",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "h",
+          "anchor": "docs/design/journeys/src/shell.css:26",
+          "evidence": "At maximum scroll on iPhone, the last card still runs under the floating bar: 1261 against 1241 on forecast, 1261 against 1233 on home, and phone web on forecast is also short. The capture shows \"Forecast up to £59.73\" and \"Source to outcome\" never clear the bar, on a screen meant to keep cost visible.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h22",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:233",
+          "evidence": "No candidate action is drawn with its reasons. Microsoft shows \"Watch · decision support\" with no reasons, impact or versions. ICICI shows impact but no action. Only NVIDIA has a sheet, while MP-144 says \"each action shows its reasons, uncertainty and horizon and the counterfactual change\".",
+          "status": "open, non-blocking: no candidate action sheet with reasons"
+        },
+        {
+          "id": "R1-h23",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:77",
+          "evidence": "Gold's chart says \"Yahoo · as of 21:15 London\", but the data specification names Twelve Data (coverage unproven) and SCI-D08 leaves the source open. Option A offers Short-term, Three views and Scenarios on gold, while Option B says \"Neither runs for gold\", a statement I found in no record.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h24",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:135",
+          "evidence": "\"its new score sits beside the old one\" is claimed, but no such pair is drawn. The superseded link appears only as a sentence. MP-157 `corrected` and MP-151 `superseded` are listed states.",
+          "status": "partly fixed: the score pair is drawn; no superseded record yet"
+        },
+        {
+          "id": "R1-h25",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:161",
+          "evidence": "In Empty, \"No holdings yet\" sits above ticks reading \"you hold it\" on NVDA, AAPL, SPY and NIFTYBEES, under a legend and a sidebar \"Portfolio 7\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h26",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:202",
+          "evidence": "In Abstaining, \"META lost its growth part\" but META appears nowhere on the list, only unrelated AVGO, against \"shows as not ranked with the parts it has\". Option B says \"Withheld: no other eligible listing\" where TCS dropped out. Its disagreement rows have no mark on INFY or AMZN.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h27",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:56",
+          "evidence": "In Stale, Apple shows a 16:35 clock while \"Twelve Data · Fresh\" stays up, the chain swaps its source to Yahoo, and home keeps Apple at 21:15. The banner says \"until prices return\", while the card says \"until the next ranking run\", which is MP-144's wording.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h28",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:369",
+          "evidence": "These are claims the owner chooses on, and they fail on iPhone. Option A's \"fill the first screen\" shows 2 of 7 rows above the pill (bottoms 599, 695; pill at 696). Option B's \"all seven and the brief fit above the fold\": the seventh row ends at 694, but the brief starts at 754 and the dock at 760.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h29",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.css:12",
+          "evidence": "Short-term measures 106×36, assumption inputs 92×36, filter chips 40 to 43 wide, and top-bar icons 36 wide, against the 44-point rule. None fails WCAG's 24 px minimum.",
+          "status": "open, non-blocking: some filter chips and inputs sit under the 44-point rule, above WCAG's 24"
+        },
+        {
+          "id": "R1-h30",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:174",
+          "evidence": "Tiles, table rows, links and chain steps are plain elements (8 tiles, 7 rows and 7 steps not focusable), so no keyboard path can be shown. The selected step is marked by background alone, with no `aria-current`.",
+          "status": "partly fixed: rows, tiles, links and steps are real controls; hit areas are R1-h29"
+        },
+        {
+          "id": "R1-h31",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:290",
+          "evidence": "Option B's Empty says \"Price history shows now\" and no chart is drawn.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h32",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:168",
+          "evidence": "The gold tile says \"Prices still show\" with no price on it.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h33",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:145",
+          "evidence": "\"0 of 26 matured live\" uses the walk-forward count as if it were a live denominator.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h34",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "shell.js:166",
+          "evidence": "The inventory says \"No model or Empty shows the unclassified case\", but Empty says \"no action band applies\", which is a different case.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h35",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:243",
+          "evidence": "\"Sealed 21:15\" implies an integrity guarantee, while FIN-OD-08 leaves integrity anchors open.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h36",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:269",
+          "evidence": "Search filters have no segment or holding/watch-only filter, which MP-141 lists.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h37",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "home.js:243",
+          "evidence": "\"If it were 10% smaller\" holds the total constant (12.1%, against 12.3% if the money leaves) without saying so, and the total holds no cash. \"Banks share 7.2%\" counts HSBC only, beside an ETF overlap on the same card.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-h38",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "h",
+          "anchor": "forecast.js:231",
+          "evidence": "\"Dividends\" is a decimal text input holding \"Reinvest\". \"This state is drawn on gold and silver\" is designer language inside a product screen.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:277",
+          "evidence": "- Option B has no Imports place. `history()` is used only by `a-imports` (:346), and no default B screen contains the word \"Imports\". - `b-add` reads back \"Stocks ISA\" with the Settings tab lit (capture `holdings-b-iphone-default-2-light.png`), and no Stocks ISA screen is drawn. - `b-one` Empty offers \"Go to Imports\" with no target (:277). - On iPhone the only entry is the ISA card's Add statement",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:44",
+          "evidence": "- Same state, same moment: Home Stale shows £84,612.40, \"5 of 7 priced\", AstraZeneca and HSBC stale. - Holdings Stale shows £78,508.20, \"6 of 7 priced\", only HSBC stale. - Holdings gives AstraZeneca \"Twelve Data\" (:57); Home and the shared figures give UK listings to Yahoo. - Ready marks HSBC Stale and Held, yet includes it in the complete total, with Value 7 of 7 and Yahoo Fresh. - HSBA's own pag",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:30",
+          "evidence": "- `dump.json` shows ranked badges with no \"Decision support\" on `a-list`, `a-one`, `a-differ`, `b-one` and `b-differ`, on web and iPhone, the two surfaces I sampled. - The One holding Empty action (both options, web and iPhone) has the same gap. - MP-62 negative: \"ranked actions are labelled decision support\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:44",
+          "evidence": "- \"If you trimmed to the ranked weight: 13.5% → 10.0%\" and \"the ranked trim would have taken it to 10.0%\" give a target size for an owned holding. No record defines a ranked weight and FIN-OD-07 is unapproved, so this reads as personalised sizing. - Home opens the same action as \"If it were 10% smaller\": 13.5% to 12.1%, range width 24.7 to 24.0 pts, against the journal's −9.4% → −8.7%. - Home show",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j5",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:184",
+          "evidence": "- No screen draws manual entry, though \"Type it in\" appears on both options. MP-49's refused-for-a-missing-field, resumed and snapshot cases are absent. - No screen draws guided edit, though Edit and Add the date are buttons. - There is no exclude control; `grep -i exclud` finds nothing. - No screen draws a history rebuild proposal. \"rebuild\" appears only in two sentences, against MP-68 POLICY-012",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j6",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:287",
+          "evidence": "- `b-check` draws only question 1 of 3. The listing choice (MP-50, Claude suggests, owner confirms) and the transfer question are chips with no screen. - \"All 11 rows\" is static text with no screen, so MP-53's \"every row\" fails. - A's \"Keep it anyway\" has no B equivalent. - The note says a duplicate \"becomes one question\", but the three are price, listing and transfer.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:24",
+          "evidence": "in the Abstaining state the list shows AstraZeneca \"+6.4%\" and \"Available\", with the banner \"Its value and return stand\". Its own page shows \"No rate found\", \"Nonconvergent\". Return 5 of 7 counts it.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:238",
+          "evidence": "- `provenance()` gives every holding but NIFTYBEES the General CSV and ISA statement. Reliance, held only in India demat, shows both; AstraZeneca and HSBC show the General CSV. - In B, Reliance's \"Two rates fit these cash flows\" sits above a single \"Opening position\". - HSBC's +8.1% a year has one event behind it. - Apple under \"All\" lists 60 of 88 units. - AGENTS.md requires a clear provenance tr",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:12",
+          "evidence": "frozen evidence of 28 April and 12 May cites R2-HGB v3, and the proof beside it says \"Approved 1 Oct 2026\". The No model card \"No approved model covers NVIDIA now\" sits beside the same \"Approved\" proof with 79% (`journal-a-ipad-noModel-0-light.png`).",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:67",
+          "evidence": "- `a-record` says \"nothing to record against\", yet `a-one` shows a recorded entry against an abstention. - `a-list` says the model abstained on Apple, while `a-one` shows NVIDIA. - The Apple row keeps a ranked Hold badge from a model that abstained. - Its text cites \"the wider range\" where no range existed. - The rail still says \"Next outcome: Apple, 12 Nov\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j11",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:173",
+          "evidence": "\"reading resumes when it renews. It is never retried under a new budget.\" contradicts itself. MP-48's rule covers a failed call, not a queued one.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j12",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:344",
+          "evidence": "Imports says \"2 fields\" are blank. Preview says \"1 field\", one date; B's question card shows one blank date while its header says \"question 1 of 3\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j13",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:96",
+          "evidence": "- \"Both show\" is false on the iPad and desktop table, which has only a \"Differ\" chip. - It is false on the journal's disagreement card, which has no figures at all. - The lane says \"on its card\" in the banner and \"on the next page\" on the card. - MP-144's state is conflicted, \"shown\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j14",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:219",
+          "evidence": "under a red \"Reversal refused\" the primary \"Review and approve\" stays enabled (`holdings-b-web-disagreement-5-dark.png`). The same happens under \"Refresh it before you approve\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j15",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:156",
+          "evidence": "the statement shows TRANSFER IN 500.00, and \"from these rows\" (£4,142.83) leaves it out as pending. The difference must then include the £500, yet the card says £12.40 against £4,130.43.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j16",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:158",
+          "evidence": "- MP-65's \"Resolved by the owner, with reason\" has no control. Keep it open takes no reason, and \"Open the difference\" has no target. - MP-55's Revoked state has no control or screen; the only hits for \"revoke\" concern devices.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j17",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "shell.js:17",
+          "evidence": "every Error view shows \"Twelve Data · error 21:14\", including refused files, Claude validation failure, approval refused, commit failure and a scoring job. Draft-stale shows Yahoo delayed. `privacy.js:7` already says \"A failed export is not a failed price\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j18",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:319",
+          "evidence": "on web and phone web, Privacy says \"This browser keeps nothing to read offline\". Holdings and Journal show full figures \"from 21:15\", and \"Your draft stays here\". None is labelled proposed, though MP40-Q12 is open.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j19",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:17",
+          "evidence": "- Phone web has no Hide amounts: `eyeBtn` returns nothing and its frame reads only `webActions` (buttons in `dump.json`). - Imports, Preview and Committed show money with no eye on any surface. - No masked table or import screen exists for MP-84. - \"Permission denied\" appears in no journey.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j20",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "holdings.js:100",
+          "evidence": "\"with their reasons on each holding\" is false; One holding shows a badge with no reason. The inventory says the candidate word is drawn as \"Watch only\", but no screen shows a candidate action, so MP-144's \"Holdings and candidates are visibly distinct\" is not drawn.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j21",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "journal.js:145",
+          "evidence": "the journey claims MP-154, but no journey draws track records by horizon, holding or regime, the 30, 90 and 365-day summaries, or censoring. \"Track record\" lights only the Journal. MP-130's `suspended` and `delisted_unresolved` states are also undrawn.",
+          "status": "open, non-blocking: track records by horizon and regime are not drawn; on the open list"
+        },
+        {
+          "id": "R1-j22",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "j",
+          "anchor": "journal.js:13",
+          "evidence": "- \"You added 6 units\" has no source. A's sheet has only two answers and Why; B's picks have no units. - B records the same NVIDIA case as \"I acted, Hold\" where A says \"I chose not to\". - \"Record a decision\" has no destination when no action is open.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j23",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:133",
+          "evidence": "MP-53 requires account and listing mappings and affected measures. Rows show neither mapping except HSBC. On phone A the account appears only in the approval sheet. B's phone view shows no before and after, and no affected measures at any point.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j24",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:366",
+          "evidence": "MP-48's hostile-text \"flagged\" case and \"Superseded by a newer model or prompt version\" are undrawn. \"Claude only proposes\" is omitted on phones.",
+          "status": "open, non-blocking: the hostile-text flagged preview and the superseded revision are not drawn"
+        },
+        {
+          "id": "R1-j25",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:183",
+          "evidence": "- \"Next renewal is 12 Sep 2028\" against Privacy's \"kept to Aug 2028\" and a Dec 2024 statement \"due for renewal\". - Export at revision 212 against 12. - The pending import is 11 rows at 212 against 12 rows at 214.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j26",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:138",
+          "evidence": "- The listing options are plain divs, with no radio role or keyboard path, and they are the only way to resolve that group. - Every approval dialog is named \"Approve exactly this\", even when titled \"Approval refused\" or \"You are offline\". - Chevron cards, \"All 11 rows\" and \"See where you differed\" are not controls. - Back is a span everywhere, and an unnamed icon on phone web. - The Why field is a",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j27",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:185",
+          "evidence": "Imports reads back \"Data sources\" on iPad and desktop while Settings is lit, and the inventory says Settings.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j28",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:122",
+          "evidence": "- \"1 import is ready for you\" while Imports Ready shows reading. - \"or commit\" on a screen already committed. - \"Check 1 of 3\" over \"No questions\". - \"Your 1 answer is kept\" over an unanswered question. - \"last answer ... at revision 4\", though answers make new revisions. - Empty shows \"Differed 3\". - \"Select at least one\" with every tick disabled.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-j29",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "shell.js:71",
+          "evidence": "the sidebar shows \"Portfolio 7\" over \"No holdings yet\". \"Return, partial\" stays +11.8% when HSBC leaves. Revisions 5 and 6 share one hash. Not-applicable `a-differ` No model says nothing changes, yet its proof card would.",
+          "status": "partly fixed: holdings and journal parts fixed; the sidebar count is fixed in the shell"
+        },
+        {
+          "id": "R1-j30",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "j",
+          "anchor": "holdings.js:106",
+          "evidence": "a fixed 96px cut truncates \"SPDR S&P 5…\" and \"Nippon India …\" with room to spare. The iPad Empty state repeats one message in two cards. The desktop title bar carries the holding and decision, for example \"NVIDIA · 28 Apr\", against MP-84's page-title concern.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:93",
+          "evidence": "The promotion binds tasks \"3, 6, 12 months\". NEXT promises \"Each week: Scored against v3\", \"After 2 bad weeks: Reverts\" and \"After 4 good weeks: Probation ends\". The same page says \"No 3, 6 or 12-month forecast has matured\". Owner answer 14 and MP-159 count only matured forecasts: \"A week with no matured paired forecasts neither counts toward nor breaks a run.\" The earliest 3-month shadow forecast",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:92",
+          "evidence": "The live-shadow row that beats both comparators is \"1 to 20 sessions\", a task the approval does not bind. The head and Tasks say 3, 6 and 12 months. The maturity state says \"too few short-term forecasts\". Owner answer 13 and MP-156 say the 8 weeks only check clean running and calibration for these horizons. So the \"Passed its shadow trial\" evidence covers something this approval does not change.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:178",
+          "evidence": "\"Narrow a self-correction band\" and \"Restart US tech, 12 months\" have chevrons but no proposal screen. A grep finds \"self-correction\" in that one queue row only, across all eight journeys. So MP-114's \"impact, evidence, cost and how to roll it back\" is drawn nowhere. The restart decision (owner answer 15, MP-159) and switching forward (answer 6) are not drawn either. Nothing draws an approval bein",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:222",
+          "evidence": "Option B's brief shows ranked actions as bare chips (\"NVDA · Trim\"), with no reason and no range, and no citations or Sources anywhere on Today. Rendered text confirms it. There is no \"Words by Claude\" tag in Ready, yet `:239` says the template brief \"is labelled so\". README: ranked actions carry \"a reason and the uncertainty\", and every quoted figure carries a source. MP-125 says the same of figu",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r5",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:300",
+          "evidence": "Rendered on every screen, \"Notices\" appears in Option B only on iPad and desktop `ab-home`. It is absent on all six iPhone and phone web screens. MP-162: \"Every notification intent appears in the in-app inbox on the web and the Apple app\". In both options the rows show no detection time, no unread or dismissed state and no evidence deep link. \"Opening one changes nothing\" also reads against synced",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:266",
+          "evidence": "Each option draws only half the outcomes, and the owner picks one option per journey. Option A has no listing outcome: applied, write failed, refused or expired, so MP-131's \"confirmed but not applied\" is missing. Option B has no step-up or outcome for a promotion, so no probation, no next steps and no expired model proposal. The `ab-step` and `ab-after` screens are TSM only.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:58",
+          "evidence": "Claude's \"code has checked its coverage and cost\" renders in the loading, error and abstention states. In `ab-chat` abstention, \"no tier change needed\" sits beside \"would need a higher Twelve Data tier\". In error, all four check ticks sit beside \"The check timed out\". Refused screens still say \"It joins only if you confirm\" and \"This adds one watch-only listing\". In Ready, Claude says this at 08:4",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:102",
+          "evidence": "The Stale state reads \"5 of 8 scored weeks\" and \"the count is paused at 5\", but `stop: 7` draws 6 ticks plus the pause. Six weeks precede 12 Oct. The captured iPad dark frame shows 6 ticks. Owner answer 16 is the rule this state illustrates.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:268",
+          "evidence": "\"The record\" is passed as `actions`, which only the iPhone renders. Measured `[aria-label=\"The record\"]` count: iPhone 1, phone web 0, iPad 0, desktop 0. In Ready, Option A has no path to `aa-record` on three of four surfaces.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:52",
+          "evidence": "\"New venue XNYS 44\" and 1,855 charge for a MIC not yet polled. XNYS is first in the catalogue's `change_detection_mics`, the fixtures hold JPM, JNJ and XOM on it, and `home.js:263` shows JPM · XNYS watch-only, score 70. So 1,811 is the right total, and \"No approved model covers XNYS\" is contradicted too. \"Busiest minute 31\" implies joining the 30-credit slot, but the 286 a month for that is absent",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r11",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:142",
+          "evidence": "Research says \"Asking returns when the budget hold lifts\" and \"until the hold lifts\". Cost says \"No verified credit and no paid approval\" and \"Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.\" Waiting never brings Claude back. These sentences are the journey's own; the \"stay inside the budget\" line is Prism's.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r12",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:130",
+          "evidence": "MP-127 lists `cap_reached`, with recovery \"chat says so and offers the stored explanations instead\". A grep finds the cap only in Option B's cost text. MP-127's concise answer with technical detail and a glossary on request has no control either.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r13",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:40",
+          "evidence": "\"No model\" means two things. On `ra-card` and `rb-card` the body says \"No approved model for 12 months\", the composer says \"Claude is off this month\", and an adjudication still appears. Its meta still reads \"Horizon 3 May 2027, R2-HGB v3\" with 12M selected. On the alert, No model is marked n/a for a forecast reason, but Claude off can occur there and \"Ask why\" is its primary button.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r14",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:47",
+          "evidence": "Ready shows \"Yahoo · Fresh\" beside \"Yahoo delayed, so its action is paused\". The same screen gives UK last close as 16:35, so a 16:35 price is the close, not stale. Stale reuses the same four rows but retitles them \"Three ranked actions, one paused\", while Ready calls them four.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r15",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "research.js:37",
+          "evidence": "Claude closes with \"Trimming would narrow the portfolio's range.\" It has no reference and no tool result behind it, and it directly follows a Trim badge. MP-125 requires derived results from deterministic services, and AGENTS bars wording that reads as advice.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r16",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:35",
+          "evidence": "The step says \"Read a filing\", but \"What Claude may read\" (MP-127's list, word for word) has no filings, and the story says chat quotes a stored analysis. Source 4 is load-bearing (\"the main bull point\"), yet no screen opens an event analysis. ARC-06b's record of uncertainty, invalidation and citations is drawn nowhere (\"invalidat\" has no journey match).",
+          "status": "partly fixed: step wording fixed; the event-analysis source is not drawn"
+        },
+        {
+          "id": "R1-r17",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:163",
+          "evidence": "The quarantined item shows \"Rights: No record yet\", with a content hash and its text stored. MP-81: no rights record means \"refused at intake with reason rights_blocked and only the refusal receipt is kept\". The `Updated` time and the `rights_blocked` and `withdrawn` states are also undrawn.",
+          "status": "partly fixed: rights label and Updated added; the refusal receipt and rights_blocked and withdrawn states are not drawn"
+        },
+        {
+          "id": "R1-r18",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "research.js:186",
+          "evidence": "The disagreement banner says \"until you correct or forget it\", but the detail shows the tainted note, which is not in that list, so the conflicting note has no actions. \"Renew it\" is not in MP-115 and has no control. \"So Claude did not use it as evidence\" implies other notes can be evidence, against \"never accepted as evidence\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r19",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "r",
+          "anchor": "approvals.js:157",
+          "evidence": "\"Raise the Claude cap to £20\" sits in the record as the owner's refusal. The same journey says approvals grant no budget \"and code refuses any change that would\", and MP-114 bars granting a route a budget. MP-78 separately lists budget expansion as a sensitive action, so the records conflict.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r20",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:134",
+          "evidence": "The sheet says \"You approve exactly this\", but STEP_MODEL omits artefact, calibrator, tasks, scope, limits, previous safe and a payload hash. MP-156 binds them, and phones see no `bound()` card there. \"Typical 80% range: 1.2 points narrower\" has no before value.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r21",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "shell.js:161",
+          "evidence": "The Rules column looks settled, but a rules score needs R0-RULEMAP and \"beating\" is proposed, both open in SCI-D03. The bad-week rule is pending in SCI-D07. \"Cooldown runs to Thu 07:30\" is not in any approved record, and the only figure on record, one push per 24 hours (a proposal), would end Wednesday 22:15. OPEN lists none of these.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r22",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:11",
+          "evidence": "Queue rows, the only way into a decision, are `div`s with a chevron. Option B's strip is `role=\"group\"` and Back is a `span`, so keyboard and VoiceOver users have no target or name (WCAG 2.1.1, 4.1.2). Citations are spans too, but that is Prism's spec.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-r23",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "r",
+          "anchor": "approvals.js:66",
+          "evidence": "**R1-r23 · P3 · not blocking · slips** - `approvals.js:66` says 09:12, `:153` says 09:02. - `:165` lists the record from 16:35, while `:171` shows the newer promotion in the rail. - `:228` shows a \"Refused\" chip on \"Confirmed, not applied\", and `:312` calls it \"applied late\". - `:204` has 2 decisions where Option A has 4. - `:104` with `:318` shows v3 Active, Approved 1 Oct, beside \"its approval h",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:226",
+          "evidence": "ranked actions show with no \"decision support\" label. In the rendered text of Home with the meter, Home with the pill, The month in a sheet, Privacy centre and Home amounts hidden, Add, Trim, Hold or Pause appear and \"decision support\" does not (checked iPhone on all five, desktop on Home with the meter only). The negative acceptance says ranked actions are labelled decision support.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:328",
+          "evidence": "Cost option B has no degraded-mode screen and no fit screen. - MP-103: \"No feature is cut silently: every degraded mode is shown to the owner with its reason.\" B draws no pause or reduce screen. - The `cost-b-log` note promises \"Every invoice, reservation, refusal and threshold\", but a search of its default, stale and disagreement text finds no Warn, Reduced, Paused, threshold or £60. - MP-112 (pl",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:294",
+          "evidence": "Privacy option B dead-ends. The Checkup note says \"each row opens the place that thing lives\", but three of those places are not drawn: - No devices and sessions list, so MP-87's revoke of any session or device exists only through the lost-device flow. - No screen for the less-private settings, so MP-166's \"setting_change_failed\" and its recovery are not drawn. - No new-device or link screen: sign",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_journeys_check.mjs:104",
+          "evidence": "the walker fails open and has no selftest (lesson 8). Runs on scratch copies: - `--only nosuch`: \"0 combinations walked, 0 problem(s)\", exit 0. - A page with no journeys: exit 0. - `throw` at load: exit 0, although the header says it fails on a page error. Line 104 clears `errs` before anything reads it. - Text at `opacity:.3`: exit 0. - A pressable chip at `min-height:12px`: exit 0. Only `button.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:244",
+          "evidence": "in `privacy-b-lost` Abstaining, the card says \"Locked out. With no path left\" while the rail on the same screen says \"Sign-in paths · 3 healthy\", and the frame sits inside Settings with \"Checkup\" back. Option A marks this very case not applicable: \"A locked-out owner cannot reach this page\" (`privacy.js:281`).",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:194",
+          "evidence": "on Paused, No model, the status reads \"Claude was already off, so this is all AWS\", and the list says \"Already off\". The same card shows \"Claude £14.62\" and a Claude bar, because `OVER` is reused unchanged.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s7",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:30",
+          "evidence": "Error reads \"£44.40 last reconciled\", but the breakdown on the Sources screen shows £37.69 reconciled plus £6.71 \"Not yet reconciled\". - \"Since 16 Nov\" is \"Not shown\", yet the total reads flat £44.40. Abstaining says \"At least £39.36\". - MP-142 recovery asks for a stale label. No such word appears in this state.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s8",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:205",
+          "evidence": "the Stale delete sheet says of \"Broker statement, Sep 2026\" that \"Its 24 months end soon\". The list behind it says \"kept to Sep 2028\", and the file due is the Indian funds statement. - The same banner says \"renew it or delete it here\", but only Not now and Delete exist. - \"Renew\" is a chip everywhere, so MP-45's owner extension has no control and no fresh-sign-in step.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s9",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:194",
+          "evidence": "the tainted memory note has no Forget. Its end slot holds the \"Untrusted source\" chip instead. MP-115 says the owner can list, correct and forget notes. This is the note most likely to need it.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s10",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:272",
+          "evidence": "Privacy centre marks Empty n/a because \"the private defaults always exist\". That page also holds the inbox and phone notifications. So \"No notices yet\" and \"Not asked yet\", MP-167's day-one `permission_not_asked`, can never be reached in option A. The README allows n/a \"only when it truly cannot occur\".",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s11",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "privacy.js:306",
+          "evidence": "`privacy-b-home` passes through `fx()`, whose comment says a failed export is not a failed price. This screen does show prices. - Stale renders \"Twelve Data · Fresh Yahoo · Fresh\" above \"Stale. HSBC last priced 16:35\". - Error renders the same two chips above \"Holdings failed at 21:14\". - That hides provider status, which the acceptance forbids.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s12",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "home.js:29",
+          "evidence": "Home draws a third cost presence, a static row \"Forecast up to £59.73 of the £100 ceiling\", which matches neither Cost's meter nor its pill. - On a phone it sits after the holdings. Cost A puts a card before them, which the option admits, against \"Holdings first on home\" (MP40-Q14, README). Only Apple and part of NVIDIA show above the dock, where option B shows three holdings. - It never changes w",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s13",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:113",
+          "evidence": "MP-142's warning and reduced states have no drawing in option A. - Reduced appears only as a rung and a past event. No screen shows what is reduced and why, against MP-103's \"every degraded mode is shown\". - Warning appears only as a rung chip reading \"Reached\". - Also undrawn, non-blocking on their own: MP-100 and MP-89 partial, MP-112 past the ceiling, MP-166 `owner_enabled_detail`, MP-162 dismi",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s14",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "docs/design/reviews/MP-62/decision.md:165",
+          "evidence": "decision.md says the top 5 was corrected to \"3 to 12 months\". Prism line 2066 still reads \"6 months · score = growth 35% + protection 40% + opportunity 25%\" (lesson 1). The same page is the owner's live artifact.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s15",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "cost.js:57",
+          "evidence": "the home meter's accessible name is \"Cost this month: On plan. Opens the month.\" The visible \"£46.42 committed so far\" and the forecast are absent, so assistive technology never gets the amount (WCAG 2.5.3 Label in Name). The nested `role=\"img\"` ladder inside a button is presentational.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s16",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_gates.py:512",
+          "evidence": "the static gate skips forms it cannot read (lessons 8 and 11). Each of these passed `check_journeys` when injected into the real page: - `font-size` in em, %, pt, `calc()`, `clamp()` or `var()`. - `font-weight:350`. - `-webkit-animation: ... infinite` and `-webkit-transition: width`. - Inline `animation ... infinite` and inline `transition: width`. - A single-quoted inline `font-size: 6px`. - `.co",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s17",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": ".github/workflows/verify.yml:65",
+          "evidence": "neither the walker nor the runtime gate runs in CI or in the selected checks. A change to the walker selects only Python checks, so nothing exercises it. Both hard-code a path in the sibling MA repo. `round-1-checks.json` shows `deferred: []`, while the CI step is titled \"Every gated design holds 20% brightness contrast\". In CI, `check_journeys` measures no contrast and renders nothing.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s18",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "privacy.js:176",
+          "evidence": "the Offline copy card says \"This browser keeps nothing to read offline\". The phone web frames still show \"Offline · from 21:15\", \"Saved copies\" and £46.42. MP-134 leaves PWA caching to the offline policy, and MP40-Q12 is open.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s19",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "privacy.js:140",
+          "evidence": "of a revoked iPad that has not connected, the screen says its copy \"cannot be read before then\". An offline device cannot learn it was revoked, and the app reads the cache offline by design. The promise comes from MP-165's negative and matters most for a lost phone.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s20",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "decision.md:176",
+          "evidence": "three claims overreach: - \"The exemption keeps the 3:1 floor\" holds only in `design_runtime.mjs`, which sees the first view. The walker, the only gate reaching other sheets, skips exempt text outright. - \"The one text exempt\" ignores disabled controls and the phone web status bar, which has no exempt mark and is never measured behind a scrim. - \"Every piece of MP's own text holds\" is unproven: 376",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s21",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "shell.js:182",
+          "evidence": "in the inventory an n/a cell's reason lives only in a `title` attribute. It shows \"n/a\", with no reason on touch or by keyboard. decision.md says this reading is put to the owner. The reason does appear under the board.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s22",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:222",
+          "evidence": "Does it fit, Ready, shows the months with no condition. The Grow 55 condition appears only under Abstaining. TECH-STACK says the fit \"stays conditional on the Grow 55 checkout price, listing rights and the measured workload\". The specification adds that the 27p margin excludes unmodelled lines, about £0.15 of transfer plus Terraform state and scan compute.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s23",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": ".claude/rules/design-sync.md",
+          "evidence": "the rule says \"A new value or component is added to Prism first, not drawn on one page\". The README allows journey CSS, and `cost.css` and `privacy.css` define the ladder, rungs, stepper and signed-out cover with raw radii and sizes.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s24",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:29",
+          "evidence": "Empty shows \"New month\" and \"AWS arrives tomorrow\" under the fixed \"November · day 18 of 30\". Paused, Loading shows day 18 and £46.42 on a day 24, £71.20 screen.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s25",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_tokens.py:249",
+          "evidence": "the line `... == ... is False` is a chained comparison that can never be true, so it is dead. No selftest case proves the stale-file refusal. A token of any other `$type` is dropped from Swift silently.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s26",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:90",
+          "evidence": "figures that disagree: - In disagreement, AWS stays \"Forecast £18.64\" while the month rises to £60.04. - In Abstaining, the £75 to £100 rungs say \"Not reached\" under an unknown forecast. - The privacy inbox's Ready has \"Cost warning reached: Forecast passed £60\" while Cost's Ready is 27p under.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s27",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:161",
+          "evidence": "only \"By feature\" of MP-100's five drill-downs is drawn. The chips are 32 px with no extended hit area, against the README's 44.",
+          "status": "partly fixed: chips reach 44 px; the other four drill-downs are not drawn"
+        },
+        {
+          "id": "R1-s28",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "cost.js:8",
+          "evidence": "the home meter has no legend, and its blue and teal are the US and UK colours in the bar directly above it.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s29",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "privacy.js:125",
+          "evidence": "copy and cue slips: - The desktop and iPad frames say iPhone is \"This device\". - iPad signs in by \"Passkey\", but no iPad passkey is listed. - \"newest 2 days ago\" conflicts with \"active now\". - \"Nothing changes until the last step\" sits above a revoke at step 3. - Empty says \"No other device to confirm on\" above \"Use a passkey on your iPhone or Mac\". - The current step and unread state have no text",
+          "status": "fixed"
+        }
+      ],
+      "next_round": "Waiting on the owner. Round 2 would cover git diff c1fa817..HEAD and its direct joins.",
+      "blocking_findings": [
+        "R1-h1",
+        "R1-h2",
+        "R1-h3",
+        "R1-h4",
+        "R1-h5",
+        "R1-h6",
+        "R1-h7",
+        "R1-h8",
+        "R1-h9",
+        "R1-h10",
+        "R1-h12",
+        "R1-h13",
+        "R1-h14",
+        "R1-h15",
+        "R1-h16",
+        "R1-h17",
+        "R1-h18",
+        "R1-h20",
+        "R1-h21",
+        "R1-j1",
+        "R1-j2",
+        "R1-j3",
+        "R1-j4",
+        "R1-j5",
+        "R1-j6",
+        "R1-j7",
+        "R1-j8",
+        "R1-j9",
+        "R1-j10",
+        "R1-j11",
+        "R1-j13",
+        "R1-j14",
+        "R1-j16",
+        "R1-j17",
+        "R1-j18",
+        "R1-j19",
+        "R1-j20",
+        "R1-j22",
+        "R1-r1",
+        "R1-r2",
+        "R1-r3",
+        "R1-r4",
+        "R1-r5",
+        "R1-r6",
+        "R1-r7",
+        "R1-r8",
+        "R1-r9",
+        "R1-r10",
+        "R1-r11",
+        "R1-r12",
+        "R1-r13",
+        "R1-r14",
+        "R1-r15",
+        "R1-r19",
+        "R1-s1",
+        "R1-s2",
+        "R1-s3",
+        "R1-s4",
+        "R1-s5",
+        "R1-s6",
+        "R1-s7",
+        "R1-s8",
+        "R1-s9",
+        "R1-s10",
+        "R1-s11",
+        "R1-s12",
+        "R1-s13",
+        "R1-s14",
+        "R1-s15",
+        "R1-s16"
+      ],
+      "nonblocking_findings": [
+        "R1-h11",
+        "R1-h19",
+        "R1-h22",
+        "R1-h23",
+        "R1-h24",
+        "R1-h25",
+        "R1-h26",
+        "R1-h27",
+        "R1-h28",
+        "R1-h29",
+        "R1-h30",
+        "R1-h31",
+        "R1-h32",
+        "R1-h33",
+        "R1-h34",
+        "R1-h35",
+        "R1-h36",
+        "R1-h37",
+        "R1-h38",
+        "R1-j12",
+        "R1-j15",
+        "R1-j21",
+        "R1-j23",
+        "R1-j24",
+        "R1-j25",
+        "R1-j26",
+        "R1-j27",
+        "R1-j28",
+        "R1-j29",
+        "R1-j30",
+        "R1-r16",
+        "R1-r17",
+        "R1-r18",
+        "R1-r20",
+        "R1-r21",
+        "R1-r22",
+        "R1-r23",
+        "R1-s17",
+        "R1-s18",
+        "R1-s19",
+        "R1-s20",
+        "R1-s21",
+        "R1-s22",
+        "R1-s23",
+        "R1-s24",
+        "R1-s25",
+        "R1-s26",
+        "R1-s27",
+        "R1-s28",
+        "R1-s29"
+      ],
+      "blocking": 70,
+      "result": "120 findings, 70 blocking. Every blocking one is fixed and held by a ledger check.",
+      "new_gates": [
+        "scripts/design_journeys_facts.mjs: every fixed finding proved on the rendered screens with no browser, in CI",
+        "scripts/design_journeys_check.mjs: --selftest, the matrix count, load errors, opacity, gradient stops, images, every control over 24 px, the decision support label",
+        "scripts/design_gates.py: every text size and weight is read or refused, vendor and inline forms, the stray token refusal (16 new faults)",
+        "scripts/design_tokens.py: stale files and unknown types refused",
+        "scripts/review_checks.py: design-walk, a broader-tier check naming the rendered checks"
+      ],
+      "fix_commit": "18e243db95af8925d0612c6a984a78fa34df3caa",
+      "post_fix_gates": "design_journeys_check: selftest 10 of 10 faults refused; 1,152 combinations, 0 problems, before the staged drawing change, then privacy in dark, 72 combinations, 0 problems, after it. design_runtime: 8 of 8 on Journeys and 8 of 8 on Prism. design_gates selftest 117 faults, design_tokens selftest 10. design_journeys_facts 83 of 83 on the fixed page, 0 of 83 on the reviewed page. review_regress MP-62 84 of 84; every ledger 130 of 130. review_checks all pass; design-walk deferred, run by hand as above; actionlint by hand: pass. plan_sync check clean. design_sync 8 in step after the republish.",
+      "publication": "Journeys v3 and Prism v4 republished privately to their own links and read back as identical to the repo files. The publisher did not read the files in full before publishing as instructed; it compared the live copies and ran a pattern scan. A separate agent then read the Journeys page in full."
+    }
+  ]
+}

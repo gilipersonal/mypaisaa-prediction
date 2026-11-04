@@ -1,0 +1,1339 @@
+[
+ {
+  "id": "R1-h1",
+  "finding": "In No model, the holdings banner says \"No approved model covers India yet\" and the brief says \"India is rules only\". The board on the same screen still shows \"Nifty 50 | ICICIBANK 72 | HDFCBANK 69 | TCS 66 | INFY 64 | SB",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h2",
+  "finding": "The Option B ladder in Abstaining reads \"12 months abstained\" and the row says \"so no range\". The fan still draws to 12 months, labelled \"+12.4%\", \"+33.9%\", \"−10.2%\", under an \"Evaluated\" chip, and the chart's `aria-labe",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h3",
+  "finding": "Option B has no proof on iPad or desktop. Across all five B screens at `web`, these are all absent: `ds-2026-10-30`, \"Hit rate\", \"Benchmark\", \"Model sheet\", \"Analog sheet\", \"22 since 2015\". The Proof tab exists but press",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h4",
+  "finding": "The Top 5 has no range, uncertainty or freshness on home. Counted on `a-board` and `b-top5`, phone and desktop: 0 percentages, 0 ranges, and no \"decision support\" text. The owner's record says \"They come with their range",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h5",
+  "finding": "In Loading, the provider chips collapse to \"Refreshing · last good 21:15\", so Twelve Data and Yahoo disappear from the header and sidebar. The value card says \"showing 21:15\", but the rows are skeletons, so every range a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h6",
+  "finding": "The Error state shows \"As of 20:45 London | Data cutoff 21:00\", an as-of before its own cutoff, from a single-string `.replace`. A daily forecast can't exist at 20:45, before the 21:00 US close, and the page says \"Next r",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h7",
+  "finding": "`.win b { color: var(--ink) }` also matches the `.dev.win` desktop frame. So desktop light tile scores are rgb(20,23,31) on tile colours, not white, at 15 px weight 800. Computed ratios are 2.90 to 3.62:1 on all seven sc",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h8",
+  "finding": "The Loading brief shows \"Hold Apple: median positive, range still includes a loss.\" and \"Add Reliance: 7.4% median at 6 months.\" The screen has no \"decision support\" text, and the Add is a bare median with no range. That",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h9",
+  "finding": "The brief renders in the order Actions, Changes, Risks, Upcoming (text offsets 281, 548, 645, 790 on iPhone). MP-148 and the screen's own note say actions, then risks, changes, events. Wide reading order is the same.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h10",
+  "finding": "The pill says \"2 actions · 1 conflict shown\", while the list directly below shows Trim, Add, Pause plus Split. Abstention says \"2 actions · 1 abstention\" over the same three actions.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h12",
+  "finding": "The Forecasts tab has no root. All eleven forecast frames carry `back`, while journal and approvals go `back: 'Forecasts'` to a screen no journey draws. Option A's Segments tab also has no root (`a-segment` is tab 2 with",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h13",
+  "finding": "Only the 6-month instrument is drawn. After settling, pressing 12M set `aria-pressed=true` while the text was unchanged, still \"6-month forecast\". Home's 12M does the same, with rows still reading \"· 6M\". The 12-month vi",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h14",
+  "finding": "A search of the journeys and Prism finds no simple or technical mode, no `no_clear_view` and no `cost_paused`. MP-145 requires \"both the simple and the technical mode keep material uncertainty\", and lists both states.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h15",
+  "finding": "\"held 79% … over 52 scored\", \"Held 77% of 26 scored · Exploratory\", \"held 80% of 412\" and \"Held 79% of 52 scored.\" appear on `a-instrument`, `b-ladder`, `a-short` and `a-views`. None of the four says walk-forward. Only t",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h16",
+  "finding": "The Stale banner says \"Yahoo stopped at 16:35\", yet Reliance and the Nifty ETF still read \"21:15 | Yahoo\". In Ready, AZN and Reliance read \"21:15\" beside \"UK closed Mon 16:35\" and \"India closed Mon 10:00\". HSBC's reason,",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h17",
+  "finding": "MP-153 says \"Every row shows its data freshness and provider status\". Only the desktop table does. iPhone Option A rows show neither unless stale. The phone-web ledger and Option B iPhone show \"AAPL | +1.9% | £14,820 | +",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h17"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h18",
+  "finding": "\"close 3 Nov · received 21:02\" and \"corrected for a late FX quote at 21:11\" sit on a record with \"Data cutoff 21:00\". Both arrived after the cutoff. The checklist says \"A retry after cutoff must not backdate known-at tim",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h20",
+  "finding": "\"so all four rows show the rules\", but 5 sessions still reads \"In practice · Shadow trial, week 5 of 8\". The banner says \"paused\", the rows say \"No qualified model\", and MP-145 lists `model_paused` as its own state.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-h21",
+  "finding": "At maximum scroll on iPhone, the last card still runs under the floating bar: 1261 against 1241 on forecast, 1261 against 1233 on home, and phone web on forecast is also short. The capture shows \"Forecast up to £59.73\" a",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-h21"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j1",
+  "finding": "- Option B has no Imports place. `history()` is used only by `a-imports` (:346), and no default B screen contains the word \"Imports\". - `b-add` reads back \"Stocks ISA\" with the Settings tab lit (capture `holdings-b-iphon",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j2",
+  "finding": "- Same state, same moment: Home Stale shows £84,612.40, \"5 of 7 priced\", AstraZeneca and HSBC stale. - Holdings Stale shows £78,508.20, \"6 of 7 priced\", only HSBC stale. - Holdings gives AstraZeneca \"Twelve Data\" (:57); ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j3",
+  "finding": "- `dump.json` shows ranked badges with no \"Decision support\" on `a-list`, `a-one`, `a-differ`, `b-one` and `b-differ`, on web and iPhone, the two surfaces I sampled. - The One holding Empty action (both options, web and ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j4",
+  "finding": "- \"If you trimmed to the ranked weight: 13.5% → 10.0%\" and \"the ranked trim would have taken it to 10.0%\" give a target size for an owned holding. No record defines a ranked weight and FIN-OD-07 is unapproved, so this re",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j5",
+  "finding": "- No screen draws manual entry, though \"Type it in\" appears on both options. MP-49's refused-for-a-missing-field, resumed and snapshot cases are absent. - No screen draws guided edit, though Edit and Add the date are but",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j6",
+  "finding": "- `b-check` draws only question 1 of 3. The listing choice (MP-50, Claude suggests, owner confirms) and the transfer question are chips with no screen. - \"All 11 rows\" is static text with no screen, so MP-53's \"every row",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j7",
+  "finding": "in the Abstaining state the list shows AstraZeneca \"+6.4%\" and \"Available\", with the banner \"Its value and return stand\". Its own page shows \"No rate found\", \"Nonconvergent\". Return 5 of 7 counts it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j8",
+  "finding": "- `provenance()` gives every holding but NIFTYBEES the General CSV and ISA statement. Reliance, held only in India demat, shows both; AstraZeneca and HSBC show the General CSV. - In B, Reliance's \"Two rates fit these cas",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j9",
+  "finding": "frozen evidence of 28 April and 12 May cites R2-HGB v3, and the proof beside it says \"Approved 1 Oct 2026\". The No model card \"No approved model covers NVIDIA now\" sits beside the same \"Approved\" proof with 79% (`journal",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j10",
+  "finding": "- `a-record` says \"nothing to record against\", yet `a-one` shows a recorded entry against an abstention. - `a-list` says the model abstained on Apple, while `a-one` shows NVIDIA. - The Apple row keeps a ranked Hold badge",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j11",
+  "finding": "\"reading resumes when it renews. It is never retried under a new budget.\" contradicts itself. MP-48's rule covers a failed call, not a queued one.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j12",
+  "finding": "Imports says \"2 fields\" are blank. Preview says \"1 field\", one date; B's question card shows one blank date while its header says \"question 1 of 3\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j13",
+  "finding": "- \"Both show\" is false on the iPad and desktop table, which has only a \"Differ\" chip. - It is false on the journal's disagreement card, which has no figures at all. - The lane says \"on its card\" in the banner and \"on the",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j14",
+  "finding": "under a red \"Reversal refused\" the primary \"Review and approve\" stays enabled (`holdings-b-web-disagreement-5-dark.png`). The same happens under \"Refresh it before you approve\".",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j15",
+  "finding": "the statement shows TRANSFER IN 500.00, and \"from these rows\" (£4,142.83) leaves it out as pending. The difference must then include the £500, yet the card says £12.40 against £4,130.43.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j16",
+  "finding": "- MP-65's \"Resolved by the owner, with reason\" has no control. Keep it open takes no reason, and \"Open the difference\" has no target. - MP-55's Revoked state has no control or screen; the only hits for \"revoke\" concern d",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j16"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j17",
+  "finding": "every Error view shows \"Twelve Data · error 21:14\", including refused files, Claude validation failure, approval refused, commit failure and a scoring job. Draft-stale shows Yahoo delayed. `privacy.js:7` already says \"A ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j17"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j18",
+  "finding": "on web and phone web, Privacy says \"This browser keeps nothing to read offline\". Holdings and Journal show full figures \"from 21:15\", and \"Your draft stays here\". None is labelled proposed, though MP40-Q12 is open.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j19",
+  "finding": "- Phone web has no Hide amounts: `eyeBtn` returns nothing and its frame reads only `webActions` (buttons in `dump.json`). - Imports, Preview and Committed show money with no eye on any surface. - No masked table or impor",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j19"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j20",
+  "finding": "\"with their reasons on each holding\" is false; One holding shows a badge with no reason. The inventory says the candidate word is drawn as \"Watch only\", but no screen shows a candidate action, so MP-144's \"Holdings and c",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j22",
+  "finding": "- \"You added 6 units\" has no source. A's sheet has only two answers and Why; B's picks have no units. - B records the same NVIDIA case as \"I acted, Hold\" where A says \"I chose not to\". - \"Record a decision\" has no destin",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j22"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-j25",
+  "finding": "- \"Next renewal is 12 Sep 2028\" against Privacy's \"kept to Aug 2028\" and a Dec 2024 statement \"due for renewal\". - Export at revision 212 against 12. - The pending import is 11 rows at 212 against 12 rows at 214.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-j25"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r1",
+  "finding": "The promotion binds tasks \"3, 6, 12 months\". NEXT promises \"Each week: Scored against v3\", \"After 2 bad weeks: Reverts\" and \"After 4 good weeks: Probation ends\". The same page says \"No 3, 6 or 12-month forecast has matur",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r2",
+  "finding": "The live-shadow row that beats both comparators is \"1 to 20 sessions\", a task the approval does not bind. The head and Tasks say 3, 6 and 12 months. The maturity state says \"too few short-term forecasts\". Owner answer 13",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r3",
+  "finding": "\"Narrow a self-correction band\" and \"Restart US tech, 12 months\" have chevrons but no proposal screen. A grep finds \"self-correction\" in that one queue row only, across all eight journeys. So MP-114's \"impact, evidence, ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r4",
+  "finding": "Option B's brief shows ranked actions as bare chips (\"NVDA · Trim\"), with no reason and no range, and no citations or Sources anywhere on Today. Rendered text confirms it. There is no \"Words by Claude\" tag in Ready, yet ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r4"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r5",
+  "finding": "Rendered on every screen, \"Notices\" appears in Option B only on iPad and desktop `ab-home`. It is absent on all six iPhone and phone web screens. MP-162: \"Every notification intent appears in the in-app inbox on the web ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r6",
+  "finding": "Each option draws only half the outcomes, and the owner picks one option per journey. Option A has no listing outcome: applied, write failed, refused or expired, so MP-131's \"confirmed but not applied\" is missing. Option",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r7",
+  "finding": "Claude's \"code has checked its coverage and cost\" renders in the loading, error and abstention states. In `ab-chat` abstention, \"no tier change needed\" sits beside \"would need a higher Twelve Data tier\". In error, all fo",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r8",
+  "finding": "The Stale state reads \"5 of 8 scored weeks\" and \"the count is paused at 5\", but `stop: 7` draws 6 ticks plus the pause. Six weeks precede 12 Oct. The captured iPad dark frame shows 6 ticks. Owner answer 16 is the rule th",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r9",
+  "finding": "\"The record\" is passed as `actions`, which only the iPhone renders. Measured `[aria-label=\"The record\"]` count: iPhone 1, phone web 0, iPad 0, desktop 0. In Ready, Option A has no path to `aa-record` on three of four sur",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r10",
+  "finding": "\"New venue XNYS 44\" and 1,855 charge for a MIC not yet polled. XNYS is first in the catalogue's `change_detection_mics`, the fixtures hold JPM, JNJ and XOM on it, and `home.js:263` shows JPM · XNYS watch-only, score 70. ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r11",
+  "finding": "Research says \"Asking returns when the budget hold lifts\" and \"until the hold lifts\". Cost says \"No verified credit and no paid approval\" and \"Claude stays off until credit is verified or you approve paid use, in Setting",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r12",
+  "finding": "MP-127 lists `cap_reached`, with recovery \"chat says so and offers the stored explanations instead\". A grep finds the cap only in Option B's cost text. MP-127's concise answer with technical detail and a glossary on requ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r13",
+  "finding": "\"No model\" means two things. On `ra-card` and `rb-card` the body says \"No approved model for 12 months\", the composer says \"Claude is off this month\", and an adjudication still appears. Its meta still reads \"Horizon 3 Ma",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r14",
+  "finding": "Ready shows \"Yahoo · Fresh\" beside \"Yahoo delayed, so its action is paused\". The same screen gives UK last close as 16:35, so a 16:35 price is the close, not stale. Stale reuses the same four rows but retitles them \"Thre",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r14"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r15",
+  "finding": "Claude closes with \"Trimming would narrow the portfolio's range.\" It has no reference and no tool result behind it, and it directly follows a Trim badge. MP-125 requires derived results from deterministic services, and A",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r19",
+  "finding": "\"Raise the Claude cap to £20\" sits in the record as the owner's refusal. The same journey says approvals grant no budget \"and code refuses any change that would\", and MP-114 bars granting a route a budget. MP-78 separate",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r19"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r20",
+  "finding": "The sheet says \"You approve exactly this\", but STEP_MODEL omits artefact, calibrator, tasks, scope, limits, previous safe and a payload hash. MP-156 binds them, and phones see no `bound()` card there. \"Typical 80% range:",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r20"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r21",
+  "finding": "The Rules column looks settled, but a rules score needs R0-RULEMAP and \"beating\" is proposed, both open in SCI-D03. The bad-week rule is pending in SCI-D07. \"Cooldown runs to Thu 07:30\" is not in any approved record, and",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r21"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r22",
+  "finding": "Queue rows, the only way into a decision, are `div`s with a chevron. Option B's strip is `role=\"group\"` and Back is a `span`, so keyboard and VoiceOver users have no target or name (WCAG 2.1.1, 4.1.2). Citations are span",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r22"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-r23",
+  "finding": "**R1-r23 · P3 · not blocking · slips** - `approvals.js:66` says 09:12, `:153` says 09:02. - `:165` lists the record from 16:35, while `:171` shows the newer promotion in the rail. - `:228` shows a \"Refused\" chip on \"Conf",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-r23"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s1",
+  "finding": "ranked actions show with no \"decision support\" label. In the rendered text of Home with the meter, Home with the pill, The month in a sheet, Privacy centre and Home amounts hidden, Add, Trim, Hold or Pause appear and \"de",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s1"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s2",
+  "finding": "Cost option B has no degraded-mode screen and no fit screen. - MP-103: \"No feature is cut silently: every degraded mode is shown to the owner with its reason.\" B draws no pause or reduce screen. - The `cost-b-log` note p",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s2"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s3",
+  "finding": "Privacy option B dead-ends. The Checkup note says \"each row opens the place that thing lives\", but three of those places are not drawn: - No devices and sessions list, so MP-87's revoke of any session or device exists on",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s3"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s4",
+  "finding": "the walker fails open and has no selftest (lesson 8). Runs on scratch copies: - `--only nosuch`: \"0 combinations walked, 0 problem(s)\", exit 0. - A page with no journeys: exit 0. - `throw` at load: exit 0, although the h",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_journeys_check.mjs",
+   "pattern": "walked \\$\\{combos\\} combinations of \\$\\{want\\}",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-s5",
+  "finding": "in `privacy-b-lost` Abstaining, the card says \"Locked out. With no path left\" while the rail on the same screen says \"Sign-in paths · 3 healthy\", and the frame sits inside Settings with \"Checkup\" back. Option A marks thi",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s5"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s6",
+  "finding": "on Paused, No model, the status reads \"Claude was already off, so this is all AWS\", and the list says \"Already off\". The same card shows \"Claude £14.62\" and a Claude bar, because `OVER` is reused unchanged.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s6"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s7",
+  "finding": "Error reads \"£44.40 last reconciled\", but the breakdown on the Sources screen shows £37.69 reconciled plus £6.71 \"Not yet reconciled\". - \"Since 16 Nov\" is \"Not shown\", yet the total reads flat £44.40. Abstaining says \"At",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s7"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s8",
+  "finding": "the Stale delete sheet says of \"Broker statement, Sep 2026\" that \"Its 24 months end soon\". The list behind it says \"kept to Sep 2028\", and the file due is the Indian funds statement. - The same banner says \"renew it or d",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s8"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s9",
+  "finding": "the tainted memory note has no Forget. Its end slot holds the \"Untrusted source\" chip instead. MP-115 says the owner can list, correct and forget notes. This is the note most likely to need it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s9"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s10",
+  "finding": "Privacy centre marks Empty n/a because \"the private defaults always exist\". That page also holds the inbox and phone notifications. So \"No notices yet\" and \"Not asked yet\", MP-167's day-one `permission_not_asked`, can ne",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s10"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s11",
+  "finding": "`privacy-b-home` passes through `fx()`, whose comment says a failed export is not a failed price. This screen does show prices. - Stale renders \"Twelve Data · Fresh Yahoo · Fresh\" above \"Stale. HSBC last priced 16:35\". -",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s11"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s12",
+  "finding": "Home draws a third cost presence, a static row \"Forecast up to £59.73 of the £100 ceiling\", which matches neither Cost's meter nor its pill. - On a phone it sits after the holdings. Cost A puts a card before them, which ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s12"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s13",
+  "finding": "MP-142's warning and reduced states have no drawing in option A. - Reduced appears only as a rung and a past event. No screen shows what is reduced and why, against MP-103's \"every degraded mode is shown\". - Warning appe",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s13"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s14",
+  "finding": "decision.md says the top 5 was corrected to \"3 to 12 months\". Prism line 2066 still reads \"6 months · score = growth 35% + protection 40% + opportunity 25%\" (lesson 1). The same page is the owner's live artifact.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/check_retired_facts.py"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s15",
+  "finding": "the home meter's accessible name is \"Cost this month: On plan. Opens the month.\" The visible \"£46.42 committed so far\" and the forecast are absent, so assistive technology never gets the amount (WCAG 2.5.3 Label in Name)",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s15"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s16",
+  "finding": "the static gate skips forms it cannot read (lessons 8 and 11). Each of these passed `check_journeys` when injected into the real page: - `font-size` in em, %, pt, `calc()`, `clamp()` or `var()`. - `font-weight:350`. - `-",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "scripts/design_gates.py",
+    "selftest"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s18",
+  "finding": "the Offline copy card says \"This browser keeps nothing to read offline\". The phone web frames still show \"Offline · from 21:15\", \"Saved copies\" and £46.42. MP-134 leaves PWA caching to the offline policy, and MP40-Q12 is",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s18"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s19",
+  "finding": "of a revoked iPad that has not connected, the screen says its copy \"cannot be read before then\". An offline device cannot learn it was revoked, and the app reads the cache offline by design. The promise comes from MP-165",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s19"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s22",
+  "finding": "Does it fit, Ready, shows the months with no condition. The Grow 55 condition appears only under Abstaining. TECH-STACK says the fit \"stays conditional on the Grow 55 checkout price, listing rights and the measured workl",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s22"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s24",
+  "finding": "Empty shows \"New month\" and \"AWS arrives tomorrow\" under the fixed \"November · day 18 of 30\". Paused, Loading shows day 18 and £46.42 on a day 24, £71.20 screen.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s24"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s26",
+  "finding": "figures that disagree: - In disagreement, AWS stays \"Forecast £18.64\" while the month rises to £60.04. - In Abstaining, the £75 to £100 rungs say \"Not reached\" under an unknown forecast. - The privacy inbox's Ready has \"",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s26"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s28",
+  "finding": "the home meter has no legend, and its blue and teal are the US and UK colours in the bar directly above it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s28"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s29",
+  "finding": "copy and cue slips: - The desktop and iPad frames say iPhone is \"This device\". - iPad signs in by \"Passkey\", but no iPad passkey is listed. - \"newest 2 days ago\" conflicts with \"active now\". - \"Nothing changes until the ",
+  "check": {
+   "type": "command",
+   "argv": [
+    "node",
+    "scripts/design_journeys_facts.mjs",
+    "R1-s29"
+   ],
+   "timeout_seconds": 60,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ }
+]

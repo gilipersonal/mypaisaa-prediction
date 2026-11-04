@@ -15,6 +15,54 @@
    "published_sha256": "86c90c7c0b562c5517692231025e3cd36603bb24345a77190b5efd6591062565",
    "published_at": "2026-11-03",
    "jira": "MP-177"
+  },
+  {
+   "slug": "ds-option-a-fan",
+   "source": "docs/design/reviews/MP-62/option-a/index.html",
+   "artifact_url": "https://claude.ai/artifact/WpjRPNZRvfa6VKA9V5W57c",
+   "published_sha256": "3c5f443db164168d752e03a990f9b84cbd23d0432b6de47a660261b4e85cbef4",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-option-c-signal",
+   "source": "docs/design/reviews/MP-62/option-c/index.html",
+   "artifact_url": "https://claude.ai/artifact/C1DHfEaanhnQktZUoqwoUf",
+   "published_sha256": "65c61f854a7f30c85a10c7742da2ec6c5a996246405d702101b7c3dbc5731b1a",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-hybrid-b-prism",
+   "source": "docs/design/reviews/MP-62/hybrid-b/index.html",
+   "artifact_url": "https://claude.ai/artifact/BqFU9xdCb6rjsj43y67BzE",
+   "published_sha256": "86777b27775a3ac936be773806152695f382536fe8dc2fa6ab83e12d9398be57",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-hybrid-a-fan",
+   "source": "docs/design/reviews/MP-62/hybrid-a/index.html",
+   "artifact_url": "https://claude.ai/artifact/VQpqwidcqYQsA55WkPpyvL",
+   "published_sha256": "86001d732b5c5ea170815603f80115a9f916aa420759cbd4e7302bb7bc43cec0",
+   "published_at": "2026-11-03",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "b4da547bdb71b3cbc824fb44a7de9621c2496ecf39cbd79a1bccfbebdca29405",
+   "published_at": "2026-11-04",
+   "jira": "MP-62"
+  },
+  {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "b3bec4ff7594231be1a29ca39ed3cddfdc48916bc20316453ab58771ba4998d1",
+   "published_at": "2026-11-04",
+   "jira": "MP-62"
   }
  ]
 }

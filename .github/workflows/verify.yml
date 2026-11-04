@@ -62,6 +62,17 @@ jobs:
         run: |
           python3 scripts/design_sync.py check
           python3 -m unittest discover -s tests -p test_design_sync.py -v
+      - name: Design pages hold their tokens, contrast by token and motion rules; rendered checks run locally
+        run: |
+          python3 docs/design/journeys/build.py --check
+          python3 scripts/design_gates.py check
+          python3 scripts/design_gates.py selftest
+          node scripts/design_journeys_facts.mjs --selftest
+          node scripts/design_journeys_facts.mjs --all
+          python3 scripts/design_tokens.py check
+          python3 scripts/design_tokens.py selftest
+          python3 -m unittest discover -s tests -p test_design_gates.py -v
+          python3 -m unittest discover -s tests -p test_design_tokens.py -v
       - name: Every story is ready and every draft accounted for
         run: |
           python3 docs/planning/story-readiness-2026-11-03/stories.py check

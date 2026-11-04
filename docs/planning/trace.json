@@ -623,7 +623,7 @@
    "key": "MP-40",
    "summary": "Turn the 64 story drafts into ready Jira stories before UX",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     ".github/workflows/verify.yml",
@@ -811,7 +811,7 @@
    "key": "MP-62",
    "summary": "Design the owner's product journeys and every screen state for web, iPhone and iPad",
    "type": "Story",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
    "code": []
   },
@@ -1731,7 +1731,7 @@
    "key": "MP-177",
    "summary": "Record the owner's answers that unblock the UX design",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "ARCHITECTURE.md",
@@ -1745,6 +1745,14 @@
     "docs/planning/story-readiness-2026-11-03/",
     "docs/planning/trace.json"
    ]
+  },
+  {
+   "key": "MP-178",
+   "summary": "Design a flip so the owner can switch a journey between its two drawn options",
+   "type": "Story",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }

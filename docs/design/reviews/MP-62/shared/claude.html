@@ -1,0 +1,160 @@
+<!-- mp-claude:start -->
+<style>
+/* Claude at work, one component for every page (MP-62 round 3). The motion says what Claude is doing: reading, then
+   writing, then showing its sources, then handing the decision back. Nothing moves once it is done. Each page gives the
+   mark its own three shapes (--cl-s1, --cl-s2, --cl-s3) and its colour (--mp-ai). Claude's own logo is never drawn. */
+.cl { position: relative; display: grid; gap: 12px; width: 100%; max-width: 420px; box-sizing: border-box; padding: 16px; color: var(--mp-ink);
+  background: var(--mp-surface); border-radius: var(--mp-r-card); box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge), var(--mp-lip), var(--mp-elev-1);
+  font: 400 15px/20px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; text-align: left; }
+.cl-head { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+.cl-who { font-weight: 600; }
+.cl-status { margin-left: auto; color: var(--mp-ink-2); font-size: 13px; line-height: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.cl-mark { position: relative; flex: none; display: block; width: 24px; height: 24px; }
+.cl-mark i { position: absolute; inset: 0; display: block; background: var(--mp-ai); }
+.cl-mark i:nth-child(1) { clip-path: var(--cl-s1); }
+.cl-mark i:nth-child(2) { clip-path: var(--cl-s2); }
+.cl-mark i:nth-child(3) { clip-path: var(--cl-s3); }
+.cl-mark.s { width: 16px; height: 16px; }
+.cl-stage { display: grid; }
+.cl-panel { grid-area: 1 / 1; display: grid; gap: 12px; align-content: start; visibility: hidden; opacity: 0; transition: opacity 180ms linear, visibility 0s linear 180ms; }
+.cl-panel.on { visibility: visible; opacity: 1; transition: opacity 180ms linear; }
+.cl-q { margin: 0; justify-self: end; max-width: 86%; padding: 8px 12px; color: var(--mp-on-accent); background: var(--mp-accent); border-radius: var(--mp-r-row); font-weight: 500; }
+.cl-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.cl-step { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: center; color: var(--mp-ink-2); font-size: 14px; line-height: 20px; }
+.cl-tick { width: 20px; height: 20px; fill: none; stroke: var(--mp-up); stroke-width: 2.5; stroke-linecap: square; stroke-linejoin: miter; }
+.cl-tick path { stroke-dasharray: 24; stroke-dashoffset: 0; }
+.cl-a { margin: 0; color: var(--mp-ink); font-size: 16px; line-height: 22px; }
+.cl-fig { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cl-ref { display: inline-block; min-width: 16px; margin-left: 2px; color: var(--mp-accent); font-size: 12px; line-height: 16px; font-weight: 700; text-align: center;
+  background: var(--mp-surface-2); border-radius: 4px; box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge); vertical-align: 1px; }
+.cl-src { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.cl-src li { padding: 4px 8px; color: var(--mp-ink-2); font-size: 12px; line-height: 16px; font-weight: 500; background: var(--mp-surface-2); border-radius: var(--mp-r-ctl); box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge); }
+.cl-note { margin: 0; color: var(--mp-ink-2); font-size: 13px; line-height: 18px; }
+.cl-act { display: flex; flex-wrap: wrap; gap: 8px; }
+.cl-btn { min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--mp-r-btn); color: var(--mp-on-accent); background: var(--mp-accent); font: 600 15px/20px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; cursor: pointer; transition: transform 180ms cubic-bezier(0.3, 1.25, 0.5, 1); }
+.cl-btn.q { color: var(--mp-ink); background: var(--mp-surface-2); box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge); }
+.cl-btn:active { transform: scale(0.97); }
+.cl-btn:focus-visible, .cl-opt:focus-visible { outline: 3px solid var(--mp-focus); outline-offset: 2px; }
+.cl-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.cl-opt { min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--mp-r-btn); color: var(--mp-ink-2); background: var(--mp-surface-2); font: 500 14px/20px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif; cursor: pointer; transition: transform 180ms cubic-bezier(0.3, 1.25, 0.5, 1); }
+.cl-opt:active { transform: scale(0.97); }
+.cl-opt[aria-checked="true"] { color: var(--mp-seg-on-ink); background: var(--mp-seg-on); font-weight: 600; }
+.cl-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; color: var(--mp-ink); font-size: 13px; line-height: 18px; font-weight: 500; background: var(--mp-surface-2); border-radius: var(--mp-r-ctl); box-shadow: 0 0 0 var(--mp-hair) var(--mp-edge); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the mark: three shapes light in turn, six times at most, then it rests in words */
+  .cl[data-run="reading"] .cl-mark i, .cl-chip.is-working .cl-mark i { animation: cl-blade 960ms cubic-bezier(0.22, 1, 0.36, 1) 6 backwards; }
+  .cl[data-run="writing"] .cl-mark i { animation: cl-blade 640ms cubic-bezier(0.22, 1, 0.36, 1) 6 backwards; }
+  .cl-mark i:nth-child(2) { animation-delay: 120ms !important; }
+  .cl-mark i:nth-child(3) { animation-delay: 240ms !important; }
+  /* a step lands, then its tick draws */
+  .cl [data-at].wait { opacity: 0; }
+  .cl-step.go { animation: cl-rise 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .cl-step.go .cl-tick path { animation: cl-draw 260ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both; }
+  .cl-q.go { animation: cl-pop 340ms cubic-bezier(0.3, 1.25, 0.5, 1) both; transform-origin: 100% 100%; }
+  .cl-s.go { animation: cl-fade 340ms linear both; }
+  .cl-src li.go { animation: cl-pop 340ms cubic-bezier(0.3, 1.25, 0.5, 1) both; }
+  .cl-act.go, .cl-note.go { animation: cl-rise 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+@keyframes cl-blade { 0%, 100% { opacity: 0.4; transform: scale(0.94); } 45% { opacity: 1; transform: none; } }
+@keyframes cl-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cl-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes cl-pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes cl-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .cl-panel, .cl-panel.on { transition: none; } }
+</style>
+<article class="cl" data-cl aria-label="Claude explains a ranked action and cites every figure">
+  <header class="cl-head">
+    <span class="cl-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="cl-who">Claude</span>
+    <span class="cl-status" data-cl-status role="status">Done · 4 sources</span>
+  </header>
+  <div class="cl-stage">
+    <section class="cl-panel on" data-cl-panel="done" aria-label="Answer">
+      <p class="cl-q" data-at>Why is NVIDIA ranked Trim?</p>
+      <ol class="cl-steps">
+        <li class="cl-step" data-at><svg class="cl-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 10 19 20 6"/></svg><span>Read your holdings</span></li>
+        <li class="cl-step" data-at><svg class="cl-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 10 19 20 6"/></svg><span>Checked the 6-month forecast</span></li>
+        <li class="cl-step" data-at><svg class="cl-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 10 19 20 6"/></svg><span>Read a filing and a news item</span></li>
+      </ol>
+      <p class="cl-a"><span class="cl-s" data-at>NVIDIA is <span class="cl-fig">13.5%</span> of the portfolio.<span class="cl-ref">1</span></span> <span class="cl-s" data-at>Its 6-month median is <span class="cl-fig">+9.1%</span>, but the 80% range runs from <span class="cl-fig">−18.5%</span> to <span class="cl-fig">+34.0%</span>,<span class="cl-ref">2</span></span> <span class="cl-s" data-at>the widest of your holdings.</span> <span class="cl-s" data-at>Trimming would narrow the portfolio's range.</span></p>
+      <ul class="cl-src" aria-label="Sources">
+        <li data-at>1 · Ledger, 21:15</li><li data-at>2 · Model R2-HGB v3</li><li data-at>3 · Filing, illustrative</li><li data-at>4 · News, illustrative</li>
+      </ul>
+      <p class="cl-note" data-at>Figures come from code and models; Claude explains them. Decision support, not advice. Every figure is illustrative.</p>
+      <div class="cl-act" data-at><button class="cl-btn" type="button">Record your decision</button><button class="cl-btn q" type="button">Show the proof</button></div>
+    </section>
+    <section class="cl-panel" data-cl-panel="stopped" aria-label="Stopped">
+      <p class="cl-q">Why is NVIDIA ranked Trim?</p>
+      <p class="cl-a">Stopped. Nothing was changed, and no answer was saved.</p>
+      <div class="cl-act"><button class="cl-btn q" type="button">Ask again</button></div>
+    </section>
+    <section class="cl-panel" data-cl-panel="refused" aria-label="Refused">
+      <p class="cl-q">Sell my NVIDIA now.</p>
+      <p class="cl-a">MyPrediction cannot place trades, and I can't either. I can show the forecast, its range and the proof, so you can decide.</p>
+      <div class="cl-act"><button class="cl-btn q" type="button">Show the forecast</button></div>
+    </section>
+    <section class="cl-panel" data-cl-panel="abstain" aria-label="No cited answer">
+      <p class="cl-q">Will NVIDIA beat earnings next week?</p>
+      <p class="cl-a">I can't answer that from cited evidence. No model scores that question and no source covers it yet, so I won't guess.</p>
+      <div class="cl-act"><button class="cl-btn q" type="button">See what the models cover</button></div>
+    </section>
+    <section class="cl-panel" data-cl-panel="off" aria-label="Claude is off">
+      <p class="cl-a">Claude is off this month to stay inside the budget. Forecasts, ranges and scores all still work; only the written explanations wait.</p>
+      <p class="cl-note">Numbers never depend on Claude.</p>
+    </section>
+  </div>
+  <div class="cl-opts" role="radiogroup" aria-label="Claude's states">
+    <button class="cl-opt" type="button" role="radio" aria-checked="true" data-cl-go="done">Replay answer</button>
+    <button class="cl-opt" type="button" role="radio" aria-checked="false" data-cl-go="stopped">Stopped</button>
+    <button class="cl-opt" type="button" role="radio" aria-checked="false" data-cl-go="refused">Refused</button>
+    <button class="cl-opt" type="button" role="radio" aria-checked="false" data-cl-go="abstain">No evidence</button>
+    <button class="cl-opt" type="button" role="radio" aria-checked="false" data-cl-go="off">Claude off</button>
+  </div>
+</article>
+<script>
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STEP = 520, SENT = 420, CHIP = 90;
+  document.querySelectorAll('[data-cl]').forEach(function (root) {
+    var timers = [], status = root.querySelector('[data-cl-status]');
+    var panel = root.querySelector('[data-cl-panel="done"]');
+    var items = [].slice.call(panel.querySelectorAll('[data-at]'));
+    function later(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function clear() { timers.forEach(clearTimeout); timers = []; items.forEach(function (el) { el.classList.remove('wait', 'go'); }); root.removeAttribute('data-run'); }
+    function show(name) {
+      root.querySelectorAll('[data-cl-panel]').forEach(function (p) { p.classList.toggle('on', p.getAttribute('data-cl-panel') === name); });
+      root.querySelectorAll('[data-cl-go]').forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-cl-go') === name)); });
+    }
+    function play() {
+      clear(); show('done');
+      if (reduce) { status.textContent = 'Done · 4 sources'; return; }
+      items.forEach(function (el) { el.classList.add('wait'); });
+      var at = 0, q = items[0], steps = panel.querySelectorAll('.cl-step'), sents = panel.querySelectorAll('.cl-s');
+      var land = function (el, ms) { later(ms, function () { el.classList.remove('wait'); el.classList.add('go'); }); };
+      root.setAttribute('data-run', 'reading'); status.textContent = 'Reading…';
+      land(q, 0); at = 360;
+      steps.forEach(function (el) { land(el, at); at += STEP; });
+      later(at, function () { root.setAttribute('data-run', 'writing'); status.textContent = 'Writing…'; });
+      sents.forEach(function (el) { land(el, at); at += SENT; });
+      later(at, function () { root.removeAttribute('data-run'); status.textContent = 'Done · 4 sources'; });
+      panel.querySelectorAll('.cl-src li').forEach(function (el, i) { land(el, at + i * CHIP); });
+      at += 4 * CHIP + 120;
+      land(panel.querySelector('.cl-note'), at); land(panel.querySelector('.cl-act'), at + 80);
+    }
+    root.querySelectorAll('[data-cl-go]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var name = b.getAttribute('data-cl-go');
+        if (name === 'done') { play(); return; }
+        clear(); show(name);
+        status.textContent = { stopped: 'Stopped', refused: 'Refused', abstain: 'No cited answer', off: 'Off' }[name];
+      });
+    });
+    if ('IntersectionObserver' in window && !reduce) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); play(); } }, { threshold: 0.4 });
+      io.observe(root);
+    }
+  });
+})();
+</script>
+<!-- mp-claude:end -->
