@@ -1,0 +1,31 @@
+{
+  "issue": "MP-64",
+  "deliverable": "Prism Admin: the admin journeys, permission inventory and Compare and pick (MP-64), with the gates that hold them",
+  "round_count": 1,
+  "status": "round 1 running",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_commit": "PENDING",
+      "review_approval": "Owner, 4 Nov 2026: \"Yes, run round 1\"",
+      "scope": "The whole deliverable, picked options in depth",
+      "lanes": {
+        "f": "home, files, audit",
+        "m": "runs, agents, models",
+        "a": "approvals, costs",
+        "s": "incidents, identity, shell, inventory, scripts, records"
+      },
+      "brief": "review/MP-64/round-1-brief.md",
+      "gate_results": "review_checks pass; actionlint by hand pass; walker 1,600 combinations, 0 problems; design_admin_facts and selftest pass; design_admin_press pass; every ledger 311 run, 2 retired, 0 failed",
+      "deferred_gates": [
+        {
+          "gate": "design_runtime.mjs",
+          "why": "The Mac is on battery and WebKit is throttled to about 30 frames a second, so the result would not be valid. To run on mains power."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [],
+      "next_round": "Decided after the findings."
+    }
+  ]
+}
