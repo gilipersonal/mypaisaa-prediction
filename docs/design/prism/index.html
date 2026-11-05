@@ -530,7 +530,7 @@ button.chip { border: 0; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
 /* a chart whose viewBox is wider than its slot on iPad: its labels are drawn large enough to land at 12 px or more (MP-182) */
-.cx.snug text { font-size: 12.6px; }
+.cx[data-snug] text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
 .cxtip b { font-weight: 600; }

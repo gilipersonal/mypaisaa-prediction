@@ -35,7 +35,7 @@
   "check": {
    "type": "file",
    "file": "docs/design/prism/index.html",
-   "pattern": "\\.cx\\.snug text \\{ font-size: 12\\.6px; \\}",
+   "pattern": "\\.cx\\[data-snug\\] text \\{ font-size: 12\\.6px; \\}",
    "present": true
   }
  },
