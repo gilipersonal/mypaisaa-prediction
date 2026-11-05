@@ -2,11 +2,11 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Nothing below has been changed yet, except that each pick is recorded here and in the decision log. UX approval (MP-66) waits on the first seven issues and the question below. Permission to build is separate.
+Answering is not applying. Nothing below has been changed yet, except that each pick is recorded here and in the decision log. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
-## Asked before anything is redrawn
+## Answered after the pack
 
-**Do daily forecasts run inside the £15 kept above £85?** Two picks meet here and neither answers it. "Daily forecasts keep running" (OWN-25) has them carry on past £85. "Approve all three" (MP40-Q6) keeps the £15 above £85 for sign-in, ledger reads, audit and recovery, and forecasts are not on that list. Proposed: add them to the list, because the first pick implies it. It is the owner's to answer, and MP-190 waits on it.
+**Do daily forecasts run inside the £15 kept above £85?** The owner, 5 November 2026: "Yes, add them". Two picks met here and neither answered it: "Daily forecasts keep running" (OWN-25) has them carry on past £85, and "Approve all three" (MP40-Q6) kept the £15 above £85 for sign-in, ledger reads, audit and recovery. The list of what the £15 covers now also holds daily forecasts. MP-190 carries it.
 
 ## What the picks need
 
@@ -35,7 +35,7 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 1. **MP-185 first.** Cash in the total changes the shared figures every other redraw draws on. Fixed-finding checks pinned to the old total are narrowed or retired with a reason, never deleted.
 2. **MP-191**, because the row rules change what the same frames show.
-3. **MP-186, MP-188, MP-189 and MP-190** can run side by side once the figures hold, with MP-190 after the question above.
+3. **MP-186, MP-188, MP-189 and MP-190** can run side by side once the figures hold.
 4. **MP-187** goes through an options round: two options drawn, one Recommended, the owner picks.
 5. **MP-192** runs last on the design records. Jira descriptions and Confluence need their own yes through `mp-plan-sync`.
 6. **MP-180** then runs on the final pages: a real iPhone, VoiceOver and the long frame.

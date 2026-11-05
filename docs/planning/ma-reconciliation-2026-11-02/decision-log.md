@@ -292,4 +292,6 @@ iPhone passkey against MP-164: "I'll join the Developer Program". Nothing is bou
 
 The owner's question pack, 5 November 2026 (MP-184): 64 open questions answered. 23 were pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options", so those carry the Recommended option. 61 are the Recommended option; the owner chose otherwise on: MP40-Q12c, "Both keep the five"; MP40-Q2, "Local unlock step"; OWN-35, "Code may draft one". Each answer is in [the pack's answers](../owner-question-pack-2026-11-05/answers.json), and what each changes is in [its scope](../owner-question-pack-2026-11-05/scope.md). A pick's option text is not the owner's own reasoning (lesson 42), and none is applied yet.
 
+On the question those picks left open, whether daily forecasts may spend inside the £15 kept above £85, the owner answered "Yes, add them", 5 November 2026. The list of what the £15 covers now also holds daily forecasts, and that too is not applied yet.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.

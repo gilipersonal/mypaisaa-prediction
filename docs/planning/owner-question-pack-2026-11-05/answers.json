@@ -989,5 +989,16 @@
     "MP-148"
    ]
   }
+ ],
+ "follow_up": [
+  {
+   "id": "OWN-25+MP40-Q6",
+   "question": "May daily forecasts spend inside the £15 kept above £85?",
+   "pick": "Yes, add them",
+   "owner_words": "Yes, add them",
+   "how": "chat",
+   "at": "2026-11-05",
+   "reading": "The list of what the £15 covers also holds daily forecasts."
+  }
  ]
 }
