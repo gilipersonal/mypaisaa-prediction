@@ -123,7 +123,7 @@ const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip 
 const holdingsNote = {
   loading: () => banner('', 'Refreshing.', 'The last good rows from 21:15 stay here, with their ranges and flags, until the run lands.', 'refresh'),
   error: () => banner('fall', 'Holdings did not refresh.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Every row below is from that one version.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>`,
-  stale: () => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £78,508.20 known, 6 of 7 priced. Its forecast stays held and its action stays Pause until its price returns. ${qLate}`, 'clock'),
+  stale: () => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £84,051.05 known, 6 of 7 priced. Its forecast stays held and its action stays Pause until its price returns. ${qLate}`, 'clock'),
   offline: ctx => banner('', 'Offline.', `Holdings from 21:15, saved on this device. Nothing here is fresh analysis until you reconnect.${q12(ctx)}`, 'wifi-off'),
   noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
   disagreement: () => banner('', 'Two holdings are split.', 'At 6 months the rules and the model disagree on Reliance. At 3 months the models split on Apple. Each shows its range and no median there, and no action is ranked there.', 'split'),
@@ -150,15 +150,15 @@ const META = {
   default: 'As of 21:15 London · data cutoff 21:00 · 7 of 7 priced', loading: 'Refreshing · showing 21:15', error: 'Last good run Mon 21:15 · cutoff 21:00', stale: 'HSBC, £6,104.20 at 14:10, is left out until its price returns. As of 21:15 London · data cutoff 21:00', offline: 'Saved 21:15 · not updating'
 };
 const metaOf = ctx => META[ctx.state] || 'As of 21:15 London · data cutoff 21:00';
-const valOf = st => (st === 'stale' ? { label: 'Known value, 6 of 7 priced', amt: '78,508.20' } : { label: 'Portfolio value', amt: '84,612.40' });
+const valOf = st => (st === 'stale' ? { label: 'Known value, 6 of 7 priced', amt: '84,051.05', held: '78,508.20' } : { label: 'Portfolio value', amt: '90,155.25', held: '84,612.40' });
 /* HSBC out of the total: the shares of what is left */
-const allocOf = st => (st === 'stale' ? alloc().replace(/53\.4/g, '57.6').replace(/28\.5/g, '30.7').replace(/18\.1/g, '11.7') : alloc());
+const allocOf = st => (st === 'stale' ? alloc().replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6') : alloc());
 const dayLine = (ctx, txt) => (ctx.state === 'stale' ? '' : `${chg(1, txt)} <span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">${dayWord(ctx.state)}</span>`);
 function value(ctx) {
   const st = ctx.state, v = valOf(st);
   if (st === 'empty') return '';
-  if (isWide(ctx)) return `<div class="card" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;padding:14px 16px" data-mo="card"><div><div class="label">${v.label}</div><div style="margin-top:6px">${money(v.amt, 34)}</div><div style="margin-top:6px;font-size:13px;line-height:18px;letter-spacing:0;white-space:nowrap">${dayLine(ctx, '+£1,236.18 (1.48%)')}</div></div><div style="min-width:0"><div class="small muted" style="margin-bottom:8px">${metaOf(ctx)}</div>${allocOf(st)}</div></div>`;
-  return `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${v.label}</span>${illus()}</div>${money(v.amt, ctx.kind === 'pwa' ? 38 : 44)}${st === 'stale' ? '' : `<div class="d">${dayLine(ctx, '+£1,236.18 (1.48%)')}</div>`}<div class="meta">${metaOf(ctx)}</div><div style="margin-top:14px">${allocOf(st)}</div></div>`;
+  if (isWide(ctx)) return `<div class="card" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;padding:14px 16px" data-mo="card"><div><div class="label">${v.label}</div><div style="margin-top:6px">${money(v.amt, 34)}</div><div style="margin-top:6px;font-size:13px;line-height:18px;letter-spacing:0;white-space:nowrap">${dayLine(ctx, '+£1,236.18 (1.39%)')}</div>${valParts(v.held)}</div><div style="min-width:0"><div class="small muted" style="margin-bottom:8px">${metaOf(ctx)}</div>${allocOf(st)}</div></div>`;
+  return `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${v.label}</span>${illus()}</div>${money(v.amt, ctx.kind === 'pwa' ? 38 : 44)}${st === 'stale' ? '' : `<div class="d">${dayLine(ctx, '+£1,236.18 (1.39%)')}</div>`}${valParts(v.held)}<div class="meta">${metaOf(ctx)}</div><div style="margin-top:14px">${allocOf(st)}</div></div>`;
 }
 
 /* ---------- the brief, as it surfaces on home ---------- */
@@ -175,7 +175,7 @@ const BL = {
 };
 const briefPill = ctx => { const b = BL[ctx.state]; return `<button class="home-pill" type="button">${ic('clock', 's18')}<span class="home-pt"><b>${b[0]}</b><span class="t">${b[1]}</span></span>${ic('chev-r', 's18')}</button>`; };
 const stamps = () => `<div class="home-stamps">${['US closed Mon 21:00', 'UK closed Mon 16:35', 'India closed Mon 10:00'].map(s => `<span class="chip" data-mo="chip">${s}</span>`).join('')}</div>`;
-const ACTS = [['NVDA', 'Trim', () => 'Widest 80% range of the holdings, and 13.5% of the portfolio.'], ['SPY', 'Add', () => 'Among the narrowest 80% ranges of the holdings: −7.1% to +15.2%.'], ['HSBA', 'Pause', st => `${st === 'stale' ? 'Last price 14:10, past the freshness limit. Out of the total until its price returns.' : 'Last price 14:10, before the 16:35 UK close. Late but inside the limit, so its forecast is held.'} ${qLate}`]];
+const ACTS = [['NVDA', 'Trim', () => 'Widest 80% range of the holdings, and 12.6% of the portfolio.'], ['SPY', 'Add', () => 'Among the narrowest 80% ranges of the holdings: −7.1% to +15.2%.'], ['HSBA', 'Pause', st => `${st === 'stale' ? 'Last price 14:10, past the freshness limit. Out of the total until its price returns.' : 'Last price 14:10, before the 16:35 UK close. Late but inside the limit, so its forecast is held.'} ${qLate}`]];
 const actRows = (ctx, n = 3) => {
   const skip = ctx.state === 'disagreement' ? 'RELIANCE' : ctx.state === 'abstention' ? 'AZN' : '', tick = t => (ctx.tick ? ` · ${t}` : '');
   const rows = ACTS.slice(0, n).map(([t, a, why]) => `<div class="home-act" role="button" tabindex="0" data-mo="rise">${mods(ctx, t).act ?? badge(a)}<b>${byT[t].n}${tick(t)}</b><span class="home-sub">${why(ctx.state)}</span></div>`).join('');
@@ -195,7 +195,7 @@ function briefBody(ctx) {
   const head = `<div class="card home-card" data-mo="card"><div class="label">Tuesday 3 November · issued 07:30 London</div><p class="home-sub">Each market keeps its own time. ${st === 'noModel' ? 'Figures come from code. Claude is off, so code wrote the words too.' : st === 'error' ? 'Figures come from code. The writing route failed, so code wrote the words too.' : 'Figures come from code; Claude writes the words, and every figure it quotes has a source.'}</p>${stamps()}</div>`;
   const section = (t, html) => `<div class="card home-card" data-mo="card"><h4>${t}</h4>${html}</div>`;
   const acts = section('Actions · decision support', actRows(ctx));
-  const risks = section('Risks', `<ul class="home-ul"><li><b>US tech is 31.0%</b> of the portfolio, the largest single block.</li><li><b>The rupee</b> moved 0.6% against the pound, which moves 28.5% of the value.</li></ul>`);
+  const risks = section('Risks', `<ul class="home-ul"><li><b>US tech is 29.1%</b> of the portfolio, the largest single block.</li><li><b>The rupee</b> moved 0.6% against the pound, which moves 26.7% of the value.</li></ul>`);
   const changes = section('Changes', `<ul class="home-ul"><li><b>NVDA</b> rose to 2nd in US tech, from 3rd.</li>${st === 'noModel' ? '<li><b>Nifty 50</b> is not ranked: no approved model covers India.</li>' : '<li><b>ICICIBANK</b> leads Nifty 50 at 72, up from 69.</li>'}</ul>`);
   const events = section('Upcoming', `<ul class="home-ul"><li><b>Thu 5 Nov</b> Bank of England rate decision.</li><li><b>Fri 6 Nov</b> US jobs report.</li></ul><p class="home-sub">Dated by when they become known. Illustrative.</p>`);
   const all = { left: head + acts + risks, right: changes + events };
@@ -331,9 +331,9 @@ function actionSheet(ctx) {
   const st = ctx.state, n = byT.NVDA, hs = byT.HSBA, rel = byT.RELIANCE;
   const shell = (head, html, foot = true) => `<div class="sheet home-sheet" role="dialog" aria-label="Suggested action" data-mo="rise"><div class="grabber"></div>${head}${html}${foot ? `<div class="acts"><button class="btn sm btn-tinted" type="button">Not now</button><button class="btn sm btn-primary" type="button">Record your decision</button></div>` : ''}</div>`;
   const head = (a, name = 'NVIDIA') => `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${a}<h4 style="flex:1">${name}</h4><span class="chip illus">Decision support</span></div>`;
-  const why = `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Widest 80% range of the holdings: ${pct(n.lo)} to ${pct(n.hi)}.</li><li>13.5% of the portfolio, inside a US tech block of 31.0%.</li><li>Median ${pct(n.med)}, score 71, rank 2 in US tech.</li></ul>`;
+  const why = `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Widest 80% range of the holdings: ${pct(n.lo)} to ${pct(n.hi)}.</li><li>12.6% of the portfolio, inside a US tech block of 29.1%.</li><li>Median ${pct(n.med)}, score 71, rank 2 in US tech.</li></ul>`;
   const unc = `<span class="lab">Uncertainty</span><div style="margin-top:6px">${range(n)}</div>`;
-  const cf = `<span class="lab">If it were 10% smaller (computed by code, total unchanged)</span><div class="home-kv"><span>NVIDIA share</span><b>13.5% to 12.1%</b><span>US tech share</span><b>31.0% to 29.6%</b><span>Width of the portfolio's 80% range, 6M</span><b>24.7 to 24.0 pts</b></div>`;
+  const cf = `<span class="lab">If it were 10% smaller (computed by code, total unchanged)</span><div class="home-kv"><span>NVIDIA share</span><b>12.6% to 11.4%</b><span>US tech share</span><b>29.1% to 27.8%</b><span>Width of the portfolio's 80% range, 6M</span><b>23.2 to 22.5 pts</b></div>`;
   const ids = (who = 'Growth 88, Protection 52, Opportunity 78 · ') => `<p class="home-sub" style="color:var(--ink);margin-top:10px">Policy v1 · R2-HGB v3 · ${who}3 sources. Illustrative. No trade is placed.</p>`;
   const body = why + unc + cf + ids();
   const noLabel = `<span class="lab">Component evidence</span><div class="home-kv"><span>Growth</span><b>88</b><span>Protection</span><b>52</b><span>Opportunity</span><b>78</b><span>Combined score</span><b>71</b></div>`;
@@ -342,7 +342,7 @@ function actionSheet(ctx) {
     loading: [head(`<span class="sk" style="height:26px;width:72px"></span>`), `<span class="lab">Reading the last published ranking</span><span class="sk" style="height:14px;width:90%;margin-top:8px"></span><span class="sk" style="height:14px;width:70%;margin-top:6px"></span><p class="home-sub" style="margin-top:10px;color:var(--ink)">Last good 21:15. Its reasons load here, and nothing is guessed.</p>`, false],
     empty: [head(`<span class="chip">${ic('equal', 's14')}No action</span>`), `<p class="lead">Nothing is suggested for NVIDIA today: no action band applies. Its range and score stay on its forecast.</p>`, false],
     error: [head(badge('Trim')), banner('fall', 'Reasons did not load.', 'Last good run Mon 21:15 · cutoff 21:00. The action comes from that run. Its reasons stay hidden rather than guessed.', 'alert') + `<div class="acts"><button class="btn sm btn-tinted" type="button">${ic('refresh', 's16')}Try again</button><button class="btn sm btn-tinted" type="button">Not now</button></div>`, false],
-    stale: [head(`<span class="chip stale">${ic('clock', 's14')}Stale</span>`, 'HSBC'), banner('warn', 'This action is stale.', `HSBC's last price is 14:10, past the freshness limit. Pause is held, not current, until its price returns. ${qLate}`, 'clock') + `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Last forecast issued: median ${pct(hs.med)}, 80% range ${pct(hs.lo)} to ${pct(hs.hi)}.</li><li>Out of the total: £78,508.20 known, 6 of 7 priced.</li></ul>` + ids(''), false],
+    stale: [head(`<span class="chip stale">${ic('clock', 's14')}Stale</span>`, 'HSBC'), banner('warn', 'This action is stale.', `HSBC's last price is 14:10, past the freshness limit. Pause is held, not current, until its price returns. ${qLate}`, 'clock') + `<span class="lab">Why, at 6 months</span><ul class="home-ul"><li>Last forecast issued: median ${pct(hs.med)}, 80% range ${pct(hs.lo)} to ${pct(hs.hi)}.</li><li>Out of the total: £84,051.05 known, 6 of 7 priced.</li></ul>` + ids(''), false],
     offline: [head(badge('Trim')), banner('', 'Offline.', `Saved at 21:15. Recording a decision waits until you reconnect.${q12(ctx)}`, 'wifi-off') + why + cf, false],
     noModel: [head(`<span class="chip proposed"><span class="dot"></span>Unclassified</span>`), `<p class="lead">Action thresholds are not approved yet (FIN-OD-07), so this shows its evidence and no label, rather than a guess.</p>` + noLabel + ids(), false],
     disagreement: [head(`<span class="chip">${ic('split', 's14')}Conflicted</span>`, 'Reliance'), `<span class="lab">Each side</span><div class="home-kv"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range, 6M</span><b>${pct(rel.lo)} to ${pct(rel.hi)}</b></div><p class="lead">Rules and models disagree, so no action is ranked. Both stay on the forecast.</p>` + ids(''), false],
@@ -365,7 +365,7 @@ const lists = () => `<div class="card home-card" data-mo="card"><h4>Watchlists</
 const candidate = () => `<div class="card home-card" data-mo="card"><div style="display:flex;align-items:center;gap:8px">${logo('--seg-n50', 'IC', true)}<h4 style="flex:1">ICICI Bank</h4><span class="chip illus">Candidate</span></div>
   <div class="home-kv"><span>Peers</span><b>HDFCBANK, SBIN</b><span>Benchmark</span><b>Nifty 50</b><span>Overlap with NIFTYBEES</span><b>8.9% of that ETF</b></div>
   <span class="label" style="margin-top:4px">At an example 5% size, in new money (computed by code)</span>
-  <div class="home-kv"><span>India share</span><b>28.5% to 31.9%</b><span>Banks share, direct holdings</span><b>7.2% to 11.6%</b></div><p class="home-sub">Decision support, not advice. Illustrative.</p></div>`;
+  <div class="home-kv"><span>India share</span><b>26.7% to 30.2%</b><span>Banks share, direct holdings</span><b>6.8% to 11.2%</b></div><p class="home-sub">Decision support, not advice. Illustrative.</p></div>`;
 function searchMain(ctx, opts = {}) {
   const st = ctx.state, q = opts.q || 'bank';
   const field = `<div class="search on" data-mo="fade">${ic('search', 's18')}${q}</div>`;
@@ -398,7 +398,7 @@ function searchRail(ctx) {
 const strip = ctx => {
   const st = ctx.state, v = valOf(st);
   if (st === 'empty') return '';
-  return `<div class="card" style="padding:12px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:baseline" data-mo="card"><div>${money(v.amt, ctx.kind === 'pwa' ? 28 : 30)}</div><div style="text-align:right;font-size:13px;line-height:18px;letter-spacing:0">${st === 'stale' ? '<span class="muted">Known value, 6 of 7 priced</span>' : `${chg(1, '+1.48%')} <span class="muted">${dayWord(st)}</span>`}</div><div class="small muted" style="grid-column:1/-1">${metaOf(ctx)} · Illustrative</div></div>`;
+  return `<div class="card" style="padding:12px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:baseline" data-mo="card"><div>${money(v.amt, ctx.kind === 'pwa' ? 28 : 30)}</div><div style="text-align:right;font-size:13px;line-height:18px;letter-spacing:0">${st === 'stale' ? '<span class="muted">Known value, 6 of 7 priced</span>' : `${chg(1, '+1.39%')} <span class="muted">${dayWord(st)}</span>`}</div><div style="grid-column:1/-1">${valParts(v.held)}</div><div class="small muted" style="grid-column:1/-1">${metaOf(ctx)} · Illustrative</div></div>`;
 };
 const ldgr3 = (h, m, st) => {
   const flag = h.t === 'HSBA', s = stamp(h, st);

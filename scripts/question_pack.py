@@ -56,20 +56,21 @@ def problems(pack: dict, src: dict, answers: list | None = None) -> list:
     for d in sorted({x for x in ids if ids.count(x) > 1}):
         out.append(f"{d}: two entries")
     have = set(ids)
+    asked = {(i.get("asked") or {}).get("question") for i in items}
     for s, text in src.items():
-        parts = SPLIT.get(s, (s,))
-        missing = [p for p in parts if p not in have]
-        if missing:
-            out.append(f"{s}: no entry in the pack ({', '.join(missing)})")
+        if text not in asked:   # rows renumber as answered ones leave, so a question is matched by its words
+            out.append(f"{s}: no entry in the pack for: {text[:60]}")
+            continue
+    for s in [k for k in src if k in SPLIT]:
+        if not all(p in have for p in SPLIT[s]):
+            out.append(f"{s}: no entry in the pack ({', '.join(p for p in SPLIT[s] if p not in have)})")
     by = {i.get("id"): i for i in items}
     for i in items:
         k = i.get("id", "?")
         a = i.get("asked") or {}
         settled = k in done or i.get("status") != "decide"   # an answered question leaves its page as the answer is applied
-        if a.get("source") in src and a.get("question") != src[a["source"]] and not settled:
-            out.append(f"{k}: its question no longer matches {a['source']}")
-        if a.get("source") not in src and not k.startswith("MP182-") and not settled:
-            out.append(f"{k}: its source {a.get('source')} is no longer open")
+        if a.get("question") not in src.values() and not k.startswith("MP182-") and not settled:
+            out.append(f"{k}: its question no longer matches any open row")
         if i.get("status") not in STATUS:
             out.append(f"{k}: unknown status {i.get('status')}")
         if i.get("tier") not in TIER:
@@ -171,13 +172,13 @@ def selftest() -> int:
         return next(i for i in p["items"] if i["id"] == k)
 
     cases = {
-        "a source with no entry": (drop, "ADM-04: no entry"),
+        "a changed question, unanswered": (lambda p: item(p)["asked"].update(question="Reworded"), "no entry in the pack for"),
+        "a source with no entry": (drop, "no entry in the pack for"),
         "a new question on a page": (None, "ZZZ-01: no entry"),
         "two recommended": (lambda p: [o.update(rec=True) for o in item(p)["options"]], "needs exactly one"),
         "none recommended": (lambda p: [o.pop("rec", None) for o in item(p)["options"]], "0 recommended"),
         "a reason gone": (lambda p: next(o for o in item(p)["options"] if o.get("rec")).pop("because"), "gives no reason"),
         "one option": (lambda p: item(p).update(options=item(p)["options"][:1]), "needs two to four"),
-        "a changed question": (lambda p: item(p)["asked"].update(question="Reworded"), "no longer matches"),
         "a dead citation": (lambda p: item(p).update(evidence=["docs/none/such.md:3 x"]), "a file that is not there"),
         "a duplicate of nothing": (lambda p: item(p).update(status="duplicate", options=[], duplicate_of="NOPE"), "which is not in the pack"),
         "an answer with no quote": (lambda p: item(p).update(status="answered", options=[], answered_by=None), "answered with no quote"),
@@ -202,8 +203,7 @@ def selftest() -> int:
         if not any(expect in f for f in found):
             print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
             bad += 1
-    gone = dict(src)
-    gone.pop(fid, None)
+    gone = {k: v for k, v in src.items() if v != first["asked"]["question"]}
     if problems(good, gone, real):
         print(f"selftest: FAIL an answered question leaving its page is refused: {problems(good, gone, real)[:2]}")
         bad += 1

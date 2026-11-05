@@ -246,7 +246,7 @@ export default {
       must(a && a === b, `${surface} ${state}: the centre shows "${a}" and Home "${b}"`);
     }
     each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /HSBC late|Portfolio value/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); });
-    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); has(v.text, /\+1\.48% last good run/, here(at)); lacks(v.text, /\+1\.48% today/, here(at)); });
+    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); has(v.text, /\+1\.39% last good run/, here(at)); lacks(v.text, /\+1\.39% today/, here(at)); });
     for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /HSBC price is stale/, here(at)); lacks(v.text, /HSBC late/, here(at)); });
   },
 
@@ -257,7 +257,7 @@ export default {
       must(sorted(rowNames(a.html)) === sorted(rowNames(b.html)), `${at}: the centre lists ${rowNames(a.html)} and Home ${rowNames(b.html)}`);
       must(sorted(percents(a.text)) === sorted(percents(b.text)), `${at}: the centre shows ${sorted(percents(a.text))} and Home ${sorted(percents(b.text))}`);
       for (const v of [a, b]) {
-        lacks(v.text, /£84,612|£78,508|£6,104|£\d[\d,]*\.\d\d (?:today|known)/, `${at}: an amount shows`);
+        lacks(v.text, /£90,155|£84,051|£84,612|£78,508|£5,542|£6,104|£\d[\d,]*\.\d\d (?:today|known)/, `${at}: an amount shows`);
         for (const m of v.html.matchAll(/class="val">([\s\S]*?)<\/div>/g)) has(m[1], /£••••/, `${at}: a row's value is not masked`);
         if (!['loading', 'empty'].includes(state)) { must(rowNames(v.html).length === 3, `${at}: ${rowNames(v.html).length} rows`); has(v.html, /class="amt priv"/, `${at}: the total is not masked`); has(v.text, /[+−]\d+\.\d+%/, `${at}: the percentages went too`); }
         lacks(v.text, /abstained on Reliance|Models disagree on Reliance/, `${at}: not the shared story`);
@@ -503,8 +503,8 @@ export default {
   // With HSBC out of the total, the shares are of the known total, on Cost's Home as on Home.
   'R3-s-shares': ({ each, has, lacks }) => {
     for (const [option, screen] of COST_HOME) {
-      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /US 57\.6%/, here(at)); has(v.text, /India 30\.7%/, here(at)); has(v.text, /UK 11\.7%/, here(at)); lacks(v.text, /53\.4%|28\.5%|18\.1%/, `${here(at)}: the shares still count HSBC`); });
-      each({ journey: 'cost', option, screen, state: 'default' }, (v, at) => has(v.text, /US 53\.4%/, here(at)));
+      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /US 53\.8%/, here(at)); has(v.text, /India 28\.7%/, here(at)); has(v.text, /UK 11\.0%/, here(at)); has(v.text, /Cash 6\.6%/, here(at)); lacks(v.text, /50\.1%|26\.7%|17\.0%/, `${here(at)}: the shares still count HSBC`); });
+      each({ journey: 'cost', option, screen, state: 'default' }, (v, at) => has(v.text, /US 50\.1%/, here(at)));
     }
   },
 };

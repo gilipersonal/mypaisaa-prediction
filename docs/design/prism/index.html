@@ -478,6 +478,7 @@ button.chip { border: 0; }
 .t5r.withheld .tt { color: var(--ink-2); font-weight: 400; font-size: 13px; line-height: 18px; letter-spacing: 0; }
 .t5foot { padding: 10px 16px 12px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); border-top: 1px solid var(--hairline); }
 
+.vparts { margin-top: 2px; font: 500 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .alloc { display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden; }
 .alloc i { display: block; height: 100%; background: var(--c); transform-origin: 0 50%; }
 .allocl { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
@@ -1033,7 +1034,7 @@ footer p + p { margin-top: 6px; }
             <div class="label">Amount, 44 pt</div>
             <div style="margin-top: 8px" id="numAmt"></div>
             <div class="chg up" style="margin-top: 8px; font-size: 15px; line-height: 20px" id="numChg"></div>
-            <p class="small muted" style="margin-top: 12px">VoiceOver reads "84,612 pounds 40, up 1,236 pounds 18, 1.48 percent today". Illustrative.</p>
+            <p class="small muted" style="margin-top: 12px">VoiceOver reads "90,155 pounds 25, up 1,236 pounds 18, 1.39 percent today". Illustrative.</p>
           </div>
           <div class="panel" data-mo="card">
             <div class="label">Tabular column, illustrative</div>
@@ -1303,7 +1304,7 @@ footer p + p { margin-top: 6px; }
         <li class="cl-step" data-at><svg class="cl-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 10 19 20 6"/></svg><span>Checked the 6-month forecast</span></li>
         <li class="cl-step" data-at><svg class="cl-tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13 10 19 20 6"/></svg><span>Read a filing and a news item</span></li>
       </ol>
-      <p class="cl-a"><span class="cl-s" data-at>NVIDIA is <span class="cl-fig">13.5%</span> of the portfolio.<span class="cl-ref">1</span></span> <span class="cl-s" data-at>Its 6-month median is <span class="cl-fig">+9.1%</span>, but the 80% range runs from <span class="cl-fig">−18.5%</span> to <span class="cl-fig">+34.0%</span>,<span class="cl-ref">2</span></span> <span class="cl-s" data-at>the widest of your holdings.</span> <span class="cl-s" data-at>Trimming would narrow the portfolio's range.</span></p>
+      <p class="cl-a"><span class="cl-s" data-at>NVIDIA is <span class="cl-fig">12.6%</span> of the portfolio.<span class="cl-ref">1</span></span> <span class="cl-s" data-at>Its 6-month median is <span class="cl-fig">+9.1%</span>, but the 80% range runs from <span class="cl-fig">−18.5%</span> to <span class="cl-fig">+34.0%</span>,<span class="cl-ref">2</span></span> <span class="cl-s" data-at>the widest of your holdings.</span> <span class="cl-s" data-at>Trimming would narrow the portfolio's range.</span></p>
       <ul class="cl-src" aria-label="Sources">
         <li data-at>1 · Ledger, 21:15</li><li data-at>2 · Model R2-HGB v3</li><li data-at>3 · Filing, illustrative</li><li data-at>4 · News, illustrative</li>
       </ul>
@@ -1518,7 +1519,7 @@ const T5 = {
   ustech: [['MSFT', 'Microsoft', 74, '--seg-ustech', 'M'], ['NVDA', 'NVIDIA', 71, '--seg-ustech', 'N'], ['AAPL', 'Apple', 68, '--seg-ustech', 'A'], ['AMZN', 'Amazon', 66, '--seg-ustech', 'Am']],
   n50: [['ICICIBANK', 'ICICI Bank', 72, '--seg-n50', 'IC'], ['HDFCBANK', 'HDFC Bank', 69, '--seg-n50', 'HD'], ['TCS', 'Tata Consultancy Services', 66, '--seg-n50', 'T'], ['INFY', 'Infosys', 64, '--seg-n50', 'In'], ['SBIN', 'State Bank of India', 61, '--seg-n50', 'SB']]
 };
-const ALLOC = [['US', '--mark-us', 53.4], ['India', '--mark-in', 28.5], ['UK', '--mark-uk', 18.1]];
+const ALLOC = [['US', '--mark-us', 50.1], ['India', '--mark-in', 26.7], ['UK', '--mark-uk', '17.0'], ['Cash', '--ink-2', 6.1]];   // 17.0 as a string: a number would print as 17 and read differently from its neighbours
 
 /* ---------- helpers ---------- */
 const ic = (id, cls = '') => `<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
@@ -1578,13 +1579,16 @@ function top5(k, foot = true) {
   return html;
 }
 function alloc() {
-  return `<div class="alloc" role="img" aria-label="Allocation: US 53.4%, India 28.5%, UK 18.1%">${ALLOC.map(a => `<i data-mo="barx" style="--c:var(${a[1]});width:${a[2]}%"></i>`).join('')}</div><div class="allocl">${ALLOC.map(a => `<span style="--c:var(${a[1]})">${a[0]} <b>${a[2]}%</b></span>`).join('')}</div>`;
+  return `<div class="alloc" role="img" aria-label="Allocation: US 50.1%, India 26.7%, UK 17.0%, cash 6.1%">${ALLOC.map(a => `<i data-mo="barx" style="--c:var(${a[1]});width:${a[2]}%"></i>`).join('')}</div><div class="allocl">${ALLOC.map(a => `<span style="--c:var(${a[1]})">${a[0]} <b>${a[2]}%</b></span>`).join('')}</div>`;
 }
+/* value is cash plus holdings (MP-99, the owner, 5 Nov 2026), and the two parts always show beside the total (MP-185) */
+const valParts = (held = '84,612.40') => `<div class="vparts">Holdings £${held} · Cash £5,542.85</div>`;
 function valcard(size = 44) {
   return `<div class="card valcard" data-mo="card">
     <div class="top"><span class="label">Portfolio value</span>${illus()}</div>
-    ${money('84,612.40', size)}
-    <div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>
+    ${money('90,155.25', size)}
+    <div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>
+    ${valParts()}
     <div class="meta">As of 21:15 London · data cutoff 21:00</div>
     <div style="margin-top:14px">${alloc()}</div>
   </div>`;
@@ -1792,7 +1796,7 @@ function flipTurn(el, swap) {
 
 /* ---------- the hero, now; everything else a small job at a time ---------- */
 $('#heroTiles').innerHTML = Object.keys(SEG).map((k, i) => tile(k, { compact: true, nomo: true, i })).join('') +
-  `<div class="prism-glass"><span class="solid amt" style="font-size:24px">£84,612<span class="p">.40</span></span><p>Glass carries the controls.<br>Solid carries the figures.</p></div>`;
+  `<div class="prism-glass"><span class="solid amt" style="font-size:24px">£90,155<span class="p">.25</span></span><p>Glass carries the controls.<br>Solid carries the figures.</p></div>`;
 
 function renderPrinciples() {
   const P = [
@@ -1846,7 +1850,7 @@ function renderColour() {
 }
 function renderType() {
   const T = [
-    ['Amount', '£84,612.40', '44 / 48', '800', '−0.03 em', 'Figure', '.system(size: 44, weight: .heavy, design: .rounded)', 'figure', 44, 48, -.03],
+    ['Amount', '£90,155.25', '44 / 48', '800', '−0.03 em', 'Figure', '.system(size: 44, weight: .heavy, design: .rounded)', 'figure', 44, 48, -.03],
     ['Figure, card', '+9.1%', '30 / 36', '800', '−0.03 em', 'Figure', '.system(size: 30, weight: .heavy, design: .rounded)', 'figure', 30, 36, -.03],
     ['Large title', 'Portfolio', '34 / 41', '700', '−0.02 em', 'Text', '.largeTitle', 'text', 34, 41, -.02],
     ['Title 1', 'Top 5 by segment', '28 / 34', '700', '−0.02 em', 'Text', '.title', 'text', 28, 34, -.02],
@@ -1863,8 +1867,8 @@ function renderType() {
   $('#typeTable tbody').innerHTML = T.map(([n, s, sz, w, tr, f, sw, fam, a, b, ls]) => `<tr><td>${n}</td><td class="tysample" style="font:${w} ${a}px/${b}px var(--font-${fam});letter-spacing:${ls}em">${s}</td><td style="white-space:nowrap">${sz}</td><td>${w}</td><td style="white-space:nowrap">${tr}</td><td>${f}</td><td><code>${sw}</code></td></tr>`).join('');
 }
 function renderNumerals() {
-  $('#numAmt').innerHTML = money('84,612.40', 44);
-  $('#numChg').innerHTML = `${ic('up', 'fill')}+£1,236.18 (1.48%) today`;
+  $('#numAmt').innerHTML = money('90,155.25', 44);
+  $('#numChg').innerHTML = `${ic('up', 'fill')}+£1,236.18 (1.39%) today`;
   $('#numCol').innerHTML = H.map(h => `<tr><td>${h.t}</td><td class="r">£${h.val}</td><td class="r">${chg(h.day)}</td><td class="r" style="color:var(--fc-ink);font-weight:600">${pct(h.med)}</td></tr>`).join('');
   $('#spaceRow').innerHTML = [4, 8, 12, 16, 20, 24, 32, 48].map(s => `<div style="display:flex;align-items:center;gap:10px"><span class="small" style="width:22px;text-align:right">${s}</span><span style="height:10px;width:${s * 3}px;border-radius:3px;background:var(--seg-uslarge)"></span><code>--sp-${s}</code></div>`).join('');
   $('#radRow').innerHTML = [['xs', 'chips'], ['sm', 'fields'], ['md', 'buttons'], ['card', 'cards'], ['tile', 'tiles'], ['sheet', 'sheets']].map(([n, u]) => `<div style="display:grid;gap:4px;justify-items:start"><span style="width:56px;height:44px;border-radius:var(--r-${n});background:var(--surface-2);box-shadow:inset 0 0 0 1.5px var(--hairline-2)"></span><span class="small"><b>${parseInt(tv(probeL, '--r-' + n), 10)}</b> ${u}</span></div>`).join('');
@@ -1917,7 +1921,7 @@ const CMP = [
     anatomy: 'A dot or icon, then a word.', states: 'Fresh, stale, partial, offline, error, forecast, status.', sizes: '24 tall. 12 pt label.', a11y: 'The word carries the meaning. A chip that opens something is a 44-point button.', do: 'Keep a provider and a time in view.', dont: 'Rely on colour alone.', web: '<Chip kind>', swift: 'StatusChip(kind:)' },
   { id: 'badge', split: true, dw: '520px', name: 'Ranked-action badge', status: OWNER, lede: 'Decision support, with a reason and the uncertainty beside it. The icon carries the meaning; the tint is a hint.',
     demo: () => `<div class="panel" data-mo-frame="wait" style="display:grid;gap:14px"><div style="display:flex;gap:8px;flex-wrap:wrap" data-mo="rise">${['Add', 'Hold', 'Pause', 'Trim', 'Rebalance'].map(badge).join('')}</div>
-      <div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline);padding:14px;display:grid;gap:6px" data-mo="rise"><div style="display:flex;gap:8px;align-items:center">${badge('Trim')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">NVIDIA, 6 months</span></div><p class="small muted">NVIDIA is 13.5% of the portfolio and has the widest 80% range of the example holdings (−18.5% to +34.0%). Decision support only: MyPrediction never places trades. Illustrative.</p></div></div>`,
+      <div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline);padding:14px;display:grid;gap:6px" data-mo="rise"><div style="display:flex;gap:8px;align-items:center">${badge('Trim')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">NVIDIA, 6 months</span></div><p class="small muted">NVIDIA is 12.6% of the portfolio and has the widest 80% range of the example holdings (−18.5% to +34.0%). Decision support only: MyPrediction never places trades. Illustrative.</p></div></div>`,
     anatomy: 'Icon, verb. A reason and a range travel with it.', states: 'Add, hold, pause, trim, rebalance.', sizes: '26 tall; 24 in a dense table.', a11y: 'Read as "Ranked action: trim". The reason follows it in reading order.', do: 'Show the reason and the range.', dont: 'Word it as personal advice.', web: '<ActionBadge action reason>', swift: 'ActionBadge(.trim)' },
   { id: 'row', name: 'Holding row', status: OWNER, lede: 'Round logo, name, venue, value and today\'s change on the first line. The 6-month range and the ranked action on the second. Every range in a list shares one scale, −20% to +36%, so rows compare at a glance.',
     demo: () => `<div class="grid2" data-mo-frame="wait"><div><div class="label" style="margin-bottom:6px">Default · pressed · selected · illustrative</div><div class="card">${hrow(byT.AAPL)}${hrow(byT.NVDA, { pressed: true })}${hrow(byT.SPY, { sel: true })}</div></div><div><div class="label" style="margin-bottom:6px">Stale · privacy on · loading · illustrative</div><div class="card">${hrow(byT.HSBA)}${hrow(byT.RELIANCE, { priv: true })}${skelRow()}</div></div></div>`,
@@ -2147,7 +2151,7 @@ function scrDetail() {
     <div class="card fcard" style="margin:0 16px" data-mo="card">${fcard(h, { w: 326, h: 186, seed: 11 })}</div>
     <div class="card" style="margin:12px 16px 0;padding:14px 16px;display:grid;gap:8px" data-mo="card">
       <div style="display:flex;gap:8px;align-items:center">${badge('Hold')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">Ranked action</span><span class="chip illus" style="margin-left:auto">Decision support</span></div>
-      <p class="small muted">Apple is 17.5% of the portfolio. The median is positive, but the 80% range still includes a loss of 9.8%. Illustrative.</p>
+      <p class="small muted">Apple is 16.4% of the portfolio. The median is positive, but the 80% range still includes a loss of 9.8%. Illustrative.</p>
     </div>
     <div class="card fcard" style="margin:12px 16px 0" data-mo="card">${proof()}</div>
   </div>
@@ -2175,7 +2179,7 @@ function scrIpad() {
       <div style="display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap" data-mo="rise">${seg(['3 months', '6 months', '12 months'], 1, 'Forecast horizon', 'lg')}<button type="button" class="chip" style="min-height:40px">${ic('clock', 's14')}Short-term</button>${fresh('Twelve Data')}</div>
       <div class="card fcard" style="margin-top:14px" data-mo="card">${fcard(h, { w: 460, h: 196, seed: 23 })}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
-        <div class="card fcard" style="display:grid;gap:8px;align-content:start" data-mo="card"><div style="display:flex;gap:8px;align-items:center">${badge('Trim')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">Ranked action</span></div><p class="small muted">13.5% of the portfolio, with the widest 80% range of the example holdings. MyPrediction never places trades.</p><button class="btn sm btn-primary" type="button">Record decision</button></div>
+        <div class="card fcard" style="display:grid;gap:8px;align-content:start" data-mo="card"><div style="display:flex;gap:8px;align-items:center">${badge('Trim')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">Ranked action</span></div><p class="small muted">12.6% of the portfolio, with the widest 80% range of the example holdings. MyPrediction never places trades.</p><button class="btn sm btn-primary" type="button">Record decision</button></div>
         <div class="card fcard" data-mo="card">${proof(true)}</div>
       </div>
     </div>
@@ -2203,7 +2207,7 @@ function scrDesk() {
         <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;padding:14px 20px">
           <div style="display:grid;gap:14px;align-content:start;min-width:0">
             <div class="card" style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;padding:14px 16px" data-mo="card">
-              <div><div class="label">Portfolio value</div><div style="margin-top:6px">${money('84,612.40', 36)}</div><div style="margin-top:6px;font-size:13px;line-height:18px;letter-spacing:0;white-space:nowrap">${chg(1, '+£1,236.18 (1.48%)')} <span class="muted">today</span></div></div>
+              <div><div class="label">Portfolio value</div><div style="margin-top:6px">${money('90,155.25', 36)}</div><div style="margin-top:6px;font-size:13px;line-height:18px;letter-spacing:0;white-space:nowrap">${chg(1, '+£1,236.18 (1.39%)')} <span class="muted">today</span></div></div>
               <div style="min-width:0"><div class="small muted" style="margin-bottom:8px">As of 21:15 London · data cutoff 21:00</div>${alloc()}</div>
             </div>
             <div class="card" data-mo="card"><div style="display:flex;align-items:center;gap:10px;padding:10px 14px 4px"><h3 style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">Holdings</h3><span class="small muted">One scale, −20% to +36%</span><span class="chip stale" style="margin-left:auto">${ic('clock', 's14')}HSBC stale since 14:10</span></div>
@@ -2273,7 +2277,7 @@ function renderMotion() {
   $('#moDemos').innerHTML = [
     card('Arrival', `<div class="card" style="padding:12px" data-mo="card"><span class="label">NVIDIA · 6 months · illustrative</span></div><div class="card" data-mo="card">${hrow(n, { nomo: true })}</div><div style="display:flex;gap:6px;flex-wrap:wrap">${fresh('Twelve Data')}<span class="chip fc" data-mo="chip">${ic('fan', 's14')}Forecast</span></div>`, '.transition(.opacity.combined(with: .offset(y: 12))) .animation(.smooth(duration: 0.34).delay(Double(i) * 0.045))'),
     card('Chart draw-in', `<div class="cxslot" id="moChart" style="margin:0"></div>`, 'Chart { }.mask { Rectangle().scaleEffect(x: drawn, anchor: .leading) } .animation(.smooth(duration: 0.95))'),
-    card('Figure roll', `<div class="card valcard" style="padding:14px"><span class="label">Portfolio value · illustrative</span><div>${money('84,612.40', 40)}</div></div>`, 'Text(value, format: .currency(code: "GBP")).contentTransition(.numericText(value: value)).monospacedDigit()'),
+    card('Figure roll', `<div class="card valcard" style="padding:14px"><span class="label">Portfolio value · illustrative</span><div>${money('90,155.25', 40)}</div></div>`, 'Text(value, format: .currency(code: "GBP")).contentTransition(.numericText(value: value)).monospacedDigit()'),
     card('Lens', `<div id="lensDemo" style="display:grid;gap:10px;justify-items:center">${seg(['3 months', '6 months', '12 months'], 1, 'Lens demonstration', 'lg')}</div><div class="card" style="padding-bottom:6px;width:100%" id="lensTabs">${tabbarEl(0)}</div>`, 'matchedGeometryEffect(id: "lens", in: ns) .animation(.snappy(extraBounce: 0.08))')
   ].join('');
   fitChart($('#moChart'), n, { seed: 23 });

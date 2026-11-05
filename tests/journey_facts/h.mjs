@@ -288,11 +288,11 @@ export default {
     });
     each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · DATA-DEC-02/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'stale' }, (v, at) => {
-      has(v.text, /78,508/, `${at.surface}: HSBC stays in the total`);
+      has(v.text, /84,051/, `${at.surface}: HSBC stays in the total`);
       has(v.text, /6 of 7 priced/, `${at.surface}: the count`);
       has(v.text, /1 of 7 rows is stale/, `${at.surface}: more than HSBC is stale`);
       has(v.text, /until its price returns/, `${at.surface}: the recovery sentence`);
-      lacks(v.text, /Stale[^.]{0,30}16:35|stopped at 16:35|84,612/, `${at.surface}: 16:35 or the old total`);
+      lacks(v.text, /Stale[^.]{0,30}16:35|stopped at 16:35|90,155/, `${at.surface}: 16:35 or the old total`);
     });
     for (const journey of ['forecast']) each({ journey, state: 'stale' }, (v, at) => lacks(v.text, /16:35/, `${at.screen} ${at.surface}: 16:35 means only the UK close`));
     each({ journey: 'forecast', screen: 'a-instrument', state: 'stale' }, (v, at) => { has(v.text, /HSBC/, `${at.surface}: stale is not drawn on HSBC`); has(v.text, /until its price returns/, `${at.surface}: the recovery sentence`); });
@@ -427,7 +427,7 @@ export default {
     }
     each({ journey: 'forecast', screen: 'a-3m', state: 'abstention' }, (v, at) => {
       has(v.html, /class="badge b-hold"/, `${at.surface}: 3 months stands, so its action stands`);
-      has(v.text, /Apple is 17\.5% of the portfolio/, `${at.surface}: the action is not Apple's`);
+      has(v.text, /Apple is 16\.4% of the portfolio/, `${at.surface}: the action is not Apple's`);
       has(v.text, /3-month 80% range still includes a loss of 8\.2%/, `${at.surface}: the action is not at 3 months`);
       lacks(v.text, /No range at/, `${at.surface}: "no range" over a range`);
     });

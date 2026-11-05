@@ -479,6 +479,7 @@ button.chip { border: 0; }
 .t5r.withheld .tt { color: var(--ink-2); font-weight: 400; font-size: 13px; line-height: 18px; letter-spacing: 0; }
 .t5foot { padding: 10px 16px 12px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); border-top: 1px solid var(--hairline); }
 
+.vparts { margin-top: 2px; font: 500 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
 .alloc { display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden; }
 .alloc i { display: block; height: 100%; background: var(--c); transform-origin: 0 50%; }
 .allocl { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
@@ -1576,7 +1577,7 @@ const T5 = {
   ustech: [['MSFT', 'Microsoft', 74, '--seg-ustech', 'M'], ['NVDA', 'NVIDIA', 71, '--seg-ustech', 'N'], ['AAPL', 'Apple', 68, '--seg-ustech', 'A'], ['AMZN', 'Amazon', 66, '--seg-ustech', 'Am']],
   n50: [['ICICIBANK', 'ICICI Bank', 72, '--seg-n50', 'IC'], ['HDFCBANK', 'HDFC Bank', 69, '--seg-n50', 'HD'], ['TCS', 'Tata Consultancy Services', 66, '--seg-n50', 'T'], ['INFY', 'Infosys', 64, '--seg-n50', 'In'], ['SBIN', 'State Bank of India', 61, '--seg-n50', 'SB']]
 };
-const ALLOC = [['US', '--mark-us', 53.4], ['India', '--mark-in', 28.5], ['UK', '--mark-uk', 18.1]];
+const ALLOC = [['US', '--mark-us', 50.1], ['India', '--mark-in', 26.7], ['UK', '--mark-uk', '17.0'], ['Cash', '--ink-2', 6.1]];   // 17.0 as a string: a number would print as 17 and read differently from its neighbours
 
 /* ---------- helpers ---------- */
 const ic = (id, cls = '') => `<svg class="ico ${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
@@ -1636,13 +1637,16 @@ function top5(k, foot = true) {
   return html;
 }
 function alloc() {
-  return `<div class="alloc" role="img" aria-label="Allocation: US 53.4%, India 28.5%, UK 18.1%">${ALLOC.map(a => `<i data-mo="barx" style="--c:var(${a[1]});width:${a[2]}%"></i>`).join('')}</div><div class="allocl">${ALLOC.map(a => `<span style="--c:var(${a[1]})">${a[0]} <b>${a[2]}%</b></span>`).join('')}</div>`;
+  return `<div class="alloc" role="img" aria-label="Allocation: US 50.1%, India 26.7%, UK 17.0%, cash 6.1%">${ALLOC.map(a => `<i data-mo="barx" style="--c:var(${a[1]});width:${a[2]}%"></i>`).join('')}</div><div class="allocl">${ALLOC.map(a => `<span style="--c:var(${a[1]})">${a[0]} <b>${a[2]}%</b></span>`).join('')}</div>`;
 }
+/* value is cash plus holdings (MP-99, the owner, 5 Nov 2026), and the two parts always show beside the total (MP-185) */
+const valParts = (held = '84,612.40') => `<div class="vparts">Holdings £${held} · Cash £5,542.85</div>`;
 function valcard(size = 44) {
   return `<div class="card valcard" data-mo="card">
     <div class="top"><span class="label">Portfolio value</span>${illus()}</div>
-    ${money('84,612.40', size)}
-    <div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>
+    ${money('90,155.25', size)}
+    <div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>
+    ${valParts()}
     <div class="meta">As of 21:15 London · data cutoff 21:00</div>
     <div style="margin-top:14px">${alloc()}</div>
   </div>`;
@@ -4701,7 +4705,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const CHECKED = (run = '8 of 8 scored weeks') => [['Clean running', run], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']];
   const WAITS_RULES = 'This trial also waits on your decision about the rules mapping, on Rules v6.';
   const trial = (count = '8 of 8 scored weeks', stop, foot = 'The week of 12 Oct could not be scored after a data outage, so the count paused.') => box(`<div class="amodels-head"><div>${lbl('Shadow trial')}</div><span class="small muted">${count}</span></div>${weeks(stop)}<p class="small muted" style="margin-top:8px">${foot}</p><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv(CHECKED(count))}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
-  const scores = (v4 = '0.188', rules = '0.197', base = '0.203') => box(`${lbl('Against both comparators · Brier score, lower is better')}<div class="amodels-score">${[['v4', v4, v4 === '0.188'], ['Rules', rules], ['Base rate', base]].map(([a, b, on]) => `<div class="${on ? 'on' : ''}"><span class="small muted">${a}</span><b>${b}</b></div>`).join('')}</div><p class="small muted" style="margin-top:8px">Walk-forward, 3, 6 and 12 months. ${rules === '0.197' ? 'Rules are scored through their frozen mapping, R0-RULEMAP, qualified for v5. ' : ''}${rules === 'Not scoreable' ? 'No rules mapping qualified for v5 or v6, so the rules comparison is not scoreable. ' : ''}${v4.startsWith('0.') ? 'Portfolio 80% range: 24.7 points on v3, 23.5 on v4, so 1.2 points narrower.' : ''}</p><div style="margin-top:8px">${proposed('SCI-D03')}</div>`);
+  const scores = (v4 = '0.188', rules = '0.197', base = '0.203') => box(`${lbl('Against both comparators · Brier score, lower is better')}<div class="amodels-score">${[['v4', v4, v4 === '0.188'], ['Rules', rules], ['Base rate', base]].map(([a, b, on]) => `<div class="${on ? 'on' : ''}"><span class="small muted">${a}</span><b>${b}</b></div>`).join('')}</div><p class="small muted" style="margin-top:8px">Walk-forward, 3, 6 and 12 months. ${rules === '0.197' ? 'Rules are scored through their frozen mapping, R0-RULEMAP, qualified for v5. ' : ''}${rules === 'Not scoreable' ? 'No rules mapping qualified for v5 or v6, so the rules comparison is not scoreable. ' : ''}${v4.startsWith('0.') ? 'Portfolio 80% range: 23.2 points on v3, 22.1 on v4, so 1.1 points narrower.' : ''}</p><div style="margin-top:8px">${proposed('SCI-D03')}</div>`);
   const correction = () => para('No outcome behind this trial was amended. A rescore adds a new score version beside the old, and nobody edits a past score.');
   const evidenceOK = () => trial() + scores() + correction();
   const evidenceState = (ctx, tail = '') => region(ctx, {

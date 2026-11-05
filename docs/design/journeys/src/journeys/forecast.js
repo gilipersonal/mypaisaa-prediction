@@ -134,7 +134,7 @@ function forecastMain(ctx, hz = 1, h = subj(ctx.state, hz)) {
     abstention: () => (isOut(st, h.t, hz) ? stateCard('ban', 'The model abstained', `Too little comparable history for a calibrated ${n.replace(' months', '')}-month range, so no range is shown. Nothing stands in for it.`, '', pill('', 'ban', 'Abstained · no range shown')) + hist(ctx, h.n) : banner('', `${n[0].toUpperCase()}${n.slice(1)} stands.`, `${other ? `${other[0].toUpperCase()}${other.slice(1)} abstained. ` : ''}This one rests on its own evidence.`, 'ban') + card())
   });
 }
-const shareOf = h => (+h.val.replace(/,/g, '') / 846.124).toFixed(1);
+const shareOf = h => (+h.val.replace(/,/g, '') / 901.5525).toFixed(1);
 const heldAction = (h, hz) => { const l = longOf(h)[hz]; return `${h.n} is ${shareOf(h)}% of the portfolio. The median is positive, but the ${l.n.replace(' months', '-month')} 80% range still includes a loss of ${Math.abs(l.f.lo).toFixed(1)}%. Illustrative.`; };
 function actionCard(ctx, hz = 1, h = subj(ctx.state, hz)) {
   const st = ctx.state, at = (OUT[st] || {})[h.t], out = isOut(st, h.t, hz), wrap = (a, txt) => `<div class="card fc-card" data-mo="card"><div class="fc-vh">${a}<h4>Ranked action</h4><span class="chip illus">Decision support</span></div><p class="fc-sub">${txt}</p></div>`;
@@ -341,7 +341,7 @@ function assume(ctx) {
 
 /* ---------- the evidence trail ---------- */
 const SRC = { AAPL: 'Twelve Data · close 2 Nov · received 2 Nov 21:02', RELIANCE: 'Yahoo · close 2 Nov · received 2 Nov 10:12', AZN: 'Yahoo · close 2 Nov · received 2 Nov 16:52', HSBA: 'Yahoo · last price 14:10 · stale' };
-const RISK = { AAPL: 'Exposure snapshot · US tech 31.0%', RELIANCE: 'Exposure snapshot · India 28.5%', AZN: 'Exposure snapshot · UK 18.1%', HSBA: 'Exposure snapshot · HSBC left out while stale' };
+const RISK = { AAPL: 'Exposure snapshot · US tech 29.1%', RELIANCE: 'Exposure snapshot · India 26.7%', AZN: 'Exposure snapshot · UK 17.0%', HSBA: 'Exposure snapshot · HSBC left out while stale' };
 const chainOf = (h, hz = 1) => { const l = longOf(h)[hz]; return [
   ['db', 'Source', SRC[h.t], 'Known before the 21:00 data cutoff. Nothing received after it is used.'],
   ['layers', 'Ledger', `${h.n} position · v12 · £${h.val}`, 'Read from ledger revision 214.'],

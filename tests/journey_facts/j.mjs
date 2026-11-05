@@ -169,12 +169,12 @@ export default {
     each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => {
       has(v.text, /HSBC last priced 14:10/, `${at.surface}: Ready does not say how HSBC is treated`);
       has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: the freshness limit is not labelled proposed`);
-      has(v.text, /84,612/, `${at.surface}: HSBC should stay in the total`);
+      has(v.text, /90,155/, `${at.surface}: HSBC should stay in the total`);
       lacks(v.text, /Stale|16:35 ·|Price 16:35/, `${at.surface}: Ready calls HSBC stale`);
     });
     each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => { has(v.text, /Late · 14:10/, `${at.surface}: HSBC is not late`); has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: no label`); });
     for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => {
-      has(v.text, /78,508/, `${s} ${at.surface}: no known subtotal`);
+      has(v.text, /84,051/, `${s} ${at.surface}: no known subtotal`);
       has(v.text, /6 of 7 priced/, `${s} ${at.surface}: no count`);
       has(v.text, /until its price returns/, `${s} ${at.surface}: wrong recovery`);
       lacks(v.text, /AstraZeneca[^.]{0,30}stale|Yahoo is delayed/, `${s} ${at.surface}: more than HSBC is stale`);
@@ -190,6 +190,15 @@ export default {
   'R1-j3': ({ each, has }) => {
     for (const journey of ['holdings', 'journal']) each({ journey }, (v, at) => { if (/class="badge b-/.test(v.html)) has(v.text, /Decision support/, `${journey} ${at.option} ${at.screen} ${at.surface} ${at.state}: a ranked action with no "Decision support"`); });
   },
+  // MP-185: value is cash plus holdings, the two parts show beside the total, and both sides of a flip agree. Stale takes HSBC out of the holdings and keeps the cash.
+  'MP185-parts': ({ each, has, lacks }) => {
+    for (const [journey, option, screen] of [['home', 'a', 'a-portfolio'], ['home', 'b', 'b-ledger'], ['holdings', 'a', 'a-list'], ['holdings', 'b', 'b-accounts']]) {
+      each({ journey, option, screen, state: 'default' }, (v, at) => { has(v.text, /£90,155/, `${at.screen} ${at.surface}: no total with cash`); has(v.text, /Holdings £84,612\.40 · Cash £5,542\.85/, `${at.screen} ${at.surface}: not its two parts`); });
+      each({ journey, option, screen, state: 'stale' }, (v, at) => { has(v.text, /£84,051/, `${at.screen} ${at.surface}: no known total`); has(v.text, /Holdings £78,508\.20 · Cash £5,542\.85/, `${at.screen} ${at.surface}: not its two parts`); lacks(v.text, /£90,155/, `${at.screen} ${at.surface}: the full total in Stale`); });
+    }
+    each({ journey: 'home', option: 'a', screen: 'a-portfolio', state: 'default' }, (v, at) => { has(v.text, /Cash 6\.1%/, `${at.surface}: cash is not in the allocation`); has(v.text, /UK 17\.0%/, `${at.surface}: a share reads differently from its neighbours`); });
+  },
+
   'R1-j4': ({ each, has, lacks, must, view }) => {
     each({ journey: 'journal' }, (v, at) => {
       lacks(v.text, /ranked weight|ranked trim|10\.0%|P-3|P-2/, `${at.screen} ${at.surface} ${at.state}: a target size or a second policy`);
@@ -197,9 +206,9 @@ export default {
     });
     each({ journey: 'journal', screen: 'a-record', state: 'default' }, (v, at) => {
       has(v.text, /If it were 10% smaller/, `${at.surface}: no shared counterfactual`);
-      has(v.text, /13\.5% → 12\.1%/, `${at.surface}: wrong NVIDIA share`);
-      has(v.text, /31\.0% → 29\.6%/, `${at.surface}: wrong US tech share`);
-      has(v.text, /24\.7 → 24\.0 pts/, `${at.surface}: wrong range width`);
+      has(v.text, /12\.6% → 11\.4%/, `${at.surface}: wrong NVIDIA share`);
+      has(v.text, /29\.1% → 27\.8%/, `${at.surface}: wrong US tech share`);
+      has(v.text, /23\.2 → 22\.5 pts/, `${at.surface}: wrong range width`);
       has(v.text, /Policy v1/, `${at.surface}: wrong policy`);
       has(v.text, /score 71/, `${at.surface}: no score`);
       must(/growth 88, protection 52, opportunity 78/.test(v.html), `${at.surface}: wrong parts`);
