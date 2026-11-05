@@ -1819,7 +1819,11 @@
     "scripts/design_prism_press.mjs",
     "scripts/design_gates.py",
     "scripts/design_journeys_check.mjs",
-    "scripts/review_checks.py"
+    "scripts/review_checks.py",
+    "scripts/design_journeys_press.mjs",
+    "docs/design/artifacts.json",
+    ".claude/rules/independent-review.md",
+    "docs/planning/trace.json"
    ]
   }
  ]

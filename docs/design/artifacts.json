@@ -41,36 +41,36 @@
    "jira": "MP-62"
   },
   {
-   "slug": "ds-option-b-prism",
-   "source": "docs/design/prism/index.html",
-   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "4124f577c33229ba42efa8d5b9f723bea141a3962b1dc539229765125e5484ce",
-   "published_at": "2026-11-04",
-   "jira": "MP-178"
-  },
-  {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "e1c6718bc3a3d69e3aea06800fbb972c5d39bad2196306ace4c6e9af13fdf55f",
-   "published_at": "2026-11-04",
-   "jira": "MP-64"
-  },
-  {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "be9481bd04f51e1874dfd2b08b0158b3c8da1f19a71e8dc37fa895c6974a946a",
-   "published_at": "2026-11-04",
-   "jira": "MP-64"
-  },
-  {
    "slug": "market-agent",
    "source": "docs/market-agent/index.html",
    "artifact_url": "https://claude.ai/artifact/35U4jqLeGqG2VgKtsgnmXK",
    "published_sha256": "eab34c264f71a0660a4a2f2713ba2bef2fe948abf96d79671786887a5fe8bb41",
    "published_at": "2026-11-04",
    "jira": "MP-64"
+  },
+  {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "79b22c08ef8a34d1705b261a83cfcfe28ac42ff8cf00f0964aff8584c004c81b",
+   "published_at": "2026-11-05",
+   "jira": "MP-182"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "66c4efd470b363d65edea282e16ee8e193b95ee58d3d8270dce80a8a57c60a23",
+   "published_at": "2026-11-05",
+   "jira": "MP-182"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "099e871c073f33087eb9c14a1b1b77ce3f140855b9c19ab45f3c110f7cd0c93c",
+   "published_at": "2026-11-05",
+   "jira": "MP-182"
   }
  ]
 }
