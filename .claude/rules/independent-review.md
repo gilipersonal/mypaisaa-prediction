@@ -115,4 +115,3 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 62. **A change to a total is followed into everything measured against it**: the day's percentage, every share, a what-if and a range width all move, and a threshold can flip. US tech fell from 31.0% to 29.1%, under the 30% line every alert stood on (MP-185).
 63. **A figure is recomputed from its inputs, then matched to the page**: the arithmetic reproduces the old figures first, which proves the method, before it is trusted for the new ones (MP-185, lesson 37).
 64. **A number stored as a number prints as a number**: 17.0 reads 17, beside 50.1 and 26.7, and a text replace aimed at 17.0 silently misses it. A figure that must keep its form is stored as text (MP-185).
-

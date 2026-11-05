@@ -482,7 +482,7 @@ const FACTS = {
   'R2-r8': ({ each, has, lacks }) => {
     each({ journey: A, option: 'b', screen: 'ab-home', state: 'stale' }, (v, at) => {
       for (const w of [/US 53\.8%/, /India 28\.7%/, /UK 11\.0%/, /Cash 6\.6%/]) has(v.text, w, `${said(at)}: not Home's allocation`);
-      lacks(v.text, /53\.4|28\.5|18\.1/, `${said(at)}: the full total's allocation`);
+      lacks(v.text, /50\.1|26\.7|17\.0/, `${said(at)}: the full total's allocation`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today'], ['a', 'ra-alert'], ['b', 'rb-alert']]) {
       each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
@@ -493,16 +493,16 @@ const FACTS = {
     for (const [option, screen] of [['a', 'ra-alert'], ['b', 'rb-alert']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
       has(v.text, /Apple is 17\.6% and NVIDIA 13\.6% of the known total/, `${said(at)}: the shares`);
       has(v.text, /Now 31\.2%/, `${said(at)}: the bar's label`);
-      has(v.html, /calbar[^>]*><i data-mo="barx" style="width:66\.8%/, `${said(at)}: the bar has not moved`);
+      has(v.html, /calbar[^>]*><i data-mo="barx" style="width:62\.4%/, `${said(at)}: the bar has not moved`);
     });
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
-      lacks(v.text, /13\.5%|31\.0%|15\.0%/, `${said(at)}: a figure from the full total`);
-      has(v.text, /16\.2% NVIDIA look-through share of the known total/, `${said(at)}: the overlap on the known total`);
+      lacks(v.text, /12\.6% of|29\.1%|14\.1%/, `${said(at)}: a figure from the full total`);
+      has(v.text, /15\.1% NVIDIA look-through share of the known total/, `${said(at)}: the overlap on the known total`);
     });
     for (const [option, screen] of [['a', 'ra-ask'], ['b', 'rb-ask']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /its shares are of the full total/, `${said(at)}: which total the answer uses`));
     each({ journey: A, option: 'a', screen: 'aa-queue', state: 'stale' }, (v, at) => {
       has(v.text, /£84,051\.05 known, 6 of 7 priced/, `${said(at)}: the known total`);
-      has(v.text, /US tech is 33\.4% of the known total/, `${said(at)}: the notice`);
+      has(v.text, /US tech is 31\.2% of the known total/, `${said(at)}: the notice`);
     });
   },
 

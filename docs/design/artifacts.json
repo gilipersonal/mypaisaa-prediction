@@ -57,14 +57,6 @@
    "jira": "MP-185"
   },
   {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "63953fc539dad8d64442b1000b03a2a68b7494e480ac5965696fb541625d162b",
-   "published_at": "2026-11-05",
-   "jira": "MP-185"
-  },
-  {
    "slug": "ds-admin",
    "source": "docs/design/admin/index.html",
    "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
@@ -77,6 +69,14 @@
    "source": "docs/design/question-pack/index.html",
    "artifact_url": "https://claude.ai/artifact/5E3h9FVXwYQfYrwbLYCxfQ",
    "published_sha256": "b0365f77508653074d98f4afa6dae298541b60682a8e3fa40fb952f23b7360ab",
+   "published_at": "2026-11-05",
+   "jira": "MP-185"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "6e30990445894227a3911066199b456d9b1a74a49320413df11efb8a9a76004d",
    "published_at": "2026-11-05",
    "jira": "MP-185"
   }
