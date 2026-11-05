@@ -1,0 +1,993 @@
+{
+ "as_of": "2026-11-05",
+ "issue": "MP-184",
+ "answers": [
+  {
+   "id": "OWN-02",
+   "title": "Where do Research, Approvals and Imports live in the navigation?",
+   "tier": "before_approval",
+   "pick": "Add them to the sidebar",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Add them to the sidebar\" on the page",
+   "at": "2026-11-05T20:16:34.376Z",
+   "ids": [
+    "CT-16",
+    "MP-62"
+   ]
+  },
+  {
+   "id": "OWN-06",
+   "title": "How much cost shows on Home?",
+   "tier": "before_approval",
+   "pick": "Pill on every Home",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Pill on every Home\" on the page",
+   "at": "2026-11-05T20:16:50.858Z",
+   "ids": [
+    "MP-153",
+    "MP-100",
+    "MP-142",
+    "MP40-Q14",
+    "MP-178"
+   ]
+  },
+  {
+   "id": "OWN-22",
+   "title": "Must each top-5 name show its range on Home itself?",
+   "tier": "before_approval",
+   "pick": "One tap in, reword MP-153",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"One tap in, reword MP-153\" on the page",
+   "at": "2026-11-05T20:16:55.876Z",
+   "ids": [
+    "MP-153",
+    "MP-178"
+   ]
+  },
+  {
+   "id": "OWN-24",
+   "title": "Where do track records by horizon, model and regime live?",
+   "tier": "before_approval",
+   "pick": "A view in Record",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"A view in Record\" on the page",
+   "at": "2026-11-05T20:16:59.283Z",
+   "ids": [
+    "MP-154"
+   ]
+  },
+  {
+   "id": "OWN-05",
+   "title": "Does your portfolio total include cash?",
+   "tier": "before_approval",
+   "pick": "Cash in the total",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Cash in the total\" on the page",
+   "at": "2026-11-05T20:17:01.560Z",
+   "ids": [
+    "MP-99",
+    "FIN-18"
+   ]
+  },
+  {
+   "id": "OWN-03",
+   "title": "What word does a listing you do not hold carry?",
+   "tier": "before_approval",
+   "pick": "Watch only",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Watch only\" on the page",
+   "at": "2026-11-05T20:17:49.579Z",
+   "ids": [
+    "MP-144"
+   ]
+  },
+  {
+   "id": "OWN-15",
+   "title": "Can you record a decision when no action is ranked?",
+   "tier": "before_approval",
+   "pick": "Any time evidence shows",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Any time evidence shows\" on the page",
+   "at": "2026-11-05T20:17:57.679Z",
+   "ids": [
+    "MP-158",
+    "FIN-OD-07"
+   ]
+  },
+  {
+   "id": "ADM-04",
+   "title": "Is a passkey in a phone's browser barred until you buy Apple's programme?",
+   "tier": "before_approval",
+   "pick": "Allowed in the browser",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Allowed in the browser\" on the page",
+   "at": "2026-11-05T20:18:06.116Z",
+   "ids": [
+    "MP-164",
+    "MP-179",
+    "CT-17",
+    "PL-09"
+   ]
+  },
+  {
+   "id": "ADM-15",
+   "title": "With the Mac lost, how does recovery finish on a phone?",
+   "tier": "before_approval",
+   "pick": "Finish in the phone browser",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Finish in the phone browser\" on the page",
+   "at": "2026-11-05T20:18:16.833Z",
+   "ids": [
+    "CT-17",
+    "MP-87",
+    "MP-164",
+    "MP-179",
+    "A48",
+    "R1-s1"
+   ]
+  },
+  {
+   "id": "ADM-13",
+   "title": "Redraw Privacy now to match Identity, or label it as after the purchase?",
+   "tier": "before_approval",
+   "pick": "Redraw Privacy now",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Redraw Privacy now\" on the page",
+   "at": "2026-11-05T20:18:19.658Z",
+   "ids": [
+    "MP-164",
+    "MP-179",
+    "CT-17",
+    "R1-s16"
+   ]
+  },
+  {
+   "id": "ADM-02",
+   "title": "What does revoking a device do to a passkey held on it?",
+   "tier": "before_approval",
+   "pick": "Revoke removes it too",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Revoke removes it too\" on the page",
+   "at": "2026-11-05T20:18:23.212Z",
+   "ids": [
+    "CT-17",
+    "PL-09",
+    "MP-87",
+    "PH02-S02",
+    "R3-s1"
+   ]
+  },
+  {
+   "id": "ADM-03",
+   "title": "Does revoking a device need a passkey, or any fresh sign-in?",
+   "tier": "before_approval",
+   "pick": "Any healthy path",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Any healthy path\" on the page",
+   "at": "2026-11-05T20:18:26.575Z",
+   "ids": [
+    "CT-01",
+    "CT-17",
+    "MP-87",
+    "A49",
+    "R4-s7"
+   ]
+  },
+  {
+   "id": "MP40-Q12b",
+   "title": "What does \"Duo\" mean for MyPrediction?",
+   "tier": "before_approval",
+   "pick": "Any window width",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Any window width\" on the page",
+   "at": "2026-11-05T20:18:38.621Z",
+   "ids": [
+    "PL-14",
+    "MP-62",
+    "MP-160",
+    "ARC-10",
+    "MA-70",
+    "MA-78"
+   ]
+  },
+  {
+   "id": "MP40-Q12c",
+   "title": "Which data may the app and a browser keep offline?",
+   "tier": "before_approval",
+   "pick": "Both keep the five",
+   "recommended": false,
+   "how": "page",
+   "owner_words": "pressed \"Both keep the five\" on the page",
+   "at": "2026-11-05T20:20:08.245Z",
+   "ids": [
+    "MP-165",
+    "MP-134",
+    "PL-14",
+    "CT-04",
+    "R1-s18"
+   ]
+  },
+  {
+   "id": "OWN-37",
+   "title": "May a revoked device that stays offline keep reading its saved copy?",
+   "tier": "before_approval",
+   "pick": "Saved copy also times out",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Saved copy also times out\" on the page",
+   "at": "2026-11-05T20:20:20.062Z",
+   "ids": [
+    "MP-165",
+    "MP40-Q12",
+    "CT-17",
+    "PL-14"
+   ]
+  },
+  {
+   "id": "MP40-Q2",
+   "title": "How should a password-protected PDF statement be unlocked?",
+   "tier": "before_approval",
+   "pick": "Local unlock step",
+   "recommended": false,
+   "how": "page",
+   "owner_words": "pressed \"Local unlock step\" on the page",
+   "at": "2026-11-05T20:20:33.495Z",
+   "ids": [
+    "MP-47",
+    "PH01-S07"
+   ]
+  },
+  {
+   "id": "MP40-Q5",
+   "title": "Adopt an Anthropic admin key so MP can read Claude usage and cost?",
+   "tier": "before_approval",
+   "pick": "Adopt the key",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Adopt the key\" on the page",
+   "at": "2026-11-05T20:20:41.147Z",
+   "ids": [
+    "MP40-Q5",
+    "MP-89",
+    "CT-13"
+   ]
+  },
+  {
+   "id": "OWN-28",
+   "title": "What must a restart show, and does your yes renew the model's approval?",
+   "tier": "before_approval",
+   "pick": "Cause cleared, fresh approval",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Cause cleared, fresh approval\" on the page",
+   "at": "2026-11-05T20:20:52.054Z",
+   "ids": [
+    "POLICY-003",
+    "MP-159",
+    "SCI-D05",
+    "SCI-D07"
+   ]
+  },
+  {
+   "id": "OWN-35",
+   "title": "May a budget raise ever arrive as a proposal for you to approve?",
+   "tier": "before_approval",
+   "pick": "Code may draft one",
+   "recommended": false,
+   "how": "page",
+   "owner_words": "pressed \"Code may draft one\" on the page",
+   "at": "2026-11-05T20:21:13.791Z",
+   "ids": [
+    "MP-114",
+    "MP-78",
+    "MP-103",
+    "MP-90",
+    "MP-104",
+    "CT-01",
+    "CT-02"
+   ]
+  },
+  {
+   "id": "ADM-19",
+   "title": "Which pause switches do you get by hand?",
+   "tier": "before_approval",
+   "pick": "All three, as drawn",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"All three, as drawn\" on the page",
+   "at": "2026-11-05T20:21:17.974Z",
+   "ids": [
+    "MP-126",
+    "CT-14",
+    "CT-16",
+    "POLICY-003"
+   ]
+  },
+  {
+   "id": "ADM-23",
+   "title": "Who marks an incident mitigated?",
+   "tier": "before_approval",
+   "pick": "Code marks it",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Code marks it\" on the page",
+   "at": "2026-11-05T20:21:52.971Z",
+   "ids": [
+    "MP-110",
+    "CT-14"
+   ]
+  },
+  {
+   "id": "OWN-04",
+   "title": "Is Claude on or off when MP launches?",
+   "tier": "before_build",
+   "pick": "Approve paid Claude at launch",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Approve paid Claude at launch\" on the page",
+   "at": "2026-11-05T20:23:17.691Z",
+   "ids": [
+    "CT-13",
+    "MP-90",
+    "MP-101"
+   ]
+  },
+  {
+   "id": "OWN-07",
+   "title": "How old may a price be before it leaves the total?",
+   "tier": "before_build",
+   "pick": "Approve the proposed limits now",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "DATA-DEC-02",
+    "MP-65",
+    "MP-153"
+   ]
+  },
+  {
+   "id": "OWN-09",
+   "title": "When may action labels such as Add or Trim switch on?",
+   "tier": "later",
+   "pick": "Evidence first",
+   "recommended": true,
+   "how": "page",
+   "owner_words": "pressed \"Evidence first\" on the page",
+   "at": "2026-11-05T20:23:24.395Z",
+   "ids": [
+    "FIN-OD-07",
+    "POLICY-006",
+    "MP-135",
+    "MP-144"
+   ]
+  },
+  {
+   "id": "OWN-10",
+   "title": "Where should the scenario return figures come from?",
+   "tier": "later",
+   "pick": "Sourced proposal, then approve",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "SCI-D06",
+    "POLICY-004",
+    "MP-132",
+    "MP-137"
+   ]
+  },
+  {
+   "id": "OWN-14",
+   "title": "If one possible return rate is found but not proved, should it show?",
+   "tier": "before_build",
+   "pick": "Show it, not picked",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "FIN-OD-04",
+    "MP-72"
+   ]
+  },
+  {
+   "id": "OWN-17",
+   "title": "When a horizon is missing, does a holding lose growth only, or protection too?",
+   "tier": "before_build",
+   "pick": "Both parts go",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-135",
+    "FIN-OD-07",
+    "POLICY-006"
+   ]
+  },
+  {
+   "id": "OWN-18",
+   "title": "Do units stay visible when amounts are hidden?",
+   "tier": "before_build",
+   "pick": "Mask units too",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-84"
+   ]
+  },
+  {
+   "id": "OWN-19",
+   "title": "Can a rebuild go ahead when statements cover only part of a holding?",
+   "tier": "before_build",
+   "pick": "Whole history only",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "FIN-OD-03",
+    "POLICY-012",
+    "MP-68"
+   ]
+  },
+  {
+   "id": "OWN-20",
+   "title": "If one horizon abstains, does a holding keep its action at the others?",
+   "tier": "before_build",
+   "pick": "No score, no action",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-144",
+    "MP-135",
+    "POLICY-006"
+   ]
+  },
+  {
+   "id": "OWN-25",
+   "title": "Does a daily forecast stop at the £85 cost line?",
+   "tier": "before_build",
+   "pick": "Daily forecasts keep running",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-145",
+    "MP-103",
+    "OWN-36"
+   ]
+  },
+  {
+   "id": "OWN-26",
+   "title": "How should gold and silver get a daily price to forecast from?",
+   "tier": "later",
+   "pick": "Use the provider's daily bar",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "SCI-D08",
+    "MP-135",
+    "MP-113"
+   ]
+  },
+  {
+   "id": "OWN-27",
+   "title": "How does a new model's probation judge a bad week?",
+   "tier": "before_build",
+   "pick": "As proposed",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "SCI-D07",
+    "SCI-OA-05",
+    "MP-159"
+   ]
+  },
+  {
+   "id": "OWN-31",
+   "title": "Does an open cash difference hold back an account's return?",
+   "tier": "before_build",
+   "pick": "Withhold only if material",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "FIN-OD-03",
+    "FIN-OD-01",
+    "FIN-OD-04",
+    "MP-65"
+   ]
+  },
+  {
+   "id": "OWN-32",
+   "title": "What counts as rules and models disagreeing across horizons?",
+   "tier": "before_build",
+   "pick": "Conflict at every long horizon",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-144",
+    "FC-12",
+    "SCI-D03"
+   ]
+  },
+  {
+   "id": "OWN-33",
+   "title": "What must a model do to beat the rules in its trial?",
+   "tier": "before_build",
+   "pick": "A lower score is enough",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "SCI-D03",
+    "SCI-OA-04",
+    "MP-124"
+   ]
+  },
+  {
+   "id": "ADM-08",
+   "title": "Who withdraws a faulty factor or rules version?",
+   "tier": "before_build",
+   "pick": "Code on trigger, or you",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-120",
+    "MP-97",
+    "POLICY-003"
+   ]
+  },
+  {
+   "id": "ADM-09",
+   "title": "What happens when the rules cannot be given a fair score?",
+   "tier": "before_build",
+   "pick": "Use the best simple baseline",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-124",
+    "SCI-D03",
+    "A78"
+   ]
+  },
+  {
+   "id": "MP40-Q8",
+   "title": "Where should fund holdings for look-through come from, if anywhere?",
+   "tier": "later",
+   "pick": "Factsheets you supply",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q8",
+    "MP-107",
+    "FC-11"
+   ]
+  },
+  {
+   "id": "MP40-Q10",
+   "title": "Which sources should MP read for the seven event kinds?",
+   "tier": "later",
+   "pick": "Official sources first",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q10",
+    "MP-81",
+    "SCI-OA-01"
+   ]
+  },
+  {
+   "id": "OWN-01a",
+   "title": "Does a kept flip cover one screen or the whole journey?",
+   "tier": "before_build",
+   "pick": "Whole journey",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-178",
+    "MP-182",
+    "R1-c3",
+    "R2-c5"
+   ]
+  },
+  {
+   "id": "OWN-01b",
+   "title": "Does \"per device\" mean the phone in your hand or the drawn frame?",
+   "tier": "later",
+   "pick": "Your real devices only",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-178",
+    "MP-182",
+    "R1-f12"
+   ]
+  },
+  {
+   "id": "OWN-16",
+   "title": "Does revoking an approval need a fresh sign-in?",
+   "tier": "before_build",
+   "pick": "An open session is enough",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-01",
+    "MP-55",
+    "MP-78",
+    "A09"
+   ]
+  },
+  {
+   "id": "OWN-39",
+   "title": "Which acts need a fresh sign-in, and how fast must a revoke work?",
+   "tier": "before_build",
+   "pick": "Anything that writes or widens",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-01",
+    "CT-17",
+    "PL-09",
+    "ARC-07",
+    "MP-78",
+    "MP-87",
+    "MP-11"
+   ]
+  },
+  {
+   "id": "MP40-Q1",
+   "title": "What limits apply to an uploaded statement?",
+   "tier": "before_build",
+   "pick": "Set from your real statements",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-46",
+    "PH01-S06",
+    "A81"
+   ]
+  },
+  {
+   "id": "MP40-Q4",
+   "title": "Add three more AWS guard rails beside the cost guard?",
+   "tier": "before_build",
+   "pick": "Add all three",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-71",
+    "PH02-S04",
+    "MP-29"
+   ]
+  },
+  {
+   "id": "MP40-Q7",
+   "title": "At launch, stay with no private network, or add a lockdown step?",
+   "tier": "later",
+   "pick": "Stay with no private network",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-123",
+    "PH08-S10",
+    "MP-36",
+    "PL-10",
+    "N0",
+    "L1",
+    "L2",
+    "L3",
+    "L4"
+   ]
+  },
+  {
+   "id": "MP40-Q12a",
+   "title": "Which iPhones, iPads and iOS versions does the app support?",
+   "tier": "before_build",
+   "pick": "Your own devices only",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-160",
+    "MP-164",
+    "PH07-S01",
+    "PL-14"
+   ]
+  },
+  {
+   "id": "MP40-Q13",
+   "title": "Which native Apple features come at launch, and which later?",
+   "tier": "before_build",
+   "pick": "Widgets and share first",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-163",
+    "PH07-S09",
+    "PL-14",
+    "MP-179"
+   ]
+  },
+  {
+   "id": "MP182-3",
+   "title": "May Prism's horizon demos shrink from 15 px to 13 px on narrow screens?",
+   "tier": "later",
+   "pick": "Accept the shrink",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-182",
+    "R1-f12"
+   ]
+  },
+  {
+   "id": "OWN-08",
+   "title": "How long may other proposals wait for your decision?",
+   "tier": "before_build",
+   "pick": "By kind, as drawn",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q9",
+    "CT-02",
+    "POLICY-001"
+   ]
+  },
+  {
+   "id": "OWN-21",
+   "title": "How long does an approved switch forward or restart stay open?",
+   "tier": "before_build",
+   "pick": "15 minutes, as drawn",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-02",
+    "POLICY-001",
+    "MP-159"
+   ]
+  },
+  {
+   "id": "OWN-29",
+   "title": "Does a proposal you keep paused stay among what waits on you?",
+   "tier": "before_build",
+   "pick": "It stays, undated",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-02",
+    "MP-159"
+   ]
+  },
+  {
+   "id": "OWN-34",
+   "title": "How long does a risk alert cool down before it can push again?",
+   "tier": "before_build",
+   "pick": "Once in 24 hours",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-18",
+    "MP-138"
+   ]
+  },
+  {
+   "id": "OWN-36",
+   "title": "Which runs does the £75 Reduce line cut first?",
+   "tier": "before_build",
+   "pick": "Cut in a set order",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-103",
+    "CT-13"
+   ]
+  },
+  {
+   "id": "ADM-05",
+   "title": "Who records production as lost, and how?",
+   "tier": "later",
+   "pick": "Code flags, you confirm",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-14",
+    "MP-108",
+    "MP-110"
+   ]
+  },
+  {
+   "id": "ADM-06",
+   "title": "Does a late price count as a missed collection that code may re-run?",
+   "tier": "later",
+   "pick": "No, keep it apart",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-14",
+    "MP-119",
+    "MP-91",
+    "DATA-DEC-02"
+   ]
+  },
+  {
+   "id": "ADM-07",
+   "title": "What happens to Yahoo values already sent to Claude if you withdraw that use?",
+   "tier": "before_build",
+   "pick": "Record it, keep the outputs",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "DATA-DEC-12",
+    "DATA-DEC-04",
+    "OWNER-RISK-01-S10"
+   ]
+  },
+  {
+   "id": "ADM-20",
+   "title": "Who cancels a run, and who records what happens to an orphan file?",
+   "tier": "before_build",
+   "pick": "Code cancels, orphans yours",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP-109",
+    "MP-45",
+    "MP-46"
+   ]
+  },
+  {
+   "id": "ADM-24",
+   "title": "When does a restore or rollback exercise count as overdue?",
+   "tier": "later",
+   "pick": "Tie to month and release",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "CT-14",
+    "MP-108",
+    "MP-118"
+   ]
+  },
+  {
+   "id": "MP40-Q6",
+   "title": "Approve the cost freshness rules?",
+   "tier": "before_build",
+   "pick": "Approve all three",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q6",
+    "MP-103",
+    "CT-13",
+    "COST-07"
+   ]
+  },
+  {
+   "id": "MP40-Q9",
+   "title": "How long may a chat-proposed listing wait for your confirm?",
+   "tier": "before_build",
+   "pick": "Same day, as drawn",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q9",
+    "MP-74",
+    "MP-131",
+    "CT-02"
+   ]
+  },
+  {
+   "id": "MP40-Q11a",
+   "title": "What makes a risk alert material or critical?",
+   "tier": "before_build",
+   "pick": "Your lines, no investment wake-ups",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q11",
+    "CT-18",
+    "MP-138",
+    "MP-110"
+   ]
+  },
+  {
+   "id": "MP40-Q11b",
+   "title": "Is there a weekend brief?",
+   "tier": "before_build",
+   "pick": "Weekdays only",
+   "recommended": true,
+   "how": "chat",
+   "owner_words": "for the remaining pick up recommended options",
+   "at": "2026-11-05T20:40:00Z",
+   "ids": [
+    "MP40-Q11",
+    "CT-18",
+    "MP-148"
+   ]
+  }
+ ]
+}

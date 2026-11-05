@@ -2,13 +2,15 @@
 
 Every open question from the review pages and the story pack, put to the owner once, with options, before UX approval (MP-66). As of `7e76154`, 5 November 2026.
 
-**Nothing here is decided.** A recommendation is a proposal, and option text is not an answer (lesson 42). No record changes until the owner picks, and applying a pick is its own change.
+**All 64 questions are answered**, in `answers.json`, and none is applied yet: `scope.md` says what each changes and which issue carries it. Option text is not the owner's own reasoning (lesson 42), and applying a pick is its own change.
 
 | File | What it holds |
 | --- | --- |
 | `pack.json` | Every entry: its status, tier, options, evidence, and the question as first asked |
 | `docs/design/question-pack/index.html` | The page the owner picks on, built from `pack.json` |
-| `scripts/question_pack.py` | The gate: every open question has an entry, and every entry can be traced |
+| `answers.json` | The owner's answer to each question, and how it was given |
+| `scope.md` | What each pick changes, the issues that carry it, and what stays unproved |
+| `scripts/question_pack.py` | The gate: every open question has an entry and an answer, and every entry can be traced |
 
 ## What is in it
 

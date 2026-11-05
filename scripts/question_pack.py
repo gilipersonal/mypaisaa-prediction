@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / "docs/planning/owner-question-pack-2026-11-05/pack.json"
+ANSWERS = ROOT / "docs/planning/owner-question-pack-2026-11-05/answers.json"
 OPEN_LISTS = {"OWN": "docs/design/journeys/src/shell.js", "ADM": "docs/design/admin/src/shell.js"}
 QUESTIONS = "docs/planning/story-readiness-2026-11-03/questions.json"
 SPLIT = {"OWN-01": ("OWN-01a", "OWN-01b"), "MP40-Q11": ("MP40-Q11a", "MP40-Q11b"), "MP40-Q12": ("MP40-Q12a", "MP40-Q12b", "MP40-Q12c")}
@@ -44,8 +45,10 @@ def sources() -> dict:
     return out
 
 
-def problems(pack: dict, src: dict) -> list:
+def problems(pack: dict, src: dict, answers: list | None = None) -> list:
     out = []
+    answers = answers or []
+    done = {a.get("id") for a in answers}
     items = pack.get("items")
     if not isinstance(items, list) or not items:
         return ["the pack holds no items"]
@@ -62,9 +65,10 @@ def problems(pack: dict, src: dict) -> list:
     for i in items:
         k = i.get("id", "?")
         a = i.get("asked") or {}
-        if a.get("source") in src and a.get("question") != src[a["source"]]:
+        settled = k in done or i.get("status") != "decide"   # an answered question leaves its page as the answer is applied
+        if a.get("source") in src and a.get("question") != src[a["source"]] and not settled:
             out.append(f"{k}: its question no longer matches {a['source']}")
-        if a.get("source") not in src and not k.startswith("MP182-"):
+        if a.get("source") not in src and not k.startswith("MP182-") and not settled:
             out.append(f"{k}: its source {a.get('source')} is no longer open")
         if i.get("status") not in STATUS:
             out.append(f"{k}: unknown status {i.get('status')}")
@@ -105,7 +109,33 @@ def problems(pack: dict, src: dict) -> list:
         for l in i.get("linked") or []:
             if l not in by:
                 out.append(f"{k}: read with {l}, which is not in the pack")
+    if answers:
+        decide = {i["id"]: i for i in items if i.get("status") == "decide"}
+        seen = [x.get("id") for x in answers]
+        for k in sorted(set(decide) - set(seen)):
+            out.append(f"{k}: no answer recorded")
+        for k in sorted({x for x in seen if seen.count(x) > 1}):
+            out.append(f"{k}: two answers")
+        for x in answers:
+            i = decide.get(x.get("id"))
+            if not i:
+                out.append(f"{x.get('id')}: an answer to no open question")
+                continue
+            rec = next((o["label"] for o in i["options"] if o.get("rec")), None)
+            if x.get("pick") != "Something else" and x.get("pick") not in [o["label"] for o in i["options"]]:
+                out.append(f"{x['id']}: the pick is not one of its options")
+            if x.get("recommended") != (x.get("pick") == rec):
+                out.append(f"{x['id']}: says Recommended wrongly")
+            if x.get("how") not in ("page", "chat") or not x.get("owner_words"):
+                out.append(f"{x['id']}: no record of how the owner answered")
     return out
+
+
+def load_answers() -> list:
+    try:
+        return json.loads(ANSWERS.read_text())["answers"]
+    except (OSError, ValueError, KeyError) as e:
+        raise SystemExit(f"FAIL cannot read {ANSWERS.relative_to(ROOT)}: {e}")
 
 
 def check() -> int:
@@ -114,7 +144,7 @@ def check() -> int:
     except (OSError, ValueError) as e:
         print(f"FAIL cannot read {PACK.relative_to(ROOT)}: {e}")
         return 2
-    bad = problems(pack, sources())
+    bad = problems(pack, sources(), load_answers())
     for b in bad:
         print(f"FAIL {b}")
     if bad:
@@ -127,7 +157,8 @@ def check() -> int:
 def selftest() -> int:
     good = json.loads(PACK.read_text())
     src = sources()
-    if problems(good, src):
+    real = load_answers()
+    if problems(good, src, real):
         print("selftest: FAIL the real pack is refused, so the harness proves nothing")
         return 1
     first = next(i for i in good["items"] if i["status"] == "decide")
@@ -153,7 +184,29 @@ def selftest() -> int:
         "an em dash": (lambda p: item(p).update(why="One — two"), "an em dash"),
         "a pronoun": (lambda p: item(p).update(why="Until he answers."), "gendered pronoun"),
     }
+    def ans(k=fid):
+        return lambda a: next(x for x in a if x["id"] == k)
+
+    answer_cases = {
+        "an answer missing": (lambda a: a.pop(0), "no answer recorded"),
+        "an answer twice": (lambda a: a.append(dict(a[0])), "two answers"),
+        "a pick that is no option": (lambda a: a[0].update(pick="Made up"), "not one of its options"),
+        "a wrong Recommended mark": (lambda a: a[0].update(recommended=not a[0]["recommended"]), "says Recommended wrongly"),
+        "no record of how": (lambda a: a[0].update(owner_words=""), "no record of how"),
+    }
     bad = 0
+    for name, (mutate, expect) in answer_cases.items():
+        a = copy.deepcopy(real)
+        mutate(a)
+        found = problems(good, src, a)
+        if not any(expect in f for f in found):
+            print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
+            bad += 1
+    gone = dict(src)
+    gone.pop(fid, None)
+    if problems(good, gone, real):
+        print(f"selftest: FAIL an answered question leaving its page is refused: {problems(good, gone, real)[:2]}")
+        bad += 1
     for name, (mutate, expect) in cases.items():
         p, s = copy.deepcopy(good), dict(src)
         if mutate:
@@ -164,7 +217,8 @@ def selftest() -> int:
         if not any(expect in f for f in found):
             print(f"selftest: FAIL {name}: expected {expect!r}, got {found[:2]}")
             bad += 1
-    print(f"selftest: {len(cases) - bad} of {len(cases)} faults refused for their reason")
+    total = len(cases) + len(answer_cases) + 1
+    print(f"selftest: {total - bad} of {total} faults refused for their reason")
     return 1 if bad else 0
 
 
