@@ -71,6 +71,14 @@
    "published_sha256": "6adc8ea705e84f954fa27201977be707daf0c0a622eb62960289fc9791eec0c4",
    "published_at": "2026-11-05",
    "jira": "MP-182"
+  },
+  {
+   "slug": "question-pack",
+   "source": "docs/design/question-pack/index.html",
+   "artifact_url": "https://claude.ai/artifact/5E3h9FVXwYQfYrwbLYCxfQ",
+   "published_sha256": "2f885108a20845d46967ed32317c68c75fc9c6948949f578d90057d42fc88121",
+   "published_at": "2026-11-05",
+   "jira": "MP-184"
   }
  ]
 }

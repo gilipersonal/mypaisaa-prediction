@@ -1805,7 +1805,7 @@
    "key": "MP-182",
    "summary": "Fix the prototype defects the Impeccable audit confirmed on the Prism pages",
    "type": "Bug",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1840,6 +1840,21 @@
    "status": "To Do",
    "parent": "MP-4",
    "code": []
+  },
+  {
+   "key": "MP-184",
+   "summary": "Put every open UX question to the owner with options before UX approval",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/planning/owner-question-pack-2026-11-05/",
+    "docs/design/question-pack/",
+    "docs/design/artifacts.json",
+    "scripts/question_pack.py",
+    "scripts/review_checks.py",
+    "docs/planning/trace.json"
+   ]
   }
  ]
 }
