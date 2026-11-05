@@ -23,7 +23,7 @@ Claude, contrast and the web and SwiftUI contract. It syncs to a private Claude 
 2. `python3 scripts/design_tokens.py build` writes `tokens.css` and `PrismTokens.swift`.
 3. `python3 scripts/design_tokens.py check` measures every pair at full and at 20% brightness and refuses stale files.
 4. Paste the new `tokens.css` block into `index.html` between its `prism-tokens` markers.
-5. `python3 scripts/design_gates.py check` and `node scripts/design_runtime.mjs docs/design/prism/index.html`.
+5. `python3 scripts/design_gates.py check`, `node scripts/design_runtime.mjs docs/design/prism/index.html` and `node scripts/design_prism_press.mjs`, which presses the live sheet and the page bar at every width.
 6. Republish to the same artifact and run `python3 scripts/design_sync.py record`.
 
 Tier one is the value, tier two the semantic role (`--ink`, `--surface`, `--rise`), tier three a component's use of a role.

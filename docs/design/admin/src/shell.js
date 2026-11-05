@@ -152,6 +152,14 @@ const J = {
     if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
+    /* a theme press, or the system's theme changing under Auto */
+    const repaint = () => {
+      if (sum.retheme) sum.retheme();
+      const sch = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      $$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });
+    };
+    if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
   },
   /* for scripts/design_journeys_check.mjs: every combination the review can reach */
@@ -184,7 +192,7 @@ function mark(i) {
 }
 function chips(el, items, on, pick) {
   el.innerHTML = items.map(([k, t, dis]) => `<button type="button" data-k="${k}" aria-pressed="${k === on}"${dis ? ` disabled title="${dis}"` : ''}>${t}</button>`).join('');
-  el.onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) pick(b.dataset.k); };
+  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); $('#jlive').textContent = said; setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); }); };
 }
 /* A wide frame fits the page, so its right-hand column never hides off to the side. Below 70% it scrolls instead, to stay readable. */
 function fitFrames() {
@@ -196,6 +204,12 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
+   so the redraw's frame does not pay for a second layout (MP-182). */
+function hold(sel, i, said) {
+  $('#jlive').textContent = said;
+  setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });
+}
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
   $('#jinv').hidden = true;
@@ -206,9 +220,9 @@ function show() {
   $('#jsummary').textContent = j.summary;
   $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You picked ${PICKS[j.id].toUpperCase()} · ${j.options.find(p => p.id === PICKS[j.id]).name}</span>${sum.keep && sum.keep.picks[j.id] !== PICKS[j.id] ? '<span class="chip stale">Changed in Compare, not recorded</span>' : ''}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}`]), sum.at.o, 'Option', 'full');
-  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
+  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
-  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
+  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jsurf button').indexOf(b), said = `Device ${b.textContent}`; sum.at.s = SURFACES[i][0]; show(); hold('#jsurf', i, said); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it is recommended.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
@@ -240,6 +254,18 @@ function show() {
     cap.innerHTML = `<span class="tag">${sch === 'light' ? 'Light' : 'Dark'}</span>${title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${flipName(j.id, oid, sc.id)}</span>`}`;
     note.textContent = noteFor(sc);
   };
+  /* A theme press repaints the frames already drawn, in place: nothing is redrawn, so a flip, a state and the place on the page all hold. Frames still to come read the new theme themselves (MP-182). */
+  sum.retheme = () => {
+    const sch = scheme();
+    $$('[data-slot]', row).forEach(box => {
+      const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);
+      if (dev.classList.contains(`scheme-${sch}`)) return;   // Dark pressed on a page already dark under Auto: nothing to restyle
+      dev.classList.remove('scheme-light', 'scheme-dark');
+      dev.classList.add(`scheme-${sch}`);
+      if (tag) tag.textContent = sch === 'light' ? 'Light' : 'Dark';
+      scr.setAttribute('aria-label', (scr.getAttribute('aria-label') || '').replace(/, (light|dark) theme$/, `, ${sch} theme`));
+    });
+  };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
     return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
@@ -250,7 +276,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -391,10 +417,6 @@ function showCompare() {
   const inv = pageOnly('cmp');
   sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...(picksLoad() || {}) } };
   sum.cmp = sum.keep;
-  if (!sum.cmpWatch && typeof MutationObserver === 'function') {
-    sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
-    sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  }
   drawCompare();
   try { history.replaceState(null, '', '#compare'); } catch (e) { /* the view still shows */ }
   inv.onclick = e => {

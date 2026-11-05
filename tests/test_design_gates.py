@@ -46,6 +46,17 @@ class DesignGatesTests(unittest.TestCase):
                 fails = dg.check_journeys(mutate(base))
                 self.assertTrue(any(expect in f for f in fails), (name, fails))
 
+    def test_only_the_two_historical_pages_keep_the_old_floor(self):
+        import tempfile
+        self.assertEqual((dg.MIN_FONT_PX, dg.HISTORICAL_MIN_FONT_PX), (12, 11))
+        page = (ROOT / dg.GATED[0]).read_text()
+        with tempfile.TemporaryDirectory() as d:
+            copy = Path(d) / "new-page.html"
+            copy.write_text(page)
+            self.assertEqual(dg.check([str(copy)]), 1, "a page outside GATED keeps the 12 px floor")
+        self.assertEqual(dg.check([dg.GATED[0]]), 0, "the named historical page keeps its old floor")
+        self.assertEqual(dg.MIN_FONT_PX, 12, "the floor comes back after a historical page")
+
     def test_a_missing_gated_page_fails(self):
         self.assertEqual(dg.check(["docs/design/reviews/MP-62/no-such-page.html"]), 1)
 

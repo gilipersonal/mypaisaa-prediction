@@ -1,0 +1,148 @@
+{
+  "base": "origin/main",
+  "paths": [
+    ".claude/rules/independent-review.md",
+    "docs/design/admin/README.md",
+    "docs/design/admin/index.html",
+    "docs/design/admin/src/shell.css",
+    "docs/design/admin/src/shell.js",
+    "docs/design/artifacts.json",
+    "docs/design/journeys/README.md",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/cost.js",
+    "docs/design/journeys/src/journeys/research.js",
+    "docs/design/journeys/src/shell.css",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/prism/README.md",
+    "docs/design/prism/index.html",
+    "docs/planning/trace.json",
+    "review/MP-182/fixed.json",
+    "review/MP-182/round-1-brief.md",
+    "review/MP-182/round-1-checks.json",
+    "review/MP-182/round-1-fix-checks.json",
+    "review/MP-182/round-1-lane-c.md",
+    "review/MP-182/round-1-lane-f.md",
+    "review/MP-182/round-1-lane-s.md",
+    "review/MP-182/round-1.md",
+    "review/MP-182/state.json",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/design_journeys_press.mjs",
+    "scripts/design_prism_press.mjs",
+    "scripts/design_runtime.mjs",
+    "scripts/review_checks.py",
+    "tests/test_design_gates.py"
+  ],
+  "unmapped": [],
+  "deferred": [
+    "design-walk"
+  ],
+  "checks": {
+    "python-errors": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0,
+      "fingerprint": "a3f0ba92f50c9461c5da3a5ecec1fff797ce80aee4d2a6f6838a3745b730c049",
+      "steps": [
+        "uv run --project backend --frozen --extra dev ruff check --select F scripts tests .codex/hooks .claude/hooks docs/confluence docs/planning/baseline-signoff-2026-11-03 docs/planning/story-readiness-2026-11-03"
+      ]
+    },
+    "review-checks": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.2,
+      "fingerprint": "326d3ac5063e0cc196ace9a7606cd673e8eb357a94b888dabfcda95a0a3f7dce",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_review_checks.py"
+      ]
+    },
+    "claude-workflow": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "0e2f0600cb2a763f2a8568843eb5466650b8957ea86512e457a6cba69fc74e84",
+      "steps": [
+        "python3 -m unittest discover -s tests -p test_claude_review_skills.py",
+        "python3 -m unittest discover -s tests -p test_claude_workflow_skills.py"
+      ]
+    },
+    "agent-config": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "bd925c40189678f8d6eb9a41751f910799cd122a935cb443fdd3f40575a2e392",
+      "steps": [
+        "python3 scripts/check_agent_config.py",
+        "python3 -m unittest discover -s tests -p test_agent_config.py"
+      ]
+    },
+    "plan-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 6.8,
+      "fingerprint": "172ca453b942a1293c094b4e5c4112ffebf648cdb58341b50f82560efd875097",
+      "steps": [
+        "python3 scripts/plan_sync.py check",
+        "python3 scripts/plan_sync.py selftest",
+        "python3 -m unittest discover -s tests -p test_plan_sync.py"
+      ]
+    },
+    "design-sync": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.1,
+      "fingerprint": "bbfaba006f82eb039a38cccbc535c759ffd819c49be3a608803bd5785ebec589",
+      "steps": [
+        "python3 scripts/design_sync.py check",
+        "python3 -m unittest discover -s tests -p test_design_sync.py"
+      ]
+    },
+    "design-gates": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 65.2,
+      "fingerprint": "d624d89701a63e090c32f9ae63a657b3a5e752c85f35cb998e7366c28e40344b",
+      "steps": [
+        "python3 docs/design/journeys/build.py --check",
+        "python3 docs/design/admin/build.py --check",
+        "node scripts/design_admin_facts.mjs --selftest",
+        "node scripts/design_admin_facts.mjs",
+        "node scripts/design_admin_facts.mjs --facts",
+        "python3 scripts/design_gates.py check",
+        "python3 scripts/design_gates.py selftest",
+        "python3 scripts/design_tokens.py check",
+        "python3 scripts/design_tokens.py selftest",
+        "node scripts/design_journeys_facts.mjs --selftest",
+        "node scripts/design_journeys_facts.mjs --all",
+        "python3 -m unittest discover -s tests -p test_design_gates.py",
+        "python3 -m unittest discover -s tests -p test_design_tokens.py"
+      ]
+    },
+    "baseline-signoff": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 3.7,
+      "fingerprint": "531986a7ea759be54af75c884198e653e4c477e890c84b9c161ce52e7d2b22c2",
+      "steps": [
+        "python3 docs/planning/baseline-signoff-2026-11-03/build_signoff.py --check",
+        "python3 -m unittest discover -s tests -p test_baseline_signoff.py"
+      ]
+    },
+    "story-readiness": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.3,
+      "fingerprint": "bc6e9e5155a9c299a7872fa404df37fdaceefec701f6163fcfd6f942666a198f",
+      "steps": [
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py check",
+        "python3 docs/planning/story-readiness-2026-11-03/stories.py selftest",
+        "python3 -m unittest discover -s tests -p test_story_readiness.py"
+      ]
+    },
+    "whitespace": {
+      "status": "PASS",
+      "detail": "",
+      "seconds": 0.0
+    }
+  }
+}

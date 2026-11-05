@@ -268,7 +268,10 @@ html.dim20 .dimnote { display: block; }
 html.dim20 { --bar: 106px; }
 @media (min-width: 700px) { html.dim20 { --bar: 88px; } }
 html.dim20 main, html.dim20 footer { filter: url(#dim20); background: var(--ground); }
-@media (max-width: 560px) { .dim-l, .bfull, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
+@media (max-width: 660px) { .bfull { display: none; } }
+@media (max-width: 560px) { .dim-l, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
+/* under 400 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
+@media (max-width: 400px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
 
 /* ---------- segmented control: one lens, moved by transform ---------- */
 .segctl { --n: 3; --i: 0; position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; background: var(--surface-3); border-radius: var(--r-sm); padding: 2px; isolation: isolate; }
@@ -421,7 +424,7 @@ button.chip { border: 0; }
 .badge.b-add .ico { color: var(--rise); } .badge.b-trim .ico { color: var(--fall); } .badge.b-pause .ico { color: var(--warn); } .badge.b-hold .ico, .badge.b-rebalance .ico { color: var(--ink-2); }
 
 .amt { display: inline-flex; align-items: flex-start; font-family: var(--font-figure); font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
-.amt .p { font-size: .5em; margin-top: .1em; margin-left: .04em; letter-spacing: -.01em; }
+.amt .p { font-size: max(.5em, 12px); margin-top: .1em; margin-left: .04em; letter-spacing: -.01em; }
 .roll { position: relative; display: inline-block; }
 .roll-ghost { visibility: hidden; }
 .roll-live { position: absolute; left: 0; top: 0; white-space: nowrap; }
@@ -457,7 +460,7 @@ button.chip { border: 0; }
 .segtile .tm { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--on-seg); }
 .segtile.slim { padding: 10px 12px; flex-direction: row; align-items: center; }
 .segtile.slim .mk { top: 50%; margin-top: -11px; }
-.segtile .mk { position: absolute; right: 10px; top: 10px; width: 34px; height: 22px; display: grid; place-items: center; font: 700 11px/14px var(--font-text); letter-spacing: .04em; border-radius: 999px; background: var(--tile-mk); }
+.segtile .mk { position: absolute; right: 10px; top: 10px; width: 34px; height: 22px; display: grid; place-items: center; font: 700 12px/14px var(--font-text); letter-spacing: .04em; border-radius: 999px; background: var(--tile-mk); }
 .segtile.sel { box-shadow: inset 0 0 0 2.5px var(--on-seg), 0 0 0 2px var(--c), var(--tile-glow) color-mix(in srgb, var(--c) 75%, transparent); }
 .segtile .lead { font: 600 13px/18px var(--font-text); letter-spacing: 0; display: flex; align-items: center; gap: 6px; }
 .segtile .lead b { font: 800 15px/18px var(--font-figure); letter-spacing: -.03em; }
@@ -527,6 +530,8 @@ button.chip { border: 0; }
 .cx .xh { stroke: var(--ink-2); stroke-width: 1; opacity: 0; transition: opacity var(--mo-fast) linear; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
+/* on iPad a chart's viewBox can be wider than its slot, so these labels are drawn large enough to land at 12 px or more (MP-182) */
+.cx[data-snug] text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
 .cxtip b { font-weight: 600; }
@@ -1002,6 +1007,13 @@ footer p + p { margin-top: 6px; }
 .jinv .sum { margin-top: 10px; font-size: 15px; line-height: 22px; color: var(--ink-2); }
 .jinv tr.jgrp td { background: var(--surface-2); color: var(--ink); font-weight: 600; }
 @media (max-width: 720px) { .jctl-row { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+/* a narrow review page: the selectors wrap in two columns rather than spill, and the chosen one carries the lens's look (MP-182) */
+@media (max-width: 480px) {
+  .jctl .segctl.full { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .jctl .segctl.full .lens { display: none; }
+  .jctl .segctl.full button { white-space: normal; min-width: 0; padding: 6px 8px; }
+  .jctl .segctl.full button[aria-pressed="true"] { background: var(--thumb); box-shadow: var(--shadow-lens); }
+}
 
 /* ---------- Prism Admin ---------- */
 .aact { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
@@ -3110,6 +3122,14 @@ const J = {
     if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
+    /* a theme press, or the system's theme changing under Auto */
+    const repaint = () => {
+      if (sum.retheme) sum.retheme();
+      const sch = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      $$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });
+    };
+    if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
   },
   /* for scripts/design_journeys_check.mjs: every combination the review can reach */
@@ -3142,7 +3162,7 @@ function mark(i) {
 }
 function chips(el, items, on, pick) {
   el.innerHTML = items.map(([k, t, dis]) => `<button type="button" data-k="${k}" aria-pressed="${k === on}"${dis ? ` disabled title="${dis}"` : ''}>${t}</button>`).join('');
-  el.onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) pick(b.dataset.k); };
+  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); $('#jlive').textContent = said; setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); }); };
 }
 /* A wide frame fits the page, so its right-hand column never hides off to the side. Below 70% it scrolls instead, to stay readable. */
 function fitFrames() {
@@ -3154,6 +3174,12 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
+   so the redraw's frame does not pay for a second layout (MP-182). */
+function hold(sel, i, said) {
+  $('#jlive').textContent = said;
+  setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });
+}
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
   $('#jinv').hidden = true;
@@ -3164,9 +3190,9 @@ function show() {
   $('#jsummary').textContent = j.summary;
   $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>You picked ${PICKS[j.id].toUpperCase()} · ${j.options.find(p => p.id === PICKS[j.id]).name}</span>${sum.keep && sum.keep.picks[j.id] !== PICKS[j.id] ? '<span class="chip stale">Changed in Compare, not recorded</span>' : ''}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}`]), sum.at.o, 'Option', 'full');
-  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
+  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
-  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
+  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jsurf button').indexOf(b), said = `Device ${b.textContent}`; sum.at.s = SURFACES[i][0]; show(); hold('#jsurf', i, said); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it is recommended.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
@@ -3198,6 +3224,18 @@ function show() {
     cap.innerHTML = `<span class="tag">${sch === 'light' ? 'Light' : 'Dark'}</span>${title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${flipName(j.id, oid, sc.id)}</span>`}`;
     note.textContent = noteFor(sc);
   };
+  /* A theme press repaints the frames already drawn, in place: nothing is redrawn, so a flip, a state and the place on the page all hold. Frames still to come read the new theme themselves (MP-182). */
+  sum.retheme = () => {
+    const sch = scheme();
+    $$('[data-slot]', row).forEach(box => {
+      const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);
+      if (dev.classList.contains(`scheme-${sch}`)) return;   // Dark pressed on a page already dark under Auto: nothing to restyle
+      dev.classList.remove('scheme-light', 'scheme-dark');
+      dev.classList.add(`scheme-${sch}`);
+      if (tag) tag.textContent = sch === 'light' ? 'Light' : 'Dark';
+      scr.setAttribute('aria-label', (scr.getAttribute('aria-label') || '').replace(/, (light|dark) theme$/, `, ${sch} theme`));
+    });
+  };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
     return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
@@ -3208,7 +3246,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -3349,10 +3387,6 @@ function showCompare() {
   const inv = pageOnly('cmp');
   sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...(picksLoad() || {}) } };
   sum.cmp = sum.keep;
-  if (!sum.cmpWatch && typeof MutationObserver === 'function') {
-    sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
-    sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  }
   drawCompare();
   try { history.replaceState(null, '', '#compare'); } catch (e) { /* the view still shows */ }
   inv.onclick = e => {

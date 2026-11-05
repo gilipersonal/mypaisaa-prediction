@@ -7,7 +7,7 @@
 //
 // For every journey, option, device, state and theme it renders the row of screens and fails on: a page error, a journey
 // with fewer than two options or not exactly one recommended, a screen that draws nothing, a state marked not applicable
-// with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 11 px or lighter than 400,
+// with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 12 px or lighter than 400,
 // text below 4.5:1 and 3:1 at 20% on its ground, a state that draws exactly what the ready state draws, an icon with no
 // symbol, a card that clips its content, anything that runs past its column or card, a button under 44 px, any other
 // control under WCAG's 24 px, a control pushed off the top bar, a ranked-action badge on a screen that does not say decision
@@ -59,7 +59,8 @@ const AUDIT = () => {
       const cs = getComputedStyle(el);
       if (cs.visibility !== 'visible' || cs.display === 'none') continue;
       const svg = el.closest('svg');
-      if (parseFloat(cs.fontSize) < 10.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${cs.fontSize}`);
+      const drawn = el.closest('text'), px = parseFloat(cs.fontSize) * (drawn ? drawn.getScreenCTM().a : 1);   // a chart's viewBox scales its text
+      if (px < 11.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${px.toFixed(1)}px${drawn ? ' as drawn' : ''}`);
       if ((parseInt(cs.fontWeight, 10) || 400) < 400) out.small.push(`"${t.textContent.trim().slice(0, 24)}" weight ${cs.fontWeight}`);
       const exempt = !!el.closest(':disabled,[aria-disabled="true"],[data-contrast-exempt]');
       let opacity = 1, grounds = [null], image = false;
@@ -261,6 +262,9 @@ function selftest() {
   const built = spawnSync('python3', ['docs/design/journeys/build.py', '--only', 'privacy', '--out', good], { cwd: resolve(dirname(self), '..'), encoding: 'utf8' });
   if (built.status !== 0) { console.log(`selftest: FAIL could not build a page: ${built.stderr}`); return 2; }
   const page = readFileSync(good, 'utf8');
+  const goodCost = join(tmp, 'cost.html');   // Privacy draws no chart labels, so this case needs a page that does
+  const builtCost = spawnSync('python3', ['docs/design/journeys/build.py', '--only', 'cost', '--out', goodCost], { cwd: resolve(dirname(self), '..'), encoding: 'utf8' });
+  if (builtCost.status !== 0) { console.log(`selftest: FAIL could not build a page: ${builtCost.stderr}`); return 2; }
   const run = (html, extra = ['--only', 'privacy']) => {
     const f = join(tmp, 'case.html');
     writeFileSync(f, html);
@@ -278,6 +282,8 @@ function selftest() {
     'pale text on a gradient': [css('.scr .card { background-image: linear-gradient(#FFFFFF, #EEEEEE) !important; } .scr .card p { color: #DDDDDD !important; }'), ':1 at 20%'],
     'an exempt text under 3:1': [css('[data-contrast-exempt] span { color: #F0F0F0 !important; }'), ':1 at 20%'],
     'text on an image': [css('.scr .card { background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACw=) !important; }'), 'on an image'],
+    'text at 11 px': [css('.scr .chip { font-size: 11px !important; }'), '11.0px'],
+    'chart text under 12 px as drawn': [readFileSync(goodCost, 'utf8').replace('</style>', '.scr svg.cx { width: 60% !important; }</style>'), 'as drawn', ['--only', 'cost', '--surfaces', 'ipad']],
     'a control too small': [css('.tbtn { width: 12px !important; height: 12px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }'), "under WCAG's 24"],
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],
@@ -287,14 +293,14 @@ function selftest() {
     'a clipped card': [css('.scr .card { overflow: hidden; } .scr .card > * { min-width: 900px; }'), 'clips'],
     'a state that draws Ready': [page.replace("state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme()", "state: 'default', scheme: scheme()"), 'draws exactly what Ready draws'],
     'a flip that never swaps': [page.replace('swap();\n    leave.cancel();', 'leave.cancel();'), 'never swapped'],
-    'no word to assistive technology': [page.replace("$('#jlive').textContent =", "$('#jlive').title ="), 'nothing told'],
+    'no word to assistive technology': [page.replace("$('#jlive').textContent = `${to.titleFor", "$('#jlive').title = `${to.titleFor"), 'nothing told'],
     'reduced motion ignored': [page.replace(/RM\.matches \? \[\{ opacity: 1 \}/, 'false ? [{ opacity: 1 }').replace(/RM\.matches \? \[\{ opacity: 0 \}/, 'false ? [{ opacity: 0 }'), 'reduced motion still turns'],
     'a flip that cannot be pressed': [css('.flipbtn { pointer-events: none; }'), 'cannot be pressed'],
     'no way back': [page.replace("const other = ctx.option === 'a' ? 'b' : 'a';\n  return flipBtn", "if (ctx.option === 'b') return '';\n  const other = 'b';\n  return flipBtn"), 'no way back'],
     'a press that changes nothing': [page.replace('scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));', ''), 'changed nothing'],
     'freshness that changes': [page.replace(/\$\{freshRow\(ctx, spec\.fresh\)\}/g, '${ctx.option === \'b\' ? \'<div class="jfresh">Other</div>\' : freshRow(ctx, spec.fresh)}'), 'freshness'],
     'a note that stays': [page.replace('const noteFor = sc => { const r = (sc.na || {})[sum.at.st];', 'const noteFor = sc => { const r = null;'), 'note under the frame'],
-    'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
+    'a flip that lands elsewhere on return': [page.replace('let to = screenOf(oo, ss);', 'let to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
     'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
     'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
     'a back label on the title': [css('.navbar .nbt { text-align: left; padding-left: 0; }'), 'back label runs into the title'],

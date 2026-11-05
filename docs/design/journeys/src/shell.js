@@ -9,7 +9,29 @@ const SURFACES = [
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flipped: {} };
 
-/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is
+/* A flip is kept per device, as the owner chose (4 Nov 2026, MP-178), and this page keeps it in this browser. The record holds which view a frame is on and
+   which view it came from, as ids. It holds no figure, instrument, horizon, draft or approval. With storage refused the flip still turns,
+   for this page only (MP-182). */
+const FLIP_KEY = 'mp178-flips';
+const flipOK = f => !!f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string') && (f.from === null || (Array.isArray(f.from) && f.from.length >= 2 && f.from.slice(0, 2).every(x => typeof x === 'string')));
+function flipsLoad() {
+  try {
+    const v = JSON.parse(localStorage.getItem(FLIP_KEY));
+    if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
+    return Object.fromEntries(Object.entries(v).filter(([, f]) => flipOK(f)).map(([k, f]) => [k, { ...f, got: {}, from: f.from && [f.from[0], f.from[1], {}] }]));
+  } catch (e) { return {}; }
+}
+/* only this frame's key changes, so a second tab's flips stay */
+function flipsSave(key) {
+  try {
+    const all = flipsLoad();
+    if (sum.flipped[key]) all[key] = sum.flipped[key]; else delete all[key];
+    const ids = ({ o, s, st, landed, from }) => ({ o, s, st, landed, from: from ? from.slice(0, 2) : null });
+    localStorage.setItem(FLIP_KEY, JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, f]) => [k, ids(f)]))));
+  } catch (e) { /* the flip still turns on this page */ }
+}
+
+/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). Each journey flips on its own. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
 const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
@@ -122,6 +144,7 @@ const J = {
   add(j) { sum.journeys.push(j); },
   all: () => sum.journeys,
   start() {
+    sum.flipped = flipsLoad();
     const hash = location.hash.slice(1).split('.');
     const i = sum.journeys.findIndex(j => j.id === hash[0]);
     if (i >= 0) sum.at.j = i;
@@ -130,6 +153,10 @@ const J = {
     if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else show();
+    /* a theme press, or the system's theme changing under Auto */
+    const repaint = () => { if (sum.retheme) sum.retheme(); };
+    if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
   },
   /* for scripts/design_journeys_check.mjs: every combination the review can reach */
@@ -158,7 +185,7 @@ function mark(i) {
 }
 function chips(el, items, on, pick) {
   el.innerHTML = items.map(([k, t, dis]) => `<button type="button" data-k="${k}" aria-pressed="${k === on}"${dis ? ` disabled title="${dis}"` : ''}>${t}</button>`).join('');
-  el.onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) pick(b.dataset.k); };
+  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); $('#jlive').textContent = said; setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); }); };
 }
 /* A wide frame fits the page, so its right-hand column never hides off to the side. Below 70% it scrolls instead, to stay readable. */
 function fitFrames() {
@@ -170,6 +197,12 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
+   so the redraw's frame does not pay for a second layout (MP-182). */
+function hold(sel, i, said) {
+  $('#jlive').textContent = said;
+  setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });
+}
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
   $('#jinv').hidden = true;
@@ -179,9 +212,9 @@ function show() {
   $('#jsummary').textContent = j.summary;
   $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
-  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
+  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
-  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
+  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jsurf button').indexOf(b), said = `Device ${b.textContent}`; sum.at.s = SURFACES[i][0]; show(); hold('#jsurf', i, said); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it starts here.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
@@ -213,6 +246,18 @@ function show() {
     cap.innerHTML = `<span class="tag">${sch === 'light' ? 'Light' : 'Dark'}</span>${title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${flipName(j.id, oid, sc.id)}</span>`}`;
     note.textContent = noteFor(sc);
   };
+  /* A theme press repaints the frames already drawn, in place: nothing is redrawn, so a flip, a state and the place on the page all hold. Frames still to come read the new theme themselves (MP-182). */
+  sum.retheme = () => {
+    const sch = scheme();
+    $$('[data-slot]', row).forEach(box => {
+      const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);
+      if (dev.classList.contains(`scheme-${sch}`)) return;   // Dark pressed on a page already dark under Auto: nothing to restyle
+      dev.classList.remove('scheme-light', 'scheme-dark');
+      dev.classList.add(`scheme-${sch}`);
+      if (tag) tag.textContent = sch === 'light' ? 'Light' : 'Dark';
+      scr.setAttribute('aria-label', (scr.getAttribute('aria-label') || '').replace(/, (light|dark) theme$/, `, ${sch} theme`));
+    });
+  };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
     return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
@@ -223,7 +268,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. Whether the app's choice covers a screen or a journey is an open question (see OPEN). A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -235,13 +280,15 @@ function show() {
     let [, oo, ss] = b.dataset.flip.split('|'), extra = saved;
     if (back) {
       [oo, ss] = was.from;
-      extra = { ...was.from[2] };
+      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // a record read back holds none of these, and they still clear
       ['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });   // what was pressed inside the turned frame comes home with it
     }
-    const to = screenOf(oo, ss);
+    let to = screenOf(oo, ss);
+    if (!to && back) { [, oo, ss] = b.dataset.flip.split('|'); extra = saved; to = screenOf(oo, ss); }   // a kept way back can name a screen since removed
     if (!to) return;
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
+    flipsSave(key);
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
       scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
@@ -268,6 +315,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
+  ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],

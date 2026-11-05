@@ -9,7 +9,7 @@
 // what a viewer would get:
 //   - contrast: every visible text's real colour on its real ground (backgrounds composited up the tree, gradient
 //     stops taken at their worst, ancestors' opacity applied), at full brightness and at 20%, against the text tier
-//     (7:1 and 3.5:1; Prism, on the owner's MA ink, 4.5:1 and 3:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
+//     (7:1 and 3.5:1; Prism, on the owner's MA ink, 4.5:1 and 3:1); text smaller than 12 px (11 on the two historical pages, reviews/MP-62/hybrid-a and -b) or lighter than 400; text on an image it cannot measure;
 //   - motion: every running animation's animated properties (transform, opacity, clip-path, stroke-dashoffset,
 //     visibility; short paint-only transitions), through the arrivals, a scroll of the whole page, every tab and
 //     segment in reach and a theme switch;
@@ -22,8 +22,11 @@
 // browsers named below; a browser that will not start is a failure, not a skip.
 
 import { createRequire } from 'module';
-import { readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { spawnSync } from 'child_process';
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'fs';
+import { tmpdir } from 'os';
+import { dirname, join, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 const require = createRequire(import.meta.url);
 const PW = process.env.PLAYWRIGHT_CORE || '/Users/arundutta/projects/mypaisa-agent/scripts/node_modules/playwright-core';
@@ -38,6 +41,37 @@ const pick = (flag, all) => { const i = args.indexOf(flag); return i >= 0 ? args
 const ENGINES = pick('--engine', ['chrome', 'webkit']);
 const THEMES = pick('--theme', ['light', 'dark']);
 const WIDTHS = pick('--width', ['390', '1440']).map(Number);
+/* Each case changes a copy of a real page and must meet the size check's own line, so a rewritten measure cannot lose a refusal
+   unseen (lessons 10, 34, 58). Chrome only, one width: the measure is the same in both engines' sweep. */
+function selftest() {
+  const self = fileURLToPath(import.meta.url), tmp = mkdtempSync(join(tmpdir(), 'runtime-selftest-'));
+  const label = '.jctl .label { font-size: 11px !important; }';
+  const cases = [
+    ['a clean page', 'docs/design/admin', '', 'docs/design/admin', null, 'renders at'],
+    ['11 px text', 'docs/design/admin', label, 'docs/design/admin', 'renders at 11.0', null],
+    ['a transform', 'docs/design/admin', '.jctl { transform: scale(.8); transform-origin: 0 0; }', 'docs/design/admin', 'renders at 9.6', null],
+    ['the scale property', 'docs/design/admin', '.jctl { scale: .8; transform-origin: 0 0; }', 'docs/design/admin', 'renders at 9.6', null],
+    ['zoom', 'docs/design/admin', '.jctl { zoom: .8; }', 'docs/design/admin', 'renders at 9.6', null],
+    ['a chart scaled by its viewBox', null, '<title>t</title><style>body { background: #fff; color: #000; }</style><svg viewBox="0 0 400 100" width="200" height="50"><text x="10" y="30" style="font: 500 14px/16px sans-serif; fill: #000">Chart label</text></svg>', 'docs/design/prism', 'renders at 7.0', null],
+    ['a new page under reviews', 'docs/design/admin', label, 'docs/design/reviews/MP-999/new', 'renders at 11.0', null],
+    ['a named historical page', 'docs/design/admin', label, 'docs/design/reviews/MP-62/hybrid-a', null, 'renders at 11.0'],
+  ];
+  let bad = 0;
+  for (const [name, from, rule, at, want, never] of cases) {
+    const dir = join(tmp, at), page = join(dir, 'index.html'), report = join(tmp, 'r.json');
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(page, from ? readFileSync(resolve(dirname(self), '..', from, 'index.html'), 'utf8').replace('</style>', `${rule}</style>`) : rule);
+    spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '150', 'node', self, page, '--engine', 'chrome', '--theme', 'light', '--width', '1440', '--out', report], { encoding: 'utf8' });
+    let issues;
+    try { issues = JSON.parse(readFileSync(report, 'utf8'))[0].issues; } catch (e) { console.log(`FAIL ${name}: no report`); bad++; continue; }
+    if (issues.some((i) => /could not measure/.test(i))) { console.log(`FAIL ${name}: ${issues[0]}`); bad++; continue; }
+    const met = (t) => issues.some((i) => i.includes(t));
+    if ((want && !met(want)) || (never && met(never))) { console.log(`FAIL ${name}: expected ${want ? `"${want}"` : `no "${never}"`}, got ${issues.find((i) => /renders at/.test(i)) || 'no size line'}`); bad++; } else console.log(`ok   ${name}`);
+  }
+  console.log(bad ? `design-runtime selftest: ${bad} of ${cases.length} failed` : `design-runtime selftest: ${cases.length} cases hold`);
+  return bad ? 1 : 0;
+}
+if (args.includes('--selftest')) process.exit(selftest());
 const pages = args;
 if (!pages.length) {
   console.error('usage: node scripts/design_runtime.mjs PAGE.html [...] [--out report.json]');
@@ -150,7 +184,19 @@ const SWEEP = async () => {
       const fg = [fg0[0], fg0[1], fg0[2], fg0[3] * alpha];
       const er = el.getBoundingClientRect();
       // a device board is a real screen shown scaled to fit: its type is judged at the size the device draws it
-      const scale = !el.closest('.board') && el.offsetWidth ? er.width / el.offsetWidth : 1;
+      // the scale comes from what is above the text: transforms, the scale property and zoom, and a chart's viewBox. A ratio of widths
+      // read rounding as scale and short text as small (MP-182)
+      let scale = 1;
+      const drawn = el.closest('text');
+      if (!el.closest('.board')) {
+        if (drawn) scale = drawn.getScreenCTM().a;
+        else for (let up = el; up; up = up.parentElement) {
+          const ups = getComputedStyle(up), z = parseFloat(ups.zoom), sc = parseFloat(ups.scale);
+          if (ups.transform && ups.transform !== 'none') { const m = new DOMMatrix(ups.transform); scale *= Math.hypot(m.a, m.b); }
+          if (isFinite(sc) && sc !== 1) scale *= sc;
+          if (z && z !== 1) scale *= z;
+        }
+      }
       const size = parseFloat(cs.fontSize) * (isFinite(scale) && scale > 0 ? scale : 1);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const text = t.textContent.trim().slice(0, 40);
@@ -236,6 +282,7 @@ async function measurePage(pw, engine, file, theme, width) {
     const over = await page.evaluate(() => document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
     if (over > 0) issues.push(`the page scrolls sideways by ${over} px`);
     const floor = /docs\/design\/(prism|journeys|admin)\//.test(file) ? [4.5, 3] : [7, 3.5];   // the owner chose MA's ink for Prism (brief-r4.md)
+    const sizeFloor = /docs\/design\/reviews\/MP-62\/hybrid-[ab]\//.test(file) ? 10.95 : 11.95;   // the same two pages as design_gates.py's GATED (MP-182)
     const sweep = await page.evaluate(SWEEP);
     const texts = sweep.results;
     res.texts = texts.length;
@@ -246,7 +293,7 @@ async function measurePage(pw, engine, file, theme, width) {
       if (t.unmeasured) { if (!t.exempt) issues.push(`unmeasured text "${t.text}" (${t.el}): ${t.unmeasured}`); continue; }
       if (t.exempt) { if (t.full < 3) issues.push(`exempt text "${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1, under 3:1 even at full brightness`); continue; }
       if (t.full < floor[0] || t.dim < floor[1]) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs ${floor[0]} and ${floor[1]})`);
-      if (t.size < 10.95) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least 11)`);
+      if (t.size < sizeFloor) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least ${Math.round(sizeFloor)})`);
       if (t.weight < 400) issues.push(`"${t.text}" (${t.el}) has weight ${t.weight} (at least 400)`);
       if (!worst || t.dim < worst.dim) worst = t;
     }

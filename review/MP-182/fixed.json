@@ -1,0 +1,338 @@
+[
+ {
+  "id": "R1-f1",
+  "finding": "Compare's cards stayed light when the system theme changed under Auto.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f1"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f2",
+  "finding": "A theme press on Compare redrew it and lost the rows' scroll.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f2"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f3",
+  "finding": "The page bar's name ran into the 20% switch at 381 to 389 and about 561 to 647 px (with R1-s1).",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f3"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f4",
+  "finding": "Chart labels drew under 12 px on iPad once the viewBox scaling counted (with R1-s3).",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f4"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f5",
+  "finding": "The flip record kept an instrument and a horizon, and the README said only the view was kept (with R1-c7).",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f5"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-f6",
+  "finding": "The sheet could open off screen with focus on a control nobody could see.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-f6"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-s2",
+  "finding": "Parts of the fixes passed with the fix undone: Not now, the toast after Undo, Admin's system theme, the pressed look.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-s2"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-c1",
+  "finding": "design_runtime still enforced an 11 px floor on the current pages.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-c1"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-c2",
+  "finding": "The trace moved as_of to 5 November while MP-180's parent and MP-39's status disagreed with Jira.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-c2"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-c3",
+  "finding": "The README and the shell said opposite things about what a flip covers. The question is now open on the page and neither record answers it.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R1-c3"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-f1",
+  "finding": "Record with the page moved left focus and the toast off screen, and focus went into a toast, which Prism says never takes focus.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-f1"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s1",
+  "finding": "The rewritten scale measure missed the CSS scale property, a refusal the old form made.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-s1"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s3",
+  "finding": "The narrow check shrank a loaded page instead of loading at phone width.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-s3"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s4",
+  "finding": "design_runtime gave the old floor to every page under reviews, and design_gates to two (with R2-c8).",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-s4"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-s5",
+  "finding": "The theme check never left the Ready state and pressed no detail.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-s5"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c1",
+  "finding": "design_runtime had no selftest, and its floor was held by one weak pin (with R2-s2).",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c1"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c2",
+  "finding": "R1-f5's check pinned one line of its fix.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c2"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c3",
+  "finding": "R1-f3's check pinned one of its two bands and not the sweep.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c3"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c4",
+  "finding": "R1-f4's check pinned one of its three parts.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c4"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c5",
+  "finding": "R1-c3's check searched one phrase, and 'A flip is per journey' still answered the open question.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c5"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R2-c6",
+  "finding": "R1-s2's check held one of its parts.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "review/MP-182/pins.py",
+    "R2-c6"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ }
+]
