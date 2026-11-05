@@ -529,7 +529,7 @@ button.chip { border: 0; }
 .cx .xh { stroke: var(--ink-2); stroke-width: 1; opacity: 0; transition: opacity var(--mo-fast) linear; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
-/* a chart whose viewBox is wider than its slot on iPad: its labels are drawn large enough to land at 12 px or more (MP-182) */
+/* on iPad a chart's viewBox can be wider than its slot, so these labels are drawn large enough to land at 12 px or more (MP-182) */
 .cx[data-snug] text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
@@ -1949,7 +1949,7 @@ const CMP = [
       <div class="card" style="margin-top:12px;padding:12px 14px;display:flex;gap:10px;align-items:center">${logo('--seg-ustech', 'N')}<div style="flex:1;min-width:0"><div style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">NVIDIA · Trim</div><div class="small muted">6 months · median +9.1% · 80% range −18.5% to +34.0% · illustrative</div></div></div>
       <p class="small" style="margin-top:10px;color:var(--ink)">This saves your decision and reasons to your journal, so the outcome can be scored later. MyPrediction places no trades.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn sm btn-tinted" type="button">Not now</button><button class="btn sm btn-primary" type="button">Record decision</button></div></div></div>`,
-    anatomy: 'Grabber, title, close, solid card, note, two buttons.', states: 'Open, saving, saved, offline.', sizes: 'Medium and large detents. Radius 30.', a11y: 'Focus moves in, Tab stays in, the page behind goes inert, and focus returns. Escape, the scrim and Not now all close it. Record lands on Undo.', do: 'Put the action last, under the thumb.', dont: 'Imply that anything was traded.', web: '<DecisionSheet action>', swift: '.sheet { }.presentationDetents([.medium])' },
+    anatomy: 'Grabber, title, close, solid card, note, two buttons.', states: 'Open, saving, saved, offline.', sizes: 'Medium and large detents. Radius 30.', a11y: 'Focus moves in, Tab stays in, the page behind goes inert, and focus returns. Escape, the scrim and Not now all close it.', do: 'Put the action last, under the thumb.', dont: 'Imply that anything was traded.', web: '<DecisionSheet action>', swift: '.sheet { }.presentationDetents([.medium])' },
   { id: 'toast', split: true, dw: '460px', name: 'Toast', status: OWNER, lede: 'A quiet word after an action. It never takes focus, and it leaves after 4 seconds unless it holds an action.',
     demo: () => `<div data-mo-frame="wait" style="display:grid;gap:12px"><div class="matdemo" style="min-height:0" data-mo="card"><div class="dfield" aria-hidden="true"></div><div class="toast glass" role="status"><span class="ok">${ic('check', 's14')}</span>Decision recorded in your journal<button class="btn sm btn-plain" type="button">Undo</button></div><div class="toast glass" role="status"><span class="ok no">${ic('x', 's14')}</span>Couldn't save. You're offline; we'll retry.<button class="btn sm btn-plain" type="button">Retry</button></div></div></div>`,
     anatomy: 'Mark, message, one optional action.', states: 'Success, failure with a way on.', sizes: '44 at least, full width on a phone.', a11y: 'A polite live region. Never takes focus.', do: 'Offer Undo after a record.', dont: 'Say anything was bought or sold.', web: '<Toast kind action>', swift: 'AccessibilityNotification.Announcement' },
@@ -2039,13 +2039,13 @@ function renderPatterns() {
       c.inert = true; shut.push(c);
     });
   };
-  const open = (v, to) => {
+  const open = v => {
     st.classList.toggle('open', v);
     sheet.inert = !v;
     if (v) { st.classList.remove('saved'); toast.inert = true; }
     quiet(v);
-    if (v) st.scrollIntoView({ block: 'nearest' });
-    (to || (v ? $('#sheetClose') : trigger)).focus({ preventScroll: v || !!to });   // the way back finds the trigger, wherever the page was moved to
+    if (v) { st.scrollIntoView({ block: 'nearest' }); const over = st.getBoundingClientRect().bottom - innerHeight; if (over > 0) scrollBy(0, over); }
+    (v ? $('#sheetClose') : trigger).focus({ preventScroll: v });   // the way back finds the trigger, wherever the page was moved to
   };
   sheet.inert = toast.inert = true;
   sheet.addEventListener('keydown', e => {
@@ -2057,8 +2057,8 @@ function renderPatterns() {
   trigger.addEventListener('click', () => open(true));
   $('#sheetClose').addEventListener('click', () => open(false));
   $('#sheetScrim').addEventListener('click', () => open(false));
-  $('#sheetRecord').addEventListener('click', () => { st.classList.add('saved'); toast.inert = false; open(false, $('#sheetUndo')); });
-  $('#sheetUndo').addEventListener('click', () => { st.classList.remove('saved'); toast.inert = true; trigger.focus({ preventScroll: true }); });
+  $('#sheetRecord').addEventListener('click', () => { st.classList.add('saved'); toast.inert = false; open(false); });
+  $('#sheetUndo').addEventListener('click', () => { st.classList.remove('saved'); toast.inert = true; trigger.focus(); });
   doc.addEventListener('keydown', e => { if (e.key === 'Escape' && st.classList.contains('open')) open(false); });
   $('#patTable tbody').innerHTML = [
     ['Switch the horizon', 'Above the tab bar, in reach', 'Top of the detail pane', 'Top of the page, keys 3, 6 and 1', 'As iPhone'],

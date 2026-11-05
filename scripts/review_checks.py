@@ -93,6 +93,7 @@ CHECKS = (
            ("node", "scripts/design_admin_press.mjs"),
            ("node", "scripts/design_prism_press.mjs"),
            ("node", "scripts/design_prism_press.mjs", "--selftest"),
+           ("node", "scripts/design_runtime.mjs", "--selftest"),
            ("node", "scripts/design_runtime.mjs", "docs/design/admin/index.html"),
            ("node", "scripts/design_journeys_press.mjs", "--selftest"),
            ("node", "scripts/design_journeys_press.mjs", "docs/design/journeys/index.html"),

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Press what the Impeccable audit found on the Prism pages (MP-182, MP-181): a control is proved by pressing it (lessons 32, 35).
-//   perl -e 'alarm shift; exec @ARGV' 120 node scripts/design_prism_press.mjs [--only theme,focus,sheet,flip,text,narrow] [--root DIR]
-//   perl -e 'alarm shift; exec @ARGV' 600 node scripts/design_prism_press.mjs --selftest [--case TEXT]
+//   perl -e 'alarm shift; exec @ARGV' 240 node scripts/design_prism_press.mjs [--only theme,focus,sheet,flip,text,narrow] [--root DIR]
+//   perl -e 'alarm shift; exec @ARGV' 900 node scripts/design_prism_press.mjs --selftest [--case TEXT]
 // Exit 0 when all hold, 1 when one fails, 2 when a page or a mutation cannot be read: a gate fails closed (lesson 8).
 // The selftest undoes each fix on a copy and must see that fix's own failure, so a check is proved by undoing its fix (lesson 34).
 import { readFileSync } from 'node:fs';
@@ -52,16 +52,21 @@ const themeOf = (p) => p.evaluate(() => {
 const run = {
   // UX-15: a frame already drawn follows a theme press, on both pages, with no reload, and keeps what it shows
   async theme(b, pages, must) {
-    for (const [page, hash, want] of [['owner', '#home.a.iphone.default', 14], ['admin', '#costs.a.iphone.default', 3]]) {
+    for (const [page, hash, want] of [['owner', '#forecast.a.iphone.stale', 6], ['admin', '#costs.a.iphone.stale', 3]]) {
       const { c, p, errs } = await open(b, pages, page, { hash });
       await framesReady(p, want);
       await p.waitForTimeout(600);
       const start = await themeOf(p);
       must(start.n >= want && start.dark === 0, `theme: ${page} does not start light (${JSON.stringify(start)})`);
       if (page === 'owner') { await p.locator('#jrow [data-flip]').first().click(); await p.waitForTimeout(700); }
-      await p.evaluate(() => { const s = document.querySelector('#jrow .jscroll'); if (s) s.scrollTop = 120; document.querySelector('#jrow').scrollLeft = 60; });
-      const held = () => p.evaluate(() => { const r = document.querySelector('#jrow'), s = r.querySelector('.jscroll'), d = r.querySelector('.scr'); return JSON.stringify({ frame: s ? s.scrollTop : 0, row: r.scrollLeft, data: { ...d.dataset } }); });
-      const kept = await held();
+      await p.evaluate(() => { const g = document.querySelector('#jrow [aria-label="Forecast horizon"]'); if (g) [...g.querySelectorAll(':scope > button')].pop().click(); });
+      await p.waitForTimeout(200);
+      await p.evaluate(() => { const s = document.querySelector('#jrow .jscroll'); if (s) s.scrollTop = 120; });
+      const held = () => p.evaluate(() => { const r = document.querySelector('#jrow'), s = r.querySelector('.jscroll'); return JSON.stringify({ frame: s ? s.scrollTop : 0, data: [...r.querySelectorAll('.scr')].map((d) => ({ ...d.dataset })) }); });
+      const place = () => p.evaluate(() => `${location.hash} ${document.querySelector('#jstate [aria-pressed="true"]').textContent.trim()}`);
+      const kept = await held(), where = await place();
+      if (page === 'owner') must(/"hz":/.test(kept), `theme: owner: the detail test pressed nothing (${kept.slice(0, 80)})`);
+      must(/\.stale Stale$/.test(where), `theme: ${page}: the state test did not start on Stale (${where})`);
       const y = await p.evaluate(() => { scrollTo(0, 400); return scrollY; });
       const at = await p.evaluate(() => [...document.querySelectorAll('#jrow .scr')].map((s) => s.dataset.at).join());
       await p.evaluate(() => document.querySelector('[data-t="dark"]').click());   // the page's own press: a tool's click scrolls first
@@ -73,6 +78,7 @@ const run = {
       must(dark.labels.join() === 'dark', `theme: ${page}: the frame's name says ${dark.labels.join()}`);
       must(await p.evaluate(() => [...document.querySelectorAll('#jrow .scr')].map((s) => s.dataset.at).join()) === at, `theme: ${page}: a press changed what the frames show`);
       must(await held() === kept, `theme: ${page}: a press lost a frame's scroll or detail`);
+      must(await place() === where, `theme: ${page}: a press lost its state, ${where} to ${await place()}`);
       const moved = await p.evaluate(() => scrollY);
       must(Math.abs(moved - y) < 2, `theme: ${page}: a press moved the page from ${y} to ${moved}`);
       const paint = await p.evaluate(() => { const d = document.querySelector('#jrow .dev'); return getComputedStyle(d).getPropertyValue('--ink').trim() === getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(); });
@@ -81,6 +87,12 @@ const run = {
       await p.waitForTimeout(150);
       const light = await themeOf(p);
       must(light.dark === 0 && light.tags.join() === 'Light', `theme: ${page}: Light did not come back (${JSON.stringify(light)})`);
+      await p.evaluate(() => document.querySelector('[data-t="dark"]').click());
+      await p.waitForTimeout(150);
+      await p.evaluate(() => document.querySelector('[data-t="system"]').click());
+      await p.waitForTimeout(150);
+      const auto = await themeOf(p);
+      must(auto.dark === 0, `theme: ${page}: System left ${auto.dark} of ${auto.n} frames dark`);
       // a press while frames are still arriving leaves no mixed set
       await p.evaluate(([s]) => window.__prismJourneys.go(...s), [page === 'owner' ? ['forecast', 'a', 'iphone', 'default'] : ['costs', 'a', 'iphone', 'default']]);
       await p.locator('[data-t="dark"]').click();
@@ -199,8 +211,11 @@ const run = {
     await p.focus('#sheetRecord');
     await p.keyboard.press('Enter');
     await p.waitForTimeout(100);
-    must((await at()).id === 'sheetUndo', `sheet: Record left focus on ${(await at()).id}`);
+    must((await at()).id === 'sheetOpen', `sheet: Record left focus on ${(await at()).id}, and a toast never takes focus`);
     must(await p.evaluate(() => document.querySelector('#sheetDemo').classList.contains('saved') && !document.querySelector('#sheetDemo').classList.contains('open')), 'sheet: Record did not record');
+    let tabs = 0;
+    while ((await at()).id !== 'sheetUndo' && tabs < 4) { await p.keyboard.press('Tab'); tabs++; }
+    must((await at()).id === 'sheetUndo', 'sheet: Tab does not reach Undo after Record');
     await p.keyboard.press('Enter');
     await p.waitForTimeout(100);
     must((await at()).id === 'sheetOpen', `sheet: Undo left focus on ${(await at()).id}`);
@@ -234,6 +249,32 @@ const run = {
     await p.waitForTimeout(150);
     const backAt = await p.evaluate(() => { const r = document.querySelector('#sheetOpen').getBoundingClientRect(); return { top: r.top, bottom: r.bottom, h: innerHeight }; });
     must(backAt.top >= 0 && backAt.bottom <= backAt.h, `sheet: focus returned to a trigger off screen, at ${Math.round(backAt.top)} of ${backAt.h}`);
+    // Record too: the page moved while the sheet was open, and the toast and the way back both come into view
+    for (const move of [900, -900]) {
+      await p.keyboard.press('Enter');
+      await p.waitForTimeout(150);
+      await p.evaluate(() => document.querySelector('#sheetRecord').focus({ preventScroll: true }));
+      await p.evaluate((d) => scrollBy(0, d), move);
+      await p.waitForTimeout(100);
+      await p.keyboard.press('Enter');
+      await p.waitForTimeout(150);
+      const r = await p.evaluate(() => { const t = document.querySelector('#sheetOpen').getBoundingClientRect(), o = document.querySelector('.mdemo .toast').getBoundingClientRect(); return { t: t.top, b: t.bottom, ot: o.top, ob: o.bottom, h: innerHeight }; });
+      must(r.t >= 0 && r.b <= r.h, `sheet: Record with the page moved ${move} left the trigger at ${Math.round(r.t)} of ${r.h}`);
+      must(r.ot >= 0 && r.ob <= r.h, `sheet: Record with the page moved ${move} left the toast at ${Math.round(r.ot)} of ${r.h}`);
+      await p.evaluate(() => document.querySelector('#sheetUndo').click());
+      await p.waitForTimeout(100);
+    }
+    // a short window: the sheet's buttons still come into view
+    await p.setViewportSize({ width: 667, height: 375 });
+    await p.waitForTimeout(150);
+    await p.evaluate(() => { const t = document.querySelector('#sheetOpen'); t.focus({ preventScroll: true }); scrollBy(0, t.getBoundingClientRect().top - 260); });
+    await p.waitForTimeout(100);
+    await p.keyboard.press('Enter');
+    await p.waitForTimeout(150);
+    const low = await p.evaluate(() => { const r = document.querySelector('#sheetRecord').getBoundingClientRect(); return { top: r.top, bottom: r.bottom, h: innerHeight }; });
+    must(low.top >= 0 && low.bottom <= low.h, `sheet: in a short window its buttons sit at ${Math.round(low.top)} to ${Math.round(low.bottom)} of ${low.h}`);
+    await p.keyboard.press('Escape');
+    await p.setViewportSize({ width: 1440, height: 1000 });
     // Escape with the sheet closed takes nothing away from where focus is
     await p.locator('#themectl button').first().focus();
     await p.keyboard.press('Escape');
@@ -317,15 +358,34 @@ const run = {
       ['a bad way back', () => { try { localStorage.setItem('mp178-flips', '{"home|a|a-portfolio":{"o":"b","s":"b-ledger","st":"default","landed":"home|b|b-ledger","from":[1,2]}}'); } catch (e) { /* nothing kept */ } }],
     ]) {
       const o = await open(b, pages, 'owner', { hash, init });
-      await framesReady(o.p, 14);
-      await o.p.waitForTimeout(400);
-      must(await o.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === was, `flip: ${why} did not start in A`);
-      await o.p.locator('#jrow [data-flip]').first().click();
-      await o.p.waitForTimeout(700);
-      must(await o.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === turned, `flip: with ${why} the flip did not turn`);
+      try {
+        await framesReady(o.p, 14);
+        await o.p.waitForTimeout(400);
+        must(await o.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === was, `flip: ${why} did not start in A`);
+        await o.p.locator('#jrow [data-flip]').first().click();
+        await o.p.waitForTimeout(700);
+        must(await o.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === turned, `flip: with ${why} the flip did not turn`);
+      } catch (e) { must(false, `flip: ${why} broke the page: ${String(e).split('\n')[0].slice(0, 80)}`); }
       must(!o.errs.length, `flip: with ${why}: ${o.errs[0]}`);
       await o.c.close();
     }
+    // a record from the build before this one still turns its frame, and its way back works
+    const old = await open(b, pages, 'owner', { hash, init: () => { try { if (!sessionStorage.getItem('seeded')) { sessionStorage.setItem('seeded', '1'); localStorage.setItem('mp178-flips', '{"home|a|a-portfolio":{"o":"b","s":"b-ledger","st":"default","landed":"home|b|b-ledger","got":{},"from":["a","a-portfolio",{}]}}'); } } catch (e) { /* nothing kept */ } } });
+    await framesReady(old.p, 14);
+    await old.p.waitForTimeout(400);
+    must(await old.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === turned, 'flip: a record from the last build did not turn its frame');
+    await old.p.locator('#jrow [data-flip]').first().click();
+    await old.p.waitForTimeout(700);
+    must(await old.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === was, 'flip: a record from the last build could not turn back');
+    await old.c.close();
+    // a way back that names a screen since removed does not leave a dead control
+    const gone = await open(b, pages, 'owner', { hash, init: () => { try { if (!sessionStorage.getItem('seeded')) { sessionStorage.setItem('seeded', '1'); localStorage.setItem('mp178-flips', '{"home|a|a-portfolio":{"o":"b","s":"b-ledger","st":"default","landed":"home|b|b-ledger","from":["a","a-gone"]}}'); } } catch (e) { /* nothing kept */ } } });
+    await framesReady(gone.p, 14);
+    await gone.p.waitForTimeout(400);
+    await gone.p.locator('#jrow [data-flip]').first().click();
+    await gone.p.waitForTimeout(700);
+    must(await gone.p.evaluate(() => document.querySelector('#jrow .scr').dataset.at) === was, 'flip: a way back that is gone left a dead control');
+    await gone.c.close();
   },
 
   // UX-10: no frame text under 12 px as drawn, so a chart's viewBox scaling counts, in the places it was found
@@ -342,54 +402,54 @@ const run = {
   },
 
   // UX-05: the review pages hold at 320 CSS px, and the bar does not collide at any width up to where it stops being tight.
-  // Every width for the bar, because a collision can sit in a band a few sample widths step over (R1-f3).
+  // Every width for the bar, because a collision can sit in a band a few sample widths step over (R1-f3). A page is also loaded fresh
+  // at phone widths, because a resize cannot see what a page decides at load (R2-s3).
   async narrow(b, pages, must) {
-    const widths = []; for (let w = 320; w <= 820; w += 3) widths.push(w);
-    for (const page of ['prism', 'owner', 'admin']) {
-      const { c, p } = await open(b, pages, page, { context: { viewport: { width: 1000, height: 800 } } });
-      for (const width of widths) {
-        await p.setViewportSize({ width, height: 800 });
-        await p.waitForTimeout(25);
-        const r = await p.evaluate(() => {
-          const box = (e) => { const g = document.createRange(); g.selectNodeContents(e); return g.getBoundingClientRect(); };
-          const name = document.querySelector('.pbar .brand > span:last-child'), dim = document.querySelector('.pbar .dimctl'), seg = document.querySelector('.pbar .segctl');
-          const bn = box(name), bd = dim.getBoundingClientRect(), bs = seg.getBoundingClientRect();
-          const shown = bn.width > 2 && getComputedStyle(name).clipPath === 'none';
-          const out = [...document.querySelectorAll('.pbar button, .pbar a, .jctl button')].filter((x) => { const k = x.getBoundingClientRect(); return k.width && k.right > innerWidth + .5; }).map((x) => x.textContent.trim().slice(0, 16));
-          return { hit: shown && bn.right > bd.left + .5, dimHit: bd.right > bs.left + .5, named: (name.textContent || '').trim().length > 0, out };
-        });
-        must(!r.hit, `narrow: ${page} at ${width}: the page's name runs into the switch`);
-        must(!r.dimHit, `narrow: ${page} at ${width}: the switch runs into the theme control`);
-        must(r.named, `narrow: ${page} at ${width}: the page lost its name`);
-        must(!r.out.length, `narrow: ${page} at ${width}: "${r.out[0]}" sits past the edge`);
+    const spillOf = () => {
+      const vw = innerWidth, spill = [];
+      for (const e of document.querySelectorAll('body *')) {
+        const rc = e.getBoundingClientRect();
+        if (!rc.width || rc.right <= vw + .5) continue;
+        let a = e.parentElement, clipped = false;
+        while (a && a !== document.body) { if (getComputedStyle(a).overflowX !== 'visible') { clipped = true; break; } a = a.parentElement; }
+        if (!clipped) spill.push(`${e.tagName}${e.id ? '#' + e.id : ''} ${Math.round(rc.right)}`);
       }
+      return { w: document.documentElement.scrollWidth, vw, spill: spill.slice(0, 2) };
+    };
+    for (const page of ['prism', 'owner', 'admin']) {
       for (const width of [320, 360, 390, 480, 600, 768]) {
-        await p.setViewportSize({ width, height: 800 });
-        await p.waitForTimeout(120);
-        const r = await p.evaluate(() => {
-          const vw = innerWidth, spill = [];
-          for (const e of document.querySelectorAll('body *')) {
-            const rc = e.getBoundingClientRect();
-            if (!rc.width || rc.right <= vw + .5) continue;
-            let a = e.parentElement, clipped = false;
-            while (a && a !== document.body) { if (getComputedStyle(a).overflowX !== 'visible') { clipped = true; break; } a = a.parentElement; }
-            if (!clipped) spill.push(`${e.tagName}${e.id ? '#' + e.id : ''} ${Math.round(rc.right)}`);
-          }
-          return { w: document.documentElement.scrollWidth, vw, spill: spill.slice(0, 2) };
-        });
+        const { c, p } = await open(b, pages, page, { context: { viewport: { width, height: 800 } } });
+        const r = await p.evaluate(spillOf);
         must(r.w <= r.vw, `narrow: ${page} at ${width}: the page is ${r.w} wide`);
         must(!r.spill.length, `narrow: ${page} at ${width}: ${r.spill.join(', ')} runs past the edge`);
         if (page !== 'prism') {
           const lab = await p.evaluate(() => [...document.querySelectorAll('.jctl .segctl button')].filter((x) => x.scrollWidth > x.clientWidth + 1).map((x) => x.textContent.trim().slice(0, 20)));
           must(!lab.length, `narrow: ${page} at ${width}: "${lab[0]}" spills out of its control`);
         }
+        if (page !== 'prism' && width === 320) {
+          // at 480 and under the lens is gone, so the chosen control must still look chosen
+          const look = await p.evaluate(() => [...document.querySelectorAll('.jctl .segctl')].map((g) => { const on = g.querySelector('button[aria-pressed="true"]'), off = g.querySelector('button[aria-pressed="false"]'); return !on || !off || getComputedStyle(on).backgroundColor !== getComputedStyle(off).backgroundColor; }));
+          must(look.length > 0 && look.every(Boolean), `narrow: ${page} at 320: the chosen control looks like the others`);
+        }
+        await c.close();
       }
-      if (page !== 'prism') {
-        // at 480 and under the lens is gone, so the chosen control must still look chosen
-        await p.setViewportSize({ width: 320, height: 800 });
-        await p.waitForTimeout(120);
-        const look = await p.evaluate(() => [...document.querySelectorAll('.jctl .segctl')].map((g) => { const on = g.querySelector('button[aria-pressed="true"]'), off = g.querySelector('button[aria-pressed="false"]'); return !on || !off || getComputedStyle(on).backgroundColor !== getComputedStyle(off).backgroundColor; }));
-        must(look.length > 0 && look.every(Boolean), `narrow: ${page} at 320: the chosen control looks like the others`);
+      const { c, p } = await open(b, pages, page, { context: { viewport: { width: 1000, height: 800 } } });
+      for (let w = 320; w <= 820; w++) {
+        await p.setViewportSize({ width: w, height: 800 });
+        await p.waitForTimeout(12);
+        const r = await p.evaluate(() => {
+          const box = (e) => { const g = document.createRange(); g.selectNodeContents(e); return g.getBoundingClientRect(); };
+          const name = document.querySelector('.pbar .brand > span:last-child'), dim = document.querySelector('.pbar .dimctl'), seg = document.querySelector('.pbar .segctl');
+          const bn = box(name), bd = dim.getBoundingClientRect(), bs = seg.getBoundingClientRect();
+          const shown = bn.width > 2 && getComputedStyle(name).clipPath === 'none';
+          const out = [...document.querySelectorAll('.pbar button, .pbar a, .jctl button')].filter((x) => { const k = x.getBoundingClientRect(); return k.width && k.right > innerWidth + .5; }).map((x) => x.textContent.trim().slice(0, 16));
+          return { hit: shown && bn.right > bd.left + .5, dimHit: bd.right > bs.left + .5, named: (name.textContent || '').trim().length > 0, out, wide: document.documentElement.scrollWidth, vw: innerWidth };
+        });
+        must(!r.hit, `narrow: ${page} at ${w}: the page's name runs into the switch`);
+        must(!r.dimHit, `narrow: ${page} at ${w}: the switch runs into the theme control`);
+        must(r.named, `narrow: ${page} at ${w}: the page lost its name`);
+        must(!r.out.length, `narrow: ${page} at ${w}: "${r.out[0]}" sits past the edge`);
+        must(r.wide <= r.vw, `narrow: ${page} at ${w}: the page is ${r.wide} wide`);
       }
       await c.close();
     }
@@ -416,27 +476,35 @@ const UNDO = [
   ['Compare is not repainted', 'theme', [['admin', "$$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });", '']], /theme: compare: the system going dark/],
   ['Compare redraws on a press', 'theme', [['admin', "$$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });", 'if (sum.cmp) drawCompare();']], /theme: compare: a (theme press|system change) lost the rows' scroll/],
   ['a frame arriving mid-draw reads an old theme', 'theme', [['owner', "scheme: scheme(), journey: j.id", "scheme: 'light', journey: j.id"]], /a press mid-draw left/],
+  ['a press resets the state', 'theme', [['owner', "    const sch = scheme();\n    $$('[data-slot]', row).forEach(box => {", "    const sch = scheme();\n    if (sum.at.st !== 'default') { sum.at.st = 'default'; show(); return; }\n    $$('[data-slot]', row).forEach(box => {"]], /a press lost its state/],
+  ['a press clears a detail', 'theme', [['owner', "const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);\n", "const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);\n      delete scr.dataset.hz;\n"]], /a press lost a frame's scroll or detail/],
+  ['System is not repainted', 'theme', [['owner', 'if (sum.retheme) sum.retheme();', "if (sum.retheme && root.getAttribute('data-theme')) sum.retheme();"]], /System left/],
   ['a press resets a frame', 'theme', [['owner', "      dev.classList.remove('scheme-light', 'scheme-dark');\n", "      dev.classList.remove('scheme-light', 'scheme-dark');\n      $('.jscroll', box) && ($('.jscroll', box).scrollTop = 0);\n"]], /a press lost a frame's scroll or detail/],
   ['a selector press is not said', 'focus', [['owner', "  $('#jlive').textContent = said;\n  setTimeout", "  setTimeout"]], /the change was not said/],
   ['the option selector drops focus', 'focus', [['owner', "setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });", '']], /focus: owner #jopt: focus landed on BODY/],
   ['the state chips drop focus', 'focus', [['admin', "setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); });", '']], /focus: admin #jstate: focus landed on BODY/],
-  ['the sheet takes no focus', 'sheet', [['prism', '(to || (v ? $(\'#sheetClose\') : trigger)).focus({ preventScroll: v || !!to });', '']], /sheet: opening left focus/],
+  ['the sheet takes no focus', 'sheet', [['prism', '(v ? $(\'#sheetClose\') : trigger).focus({ preventScroll: v });', '']], /sheet: opening left focus/],
   ['the page behind stays live', 'sheet', [['prism', '    quiet(v);\n', '']], /the page behind is not inert/],
   ['Tab can leave the sheet', 'sheet', [['prism', "if (e.key !== 'Tab') return;", 'return;'], ['prism', '    quiet(v);\n', '']], /sheet: Tab left the sheet/],
   ['the scrim goes inert with the page', 'sheet', [['prism', 'if (c === n || c === scrim || c.inert', 'if (c === n || c.inert']], /a press on the scrim lands/],
   ['Not now does nothing', 'sheet', [['prism', "$('#sheetClose').addEventListener('click', () => open(false));", '']], /Not now did not close it/],
-  ['Undo leaves the toast live', 'sheet', [['prism', "st.classList.remove('saved'); toast.inert = true; trigger.focus({ preventScroll: true });", "st.classList.remove('saved'); trigger.focus({ preventScroll: true });"]], /after Undo, sheetUndo can still take focus/],
+  ['Undo leaves the toast live', 'sheet', [['prism', "st.classList.remove('saved'); toast.inert = true; trigger.focus();", "st.classList.remove('saved'); trigger.focus();"]], /after Undo, sheetUndo can still take focus/],
+  ['Record takes focus into the toast', 'sheet', [['prism', "toast.inert = false; open(false); });", "toast.inert = false; open(false); $('#sheetUndo').focus({ preventScroll: true }); });"]], /a toast never takes focus/],
+  ['Record leaves the page where it was', 'sheet', [['prism', "(v ? $('#sheetClose') : trigger).focus({ preventScroll: v });", "(v ? $('#sheetClose') : trigger).focus({ preventScroll: true });"]], /focus returned to a trigger off screen|Record with the page moved/],
+  ['a short window hides the sheet', 'sheet', [['prism', "const over = st.getBoundingClientRect().bottom - innerHeight; if (over > 0) scrollBy(0, over);", '']], /in a short window its buttons/],
   ['opening again leaves the toast live', 'sheet', [['prism', "if (v) { st.classList.remove('saved'); toast.inert = true; }", "if (v) { st.classList.remove('saved'); }"]], /open, sheetUndo can still take focus|after Record and open again, sheetUndo/],
   ['the sheet opens off screen', 'sheet', [['prism', "if (v) st.scrollIntoView({ block: 'nearest' });", '']], /it opened off screen/],
-  ['the way back does not find the trigger', 'sheet', [['prism', 'focus({ preventScroll: v || !!to });', 'focus({ preventScroll: true });']], /focus returned to a trigger off screen/],
+  ['Undo does not find the trigger', 'sheet', [['prism', "toast.inert = true; trigger.focus();", "toast.inert = true; trigger.focus({ preventScroll: true });"]], /Record with the page moved|Undo left focus/],
   ['a hidden toast takes focus', 'sheet', [['prism', 'sheet.inert = toast.inert = true;', 'sheet.inert = true;']], /closed, sheetUndo can still take focus/],
   ['a closed sheet takes focus', 'sheet', [['prism', 'sheet.inert = toast.inert = true;', 'toast.inert = true;'], ['prism', 'sheet.inert = !v;', ''], ['prism', 'transform: translateY(105%); visibility: hidden;', 'transform: translateY(105%);']], /closed, sheetClose can still take focus/],
   ['Escape steals focus with the sheet closed', 'sheet', [['prism', "if (e.key === 'Escape' && st.classList.contains('open')) open(false);", "if (e.key === 'Escape') open(false);"]], /Escape on a closed sheet stole focus/],
   ['a flip is not kept', 'flip', [['owner', 'flipsSave(key);\n', '\n']], /flip: a reload returned/],
   ['a kept flip is not read', 'flip', [['owner', 'sum.flipped = flipsLoad();', '']], /flip: a reload returned/],
   ['a malformed record is trusted', 'flip', [['owner', '.filter(([, f]) => flipOK(f))', '']], /a malformed record/],
-  ['a bad way back is trusted', 'flip', [['owner', " && (f.from === null || (Array.isArray(f.from) && f.from.length === 2 && f.from.every(x => typeof x === 'string')))", '']], /a bad way back/],
-  ['unreadable storage throws', 'flip', [['owner', "  } catch (e) { return {}; }\n}\n/* only this frame", "  } catch (e) { throw e; }\n}\n/* only this frame"]], /unreadable storage|could not finish/],
+  ['a bad way back is trusted', 'flip', [['owner', " && (f.from === null || (Array.isArray(f.from) && f.from.length >= 2 && f.from.slice(0, 2).every(x => typeof x === 'string')))", '']], /a bad way back/],
+  ['unreadable storage throws', 'flip', [['owner', 'const v = JSON.parse(localStorage.getItem(FLIP_KEY));', 'let raw; try { raw = localStorage.getItem(FLIP_KEY); } catch (e) { return {}; } const v = JSON.parse(raw);'], ['owner', "  } catch (e) { return {}; }\n}\n/* only this frame", "  } catch (e) { throw e; }\n}\n/* only this frame"]], /unreadable storage/],
+  ['a record from the last build is refused', 'flip', [['owner', 'f.from.length >= 2 && f.from.slice(0, 2).every', 'f.from.length === 2 && f.from.every']], /a record from the last build/],
+  ['a way back that is gone leaves a dead control', 'flip', [['owner', "if (!to && back) { [, oo, ss] = b.dataset.flip.split('|'); extra = saved; to = screenOf(oo, ss); }", '']], /a way back that is gone/],
   ['the whole record is kept', 'flip', [['owner', 'JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, f]) => [k, ids(f)])))', 'JSON.stringify(all)']], /it kept more than the view/],
   ['a save writes this tab over the other', 'flip', [['owner', 'const all = flipsLoad();', 'const all = { ...sum.flipped };']], /a second tab left the record/],
   ['a turn back keeps a detail', 'flip', [['owner', 'extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };', 'extra = { ...was.from[2] };']], /a turn back kept a detail/],
@@ -445,7 +513,9 @@ const UNDO = [
   ['the pennies follow the figure down', 'text', [['owner', '.amt .p { font-size: max(.5em, 12px);', '.amt .p { font-size: .5em;']], /text: cost\.a: \d+ runs under 12 px/],
   ['the pennies follow a chart down', 'text', [['owner', '.cx[data-snug] text { font-size: 12.6px; }', '']], /text: cost\.b: \d+ runs under 12 px/],
   ['the research chart is not snug', 'text', [['owner', ".replace('<svg class=\"cx\"', '<svg class=\"cx\" data-snug')", '']], /text: research\.a: \d+ runs under 12 px/],
+  ['the burn chart is not snug', 'text', [['owner', "<svg class=\"cx\"${ctx.kind === 'ipad' ? ' data-snug' : ''} viewBox", '<svg class=\"cx\" viewBox']], /text: cost\.b: \d+ runs under 12 px/],
   ['the chosen control loses its look', 'narrow', [['owner', '.jctl .segctl.full button[aria-pressed="true"] { background: var(--thumb); box-shadow: var(--shadow-lens); }', '']], /owner at 320: the chosen control looks like the others/],
+  ['a page wide only on a fresh load', 'narrow', [['owner', '<title>', '<script>if (innerWidth < 400) document.documentElement.style.minWidth = "420px";</script><title>']], /narrow: owner at 320: the page is 420 wide/],
   ['the selectors spill at 320', 'narrow', [['owner', '.jctl .segctl.full { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }', ''], ['owner', '.jctl .segctl.full button { white-space: normal; min-width: 0; padding: 6px 8px; }', '']], /narrow: owner at 320/],
   ['the name collides at 320', 'narrow', [['admin', '.brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }', '']], /narrow: admin at 320: the page's name runs into the switch/],
   ['the name shows again just under 400', 'narrow', [['owner', '@media (max-width: 400px) { .brand > span:last-child', '@media (max-width: 380px) { .brand > span:last-child']], /narrow: owner at 3[89]\d: the page's name runs into the switch/],

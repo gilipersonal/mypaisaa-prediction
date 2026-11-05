@@ -109,3 +109,6 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 56. **Text is measured as drawn**: an SVG's computed font size ignores its viewBox, so 12 px read true while 11.49 px reached the screen (MP-182 R1-f4, R1-s3).
 57. **A sentence about what is kept is read against what is written to storage**: "only which view" sat beside a record holding the instrument and the horizon (MP-182 R1-f5, R1-c7, lesson 47).
 58. **A measure reads the thing itself**: a text's scale taken as a ratio of two widths read rounding as scale, so 12 px text showed as 11 on a short string. Read the transforms and zoom, then prove the check still refuses a page really scaled (MP-182).
+59. **A ledger entry pins every part of its fix**: a check on one line let twelve mutations through, so a fix of three parts has three pins (MP-182 R2-c1 to R2-c6).
+60. **A fix never overrides a rule marked the owner's**: moving focus into a toast broke "It never takes focus", and the fix had to go, not the rule (MP-182 R2-f2, lesson 23).
+61. **A rewritten measure keeps every refusal, and a gate with no selftest has no proof it bites**: replacing a width ratio with transforms lost the CSS `scale` property, in a script that had never had a selftest (MP-182 R2-s1, R2-s2, lessons 10, 34).

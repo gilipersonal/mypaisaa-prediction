@@ -196,7 +196,7 @@
     });
   };
   const askAbout = ctx => (ctx.state === 'disagreement' ? subject(ctx) : N);
-  const askRail = ctx => `${ctx.state === 'disagreement' ? stanceFor(ctx) : box(fcard(N, { w: 340, h: 168, seed: 23 }).replace('<svg class="cx"', '<svg class="cx" data-snug'))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
+  const askRail = ctx => `${ctx.state === 'disagreement' ? stanceFor(ctx) : box(ctx.kind === 'ipad' ? fcard(N, { w: 340, h: 168, seed: 23 }).replace('<svg class="cx"', '<svg class="cx" data-snug') : fcard(N, { w: 340, h: 168, seed: 23 }))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
 
   /* ---------- a figure's source (MP-81): citation, hash, times and rights, always read as untrusted data ---------- */
   const soft = 'box-shadow:inset 0 0 0 1px var(--hairline)';

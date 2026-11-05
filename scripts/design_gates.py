@@ -865,7 +865,7 @@ def check(paths: list[str]) -> int:
         elif rel == ADMIN or p == ROOT / ADMIN:
             fails, rows = check_journeys(p.read_text(), ADMIN_IDS), "admin"
         else:
-            kept, MIN_FONT_PX = MIN_FONT_PX, (HISTORICAL_MIN_FONT_PX if rel in GATED else MIN_FONT_PX)
+            kept, MIN_FONT_PX = MIN_FONT_PX, (HISTORICAL_MIN_FONT_PX if p.resolve() in [(ROOT / g).resolve() for g in GATED] else MIN_FONT_PX)
             try:
                 fails, rows = check_page(p.read_text())
             finally:

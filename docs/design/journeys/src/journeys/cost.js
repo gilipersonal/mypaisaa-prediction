@@ -292,7 +292,7 @@
     const last = pts[pts.length - 1], loTo = m.lo ?? (s === 'noModel' ? 46.48 : 54.73), hiTo = m.hi ?? m.to, medTo = m.lo === undefined ? loTo : m.to;
     const fan = s === 'abstention' ? '' : `<path class="b80" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(hiTo).toFixed(1)}L${X(30).toFixed(1)} ${Y(loTo).toFixed(1)}Z"/><path class="med" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(medTo).toFixed(1)}"/>`;
     const lines = [[60, '£60 Warn'], [75, '£75 Reduce'], [85, '£85 Pause'], [100, '£100 Ceiling']];
-    return `<svg class="cx" data-snug viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Spend by day this month: ${m.so} pounds on day ${last[0]}, heading ${m.fc} by day 30, against lines at £60, £75, £85 and £100. Illustrative.">
+    return `<svg class="cx"${ctx.kind === 'ipad' ? ' data-snug' : ''} viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Spend by day this month: ${m.so} pounds on day ${last[0]}, heading ${m.fc} by day 30, against lines at £60, £75, £85 and £100. Illustrative.">
       ${lines.map(([y, t]) => `<line class="${y === 100 ? 'zero' : 'grid'}" x1="${ml}" x2="${W - mr}" y1="${Y(y)}" y2="${Y(y)}"/><text class="lbl" x="${W - mr + 4}" y="${Y(y) + 4}">${t}</text>`).join('')}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}"/>
       <g data-mo="draw">${fan}<line class="now" x1="${X(last[0])}" x2="${X(last[0])}" y1="${mt}" y2="${Ht - mb}"/>

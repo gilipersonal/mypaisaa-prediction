@@ -9,16 +9,16 @@ const SURFACES = [
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flipped: {} };
 
-/* A flip stays on this browser, journey by journey, as the owner chose (4 Nov 2026, MP-178). The record holds which view a frame is on and
+/* A flip is kept per device, as the owner chose (4 Nov 2026, MP-178), and this page keeps it in this browser. The record holds which view a frame is on and
    which view it came from, as ids. It holds no figure, instrument, horizon, draft or approval. With storage refused the flip still turns,
    for this page only (MP-182). */
 const FLIP_KEY = 'mp178-flips';
-const flipOK = f => !!f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string') && (f.from === null || (Array.isArray(f.from) && f.from.length === 2 && f.from.every(x => typeof x === 'string')));
+const flipOK = f => !!f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string') && (f.from === null || (Array.isArray(f.from) && f.from.length >= 2 && f.from.slice(0, 2).every(x => typeof x === 'string')));
 function flipsLoad() {
   try {
     const v = JSON.parse(localStorage.getItem(FLIP_KEY));
     if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
-    return Object.fromEntries(Object.entries(v).filter(([, f]) => flipOK(f)).map(([k, f]) => [k, { ...f, got: {}, from: f.from && [...f.from, {}] }]));
+    return Object.fromEntries(Object.entries(v).filter(([, f]) => flipOK(f)).map(([k, f]) => [k, { ...f, got: {}, from: f.from && [f.from[0], f.from[1], {}] }]));
   } catch (e) { return {}; }
 }
 /* only this frame's key changes, so a second tab's flips stay */
@@ -31,7 +31,7 @@ function flipsSave(key) {
   } catch (e) { /* the flip still turns on this page */ }
 }
 
-/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is
+/* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). Each journey flips on its own. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
 const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
@@ -283,7 +283,8 @@ function show() {
       extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // a record read back holds none of these, and they still clear
       ['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });   // what was pressed inside the turned frame comes home with it
     }
-    const to = screenOf(oo, ss);
+    let to = screenOf(oo, ss);
+    if (!to && back) { [, oo, ss] = b.dataset.flip.split('|'); extra = saved; to = screenOf(oo, ss); }   // a kept way back can name a screen since removed
     if (!to) return;
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };

@@ -1830,8 +1830,7 @@
     "docs/design/journeys/src/journeys/research.js",
     "scripts/design_runtime.mjs",
     "tests/test_design_gates.py",
-    "review/MP-182/fixed.json",
-    "review/MP-182/state.json"
+    "review/MP-182/"
    ]
   }
  ]
