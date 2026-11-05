@@ -100,3 +100,8 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 47. **A fix's new sentence needs its own record**: a claim added to close a finding is read like any other, and a saving, a scope or a side effect the records do not state is a new fault (MP-64 R3-s1, R3-a1, R3-a3, R3-f5).
 48. **A fix goes on the picked option first**: a fact added to the other option leaves the picked one wrong (MP-64 R4-f1, R4-s3).
 49. **A checked phrase is searched in every form**: one check for one wording let the same rule survive in five records (MP-64 R4-s5, lesson 3).
+50. **A page-level control is pressed with the frames already drawn**: a theme press read at draw time changes nothing on screen, and the walker never sees it because it loads each theme fresh (MP-182).
+51. **A written promise on a live control is pressed**: Prism's sheet spec said focus moves in and returns, and no gate pressed it (MP-182).
+52. **A count of a gate names its true floor**: the rule said 12 px, the gate allowed 11, and "all gates pass" read as the stricter rule (MP-182).
+53. **A finding's evidence is read back before it is acted on**: an audit stating that a file lacks something is checked with a search of that file, and a review of the report does not do this for you (MP-182).
+54. **A selftest case undoes the whole fix**: a fix held by two rules passes when one is removed, so a case that misses is a weak case until shown otherwise (MP-182).

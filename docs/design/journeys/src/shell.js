@@ -9,6 +9,18 @@ const SURFACES = [
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flipped: {} };
 
+/* A flip stays on this device, journey by journey, as the owner chose (4 Nov 2026, MP-178). Only which view a frame is on is kept: no
+   figure, draft or approval. With storage refused the flip still turns, for this page only (MP-182). */
+const FLIP_KEY = 'mp178-flips';
+function flipsLoad() {
+  try {
+    const v = JSON.parse(localStorage.getItem(FLIP_KEY));
+    if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
+    return Object.fromEntries(Object.entries(v).filter(([, f]) => f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string')));
+  } catch (e) { return {}; }
+}
+function flipsSave() { try { localStorage.setItem(FLIP_KEY, JSON.stringify(sum.flipped)); } catch (e) { /* the flip still turns on this page */ } }
+
 /* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
@@ -122,6 +134,7 @@ const J = {
   add(j) { sum.journeys.push(j); },
   all: () => sum.journeys,
   start() {
+    sum.flipped = flipsLoad();
     const hash = location.hash.slice(1).split('.');
     const i = sum.journeys.findIndex(j => j.id === hash[0]);
     if (i >= 0) sum.at.j = i;
@@ -130,6 +143,10 @@ const J = {
     if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else show();
+    /* a theme press, or the system's theme changing under Auto */
+    const repaint = () => { if (sum.retheme) sum.retheme(); };
+    if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
   },
   /* for scripts/design_journeys_check.mjs: every combination the review can reach */
@@ -158,7 +175,7 @@ function mark(i) {
 }
 function chips(el, items, on, pick) {
   el.innerHTML = items.map(([k, t, dis]) => `<button type="button" data-k="${k}" aria-pressed="${k === on}"${dis ? ` disabled title="${dis}"` : ''}>${t}</button>`).join('');
-  el.onclick = e => { const b = e.target.closest('button'); if (b && !b.disabled) pick(b.dataset.k); };
+  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); const i = $$('button', el).findIndex(x => x.dataset.k === k); if (i >= 0) { $$('button', el)[i].focus({ preventScroll: true }); $('#jlive').textContent = said; } };
 }
 /* A wide frame fits the page, so its right-hand column never hides off to the side. Below 70% it scrolls instead, to stay readable. */
 function fitFrames() {
@@ -170,6 +187,12 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once (MP-182). */
+function hold(sel, i, said) {
+  const b = $$(`${sel} button`)[i];
+  if (b) b.focus({ preventScroll: true });
+  $('#jlive').textContent = said;
+}
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
   $('#jinv').hidden = true;
@@ -179,9 +202,9 @@ function show() {
   $('#jsummary').textContent = j.summary;
   $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span><span class="chip owner"><span class="dot"></span>Both kept, with a flip</span><span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
-  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.o = $$('#jopt button').indexOf(b); show(); };
+  $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
-  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; sum.at.s = SURFACES[$$('#jsurf button').indexOf(b)][0]; show(); };
+  $('#jsurf').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jsurf button').indexOf(b), said = `Device ${b.textContent}`; sum.at.s = SURFACES[i][0]; show(); hold('#jsurf', i, said); };
   const naAll = k => k !== 'default' && o.screens.every(s => (s.na || {})[k]);
   chips($('#jstate'), STATES.map(([k, t]) => [k, t, naAll(k) ? 'Does not apply to this journey' : '']), sum.at.st, k => { sum.at.st = k; show(); });
   $('#jwhy').innerHTML = `<p><b>${o.rec ? 'Why it starts here.' : 'What this view does.'}</b> ${o.why}</p>${o.cost ? `<p><b>What it costs.</b> ${o.cost}</p>` : ''}`;
@@ -213,6 +236,17 @@ function show() {
     cap.innerHTML = `<span class="tag">${sch === 'light' ? 'Light' : 'Dark'}</span>${title}${oid === o.id ? '' : ` <span class="chip illus">Turned to ${oid.toUpperCase()} · ${flipName(j.id, oid, sc.id)}</span>`}`;
     note.textContent = noteFor(sc);
   };
+  /* A theme press repaints the frames already drawn, in place: nothing is redrawn, so a flip, a state and the place on the page all hold. Frames still to come read the new theme themselves (MP-182). */
+  sum.retheme = () => {
+    const sch = scheme();
+    $$('[data-slot]', row).forEach(box => {
+      const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);
+      dev.classList.remove('scheme-light', 'scheme-dark');
+      dev.classList.add(`scheme-${sch}`);
+      if (tag) tag.textContent = sch === 'light' ? 'Light' : 'Dark';
+      scr.setAttribute('aria-label', (scr.getAttribute('aria-label') || '').replace(/, (light|dark) theme$/, `, ${sch} theme`));
+    });
+  };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
     return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
@@ -235,13 +269,14 @@ function show() {
     let [, oo, ss] = b.dataset.flip.split('|'), extra = saved;
     if (back) {
       [oo, ss] = was.from;
-      extra = { ...was.from[2] };
+      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // what JSON leaves out still clears
       ['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });   // what was pressed inside the turned frame comes home with it
     }
     const to = screenOf(oo, ss);
     if (!to) return;
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
+    flipsSave();
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
       scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));

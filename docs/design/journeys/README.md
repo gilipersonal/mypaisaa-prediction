@@ -61,6 +61,13 @@ show the same freshness, provider status and risk in every state. The figures bo
 The owner's rules, 4 November 2026 (MP-178): each journey starts in A, the choice is kept per device, each journey flips on its
 own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written.
 
+The page keeps each flip on this device (`mp178-flips` in the browser's storage), journey by journey, so a reload shows the frame as you left it. It
+keeps only which view a frame is on, never a figure, a draft or an approval. If storage is refused the flip still turns, for that page only. The review
+strip turns one frame at a time so the two views can be compared, so the rest of a journey's strip stays where it is. In the app the choice would cover the whole journey.
+
+The page's selectors keep focus on the control pressed, and a theme press repaints the frames already drawn, without a reload. Both hold on Prism Admin too.
+`scripts/design_prism_press.mjs` presses all of this, with its `--selftest` undoing each fix on a copy.
+
 ## States
 
 Every screen shows loading, empty, error, stale, offline, no model, disagreement and abstention. Write the state for what

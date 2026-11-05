@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-04",
+ "as_of": "2026-11-05",
  "source": "Jira MP via the Atlassian MCP (cloudId 81c51173-bbea-4905-bbc5-1a880fa348bb)",
  "jql": "project = MP ORDER BY key ASC",
  "code_from": "git log main --no-renames --name-only -E --grep '^MP-<n>:' at d98eb55; a folder below the top level holding five or more of an issue's files is listed as the folder",
@@ -811,7 +811,7 @@
    "key": "MP-62",
    "summary": "Design the owner's product journeys and every screen state for web, iPhone and iPad",
    "type": "Story",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/",
@@ -836,7 +836,7 @@
    "key": "MP-64",
    "summary": "Design every admin journey before the first build",
    "type": "Story",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/admin/",
@@ -1767,7 +1767,7 @@
    "key": "MP-178",
    "summary": "Design a flip so the owner can switch a journey between its two drawn options",
    "type": "Story",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/src/shell.js",
@@ -1783,6 +1783,44 @@
    "status": "To Do",
    "parent": null,
    "code": []
+  },
+  {
+   "key": "MP-180",
+   "summary": "Check the designs on a real phone at 20% brightness and with assistive technology before UX approval",
+   "type": "Task",
+   "status": "To Do",
+   "parent": null,
+   "code": []
+  },
+  {
+   "key": "MP-181",
+   "summary": "Impeccable UX audit and Claude handover for Prism designs",
+   "type": "Task",
+   "status": "In Review",
+   "parent": null,
+   "code": [],
+   "no_code": "Its files are on its own branch, MP-181-impeccable-ux-handover, in an open PR, so none is on this branch yet."
+  },
+  {
+   "key": "MP-182",
+   "summary": "Fix the prototype defects the Impeccable audit confirmed on the Prism pages",
+   "type": "Bug",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/src/shell.css",
+    "docs/design/journeys/README.md",
+    "docs/design/admin/index.html",
+    "docs/design/admin/src/shell.js",
+    "docs/design/admin/src/shell.css",
+    "scripts/design_prism_press.mjs",
+    "scripts/design_gates.py",
+    "scripts/design_journeys_check.mjs",
+    "scripts/review_checks.py"
+   ]
   }
  ]
 }

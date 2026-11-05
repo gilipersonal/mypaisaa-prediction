@@ -56,3 +56,10 @@
 .jinv .sum { margin-top: 10px; font-size: 15px; line-height: 22px; color: var(--ink-2); }
 .jinv tr.jgrp td { background: var(--surface-2); color: var(--ink); font-weight: 600; }
 @media (max-width: 720px) { .jctl-row { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+/* a narrow review page: the selectors wrap in two columns rather than spill, and the chosen one carries the lens's look (MP-182) */
+@media (max-width: 480px) {
+  .jctl .segctl.full { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .jctl .segctl.full .lens { display: none; }
+  .jctl .segctl.full button { white-space: normal; min-width: 0; padding: 6px 8px; }
+  .jctl .segctl.full button[aria-pressed="true"] { background: var(--thumb); box-shadow: var(--shadow-lens); }
+}

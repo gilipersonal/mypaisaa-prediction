@@ -7,7 +7,7 @@
 //
 // For every journey, option, device, state and theme it renders the row of screens and fails on: a page error, a journey
 // with fewer than two options or not exactly one recommended, a screen that draws nothing, a state marked not applicable
-// with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 11 px or lighter than 400,
+// with no reason, a sideways scroll inside a screen, a buy, sell or order control, text under 12 px or lighter than 400,
 // text below 4.5:1 and 3:1 at 20% on its ground, a state that draws exactly what the ready state draws, an icon with no
 // symbol, a card that clips its content, anything that runs past its column or card, a button under 44 px, any other
 // control under WCAG's 24 px, a control pushed off the top bar, a ranked-action badge on a screen that does not say decision
@@ -59,7 +59,7 @@ const AUDIT = () => {
       const cs = getComputedStyle(el);
       if (cs.visibility !== 'visible' || cs.display === 'none') continue;
       const svg = el.closest('svg');
-      if (parseFloat(cs.fontSize) < 10.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${cs.fontSize}`);
+      if (parseFloat(cs.fontSize) < 11.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${cs.fontSize}`);
       if ((parseInt(cs.fontWeight, 10) || 400) < 400) out.small.push(`"${t.textContent.trim().slice(0, 24)}" weight ${cs.fontWeight}`);
       const exempt = !!el.closest(':disabled,[aria-disabled="true"],[data-contrast-exempt]');
       let opacity = 1, grounds = [null], image = false;
@@ -278,6 +278,7 @@ function selftest() {
     'pale text on a gradient': [css('.scr .card { background-image: linear-gradient(#FFFFFF, #EEEEEE) !important; } .scr .card p { color: #DDDDDD !important; }'), ':1 at 20%'],
     'an exempt text under 3:1': [css('[data-contrast-exempt] span { color: #F0F0F0 !important; }'), ':1 at 20%'],
     'text on an image': [css('.scr .card { background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACw=) !important; }'), 'on an image'],
+    'text at 11 px': [css('.scr .chip { font-size: 11px !important; }'), '11px'],
     'a control too small': [css('.tbtn { width: 12px !important; height: 12px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }'), "under WCAG's 24"],
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],
