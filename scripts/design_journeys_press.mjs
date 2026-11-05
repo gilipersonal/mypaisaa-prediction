@@ -43,6 +43,7 @@ let bad = 0, n = 0;
 const fail = (m) => { bad++; console.log('FAIL ' + m); };
 try {
   const c = await b.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  await c.addInitScript(() => { try { localStorage.removeItem('mp178-flips'); } catch (e) { /* nothing kept */ } });   // a flip now outlives a reload (MP-182), and each case starts clean
   const p = await c.newPage();
   const errs = [];
   p.on('pageerror', (e) => errs.push(String(e).split('\n')[0]));

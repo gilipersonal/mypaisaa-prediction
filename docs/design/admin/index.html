@@ -3155,7 +3155,7 @@ function mark(i) {
 }
 function chips(el, items, on, pick) {
   el.innerHTML = items.map(([k, t, dis]) => `<button type="button" data-k="${k}" aria-pressed="${k === on}"${dis ? ` disabled title="${dis}"` : ''}>${t}</button>`).join('');
-  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); const i = $$('button', el).findIndex(x => x.dataset.k === k); if (i >= 0) { $$('button', el)[i].focus({ preventScroll: true }); $('#jlive').textContent = said; } };
+  el.onclick = e => { const b = e.target.closest('button'); if (!b || b.disabled) return; const k = b.dataset.k, said = b.textContent; pick(k); $('#jlive').textContent = said; setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); }); };
 }
 /* A wide frame fits the page, so its right-hand column never hides off to the side. Below 70% it scrolls instead, to stay readable. */
 function fitFrames() {
@@ -3167,11 +3167,11 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
-/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once (MP-182). */
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once. It goes in the next task,
+   so the redraw's frame does not pay for a second layout (MP-182). */
 function hold(sel, i, said) {
-  const b = $$(`${sel} button`)[i];
-  if (b) b.focus({ preventScroll: true });
   $('#jlive').textContent = said;
+  setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });
 }
 function show() {
   const j = sum.journeys[sum.at.j], o = j.options[sum.at.o], surf = SURFACES.find(s => s[0] === sum.at.s);
@@ -3222,6 +3222,7 @@ function show() {
     const sch = scheme();
     $$('[data-slot]', row).forEach(box => {
       const dev = $('.dev', box), scr = $('.scr', box), tag = $('.bcap .tag', box);
+      if (dev.classList.contains(`scheme-${sch}`)) return;   // Dark pressed on a page already dark under Auto: nothing to restyle
       dev.classList.remove('scheme-light', 'scheme-dark');
       dev.classList.add(`scheme-${sch}`);
       if (tag) tag.textContent = sch === 'light' ? 'Light' : 'Dark';
