@@ -314,7 +314,7 @@ const run = {
       ['refused storage', () => { Object.defineProperty(window, 'localStorage', { get() { throw new Error('refused'); } }); }],
       ['a malformed record', () => { try { localStorage.setItem('mp178-flips', '{"x":1,"home|a|a-portfolio":{"o":"b","s":"gone"}}'); } catch (e) { /* nothing kept */ } }],
       ['unreadable storage', () => { try { localStorage.setItem('mp178-flips', 'not json'); } catch (e) { /* nothing kept */ } }],
-      ['a bad way back', () => { try { localStorage.setItem('mp178-flips', '{"home|a|a-portfolio":{"o":"b","s":"b-ledger","st":"default","landed":"home|b|b-ledger","from":5}}'); } catch (e) { /* nothing kept */ } }],
+      ['a bad way back', () => { try { localStorage.setItem('mp178-flips', '{"home|a|a-portfolio":{"o":"b","s":"b-ledger","st":"default","landed":"home|b|b-ledger","from":[1,2]}}'); } catch (e) { /* nothing kept */ } }],
     ]) {
       const o = await open(b, pages, 'owner', { hash, init });
       await framesReady(o.p, 14);
@@ -420,7 +420,7 @@ const UNDO = [
   ['a selector press is not said', 'focus', [['owner', "  $('#jlive').textContent = said;\n  setTimeout", "  setTimeout"]], /the change was not said/],
   ['the option selector drops focus', 'focus', [['owner', "setTimeout(() => { const b = $$(`${sel} button`)[i]; if (b) b.focus({ preventScroll: true }); });", '']], /focus: owner #jopt: focus landed on BODY/],
   ['the state chips drop focus', 'focus', [['admin', "setTimeout(() => { const n = $$('button', el).find(x => x.dataset.k === k); if (n) n.focus({ preventScroll: true }); });", '']], /focus: admin #jstate: focus landed on BODY/],
-  ['the sheet takes no focus', 'sheet', [['prism', '(to || (v ? $(\'#sheetClose\') : trigger)).focus({ preventScroll: true });', '']], /sheet: opening left focus/],
+  ['the sheet takes no focus', 'sheet', [['prism', '(to || (v ? $(\'#sheetClose\') : trigger)).focus({ preventScroll: v || !!to });', '']], /sheet: opening left focus/],
   ['the page behind stays live', 'sheet', [['prism', '    quiet(v);\n', '']], /the page behind is not inert/],
   ['Tab can leave the sheet', 'sheet', [['prism', "if (e.key !== 'Tab') return;", 'return;'], ['prism', '    quiet(v);\n', '']], /sheet: Tab left the sheet/],
   ['the scrim goes inert with the page', 'sheet', [['prism', 'if (c === n || c === scrim || c.inert', 'if (c === n || c.inert']], /a press on the scrim lands/],

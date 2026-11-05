@@ -262,6 +262,9 @@ function selftest() {
   const built = spawnSync('python3', ['docs/design/journeys/build.py', '--only', 'privacy', '--out', good], { cwd: resolve(dirname(self), '..'), encoding: 'utf8' });
   if (built.status !== 0) { console.log(`selftest: FAIL could not build a page: ${built.stderr}`); return 2; }
   const page = readFileSync(good, 'utf8');
+  const goodCost = join(tmp, 'cost.html');   // Privacy draws no chart labels, so this case needs a page that does
+  const builtCost = spawnSync('python3', ['docs/design/journeys/build.py', '--only', 'cost', '--out', goodCost], { cwd: resolve(dirname(self), '..'), encoding: 'utf8' });
+  if (builtCost.status !== 0) { console.log(`selftest: FAIL could not build a page: ${builtCost.stderr}`); return 2; }
   const run = (html, extra = ['--only', 'privacy']) => {
     const f = join(tmp, 'case.html');
     writeFileSync(f, html);
@@ -280,7 +283,7 @@ function selftest() {
     'an exempt text under 3:1': [css('[data-contrast-exempt] span { color: #F0F0F0 !important; }'), ':1 at 20%'],
     'text on an image': [css('.scr .card { background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACw=) !important; }'), 'on an image'],
     'text at 11 px': [css('.scr .chip { font-size: 11px !important; }'), '11.0px'],
-    'chart text under 12 px as drawn': [css('.scr svg.cx { width: 60% !important; }'), 'as drawn'],
+    'chart text under 12 px as drawn': [readFileSync(goodCost, 'utf8').replace('</style>', '.scr svg.cx { width: 60% !important; }</style>'), 'as drawn', ['--only', 'cost', '--surfaces', 'ipad']],
     'a control too small': [css('.tbtn { width: 12px !important; height: 12px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }'), "under WCAG's 24"],
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],
