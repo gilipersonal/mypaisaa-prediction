@@ -108,3 +108,4 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 55. **A width check sweeps, it does not sample**: a bar colliding at 381 to 389 and 561 to 647 passed at 320, 360 and 390. A measure taken at three widths is a measure of three widths (MP-182 R1-f3, R1-s1).
 56. **Text is measured as drawn**: an SVG's computed font size ignores its viewBox, so 12 px read true while 11.49 px reached the screen (MP-182 R1-f4, R1-s3).
 57. **A sentence about what is kept is read against what is written to storage**: "only which view" sat beside a record holding the instrument and the horizon (MP-182 R1-f5, R1-c7, lesson 47).
+58. **A measure reads the thing itself**: a text's scale taken as a ratio of two widths read rounding as scale, so 12 px text showed as 11 on a short string. Read the transforms and zoom, then prove the check still refuses a page really scaled (MP-182).

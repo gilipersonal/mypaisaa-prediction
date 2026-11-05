@@ -150,8 +150,13 @@ const SWEEP = async () => {
       const fg = [fg0[0], fg0[1], fg0[2], fg0[3] * alpha];
       const er = el.getBoundingClientRect();
       // a device board is a real screen shown scaled to fit: its type is judged at the size the device draws it
-      // offsetWidth snaps both edges to whole pixels, so a gap of up to a pixel is that rounding and not a scale (MP-182)
-      const scale = !el.closest('.board') && el.offsetWidth && Math.abs(er.width - el.offsetWidth) > 1.01 ? er.width / el.offsetWidth : 1;
+      // the scale comes from the transforms and zoom above the text. A ratio of widths reads rounding as scale, and short text as small (MP-182)
+      let scale = 1;
+      if (!el.closest('.board')) for (let up = el; up; up = up.parentElement) {
+        const ups = getComputedStyle(up), z = parseFloat(ups.zoom);
+        if (ups.transform && ups.transform !== 'none') { const m = new DOMMatrix(ups.transform); scale *= Math.hypot(m.a, m.b); }
+        if (z && z !== 1) scale *= z;
+      }
       const size = parseFloat(cs.fontSize) * (isFinite(scale) && scale > 0 ? scale : 1);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const text = t.textContent.trim().slice(0, 40);

@@ -323,7 +323,15 @@
         "R1-c10",
         "R1-c11"
       ],
-      "next_round": "Round 2 would cover git diff 46b631b..HEAD and its direct joins, and needs its own yes."
+      "next_round": "Round 2 would cover git diff 46b631b..HEAD and its direct joins, and needs its own yes.",
+      "result": "28 findings after merging, 10 blocking, no P0, 5 P1. Every blocking finding is fixed, and each has a ledger entry.",
+      "post_fix_gates": "On a4a72e0, the pages as published: both walkers (1,152 and 1,600 combinations), both press gates and journey facts 251 of 251. After gate-only commits: walker selftest 35 faults, press selftest 44 faults, Admin and Prism runtime 8 of 8. Journeys runtime 6 of 8, failing only the Chrome desktop long frame at 56 ms, open on MP-180. Every ledger: 485 run, 0 failed.",
+      "new_gates": [
+        "design_prism_press: every width from 320 to 820 for the bar, Compare's theme and scroll, the sheet's other exits, what storage holds, two tabs",
+        "design_journeys_check and design_prism_press read chart text as drawn",
+        "design_runtime reads the 12 px floor on current pages, and its scale from transforms and zoom rather than a ratio of widths"
+      ],
+      "publication": "Prism v9, Journeys v14, Prism Admin v13 published privately, and each read back: the repo file sits byte for byte in the published page."
     }
   ]
 }
