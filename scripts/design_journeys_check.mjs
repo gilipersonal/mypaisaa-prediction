@@ -288,7 +288,7 @@ function selftest() {
     'a clipped card': [css('.scr .card { overflow: hidden; } .scr .card > * { min-width: 900px; }'), 'clips'],
     'a state that draws Ready': [page.replace("state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme()", "state: 'default', scheme: scheme()"), 'draws exactly what Ready draws'],
     'a flip that never swaps': [page.replace('swap();\n    leave.cancel();', 'leave.cancel();'), 'never swapped'],
-    'no word to assistive technology': [page.replace("$('#jlive').textContent =", "$('#jlive').title ="), 'nothing told'],
+    'no word to assistive technology': [page.replace("$('#jlive').textContent = `${to.titleFor", "$('#jlive').title = `${to.titleFor"), 'nothing told'],
     'reduced motion ignored': [page.replace(/RM\.matches \? \[\{ opacity: 1 \}/, 'false ? [{ opacity: 1 }').replace(/RM\.matches \? \[\{ opacity: 0 \}/, 'false ? [{ opacity: 0 }'), 'reduced motion still turns'],
     'a flip that cannot be pressed': [css('.flipbtn { pointer-events: none; }'), 'cannot be pressed'],
     'no way back': [page.replace("const other = ctx.option === 'a' ? 'b' : 'a';\n  return flipBtn", "if (ctx.option === 'b') return '';\n  const other = 'b';\n  return flipBtn"), 'no way back'],
