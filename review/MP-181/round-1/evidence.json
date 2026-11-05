@@ -1,0 +1,30 @@
+{
+  "lane": "evidence/reproducibility/handover accuracy",
+  "reviewed_commit": "fff5e2b6b3df0120cd0f3c9f391255d77ab88b2c",
+  "coverage": [
+    "Entire README, validation record and interactive-browser addendum; original versus follow-up claims and evidence boundaries",
+    "Runtime and repeat logs/JSON, matrix logs, static-check log, detector output, source-manifest coverage and report-check records",
+    "Meaning of design_runtime.mjs and design_journeys_check.mjs checks versus report claims, including reduced motion, true-size matrix frames, contrast thresholds, dim simulation, CPU throttle, LoAF/CLS limitations and retry disposition",
+    "Source joins for the browser evidence: Prism dialog/theme logic, owner/admin shell selectors, owner frame generation and admin comparison observer",
+    "Handover execution order, source/generated dependency guidance, acceptance checks and retained authority limits"
+  ],
+  "findings": [
+    {
+      "id": "R1-E1",
+      "severity": "P3",
+      "blocking": false,
+      "title": "Retain the visual follow-up host fixture and probe recipe for exact replay",
+      "location": "docs/design/handover/impeccable-2026-11-04/visual-follow-up-2026-11-05.md:7; evidence/visual-2026-11-05/interaction-results.json",
+      "evidence": "The temporary wrapper is described in prose and the JSON preserves outcomes, but the handover directory contains neither its exact HTML/server fixture nor the executed DOM probe expressions. The recorded interactions and unchanged source manifest support the stated findings, but a subsequent reviewer must reconstruct the host and measurements. The repository runtime and matrix wrappers also differ (for example, the runtime wrapper adds body margin and hidden-element rules), so naming the general artifact-host approach alone does not identify exact hosting bytes.",
+      "impact": "Minor repeatability limitation for reproducing geometry and focus measurements in exactly the same environment; this does not invalidate the source-supported findings or prevent Claude from acting on the handover.",
+      "recommendation": "Preserve a small loopback host fixture and probe recipe, or record their exact code plus page routes, viewport and motion settings. If the original fixture cannot be recovered, label any replacement as a new reproduction harness rather than historical evidence."
+    }
+  ],
+  "limitations": [
+    "No blocking findings found in this lane.",
+    "Read-only review of immutable supplied checkout; no browsers, servers, external writes or new exhaustive source audit.",
+    "Accepted coordinator evidence for mechanical links, hashes, PNG signatures, JSON parsing and gates rather than rerunning them.",
+    "Did not independently replay historical browser sessions or inspect all screenshot pixels; assessed evidence provenance, report claims and supporting source. Native, physical-touch and assistive-technology limits remain as stated in the report.",
+    "Original runtime failure is properly retained alongside the targeted repeat; runtime passes apply only to measured text and sampled interactions."
+  ]
+}

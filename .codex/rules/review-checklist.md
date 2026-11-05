@@ -33,3 +33,5 @@
 - Keep mutable outbox delivery state and append-only delivery attempts outside immutable financial event intents. Test that retry/failure/success preserves the sealed content and that content tampering fails verification.
 - Reconcile acquisition start, retry, frozen information cutoff and issuance deadline with positive collection/validation latency. A retry after cutoff must not backdate known-at time.
 - Separate pre-release predictive inputs, post-release inputs at a subsequent admissible origin, and retrospective descriptive event studies. Test before-open and late-after-close releases against the original cutoff.
+
+- Preserve the exact temporary prototype-host fixture and browser probe recipe alongside visual evidence, including viewport, motion and route settings. If reconstructed later, label it as a new reproduction harness rather than historical evidence (MP-181 R1-E1).

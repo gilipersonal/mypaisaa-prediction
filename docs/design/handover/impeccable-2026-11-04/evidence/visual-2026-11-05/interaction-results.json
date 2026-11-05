@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-05",
+  "baseline": "da378ef39ec783e6019c406afc58216ed775f6ff",
+  "connection": "Playwright MCP isolated context mp181-visual",
+  "dialog": {
+    "opened": {
+      "active": "sheetOpen",
+      "inDialog": false
+    },
+    "tabs": [
+      {
+        "active": "sheetClose",
+        "inDialog": true
+      },
+      {
+        "active": "sheetRecord",
+        "inDialog": true
+      },
+      {
+        "active": "sheetUndo",
+        "inDialog": false
+      },
+      {
+        "active": "",
+        "inDialog": false
+      }
+    ],
+    "afterEscape": ""
+  },
+  "selector": {
+    "active": "BODY",
+    "hash": "#home.a.web.default"
+  },
+  "flip": {
+    "before": "home|b|b-ledger",
+    "after": "home|a|a-portfolio"
+  },
+  "adminTile": {
+    "afterClick": "Admin home",
+    "afterEnter": "Admin home",
+    "afterSpace": "Admin home"
+  },
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+  "themeSwitch": {
+    "root": "dark",
+    "renderedOwnerFrames": 14,
+    "lightFramesRemaining": 14,
+    "background": "rgb(244, 246, 251)",
+    "recovery": "reload with saved dark preference"
+  },
+  "narrowViewport": {
+    "at390": {
+      "viewport": 390,
+      "documentScrollWidth": 390
+    },
+    "at320": {
+      "viewport": 320,
+      "documentScrollWidth": 329,
+      "phoneWebButtonRight": 328.7890625,
+      "headerOverlap": "visually observed"
+    }
+  },
+  "limitations": [
+    "Representative screen inspection only",
+    "No physical touch device",
+    "No VoiceOver",
+    "No 200 percent text scaling or real browser zoom check",
+    "No live Impeccable overlay"
+  ]
+}

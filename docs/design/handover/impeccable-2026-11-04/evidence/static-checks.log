@@ -1,0 +1,8 @@
+design-tokens: 77 tokens; 98 pair measurements pass; css and swift are current
+design-gates: docs/design/reviews/MP-62/hybrid-a/index.html: 242 pair measurements pass at full and 20% brightness; motion rules hold
+design-gates: docs/design/reviews/MP-62/hybrid-b/index.html: 764 pair measurements pass at full and 20% brightness; motion rules hold
+design-gates: docs/design/prism/index.html: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold
+design-gates: docs/design/journeys/index.html: the eight journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold
+design-gates: docs/design/admin/index.html: the admin journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold
+journeys: index.html is current
+admin: index.html is current

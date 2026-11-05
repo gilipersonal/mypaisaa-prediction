@@ -1,0 +1,180 @@
+[
+ {
+  "engine": "chrome",
+  "theme": "light",
+  "width": 390,
+  "texts": 1980,
+  "textsInSideScroll": 745,
+  "textsNeverShown": 933,
+  "worstText": {
+   "text": "Offline · from 21:15",
+   "el": "span.chip.offline",
+   "full": 5.51,
+   "dim": 3
+  },
+  "tapped": 12,
+  "frames": 1262,
+  "frameShare": 0.989,
+  "p95": 16.8,
+  "longestLoaf": 0,
+  "cls": 0,
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "chrome",
+  "theme": "light",
+  "width": 1440,
+  "texts": 3585,
+  "textsInSideScroll": 0,
+  "textsNeverShown": 55,
+  "worstText": {
+   "text": "Offline · from 21:15",
+   "el": "span.chip.offline",
+   "full": 5.51,
+   "dim": 3
+  },
+  "tapped": 12,
+  "frames": 1133,
+  "frameShare": 0.969,
+  "p95": 16.8,
+  "longestLoaf": 0,
+  "cls": 0,
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "chrome",
+  "theme": "dark",
+  "width": 390,
+  "texts": 1980,
+  "textsInSideScroll": 745,
+  "textsNeverShown": 933,
+  "worstText": {
+   "text": "UK ETFs",
+   "el": "div.tn",
+   "full": 4.95,
+   "dim": 3.03
+  },
+  "tapped": 12,
+  "frames": 1266,
+  "frameShare": 0.99,
+  "p95": 16.8,
+  "longestLoaf": 0,
+  "cls": 0,
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "chrome",
+  "theme": "dark",
+  "width": 1440,
+  "texts": 3585,
+  "textsInSideScroll": 0,
+  "textsNeverShown": 55,
+  "worstText": {
+   "text": "UK ETFs",
+   "el": "div.tn",
+   "full": 4.95,
+   "dim": 3.03
+  },
+  "tapped": 12,
+  "frames": 1166,
+  "frameShare": 0.96,
+  "p95": 16.8,
+  "longestLoaf": 50.69999998807907,
+  "cls": 0,
+  "issues": [
+   "a long animation frame of 51 ms (at most 50)"
+  ],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "webkit",
+  "theme": "light",
+  "width": 390,
+  "texts": 1849,
+  "textsInSideScroll": 737,
+  "textsNeverShown": 1088,
+  "worstText": {
+   "text": "Offline · from 21:15",
+   "el": "span.chip.offline",
+   "full": 5.51,
+   "dim": 3
+  },
+  "tapped": 12,
+  "frames": 1151,
+  "frameShare": 0.992,
+  "p95": 18,
+  "longestLoaf": "not measured in this engine",
+  "cls": "not measured in this engine",
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "webkit",
+  "theme": "light",
+  "width": 1440,
+  "texts": 3585,
+  "textsInSideScroll": 0,
+  "textsNeverShown": 72,
+  "worstText": {
+   "text": "Offline · from 21:15",
+   "el": "span.chip.offline",
+   "full": 5.51,
+   "dim": 3
+  },
+  "tapped": 12,
+  "frames": 1054,
+  "frameShare": 0.982,
+  "p95": 18,
+  "longestLoaf": "not measured in this engine",
+  "cls": "not measured in this engine",
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "webkit",
+  "theme": "dark",
+  "width": 390,
+  "texts": 1849,
+  "textsInSideScroll": 737,
+  "textsNeverShown": 1088,
+  "worstText": {
+   "text": "UK ETFs",
+   "el": "div.tn",
+   "full": 4.95,
+   "dim": 3.03
+  },
+  "tapped": 12,
+  "frames": 1157,
+  "frameShare": 0.971,
+  "p95": 18,
+  "longestLoaf": "not measured in this engine",
+  "cls": "not measured in this engine",
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ },
+ {
+  "engine": "webkit",
+  "theme": "dark",
+  "width": 1440,
+  "texts": 3585,
+  "textsInSideScroll": 0,
+  "textsNeverShown": 72,
+  "worstText": {
+   "text": "UK ETFs",
+   "el": "div.tn",
+   "full": 4.95,
+   "dim": 3.03
+  },
+  "tapped": 12,
+  "frames": 1073,
+  "frameShare": 0.96,
+  "p95": 19,
+  "longestLoaf": "not measured in this engine",
+  "cls": "not measured in this engine",
+  "issues": [],
+  "page": "docs/design/prism/index.html"
+ }
+]
