@@ -9,17 +9,27 @@ const SURFACES = [
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flipped: {} };
 
-/* A flip stays on this device, journey by journey, as the owner chose (4 Nov 2026, MP-178). Only which view a frame is on is kept: no
-   figure, draft or approval. With storage refused the flip still turns, for this page only (MP-182). */
+/* A flip stays on this browser, journey by journey, as the owner chose (4 Nov 2026, MP-178). The record holds which view a frame is on and
+   which view it came from, as ids. It holds no figure, instrument, horizon, draft or approval. With storage refused the flip still turns,
+   for this page only (MP-182). */
 const FLIP_KEY = 'mp178-flips';
+const flipOK = f => !!f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string') && (f.from === null || (Array.isArray(f.from) && f.from.length === 2 && f.from.every(x => typeof x === 'string')));
 function flipsLoad() {
   try {
     const v = JSON.parse(localStorage.getItem(FLIP_KEY));
     if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
-    return Object.fromEntries(Object.entries(v).filter(([, f]) => f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string')));
+    return Object.fromEntries(Object.entries(v).filter(([, f]) => flipOK(f)).map(([k, f]) => [k, { ...f, got: {}, from: f.from && [...f.from, {}] }]));
   } catch (e) { return {}; }
 }
-function flipsSave() { try { localStorage.setItem(FLIP_KEY, JSON.stringify(sum.flipped)); } catch (e) { /* the flip still turns on this page */ } }
+/* only this frame's key changes, so a second tab's flips stay */
+function flipsSave(key) {
+  try {
+    const all = flipsLoad();
+    if (sum.flipped[key]) all[key] = sum.flipped[key]; else delete all[key];
+    const ids = ({ o, s, st, landed, from }) => ({ o, s, st, landed, from: from ? from.slice(0, 2) : null });
+    localStorage.setItem(FLIP_KEY, JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, f]) => [k, ids(f)]))));
+  } catch (e) { /* the flip still turns on this page */ }
+}
 
 /* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
@@ -187,7 +197,7 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
-/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once. It goes in the next task,
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
    so the redraw's frame does not pay for a second layout (MP-182). */
 function hold(sel, i, said) {
   $('#jlive').textContent = said;
@@ -258,7 +268,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. Whether the app's choice covers a screen or a journey is an open question (see OPEN). A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -270,14 +280,14 @@ function show() {
     let [, oo, ss] = b.dataset.flip.split('|'), extra = saved;
     if (back) {
       [oo, ss] = was.from;
-      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // what JSON leaves out still clears
+      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // a record read back holds none of these, and they still clear
       ['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });   // what was pressed inside the turned frame comes home with it
     }
     const to = screenOf(oo, ss);
     if (!to) return;
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
-    flipsSave();
+    flipsSave(key);
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
       scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
@@ -304,6 +314,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
+  ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],

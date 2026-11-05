@@ -102,6 +102,9 @@ Reviewers check every lesson that touches their files. Add a lesson the day it i
 49. **A checked phrase is searched in every form**: one check for one wording let the same rule survive in five records (MP-64 R4-s5, lesson 3).
 50. **A page-level control is pressed with the frames already drawn**: a theme press read at draw time changes nothing on screen, and the walker never sees it because it loads each theme fresh (MP-182).
 51. **A written promise on a live control is pressed**: Prism's sheet spec said focus moves in and returns, and no gate pressed it (MP-182).
-52. **A count of a gate names its true floor**: the rule said 12 px, the gate allowed 11, and "all gates pass" read as the stricter rule (MP-182).
-53. **A finding's evidence is read back before it is acted on**: an audit stating that a file lacks something is checked with a search of that file, and a review of the report does not do this for you (MP-182).
+52. **A gate names its true floor, and every gate holds the same one**: the rule said 12 px, the gate allowed 11, and "all gates pass" read as the stricter rule. The floor was then raised in two gates and left in a third (MP-182 UX-10, R1-c1).
+53. **A finding's evidence is read back before it is acted on**: an audit stating that a file lacks something is checked with a search of that file, and a review of the report does not do this for you. The audit's UX-06 said Prism had no `touch-action`, and line 528 set it (MP-182).
 54. **A selftest case undoes the whole fix**: a fix held by two rules passes when one is removed, so a case that misses is a weak case until shown otherwise (MP-182).
+55. **A width check sweeps, it does not sample**: a bar colliding at 381 to 389 and 561 to 647 passed at 320, 360 and 390. A measure taken at three widths is a measure of three widths (MP-182 R1-f3, R1-s1).
+56. **Text is measured as drawn**: an SVG's computed font size ignores its viewBox, so 12 px read true while 11.49 px reached the screen (MP-182 R1-f4, R1-s3).
+57. **A sentence about what is kept is read against what is written to storage**: "only which view" sat beside a record holding the instrument and the horizon (MP-182 R1-f5, R1-c7, lesson 47).

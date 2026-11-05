@@ -153,7 +153,11 @@ const J = {
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
     /* a theme press, or the system's theme changing under Auto */
-    const repaint = () => { if (sum.retheme) sum.retheme(); };
+    const repaint = () => {
+      if (sum.retheme) sum.retheme();
+      const sch = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      $$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });
+    };
     if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
@@ -200,7 +204,7 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
-/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once. It goes in the next task,
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
    so the redraw's frame does not pay for a second layout (MP-182). */
 function hold(sel, i, said) {
   $('#jlive').textContent = said;
@@ -272,7 +276,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -413,10 +417,6 @@ function showCompare() {
   const inv = pageOnly('cmp');
   sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...(picksLoad() || {}) } };
   sum.cmp = sum.keep;
-  if (!sum.cmpWatch && typeof MutationObserver === 'function') {
-    sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
-    sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  }
   drawCompare();
   try { history.replaceState(null, '', '#compare'); } catch (e) { /* the view still shows */ }
   inv.onclick = e => {

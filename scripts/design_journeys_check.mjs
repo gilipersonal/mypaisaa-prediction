@@ -59,7 +59,8 @@ const AUDIT = () => {
       const cs = getComputedStyle(el);
       if (cs.visibility !== 'visible' || cs.display === 'none') continue;
       const svg = el.closest('svg');
-      if (parseFloat(cs.fontSize) < 11.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${cs.fontSize}`);
+      const drawn = el.closest('text'), px = parseFloat(cs.fontSize) * (drawn ? drawn.getScreenCTM().a : 1);   // a chart's viewBox scales its text
+      if (px < 11.95) out.small.push(`"${t.textContent.trim().slice(0, 24)}" ${px.toFixed(1)}px${drawn ? ' as drawn' : ''}`);
       if ((parseInt(cs.fontWeight, 10) || 400) < 400) out.small.push(`"${t.textContent.trim().slice(0, 24)}" weight ${cs.fontWeight}`);
       const exempt = !!el.closest(':disabled,[aria-disabled="true"],[data-contrast-exempt]');
       let opacity = 1, grounds = [null], image = false;
@@ -278,7 +279,8 @@ function selftest() {
     'pale text on a gradient': [css('.scr .card { background-image: linear-gradient(#FFFFFF, #EEEEEE) !important; } .scr .card p { color: #DDDDDD !important; }'), ':1 at 20%'],
     'an exempt text under 3:1': [css('[data-contrast-exempt] span { color: #F0F0F0 !important; }'), ':1 at 20%'],
     'text on an image': [css('.scr .card { background-image: url(data:image/gif;base64,R0lGODlhAQABAAAAACw=) !important; }'), 'on an image'],
-    'text at 11 px': [css('.scr .chip { font-size: 11px !important; }'), '11px'],
+    'text at 11 px': [css('.scr .chip { font-size: 11px !important; }'), '11.0px'],
+    'chart text under 12 px as drawn': [css('.scr svg.cx { width: 60% !important; }'), 'as drawn'],
     'a control too small': [css('.tbtn { width: 12px !important; height: 12px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }'), "under WCAG's 24"],
     'a short button': [css('.btn { min-height: 30px !important; height: 30px !important; padding-block: 0 !important; }'), 'under 44'],
     'a badge with no label': [page.replace(/[Dd]ecision support/g, 'decision aid'), 'no "decision support"'],

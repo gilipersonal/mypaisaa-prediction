@@ -61,9 +61,12 @@ show the same freshness, provider status and risk in every state. The figures bo
 The owner's rules, 4 November 2026 (MP-178): each journey starts in A, the choice is kept per device, each journey flips on its
 own, and there is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written.
 
-The page keeps each flip on this device (`mp178-flips` in the browser's storage), journey by journey, so a reload shows the frame as you left it. It
-keeps only which view a frame is on, never a figure, a draft or an approval. If storage is refused the flip still turns, for that page only. The review
-strip turns one frame at a time so the two views can be compared, so the rest of a journey's strip stays where it is. In the app the choice would cover the whole journey.
+The page keeps each flip in this browser (`mp178-flips`), journey by journey, so a reload shows the frame on the view you left it on. It keeps the ids of
+that view and the one it came from, and nothing else: no figure, instrument, horizon, draft or approval, so a horizon pressed inside a frame goes back to its
+default on a reload. If storage is refused the flip still turns, for that page only. The strip turns one frame at a time, and the rest of it stays where it is.
+
+Open, for the owner (MP-182, listed on the page): does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the
+frame drawn here? A flip kept in this browser shows on every drawn device. Proposed, not decided: the app's choice covers the whole journey.
 
 The page's selectors keep focus on the control pressed, and a theme press repaints the frames already drawn, without a reload. Both hold on Prism Admin too.
 `scripts/design_prism_press.mjs` presses all of this, with its `--selftest` undoing each fix on a copy.

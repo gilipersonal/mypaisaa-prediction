@@ -606,7 +606,7 @@
    "key": "MP-39",
    "summary": "Record the owner's 3 November decision round in every record",
    "type": "Story",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "README.md",
@@ -1789,7 +1789,7 @@
    "summary": "Check the designs on a real phone at 20% brightness and with assistive technology before UX approval",
    "type": "Task",
    "status": "To Do",
-   "parent": null,
+   "parent": "MP-4",
    "code": []
   },
   {
@@ -1823,7 +1823,15 @@
     "scripts/design_journeys_press.mjs",
     "docs/design/artifacts.json",
     ".claude/rules/independent-review.md",
-    "docs/planning/trace.json"
+    "docs/planning/trace.json",
+    "docs/design/prism/README.md",
+    "docs/design/admin/README.md",
+    "docs/design/journeys/src/journeys/cost.js",
+    "docs/design/journeys/src/journeys/research.js",
+    "scripts/design_runtime.mjs",
+    "tests/test_design_gates.py",
+    "review/MP-182/fixed.json",
+    "review/MP-182/state.json"
    ]
   }
  ]

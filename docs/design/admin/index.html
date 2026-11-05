@@ -268,9 +268,10 @@ html.dim20 .dimnote { display: block; }
 html.dim20 { --bar: 106px; }
 @media (min-width: 700px) { html.dim20 { --bar: 88px; } }
 html.dim20 main, html.dim20 footer { filter: url(#dim20); background: var(--ground); }
-@media (max-width: 560px) { .dim-l, .bfull, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
-/* under 380 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
-@media (max-width: 380px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
+@media (max-width: 660px) { .bfull { display: none; } }
+@media (max-width: 560px) { .dim-l, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
+/* under 400 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
+@media (max-width: 400px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
 
 /* ---------- segmented control: one lens, moved by transform ---------- */
 .segctl { --n: 3; --i: 0; position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; background: var(--surface-3); border-radius: var(--r-sm); padding: 2px; isolation: isolate; }
@@ -529,6 +530,8 @@ button.chip { border: 0; }
 .cx .xh { stroke: var(--ink-2); stroke-width: 1; opacity: 0; transition: opacity var(--mo-fast) linear; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
+/* a chart whose viewBox is wider than its slot on iPad: its labels are drawn large enough to land at 12 px or more (MP-182) */
+.cx.snug text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
 .cxtip b { font-weight: 600; }
@@ -3120,7 +3123,11 @@ const J = {
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
     /* a theme press, or the system's theme changing under Auto */
-    const repaint = () => { if (sum.retheme) sum.retheme(); };
+    const repaint = () => {
+      if (sum.retheme) sum.retheme();
+      const sch = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      $$('.acard .dev').forEach(d => { d.classList.remove('scheme-light', 'scheme-dark'); d.classList.add(`scheme-${sch}`); });
+    };
     if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', repaint);
     addEventListener('resize', fitFrames);
@@ -3167,7 +3174,7 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
-/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once. It goes in the next task,
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
    so the redraw's frame does not pay for a second layout (MP-182). */
 function hold(sel, i, said) {
   $('#jlive').textContent = said;
@@ -3239,7 +3246,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -3380,10 +3387,6 @@ function showCompare() {
   const inv = pageOnly('cmp');
   sum.keep = sum.keep || { j: sum.journeys.find(j => j.id !== 'home').id, dev: 'iphone', picks: { ...PICKS, ...(picksLoad() || {}) } };
   sum.cmp = sum.keep;
-  if (!sum.cmpWatch && typeof MutationObserver === 'function') {
-    sum.cmpWatch = new MutationObserver(() => { if (sum.cmp) drawCompare(); });
-    sum.cmpWatch.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  }
   drawCompare();
   try { history.replaceState(null, '', '#compare'); } catch (e) { /* the view still shows */ }
   inv.onclick = e => {

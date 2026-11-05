@@ -20,7 +20,7 @@ Smoothness. Only transform and opacity animate (clip-path and stroke-dashoffset 
 never says `all` (nor leaves its property out, which means all); paint-only transitions stay at or under 200 ms;
 nothing loops forever or more than six times; glass blurs at most 24 px, only on the control layer, with a reduced
 transparency fallback; a reduced motion block exists; big boards use content-visibility; no scroll handlers or
-intervals; Web Animations never move layout. Text is at least 12 px and weight 400.
+intervals; Web Animations never move layout. Text is at least 12 px and weight 400; the two historical pages in GATED keep their 11 px.
 
 Sharpness (round 3: "Take special care of the icons, and the edges, they need to be sharp"). No soft edge: no text
 shadow, no blur filter, no radial bloom, no zero-offset halo, no shadow blurred past 24 px. Icons are the shared inline
@@ -62,7 +62,7 @@ ADMIN_IDS = ("home", "files", "audit", "runs", "agents", "models", "approvals", 
 JOURNEY_IDS = ("home", "holdings", "forecast", "research", "journal", "cost", "approvals", "privacy")
 VENDOR = re.compile(r"^-(webkit|moz|ms|o)-(?=transition|animation)")
 # A size set relative to its parent cannot be read from the rule alone. Each entry names why it is safe; the rendered size
-# is measured by scripts/design_journeys_check.mjs. The pence of a big figure are half the figure.
+# is measured by scripts/design_journeys_check.mjs. The pence of a big figure are half the figure, and never under 12 px.
 RELATIVE_OK = {".amt .p", ".fig .p", ".pence"}
 PRISM = ROOT / "docs/design/prism"
 MA_INK = {"ink": ("#14171F", "#F3F5F8"), "ink-2": ("#4E5462", "#C5CCD7")}
@@ -109,7 +109,7 @@ PAINT_OK = {"color", "background-color", "border-color", "outline-color", "box-s
 EASING = {"ease", "linear", "ease-in", "ease-out", "ease-in-out", "step-start", "step-end", "allow-discrete", "normal"}
 WILL_CHANGE_OK = {"transform", "opacity", "auto", "clip-path"}
 MAX_PAINT_MS, MAX_BLUR_PX, MAX_ITERATIONS, MIN_FONT_PX, MIN_WEIGHT, MAX_SHADOW_BLUR = 200, 24, 6, 12, 400, 24
-# The historical option pages stay as they were picked, a record that is not edited, so they keep the old floor (MP-182).
+# The two pages in GATED stay as they were picked, a record that is not edited, so they keep the old floor. Every other page has 12 (MP-182).
 HISTORICAL_MIN_FONT_PX = 11
 HOSTS = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
 LAYOUT_KEYS = ("left", "top", "right", "bottom", "width", "height", "margin", "padding", "inset", "fontSize",
@@ -865,7 +865,7 @@ def check(paths: list[str]) -> int:
         elif rel == ADMIN or p == ROOT / ADMIN:
             fails, rows = check_journeys(p.read_text(), ADMIN_IDS), "admin"
         else:
-            kept, MIN_FONT_PX = MIN_FONT_PX, HISTORICAL_MIN_FONT_PX
+            kept, MIN_FONT_PX = MIN_FONT_PX, (HISTORICAL_MIN_FONT_PX if rel in GATED else MIN_FONT_PX)
             try:
                 fails, rows = check_page(p.read_text())
             finally:

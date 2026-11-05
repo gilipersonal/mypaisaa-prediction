@@ -268,9 +268,10 @@ html.dim20 .dimnote { display: block; }
 html.dim20 { --bar: 106px; }
 @media (min-width: 700px) { html.dim20 { --bar: 88px; } }
 html.dim20 main, html.dim20 footer { filter: url(#dim20); background: var(--ground); }
-@media (max-width: 560px) { .dim-l, .bfull, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
-/* under 380 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
-@media (max-width: 380px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
+@media (max-width: 660px) { .bfull { display: none; } }
+@media (max-width: 560px) { .dim-l, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
+/* under 400 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
+@media (max-width: 400px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
 
 /* ---------- segmented control: one lens, moved by transform ---------- */
 .segctl { --n: 3; --i: 0; position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; background: var(--surface-3); border-radius: var(--r-sm); padding: 2px; isolation: isolate; }
@@ -529,6 +530,8 @@ button.chip { border: 0; }
 .cx .xh { stroke: var(--ink-2); stroke-width: 1; opacity: 0; transition: opacity var(--mo-fast) linear; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
+/* a chart whose viewBox is wider than its slot on iPad: its labels are drawn large enough to land at 12 px or more (MP-182) */
+.cx.snug text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
 .cxtip b { font-weight: 600; }
@@ -1995,17 +1998,27 @@ const SURFACES = [
 ];
 const sum = { journeys: [], at: { j: 0, o: 0, s: 'iphone', st: 'default' }, flipped: {} };
 
-/* A flip stays on this device, journey by journey, as the owner chose (4 Nov 2026, MP-178). Only which view a frame is on is kept: no
-   figure, draft or approval. With storage refused the flip still turns, for this page only (MP-182). */
+/* A flip stays on this browser, journey by journey, as the owner chose (4 Nov 2026, MP-178). The record holds which view a frame is on and
+   which view it came from, as ids. It holds no figure, instrument, horizon, draft or approval. With storage refused the flip still turns,
+   for this page only (MP-182). */
 const FLIP_KEY = 'mp178-flips';
+const flipOK = f => !!f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string') && (f.from === null || (Array.isArray(f.from) && f.from.length === 2 && f.from.every(x => typeof x === 'string')));
 function flipsLoad() {
   try {
     const v = JSON.parse(localStorage.getItem(FLIP_KEY));
     if (!v || typeof v !== 'object' || Array.isArray(v)) return {};
-    return Object.fromEntries(Object.entries(v).filter(([, f]) => f && ['o', 's', 'st', 'landed'].every(k => typeof f[k] === 'string')));
+    return Object.fromEntries(Object.entries(v).filter(([, f]) => flipOK(f)).map(([k, f]) => [k, { ...f, got: {}, from: f.from && [...f.from, {}] }]));
   } catch (e) { return {}; }
 }
-function flipsSave() { try { localStorage.setItem(FLIP_KEY, JSON.stringify(sum.flipped)); } catch (e) { /* the flip still turns on this page */ } }
+/* only this frame's key changes, so a second tab's flips stay */
+function flipsSave(key) {
+  try {
+    const all = flipsLoad();
+    if (sum.flipped[key]) all[key] = sum.flipped[key]; else delete all[key];
+    const ids = ({ o, s, st, landed, from }) => ({ o, s, st, landed, from: from ? from.slice(0, 2) : null });
+    localStorage.setItem(FLIP_KEY, JSON.stringify(Object.fromEntries(Object.entries(all).map(([k, f]) => [k, ids(f)]))));
+  } catch (e) { /* the flip still turns on this page */ }
+}
 
 /* ---------- the flip: both options kept on all eight journeys (the owner, 4 Nov 2026, MP-178). A flip is per journey. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
@@ -2173,7 +2186,7 @@ function fitFrames() {
     if (z < 1) d.style.zoom = Math.max(.7, z).toFixed(3);
   });
 }
-/* A selector redraws itself when pressed, so focus goes back to the control pressed and the change is said once. It goes in the next task,
+/* A selector redraws itself when pressed, so focus goes back to the control pressed and the live region says the change. Focus goes in the next task,
    so the redraw's frame does not pay for a second layout (MP-182). */
 function hold(sel, i, said) {
   $('#jlive').textContent = said;
@@ -2244,7 +2257,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame, as the app would. A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. Whether the app's choice covers a screen or a journey is an open question (see OPEN). A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -2256,14 +2269,14 @@ function show() {
     let [, oo, ss] = b.dataset.flip.split('|'), extra = saved;
     if (back) {
       [oo, ss] = was.from;
-      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // what JSON leaves out still clears
+      extra = { hz: undefined, mode: undefined, t: undefined, ...was.from[2] };   // a record read back holds none of these, and they still clear
       ['hz', 'mode'].forEach(k => { if (saved[k] !== was.got[k]) extra[k] = saved[k]; });   // what was pressed inside the turned frame comes home with it
     }
     const to = screenOf(oo, ss);
     if (!to) return;
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
-    flipsSave();
+    flipsSave(key);
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
       scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
@@ -2290,6 +2303,7 @@ function show() {
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
 const OPEN = [
+  ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],
@@ -4515,7 +4529,7 @@ J.add({
     });
   };
   const askAbout = ctx => (ctx.state === 'disagreement' ? subject(ctx) : N);
-  const askRail = ctx => `${ctx.state === 'disagreement' ? stanceFor(ctx) : box(fcard(N, { w: 340, h: 168, seed: 23 }))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
+  const askRail = ctx => `${ctx.state === 'disagreement' ? stanceFor(ctx) : box(fcard(N, { w: 340, h: 168, seed: 23 }).replace('<svg class="cx', '<svg class="cx snug'))}${box(`${lbl('What Claude may read')}<p class="small muted" style="margin-top:4px">Forecasts, prices with their freshness, holdings, rankings and stored event analyses. Read-only. A stored analysis is quoted, not redone.</p>`)}`;
 
   /* ---------- a figure's source (MP-81): citation, hash, times and rights, always read as untrusted data ---------- */
   const soft = 'box-shadow:inset 0 0 0 1px var(--hairline)';
@@ -5321,7 +5335,7 @@ J.add({
     const last = pts[pts.length - 1], loTo = m.lo ?? (s === 'noModel' ? 46.48 : 54.73), hiTo = m.hi ?? m.to, medTo = m.lo === undefined ? loTo : m.to;
     const fan = s === 'abstention' ? '' : `<path class="b80" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(hiTo).toFixed(1)}L${X(30).toFixed(1)} ${Y(loTo).toFixed(1)}Z"/><path class="med" d="M${X(last[0]).toFixed(1)} ${Y(last[1]).toFixed(1)}L${X(30).toFixed(1)} ${Y(medTo).toFixed(1)}"/>`;
     const lines = [[60, '£60 Warn'], [75, '£75 Reduce'], [85, '£85 Pause'], [100, '£100 Ceiling']];
-    return `<svg class="cx" viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Spend by day this month: ${m.so} pounds on day ${last[0]}, heading ${m.fc} by day 30, against lines at £60, £75, £85 and £100. Illustrative.">
+    return `<svg class="cx snug" viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Spend by day this month: ${m.so} pounds on day ${last[0]}, heading ${m.fc} by day 30, against lines at £60, £75, £85 and £100. Illustrative.">
       ${lines.map(([y, t]) => `<line class="${y === 100 ? 'zero' : 'grid'}" x1="${ml}" x2="${W - mr}" y1="${Y(y)}" y2="${Y(y)}"/><text class="lbl" x="${W - mr + 4}" y="${Y(y) + 4}">${t}</text>`).join('')}
       <line class="zero" x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}"/>
       <g data-mo="draw">${fan}<line class="now" x1="${X(last[0])}" x2="${X(last[0])}" y1="${mt}" y2="${Ht - mb}"/>

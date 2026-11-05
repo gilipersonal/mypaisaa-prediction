@@ -1,0 +1,329 @@
+{
+  "issue": "MP-182",
+  "deliverable": "The fixes to the prototype defects the Impeccable audit confirmed on Prism, Journeys and Prism Admin, with the gates that hold them",
+  "round_count": 1,
+  "status": "round 1 fixed; round 2 needs its own yes",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_commit": "46b631b185b63da31ced3de4c145a51b1e607153",
+      "review_approval": "Owner, 5 Nov 2026: \"Review round 1 first\", answering whether to review MP-182 first or raise, merge and close it now.",
+      "scope": "The whole deliverable, git diff origin/main..46b631b, with its direct joins",
+      "lanes": {
+        "f": "frames and pages, merged from the page files",
+        "s": "scripts and gates",
+        "c": "rules and records"
+      },
+      "brief": "review/MP-182/round-1-brief.md",
+      "gate_results": [
+        "review_checks --base origin/main --run on 46b631b: all selected pass",
+        "review_regress --every: 475 run, 0 failed, 2 retired, 0 manual",
+        "review_regress MP-182 --approved: no ledger yet, no checks ran",
+        "Rendered gates on 47acb93, pages byte-identical to 46b631b: both walkers, both press gates and their selftests, Admin and Prism runtime pass"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design_runtime on Journeys",
+          "why": "Fails on Chrome desktop, a long frame of 56 to 57 ms against 50. The fault is on main too and open on MP-180. The owner chose this review knowing it."
+        },
+        {
+          "gate": "site build",
+          "why": "The worktree has no node_modules. This branch does not touch site/."
+        },
+        {
+          "gate": "workflow-lint, synthetic-imports",
+          "why": "actionlint and pdftoppm are not installed here."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R1-f1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/shell.js:416",
+          "evidence": "On Compare under Auto the system going dark left 12 of 12 cards light. Reproduced by the strengthened gate on 46b631b.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/admin/src/shell.js:417",
+          "evidence": "A theme press rebuilt Compare: row scroll 200,200 to 0,0. Reproduced on 46b631b.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "f,s",
+          "anchor": "docs/design/prism/index.html:270",
+          "evidence": "The name ran into the switch at 381 to 389 and about 561 to 647 px, on Prism, Journeys and Admin in the upper band. Merged with R1-s1. Reproduced by a sweep on 46b631b.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f4",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "f,s",
+          "anchor": "docs/design/journeys/src/journeys/cost.js:295",
+          "evidence": "Labels drew at 11.49 and 11.70 px on iPad: 60 in the default state, 455 across states. Merged with R1-s3. Reproduced on 46b631b.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s2",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:291",
+          "evidence": "Six mutations of the fixes passed their own check.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "f,c",
+          "anchor": "docs/design/journeys/src/shell.js:279",
+          "evidence": "The record held got.t and got.hz, unread on draw, while the README said only the view was kept. Merged with R1-c7.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/prism/index.html:2044",
+          "evidence": "With the trigger at the bottom of the window the sheet opened with its first button at 1050 of 1000. Reproduced on 46b631b.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c1",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "scripts/design_runtime.mjs:249",
+          "evidence": "The runtime gate still read `t.size < 10.95`.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "docs/planning/trace.json:2",
+          "evidence": "MP-180's parent and MP-39's status disagreed with Jira under a new as_of.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "docs/design/journeys/README.md:66",
+          "evidence": "README and shell comment stated opposite behaviour. Now an open question to the owner on the page and in the README, with the app-level sentence marked proposed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f7",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:22",
+          "evidence": "A second tab wiped the first tab's flips. Fixed with R1-f5, since it was the same function.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s4",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:258",
+          "evidence": "Any clipping ancestor excused a spill. Every bar and selector control is now checked inside the viewport.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s5",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:71",
+          "evidence": "The theme check read only data-at and scrollY. It now reads frame and row scroll and the frame's dataset.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s6",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s,c",
+          "anchor": "scripts/design_gates.py:868",
+          "evidence": "The old floor applied to every other page. It now applies only to the two pages in GATED, with a unit test. Merged with R1-c4.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-s7",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/review_checks.py:101",
+          "evidence": "CI has no browser, so nothing presses these fixes there, and design-walk is deferred by default.",
+          "status": "open"
+        },
+        {
+          "id": "R1-s8",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "docs/design/prism/index.html:267",
+          "evidence": "With the 20% preview on, the taller bar covers the journey strip at narrow widths.",
+          "status": "open"
+        },
+        {
+          "id": "R1-f8",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:281",
+          "evidence": "A selector pressed during a turn can be overwritten in #jlive by the turn's own announcement.",
+          "status": "open"
+        },
+        {
+          "id": "R1-f9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:18",
+          "evidence": "flipsLoad did not validate from. Fixed with R1-f5.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-f10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:190",
+          "evidence": ".jhead is aria-live and changes on a device press, so a change may be said more than once. VoiceOver not run. The comment no longer says once.",
+          "status": "open"
+        },
+        {
+          "id": "R1-f11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/prism/index.html:2056",
+          "evidence": "A quick second Enter on Record lands on Undo and undoes it.",
+          "status": "open"
+        },
+        {
+          "id": "R1-f12",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:216",
+          "evidence": "Two owner questions: what 'per device' means for a drawn frame, and whether Prism's gallery may shrink at 400 px and under.",
+          "status": "owner"
+        },
+        {
+          "id": "R1-s9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:143",
+          "evidence": "Checks that could not fail. Fixed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c5",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "docs/design/prism/index.html:1949",
+          "evidence": "The spec named less than the code holds. Fixed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c6",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": ".claude/rules/independent-review.md:105",
+          "evidence": "Lessons 52 and 53 named no source. Fixed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c8",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "Jira MP-180",
+          "evidence": "MP-180 records 51 to 53 ms. Current figures added by comment.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "Jira MP-182",
+          "evidence": "No issue link to MP-181.",
+          "status": "open"
+        },
+        {
+          "id": "R1-c10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "docs/design/prism/README.md:26",
+          "evidence": "The gate was named only in one README. Fixed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R1-c11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "docs/planning/trace.json:1796",
+          "evidence": "MP-181's no_code goes false when PR #32 merges, and no gate notices.",
+          "status": "open"
+        }
+      ],
+      "blocking": 10,
+      "blocking_findings": [
+        "R1-f1",
+        "R1-f2",
+        "R1-f3",
+        "R1-f4",
+        "R1-s2",
+        "R1-f5",
+        "R1-f6",
+        "R1-c1",
+        "R1-c2",
+        "R1-c3"
+      ],
+      "nonblocking_findings": [
+        "R1-f7",
+        "R1-s4",
+        "R1-s5",
+        "R1-s6",
+        "R1-s7",
+        "R1-s8",
+        "R1-f8",
+        "R1-f9",
+        "R1-f10",
+        "R1-f11",
+        "R1-f12",
+        "R1-s9",
+        "R1-c5",
+        "R1-c6",
+        "R1-c8",
+        "R1-c9",
+        "R1-c10",
+        "R1-c11"
+      ],
+      "next_round": "Round 2 would cover git diff 46b631b..HEAD and its direct joins, and needs its own yes."
+    }
+  ]
+}

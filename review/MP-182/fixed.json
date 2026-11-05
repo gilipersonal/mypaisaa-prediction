@@ -1,0 +1,108 @@
+[
+ {
+  "id": "R1-f1",
+  "finding": "Compare's cards stayed light when the system theme changed under Auto.",
+  "check": {
+   "type": "file",
+   "file": "docs/design/admin/src/shell.js",
+   "pattern": "\\$\\$\\('\\.acard \\.dev'\\)\\.forEach",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-f2",
+  "finding": "A theme press on Compare redrew it and lost the rows' scroll.",
+  "check": {
+   "type": "file",
+   "file": "docs/design/admin/src/shell.js",
+   "pattern": "cmpWatch",
+   "present": false
+  }
+ },
+ {
+  "id": "R1-f3",
+  "finding": "The page bar's name ran into the 20% switch at 381 to 389 and about 561 to 647 px (with R1-s1).",
+  "check": {
+   "type": "file",
+   "file": "docs/design/prism/index.html",
+   "pattern": "@media \\(max-width: 660px\\) \\{ \\.bfull \\{ display: none; \\} \\}",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-f4",
+  "finding": "Chart labels drew under 12 px on iPad once the viewBox scaling counted (with R1-s3).",
+  "check": {
+   "type": "file",
+   "file": "docs/design/prism/index.html",
+   "pattern": "\\.cx\\.snug text \\{ font-size: 12\\.6px; \\}",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-f5",
+  "finding": "The flip record kept an instrument and a horizon, and the README said only the view was kept (with R1-c7).",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "const ids = \\(\\{ o, s, st, landed, from \\}\\)",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-f6",
+  "finding": "The sheet could open off screen with focus on a control nobody could see.",
+  "check": {
+   "type": "file",
+   "file": "docs/design/prism/index.html",
+   "pattern": "if \\(v\\) st\\.scrollIntoView\\(\\{ block: 'nearest' \\}\\);",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-s2",
+  "finding": "Parts of the fixes passed with the fix undone: Not now, the toast after Undo, Admin's system theme, the pressed look.",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_prism_press.mjs",
+   "pattern": "Undo leaves the toast live",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-c1",
+  "finding": "design_runtime still enforced an 11 px floor on the current pages.",
+  "check": {
+   "type": "file",
+   "file": "scripts/design_runtime.mjs",
+   "pattern": "const sizeFloor = ",
+   "present": true
+  }
+ },
+ {
+  "id": "R1-c2",
+  "finding": "The trace moved as_of to 5 November while MP-180's parent and MP-39's status disagreed with Jira.",
+  "check": {
+   "type": "command",
+   "argv": [
+    "python3",
+    "-c",
+    "import json;r={x['key']:x for x in json.load(open('docs/planning/trace.json'))['issues']};raise SystemExit(0 if r['MP-180']['parent']=='MP-4' and r['MP-39']['status']=='Done' else 1)"
+   ],
+   "timeout_seconds": 20,
+   "expected_exit_codes": [
+    0
+   ]
+  }
+ },
+ {
+  "id": "R1-c3",
+  "finding": "The README and the shell said opposite things about what a flip covers. The question is now open on the page and neither record answers it.",
+  "check": {
+   "type": "file",
+   "file": "docs/design/journeys/src/shell.js",
+   "pattern": "as the app would",
+   "present": false
+  }
+ }
+]

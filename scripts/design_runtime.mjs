@@ -9,7 +9,7 @@
 // what a viewer would get:
 //   - contrast: every visible text's real colour on its real ground (backgrounds composited up the tree, gradient
 //     stops taken at their worst, ancestors' opacity applied), at full brightness and at 20%, against the text tier
-//     (7:1 and 3.5:1; Prism, on the owner's MA ink, 4.5:1 and 3:1); text smaller than 11 px or lighter than 400; text on an image it cannot measure;
+//     (7:1 and 3.5:1; Prism, on the owner's MA ink, 4.5:1 and 3:1); text smaller than 12 px (11 on the historical option pages) or lighter than 400; text on an image it cannot measure;
 //   - motion: every running animation's animated properties (transform, opacity, clip-path, stroke-dashoffset,
 //     visibility; short paint-only transitions), through the arrivals, a scroll of the whole page, every tab and
 //     segment in reach and a theme switch;
@@ -236,6 +236,7 @@ async function measurePage(pw, engine, file, theme, width) {
     const over = await page.evaluate(() => document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth);
     if (over > 0) issues.push(`the page scrolls sideways by ${over} px`);
     const floor = /docs\/design\/(prism|journeys|admin)\//.test(file) ? [4.5, 3] : [7, 3.5];   // the owner chose MA's ink for Prism (brief-r4.md)
+    const sizeFloor = /docs\/design\/reviews\//.test(file) ? 10.95 : 11.95;   // the historical option pages stay as picked (MP-182)
     const sweep = await page.evaluate(SWEEP);
     const texts = sweep.results;
     res.texts = texts.length;
@@ -246,7 +247,7 @@ async function measurePage(pw, engine, file, theme, width) {
       if (t.unmeasured) { if (!t.exempt) issues.push(`unmeasured text "${t.text}" (${t.el}): ${t.unmeasured}`); continue; }
       if (t.exempt) { if (t.full < 3) issues.push(`exempt text "${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1, under 3:1 even at full brightness`); continue; }
       if (t.full < floor[0] || t.dim < floor[1]) issues.push(`"${t.text}" (${t.el}) is ${t.full.toFixed(2)}:1 full, ${t.dim.toFixed(2)}:1 at 20% (needs ${floor[0]} and ${floor[1]})`);
-      if (t.size < 10.95) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least 11)`);
+      if (t.size < sizeFloor) issues.push(`"${t.text}" (${t.el}) renders at ${t.size.toFixed(1)} px (at least ${Math.round(sizeFloor)})`);
       if (t.weight < 400) issues.push(`"${t.text}" (${t.el}) has weight ${t.weight} (at least 400)`);
       if (!worst || t.dim < worst.dim) worst = t;
     }

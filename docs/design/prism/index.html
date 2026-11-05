@@ -267,9 +267,10 @@ html.dim20 .dimnote { display: block; }
 html.dim20 { --bar: 106px; }
 @media (min-width: 700px) { html.dim20 { --bar: 88px; } }
 html.dim20 main, html.dim20 footer { filter: url(#dim20); background: var(--ground); }
-@media (max-width: 560px) { .dim-l, .bfull, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
-/* under 380 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
-@media (max-width: 380px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
+@media (max-width: 660px) { .bfull { display: none; } }
+@media (max-width: 560px) { .dim-l, .th-l { display: none; } .dim-s, .th-s { display: inline; } .pbar .segctl button { padding: 0 8px; } }
+/* under 400 the bar holds the mark, the switch and the theme: the page's name stays for a screen reader (MP-182) */
+@media (max-width: 400px) { .brand > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } .segctl.lg:not(.scr .segctl) button { padding: 0 8px; font-size: 13px; } }
 
 /* ---------- segmented control: one lens, moved by transform ---------- */
 .segctl { --n: 3; --i: 0; position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; background: var(--surface-3); border-radius: var(--r-sm); padding: 2px; isolation: isolate; }
@@ -528,6 +529,8 @@ button.chip { border: 0; }
 .cx .xh { stroke: var(--ink-2); stroke-width: 1; opacity: 0; transition: opacity var(--mo-fast) linear; }
 .cx.hov .xh { opacity: 1; }
 .cx.inter { cursor: crosshair; touch-action: pan-y; }
+/* a chart whose viewBox is wider than its slot on iPad: its labels are drawn large enough to land at 12 px or more (MP-182) */
+.cx.snug text { font-size: 12.6px; }
 .cxslot { position: relative; margin-top: 10px; min-height: 180px; }
 .cxtip { position: absolute; left: 0; top: 0; pointer-events: none; padding: 8px 10px; border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-2); font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink); white-space: nowrap; z-index: 5; }
 .cxtip b { font-weight: 600; }
@@ -1946,7 +1949,7 @@ const CMP = [
       <div class="card" style="margin-top:12px;padding:12px 14px;display:flex;gap:10px;align-items:center">${logo('--seg-ustech', 'N')}<div style="flex:1;min-width:0"><div style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">NVIDIA · Trim</div><div class="small muted">6 months · median +9.1% · 80% range −18.5% to +34.0% · illustrative</div></div></div>
       <p class="small" style="margin-top:10px;color:var(--ink)">This saves your decision and reasons to your journal, so the outcome can be scored later. MyPrediction places no trades.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><button class="btn sm btn-tinted" type="button">Not now</button><button class="btn sm btn-primary" type="button">Record decision</button></div></div></div>`,
-    anatomy: 'Grabber, title, close, solid card, note, two buttons.', states: 'Open, saving, saved, offline.', sizes: 'Medium and large detents. Radius 30.', a11y: 'Focus moves in and returns. Escape, the scrim and Not now all close it.', do: 'Put the action last, under the thumb.', dont: 'Imply that anything was traded.', web: '<DecisionSheet action>', swift: '.sheet { }.presentationDetents([.medium])' },
+    anatomy: 'Grabber, title, close, solid card, note, two buttons.', states: 'Open, saving, saved, offline.', sizes: 'Medium and large detents. Radius 30.', a11y: 'Focus moves in, Tab stays in, the page behind goes inert, and focus returns. Escape, the scrim and Not now all close it. Record lands on Undo.', do: 'Put the action last, under the thumb.', dont: 'Imply that anything was traded.', web: '<DecisionSheet action>', swift: '.sheet { }.presentationDetents([.medium])' },
   { id: 'toast', split: true, dw: '460px', name: 'Toast', status: OWNER, lede: 'A quiet word after an action. It never takes focus, and it leaves after 4 seconds unless it holds an action.',
     demo: () => `<div data-mo-frame="wait" style="display:grid;gap:12px"><div class="matdemo" style="min-height:0" data-mo="card"><div class="dfield" aria-hidden="true"></div><div class="toast glass" role="status"><span class="ok">${ic('check', 's14')}</span>Decision recorded in your journal<button class="btn sm btn-plain" type="button">Undo</button></div><div class="toast glass" role="status"><span class="ok no">${ic('x', 's14')}</span>Couldn't save. You're offline; we'll retry.<button class="btn sm btn-plain" type="button">Retry</button></div></div></div>`,
     anatomy: 'Mark, message, one optional action.', states: 'Success, failure with a way on.', sizes: '44 at least, full width on a phone.', a11y: 'A polite live region. Never takes focus.', do: 'Offer Undo after a record.', dont: 'Say anything was bought or sold.', web: '<Toast kind action>', swift: 'AccessibilityNotification.Announcement' },
@@ -2041,7 +2044,8 @@ function renderPatterns() {
     sheet.inert = !v;
     if (v) { st.classList.remove('saved'); toast.inert = true; }
     quiet(v);
-    (to || (v ? $('#sheetClose') : trigger)).focus({ preventScroll: true });
+    if (v) st.scrollIntoView({ block: 'nearest' });
+    (to || (v ? $('#sheetClose') : trigger)).focus({ preventScroll: v || !!to });   // the way back finds the trigger, wherever the page was moved to
   };
   sheet.inert = toast.inert = true;
   sheet.addEventListener('keydown', e => {
