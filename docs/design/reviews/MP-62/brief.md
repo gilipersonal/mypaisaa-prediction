@@ -76,7 +76,7 @@ that follows the system by default:
 
 ## Shared illustrative figures (use these exactly, so the options compare)
 
-Portfolio value £84,612.40, up £1,236.18 (1.48%) today; as of 21:15 London, data cutoff 21:00, provider Twelve Data
+Portfolio value £90,155.25, holdings £84,612.40 plus cash £5,542.85, up £1,236.18 (1.39%) today; as of 21:15 London, data cutoff 21:00, provider Twelve Data
 (fresh), Yahoo (fresh, UK and India intraday).
 
 | Holding | Venue | Value (GBP) | Today | 6-month forecast, median (80% range) | Action (decision support) |

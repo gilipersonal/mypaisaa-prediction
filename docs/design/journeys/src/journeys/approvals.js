@@ -127,7 +127,7 @@
   const modelHead = (chip = expiry('Expires Fri 18:00') + CT2) => headCard(lead('cube'), 'Promote R2-HGB v4', `3, 6 and 12 months · ${SCOPE}`, chip);
   const evidence = (o = {}) => box(`<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">${lbl('Shadow trial')}<span class="small muted">${o.count || '8 of 8 scored weeks'}</span></div>${trial(o)}<p class="small muted" style="margin-top:8px">${o.text || 'The week of 12 Oct could not be scored after a data outage, so the count paused. No forecast from this trial reached you.'}</p>`);
   const scoreTable = (o = {}) => box(`${lbl('Against both comparators · Brier score, lower is better')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Walk-forward</th><th class="r">v4</th><th class="r">Rules</th><th class="r">Base rate</th></tr></thead><tbody><tr><td>3, 6, 12 months</td><td class="r"><b>${o.v4 || '0.188'}</b></td><td class="r">0.197</td><td class="r">0.203</td></tr></tbody></table></div><div style="margin-top:8px">${proposed('SCI-D03')}</div><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv([['Clean running', '8 of 8 scored weeks'], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']])}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
-  const MODEL_ROWS = [['Active model', 'v3', 'v4'], ['Calibrator', 'c7', 'c8'], ['Width of the portfolio\'s 80% range', '24.7 pts', '23.5 pts', '1.2 points narrower.'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v3 by itself', 'On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it.']];
+  const MODEL_ROWS = [['Active model', 'v3', 'v4'], ['Calibrator', 'c7', 'c8'], ['Width of the portfolio\'s 80% range', '23.2 pts', '22.1 pts', '1.1 points narrower.'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v3 by itself', 'On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it.']];
   const PREV_PAUSED = 'R2-HGB v3, where eligible';
   const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
@@ -350,14 +350,14 @@
   const closed = () => sec('Cannot be approved') + list(item(lead('clock', 'warn'), 'Watch Barclays', 'BARC · XLON · expired 08:14', bs('Run again'), Q9) + item(lead('ban', 'fall'), 'Let the chat route add listings', 'Would widen authority, so code refused it', status.blocked));
   /* the inbox (MP-162): by time detected, with read state synced across devices, and each entry opens its evidence */
   const NOTICE = [
-    ['alert', 'warn', 'US tech is 31.0% of the portfolio', 'Material risk · detected Tue 22:15', 'Unread'],
+    ['alert', 'warn', 'US tech is 29.1% of the portfolio', 'Material risk · detected Tue 22:15', 'Unread'],
     ['clock', '', 'HSBC price is late', 'Last price 14:10 · detected Tue 16:50', 'Dismissed'],
     ['refresh', '', 'R1-LGB v2 reverted by itself', 'India midcap, 3 months · detected Mon 22:20', 'Read']
   ];
   const nBtn = (t, off) => (off ? `<button class="btn sm btn-tinted" type="button" disabled>${t}</button>` : bs(t));
   const noticeRow = (n, ctx, o) => {
     const off = ctx.state === 'offline', st = o.read && n[4] === 'Unread' ? 'Read' : n[4];
-    return item(lead(n[0], n[1]), ctx.state === 'stale' ? n[2].replace('is late', 'is stale').replace('31.0% of the portfolio', '33.4% of the known total') : n[2], n[3], `<span class="chip${st === 'Unread' ? ' fresh' : ''}">${st === 'Unread' ? '<span class="dot"></span>' : ''}${st}</span>`, `<span style="display:flex;gap:6px;flex-wrap:wrap">${nBtn('See the evidence', off)}${st === 'Dismissed' ? '' : nBtn('Dismiss', off)}</span>`);
+    return item(lead(n[0], n[1]), ctx.state === 'stale' ? n[2].replace('is late', 'is stale').replace('29.1% of the portfolio', '31.2% of the known total') : n[2], n[3], `<span class="chip${st === 'Unread' ? ' fresh' : ''}">${st === 'Unread' ? '<span class="dot"></span>' : ''}${st}</span>`, `<span style="display:flex;gap:6px;flex-wrap:wrap">${nBtn('See the evidence', off)}${st === 'Dismissed' ? '' : nBtn('Dismiss', off)}</span>`);
   };
   /* a paused scope notifies the owner (MP-159), and every intent appears here (MP-162) */
   const PAUSED = ['pause', 'warn', 'US tech, 12 months paused', 'Previous model not eligible · detected Tue 21:20', 'Unread'];
@@ -380,7 +380,7 @@
   const OVERLAP = ['Two proposals overlap.', 'The promotion binds the 5-point band and the settings change moves it to 4, so approving one sends the other back to its check.'];
   const UNCHECKED = ['One proposal is not yet checked.', 'Code could not finish the check on Barclays, so it cannot be confirmed yet.'];
   const PAUSE_TEXT = 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes. Prices and holdings still work.';
-  const STALE_TEXT = `Each proposal rechecks itself before you can approve it. HSBC is past the freshness limit, so it leaves the total until its price returns: £78,508.20 known, 6 of 7 priced. ${LATE}`;
+  const STALE_TEXT = `Each proposal rechecks itself before you can approve it. HSBC is past the freshness limit, so it leaves the total until its price returns: £84,051.05 known, 6 of 7 priced. ${LATE}`;
   /* the paused scope sits outside the count of dated decisions, in Ready as in No model */
   const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true));
   const inboxBody = ctx => region(ctx, {
@@ -409,7 +409,7 @@
   const vc = ctx => {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
     if (ctx.state === 'error') return v.replace('As of 21:15 London · data cutoff 21:00', 'Last good run Mon 21:15 · cutoff 21:00');
-    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('84,612.40', size), money('78,508.20', size)).replace(/<div class="d">[\s\S]*?<\/div>/, '<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span></div>').replace(/53\.4/g, '57.6').replace(/28\.5/g, '30.7').replace(/18\.1/g, '11.7');
+    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, '<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span></div>').replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
     return v;
   };
   const homeBody = ctx => region(ctx, {

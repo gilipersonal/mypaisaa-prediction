@@ -8,11 +8,11 @@ const amount = (t) => t.replace(/£([\d,]+) £\1 \.(\d\d)/g, '£$1.$2');
 
 // figures each side of a flip must both show, or both not show
 const AGREED = {
-  home: [/£84,612/, /£78,508/, /6 of 7 priced/, /7 of 7 priced/],
-  holdings: [/£84,612/, /£78,508/, /6 of 7 priced/],
+  home: [/£90,155/, /£84,051/, /£84,612/, /£78,508/, /6 of 7 priced/, /7 of 7 priced/],
+  holdings: [/£90,155/, /£84,051/, /£84,612/, /£78,508/, /6 of 7 priced/],
   journal: [/You differed \d+/i],
   cost: [/£46\b/, /£39\b/, /£100/],
-  approvals: [/£78,508/],
+  approvals: [/£84,051/],
   research: [/31\.0%/, /33\.4%/, /−18\.5%/, /79% of 52/],
 };
 

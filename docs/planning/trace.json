@@ -1796,10 +1796,12 @@
    "key": "MP-181",
    "summary": "Impeccable UX audit and Claude handover for Prism designs",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": null,
-   "code": [],
-   "no_code": "Its files are on its own branch, MP-181-impeccable-ux-handover, in an open PR, so none is on this branch yet."
+   "code": [
+    "docs/design/handover/impeccable-2026-11-04/",
+    "review/MP-181/"
+   ]
   },
   {
    "key": "MP-182",
@@ -1845,7 +1847,7 @@
    "key": "MP-184",
    "summary": "Put every open UX question to the owner with options before UX approval",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/planning/owner-question-pack-2026-11-05/",
@@ -1861,9 +1863,26 @@
    "key": "MP-185",
    "summary": "Put cash in the portfolio total across every journey",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/admin/index.html",
+    "docs/design/admin/src/journeys/models.js",
+    "docs/design/question-pack/index.html",
+    "docs/design/reviews/MP-62/brief.md",
+    "docs/design/reviews/MP-62/shared/",
+    "docs/design/artifacts.json",
+    "docs/planning/retired-facts.json",
+    "docs/planning/trace.json",
+    "tests/journey_facts/",
+    "scripts/design_gates.py",
+    "scripts/question_pack.py",
+    ".claude/rules/independent-review.md"
+   ]
   },
   {
    "key": "MP-186",
@@ -1916,6 +1935,14 @@
   {
    "key": "MP-192",
    "summary": "Bring labels, stories and specifications into line with the owner's picks",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-193",
+   "summary": "Settle the audit's dead controls and combined states before UX approval",
    "type": "Task",
    "status": "To Do",
    "parent": "MP-4",

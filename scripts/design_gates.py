@@ -111,6 +111,8 @@ WILL_CHANGE_OK = {"transform", "opacity", "auto", "clip-path"}
 MAX_PAINT_MS, MAX_BLUR_PX, MAX_ITERATIONS, MIN_FONT_PX, MIN_WEIGHT, MAX_SHADOW_BLUR = 200, 24, 6, 12, 400, 24
 # The two pages in GATED stay as they were picked, a record that is not edited, so they keep the old floor. Every other page has 12 (MP-182).
 HISTORICAL_MIN_FONT_PX = 11
+# They also keep the Claude component they were picked with, while Prism's moves with the shared figures (MP-185).
+CLAUDE_FILE = "claude.html"
 HOSTS = ("https://fonts.googleapis.com", "https://fonts.gstatic.com")
 LAYOUT_KEYS = ("left", "top", "right", "bottom", "width", "height", "margin", "padding", "inset", "fontSize",
                "backgroundPosition", "filter", "backdropFilter", "boxShadow", "flexBasis")
@@ -654,7 +656,7 @@ def icons_and_claude(html: str, css: str) -> list[str]:
         if g in html:
             fails.append(f"the Unicode glyph {g} stands in for an icon; use the sprite")
     try:
-        want_sprite, want_claude = (SHARED / "icons.svg").read_text(), (SHARED / "claude.html").read_text()
+        want_sprite, want_claude = (SHARED / "icons.svg").read_text(), (SHARED / CLAUDE_FILE).read_text()
     except OSError as e:
         return fails + [f"a shared file cannot be read ({e})"]
     have = sprite_of(html)
@@ -847,7 +849,7 @@ def check_page(html: str) -> tuple[list[str], list[tuple]]:
 
 
 def check(paths: list[str]) -> int:
-    global MIN_FONT_PX
+    global MIN_FONT_PX, CLAUDE_FILE
     targets = paths or [*GATED, PICKED, JOURNEYS, ADMIN]
     extra = [str(p.relative_to(ROOT)) for p in (ROOT / "docs/design").rglob("*.html")
              if 'id="mp-design-gates"' in p.read_text(errors="ignore")] if not paths else []
@@ -865,11 +867,14 @@ def check(paths: list[str]) -> int:
         elif rel == ADMIN or p == ROOT / ADMIN:
             fails, rows = check_journeys(p.read_text(), ADMIN_IDS), "admin"
         else:
-            kept, MIN_FONT_PX = MIN_FONT_PX, (HISTORICAL_MIN_FONT_PX if p.resolve() in [(ROOT / g).resolve() for g in GATED] else MIN_FONT_PX)
+            frozen = p.resolve() in [(ROOT / g).resolve() for g in GATED]
+            kept, kept_claude = MIN_FONT_PX, CLAUDE_FILE
+            if frozen:
+                MIN_FONT_PX, CLAUDE_FILE = HISTORICAL_MIN_FONT_PX, "claude-at-pick.html"
             try:
                 fails, rows = check_page(p.read_text())
             finally:
-                MIN_FONT_PX = kept
+                MIN_FONT_PX, CLAUDE_FILE = kept, kept_claude
         for f in fails:
             print(f"FAIL {rel}: {f}")
         bad += len(fails)

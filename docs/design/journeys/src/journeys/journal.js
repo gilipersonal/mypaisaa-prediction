@@ -69,11 +69,11 @@
   /* ---------- a ranked action, with its reasons, uncertainty, impact and horizon (MP-144) ---------- */
   const reasons = (h) => `<ul class="journal-why">
     <li>${ic('fan', 's16')}<div>Widest range of your 7 holdings. <span>R2-HGB v3</span></div></li>
-    <li>${ic('layers', 's16')}<div>13.5% of your portfolio. <span>Ledger revision 214</span></div></li>
+    <li>${ic('layers', 's16')}<div>12.6% of your portfolio. <span>Ledger revision 214</span></div></li>
     <li>${ic('shield', 's16')}<div>Protection trails growth and opportunity. <span>Policy v1</span></div></li></ul>`;
   const components = () => `<div class="journal-comp" role="img" aria-label="Score 71 of 100: growth 88, protection 52, opportunity 78">${[['Growth', 88], ['Protection', 52], ['Opportunity', 78]].map(([k, v]) => `<div><span>${k}</span><b>${roll(String(v))}</b></div>`).join('')}</div>`;
   const impact = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('layers', 's18')}</span>If it were 10% smaller</div>
-    <div class="journal-kv"><span>NVIDIA in your portfolio</span><b>13.5% → 12.1%</b><span>US tech in your portfolio</span><b>31.0% → 29.6%</b><span>Width of the portfolio’s 80% range, 6 months</span><b>24.7 → 24.0 pts</b></div><p>Computed by code, for illustration. It assumes no tax rule and no costs, and it moves nothing.</p></div>`;
+    <div class="journal-kv"><span>NVIDIA in your portfolio</span><b>12.6% → 11.4%</b><span>US tech in your portfolio</span><b>29.1% → 27.8%</b><span>Width of the portfolio’s 80% range, 6 months</span><b>23.2 → 22.5 pts</b></div><p>Computed by code, for illustration. It assumes no tax rule and no costs, and it moves nothing.</p></div>`;
   const actionCard = (h, ctx) => `<div class="card fcard" style="display:grid;gap:10px" data-mo="card"><div class="journal-bar">${badge('Trim')}<div class="w"><b>Ranked action</b>${h.n} · score 71 · 6 months</div>${support}</div>
     ${reasons(h)}${components()}<div>${range(h)}</div><div class="rng" style="margin-top:0"><span>Median</span><b>${pct(h.med)}</b><span>80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b></div>${fcMeta()}</div>`;
   const whyText = 'Long-term position. I accept the wider range for now.';

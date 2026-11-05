@@ -165,6 +165,17 @@
     "docs/diagrams/mp-quality-2026-11-02/lucid_spec.py",
     "docs/diagrams/mp-quality-2026-11-02/README.md"
    ]
+  },
+  {
+   "pattern": "shown apart from this value|holds no cash|shown apart because|above your 30% line|material line of 30%",
+   "why": "the portfolio total holds cash (owner, 5 Nov 2026, \"Cash in the total\", MP-185), and the illustrative alert line moved to 28% with it",
+   "paths": [
+    "docs/design/journeys/src/*",
+    "docs/design/journeys/src/journeys/*",
+    "docs/design/admin/src/*",
+    "docs/design/admin/src/journeys/*",
+    "docs/design/journeys/README.md"
+   ]
   }
  ]
 }

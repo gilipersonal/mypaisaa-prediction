@@ -167,7 +167,7 @@ const FACTS = {
     each({ journey: A, option: 'b', screen: 'ab-home', surface: ['iphone', 'pwa'] }, (v, at) => must(opensTo(v.html, 'Notices, '), `${said(at)}: no Notices row on a phone`));
     each({ journey: A, option: 'b', screen: 'ab-home', surface: ['iphone', 'pwa'], state: ['default', 'stale', 'offline', 'abstention'] }, (v, at) => has(v.text, /Notices 2 unread · newest detected Tue 22:15/, `${said(at)}: no Notices row on a phone`));   // the owner, 4 Nov 2026, "Draw the pause in Ready (Recommended)": the paused notice is unread in Ready too
     const rows = (v, at) => {
-      has(v.text, /US tech is 31\.0% of the portfolio Material risk · detected Tue 22:15 Unread/, `${said(at)}: no detection time or read state`);
+      has(v.text, /US tech is 29\.1% of the portfolio Material risk · detected Tue 22:15 Unread/, `${said(at)}: no detection time or read state`);
       has(v.text, /Dismissed/, `${said(at)}: no dismissed state`);
       has(v.text, /See the evidence/, `${said(at)}: no evidence link`);
       has(v.text, /Dismiss\b/, `${said(at)}: no dismiss`);
@@ -294,14 +294,14 @@ const FACTS = {
         has(v.text, /Yahoo · HSBC stale/, `${said(at)}: the chip`);
         has(v.text, /Four ranked actions, one on a stale price/, `${said(at)}: counted differently from Ready`);
         lacks(v.text, /Three ranked actions/, `${said(at)}: counted differently from Ready`);
-        has(v.text, /£78,508\.20 known, 6 of 7 priced/, `${said(at)}: HSBC leaves the total`);
+        has(v.text, /£84,051\.05 known, 6 of 7 priced/, `${said(at)}: HSBC leaves the total`);
         has(v.text, /until its price returns/, `${said(at)}: the recovery`);
       });
     }
     each({ journey: A, option: 'b', screen: 'ab-home', state: 'stale' }, (v, at) => {
       has(v.text, /Known value, 6 of 7 priced/, `${said(at)}: the total`);
-      has(v.text, /£78,508/, `${said(at)}: the total`);
-      lacks(v.text, /£84,612/, `${said(at)}: HSBC is still in the total`);
+      has(v.text, /£84,051/, `${said(at)}: the total`);
+      lacks(v.text, /£90,155/, `${said(at)}: HSBC is still in the total`);
       lacks(v.text, /HSBC price is late/, `${said(at)}: late beside a stale chip`);
     });
   },
@@ -310,7 +310,7 @@ const FACTS = {
     each({ journey: R }, (v, at) => lacks(v.text, /Trimming would narrow/, `${said(at)}: an unsourced line beside a Trim badge`));
     for (const [option, screen] of [['a', 'ra-source'], ['b', 'rb-source']]) {
       each({ journey: R, option, screen, state: 'default' }, (v, at) => {
-        has(v.text, /if it were 10% smaller, the width of the portfolio's 80% range would go from 24\.7 to 24\.0 pts/, `${said(at)}: no computed what-if`);
+        has(v.text, /if it were 10% smaller, the width of the portfolio's 80% range would go from 23\.2 to 22\.5 pts/, `${said(at)}: no computed what-if`);
         has(v.text, /5 · What-if, Policy v1/, `${said(at)}: the what-if has no source`);
       });
     }
@@ -324,7 +324,7 @@ const FACTS = {
     for (const [option, screen] of [['a', 'aa-step'], ['b', 'ab-model-step']]) each({ journey: A, option, screen, state: 'default' }, (v, at) => {
       for (const w of ['Artefact', 'Calibrator', 'Tasks 3, 6, 12 months', 'Scope All segments', 'Payload hash', 'Limits 5 points, 10%', 'Previous safe R2-HGB v3']) has(v.text, new RegExp(w), `${said(at)}: the sheet omits "${w}"`);
     });
-    each({ journey: A, option: 'a', screen: 'aa-model', state: 'default' }, (v, at) => has(v.text, /24\.7 pts 23\.5 pts/, `${said(at)}: no before value`));
+    each({ journey: A, option: 'a', screen: 'aa-model', state: 'default' }, (v, at) => has(v.text, /23\.2 pts 22\.1 pts/, `${said(at)}: no before value`));
   },
 
   'R1-r21': ({ each, has, lacks }) => {
@@ -481,28 +481,28 @@ const FACTS = {
   // With HSBC out of the total, every share is of the known total, and no day move stands beside it.
   'R2-r8': ({ each, has, lacks }) => {
     each({ journey: A, option: 'b', screen: 'ab-home', state: 'stale' }, (v, at) => {
-      for (const w of [/US 57\.6%/, /India 30\.7%/, /UK 11\.7%/]) has(v.text, w, `${said(at)}: not Home's allocation`);
-      lacks(v.text, /53\.4|28\.5|18\.1/, `${said(at)}: the full total's allocation`);
+      for (const w of [/US 53\.8%/, /India 28\.7%/, /UK 11\.0%/, /Cash 6\.6%/]) has(v.text, w, `${said(at)}: not Home's allocation`);
+      lacks(v.text, /50\.1|26\.7|17\.0/, `${said(at)}: the full total's allocation`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today'], ['a', 'ra-alert'], ['b', 'rb-alert']]) {
       each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
-        has(v.text, /33\.4% of the known total/, `${said(at)}: US tech on the known total`);
-        lacks(v.text, /31\.0%|13\.5%|17\.5%|1,236\.18|1\.48%/, `${said(at)}: a figure from the full total`);
+        has(v.text, /31\.2% of the known total/, `${said(at)}: US tech on the known total`);
+        lacks(v.text, /29\.1%|12\.6% of|share 12\.6%|16\.4%|1,236\.18|1\.39%/, `${said(at)}: a figure from the full total`);   // 12.6% alone is also HSBC's forecast upper range
       });
     }
     for (const [option, screen] of [['a', 'ra-alert'], ['b', 'rb-alert']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
-      has(v.text, /Apple is 18\.9% and NVIDIA 14\.5% of the known total/, `${said(at)}: the shares`);
-      has(v.text, /Now 33\.4%/, `${said(at)}: the bar's label`);
-      has(v.html, /calbar[^>]*><i data-mo="barx" style="width:66\.8%/, `${said(at)}: the bar has not moved`);
+      has(v.text, /Apple is 17\.6% and NVIDIA 13\.6% of the known total/, `${said(at)}: the shares`);
+      has(v.text, /Now 31\.2%/, `${said(at)}: the bar's label`);
+      has(v.html, /calbar[^>]*><i data-mo="barx" style="width:62\.4%/, `${said(at)}: the bar has not moved`);
     });
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
-      lacks(v.text, /13\.5%|31\.0%|15\.0%/, `${said(at)}: a figure from the full total`);
-      has(v.text, /16\.2% NVIDIA look-through share of the known total/, `${said(at)}: the overlap on the known total`);
+      lacks(v.text, /12\.6% of|29\.1%|14\.1%/, `${said(at)}: a figure from the full total`);
+      has(v.text, /15\.1% NVIDIA look-through share of the known total/, `${said(at)}: the overlap on the known total`);
     });
     for (const [option, screen] of [['a', 'ra-ask'], ['b', 'rb-ask']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /its shares are of the full total/, `${said(at)}: which total the answer uses`));
     each({ journey: A, option: 'a', screen: 'aa-queue', state: 'stale' }, (v, at) => {
-      has(v.text, /£78,508\.20 known, 6 of 7 priced/, `${said(at)}: the known total`);
-      has(v.text, /US tech is 33\.4% of the known total/, `${said(at)}: the notice`);
+      has(v.text, /£84,051\.05 known, 6 of 7 priced/, `${said(at)}: the known total`);
+      has(v.text, /US tech is 31\.2% of the known total/, `${said(at)}: the notice`);
     });
   },
 
@@ -869,7 +869,7 @@ const FACTS = {
       each({ journey: R, option, screen, state: 'default' }, (v, at) => {
         for (const re of [/Analyst note says chip demand is cooling, Built from an untrusted news item, Tainted/, /Keep answers short, detail on request, Preference · corrected by you, 2 Oct · v2, Corrected/]) has(name(v.html), re, `${said(at)}: ${re}`);
       });
-      each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => has(name(v.html), /NVIDIA is under 10% of my portfolio, Note from chat, 3 Sep · ledger says 13\.5% at 21:15, Left out/, `${said(at)}: the note's status`));
+      each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => has(name(v.html), /NVIDIA is under 10% of my portfolio, Note from chat, 3 Sep · ledger says 12\.6% at 21:15, Left out/, `${said(at)}: the note's status`));
     }
   },
 

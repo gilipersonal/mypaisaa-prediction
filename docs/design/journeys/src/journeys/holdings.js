@@ -141,15 +141,15 @@
   };
   const statsTwo = (ctx, partial) => `<div class="holdings-two"><div><span>Gain on ${partial ? '5' : '6'} of 7</span><b>${partial ? '+£13,606.25' : '+£14,410.45'}</b></div><div><span>Return on ${partial ? '3' : '4'} of 7</span><b>${partial ? '+12.9%' : '+11.8%'} a year</b></div></div>`;
   const valueCard = (ctx, o = {}) => `<div class="card valcard" data-mo="card">
-    <div class="top"><span class="label">${o.label || 'Holdings value'}</span>${o.chip || illus()}</div>
-    ${money(o.val || '84,612.40', phone(ctx) ? 40 : 36)}
-    ${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>`}
+    <div class="top"><span class="label">${o.label || 'Portfolio value'}</span>${o.chip || illus()}</div>
+    ${money(o.val || '90,155.25', phone(ctx) ? 40 : 36)}
+    ${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>`}
+    ${valParts(o.held)}
     <div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>
     ${statsTwo(ctx, o.partial)}
-    <div class="small muted" style="margin-top:8px">Cash of £5,542.85 is shown apart from this value.</div>
   </div>`;
   const partialSub = () => `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, in your ISA, is left out until its price returns.</span></div>`;
-  const partialCard = ctx => valueCard(ctx, { label: 'Known value, 6 of 7 priced', val: '78,508.20', partial: true, chip: ev('part', 'Partial'), sub: partialSub() });
+  const partialCard = ctx => valueCard(ctx, { label: 'Known value, 6 of 7 priced', val: '84,051.05', held: '78,508.20', partial: true, chip: ev('part', 'Partial'), sub: partialSub() });
   const coverage = ctx => `<div class="card" style="padding:14px 16px" data-mo="card"><div class="label">What your evidence supports</div>
     ${(ctx.state === 'stale' ? [['Value', 6], ['Cost basis', 6], ['Gain', 5], ['Return', 3]] : [['Value', 7], ['Cost basis', 6], ['Gain', 6], ['Return', 4]]).map(([k, n]) => `<div class="holdings-cov"><span>${k}</span><i role="img" aria-label="${k}: ${n} of 7 holdings"><u data-mo="barx" style="--v:${Math.round(n / 7 * 100)}%"></u></i><b>${n} of 7</b></div>`).join('')}
     <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Older statements fill the gaps. No single rate is proved for Reliance. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}</div></div>`;
@@ -342,8 +342,8 @@
     if (st === 'disagreement' && h.t === 'RELIANCE') return 'Split · no action';
     return `6M ${pct(h.med)}, ${pct(h.lo)} to ${pct(h.hi)}`;
   };
-  const accSummary = (ctx, o = {}) => `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${o.label || 'All accounts'}</span>${o.chip || illus()}</div>${money(o.val || '84,612.40', phone(ctx) ? 40 : 36)}${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.48%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today · 3 accounts</span></div>`}<div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>${statsTwo(ctx, o.partial)}</div>`;
-  const accSummaryPartial = ctx => accSummary(ctx, { label: 'Known value, 6 of 7 priced', val: '78,508.20', chip: ev('part', 'Partial'), partial: true, sub: partialSub() });
+  const accSummary = (ctx, o = {}) => `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${o.label || 'All accounts'}</span>${o.chip || illus()}</div>${money(o.val || '90,155.25', phone(ctx) ? 40 : 36)}${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today · 3 accounts</span></div>`}${valParts(o.held)}<div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>${statsTwo(ctx, o.partial)}</div>`;
+  const accSummaryPartial = ctx => accSummary(ctx, { label: 'Known value, 6 of 7 priced', val: '84,051.05', held: '78,508.20', chip: ev('part', 'Partial'), partial: true, sub: partialSub() });
   /* what built each position: units and costs add up to the holding, and each dated schedule, closed at its value on 3 Nov 2026, gives its stated rate.
      Reliance and AstraZeneca change direction three times, so neither has a proved single rate: Reliance's search finds one and cannot prove it the only one, and AstraZeneca's uses its budget first (MP-72, FIN-14, proposed FIN-OD-04) */
   const EVENTS = {
@@ -599,7 +599,7 @@
       cost: 'The preview is dense on iPhone, and you choose the order of your own checks.',
       screens: [{
         id: 'a-list', title: 'Holdings',
-        note: 'A place for what you own: value, cost basis, return and how far the evidence goes, with the forecast range beside them. Cash is shown apart because the shared figure of £84,612.40 holds none. A candidate you do not hold stays apart from what you own.',
+        note: 'A place for what you own: value, cost basis, return and how far the evidence goes, with the forecast range beside them. The total holds your cash, shown as one of its two parts. A candidate you do not hold stays apart from what you own.',
         render: ctx => frame(ctx, { tab: 0, title: 'Holdings', back: 'Portfolio', actions: eyeBtn(), webActions: `${btn('Imports', 'tinted sm', 'layers')}${eyeBtn()}`, ...listParts(ctx) })
       }, privateScreen('a-private', listParts, 'Holdings'), {
         id: 'a-one', title: 'One holding',

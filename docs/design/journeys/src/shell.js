@@ -319,7 +319,6 @@ const OPEN = [
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],
-  ['Does the portfolio total include cash?', 'The shared total holds no cash; £5,542.85 shows apart.'],
   ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Cost flips between a meter and a pill on its own Home screens. The Home journey keeps a plain row after the holdings.'],
   ['When is a late price still used in the total? (DATA-DEC-02)', 'Settled (MP-65): a price past the limit leaves the total and the reason shows. Open: the limit itself. Proposed: 14:10 is inside it in Ready and past it in Stale.'],
   ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
