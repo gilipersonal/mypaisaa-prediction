@@ -58,3 +58,7 @@ The report's 11/20 audit score is a provisional author judgement, not an automat
 ## Follow-up report checks on 5 November
 
 The [follow-up consistency check](evidence/visual-2026-11-05/report-check.json) passed: all local links resolve, all JSON parses, 14 PNG signatures are valid, and the 76 source/check hashes are unchanged. Whitespace checks pass. The prototype behaviour failures documented in the addendum remain unresolved; report consistency is not a prototype pass.
+
+## Independent review result
+
+[Round 1](../../../../review/MP-181/round-1.md) completed on `fff5e2b` with three fresh parallel reviewers, no blocking findings and one P3 repeatability follow-up. Fresh document/source-consistency, token, static and build-freshness checks passed before review. The approved MP-181 regression precheck found no prior ledger, so no regression checks ran. This does not close the 15 UX findings or establish unperformed device/browser tests.

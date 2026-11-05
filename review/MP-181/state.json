@@ -1,0 +1,86 @@
+{
+  "issue": "MP-181",
+  "deliverable": "Impeccable UX audit and Claude handover, including 5 November visual follow-up; this review does not implement UX recommendations",
+  "round_count": 1,
+  "status": "round 1 complete: no blocking findings; one P3 follow-up",
+  "rounds": [
+    {
+      "round": 1,
+      "reviewed_commit": "fff5e2b6b3df0120cd0f3c9f391255d77ab88b2c",
+      "review_approval": "User: run parallely and complete fast; response to explicit round-one scope including regression checks.",
+      "scope": "Whole handover, evidence and source joins",
+      "lanes": {
+        "ux": "UX/accessibility claims and screenshots",
+        "product": "Product decisions, journey consistency and approval boundaries",
+        "evidence": "Evidence accuracy, reproducibility, metrics and handover instructions"
+      },
+      "gate_results": [
+        "MP-181: no fixed-findings ledger yet; no checks ran.\nreview-regress --state MP-181: ok (no state file: no rounds yet)\ndesign-tokens: 77 tokens; 98 pair measurements pass; css and swift are current\ndesign-gates: docs/design/reviews/MP-62/hybrid-a/index.html: 242 pair measurements pass at full and 20% brightness; motion rules hold\ndesign-gates: docs/design/reviews/MP-62/hybrid-b/index.html: 764 pair measurements pass at full and 20% brightness; motion rules hold\ndesign-gates: docs/design/prism/index.html: MA's ink and fonts, the tokens, icons, sections and Claude hold; motion rules hold\ndesign-gates: docs/design/journeys/index.html: the eight journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold\ndesign-gates: docs/design/admin/index.html: the admin journeys, Prism's tokens, ink, fonts and icons hold; motion rules hold\njourneys: index.html is current\nadmin: index.html is current\n",
+        "PASS: local links; all JSON; 76 unchanged source hashes; 14 PNG files; original 14 plus addendum UX-15 present\nPrevious review directory: False symlink: False\n"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "Full browser matrices and runtime performance",
+          "why": "No UX or checker source changed. Existing logs are reviewed as dated evidence, not claimed as fresh runs or current environment validation."
+        },
+        {
+          "gate": "Backend, native app and release suites",
+          "why": "Documentation-only handover review; no product changes or shipping authorised."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R1-E1",
+          "severity": "P3",
+          "blocking": false,
+          "title": "Retain the visual follow-up host fixture and probe recipe for exact replay",
+          "location": "docs/design/handover/impeccable-2026-11-04/visual-follow-up-2026-11-05.md:7; evidence/visual-2026-11-05/interaction-results.json",
+          "evidence": "The temporary wrapper is described in prose and the JSON preserves outcomes, but the handover directory contains neither its exact HTML/server fixture nor the executed DOM probe expressions. The recorded interactions and unchanged source manifest support the stated findings, but a subsequent reviewer must reconstruct the host and measurements. The repository runtime and matrix wrappers also differ (for example, the runtime wrapper adds body margin and hidden-element rules), so naming the general artifact-host approach alone does not identify exact hosting bytes.",
+          "impact": "Minor repeatability limitation for reproducing geometry and focus measurements in exactly the same environment; this does not invalidate the source-supported findings or prevent Claude from acting on the handover.",
+          "recommendation": "Preserve a small loopback host fixture and probe recipe, or record their exact code plus page routes, viewport and motion settings. If the original fixture cannot be recovered, label any replacement as a new reproduction harness rather than historical evidence.",
+          "lane": "evidence",
+          "status": "recorded nonblocking follow-up"
+        }
+      ],
+      "fixed_findings_at_start": 0,
+      "ledger_status": "Absent with no symlink or prior review directory; approved runner returned no checks ran, not proof of clean review.",
+      "reviewer_agents": {
+        "ux": "/root/mp181_r1_ux",
+        "product": "/root/mp181_r1_product",
+        "evidence": "/root/mp181_r1_evidence"
+      },
+      "blocking_findings": [],
+      "nonblocking_findings": [
+        {
+          "id": "R1-E1",
+          "severity": "P3",
+          "blocking": false,
+          "title": "Retain the visual follow-up host fixture and probe recipe for exact replay",
+          "location": "docs/design/handover/impeccable-2026-11-04/visual-follow-up-2026-11-05.md:7; evidence/visual-2026-11-05/interaction-results.json",
+          "evidence": "The temporary wrapper is described in prose and the JSON preserves outcomes, but the handover directory contains neither its exact HTML/server fixture nor the executed DOM probe expressions. The recorded interactions and unchanged source manifest support the stated findings, but a subsequent reviewer must reconstruct the host and measurements. The repository runtime and matrix wrappers also differ (for example, the runtime wrapper adds body margin and hidden-element rules), so naming the general artifact-host approach alone does not identify exact hosting bytes.",
+          "impact": "Minor repeatability limitation for reproducing geometry and focus measurements in exactly the same environment; this does not invalidate the source-supported findings or prevent Claude from acting on the handover.",
+          "recommendation": "Preserve a small loopback host fixture and probe recipe, or record their exact code plus page routes, viewport and motion settings. If the original fixture cannot be recovered, label any replacement as a new reproduction harness rather than historical evidence.",
+          "lane": "evidence",
+          "status": "recorded nonblocking follow-up"
+        }
+      ],
+      "reviewer_results": {
+        "ux": "review/MP-181/round-1/ux.json",
+        "product": "review/MP-181/round-1/product.json",
+        "evidence": "review/MP-181/round-1/evidence.json"
+      },
+      "outcome": "No blockers. No substantive report fixes required. P3 does not trigger another round.",
+      "snapshot_archive": "review/MP-181/snapshots/round-1/handover.tar.gz",
+      "snapshot_sha256": "6bf1c870b12dbff606dac489643028b3c3d4e2dc6a776c2cb7d28872dc9cebfb",
+      "post_review_updates": "Review records, status cross-references and checklist lesson only; no recommendation or UX source edits.",
+      "post_review_gates": [
+        "PASS: report/review local links, JSON, 76 unchanged source hashes",
+        "PASS: snapshot archive 29 files byte-identical to reviewed commit",
+        "PASS: review_regress --state MP-181",
+        "PASS: full approved MP-181 ledger recheck: 0 entries, no prior fixes or manual items",
+        "PASS: git diff --check"
+      ]
+    }
+  ]
+}
