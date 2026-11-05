@@ -52,7 +52,7 @@
    "slug": "ds-option-b-prism",
    "source": "docs/design/prism/index.html",
    "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "79b22c08ef8a34d1705b261a83cfcfe28ac42ff8cf00f0964aff8584c004c81b",
+   "published_sha256": "0b28c03e8a18ad051fc3c444fc837f78096da5807722029a5aa9be85e26e6193",
    "published_at": "2026-11-05",
    "jira": "MP-182"
   },
@@ -60,7 +60,7 @@
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "66c4efd470b363d65edea282e16ee8e193b95ee58d3d8270dce80a8a57c60a23",
+   "published_sha256": "7e8f529ec2ece18fc8f4c829223e9743f42daafa687675aa60e5aad6da627508",
    "published_at": "2026-11-05",
    "jira": "MP-182"
   },
@@ -68,7 +68,7 @@
    "slug": "ds-admin",
    "source": "docs/design/admin/index.html",
    "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "099e871c073f33087eb9c14a1b1b77ce3f140855b9c19ab45f3c110f7cd0c93c",
+   "published_sha256": "adb252c4766dd5dcfe0c8507a2887f6f5d820c7c95127e20d188cc040d802e39",
    "published_at": "2026-11-05",
    "jira": "MP-182"
   }

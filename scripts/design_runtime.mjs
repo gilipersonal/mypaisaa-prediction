@@ -150,8 +150,8 @@ const SWEEP = async () => {
       const fg = [fg0[0], fg0[1], fg0[2], fg0[3] * alpha];
       const er = el.getBoundingClientRect();
       // a device board is a real screen shown scaled to fit: its type is judged at the size the device draws it
-      // offsetWidth is rounded, so a gap of half a pixel is that rounding and not a scale (MP-182)
-      const scale = !el.closest('.board') && el.offsetWidth && Math.abs(er.width - el.offsetWidth) > .51 ? er.width / el.offsetWidth : 1;
+      // offsetWidth snaps both edges to whole pixels, so a gap of up to a pixel is that rounding and not a scale (MP-182)
+      const scale = !el.closest('.board') && el.offsetWidth && Math.abs(er.width - el.offsetWidth) > 1.01 ? er.width / el.offsetWidth : 1;
       const size = parseFloat(cs.fontSize) * (isFinite(scale) && scale > 0 ? scale : 1);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const text = t.textContent.trim().slice(0, 40);
