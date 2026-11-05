@@ -3,6 +3,8 @@
 Date: 4 November 2026. Baseline: `bf2ed3033cc5b8a320118e66b2b1dc8678366740`.
 Scope: documentation-only audit; no prototype or application source edits.
 
+**5 November update:** Representative interactive inspection now completed through a separate Playwright MCP connection. See the [browser follow-up](visual-follow-up-2026-11-05.md) and [interaction evidence](evidence/visual-2026-11-05/interaction-results.json). The results below describe the original run unless dated otherwise.
+
 ## Completed checks
 
 | Check | Result | Evidence |
@@ -41,7 +43,7 @@ Evidence: [repeat log](evidence/runtime-repeat.log), [repeat JSON](evidence/runt
 
 The journey checker runs Chrome with reduced motion for its matrix and a limited normal-motion flip check. It walks defined journey/option/surface/state/theme combinations, not every task transition, native screen or arbitrary viewport. A passing combination can contain multiple screens. The count must not be described as that many independently usability-tested screens.
 
-The interactive browser host was unavailable. No screenshots were visually inspected during this run, no overlay was injected and no physical-device, touch gesture, VoiceOver or native SwiftUI validation is claimed. Existing test scripts launch and close their own test browsers; no audit web server was started.
+On 4 November, the interactive browser host was unavailable. No screenshots were visually inspected during this run, no overlay was injected and no physical-device, touch gesture, VoiceOver or native SwiftUI validation is claimed. Existing test scripts launch and close their own test browsers; no audit web server was started.
 
 The following were not run: independent review, real fixed-findings regression ledger (including `design_journeys_facts.mjs --all`), standalone regression operations, plan sync, publishing/sync to Claude artifacts or Sites, backend/application/native tests. Those would either require separate approval or would not validate the changed documentation. No production or paid provider call was made.
 
@@ -49,6 +51,10 @@ The following were not run: independent review, real fixed-findings regression l
 
 [source-manifest.json](evidence/source-manifest.json) records SHA-256 hashes for 76 design/source/check files so Claude can establish whether a finding still refers to the same bytes. Historical local evidence remains historical; the current-turn logs above are the fresh checks.
 
-The final report check verifies local Markdown file destinations, the 14 unique finding IDs and severity counts, JSON validity, unchanged source hashes, and whitespace. Results are recorded in [report-check.json](evidence/report-check.json). It checks report consistency, not the substantive correctness of each recommendation.
+The original report check verifies local Markdown file destinations, the 14 unique finding IDs and severity counts, JSON validity, unchanged source hashes, and whitespace. Results are recorded in [report-check.json](evidence/report-check.json). It checks report consistency, not the substantive correctness of each recommendation.
 
 The report's 11/20 audit score is a provisional author judgement, not an automated or independent reviewer score. The five P1 items include explicit decision and validation gaps. Only source-confirmed findings and actual test output should be treated as observed evidence; touch/focus/reflow risks without interactive verification remain hypotheses or untested contracts as labelled.
+
+## Follow-up report checks on 5 November
+
+The [follow-up consistency check](evidence/visual-2026-11-05/report-check.json) passed: all local links resolve, all JSON parses, 14 PNG signatures are valid, and the 76 source/check hashes are unchanged. Whitespace checks pass. The prototype behaviour failures documented in the addendum remain unresolved; report consistency is not a prototype pass.

@@ -1,10 +1,12 @@
 # Prism UX audit and Claude handover
 
-Prepared for Arun and Claude on 4 November 2026. Tracking: [MP-181](https://duttaarun2015.atlassian.net/browse/MP-181).
+Prepared for Arun and Claude on 4 November 2026; interactive-browser addendum on 5 November 2026. Tracking: [MP-181](https://duttaarun2015.atlassian.net/browse/MP-181).
 
 **Status: maker-authored audit and recommendations, not independently reviewed. No UX approval or application implementation authority is implied.** Source baseline: `bf2ed3033cc5b8a320118e66b2b1dc8678366740` on `main`.
 
 Prism has a coherent product-specific foundation and unusually extensive state coverage. Preserve its selected identity, owner journey flips and admin choices. The next work should make the designs dependable as a handover: resolve contradictory stories, distinguish working interactions from illustrated controls, specify accessible behaviour, and close evidence gaps before treating the screens as implementable contracts.
+
+**Update, 5 November:** A separate Playwright MCP connection enabled representative visual and keyboard/pointer inspection. Read the [interactive browser follow-up](visual-follow-up-2026-11-05.md) for screenshots, confirmed findings and new UX-15. The combined handover now contains 15 findings (5 P1, 9 P2, 1 P3). The original-run methodology and score below remain dated evidence.
 
 ## Method and limits
 
@@ -12,7 +14,7 @@ This is an **Impeccable audit**, using version 4.8.0, its audit playbook and Ope
 
 The scope is the current Prism system, all eight owner journey definitions and all ten admin journey definitions, their shared shells, generated pages, permission inventory, decision records and check implementations. Historical options in `reviews/MP-62` supply provenance, not a competing redesign brief. Read depth varies: shared foundations and the findings below received focused source inspection; every journey received an inventory/coverage pass and the automated matrix walk. This is not a claim of manual line-by-line inspection of all journey code.
 
-The interactive browser tool returned **“The browser access host is unavailable.”** No human-style visual screenshot assessment, live overlay, VoiceOver session or physical-device check was completed. Existing repository browser checks did execute in locally launched test browsers. Their results are evidence of what those scripts measure, not substitutes for the missing observations. No native SwiftUI app was exercised. Do not describe this report as a completed visual or WCAG conformance certification.
+During the original 4 November run, the interactive browser tool returned **“The browser access host is unavailable.”** No human-style visual screenshot assessment, live overlay, VoiceOver session or physical-device check was completed in that original run. The 5 November addendum supersedes only the visual/interactive-browser part of this limitation. Existing repository browser checks did execute in locally launched test browsers. Their results are evidence of what those scripts measure, not substitutes for the missing observations. No native SwiftUI app was exercised. Do not describe this report as a completed visual or WCAG conformance certification.
 
 `impeccable context --target docs/design` found an incumbent implementation but no root PRODUCT.md, DESIGN.md or matching surface brief. That permits an audit of the existing system; it does not justify a redesign or silently creating new product truth.
 
@@ -58,7 +60,7 @@ Scores below are provisional expert assessments on Impeccable's 0–4 scale. Unk
 
 ## Prioritised findings
 
-There are **14 handover findings: 0 P0, 5 P1, 8 P2 and 1 P3**. P1 means resolve before relying on this as a complete UX/build handover; some P1s are decision or validation gaps, not demonstrated production defects. P2 means address in the next design pass. No finding authorises Claude to implement application code.
+The original 4 November assessment contains **14 handover findings: 0 P0, 5 P1, 8 P2 and 1 P3**. P1 means resolve before relying on this as a complete UX/build handover; some P1s are decision or validation gaps, not demonstrated production defects. P2 means address in the next design pass. No finding authorises Claude to implement application code.
 
 ### UX-01 — P1 — The working confirmation demo does not manage modal focus
 
@@ -297,4 +299,4 @@ No real review-regression ledger, independent reviewer, plan-sync operation, app
 
 ## Suggested prompt for Claude
 
-> Read `docs/design/handover/impeccable-2026-11-04/README.md` and `validation.md`, then verify the source baseline against the current checkout. Treat this as an unreviewed audit, not authority to build the application. Preserve Prism, both owner options and their safe flip rules, and the exact MP-64 admin picks. First prepare a response to UX-01 through UX-14: confirm, refute with evidence, or identify the owner decision needed. Separate prototype fidelity defects, policy conflicts and untested hypotheses. Propose bounded design/prototype fixes and their acceptance checks, following the approval rules of this session. Change canonical sources and regenerate outputs, never only the generated pages. Do not publish, sync external plans, implement the application, alter scientific/security policy, run independent review or ship without the applicable permission. Return per-finding evidence and a list of remaining decisions.
+> Read `docs/design/handover/impeccable-2026-11-04/README.md` and `validation.md`, then verify the source baseline against the current checkout. Treat this as an unreviewed audit, not authority to build the application. Preserve Prism, both owner options and their safe flip rules, and the exact MP-64 admin picks. First prepare a response to UX-01 through UX-14: confirm, refute with evidence, or identify the owner decision needed. Include UX-15 and the updated evidence in `visual-follow-up-2026-11-05.md`. Separate prototype fidelity defects, policy conflicts and untested hypotheses. Propose bounded design/prototype fixes and their acceptance checks, following the approval rules of this session. Change canonical sources and regenerate outputs, never only the generated pages. Do not publish, sync external plans, implement the application, alter scientific/security policy, run independent review or ship without the applicable permission. Return per-finding evidence and a list of remaining decisions.
