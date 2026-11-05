@@ -1,8 +1,8 @@
 {
   "issue": "MP-182",
   "deliverable": "The fixes to the prototype defects the Impeccable audit confirmed on Prism, Journeys and Prism Admin, with the gates that hold them",
-  "round_count": 1,
-  "status": "round 1 fixed; round 2 needs its own yes",
+  "round_count": 2,
+  "status": "round 2 fixed; round 3 needs its own yes",
   "rounds": [
     {
       "round": 1,
@@ -323,7 +323,7 @@
         "R1-c10",
         "R1-c11"
       ],
-      "next_round": "Round 2 would cover git diff 46b631b..HEAD and its direct joins, and needs its own yes.",
+      "next_round": "Ran as round 2 on the owner's words: \"Run round 2\".",
       "result": "28 findings after merging, 10 blocking, no P0, 5 P1. Every blocking finding is fixed, and each has a ledger entry.",
       "post_fix_gates": "On a4a72e0, the pages as published: both walkers (1,152 and 1,600 combinations), both press gates and journey facts 251 of 251. After gate-only commits: walker selftest 35 faults, press selftest 44 faults, Admin and Prism runtime 8 of 8. Journeys runtime 6 of 8, failing only the Chrome desktop long frame at 56 ms, open on MP-180. Every ledger: 485 run, 0 failed.",
       "new_gates": [
@@ -332,6 +332,295 @@
         "design_runtime reads the 12 px floor on current pages, and its scale from transforms and zoom rather than a ratio of widths"
       ],
       "publication": "Prism v9, Journeys v14, Prism Admin v13 published privately, and each read back: the repo file sits byte for byte in the published page."
+    },
+    {
+      "round": 2,
+      "reviewed_commit": "1484e7d635e9a43a91da469d9b9e9d84a59dcc14",
+      "review_approval": "Owner, 5 Nov 2026: \"Run round 2\"",
+      "scope": "git diff 46b631b..1484e7d and its direct joins",
+      "lanes": {
+        "f": "frames and pages",
+        "s": "scripts and gates",
+        "c": "rules and records"
+      },
+      "brief": "review/MP-182/round-2-brief.md",
+      "gate_results": [
+        "review_checks --base 46b631b --run: all selected pass",
+        "review_regress MP-182 --approved: 10 of 10",
+        "review_regress --every: 485 run, 0 failed, 2 retired, 0 manual",
+        "design_prism_press holds, design_journeys_press 163 cases"
+      ],
+      "deferred_gates": [
+        {
+          "gate": "design_runtime on Journeys",
+          "why": "Fails on Chrome: a long frame of 50 to 57 ms against 50, open on MP-180, on main too."
+        },
+        {
+          "gate": "site build",
+          "why": "The worktree has no node_modules. This branch does not touch site/."
+        },
+        {
+          "gate": "workflow-lint, synthetic-imports",
+          "why": "actionlint and pdftoppm are not installed here."
+        }
+      ],
+      "manual_verification": [],
+      "findings": [
+        {
+          "id": "R2-c1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "c,s",
+          "anchor": "scripts/design_runtime.mjs:245",
+          "evidence": "The runtime gate had no selftest, and R1-c1's check passed with the floor back at 10.95. Merged with R2-s2.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s1",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_runtime.mjs:153",
+          "evidence": "The rewritten scale read transform and zoom but not the CSS scale property, a refusal the old form made.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s3",
+          "severity": "P1",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:346",
+          "evidence": "The narrow check loaded at 1000 px and shrank, so a page deciding its width at load passed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f1",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "f",
+          "anchor": "docs/design/prism/index.html:2048",
+          "evidence": "With the page moved, Record left focus and the toast off screen. Reproduced on 1484e7d: trigger at -386 of 1000.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s,c",
+          "anchor": "scripts/design_runtime.mjs:245",
+          "evidence": "Every page under reviews got the old floor, against two in design_gates. Merged with R2-c8.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:55",
+          "evidence": "The theme check never left Ready and pressed no detail, so a press that reset the state passed.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c2",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "review/MP-182/fixed.json:44",
+          "evidence": "R1-f5's check pinned one line of its fix.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c3",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "review/MP-182/fixed.json:24",
+          "evidence": "R1-f3's check pinned one of two bands and not the sweep.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c4",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "review/MP-182/fixed.json:34",
+          "evidence": "R1-f4's check pinned one of three parts.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c5",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "docs/design/journeys/src/shell.js:34",
+          "evidence": "'A flip is per journey' still answered the open question, and the check searched one phrase.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c6",
+          "severity": "P2",
+          "blocking": true,
+          "lane": "c",
+          "anchor": "review/MP-182/fixed.json:64",
+          "evidence": "R1-s2's check held one of four parts.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f2",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/prism/index.html:1952",
+          "evidence": "The sheet's new sentence 'Record lands on Undo' broke the Toast entry's owner-status rule 'It never takes focus'. Fixed by keeping the rule: Record returns to the trigger and Undo is a Tab away.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f3",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:16",
+          "evidence": "A flip stored by the build before was refused, then wiped by the next save. Older records now load.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s6",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:80",
+          "evidence": "System was never pressed. It is now, with an undo case.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s8",
+          "severity": "P2",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_runtime.mjs:152",
+          "evidence": "design_runtime ignored viewBox scale. It now reads it, with a selftest case.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f4",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/shell.js:285",
+          "evidence": "A kept way back naming a removed screen left a dead control. It now falls back to the control's own target.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f5",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/prism/index.html:2047",
+          "evidence": "On a short window the sheet opened with its buttons off screen. Fixed, with a press.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-f6",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f",
+          "anchor": "docs/design/journeys/src/journeys/cost.js:295",
+          "evidence": "The snug labels grew on every device and worsened a label overlap on phones. They are now on iPad only. The overlap itself predates MP-182 and is MP-183.",
+          "status": "open: MP-183"
+        },
+        {
+          "id": "R2-f7",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "f,s,c",
+          "anchor": "docs/design/prism/README.md:26",
+          "evidence": "'Every width' was every third. The loop now steps by one. Merged with R2-s7 and R2-c9.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s9",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:312",
+          "evidence": "A hand-edited stored record can point a frame at a screen behind a sheet: flipOK tests only shape. It needs stale or edited storage.",
+          "status": "open"
+        },
+        {
+          "id": "R2-s10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_prism_press.mjs:439",
+          "evidence": "A selftest case accepted 'could not finish'. It now expects its own line.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-s11",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "s",
+          "anchor": "scripts/design_gates.py:868",
+          "evidence": "An absolute path missed the historical floor. Paths are now resolved.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c7",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "docs/design/journeys/src/shell.js:12",
+          "evidence": "A comment put the maker's reading in the owner's mouth. Reworded.",
+          "status": "fixed"
+        },
+        {
+          "id": "R2-c10",
+          "severity": "P3",
+          "blocking": false,
+          "lane": "c",
+          "anchor": "docs/planning/trace.json",
+          "evidence": "The trace row listed two of nine review files. It now names the folder.",
+          "status": "fixed"
+        }
+      ],
+      "blocking": 11,
+      "blocking_findings": [
+        "R2-c1",
+        "R2-s1",
+        "R2-s3",
+        "R2-f1",
+        "R2-s4",
+        "R2-s5",
+        "R2-c2",
+        "R2-c3",
+        "R2-c4",
+        "R2-c5",
+        "R2-c6"
+      ],
+      "nonblocking_findings": [
+        "R2-f2",
+        "R2-f3",
+        "R2-s6",
+        "R2-s8",
+        "R2-f4",
+        "R2-f5",
+        "R2-f6",
+        "R2-f7",
+        "R2-s9",
+        "R2-s10",
+        "R2-s11",
+        "R2-c7",
+        "R2-c10"
+      ],
+      "result": "24 findings after merging, 11 blocking, no P0, 3 P1. Every blocking finding is fixed, and each has a ledger entry.",
+      "post_fix_gates": "On a6c19a7, the pages as published: both walkers (1,152 and 1,600 combinations), design_admin_press, design_journeys_press 163 cases, Admin and Prism runtime. After gate-only commits: runtime selftest 8 cases, walker selftest 35 faults, press selftest 54 faults, design_prism_press holds.",
+      "new_gates": [
+        "design_runtime --selftest, 8 cases, in design-walk",
+        "design_prism_press: fresh loads at phone widths, a 1 px bar sweep, Record and Undo with the page moved, a short window, a non-default state with a detail open, System pressed, older and gone records",
+        "review/MP-182/pins.py: every part of each fix"
+      ],
+      "publication": "Prism v10, Journeys v15, Prism Admin v14 published privately and read back: the repo file sits byte for byte in each.",
+      "next_round": "Round 3 would cover git diff 1484e7d..HEAD and its direct joins, and needs its own yes."
     }
   ]
 }

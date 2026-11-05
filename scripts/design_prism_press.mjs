@@ -15,6 +15,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const arg = (name) => { const i = process.argv.indexOf(name); return i < 0 ? null : process.argv[i + 1]; };
 const ROOT = resolve(arg('--root') || join(here, '..'));
 const SELFTEST = process.argv.includes('--selftest');
+let narrowPages = ['prism', 'owner', 'admin'];   // a selftest case sweeps only the page it changed
 const CHECKS = ['theme', 'focus', 'sheet', 'flip', 'text', 'narrow'];
 const only = arg('--only') ? arg('--only').split(',') : CHECKS;
 for (const c of only) if (!CHECKS.includes(c)) { console.log(`FAIL no check named ${c}`); process.exit(2); }
@@ -261,8 +262,10 @@ const run = {
       const r = await p.evaluate(() => { const t = document.querySelector('#sheetOpen').getBoundingClientRect(), o = document.querySelector('.mdemo .toast').getBoundingClientRect(); return { t: t.top, b: t.bottom, ot: o.top, ob: o.bottom, h: innerHeight }; });
       must(r.t >= 0 && r.b <= r.h, `sheet: Record with the page moved ${move} left the trigger at ${Math.round(r.t)} of ${r.h}`);
       must(r.ot >= 0 && r.ob <= r.h, `sheet: Record with the page moved ${move} left the toast at ${Math.round(r.ot)} of ${r.h}`);
-      await p.evaluate(() => document.querySelector('#sheetUndo').click());
-      await p.waitForTimeout(100);
+      await p.evaluate((d) => { const u = document.querySelector('#sheetUndo'); u.focus({ preventScroll: true }); scrollBy(0, d); u.click(); }, move);   // Undo is reached by Tab
+      await p.waitForTimeout(150);
+      const u = await p.evaluate(() => { const t = document.querySelector('#sheetOpen').getBoundingClientRect(); return { t: t.top, b: t.bottom, h: innerHeight }; });
+      must(u.t >= 0 && u.b <= u.h, `sheet: Undo with the page moved ${move} left the trigger at ${Math.round(u.t)} of ${u.h}`);
     }
     // a short window: the sheet's buttons still come into view
     await p.setViewportSize({ width: 667, height: 375 });
@@ -416,7 +419,7 @@ const run = {
       }
       return { w: document.documentElement.scrollWidth, vw, spill: spill.slice(0, 2) };
     };
-    for (const page of ['prism', 'owner', 'admin']) {
+    for (const page of narrowPages) {
       for (const width of [320, 360, 390, 480, 600, 768]) {
         const { c, p } = await open(b, pages, page, { context: { viewport: { width, height: 800 } } });
         const r = await p.evaluate(spillOf);
@@ -493,8 +496,8 @@ const UNDO = [
   ['Record leaves the page where it was', 'sheet', [['prism', "(v ? $('#sheetClose') : trigger).focus({ preventScroll: v });", "(v ? $('#sheetClose') : trigger).focus({ preventScroll: true });"]], /focus returned to a trigger off screen|Record with the page moved/],
   ['a short window hides the sheet', 'sheet', [['prism', "const over = st.getBoundingClientRect().bottom - innerHeight; if (over > 0) scrollBy(0, over);", '']], /in a short window its buttons/],
   ['opening again leaves the toast live', 'sheet', [['prism', "if (v) { st.classList.remove('saved'); toast.inert = true; }", "if (v) { st.classList.remove('saved'); }"]], /open, sheetUndo can still take focus|after Record and open again, sheetUndo/],
-  ['the sheet opens off screen', 'sheet', [['prism', "if (v) st.scrollIntoView({ block: 'nearest' });", '']], /it opened off screen/],
-  ['Undo does not find the trigger', 'sheet', [['prism', "toast.inert = true; trigger.focus();", "toast.inert = true; trigger.focus({ preventScroll: true });"]], /Record with the page moved|Undo left focus/],
+  ['the sheet opens off screen', 'sheet', [['prism', "if (v) { st.scrollIntoView({ block: 'nearest' }); const over = st.getBoundingClientRect().bottom - innerHeight; if (over > 0) scrollBy(0, over); }", '']], /it opened off screen/],
+  ['Undo does not find the trigger', 'sheet', [['prism', "toast.inert = true; trigger.focus();", "toast.inert = true; trigger.focus({ preventScroll: true });"]], /Undo with the page moved/],
   ['a hidden toast takes focus', 'sheet', [['prism', 'sheet.inert = toast.inert = true;', 'sheet.inert = true;']], /closed, sheetUndo can still take focus/],
   ['a closed sheet takes focus', 'sheet', [['prism', 'sheet.inert = toast.inert = true;', 'toast.inert = true;'], ['prism', 'sheet.inert = !v;', ''], ['prism', 'transform: translateY(105%); visibility: hidden;', 'transform: translateY(105%);']], /closed, sheetClose can still take focus/],
   ['Escape steals focus with the sheet closed', 'sheet', [['prism', "if (e.key === 'Escape' && st.classList.contains('open')) open(false);", "if (e.key === 'Escape') open(false);"]], /Escape on a closed sheet stole focus/],
@@ -539,6 +542,7 @@ try {
         pages[page] = pages[page].replaceAll(from, to);
       }
       if (!readable) continue;
+      narrowPages = [...new Set(edits.map((e) => e[0]))];
       const fails = await sweep(b, pages, [check]);
       if (fails.some((f) => expect.test(f))) { left--; console.log(`ok   ${name}`); } else { code = code || 1; console.log(`FAIL ${name}: expected ${expect}, got: ${fails[0] || 'no failure'}`); }
     }

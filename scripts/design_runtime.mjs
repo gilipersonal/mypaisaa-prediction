@@ -52,7 +52,7 @@ function selftest() {
     ['a transform', 'docs/design/admin', '.jctl { transform: scale(.8); transform-origin: 0 0; }', 'docs/design/admin', 'renders at 9.6', null],
     ['the scale property', 'docs/design/admin', '.jctl { scale: .8; transform-origin: 0 0; }', 'docs/design/admin', 'renders at 9.6', null],
     ['zoom', 'docs/design/admin', '.jctl { zoom: .8; }', 'docs/design/admin', 'renders at 9.6', null],
-    ['a chart scaled by its viewBox', 'docs/design/prism', 'svg.cx { width: 45% !important; }', 'docs/design/prism', 'renders at', null],
+    ['a chart scaled by its viewBox', null, '<title>t</title><style>body { background: #fff; color: #000; }</style><svg viewBox="0 0 400 100" width="200" height="50"><text x="10" y="30" style="font: 500 14px/16px sans-serif; fill: #000">Chart label</text></svg>', 'docs/design/prism', 'renders at 7.0', null],
     ['a new page under reviews', 'docs/design/admin', label, 'docs/design/reviews/MP-999/new', 'renders at 11.0', null],
     ['a named historical page', 'docs/design/admin', label, 'docs/design/reviews/MP-62/hybrid-a', null, 'renders at 11.0'],
   ];
@@ -60,7 +60,7 @@ function selftest() {
   for (const [name, from, rule, at, want, never] of cases) {
     const dir = join(tmp, at), page = join(dir, 'index.html'), report = join(tmp, 'r.json');
     mkdirSync(dir, { recursive: true });
-    writeFileSync(page, readFileSync(resolve(dirname(self), '..', from, 'index.html'), 'utf8').replace('</style>', `${rule}</style>`));
+    writeFileSync(page, from ? readFileSync(resolve(dirname(self), '..', from, 'index.html'), 'utf8').replace('</style>', `${rule}</style>`) : rule);
     spawnSync('perl', ['-e', 'alarm shift; exec @ARGV', '150', 'node', self, page, '--engine', 'chrome', '--theme', 'light', '--width', '1440', '--out', report], { encoding: 'utf8' });
     let issues;
     try { issues = JSON.parse(readFileSync(report, 'utf8'))[0].issues; } catch (e) { console.log(`FAIL ${name}: no report`); bad++; continue; }

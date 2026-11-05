@@ -1832,6 +1832,14 @@
     "tests/test_design_gates.py",
     "review/MP-182/"
    ]
+  },
+  {
+   "key": "MP-183",
+   "summary": "Stop the burn-up chart's day labels overlapping on phones",
+   "type": "Bug",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }

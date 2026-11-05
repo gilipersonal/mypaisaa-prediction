@@ -300,7 +300,7 @@ function selftest() {
     'a press that changes nothing': [page.replace('scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));', ''), 'changed nothing'],
     'freshness that changes': [page.replace(/\$\{freshRow\(ctx, spec\.fresh\)\}/g, '${ctx.option === \'b\' ? \'<div class="jfresh">Other</div>\' : freshRow(ctx, spec.fresh)}'), 'freshness'],
     'a note that stays': [page.replace('const noteFor = sc => { const r = (sc.na || {})[sum.at.st];', 'const noteFor = sc => { const r = null;'), 'note under the frame'],
-    'a flip that lands elsewhere on return': [page.replace('const to = screenOf(oo, ss);', 'const to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
+    'a flip that lands elsewhere on return': [page.replace('let to = screenOf(oo, ss);', 'let to = screenOf(oo, oo === o.id ? o.screens[0].id : ss);'), 'does not come back'],
     'a sheet on the far side': [page.replace('if (!ctx.screen || (spec && spec.sheet)) return', 'if (!ctx.screen) return').replace("privacy: pairs(['privacy-a-centre', 'privacy-b-home'],", "privacy: pairs(['privacy-a-centre', 'privacy-b-delete'],"), 'sheet open'],
     'a press on a frame being left': [page.replace("if (!s || box.dataset.owner !== `${j.id}|${o.id}`) return;", ''), 'quick press'],
     'a back label on the title': [css('.navbar .nbt { text-align: left; padding-left: 0; }'), 'back label runs into the title'],
