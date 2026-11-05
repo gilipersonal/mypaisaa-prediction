@@ -1,0 +1,31 @@
+<title>Your Questions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Every open MyPrediction UX question, checked against the records, with options to pick. Nothing changes until the owner picks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap">
+<style>
+/*PRISM_CSS*/
+/*PAGE_CSS*/
+</style>
+<header class="qp-top">
+  <div class="qp-wrap">
+    <h1>Your questions</h1>
+    <p class="qp-lede">Every open question from the designs and stories, read against the records. Nothing changes until you pick, and a recommendation is only a proposal.</p>
+    <div class="qp-bar" aria-hidden="true"><i id="qpBar"></i></div>
+    <p class="qp-count" id="qpCount" role="status" aria-live="polite"></p>
+  </div>
+</header>
+<nav class="qp-tabs" aria-label="Question lists"><div class="qp-wrap" id="qpTabs"></div></nav>
+<main class="qp-wrap qp-main" id="qpMain"></main>
+<section class="qp-wrap qp-out" aria-labelledby="qpOutH">
+  <h2 id="qpOutH">Your picks so far</h2>
+  <p class="qp-save" id="qpSave" role="status" aria-live="polite">Checking where your picks can be saved.</p>
+  <label class="label" for="qpText">Copy this if a pick does not save</label>
+  <textarea id="qpText" readonly rows="5" placeholder="Nothing picked yet"></textarea>
+  <div class="qp-row"><button class="btn sm btn-tinted" type="button" id="qpCopy">Copy my picks</button><span class="small muted" id="qpCopied" role="status"></span></div>
+</section>
+<script type="application/json" id="qpData">/*PACK_JSON*/</script>
+<script>
+/*PAGE_JS*/
+</script>

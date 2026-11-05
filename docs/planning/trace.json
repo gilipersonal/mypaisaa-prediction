@@ -1805,7 +1805,7 @@
    "key": "MP-182",
    "summary": "Fix the prototype defects the Impeccable audit confirmed on the Prism pages",
    "type": "Bug",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1837,6 +1837,86 @@
    "key": "MP-183",
    "summary": "Stop the burn-up chart's day labels overlapping on phones",
    "type": "Bug",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-184",
+   "summary": "Put every open UX question to the owner with options before UX approval",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/planning/owner-question-pack-2026-11-05/",
+    "docs/design/question-pack/",
+    "docs/design/artifacts.json",
+    "scripts/question_pack.py",
+    "scripts/review_checks.py",
+    "docs/planning/trace.json",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+   ]
+  },
+  {
+   "key": "MP-185",
+   "summary": "Put cash in the portfolio total across every journey",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-186",
+   "summary": "Redraw navigation, the Home cost pill and the run clock wording",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-187",
+   "summary": "Design the Track record view in Record",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-188",
+   "summary": "Redraw passkeys and recovery to match the owner's picks",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-189",
+   "summary": "Draw the local PDF unlock and settle the offline screens",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-190",
+   "summary": "Redraw the control screens to match the owner's picks",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-191",
+   "summary": "Apply the decision rules to rows, the journal and hidden amounts",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
+  },
+  {
+   "key": "MP-192",
+   "summary": "Bring labels, stories and specifications into line with the owner's picks",
+   "type": "Task",
    "status": "To Do",
    "parent": "MP-4",
    "code": []
