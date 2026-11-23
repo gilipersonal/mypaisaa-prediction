@@ -31,7 +31,7 @@
 
   /* ---------- the two incidents, by id ---------- */
   const I12 = { id: 'inc_0012', name: 'HSBC price late', cls: 'Data quality', at: 'Tue 16:50', sub: 'Last price 14:10 · detected Tue 16:50', i: 'clock', tone: 'warn' };
-  const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:14', sub: 'Twelve Data failed at 21:14 · detected Tue 21:14', i: 'alert', tone: 'fall' };
+  const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:16', sub: 'Twelve Data failed at 21:16 · detected Tue 21:16', i: 'alert', tone: 'fall' };
   const I14 = { id: 'inc_0014', name: 'Production recorded lost', cls: 'Not classed', at: '', sub: 'A restored copy waits in Recovery', i: 'alert', tone: 'fall' };
   const inc = ctx => (ctx.state === 'error' ? I13 : ctx.state === 'conflict' ? I14 : I12);
   const ST = {
@@ -48,7 +48,7 @@
 
   /* what stays in view whatever the list says, because a quiet list proves nothing */
   const still = ctx => {
-    const s = ctx.state, run = { error: ['Mon 21:15 · cutoff 21:00', 'run_8c41 · last good'], stale: ['Tue 21:15 · cutoff 21:00', 'run_8d02 · as read at 11:12'], conflict: ['Tue 21:15 · cutoff 21:00', 'run_8d02 · reconcile_required, counted as neither'] }[s] || ['Tue 21:15 · cutoff 21:00', 'run_8d02 · succeeded'];
+    const s = ctx.state, run = { error: ['Mon 21:15 · cutoff 22:00 · issued 22:15', 'run_8c41 · last good'], stale: ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · as read at 11:12'], conflict: ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · reconcile_required, counted as neither'] }[s] || ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · succeeded'];
     return card(`${head('Still watched')}${kv([['US forecast run', run[0]], ['Its record', run[1]], ...(s === 'conflict' ? [['Production', 'Recorded lost · inc_0014']] : []), ['Restore exercise', 'Passed · Sun 1 Nov'], ['Its record', 'rx_0007'], ['Release', 'rel_0031']])}${note('Silence is not a sign that nothing is wrong, so these always show.')}`);
   };
   const classes = ctx => {
@@ -68,7 +68,7 @@
     what: 'Incidents', rows: 2, loading: 'Reading incidents. The list from 11:20 comes back if this fails.',
     empty: banner('', 'No incident is open.', 'Silence is not a sign that nothing is wrong, so the last run and the last restore stay in view.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'So inc_0012 shows no run link, which is unknown, not clear. Alerts and sources answered.', 'clock'),
-    error: banner('fall', 'Twelve Data failed at 21:14.', 'Last good run Mon 21:15 · cutoff 21:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
+    error: banner('fall', 'Twelve Data failed at 21:16.', 'Last good run Mon 22:15 · cutoff 22:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so an incident opened after 11:12 would not show here. A quiet list proves nothing.', 'clock'),
     offline: banner('', 'Offline.', 'Showing incidents from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Two records changed while you read.', 'Production is recorded lost, so inc_0014 is open and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(proposed('CT-14'))}`,
@@ -81,7 +81,7 @@
     what: 'This incident', rows: 4, loading: 'Reading this incident. Its id and class stay above.',
     empty: banner('', 'Nothing is open.', 'This is the last incident, resolved with your recorded resolution. It reopens if the fault recurs.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'The timeline below is whole. Its run link is unknown until it does.', 'clock'),
-    error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Reads stay open while it is unresolved.', 'alert'),
+    error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:16. Last good run Mon 22:15 · cutoff 22:00. Reads stay open while it is unresolved.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a later step may have landed. Nothing here is newer than that.', 'clock'),
     offline: banner('', 'Offline.', 'This timeline is from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(proposed('CT-14'))}`,
@@ -109,7 +109,7 @@
       pt('', 'Resolve', CLOSE14, close14(ctx))
     ]);
     if (s === 'error') return tl('What happened to inc_0013', [
-      pt('done', 'Detected', `Code opened it · Tue 21:14. ${NOTICE}`),
+      pt('done', 'Detected', `Code opened it · Tue 21:16. ${NOTICE}`),
       pt('now', 'Acknowledge', 'Waiting for you.', ackTool(ctx)),
       pt('', 'Mitigate', `Code re-runs a missed collection, within its bound. ${MIT}`, tags(proposed('CT-14'))),
       pt('', 'Resolve', 'You close it, with a recorded resolution.')
@@ -142,7 +142,7 @@
     const rows = {
       ...EV,
       ...(s === 'error' ? {
-        alert: ['alert', 'Alert', 'Missed forecast run, with the stalled collector linked'], run: ['refresh', 'Run', 'run_8d02 · failed at 21:14'], job: ['layers', 'Job', 'job_3e9a · collect · failed'],
+        alert: ['alert', 'Alert', 'Missed forecast run, with the stalled collector linked'], run: ['refresh', 'Run', 'run_8d02 · failed at 21:16'], job: ['layers', 'Job', 'job_3e9a · collect · failed'],
         trace: ['search', 'Trace', 'tr_51c2'], source: ['db', 'Source', 'Twelve Data'], model: ['cube', 'Model', 'None. No forecast was written by this run']
       } : {}),
       ...(s === 'partial' ? { run: ['refresh', 'Run', 'run_8cf7 · UK · not read'], job: ['layers', 'Job', 'UK collect · not read'], trace: ['search', 'Trace', 'Not read, it links from run_8cf7'] } : {}),
@@ -155,7 +155,7 @@
   };
   /* each run is read against the last one on its own market's clock, so the change is a row */
   const twoRuns = ctx => {
-    if (ctx.state === 'error') return card(`${head('Monday and Tuesday, US')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '21:00'], ['Result', 'Succeeded'], ['Priced', '7 of 7']])}</div><div>${lbl('run_8d02')}${kv([['Due', 'Tue 21:15'], ['Cutoff', 'Held at Mon 21:00'], ['Result', 'Failed at 21:14'], ['Priced', 'Not known']])}</div></div>`);
+    if (ctx.state === 'error') return card(`${head('Monday and Tuesday, US')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '22:00'], ['Result', 'Succeeded'], ['Priced', '3 of 3']])}</div><div>${lbl('run_8d02')}${kv([['Due', 'Tue 21:15'], ['Cutoff', 'Held at Mon 22:00'], ['Result', 'Failed at 21:16'], ['Priced', 'Not known']])}</div></div>`);
     const unread = ctx.state === 'partial';
     return card(`${head('Monday and Tuesday, UK')}<div class="aincidents-two"><div>${lbl('run_8bf3')}${kv([['Run', 'Mon 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Priced to the 16:35 close']])}</div><div>${lbl('run_8cf7')}${kv([['Run', 'Tue 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Late · last price 14:10']])}</div></div>`);
   };
@@ -163,7 +163,7 @@
     what: 'The evidence', rows: 5, loading: 'Reading the linked records.',
     empty: banner('', 'This incident is resolved.', 'Its evidence stays linked, and nothing here was removed when it closed.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7, its collect job and its trace are not read, and neither is Monday\'s run_8bf3, which is unknown, not clear. The alert, the source and the model link opened.', 'clock'),
-    error: banner('fall', 'Twelve Data failed at 21:14.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
+    error: banner('fall', 'Twelve Data failed at 21:16.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a link may have moved. Each record opens at its own time.', 'clock'),
     offline: banner('', 'Offline.', 'These links are from 11:20. Following one needs a connection, and the ids stay readable.', 'wifi-off'),
     conflict: banner('warn', 'Two sources disagree.', 'The gap is past tolerance, so this is a data quality fault. Both hashes are kept and neither is dropped.', 'split'),
@@ -176,7 +176,7 @@
   const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found', IFMISSED = 'Not needed if a late price counts as a missed collection';
   const REQ = {
     default: ['Auto-retry if CT-14 allows', 'stale', UK, WHY12, '1', IFMISSED],
-    error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
+    error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:16', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', UK, WHY12, '1', 'Refused on recheck'],
     expired: ['Expired', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Ran out, so nothing ran'],
     denied: ['Awaiting you', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Awaiting you, with a fresh sign-in'],
@@ -285,7 +285,7 @@
     what: 'Pause switches', rows: 3, loading: 'Reading what is paused now.',
     empty: banner('', 'Nothing is paused.', 'Every forecast scope is running. The switches stay here for when you need one.', 'check'),
     partial: banner('warn', 'Model pointers did not answer.', 'So whether a scope is paused now is unknown, not no. The last known pause stays below.', 'clock'),
-    error: banner('fall', 'Your pause did not land.', 'It failed at 21:14, so optional work is still running. Nothing else changed. Try again.', 'alert'),
+    error: banner('fall', 'Your pause did not land.', 'It failed at 21:16, so optional work is still running. Nothing else changed. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A pause set after 11:12 would not show here.', 'clock'),
     offline: banner('', 'Offline.', 'These switches are from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: banner('warn', 'A scope changed while you read.', 'Code paused it, as POLICY-003 allows. Your view stays at the version you opened and nothing was applied.', 'split'),
@@ -336,7 +336,7 @@
       st(1, 'done', 'code', 'Code opens one incident', 'inc_0012 · data quality · Tue 16:50'), st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'), st(3, 'done', 'code', 'Code recovers, within its bounds', 'HSBC prices came back.'),
       st(4, 'done', 'you', 'Ask for more', 'Not needed.'), st(5, 'done', 'you', 'Resolve', 'You, with a recorded resolution: HSBC prices are back from Yahoo.')
     ]);
-    const first = i === I13 ? 'inc_0013 · job failure · Tue 21:14. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
+    const first = i === I13 ? 'inc_0013 · job failure · Tue 21:16. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
     const moreRow = list(opens('refresh', 'Replay', plain(reqChip(ctx))));
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),

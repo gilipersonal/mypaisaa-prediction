@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's and MP-191's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's and MP-186's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -59,6 +59,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 | OWN-05 | Cash in the total | pressed | Screens redrawn |
 
 ### MP-186: Redraw navigation, the Home cost pill and the run clock wording
+
+Drawn on branch `MP-186-nav-cost-pill-clock` (23 November 2026), in the Journeys, Admin and Prism designs. The run clock now reads per market in the owner and admin pages alike: each market's cutoff at +60 and its forecasts by +75 (US 22:00 and 22:15, UK 17:35 and 17:50, India 11:00 and 11:15), and Twelve Data fails at 21:16, after the US run starts (ADM-10, ADM-11, ADM-22). Proposed: the order and icons of the three new sidebar places, and the pill's pounds masked when amounts are hidden.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |

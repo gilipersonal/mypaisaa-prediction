@@ -80,7 +80,7 @@
   const FOLLOW = [
     ['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'],
     ['Ledger', `R-0210 · event ${mono('evt_77d3')}`, 'resolved'],
-    ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'],
+    ['Risk', 'Read from this ledger at Tue 22:15 · cutoff 22:00', 'resolved'],
     ['Forecast', `${mono('run_8d02')} · job ${mono('job_3e9a')} · trace ${mono('tr_51c2')}`, 'resolved'],
     ['Action', 'Ranked action, decision support · run_8d02', 'resolved'],
     ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'],
@@ -95,7 +95,7 @@
     loading: () => chainOf(FOLLOW.slice(0, 2)) + skel(4),
     empty: () => stateCard('search', 'not_found', 'This link points at nothing MP has recorded. No step is guessed.', bs('Back to the answer')),
     partial: () => banner('warn', 'Lineage with an unavailable source.', 'The chain carries on from the ledger. The step it cannot show says why.', 'clock') + chainOf(FOLLOW, { Source: ['Evidence unavailable · tombstone recorded', 'Source unavailable'] }),
-    error: () => banner('fall', 'Twelve Data failed at 21:14.', `Last good run Mon 21:15 · cutoff 21:00. Run ${mono('run_8d02')} failed, with incident ${mono('inc_0013')} and request ${mono('req_a90f')}.`, 'alert') + chainOf(FOLLOW, { Forecast: [`${mono('run_8c41')} · Mon 21:15, the last good run`, 'Held from Mon 21:15'], Action: ['Held from Mon 21:15', 'Held from Mon 21:15'] }),
+    error: () => banner('fall', 'Twelve Data failed at 21:16.', `Last good run Mon 22:15 · cutoff 22:00. Run ${mono('run_8d02')} failed, with incident ${mono('inc_0013')} and request ${mono('req_a90f')}.`, 'alert') + chainOf(FOLLOW, { Forecast: [`${mono('run_8c41')} · Mon 21:15, the last good run`, 'Held from Mon 21:15'], Action: ['Held from Mon 21:15', 'Held from Mon 21:15'] }),
     stale: () => lagged() + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · from manifests, 11:12`, 'resolved'] }),
     offline: () => off(ctx, 'Showing the chain saved at 11:20.') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'offline_cached'), Forecast: [`${mono('run_8d02')} · saved 11:20`, 'offline_cached'] }),
     conflict: () => banner('warn', 'A step was superseded.', 'A newer ledger event replaced this one. Each forecast keeps the inputs it was made with, and none is rewritten.', 'split') + chainOf(FOLLOW, { Ledger: [`R-0210 · event ${mono('evt_77d3')} · a newer event exists`, 'superseded'] }),
@@ -170,7 +170,7 @@
   const gapRail = () => `${box(`${lbl('Rules, read only')}<div class="aaudit-gap">${kv([['Sampling', 'None'], ['Kept for', 'Account lifetime'], ['Paging', 'Bounded, no general scan']])}</div>${text('Which records are classed how, and how integrity is anchored, are not decided.')}${chipset(proposed('CT-03'), proposed('FIN-OD-08'))}`)}${refs()}`;
 
   /* ---------- option B: the explorer, with a lineage pane ---------- */
-  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
+  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 22:15 · cutoff 22:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
   const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved Tue 21:18, expired Tue 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;

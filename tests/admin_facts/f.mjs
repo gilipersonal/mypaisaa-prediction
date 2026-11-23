@@ -235,7 +235,7 @@ export default {
     for (const [o, s] of [['a', 'a-home'], ['b', 'b-home']]) {
       const e = view('home', o, s, 'web', 'error').text, c = view('home', o, s, 'web', 'conflict').text;
       has(e, /US run Tue · failed · from 11:20/); lacks(e, /succeeded/); has(e, /R2-HGB v4 incomplete/); lacks(e, /R2-HGB v4 waits/); has(e, /Query incomplete/);
-      has(c, /US run Tue · held/); lacks(c, /succeeded/); has(c, /2 not resolved/); has(e, /2 not resolved/); if (o === 'a') has(e, /Mon 21:15 · cutoff 21:00, last good/);
+      has(c, /US run Tue · held/); lacks(c, /succeeded/); has(c, /2 not resolved/); has(e, /2 not resolved/); if (o === 'a') has(e, /Mon 21:15 · cutoff 22:00 · issued 22:15, last good/);   // narrowed in MP-186: the US run freezes at 22:00 and issues 22:15 (ADM-22)
     }
     if (journeys().includes('runs')) { has(view('runs', 'a', 'a-clock', 'web', 'error').text, /run_8d02/); lacks(view('runs', 'a', 'a-clock', 'web', 'error').text, /succeeded/, 'Runs says otherwise'); }
   },
