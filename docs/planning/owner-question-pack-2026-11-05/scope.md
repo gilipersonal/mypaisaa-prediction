@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's and MP-186's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's and MP-188's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -43,8 +43,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 ## What the picks leave unproved
 
-- **Browser passkeys.** "Allowed in the browser" and "Finish in the phone browser" rest on a test that has not run: whether Cognito passkeys work in a phone browser without Apple's paid programme. If it fails, recovery falls back to ending on one path, and MP-188 draws that too. The test needs real infrastructure and its own yes.
-- **Removing a passkey on revoke.** Whether Cognito can do it, and what happens to a synced passkey, are unverified.
+- **Browser passkeys.** "Allowed in the browser" and "Finish in the phone browser" rest on a test that has not run: whether Cognito passkeys work in a phone browser without Apple's paid programme. If it fails, recovery falls back to ending on one path, and MP-188 draws that too. The test needs real infrastructure and its own yes. MP-197 runs it.
+- **Removing a passkey on revoke.** Whether Cognito can do it, and what happens to a synced passkey, are unverified. MP-197 tests it too.
 - **Browser storage of holdings.** "Both keep the five" has no record of how a browser would protect them. That needs an architecture answer before build.
 - **The Anthropic admin key.** No price is on record, and whether the account can have one is unverified. Any charge counts against £100.
 - **Paid Claude at launch.** Picking it does not turn it on: paid calls still need the owner's explicit word when the time comes. The record puts an ordinary month at £54.73, inside the £70 plan and 27p under the £60 warning with the scan at its cap.
@@ -74,6 +74,8 @@ Drawn on branch `MP-186-nav-cost-pill-clock` (23 November 2026), in the Journeys
 | OWN-24 | A view in Record | pressed | Screens redrawn |
 
 ### MP-188: Redraw passkeys and recovery to match the owner's picks
+
+Drawn on branch `MP-188-passkeys-recovery` (23 November 2026), in the Privacy journey, the admin Identity journey, the admin permission inventory and Prism, which gains an Unverified label. The browser passkey and the removal on revoke are labelled Unverified · MP-197, and the one-path fallback is drawn beside the browser finish.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |

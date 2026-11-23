@@ -72,7 +72,9 @@ export default {
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-devices', state: 'default' }, (v, at) => { must(count(v.html, />Revoke</g) === 3, `${here(at)}: three other devices can be revoked, found ${count(v.html, />Revoke</g)}`); has(v.text, /Devices and sessions/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-outside', state: 'error' }, (v, at) => { has(v.text, /That change did not save/, here(at)); has(v.text, /private default stays in force/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-outside', state: 'default' }, (v, at) => must(count(v.html, /role="switch"/g) === 3, `${here(at)}: each less private option needs its switch`));
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-device', state: 'default' }, (v, at) => { has(v.text, /Confirm on a device you trust/, here(at)); has(v.text, /Add a passkey here/, here(at)); });
+    // narrowed in MP-188: the last step says where this device can add a passkey, here on the Mac, in Phone web's browser, or on the Mac from the apps ("Redraw Privacy now", ADM-13; "Allowed in the browser", ADM-04)
+    const ADD = { web: /Add a passkey here/, pwa: /Add a passkey in this browser/, iphone: /Add a passkey on your Mac/, ipad: /Add a passkey on your Mac/ };
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-device', state: 'default' }, (v, at) => { has(v.text, /Confirm on a device you trust/, here(at)); has(v.text, ADD[at.surface], here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-checkup' }, (v, at) => {
       const rows = count(v.html, /role="button" tabindex="0" class="privacy-li/g), chevrons = count(v.html, /#i-chev-r/g);
       must(rows >= chevrons && (at.state === 'loading' || rows > 0), `${here(at)}: ${chevrons} chevrons and ${rows} real rows`);
@@ -349,10 +351,11 @@ export default {
 
   // A lost device is never the one in your hand, and the path in is one this frame has.
   'R2-s18': ({ view, must, has, lacks }) => {
-    const want = { iphone: ['Your iPhone passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], ipad: ['Google', 'iPhone, last active 40 min ago', 'iPhone', 'iPad, last active'], web: ['Your Mac passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], pwa: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'] };
+    // narrowed in MP-188: the iPhone app signs in with Google until the purchase, and the replacement goes on the Mac, never the new app ("Redraw Privacy now", ADM-13)
+    const want = { iphone: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], ipad: ['Google', 'iPhone, last active 40 min ago', 'iPhone', 'iPad, last active'], web: ['Your Mac passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], pwa: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'] };
     for (const [surface, [path, seen, gone, wrong]] of Object.entries(want)) {
       const t = view('privacy', 'b', 'privacy-b-lost', surface, 'default').text;
-      has(t, new RegExp(`${path}, just now`), `${surface}: the path in: ${t.slice(0, 200)}`); has(t, new RegExp(seen), surface); lacks(t, new RegExp(wrong), surface); has(t, new RegExp(`On the new ${gone},`), surface);
+      has(t, new RegExp(`${path}, just now`), `${surface}: the path in: ${t.slice(0, 200)}`); has(t, new RegExp(seen), surface); lacks(t, new RegExp(wrong), surface); has(t, new RegExp(`The new ${gone} cannot hold one until the Developer Program is bought`), surface); lacks(t, new RegExp(`On the new ${gone},`), surface);
       has(view('privacy', 'b', 'privacy-b-lost', surface, 'stale').text, new RegExp(`so the ${gone} is not yet revoked`), `${surface} stale`);
       has(view('privacy', 'b', 'privacy-b-lost', surface, 'error').text, new RegExp(`The ${gone} is still signed in`), `${surface} error`);
     }

@@ -416,6 +416,8 @@ table.spec code.wr, .specs code { white-space: normal; overflow-wrap: anywhere; 
 .chip.impl { background: var(--btn); color: var(--btn-ink); }
 .chip.impl .dot { background: var(--btn-ink); }
 .chip.depr { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink-2); text-decoration: line-through; }
+/* the owner picked it, and it rests on a test that has not run: a dashed edge, never the solid edge of Proposed (MP-188) */
+.chip.unverified { background: transparent; box-shadow: none; outline: 1.5px dashed var(--ink-2); outline-offset: -1.5px; color: var(--ink-2); }
 .on-glass .chip { background: var(--glass-thin); color: var(--ink); }
 .on-glass .chip .chg { color: var(--ink); }
 button.chip { border: 0; }
