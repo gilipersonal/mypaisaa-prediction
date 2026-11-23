@@ -18,12 +18,16 @@
   const tools = (...b) => `<span class="holdings-tools">${b.join('')}</span>`;
   const eyeInfo = t => tools(eyeBtn(), tb('info', t));
   const dis = (t, k = 'tinted') => `<button class="btn btn-${k} sm" type="button" disabled>${t}</button>`;
-  const LAST = 'Last good run Mon 21:15 · cutoff 21:00';
+  /* the whole portfolio in Error: only the US run failed, so the UK and India stand on today's runs (ADM-10). One holding names its own market's run. */
+  const LAST = LASTGOOD_ALL;
+  const asOfH = h => { const [a, c] = clockOf(h); return `As of ${a} London · data cutoff ${c}`; };
+  const lastH = h => { const [a, c] = clockOf(h); return h.v === 'XNAS' || h.v === 'ARCX' ? `Last good run Mon ${a} · cutoff ${c}` : asOfH(h); };
   const CLAUDE_OFF = 'Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.';
   const LATE = 'HSBC last priced 14:10, before the 16:35 UK close. That is inside the freshness limit, so it stays in the total.';
-  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
-  const kept = `<div class="holdings-acts">${proposed('MP40-Q12')}</div>`;
-  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept;
+  /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
+     How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
   /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
   const limit = `<div class="holdings-acts">${proposed('DATA-DEC-02')}</div>`;
   /* a line and the open question it rests on, inside one measure */
@@ -31,12 +35,13 @@
   /* one sentence, word for word, on every import, typed entry, draft, live approval, receipt and approve sheet */
   const NO_TRADE = 'This records what already happened at your broker. It places no trade.';
   const noTrade = `<p class="holdings-note">${NO_TRADE}</p>`;
-  const imp = (ctx, spec) => frame(ctx, spec.sheet ? spec : { ...spec, body: noTrade + spec.body });
+  /* every import screen is Imports' own place in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02); a phone reaches it under Settings */
+  const imp = (ctx, spec) => { const sp = placed(ctx, 'imports', spec, 'Settings'); return frame(ctx, sp.sheet ? sp : { ...sp, body: noTrade + sp.body }); };
   /* one state, one sentence: both sides of a flip say the same */
   const SAY_STALE = 'Its last price, 14:10, is past the freshness limit, so it leaves the total until its price returns, and its forecast is held.';
-  const SAY_OFF = 'Showing holdings from 21:15. Imports and approvals wait until you reconnect.';
+  const SAY_OFF = 'Showing holdings from 22:15. Imports and approvals wait until you reconnect.';
   const SAY_NO_MODEL = 'Forecast ranges and actions are off. Value, cost basis and return come from your records, so they stand.';
-  const sayError = () => stateCard('alert', 'Holdings did not load', 'The read failed at 21:14. These are the last good figures, from Mon 21:15. They may have moved.', btn('Try again', 'tinted sm', 'refresh'));
+  const sayError = () => stateCard('alert', 'The US run did not issue', 'Twelve Data failed at 21:16. Apple, NVIDIA and SPY are the last good figures, from Monday\'s run, issued 22:15. The UK and India ran today. They may have moved.', btn('Try again', 'tinted sm', 'refresh'));
   const saySplit = () => banner('', 'Rules and models disagree on Reliance.', 'At 3, 6 and 12 months the rules point down and the model points up. Both show, and no action is ranked. Models also split on Apple at 3 months, so Apple is not ranked and has no action either.', 'split');
   const sayAbstain = () => banner('', 'The model abstained on AstraZeneca.', 'Too little comparable history for a calibrated 6-month range, so none shows. Its value stands. It also abstains on Apple at 12 months. Neither is ranked, so neither has an action.', 'ban');
 
@@ -147,7 +152,7 @@
     ${money(o.val || '90,155.25', phone(ctx) ? 40 : 36)}
     ${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>`}
     ${valParts(o.held)}
-    <div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>
+    <div class="meta">${o.meta || ASOF_ALL}</div>
     ${statsTwo(ctx, o.partial)}
   </div>`;
   const partialSub = () => `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, in your ISA, is left out until its price returns.</span></div>`;
@@ -199,12 +204,15 @@
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
     <p>Nothing is plugged or overwritten. Fix a row, add the missing one, or ${o.done ? '' : 'commit and '}keep the difference open, in plain sight, with your reason.</p>${acts(btn('Find the row', 'tinted sm'), btn('Keep it open, with a reason', 'plain sm'))}</div>`;
 
-  /* the failures an upload can meet. Two depend on open owner questions, so they are labelled proposed */
+  /* the failures an upload can meet. The upload limit is an open owner question, so it is labelled proposed. A locked PDF opens on
+     your device: the owner pressed "Local unlock step" (MP40-Q2), so its row leads to Unlock a PDF */
+  /* one sentence, word for word, wherever a statement password is met (MP40-Q2) */
+  const PDF_RULE = 'The password never leaves this device, and it is never stored, logged or sent to a model.';
   const failRow = (k, n, t, s, chip, a) => `<div class="hrow" style="grid-template-columns:30px minmax(0,1fr);align-items:start" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0;display:grid;gap:6px"><div><div class="nm">${n}</div><div class="tk" style="white-space:normal">${t}</div></div><p class="small muted">${s}</p>${chip ? `<div class="holdings-acts">${chip}</div>` : ''}${a}</div></div>`;
   const failures = () => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>3 files not taken in</h3>${ev('bad', 'Nothing was read')}</div>
     ${failRow('PDF', 'isa-scan-copy.pdf', 'Unreadable file', 'Its contents do not match a PDF. It was refused at the door, and nothing reached Claude. Export it again from your broker.', '', acts(btn('Choose another', 'tinted sm')))}
     ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. No upload limit is approved yet.', proposed('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
-    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', 'Unlock it on your device, then upload the copy. MyPrediction never asks for or stores a statement password.', proposed('MP40-Q2'), acts(btn('How to unlock', 'tinted sm')))}</div>`;
+    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', `Locked with a password, so nothing read it. Open it on this device with its password, and only the unlocked copy is sent. ${PDF_RULE}`, '', acts(btn('Unlock on this device', 'tinted sm')))}</div>`;
   const interrupted = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('wifi-off', 's18')}</span>Upload stopped at 62%</div><p>isa-oct-2026-scan.pdf did not finish, so no part of it was kept. Send it again once you are back online. Your link has expired and a new one is made for you.</p><div class="calbar" role="img" aria-label="Stopped at 62%"><i style="width:62%;background:var(--ink-2)"></i></div>${acts(`<button class="btn btn-tinted sm" type="button" disabled>Send again when online</button>`)}</div>`;
   const STEP = ['Received', 'Checked', 'Reading', 'Ready'];
   const steps = at => `<ol class="holdings-steps" aria-label="Import progress">${STEP.map((t, i) => `<li class="${i < at ? 'done' : i === at ? 'now' : ''}"${i === at ? ' aria-current="step"' : ''}><i data-mo="barx"></i><span>${i < at ? ic('check', 's14') : ''}${t}</span></li>`).join('')}</ol>`;
@@ -237,7 +245,7 @@
     empty: () => head + stateCard('layers', 'No imports yet', 'Bring in a statement to start your ledger. Every row waits for your review, and nothing changes until you approve it.'),
     error: () => head + failures() + openWork(),
     stale: () => head + reconnecting() + openWork('stale'),
-    offline: () => off(ctx, 'Uploads need a connection. Past imports are shown from 21:15.') + interrupted() + openDiff(),
+    offline: () => off(ctx, 'Uploads need a connection. Past imports are shown from 22:15.') + interrupted() + openDiff(),
     noModel: () => head + scansOff() + openWork(),
     disagreement: () => head + openDiff() + openWork('disagreement'),
     abstention: () => head + readyCard(ctx, go) + openWork('abstention')
@@ -290,13 +298,13 @@
   /* ---------- Option A, one holding ---------- */
   const mRow = ([k, v, s, n]) => `<div class="holdings-m" data-mo="rise"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span><span class="n">${n}</span></div>`;
   const hHead = (ctx, h, o = {}) => `<div class="card valcard" data-mo="card"><div class="holdings-bar">${logo(h.c, h.lg)}<div class="w"><b>${h.n}</b>${h.t} · ${h.v} · ${L[h.t].units}</div>${illus()}</div>
-    <div style="margin-top:10px">${money(h.val, phone(ctx) ? 40 : 36)}</div><div class="d">${h.stale ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}Last price ${h.stale}</span>` : `${chg(h.day)}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span>`}</div><div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div></div>`;
+    <div style="margin-top:10px">${money(h.val, phone(ctx) ? 40 : 36)}</div><div class="d">${h.stale ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}Last price ${h.stale}</span>` : `${chg(h.day)}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span>`}</div><div class="meta">${o.meta || asOfH(h)}</div></div>`;
   const acctCard = (h, ctx) => `<div class="card" style="padding:0 0 4px" data-mo="card"><div class="holdings-head"><h3>In your accounts</h3></div>${accountsOf(h).map(([n, u, v, b, r]) => `<div class="holdings-m" data-mo="rise"><span class="k">${n} · ${u}</span><span class="v">${v}</span><span class="r2">${ctx.state === 'error' ? 'Not shown' : r}</span><span class="n">${b}</span></div>`).join('')}</div>`;
   /* the reasons behind a ranked action on a holding, in the same parts as the ranking (MP-144). Computed by code, illustrative */
   const WHY = { AAPL: ['Protection leads, and no part is weak.', 'Growth 68, Protection 70, Opportunity 65 · score 68 · Policy v1'], NIFTYBEES: ['Protection leads, and its growth and opportunity sit close together.', 'Growth 58, Protection 76, Opportunity 56 · score 65 · Policy v1'] };
   const actionRow = h => `<div class="holdings-bar" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--hairline)">${badge(h.act)}<div class="w">Ranked action · 6 months</div><span class="chip illus">Decision support</span></div><p class="small muted" style="margin-top:8px">${WHY[h.t][0]} Your return is not part of it.</p><p class="small muted" style="margin-top:4px">${WHY[h.t][1]}</p>`;
   const fcAction = (h, ctx) => {
-    const st = ctx.state, foot = `<div class="fmeta" style="margin-top:8px"><span>${st === 'error' ? 'Last good run Mon 21:15' : 'As of 21:15 London'}</span><span>Data cutoff 21:00</span><span>R2-HGB v3</span><span>Illustrative</span></div>`;
+    const st = ctx.state, foot = `<div class="fmeta" style="margin-top:8px"><span>${(st === 'error' ? lastH(h) : asOfH(h)).split(' · ')[0]}</span><span>Data cutoff ${clockOf(h)[1]}</span><span>R2-HGB v3</span><span>Illustrative</span></div>`;
     if (st === 'noModel') return stateCard('cube', 'No approved model', `No approved model covers ${h.n} yet, so no forecast or action shows. Your figures come from your records, so everything else here stands.`);
     if (st === 'abstention') return stateCard('ban', 'The model abstained', 'Too little comparable history for a calibrated 6-month range, so no range and no action show.', '', ev('none', 'Abstained · no range shown'));
     if (st === 'disagreement') return `<div class="card fcard" data-mo="card"><div class="label">6-month forecast · RELIANCE</div><p class="small muted" style="margin:6px 0 8px">The rules point down and the model points up. Each side shows, and no action is ranked.</p><div class="holdings-ba" style="margin-bottom:8px"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, median</span><b>${pct(byT.RELIANCE.med)}</b><span>Baseline, for comparison</span><b>${pct(BASE.med)}</b></div>${dual()}${foot}</div>`;
@@ -312,15 +320,15 @@
     ${sourcesOf(h).map(([k, n, s]) => `<div class="holdings-acc" style="grid-template-columns:30px minmax(0,1fr)" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0"><b>${n}</b><span>${s}</span></div></div>`).join('')}</div>`;
   const oneTop = (ctx, h) => {
     const st = ctx.state;
-    if (st === 'loading') return hHead(ctx, h, { meta: 'Last good 21:15 · refreshing' });
-    if (st === 'offline') return off(ctx, 'Showing Apple from 21:15. Nothing updates until you reconnect.') + hHead(ctx, h, { meta: 'From 21:15 · not updating' });
-    return hHead(ctx, h, st === 'error' ? { meta: LAST } : {});
+    if (st === 'loading') return hHead(ctx, h, { meta: 'Last good 22:15 · refreshing' });
+    if (st === 'offline') return off(ctx, 'Showing Apple from 22:15. Nothing updates until you reconnect.') + hHead(ctx, h, { meta: 'From 22:15 · not updating' });
+    return hHead(ctx, h, st === 'error' ? { meta: lastH(h) } : {});
   };
   const holdingA = (ctx, o = {}) => {
     const st = ctx.state, h = pick(st);
     const top = oneTop(ctx, h);
     const list = st === 'loading' ? skel(3) : st === 'error'
-      ? `<div class="card" style="padding:4px 0" data-mo="card">${measures(h).slice(0, 3).map(mRow).join('')}${mRow(['Money-weighted return', 'Not shown', ev('bad', 'Integrity failed'), 'The cash flows did not balance at 21:14. No partial rate is shown. It is tried again on the next run.'])}</div>`
+      ? `<div class="card" style="padding:4px 0" data-mo="card">${measures(h).slice(0, 3).map(mRow).join('')}${mRow(['Money-weighted return', 'Not shown', ev('bad', 'Integrity failed'), 'The cash flows did not balance at 21:16. No partial rate is shown. It is tried again on the next run.'])}</div>`
       : `<div class="card" style="padding:4px 0" data-mo="card"><div class="holdings-head"><h3>What your evidence supports</h3></div>${measures(h).map(mRow).join('')}</div>`;
     const gap = st === 'empty' ? stateCard('layers', 'Snapshot only', 'You have units and a value, with no purchases behind them. Older statements fill the history through a rebuild you approve. Forecasts you have seen stay as they were.', btn('Go to Imports', 'tinted sm', 'chev-r')) : '';
     const body = `${top}${list}${gap}${st === 'error' ? stateCard('alert', 'One measure failed', 'Value, cost basis and gain are sound. Only the return failed its check, so only the return is held back.') : ''}${acctCard(h, ctx)}`;
@@ -344,7 +352,7 @@
     if (st === 'disagreement' && h.t === 'RELIANCE') return 'Split · no action';
     return `6M ${pct(h.med)}, ${pct(h.lo)} to ${pct(h.hi)}`;
   };
-  const accSummary = (ctx, o = {}) => `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${o.label || 'All accounts'}</span>${o.chip || illus()}</div>${money(o.val || '90,155.25', phone(ctx) ? 40 : 36)}${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today · 3 accounts</span></div>`}${valParts(o.held)}<div class="meta">${o.meta || 'As of 21:15 London · data cutoff 21:00'}</div>${statsTwo(ctx, o.partial)}</div>`;
+  const accSummary = (ctx, o = {}) => `<div class="card valcard" data-mo="card"><div class="top"><span class="label">${o.label || 'All accounts'}</span>${o.chip || illus()}</div>${money(o.val || '90,155.25', phone(ctx) ? 40 : 36)}${o.sub || `<div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today · 3 accounts</span></div>`}${valParts(o.held)}<div class="meta">${o.meta || ASOF_ALL}</div>${statsTwo(ctx, o.partial)}</div>`;
   const accSummaryPartial = ctx => accSummary(ctx, { label: 'Known value, 6 of 7 priced', val: '84,051.05', held: '78,508.20', chip: ev('part', 'Partial'), partial: true, sub: partialSub() });
   /* what built each position: units and costs add up to the holding, and each dated schedule, closed at its value on 3 Nov 2026, gives its stated rate.
      Reliance and AstraZeneca change direction three times, so neither has a proved single rate: Reliance's search finds one and cannot prove it the only one, and AstraZeneca's uses its budget first (MP-72, FIN-14, proposed FIN-OD-04) */
@@ -355,7 +363,7 @@
     AZN: [['plus', 'Bought 5', '3 Mar 2026 · £500.00', 'Statement, page 1', ''], ['plus', 'Bought 20', '8 Apr 2025 · £2,000.00', 'Statement, page 1', ''], ['trim', 'Sold 40', '2 Dec 2024 · £3,920.00', 'Statement, page 1', ''], ['plus', 'Bought 100', '14 Jun 2024 · £9,500.00', 'Statement, page 1', '']]
   };
   const holdingB = ctx => {
-    const st = ctx.state, h = pick(st), ms = measures(h), showing = st === 'error' ? ms.slice(0, 3).concat([['Money-weighted return', 'Not shown', ev('bad', 'Integrity failed'), 'Cash flows did not balance at 21:14. No partial rate shows.']]) : ms;
+    const st = ctx.state, h = pick(st), ms = measures(h), showing = st === 'error' ? ms.slice(0, 3).concat([['Money-weighted return', 'Not shown', ev('bad', 'Integrity failed'), 'Cash flows did not balance at 21:16. No partial rate shows.']]) : ms;
     const statGrid = st === 'loading' ? skel(2) : `<div class="holdings-stat">${showing.map(([k, v, s, n]) => `<div data-mo="card"><span class="k">${k}</span><span class="v">${v}</span>${s}<span class="n">${n}</span></div>`).join('')}</div>`;
     const accts = h.t === 'AAPL' ? [['All', 'All accounts'], ['ISA', 'Stocks ISA'], ['General', 'General account']] : [[L[h.t].at, L[h.t].at]];
     const events = st === 'empty' ? stateCard('layers', 'No events behind this holding', 'A snapshot records units and value only, never invented purchases. Older statements add the history through a rebuild you approve.', btn('Go to Imports', 'tinted sm', 'chev-r'))
@@ -380,7 +388,7 @@
     ${gRow(G.d, { dis: true, chip: ev('none', 'Duplicate'), nofx: true })}</div>`;
 
   /* ---------- a field in a form. Every value here is illustrative ---------- */
-  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="text" value="${v}"${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
+  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="${o.type || 'text'}" value="${v}"${o.type === 'password' ? ' autocomplete="off"' : ''}${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
   const claudeOff = t => banner('', 'Claude is off.', `${CLAUDE_OFF} ${t}`, 'cube');
   const stale214 = t => banner('warn', 'This draft is out of date.', t, 'clock') + acts(btn('Refresh preview', 'primary sm', 'refresh'));
 
@@ -407,6 +415,31 @@
     id, title: 'Type it in',
     note: 'A typed row becomes a draft, then takes the same preview and approval as a file. Error refuses a missing field, Stale resumes an unsent draft against a newer ledger, and Abstaining records a snapshot with no invented purchases.',
     render: ctx => imp(ctx, { tab: 4, title: 'Type it in', back: 'Imports', fresh: 'default', actions: eyeInfo('About typed entries'), body: top + manualBody(ctx), rail: stateCard('shield', 'Same path as a file', 'Your entry becomes a draft, then a preview, then an approval. It never reaches your ledger on its own. Claude takes no part, and no agent can type one for you.') })
+  });
+
+  /* ---------- a password-protected PDF, opened on this device. The owner pressed "Local unlock step" (MP40-Q2, 5 Nov 2026): you type
+     the password in a step on your device, which opens the PDF there and sends the unlocked copy. Drawn on web, iPhone and iPad. ---------- */
+  const lockChip = t => `<span class="chip" data-mo="chip">${ic('lock', 's14')}${t}</span>`;
+  const unlockCard = (ctx, o = {}) => `<div class="card state" data-mo="card">${fileHead(o.chip || lockChip('Locked'), 'Password-protected PDF', o.none ? 'No file chosen on this device' : 'demat-oct-locked.pdf · on this device')}
+    <p>${PDF_RULE}</p>
+    <div class="holdings-form">${fld('Statement password', o.typed ? '••••••••••' : '', { wide: 1, type: 'password', off: o.off || o.none, bad: o.bad })}</div>
+    <p>Only the unlocked copy is sent. It is checked at the door like any file and read into a draft. Nothing reaches your holdings until you approve it.</p>
+    ${acts(o.go || btn('Open on this device', 'primary sm'), btn('Cancel', 'plain sm'))}</div>`;
+  const unlockBody = ctx => region(ctx, {
+    ok: () => unlockCard(ctx, { typed: true }),
+    loading: () => banner('', 'Opening on this device.', 'Nothing has been sent yet. If this stops, nothing is sent and the password is not kept.', 'clock') + unlockCard(ctx, { typed: true, off: true, chip: `<span class="chip" data-mo="chip"><span class="spin" aria-hidden="true"></span>Opening</span>`, go: dis('Opening on this device', 'primary') }),
+    empty: () => banner('', 'Choose the locked PDF.', 'It opens on the device that has it, so choose it from this one.', 'layers') + unlockCard(ctx, { none: true, go: btn('Choose a file', 'primary sm') }),
+    error: () => banner('fall', 'That password did not open it.', 'Nothing was sent, and what you typed is cleared. Type it again.', 'alert') + unlockCard(ctx, { bad: 'This password did not open the PDF.', go: dis('Open on this device', 'primary') }),
+    stale: () => banner('warn', 'You left this step at 21:09.', 'The password you typed was not kept, so type it again. Nothing was sent.', 'clock') + unlockCard(ctx, { go: dis('Open on this device', 'primary') }),
+    offline: () => banner('', 'Offline.', 'Unlocking sends the copy straight away, and imports never run offline. Nothing is opened or kept until you reconnect.', 'wifi-off') + unlockCard(ctx, { off: true, go: dis('Open when online', 'primary') }),
+    noModel: () => claudeOff('Unlocking needs no model. Once sent, a text PDF reads now and a scan waits in the queue.') + unlockCard(ctx, { typed: true })
+  });
+  const unlockScreen = (id, back, top = '', after = 'Preview') => ({
+    id, title: 'Unlock a PDF',
+    note: 'The owner pressed "Local unlock step" (MP40-Q2): you type the password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Reached from a locked file. Error is a wrong password, Stale a step left open, and Offline waits, because imports never run offline.',
+    na: { disagreement: `Unlocking opens one file on this device and compares it with nothing. A difference shows once the unlocked copy is read, on ${after}.`, abstention: 'No model reads anything in this step, so nothing can abstain. The password never reaches a model.' },
+    /* on a phone the bar holds the back label beside the title, so the title is the one word */
+    render: ctx => imp(ctx, { tab: 4, title: phone(ctx) ? 'Unlock' : 'Unlock a PDF', back, fresh: 'default', actions: tb('x', 'Cancel'), body: top + unlockBody(ctx), rail: phone(ctx) ? '' : stateCard('lock', 'Why on this device', 'The PDF opens where it is kept, so its password is typed and used only there. MyPrediction receives the unlocked copy, never the password.') })
   });
 
   /* ---------- guided edit and exclude: each makes a new revision and voids any earlier approval (MP-53) ---------- */
@@ -444,7 +477,7 @@
     empty: () => stateCard('layers', 'No rebuild to propose', 'A proposal appears when an older statement fills the history behind a snapshot.', btn('Back to Imports', 'tinted sm')),
     error: () => stateCard('alert', 'The proposal did not build', 'An older statement failed its checks, so no proposal was made. Your snapshot stays as it is.', btn('Try again', 'tinted sm', 'refresh')),
     stale: () => banner('warn', 'This proposal is out of date.', 'Your ledger moved to revision 214, so proposal 1 is superseded. Refresh it and approve it again.', 'clock') + acts(btn('Refresh proposal', 'primary sm', 'refresh')) + rebuildCard(ctx, { chip: ev('old', 'Superseded') }) + rebuildFx({ go: dis('Review and approve') }),
-    offline: () => off(ctx, 'Showing this proposal from 21:15. Approval needs a connection.') + rebuildCard(ctx) + rebuildFx({ go: dis('Review and approve') }),
+    offline: () => off(ctx, 'Showing this proposal from 22:15. Approval needs a connection.') + rebuildCard(ctx) + rebuildFx({ go: dis('Review and approve') }),
     disagreement: () => banner('', 'The statements fall 20 units short.', 'They reach 4,180 units and your snapshot says 4,200. The baseline cannot retire until you settle it.', 'split') + rebuildCard(ctx, { chip: ev('amb', 'Difference open'), base: '4,200 units, kept', units: '4,180 units, 8 events', after: '4,200, 20 unexplained', gen: 'Stays at 1' }) + rebuildFx({ rec: '20 units apart', basis: 'Unavailable until settled', gain: 'Unavailable until settled', ret: 'Unavailable until settled', go: dis('Review and approve') }),
     noModel: () => claudeOff('Code builds this proposal from your older statements, so it carries on.') + rebuildCard(ctx) + rebuildFx(),
     abstention: () => banner('', 'The history is only part there.', 'The statements reach back to June 2025 and cover 2,600 of the 4,200 units, so the return stays unavailable. How a part history rebases is still open, so this is one way to draw it, and it cannot be approved yet.', 'ban') + acts(proposed('FIN-OD-03')) + rebuildCard(ctx, { chip: ev('part', 'Part history'), base: '1,600 units kept', units: '2,600 units, 5 events', after: '4,200, 1,600 from the baseline', gen: 'Stays at 1' }) + rebuildFx({ rec: 'Units agree', basis: 'Partial, 2,600 of 4,200 units', gain: 'Partial, 2,600 of 4,200 units', ret: 'Stays unavailable', go: dis('Review and approve') })
@@ -466,7 +499,7 @@
     empty: () => stateCard('check', 'Nothing open', 'Your last difference was resolved by you on 24 Oct, with your reason: “Broker confirmed a print error on the statement; the ledger figure stands.” The reason stays on the receipt.', '', ev('ok', 'Resolved by you')),
     error: () => banner('fall', 'That did not save.', 'Your reason is kept, and the difference stays open. Trying again cannot save it twice.', 'alert') + diffCard(ctx) + resolveCard(ctx),
     stale: () => banner('warn', 'Reconciled again at 21:09.', 'A newer statement arrived and the difference stands. Your reason has not been saved yet.', 'clock') + diffCard(ctx) + resolveCard(ctx),
-    offline: () => off(ctx, 'Showing this difference from 21:15. It stays open, and resolving it waits until you reconnect.') + diffCard(ctx) + resolveCard(ctx, { off: true }),
+    offline: () => off(ctx, 'Showing this difference from 22:15. It stays open, and resolving it waits until you reconnect.') + diffCard(ctx) + resolveCard(ctx, { off: true }),
     noModel: () => claudeOff('Code reconciles, and only you resolve, so this works as usual. Claude cannot explain it for now.') + diffCard(ctx) + resolveCard(ctx),
     disagreement: () => banner('', 'Part of it is explained.', 'A fix to one row closed £5.05. The other £3.10 stays open.', 'split') + diffCard(ctx, { by: '£3.10 of £8.15', ledger: '£1,525.20' }) + resolveCard(ctx),
     abstention: () => banner('', 'Code could not place this.', 'It does not match cash, fees, FX or dates cleanly, so it stays unclassified and open.', 'ban') + diffCard(ctx, { kind: 'Not classified', chip: ev('part', 'Not classified') }) + resolveCard(ctx)
@@ -564,7 +597,7 @@
     const val = () => (p ? valueCard(ctx) : '');
     const body = region(ctx, {
       ok: () => val() + rows(),
-      loading: () => (p ? valueCard(ctx, { meta: 'Last good 21:15 · refreshing' }) : '') + (p ? skel(4) : `<div class="holdings-wide">${skel(6)}</div>`),
+      loading: () => (p ? valueCard(ctx, { meta: 'Last good 22:15 · refreshing' }) : '') + (p ? skel(4) : `<div class="holdings-wide">${skel(6)}</div>`),
       empty: () => stateCard('grid', 'No holdings yet', 'Holdings come from records you approve: a statement, a spreadsheet, a screenshot or a typed entry. MyPrediction never connects to a broker.', btn('Go to Imports', 'primary sm', 'chev-r')),
       error: () => sayError() + (p ? valueCard(ctx, { meta: LAST }) : '') + rows(),
       stale: () => banner('warn', 'HSBC is stale.', SAY_STALE, 'clock') + limit + (p ? partialCard(ctx) : '') + rows(),
@@ -573,7 +606,7 @@
       disagreement: () => saySplit() + val() + rows(),
       abstention: () => sayAbstain() + val() + rows()
     });
-    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? partialCard(ctx) : st === 'error' ? valueCard(ctx, { meta: LAST }) : st === 'loading' ? valueCard(ctx, { meta: 'Last good 21:15 · refreshing' }) : valueCard(ctx))) + coverage(ctx) + watchCard(ctx) + toImports(importNow(st));
+    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? partialCard(ctx) : st === 'error' ? valueCard(ctx, { meta: LAST }) : st === 'loading' ? valueCard(ctx, { meta: 'Last good 22:15 · refreshing' }) : valueCard(ctx))) + coverage(ctx) + watchCard(ctx) + toImports(importNow(st));
     return { body, rail };
   };
   const acctParts = ctx => {
@@ -581,7 +614,7 @@
     const cards = () => ACC.map(a => accCard(a, ctx)).join('');
     const body = region(ctx, {
       ok: () => (p ? accSummary(ctx) : '') + cards(),
-      loading: () => (p ? accSummary(ctx, { meta: 'Last good 21:15 · refreshing' }) : '') + skel(3) + skel(2),
+      loading: () => (p ? accSummary(ctx, { meta: 'Last good 22:15 · refreshing' }) : '') + skel(3) + skel(2),
       empty: () => stateCard('grid', 'No accounts yet', 'An account appears with its first statement or typed entry, once you approve it. MyPrediction never connects to a broker.', btn('Add a statement', 'primary sm')),
       error: () => sayError() + (p ? accSummary(ctx, { meta: LAST }) : '') + cards(),
       stale: () => banner('warn', 'HSBC is stale.', SAY_STALE, 'clock') + limit + (p ? accSummaryPartial(ctx) : '') + cards(),
@@ -590,7 +623,7 @@
       disagreement: () => saySplit() + (p ? accSummary(ctx) : '') + cards(),
       abstention: () => sayAbstain() + (p ? accSummary(ctx) : '') + cards()
     });
-    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? accSummaryPartial(ctx) : st === 'error' ? accSummary(ctx, { meta: LAST }) : st === 'loading' ? accSummary(ctx, { meta: 'Last good 21:15 · refreshing' }) : accSummary(ctx))) + coverage(ctx) + watchCard(ctx) + (st === 'loading' ? toImports('Imports · 1 difference open', 'General account, Q3 · cash differs by £8.15.') : toImports('Imports', 'Statements, drafts and open differences, for every account.'));
+    const rail = st === 'empty' ? '' : (p ? '' : (st === 'stale' ? accSummaryPartial(ctx) : st === 'error' ? accSummary(ctx, { meta: LAST }) : st === 'loading' ? accSummary(ctx, { meta: 'Last good 22:15 · refreshing' }) : accSummary(ctx))) + coverage(ctx) + watchCard(ctx) + (st === 'loading' ? toImports('Imports · 1 difference open', 'General account, Q3 · cash differs by £8.15.') : toImports('Imports', 'Statements, drafts and open differences, for every account.'));
     return { body, rail };
   };
   const accountPick = () => `<div class="card top5" style="padding:4px 0" data-mo="card"><div class="holdings-head"><h3>Add a statement</h3></div>${ACC.map(a => `<button class="holdings-acc holdings-btn" type="button" data-mo="rise"><span class="logo sm" style="--c:var(${a.c})" aria-hidden="true">${ic('layers', 's16')}</span><span class="t"><b>${a.n}</b><span>${a.ev[1]}</span></span>${ic('chev-r', 's18')}</button>`).join('')}</div>`;
@@ -613,9 +646,9 @@
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
-        note: 'Imports is its own place, under Settings until the owner says where it lives. Error shows the three ways a file is refused; the upload limit (MP40-Q1) and how a locked PDF is opened (MP40-Q2) are open owner questions, so those two are labelled proposed. Offline shows an interrupted upload; Stale shows reconnect.',
+        note: 'Imports is its own place: in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02), and under Settings on a phone. Error shows the three ways a file is refused. The upload limit (MP40-Q1) is an open owner question, so it is labelled proposed. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, dropZone(ctx), 'Open preview'), rail: importsRail(ctx) })
-      }, manualScreen('a-manual'), {
+      }, unlockScreen('a-unlock', 'Imports'), manualScreen('a-manual'), {
         id: 'a-preview', title: 'Preview: check every row',
         note: 'A scan read by Claude with no tools, one field flagged low confidence, a duplicate found, and one ambiguous listing. Unresolved groups stay visible and unselected. Each edit makes a new revision and voids any earlier approval. Disagreement shows a reconciliation mismatch.',
         render: ctx => {
@@ -639,7 +672,7 @@
       }, editScreen('a-edit', 'Preview'), {
         id: 'a-approve', title: 'Approve exactly this', na: naApprove,
         note: 'Bound to the rows, the hash and the ledger revision you saw. By now the price is confirmed and the listing chosen, so three groups are selected. Face ID alone does not count: the server checks a fresh sign-in.',
-        render: ctx => frame(ctx, { tab: 4, title: 'Preview', back: 'Imports', fresh: 'default', actions: eyeBtn(), body: ctx.state === 'empty' ? draftHead(ctx) + groupsCard(ctx, { none: true }) : draftHead(ctx, { rev: ctx.state === 'abstention' ? 5 : 6, claude: 'Read by Claude, no tools, your checks done' }) + groupsCard(ctx, { resolved: true, unread: ctx.state === 'abstention' }), sheet: approveSheet(ctx) })
+        render: ctx => frame(ctx, { side: wideKind(ctx) ? 'imports' : undefined, tab: 4, title: 'Preview', back: 'Imports', fresh: 'default', actions: eyeBtn(), body: ctx.state === 'empty' ? draftHead(ctx) + groupsCard(ctx, { none: true }) : draftHead(ctx, { rev: ctx.state === 'abstention' ? 5 : 6, claude: 'Read by Claude, no tools, your checks done' }) + groupsCard(ctx, { resolved: true, unread: ctx.state === 'abstention' }), sheet: approveSheet(ctx) })
       }, liveScreen('a-live'), {
         id: 'a-done', title: 'Committed, and how to correct it', na: { noModel: 'A commit reads your approval and your rows. It uses no model, so a missing model cannot touch this screen.' },
         note: 'All of it or none of it: nobody sees a part. A correction keeps the original and links its inverse. Offline shows a lost response, resolved by reading the receipt, never by a second commit.',
@@ -672,11 +705,11 @@
         render: ctx => { const h = pick(ctx.state); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Accounts', actions: eyeBtn(), ...holdingB(ctx) }); }
       }, {
         id: 'b-imports', title: 'Imports',
-        note: 'Imports is its own place in this option too, under Settings until the owner says where it lives: history, open drafts, open differences and records, for every account.',
+        note: 'Imports is its own place in this option too, in the iPad and desktop sidebar and under Settings on a phone (OWN-02): history, open drafts, open differences and records, for every account.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, ctx.state === 'empty' ? methods(ctx) : accountPick(), 'Start checking'), rail: importsRail(ctx) })
       }, {
         id: 'b-add', title: 'Add a statement, read it',
-        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply; the upload limit (MP40-Q1) and locked PDFs (MP40-Q2) are open, so those two are labelled proposed.',
+        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. The upload limit (MP40-Q1) is open, so it is labelled proposed, and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
         render: ctx => {
           const st = ctx.state, top = STEPB(st === 'default' || st === 'stale' || st === 'noModel' || st === 'abstention' ? 1 : 0);
           const body = top + region(ctx, {
@@ -693,7 +726,7 @@
           const rail = phone(ctx) ? (['default', 'stale', 'abstention', 'disagreement', 'loading'].includes(st) ? methods(ctx) : '') : methods(ctx) + records(false, st === 'offline');
           return imp(ctx, { tab: 4, title: 'Add statement', back: 'Imports', fresh: 'default', actions: tb('x', 'Cancel'), body, rail });
         }
-      }, manualScreen('b-manual', STEPB(0)), {
+      }, unlockScreen('b-unlock', 'Add statement', STEPB(0), 'Check'), manualScreen('b-manual', STEPB(0)), {
         id: 'b-check', title: 'Check: one question at a time',
         note: 'A scan read by Claude with no tools. A low-confidence field, an unclear listing and a transfer each become one question, and answering makes a new revision. A duplicate is not a question: it is left out and listed until you say otherwise. Unanswered groups stay visible and unselected.',
         render: ctx => {
@@ -734,7 +767,7 @@
       }, editScreen('b-edit', 'Check', STEPB(2)), {
         id: 'b-approve', title: 'Approve exactly this', na: naApprove,
         note: 'Questions 1 and 2 are answered and the transfer is left pending, so three groups are selected. The sheet is the same in both options, because what you approve is the same: these rows, this hash, this ledger revision, within 15 minutes of a fresh sign-in.',
-        render: ctx => frame(ctx, { tab: 4, title: 'Approve', back: 'Imports', fresh: 'default', actions: eyeBtn(), body: STEPB(3) + (ctx.state === 'empty' ? groupList({ none: true }) : groupList({ resolved: true, unread: ctx.state === 'abstention' })), sheet: approveSheet(ctx) })
+        render: ctx => frame(ctx, { side: wideKind(ctx) ? 'imports' : undefined, tab: 4, title: 'Approve', back: 'Imports', fresh: 'default', actions: eyeBtn(), body: STEPB(3) + (ctx.state === 'empty' ? groupList({ none: true }) : groupList({ resolved: true, unread: ctx.state === 'abstention' })), sheet: approveSheet(ctx) })
       }, liveScreen('b-live', STEPB(3)), {
         id: 'b-done', title: 'Committed, and how to reverse it', na: { noModel: 'A commit reads your approval and your rows. It uses no model, so a missing model cannot touch this screen.' },
         note: 'Option A leads with correcting a row; this one leads with reversing the import. Both are always available. Disagreement also shows a reversal refused because a later event depends on these rows.',

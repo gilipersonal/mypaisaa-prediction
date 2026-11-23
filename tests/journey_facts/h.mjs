@@ -71,7 +71,8 @@ const HELD = ['AAPL', 'NVDA', 'SPY', 'AZN', 'HSBA', 'RELIANCE', 'NIFTYBEES'];
 const ROOT_NAMES = [...HELD, 'MSFT', 'JPM', 'ICICIBANK', 'XAU/USD'];
 const SAYS_OUT = /split|disagree|abstain/i;
 const nameIn = (r, names) => names.filter((t) => new RegExp(`(^|[\\s>])${t.replace('/', '\\/')}(?=[\\s<·]|$)`).test(words(r)));
-const holdingRows = (html) => html.slice(0, html.indexOf('home-link')).split(/(?=<div class="hrow|<tr[ >])/).filter((r) => /^<(div class="hrow|tr[ >])/.test(r) && !r.includes('<th'));
+// narrowed in MP-186: the cost row is gone ("Pill on every Home", OWN-06), so the holdings end where the board's heading starts
+const holdingRows = (html) => html.slice(0, html.indexOf('>Top 5 by segment<')).split(/(?=<div class="hrow|<tr[ >])/).filter((r) => /^<(div class="hrow|tr[ >])/.test(r) && !r.includes('<th'));
 const flaggedOnly = ({ each, view, must }) => {
   const holdsAt = (where, rows, names, state, hz, cell) => {
     must(rows.length === names.length, `${where}: ${rows.length} rows of ${names.length}`);
@@ -196,14 +197,15 @@ export default {
     for (const [journey, screen] of [['forecast', 'a-instrument'], ['forecast', 'b-ladder'], ['forecast', 'a-3m'], ['forecast', 'a-12m'], ['forecast', 'b-forecast']]) each({ journey, screen, state: 'loading' }, (v, at) => {
       has(v.html, /fc-dim/, `${screen} ${at.surface}: the forecast is not dimmed`);
       has(v.text, /80% range/, `${screen} ${at.surface}: the range is hidden`);
-      has(v.text, /Data cutoff 21:00/, `${screen} ${at.surface}: the cutoff is hidden`);
+      has(v.text, /Data cutoff (22:00|17:35|11:00)/, `${screen} ${at.surface}: the cutoff is hidden`);   // narrowed in MP-186: each market's +60 cutoff (ADM-22)
     });
   },
   'R1-h6': ({ each, has, lacks }) => {
     for (const journey of ['home', 'forecast']) each({ journey, state: 'error' }, (v, at) => lacks(v.text, /20:45/, `${at.screen} ${at.surface}: a second version, 20:45`));
     for (const [journey, screen] of [['home', 'a-portfolio'], ['home', 'b-ledger'], ['forecast', 'a-instrument'], ['forecast', 'b-ladder'], ['forecast', 'a-short'], ['forecast', 'a-forecasts']]) each({ journey, screen, state: 'error' }, (v, at) => {
-      has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, `${screen} ${at.surface}: not the last good run`);
-      lacks(v.text, /As of 21:15 London/, `${screen} ${at.surface}: today's as-of on Monday's run`);
+      // narrowed in MP-186: the US run issues 22:15 with its cutoff at 22:00, and only the US run failed (ADM-10, ADM-22)
+      has(v.text, /[Ll]ast good run Mon 22:15 · cutoff 22:00/, `${screen} ${at.surface}: not the last good run`);
+      lacks(v.text, /As of 22:15 London/, `${screen} ${at.surface}: today's as-of on Monday's run`);
     });
     each({ journey: 'home', screen: 'a-portfolio', state: 'error', surface: WIDE }, (v, at) => {
       has(v.text, /Mon 21:00 Twelve Data/, `${at.surface}: the Data column is not on Monday`);
@@ -326,10 +328,12 @@ export default {
   },
   /* owner's request on this round: the home cost row reads the month, and every state reads as the cost journey does */
   'R1-h-cost': ({ each, has, lacks, journeys, view, must }) => {
-    const want = { default: /£46\.42 so far, up to £59\.73 of the £100 ceiling/, loading: /Last good: £46\.42 so far, up to £59\.73 of the £100 ceiling/, empty: /£27\.84 so far, up to £59\.73/, error: /£44\.40 last reconciled, up to £59\.73 estimated/, stale: /Billing 39 h old/, offline: /Offline · from 21:15/, noModel: /£39\.02 so far, forecast £46\.48 of the £100 ceiling/, disagreement: /£46\.73 with the bill, up to £60\.04/, abstention: /£39\.36 known so far/ };
-    for (const state of STATES) for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state }, (v, at) => has(v.text, want[state], `${screen} ${at.surface} ${state}: the cost row`));
-    each({ journey: 'home', screen: 'a-portfolio', state: 'noModel' }, (v, at) => { has(v.text, /Claude off/, `${at.surface}: Claude off`); lacks(v.text, /£46\.42/, `${at.surface}: Claude spend on a Claude-off row`); });
-    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => must(v.text.indexOf('Running cost') > v.text.indexOf('NIFTYBEES ·'), 'the cost row is not after the holdings'));
+    // narrowed in MP-186: the owner picked "Pill on every Home" (OWN-06), so the row after the holdings goes and a pill in the top bar
+    // reads the month in every state, in the cost journey's own figures. The row's words are retired with it; the month they held stays.
+    const want = { default: /£46\.42 committed so far\. On plan\. Forecast up to £59\.73/, loading: /Last good £46 .*Refreshing · last good 22:15/, empty: /£27\.84 committed so far\. New month/, error: /£37\.69 last reconciled\. Stale · 39 h old\. Forecast up to £59\.73, estimated only/, stale: /billing 39 h old/, offline: /Offline · from 22:15/, noModel: /£39\.02 committed so far\. Claude off\. Forecast £46\.48/, disagreement: /£46\.73 with the bill\. Estimate and bill differ/, abstention: /£39\.36 known so far\. Claude unknown/ };
+    for (const state of STATES) for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state }, (v, at) => { has(v.text, want[state], `${screen} ${at.surface} ${state}: the pill`); lacks(v.text, /Running cost/, `${screen} ${at.surface} ${state}: the row is back`); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'noModel' }, (v, at) => { has(v.text, /Claude off/, `${at.surface}: Claude off`); lacks(v.text, /£46\.42/, `${at.surface}: Claude spend on a Claude-off pill`); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => must(v.text.indexOf('Cost this month') >= 0 && v.text.indexOf('Cost this month') < v.text.indexOf('NIFTYBEES ·'), 'the pill is not in the top bar, above the holdings'));
     if (journeys().includes('cost')) for (const [state, l, p] of [['default', 46, 42], ['empty', 27, 84], ['error', 44, 40], ['noModel', 39, '02'], ['disagreement', 46, 73], ['abstention', 39, 36]]) {
       must(new RegExp(`£${l}\\b[^]{0,20}\\.${p}`).test(view('cost', 'a', 'cost-a-month', 'iphone', state).text), `the cost journey's ${state} no longer reads £${l}.${p}`);
     }
@@ -507,7 +511,8 @@ export default {
     for (const [o, screen] of [['a', 'a-portfolio'], ['b', 'b-ledger'], ['a', 'a-brief'], ['b', 'b-brief']]) each({ journey: 'home', option: o, screen, state: 'noModel' }, (v, at) => { has(v.text, /No label/, `${screen} ${at.surface}: the row`); lacks(v.html, /b-trim/, `${screen} ${at.surface}: Trim on a row the sheet calls unclassified`); });
   },
   'R2-h13': ({ each, view, has, must }) => {
-    const words_ = { default: /Spot quotes/, loading: /The last good quotes from 21:15/, empty: /No top 5 yet/, error: /Last good run Mon 21:15 · cutoff 21:00/, stale: /Gold and silver are not affected/, offline: /Quotes from 21:15, saved on this device/, noModel: /No model can cover these yet/ };
+    // narrowed in MP-186: the last good and saved figures are from 22:15, when the US run lands, and only the US run failed (ADM-10, ADM-22)
+    const words_ = { default: /Spot quotes/, loading: /The last good quotes from 22:15/, empty: /No top 5 yet/, error: /US: last good run Mon 22:15 · cutoff 22:00/, stale: /Gold and silver are not affected/, offline: /Quotes from 22:15, saved on this device/, noModel: /No model can cover these yet/ };
     for (const [state, re] of Object.entries(words_)) for (const [o, screen] of [['a', 'a-seg-metals'], ['b', 'b-top5-metals']]) each({ journey: 'home', option: o, screen, state }, (v, at) => {
       has(v.text, re, `${screen} ${at.surface} ${state}: ${re}`);
       has(v.text, /\$2,684\.20/, `${screen} ${at.surface} ${state}: the price is gone`);
@@ -516,7 +521,7 @@ export default {
     each({ journey: 'home', option: 'b', screen: 'b-top5-metals', state: 'empty' }, (v, at) => must(!/ranked after each daily/.test(v.text), `${at.surface}: metals are not ranked after a run`));
   },
   'R2-h14': ({ each, has }) => {
-    const want = { default: /quote 21:00 · Source open \(SCI-D08\)/, error: /quote Mon 21:00 · Source open \(SCI-D08\)/, offline: /quote saved 21:15 · Source open \(SCI-D08\)/ };
+    const want = { default: /quote 21:00 · Source open \(SCI-D08\)/, error: /quote Mon 21:00 · Source open \(SCI-D08\)/, offline: /quote saved 22:15 · Source open \(SCI-D08\)/ };   // narrowed in MP-186: saved after the US run lands, 22:15 (ADM-22)
     for (const [state, re] of Object.entries(want)) for (const [o, screen] of [['a', 'a-seg-metals'], ['b', 'b-top5-metals']]) each({ journey: 'home', option: o, screen, state }, (v, at) => has(v.text, re, `${screen} ${at.surface} ${state}: the row has no quote time`));
     for (const state of STATES) each({ journey: 'home', option: 'a', screen: 'a-board', state }, (v, at) => has(v.text, /Quote [^·]+ · Source open \(SCI-D08\)/i, `${at.surface} ${state}: the tile has no quote time`));
     each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'noModel' }, (v, at) => has(v.text, /Quote 21:00 · Source open \(SCI-D08\)/, `${at.surface}: gold's head`));
@@ -537,10 +542,11 @@ export default {
     }
   },
   'R2-h16': ({ each, has }) => {
-    const as = { error: /Last good run Mon 21:15/, stale: /Held from Mon 21:15/ };
+    // narrowed in MP-186: Apple reads the US run, 22:15 and 22:00; Stale shows HSBC, held from Monday's UK run, 17:50 and 17:35 (ADM-10, ADM-22)
+    const as = { error: /Last good run Mon 22:15/, stale: /Held from Mon 17:50/ };
     each({ journey: 'forecast', option: 'a', screen: 'a-short', state: STATES.filter((s) => s !== 'empty'), surface: ALL }, (v, at) => {
-      has(v.text, as[at.state] || /As of 21:15 London/, `${at.surface} ${at.state}: no as-of`);
-      has(v.text, /Data cutoff 21:00/, `${at.surface} ${at.state}: no cutoff`);
+      has(v.text, as[at.state] || /As of 22:15 London/, `${at.surface} ${at.state}: no as-of`);
+      has(v.text, at.state === 'stale' ? /Data cutoff 17:35/ : /Data cutoff 22:00/, `${at.surface} ${at.state}: no cutoff`);
       has(v.text, /R2-HGB v3/, `${at.surface} ${at.state}: no model`);
     });
   },
@@ -685,7 +691,9 @@ export default {
       lacks(v.text.replace(/Billing 39 h old · Proposed · MP40-Q6/g, ''), /MP40-Q6/, `${at.screen} ${at.surface} ${at.state}: a price use cites the billing question`);
       if (LATE_RULE.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
     });
-    for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state: 'stale' }, (v, at) => has(v.text, /Billing 39 h old · Proposed · MP40-Q6/, `${screen} ${at.surface}: billing keeps its own question`));
+    // narrowed in MP-186: "Pill on every Home" (OWN-06) takes the row off Home. The pill states billing's age, as Cost's own Home always has, and no
+    // rule, so it carries no label; Cost, one tap on, states the 36-hour rule with Proposed · MP40-Q6 (R2-s6, the cost lanes' checks).
+    for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state: 'stale' }, (v, at) => has(v.text, /billing 39 h old/, `${screen} ${at.surface}: the pill drops billing's age`));
     for (const state of ['default', 'stale']) for (const journey of ['home', 'forecast']) each({ journey, state }, (v, at) => {
       for (const f of flips(v.html)) {
         const [, oo, ss] = f.split('|'), other = view(journey, oo, ss, at.surface, state);

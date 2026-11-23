@@ -31,11 +31,13 @@
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
   /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
   const LATE = proposed('DATA-DEC-02');
-  /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
-  /* when today's run failed, the last good run shows in full, so one screen never mixes two versions */
-  const lastGood = h => h.replace(/As of 21:15 London/g, 'Last good run Mon 21:15').replace(/(as of|·|,) 21:15/g, '$1 Mon 21:15');
-  const fr = (ctx, spec) => {
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
+  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
+  /* when the US run failed, its last good run shows in full, so one screen never mixes two versions of a US figure (ADM-10) */
+  const lastGood = h => h.replace(/As of 22:15 London/g, 'Last good run Mon 22:15').replace(/(as of|·|,) 22:15/g, '$1 Mon 22:15');
+  /* every Research screen is Research's own place in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02); its memory notes stay in Settings */
+  const fr = (ctx, spec0) => {
+    const spec = spec0.tab === 4 ? spec0 : placed(ctx, 'research', spec0, 'Portfolio');
     const on = ctx.state === 'error' && !spec.fresh ? lastGood : h => h;
     return frame(ctx, { ...spec, body: (spec.noKept ? '' : kept(ctx)) + on(spec.body || ''), rail: on(spec.rail || '') });
   };
@@ -56,7 +58,7 @@
   const NOTE = `<p class="cl-note">Figures come from code and models; Claude explains them. Decision support, not advice. Every figure is illustrative.</p>`;
   const WHY_Q = 'Why is NVIDIA ranked Trim?';
   const STEPS = steps(step('Read your holdings'), step('Checked the 6-month forecast'), step('Read a stored event analysis, which cites the filing'));
-  const SRC5 = sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3', '3 · Filing, illustrative', '4 · Event analysis, 2 Nov', '5 · What-if, Policy v1');
+  const SRC5 = sources('1 · Ledger, 22:15', '2 · Model R2-HGB v3', '3 · Filing, illustrative', '4 · Event analysis, 2 Nov', '5 · What-if, Policy v1');
   const ANSWER = SAY(`NVIDIA is ${fig('12.6%')} of the portfolio.${ref(1)} Its 6-month median is ${fig('+9.1%')}, but the 80% range runs from ${fig('−18.5%')} to ${fig('+34.0%')},${ref(2)} the widest of your holdings. Last week's filing raised guidance by ${fig('6%')},${ref(3)} which the stored event analysis reads as the main bull point.${ref(4)} Code's what-if: if it were 10% smaller, the width of the portfolio's 80% range would go from ${fig('23.2')} to ${fig('22.5 pts')}.${ref(5)}`);
   /* answers start short: technical detail and a glossary open on request, and the range never drops out */
   const MORE = `<details><summary style="display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;cursor:pointer;font:600 13px/18px var(--font-text);letter-spacing:0;color:var(--ink)">Technical detail and glossary${ic('chev-d', 's16')}</summary><div style="display:grid;gap:8px;padding-bottom:4px">${kv([['Model', 'R2-HGB v3'], ['Task', '6 months, to 3 May 2027'], ['80% range', '−18.5% to +34.0%'], ['Ranges held', '79% of 52 scored']])}<p class="cl-note">Median: half of outcomes should fall above it and half below. 80% range: where 8 in 10 outcomes should fall.</p></div></details>`;
@@ -93,7 +95,7 @@
   const hsbcLine = ctx => (ctx.state === 'stale' ? 'Stale, so it left the total until its price returns' : 'Late but inside the freshness limit, so its forecast is held');
   const changes = ctx => list((ctx.state === 'stale' ? '' : item(lead('up'), 'Portfolio up £1,236.18 (1.39%)', 'Tuesday, by code from the ledger')) + item(lead('fan'), 'SPY median rose from +4.1% to +4.3%', '6 months · run Tue 21:15 · R2-HGB v3') + item(lead('clock', 'warn'), 'HSBC last priced 14:10', hsbcLine(ctx), '', LATE));
   const soon = () => box(`${lbl('Coming up')}<div style="margin-top:8px">${kv([['Thu 5 Nov', 'Bank of England rate decision'], ['Wed 18 Nov', 'NVIDIA results'], ['Fri 4 Dec', 'RBI rate decision']])}</div>`);
-  const briefSrc = () => sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3', '3 · Yahoo, 14:10');
+  const briefSrc = () => sources('1 · Ledger, 22:15', '2 · Model R2-HGB v3', '3 · Yahoo, 14:10');
   const CONFLICTS = ['Two conflicts.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, so no action is ranked for it. The models also split on Apple at 3 months, which shows its range and no median there. Neither is ranked, so neither carries an action.'];
   const ABSTAINED = ['Two abstentions.', 'The model abstained on AstraZeneca at 6 months and on Apple at 12 months, for want of comparable history. Neither shows a range there, and the brief says so rather than filling the gap. Neither is ranked, so neither carries an action.'];
   const briefBody = ctx => {
@@ -115,7 +117,8 @@
 
   /* ---------- research cards (MP-129): typed cards from code, a bounded bull and bear case ---------- */
   const listing = h => `<div class="card" style="padding:14px 16px;display:flex;gap:12px;align-items:center" data-mo="card">${logo(h.c, h.lg)}<div style="flex:1;min-width:0"><div style="font:700 22px/28px var(--font-text);letter-spacing:-.015em">${h.n}</div><div class="small muted">${h.t} · ${h.v} · ${SEGMENT[h.t]}</div></div><div style="display:grid;justify-items:end;gap:4px">${money(h.val, 24)}${chg(h.day)}</div></div>`;
-  const cardMeta = (h, m) => `<div class="fmeta"><span>As of 21:15 London</span><span>Data cutoff 21:00</span><span>Horizon ${h}</span><span>${m}</span><span>Illustrative</span></div>`;
+  /* the card's own market's clock: NVIDIA's US run, Reliance's India run, AstraZeneca's UK run (ADM-10, ADM-22) */
+  const cardMeta = (h, m, s = N) => `<div class="fmeta"><span>As of ${clockOf(s)[0]} London</span><span>Data cutoff ${clockOf(s)[1]}</span><span>Horizon ${h}</span><span>${m}</span><span>Illustrative</span></div>`;
   const versions = () => `<div data-mo="rise">${seg(['Version 3', 'Version 4'], 0, 'Card version', 'full')}</div>`;
   const stance = (o = {}) => box(`<div style="display:flex;align-items:center;gap:8px">${o.noBadge ? `<span class="chip">${ic(o.noBadge[0], 's14')}${o.noBadge[1]}</span>` : badge('Trim')}<span style="font:600 15px/20px var(--font-text);letter-spacing:-.01em">Stance</span><span class="chip illus" style="margin-left:auto">Decision support</span></div>${o.body || `<div style="display:flex;align-items:baseline;gap:8px;margin-top:10px"><span class="amt" style="font-size:30px;color:var(--fc-ink)">${roll('+9.1')}<span class="p">%</span></span><span class="small muted">6-month median</span></div><div style="margin-top:8px">${range(N, 300, 18)}</div><div class="rng"><span>80% range</span><b>−18.5% to +34.0%</b><span>Ranges held</span><b>79% of 52 scored</b></div>`}${o.meta || fcMeta()}`);
   const BULL = [`Last week's filing raised guidance by ${fig('6%')}.${ref(3)}`, `The 6-month median of ${fig('+9.1%')} is the highest of your holdings.${ref(2)}`];
@@ -124,28 +127,28 @@
   const adjOf = ctx => `Both sides hold. They differ on size rather than direction: the wide range weighs more at ${fig(share(ctx).nv)} of ${share(ctx).of} than it would at a smaller share.${ref(1)}`;
   const bullBear = (ctx, o = {}) => {
     const cols = wide(ctx) ? 'grid-template-columns:repeat(2,minmax(0,1fr));gap:16px' : 'gap:12px';
-    return box(`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">Bull and bear</span>${o.chip || '<span class="chip">Version 3 · 21:15</span>'}</div>
+    return box(`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">Bull and bear</span>${o.chip || '<span class="chip">Version 3 · 22:15</span>'}</div>
       <div style="display:grid;${cols};margin-top:10px">${side2('Bull', o.bull || BULL)}${side2('Bear', o.bear || bears(ctx))}</div>
       <div style="margin-top:12px;padding:10px 12px;border-radius:var(--r-md);background:var(--surface-2)">${lbl('Adjudication')}<p style="margin-top:4px;font:400 15px/20px var(--font-text);letter-spacing:-.005em">${o.adj || adjOf(ctx)}</p></div>
-      <div style="margin-top:10px">${o.src || sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3', '3 · Filing, illustrative')}</div>`);
+      <div style="margin-top:10px">${o.src || sources('1 · Ledger, 22:15', '2 · Model R2-HGB v3', '3 · Filing, illustrative')}</div>`);
   };
   /* the stance and the case for what this state shows: one reading, whichever view the card is in */
   const stanceFor = ctx => {
     const h = subject(ctx), line = t => `<p class="small muted" style="margin-top:8px">${t}</p>`;
     if (ctx.state === 'noModel') return stance({ noBadge: ['cube', 'No forecast'], meta: cardMeta('3 Nov 2027', 'No approved model'), body: line('No approved model for 12 months yet, so nothing is ranked at this horizon. 3 and 6 months are available.') });
-    if (ctx.state === 'disagreement') return stance({ noBadge: ['split', 'No action ranked'], meta: cardMeta('3 May 2027', 'R2-HGB v3 and Rules v1'), body: `${line('Rules and models disagree at 6 months: the rules read Pause and the model points up. No median stands.')}<div style="margin-top:8px">${noMedian(h, 300, 18)}</div><div class="rng"><span>80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b></div>` });
-    if (ctx.state === 'abstention') return stance({ noBadge: ['ban', 'Abstained'], meta: cardMeta('3 May 2027', 'Abstained'), body: line('The model abstained at 6 months. Too little comparable history for a calibrated range, so no range is shown.') });
+    if (ctx.state === 'disagreement') return stance({ noBadge: ['split', 'No action ranked'], meta: cardMeta('3 May 2027', 'R2-HGB v3 and Rules v1', subject(ctx)), body: `${line('Rules and models disagree at 6 months: the rules read Pause and the model points up. No median stands.')}<div style="margin-top:8px">${noMedian(h, 300, 18)}</div><div class="rng"><span>80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b></div>` });
+    if (ctx.state === 'abstention') return stance({ noBadge: ['ban', 'Abstained'], meta: cardMeta('3 May 2027', 'Abstained', subject(ctx)), body: line('The model abstained at 6 months. Too little comparable history for a calibrated range, so no range is shown.') });
     return stance();
   };
   const caseFor = ctx => ({
     stale: { chip: '<span class="chip stale">Version 3 · superseded</span>' },
     noModel: { bull: [BULL[0]], bear: [bears(ctx)[1]], adj: `The forecast arguments are left out: no approved model for 12 months yet. Only arguments with stored evidence at this horizon appear.${ref(1)}` },
     disagreement: { bull: [`The model points up at 6 months, with an 80% range reaching ${fig('+24.9%')}.${ref(2)}`], bear: [`The rules read ${fig('Pause')}, and the same range reaches ${fig('−12.0%')}.${ref(1)}`], adj: `Rules and models disagree on direction, so this card does not settle it.${ref(2)} The evidence on either side stands.`, src: sources('1 · Rules v1', '2 · Model R2-HGB v3') },
-    abstention: { bull: [`The rules read ${fig('Hold')}.${ref(1)}`], bear: [`At ${fig('10.2%')} of the portfolio, AstraZeneca is your largest UK holding.${ref(2)}`], adj: 'No adjudication this time: with no calibrated range, the cited evidence is too thin to weigh.', src: sources('1 · Rules v1', '2 · Ledger, 21:15') }
+    abstention: { bull: [`The rules read ${fig('Hold')}.${ref(1)}`], bear: [`At ${fig('10.2%')} of the portfolio, AstraZeneca is your largest UK holding.${ref(2)}`], adj: 'No adjudication this time: with no calibrated range, the cited evidence is too thin to weigh.', src: sources('1 · Rules v1', '2 · Ledger, 22:15') }
   }[ctx.state] || {});
   const MINIS = [
-    ['Overlap', 'layers', '14.1%', 'NVIDIA look-through share, with about 7% of SPY.', 'Code v2 · 21:15'],
-    ['Benchmark', 'target', '+11.2%', 'Past 12 months against the S&P 500. History.', 'Cutoff 21:00'],
+    ['Overlap', 'layers', '14.1%', 'NVIDIA look-through share, with about 7% of SPY.', 'Code v2 · 22:15'],
+    ['Benchmark', 'target', '+11.2%', 'Past 12 months against the S&P 500. History.', 'Cutoff 22:00'],
     ['Valuation', 'db', '31×', 'Forward earnings. Five-year median 38×.', 'Code v3 · Tue close'],
     ['Earnings', 'clock', '18 Nov', 'Next results. Known at 30 Oct.', 'Calendar'],
     ['Profile', 'info', 'Held', 'Semiconductors. In your portfolio since 2024.', 'Ledger'],
@@ -153,22 +156,22 @@
   ];
   const mini = ([t, i, v, s, f, cond], miss) => `<div class="${cond ? '' : 'card '}" data-mo="card" style="padding:12px 14px;border-radius:var(--r-card);min-width:0;display:grid;gap:2px;align-content:start;${cond ? 'border:1.5px dashed var(--hairline-2);' : ''}"><div class="label" style="display:flex;align-items:center;gap:6px">${ic(i, 's14')}${t}</div>${miss ? `<p class="small muted">${miss}</p>` : `<div style="font:800 22px/28px var(--font-figure);letter-spacing:-.03em">${v}</div><p class="small muted">${s}</p>`}<p style="font:400 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2);margin-top:2px">${f}</p></div>`;
   const OTHER = {
-    RELIANCE: [['Overlap', 'layers', '9.9%', 'Direct share. Nifty BeES adds to it.', 'Code v2 · 21:15'], ['Profile', 'info', 'Held', 'Energy and retail. In your portfolio since 2024.', 'Ledger']],
-    AZN: [['Overlap', 'layers', '10.2%', 'Direct share. No fund you hold adds to it.', 'Code v2 · 21:15'], ['Profile', 'info', 'Held', 'Pharmaceuticals. In your portfolio since 2024.', 'Ledger']]
+    RELIANCE: [['Overlap', 'layers', '9.9%', 'Direct share. Nifty BeES adds to it.', 'Code v2 · 22:15'], ['Profile', 'info', 'Held', 'Energy and retail. In your portfolio since 2024.', 'Ledger']],
+    AZN: [['Overlap', 'layers', '10.2%', 'Direct share. No fund you hold adds to it.', 'Code v2 · 22:15'], ['Profile', 'info', 'Held', 'Pharmaceuticals. In your portfolio since 2024.', 'Ledger']]
   };
   /* a card whose inputs are missing or stale shows that state and is never filled (MP-129), in either view */
   const cardMiss = ctx => (ctx.state === 'error' ? { Valuation: 'Input missing: forward earnings not supplied. Nothing is filled in.' } : ctx.state === 'stale' ? { Benchmark: 'Stale: benchmark last updated 14:10.' } : {});
-  const miniSet = ctx => OTHER[subject(ctx).t] || (ctx.state === 'stale' ? MINIS.map(m => (m[0] === 'Overlap' ? ['Overlap', 'layers', '15.1%', 'NVIDIA look-through share of the known total, with about 7% of SPY.', 'Code v2 · 21:15'] : m)) : MINIS);
+  const miniSet = ctx => OTHER[subject(ctx).t] || (ctx.state === 'stale' ? MINIS.map(m => (m[0] === 'Overlap' ? ['Overlap', 'layers', '15.1%', 'NVIDIA look-through share of the known total, with about 7% of SPY.', 'Code v2 · 22:15'] : m)) : MINIS);
   const minis = ctx => `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">${miniSet(ctx).map(m => mini(m, cardMiss(ctx)[m[0]])).join('')}</div>`;
   const cardBody = ctx => {
     const h = subject(ctx), top = (on = 1) => listing(h) + `<div data-mo="rise">${H36(on, 'full')}</div>`;
     return region(ctx, {
       what: 'The research card', rows: 3, ok: () => top() + stance() + bullBear(ctx),
-      loading: () => listing(h) + box(`${lbl('Building from stored inputs · last good 21:15')}<span class="sk" style="height:18px;width:70%;margin-top:10px"></span><span class="sk" style="height:60px;margin-top:10px"></span>`) + skel(2),
+      loading: () => listing(h) + box(`${lbl('Building from stored inputs · last good 22:15')}<span class="sk" style="height:18px;width:70%;margin-top:10px"></span><span class="sk" style="height:60px;margin-top:10px"></span>`) + skel(2),
       empty: () => listing(h) + stateCard('grid', 'No research card yet', 'Cards build after a listing\'s first close with MP. Prices and the forecast already show.', bs('Open the forecast')),
-      error: () => top() + stance() + stateCard('alert', 'The bull and bear card did not build', 'It failed at 21:14. No model fills the gap: it rebuilds from stored inputs next time you open this.', bs('Try again', 'tinted', 'refresh')),
+      error: () => top() + stance() + stateCard('alert', 'The bull and bear card did not build', 'It failed at 21:16. No model fills the gap: it rebuilds from stored inputs next time you open this.', bs('Try again', 'tinted', 'refresh')),
       stale: () => banner('warn', 'Superseded.', 'The evidence changed, so version 4 is ready. Version 3 stays for the conversation that cited it.', 'clock') + versions() + top() + stance() + bullBear(ctx, caseFor(ctx)),
-      offline: () => banner('', 'Offline.', 'Showing the cards saved at 21:15. They rebuild when you reconnect.', 'wifi-off') + top() + stance() + bullBear(ctx),
+      offline: () => banner('', 'Offline.', 'Showing the cards saved at 22:15. They rebuild when you reconnect.', 'wifi-off') + top() + stance() + bullBear(ctx),
       noModel: () => top(2) + stanceFor(ctx) + bullBear(ctx, caseFor(ctx)),
       disagreement: () => top() + stanceFor(ctx) + bullBear(ctx, caseFor(ctx)),
       abstention: () => top() + stanceFor(ctx) + bullBear(ctx, caseFor(ctx))
@@ -185,10 +188,10 @@
     const q = ask(WHY_Q);
     return region(ctx, {
       what: 'This conversation',
-      ok: () => `<span class="chip" data-mo="chip" style="justify-self:start">${ic('clock', 's14')}Continued from ${ctx.kind === 'web' || ctx.kind === 'pwa' ? 'your iPhone' : 'the web app'}, 07:48</span>${q}${cl('Writing…', `${STEPS}${SAY(`NVIDIA is ${fig('12.6%')} of the portfolio.${ref(1)} Its 6-month median is ${fig('+9.1%')}, but the 80% range runs from ${fig('−18.5%')} to ${fig('+34.0%')},${ref(2)} the widest of`)}${sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3')}${act(clBtn('Stop'))}`, 'writing', 'Claude is writing a cited answer')}`,
+      ok: () => `<span class="chip" data-mo="chip" style="justify-self:start">${ic('clock', 's14')}Continued from ${ctx.kind === 'web' || ctx.kind === 'pwa' ? 'your iPhone' : 'the web app'}, 07:48</span>${q}${cl('Writing…', `${STEPS}${SAY(`NVIDIA is ${fig('12.6%')} of the portfolio.${ref(1)} Its 6-month median is ${fig('+9.1%')}, but the 80% range runs from ${fig('−18.5%')} to ${fig('+34.0%')},${ref(2)} the widest of`)}${sources('1 · Ledger, 22:15', '2 · Model R2-HGB v3')}${act(clBtn('Stop'))}`, 'writing', 'Claude is writing a cited answer')}`,
       loading: () => `${q}${cl('Stopped', `${SAY('Stopped. Nothing was changed, and no answer was saved.')}`, '', 'Claude stopped')}${q}${cl('Reading…', `${steps(step('Read your holdings'), step('Checking the 6-month forecast', 'now'))}${act(clBtn('Stop'))}`, 'reading', 'Claude is reading')}`,
       empty: () => cl('Ready', `${SAY('Ask why about any forecast, ranked action or holding. Answers start short, and every figure carries its source.')}<div class="cl-opts">${[WHY_Q, 'What changed since yesterday?', 'Explain the 80% range'].map(t => `<button class="cl-opt" type="button">${t}</button>`).join('')}</div>${`<p class="cl-note">Claude can read, not change. It has read-only tools and no way to trade.</p>`}`),
-      error: () => `${q}${cl('A tool failed', `${steps(step('Read your holdings'), step('Forecast tool failed at 21:14', 'fail'))}${SAY(`I couldn't read the forecast, so I won't quote one. NVIDIA is ${fig('12.6%')} of the portfolio.${ref(1)}`)}${sources('1 · Ledger, 21:15')}${act(clBtn('Try again', false), clBtn('See the stored explanation'))}`, '', 'A tool failed')}<p class="cl-note" style="padding:0 4px">A failed turn is retried once at most, and never appears twice.</p>`,
+      error: () => `${q}${cl('A tool failed', `${steps(step('Read your holdings'), step('Forecast tool failed at 21:16', 'fail'))}${SAY(`I couldn't read the forecast, so I won't quote one. NVIDIA is ${fig('12.6%')} of the portfolio.${ref(1)}`)}${sources('1 · Ledger, 22:15')}${act(clBtn('Try again', false), clBtn('See the stored explanation'))}`, '', 'A tool failed')}<p class="cl-note" style="padding:0 4px">A failed turn is retried once at most, and never appears twice.</p>`,
       stale: () => `${banner('warn', 'Evidence changed.', 'This answer was written at 07:48, and its shares are of the full total, £90,155.25. The forecast has moved since, so it stays as written and labelled.', 'clock')}${q}${answered('Answered 07:48 · 5 sources', act(clBtn('Ask again with new evidence', false)))}`,
       offline: () => `${banner('', 'Offline.', 'This stored conversation is readable. A new question waits until you reconnect.', 'wifi-off')}${q}${answered('Stored · 5 sources')}`,
       noModel: () => cl('Off', `${SAY('Claude is off. Forecasts, ranges and scores all still work; only the written explanations wait.')}<p class="cl-note">Numbers never depend on Claude. ${CLAUDE_OFF}</p>${act(clBtn('See stored explanations', false), clBtn('See the cost'))}`, '', 'Claude is off'),
@@ -208,8 +211,8 @@
   const srcDetail = ctx => region(ctx, {
     what: 'This source', rows: 2, ok: () => srcTitle() + srcFig() + srcFacts() + srcUsed(),
     loading: () => srcTitle() + box(`${lbl('Reading the stored record · citation 3 stays')}<span class="sk" style="height:30px;width:40%;margin-top:10px"></span><span class="sk" style="height:48px;margin-top:10px"></span>`, soft) + skel(2),
-    empty: () => srcTitle('Source 1 · Ledger') + stateCard('db', 'Calculated, not sourced', `This figure has no document behind it. Code works it out from the ledger: ${fig('£11,402.10')} of ${fig('£90,155.25')} is 12.6%.`, '', `<span class="chip">Formula v2 · 21:15</span>`),
-    error: () => srcTitle() + stateCard('alert', 'This source did not open', 'The record failed to load at 21:14. Citation 3 stays in the answer with its hash and times.', bs('Try again', 'tinted', 'refresh')) + srcFacts({ chip: '<span class="chip error">Text not loaded</span>' }),
+    empty: () => srcTitle('Source 1 · Ledger') + stateCard('db', 'Calculated, not sourced', `This figure has no document behind it. Code works it out from the ledger: ${fig('£11,402.10')} of ${fig('£90,155.25')} is 12.6%.`, '', `<span class="chip">Formula v2 · 22:15</span>`),
+    error: () => srcTitle() + stateCard('alert', 'This source did not open', 'The record failed to load at 21:16. Citation 3 stays in the answer with its hash and times.', bs('Try again', 'tinted', 'refresh')) + srcFacts({ chip: '<span class="chip error">Text not loaded</span>' }),
     stale: () => srcTitle() + banner('warn', 'A revision exists.', 'The publisher updated this item on 2 Nov. It is a new revision linked to this one, and this answer keeps the version it read.', 'clock') + srcFig() + srcFacts({ chip: `<span class="chip stale">${ic('clock', 's14')}Older revision</span>` }),
     offline: () => srcTitle() + banner('', 'Offline.', 'The citation and times are saved here. The summary loads when you reconnect.', 'wifi-off') + kept(ctx) + srcFacts(),
     disagreement: () => srcTitle('Sources disagree') + banner('', 'Two items differ.', 'The filing says 6%; a news item says 7%. Both are kept, and the answer quotes the filing, the primary record.', 'split') + srcFig() + srcFacts(),
@@ -236,7 +239,7 @@
     stale: () => banner('warn', 'One note has expired.', 'Expired notes are not used. You can still correct or forget it.', 'clock') + noteRows({ ctx, only: n => n[3] === 'Expired' }) + sec('Still in use') + noteRows({ ctx, only: n => n[3] !== 'Expired' }),
     offline: () => banner('', 'Offline.', 'You can read your notes. Correct and forget wait until you reconnect, because they must clear every copy.', 'wifi-off') + noteRows({ ctx }),
     noModel: () => banner('', 'Claude is off.', 'No new notes are proposed. You can still read, correct and forget these.', 'ban') + noteRows({ ctx }),
-    disagreement: () => banner('', 'A note disagrees with your ledger.', 'The ledger wins, and the note is left out until you correct or forget it.', 'split') + list(item(lead('split'), 'NVIDIA is under 10% of my portfolio', 'Note from chat, 3 Sep · ledger says 12.6% at 21:15', '<span class="chip">Left out</span>', '', wide(ctx), true)) + sec('Other notes') + noteRows({ ctx: {}, only: n => n[3] === 'Active' }),
+    disagreement: () => banner('', 'A note disagrees with your ledger.', 'The ledger wins, and the note is left out until you correct or forget it.', 'split') + list(item(lead('split'), 'NVIDIA is under 10% of my portfolio', 'Note from chat, 3 Sep · ledger says 12.6% at 22:15', '<span class="chip">Left out</span>', '', wide(ctx), true)) + sec('Other notes') + noteRows({ ctx: {}, only: n => n[3] === 'Active' }),
     abstention: () => banner('', 'One note was left out of an answer.', 'It is tainted, so Claude left it out and said so in the answer.', 'ban') + noteRows({ ctx, only: n => n[3] === 'Tainted' }) + sec('Other notes') + noteRows({ ctx, only: n => n[3] === 'Active' })
   });
   const noteDetail = ctx => {
@@ -256,21 +259,21 @@
     <p style="margin-top:10px;font:700 22px/28px var(--font-text);letter-spacing:-.015em;text-wrap:balance">US tech is ${s.us} of ${s.of}</p>
     <div class="calbar" role="img" aria-label="US tech ${s.us} against your material line of 28%"><i data-mo="barx" style="width:${s.bar}%;background:var(--warn)"></i><b style="left:56%"></b></div>
     <div class="small muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>Now ${s.us}</span><span>Your line 28%</span></div>
-    <p style="margin-top:10px;font:400 15px/20px var(--font-text);letter-spacing:-.005em">${o.text || `Apple is ${fig(s.ap)} and NVIDIA ${fig(s.nv)} of ${s.of}.${ref(1)} Code found this on eligible data as of 21:15.`}</p>
-    <div style="margin-top:8px">${sources('1 · Ledger, 21:15')}</div>
+    <p style="margin-top:10px;font:400 15px/20px var(--font-text);letter-spacing:-.005em">${o.text || `Apple is ${fig(s.ap)} and NVIDIA ${fig(s.nv)} of ${s.of}.${ref(1)} Code found this on eligible data as of 22:15.`}</p>
+    <div style="margin-top:8px">${sources('1 · Ledger, 22:15')}</div>
     <div style="display:grid;margin-top:12px">${ctx.state === 'offline' || ctx.state === 'noModel' ? '<button class="btn sm btn-tinted" type="button" disabled>Ask why</button>' : bs('Ask why', 'primary')}</div>
     <p class="small muted" style="margin-top:8px">Decision support. This alert acts on nothing.</p>${KINDS}`); };
   const alertBody = ctx => region(ctx, {
     what: 'This alert', rows: 2, ok: () => alertCard(ctx),
     loading: () => box(`${lbl('Detected Tue 22:15 · loading its evidence')}<span class="sk" style="height:22px;width:80%;margin-top:10px"></span><span class="sk" style="height:8px;margin-top:12px"></span><span class="sk" style="height:40px;margin-top:12px"></span>`),
-    empty: () => stateCard('shield', 'No risk alerts', 'No material risk found on eligible data as of 21:15, across 7 of 7 holdings. This says what was checked, not that nothing can go wrong.', '', fresh('Checked', 'fresh', '21:15')),
-    error: () => stateCard('alert', 'Some checks could not run', 'Twelve Data failed at 21:14, so Apple, NVIDIA and SPY were not checked on the latest close. This is not an all-clear.', '', `<span class="chip error">Source unavailable</span><span class="chip">4 of 7 checked</span>`) + alertCard(ctx),
+    empty: () => stateCard('shield', 'No risk alerts', 'No material risk found on eligible data as of 22:15, across 7 of 7 holdings. This says what was checked, not that nothing can go wrong.', '', fresh('Checked', 'fresh', '22:15')),
+    error: () => stateCard('alert', 'Some checks could not run', 'Twelve Data failed at 21:16, so Apple, NVIDIA and SPY were not checked on the latest close. This is not an all-clear.', '', `<span class="chip error">Source unavailable</span><span class="chip">4 of 7 checked</span>`) + alertCard(ctx),
     stale: () => banner('warn', 'Based on older data.', `HSBC is from 14:10, so it left the total until its price returns. It is not in US tech, so this alert stands, on the known total of £84,051.05. ${LATE}`, 'clock') + alertCard(ctx),
     offline: () => banner('', 'Offline.', 'This alert was saved at 08:02. Asking why waits until you reconnect.', 'wifi-off') + alertCard(ctx),
     noModel: () => banner('', 'Claude is off.', 'Code found this alert, so it stands, and asking why waits. Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.', 'ban') + alertCard(ctx),
     disagreement: () => banner('', 'Sources differ on the close.', 'On Yahoo\'s NVIDIA price US tech is 29.0%; on Twelve Data\'s it is 29.1%. Both are above your line.', 'split') + alertCard(ctx)
   });
-  const LOG = [['Detected Tue 22:15', 'Risk check after the daily run, on data as of 21:15'], ['Held by quiet hours', '22:00 to 07:00 London. It is material, not critical, so it waited'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
+  const LOG = [['Detected Tue 22:15', 'Risk check after the US run, on data to its 22:00 cutoff'], ['Held by quiet hours', '22:00 to 07:00 London. It is material, not critical, so it waited'], ['Arrived with the 07:30 brief', 'Push attempted, which is not proof you read it'], ['Opened Wed 08:02', 'In the app, and in the inbox on every device']];
   const alertLog = ctx => {
     const log = ctx.state === 'empty' ? '' : box(`${lbl('What happened')}<ol class="cl-steps" style="margin-top:8px;gap:8px">${LOG.map(([a, b]) => `<li class="cl-step" style="align-items:start">${TICK}<span><b style="font-weight:600;color:var(--ink)">${a}</b><br>${b}</span></li>`).join('')}</ol><p class="small muted" style="margin-top:8px">2 repeats were grouped into this one alert. ${COOL}</p><p class="small muted" style="margin-top:8px">${WEEKEND}</p><div style="margin-top:8px">${proposed('MP40-Q11')}</div>`);
     return `${log}${box(`${lbl('On the lock screen')}<p style="margin-top:4px;font:600 15px/20px var(--font-text);letter-spacing:-.01em">MyPrediction: you have a new notice</p><p class="small muted" style="margin-top:2px">No value and no holding, ever.</p>`)}`;
@@ -307,11 +310,11 @@
     const h = subject(ctx), q = ask(`Show the bull and bear case for ${h.n}`), top = () => listing(h) + stanceFor(ctx);
     return region(ctx, {
       what: 'The research card', rows: 3, ok: () => q + top() + bullBear(ctx) + quick('Stance', 'Overlap', 'Benchmark', 'Valuation', 'Earnings', 'Profile', 'Scenario'),
-      loading: () => q + listing(h) + post('MyPrediction', 'Building from stored inputs', `<span class="sk" style="height:64px;margin-top:10px"></span><p class="small muted" style="margin-top:8px">Last good version 21:15.</p>`, 'Loading'),
+      loading: () => q + listing(h) + post('MyPrediction', 'Building from stored inputs', `<span class="sk" style="height:64px;margin-top:10px"></span><p class="small muted" style="margin-top:8px">Last good version 22:15.</p>`, 'Loading'),
       empty: () => q + listing(h) + stateCard('grid', 'No research card yet', 'Cards build after a listing\'s first close with MP. Prices and the forecast already show.', bs('Open the forecast')),
-      error: () => q + top() + stateCard('alert', 'The bull and bear card did not build', 'It failed at 21:14. No model fills the gap: it rebuilds from stored inputs when you ask again.', bs('Try again', 'tinted', 'refresh')),
+      error: () => q + top() + stateCard('alert', 'The bull and bear card did not build', 'It failed at 21:16. No model fills the gap: it rebuilds from stored inputs when you ask again.', bs('Try again', 'tinted', 'refresh')),
       stale: () => q + banner('warn', 'Superseded.', 'Version 4 is ready. Version 3 stays in the thread because it was cited.', 'clock') + versions() + top() + bullBear(ctx, caseFor(ctx)),
-      offline: () => banner('', 'Offline.', 'Showing the card saved at 21:15.', 'wifi-off') + q + top() + bullBear(ctx),
+      offline: () => banner('', 'Offline.', 'Showing the card saved at 22:15.', 'wifi-off') + q + top() + bullBear(ctx),
       noModel: () => q + top() + bullBear(ctx, caseFor(ctx)),
       disagreement: () => q + banner('', 'Rules and models disagree.', 'At 3, 6 and 12 months, so no action is ranked and no median stands.', 'split') + top() + bullBear(ctx, caseFor(ctx)),
       abstention: () => q + banner('', 'The model abstained.', 'At 6 months, for want of comparable history. No range is shown, and nothing is ranked.', 'ban') + top() + bullBear(ctx, caseFor(ctx))

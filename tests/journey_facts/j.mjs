@@ -161,11 +161,13 @@ export default {
     must(screens('holdings', 'b').includes('b-imports'), 'Option B has no Imports place');
     each({ journey: 'holdings', option: 'b', screen: 'b-imports', state: 'default' }, (v, at) => {
       for (const t of [/Earlier imports/, /Open work/, /Open the difference/, /Your records/, /Stocks ISA/, /General account/, /India demat/]) has(v.text, t, `${at.surface}: no ${t} in Imports`);
-      must(backTo(v, 'Settings'), `${at.surface}: Imports does not lead back to Settings`);
+      // narrowed in MP-186: "Add them to the sidebar" (OWN-02) gives Imports its own place on iPad and desktop, so only a phone reaches it under Settings
+      if (['iphone', 'pwa'].includes(at.surface)) must(backTo(v, 'Settings'), `${at.surface}: Imports does not lead back to Settings`);
+      else must(/<div class="si on">[\s\S]{0,400}?Imports/.test(v.html), `${at.surface}: the sidebar does not light Imports`);
     });
     for (const s of ['b-add', 'b-manual', 'b-check', 'b-approve', 'b-live', 'b-done']) each({ journey: 'holdings', option: 'b', screen: s, state: 'default' }, (v, at) => must(backTo(v, 'Imports'), `${s} on ${at.surface} does not lead back to Imports`));
     each({ journey: 'holdings', option: 'b', screen: 'b-accounts', state: 'default' }, (v, at) => must(v.html.includes('holdings-link') && /Imports/.test(v.text), `${at.surface}: no way into Imports from the accounts`));
-    each({ journey: 'holdings', option: 'a', screen: 'a-imports', state: 'default' }, (v, at) => must(backTo(v, 'Settings'), `${at.surface}: Imports must read back Settings`));
+    each({ journey: 'holdings', option: 'a', screen: 'a-imports', state: 'default', surface: ['iphone', 'pwa'] }, (v, at) => must(backTo(v, 'Settings'), `${at.surface}: Imports must read back Settings`));   // narrowed in MP-186 (OWN-02): phones only
   },
   'R1-j2': ({ each, has, lacks, must }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => {
@@ -185,7 +187,8 @@ export default {
     each({ journey: 'holdings', screen: 'a-one', state: 'abstention' }, (v, at) => { lacks(v.text, /Priced [\d:]+, Twelve Data/, `${at.surface}: AstraZeneca is a Yahoo listing`); has(v.text, /Priced 16:35, Yahoo/, `${at.surface}: wrong price time`); });
     each({ journey: 'holdings', screen: 'a-one', state: 'disagreement' }, (v, at) => has(v.text, /Priced 10:00, Yahoo/, `${at.surface}: Reliance closes at 10:00`));
     each({ journey: 'holdings', state: 'error' }, (v, at) => lacks(v.text, /20:45/, `${at.screen} ${at.surface}: 20:45 in Error`));
-    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'error' }, (v, at) => { has(v.text, /Last good run Mon 21:15/, `${s} ${at.surface}: no last good run`); lacks(v.text, /As of 21:15 London/, `${s} ${at.surface}: two versions on one screen`); });
+    // narrowed in MP-186: the US run issues 22:15, and Apple is on Monday's (ADM-10, ADM-22)
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'error' }, (v, at) => { has(v.text, /Last good run Mon 22:15/, `${s} ${at.surface}: no last good run`); lacks(v.text, /As of 22:15 London/, `${s} ${at.surface}: two versions on one screen`); });
     each({ journey: 'journal', state: 'error' }, (v, at) => lacks(v.text, /20:45/, `${at.screen} ${at.surface}: 20:45 in Error`));
     must(true);
   },
@@ -339,8 +342,14 @@ export default {
     each({ journey: 'journal', state: 'error' }, (v, at) => lacks(v.text, /Twelve Data · error/, `${at.screen} ${at.surface}: a price chip on a read or save failure`));
     each({ journey: 'holdings', screen: 'a-list', state: 'error' }, (v, at) => has(v.text, /Twelve Data · error/, `${at.surface}: a screen of prices lost its error chip`));
   },
-  'R1-j18': ({ each, has }) => {
-    for (const journey of ['holdings', 'journal']) each({ journey, surface: ALL_SURFACES, state: 'offline' }, (v, at) => has(v.text, /Proposed · MP40-Q12/, `${journey} ${at.option} ${at.screen} ${at.surface}: an offline copy with no label`));
+  // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c, 5 Nov 2026), so what is kept offline is no longer open and its
+  // Proposed label comes off every surface. An offline copy in a browser is still labelled: saved here, and its protection unverified.
+  // Unlock a PDF shows no saved copy offline (the file is the owner's own, on the device), so it carries no such label.
+  'R1-j18': ({ each, has, lacks }) => {
+    for (const journey of ['holdings', 'journal']) each({ journey, surface: ALL_SURFACES, state: 'offline' }, (v, at) => {
+      lacks(v.text, /Proposed · MP40-Q12/, `${journey} ${at.option} ${at.screen} ${at.surface}: a settled question still labelled open`);
+      if (['web', 'pwa'].includes(at.surface) && !/-unlock$/.test(at.screen)) has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${journey} ${at.option} ${at.screen} ${at.surface}: an offline copy with no label`);
+    });
   },
   'R1-j19': ({ each, has, lacks, screens, must }) => {
     each({ journey: 'holdings', screen: 'a-list', surface: 'pwa', state: 'default' }, (v) => must(v.html.includes('Hide amounts'), 'phone web has no Hide amounts'));

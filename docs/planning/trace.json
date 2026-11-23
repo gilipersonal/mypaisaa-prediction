@@ -1888,9 +1888,22 @@
    "key": "MP-186",
    "summary": "Redraw navigation, the Home cost pill and the run clock wording",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/README.md",
+    "docs/design/admin/src/",
+    "docs/design/admin/index.html",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "docs/planning/trace.json",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md",
+    "docs/design/question-pack/index.html"
+   ]
   },
   {
    "key": "MP-187",
@@ -1904,17 +1917,45 @@
    "key": "MP-188",
    "summary": "Redraw passkeys and recovery to match the owner's picks",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/journeys/privacy.js",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/index.html",
+    "docs/design/admin/src/journeys/identity.js",
+    "docs/design/admin/src/shell.js",
+    "docs/design/admin/permissions.json",
+    "docs/design/admin/index.html",
+    "docs/design/question-pack/index.html",
+    "scripts/design_admin_facts.mjs",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "review/MP-188/",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md",
+    "docs/planning/trace.json"
+   ]
   },
   {
    "key": "MP-189",
    "summary": "Draw the local PDF unlock and settle the offline screens",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/src/shell.css",
+    "docs/design/journeys/index.html",
+    "docs/design/admin/src/journeys/files.js",
+    "docs/design/admin/src/journeys/identity.js",
+    "docs/design/admin/index.html",
+    "docs/planning/retired-facts.json",
+    "docs/planning/trace.json",
+    "tests/journey_facts/",
+    "tests/admin_facts/m189.mjs"
+   ]
   },
   {
    "key": "MP-190",
@@ -2010,6 +2051,14 @@
     "docs/planning/source-rights-2026-11-02/evidence/yahoo-and-alternatives.json",
     "docs/planning/trace.json"
    ]
+  },
+  {
+   "key": "MP-197",
+   "summary": "Test whether Cognito passkeys work in a phone browser and whether a revoke removes one",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }

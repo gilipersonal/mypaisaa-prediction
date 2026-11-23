@@ -43,8 +43,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 ## What the picks leave unproved
 
-- **Browser passkeys.** "Allowed in the browser" and "Finish in the phone browser" rest on a test that has not run: whether Cognito passkeys work in a phone browser without Apple's paid programme. If it fails, recovery falls back to ending on one path, and MP-188 draws that too. The test needs real infrastructure and its own yes.
-- **Removing a passkey on revoke.** Whether Cognito can do it, and what happens to a synced passkey, are unverified.
+- **Browser passkeys.** "Allowed in the browser" and "Finish in the phone browser" rest on a test that has not run: whether Cognito passkeys work in a phone browser without Apple's paid programme. If it fails, recovery falls back to ending on one path, and MP-188 draws that too. The test needs real infrastructure and its own yes. MP-197 runs it.
+- **Removing a passkey on revoke.** Whether Cognito can do it, and what happens to a synced passkey, are unverified. MP-197 tests it too.
 - **Browser storage of holdings.** "Both keep the five" has no record of how a browser would protect them. That needs an architecture answer before build.
 - **The Anthropic admin key.** No price is on record, and whether the account can have one is unverified. Any charge counts against £100.
 - **Paid Claude at launch.** Picking it does not turn it on: paid calls still need the owner's explicit word when the time comes. The record puts an ordinary month at £54.73, inside the £70 plan and 27p under the £60 warning with the scan at its cap.
@@ -60,6 +60,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 ### MP-186: Redraw navigation, the Home cost pill and the run clock wording
 
+Drawn on branch `MP-186-nav-cost-pill-clock` (23 November 2026), in the Journeys, Admin and Prism designs. The run clock now reads per market in the owner and admin pages alike: each market's cutoff at +60 and its forecasts by +75 (US 22:00 and 22:15, UK 17:35 and 17:50, India 11:00 and 11:15), and Twelve Data fails at 21:16, after the US run starts (ADM-10, ADM-11, ADM-22). Proposed: the order and icons of the three new sidebar places, and the pill's pounds masked when amounts are hidden.
+
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
 | OWN-02 | Add them to the sidebar | pressed | Screens redrawn |
@@ -72,6 +74,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 | OWN-24 | A view in Record | pressed | Screens redrawn |
 
 ### MP-188: Redraw passkeys and recovery to match the owner's picks
+
+Drawn on branch `MP-188-passkeys-recovery` (23 November 2026), in the Privacy journey, the admin Identity journey, the admin permission inventory and Prism, which gains an Unverified label. The browser passkey and the removal on revoke are labelled Unverified · MP-197, and the one-path fallback is drawn beside the browser finish.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |

@@ -14,13 +14,14 @@
   /* A late bill is not a late price, so a screen with no price on it keeps the price chips as they are. Home shows prices, so it
      takes the state as it stands and keeps its value and rows true to it. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
-  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="cost-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps what the Apple app keeps, and says how it is protected is unverified */
+  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + spec.body });
   const page = (ctx, spec) => homePage(ctx, { fresh: 'default', ...spec });
   const li = (icon, t, s, e = '', o = {}) => `<div class="cost-li${icon ? '' : ' plain'}${o.cls ? ' ' + o.cls : ''}" data-mo="rise">${icon ? `<span class="cost-ic">${ic(icon, 's18')}</span>` : ''}<div style="min-width:0"><div class="t">${t}</div>${s ? `<div class="s">${s}</div>` : ''}</div><div class="e">${e}</div></div>`;
   const list = rows => `<div class="cost-list">${rows.join('')}</div>`;
   const sk = (w, h = 14) => `<span class="sk" style="height:${h}px;width:${w}"></span>`;
-  const skCard = (t, n = 3) => box(`${head(t, chipOf(['fresh', 'Last good 21:15']))}<div style="display:grid;gap:10px">${Array.from({ length: n }, (_, i) => sk(`${92 - i * 12}%`)).join('')}</div>`);
+  const skCard = (t, n = 3) => box(`${head(t, chipOf(['fresh', 'Last good 22:15']))}<div style="display:grid;gap:10px">${Array.from({ length: n }, (_, i) => sk(`${92 - i * 12}%`)).join('')}</div>`);
 
   /* ---------- the month, in every state ---------- */
   const BARS = [[C.data, 27.84], [C.aws, 11.18], [C.claude, 7.06], [C.held, 0.34]];
@@ -28,11 +29,11 @@
   const BASE = { so: '46.42', word: 'committed so far', fc: 'up to £59.73', to: 59.73, bars: BARS, keys: KEYS, day: 18 };
   const MONTH = {
     default: { ...BASE, st: ['fresh', 'On plan'], say: 'Forecast up to £59.73. That is 27p under the £60 warning, before about £0.15 of transfer and other lines not yet modelled.' },
-    loading: { ...BASE, st: ['fresh', 'Refreshing · last good 21:15'], say: 'Showing the last good figures, from 21:15.' },
+    loading: { ...BASE, st: ['fresh', 'Refreshing · last good 22:15'], say: 'Showing the last good figures, from 22:15.' },
     empty: { ...BASE, so: '27.84', day: 1, fc: 'up to £59.73, the plan', bars: [BARS[0]], keys: [KEYS[0]], st: ['', 'New month', 'clock'], say: 'Only the data invoice so far. AWS arrives tomorrow, Claude within six hours.' },
     error: { ...BASE, so: '37.69', word: 'last reconciled', fc: 'up to £59.73, estimated only', last: 16, unk: 6.71, bars: [BARS[0], [C.aws, 9.85]], keys: [KEYS[0], [C.aws, 'AWS', '£9.85'], [C.held, 'Claude, not reconciled', '£6.71']], st: ['stale', 'Stale · 39 h old', 'clock'], st2: ['error', 'Collector failed', 'alert'], say: 'The AWS collector failed at 06:10 and retries at the next window. Figures stop at 16 Nov. With Claude usage to 18:00, the month is at least £44.40.' },
     stale: { ...BASE, st: ['stale', 'Billing 39 h old', 'clock'], say: 'AWS has sent no new bill for 39 hours. Past 36, optional work waits until it is reconciled.', q: 'MP40-Q6' },
-    offline: { ...BASE, st: ['offline', 'Offline · from 21:15', 'wifi-off'], say: 'Nothing updates until you reconnect.' },
+    offline: { ...BASE, st: ['offline', 'Offline · from 22:15', 'wifi-off'], say: 'Nothing updates until you reconnect.' },
     noModel: { ...BASE, so: '39.02', fc: '£46.48', to: 46.48, bars: [BARS[0], BARS[1]], keys: [KEYS[0], KEYS[1], [C.claude, 'Claude', 'off']], st: ['', 'Claude off', 'ban'], say: 'No verified credit and no paid approval, so every Claude call is refused.' },
     disagreement: { ...BASE, so: '46.73', word: 'with the bill', fc: 'up to £60.04', to: 60.04, bars: [BARS[0], [C.aws, 11.49], BARS[2], BARS[3]], keys: [KEYS[0], [C.aws, 'AWS', '£11.49'], KEYS[2], KEYS[3]], st: ['stale', 'Estimate and bill differ', 'split'], say: '17 Nov: estimate £0.71, bill £1.02. The bill counts, which takes the forecast past £60.' },
     abstention: { ...BASE, so: '39.36', word: 'known so far', fc: 'Not shown', to: 0, unk: 15, bars: [BARS[0], BARS[1], BARS[3]], keys: [KEYS[0], KEYS[1], KEYS[3], [C.held, 'Claude', 'unknown']], st: ['', 'Claude unknown', 'ban'], say: 'Claude usage is not collected, so it stays unknown, never £0. Its £15 allocation is held.', q: 'MP40-Q5' }
@@ -56,15 +57,6 @@
   const dayOf = m => `November · day ${m.day} of 30`;
   const lastGood = 'Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.';
 
-  /* the compact meter, pinned above the dock on a phone so holdings stay first: the figure, one scale in one colour, the forecast */
-  function strip(ctx) {
-    const m = month(ctx);
-    if (ctx.state === 'loading') return `<div class="card cost-strip cost-box" data-mo="card" role="button" tabindex="0" aria-label="Cost this month, refreshing. Last good: £46.42 committed so far. Opens the month."><div class="cost-row">${sk('112px', 22)}${chipOf(['fresh', 'Last good 21:15'])}</div>${sk('100%', 12)}<div class="small muted">Last good: £46.42 committed so far</div></div>`;
-    return `<div class="card cost-strip cost-box" data-mo="card" role="button" tabindex="0" aria-label="Cost this month: £${m.so} ${m.word}. ${m.st[1]}. Forecast ${m.fc}. Opens the month.">
-      <div class="cost-row"><div class="cost-fig">${money(m.so, 22)}<span class="small muted">${m.word}</span></div>${chipOf(m.st)}</div>
-      ${lad(m, { mono: true })}
-      <div class="cost-row"><span class="small muted">Forecast ${m.fc}</span>${ic('chev-r', 's16')}</div></div>`;
-  }
   function hero(ctx) {
     const m = month(ctx);
     if (ctx.state === 'loading') return box(`<div class="cost-row"><span class="label">${dayOf(m)}</span>${illus()}</div>${sk('180px', 40)}${sk('100%', 12)}${sk('70%')}<div class="cost-status">${chipOf(m.st)}<p class="small muted">${lastGood}</p></div>`);
@@ -85,7 +77,7 @@
     const aws = {
       empty: ['First collection tomorrow', '£0.00', 0], error: ['Last reconciled 16 Nov · collector failed 06:10', '£9.85', 9.85],
       stale: ['Last bill 39 hours ago · estimate since then', '£11.18', 11.18], disagreement: ['Bill £1.02, estimate £0.71 on 17 Nov', '£11.49', 11.49, '£18.95'],
-      offline: ['From 21:15 · Dev £2.96 · Prod £7.80 · Shared £0.42', '£11.18', 11.18]
+      offline: ['From 22:15 · Dev £2.96 · Prod £7.80 · Shared £0.42', '£11.18', 11.18]
     }[s] || ['Dev £2.96 · Prod £7.80 · Shared £0.42', '£11.18', 11.18];
     const cl = {
       empty: ['First usage report within six hours', '£0.00', 0, '£13.24'], error: ['Usage to 18:00 · top-5 scan £2.12 of £5', '£6.71', 6.71, '£13.24'],
@@ -93,7 +85,7 @@
       offline: ['From 18:00 · Dev £1.20 · Prod £5.46 · Local £0.40', '£7.06', 7.06, '£13.24']
     }[s] || ['Dev £1.20 · Prod £5.46 · Local £0.40', '£7.06', 7.06, '£13.24'];
     const foot = s === 'noModel' ? 'Claude off: the month forecast is £46.48. Forecasts and figures run as usual, because Claude only explains.' : 'Plan £70: these three plus £3 for forecast and price uncertainty. Reserve £30, untouched. Allocations are limits, not separate pots.';
-    return `<div class="card" data-mo="card" style="min-width:0">${part(C.data, 'D', 'Market data', 'Twelve Data Grow 55', s === 'offline' ? 'From 21:15 · Prod £27.84 · Dev £0.00' : 'Prod £27.84 · Dev £0.00', '£27.84', 30, 27.84, '£27.84')}${part(C.aws, 'A', 'AWS', 'Dev and prod accounts', aws[0], aws[1], 22, aws[2], aws[3] || '£18.64')}${part(C.claude, 'C', 'Claude and evaluations', 'Anthropic', cl[0], cl[1], 15, cl[2], cl[3])}<div class="t5foot">${foot}</div></div>`;
+    return `<div class="card" data-mo="card" style="min-width:0">${part(C.data, 'D', 'Market data', 'Twelve Data Grow 55', s === 'offline' ? 'From 22:15 · Prod £27.84 · Dev £0.00' : 'Prod £27.84 · Dev £0.00', '£27.84', 30, 27.84, '£27.84')}${part(C.aws, 'A', 'AWS', 'Dev and prod accounts', aws[0], aws[1], 22, aws[2], aws[3] || '£18.64')}${part(C.claude, 'C', 'Claude and evaluations', 'Anthropic', cl[0], cl[1], 15, cl[2], cl[3])}<div class="t5foot">${foot}</div></div>`;
   }
 
   /* ---------- the scan cap, and Claude on and off ---------- */
@@ -144,11 +136,11 @@
 
   /* ---------- where the figures come from ---------- */
   const LANES = {
-    default: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 21:15', 'Now', 'fresh']],
-    error: [['Reconciled billing', 'Failed 06:10 · AWS to 16 Nov · retries next window', 'Age 39 h', 'error'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 21:15', 'Now', 'fresh']],
-    stale: [['Reconciled billing', 'Daily · AWS to 16 Nov · no new bill', 'Age 39 h', 'stale'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 21:15', 'Now', 'fresh']],
-    offline: [['Reconciled billing', 'Saved · AWS to 17 Nov', 'Age 15 h', 'offline'], ['Anthropic usage', 'Saved · to 18:00', 'Age 3 h', 'offline'], ['Internal estimates', 'Saved · to 21:15', 'Offline', 'offline']],
-    noModel: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Claude is off, so there is nothing to collect', 'Off', ''], ['Internal estimates', 'Live · to 21:15', 'Now', 'fresh']],
+    default: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
+    error: [['Reconciled billing', 'Failed 06:10 · AWS to 16 Nov · retries next window', 'Age 39 h', 'error'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
+    stale: [['Reconciled billing', 'Daily · AWS to 16 Nov · no new bill', 'Age 39 h', 'stale'], ['Anthropic usage', 'Every six hours · to 18:00', 'Age 3 h', 'fresh'], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
+    offline: [['Reconciled billing', 'Saved · AWS to 17 Nov', 'Age 15 h', 'offline'], ['Anthropic usage', 'Saved · to 18:00', 'Age 3 h', 'offline'], ['Internal estimates', 'Saved · to 22:15', 'Offline', 'offline']],
+    noModel: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Claude is off, so there is nothing to collect', 'Off', ''], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
     empty: [['Reconciled billing', 'First run tomorrow, 06:10', 'None yet', ''], ['Anthropic usage', 'First report within six hours', 'None yet', ''], ['Internal estimates', 'Live · nothing to estimate yet', 'Now', 'fresh']],
     abstention: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Unavailable until an admin key is adopted', 'Unknown', ''], ['Internal estimates', 'Live · AWS only', 'Now', 'fresh']]
   };
@@ -205,7 +197,7 @@
     const m = { so: off ? (27.84 + aws).toFixed(2) : L.so, word: 'committed so far', fc: gbp(fc), to: fc, lo: fc - 6, hi: fc + 6, day: L.day, bars, keys, st: L.st, say: `Forecast ${gbp(fc)} passed ${L.line} on ${L.when}. ${L.does}` };
     if (s === 'stale') { m.st = ['stale', `${L.st[1].split(' ')[0]} · billing 39 h old`, 'clock']; m.say = `The ${L.noun} holds until AWS billing is reconciled, then the next check decides.`; m.q = 'MP40-Q6'; }
     if (s === 'error') m.word = 'last good';
-    if (s === 'offline') { m.st = ['offline', 'Offline · from 21:15', 'wifi-off']; m.say = `Saved at 21:15. The ${L.noun} may have changed since then.`; }
+    if (s === 'offline') { m.st = ['offline', 'Offline · from 22:15', 'wifi-off']; m.say = `Saved at 22:15. The ${L.noun} may have changed since then.`; }
     if (off) m.say = `Forecast ${gbp(fc)} passed ${L.line} on ${L.when}. Claude was already off, so all of this is market data and AWS.`;
     if (s === 'disagreement') { m.st = ['stale', 'Estimate and bill differ', 'split']; m.fc = `${gbp(L.bill)} on the bill`; m.to = L.bill; m.lo = L.bill - 6; m.hi = L.bill + 6; m.say = `Estimate ${gbp(fc)}, bill ${gbp(L.bill)}. The bill counts, ${L.back}`; }
     if (s === 'abstention') { m.st = ['', 'Forecast unknown', 'ban']; m.word = 'known so far'; m.fc = 'Not shown'; m.to = 0; m.unk = 13; m.keys = [KEYS[0], [C.aws, 'AWS', gbp(aws)], [C.claude, 'Claude', `at least ${gbp(L.cl)}`], KEYS[3]]; m.say = `Claude usage stopped being collected. The ${L.noun} holds until the month is known again.`; m.q = 'MP40-Q5'; }
@@ -215,14 +207,14 @@
     const L = OVERS[k], s = ctx.state, draw = o.draw || (m => lad(m) + keyOf(m));
     if (s === 'empty') return stateCard('check', L.none, L.noneSay, btn(o.to || 'See the thresholds', 'tinted'), chipOf(['fresh', 'Committed £27.84']));
     const m = overOf(ctx, k), top = `<div class="cost-row"><span class="label">${dayOf(m)}</span>${illus()}</div>`;
-    if (s === 'loading') return box(`${top}${sk('180px', 40)}${sk('100%', 12)}${sk('70%')}<div class="cost-status">${chipOf(['fresh', 'Refreshing · last good 21:15'])}<p class="small muted">Last good: £${m.so} committed, forecast ${m.fc}. This view reads saved figures, so refreshing never calls billing.</p></div>`);
+    if (s === 'loading') return box(`${top}${sk('180px', 40)}${sk('100%', 12)}${sk('70%')}<div class="cost-status">${chipOf(['fresh', 'Refreshing · last good 22:15'])}<p class="small muted">Last good: £${m.so} committed, forecast ${m.fc}. This view reads saved figures, so refreshing never calls billing.</p></div>`);
     return box(`${top}<div class="cost-fig">${money(m.so, 40)}<span class="small muted">${m.word}</span></div><div class="cost-row"><span class="small muted">Forecast for the month</span><b>${m.fc}</b></div>${draw(m)}${statusOf(m)}`);
   }
   function overList(ctx, k) {
     const L = OVERS[k], s = ctx.state, off = s === 'noModel';
     if (s === 'loading') return skCard(L.head, 3);
-    if (s === 'error') return stateCard('alert', k === 'warn' ? 'This list did not load' : `The ${L.head.toLowerCase()} list did not load`, `It failed at 21:14. The ${L.noun} itself holds on the server, and sign-in, ledger reads, audit and recovery are unaffected.`, btn('Try again', 'tinted', 'refresh'));
-    const tag = s === 'offline' ? chipOf(['offline', 'From 21:15', 'wifi-off']) : '';
+    if (s === 'error') return stateCard('alert', k === 'warn' ? 'This list did not load' : `The ${L.head.toLowerCase()} list did not load`, `It failed at 21:16. The ${L.noun} itself holds on the server, and sign-in, ledger reads, audit and recovery are unaffected.`, btn('Try again', 'tinted', 'refresh'));
+    const tag = s === 'offline' ? chipOf(['offline', 'From 22:15', 'wifi-off']) : '';
     if (k === 'warn') {
       const m = overOf(ctx, k), left = m.to ? `£${(75 - m.to).toFixed(2)} away` : 'Not known while the forecast is unknown';
       return box(`${head(L.head, tag)}${list([li('alert', 'A notice reached you', '20 Nov at 06:14 · it stays in your inbox', 'Sent'), li('check', 'Optional work', 'All of it still runs. Nothing stops at £60', 'Running'), li('trim', 'Next line: reduce at £75', left, '')])}<p class="small muted">The warning clears at the next check once the forecast falls under £60, after reconciliation or on 1 December.</p>`);
@@ -259,9 +251,9 @@
     const s = ctx.state, terms = '<p class="small muted">The fit stays conditional on the Grow 55 checkout price, listing rights and the measured workload. £59.73 is 27p under the warning, and that margin leaves out about £0.15 of data transfer, Terraform state and the scan\'s compute and storage, which are not yet in the model.</p>';
     if (s === 'loading') return skCard('Planned months', 5);
     if (s === 'empty') return stateCard('clock', 'Not measured yet', 'The full launch workload has not run on dev. These are the planned months, not measurements.', '', chipOf(['', 'Unmeasured', 'clock'])) + box(`${head('Planned months', illus())}${months()}${terms}`);
-    const top = { error: banner('fall', 'The measurement failed.', 'The dev run stopped at 21:14. The planned months stay here, and nothing changes until it is re-run.', 'alert'),
+    const top = { error: banner('fall', 'The measurement failed.', 'The dev run stopped at 21:16. The planned months stay here, and nothing changes until it is re-run.', 'alert'),
       stale: banner('warn', 'Rates are old.', 'These months use the rates of 3 November. Prices or FX may have moved since.', 'clock'),
-      offline: banner('', 'Offline.', 'Saved figures from 21:15.', 'wifi-off'),
+      offline: banner('', 'Offline.', 'Saved figures from 22:15.', 'wifi-off'),
       disagreement: banner('warn', 'The measurement and the plan differ.', 'Measured £62.73 against a planned £59.73: past the £60 warning. The result and your options come to you, and nothing is cut silently.', 'split'),
       abstention: banner('', 'Conditional.', 'MP will not say the month fits until checkout confirms $29 for Grow 55, with its terms and the measured workload.', 'ban') }[s] || '';
     return top + box(`${head('Planned months', illus())}${months()}<p class="small muted">Adverse rates with the scan at its cap reach £64.89, past the warning. Claude off with the scan is a cautious bound, because the scan needs Claude.</p>${terms}${s === 'default' || s === 'noModel' ? `<div class="cost-row"><span class="small">Full workload measured on dev</span>${chipOf(['', 'Not yet', 'clock'])}</div>` : ''}`);
@@ -273,7 +265,7 @@
   const rowsOf = (ctx, n) => `<div class="sech" style="padding:6px 0 0" data-mo="rise"><h3>Holdings</h3><span class="cost-chips" style="align-items:center"><span class="small muted">6 months</span>${illus('Decision support')}</span></div><div class="list card" style="margin:0">${H.slice(0, n).map(h => (ctx.state === 'stale' ? hrow(h) : late(hrow(h)))).join('')}</div>`;
   function valueOf(ctx) {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
-    if (ctx.state === 'error') return v.replace('As of 21:15 London · data cutoff 21:00', 'Last good run Mon 21:15 · cutoff 21:00').replace('>today<', '>last good run<');
+    if (ctx.state === 'error') return v.replace(ASOF_ALL, LASTGOOD_ALL).replace('>today<', '>last good<');
     if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('DATA-DEC-02')}</div>`).replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
     return v;
   }
@@ -281,13 +273,8 @@
   const toThresholds = `<button class="btn sm btn-plain" type="button" style="justify-self:start;padding:0">What each line does${ic('chev-r', 's16')}</button>`;
 
   /* ---------- option B's parts: the pill, the chart, the log ---------- */
-  function pill(ctx) {
-    const m = month(ctx), s = ctx.state, pc = parseFloat(m.so), whole = `£${Math.round(pc)}`, ceil = '<span class="sr"> of £100</span>';
-    /* whole pounds where it must be short. A bill that differs by 31p keeps its pence, or the difference would not show. */
-    const t = { loading: `Last good ${whole}`, error: `${whole}${ceil} · collector failed`, stale: `${whole}${ceil} · billing 39 h old`, offline: `${whole}${ceil} · saved`, disagreement: `£${m.so}${ceil} · bill differs`, abstention: `${whole}${ceil} · part unknown` }[s] || `${whole} of £100`;
-    const i = { error: 'alert', stale: 'clock', offline: 'wifi-off', disagreement: 'split', abstention: 'ban' }[s];
-    return `<button class="chip glass cost-pill" type="button" data-mo="chip">${i ? ic(i, 's14') : `<span class="cost-pillbar"><i style="width:${pc}%"></i></span>`}<span><span class="sr">Cost this month: </span>${t}<span class="sr">. £${m.so} ${m.word}. ${m.st[1]}. Forecast ${m.fc}. Opens the month.</span></span></button>`;
-  }
+  /* the pill on Home is the shell's (OWN-06), told this journey's own month, so every Home and Cost say the same */
+  const pill = ctx => { const m = month(ctx); return costPillOf(ctx, [m.so, m.word, m.st[1], m.fc]); };
   const INC = [.7, .9, 1.1, .8, 1.6, .9, .7, 1.2, 1, .9, 1.4, 1.1, .8, 1.3, 1, 1.2, 1, 1.3, 1.4, 1.8, 2.4, 3, 3.4, 2.6, 2, 1.6, 1.2, 1];
   function burn(ctx, W = 326, Ht = 220, m = month(ctx)) {
     const s = ctx.state, ml = 8, mr = 70, mt = 12, mb = 22;
@@ -324,7 +311,7 @@
     const noLine = t => ['check', 'No line reached', t, ''];
     const LINES = {
       default: noLine('Forecast up to £59.73, 27p under the £60 warning'), stale: noLine('Forecast up to £59.73, 27p under the £60 warning, with billing 39 hours old'),
-      error: noLine('Estimated up to £59.73, 27p under the £60 warning'), offline: noLine('Saved at 21:15: 27p under the £60 warning'), noModel: noLine('Forecast £46.48, £13.52 under the £60 warning'),
+      error: noLine('Estimated up to £59.73, 27p under the £60 warning'), offline: noLine('Saved at 22:15: 27p under the £60 warning'), noModel: noLine('Forecast £46.48, £13.52 under the £60 warning'),
       disagreement: ['alert', 'Warned at £60', '18 Nov · the bill took the forecast to £60.04. A notice reached you', '£60.04'], abstention: ['ban', 'No line can be judged', 'The forecast is unknown, so the £60 warning is not known either', 'Unknown'],
       empty: noLine('The plan is up to £59.73, 27p under the £60 warning')
     };
@@ -332,7 +319,7 @@
     const extra = {
       error: [['Today', [['alert', 'AWS collector failed', '06:10. Retries at the next window', 'Failed']]]],
       stale: [['Today', [['clock', 'Optional work held', 'No new AWS bill for 39 hours', 'Held']]]],
-      offline: [['Saved at 21:15', [['wifi-off', 'Newer events show when you reconnect', '', '']]]],
+      offline: [['Saved at 22:15', [['wifi-off', 'Newer events show when you reconnect', '', '']]]],
       noModel: [['Today', [['ban', 'Top-5 batch refused', 'No verified credit, Claude is off', 'Refused']]]],
       disagreement: [['17 Nov', [['split', 'Estimate and bill differ', 'Estimate £0.71, bill £1.02', '+£0.31']]]],
       abstention: [['Today', [['ban', 'Claude usage not collected', 'Stays unknown, never £0', 'Unknown']]]]
@@ -362,15 +349,15 @@
     summary: 'What this month costs against the £100 ceiling, one tap from home, with what happens at each line. The month is drawn at day 18, later than the 3 November used elsewhere, so the lines have something to show.',
     options: [{
       id: 'a', name: 'Meter and ladder', rec: true,
-      why: 'The meter stays in view on Home without a tap, and one tap opens everything on one page. You always see how far the next line is and what happens there.',
-      cost: 'On a phone the meter pins above the dock, so holdings stay first but it covers a strip of the list as you scroll. How the month got here is a step further in.',
+      why: 'The pill on Home opens everything on one page, with the meter at the top: you see how far the next line is and what happens there, one tap from Home.',
+      cost: 'From Home you see a figure, not the next line: the owner picked "Pill on every Home" (OWN-06), so the meter sits inside Cost. How the month got here is a step further in.',
       screens: [{
-        id: 'cost-a-home', title: 'Home with the meter',
-        note: 'Pinned above the dock on a phone, so holdings stay first; at the top of the rail on iPad and desktop.',
-        render: ctx => homePage(ctx, { tab: 0, title: 'Portfolio', body: valueOf(ctx) + rowsOf(ctx, wide(ctx) ? 5 : 3), rail: wide(ctx) ? hero(ctx) + top5s(ctx) : '', accessory: wide(ctx) ? '' : strip(ctx) })
+        id: 'cost-a-home', title: 'Home with the pill',
+        note: 'The owner picked "Pill on every Home" (OWN-06): the pill sits in the top bar whichever way Cost is flipped, and nothing about cost sits on the holdings. Here it opens This month, where the meter now sits. Both options draw this same Home, so it has no flip.',
+        render: ctx => homePage(ctx, { tab: 0, title: 'Portfolio', actions: pill(ctx) + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: pill(ctx), body: valueOf(ctx) + rowsOf(ctx, wide(ctx) ? 5 : 3), rail: top5s(ctx) })
       }, {
         id: 'cost-a-month', title: 'This month',
-        note: 'Tap the meter. Spend against £100, by part, with the forecast and each figure\'s age.',
+        note: 'Tap the pill on Home. The meter sits here, at the top, since "Pill on every Home" (OWN-06): spend against £100 with the next line, by part, with the forecast and each figure\'s age.',
         render: ctx => page(ctx, { tab: 0, back: 'Portfolio', title: 'This month', webActions: illus('Read only'), body: hero(ctx) + parts(ctx) + scan(ctx), rail: box(`${head('The lines')}<div>${miniRungs()}</div>${toThresholds}`) + sourcesCard(ctx) })
       }, {
         id: 'cost-a-limits', title: 'The lines',
@@ -404,7 +391,7 @@
       cost: 'The pill is a figure, not a ladder, so you do not see the next line from home. What degrades at each line is two taps away.',
       screens: [{
         id: 'cost-b-home', title: 'Home with the pill',
-        note: 'One tap from home, and no height taken from holdings.',
+        note: 'One tap from home, and no height taken from holdings. The same Home as option A\'s, so it has no flip: here the pill opens the sheet.',
         render: ctx => homePage(ctx, { tab: 0, title: 'Portfolio', actions: pill(ctx) + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: pill(ctx), body: valueOf(ctx) + rowsOf(ctx, wide(ctx) ? 5 : 3), rail: top5s(ctx) })
       }, {
         id: 'cost-b-sheet', title: 'The month in a sheet',

@@ -72,7 +72,9 @@ export default {
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-devices', state: 'default' }, (v, at) => { must(count(v.html, />Revoke</g) === 3, `${here(at)}: three other devices can be revoked, found ${count(v.html, />Revoke</g)}`); has(v.text, /Devices and sessions/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-outside', state: 'error' }, (v, at) => { has(v.text, /That change did not save/, here(at)); has(v.text, /private default stays in force/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-outside', state: 'default' }, (v, at) => must(count(v.html, /role="switch"/g) === 3, `${here(at)}: each less private option needs its switch`));
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-device', state: 'default' }, (v, at) => { has(v.text, /Confirm on a device you trust/, here(at)); has(v.text, /Add a passkey here/, here(at)); });
+    // narrowed in MP-188: the last step says where this device can add a passkey, here on the Mac, in Phone web's browser, or on the Mac from the apps ("Redraw Privacy now", ADM-13; "Allowed in the browser", ADM-04)
+    const ADD = { web: /Add a passkey here/, pwa: /Add a passkey in this browser/, iphone: /Add a passkey on your Mac/, ipad: /Add a passkey on your Mac/ };
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-device', state: 'default' }, (v, at) => { has(v.text, /Confirm on a device you trust/, here(at)); has(v.text, ADD[at.surface], here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-checkup' }, (v, at) => {
       const rows = count(v.html, /role="button" tabindex="0" class="privacy-li/g), chevrons = count(v.html, /#i-chev-r/g);
       must(rows >= chevrons && (at.state === 'loading' || rows > 0), `${here(at)}: ${chevrons} chevrons and ${rows} real rows`);
@@ -132,24 +134,26 @@ export default {
   },
 
   // A screen with prices never hides a price fault, and its body follows the shared story.
-  'R1-s11': ({ each, has, lacks }) => {
+  'R1-s11': ({ each, has, lacks }) => {   // narrowed in MP-186: the US run starts 21:15, so Twelve Data fails at 21:16, and only the US is on Monday's run (ADM-10, ADM-11, ADM-22)
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /Yahoo · Fresh/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); lacks(v.text, /16:35/, here(at)); });
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /today/, `${here(at)}: the last good run is not today`); });
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /\) today|% today/, `${here(at)}: the last good run is not today`); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Proposed · DATA-DEC-02/, here(at)); });
     for (const [option, screen] of COST_HOME) {
       each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /£78,508/, here(at)); lacks(v.text, /£84,612/, here(at)); });
-      each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /As of 21:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
+      each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /As of 22:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
     }
   },
 
-  // Holdings first on a phone: the meter comes after the holdings, in every state.
+  // Holdings first on a phone. Narrowed in MP-186: the owner picked "Pill on every Home" (OWN-06), so the meter left Home for This month. Nothing
+  // about cost sits on the holdings: the pill is in the top bar, above them, and the meter is inside Cost.
   'R1-s12': ({ each, must }) => {
-    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => {
-      const meter = v.html.indexOf('cost-strip'), rows = v.html.lastIndexOf('class="hrow');
-      must(meter > 0, `${here(at)}: no meter`);
-      must(rows > 0 && meter > rows, `${here(at)}: the meter sits before the holdings`);
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-home' }, (v, at) => {
+      const pill = v.html.indexOf('cost-pill'), rows = v.html.indexOf('class="hrow');
+      must(pill > 0, `${here(at)}: no pill`);
+      must(!/cost-strip|class="cost-lad"/.test(v.html), `${here(at)}: the meter is still on Home`);
+      must(rows > 0 && pill < rows, `${here(at)}: the pill is not in the top bar, above the holdings`);
     });
-    for (const surface of ['ipad', 'web']) each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface, state: 'default' }, (v, at) => must(v.html.indexOf('class="hrow') < v.html.indexOf('November · day 18'), `${here(at)}: holdings stay in the main column`));
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-month', state: 'default' }, (v, at) => must(/class="cost-lad" role="img"/.test(v.html), `${here(at)}: the meter is not inside Cost`));
   },
 
   // A warned month and a reduced month are drawn, with what changes, why, and how it ends.
@@ -159,29 +163,32 @@ export default {
     each({ journey: 'cost', option: 'a', screen: 'cost-a-reduced', state: 'noModel' }, (v, at) => has(v.text, /Already off, so nothing to reduce/, here(at)));
   },
 
-  // The meter's name carries its figure, its word and its forecast, in every state.
+  // The cost control on Home carries its figure, its word and its forecast in its name, in every state. Narrowed in MP-186: since "Pill on every
+  // Home" (OWN-06) that control is the pill, so this reads the pill's name, and nothing that is an image sits inside it.
   'R1-s15': ({ each, must, has }) => {
     each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => {
-      const name = (v.html.match(/class="card cost-strip[^>]*aria-label="([^"]*)"/) || [])[1] || '';
+      const name = pillOf(v.html).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       has(name, /Cost this month/, `${here(at)}: no name`);
       has(name, /£\d+\.\d\d/, `${here(at)}: no amount in "${name}"`);
       has(name, /Opens the month/, here(at));
       if (at.state !== 'loading') { has(name, /Forecast /, `${here(at)}: no forecast in "${name}"`); has(name, /committed so far|last reconciled|with the bill|known so far/, `${here(at)}: no word in "${name}"`); }
-      must(!/class="cost-lad" role="img"/.test(v.html.slice(v.html.indexOf('cost-strip'))), `${here(at)}: an image nested in a button`);
+      must(!/role="img"/.test(pillOf(v.html)), `${here(at)}: an image nested in a button`);
     });
   },
 
   // A browser's offline copy is labelled, on every framed screen.
+  // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c), so the label says it is saved in this browser and that its protection is unverified, not that the question is open.
   'R1-s18': ({ each, has, lacks }) => {
     for (const journey of ['cost', 'privacy']) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => {
-      lacks(v.text, /This browser keeps nothing/, here(at));
-      if (!/privacy-cover/.test(v.html)) has(v.text, /Proposed · MP40-Q12/, `${here(at)}: a browser's offline copy with no label`);
+      lacks(v.text, /This browser keeps nothing|Proposed · MP40-Q12/, here(at));
+      if (!/privacy-cover/.test(v.html)) has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${here(at)}: a browser's offline copy with no label`);
     });
   },
 
   // A revoked device that has not connected: no promise it cannot keep.
+  // Narrowed in MP-189: the owner pressed "Saved copy also times out" (OWN-37), so the Proposed label comes off and the time-out, whose value is still the owner's to set, is said instead.
   'R1-s19': ({ each, has, lacks }) => {
-    for (const [option, screen] of [['a', 'privacy-a-devices'], ['b', 'privacy-b-devices']]) each({ journey: 'privacy', option, screen, state: 'disagreement' }, (v, at) => { has(v.text, /clears when it next connects/, here(at)); lacks(v.text, /cannot be read/, here(at)); has(v.text, /Proposed · MP40-Q12/, here(at)); });
+    for (const [option, screen] of [['a', 'privacy-a-devices'], ['b', 'privacy-b-devices']]) each({ journey: 'privacy', option, screen, state: 'disagreement' }, (v, at) => { has(v.text, /clears when it next connects/, here(at)); lacks(v.text, /cannot be read/, here(at)); has(v.text, /stops showing after the offline time-out/, here(at)); has(v.text, /Time-out not set · OWN-37/, here(at)); lacks(v.text, /Proposed · MP40-Q12/, here(at)); });
   },
 
   // The fit is conditional in Ready, and the 27p margin says what it leaves out.
@@ -206,8 +213,9 @@ export default {
   },
 
   // The meter does not reuse the US and UK colours of the allocation bar.
-  'R1-s28': ({ each, lacks }) => {
-    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => lacks(v.html.slice(v.html.indexOf('cost-strip')), /--mark-(us|uk)/, `${here(at)}: market colours on the meter`));
+  'R1-s28': ({ each, lacks, must }) => {
+    // narrowed in MP-186: the compact meter left Home ("Pill on every Home", OWN-06), so the control that replaced it there, the pill, is read
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => { const p = pillOf(v.html); must(p, `${here(at)}: no pill`); lacks(p, /--mark-(us|uk)/, `${here(at)}: market colours on the pill`); });
   },
 
   // Copy and cues.
@@ -240,13 +248,13 @@ export default {
   },
 
   // A screen that shows or quotes a price takes the state as it stands: Privacy reads as Home with amounts hidden does, and a notice about a price agrees with its chip.
-  'R2-s4': ({ view, each, must, has, lacks }) => {
+  'R2-s4': ({ view, each, must, has, lacks }) => {   // narrowed in MP-186: the US run starts 21:15, so Twelve Data fails at 21:16, and only the US is on Monday's run (ADM-10, ADM-11, ADM-22)
     for (const surface of SURFACES) for (const state of STATES) {
       const a = chipsOf(view('privacy', 'a', 'privacy-a-centre', surface, state).html), b = chipsOf(view('privacy', 'b', 'privacy-b-home', surface, state).html);
       must(a && a === b, `${surface} ${state}: the centre shows "${a}" and Home "${b}"`);
     }
     each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /HSBC late|Portfolio value/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); });
-    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); has(v.text, /\+1\.39% last good run/, here(at)); lacks(v.text, /\+1\.39% today/, here(at)); });
+    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); has(v.text, /\+1\.39% last good/, here(at)); lacks(v.text, /\+1\.39% today/, here(at)); });
     for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /HSBC price is stale/, here(at)); lacks(v.text, /HSBC late/, here(at)); });
   },
 
@@ -264,7 +272,7 @@ export default {
         if (state === 'disagreement') { has(v.text, /Rules and models disagree on Reliance/, at); has(v.text, /Baseline/, at); has(v.text, /R2-HGB v3/, at); has(v.text, /−2\.4%/, at); has(v.text, /\+7\.4%/, at); }
         if (state === 'abstention') { has(v.text, /The model abstained on AstraZeneca at 6 months/, at); has(v.text, /Abstained · no range shown/, at); }
         if (state === 'noModel') { has(v.text, /No approved model covers India yet/, at); has(v.text, /Reliance .*No approved model · no action/, at); }
-        if (state === 'error') has(v.text, /Today's run failed/, at);
+        if (state === 'error') has(v.text, /The US run failed/, at);   // narrowed in MP-186: only the US run failed (ADM-10)
       }
       if (state !== 'noModel') {
         const x = view('privacy', 'a', 'privacy-a-data', surface, state).text, y = view('privacy', 'b', 'privacy-b-checkup', surface, state).text, card = (t) => (t.match(/Export your data .*?(?:Pinned to|Request an export|Download|Building)/) || [''])[0], notes = (t) => (t.match(/Memory notes (?:\d+ notes|No notes yet)/) || [''])[0];
@@ -334,7 +342,7 @@ export default {
       must(/>Renew</.test(d.html) === /Renew an original/.test(need), `${at}: Your data and the checkup differ on the renewal`);
       must(/Originals did not load/.test(d.text) === /Originals did not load/.test(need), `${at}: Your data and the checkup differ on the originals`);
       must(/Older than usual/.test(d.text) === /older than usual/.test(need), `${at}: Your data and the checkup differ on the copy's age`);
-      if (state === 'error') { has(need, /Phone notifications stopped/, at); has(need, /A revoke did not finish/, at); has(need, /A privacy change did not save/, at); lacks(good, /Web Push on|Devices|Lock screen/, at); has(good, /rebuilt 21:14/, at); }
+      if (state === 'error') { has(need, /Phone notifications stopped/, at); has(need, /A revoke did not finish/, at); has(need, /A privacy change did not save/, at); lacks(good, /Web Push on|Devices|Lock screen/, at); has(good, /rebuilt 21:16/, at); }   // narrowed in MP-186: after the US run starts (ADM-11)
       if (state === 'empty') { has(need, /Add a second sign-in path/, at); lacks(good, /4 signed in|Sign-in paths|One left|Web Push on/, at); has(good, /Not asked yet/, at); }
       if (state === 'stale') { has(good, /Checked 14:10/, at); lacks(good, /Checked 21:15|oldest record/i, at); has(need, /Check this list again/, at); }
       if (state === 'disagreement') { has(need, /A device has not checked in/, at); has(need, /Phone notifications are blocked/, at); lacks(good, /4 signed in|Web Push on|Nothing confidential shows/, at); has(good, /on from your Mac/, at); }
@@ -345,10 +353,11 @@ export default {
 
   // A lost device is never the one in your hand, and the path in is one this frame has.
   'R2-s18': ({ view, must, has, lacks }) => {
-    const want = { iphone: ['Your iPhone passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], ipad: ['Google', 'iPhone, last active 40 min ago', 'iPhone', 'iPad, last active'], web: ['Your Mac passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], pwa: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'] };
+    // narrowed in MP-188: the iPhone app signs in with Google until the purchase, and the replacement goes on the Mac, never the new app ("Redraw Privacy now", ADM-13)
+    const want = { iphone: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], ipad: ['Google', 'iPhone, last active 40 min ago', 'iPhone', 'iPad, last active'], web: ['Your Mac passkey', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'], pwa: ['Google', 'iPad, last active 2 h ago', 'iPad', 'iPhone, last active'] };
     for (const [surface, [path, seen, gone, wrong]] of Object.entries(want)) {
       const t = view('privacy', 'b', 'privacy-b-lost', surface, 'default').text;
-      has(t, new RegExp(`${path}, just now`), `${surface}: the path in: ${t.slice(0, 200)}`); has(t, new RegExp(seen), surface); lacks(t, new RegExp(wrong), surface); has(t, new RegExp(`On the new ${gone},`), surface);
+      has(t, new RegExp(`${path}, just now`), `${surface}: the path in: ${t.slice(0, 200)}`); has(t, new RegExp(seen), surface); lacks(t, new RegExp(wrong), surface); has(t, new RegExp(`The new ${gone} cannot hold one until the Developer Program is bought`), surface); lacks(t, new RegExp(`On the new ${gone},`), surface);
       has(view('privacy', 'b', 'privacy-b-lost', surface, 'stale').text, new RegExp(`so the ${gone} is not yet revoked`), `${surface} stale`);
       has(view('privacy', 'b', 'privacy-b-lost', surface, 'error').text, new RegExp(`The ${gone} is still signed in`), `${surface} error`);
     }
@@ -484,7 +493,8 @@ export default {
 
   // Both sides of the sources and the log show how old each figure is, the same in every state.
   'R4-s9': ({ view, must }) => {
-    const ages = (t, at) => { const m = t.match(/How old each figure is (?:Last good 21:15|.*?The view reads saved figures)/); must(m, `${at}: no ages`); return m[0]; };
+    // narrowed in MP-186: the last good figures are from 22:15, when the US run lands (ADM-22)
+    const ages = (t, at) => { const m = t.match(/How old each figure is (?:Last good 22:15|.*?The view reads saved figures)/); must(m, `${at}: no ages`); return m[0]; };
     for (const surface of SURFACES) for (const state of STATES) {
       const at = `${surface} ${state}`, a = ages(view('cost', 'a', 'cost-a-sources', surface, state).text, at), b = ages(view('cost', 'b', 'cost-b-log', surface, state).text, at);
       must(a === b, `${at}: the sources read "${a}" and the log "${b}"`);

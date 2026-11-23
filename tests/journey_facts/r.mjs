@@ -16,7 +16,8 @@ const marks = (html) => {
 };
 // the freshness row, which both sides of a flip must show alike
 const chips = (html) => (html.match(/<div class="jfresh[\s\S]*?<\/div>/) || [''])[0].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const dataLine = (text) => (text.match(/(Last good run Mon 21:15 · cutoff 21:00|As of 21:15 · cutoff 21:00)/) || [''])[0];
+// narrowed in MP-186: the sidebar's data line is per market (ADM-10, ADM-22)
+const dataLine = (text) => (text.match(/(US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today|As of 22:15 London · cutoffs US 22:00, UK 17:35, India 11:00)/) || [''])[0];
 // the inbox as a screen draws it
 const NOTICE_ROW = /US tech is [\d.]+% of (?:the portfolio|the known total)(?= Material risk)|US tech, 12 months paused|HSBC price is (?:late|stale)|R1-LGB v2 reverted by itself/g;
 const inbox = (text) => text.match(NOTICE_ROW) || [];
@@ -345,7 +346,8 @@ const FACTS = {
       has(v.text, /It pushes once in 24 hours for this holding, rule and severity/, `${said(at)}: the cooldown the owner picked`);
       has(v.text, /Each line still needs your value before build\. Proposed · CT-18/, `${said(at)}: the line's value is open`);
     });
-    for (const journey of [R, A]) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => has(v.text, /Proposed · MP40-Q12/, `${said(at)}: an offline copy in a browser`));
+    // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c), so a browser's copy is no longer labelled open. It says it is saved here, and that its protection is unverified.
+    for (const journey of [R, A]) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => { has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${said(at)}: an offline copy in a browser`); lacks(v.text, /Proposed · MP40-Q12|keeps offline is open/, `${said(at)}: a settled question still labelled open`); });
   },
 
   'R1-r22': ({ each, must }) => {
@@ -371,7 +373,7 @@ const FACTS = {
     each({ journey: R }, (v, at) => lacks(v.text, /beat earnings next week/, `${said(at)}: results are on 18 Nov`));
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /Version 4/, `${said(at)}: no way to version 4`));
     each({ journey: R, option: 'a', screen: 'ra-card', state: 'stale' }, (v, at) => has(v.html, /aria-label="Card version"/, `${said(at)}: no version control`));
-    each({ journey: R, option: 'a', screen: 'ra-alert', state: 'default' }, (v, at) => has(v.text, /1 · Ledger, 21:15/, `${said(at)}: a citation with no sources list`));
+    each({ journey: R, option: 'a', screen: 'ra-alert', state: 'default' }, (v, at) => has(v.text, /1 · Ledger, 22:15/, `${said(at)}: a citation with no sources list`));   // narrowed in MP-186: the ledger as the US run lands (ADM-22)
   },
 
   // The queue and Home are a flip: the same freshness, on every device, in every state.
@@ -381,7 +383,7 @@ const FACTS = {
       must(chips(a.html) && chips(a.html) === chips(b.html), `aa-queue and ab-home, ${surface} ${state}: "${chips(a.html)}" against "${chips(b.html)}"`);
       if (surface === 'ipad' || surface === 'web') must(dataLine(a.text) && dataLine(a.text) === dataLine(b.text), `aa-queue and ab-home, ${surface} ${state}: "${dataLine(a.text)}" against "${dataLine(b.text)}"`);
     }
-    must(chips(view(A, 'a', 'aa-queue', 'web', 'error').html).includes('error 21:14'), 'aa-queue does not follow the state');
+    must(chips(view(A, 'a', 'aa-queue', 'web', 'error').html).includes('error 21:16'), 'aa-queue does not follow the state');   // narrowed in MP-186: after the US run starts (ADM-11)
     must(chips(view(A, 'b', 'ab-notices', 'web', 'stale').html).includes('HSBC stale'), 'ab-notices does not follow the state');
   },
 
@@ -890,7 +892,7 @@ const FACTS = {
       each({ journey: R, option, screen, state: 'default' }, (v, at) => {
         for (const re of [/Analyst note says chip demand is cooling, Built from an untrusted news item, Tainted/, /Keep answers short, detail on request, Preference · corrected by you, 2 Oct · v2, Corrected/]) has(name(v.html), re, `${said(at)}: ${re}`);
       });
-      each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => has(name(v.html), /NVIDIA is under 10% of my portfolio, Note from chat, 3 Sep · ledger says 12\.6% at 21:15, Left out/, `${said(at)}: the note's status`));
+      each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => has(name(v.html), /NVIDIA is under 10% of my portfolio, Note from chat, 3 Sep · ledger says 12\.6% at 22:15, Left out/, `${said(at)}: the note's status`));   // narrowed in MP-186: the ledger as the US run lands, 22:15 (ADM-22)
     }
   },
 

@@ -53,9 +53,13 @@ const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
-const LASTGOOD = 'Last good run Mon 21:15 · cutoff 21:00';
-const asOf = st => (st === 'error' ? 'Last good run Mon 21:15' : st === 'stale' ? 'Held from Mon 21:15' : 'As of 21:15 London');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
+/* Each name reads its own market's run (POLICY-002, ADM-10, ADM-22): Apple the US run, issued 22:15 with its cutoff at 22:00; HSBC and
+   AstraZeneca the UK's, 17:50 and 17:35; Reliance India's, 11:15 and 11:00. In Error only the US run failed, so only a US name is on Monday's. */
+const LASTGOOD = 'Last good run Mon 22:15 · cutoff 22:00';
+const asOf = (st, h = A) => (st === 'error' && clockOf(h)[0] === '22:15' ? 'Last good run Mon 22:15' : st === 'stale' ? `Held from Mon ${clockOf(h)[0]}` : `As of ${clockOf(h)[0]} London`);
+const cutOf = h => `Data cutoff ${clockOf(h)[1]}`;
 /* Prism's chart and proof, labelled as what they are: walk-forward testing, not a live record */
 const wf = html => html.replace('Scored: inside', 'Walk-forward: inside').replace('A past forecast scored 3 months ago landed', 'A walk-forward case from 3 months ago landed').replace('<i class="lg-past"></i>Past forecast', '<i class="lg-past"></i>Walk-forward case').replace(/over 52 scored forecasts/g, 'over 52 scored forecasts in walk-forward testing').replace('<div class="proofmodel">', '<div class="proofmodel" role="button" tabindex="0">');
 
@@ -114,25 +118,25 @@ const hzSwitch = (ctx, on = 1, short = false) => {
 };
 const modeCtl = on => `<div data-mo="rise">${seg(['Simple', 'Technical'], on, 'Detail', 'full')}</div>`;
 const calib = (l = LONG[1]) => `<div class="fc-sub" style="margin-top:6px" data-mo="fade">In plain words: about 8 in 10 outcomes like this should land inside the 80% range. It held ${l.held}% of the time over ${l.scored} scored forecasts in walk-forward testing.${l.blocks < 20 ? ` Exploratory: ${l.blocks} non-overlapping blocks, under the 20 a claim needs.` : ''}</div>`;
-const fcCardOf = (ctx, h = who(ctx.state)) => `<div class="card fcard" data-mo="card">${wf(fcard(h, { w: cw(ctx, 326, 500), h: cw(ctx, 186, 236), seed: 11, inter: isWide(ctx) })).replace('As of 21:15 London', asOf(ctx.state))}${calib()}${fcTable(h)}</div>`;
+const fcCardOf = (ctx, h = who(ctx.state)) => `<div class="card fcard" data-mo="card">${wf(fcard(h, { w: cw(ctx, 326, 500), h: cw(ctx, 186, 236), seed: 11, inter: isWide(ctx) })).replace('As of 22:15 London', asOf(ctx.state, h)).replace('Data cutoff 22:00', cutOf(h))}${calib()}${fcTable(h)}</div>`;
 const legendHz = sp => `<div class="legend"><span><i class="lg-50"></i>50% range</span><span><i class="lg-80"></i>80% range</span>${sp ? '' : '<span><i class="lg-med"></i>Median</span>'}</div>`;
 /* 3 and 12 months: the same card, on its own fan and its own date */
 const baseOf = f => ({ lo: +(f.lo - 4.2).toFixed(1), hi: +(f.hi - 4.2).toFixed(1) });
 const bothSides = (l, h) => { const b = baseOf(l.f); return `<div class="fc-kv" style="margin-top:10px"><span>R2-HGB v3, 80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b></div><div style="margin-top:4px">${bar(l.f, { label: 'R2-HGB v3', split: true })}</div><div class="fc-kv" style="margin-top:10px"><span>Baseline, 80% range</span><b>${pct(b.lo)} to ${pct(b.hi)}</b></div><div style="margin-top:4px">${bar({ ...b, med: 0 }, { label: 'Baseline', split: true })}</div>`; };
-const hzCard = (ctx, l, h) => { const sp = isSplit(ctx.state, h.t, [3, 6, 12].indexOf(l.k)); return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${l.k === 12 && h.c === '--seg-ustech' ? pill('', 'pause', 'Last issue before the pause') : ''}${sp ? pill('', 'split', 'Models disagree') : l.blocks < 20 ? stateChip('exploratory') : `<span class="chip fc">${ic('fan', 's14')}Evaluated model</span>`}${sp ? '<div class="big"><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">No median stands at this horizon</span></div>' : `<div class="big"><span class="amt">${roll(pct(l.f.med).replace('%', ''))}<span class="p">%</span></span><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">median</span></div>`}</div><div class="rng"><span>80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b><span>50% range</span><b>${pct(l.f.lo50)} to ${pct(l.f.hi50)}</b></div><div style="margin-top:10px">${ladderFan(ctx, { h, to: l.k, split: sp })}</div>${sp ? bothSides(l, h) : ''}${legendHz(sp)}<div class="fmeta"><span>${asOf(ctx.state)}</span><span>Data cutoff 21:00</span><span>Horizon ${l.due}</span><span>R2-HGB v3</span><span>Illustrative</span></div>${calib(l)}</div>`; };
+const hzCard = (ctx, l, h) => { const sp = isSplit(ctx.state, h.t, [3, 6, 12].indexOf(l.k)); return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${l.k === 12 && h.c === '--seg-ustech' ? pill('', 'pause', 'Last issue before the pause') : ''}${sp ? pill('', 'split', 'Models disagree') : l.blocks < 20 ? stateChip('exploratory') : `<span class="chip fc">${ic('fan', 's14')}Evaluated model</span>`}${sp ? '<div class="big"><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">No median stands at this horizon</span></div>' : `<div class="big"><span class="amt">${roll(pct(l.f.med).replace('%', ''))}<span class="p">%</span></span><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">median</span></div>`}</div><div class="rng"><span>80% range</span><b>${pct(l.f.lo)} to ${pct(l.f.hi)}</b><span>50% range</span><b>${pct(l.f.lo50)} to ${pct(l.f.hi50)}</b></div><div style="margin-top:10px">${ladderFan(ctx, { h, to: l.k, split: sp })}</div>${sp ? bothSides(l, h) : ''}${legendHz(sp)}<div class="fmeta"><span>${asOf(ctx.state, h)}</span><span>${cutOf(h)}</span><span>Horizon ${l.due}</span><span>R2-HGB v3</span><span>Illustrative</span></div>${calib(l)}</div>`; };
 /* Reliance's two sides at the horizon shown. The rules read Pause at every horizon, so the conflict is at every horizon (OWN-32). 6 months keeps its figures. */
-const twoRanges = (h = byT.RELIANCE, hz = 1) => { const l = longOf(h)[hz], f = hz === 1 ? h : l.f, b = hz === 1 ? { med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 } : { med: 0, ...baseOf(l.f), lo50: baseOf(l.f).lo, hi50: baseOf(l.f).hi }; return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${pill('', 'split', 'Rules and models disagree')}</div><p class="fc-sub" style="margin-top:6px">The rules point down and the model points up, at 3, 6 and 12 months. Each side shows, and no action is ranked.</p><div class="fc-kv" style="margin-top:10px"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range</span><b>${pct(f.lo)} to ${pct(f.hi)}</b></div><div style="margin-top:4px">${bar(f, { label: 'R2-HGB v3', split: true })}</div><div class="fc-kv" style="margin-top:10px"><span>Baseline, 80% range</span><b>${pct(b.lo)} to ${pct(b.hi)}</b></div><div style="margin-top:4px">${bar(b, { label: 'Baseline', split: true })}</div><div class="fmeta"><span>As of 21:15 London</span><span>Data cutoff 21:00</span><span>Illustrative</span></div></div>`; };
+const twoRanges = (h = byT.RELIANCE, hz = 1) => { const l = longOf(h)[hz], f = hz === 1 ? h : l.f, b = hz === 1 ? { med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 } : { med: 0, ...baseOf(l.f), lo50: baseOf(l.f).lo, hi50: baseOf(l.f).hi }; return `<div class="card fcard" data-mo="card"><div class="fh"><div class="label">${l.k}-month forecast · ${h.t}</div>${pill('', 'split', 'Rules and models disagree')}</div><p class="fc-sub" style="margin-top:6px">The rules point down and the model points up, at 3, 6 and 12 months. Each side shows, and no action is ranked.</p><div class="fc-kv" style="margin-top:10px"><span>Rules, heuristic strength</span><b>Pause · moderate</b><span>R2-HGB v3, 80% range</span><b>${pct(f.lo)} to ${pct(f.hi)}</b></div><div style="margin-top:4px">${bar(f, { label: 'R2-HGB v3', split: true })}</div><div class="fc-kv" style="margin-top:10px"><span>Baseline, 80% range</span><b>${pct(b.lo)} to ${pct(b.hi)}</b></div><div style="margin-top:4px">${bar(b, { label: 'Baseline', split: true })}</div><div class="fmeta"><span>${asOf('default', h)}</span><span>${cutOf(h)}</span><span>Illustrative</span></div></div>`; };
 const hist = (ctx, label, seed) => `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, label, seed)}</div></div>`;
 function forecastMain(ctx, hz = 1, h = subj(ctx.state, hz)) {
   const st = ctx.state, n = HN[hz], other = othersOut(st, h.t, hz), card = () => (hz === 1 ? fcCardOf(ctx, h) : hzCard(ctx, longOf(h)[hz], h));
   return region(ctx, {
     what: 'This forecast',
     ok: card,
-    loading: () => banner('', 'Refreshing.', 'The last good forecast from 21:15 stays here, with its range, until the run lands.', 'refresh') + dim(card()),
+    loading: () => banner('', 'Refreshing.', 'The last good forecast from 22:15 stays here, with its range, until the run lands.', 'refresh') + dim(card()),
     empty: () => stateCard('fan', 'No forecast yet', 'Apple joined your list today. Its first forecast comes from the next daily run, after tomorrow\'s close. Price history shows now.', '', '<span class="chip">Next run tomorrow 21:15</span>') + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months</div><div style="margin-top:8px">${histChart(ctx, 'Apple')}</div></div>`,
-    error: () => banner('fall', 'This forecast did not load.', `Twelve Data failed at 21:14. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + card(),
+    error: () => banner('fall', 'This forecast did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + card(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so this is the last forecast issued. Its action stays Pause until its price returns. ${qLate}`, 'clock') + card(),
-    offline: () => banner('', 'Saved at 21:15.', `This is the forecast on your device, not fresh analysis. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') + card(),
+    offline: () => banner('', 'Saved at 22:15.', `This is the forecast on your device, not fresh analysis. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') + card(),
     noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any horizon for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (isOut(st, h.t, hz) ? (h.t === 'RELIANCE' ? twoRanges(h, hz) : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both ranges show.', 'split') + card()) : banner('', `No conflict at ${n}.`, `R2-HGB v3 and the baseline agree here.${other ? ` ${h.n} is split at ${other} only, so it is not ranked and carries no action at any horizon.` : ''}`, 'split') + card()),
     abstention: () => (isOut(st, h.t, hz) ? stateCard('ban', 'The model abstained', `Too little comparable history for a calibrated ${n.replace(' months', '')}-month range, so no range is shown. Nothing stands in for it.`, '', pill('', 'ban', 'Abstained · no range shown')) + hist(ctx, h.n) : banner('', `${n[0].toUpperCase()}${n.slice(1)} stands.`, `${other ? `${other[0].toUpperCase()}${other.slice(1)} abstained, so ${h.n} is not ranked and carries no action at any horizon. ` : ''}This range rests on its own evidence.`, 'ban') + card())
@@ -184,18 +188,18 @@ function shortRow(s, ctx) {
   const split = st === 'disagreement' && s.n === '10 sessions';
   return `<div class="fc-lad sm" data-mo="rise"><div class="hzn">${s.n}</div><div>${bar(s.f, { min: -12, max: 12, label: s.n, split })}</div><div class="med">${split ? ic('split', 's18') : pct(s.f.med)}</div><div class="rg">80% range ${pct(s.f.lo)} to ${pct(s.f.hi)} · held ${s.held}% of ${s.scored} in walk-forward testing${st === 'stale' ? ' · held, not current' : ''}</div></div>`;
 }
-const shortCard = (ctx, h = shortH(ctx.state)) => `<div class="card" data-mo="card"><div class="fmeta fc-smeta"><span>${asOf(ctx.state)}</span><span>Data cutoff 21:00</span><span>${ctx.state === 'noModel' ? 'R2-HGB v3 paused' : 'R2-HGB v3'}</span><span>Illustrative</span></div>${shortOf(h).map(s => shortRow(s, ctx)).join('')}</div>`;
+const shortCard = (ctx, h = shortH(ctx.state)) => `<div class="card" data-mo="card"><div class="fmeta fc-smeta"><span>${asOf(ctx.state, h)}</span><span>${cutOf(h)}</span><span>${ctx.state === 'noModel' ? 'R2-HGB v3 paused' : 'R2-HGB v3'}</span><span>Illustrative</span></div>${shortOf(h).map(s => shortRow(s, ctx)).join('')}</div>`;
 const shortFoot = () => `<div class="fc-sub" data-mo="fade">Short-term figures never feed growth or protection; only the opportunity part of a score uses them. Next day and 5 sessions stay listed with no qualified model: a horizon is never removed, and never given a made-up number.</div>`;
 function shortMain(ctx) {
   const lead = () => banner('', 'Short-term.', 'Kept apart on purpose. MyPrediction is built for 3, 6 and 12 months.', 'clock');
   const list = () => `${lead()}${shortCard(ctx)}${isWide(ctx) ? '' : shortFoot()}`;
   return region(ctx, {
     what: 'Short-term forecasts', ok: list,
-    loading: () => `${banner('', 'Short-term.', 'Reading the 21:15 run. The last good rows stay here until it lands.', 'clock')}${dim(shortCard(ctx))}`,
+    loading: () => `${banner('', 'Short-term.', 'Reading the latest run. The last good rows, from 22:15, stay here until it lands.', 'clock')}${dim(shortCard(ctx))}`,
     empty: () => stateCard('clock', 'No short-term forecast yet', 'A new listing needs its first run. The four rows appear tomorrow, each with its own state.'),
     error: () => banner('fall', 'Short-term forecasts did not load.', `${LASTGOOD}. That run shows in full.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + shortCard(ctx),
     stale: () => banner('warn', 'Stale input.', `HSBC's price stopped at 14:10, so 10 and 20 sessions are held, not current, until its price returns. ${qLate}`, 'clock') + shortCard(ctx),
-    offline: () => banner('', 'Saved at 21:15.', `Short-term figures age fastest. Treat these as a record, not a reading.${q12(ctx)}`, 'wifi-off') + shortCard(ctx),
+    offline: () => banner('', 'Saved at 22:15.', `Short-term figures age fastest. Treat these as a record, not a reading.${q12(ctx)}`, 'wifi-off') + shortCard(ctx),
     noModel: () => banner('', 'Rules only.', 'The short-term model is paused (POLICY-003), so all four rows show the rules with their heuristic strength. Gold has no rows: no forecast and no rules until its valuation convention is set (SCI-D08).', 'pause') + shortCard(ctx),
     disagreement: () => banner('', 'Models disagree at 10 sessions.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both are in the proof.', 'split') + shortCard(ctx),
     abstention: () => banner('', '20 sessions abstained.', 'The other rows stand on their own evidence.', 'ban') + shortCard(ctx)
@@ -242,11 +246,11 @@ function proofMain(c) {
   const ok = () => proofTop(hz) + tested() + (isWide(ctx) ? '' : hzRecord() + walk(hz) + sheets());
   return region(ctx, {
     what: 'The proof', ok,
-    loading: () => banner('', 'Refreshing.', 'The last good record from 21:15 stays here until the run lands.', 'refresh') + dim(ok()),
+    loading: () => banner('', 'Refreshing.', 'The last good record from 22:15 stays here until the run lands.', 'refresh') + dim(ok()),
     empty: () => stateCard('clock', 'Awaiting maturity', `No ${l.k}-month outcome has matured live: a ${l.k}-month record waits ${l.k === 12 ? 'a year' : `${l.k} months`}, so no live record is claimed. The first is due ${r.due}.`, '', '<span class="chip">0 matured live</span>') + hzRecord(),
-    error: () => stateCard('alert', 'Proof unavailable', 'The record did not load at 21:14. The forecast still shows, and its calibration line stays labelled with its time.', btn('Try again', 'tinted', 'refresh')),
+    error: () => stateCard('alert', 'Proof unavailable', 'The record did not load at 21:16. The forecast still shows, and its calibration line stays labelled with its time.', btn('Try again', 'tinted', 'refresh')),
     stale: () => banner('warn', 'HSBC\'s price is stale.', `No live forecast has matured yet, so no grade is held up. A grade that falls due waits until its price returns. Nobody edits a past score. ${qLate}`, 'clock') + ok(),
-    offline: () => banner('', 'Saved at 21:15.', `The record on your device. New grades arrive when you reconnect.${q12(ctx)}`, 'wifi-off') + ok(),
+    offline: () => banner('', 'Saved at 22:15.', `The record on your device. New grades arrive when you reconnect.${q12(ctx)}`, 'wifi-off') + ok(),
     noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast while its valuation convention is open (SCI-D08). There is nothing here to score, and no record is claimed.'),
     disagreement: () => banner('', 'Baseline comparison.', 'R2-HGB v3 and the baseline sit together so you can weigh them. Rules carry no scored record.', 'split') + `<div class="card fc-card" data-mo="card"><div class="fc-kv"><span>R2-HGB v3 · coverage</span><b>${l.held}%</b><span>Baseline · coverage</span><b>${r.baseHeld}%</b><span>R2-HGB v3 · error</span><b>${r.err}</b><span>Baseline · error</span><b>${r.baseErr}</b></div></div>` + ok(),
     abstention: () => banner('', 'Abstentions are counted.', `The model abstained on 7 of ${l.scored + 7} origins. They are reported here, and are not scored as hits or misses.`, 'ban') + ok()
@@ -274,7 +278,7 @@ function vModels(c) {
 function vClaude(c) {
   const st = c.state, h = c.h, provider = h.v === 'XNAS' ? 'Twelve Data' : 'Yahoo';
   if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${clMark}<h4>Claude</h4><span class="chip">Off</span></div><p class="fc-sub">Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.</p></div>`;
-  if (st === 'error') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${clMark}<h4>Claude</h4><span class="chip error">Failed</span></div><p class="fc-sub">The explanation route failed at 21:14. Rules and models still show; only the words are missing.</p>${btn('Try again', 'tinted', 'refresh').replace('class="btn', 'class="btn sm')}</div>`;
+  if (st === 'error') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${clMark}<h4>Claude</h4><span class="chip error">Failed</span></div><p class="fc-sub">The explanation route failed at 21:16. Rules and models still show; only the words are missing.</p>${btn('Try again', 'tinted', 'refresh').replace('class="btn', 'class="btn sm')}</div>`;
   const f = longOf(h)[c.hz].f;
   const text = modelSplit(c) ? `The model points up and the baseline points down, so no median stands at ${HN[c.hz]}. The 80% range runs <span class="cl-fig">${pct(f.lo)} to ${pct(f.hi)}</span><span class="cl-ref">3</span>. The rules read <span class="cl-fig">Hold</span><span class="cl-ref">1</span>.`
     : st === 'disagreement' ? `The rules read <span class="cl-fig">Pause</span><span class="cl-ref">1</span> after an <span class="cl-fig">11%</span><span class="cl-ref">2</span> drawdown, while the model's 80% range runs <span class="cl-fig">${pct(f.lo)} to ${pct(f.hi)}</span><span class="cl-ref">3</span>. Each side is working from different evidence.`
@@ -296,7 +300,7 @@ function viewsMain(c) {
     loading: banner('', 'Refreshing.', 'Each view loads on its own, and the last good one stays here until then.', 'refresh'),
     error: banner('warn', 'One view failed.', 'The others still show. The failed view says why.', 'alert'),
     stale: banner('warn', 'HSBC\'s price is stale.', `It stopped at 14:10, so all three views describe the last issue, not today, until its price returns. ${qLate}`, 'clock'),
-    offline: banner('', 'Saved at 21:15.', `All three views are from your device.${q12(ctx)}`, 'wifi-off'),
+    offline: banner('', 'Saved at 22:15.', `All three views are from your device.${q12(ctx)}`, 'wifi-off'),
     noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its valuation convention is set (SCI-D08). No combined reading is made.', 'cube'),
     disagreement: modelSplit(c) ? banner('', `Models disagree at ${HN[c.hz]}.`, 'Each keeps its own range, no median stands, and no action is ranked there.', 'split') : banner('', 'Rules and models disagree.', 'Each side keeps its own evidence, and no action is ranked.', 'split'),
     abstention: banner('', `The model abstained at ${HN[c.hz]}.`, 'The rules still show. Nothing is folded into one score.', 'ban')
@@ -331,7 +335,7 @@ function scenMain(ctx, figuresFirst = false) {
     empty: () => stateCard('scenario', 'Template values wait for you', 'The downside, central and upside values need your approval before they are used (SCI-D06). Until then no scenario runs and no path is drawn.', btn('Review the template values', 'primary')),
     error: () => banner('fall', 'Inflation of 40% was refused.', 'It must be between 0% and 15%. The last saved assumptions stay, and so do these paths.', 'alert') + all(),
     stale: () => banner('warn', 'FX is from 2 November.', 'The GBP/USD quote is a day old, so the pound figures are held to that rate.', 'clock') + all(),
-    offline: () => banner('', 'Saved at 21:15.', `Editing waits until you reconnect. These paths are from your last saved assumptions.${q12(ctx)}`, 'wifi-off') + all()
+    offline: () => banner('', 'Saved at 22:15.', `Editing waits until you reconnect. These paths are from your last saved assumptions.${q12(ctx)}`, 'wifi-off') + all()
   });
 }
 function assume(ctx) {
@@ -348,22 +352,22 @@ function assume(ctx) {
 const SRC = { AAPL: 'Twelve Data · close 2 Nov · received 2 Nov 21:02', RELIANCE: 'Yahoo · close 2 Nov · received 2 Nov 10:12', AZN: 'Yahoo · close 2 Nov · received 2 Nov 16:52', HSBA: 'Yahoo · last price 14:10 · stale' };
 const RISK = { AAPL: 'Exposure snapshot · US tech 29.1%', RELIANCE: 'Exposure snapshot · India 26.7%', AZN: 'Exposure snapshot · UK 17.0%', HSBA: 'Exposure snapshot · HSBC left out while stale' };
 const chainOf = (h, hz = 1) => { const l = longOf(h)[hz]; return [
-  ['db', 'Source', SRC[h.t], 'Known before the 21:00 data cutoff. Nothing received after it is used.'],
+  ['db', 'Source', SRC[h.t], `Known before the ${clockOf(h)[1]} data cutoff. Nothing received after it is used.`],
   ['layers', 'Ledger', `${h.n} position · v12 · £${h.val}`, 'Read from ledger revision 214.'],
   ['shield', 'Risk', RISK[h.t], 'The snapshot taken with this run.'],
-  ['fan', 'Forecast', `v3 · ${pct(l.f.med)} at ${HS[hz]} · R2-HGB v3. Replaces v2, corrected for an FX quote received 20:52`, 'As of 21:15 London, data cutoff 21:00. v2 is kept, annotated, with a pointer here.'],
+  ['fan', 'Forecast', `v3 · ${pct(l.f.med)} at ${HS[hz]} · R2-HGB v3. Replaces v2, corrected for an FX quote received 20:52`, `As of ${clockOf(h)[0]} London, data cutoff ${clockOf(h)[1]}. v2 is kept, annotated, with a pointer here.`],
   ['target', 'Action', `${h.act} · policy v1 · decision support`, 'The policy version and its components, as published.'],
   ['clock', 'Outcome', `Not yet: matures ${l.due}`, 'Code grades it once the horizon has passed.'],
-  ['lock', 'Audit', 'Recorded 21:15 · 7 of 7 links resolve', 'Each link opens the stored record. Nothing is rebuilt.']
+  ['lock', 'Audit', `Recorded ${clockOf(h)[0]} · 7 of 7 links resolve`, 'Each link opens the stored record. Nothing is rebuilt.']
 ]; };
 const goldChain = () => [
-  ['db', 'Source', 'Spot quote 21:00 · Source open (SCI-D08)', 'Quoted before the 21:00 data cutoff. Its source is still to be set.'],
+  ['db', 'Source', 'Spot quote 21:00 · Source open (SCI-D08)', 'Quoted at 21:00. Its source, and so its clock, are still to be set.'],
   ['layers', 'Ledger', 'Watch-only: no position', 'Gold is on your watch list. The ledger holds none.'],
   ['shield', 'Risk', 'Not in the portfolio, so no exposure', 'Nothing here counts towards the snapshot.'],
   ['ban', 'Forecast', 'None: the valuation convention is open (SCI-D08)', 'No model or rule produced a figure, and none is implied.'],
   ['target', 'Action', 'None: not ranked', 'Nothing was published.'],
   ['clock', 'Outcome', 'Nothing to score', 'No forecast was issued, so nothing matures.'],
-  ['lock', 'Audit', 'Recorded 21:15 · 7 of 7 links resolve', 'Each link opens the stored record. Nothing is rebuilt.']
+  ['lock', 'Audit', 'Recorded 22:15 · 7 of 7 links resolve', 'Each link opens the stored record. Nothing is rebuilt.']
 ];
 const stepOf = (i, s, sel) => `<details class="fc-step${sel === i ? ' on' : ''}"${sel === i ? ' open' : ''} data-mo="rise"><summary${sel === i ? ' aria-current="step"' : ''}><span class="nd">${ic(s[0], 's18')}</span><span class="fc-sm"><b>${s[1]}</b><small>${s[2]}</small></span>${ic('chev-r', 's18')}</summary><p class="fc-sub">${s[3]}</p></details>`;
 function chain(x) {
@@ -371,11 +375,11 @@ function chain(x) {
   const set = (i, ...v) => { c[i] = [c[i][0], ...v]; };
   if (st === 'disagreement') { const b = baseOf(f); c[3] = ['split', 'Forecast', `Two sides: ${modelSplit(x) ? `R2-HGB v3 range ${pct(f.lo)} to ${pct(f.hi)}, baseline ${pct(b.lo)} to ${pct(b.hi)}` : `rules Pause, R2-HGB v3 range ${pct(f.lo)} to ${pct(f.hi)}`}`, 'Both are stored. Neither is overwritten.']; set(4, 'Action', 'None: conflicted, not ranked', 'Nothing was published.'); }
   if (st === 'abstention') { c[3] = ['ban', 'Forecast', 'Abstained: too little comparable history', 'The abstention is stored and dated.']; set(4, 'Action', 'None: no range', 'Nothing was published.'); set(5, 'Outcome', 'Nothing to score', 'An abstention is not scored as a hit or a miss.'); }
-  if (st === 'stale') { set(3, 'Forecast', `v2 · ${pct(f.med)} at ${HS[hz]} · R2-HGB v3 · held from Mon 21:15`, 'No new forecast until its price returns.'); }
+  if (st === 'stale') { set(3, 'Forecast', `v2 · ${pct(f.med)} at ${HS[hz]} · R2-HGB v3 · held from Mon ${clockOf(h)[0]}`, 'No new forecast until its price returns.'); }
   /* a horizon that stands on a name out at another one: the name is not ranked, so nothing was published (OWN-17, OWN-20) */
   const other = st === 'default' && x.was ? othersOut(x.was, h.t, hz) : '';
   if (other) set(4, 'Action', 'None: not ranked', `${x.was === 'abstention' ? `${other[0].toUpperCase()}${other.slice(1)} abstained` : `The models split at ${other}`}, so growth and protection are both missing. Nothing was published.`);
-  if (st === 'offline') { c.forEach(s => { s[2] += ' · saved 21:15'; }); c[6] = ['lock', 'Audit', 'Saved 21:15 · cannot re-check offline', 'Each link shows its age. Writes are refused until you reconnect.']; }
+  if (st === 'offline') { c.forEach(s => { s[2] += ' · saved 22:15'; }); c[6] = ['lock', 'Audit', 'Saved 22:15 · cannot re-check offline', 'Each link shows its age. Writes are refused until you reconnect.']; }
   return `<div class="card fc-chain" data-mo="card">${c.map((s, i) => stepOf(i, s, 3)).join('')}</div>`;
 }
 function evidenceMain(c) {
@@ -400,8 +404,8 @@ function recordCard(c) {
   const st = c.state, h = c.h, l = st === 'noModel' ? null : longOf(h)[c.hz], held = st === 'stale';
   if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><h4>No forecast record</h4><p class="fc-sub">No forecast was issued for gold, so there is no record to link to.</p></div>`;
   if (st === 'empty' || st === 'error') return `<div class="card fc-card" data-mo="card"><h4>Why links work this way</h4><p class="fc-sub">An expired session asks you to sign in, then returns to the record. A link to a superseded record opens it, with a pointer to what replaced it.</p></div>`;
-  if (st === 'abstention') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Abstention record</h4><span class="chip">Abstained</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>21:15 London</b><span>Data cutoff</span><b>21:00</b><span>Model</span><b>R2-HGB v3</b><span>Reason</span><b>Too little comparable history</b></div>${recordLink(linkId(h, l, 'abstained'))}</div>`;
-  const card = `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Forecast ${held ? 'v2' : 'v3'}</h4><span class="chip">${held ? 'Held' : 'Current'}</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>${held ? 'Mon 21:15 London' : '21:15 London'}</b><span>Data cutoff</span><b>21:00</b><span>Model</span><b>R2-HGB v3</b><span>Replaces</span><b>${held ? 'v1' : 'v2'} · kept, annotated</b></div>${recordLink(linkId(h, l, held ? 'v2' : 'v3'))}</div>`;
+  if (st === 'abstention') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Abstention record</h4><span class="chip">Abstained</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>${clockOf(h)[0]} London</b><span>Data cutoff</span><b>${clockOf(h)[1]}</b><span>Model</span><b>R2-HGB v3</b><span>Reason</span><b>Too little comparable history</b></div>${recordLink(linkId(h, l, 'abstained'))}</div>`;
+  const card = `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Forecast ${held ? 'v2' : 'v3'}</h4><span class="chip">${held ? 'Held' : 'Current'}</span></div><div class="fc-kv"><span>Task</span><b>${h.t} · ${l.k}-month return</b><span>As of</span><b>${held ? 'Mon ' : ''}${clockOf(h)[0]} London</b><span>Data cutoff</span><b>${clockOf(h)[1]}</b><span>Model</span><b>R2-HGB v3</b><span>Replaces</span><b>${held ? 'v1' : 'v2'} · kept, annotated</b></div>${recordLink(linkId(h, l, held ? 'v2' : 'v3'))}</div>`;
   return st === 'loading' ? dim(card) : card;
 }
 
@@ -420,14 +424,14 @@ const scenBlock = (h = A) => { const s = +h.val.replace(/,/g, ''); return `<div 
 function ladderMain(ctx, h) {
   const st = ctx.state;
   const tags = `<div class="fc-tags"><span class="chip fc">${ic('fan', 's14')}Evaluated</span>${st === 'abstention' ? '' : '<span class="chip proposed"><span class="dot"></span>12 months: Exploratory</span>'}</div>`;
-  const main = () => `<div class="card fcard" data-mo="card"><div class="label">Long term · 3, 6 and 12 months · ${h.t}</div>${tags}<div style="margin-top:8px">${ladderFan(ctx, { h, split: [0, 1, 2].every(i => isSplit(st, h.t, i)) })}</div><div class="fmeta"><span>${asOf(st)}</span><span>Data cutoff 21:00</span><span>R2-HGB v3</span><span>Illustrative</span></div></div><div class="card" data-mo="card">${longOf(h).map(l => ladRow(l, ctx, 0, h)).join('')}</div><div class="fc-sub" data-mo="fade">Open a row for its dossier: forecast, proof, views and evidence.</div>`;
+  const main = () => `<div class="card fcard" data-mo="card"><div class="label">Long term · 3, 6 and 12 months · ${h.t}</div>${tags}<div style="margin-top:8px">${ladderFan(ctx, { h, split: [0, 1, 2].every(i => isSplit(st, h.t, i)) })}</div><div class="fmeta"><span>${asOf(st, h)}</span><span>${cutOf(h)}</span><span>R2-HGB v3</span><span>Illustrative</span></div></div><div class="card" data-mo="card">${longOf(h).map(l => ladRow(l, ctx, 0, h)).join('')}</div><div class="fc-sub" data-mo="fade">Open a row for its dossier: forecast, proof, views and evidence.</div>`;
   return region(ctx, {
     what: 'This forecast', ok: main,
-    loading: () => banner('', 'Refreshing.', 'The last good set from 21:15 stays here, with its ranges, until the run lands.', 'refresh') + dim(main()),
+    loading: () => banner('', 'Refreshing.', 'The last good set from 22:15 stays here, with its ranges, until the run lands.', 'refresh') + dim(main()),
     empty: () => stateCard('fan', 'No forecast yet', 'Apple joined your list today. All seven horizons fill in from the next daily run. Price history shows now.', '', '<span class="chip">Next run tomorrow 21:15</span>') + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months</div><div style="margin-top:8px">${histChart(ctx, 'Apple')}</div></div>`,
-    error: () => banner('fall', 'Forecasts did not load.', `Twelve Data failed at 21:14. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + main(),
+    error: () => banner('fall', 'Forecasts did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + main(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so every horizon shows its last issue until its price returns. ${qLate}`, 'clock') + main(),
-    offline: () => banner('', 'Saved at 21:15.', `Every horizon here is from your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + main(),
+    offline: () => banner('', 'Saved at 22:15.', `Every horizon here is from your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + main(),
     noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (h.t === 'RELIANCE' ? banner('', 'Rules and models disagree at 3, 6 and 12 months.', 'The rules point down and the model points up, so no median stands and no action is ranked. Open a row for both.', 'split') : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands there. Open the row for both.', 'split')) + main(),
     abstention: () => banner('', '12 months abstained.', '3 and 6 months stand on their own evidence.', 'ban') + main()
@@ -459,18 +463,18 @@ const cellOf = (x, i, st) => {
   return { w: plain, l: plain, f: figure() };
 };
 const rootRow = (x, ctx, hz) => { const c = cellOf(x, hz, ctx.state); return `<div class="hrow fc-rootrow" role="button" tabindex="0" data-mo="rise">${logo(x.c, x.lg)}<div style="min-width:0"><div class="nm">${x.n}</div><div class="tk">${x.t} · ${x.v ? 'Holding' : 'Watch-only'}</div></div><div class="vv">${c.f && !c.split ? `<div class="val" style="color:var(--fc-ink)">${pct(c.f.med)}</div>` : ''}</div><div class="fl"><span class="chip${c.warn ? ' stale' : ''}">${c.l}</span>${c.f ? `<span class="small muted">80% range ${pct(c.f.lo)} to ${pct(c.f.hi)}</span>` : ''}</div></div>`; };
-const rootMeta = ctx => `<div class="fc-sub" data-mo="fade">${ctx.state === 'error' ? LASTGOOD : 'As of 21:15 London · data cutoff 21:00'} · R2-HGB v3 · Illustrative${ctx.state === 'stale' ? '' : ` · HSBC late ${qLate}`}</div>`;
+const rootMeta = ctx => `<div class="fc-sub" data-mo="fade">${ctx.state === 'error' ? LASTGOOD_ALL : ASOF_ALL} · R2-HGB v3 · Illustrative${ctx.state === 'stale' ? '' : ` · HSBC late ${qLate}`}</div>`;
 const rootList = (ctx, hz) => `${rootMeta(ctx)}<div class="list card" style="margin:0">${ROOT.map(x => rootRow(x, ctx, hz)).join('')}</div>`;
 const rootCell = c => `<td class="r">${c.f && !c.split ? `<div style="color:var(--fc-ink);font-weight:600">${pct(c.f.med)}</div>` : ''}<div class="small muted" style="font-size:12px;line-height:16px">${c.l}</div>${c.f ? `<div class="small" style="font-size:12px;line-height:16px">${pct(c.f.lo)} to ${pct(c.f.hi)}</div>` : ''}</td>`;
 const rootTable = ctx => `${rootMeta(ctx)}<div class="fc-sub" data-mo="fade">Each cell shows the median, then the 80% range.</div><div class="card" data-mo="card"><table class="ht ${isWide(ctx) ? 'dk' : 'pwa'} fc-tt"><thead><tr><th>Listing</th><th class="r">3M</th><th class="r">6M</th><th class="r">12M<br>Exploratory</th></tr></thead><tbody>${ROOT.map(x => `<tr data-mo="rise"><td><button class="fc-rowbtn" type="button"><span class="inst">${logo(x.c, x.lg, true)}<span class="fc-nm"><b>${x.t}</b><span>${x.v ? 'Holding' : 'Watch-only'}</span></span></span></button></td>${[0, 1, 2].map(i => rootCell(cellOf(x, i, ctx.state))).join('')}</tr>`).join('')}</tbody></table></div>`;
 function rootMain(ctx, list) {
   return region(ctx, {
     what: 'Forecasts', ok: list,
-    loading: () => banner('', 'Refreshing.', 'The last good forecasts from 21:15 stay here until the run lands.', 'refresh') + dim(list()),
+    loading: () => banner('', 'Refreshing.', 'The last good forecasts from 22:15 stay here until the run lands.', 'refresh') + dim(list()),
     empty: () => stateCard('fan', 'No forecasts yet', 'Add a holding or a watch-only listing. Each gets its first forecast from the next daily run.', '', '<span class="chip">Next run tomorrow 21:15</span>'),
-    error: () => banner('fall', 'Forecasts did not refresh.', `Twelve Data failed at 21:14. ${LASTGOOD}. Every row is from that one version.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + list(),
+    error: () => banner('fall', 'Forecasts did not refresh.', 'Twelve Data failed at 21:16. US rows show Monday\'s run, issued 22:15 · cutoff 22:00. The UK and India ran today, each on its own clock.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + list(),
     stale: () => banner('warn', 'HSBC is stale.', `Its last price is 14:10, past the freshness limit. Its forecast stays held until its price returns. ${qLate}`, 'clock') + list(),
-    offline: () => banner('', 'Saved at 21:15.', `These forecasts are on your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + list(),
+    offline: () => banner('', 'Saved at 22:15.', `These forecasts are on your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + list(),
     noModel: () => banner('', 'India has no approved model.', 'Reliance, the Nifty ETF and ICICI Bank show as no model, at every long horizon. Gold has no forecast while its valuation convention is open (SCI-D08).', 'cube') + list(),
     disagreement: () => banner('', 'Two conflicts.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, and models disagree on Apple at 3 months. Neither is ranked, so neither carries an action.', 'split') + list(),
     abstention: () => banner('', 'Two abstentions.', 'AstraZeneca at 6 months and Apple at 12 months, for want of comparable history. Neither is ranked, so neither carries an action.', 'ban') + list()
