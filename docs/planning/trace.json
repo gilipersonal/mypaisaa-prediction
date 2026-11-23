@@ -1928,7 +1928,7 @@
    "key": "MP-191",
    "summary": "Apply the decision rules to rows, the journal and hidden amounts",
    "type": "Task",
-   "status": "In Progress",
+   "status": "In Review",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
