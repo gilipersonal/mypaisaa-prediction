@@ -1975,13 +1975,25 @@
    "key": "MP-195",
    "summary": "Leave the whole-page browser walk out of the commit and PR gates",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     ".claude/skills/autoship/SKILL.md",
     "scripts/review_checks.py",
     "tests/test_review_checks.py",
     "tests/test_claude_workflow_skills.py",
+    "docs/planning/trace.json"
+   ]
+  },
+  {
+   "key": "MP-196",
+   "summary": "Record that the owner kept Twelve Data and Yahoo after a second look at EODHD",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/source-rights-2026-11-02/evidence/yahoo-and-alternatives.json",
     "docs/planning/trace.json"
    ]
   }

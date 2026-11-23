@@ -450,5 +450,21 @@
     "EODHD: Under the personal plan, may derived values and short raw extracts be sent to Anthropic's API as a processor for my own use? Do you currently supply end-of-day data for LSE, NSE and BSE on the Historian plan? Which plan includes EUFUND UK fund NAVs, how far back, and are prices including VAT for a UK buyer?",
     "Marketstack: Do you cover XLON, XNSE and XBOM end-of-day? After a subscription ends, may stored data be kept? May it be used for private model training and sent to an AI processor?",
     "Twelve Data: Does Grow include any India or UK fund NAVs, or only Pro? Are LSE prices returned in GBX or GBP?"
+  ],
+  "rechecks": [
+    {
+      "checked": "2026-11-23",
+      "issue": "MP-196",
+      "outcome": "Owner kept ARC-01 (\"ok lets stick to Twelve Data + YahooFinance combination\"); the 2 November entries above stand as checked then.",
+      "eodhd_markets": "No Indian exchange: the live /exchanges-list (owner's free key) and the public exchange list name neither NSE nor BSE; exchange-symbol-list returns 404 'Exchange Not Found' for NSE but works for LUSE on the same key, so not a free-plan limit; RELIANCE.NSE, RELIANCE.BSE and NIFTYBEES.NSE prices return 404 'Ticker Not Found'. No Indian MF NAV.",
+      "eodhd_free_plan": "20 calls a day; history limited to one year ('Data is limited by one year as you have free subscription').",
+      "eodhd_gold": "XAUUSD.FOREX returns daily bars including Saturday and Sunday; an aggregated OTC forex price at 23:59 UTC, not the LBMA fix.",
+      "yahoo_delays": "Yahoo's own table for its site: NSE .NS real-time, BSE .BO 15 min, LSE .L 20 min, all ICE Data Services; 'You must not redistribute information displayed on or provided by Yahoo Finance.' What the unofficial feed returns to a server is unproven.",
+      "sources": [
+        "https://eodhd.com/list-of-stock-markets",
+        "https://eodhd.com/financial-apis/exchanges-api-list-of-tickers-and-trading-hours",
+        "https://help.yahoo.com/kb/finance-for-web/sln2310.html"
+      ]
+    }
   ]
 }

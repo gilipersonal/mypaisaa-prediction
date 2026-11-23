@@ -294,4 +294,14 @@ The owner's question pack, 5 November 2026 (MP-184): 64 open questions answered.
 
 On the question those picks left open, whether daily forecasts may spend inside the £15 kept above £85, the owner answered "Yes, add them", 5 November 2026. The list of what the £15 covers now also holds daily forecasts, and that too is not applied yet.
 
+## 23 November 2026: Twelve Data and Yahoo kept after a second look (MP-196)
+
+The owner asked whether to use EODHD, its API and its MCP server, for all trade and market data, then what Twelve Data's Pro 610 plan with 500 WebSocket credits would allow. After the research the owner said: "ok lets stick to Twelve Data + YahooFinance combination", and asked for it to be recorded: "Yes, record it". ARC-01 stands as confirmed on 2 November: Yahoo Finance plus Twelve Data Grow 55 for production, and Basic for development. Nothing is bought, no vendor is contacted, and no cost figure changes.
+
+What the second look found, 23 November 2026:
+
+1. **EODHD lists no Indian exchange.** Its live exchange list, read with the owner's free key, and its public [exchange list](https://eodhd.com/list-of-stock-markets) name neither NSE nor BSE. Its ticker list returns "Exchange Not Found" for NSE while it works for a small exchange on the same key, so this is not a free-plan limit. It has no Indian mutual fund NAVs either. For the other markets it is strong, and its personal-use terms allow storing the data and keeping derived outputs; the plan that adds events and fundamentals, All-In-One, is £99.99 a month.
+2. **Twelve Data Pro 610 does not fit.** It is $99 a month, about £95.04 counted as the cost model counts Grow 55, so every month breaks the £100 ceiling. On Pro, NSE, BSE and the LSE are still end of day, and the pricing table still labels Pro "internal display" access, as it does Grow.
+3. **Yahoo's own table** ([exchanges and data providers](https://help.yahoo.com/kb/finance-for-web/sln2310.html)) lists NSE (.NS) as real-time, BSE (.BO) as 15 minutes and the LSE (.L) as 20 minutes, all from ICE Data Services, for its own site. What its unofficial feed returns to a server is not proven; the 30-minute checks need neither.
+
 Read [direction summary](direction-summary.md) and [baseline completion plan](baseline-completion-plan.md) for the consolidated choices and remaining work.
