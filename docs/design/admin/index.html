@@ -416,6 +416,8 @@ table.spec code.wr, .specs code { white-space: normal; overflow-wrap: anywhere; 
 .chip.impl { background: var(--btn); color: var(--btn-ink); }
 .chip.impl .dot { background: var(--btn-ink); }
 .chip.depr { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink-2); text-decoration: line-through; }
+/* the owner picked it, and it rests on a test that has not run: a dashed edge, never the solid edge of Proposed (MP-188) */
+.chip.unverified { background: transparent; box-shadow: none; outline: 1.5px dashed var(--ink-2); outline-offset: -1.5px; color: var(--ink-2); }
 .on-glass .chip { background: var(--glass-thin); color: var(--ink); }
 .on-glass .chip .chg { color: var(--ink); }
 button.chip { border: 0; }
@@ -583,6 +585,11 @@ details summary { cursor: pointer; color: var(--link); font-weight: 600; min-hei
 .side .si { display: flex; align-items: center; gap: 10px; min-height: var(--tap); padding: 0 10px; border-radius: var(--r-sm); color: var(--ink); font: 600 15px/20px var(--font-text); letter-spacing: -.01em; cursor: pointer; }
 .side .si.on { background: var(--surface); box-shadow: var(--shadow-1); --ic2: var(--link); --ic2o: 1; }
 .side .si .n { margin-left: auto; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink); }
+/* the cost pill: the month in a few words, in the top bar of every Home (OWN-06). Its hit area reaches 44 tall. */
+.cost-pill { min-height: 36px; padding: 0 12px; gap: 8px; color: var(--ink); position: relative; }
+.cost-pill::after { content: ""; position: absolute; inset: -4px 0; }
+.cost-pillbar { position: relative; width: 34px; height: 6px; border-radius: 3px; overflow: hidden; background: var(--surface-3); flex: none; }
+.cost-pillbar i { position: absolute; inset: 0 auto 0 0; display: block; background: var(--ink); }
 .search { display: flex; align-items: center; gap: 8px; min-height: var(--tap); padding: 0 12px; border-radius: var(--r-sm); background: var(--surface-3); color: var(--ink-2); font: 400 15px/20px var(--font-text); letter-spacing: -.01em; }
 .search kbd { margin-left: auto; font: 600 12px/16px var(--font-text); letter-spacing: 0; padding: 2px 6px; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--hairline-2); color: var(--ink-2); }
 .search.on { color: var(--ink); background: var(--surface); box-shadow: inset 0 0 0 2px var(--focus); }
@@ -1621,7 +1628,7 @@ function hrow(h, o = {}) {
   </div>`;
 }
 function skelRow() {
-  return `<div class="hrow"><span class="logo sk" style="background:var(--surface-3)"></span><div><span class="sk" style="height:14px;width:70%"></span><span class="sk" style="height:12px;width:40%;margin-top:6px"></span></div><div><span class="sk" style="height:14px;width:72px"></span><span class="sk" style="height:12px;width:40px;margin:6px 0 0 auto"></span></div><div class="fl"><span class="sk" style="height:10px;flex:1"></span><span class="chip fresh"><span class="dot"></span>Last good 21:15</span></div></div>`;
+  return `<div class="hrow"><span class="logo sk" style="background:var(--surface-3)"></span><div><span class="sk" style="height:14px;width:70%"></span><span class="sk" style="height:12px;width:40%;margin-top:6px"></span></div><div><span class="sk" style="height:14px;width:72px"></span><span class="sk" style="height:12px;width:40px;margin:6px 0 0 auto"></span></div><div class="fl"><span class="sk" style="height:10px;flex:1"></span><span class="chip fresh"><span class="dot"></span>Last good 22:15</span></div></div>`;
 }
 function tile(k, o = {}) {
   const s = SEG[k];
@@ -1647,7 +1654,7 @@ function valcard(size = 44) {
     ${money('90,155.25', size)}
     <div class="d">${chg(1, '+£1,236.18 (1.39%)')}<span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">today</span></div>
     ${valParts()}
-    <div class="meta">As of 21:15 London · data cutoff 21:00</div>
+    <div class="meta">As of 22:15 London · cutoffs US 22:00, UK 17:35, India 11:00</div>
     <div style="margin-top:14px">${alloc()}</div>
   </div>`;
 }
@@ -1699,7 +1706,7 @@ function fcHead(h) {
   return `<div class="fh"><div class="label">6-month forecast · ${h.t}</div><span class="chip fc">${ic('fan', 's14')}Evaluated model</span><div class="big"><span class="amt">${roll(pct(h.med).replace('%', ''))}<span class="p">%</span></span><span class="muted" style="font-size:13px;line-height:18px;letter-spacing:0">median</span></div></div>
   <div class="rng"><span>80% range</span><b>${pct(h.lo)} to ${pct(h.hi)}</b><span>50% range</span><b>${pct(h.lo50)} to ${pct(h.hi50)}</b></div>`;
 }
-const fcMeta = () => `<div class="fmeta"><span>As of 21:15 London</span><span>Data cutoff 21:00</span><span>Horizon 3 May 2027</span><span>R2-HGB v3</span><span>Illustrative</span></div>`;
+const fcMeta = () => `<div class="fmeta"><span>As of 22:15 London</span><span>Data cutoff 22:00</span><span>Horizon 3 May 2027</span><span>R2-HGB v3</span><span>Illustrative</span></div>`;
 function fcard(h, o = {}) {
   return `${fcHead(h)}<div style="margin-top:10px">${fcChart(h, { w: o.w || 326, h: o.h || 190, seed: o.seed || 11, inter: o.inter, scen: o.scen })}</div>${legend()}${fcMeta()}`;
 }
@@ -1718,7 +1725,13 @@ function proof(compact) {
 }
 const tabs = (on = 0) => `<span class="lens" aria-hidden="true"></span>` + [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments'], ['target', 'Record'], ['sliders', 'Settings']].map(([i, n], k) => `<button class="tb" type="button"${k === on ? ' aria-current="page"' : ''}>${ic(i, 's24')}${n}</button>`).join('');
 const tabbarEl = (on = 0) => `<div class="tabbar" style="--i:${on}">${tabs(on)}</div>`;
-const side = (on = 0) => [['home', 'Portfolio', '7'], ['fan', 'Forecasts', ''], ['grid', 'Segments', '8'], ['target', 'Track record', ''], ['db', 'Data sources', ''], ['sliders', 'Settings', '']].map(([i, n, c], k) => `<div class="si${k === on ? ' on' : ''}">${ic(i, 's18')}${n}${c ? `<span class="n">${c}</span>` : ''}</div>`).join('');
+/* The sidebar on iPad and desktop: the tab bar's places, then Research, Approvals and Imports, which the owner gave a place of their own there
+   ("Add them to the sidebar", OWN-02, 5 Nov 2026), then Data sources and Settings. The phone keeps its five tabs. Their order and icons are Proposed. */
+const SIDE_ITEMS = [['home', 'Portfolio', '7'], ['fan', 'Forecasts', ''], ['grid', 'Segments', '8'], ['target', 'Track record', ''], ['search', 'Research', ''], ['shield', 'Approvals', ''], ['layers', 'Imports', ''], ['db', 'Data sources', ''], ['sliders', 'Settings', '']];
+const side = (on = 0) => SIDE_ITEMS.map(([i, n, c], k) => `<div class="si${k === on ? ' on' : ''}">${ic(i, 's18')}${n}${c ? `<span class="n">${c}</span>` : ''}</div>`).join('');
+/* The cost pill: the month in a few words, in the top bar of every Home, whichever way Cost is flipped ("Pill on every Home", OWN-06,
+   5 Nov 2026). It opens the month. words is what shows; o.more is read aloud after it; o.icon replaces the bar when the month is not plain. */
+const costPill = (words, o = {}) => `<button class="chip glass cost-pill" type="button" data-mo="chip">${o.icon ? ic(o.icon, 's14') : `<span class="cost-pillbar"><i style="width:${o.fill || 0}%"></i></span>`}<span><span class="sr">Cost this month: </span>${words}${o.more ? `<span class="sr">. ${o.more}</span>` : ''}</span></button>`;
 
 /* ---------- arrivals: a frame plays once as it scrolls into view ---------- */
 const NUM = /\d[\d,]*(?:\.\d+)?/;
@@ -1871,7 +1884,7 @@ const STATES = [
   ['offline', 'Offline'], ['conflict', 'Conflicting'], ['expired', 'Expired'], ['denied', 'Denied']
 ];
 const PERMS = {
- "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live or off. The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. On 4 November 2026 the owner also answered: \"Yes, acknowledge only (Recommended)\" for a phone acknowledging an incident, \"Account recovery only (Recommended)\" for what recovery covers on a phone, so replay, restore and pause stay on iPad or desktop, and \"The purchase (Recommended)\" for what lifts MP-164's bar. The rest of the live and off split is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. Nothing here approves a design or a build.",
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live, off, or browser (live in a phone's browser, Phone web, and off in the iPhone app). The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. On 4 November 2026 the owner also answered: \"Yes, acknowledge only (Recommended)\" for a phone acknowledging an incident, \"Account recovery only (Recommended)\" for what recovery covers on a phone, so replay, restore and pause stay on iPad or desktop, and \"The purchase (Recommended)\" for what lifts MP-164's bar. The rest of the live and off split is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. On 5 November 2026 the owner pressed \"Allowed in the browser\" (ADM-04) and \"Finish in the phone browser\" (ADM-15), so enrolling a passkey is live in a phone's browser and recovery on a phone ends there, both unverified until MP-197; \"Revoke removes it too\" (ADM-02); and \"Any healthy path\" (ADM-03) for the fresh sign-in a revoke asks for (MP-184). Nothing here approves a design or a build.",
  "actions": [
   {
    "id": "A01",
@@ -2454,8 +2467,8 @@ const PERMS = {
    "step_up_note": "Yes",
    "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
-   "phone": "off",
-   "phone_note": "Mac only while MP-164 holds"
+   "phone": "browser",
+   "phone_note": "In a phone's browser, not the iPhone app: the owner picked \"Allowed in the browser\" (ADM-04) and \"Finish in the phone browser\" (ADM-15), 5 November 2026. Unverified until MP-197 tests it; if it fails, the bar stands and this is Mac only. The iPhone app stays off while MP-164 holds"
   },
   {
    "id": "A49",
@@ -2987,7 +3000,8 @@ const onPhone = () => curKind === 'iphone' || curKind === 'pwa';
 function act(id, label, kind = 'tinted', icon = '') {
   const p = perm(id);
   if (p.step_up === 'outside') throw new Error(`${id} is not an MP control: say where it happens, and draw no button`);
-  if (onPhone() && p.phone !== 'live') return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone_note && /^Mac only/.test(p.phone_note) ? 'on your Mac' : 'on iPad or desktop'}</span></span>`;
+  /* browser: live in a phone's browser (Phone web) and off in the iPhone app, as the owner picked for enrolling a passkey (ADM-04, ADM-15) */
+  if (onPhone() && p.phone !== 'live' && !(p.phone === 'browser' && curKind === 'pwa')) return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone === 'browser' ? 'in your phone\'s browser, or on your Mac' : p.phone_note && /^Mac only/.test(p.phone_note) ? 'on your Mac' : 'on iPad or desktop'}</span></span>`;
   const guard = p.step_up === 'yes' ? '<span class="small">Asks for a fresh sign-in</span>' : p.step_up === 'open' ? proposed('CT-01') : '';
   return `<span class="aact" data-act="${id}"><button class="btn btn-${kind}" type="button">${p.step_up === 'yes' ? ic('lock', 's18') : (icon ? ic(icon, 's18') : '')}${label}</button>${guard}</span>`;
 }
@@ -3296,27 +3310,27 @@ function show() {
 }
 const OPEN = [
     ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
-  ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Not recorded. The screens say so.'],
-  ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Each page stays as drawn.'],
-  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until you answer.'],
+  ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Settled, 5 Nov 2026 ("Revoke removes it too", ADM-02): revoking a device also removes any passkey held on it, and your path count drops by one. Unverified: whether Cognito can remove one this way, and whether a synced copy ends too (MP-197).'],
+  ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Settled, 5 Nov 2026 ("Any healthy path", ADM-03): a fresh sign-in on any healthy path, passkey or Google, can revoke. Both pages draw it, and Privacy\'s button no longer names a passkey.'],
+  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Settled, 5 Nov 2026 ("Allowed in the browser", ADM-04): the bar covers the Apple app only, so Phone web can enrol a passkey. Unverified until MP-197 tests it; if it fails, the bar stands.'],
   ['How does production come to be recorded lost, and who records it? (CT-14)', 'Labelled proposed.'],
   ['Is a late price a missed collection, inside the replay allowlist? (CT-14)', 'Drawn as a condition, not a fact.'],
   ['What happens to Yahoo values already sent to Anthropic? No record decides it.', 'Not drawn. It needs its own record.'],
   ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
   ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
-  ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],
-  ['The story fails at 21:14, before the +15 start at 21:15. (POLICY-002)', 'Drawn as a run due at 21:15 that failed at 21:14, as the owner journeys say.'],
+  ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'Per market, as PH03-S09 says (ADM-10). The clock is per market and each run row names its market, and the owner journeys now say the same (MP-186).'],
+  ['The story fails at 21:14, before the +15 start at 21:15. (POLICY-002)', 'Fixed (ADM-11, MP-186): the run is due 21:15 and Twelve Data fails at 21:16, here and in the owner journeys.'],
   ['Holdings says 6 originals are kept, and the receipts name 8.', 'Drawn as 8. The owner journeys stay as they are.'],
-  ['Privacy lands a replacement passkey on the new device, and its one path left is a passkey. Identity keeps the replacement on the Mac, and its one path left is Google.', 'Drawn as Identity says, while MP-164 holds.'],
+  ['Privacy lands a replacement passkey on the new device, and its one path left is a passkey. Identity keeps the replacement on the Mac, and its one path left is Google.', 'Settled, 5 Nov 2026 ("Redraw Privacy now", ADM-13): Privacy is redrawn to match Identity: two usable paths, the replacement on the Mac, and the iPhone row waiting on the purchase (MP-179).'],
   ['R1-LGB names LightGBM, and the records define R1 as ridge. Should the name change everywhere?', 'Kept, as the owner journeys use it.'],
-  ['With the Mac lost, how does recovery finish on a phone while MP-164 bars a passkey there? (CT-17)', 'Revoking and cancelling work on a phone. Enrolling a replacement is off.'],
+  ['With the Mac lost, how does recovery finish on a phone while MP-164 bars a passkey there? (CT-17)', 'Settled, 5 Nov 2026 ("Finish in the phone browser", ADM-15): you enrol the replacement in the phone\'s browser and end on two paths. The iPhone app sends you there. Unverified until MP-197; if it fails, recovery ends on one path, Google, warned, and that is drawn too.'],
   ['Who records which actor for an owner act? AuditEvidence has an admin actor, and MP has no admin role. (CT-03)', 'Drawn as You. The actor name is not an approved vocabulary.'],
   ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Every non-financial expiry is illustrative and labelled.'],
   ['Restart evidence has no open id. POLICY-003 says it still needs specifying.', 'Labelled Proposed · POLICY-003, as the owner journey does.'],
   ['Pause switches: only the POLICY-003 scope pause has a rule. Optional work and a feature have no contract or actor. (CT-14, CT-16)', 'Drawn as proposed.'],
   ['Who cancels a run, and who records what happens to an orphan file? (MP-109, MP-45)', 'No control cancels a run: the state shows, and the inventory lists no such act. An orphan is drawn as yours, labelled proposed.'],
   ['MP-162 shows the HSBC notice as dismissed, and admin holds inc_0012 as acknowledged. Are a notice and an incident two records?', 'Drawn as two records. No record says so.'],
-  ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'The clock screens follow POLICY-002. The owner wording stays on each run, word for word.'],
+  ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'Your daily window holds (ADM-22): the cutoff freezes at +60 and forecasts issue by +75, 22:00 and 22:15 for the US. The owner journeys now say the same, and each run keeps their words (MP-186). The window is still to be proven on real sources.'],
   ['Who marks an incident mitigated? (CT-14)', 'Labelled proposed, and drawn as a control for you to correct or remove.'],
   ['Does an overdue exercise have a threshold? (CT-14)', 'No number is shown.'],
   ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.']
@@ -3501,7 +3515,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
           body: state(ctx, () => `${sec('Needs you')}${needs(ctx)}${sec('Places')}${places(ctx)}`, 'Admin'),
-          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', ctx.state === 'error' ? 'Mon 21:15 · cutoff 21:00, last good' : 'Tue 21:15 · cutoff 21:00'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
+          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', ctx.state === 'error' ? 'Mon 21:15 · cutoff 22:00 · issued 22:15, last good' : 'Tue 21:15 · cutoff 22:00 · issued 22:15'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
         })
       }]
     }, {
@@ -3878,7 +3892,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const FOLLOW = [
     ['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'],
     ['Ledger', `R-0210 · event ${mono('evt_77d3')}`, 'resolved'],
-    ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'],
+    ['Risk', 'Read from this ledger at Tue 22:15 · cutoff 22:00', 'resolved'],
     ['Forecast', `${mono('run_8d02')} · job ${mono('job_3e9a')} · trace ${mono('tr_51c2')}`, 'resolved'],
     ['Action', 'Ranked action, decision support · run_8d02', 'resolved'],
     ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'],
@@ -3893,7 +3907,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => chainOf(FOLLOW.slice(0, 2)) + skel(4),
     empty: () => stateCard('search', 'not_found', 'This link points at nothing MP has recorded. No step is guessed.', bs('Back to the answer')),
     partial: () => banner('warn', 'Lineage with an unavailable source.', 'The chain carries on from the ledger. The step it cannot show says why.', 'clock') + chainOf(FOLLOW, { Source: ['Evidence unavailable · tombstone recorded', 'Source unavailable'] }),
-    error: () => banner('fall', 'Twelve Data failed at 21:14.', `Last good run Mon 21:15 · cutoff 21:00. Run ${mono('run_8d02')} failed, with incident ${mono('inc_0013')} and request ${mono('req_a90f')}.`, 'alert') + chainOf(FOLLOW, { Forecast: [`${mono('run_8c41')} · Mon 21:15, the last good run`, 'Held from Mon 21:15'], Action: ['Held from Mon 21:15', 'Held from Mon 21:15'] }),
+    error: () => banner('fall', 'Twelve Data failed at 21:16.', `Last good run Mon 22:15 · cutoff 22:00. Run ${mono('run_8d02')} failed, with incident ${mono('inc_0013')} and request ${mono('req_a90f')}.`, 'alert') + chainOf(FOLLOW, { Forecast: [`${mono('run_8c41')} · Mon 21:15, the last good run`, 'Held from Mon 21:15'], Action: ['Held from Mon 21:15', 'Held from Mon 21:15'] }),
     stale: () => lagged() + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · from manifests, 11:12`, 'resolved'] }),
     offline: () => off(ctx, 'Showing the chain saved at 11:20.') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'offline_cached'), Forecast: [`${mono('run_8d02')} · saved 11:20`, 'offline_cached'] }),
     conflict: () => banner('warn', 'A step was superseded.', 'A newer ledger event replaced this one. Each forecast keeps the inputs it was made with, and none is rewritten.', 'split') + chainOf(FOLLOW, { Ledger: [`R-0210 · event ${mono('evt_77d3')} · a newer event exists`, 'superseded'] }),
@@ -3968,7 +3982,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const gapRail = () => `${box(`${lbl('Rules, read only')}<div class="aaudit-gap">${kv([['Sampling', 'None'], ['Kept for', 'Account lifetime'], ['Paging', 'Bounded, no general scan']])}</div>${text('Which records are classed how, and how integrity is anchored, are not decided.')}${chipset(proposed('CT-03'), proposed('FIN-OD-08'))}`)}${refs()}`;
 
   /* ---------- option B: the explorer, with a lineage pane ---------- */
-  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 21:15 · cutoff 21:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
+  const PANE = [['Source', `ISA statement, September · ${mono('src_1e08')}`, 'resolved'], ['Draft', '12 rows, as you approved them', 'resolved'], ['Approval', `${mono('apr_52be')} · you, 6 Oct`, 'resolved'], ['Before and after', 'Ledger revision 210 → 211', 'resolved'], ['Correction', 'None recorded', 'None'], ['Dependencies', '0 later events depend on these rows', 'None'], ['Risk', 'Read from this ledger at Tue 22:15 · cutoff 22:00', 'resolved'], ['Forecast', `${mono('run_8d02')}, ${mono('run_8c41')} and each run back to 6 Oct`, 'resolved'], ['Action', `Ranked action, decision support · ${mono('run_8d02')}`, 'resolved'], ['Outcome', 'Not scored: its horizon has not passed', 'Not yet'], ['Audit', mono('aud_4c17'), 'resolved']];
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
   const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved Tue 21:18, expired Tue 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
@@ -4097,9 +4111,11 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const id = t => `<code>${t}</code>`;
   const para = t => `<p class="small muted">${t}</p>`;
   const tagged = (tag, t) => `<div class="aruns-tag">${tag}<span class="small muted">${t}</span></div>`;
-  const NORMAL = 'As of 21:15 London · data cutoff 21:00 · 7 of 7 priced';
-  const LAST_GOOD = 'Last good run Mon 21:15 · cutoff 21:00';
-  const FAIL_LINE = 'Twelve Data failed at 21:14.';
+  /* the owner journeys' words for this US run, word for word (MP-186): it collects from 21:15, freezes its cutoff at 22:00 and issues 22:15, and it
+     prices the 3 US holdings, Apple, NVIDIA and SPY. The UK and India run apart. Twelve Data fails at 21:16, after the run starts (ADM-10, ADM-11, ADM-22). */
+  const NORMAL = 'As of 22:15 London · data cutoff 22:00 · 3 of 3 priced';
+  const LAST_GOOD = 'Last good run Mon 22:15 · cutoff 22:00';
+  const FAIL_LINE = 'Twelve Data failed at 21:16.';
   const CLAUDE_OFF = 'Forecasts and figures run as usual, because Claude only explains.';
   const OFFLINE_NOTE = 'Nothing can be changed until you reconnect. No financial write offline.';
   const kept = ctx => (browser(ctx) ? tagged(proposed('MP40-Q12'), 'What a browser keeps offline is open.') : '');
@@ -4123,8 +4139,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const ind = () => runRow('Forecast run, Wed 4 Nov 10:15', 'run_8d6e · India · issued 11:15', OK('Succeeded'));
   const ukr = () => runRow('Forecast run, Tue 3 Nov 16:50', 'run_8cf7 · UK · HSBC late', OK('Succeeded'));
   const ukUnread = (d = 'Tue') => runRow(`UK, ${d}`, 'Run not read', WARN('Unknown'));
-  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 7 of 7 priced · finished 21:30') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
-  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 7 of 7 priced', status);
+  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 3 of 3 priced · issued 22:15') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
+  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 3 of 3 priced', status);
   const hsbc = (status = WARN('Acknowledged')) => item(lead('alert', 'warn'), 'HSBC price late', 'inc_0012 · detected Tue 16:50', `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', false, true);
   const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When it goes wrong', 'tinted', 'alert')}</div>`;
   const indTue = () => runRow('Forecast run, Tue 3 Nov 10:15', 'run_8ce2 · India', OK('Succeeded'));
@@ -4132,7 +4148,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const ukMon = () => runRow('Forecast run, Mon 2 Nov 16:50', 'run_8bf3 · UK', OK('Succeeded'));
   const ranHead = () => sec('What ran', '<span class="small muted">Recent runs</span>');
   const ranOK = (o = {}) => `${ranHead()}${list((o.top || '') + (o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + indTue() + mon() + (o.ukMon || ukMon()) + indMon() + (o.hsbc || hsbc()))}${links()}`;
-  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + indTue() + mon() + ukMon() + indMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
+  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:16') + ukr() + indTue() + mon() + ukMon() + indMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:16 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
 
   /* ---------- health: four alarms, and what they are not allowed to hide ---------- */
   const ALARM = {
@@ -4159,8 +4175,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const moment = (t, a, b = '') => `<div class="aruns-tl"><span class="aruns-tt">${t}</span><div><b>${a}</b>${b ? `<span class="small muted">${b}</span>` : ''}</div></div>`;
   const runHead = (title, sub, c, line = NORMAL) => box(`<div class="aruns-mhead"><div><b>${title}</b><span class="small muted">${sub}</span></div>${c}</div><p class="small" style="margin-top:8px">${line}</p>`);
   const head8d = (c = OK('Succeeded'), line = NORMAL) => runHead('Forecast run, Tue 3 Nov 21:15', 'run_8d02 · after the US close', c, line);
-  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('21:40', 'The +40 retry failed', 'Still no close · dead-lettered with its reason')}${moment('22:00', 'Frozen at +60: no input set', 'Recorded as missed_origin, never backfilled')}</div>`);
-  const timeline = () => box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:20', 'US tech, 12 months paused by code', 'Previous model not eligible. Other scopes kept issuing')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`);
+  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:16', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('21:40', 'The +40 retry failed', 'Still no close · dead-lettered with its reason')}${moment('22:00', 'Frozen at +60: no input set', 'Recorded as missed_origin, never backfilled')}</div>`);
+  const timeline = () => box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('22:00', 'Frozen at +60', '3 of 3 US closes in')}${moment('22:05', 'US tech, 12 months paused by code', 'Previous model not eligible. Other scopes kept issuing')}${moment('22:15', 'Forecasts issued at +75', '3 of 3 priced')}</div>`);
   const EVID = [['Release', 'rel_0031'], ['Settings', 'v9'], ['Catalogue', 'v14'], ['Models', 'R2-HGB v3 · R1-LGB v1'], ['Sources', 'Twelve Data · Yahoo'], ['Collect job', 'job_3e9a'], ['Trace', 'tr_51c2 · linked across a queue or batch'], ['Guard decisions', 'Calendar current · market data credits reserved · cutoff kept']];
   /* a failed run names what it was set to use, and says it wrote nothing */
   const DUE_TO = rows => rows.map(r => (r[0] === 'Models' ? ['Due to use', r[1]] : r[0] === 'Sources' ? ['Due to read', r[1]] : r)).concat([['Forecasts written', 'None']]);
@@ -4181,7 +4197,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This run is as of 11:12. It finished, so its evidence will not change, but a linked incident may be newer.', 'clock') + runOK(ctx),
     offline: () => offline(ctx, 'this run') + head8d() + timeline() + jobDoor() + evidence() + costOn(),
     conflict: () => banner('warn', 'reconcile_required.', 'job_3e9a sent a Twelve Data call and got no answer: ambiguous_external_outcome. Its credits stay held, and nothing is repeated while this stands.', 'split') + head8d(WARN('reconcile_required', 'split')) + timeline() + jobDoor('job_3e9a · reconcile_required') + evidence() + costHeld() + tagged(proposed('CT-05'), 'The reconciler\'s outcomes are not approved yet.') + open(),
-    expired: () => banner('warn', 'Lease expired.', ranOut, 'clock') + head8d(OK('Succeeded · resumed')) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:17', 'Lease expired', 'Resumed from the last durable step')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`) + evidence() + open(),
+    expired: () => banner('warn', 'Lease expired.', ranOut, 'clock') + head8d(OK('Succeeded · resumed')) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:17', 'Lease expired', 'Resumed from the last durable step')}${moment('22:15', 'Forecasts issued at +75', '3 of 3 priced')}</div>`) + evidence() + open(),
     denied: () => banner('warn', 'That link was refused: permission_denied.', 'It was made in dev, and prod refuses it. This run stays open to read, because reading needs no fresh sign-in.', 'lock') + runOK(ctx, costOff)
   });
   const railRun = ctx => ({ error: box(`${lbl('Next')}<p class="small muted" style="margin-top:6px">Tonight 21:15 runs normally. This origin stays missed, and no replay fills it in.</p>`) + refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by anyone, you included.') }[ctx.state] || refused('R3', 'A stored observation cannot be edited, by anyone, you included. A late or wrong value gets a new observation, and both stay.') + refused('R1', 'A run cannot edit the ledger. Only the controlled writer commits, and only an exact change you approved.'));
@@ -4189,7 +4205,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   /* ---------- a job: attempts, lease, trace, retention ---------- */
   const attempt = (n, b, c) => `<div class="aruns-attempt"><span class="aruns-tt">${n}</span><div class="small muted">${b}</div>${c}</div>`;
   const ATTEMPTS_OK = () => attempt('1', 'Twelve Data · US listings', OK('Succeeded'));
-  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:14', BAD('Failed')) + attempt('+40', '21:40 · the one missing-close retry · failed', BAD('Failed'));
+  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:16', BAD('Failed')) + attempt('+40', '21:40 · the one missing-close retry · failed', BAD('Failed'));
   const attemptsBox = (rows, foot = 'At most 3 attempts, with 2 and 8-second waits.') => box(`${lbl('Attempts')}<div class="aruns-attempts">${rows}</div><p class="small muted" style="margin-top:8px">${foot}</p>`);
   const jobKV = (state = 'succeeded', lease = 'Released') => box(`${lbl('The durable record')}<div style="margin-top:8px">${kv([['State', state], ['Business id', 'collect · US · Tue 3 Nov'], ['Idempotency key', 'Held · one result per key'], ['Lease', lease], ['Accepted, started, terminal', 'Each has evidence']])}</div>`);
   const traceBox = (t = 'linked across a queue or batch', x = 'Queued, resumed and scheduled work starts a new trace, joined by business ids and span links.') => box(`${lbl('Trace')}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${id('tr_51c2')}${PLAIN(t)}</div><p class="small muted" style="margin-top:8px">${x}</p>`);
@@ -4212,7 +4228,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* ---------- comparing two nights: only what differs is worth reading ---------- */
   const cmpRow = (k, a, b) => `<div class="aruns-cmp${a === b ? '' : ' diff'}"><span class="small muted">${k}</span><span class="small">${a}</span><span class="small">${b}</span><span class="aruns-same">${ic(a === b ? 'equal' : 'split', 's14')}${a === b ? 'Same' : 'Differs'}</span></div>`;
-  const CMP = [['Started', '21:15', '21:15'], ['Priced', '7 of 7', '7 of 7'], ['Collect attempts', '1 of 3', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['India midcap, 3 months', 'R1-LGB v1', 'R1-LGB v2'], ['US tech, 12 months', 'Paused 21:20', 'Issuing'], ['HSBC', 'Last price 14:10', 'Priced at close']];
+  const CMP = [['Started', '21:15', '21:15'], ['Priced', '3 of 3', '3 of 3'], ['Collect attempts', '1 of 3', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['India midcap, 3 months', 'R1-LGB v1', 'R1-LGB v2'], ['US tech, 12 months', 'Paused 22:05', 'Issuing'], ['Issued', '22:15', '22:15']];
   const cmpTable = (rows = CMP, a = 'run_8d02, Tue', b = 'run_8c41, Mon') => box(`<div class="aruns-cmp head"><span class="label">Compared</span><span class="label">${a}</span><span class="label">${b}</span><span></span></div>${rows.map(r => cmpRow(...r)).join('')}`);
   const WHY = () => box(`${lbl('Why they differ')}<div class="aruns-tls">${moment('Mon 22:20', 'R1-LGB v2 reverted to v1', 'Code · Automatic · 2 bad weeks on probation')}${moment('Tue 14:10', 'Last HSBC price', 'Detected Tue 16:50 · inc_0012')}${moment('Tue 21:20', 'US tech, 12 months paused', 'Code · previous model not eligible')}</div><p class="small muted" style="margin-top:8px">Reverts by code are marked Automatic, and never read as your decision.</p>`);
   const cmpOK = () => cmpTable() + WHY();
@@ -4221,7 +4237,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => box(`${lbl('Comparing run_8d02 and run_8c41')}<span class="sk" style="height:96px;margin-top:10px"></span>`),
     empty: () => stateCard('split', 'One run, so nothing to compare', 'A comparison needs two recorded runs. The next one is due tonight 21:15.'),
     partial: () => banner('warn', 'One side is short.', 'The summary for run_8c41 answered and its span links did not. Anything unread shows unknown, and is never counted as the same.', 'clock') + cmpTable(CMP.map(r => (r[0] === 'Collect attempts' ? [r[0], r[1], 'Unknown'] : r))) + WHY(),
-    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Due', '21:15', '21:15'], ['Priced', 'None: no input set', '7 of 7'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + failTL(),
+    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Due', '21:15', '21:15'], ['Priced', 'None: no input set', '3 of 3'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + failTL(),
     stale: () => banner('warn', 'Stale.', 'Both summaries are from 11:12. Each run has finished, so a later change would be a linked incident, not a new figure.', 'clock') + cmpOK(),
     offline: () => offline(ctx, 'this comparison') + cmpOK(),
     conflict: () => banner('warn', 'run_8d02 has an open reconcile.', 'Its Twelve Data credits are unsettled, so this compares versions only. A comparison never settles a reconcile.', 'split') + cmpTable(CMP.concat([['Twelve Data credits', 'ambiguous', 'settled']])) + WHY(),
@@ -4280,7 +4296,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => `<div class="small muted">Last good 11:20</div>` + skel(5),
     empty: () => stateCard('grid', 'No run or job on record yet', 'The first collection starts at +15 after the first eligible close. Silence is not a sign that nothing is wrong, so this never reads as healthy.'),
     partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK run record did not, so its runs show unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'UK, Tue', 'Run not read', WARN('Unknown')) + LIST.indt() + LIST.mon() + rowB(lead('fan'), 'UK, Mon', 'Run not read', WARN('Unknown')) + LIST.indm()),
-    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:14') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
+    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:16') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     stale: () => banner('warn', 'Stale.', 'From 11:12, and India\'s 10:15 run does not appear. stale: its last success is older than its next due time.', 'clock') + list(LIST.tue() + LIST.job() + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     offline: () => offline(ctx, 'the run list') + listOK(),
     conflict: () => banner('warn', 'One record disagrees with another.', 'job_3e9a shows an ambiguous_external_outcome, so run_8d02 waits on the reconciler. It is counted neither as clean nor as failed.', 'split') + list(LIST.wed() + LIST.tue(WARN('Waiting on job', 'split')) + LIST.job(WARN('reconcile_required', 'split')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
@@ -4351,7 +4367,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       },
       screens: [{
         id: 'a-clock', title: 'Tonight\'s clock',
-        note: 'In Ready, at 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002. See What these screens wait on, under State inventory. run_8cf7, run_8d6e, run_8bf3, run_8dc4, run_8ce2 and run_8bd0 are illustrative ids.',
+        note: 'In Ready, at 11:40 India has issued and the UK and US wait for their close. The clock follows POLICY-002, and the owner journeys now say the same: each market freezes its cutoff at +60 and issues by +75 (ADM-22, MP-186). run_8cf7, run_8d6e, run_8bf3, run_8dc4, run_8ce2 and run_8bd0 are illustrative ids.',
         render: ctx => frame(ctx, {
           title: 'Tonight\'s clock', back: 'Admin',
           body: region(ctx, {
@@ -4370,7 +4386,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
         })
       }, {
         id: 'a-run', title: 'Run run_8d02',
-        note: 'One run shows the exact versions, guards, attempts and reservation behind it. The 21:15 start, 21:30 finish and 21:00 cutoff are the owner journeys\', and POLICY-002 would freeze at 22:00. The owner journeys read one nightly run across the portfolio, and PH03-S09 runs each market apart, so this run shows all 7 holdings as they do. Both questions are under State inventory, What these screens wait on. Failed keeps the owner\'s 21:14, before the 21:15 start, and records missed_origin only at the 22:00 freeze. Denied shows Claude off, with no Claude spend.',
+        note: 'One run shows the exact versions, guards, attempts and reservation behind it. It is the US run, as PH03-S09 runs each market apart: it collects from 21:15, freezes its cutoff at 22:00, issues 22:15 and prices the 3 US holdings, as the owner journeys now say (ADM-10, ADM-22, MP-186). Failed has Twelve Data failing at 21:16, after the 21:15 start, and records missed_origin only at the 22:00 freeze (ADM-11). Denied shows Claude off, with no Claude spend.',
         render: ctx => frame(ctx, { title: 'run_8d02', back: 'Tonight\'s clock', body: runRegion(ctx), rail: railRun(ctx) })
       }, {
         id: 'a-job', title: 'Job job_3e9a',
@@ -4568,7 +4584,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => skel(3),
     empty: () => stateCard('refresh', 'No work on record', 'No route or worker has been asked to do anything yet. That is no evidence that they work.'),
     partial: () => banner('warn', 'Partial.', 'Route workers answered. Code workers did not, so their work shows unknown.', 'clock') + workOK() + list(item(lead('sliders'), 'Code workers', 'Not read', WARN('Unknown'))),
-    error: () => banner('fall', 'Nothing to explain yet.', 'run_8d02 failed at 21:14, so Nightly explanations waits on it. Nothing here is dead-lettered: the one item is job_3e9a, in Runs and health.', 'alert') + list(workRow('Nightly explanations', 'Waits on run_8d02', PLAIN('queued')) + workRow('Event analysis', 'Batch · next items picked by code', PLAIN('queued'))) + `<div>${bs('Open inc_0013', 'primary', 'alert')}</div>`,
+    error: () => banner('fall', 'Nothing to explain yet.', 'run_8d02 failed at 21:16, so Nightly explanations waits on it. Nothing here is dead-lettered: the one item is job_3e9a, in Runs and health.', 'alert') + list(workRow('Nightly explanations', 'Waits on run_8d02', PLAIN('queued')) + workRow('Event analysis', 'Batch · next items picked by code', PLAIN('queued'))) + `<div>${bs('Open inc_0013', 'primary', 'alert')}</div>`,
     stale: () => banner('warn', 'Stale.', 'Worker state is from 11:12, and a worker may have finished since.', 'clock') + workOK(),
     offline: () => offline(ctx, 'worker state') + workOK(),
     conflict: () => banner('warn', 'A restart met a finished result.', 'The worker resumed from its checkpoint, and one result per request id stands.', 'split') + list(workRow('Nightly explanations', 'Two attempts · one result', WARN('reconciled', 'split'))),
@@ -4587,7 +4603,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => factHead(chip('', 'Loading')) + skel(2),
     empty: () => stateCard('split', 'No factor has finished shadow', 'Every factor stays in shadow until the ablation shows it adds accuracy. Nothing waits on you here.'),
     partial: () => banner('warn', 'incomplete.', 'The factor answered and the ablation did not, so nothing can be admitted yet. It stays in shadow.', 'clock') + factHead(WARN('Unknown')) + factEv('Not read'),
-    error: () => banner('fall', 'The ablation failed.', 'It failed at 21:14, so it is incomplete, never green. The factor stays in shadow.', 'alert') + factHead(BAD('incomplete')) + factEv('Not read'),
+    error: () => banner('fall', 'The ablation failed.', 'It failed at 21:16, so it is incomplete, never green. The factor stays in shadow.', 'alert') + factHead(BAD('incomplete')) + factEv('Not read'),
     stale: () => banner('warn', 'Stale.', 'This is from 11:12. It rechecks itself before you can admit it, so the control returns after that.', 'clock') + factHead() + factEv() + factBind(),
     offline: () => offline(ctx, 'this factor') + factHead() + factEv() + factBind(),
     conflict: () => banner('warn', 'hindsight_flagged.', 'A batch reached back past its cutoff. Where contamination cannot be bounded, only prospectively extracted factors count, so this evidence no longer stands.', 'split') + factHead(WARN('hindsight_flagged', 'split')) + factEv('Being rerun', 'Flagged, being rerun'),
@@ -4713,7 +4729,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => head(lead('cube'), 'R2-HGB v4', 'Reading the stored scores', chip('', 'Loading')) + skel(2),
     empty: () => stateCard('cube', 'No candidate has a trial', 'A candidate reaches you only after 8 scored weeks in shadow. Nothing is waiting, so nothing here can be promoted.'),
     partial: () => banner('warn', 'incomplete.', 'The trial answered and the score table did not. A partial evaluation is reported incomplete, never green.', 'clock') + trial() + scores('Not read', 'Not read', 'Not read'),
-    error: () => stateCard('alert', 'incomplete', 'The evaluation failed at 21:14, so it is reported incomplete, never green. Nothing can be approved until it loads, and v3 stays active.', bs('Try again', 'tinted', 'refresh')) + trial() + scores('Not read', 'Not scoreable', 'Not read') + para(WAITS_RULES),
+    error: () => stateCard('alert', 'incomplete', 'The evaluation failed at 21:16, so it is reported incomplete, never green. Nothing can be approved until it loads, and v3 stays active.', bs('Try again', 'tinted', 'refresh')) + trial() + scores('Not read', 'Not scoreable', 'Not read') + para(WAITS_RULES),
     stale: () => banner('warn', 'Showing scores from 11:12.', 'A newer scored week may exist. This proposal rechecks itself before you can approve it.', 'clock') + evidenceOK() + tail,
     offline: () => offline(ctx, 'the scores') + evidenceOK() + tail,
     conflict: () => banner('warn', 'A rescore arrived.', 'An outcome amendment made new score versions, so both show. The trial stays at the version you opened, and an evidence hash change is refused at execution.', 'split') + trial() + scores('0.188, was rescored 0.191'),
@@ -4741,7 +4757,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => promoteHead(chip('', 'Loading')) + box(`${lbl('Reading the proposal')}<span class="sk" style="height:60px;margin-top:10px"></span>`),
     empty: () => stateCard('check', 'Nothing waits on you here', 'No candidate is ready for you. A promotion lands here only with its evidence.'),
     partial: () => banner('warn', 'Held until the evidence is whole.', 'The approval binds an evidence hash, so nothing can be promoted while part of it is unread. Rejecting needs no evidence.', 'clock') + promoteHead() + impact() + `<div class="amodels-acts">${act('A26', 'Reject this candidate')}</div>`,
-    error: () => stateCard('alert', 'The scores did not load', 'They failed at 21:14. Nothing can be approved until they load, and v3 stays active.', bs('Try again', 'tinted', 'refresh')) + promoteHead(chip('error', 'Not loaded')) + para(WAITS_RULES) + R5(),
+    error: () => stateCard('alert', 'The scores did not load', 'They failed at 21:16. Nothing can be approved until they load, and v3 stays active.', bs('Try again', 'tinted', 'refresh')) + promoteHead(chip('error', 'Not loaded')) + para(WAITS_RULES) + R5(),
     stale: () => banner('warn', 'This needs a fresh read first.', 'This is from 11:12. It rechecks itself before you can approve, so the control returns after that.', 'clock') + promoteHead() + impact(),
     offline: () => offline(ctx, 'this proposal') + promoteHead() + impact(),
     conflict: () => banner('warn', 'The evidence changed.', 'The hash no longer matches 9c1e…44ab, so this approval could never apply. Review the new version.', 'split') + refused('R5', 'A changed evidence hash is refused at execution. An approval never moves to a different change.') + promoteHead(WARN('Refused', 'ban')) + bs('Review the new version', 'primary'),
@@ -4762,7 +4778,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => `<div class="small muted">Last good 11:20</div>${skel(3)}`,
     empty: () => stateCard('check', 'Nothing is reverted or paused', 'No scope is paused, and no reverted model waits for you. A revert or a pause lands here with its reason.'),
     partial: () => banner('warn', 'Partial.', 'The revert answered and the pause record did not, so US tech, 12 months shows unknown here. Forecast status stays in Forecasts.', 'clock') + revert() + forward() + box(`<div class="amodels-head">${lead('pause')}<div><b>US tech, 12 months</b><span class="small muted">Pause record not read</span></div>${WARN('Unknown')}</div>`),
-    error: () => stateCard('alert', 'The scores did not load', 'They failed at 21:14. Nothing can be approved until they load, and v1 stays active.', bs('Try again', 'tinted', 'refresh')) + pauseCard(),
+    error: () => stateCard('alert', 'The scores did not load', 'They failed at 21:16. Nothing can be approved until they load, and v1 stays active.', bs('Try again', 'tinted', 'refresh')) + pauseCard(),
     stale: () => banner('warn', 'Showing scores from 11:12.', 'A newer scored week may exist. Each proposal rechecks itself before you can approve it.', 'clock') + revert() + pauseCard(),
     offline: () => offline(ctx, 'live models') + revert() + pauseCard(),
     conflict: () => banner('', 'The evidence splits.', 'v2 trails v1 on matured forecasts and leads on walk-forward history. Neither settles it, so the decision stays yours.', 'split') + revert() + forward() + pauseCard() + restart(),
@@ -4784,7 +4800,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => bandHead(chip('', 'Loading')) + skel(2),
     empty: () => stateCard('sliders', 'no overlay', 'No adjustment is in force, and no change to the bands waits on you.') + bandLimits('no overlay'),
     partial: () => banner('warn', 'step in flight, awaiting matured pairs.', 'One step is out and its pairs have not matured, so whether it helped is unknown.', 'clock') + bandHead() + bandLimits('step in flight, awaiting matured pairs') + bandWhy() + bandBind(),
-    error: () => banner('fall', 'A failed overlay step.', 'It failed at 21:14, and the previous overlay stays in force. Nothing was half-applied.', 'alert') + bandHead(chip('error', 'Held')) + bandLimits('previous overlay in force'),
+    error: () => banner('fall', 'A failed overlay step.', 'It failed at 21:16, and the previous overlay stays in force. Nothing was half-applied.', 'alert') + bandHead(chip('error', 'Held')) + bandLimits('previous overlay in force'),
     stale: () => banner('warn', 'Stale.', 'This is from 11:12. It rechecks itself before you can approve.', 'clock') + bandHead() + bandLimits() + bandBind(),
     offline: () => offline(ctx, 'the bands') + bandHead() + bandLimits() + bandBind(),
     conflict: () => banner('warn', 'Refused for a stale revision.', 'Settings v10 was written at 09:01, so this approval for v9 can never apply. Nothing was applied.', 'split') + bandHead(WARN('Refused', 'ban')) + bandLimits(),
@@ -4806,7 +4822,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => `<div class="small muted">Last good 11:20</div>${skel(4)}`,
     empty: () => stateCard('check', 'No evaluation has run', 'A run that is missing evidence is incomplete, never green. Nothing here is a pass yet.') + JUDGE(undefined, false, 'Labelling and thresholds open once a run exists to label.'),
     partial: () => banner('warn', 'incomplete.', 'A run that is missing evidence is incomplete, never green. T0 answered for 5 of 7 routes.', 'clock') + list(item(lead('clock', 'warn'), 'T0 deterministic', '5 of 7 routes · 2 not read', WARN('incomplete'))) + JUDGE(undefined, false, 'Labelling and thresholds wait until the run is whole.') + CAMPAIGN(),
-    error: () => banner('fall', 'T0 failed.', 'A broken guard is caught here, before any paid model call. A failed run re-runs from the same fixture versions.', 'alert') + list(item(lead('x', 'fall'), 'T0 deterministic', 'Failed at 21:14', BAD('failed'))) + JUDGE(undefined, false, 'Labelling and thresholds wait until T0 passes.') + CAMPAIGN(),
+    error: () => banner('fall', 'T0 failed.', 'A broken guard is caught here, before any paid model call. A failed run re-runs from the same fixture versions.', 'alert') + list(item(lead('x', 'fall'), 'T0 deterministic', 'Failed at 21:16', BAD('failed'))) + JUDGE(undefined, false, 'Labelling and thresholds wait until T0 passes.') + CAMPAIGN(),
     stale: () => banner('warn', 'stale.', 'A case is older than the manifest version it targets, so it no longer counts until it is updated.', 'clock') + list(item(lead('clock', 'warn'), 'T0 deterministic', 'Case older than manifest v3', WARN('stale'))) + JUDGE(undefined, false, 'Labelling and thresholds return after a fresh read.') + CAMPAIGN(),
     offline: () => offline(ctx, 'evaluations') + TIERS() + CAMPAIGN(),
     conflict: () => banner('warn', 'A judge and your label disagree.', 'Both are kept, with their provenance. A late result never overwrites a newer label or decision.', 'split') + TIERS() + JUDGE(WARN('Disagreement', 'split')) + THRESH(),
@@ -4857,7 +4873,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => pipeStrip(Object.fromEntries(STAGES.map(([s]) => [s, '·']))) + skel(4),
     empty: () => pipeStrip({ shadow: 0, active: 0 }) + stateCard('cube', 'No model has reached a stage', 'No approved model covers anything yet, so no forecast is shown. Prices and holdings still work.'),
     partial: () => banner('warn', 'Partial.', 'Promotion records answered and scores did not, so nothing shows as ready, and no figure is counted as zero.', 'clock') + pipeStrip() + stages({ wait: 'Stage known, scores not read', v4: stageRow(lead('cube'), 'R2-HGB v4', 'shadow · scores not read', WARN('Unknown')), rules: stageRow(lead('sliders'), 'Rules v6', 'shadow · scores not read', WARN('Unknown')), v1: stageRow(lead('fan'), 'R1-LGB v1', 'Score not read', WARN('Unknown')) }),
-    error: () => banner('fall', 'The evaluation failed.', 'It failed at 21:14, so R2-HGB v4 is incomplete, never green. No rules mapping qualified for v5 or v6. Nothing moves stage on either.', 'alert') + pipeStrip() + stages({ top: `${sec('Waiting on you')}${list(stageRow(lead('sliders'), 'Rules v6', 'shadow · not scoreable · waits for you', WARN(NOMAP)))}`, wait: 'Not ready for you', v4: stageRow(lead('cube'), 'R2-HGB v4', 'shadow · evaluation incomplete', BAD('incomplete')), rules: '' }),
+    error: () => banner('fall', 'The evaluation failed.', 'It failed at 21:16, so R2-HGB v4 is incomplete, never green. No rules mapping qualified for v5 or v6. Nothing moves stage on either.', 'alert') + pipeStrip() + stages({ top: `${sec('Waiting on you')}${list(stageRow(lead('sliders'), 'Rules v6', 'shadow · not scoreable · waits for you', WARN(NOMAP)))}`, wait: 'Not ready for you', v4: stageRow(lead('cube'), 'R2-HGB v4', 'shadow · evaluation incomplete', BAD('incomplete')), rules: '' }),
     stale: () => banner('warn', 'Stale.', 'From 11:12. A stage may have moved since, and any decision rechecks first.', 'clock') + pipeOK(),
     offline: () => offline(ctx, 'the pipeline') + pipeOK(),
     conflict: () => banner('warn', 'A stage moved while you read.', 'Evidence hashes changed for R2-HGB v4 and Rules v6, so neither proposal can apply. This stays at the version you opened.', 'split') + pipeStrip() + stages({ wait: 'Not ready for you', v4: stageRow(lead('cube'), 'R2-HGB v4', 'shadow · evidence hash changed', WARN('Refused', 'ban')), rules: stageRow(lead('sliders'), 'Rules v6', 'shadow · evidence hash changed', WARN('Refused', 'ban')) }),
@@ -4880,7 +4896,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     loading: () => `<div class="small muted">Last good 11:20</div>${skel(3)}`,
     empty: () => stateCard('fan', 'No scope has a score yet', 'Nothing is scored before maturity. A summary with too few matured forecasts says so instead of showing a rate.'),
     partial: () => banner('warn', 'incomplete.', 'The all-segments score table did not answer. A partial evaluation is reported incomplete, never green.', 'clock') + scoreCard('All segments, 3, 6 and 12 months', 'R2-HGB v4 in shadow', WARN('incomplete'), cell('v4', 'Not read') + cell('Rules', 'Not read') + cell('Base rate', 'Not read')) + scIndia() + scUS(),
-    error: () => banner('fall', 'incomplete.', 'The evaluation failed at 21:14, so it is reported incomplete, never green.', 'alert') + scoreCard('All segments, 3, 6 and 12 months', 'R2-HGB v4 in shadow', BAD('incomplete'), cell('v4', 'Not read') + cell('Rules', 'Not read') + cell('Base rate', 'Not read')) + scoreCard('Rules, all segments', 'Rules v6 in shadow', WARN(NOMAP), cell('Rules v6', 'Not scoreable') + cell('Rules v5', 'Not scoreable') + cell('Base rate', 'Not read'), 'No rules mapping qualified for v5 or v6, so the rules comparison is not scoreable.') + scIndia() + scUS(),
+    error: () => banner('fall', 'incomplete.', 'The evaluation failed at 21:16, so it is reported incomplete, never green.', 'alert') + scoreCard('All segments, 3, 6 and 12 months', 'R2-HGB v4 in shadow', BAD('incomplete'), cell('v4', 'Not read') + cell('Rules', 'Not read') + cell('Base rate', 'Not read')) + scoreCard('Rules, all segments', 'Rules v6 in shadow', WARN(NOMAP), cell('Rules v6', 'Not scoreable') + cell('Rules v5', 'Not scoreable') + cell('Base rate', 'Not read'), 'No rules mapping qualified for v5 or v6, so the rules comparison is not scoreable.') + scIndia() + scUS(),
     stale: () => banner('warn', 'Showing scores from 11:12.', 'A newer scored week may exist.', 'clock') + boardOK(),
     offline: () => offline(ctx, 'the scoreboard') + boardOK(),
     conflict: () => banner('warn', 'corrected.', 'An amended outcome made a new score version, so 0.188 and 0.191 both show. Neither replaced the other.', 'split') + scoreCard('All segments, 3, 6 and 12 months', 'R2-HGB v4 in shadow', WARN('amended', 'split'), cell('v4', '0.188, was rescored 0.191', 'on') + cell('Rules', '0.197') + cell('Base rate', '0.203')) + scIndia() + scUS(),
@@ -5607,13 +5623,13 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* ---------- the run behind it (GAP-CT-05 names what a run links). This screen is on the run's clock ---------- */
   const RUNCAL = () => banner('', 'This shows the run\'s clock, Tue 3 Nov.', 'The hold of £0.34 is from the illustrative cost month, day 18 of 30. The two are not the same day.', 'clock');
-  const runKv = (o = {}) => box(`${lbl('Forecast run')}<div class="acosts-gap">${kv([['Run', 'run_8d02'], ...(o.failed ? [] : [['Started', 'Tue 3 Nov, 21:15']]), ['Data cutoff', '21:00'], ['Priced', o.p || '7 of 7'], ['Result', o.r || 'Succeeded'], ['Collect job', 'job_3e9a'], ['Trace', o.tr || 'tr_51c2'], ['Environment', 'Production']])}</div>`);
+  const runKv = (o = {}) => box(`${lbl('Forecast run')}<div class="acosts-gap">${kv([['Run', 'run_8d02'], ...(o.failed ? [] : [['Started', 'Tue 3 Nov, 21:15']]), ['Data cutoff', '22:00'], ['Priced', o.p || '3 of 3'], ['Result', o.r || 'Succeeded'], ['Collect job', 'job_3e9a'], ['Trace', o.tr || 'tr_51c2'], ['Environment', 'Production']])}</div>`);
   const runLinks = (failed = false) => box(`${lbl(failed ? 'What it was due to run with' : 'What it ran with')}<div class="acosts-gap">${kv([['Settings', 'v9'], ['Catalogue', 'v14'], [failed ? 'Due to use' : 'Models', 'R2-HGB v3, R1-LGB v1'], ['Release', 'rel_0031'], ['Cost reservation', 'Nightly explanations, £0.34']])}</div><div class="acosts-gap">${bs('Open in Runs and health', 'tinted', 'refresh')}</div>`);
   const runCore = ctx => region(ctx, {
     what: 'This run', rows: 3, ok: () => RUNCAL() + runKv() + runLinks(),
     empty: () => stateCard('refresh', 'No run behind this yet', 'A new month has no run to link. The first forecast run appears here with its job, trace and reservation.', bs('Open in Runs and health', 'tinted', 'refresh')),
     partial: () => banner('warn', 'Sampled out.', 'The trace was sampled out, so this reads from the durable record only. The record stays complete.', 'clock') + RUNCAL() + runKv({ tr: 'tr_51c2, sampled out' }) + runLinks(),
-    error: () => stateCard('alert', 'This run failed', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Its hold releases only what is confirmed unspent.', '', chip('', 'req_a90f') + chip('error', 'inc_0013', 'alert')) + RUNCAL() + runKv({ failed: true, r: 'Failed at 21:14', p: 'Not finished' }) + runLinks(true),
+    error: () => stateCard('alert', 'This run failed', 'Twelve Data failed at 21:16. Last good run Mon 22:15 · cutoff 22:00. Its hold releases only what is confirmed unspent.', '', chip('', 'req_a90f') + chip('error', 'inc_0013', 'alert')) + RUNCAL() + runKv({ failed: true, r: 'Failed at 21:16', p: 'Not finished' }) + runLinks(true),
     stale: () => banner('warn', 'Index lagging.', 'This run is from 11:12, and a later one may exist. Tonight 21:15 is the next.', 'clock') + RUNCAL() + runKv() + runLinks(),
     offline: () => banner('', 'Offline.', 'From saved records. Nothing here can be replayed or changed from this screen.', 'wifi-off') + RUNCAL() + runKv() + runLinks(),
     conflict: () => banner('warn', 'The hold settled while you read.', 'Usage replaced the £0.34 hold. Settlement replaces a reservation and never adds to it, so the month does not count it twice.', 'split') + RUNCAL() + runKv() + runLinks(),
@@ -5712,7 +5728,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* ---------- the two incidents, by id ---------- */
   const I12 = { id: 'inc_0012', name: 'HSBC price late', cls: 'Data quality', at: 'Tue 16:50', sub: 'Last price 14:10 · detected Tue 16:50', i: 'clock', tone: 'warn' };
-  const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:14', sub: 'Twelve Data failed at 21:14 · detected Tue 21:14', i: 'alert', tone: 'fall' };
+  const I13 = { id: 'inc_0013', name: 'Forecast run failed', cls: 'Job failure', at: 'Tue 21:16', sub: 'Twelve Data failed at 21:16 · detected Tue 21:16', i: 'alert', tone: 'fall' };
   const I14 = { id: 'inc_0014', name: 'Production recorded lost', cls: 'Not classed', at: '', sub: 'A restored copy waits in Recovery', i: 'alert', tone: 'fall' };
   const inc = ctx => (ctx.state === 'error' ? I13 : ctx.state === 'conflict' ? I14 : I12);
   const ST = {
@@ -5729,7 +5745,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
   /* what stays in view whatever the list says, because a quiet list proves nothing */
   const still = ctx => {
-    const s = ctx.state, run = { error: ['Mon 21:15 · cutoff 21:00', 'run_8c41 · last good'], stale: ['Tue 21:15 · cutoff 21:00', 'run_8d02 · as read at 11:12'], conflict: ['Tue 21:15 · cutoff 21:00', 'run_8d02 · reconcile_required, counted as neither'] }[s] || ['Tue 21:15 · cutoff 21:00', 'run_8d02 · succeeded'];
+    const s = ctx.state, run = { error: ['Mon 21:15 · cutoff 22:00 · issued 22:15', 'run_8c41 · last good'], stale: ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · as read at 11:12'], conflict: ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · reconcile_required, counted as neither'] }[s] || ['Tue 21:15 · cutoff 22:00 · issued 22:15', 'run_8d02 · succeeded'];
     return card(`${head('Still watched')}${kv([['US forecast run', run[0]], ['Its record', run[1]], ...(s === 'conflict' ? [['Production', 'Recorded lost · inc_0014']] : []), ['Restore exercise', 'Passed · Sun 1 Nov'], ['Its record', 'rx_0007'], ['Release', 'rel_0031']])}${note('Silence is not a sign that nothing is wrong, so these always show.')}`);
   };
   const classes = ctx => {
@@ -5749,7 +5765,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'Incidents', rows: 2, loading: 'Reading incidents. The list from 11:20 comes back if this fails.',
     empty: banner('', 'No incident is open.', 'Silence is not a sign that nothing is wrong, so the last run and the last restore stay in view.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'So inc_0012 shows no run link, which is unknown, not clear. Alerts and sources answered.', 'clock'),
-    error: banner('fall', 'Twelve Data failed at 21:14.', 'Last good run Mon 21:15 · cutoff 21:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
+    error: banner('fall', 'Twelve Data failed at 21:16.', 'Last good run Mon 22:15 · cutoff 22:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so an incident opened after 11:12 would not show here. A quiet list proves nothing.', 'clock'),
     offline: banner('', 'Offline.', 'Showing incidents from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Two records changed while you read.', 'Production is recorded lost, so inc_0014 is open and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(proposed('CT-14'))}`,
@@ -5762,7 +5778,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'This incident', rows: 4, loading: 'Reading this incident. Its id and class stay above.',
     empty: banner('', 'Nothing is open.', 'This is the last incident, resolved with your recorded resolution. It reopens if the fault recurs.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'The timeline below is whole. Its run link is unknown until it does.', 'clock'),
-    error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Reads stay open while it is unresolved.', 'alert'),
+    error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:16. Last good run Mon 22:15 · cutoff 22:00. Reads stay open while it is unresolved.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a later step may have landed. Nothing here is newer than that.', 'clock'),
     offline: banner('', 'Offline.', 'This timeline is from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(proposed('CT-14'))}`,
@@ -5790,7 +5806,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       pt('', 'Resolve', CLOSE14, close14(ctx))
     ]);
     if (s === 'error') return tl('What happened to inc_0013', [
-      pt('done', 'Detected', `Code opened it · Tue 21:14. ${NOTICE}`),
+      pt('done', 'Detected', `Code opened it · Tue 21:16. ${NOTICE}`),
       pt('now', 'Acknowledge', 'Waiting for you.', ackTool(ctx)),
       pt('', 'Mitigate', `Code re-runs a missed collection, within its bound. ${MIT}`, tags(proposed('CT-14'))),
       pt('', 'Resolve', 'You close it, with a recorded resolution.')
@@ -5823,7 +5839,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     const rows = {
       ...EV,
       ...(s === 'error' ? {
-        alert: ['alert', 'Alert', 'Missed forecast run, with the stalled collector linked'], run: ['refresh', 'Run', 'run_8d02 · failed at 21:14'], job: ['layers', 'Job', 'job_3e9a · collect · failed'],
+        alert: ['alert', 'Alert', 'Missed forecast run, with the stalled collector linked'], run: ['refresh', 'Run', 'run_8d02 · failed at 21:16'], job: ['layers', 'Job', 'job_3e9a · collect · failed'],
         trace: ['search', 'Trace', 'tr_51c2'], source: ['db', 'Source', 'Twelve Data'], model: ['cube', 'Model', 'None. No forecast was written by this run']
       } : {}),
       ...(s === 'partial' ? { run: ['refresh', 'Run', 'run_8cf7 · UK · not read'], job: ['layers', 'Job', 'UK collect · not read'], trace: ['search', 'Trace', 'Not read, it links from run_8cf7'] } : {}),
@@ -5836,7 +5852,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
   /* each run is read against the last one on its own market's clock, so the change is a row */
   const twoRuns = ctx => {
-    if (ctx.state === 'error') return card(`${head('Monday and Tuesday, US')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '21:00'], ['Result', 'Succeeded'], ['Priced', '7 of 7']])}</div><div>${lbl('run_8d02')}${kv([['Due', 'Tue 21:15'], ['Cutoff', 'Held at Mon 21:00'], ['Result', 'Failed at 21:14'], ['Priced', 'Not known']])}</div></div>`);
+    if (ctx.state === 'error') return card(`${head('Monday and Tuesday, US')}<div class="aincidents-two"><div>${lbl('run_8c41')}${kv([['Started', 'Mon 21:15'], ['Cutoff', '22:00'], ['Result', 'Succeeded'], ['Priced', '3 of 3']])}</div><div>${lbl('run_8d02')}${kv([['Due', 'Tue 21:15'], ['Cutoff', 'Held at Mon 22:00'], ['Result', 'Failed at 21:16'], ['Priced', 'Not known']])}</div></div>`);
     const unread = ctx.state === 'partial';
     return card(`${head('Monday and Tuesday, UK')}<div class="aincidents-two"><div>${lbl('run_8bf3')}${kv([['Run', 'Mon 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Priced to the 16:35 close']])}</div><div>${lbl('run_8cf7')}${kv([['Run', 'Tue 16:50'], ['Close', '16:35'], ['Result', unread ? 'Unknown' : 'Succeeded'], ['HSBC', unread ? 'Not read' : 'Late · last price 14:10']])}</div></div>`);
   };
@@ -5844,7 +5860,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'The evidence', rows: 5, loading: 'Reading the linked records.',
     empty: banner('', 'This incident is resolved.', 'Its evidence stays linked, and nothing here was removed when it closed.', 'check'),
     partial: banner('warn', 'The UK run record did not answer.', 'run_8cf7, its collect job and its trace are not read, and neither is Monday\'s run_8bf3, which is unknown, not clear. The alert, the source and the model link opened.', 'clock'),
-    error: banner('fall', 'Twelve Data failed at 21:14.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
+    error: banner('fall', 'Twelve Data failed at 21:16.', 'The failed call has its own request and trace, so you can follow it. Nothing here shows a secret or a holding.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a link may have moved. Each record opens at its own time.', 'clock'),
     offline: banner('', 'Offline.', 'These links are from 11:20. Following one needs a connection, and the ids stay readable.', 'wifi-off'),
     conflict: banner('warn', 'Two sources disagree.', 'The gap is past tolerance, so this is a data quality fault. Both hashes are kept and neither is dropped.', 'split'),
@@ -5857,7 +5873,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const UK = 'HSBC price, Tuesday UK collection', WHY12 = 'inc_0012 · late price, no newer price found', IFMISSED = 'Not needed if a late price counts as a missed collection';
   const REQ = {
     default: ['Auto-retry if CT-14 allows', 'stale', UK, WHY12, '1', IFMISSED],
-    error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:14', 'All of job_3e9a', 'Awaiting you'],
+    error: ['Bound reached: escalated', 'error', 'Tuesday collect job', 'inc_0013 · Twelve Data failed at 21:16', 'All of job_3e9a', 'Awaiting you'],
     conflict: ['Refused', 'error', UK, WHY12, '1', 'Refused on recheck'],
     expired: ['Expired', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Ran out, so nothing ran'],
     denied: ['Awaiting you', 'stale', 'The whole Tuesday UK collection', WHY12, 'All of it', 'Awaiting you, with a fresh sign-in'],
@@ -5966,7 +5982,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'Pause switches', rows: 3, loading: 'Reading what is paused now.',
     empty: banner('', 'Nothing is paused.', 'Every forecast scope is running. The switches stay here for when you need one.', 'check'),
     partial: banner('warn', 'Model pointers did not answer.', 'So whether a scope is paused now is unknown, not no. The last known pause stays below.', 'clock'),
-    error: banner('fall', 'Your pause did not land.', 'It failed at 21:14, so optional work is still running. Nothing else changed. Try again.', 'alert'),
+    error: banner('fall', 'Your pause did not land.', 'It failed at 21:16, so optional work is still running. Nothing else changed. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A pause set after 11:12 would not show here.', 'clock'),
     offline: banner('', 'Offline.', 'These switches are from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: banner('warn', 'A scope changed while you read.', 'Code paused it, as POLICY-003 allows. Your view stays at the version you opened and nothing was applied.', 'split'),
@@ -6017,7 +6033,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       st(1, 'done', 'code', 'Code opens one incident', 'inc_0012 · data quality · Tue 16:50'), st(2, 'done', 'you', 'Acknowledge', 'You · Tue 17:05'), st(3, 'done', 'code', 'Code recovers, within its bounds', 'HSBC prices came back.'),
       st(4, 'done', 'you', 'Ask for more', 'Not needed.'), st(5, 'done', 'you', 'Resolve', 'You, with a recorded resolution: HSBC prices are back from Yahoo.')
     ]);
-    const first = i === I13 ? 'inc_0013 · job failure · Tue 21:14. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
+    const first = i === I13 ? 'inc_0013 · job failure · Tue 21:16. One outage, one incident, with its symptoms linked.' : 'inc_0012 · data quality · Tue 16:50 · last price 14:10';
     const moreRow = list(opens('refresh', 'Replay', plain(reqChip(ctx))));
     return steps('Incident escalation', [
       st(1, 'done', 'code', 'Code opens one incident', first),
@@ -6176,10 +6192,13 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 
 /* ---------- journey: identity ---------- */
 /* Identity and Devices (MP-64, PH02, PH07). One owner. Only you link, unlink, revoke or enrol, each with a fresh sign-in, and no
-   route recovers this account for you. The iPhone passkey is shown as the Privacy journey shows it and nothing here builds on it:
-   MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so every flow stands on Passkey, Mac and Google, and enrolling is
-   drawn on the Mac alone (facts.md 6B item 1, CT-17, PL-09). Revocation time is open (CT-17). Stories MP-73, MP-87, MP-78, MP-83,
-   MP-94, MP-134, MP-168, MP-164, MP-165, MP-166. Every figure is illustrative. */
+   route recovers this account for you. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so the iPhone
+   passkey row waits on the purchase, as Privacy draws it too, and every flow stands on Passkey, Mac and Google (facts.md 6B item 1,
+   CT-17, PL-09). The owner's picks of 5 Nov 2026 (MP-184, drawn in MP-188): "Allowed in the browser" (ADM-04) and "Finish in the
+   phone browser" (ADM-15), so Phone web enrols a passkey and a phone's recovery ends there; "Revoke removes it too" (ADM-02); "Any
+   healthy path" (ADM-03) for a revoke's fresh sign-in. The browser passkey and the removal are unverified until MP-197, and the
+   one-path fallback is drawn beside them. Revocation time is open (CT-17). Stories MP-73, MP-87, MP-78, MP-83, MP-94, MP-134,
+   MP-168, MP-164, MP-165, MP-166. Every figure is illustrative. */
 {
   const LINE = 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.';
   const chip = (k, t, i = '') => `<span class="chip ${k}">${i ? ic(i, 's14') : '<span class="dot"></span>'}${t}</span>`;
@@ -6209,15 +6228,22 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
 
   /* ---------- who is signed in, by device ---------- */
-  const DEVICES = [['iPhone', 'Active 40 min ago · Passkey'], ['iPad', 'Active 2 h ago · Google'], ['Mac, Safari', 'Active yesterday · Passkey'], ['Phone web', 'Active 3 days ago · Google']];
+  /* the iPhone app signs in with Google in the system browser until the purchase, as Privacy now draws it ("Redraw Privacy now", ADM-13) */
+  const DEVICES = [['iPhone', 'Active 40 min ago · Google'], ['iPad', 'Active 2 h ago · Google'], ['Mac, Safari', 'Active yesterday · Passkey'], ['Phone web', 'Active 3 days ago · Google']];
   const HERE = { iphone: 'iPhone', ipad: 'iPad', web: 'Mac, Safari', pwa: 'Phone web' };
   /* a flow's first target, as Privacy picks it: never the device in your hand. Any other device can be revoked, the iPhone too: revoking needs no iPhone passkey */
   const gone = ctx => (ctx.kind !== 'ipad' ? 'iPad' : ctx.state === 'expired' ? 'Phone web' : 'iPhone');
   const lineOf = n => DEVICES.find(d => d[0] === n)[1];
   const isApp = n => n === 'iPad' || n === 'iPhone';
-  const OPENQ = () => tags(proposed('CT-17'), proposed('PL-09'));
-  const IPHONE = 'Shown as the Privacy journey shows it. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so nothing here builds on this row.';
+  const IPHONE = 'Waits on the purchase. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so nothing here builds on this row. Privacy draws it the same way.';
   const WAITING = () => chip('stale', 'Waiting on MP-179', 'clock');
+  /* the owner's picks that rest on a test not yet run carry the issue that runs it (lesson 36) */
+  const UNV = () => chip('unverified', 'Unverified · MP-197', 'info');
+  /* "Revoke removes it too" (ADM-02), in the owner's words, and what is not yet known */
+  const RV = 'Revoking also removes any passkey held on that device. Where it held one, your path count drops by one. Whether Cognito can remove it, and whether a synced copy ends too, is not tested yet.';
+  /* "Any healthy path" (ADM-03) */
+  const ANY = 'A fresh sign-in on any healthy path, passkey or Google.';
+  const phoneBrowser = ctx => (ctx.kind === 'iphone' ? 'this phone\'s browser' : 'your phone\'s browser');
   const quiet = ctx => (ctx.kind === 'pwa' ? 'Mac, Safari' : 'Phone web');
   const devRows = (ctx, flat) => {
     const s = ctx.state, here = HERE[ctx.kind], g = gone(ctx), go = flat ? row : opens;
@@ -6228,7 +6254,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       if (s === 'expired' && n === 'Phone web') return go('clock', n, 'Session expired · needs a new sign-in', `${tags(chip('stale', 'Expired', 'clock'))}${rv(n)}`, 'warn');
       if (s === 'expired' && n === 'iPad') return go('clock', n, 'Build expired · reinstall from your Mac', `${tags(chip('stale', 'Build expired', 'clock'))}${rv(n)}`, 'warn');
       if (s === 'partial' && n === quiet(ctx)) return go('clock', n, 'Did not report · last activity unknown', `${tags(chip('stale', 'Unknown', 'clock'))}${rv(n)}`, 'warn');
-      const x = n === 'iPhone' ? tags(WAITING(), proposed('CT-17'), proposed('PL-09')) : s === 'stale' ? tags(chip('stale', 'Last known', 'clock')) : '';
+      const x = s === 'stale' ? tags(chip('stale', 'Last known', 'clock')) : '';
       return go('person', n, sub, `${x}${rv(n)}`);
     });
     return list([row('person', here, 'Active now', tags(chip('owner', 'This device'), here === 'iPhone' ? proposed('CT-17') : '')), ...rows].join(''));
@@ -6242,7 +6268,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     if (s === 'empty') return list((o.flat ? row : opens)('person', 'Google', 'Linked on proof of both · the only path', tags(chip('stale', 'Last path', 'alert')), 'warn'));
     const google = { partial: chip('stale', 'Unknown', 'clock'), error: chip('stale', 'Unavailable', 'clock') }[s] || healthy(ctx);
     return list([
-      row('lock', 'Passkey, iPhone', 'Last used today', `${note(IPHONE)}${tags(WAITING(), proposed('CT-17'), proposed('PL-09'))}`),
+      row('lock', 'Passkey, iPhone', 'Cannot be set up yet', `${note(IPHONE)}${tags(WAITING(), proposed('CT-17'), proposed('PL-09'))}`),
       row('lock', 'Passkey, Mac', macSub(ctx), tags(healthy(ctx))),
       (o.flat ? row : opens)('person', 'Google', 'Linked on proof of both', tags(google))
     ].join(''));
@@ -6313,8 +6339,9 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
   const enrolHere = (ctx, why = {}) => {
     if (ctx.kind === 'web') return card(`${head('Enrol a passkey on this Mac')}${note('A second passkey on a device you control. It is scoped to prod, and dev has its own user pool.')}${can(ctx, act('A48', 'Enrol a passkey', 'primary'), why)}${note(LINE)}${tags(proposed('CT-17'))}`);
-    if (ctx.kind === 'pwa') return card(`${head('Enrol from your Mac')}${note('Whether a browser passkey on a phone counts is not recorded, so enrolling is drawn on the Mac alone until you answer.')}${OPENQ()}`);
-    return card(`${head('Enrol from your Mac')}${note('Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser.')}${OPENQ()}`);
+    /* "Allowed in the browser" (ADM-04): the bar covers the Apple app only, so Phone web enrols, once MP-197's test proves it works */
+    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(UNV(), proposed('CT-17'))}`);
+    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(UNV(), proposed('CT-17'), proposed('PL-09'))}`);
   };
   const T_ENROL = {
     what: 'This passkey', rows: 2, loading: 'Waiting for your passkey.',
@@ -6333,19 +6360,26 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const sessionsNote = ctx => `${note(browser(ctx) ? 'This browser keeps the same five records as the Apple app, each with its age. How a browser protects saved records is unverified.' : 'The offline copy on this device is encrypted. Sign-out clears it.')}${note(`If this device is revoked: ${CLEARS} ${TIMEOUT}`)}${tags(chip('', 'Time-out not set · OWN-37', 'clock'))}`;
 
   /* ---------- lost a device: the same recovery from either door ---------- */
-  const RV = 'What a revoke does to a passkey held on that device is not recorded.';
-  const rvNote = () => `${note(RV)}${tags(proposed('CT-17'))}`;
+  const rvNote = () => `${note(RV)}${tags(UNV(), proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
-  const noEnd = ctx => `${note(`No record says how recovery ends on this device ${ctx.kind === 'pwa' ? 'until you answer whether a browser passkey counts' : 'until the Developer Program is bought (MP-179)'}. Enrolling is off here, so you stay on one path.`)}${OPENQ()}`;
+  /* "Finish in the phone browser" (ADM-15): with the Mac lost, the replacement goes in a phone's browser and you end on two paths. The iPhone app cannot hold one, so it sends you there. */
+  const fallbackLine = () => note('If the browser test fails, recovery ends after the revoke on one path, Google, and MP warns you until you reach a Mac.');
+  const phoneEnd = ctx => (ctx.kind === 'pwa'
+    ? st(3, '', 'Enrol a replacement passkey', 'In this browser, once the lost devices are revoked. You end on two paths: Google and this passkey.', `${act('A48', 'Enrol in this browser')}${tags(UNV())}${fallbackLine()}`)
+    : st(3, '', 'Finish in a phone\'s browser', `This app cannot hold a passkey until the Developer Program is bought (MP-179). Open MyPrediction in ${phoneBrowser(ctx)} and enrol the replacement there, so you end on two paths.`, `${tags(UNV())}${fallbackLine()}`));
+  /* the fallback the owner was offered, "End on one path, warned", drawn beside the browser step until MP-197 has run */
+  const fallbackCard = ctx => (ctx.kind === 'web' || ctx.state === 'loading' ? '' : card(`${head('If the browser test fails', UNV())}${list(row('person', 'Google', 'The one path left after the revoke', tags(chip('stale', 'Last path', 'alert')), 'warn'))}${note('Enrolling in a phone\'s browser is off, so recovery ends on one path and MP warns you until you reach a Mac.')}`));
   const lostSteps = ctx => {
     const s = ctx.state, g = gone(ctx);
     const revoke = can(ctx, act('A49', `Revoke ${g}`, 'primary'), NOEMAILBACK);
-    const replace = ctx.kind === 'web' ? can(ctx, act('A48', 'Enrol a replacement passkey'), NOEMAILBACK) : held('Enrol the replacement from your Mac. This device cannot hold one yet.');
-    const first = st(1, 'done', 'Sign in from another path', 'A fresh sign-in with Passkey, Mac or Google.');
+    const replace = ctx.kind === 'web' ? can(ctx, act('A48', 'Enrol a replacement passkey'), NOEMAILBACK)
+      : ctx.kind === 'pwa' ? `${can(ctx, act('A48', 'Enrol in this browser'), NOEMAILBACK)}${note('Or on your Mac.')}${tags(UNV())}`
+      : `${held(`Enrol the replacement on your Mac, or in ${phoneBrowser(ctx)}. This app cannot hold one until the Developer Program is bought (MP-179).`)}${tags(UNV())}`;
+    const first = st(1, 'done', 'Sign in from another path', ANY);
     if (s === 'partial') return [first, st(2, 'done', `Revoke ${g}`, 'Its sessions ended.', rvNote()), st(3, 'now', 'Enrol a replacement passkey', 'Not confirmed yet. Your old paths stay as they are until it is.', replace)];
     if (s === 'error') return [first, st(2, 'warn', `Revoke ${g}`, `This step stopped. ${g} is still signed in.`, `${act('A59', 'Resume this recovery', 'primary')}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'Waiting for step 2.')];
     if (s === 'empty') {
-      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd(ctx));
+      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : phoneEnd(ctx);
       return [st(1, 'done', 'Sign in with what is left', 'Google, with a fresh sign-in. It is the path that remains.'), st(2, 'now', 'Revoke what is lost', 'Ends their sessions and closes their live streams, in a time you approve.', `${lostTargets(ctx).map(n => act('A49', `Revoke ${n}`, 'primary')).join('')}${rvNote()}`), end];
     }
     return [first, st(2, 'now', `Revoke ${g}`, 'Ends its sessions and closes its live streams, in a time you approve.', `${revoke}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'On a device you control. Each step is on your audit trail.', replace)];
@@ -6357,10 +6391,10 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
   const lostBody = ctx => card(`${head('This recovery', lostChip(ctx))}${steps('Lost device recovery', lostSteps(ctx))}${note('If you stop before the end, your old paths stay as they are. It is resumed or cancelled, never half-applied.')}${lostTools(ctx)}${note(LINE)}`);
   /* the Mac holds the only passkey that counts today, so losing it has its own card wherever the Mac is not in your hand */
-  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd(ctx)}`));
+  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here. Revoking removes that passkey too, so you drop to one path, Google.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${note(ctx.kind === 'pwa' ? 'Then enrol the replacement in this browser, in the steps here, and you are back on two paths.' : `Then finish in ${phoneBrowser(ctx)}: enrol the replacement there, and you are back on two paths. This app cannot hold one until the Developer Program is bought (MP-179).`)}${tags(UNV())}`));
   const T_LOST = {
     what: 'This recovery', rows: 3, alone: ['denied'], loading: 'Waiting for your fresh sign-in.',
-    empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert')),
+    empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost here, then add the replacement in a phone\'s browser.', 'alert')),
     partial: banner('warn', 'Part of this recovery is done.', 'The lost device is revoked and the new passkey is not confirmed yet.', 'clock'),
     error: banner('fall', 'This recovery stopped midway.', 'Your old paths are intact and the new one is unconfirmed. Resume it or cancel it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked. Refresh before the next step.', 'clock'),
@@ -6370,7 +6404,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     denied: ''
   };
 
-  const lostRail = ctx => (ctx.state === 'denied' ? allLost() : `${macCard(ctx)}${allLost()}${card(`${head('On this device')}${sessionsNote(ctx)}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`);
+  const lostRail = ctx => (ctx.state === 'denied' ? allLost() : `${macCard(ctx)}${fallbackCard(ctx)}${allLost()}${card(`${head('On this device')}${sessionsNote(ctx)}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`);
 
   /* locked out is seen signed out: no records, no tabs, nothing to go back to */
   const lockedFrame = ctx => {
@@ -6389,7 +6423,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const offlineRow = (ctx, n) => ['Offline copy', ctx.state === 'conflict' ? 'Clears when it next connects · stops showing after the time-out' : ctx.state === 'error' ? 'Rebuilt from the server' : isApp(n) ? 'Encrypted · cached and aged' : 'Saved and aged · protection unverified'];
   const deviceCard = (ctx, ended) => {
     const n = gone(ctx);
-    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', n === 'iPhone' ? 'Not settled · MP-179' : isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'))}`);
+    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'))}`);
   };
   const sideBySide = ctx => {
     const n = gone(ctx), h = HERE[ctx.kind], side = (x, status) => kv([['Status', status], offlineRow(ctx, x), buildRow(ctx, x)]);
@@ -6399,7 +6433,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'This device', rows: 4, loading: 'Reading this device.',
     empty: banner('', 'Nothing else is signed in.', 'This is the last device that was. There is nothing to revoke today.', 'info'),
     partial: banner('warn', 'The app build is expiring soon.', 'The app warns before a build expires. Reinstalling from your Mac restores it, with the server as the source of truth.', 'clock'),
-    error: banner('fall', 'This revoke did not finish.', 'It failed at 21:14 and the device is still signed in. Try again.', 'alert'),
+    error: banner('fall', 'This revoke did not finish.', 'It failed at 21:16 and the device is still signed in. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked.', 'clock'),
     offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
     conflict: banner('warn', 'This device still shows as signed in on itself.', `The server has ended it. ${CLEARS}`, 'split'),
@@ -6410,23 +6444,23 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     what: 'Your devices', rows: 4, loading: 'Reading what is signed in now.',
     empty: banner('', 'Only this device is signed in.', 'There is nothing else to revoke. Check your ways back in, so losing it does not lock you out.', 'info'),
     partial: ctx => banner('warn', `${quiet(ctx)} did not report.`, 'Its last activity is unknown, which is not the same as idle.', 'clock'),
-    error: ctx => banner('fall', `${gone(ctx)} was not revoked.`, 'It failed at 21:14 and is still signed in. Try again.', 'alert'),
+    error: ctx => banner('fall', `${gone(ctx)} was not revoked.`, 'It failed at 21:16 and is still signed in. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked. This list refreshes when it can.', 'clock'),
     offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
     conflict: ctx => banner('', `${gone(ctx)} still shows as signed in on the device itself.`, `The server has ended it. ${CLEARS}`, 'split'),
     expired: ctx => (ctx.kind === 'ipad' ? banner('warn', 'Phone web needs you.', 'Its session expired, so it needs a new sign-in.', 'clock') : ctx.kind === 'pwa' ? banner('warn', 'The iPad needs you.', 'Its build expired, and reinstalling from your Mac restores it.', 'clock') : banner('warn', 'Two devices need you.', 'Phone web\'s session expired. The iPad build expired, and reinstalling from your Mac restores it.', 'clock')),
     denied: ctx => signNote('This list stays readable.')
   };
-  const revokeNote = ctx => (ctx.state === 'empty' ? '' : card(`${head('Revoking')}${note('Asks for a fresh sign-in, ends the device\'s sessions and closes its live streams, in a time you approve. Revoking needs no iPhone passkey.')}${WAIT[ctx.state] ? held(WAIT[ctx.state]) : ''}${note(LINE)}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`));
+  const revokeNote = ctx => (ctx.state === 'empty' ? '' : card(`${head('Revoking')}${note(`${ANY} It ends the device's sessions and closes its live streams, in a time you approve. Revoking needs no iPhone passkey.`)}${WAIT[ctx.state] ? held(WAIT[ctx.state]) : ''}${note(LINE)}${rvNote()}`));
   const devList = ctx => (ctx.state === 'empty' ? list(row('person', HERE[ctx.kind], 'Active now', tags(chip('owner', 'This device')))) : devRows(ctx));
-  const revokeTool = ctx => (ctx.state === 'empty' || ctx.state === 'conflict' ? '' : card(`${head('Revoke this device')}${note('Asks for a fresh sign-in, ends its sessions and closes its live streams, in a time you approve.')}${can(ctx, ctx.state === 'error' ? act('A49', 'Try again', 'primary') : act('A49', `Revoke ${gone(ctx)}`, 'primary'))}${note(LINE)}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`));
+  const revokeTool = ctx => (ctx.state === 'empty' || ctx.state === 'conflict' ? '' : card(`${head('Revoke this device')}${note(`${ANY} It ends its sessions and closes its live streams, in a time you approve.`)}${can(ctx, ctx.state === 'error' ? act('A49', 'Try again', 'primary') : act('A49', `Revoke ${gone(ctx)}`, 'primary'))}${note(LINE)}${rvNote()}`));
 
   /* ---------- the revoke sheet: a fresh sign-in, one exact device ---------- */
   const SHEET = {
     loading: ['Waiting for your fresh sign-in', 'Nothing has changed yet.'],
     empty: ['Nothing to revoke', 'Only this device is signed in.'],
     partial: ['Revoked, one thing left', `Its sessions ended. ${CLEARS}`],
-    error: ['This did not finish', 'It failed at 21:14 and the device is still signed in.'],
+    error: ['This did not finish', 'It failed at 21:16 and the device is still signed in.'],
     stale: ['Refresh first', 'This list is from 11:12, and the device may already be revoked.'],
     offline: ['You are offline', 'A fresh sign-in has to reach the server, so nothing can be revoked offline.'],
     conflict: ['Already ended', 'The server ended this device at 21:02. There is nothing left to revoke.'],
@@ -6436,9 +6470,9 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const revokeSheet = ctx => {
     const s = ctx.state, n = gone(ctx), mine = SHEET[s];
     const title = mine ? mine[0] : `Revoke ${n}`;
-    const facts = box(kv([['Device', n], ['Environment', 'Production'], ['Ends', 'Its sessions and refresh tokens'], ['Closes', 'Its live streams, in a time you approve'], ['Keeps', 'Your ledger, audit and every other device']]));
+    const facts = box(kv([['Device', n], ['Environment', 'Production'], ['Sign in with', 'Any healthy path, passkey or Google'], ['Ends', 'Its sessions and refresh tokens'], ['Closes', 'Its live streams, in a time you approve'], ['Removes', 'Any passkey held on it'], ['Keeps', 'Your ledger, audit and every other device']]));
     const go = s === 'default' ? act('A49', `Revoke ${n}`, 'primary') : s === 'error' ? act('A49', 'Try again', 'primary') : s === 'expired' || s === 'denied' ? btn('Sign in again', 'primary', 'lock') : '';
-    return `<div class="sheet" role="dialog" aria-modal="true" aria-label="${title}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4>${title}</h4><div class="aidentity-sheet">${note(mine ? mine[1] : 'You revoke exactly this device. Sign-out and revoke both clear its offline copy.')}${s === 'empty' || s === 'conflict' ? '' : `${facts}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`}${s === 'default' || s === 'error' ? note(LINE) : ''}${go}<button class="btn sm btn-plain" type="button">Not now</button></div></div>`;
+    return `<div class="sheet" role="dialog" aria-modal="true" aria-label="${title}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4>${title}</h4><div class="aidentity-sheet">${note(mine ? mine[1] : 'You revoke exactly this device. Sign-out and revoke both clear its offline copy.')}${s === 'empty' || s === 'conflict' ? '' : `${facts}${rvNote()}`}${s === 'default' || s === 'error' ? note(LINE) : ''}${go}<button class="btn sm btn-plain" type="button">Not now</button></div></div>`;
   };
 
   /* ---------- the second door, on each option ---------- */
@@ -6457,7 +6491,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       cost: 'What is signed in now sits one step down, so a lost device is a row to press, not the first thing on screen.',
       covers: { compare: 'a-path', decide: COVER_DECIDE, source: 'a-path', correct: 'a-lost', config: COVER_CONFIG, cost: COVER_COST, recover: 'a-lost' },
       screens: [{
-        id: 'a-paths', title: 'Ways back in', note: 'The iPhone passkey row is copied from the Privacy journey, labelled, and nothing depends on it.',
+        id: 'a-paths', title: 'Ways back in', note: 'The iPhone passkey row waits on the purchase (MP-179), as Privacy now draws it too ("Redraw Privacy now", ADM-13). Nothing depends on it.',
         render: ctx => frame(ctx, {
           title: 'Ways back in', back: 'Admin',
           body: view(ctx, T_PATHS, () => `${countCard(ctx)}${pathRows(ctx)}${list(`${opens('plus', 'Enrol a passkey', 'A second path you control')}${opens('person', 'Signed in now', `${ctx.state === 'empty' ? '1 device' : '4 devices'} · ${HERE[ctx.kind]} is this one`)}`)}`),
@@ -6478,21 +6512,21 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
           rail: `${card(`${head('What a link never does')}${note('A matching email never links or merges two identities. A link that fails midway leaves both unlinked, and the attempt is audited.')}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`
         })
       }, {
-        id: 'a-enrol', title: 'Enrol a passkey', note: 'Drawn as a control on the Mac only. iPhone and iPad say why not until the Developer Program is bought (MP-179), with CT-17 and PL-09 still open. Phone web says why not until you answer whether a browser passkey counts.',
+        id: 'a-enrol', title: 'Enrol a passkey', note: 'A control on the Mac and in a phone\'s browser. iPhone and iPad say why not until the Developer Program is bought (MP-179), with CT-17 and PL-09 still open. Phone web enrols in the browser, as you picked ("Allowed in the browser", ADM-04), unverified until MP-197.',
         render: ctx => frame(ctx, {
           title: 'Enrol a passkey', back: 'Ways back in',
           body: view(ctx, T_ENROL, () => enrolHere(ctx)),
           rail: `${card(`${head('Where this works')}${note('Trusted origins and passkey scope are not settled yet, per environment.')}${tags(proposed('CT-17'))}`)}${notPaths()}`
         })
       }, {
-        id: 'a-devices', title: 'Signed in now', note: 'One step down from your paths. Any device but the one in your hand can be revoked. Revoking needs no iPhone passkey.',
+        id: 'a-devices', title: 'Signed in now', note: 'One step down from your paths. Any device but the one in your hand can be revoked, with a fresh sign-in on any healthy path ("Any healthy path", ADM-03), and a revoke removes any passkey on it ("Revoke removes it too", ADM-02).',
         render: ctx => frame(ctx, {
           title: 'Signed in now', back: 'Ways back in',
           body: view(ctx, T_DEVS, () => `${ctx.state === 'empty' ? list(row('person', HERE[ctx.kind], 'Active now', tags(chip('owner', 'This device')))) : devRows(ctx, true)}${revokeNote(ctx)}`),
           rail: `${card(`${head('On this device')}${sessionsNote(ctx)}`)}${lostRow(ctx)}`
         })
       }, {
-        id: 'a-lost', title: 'Lost a device', note: 'Recovery never leans on the iPhone passkey: step 1 is your Mac passkey or Google. Empty draws the lost Mac. Privacy says a replacement lands on the new device; here it stays on the Mac until the Developer Program is bought (MP-179).',
+        id: 'a-lost', title: 'Lost a device', note: 'Recovery never leans on the iPhone passkey: step 1 is any healthy path, passkey or Google (ADM-03). The replacement goes on the Mac, as Privacy draws it (ADM-13). Empty draws the lost Mac: a phone finishes in its browser ("Finish in the phone browser", ADM-15), unverified until MP-197, with the one-path fallback beside it.',
         render: ctx => lostFrame(ctx) || frame(ctx, {
           title: 'Lost a device', back: 'Ways back in',
           body: view(ctx, T_LOST, () => lostBody(ctx)),
@@ -6505,7 +6539,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
       cost: 'How many ways back in you have is a row, not the headline, so running down to one path is easier to miss.',
       covers: { compare: 'b-device', decide: COVER_DECIDE, source: 'b-device', correct: 'b-lost', config: COVER_CONFIG, cost: COVER_COST, recover: 'b-lost' },
       screens: [{
-        id: 'b-devices', title: 'Signed in now', note: 'Any device but the one in your hand opens and can be revoked. Revoking needs no iPhone passkey.',
+        id: 'b-devices', title: 'Signed in now', note: 'Any device but the one in your hand opens and can be revoked, with a fresh sign-in on any healthy path (ADM-03). A revoke removes any passkey on it (ADM-02).',
         render: ctx => frame(ctx, {
           title: 'Signed in now', back: 'Admin',
           body: view(ctx, T_DEVS, () => `${devList(ctx)}${ctx.state === 'error' ? rvNote() : ''}${lostRow(ctx)}`),
@@ -6525,21 +6559,21 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
           body: ctx.state === 'empty' ? '' : deviceCard(ctx, ctx.state === 'partial'), rail: '', sheet: revokeSheet(ctx)
         })
       }, {
-        id: 'b-lost', title: 'Lost a device', note: 'The same recovery as Paths first, entered from the device. Empty draws the lost Mac. Privacy says a replacement lands on the new device; here it stays on the Mac until the Developer Program is bought (MP-179).',
+        id: 'b-lost', title: 'Lost a device', note: 'The same recovery as Paths first, entered from the device. The replacement goes on the Mac, as Privacy draws it (ADM-13). Empty draws the lost Mac: a phone finishes in its browser (ADM-15), unverified until MP-197, with the one-path fallback beside it.',
         render: ctx => lostFrame(ctx) || frame(ctx, {
           title: 'Lost a device', back: 'Signed in now',
           body: view(ctx, T_LOST, () => lostBody(ctx)),
           rail: lostRail(ctx)
         })
       }, {
-        id: 'b-paths', title: 'Ways back in', note: 'The iPhone passkey row is copied from the Privacy journey, labelled, and nothing depends on it.',
+        id: 'b-paths', title: 'Ways back in', note: 'The iPhone passkey row waits on the purchase (MP-179), as Privacy now draws it too ("Redraw Privacy now", ADM-13). Nothing depends on it.',
         render: ctx => frame(ctx, {
           title: 'Ways back in', back: 'Signed in now',
           body: view(ctx, T_PATHS, () => `${pathRows(ctx, { flat: true })}${ctx.state === 'empty' ? note('Google cannot be unlinked while it is your last path. Add another path first.') : card(`${head('Unlink Google')}${note('This leaves Passkey, Mac, and the iPhone row, which cannot count until the Developer Program is bought (MP-179). So you would be on one path, and MP warns you.')}${can(ctx, act('A47', 'Unlink Google'), PATHSHELD)}${note(LINE)}`)}`),
           rail: `${list(opens('plus', 'Add a path', 'Link Google, or enrol a passkey'))}${notPaths()}${allLost()}${NEVER()}`
         })
       }, {
-        id: 'b-add', title: 'Add a path', note: 'Link is reached after an unlink, because Ready has Google linked. Enrol is a control on the Mac only.',
+        id: 'b-add', title: 'Add a path', note: 'Link is reached after an unlink, because Ready has Google linked. Enrol is a control on the Mac and in a phone\'s browser (ADM-04), unverified until MP-197.',
         render: ctx => frame(ctx, {
           title: 'Add a path', back: 'Ways back in',
           body: view(ctx, T_LINK, () => `${linkSteps(ctx)}${enrolHere(ctx, NOEMAIL)}`),

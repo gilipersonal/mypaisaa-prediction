@@ -13,7 +13,8 @@ const onPhone = () => curKind === 'iphone' || curKind === 'pwa';
 function act(id, label, kind = 'tinted', icon = '') {
   const p = perm(id);
   if (p.step_up === 'outside') throw new Error(`${id} is not an MP control: say where it happens, and draw no button`);
-  if (onPhone() && p.phone !== 'live') return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone_note && /^Mac only/.test(p.phone_note) ? 'on your Mac' : 'on iPad or desktop'}</span></span>`;
+  /* browser: live in a phone's browser (Phone web) and off in the iPhone app, as the owner picked for enrolling a passkey (ADM-04, ADM-15) */
+  if (onPhone() && p.phone !== 'live' && !(p.phone === 'browser' && curKind === 'pwa')) return `<span class="aact" data-act="${id}" data-phone-off="1"><span class="small">${label}: ${p.phone === 'browser' ? 'in your phone\'s browser, or on your Mac' : p.phone_note && /^Mac only/.test(p.phone_note) ? 'on your Mac' : 'on iPad or desktop'}</span></span>`;
   const guard = p.step_up === 'yes' ? '<span class="small">Asks for a fresh sign-in</span>' : p.step_up === 'open' ? proposed('CT-01') : '';
   return `<span class="aact" data-act="${id}"><button class="btn btn-${kind}" type="button">${p.step_up === 'yes' ? ic('lock', 's18') : (icon ? ic(icon, 's18') : '')}${label}</button>${guard}</span>`;
 }
@@ -322,27 +323,27 @@ function show() {
 }
 const OPEN = [
     ['Does Claude usage show unknown until you decide on an Anthropic admin key? (MP40-Q5)', 'Costs shows the owner journey figures in Ready.'],
-  ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Not recorded. The screens say so.'],
-  ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Each page stays as drawn.'],
-  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Drawn as barred until you answer.'],
+  ['What does a revoke do to a passkey held on that device? (PH02-S02, CT-17)', 'Settled, 5 Nov 2026 ("Revoke removes it too", ADM-02): revoking a device also removes any passkey held on it, and your path count drops by one. Unverified: whether Cognito can remove one this way, and whether a synced copy ends too (MP-197).'],
+  ['Privacy revokes a device with a passkey, and Identity with a fresh sign-in. Which holds? (CT-01, CT-17)', 'Settled, 5 Nov 2026 ("Any healthy path", ADM-03): a fresh sign-in on any healthy path, passkey or Google, can revoke. Both pages draw it, and Privacy\'s button no longer names a passkey.'],
+  ['Does a browser passkey on a phone count as an on-device passkey under MP-164? (CT-17, PL-09)', 'Settled, 5 Nov 2026 ("Allowed in the browser", ADM-04): the bar covers the Apple app only, so Phone web can enrol a passkey. Unverified until MP-197 tests it; if it fails, the bar stands.'],
   ['How does production come to be recorded lost, and who records it? (CT-14)', 'Labelled proposed.'],
   ['Is a late price a missed collection, inside the replay allowlist? (CT-14)', 'Drawn as a condition, not a fact.'],
   ['What happens to Yahoo values already sent to Anthropic? No record decides it.', 'Not drawn. It needs its own record.'],
   ['Who withdraws a factor or a rules version? PH05-S04 and PH04-S05 name the outcome, not the actor.', 'No control is drawn. The screens say so.'],
   ['What does an owner decide when no rules mapping qualifies? (PH04-S06)', 'Drawn as a decision with no default.'],
-  ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'The clock is per market; each run row names its market.'],
-  ['The story fails at 21:14, before the +15 start at 21:15. (POLICY-002)', 'Drawn as a run due at 21:15 that failed at 21:14, as the owner journeys say.'],
+  ['Is a forecast run per market or portfolio-wide? (POLICY-002)', 'Per market, as PH03-S09 says (ADM-10). The clock is per market and each run row names its market, and the owner journeys now say the same (MP-186).'],
+  ['The story fails at 21:14, before the +15 start at 21:15. (POLICY-002)', 'Fixed (ADM-11, MP-186): the run is due 21:15 and Twelve Data fails at 21:16, here and in the owner journeys.'],
   ['Holdings says 6 originals are kept, and the receipts name 8.', 'Drawn as 8. The owner journeys stay as they are.'],
-  ['Privacy lands a replacement passkey on the new device, and its one path left is a passkey. Identity keeps the replacement on the Mac, and its one path left is Google.', 'Drawn as Identity says, while MP-164 holds.'],
+  ['Privacy lands a replacement passkey on the new device, and its one path left is a passkey. Identity keeps the replacement on the Mac, and its one path left is Google.', 'Settled, 5 Nov 2026 ("Redraw Privacy now", ADM-13): Privacy is redrawn to match Identity: two usable paths, the replacement on the Mac, and the iPhone row waiting on the purchase (MP-179).'],
   ['R1-LGB names LightGBM, and the records define R1 as ridge. Should the name change everywhere?', 'Kept, as the owner journeys use it.'],
-  ['With the Mac lost, how does recovery finish on a phone while MP-164 bars a passkey there? (CT-17)', 'Revoking and cancelling work on a phone. Enrolling a replacement is off.'],
+  ['With the Mac lost, how does recovery finish on a phone while MP-164 bars a passkey there? (CT-17)', 'Settled, 5 Nov 2026 ("Finish in the phone browser", ADM-15): you enrol the replacement in the phone\'s browser and end on two paths. The iPhone app sends you there. Unverified until MP-197; if it fails, recovery ends on one path, Google, warned, and that is drawn too.'],
   ['Who records which actor for an owner act? AuditEvidence has an admin actor, and MP has no admin role. (CT-03)', 'Drawn as You. The actor name is not an approved vocabulary.'],
   ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Every non-financial expiry is illustrative and labelled.'],
   ['Restart evidence has no open id. POLICY-003 says it still needs specifying.', 'Labelled Proposed · POLICY-003, as the owner journey does.'],
   ['Pause switches: only the POLICY-003 scope pause has a rule. Optional work and a feature have no contract or actor. (CT-14, CT-16)', 'Drawn as proposed.'],
   ['Who cancels a run, and who records what happens to an orphan file? (MP-109, MP-45)', 'No control cancels a run: the state shows, and the inventory lists no such act. An orphan is drawn as yours, labelled proposed.'],
   ['MP-162 shows the HSBC notice as dismissed, and admin holds inc_0012 as acknowledged. Are a notice and an incident two records?', 'Drawn as two records. No record says so.'],
-  ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'The clock screens follow POLICY-002. The owner wording stays on each run, word for word.'],
+  ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'Your daily window holds (ADM-22): the cutoff freezes at +60 and forecasts issue by +75, 22:00 and 22:15 for the US. The owner journeys now say the same, and each run keeps their words (MP-186). The window is still to be proven on real sources.'],
   ['Who marks an incident mitigated? (CT-14)', 'Labelled proposed, and drawn as a control for you to correct or remove.'],
   ['Does an overdue exercise have a threshold? (CT-14)', 'No number is shown.'],
   ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.']

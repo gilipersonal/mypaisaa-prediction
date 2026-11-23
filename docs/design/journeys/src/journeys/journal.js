@@ -41,8 +41,8 @@
   const sayBehind = () => banner('warn', 'Outcomes and rankings are behind.', 'Last joined 14:10. Your entries are complete; the newest scores may be missing. HSBC last priced 14:10, past the freshness limit, so its action holds at Pause until its price returns.', 'clock') + limit;
   const sayAbstain = () => banner('', 'The model abstains on AstraZeneca today.', 'No action is ranked. You can still record a decision against the evidence, and the entry says why none was. Your entry of 3 Mar stands.', 'ban');
   const sayNoModel = () => banner('', 'No approved model for new actions.', 'Your entries keep the model they cited, and outcomes are still scored by code. No action waits for you until one is approved.', 'cube');
-  const SAY_OFF = 'Showing your journal from 21:15. New entries stay as drafts until you reconnect.';
-  const sayLoadFailed = () => stateCard('alert', 'The journal did not load', 'The read failed at 21:14. These are your entries as of 21:05 today. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh'));
+  const SAY_OFF = 'Showing your journal from 22:15. New entries stay as drafts until you reconnect.';
+  const sayLoadFailed = () => stateCard('alert', 'The journal did not load', 'The read failed at 21:16. These are your entries as of 21:05 today. Nothing you saved is lost.', btn('Try again', 'tinted sm', 'refresh'));
   const status = d => ({
     wait: waiting(d.left),
     in: chipMark('<i class="lg-sc" aria-hidden="true"></i>', 'Scored'),
@@ -103,7 +103,7 @@
   };
   const recordBody = (ctx) => {
     const st = ctx.state, h = pickState(st);
-    if (st === 'loading') return actionCard(h, ctx).replace('Ranked action', 'Ranked action · last good 21:15');
+    if (st === 'loading') return actionCard(h, ctx).replace('Ranked action', 'Ranked action · last good 22:15');
     if (st === 'empty') return `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('sliders', 's18')}</span>No action label yet</div><p>The thresholds that turn a score into an action are not approved, so this shows its evidence and no label. A guessed action is worse than none. You can still record a decision against this evidence, and the entry says there was no label.</p>${components()}<p>Score 71 · growth 35%, protection 40%, opportunity 25%. Illustrative.</p></div>`;
     if (st === 'noModel') return held('No approved model', 'No approved model covers NVIDIA now, so no action is ranked. You can still record a decision against its price and the rules, and the entry says why no action was ranked. Your entries, today’s included, keep what they cited.', 'cube');
     if (st === 'abstention') return held('The model abstained on AstraZeneca', 'Too little comparable history for a calibrated range, so no action is ranked. You can still record a decision against the evidence shown, and the entry says why none was. With no 6-month forecast, it may never get an outcome.');
@@ -144,12 +144,12 @@
     <div style="margin-top:6px">${landed(o.then || then, o.out ?? 12.4, { w: ctx.kind === 'web' ? 460 : 326 })}</div>${legendNow()}<div style="margin-top:10px">${o.lines || scoreLines()}</div></div>`;
   /* the decision a state is about: Empty is one still waiting, Stale is the HSBC entry the list shows as unresolved, Abstaining is the AstraZeneca entry, recorded against a ranked action before the model abstained. Entries before 1 Oct 2026 cite the version approved then */
   const seen = st => st === 'empty'
-    ? { title: 'Apple · 12 May', on: '12 May', year: '12 May 2026', differ: false, act: 'Hold', rows: [['6-month median', '+5.4%'], ['80% range', '−8.9% to +19.7%']], model: 'R2-HGB v2', policy: 'Policy v1', cut: '12 May 21:00', said: 'I acted. Held all 88 units. Nothing in the range changed my view.' }
+    ? { title: 'Apple · 12 May', on: '12 May', year: '12 May 2026', differ: false, act: 'Hold', rows: [['6-month median', '+5.4%'], ['80% range', '−8.9% to +19.7%']], model: 'R2-HGB v2', policy: 'Policy v1', cut: '12 May 22:00', said: 'I acted. Held all 88 units. Nothing in the range changed my view.' }
     : st === 'stale'
-      ? { title: 'HSBC · 14 Apr', on: '14 Apr', year: '14 Apr 2026', differ: false, act: 'Pause', rows: [['6-month median', pct(thenHsba.med)], ['80% range', `${pct(thenHsba.lo)} to ${pct(thenHsba.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '14 Apr 21:00', said: 'I acted. Paused new money until the next statement.' }
+      ? { title: 'HSBC · 14 Apr', on: '14 Apr', year: '14 Apr 2026', differ: false, act: 'Pause', rows: [['6-month median', pct(thenHsba.med)], ['80% range', `${pct(thenHsba.lo)} to ${pct(thenHsba.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '14 Apr 17:35', said: 'I acted. Paused new money until the next statement.' }
       : st === 'abstention'
-      ? { title: 'AstraZeneca · 3 Mar', on: '3 Mar', year: '3 Mar 2026', differ: true, act: 'Hold', rows: [['6-month median', pct(thenAzn.med)], ['80% range', `${pct(thenAzn.lo)} to ${pct(thenAzn.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '3 Mar 21:00', said: 'I acted. Added 5 units. I wanted more of it before results.' }
-      : { title: 'NVIDIA · 28 Apr', on: '28 Apr', year: '28 Apr 2026', differ: true, act: 'Trim', rows: [['6-month median', pct(then.med)], ['80% range', `${pct(then.lo)} to ${pct(then.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '28 Apr 21:00', said: `I chose not to. Kept all 60 units. ${whyText}` };
+      ? { title: 'AstraZeneca · 3 Mar', on: '3 Mar', year: '3 Mar 2026', differ: true, act: 'Hold', rows: [['6-month median', pct(thenAzn.med)], ['80% range', `${pct(thenAzn.lo)} to ${pct(thenAzn.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '3 Mar 17:35', said: 'I acted. Added 5 units. I wanted more of it before results.' }
+      : { title: 'NVIDIA · 28 Apr', on: '28 Apr', year: '28 Apr 2026', differ: true, act: 'Trim', rows: [['6-month median', pct(then.med)], ['80% range', `${pct(then.lo)} to ${pct(then.hi)}`]], model: 'R2-HGB v2', policy: 'Policy v1', cut: '28 Apr 22:00', said: `I chose not to. Kept all 60 units. ${whyText}` };
   const kvs = s => `<div class="journal-kv">${s.rows.map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join('')}<span>Model</span><b>${s.model}</b><span>Ranking policy</span><b>${s.policy}</b><span>Data cutoff</span><b>${s.cut}</b></div>`;
   const frozen = s => `<div class="card state" data-mo="card"><div class="journal-bar"><div class="w"><b>What you saw on ${s.on}</b>Frozen. It never changes.</div>${chipMark(ic('lock', 's14'), 'Exact')}</div>${s.act ? `<div class="journal-bar">${badge(s.act)}${support}</div>` : ''}${kvs(s)}</div>`;
   /* the proof beside a past entry is today's model, not the version that entry cites, and it is not drawn at all when no model is approved */
@@ -167,9 +167,9 @@
       ok: () => outcomeCard(ctx),
       loading: () => stateCard('clock', 'Joining the outcome', 'Your entry and what you saw are safe. The outcome is being joined to them.') + skel(1),
       empty: () => pendingOutcome(),
-      error: () => stateCard('alert', 'The score did not arrive', 'The scoring job failed at 21:14. It reruns by itself and cannot write twice. Your entry is safe.', btn('Check again', 'tinted sm', 'refresh')),
+      error: () => stateCard('alert', 'The score did not arrive', 'The scoring job failed at 21:16. It reruns by itself and cannot write twice. Your entry is safe.', btn('Check again', 'tinted sm', 'refresh')),
       stale: () => stateCard('clock', 'Horizon passed 14 Oct, one input missing', 'A dividend is disputed, so this outcome is not known yet. A missing input is never scored as a zero return. It moves the date the outcome becomes known, not the horizon.', '', status(D.hsba)),
-      offline: () => off(ctx, 'Showing this entry and its score from 21:15.') + outcomeCard(ctx),
+      offline: () => off(ctx, 'Showing this entry and its score from 22:15.') + outcomeCard(ctx),
       noModel: () => banner('', 'No model is approved now.', 'The score stands against the version you saw. Later models never rewrite it.', 'cube') + outcomeCard(ctx),
       disagreement: () => outcomeCard(ctx, { t: 'Amended on 30 Oct 2026', s: 'A corrected close replaced the first one', c: 'Inside its range', out: 11.9, lines: `<div class="journal-kv"><span>First outcome</span><b>+12.4%, kept</b><span>Corrected outcome</span><b>+11.9%, current</b><span>Error against the median</span><b>4.1 points</b></div>` }),
       abstention: () => banner('', 'The model abstains on AstraZeneca today.', 'This entry was recorded against a ranked action on 3 Mar, so it and its outcome stand. A new entry today records the evidence and why no action was ranked. With no forecast at 6 months, it may never get an outcome.', 'ban') + outcomeCard(ctx, { t: 'Scored on 3 Sep 2026', then: thenAzn, out: -11.6, mark: 'lg-miss', c: 'Outside its range', lines: `<div class="journal-kv"><span>80% range</span><b>Missed</b><span>Direction</span><b>Against the forecast</b><span>Error against the median</span><b>14.0 points</b></div>` })
@@ -221,9 +221,9 @@
             ok: open,
             loading: () => skel(2),
             empty: () => banner('', 'No action label yet.', 'The thresholds are not approved, so no action is ranked. You can still record a decision against the evidence, and the entry says why none was.', 'sliders') + open(),
-            error: () => stateCard('alert', 'Ranked actions did not load', 'The read failed at 21:14. Your saved entries are safe.', btn('Try again', 'tinted sm', 'refresh')),
+            error: () => stateCard('alert', 'Ranked actions did not load', 'The read failed at 21:16. Your saved entries are safe.', btn('Try again', 'tinted sm', 'refresh')),
             stale: () => banner('warn', 'HSBC is stale.', 'Its last price, 14:10, is past the freshness limit. Its action holds at Pause until its price returns, so it is not listed.', 'clock') + limit + open(),
-            offline: () => off(ctx, 'Showing ranked actions from 21:15. New entries stay as drafts until you reconnect.') + open(),
+            offline: () => off(ctx, 'Showing ranked actions from 22:15. New entries stay as drafts until you reconnect.') + open(),
             noModel: () => banner('', 'No approved model.', 'No action is ranked. You can still record a decision against the evidence, and the entry says why none was.', 'cube') + open(),
             disagreement: () => banner('', 'Rules and models differ on Reliance.', 'Both show on its row, at 3, 6 and 12 months, and no action is ranked. It stays open to record.', 'split') + open(),
             abstention: () => banner('', 'The model abstained on AstraZeneca.', 'It has no ranked action. It is listed, so you can record against the evidence, and the entry says why none was.', 'ban') + open()
@@ -263,9 +263,9 @@
             ok: () => counts() + list(),
             loading: () => tally() + skel(3),
             empty: () => stateCard('check', 'You have followed every ranked action', 'There is nothing to compare yet. If you decide differently, it appears here with what happened.'),
-            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + counts() + list(),
+            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:16. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + counts() + list(),
             stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + counts() + list(),
-            offline: () => off(ctx, 'Showing this comparison from 21:15.') + counts() + list(),
+            offline: () => off(ctx, 'Showing this comparison from 22:15.') + counts() + list(),
             disagreement: () => sayAmended() + sayLeftOut() + counts() + list(),
             abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 7 decisions have scored. Any rate would mislead, so none shows until more horizons pass.') + tally() + list()
           });
@@ -330,9 +330,9 @@
             ok: () => table(),
             loading: () => skel(3),
             empty: () => stateCard('check', 'No differences yet', 'You have followed every ranked action so far, so there is nothing to compare.'),
-            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:14. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + table(),
+            error: () => stateCard('alert', 'This comparison did not load', 'The read failed at 21:16. These are your entries as of 21:05 today, and they are safe.', btn('Try again', 'tinted sm', 'refresh')) + table(),
             stale: () => banner('warn', 'Outcomes are behind.', SAY_THIN, 'clock') + table(),
-            offline: () => off(ctx, 'Showing this comparison from 21:15.') + table(),
+            offline: () => off(ctx, 'Showing this comparison from 22:15.') + table(),
             disagreement: () => sayAmended() + sayLeftOut() + table(),
             abstention: () => stateCard('ban', 'Too few to compare', 'Only 3 of your 7 decisions have scored. Any rate would mislead, so none shows until more horizons pass.') + table()
           });

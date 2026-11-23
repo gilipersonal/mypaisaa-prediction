@@ -18,13 +18,15 @@
   const box = (inner, st = '') => `<div class="card fcard" data-mo="card" style="${st}">${inner}</div>`;
   const lbl = t => `<div class="label">${t}</div>`;
   const pad = ctx => (wide(ctx) ? '' : '<div style="height:64px" aria-hidden="true"></div>');
-  /* the sidebar has a sixth item, Data sources, so Settings is 5 there and 4 on the tab bar */
-  const SET = ctx => (wide(ctx) ? 5 : 4);
+  /* Settings is tab 4; the shell puts it last in the sidebar */
+  const SET = () => 4;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
   /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
   const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* a proposal's state is not about market data, so the price chips stay as they are. The queue, its Home flip and the notices pass fresh: undefined, so both sides follow the state */
-  const fr = (ctx, spec) => frame(ctx, { fresh: 'default', ...spec, body: (spec.noKept ? '' : kept(ctx)) + (spec.body || '') });
+  /* option A's queue and every screen it opens are Approvals' own place in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02).
+     B decides each thing where it lives, so its screens light the place they sit in. */
+  const fr = (ctx, spec) => frame(ctx, { fresh: 'default', ...(ctx.option === 'a' ? placed(ctx, 'approvals', spec, 'Settings') : spec), body: (spec.noKept ? '' : kept(ctx)) + (spec.body || '') });
 
   /* ---------- Claude's component and the marks of who did what ---------- */
   const mark = (cls = '') => `<span class="cl-mark${cls}" aria-hidden="true"><i></i><i></i><i></i></span>`;
@@ -198,7 +200,7 @@
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:14. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:14, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
-  const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Tonight 21:15', 'First forecasts from v4, labelled with their version', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
+  const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Each market\'s next run', 'First forecasts from v4, labelled with their version. Each market runs after its own close', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
   const safeBox = t => box(`${lbl('Why this is safe')}<p class="small muted" style="margin-top:4px">${t}</p>`);
   const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : ctx.state === 'noModel' ? NEXT() + safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
@@ -216,9 +218,9 @@
   const recCore = ctx => region(ctx, {
     what: 'The record', rows: 5, ok: () => recFilter() + recRows(ctx),
     empty: () => stateCard('target', 'No decisions yet', 'Every approval, refusal, expiry and automatic revert lands here, with who made it and the evidence it was bound to.'),
-    error: () => stateCard('alert', 'The record did not load', 'It failed at 21:14. Nothing in it can change or be lost: records are only ever added to.', bs('Try again', 'tinted', 'refresh')) + recFilter() + recRows(ctx, REC.slice(0, 3)),
+    error: () => stateCard('alert', 'The record did not load', 'It failed at 21:16. Nothing in it can change or be lost: records are only ever added to.', bs('Try again', 'tinted', 'refresh')) + recFilter() + recRows(ctx, REC.slice(0, 3)),
     stale: () => banner('warn', 'Showing the record from 14:10.', 'Newer decisions are safe on the server and appear once it refreshes.', 'clock') + recFilter() + recRows(ctx),
-    offline: () => banner('', 'Offline.', 'Showing the record saved at 21:15. A rollback waits until you reconnect.', 'wifi-off') + recFilter() + recRows(ctx)
+    offline: () => banner('', 'Offline.', 'Showing the record saved at 22:15. A rollback waits until you reconnect.', 'wifi-off') + recFilter() + recRows(ctx)
   });
   const recDetail = ctx => {
     if (ctx.state === 'empty') return '';
@@ -285,7 +287,7 @@
       what: 'This proposal', rows: 3, ok: () => fwdHead() + trail + whyBack() + changeCard(FWD_ROWS),
       loading: () => fwdHead(`<span class="chip"><span class="spin" aria-hidden="true"></span>Loading</span>`) + box(`${lbl('Reading the stored scores')}<span class="sk" style="height:60px;margin-top:10px"></span>`),
       empty: () => stateCard('check', 'Nothing to restart', 'No scope is paused, and no reverted model waits for you. A revert or a pause lands here with its reason.'),
-      error: () => fwdHead(`<span class="chip error">Not loaded</span>`) + stateCard('alert', 'The scores did not load', 'They failed at 21:14. Nothing can be approved until they load, and v1 stays active.', bs('Try again', 'tinted', 'refresh')),
+      error: () => fwdHead(`<span class="chip error">Not loaded</span>`) + stateCard('alert', 'The scores did not load', 'They failed at 21:16. Nothing can be approved until they load, and v1 stays active.', bs('Try again', 'tinted', 'refresh')),
       stale: () => banner('warn', 'Showing scores from 14:10.', 'A newer scored week may exist. This proposal rechecks itself before you can approve it.', 'clock') + fwdHead() + whyBack() + changeCard(FWD_ROWS, 'What this proposes'),
       offline: () => banner('', 'Offline.', 'You can read the scores. Approving needs a connection and a fresh sign-in.', 'wifi-off') + fwdHead() + trail + whyBack() + changeCard(FWD_ROWS),
       noModel: () => banner('fall', 'A forecast scope is paused.', 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes, and nothing restarts itself.', 'cube') + pauseHead() + chain('Code paused', 'Code checked', 'You decide') + changeCard(RESTART_ROWS) + `<div>${RESTARTS}</div>`,
@@ -368,9 +370,9 @@
     what: 'Notices', rows: 3, ok: () => notices(ctx),
     loading: () => sec('Notices', '<span class="small muted">Checking for new notices</span>') + skel(3),
     empty: () => stateCard('check', 'No notices yet', 'Silence is not a sign that nothing is wrong: check your forecasts and data status.'),
-    error: () => banner('fall', 'Notices did not load.', 'They failed at 21:14. Nothing is lost: every notice stays on the server.', 'alert') + `<div>${bs('Try again', 'tinted', 'refresh')}</div>`,
+    error: () => banner('fall', 'Notices did not load.', 'They failed at 21:16. Nothing is lost: every notice stays on the server.', 'alert') + `<div>${bs('Try again', 'tinted', 'refresh')}</div>`,
     stale: () => banner('warn', 'From 14:10.', 'Newer notices appear once this refreshes.', 'clock') + notices(ctx),
-    offline: () => banner('', 'Offline.', 'Notices saved at 21:15. Each rebuilds from the server when you reconnect.', 'wifi-off') + notices(ctx),
+    offline: () => banner('', 'Offline.', 'Notices saved at 22:15. Each rebuilds from the server when you reconnect.', 'wifi-off') + notices(ctx),
     noModel: () => notices(ctx),
     disagreement: () => banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split') + notices(ctx, { read: true }),
     abstention: () => banner('', '1 notice held.', 'Quiet hours are 22:00 to 07:00. It arrives with the 07:30 brief, and it is already in this inbox.', 'clock') + notices(ctx)
@@ -385,7 +387,7 @@
   const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true));
   const inboxBody = ctx => region(ctx, {
     what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + restartRow() + closed() + liveNote(),
-    loading: () => `<div class="card fcard" data-mo="card"><span class="label">Last good 21:15 · expiry times come from the server</span><span class="sk" style="height:44px;width:60%;margin-top:10px"></span></div>` + skel(4),
+    loading: () => `<div class="card fcard" data-mo="card"><span class="label">Last good 22:15 · expiry times come from the server</span><span class="sk" style="height:44px;width:60%;margin-top:10px"></span></div>` + skel(4),
     empty: () => stateCard('check', 'Nothing waits on you', 'Claude and code have no open proposals. This says nothing about risk: risk alerts arrive on their own.', bs('See the record')) + liveRow(),
     error: () => stateCard('alert', 'This list did not load', 'Nothing can be approved until it does. Open proposals keep their expiry on the server, and nothing is lost.', bs('Try again', 'tinted', 'refresh')),
     stale: () => banner('warn', 'Showing this list from 14:10.', `Expiry times may have passed. ${STALE_TEXT}`, 'clock') + queueHero() + queue(ctx) + restartRow(),
@@ -401,14 +403,14 @@
 
   /* ---------- Option B: where each thing lives ---------- */
   const strip = (ctx, st = ctx.state) => {
-    const one = { default: ['4 decisions wait on you', 'Next: Taiwan Semiconductor, 18:00'], loading: ['Checking what waits on you', 'Last good 21:15'], error: ['Could not check what waits', 'Open proposals keep their expiry'], stale: ['4 decisions wait on you', 'From 14:10 · each rechecks itself when opened'], offline: ['4 decisions wait on you', 'Reading only: approving needs a connection'], noModel: ['5 decisions wait on you', 'One is a paused scope: restarting US tech, 12 months'], disagreement: ['4 decisions wait on you', '2 overlap: approving one sends the other back to its check'], abstention: ['5 decisions wait on you', 'One is not yet checked: Barclays cannot be confirmed yet'] }[st];
+    const one = { default: ['4 decisions wait on you', 'Next: Taiwan Semiconductor, 18:00'], loading: ['Checking what waits on you', 'Last good 22:15'], error: ['Could not check what waits', 'Open proposals keep their expiry'], stale: ['4 decisions wait on you', 'From 14:10 · each rechecks itself when opened'], offline: ['4 decisions wait on you', 'Reading only: approving needs a connection'], noModel: ['5 decisions wait on you', 'One is a paused scope: restarting US tech, 12 months'], disagreement: ['4 decisions wait on you', '2 overlap: approving one sends the other back to its check'], abstention: ['5 decisions wait on you', 'One is not yet checked: Barclays cannot be confirmed yet'] }[st];
     if (st === 'empty') return '';
     return `<div style="display:flex;align-items:center;gap:10px;min-height:48px;padding:2px 4px;cursor:pointer" role="button" tabindex="0" aria-label="${one[0]}. ${one[1]}">${lead(st === 'noModel' ? 'pause' : st === 'error' ? 'alert' : 'person', st === 'noModel' ? 'warn' : st === 'error' ? 'fall' : '')}<div style="flex:1;min-width:0"><div style="font:600 15px/20px var(--font-text);letter-spacing:-.01em;color:var(--ink)">${one[0]}</div><div class="small" style="color:var(--ink)">${one[1]}</div></div>${ic('chev-r', 's18')}</div>${st === 'default' ? `<div style="padding:0 4px 2px 54px">${Q9}</div>` : ''}`;
   };
   const stripCard = ctx => (ctx.state === 'empty' ? '' : `<div class="card" style="padding:6px 8px" data-mo="card">${strip(ctx)}</div>`);
   const vc = ctx => {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
-    if (ctx.state === 'error') return v.replace('As of 21:15 London · data cutoff 21:00', 'Last good run Mon 21:15 · cutoff 21:00');
+    if (ctx.state === 'error') return v.replace(ASOF_ALL, LASTGOOD_ALL);
     if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, '<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span></div>').replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
     return v;
   };
@@ -416,9 +418,9 @@
     what: 'Holdings', rows: 3, ok: () => vc(ctx) + restartRow() + list0(ctx),
     loading: () => vc(ctx) + skel(3),
     empty: () => vc(ctx) + banner('', 'Nothing waits on you.', 'A strip appears here the moment a proposal needs your decision.', 'check') + liveRow() + list0(ctx),
-    error: () => banner('fall', 'Proposals did not load.', 'Nothing can be approved until they do. Twelve Data failed at 21:14, so your holdings show the last good run.', 'alert') + vc(ctx) + list0(ctx),
+    error: () => banner('fall', 'Proposals did not load.', 'Nothing can be approved until they do. Twelve Data failed at 21:16, so your US holdings show Monday\'s run. The UK and India ran today.', 'alert') + vc(ctx) + list0(ctx),
     stale: () => banner('warn', 'Stale.', `Proposals last updated 14:10. ${STALE_TEXT}`, 'clock') + vc(ctx) + restartRow() + list0(ctx),
-    offline: () => banner('', 'Offline.', 'Showing figures from 21:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + restartRow() + list0(ctx),
+    offline: () => banner('', 'Offline.', 'Showing figures from 22:15. Approving waits until you reconnect.', 'wifi-off') + vc(ctx) + restartRow() + list0(ctx),
     noModel: () => banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') + vc(ctx) + list0(ctx),
     disagreement: () => banner('', ...OVERLAP, 'split') + vc(ctx) + restartRow() + list0(ctx),
     abstention: () => banner('', ...UNCHECKED, 'ban') + vc(ctx) + restartRow() + list0(ctx)
@@ -453,9 +455,9 @@
     return region(ctx, {
       what: 'This history', rows: 4, ok: () => rows(),
       empty: () => stateCard('clock', 'No history yet', 'Each thing keeps its own history here, from the first proposal to the last change.'),
-      error: () => stateCard('alert', 'History did not load', 'It failed at 21:14. Nothing in it can change or be lost.', bs('Try again', 'tinted', 'refresh')) + rows(HIST.slice(0, 1)),
+      error: () => stateCard('alert', 'History did not load', 'It failed at 21:16. Nothing in it can change or be lost.', bs('Try again', 'tinted', 'refresh')) + rows(HIST.slice(0, 1)),
       stale: () => banner('warn', 'Showing history from 14:10.', 'Newer entries appear once it refreshes.', 'clock') + rows(),
-      offline: () => banner('', 'Offline.', 'Showing history saved at 21:15.', 'wifi-off') + rows()
+      offline: () => banner('', 'Offline.', 'Showing history saved at 22:15.', 'wifi-off') + rows()
     });
   };
   const histRail = () => box(`${lbl('Where the full record is')}<p class="small muted" style="margin-top:4px">Each listing, model and setting keeps its history where it lives. The full audit sits in the admin area, for search across all of them.</p>`);
@@ -546,7 +548,7 @@
       cost: 'Proposals are spread across the app, so one can sit unseen behind the strip. Each place needs its own care for expiry and step-up, and there is no one list to scan.',
       screens: [{
         id: 'ab-home', title: 'What waits', note: 'A strip above the dock, in reach. It shows one next decision, never a list. Notices has its own control on every device. Empty shows an approved import you can still revoke.',
-        render: ctx => fr(ctx, { fresh: undefined, tab: 0, title: 'Portfolio', actions: tb('alert', 'Notices') + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: tb('alert', 'Notices'), body: homeBody(ctx) + (wide(ctx) ? '' : noticeLink(ctx)) + pad(ctx), rail: wide(ctx) ? homeRail(ctx) : '', accessory: wide(ctx) ? '' : strip(ctx) })
+        render: ctx => fr(ctx, { fresh: undefined, tab: 0, title: 'Portfolio', actions: costPillOf(ctx) + tb('alert', 'Notices') + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: costPillOf(ctx) + tb('alert', 'Notices'), body: homeBody(ctx) + (wide(ctx) ? '' : noticeLink(ctx)) + pad(ctx), rail: wide(ctx) ? homeRail(ctx) : '', accessory: wide(ctx) ? '' : strip(ctx) })
       }, {
         id: 'ab-notices', title: 'Notices', note: 'The inbox, in the order code detected each notice. No model shows a paused scope, which notifies you. Disagreement shows a read-state conflict resolving to read.',
         render: ctx => fr(ctx, { fresh: undefined, tab: 0, back: 'Portfolio', title: 'Notices', body: (ctx.state === 'noModel' ? banner('fall', 'A forecast scope is paused.', PAUSE_TEXT, 'cube') : '') + noticeBody(ctx) })

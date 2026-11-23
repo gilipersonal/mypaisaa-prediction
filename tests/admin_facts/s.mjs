@@ -14,13 +14,17 @@ const REPLAY = [['a', 'a-replay'], ['b', 'b-replay']], SWITCH = [['a', 'a-recove
 
 export default {
   'R1-s1': ({ view, each, must, has, lacks }) => {
-    each({ journey: 'identity', surface: PHONES }, (v, at) => must(!live(v.html, 'A48'), `A48 is live on a phone at ${JSON.stringify(at)}`));
+    // narrowed in MP-188: enrolling is live in a phone's browser ("Allowed in the browser", ADM-04; "Finish in the phone browser", ADM-15), so A48 stays off in the iPhone app only
+    each({ journey: 'identity', surface: 'iphone' }, (v, at) => must(!live(v.html, 'A48'), `A48 is live on a phone at ${JSON.stringify(at)}`));
     for (const [o, s] of LOST) for (const kind of PHONES) {
       const e = view('identity', o, s, kind, 'empty');
       for (const id of ['A49', 'A50', 'A59']) must(live(e.html, id), `${id} is not live on ${kind} in ${s} empty`);
       has(e.text, /Your Mac is lost/);
       has(e.text, /Revoke Mac, Safari/);
-      has(e.text, /No record says how recovery ends/);
+      // narrowed in MP-188: a phone's recovery now says how it ends, in a phone's browser on two paths, with the one-path fallback beside it (ADM-15)
+      has(e.text, /you end on two paths/i);
+      has(e.text, /If the browser test fails/);
+      lacks(e.text, /No record says how recovery ends/);
       has(e.text, /Proposed · CT-17/);
       must(live(view('identity', o, s, kind, 'error').html, 'A59'), `${s} error has no live resume on ${kind}`);
     }
@@ -81,7 +85,7 @@ export default {
   },
   'R1-s10': ({ view, each, has, lacks }) => {
     each({ journey: 'incidents', state: 'error' }, (v) => lacks(v.text, /Started\s*Tue 21:15/));
-    has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Failed at 21:14/);
+    has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Failed at 21:16/);   // narrowed in MP-186: Twelve Data fails at 21:16, after the US run starts at 21:15 (ADM-11)
     has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Due\s*Tue 21:15/);
   },
   'R1-s11': ({ must }) => {
@@ -111,7 +115,9 @@ export default {
       must(/Waiting on MP-179/.test(row) && !/Healthy/.test(row), 'the iPhone row still reads healthy');
       lacks(view('identity', 'b', 'b-devices', kind, 'default').text, /3 healthy/);
     }
-    has(view('identity', 'a', 'a-lost', 'iphone', 'default').note, /Privacy says a replacement lands on the new device/);
+    // narrowed in MP-188: Privacy is redrawn to match ("Redraw Privacy now", ADM-13), so the note no longer says the two differ
+    has(view('identity', 'a', 'a-lost', 'iphone', 'default').note, /The replacement goes on the Mac, as Privacy draws it \(ADM-13\)/);
+    lacks(view('identity', 'a', 'a-lost', 'iphone', 'default').note, /Privacy says a replacement lands on the new device/);
   },
   'R2-s1': ({ view, each, must, lacks }) => {
     const says = (v) => /Revoke iPhone/.test(v.text) && live(v.html, 'A49');
@@ -153,7 +159,10 @@ export default {
     has(view('identity', 'a', 'a-path', 'web', 'default').text, /until the Developer Program is bought \(MP-179\)/);
     has(view('identity', 'a', 'a-paths', 'web', 'default').text, /until the Developer Program is bought \(MP-179\)/);
     has(view('identity', 'a', 'a-enrol', 'iphone', 'default').text, /until the Developer Program is bought \(MP-179\)/);
-    has(view('identity', 'a', 'a-enrol', 'pwa', 'default').text, /until you answer/);
+    // narrowed in MP-188: the owner answered ("Allowed in the browser", ADM-04), so Phone web enrols in the browser, unverified until MP-197
+    has(view('identity', 'a', 'a-enrol', 'pwa', 'default').text, /Enrol a passkey in this browser/);
+    has(view('identity', 'a', 'a-enrol', 'pwa', 'default').text, /Unverified · MP-197/);
+    each({ journey: 'identity' }, (v) => lacks(`${v.text} ${v.note}`, /until you answer/));
   },
   'R2-s10': ({ view, must, has }) => {
     for (const [o, s] of [['a', 'a-link'], ['b', 'b-add']]) {
@@ -177,8 +186,10 @@ export default {
   },
   'R3-s1': ({ view, each, must, has, lacks }) => {
     each({ journey: 'identity' }, (v) => lacks(`${v.text} ${v.note}`, /touches no passkey/));
-    const LINE = /What a revoke does to a passkey held on that device is not recorded\./;
-    for (const kind of ALL) { const t = view('identity', 'a', 'a-devices', kind, 'default').text; has(t, LINE); has(t, /Proposed · CT-17/); }
+    // narrowed in MP-188: the owner picked "Revoke removes it too" (ADM-02), so the note on each screen is replaced by what a revoke does, unverified until MP-197
+    const LINE = /Revoking also removes any passkey held on that device\./;
+    each({ journey: 'identity' }, (v) => lacks(v.text, /What a revoke does to a passkey held on that device is not recorded/));
+    for (const kind of ALL) { const t = view('identity', 'a', 'a-devices', kind, 'default').text; has(t, LINE); has(t, /Proposed · CT-17/); has(t, /Unverified · MP-197/); }
     for (const kind of ['iphone', 'ipad', 'pwa']) has(view('identity', 'a', 'a-lost', kind, 'default').text, LINE);
     has(view('identity', 'b', 'b-revoke', 'web', 'default').text, LINE);
     has(view('identity', 'b', 'b-device', 'web', 'default').text, LINE);
@@ -229,12 +240,14 @@ export default {
     has(view('identity', 'a', 'a-lost', 'ipad', 'default').text, /Revoke iPhone/);
   },
   'R3-s12': ({ view, must }) => {
-    for (const [o, s] of [['a', 'a-devices'], ['b', 'b-devices']]) for (const kind of ['ipad', 'web', 'pwa']) { const t = view('identity', o, s, kind, 'default').text; const row = t.slice(t.indexOf('iPhone Active'), t.indexOf('iPhone Active') + 140); must(/Waiting on MP-179/.test(row), `the iPhone row on ${s} ${kind} has no MP-179 label`); }
+    // narrowed in MP-188: the iPhone app signs in with Google, as Privacy now draws it ("Redraw Privacy now", ADM-13), so its row claims no passkey; one that does still needs the MP-179 label
+    for (const [o, s] of [['a', 'a-devices'], ['b', 'b-devices']]) for (const kind of ['ipad', 'web', 'pwa']) { const t = view('identity', o, s, kind, 'default').text; must(t.includes('iPhone Active'), `no iPhone row on ${s} ${kind}`); const row = t.slice(t.indexOf('iPhone Active'), t.indexOf('iPhone Active') + 140); must(/Waiting on MP-179/.test(row) || !/Active 40 min ago · Passkey/.test(row), `the iPhone row on ${s} ${kind} claims a passkey with no MP-179 label`); must(/Active 40 min ago · Google/.test(row), `the iPhone row on ${s} ${kind} does not say Google`); }
   },
   'R3-s15': ({ view, has }) => {
     const n = view('identity', 'a', 'a-enrol', 'web', 'default').note;
     has(n, /iPhone and iPad say why not until the Developer Program is bought \(MP-179\), with CT-17 and PL-09 still open/);
-    has(n, /until you answer whether a browser passkey counts/);
+    // narrowed in MP-188: answered ("Allowed in the browser", ADM-04)
+    has(n, /Phone web enrols in the browser, as you picked \("Allowed in the browser", ADM-04\), unverified until MP-197/);
   },
   'R3-s16': ({ view, must, lacks }) => {
     for (const [o, s] of REPLAY) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) lacks(view('incidents', o, s, 'web', st).text, /inc_0012 · missed collection/);
@@ -268,7 +281,8 @@ export default {
     lacks(view('runs', 'a', 'a-recover', 'web', 'conflict').text, /Disagreement/);
   },
   'R4-s4': ({ view, each, must, has }) => {
-    const LINE = /What a revoke does to a passkey held on that device is not recorded\./;
+    // narrowed in MP-188: the sentence beside every live revoke is now what the owner picked ("Revoke removes it too", ADM-02)
+    const LINE = /Revoking also removes any passkey held on that device\./;
     each({ journey: 'identity' }, (v, at) => { if (live(v.html, 'A49')) must(LINE.test(v.text), `live A49 with no sentence at ${JSON.stringify(at)}`); });
     for (const [o, s] of LOST) for (const kind of ALL) for (const st of STATES.filter((x) => !['loading', 'denied'].includes(x))) has(view('identity', o, s, kind, st).text, LINE);
     for (const kind of ALL) has(view('identity', 'b', 'b-devices', kind, 'error').text, LINE);
@@ -284,12 +298,14 @@ export default {
     has(view('incidents', 'b', 'b-replay', 'web', 'default').text, /Inside the allowlist only if a late price counts as a missed collection/);
   },
   'R4-s10': ({ view, has }) => { const t = view('incidents', 'a', 'a-evidence', 'web', 'partial').text; has(t, /Trace\s*Not read, it links from run_8cf7/); has(t, /its trace are not read/); },
-  'R5-s3': ({ view, each, has, lacks }) => {
+  'R5-s3': ({ view, each, must, has, lacks }) => {
     for (const [o, s] of LOST) {
       each({ journey: 'identity', option: o, screen: s, surface: 'pwa' }, (v) => lacks(v.text, /Developer Program is bought|MP-179/));
-      has(view('identity', o, s, 'pwa', 'empty').text, /No record says how recovery ends on this device until you answer whether a browser passkey counts\./);
-      has(view('identity', o, s, 'pwa', 'default').text, /until you answer whether a browser passkey counts/);
-      for (const kind of ['iphone', 'ipad']) has(view('identity', o, s, kind, 'empty').text, /ends on this device until the Developer Program is bought \(MP-179\)/);
+      // narrowed in MP-188: answered ("Finish in the phone browser", ADM-15): Phone web ends in its own browser, and the apps send you to a phone's browser
+      const pe = view('identity', o, s, 'pwa', 'empty');
+      has(pe.text, /In this browser, once the lost devices are revoked\. You end on two paths/); must(live(pe.html, 'A48'), `no live enrol on Phone web in ${s} empty`);
+      has(view('identity', o, s, 'pwa', 'default').text, /enrol the replacement in this browser/);
+      for (const kind of ['iphone', 'ipad']) has(view('identity', o, s, kind, 'empty').text, /This app cannot hold a passkey until the Developer Program is bought \(MP-179\)/);
     }
   },
   'R5-s4': ({ view, must, has, lacks }) => {

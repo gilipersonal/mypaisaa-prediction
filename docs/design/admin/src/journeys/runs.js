@@ -7,9 +7,11 @@
   const id = t => `<code>${t}</code>`;
   const para = t => `<p class="small muted">${t}</p>`;
   const tagged = (tag, t) => `<div class="aruns-tag">${tag}<span class="small muted">${t}</span></div>`;
-  const NORMAL = 'As of 21:15 London · data cutoff 21:00 · 7 of 7 priced';
-  const LAST_GOOD = 'Last good run Mon 21:15 · cutoff 21:00';
-  const FAIL_LINE = 'Twelve Data failed at 21:14.';
+  /* the owner journeys' words for this US run, word for word (MP-186): it collects from 21:15, freezes its cutoff at 22:00 and issues 22:15, and it
+     prices the 3 US holdings, Apple, NVIDIA and SPY. The UK and India run apart. Twelve Data fails at 21:16, after the run starts (ADM-10, ADM-11, ADM-22). */
+  const NORMAL = 'As of 22:15 London · data cutoff 22:00 · 3 of 3 priced';
+  const LAST_GOOD = 'Last good run Mon 22:15 · cutoff 22:00';
+  const FAIL_LINE = 'Twelve Data failed at 21:16.';
   const CLAUDE_OFF = 'Forecasts and figures run as usual, because Claude only explains.';
   const OFFLINE_NOTE = 'Nothing can be changed until you reconnect. No financial write offline.';
   const kept = ctx => (browser(ctx) ? tagged(proposed('MP40-Q12'), 'What a browser keeps offline is open.') : '');
@@ -33,8 +35,8 @@
   const ind = () => runRow('Forecast run, Wed 4 Nov 10:15', 'run_8d6e · India · issued 11:15', OK('Succeeded'));
   const ukr = () => runRow('Forecast run, Tue 3 Nov 16:50', 'run_8cf7 · UK · HSBC late', OK('Succeeded'));
   const ukUnread = (d = 'Tue') => runRow(`UK, ${d}`, 'Run not read', WARN('Unknown'));
-  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 7 of 7 priced · finished 21:30') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
-  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 7 of 7 priced', status);
+  const tue = (status = OK('Succeeded'), sub = 'run_8d02 · US · 3 of 3 priced · issued 22:15') => runRow('Forecast run, Tue 3 Nov 21:15', sub, status);
+  const mon = (status = OK('Succeeded')) => runRow('Forecast run, Mon 2 Nov 21:15', 'run_8c41 · US · 3 of 3 priced', status);
   const hsbc = (status = WARN('Acknowledged')) => item(lead('alert', 'warn'), 'HSBC price late', 'inc_0012 · detected Tue 16:50', `<span style="display:inline-flex;align-items:center;gap:4px">${status}${ic('chev-r', 's18')}</span>`, '', false, true);
   const links = () => `<div class="aruns-acts">${bs('Compare two nights', 'tinted', 'split')}${bs('When it goes wrong', 'tinted', 'alert')}</div>`;
   const indTue = () => runRow('Forecast run, Tue 3 Nov 10:15', 'run_8ce2 · India', OK('Succeeded'));
@@ -42,7 +44,7 @@
   const ukMon = () => runRow('Forecast run, Mon 2 Nov 16:50', 'run_8bf3 · UK', OK('Succeeded'));
   const ranHead = () => sec('What ran', '<span class="small muted">Recent runs</span>');
   const ranOK = (o = {}) => `${ranHead()}${list((o.top || '') + (o.noIndia ? '' : ind()) + (o.tue || tue()) + (o.uk || ukr()) + indTue() + mon() + (o.ukMon || ukMon()) + indMon() + (o.hsbc || hsbc()))}${links()}`;
-  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:14') + ukr() + indTue() + mon() + ukMon() + indMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:14 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
+  const ranFailed = () => `${ranHead()}${list(ind() + tue(BAD('Failed'), 'run_8d02 · US · Twelve Data failed at 21:16') + ukr() + indTue() + mon() + ukMon() + indMon() + item(lead('alert', 'fall'), 'Forecast run failed', 'inc_0013 · Tue 21:16 · open', `<span style="display:inline-flex;align-items:center;gap:4px">${BAD('Open')}${ic('chev-r', 's18')}</span>`, '', false, true) + hsbc())}${links()}`;
 
   /* ---------- health: four alarms, and what they are not allowed to hide ---------- */
   const ALARM = {
@@ -69,8 +71,8 @@
   const moment = (t, a, b = '') => `<div class="aruns-tl"><span class="aruns-tt">${t}</span><div><b>${a}</b>${b ? `<span class="small muted">${b}</span>` : ''}</div></div>`;
   const runHead = (title, sub, c, line = NORMAL) => box(`<div class="aruns-mhead"><div><b>${title}</b><span class="small muted">${sub}</span></div>${c}</div><p class="small" style="margin-top:8px">${line}</p>`);
   const head8d = (c = OK('Succeeded'), line = NORMAL) => runHead('Forecast run, Tue 3 Nov 21:15', 'run_8d02 · after the US close', c, line);
-  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:14', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('21:40', 'The +40 retry failed', 'Still no close · dead-lettered with its reason')}${moment('22:00', 'Frozen at +60: no input set', 'Recorded as missed_origin, never backfilled')}</div>`);
-  const timeline = () => box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:20', 'US tech, 12 months paused by code', 'Previous model not eligible. Other scopes kept issuing')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`);
+  const failTL = () => box(`${lbl('The US clock, Tue')}<div class="aruns-tls">${moment('21:16', 'Twelve Data failed', 'req_a90f · 3 attempts · job_3e9a')}${moment('21:40', 'The +40 retry failed', 'Still no close · dead-lettered with its reason')}${moment('22:00', 'Frozen at +60: no input set', 'Recorded as missed_origin, never backfilled')}</div>`);
+  const timeline = () => box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('22:00', 'Frozen at +60', '3 of 3 US closes in')}${moment('22:05', 'US tech, 12 months paused by code', 'Previous model not eligible. Other scopes kept issuing')}${moment('22:15', 'Forecasts issued at +75', '3 of 3 priced')}</div>`);
   const EVID = [['Release', 'rel_0031'], ['Settings', 'v9'], ['Catalogue', 'v14'], ['Models', 'R2-HGB v3 · R1-LGB v1'], ['Sources', 'Twelve Data · Yahoo'], ['Collect job', 'job_3e9a'], ['Trace', 'tr_51c2 · linked across a queue or batch'], ['Guard decisions', 'Calendar current · market data credits reserved · cutoff kept']];
   /* a failed run names what it was set to use, and says it wrote nothing */
   const DUE_TO = rows => rows.map(r => (r[0] === 'Models' ? ['Due to use', r[1]] : r[0] === 'Sources' ? ['Due to read', r[1]] : r)).concat([['Forecasts written', 'None']]);
@@ -91,7 +93,7 @@
     stale: () => banner('warn', 'Index lagging, with fallback to manifests.', 'This run is as of 11:12. It finished, so its evidence will not change, but a linked incident may be newer.', 'clock') + runOK(ctx),
     offline: () => offline(ctx, 'this run') + head8d() + timeline() + jobDoor() + evidence() + costOn(),
     conflict: () => banner('warn', 'reconcile_required.', 'job_3e9a sent a Twelve Data call and got no answer: ambiguous_external_outcome. Its credits stay held, and nothing is repeated while this stands.', 'split') + head8d(WARN('reconcile_required', 'split')) + timeline() + jobDoor('job_3e9a · reconcile_required') + evidence() + costHeld() + tagged(proposed('CT-05'), 'The reconciler\'s outcomes are not approved yet.') + open(),
-    expired: () => banner('warn', 'Lease expired.', ranOut, 'clock') + head8d(OK('Succeeded · resumed')) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:17', 'Lease expired', 'Resumed from the last durable step')}${moment('21:30', 'Forecast run finished', '7 of 7 priced · HSBC last price 14:10')}</div>`) + evidence() + open(),
+    expired: () => banner('warn', 'Lease expired.', ranOut, 'clock') + head8d(OK('Succeeded · resumed')) + box(`${lbl('What happened')}<div class="aruns-tls">${moment('21:15', 'Collect started', 'job_3e9a · attempt 1 of 3')}${moment('21:17', 'Lease expired', 'Resumed from the last durable step')}${moment('22:15', 'Forecasts issued at +75', '3 of 3 priced')}</div>`) + evidence() + open(),
     denied: () => banner('warn', 'That link was refused: permission_denied.', 'It was made in dev, and prod refuses it. This run stays open to read, because reading needs no fresh sign-in.', 'lock') + runOK(ctx, costOff)
   });
   const railRun = ctx => ({ error: box(`${lbl('Next')}<p class="small muted" style="margin-top:6px">Tonight 21:15 runs normally. This origin stays missed, and no replay fills it in.</p>`) + refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by anyone, you included.') }[ctx.state] || refused('R3', 'A stored observation cannot be edited, by anyone, you included. A late or wrong value gets a new observation, and both stay.') + refused('R1', 'A run cannot edit the ledger. Only the controlled writer commits, and only an exact change you approved.'));
@@ -99,7 +101,7 @@
   /* ---------- a job: attempts, lease, trace, retention ---------- */
   const attempt = (n, b, c) => `<div class="aruns-attempt"><span class="aruns-tt">${n}</span><div class="small muted">${b}</div>${c}</div>`;
   const ATTEMPTS_OK = () => attempt('1', 'Twelve Data · US listings', OK('Succeeded'));
-  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:14', BAD('Failed')) + attempt('+40', '21:40 · the one missing-close retry · failed', BAD('Failed'));
+  const ATTEMPTS_BAD = () => attempt('1', 'Twelve Data · failed', BAD('Failed')) + attempt('2', 'After 2 seconds · failed', BAD('Failed')) + attempt('3', 'After 8 seconds · req_a90f failed at 21:16', BAD('Failed')) + attempt('+40', '21:40 · the one missing-close retry · failed', BAD('Failed'));
   const attemptsBox = (rows, foot = 'At most 3 attempts, with 2 and 8-second waits.') => box(`${lbl('Attempts')}<div class="aruns-attempts">${rows}</div><p class="small muted" style="margin-top:8px">${foot}</p>`);
   const jobKV = (state = 'succeeded', lease = 'Released') => box(`${lbl('The durable record')}<div style="margin-top:8px">${kv([['State', state], ['Business id', 'collect · US · Tue 3 Nov'], ['Idempotency key', 'Held · one result per key'], ['Lease', lease], ['Accepted, started, terminal', 'Each has evidence']])}</div>`);
   const traceBox = (t = 'linked across a queue or batch', x = 'Queued, resumed and scheduled work starts a new trace, joined by business ids and span links.') => box(`${lbl('Trace')}<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${id('tr_51c2')}${PLAIN(t)}</div><p class="small muted" style="margin-top:8px">${x}</p>`);
@@ -122,7 +124,7 @@
 
   /* ---------- comparing two nights: only what differs is worth reading ---------- */
   const cmpRow = (k, a, b) => `<div class="aruns-cmp${a === b ? '' : ' diff'}"><span class="small muted">${k}</span><span class="small">${a}</span><span class="small">${b}</span><span class="aruns-same">${ic(a === b ? 'equal' : 'split', 's14')}${a === b ? 'Same' : 'Differs'}</span></div>`;
-  const CMP = [['Started', '21:15', '21:15'], ['Priced', '7 of 7', '7 of 7'], ['Collect attempts', '1 of 3', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['India midcap, 3 months', 'R1-LGB v1', 'R1-LGB v2'], ['US tech, 12 months', 'Paused 21:20', 'Issuing'], ['HSBC', 'Last price 14:10', 'Priced at close']];
+  const CMP = [['Started', '21:15', '21:15'], ['Priced', '3 of 3', '3 of 3'], ['Collect attempts', '1 of 3', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['India midcap, 3 months', 'R1-LGB v1', 'R1-LGB v2'], ['US tech, 12 months', 'Paused 22:05', 'Issuing'], ['Issued', '22:15', '22:15']];
   const cmpTable = (rows = CMP, a = 'run_8d02, Tue', b = 'run_8c41, Mon') => box(`<div class="aruns-cmp head"><span class="label">Compared</span><span class="label">${a}</span><span class="label">${b}</span><span></span></div>${rows.map(r => cmpRow(...r)).join('')}`);
   const WHY = () => box(`${lbl('Why they differ')}<div class="aruns-tls">${moment('Mon 22:20', 'R1-LGB v2 reverted to v1', 'Code · Automatic · 2 bad weeks on probation')}${moment('Tue 14:10', 'Last HSBC price', 'Detected Tue 16:50 · inc_0012')}${moment('Tue 21:20', 'US tech, 12 months paused', 'Code · previous model not eligible')}</div><p class="small muted" style="margin-top:8px">Reverts by code are marked Automatic, and never read as your decision.</p>`);
   const cmpOK = () => cmpTable() + WHY();
@@ -131,7 +133,7 @@
     loading: () => box(`${lbl('Comparing run_8d02 and run_8c41')}<span class="sk" style="height:96px;margin-top:10px"></span>`),
     empty: () => stateCard('split', 'One run, so nothing to compare', 'A comparison needs two recorded runs. The next one is due tonight 21:15.'),
     partial: () => banner('warn', 'One side is short.', 'The summary for run_8c41 answered and its span links did not. Anything unread shows unknown, and is never counted as the same.', 'clock') + cmpTable(CMP.map(r => (r[0] === 'Collect attempts' ? [r[0], r[1], 'Unknown'] : r))) + WHY(),
-    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Due', '21:15', '21:15'], ['Priced', 'None: no input set', '7 of 7'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + failTL(),
+    error: () => banner('fall', FAIL_LINE, LAST_GOOD, 'alert') + cmpTable([['Due', '21:15', '21:15'], ['Priced', 'None: no input set', '3 of 3'], ['Collect attempts', '3 of 3, all failed', '1 of 3'], ['Settings', 'v9', 'v9'], ['Catalogue', 'v14', 'v14'], ['Result', 'missed_origin', 'Issued']]) + failTL(),
     stale: () => banner('warn', 'Stale.', 'Both summaries are from 11:12. Each run has finished, so a later change would be a linked incident, not a new figure.', 'clock') + cmpOK(),
     offline: () => offline(ctx, 'this comparison') + cmpOK(),
     conflict: () => banner('warn', 'run_8d02 has an open reconcile.', 'Its Twelve Data credits are unsettled, so this compares versions only. A comparison never settles a reconcile.', 'split') + cmpTable(CMP.concat([['Twelve Data credits', 'ambiguous', 'settled']])) + WHY(),
@@ -190,7 +192,7 @@
     loading: () => `<div class="small muted">Last good 11:20</div>` + skel(5),
     empty: () => stateCard('grid', 'No run or job on record yet', 'The first collection starts at +15 after the first eligible close. Silence is not a sign that nothing is wrong, so this never reads as healthy.'),
     partial: () => banner('warn', 'Partial.', 'India and the US answered. The UK run record did not, so its runs show unknown, never none.', 'clock') + list(LIST.wed() + LIST.tue() + LIST.job() + rowB(lead('fan'), 'UK, Tue', 'Run not read', WARN('Unknown')) + LIST.indt() + LIST.mon() + rowB(lead('fan'), 'UK, Mon', 'Run not read', WARN('Unknown')) + LIST.indm()),
-    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:14') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
+    error: () => banner('fall', FAIL_LINE, `${LAST_GOOD}. The list below is from 11:20, the last good read.`, 'alert') + list(LIST.wed() + LIST.tue(BAD('Failed'), 'Forecast run, US · failed at 21:16') + LIST.job(BAD('dead-lettered · 3 of 3')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     stale: () => banner('warn', 'Stale.', 'From 11:12, and India\'s 10:15 run does not appear. stale: its last success is older than its next due time.', 'clock') + list(LIST.tue() + LIST.job() + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
     offline: () => offline(ctx, 'the run list') + listOK(),
     conflict: () => banner('warn', 'One record disagrees with another.', 'job_3e9a shows an ambiguous_external_outcome, so run_8d02 waits on the reconciler. It is counted neither as clean nor as failed.', 'split') + list(LIST.wed() + LIST.tue(WARN('Waiting on job', 'split')) + LIST.job(WARN('reconcile_required', 'split')) + LIST.uk() + LIST.indt() + LIST.mon() + LIST.ukm() + LIST.indm()),
@@ -261,7 +263,7 @@
       },
       screens: [{
         id: 'a-clock', title: 'Tonight\'s clock',
-        note: 'In Ready, at 11:40 India has issued and the UK and US wait for their close. The owner journeys print "cutoff 21:00" on a 21:15 run, while POLICY-002 freezes the cutoff at +60. The clock here follows POLICY-002. See What these screens wait on, under State inventory. run_8cf7, run_8d6e, run_8bf3, run_8dc4, run_8ce2 and run_8bd0 are illustrative ids.',
+        note: 'In Ready, at 11:40 India has issued and the UK and US wait for their close. The clock follows POLICY-002, and the owner journeys now say the same: each market freezes its cutoff at +60 and issues by +75 (ADM-22, MP-186). run_8cf7, run_8d6e, run_8bf3, run_8dc4, run_8ce2 and run_8bd0 are illustrative ids.',
         render: ctx => frame(ctx, {
           title: 'Tonight\'s clock', back: 'Admin',
           body: region(ctx, {
@@ -280,7 +282,7 @@
         })
       }, {
         id: 'a-run', title: 'Run run_8d02',
-        note: 'One run shows the exact versions, guards, attempts and reservation behind it. The 21:15 start, 21:30 finish and 21:00 cutoff are the owner journeys\', and POLICY-002 would freeze at 22:00. The owner journeys read one nightly run across the portfolio, and PH03-S09 runs each market apart, so this run shows all 7 holdings as they do. Both questions are under State inventory, What these screens wait on. Failed keeps the owner\'s 21:14, before the 21:15 start, and records missed_origin only at the 22:00 freeze. Denied shows Claude off, with no Claude spend.',
+        note: 'One run shows the exact versions, guards, attempts and reservation behind it. It is the US run, as PH03-S09 runs each market apart: it collects from 21:15, freezes its cutoff at 22:00, issues 22:15 and prices the 3 US holdings, as the owner journeys now say (ADM-10, ADM-22, MP-186). Failed has Twelve Data failing at 21:16, after the 21:15 start, and records missed_origin only at the 22:00 freeze (ADM-11). Denied shows Claude off, with no Claude spend.',
         render: ctx => frame(ctx, { title: 'run_8d02', back: 'Tonight\'s clock', body: runRegion(ctx), rail: railRun(ctx) })
       }, {
         id: 'a-job', title: 'Job job_3e9a',

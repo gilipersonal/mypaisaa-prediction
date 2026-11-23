@@ -43,7 +43,9 @@ scope: `H`, `byT`, `SEG`, `T5`, `ic`, `pct`, `money`, `chg`, `logo`, `badge`, `f
 `hrow`, `skelRow`, `tile`, `top5`, `alloc`, `valcard`, `fcChart`, `fcard`, `proof`, `legend`, `tb`.
 
 `frame(ctx, spec)` draws the device: `spec` takes `tab` (0 Portfolio, 1 Forecasts, 2 Segments, 3 Record, 4 Settings; 4 lights
-Settings in the iPad and desktop sidebar too),
+Settings in the iPad and desktop sidebar too), `side` (a sidebar place to light on iPad and desktop: `research`, `approvals` or
+`imports`, the three the owner put there, "Add them to the sidebar", OWN-02; `placed(ctx, place, spec, from)` sets it and drops a
+first screen's way back to the phone's tab `from`),
 `title`, `back`, `actions`, `webActions`, `body`, `rail` (the second column on iPad and desktop; follows the body on a
 phone), `accessory` (above the iPhone dock), `sheet` (a `.sheet` element, shown over the screen), `field: false`.
 
@@ -91,6 +93,11 @@ Never hide risk, staleness or a provider's status behind a spinner: freshness st
 - Holdings first on home. Holdings and imports are separate places.
 - Privacy mode masks money and units, and percentages stay ("Mask units too", OWN-18). Lock screens, widgets and
   snapshots show no holdings.
+- Each market runs on its own clock (POLICY-002): cutoff at +60 and forecasts by +75 after its close, US 22:00 and 22:15, UK
+  17:35 and 17:50, India 11:00 and 11:15. Use `CLOCK`, `clockOf(h)`, `ASOF_ALL` and `LASTGOOD_ALL` from `src/shell.js`, never one
+  nightly run across the portfolio (ADM-10, ADM-22). A failure comes after its run starts: Twelve Data fails at 21:16 (ADM-11).
+- Every Home carries the cost pill in its top bar, `costPillOf(ctx)`, from the cost journey's own month ("Pill on every Home",
+  OWN-06). No cost row or card sits on the holdings.
 - Every figure is illustrative and labelled. Use the shared figures in `docs/design/reviews/MP-62/brief.md`.
 - Prism's tokens, type, icons, motion and 44-point targets. Add `data-mo` roles so screens arrive subtly. Text at least 12 px.
 - Prefer short, active, plain copy.
