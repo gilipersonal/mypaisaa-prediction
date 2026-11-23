@@ -70,16 +70,16 @@ export default {
   'R1-m6': ({ view, must, has }) => {
     for (const [o, sc] of [['a', 'a-run'], ['a', 'a-compare'], ['a', 'a-recover'], ['b', 'b-dead']]) {
       const t = view('runs', o, sc, 'web', 'error').text;
-      const a = t.indexOf('21:14 Twelve Data failed'), b = t.indexOf('21:40 The +40 retry failed'), c = t.indexOf('22:00 Frozen at +60');
+      const a = t.indexOf('21:16 Twelve Data failed'), b = t.indexOf('21:40 The +40 retry failed'), c = t.indexOf('22:00 Frozen at +60');   // narrowed in MP-186: Twelve Data fails at 21:16, after the US run starts at 21:15 (ADM-11)
       must(a >= 0 && a < b && b < c, `${sc}: failure, retry and freeze are out of order: ${a} ${b} ${c}`);
       has(t.slice(c), /missed_origin/);
-      must(!/21:14 No input set/.test(t), `${sc}: missed_origin before the freeze`);
+      must(!/21:1[46] No input set/.test(t), `${sc}: missed_origin before the freeze`);   // narrowed in MP-186: Twelve Data fails at 21:16, after the US run starts at 21:15 (ADM-11)
     }
   },
   'R1-m7': ({ view, lacks, has }) => {
     for (const o of OPT) {
       const t = view('runs', o, o === 'a' ? 'a-clock' : 'b-list', 'web', 'error').text;
-      lacks(t, /Twelve Data, since 21:14|Twelve Data is failing/);
+      lacks(t, /Twelve Data, since 21:1[46]|Twelve Data is failing/);   // narrowed in MP-186: Twelve Data fails at 21:16, after the US run starts at 21:15 (ADM-11)
       has(t, /Twelve Data recovered · India collected Wed 10:15/);
       has(t, /Missed daily run US, Tue · inc_0013 Alarm/);
     }

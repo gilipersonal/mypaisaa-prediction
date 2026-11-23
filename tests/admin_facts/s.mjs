@@ -81,7 +81,7 @@ export default {
   },
   'R1-s10': ({ view, each, has, lacks }) => {
     each({ journey: 'incidents', state: 'error' }, (v) => lacks(v.text, /Started\s*Tue 21:15/));
-    has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Failed at 21:14/);
+    has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Failed at 21:16/);   // narrowed in MP-186: Twelve Data fails at 21:16, after the US run starts at 21:15 (ADM-11)
     has(view('incidents', 'a', 'a-evidence', 'web', 'error').text, /Due\s*Tue 21:15/);
   },
   'R1-s11': ({ must }) => {

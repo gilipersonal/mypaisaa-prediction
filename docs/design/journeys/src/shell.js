@@ -36,7 +36,7 @@ function flipsSave(key) {
    never change what an approval binds. ---------- */
 const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
 /* A name of its own, where the view a flip lands on is not its option's usual one. */
-const FLIP_AT = { 'cost-a-home': 'Meter', 'cost-b-home': 'Pill', 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
+const FLIP_AT = { 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
 const FLIPS = {
   home: pairs(['a-portfolio', 'b-ledger'], ['a-12m', 'b-12m'], ['a-launch', 'b-launch'], ['a-board', 'b-top5'], ['a-segment', 'b-explore'], ['a-seg-uslarge', 'b-top5-uslarge'], ['a-seg-n50', 'b-top5-n50'], ['a-seg-midcap', 'b-top5-midcap'], ['a-seg-usetf', 'b-top5-usetf'], ['a-seg-uketf', 'b-top5-uketf'], ['a-seg-inetf', 'b-top5-inetf'], ['a-seg-metals', 'b-top5-metals'], ['a-brief', 'b-brief'], ['a-search', 'b-search']),
@@ -44,7 +44,8 @@ const FLIPS = {
   forecast: pairs(['a-forecasts', 'b-forecasts'], ['a-instrument', 'b-ladder'], ['a-technical', 'b-technical'], ['a-proof', 'b-proof'], ['a-views', 'b-views'], ['a-evidence', 'b-evidence'], ['a-scenarios', 'b-scenarios'], ['a-hzstates', 'b-hzstates'], ['a-3m', 'b-ladder'], ['a-12m', 'b-ladder'], ['a-short', 'b-ladder'], ['b-forecast', 'a-instrument']),
   research: pairs(['ra-brief', 'rb-today'], ['ra-card', 'rb-card'], ['ra-ask', 'rb-ask'], ['ra-memory', 'rb-memory'], ['ra-alert', 'rb-alert']),
   journal: pairs(['a-list', 'b-board'], ['a-one', 'b-one'], ['a-differ', 'b-differ']),
-  cost: pairs(['cost-a-home', 'cost-b-home'], ['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
+  /* no flip on Cost's Home: since "Pill on every Home" (OWN-06) both options draw the same Home, so a flip there would change nothing */
+  cost: pairs(['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
   approvals: pairs(['aa-queue', 'ab-home']),
   privacy: pairs(['privacy-a-centre', 'privacy-b-home'], ['privacy-a-devices', 'privacy-b-devices'], ['privacy-a-notice', 'privacy-b-notice'], ['privacy-a-data', 'privacy-b-checkup'])
 };
@@ -67,16 +68,54 @@ function flipHTML(ctx, iconOnly, spec) {
   return flipBtn(flipName(ctx.journey, other, to), `data-flip="${ctx.journey}|${other}|${to}"`, iconOnly);
 }
 
+/* ---------- the run clock, per market (POLICY-002; ADM-10, ADM-11 and ADM-22, MP-186) ----------
+   Each market runs after its own close, London time: collect at +15, freeze the data cutoff at +60, issue by +75. The US closes 21:00, so
+   its cutoff is 22:00 and its forecasts issue by 22:15; the UK closes 16:35 (cutoff 17:35, issued 17:50); India 10:00 (11:00, 11:15).
+   Nothing is one nightly run across the portfolio. The last run of the day is the US one, so a saved or last good figure reads 22:15. The
+   US run starts collecting at 21:15, so Twelve Data fails at 21:16, after it starts; that failure leaves only the US on Monday's run. */
+const CLOCK = { XNAS: ['22:15', '22:00'], ARCX: ['22:15', '22:00'], XLON: ['17:50', '17:35'], XNSE: ['11:15', '11:00'] };
+const CUTOFFS = 'cutoffs US 22:00, UK 17:35, India 11:00';
+const ASOF_ALL = `As of 22:15 London · ${CUTOFFS}`;
+const LASTGOOD_ALL = 'US: last good run Mon 22:15 · cutoff 22:00. UK and India ran today';
+/* one instrument's as-of and cutoff, by its market */
+const clockOf = h => CLOCK[(h && h.v) || 'XNAS'] || CLOCK.XNAS;
+
+/* ---------- the sidebar, from 1024 up: the tab bar's places, then Research, Approvals and Imports ("Add them to the sidebar", OWN-02) ----------
+   A screen in one of those three lights its own place on iPad and desktop, and its first screen there needs no way back to the tab it hangs
+   off on a phone (from). A phone keeps its five tabs, and its back links, as drawn. */
+const SIDE = ['portfolio', 'forecasts', 'segments', 'record', 'research', 'approvals', 'imports', 'sources', 'settings'];
+const wideKind = ctx => ctx.kind === 'ipad' || ctx.kind === 'web';
+const placed = (ctx, place, spec, from) => (wideKind(ctx) ? { ...spec, side: place, back: from && spec.back === from ? undefined : spec.back } : spec);
+
+/* ---------- the cost pill on every Home, whichever way Cost is flipped ("Pill on every Home", OWN-06) ----------
+   The month as Cost states it, state by state: [committed, its word, its status, the forecast]. The cost journey passes its own month, and a
+   fact holds the two equal on every Home. Whole pounds where it must be short; a bill that differs by 31p keeps its pence. */
+const PILLM = {
+  default: ['46.42', 'committed so far', 'On plan', 'up to £59.73'], loading: ['46.42', 'committed so far', 'Refreshing · last good 22:15', 'up to £59.73'],
+  empty: ['27.84', 'committed so far', 'New month', 'up to £59.73, the plan'], error: ['37.69', 'last reconciled', 'Stale · 39 h old', 'up to £59.73, estimated only'],
+  stale: ['46.42', 'committed so far', 'Billing 39 h old', 'up to £59.73'], offline: ['46.42', 'committed so far', 'Offline · from 22:15', 'up to £59.73'],
+  noModel: ['39.02', 'committed so far', 'Claude off', '£46.48'], disagreement: ['46.73', 'with the bill', 'Estimate and bill differ', 'up to £60.04'],
+  abstention: ['39.36', 'known so far', 'Claude unknown', 'Not shown']
+};
+function costPillOf(ctx, m) {
+  const st = ctx.state, [so, word, status, fc] = m || PILLM[st] || PILLM.default, whole = `£${Math.round(parseFloat(so))}`, ceil = '<span class="sr"> of £100</span>';
+  const words = { loading: `Last good ${whole}`, error: `${whole}${ceil} · collector failed`, stale: `${whole}${ceil} · billing 39 h old`, offline: `${whole}${ceil} · saved`, disagreement: `£${so}${ceil} · bill differs`, abstention: `${whole}${ceil} · part unknown` }[st] || `${whole} of £100`;
+  const icon = { error: 'alert', stale: 'clock', offline: 'wifi-off', disagreement: 'split', abstention: 'ban' }[st];
+  /* with amounts hidden the pounds are masked with the rest, and the bar stays, as a percentage does (OWN-18). Proposed. */
+  const shown = ctx.hidden ? words.replace(/^(Last good )?£[\d.]+/, '$1£••') : words;
+  return costPill(shown, { icon, fill: parseFloat(so), more: ctx.hidden ? 'Amounts hidden. Opens the month' : `£${so} ${word}. ${status}. Forecast ${fc}. Opens the month` });
+}
+
 /* ---------- chrome: a journey writes its content once, and each device frames it ---------- */
 const WEBTABS = [['home', 'Portfolio'], ['fan', 'Forecasts'], ['grid', 'Segments'], ['target', 'Record'], ['sliders', 'Settings']];
 /* mode 'default' keeps the price chips as they are on a screen whose state is not about market data. Offline and loading are always shown. */
 function freshRow(ctx, mode) {
   const st = mode && !['offline', 'loading'].includes(ctx.state) ? mode : ctx.state;
-  if (st === 'offline') return `<div class="jfresh on-glass"><span class="chip offline">${ic('wifi-off', 's14')}Offline · from 21:15</span></div>`;
-  if (st === 'error') return `<div class="jfresh on-glass"><span class="chip error">${ic('alert', 's14')}Twelve Data · error 21:14</span>${fresh('Yahoo')}</div>`;
+  if (st === 'offline') return `<div class="jfresh on-glass"><span class="chip offline">${ic('wifi-off', 's14')}Offline · from 22:15</span></div>`;
+  if (st === 'error') return `<div class="jfresh on-glass"><span class="chip error">${ic('alert', 's14')}Twelve Data · error 21:16</span>${fresh('Yahoo')}</div>`;
   if (st === 'stale') return `<div class="jfresh on-glass">${fresh('Twelve Data')}${fresh('Yahoo', 'stale', 'HSBC stale')}</div>`;
   if (st === 'empty') return `<div class="jfresh on-glass">${fresh('Twelve Data')}${fresh('Yahoo')}</div>`;   // no holdings to be late
-  if (st === 'loading') return `<div class="jfresh on-glass"><span class="chip fresh"><span class="dot"></span>Refreshing · last good 21:15</span>${fresh('Twelve Data')}${fresh('Yahoo', 'stale', 'HSBC late')}</div>`;
+  if (st === 'loading') return `<div class="jfresh on-glass"><span class="chip fresh"><span class="dot"></span>Refreshing · last good 22:15</span>${fresh('Twelve Data')}${fresh('Yahoo', 'stale', 'HSBC late')}</div>`;
   return `<div class="jfresh on-glass">${fresh('Twelve Data')}${fresh('Yahoo', 'stale', 'HSBC late')}</div>`;
 }
 const banner = (kind, title, text, icon = 'info') => `<div class="jbanner ${kind}" role="status">${ic(icon, 's18')}<div><b>${title}</b> ${text}</div></div>`;
@@ -94,9 +133,9 @@ function region(ctx, o) {
   switch (st) {
     case 'loading': return skel(o.rows || 3);
     case 'empty': return stateCard('grid', 'Nothing here yet', `${what} fills in once there is something to show.`, o.emptyAction || '');
-    case 'error': return stateCard('alert', 'This did not load', `${what} failed at 21:14. The last good figures stay on screen, labelled with their time.`, btn('Try again', 'tinted', 'refresh')) + ok();
+    case 'error': return stateCard('alert', 'This did not load', `${what} failed at 21:16. The last good figures stay on screen, labelled with their time.`, btn('Try again', 'tinted', 'refresh')) + ok();
     case 'stale': return banner('warn', 'Stale.', `${what} last updated 16:35. It is held until prices return.`, 'clock') + ok();
-    case 'offline': return banner('', 'Offline.', `Showing ${what.toLowerCase()} from 21:15. Nothing updates until you reconnect.`, 'wifi-off') + ok();
+    case 'offline': return banner('', 'Offline.', `Showing ${what.toLowerCase()} from 22:15. Nothing updates until you reconnect.`, 'wifi-off') + ok();
     case 'noModel': return stateCard('cube', 'No approved model', `No approved model covers this yet, so no forecast is shown. Prices and holdings still work.`) + ok();
     case 'disagreement': return banner('', 'Models disagree.', 'R2-HGB v3 and the baseline differ on direction. Both ranges show, and no action is ranked.', 'split') + ok();
     case 'abstention': return stateCard('ban', 'The model abstained', `Too little comparable history for a calibrated range, so no range is shown.`) + ok();
@@ -106,9 +145,9 @@ function region(ctx, o) {
 
 /* spec: { tab, title, back, actions: html, body: html, rail: html, accessory: html, sheet: html, field: bool } */
 function frame(ctx, spec) {
-  const tab = spec.tab ?? 0, sideTab = tab === 4 ? 5 : tab, field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's sixth item
+  const tab = spec.tab ?? 0, sideTab = spec.side ? SIDE.indexOf(spec.side) : [0, 1, 2, 3, 8][tab], field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's ninth item
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
-  const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Data</span>${freshRow(ctx, spec.fresh)}<span class="small">${ctx.state === 'error' && !spec.fresh ? 'Last good run Mon 21:15 · cutoff 21:00' : 'As of 21:15 · cutoff 21:00'}</span></div>`;
+  const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Data</span>${freshRow(ctx, spec.fresh)}<span class="small">${ctx.state === 'error' && !spec.fresh ? LASTGOOD_ALL : ASOF_ALL}</span></div>`;
   const sideList = () => (ctx.state === 'empty' ? side(sideTab).replace('<span class="n">7</span>', '') : side(sideTab));
   const backBtn = (size, style) => `<button class="jback" type="button" aria-label="Back to ${spec.back}" style="${style}">${ic('chev-l', size)}<span>${spec.back}</span></button>`;
   if (ctx.kind === 'iphone') {
@@ -316,10 +355,10 @@ function show() {
 }
 const OPEN = [
   ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
-  ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
+  ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Settled, 5 Nov 2026 ("Add them to the sidebar", OWN-02): the iPad and desktop sidebar carries Research, Approvals and Imports, and each of their screens lights its own place there. The phone keeps its five tabs: Research hangs off Portfolio, and Approvals and Imports sit under Settings. Proposed: their order in the sidebar and their icons. Open: in Approvals B, where each decision stays where the thing lives, what the sidebar\'s Approvals opens is not drawn.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
   ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],
-  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Cost flips between a meter and a pill on its own Home screens. The Home journey keeps a plain row after the holdings.'],
+  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Settled, 5 Nov 2026 ("Pill on every Home", OWN-06): a pill in the top bar shows the month on every Home, whichever way Cost is flipped, and the row after the holdings goes. The meter sits inside Cost, at the top of This month. No cost card sits before the holdings. Proposed: with amounts hidden, the pill\'s pounds are masked with the rest and its bar stays.'],
   ['When is a late price still used in the total? (DATA-DEC-02)', 'Settled (MP-65): a price past the limit leaves the total and the reason shows. Open: the limit itself. Proposed: 14:10 is inside it in Ready and past it in Stale.'],
   ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
   ['Action thresholds (FIN-OD-07)', 'Settled, 5 Nov 2026 ("Evidence first", OWN-09): no label appears until evaluation supports the thresholds and you approve a ranking policy version. Portfolio and Ledger at launch draw that time; every other screen draws labels as they read after the approval. Open: the thresholds themselves.'],
@@ -368,7 +407,7 @@ function showInventory() {
   }).join('')}</tr>`))));
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The freshness, the provider status and the risk stay the same, the figures both sides show stay the same, and a side may hold more. Each journey starts in A, keeps your choice on that device, and flips on its own. There is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source. A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The freshness, the provider status and the risk stay the same, the figures both sides show stay the same, and a side may hold more. Each journey starts in A, keeps your choice on that device, and flips on its own. There is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source, nor on Cost's Home, which is the same whichever way Cost is flipped (OWN-06). A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on all eight journeys, with a flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }

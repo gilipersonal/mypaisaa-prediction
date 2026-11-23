@@ -132,24 +132,26 @@ export default {
   },
 
   // A screen with prices never hides a price fault, and its body follows the shared story.
-  'R1-s11': ({ each, has, lacks }) => {
+  'R1-s11': ({ each, has, lacks }) => {   // narrowed in MP-186: the US run starts 21:15, so Twelve Data fails at 21:16, and only the US is on Monday's run (ADM-10, ADM-11, ADM-22)
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /Yahoo · Fresh/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); lacks(v.text, /16:35/, here(at)); });
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /today/, `${here(at)}: the last good run is not today`); });
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /\) today|% today/, `${here(at)}: the last good run is not today`); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Proposed · DATA-DEC-02/, here(at)); });
     for (const [option, screen] of COST_HOME) {
       each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /£78,508/, here(at)); lacks(v.text, /£84,612/, here(at)); });
-      each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); lacks(v.text, /As of 21:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
+      each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /As of 22:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
     }
   },
 
-  // Holdings first on a phone: the meter comes after the holdings, in every state.
+  // Holdings first on a phone. Narrowed in MP-186: the owner picked "Pill on every Home" (OWN-06), so the meter left Home for This month. Nothing
+  // about cost sits on the holdings: the pill is in the top bar, above them, and the meter is inside Cost.
   'R1-s12': ({ each, must }) => {
-    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => {
-      const meter = v.html.indexOf('cost-strip'), rows = v.html.lastIndexOf('class="hrow');
-      must(meter > 0, `${here(at)}: no meter`);
-      must(rows > 0 && meter > rows, `${here(at)}: the meter sits before the holdings`);
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-home' }, (v, at) => {
+      const pill = v.html.indexOf('cost-pill'), rows = v.html.indexOf('class="hrow');
+      must(pill > 0, `${here(at)}: no pill`);
+      must(!/cost-strip|class="cost-lad"/.test(v.html), `${here(at)}: the meter is still on Home`);
+      must(rows > 0 && pill < rows, `${here(at)}: the pill is not in the top bar, above the holdings`);
     });
-    for (const surface of ['ipad', 'web']) each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface, state: 'default' }, (v, at) => must(v.html.indexOf('class="hrow') < v.html.indexOf('November · day 18'), `${here(at)}: holdings stay in the main column`));
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-month', state: 'default' }, (v, at) => must(/class="cost-lad" role="img"/.test(v.html), `${here(at)}: the meter is not inside Cost`));
   },
 
   // A warned month and a reduced month are drawn, with what changes, why, and how it ends.
@@ -159,15 +161,16 @@ export default {
     each({ journey: 'cost', option: 'a', screen: 'cost-a-reduced', state: 'noModel' }, (v, at) => has(v.text, /Already off, so nothing to reduce/, here(at)));
   },
 
-  // The meter's name carries its figure, its word and its forecast, in every state.
+  // The cost control on Home carries its figure, its word and its forecast in its name, in every state. Narrowed in MP-186: since "Pill on every
+  // Home" (OWN-06) that control is the pill, so this reads the pill's name, and nothing that is an image sits inside it.
   'R1-s15': ({ each, must, has }) => {
     each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => {
-      const name = (v.html.match(/class="card cost-strip[^>]*aria-label="([^"]*)"/) || [])[1] || '';
+      const name = pillOf(v.html).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       has(name, /Cost this month/, `${here(at)}: no name`);
       has(name, /£\d+\.\d\d/, `${here(at)}: no amount in "${name}"`);
       has(name, /Opens the month/, here(at));
       if (at.state !== 'loading') { has(name, /Forecast /, `${here(at)}: no forecast in "${name}"`); has(name, /committed so far|last reconciled|with the bill|known so far/, `${here(at)}: no word in "${name}"`); }
-      must(!/class="cost-lad" role="img"/.test(v.html.slice(v.html.indexOf('cost-strip'))), `${here(at)}: an image nested in a button`);
+      must(!/role="img"/.test(pillOf(v.html)), `${here(at)}: an image nested in a button`);
     });
   },
 
@@ -206,8 +209,9 @@ export default {
   },
 
   // The meter does not reuse the US and UK colours of the allocation bar.
-  'R1-s28': ({ each, lacks }) => {
-    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => lacks(v.html.slice(v.html.indexOf('cost-strip')), /--mark-(us|uk)/, `${here(at)}: market colours on the meter`));
+  'R1-s28': ({ each, lacks, must }) => {
+    // narrowed in MP-186: the compact meter left Home ("Pill on every Home", OWN-06), so the control that replaced it there, the pill, is read
+    each({ journey: 'cost', option: 'a', screen: 'cost-a-home', surface: PHONES }, (v, at) => { const p = pillOf(v.html); must(p, `${here(at)}: no pill`); lacks(p, /--mark-(us|uk)/, `${here(at)}: market colours on the pill`); });
   },
 
   // Copy and cues.
@@ -240,13 +244,13 @@ export default {
   },
 
   // A screen that shows or quotes a price takes the state as it stands: Privacy reads as Home with amounts hidden does, and a notice about a price agrees with its chip.
-  'R2-s4': ({ view, each, must, has, lacks }) => {
+  'R2-s4': ({ view, each, must, has, lacks }) => {   // narrowed in MP-186: the US run starts 21:15, so Twelve Data fails at 21:16, and only the US is on Monday's run (ADM-10, ADM-11, ADM-22)
     for (const surface of SURFACES) for (const state of STATES) {
       const a = chipsOf(view('privacy', 'a', 'privacy-a-centre', surface, state).html), b = chipsOf(view('privacy', 'b', 'privacy-b-home', surface, state).html);
       must(a && a === b, `${surface} ${state}: the centre shows "${a}" and Home "${b}"`);
     }
     each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /HSBC late|Portfolio value/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); });
-    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:14/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /Last good run Mon 21:15 · cutoff 21:00/, here(at)); has(v.text, /\+1\.39% last good run/, here(at)); lacks(v.text, /\+1\.39% today/, here(at)); });
+    each({ journey: 'privacy', option: 'a', screen: 'privacy-a-centre', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); has(v.text, /\+1\.39% last good/, here(at)); lacks(v.text, /\+1\.39% today/, here(at)); });
     for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /HSBC price is stale/, here(at)); lacks(v.text, /HSBC late/, here(at)); });
   },
 
@@ -264,7 +268,7 @@ export default {
         if (state === 'disagreement') { has(v.text, /Rules and models disagree on Reliance/, at); has(v.text, /Baseline/, at); has(v.text, /R2-HGB v3/, at); has(v.text, /−2\.4%/, at); has(v.text, /\+7\.4%/, at); }
         if (state === 'abstention') { has(v.text, /The model abstained on AstraZeneca at 6 months/, at); has(v.text, /Abstained · no range shown/, at); }
         if (state === 'noModel') { has(v.text, /No approved model covers India yet/, at); has(v.text, /Reliance .*No approved model · no action/, at); }
-        if (state === 'error') has(v.text, /Today's run failed/, at);
+        if (state === 'error') has(v.text, /The US run failed/, at);   // narrowed in MP-186: only the US run failed (ADM-10)
       }
       if (state !== 'noModel') {
         const x = view('privacy', 'a', 'privacy-a-data', surface, state).text, y = view('privacy', 'b', 'privacy-b-checkup', surface, state).text, card = (t) => (t.match(/Export your data .*?(?:Pinned to|Request an export|Download|Building)/) || [''])[0], notes = (t) => (t.match(/Memory notes (?:\d+ notes|No notes yet)/) || [''])[0];
@@ -334,7 +338,7 @@ export default {
       must(/>Renew</.test(d.html) === /Renew an original/.test(need), `${at}: Your data and the checkup differ on the renewal`);
       must(/Originals did not load/.test(d.text) === /Originals did not load/.test(need), `${at}: Your data and the checkup differ on the originals`);
       must(/Older than usual/.test(d.text) === /older than usual/.test(need), `${at}: Your data and the checkup differ on the copy's age`);
-      if (state === 'error') { has(need, /Phone notifications stopped/, at); has(need, /A revoke did not finish/, at); has(need, /A privacy change did not save/, at); lacks(good, /Web Push on|Devices|Lock screen/, at); has(good, /rebuilt 21:14/, at); }
+      if (state === 'error') { has(need, /Phone notifications stopped/, at); has(need, /A revoke did not finish/, at); has(need, /A privacy change did not save/, at); lacks(good, /Web Push on|Devices|Lock screen/, at); has(good, /rebuilt 21:16/, at); }   // narrowed in MP-186: after the US run starts (ADM-11)
       if (state === 'empty') { has(need, /Add a second sign-in path/, at); lacks(good, /4 signed in|Sign-in paths|One left|Web Push on/, at); has(good, /Not asked yet/, at); }
       if (state === 'stale') { has(good, /Checked 14:10/, at); lacks(good, /Checked 21:15|oldest record/i, at); has(need, /Check this list again/, at); }
       if (state === 'disagreement') { has(need, /A device has not checked in/, at); has(need, /Phone notifications are blocked/, at); lacks(good, /4 signed in|Web Push on|Nothing confidential shows/, at); has(good, /on from your Mac/, at); }
@@ -484,7 +488,8 @@ export default {
 
   // Both sides of the sources and the log show how old each figure is, the same in every state.
   'R4-s9': ({ view, must }) => {
-    const ages = (t, at) => { const m = t.match(/How old each figure is (?:Last good 21:15|.*?The view reads saved figures)/); must(m, `${at}: no ages`); return m[0]; };
+    // narrowed in MP-186: the last good figures are from 22:15, when the US run lands (ADM-22)
+    const ages = (t, at) => { const m = t.match(/How old each figure is (?:Last good 22:15|.*?The view reads saved figures)/); must(m, `${at}: no ages`); return m[0]; };
     for (const surface of SURFACES) for (const state of STATES) {
       const at = `${surface} ${state}`, a = ages(view('cost', 'a', 'cost-a-sources', surface, state).text, at), b = ages(view('cost', 'b', 'cost-b-log', surface, state).text, at);
       must(a === b, `${at}: the sources read "${a}" and the log "${b}"`);

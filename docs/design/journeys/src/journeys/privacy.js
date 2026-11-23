@@ -22,7 +22,7 @@
   const sw = (label, on, dis = false) => `<button class="dimctl privacy-switch" type="button" role="switch" aria-checked="${on}" aria-label="${label}"${dis ? ' disabled' : ''}><span>${on ? 'On' : 'Off'}</span><span class="sw2"><i></i></span></button>`;
   const go = `<span class="muted" style="display:inline-grid">${ic('chev-r', 's16')}</span>`;
   const sk = (w, h = 14) => `<span class="sk" style="height:${h}px;width:${w}"></span>`;
-  const skCard = (t, n = 3) => box(`${head(t, chipOf(['fresh', 'Last good 21:15']))}<div style="display:grid;gap:10px">${Array.from({ length: n }, (_, i) => sk(`${92 - i * 12}%`)).join('')}</div>`);
+  const skCard = (t, n = 3) => box(`${head(t, chipOf(['fresh', 'Last good 22:15']))}<div style="display:grid;gap:10px">${Array.from({ length: n }, (_, i) => sk(`${92 - i * 12}%`)).join('')}</div>`);
   const NA_MODEL = 'No forecast is on this screen, so a missing model cannot arise';
   const NA_LOCKED = where => `A locked-out owner cannot reach this page. That state is on ${where}`;
   const CHIP_ROWS = list => `<div class="privacy-chips">${list}</div>`;
@@ -80,7 +80,7 @@
     if (s === 'noModel' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model · no action</span>`);
     if (s === 'abstention' && h.t === 'AZN') return maskRow(h, `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`);
     if (s === 'disagreement' && h.t === 'RELIANCE') return maskRow(h, `<div style="flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;font:600 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2)"><span>Baseline</span>${range({ ...h, med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 })}<span>${pct(-2.4)}</span><span>R2-HGB v3</span>${range(h)}<span>${pct(h.med)}</span></div>`);
-    if (s === 'offline') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="chip offline">${ic('clock', 's14')}Saved 21:15</span>`);
+    if (s === 'offline') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="chip offline">${ic('clock', 's14')}Saved 22:15</span>`);
     /* Apple is out at another horizon in these states, so it is not ranked and has no action (OWN-17, OWN-20); the banner says why */
     if ((s === 'abstention' || s === 'disagreement') && h.t === 'AAPL') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="small muted">None</span>`);
     return s === 'stale' ? hrow(h, { priv: true }) : late(hrow(h, { priv: true }));
@@ -89,7 +89,7 @@
   const maskedRows = ctx => [byT.AAPL, { noModel: byT.RELIANCE, disagreement: byT.RELIANCE, abstention: byT.AZN }[ctx.state] || byT.NVDA, byT.HSBA].map(h => masked(ctx, h)).join('');
   /* what the state says about the holdings: one set of words on Privacy and on Home with amounts hidden */
   const homeSay = s => ({
-    error: () => stateCard('alert', 'Today\'s run failed', 'It failed at 21:14, so the last good run shows in full, with its percentages.', btn('Try again', 'tinted', 'refresh'), 'Last good run Mon 21:15 · cutoff 21:00'),
+    error: () => stateCard('alert', 'The US run failed', 'It failed at 21:16, so the US holdings show Monday\'s run, with their percentages. The UK and India ran today.', btn('Try again', 'tinted', 'refresh'), LASTGOOD_ALL),
     stale: () => banner('warn', 'Stale.', 'HSBC last priced 14:10. Its forecast is held and its action paused until its price returns.', 'clock'),
     offline: () => banner('', 'Offline.', 'Saved copies. Each row shows its age, and nothing updates until you reconnect.', 'wifi-off'),
     noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
@@ -98,7 +98,7 @@
   }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
-  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
+  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good' : 'today'}</span>`}</div>`;
   /* one set of words wherever privacy mode explains itself */
   const maskSay = 'Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.';
   const maskCopy = `Amounts hidden. ${maskSay}`;
@@ -148,7 +148,7 @@
     const s = ctx.state;
     if (s === 'loading') return skCard('Notices', 3);
     if (s === 'empty') return box(`${head('Notices')}<p class="small muted">No notices yet. Silence is not a sign that nothing is wrong: check your record and data status.</p>`);
-    const top = { error: banner('fall', 'Notices did not load.', 'They failed at 21:14. Nothing is lost: every notice stays on the server.', 'alert'), stale: banner('warn', 'From 14:10.', 'Newer notices appear once this refreshes.', 'clock'), offline: banner('', 'Offline.', 'Notices saved at 21:15. Each rebuilds from the server when you reconnect.', 'wifi-off'), disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'), abstention: banner('', '2 notices held.', 'Quiet hours are 22:00 to 07:00. They arrive with the 07:30 brief, and they are already in this inbox.', 'clock') }[s] || '';
+    const top = { error: banner('fall', 'Notices did not load.', 'They failed at 21:16. Nothing is lost: every notice stays on the server.', 'alert'), stale: banner('warn', 'From 14:10.', 'Newer notices appear once this refreshes.', 'clock'), offline: banner('', 'Offline.', 'Notices saved at 22:15. Each rebuilds from the server when you reconnect.', 'wifi-off'), disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'), abstention: banner('', '2 notices held.', 'Quiet hours are 22:00 to 07:00. They arrive with the 07:30 brief, and they are already in this inbox.', 'clock') }[s] || '';
     return box(`${head('Notices', `<span class="small muted">${n === 4 ? 'By time detected' : '2 unread'}</span>`)}${top}${s === 'error' ? '' : noticeRows(n, s === 'stale')}<p class="small muted">Opening a notice shows its evidence. It never performs an action.</p>`);
   }
   function pushCard(ctx) {
@@ -180,7 +180,7 @@
       return li('', n, sub, smbtn('Revoke', 'tinted', dis));
     });
     const top = {
-      error: banner('fall', `${gone} was not revoked.`, 'It failed at 21:14 and is still signed in. Try again.', 'alert'),
+      error: banner('fall', `${gone} was not revoked.`, 'It failed at 21:16 and is still signed in. Try again.', 'alert'),
       stale: banner('warn', 'From 14:10.', 'A device may look active after it has been revoked. This list refreshes when it can.', 'clock'),
       offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
       disagreement: banner('', `${gone} shows as signed in on the ${gone} itself.`, 'The server has ended it. Its offline copy clears when it next connects.', 'split')
@@ -204,7 +204,7 @@
       default: [chipOf(['fresh', 'Ready · link valid 42 min']), 'Your ledger, holdings and evidence, as of one published revision. The link is private and starts a download for one hour.', smbtn('Download', 'primary')],
       loading: [chipOf(['fresh', 'Building']), 'Building from revision 213. A revision published meanwhile does not change it.', smbtn('Building', 'tinted', true)],
       empty: [chipOf(['', 'No export yet', 'clock']), 'Your ledger, holdings and evidence, as of one published revision. Asking needs a fresh sign-in.', smbtn('Request an export', 'primary')],
-      error: [chipOf(['error', 'Failed 21:14', 'alert']), 'It stopped part-way, so no partial file exists. Trying again resumes it without making a duplicate.', smbtn('Try again', 'primary')],
+      error: [chipOf(['error', 'Failed 21:16', 'alert']), 'It stopped part-way, so no partial file exists. Trying again resumes it without making a duplicate.', smbtn('Try again', 'primary')],
       stale: [chipOf(['stale', 'Link expired', 'clock']), 'The one-hour link ended. A new request needs a fresh sign-in, and an expired link starts nothing.', smbtn('Request a new link', 'primary')],
       offline: [chipOf(['offline', 'Needs a connection', 'wifi-off']), 'Exports are built and kept on the server. Nothing is requested until you reconnect.', smbtn('Request an export', 'tinted', true)],
       disagreement: [chipOf(['fresh', 'Ready · link valid 42 min']), 'Revision 214 published while this was building. This export stays on revision 213, whole, and never mixes the two.', smbtn('Download', 'primary')],
@@ -213,7 +213,7 @@
     return box(`${head('Export your data', v[0])}<p class="small muted">${v[1]}</p>${s === 'empty' ? '' : rev}${v[2]}`);
   }
   /* the age of each record on this device. The checkup quotes the oldest from this one list. */
-  const agesOf = s => (s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 21:15', 'Saved 21:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h']);
+  const agesOf = s => (s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 22:15', 'Saved 22:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h']);
   const oldestOf = s => agesOf(s)[s === 'stale' ? 4 : 2].replace('Saved', 'saved');
   function offlineCopy(ctx) {
     const s = ctx.state;
@@ -221,7 +221,7 @@
     if (s === 'empty') return box(`${head('Offline copy', proposed('MP40-Q12'))}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
     const ages = agesOf(s);
     const rows = ['Holdings', 'Prices', 'Forecasts', 'Notices', 'Cost'].map((n, i) => `<tr data-mo="rise"><td>${n}</td><td class="r">${ages[i]}</td></tr>`).join('');
-    const top = { error: banner('warn', 'Copy rebuilt.', 'A damaged copy was thrown away and rebuilt from the server at 21:14.', 'refresh'), stale: banner('warn', 'Older than usual.', 'Each record keeps its own age and is never shown as fresh.', 'clock') }[s] || '';
+    const top = { error: banner('warn', 'Copy rebuilt.', 'A damaged copy was thrown away and rebuilt from the server at 21:16.', 'refresh'), stale: banner('warn', 'Older than usual.', 'Each record keeps its own age and is never shown as fresh.', 'clock') }[s] || '';
     const where = browser(ctx) ? 'This is what the Apple app keeps. What this browser keeps is not settled yet.' : 'Encrypted on this device. Sign-out or a revoke clears it, and approvals, imports and settings never run offline.';
     return box(`${head('Offline copy', proposed('MP40-Q12'))}${top}<table class="ht"><thead><tr><th>Record</th><th class="r">Age</th></tr></thead><tbody>${rows}</tbody></table><p class="small muted">${where}</p>`);
   }
@@ -230,7 +230,7 @@
     const s = ctx.state;
     if (s === 'loading') return skCard('Originals', 3);
     if (s === 'empty') return box(`${head('Originals')}<p class="small muted">No originals yet. A statement or screenshot you import is kept here privately for 24 months, and you can renew it.</p>`);
-    if (s === 'error') return stateCard('alert', 'Originals did not load', 'They failed at 21:14. Nothing is deleted or changed.', smbtn('Try again'));
+    if (s === 'error') return stateCard('alert', 'Originals did not load', 'They failed at 21:16. Nothing is deleted or changed.', smbtn('Try again'));
     const rows = ORIGINALS.map(([t, d], i) => (s === 'abstention' && i === 3 ? li('ban', 'Deleted original', 'Removed 2 Oct · evidence unavailable', '') : i === 3 ? li('layers', t, d, smbtn('Renew', 'tinted', s === 'offline')) : tap('layers', t, d, go)));
     return box(`${head('Originals', '<span class="small muted">Kept 24 months, renewable</span>')}${list(rows)}`);
   }
@@ -251,7 +251,7 @@
     const s = ctx.state, due = s === 'stale', keep = 'The two ledger events it supported stay, marked evidence unavailable. A deletion record and the audit trail stay.';
     const note = {
       loading: banner('', 'Deleting.', 'If this stops, it resumes from its deletion record.', 'clock'),
-      error: banner('warn', 'One copy is left.', 'The deletion stopped at 21:14. It resumes by itself and reports what it could not yet remove.', 'alert'),
+      error: banner('warn', 'One copy is left.', 'The deletion stopped at 21:16. It resumes by itself and reports what it could not yet remove.', 'alert'),
       stale: banner('warn', 'Due in Dec 2026.', 'Its 24 months end then. Nothing deletes by itself: renew it or delete it here.', 'clock'),
       offline: banner('', 'Offline.', 'Deleting needs a connection and a fresh sign-in. Nothing has changed.', 'wifi-off'),
       disagreement: banner('fall', 'This file changed.', 'It moved to version 4 after you opened it, so that approval is refused. Check it, then approve again.', 'split'),
@@ -266,7 +266,7 @@
     const s = ctx.state;
     const note = {
       loading: banner('', 'Renewing.', 'Nothing changes until this finishes.', 'clock'),
-      error: banner('fall', 'Not renewed.', 'It failed at 21:14. The file stays as it was, and nothing deletes by itself. Try again.', 'alert'),
+      error: banner('fall', 'Not renewed.', 'It failed at 21:16. The file stays as it was, and nothing deletes by itself. Try again.', 'alert'),
       stale: banner('warn', 'That approval expired.', 'Nothing changed. Approve it again with a fresh sign-in.', 'clock'),
       offline: banner('', 'Offline.', 'Renewing needs a connection and a fresh sign-in. Nothing has changed.', 'wifi-off'),
       disagreement: banner('fall', 'This file changed.', 'It moved to version 2 after you opened it, so that approval is refused. Check it, then approve again.', 'split'),
@@ -283,9 +283,9 @@
     const s = ctx.state;
     if (s === 'loading') return skCard('Notice', 3);
     const top = {
-      error: banner('fall', 'The evidence did not load.', 'It failed at 21:14. The notice stays in your inbox.', 'alert'),
+      error: banner('fall', 'The evidence did not load.', 'It failed at 21:16. The notice stays in your inbox.', 'alert'),
       stale: banner('warn', 'Past the limit.', 'HSBC leaves the total until its price returns.', 'clock'),
-      offline: banner('', 'Offline.', 'Saved at 21:15. Its evidence rebuilds from the server when you reconnect.', 'wifi-off'),
+      offline: banner('', 'Offline.', 'Saved at 22:15. Its evidence rebuilds from the server when you reconnect.', 'wifi-off'),
       noModel: banner('', 'India has no approved model yet.', 'HSBC keeps its forecast, held.', 'cube'),
       disagreement: banner('', 'Read on your iPad.', 'Unread here, read there. A conflict always resolves to read.', 'split'),
       abstention: banner('', 'Held for quiet hours.', 'It arrived with the 07:30 brief.', 'clock')
@@ -303,7 +303,7 @@
     const need = {
       default: [renew],
       empty: [tap('alert', 'Add a second sign-in path', 'Only this device can sign in. Losing it would lock you out', go)],
-      error: [tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go), tap('alert', 'A revoke did not finish', `${gone} is still signed in. Try again`, go), tap('alert', 'A privacy change did not save', 'The private default stays in force. Try again', go), tap('alert', 'Originals did not load', 'They failed at 21:14. Nothing is deleted or changed', go)],
+      error: [tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go), tap('alert', 'A revoke did not finish', `${gone} is still signed in. Try again`, go), tap('alert', 'A privacy change did not save', 'The private default stays in force. Try again', go), tap('alert', 'Originals did not load', 'They failed at 21:16. Nothing is deleted or changed', go)],
       stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'Apple app · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
       offline: [renew],
       disagreement: [tap('split', 'A device has not checked in', `${gone} is revoked but shows signed in on the ${gone} itself`, go), tap('ban', 'Phone notifications are blocked', 'On here, denied in this device\'s settings. Your inbox still has everything', go), renew]
@@ -313,9 +313,9 @@
       !['empty', 'error', 'disagreement'].includes(s) && ['person', 'Devices', s === 'stale' ? '4 signed in at 14:10 · newest added 2 days ago' : '4 signed in · newest added 2 days ago'],
       s !== 'error' && ['eye-off', 'Lock screen and widgets', s === 'stale' ? 'Private defaults · last synced 14:10' : s === 'disagreement' ? 'Private here · Holdings in widgets is on from your Mac' : 'Nothing confidential shows'],
       !['error', 'disagreement'].includes(s) && ['shield', 'Notifications', { empty: 'Not asked yet · quiet 22:00 to 07:00', offline: 'Web Push on · changes wait until you reconnect', abstention: 'Web Push on · held for quiet hours until 07:30' }[s] || 'Web Push on · quiet 22:00 to 07:00'],
-      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'Apple app' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:14' : ''} · oldest record ${age}`]
+      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'Apple app' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:16' : ''} · oldest record ${age}`]
     ].filter(Boolean);
-    return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 21:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need.length ? box(`${head('Needs you', `<span class="small muted">${need.length} item${need.length > 1 ? 's' : ''}</span>`)}${list(need)}`) : ''}${box(`${head('Looks good', `<span class="small muted">Checked ${s === 'stale' ? '14:10' : '21:15'}</span>`)}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
+    return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 22:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need.length ? box(`${head('Needs you', `<span class="small muted">${need.length} item${need.length > 1 ? 's' : ''}</span>`)}${list(need)}`) : ''}${box(`${head('Looks good', `<span class="small muted">Checked ${s === 'stale' ? '14:10' : '21:15'}</span>`)}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
   }
   const PATH_IN = { iphone: 'Your iPhone passkey', ipad: 'Google', web: 'Your Mac passkey', pwa: 'Google' };
   const SEEN = { iPhone: '40 min ago', iPad: '2 h ago' };
@@ -335,7 +335,7 @@
 
   /* ---------- screens ---------- */
   const signFrame = (ctx, sheet) => frame(ctx, { fresh: 'default', tab: 0, title: 'Sign in', body: '', sheet });
-  /* Home shows prices, so it follows the shared story: a late HSBC in Ready, HSBC out of the total in Stale, the last good run in full in Error */
+  /* Home shows prices, so it follows the shared story: a late HSBC in Ready, HSBC out of the total in Stale, the US run's last good run in Error, with the UK and India on today's (ADM-10) */
   function homeHidden(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skel(3);
@@ -411,9 +411,9 @@
         render: ctx => signFrame(ctx, cover(ctx, deviceFlow(ctx)))
       }, {
         id: 'privacy-b-home', title: 'Home, amounts hidden',
-        note: 'The eye on the top bar. The owner picked "Mask units too" (OWN-18): money and units are masked, and percentages stay. Offline, each row shows its age.',
+        note: 'The eye on the top bar. The owner picked "Mask units too" (OWN-18): money and units are masked, and percentages stay. Offline, each row shows its age. The cost pill is on every Home ("Pill on every Home", OWN-06). Proposed: here its pounds are masked with the rest, and its bar stays, as a percentage does.',
         render: ctx => homePage(ctx, {
-          tab: 0, title: 'Portfolio', actions: tb('search', 'Search') + `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`, webActions: wide(ctx) ? `<button class="btn sm btn-primary" type="button" aria-pressed="true">${ic('eye-off', 's18')}Amounts hidden</button>` : `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`,
+          tab: 0, title: 'Portfolio', actions: costPillOf({ ...ctx, hidden: true }) + tb('search', 'Search') + `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`, webActions: costPillOf({ ...ctx, hidden: true }) + (wide(ctx) ? `<button class="btn sm btn-primary" type="button" aria-pressed="true">${ic('eye-off', 's18')}Amounts hidden</button>` : `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`),
           body: homeHidden(ctx),
           rail: box(outsideHead(ctx))
         })

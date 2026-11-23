@@ -61,7 +61,7 @@
         render: ctx => frame(ctx, {
           title: 'Admin', back: 'Settings',
           body: state(ctx, () => `${sec('Needs you')}${needs(ctx)}${sec('Places')}${places(ctx)}`, 'Admin'),
-          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', ctx.state === 'error' ? 'Mon 21:15 · cutoff 21:00, last good' : 'Tue 21:15 · cutoff 21:00'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
+          rail: `${box(`${lbl('Last run')}<p class="small" style="margin-top:6px">${QUIET[ctx.state]}</p>${kv([['Forecast run', ctx.state === 'error' ? 'Mon 21:15 · cutoff 22:00 · issued 22:15, last good' : 'Tue 21:15 · cutoff 22:00 · issued 22:15'], ['Restore exercise', 'Passed · Sun 1 Nov'], ['Environment', 'Prod']])}`)}${note()}`
         })
       }]
     }, {
