@@ -96,9 +96,10 @@ const blocks = (html, open) => { const out = []; let i = -1; while ((i = html.in
 
 /* ---------- holdings: every row, on the four forms a holding row takes ---------- */
 const nameIn = (r, names) => names.filter((t) => new RegExp(`(^|[\\s>])${t}(?=[\\s<·]|$)`).test(words(r)));
-/* a phone row (div.hrow), or a table row whose name is the control. The running-cost row closes the holdings. */
+/* a phone row (div.hrow), or a table row whose name is the control. Narrowed in MP-186: the owner picked "Pill on every Home" (OWN-06),
+   so no running-cost row closes the holdings any more; the board's heading does. */
 const holdingRows = (html) => {
-  const end = html.indexOf('class="card home-link'), part = end >= 0 ? html.slice(0, end) : html;
+  const end = html.indexOf('>Top 5 by segment<'), part = end >= 0 ? html.slice(0, end) : html;
   return part.split(/(?=<div class="hrow|<tr[ >])/)
     .filter((r) => (r.startsWith('<div class="hrow') && r.includes('home-tk')) || (r.startsWith('<tr') && r.includes('home-rowbtn')))
     .map((r) => (r.startsWith('<tr') ? r.slice(0, r.indexOf('</tr>') + 5) : blockAt(r, 0)));

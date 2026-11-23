@@ -60,6 +60,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 ### MP-186: Redraw navigation, the Home cost pill and the run clock wording
 
+Drawn on branch `MP-186-nav-cost-pill-clock` (23 November 2026), in the Journeys, Admin and Prism designs. The run clock now reads per market in the owner and admin pages alike: each market's cutoff at +60 and its forecasts by +75 (US 22:00 and 22:15, UK 17:35 and 17:50, India 11:00 and 11:15), and Twelve Data fails at 21:16, after the US run starts (ADM-10, ADM-11, ADM-22). Proposed: the order and icons of the three new sidebar places, and the pill's pounds masked when amounts are hidden.
+
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
 | OWN-02 | Add them to the sidebar | pressed | Screens redrawn |

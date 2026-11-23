@@ -1888,9 +1888,22 @@
    "key": "MP-186",
    "summary": "Redraw navigation, the Home cost pill and the run clock wording",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/README.md",
+    "docs/design/admin/src/",
+    "docs/design/admin/index.html",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "docs/planning/trace.json",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md",
+    "docs/design/question-pack/index.html"
+   ]
   },
   {
    "key": "MP-187",
