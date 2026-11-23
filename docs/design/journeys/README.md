@@ -89,6 +89,10 @@ Never hide risk, staleness or a provider's status behind a spinner: freshness st
   means no score, said in words.
 - Numbers come from code and models; Claude only explains, and every figure it quotes carries a source.
 - Holdings first on home. Holdings and imports are separate places.
+- An approval binds one exact change and grants no tool, source or permission. A budget changes only by your own change
+  in Settings or a raise code drafted for your yes ("Code may draft one", OWN-35). An act that writes or widens asks for
+  a fresh sign-in, and reading and stopping do not ("Anything that writes or widens", OWN-39), so a revoke needs only an
+  open session ("An open session is enough", OWN-16). How recent a sign-in must be is still open.
 - Privacy mode masks money and units, and percentages stay ("Mask units too", OWN-18). Lock screens, widgets and
   snapshots show no holdings.
 - Every figure is illustrative and labelled. Use the shared figures in `docs/design/reviews/MP-62/brief.md`.

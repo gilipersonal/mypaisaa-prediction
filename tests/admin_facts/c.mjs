@@ -27,7 +27,8 @@ export default {
     has(read('docs/planning/retired-facts.json'), /until the owner says when/);
   },
   'R2-s3': ({ perms, must, lacks }) => {
-    must(row(perms, 'A74').control !== 'named', 'A74 is drawn, and listed as having no control');
+    // Narrowed for ADM-23, "Code marks it": A74 is code's act now, shown on the timeline with no control, so it is not named as waiting for a screen either.
+    must(row(perms, 'A74').control !== 'named' && row(perms, 'A74').step_up === 'outside' && /ADM-23/.test(row(perms, 'A74').step_up_note), 'A74 is listed as an owner control, or as waiting for one');
     lacks(read('docs/design/admin/src/shell.js'), /Who marks an incident mitigated\? \(CT-14\)', 'Labelled proposed, with no control/);
   },
   'R2-s7': ({ has, lacks }) => {

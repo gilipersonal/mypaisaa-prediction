@@ -112,7 +112,7 @@ export default {
     });
     each({ journey: 'privacy', option: 'a', screen: 'privacy-a-data', state: 'default' }, (v, at) => { must(/<button[^>]*>Renew<\/button>/.test(v.html), `${here(at)}: Renew is not a button`); has(v.text, /due in Dec 2026/, here(at)); });
     for (const [option, screen] of [['a', 'privacy-a-renew'], ['b', 'privacy-b-renew']]) {
-      each({ journey: 'privacy', option, screen, state: 'default' }, (v, at) => { has(v.text, /fresh sign-in/, here(at)); has(v.text, /Unlocking the app does not count/, here(at)); has(v.text, /Keeps it to Dec 2028/, here(at)); has(v.text, /Proposed · CT-01/, here(at)); });
+      each({ journey: 'privacy', option, screen, state: 'default' }, (v, at) => { has(v.text, /fresh sign-in/, here(at)); has(v.text, /Unlocking the app does not count/, here(at)); has(v.text, /Keeps it to Dec 2028/, here(at)); /* narrowed for OWN-39, "Anything that writes or widens": renewing changes a record, so its fresh sign-in is the owner's rule and the CT-01 label is gone */ lacks(v.text, /Proposed · CT-01/, here(at)); has(v.text, /because it changes a record/, here(at)); });
       each({ journey: 'privacy', option, screen, state: 'offline' }, (v, at) => must(/<button[^>]*disabled[^>]*>(?:(?!<\/button>).)*Renew<\/button>/.test(v.html), `${here(at)}: offline must refuse it`));
     }
   },

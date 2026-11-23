@@ -1,5 +1,5 @@
 {
- "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (CT-01 decides) or outside (not an MP step-up). No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live or off. The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. On 4 November 2026 the owner also answered: \"Yes, acknowledge only (Recommended)\" for a phone acknowledging an incident, \"Account recovery only (Recommended)\" for what recovery covers on a phone, so replay, restore and pause stay on iPad or desktop, and \"The purchase (Recommended)\" for what lifts MP-164's bar. The rest of the live and off split is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. Nothing here approves a design or a build.",
+ "about": "Every admin action, whether it needs a fresh sign-in (ARC-07), what it writes to the audit, and whether it works on a phone, for MP-64. step_up: yes (a story or owner record requires it), no, open (still the owner's to answer) or outside (not an MP step-up, or not an owner act: A74 is code's). The owner answered which acts need one on 5 November 2026, \"Anything that writes or widens\" (OWN-39): every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in, and reading and stopping do not. Each row's note says which, and where the class is the maker's reading it says so. No freshness window or assurance level is approved, and no audit vocabulary (CT-03). phone: live or off. The owner, 4 November 2026: \"Under Settings, phones read only\", from an option that read \"Changes happen on iPad or desktop; phones can read and acknowledge\", and \"Yes, recovery only (Recommended)\", to a question about revoking a lost device and enrolling a replacement when other devices are gone. On 4 November 2026 the owner also answered: \"Yes, acknowledge only (Recommended)\" for a phone acknowledging an incident, \"Account recovery only (Recommended)\" for what recovery covers on a phone, so replay, restore and pause stay on iPad or desktop, and \"The purchase (Recommended)\" for what lifts MP-164's bar. The rest of the live and off split is the maker's reading, open to the owner. control: named means the act is listed, and no admin screen draws it yet. Nothing here approves a design or a build.",
  "actions": [
   {
    "id": "A01",
@@ -19,8 +19,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open (CT-01); needs \"current owner authorization and a short-lived access path\" `[history]`",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it opens an original",
    "audit": "Access event in AuditEvidence; class open (CT-03)",
    "source": "audit and observability requirements (history)",
    "phone": "live"
@@ -44,8 +44,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open (not on the matrix)",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record, storing a file and its draft",
    "audit": "AuditEvidence, SourceReceipt",
    "source": "PH01-S06",
    "phone": "off"
@@ -56,8 +56,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "New draft revision and AuditEvidence; class open (CT-03)",
    "source": "PH01-S12",
    "phone": "off"
@@ -68,8 +68,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. Cancelling ends a draft",
    "audit": "Draft closes as cancelled, and AuditEvidence; class open (CT-03)",
    "source": "financial policies, draft states",
    "phone": "off"
@@ -107,8 +107,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open. \"Neither MP-55 nor CT-01 names it\"",
+   "step_up": "no",
+   "step_up_note": "No. The owner picked \"An open session is enough\" (OWN-16): any live signed-in session revokes at once, and a signed-out device signs in first",
    "audit": "OwnerApproval.revoked_at, and AuditEvidence; class open (CT-03)",
    "source": "Approvals journey; OwnerApproval schema",
    "phone": "off"
@@ -168,8 +168,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; a new revision voids any approval",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\", as A58): a draft changes no record. The result is a new draft revision; the class is the maker's reading, open to the owner",
    "audit": "New draft revision and AuditEvidence; class open (CT-03)",
    "source": "PH01-S08",
    "phone": "off"
@@ -180,8 +180,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "\"recorded disposition\"; actor unnamed",
    "source": "PH01-S05, FS:43",
    "phone": "off"
@@ -228,8 +228,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only reads. The export was requested with a fresh sign-in (A18); the class is the maker's reading, open to the owner",
    "audit": "AuditEvidence",
    "source": "PH01-S26",
    "phone": "live"
@@ -252,8 +252,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; the behaviour itself is open (FIN-OD-08)",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops; the behaviour itself is open (FIN-OD-08)",
    "audit": "Export record and AuditEvidence; class open (CT-03)",
    "source": "FIN-OD-08",
    "phone": "off"
@@ -264,8 +264,8 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "New memory note version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S15",
    "phone": "off"
@@ -288,8 +288,8 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open. This is a reviewed code change to a manifest, not a setting, which is how it differs from R14",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do. This is a reviewed code change to a manifest, not a setting, which is how it differs from R14",
    "audit": "Manifest version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S06",
    "phone": "off"
@@ -312,8 +312,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. A rejection ends a candidate and grants nothing; the class is the maker's reading, open to the owner",
    "audit": "PromotionRecord (to rejected)",
    "source": "PH04-S18",
    "phone": "off"
@@ -324,8 +324,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; drawn with a fresh sign-in, tagged `Proposed · CT-01`",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record, and it is drawn with a fresh sign-in",
    "audit": "PromotionRecord",
    "source": "PH04-S19; J:approvals:296",
    "phone": "off"
@@ -336,8 +336,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; same",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record, and it is drawn with a fresh sign-in",
    "audit": "PromotionRecord, tagged `Proposed · POLICY-003`",
    "source": "DL:219; J:approvals:302",
    "phone": "off"
@@ -361,8 +361,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "EvalLabel",
    "source": "PH05-S13",
    "phone": "off"
@@ -385,8 +385,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record. A rollback is a new version",
    "audit": "New setting version equal to the old one, with its own AuditEvidence",
    "source": "PH05-S14",
    "phone": "off"
@@ -397,8 +397,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Policy version",
    "source": "PH06-S05",
    "phone": "off"
@@ -410,7 +410,7 @@
     "costs"
    ],
    "step_up": "yes",
-   "step_up_note": "Yes",
+   "step_up_note": "Yes. A raise code drafted when a line is close also applies only through your yes here, with a fresh sign-in (\"Code may draft one\", OWN-35)",
    "audit": "New version and AuditEvidence; class open (CT-03)",
    "source": "PH02-S10, PH02-S08",
    "phone": "off"
@@ -433,8 +433,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "\"the authentication PH-02 requires for a configuration change\": level open; drawn `Proposed · CT-01`",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Catalogue version, owner approval record",
    "source": "PH03-S03, PH05-S11",
    "phone": "off"
@@ -445,8 +445,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do when a scope is set. Withdrawing only stops a use, so a withdrawal asks for none",
    "audit": "Entitlement, AuditEvidence",
    "source": "PH03-S02",
    "phone": "off"
@@ -457,8 +457,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do when an extension is activated. Deactivating only stops, so it asks for none",
    "audit": "ExtensionApproval",
    "source": "PH09-S01",
    "phone": "off"
@@ -469,8 +469,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; edits are \"versioned/audited\"",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record; edits are \"versioned/audited\"",
    "audit": "New policy version and AuditEvidence; class open (CT-03)",
    "source": "PH06-S12; CT-18",
    "phone": "off"
@@ -482,7 +482,7 @@
     "incidents"
    ],
    "step_up": "open",
-   "step_up_note": "Open",
+   "step_up_note": "Open: acknowledging changes the incident record, so OWN-39, \"Anything that writes or widens\" reads it as yes, and the pack's other option named acknowledging as what that option alone would slow. Put to the owner",
    "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
    "source": "PH08-S05",
    "phone": "live"
@@ -505,8 +505,8 @@
    "journeys": [
     "incidents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do: authority moves to a restored copy",
    "audit": "OwnerApproval and AuditEvidence; class open (CT-03)",
    "source": "PH08-S03",
    "phone": "off"
@@ -517,8 +517,8 @@
    "journeys": [
     "incidents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open; only the runbook names them",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops; only the runbook names the switches",
    "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH08-S09",
    "phone": "off"
@@ -603,8 +603,8 @@
    "journeys": [
     "identity"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops",
    "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH02-S02",
    "phone": "live"
@@ -615,8 +615,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open: no record names it",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. A refusal ends a proposal and grants nothing; the class is the maker's reading, open to the owner",
    "audit": "Proposal closes as refused; audit class open (CT-03)",
    "source": "PH02-S03; GAP-CT-02",
    "phone": "off"
@@ -627,8 +627,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open: the approval still binds it, and no record says whether a retry asks again",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record. A retry commits on the same approval",
    "audit": "CommitReceipt or the failed manifest, and AuditEvidence; class open (CT-03)",
    "source": "PH01-S15",
    "phone": "off"
@@ -640,8 +640,8 @@
     "files",
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\", as A58): a draft changes no record. A refresh makes a new draft revision; the class is the maker's reading, open to the owner",
    "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
    "source": "PH01-S14; financial specification",
    "phone": "off"
@@ -652,8 +652,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record, as the request it retries (A18)",
    "audit": "Export record and AuditEvidence; class open (CT-03)",
    "source": "PH01-S26",
    "phone": "off"
@@ -664,8 +664,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Owner resolution with its reason and source, and AuditEvidence; class open (CT-03)",
    "source": "PH01-S17",
    "phone": "off"
@@ -676,8 +676,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\", as A58): a draft changes no record; the class is the maker's reading, open to the owner",
    "audit": "New draft revision, which voids any pending approval, and AuditEvidence; class open (CT-03)",
    "source": "PH01-S13",
    "phone": "off"
@@ -688,8 +688,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only reads. A coverage check asks the providers and changes no record of yours; the class is the maker's reading, open to the owner",
    "audit": "Credit reservation, catalogue check and AuditEvidence; class open (CT-03)",
    "source": "PH03-S03",
    "phone": "off"
@@ -713,8 +713,8 @@
    "journeys": [
     "identity"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "AuditEvidence for each step; class open (CT-03)",
    "source": "PH02-S02",
    "phone": "live"
@@ -725,8 +725,8 @@
    "journeys": [
     "incidents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open: added by the maker, because the story asks for reject and no record names this act",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. A decline ends a request and runs nothing; the class is the maker's reading, open to the owner",
    "audit": "Request closes as declined, and AuditEvidence; class open (CT-03)",
    "source": "PH08-S06; CT-02",
    "phone": "off"
@@ -737,8 +737,8 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Factor admission record and AuditEvidence; class open (CT-03)",
    "source": "PH05-S04",
    "phone": "off"
@@ -749,8 +749,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Rules version and AuditEvidence; class open (CT-03)",
    "source": "PH04-S05; PH04-S18",
    "phone": "off"
@@ -761,8 +761,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Feature block record and AuditEvidence; class open (CT-03)",
    "source": "PH04-S07; PH04-S14",
    "phone": "off",
@@ -774,8 +774,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Release-gate record and AuditEvidence; class open (CT-03)",
    "source": "PH05-S12",
    "phone": "off",
@@ -787,8 +787,8 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Manifest version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S05; ARC-06b-O2",
    "phone": "off",
@@ -800,8 +800,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Task version and AuditEvidence; class open (CT-03)",
    "source": "PH04-S01; PH04-S10",
    "phone": "off",
@@ -813,8 +813,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Qualification record and AuditEvidence; class open (CT-03)",
    "source": "PH04-S12",
    "phone": "off",
@@ -826,8 +826,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Detector version and AuditEvidence; class open (CT-03)",
    "source": "PH04-S15",
    "phone": "off",
@@ -839,8 +839,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Policy version and AuditEvidence; class open (CT-03)",
    "source": "PH04-S16; PH06-S07",
    "phone": "off",
@@ -852,8 +852,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what MP may do",
    "audit": "Source record and AuditEvidence; class open (CT-03)",
    "source": "PH05-S01",
    "phone": "off",
@@ -865,8 +865,8 @@
    "journeys": [
     "approvals"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Catalogue version and AuditEvidence; class open (CT-03)",
    "source": "PH03-S10",
    "phone": "off",
@@ -878,8 +878,8 @@
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Release-threshold record; class open (CT-03)",
    "source": "PH05-S13",
    "phone": "off"
@@ -899,15 +899,16 @@
   },
   {
    "id": "A74",
-   "action": "Mark an incident mitigated",
+   "action": "Mark an incident mitigated, by code",
    "journeys": [
     "incidents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open: no record says who marks it (CT-14), and the screen labels it",
-   "audit": "IncidentRecord state and AuditEvidence; class open (CT-03)",
-   "source": "PH08-S05",
-   "phone": "off"
+   "step_up": "outside",
+   "step_up_note": "Not an owner act. The owner picked \"Code marks it\" (ADM-23): code marks an incident mitigated when its checks show the fault has stopped, and you still acknowledge and resolve. The timeline shows it, with no control",
+   "audit": "IncidentRecord state and AuditEvidence, written by code; class open (CT-03)",
+   "source": "PH08-S05; ADM-23",
+   "phone": "outside",
+   "phone_note": "Code does it, on no device"
   },
   {
    "id": "A75",
@@ -915,8 +916,8 @@
    "journeys": [
     "incidents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "IncidentRecord with its recorded resolution, and AuditEvidence; class open (CT-03)",
    "source": "PH08-S05",
    "phone": "off"
@@ -927,8 +928,8 @@
    "journeys": [
     "costs"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "no",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. Withdrawing can only lower spend",
    "audit": "New version and AuditEvidence; class open (CT-03)",
    "source": "PH02-S09; CT-13",
    "phone": "off"
@@ -939,22 +940,22 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "New draft revision and AuditEvidence; class open (CT-03)",
    "source": "Holdings journey; PH01-S13",
    "phone": "off"
   },
   {
    "id": "A78",
-   "action": "Decide what happens when no rules mapping qualifies",
+   "action": "Let the best simple baseline stand in for the rules on one task",
    "journeys": [
     "models"
    ],
-   "step_up": "open",
-   "step_up_note": "Open. No record lists the choices (SCI-D03)",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes what a model must beat. The owner picked \"Use the best simple baseline\" (ADM-09): for that task, the strongest simple baseline stands in for the rules, with your yes each time",
    "audit": "Rules version record and AuditEvidence; class open (CT-03)",
-   "source": "PH04-S06; evaluation protocol; SCI-D03",
+   "source": "PH04-S06; evaluation protocol; ADM-09",
    "phone": "off"
   },
   {
@@ -963,8 +964,8 @@
    "journeys": [
     "agents"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "Template version and AuditEvidence; class open (CT-03)",
    "source": "PH05-S08",
    "phone": "off",
@@ -989,8 +990,8 @@
    "journeys": [
     "files"
    ],
-   "step_up": "open",
-   "step_up_note": "Open",
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record",
    "audit": "New SourceReceipt and AuditEvidence; class open (CT-03)",
    "source": "PH01-S06; Holdings journey",
    "phone": "off"
@@ -1006,6 +1007,31 @@
    "audit": "DeletionTombstone and AuditEvidence; class open (CT-03)",
    "source": "PH01-S06; PH02-S03; Holdings journey",
    "phone": "off"
+  },
+  {
+   "id": "A83",
+   "action": "Withdraw a factor or rules version by hand",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes. The owner picked \"Code on trigger, or you\" (ADM-08): you can withdraw by hand with a fresh sign-in, and code withdraws by itself only on a trigger you approved in advance",
+   "audit": "Rules or factor version record, back to the previous approved one, and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S05; PH05-S04; ADM-08",
+   "phone": "off"
+  },
+  {
+   "id": "A84",
+   "action": "Approve the triggers that let code withdraw a factor or rules version",
+   "journeys": [
+    "models"
+   ],
+   "step_up": "yes",
+   "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it widens what code may do. No trigger is listed yet, so nothing waits to be approved (ADM-08)",
+   "audit": "Trigger policy version and AuditEvidence; class open (CT-03)",
+   "source": "PH04-S05; PH05-S04; ADM-08",
+   "phone": "off",
+   "control": "named"
   }
  ],
  "refused": [

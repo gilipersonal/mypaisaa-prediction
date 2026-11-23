@@ -1,7 +1,7 @@
 /* Privacy: sign in, a new or lost device, privacy mode, what shows outside the app, sessions and revocation, notices, the
    offline copy, export, deleting an original and memory notes (MP-73, MP-87, MP-78, MP-166, MP-165, MP-167, MP-162, MP-169,
    MP-45, MP-115). Google and passkeys only: no passwords, and no Sign in with Apple until the owner buys the Developer
-   Program. Revocation time and assurance levels are open (CT-01, CT-17), so no exact window is promised. */
+   Program. Which acts need a fresh sign-in is settled (OWN-39, "Anything that writes or widens"). Revocation time and assurance levels are open (CT-01, CT-17), so no exact window is promised. */
 {
   const wide = ctx => ctx.kind === 'web' || ctx.kind === 'ipad';
   /* A failed export is not a failed price, so a screen with no price on it keeps the price chips as they are. A screen that shows or quotes a price (Privacy, Home, a notice about a price) takes the state as it stands. */
@@ -133,7 +133,7 @@
   function lessCard(ctx) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Less private options', 3);
-    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${lessNote(s)}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}`);
+    return box(`${head('Less private options', `<span class="small muted">${s === 'disagreement' ? '1 on' : 'All off'}</span>`)}${lessNote(s)}${list(lessRows(ctx))}<p class="small muted">Each stays off until you turn it on, and turning one on asks for a fresh sign-in, because it widens what MP may do. Unlocking the app does not count.</p>`);
   }
 
   /* ---------- notices ---------- */
@@ -161,7 +161,7 @@
       abstention: li('clock', 'Phone notifications', 'On. Held for quiet hours until 07:30', sw('Phone notifications', true)),
       disagreement: li('ban', 'Phone notifications', 'On here, denied in this device\'s settings. Your inbox still has everything', sw('Phone notifications', false))
     }[s] || li('shield', 'Phone notifications', 'On, through the web app\'s Web Push', sw('Phone notifications', true));
-    return box(`${head('Notifications')}${list([status, li('clock', 'Quiet hours', '22:00 to 07:00 London. Held notices arrive with the 07:30 brief', ''), li('lock', 'What a notice says', 'Neutral text only. A tap opens it after sign-in', '')])}<p class="small muted">Delivery is never promised, so silence never means no risk. The inbox keeps every notice either way. On iPhone and iPad this needs the web app on your Home Screen.</p>`);
+    return box(`${head('Notifications')}${list([status, li('clock', 'Quiet hours', '22:00 to 07:00 London. Held notices arrive with the 07:30 brief on weekdays, and in your inbox at 07:30 at the weekend, when there is no brief (MP40-Q11b)', proposed('MP40-Q11')), li('lock', 'What a notice says', 'Neutral text only. A tap opens it after sign-in', '')])}<p class="small muted">Delivery is never promised, so silence never means no risk. The inbox keeps every notice either way. On iPhone and iPad this needs the web app on your Home Screen.</p>`);
   }
 
   /* ---------- devices and sessions ---------- */
@@ -274,7 +274,7 @@
     }[s] || '';
     const dis = ['loading', 'offline', 'abstention'].includes(s);
     return `<div class="sheet privacy-sheet" role="dialog" aria-modal="true" aria-labelledby="privacy-ren" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4 id="privacy-ren">${s === 'empty' ? 'Nothing is due' : 'Renew this original?'}</h4>
-      ${s === 'empty' ? `<p class="small">No original is due for renewal. Each one shows here as its 24 months near their end, and nothing deletes by itself.</p>${wbtn('Done', 'tinted')}` : `<p class="small muted">Indian funds statement, Dec 2024 · version 1 · production</p>${note}${list([li('clock', 'Keeps it to Dec 2028', 'Another 24 months for the file and the text read from it.', ''), li('check', 'Stays as it is', 'Its ledger events and the audit trail do not change.', '')])}<p class="small muted">This approval covers this file at this version, and asks for a fresh sign-in. Unlocking the app does not count.</p>${CHIP_ROWS(proposed('CT-01'))}<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${wbtn('Not now', 'tinted')}${wbtn(s === 'disagreement' || s === 'stale' ? 'Approve again' : s === 'error' ? 'Try again' : s === 'loading' ? 'Renewing' : 'Renew', 'primary', s === 'loading' ? 'spin' : 'lock', dis)}</div>`}</div>`;
+      ${s === 'empty' ? `<p class="small">No original is due for renewal. Each one shows here as its 24 months near their end, and nothing deletes by itself.</p>${wbtn('Done', 'tinted')}` : `<p class="small muted">Indian funds statement, Dec 2024 · version 1 · production</p>${note}${list([li('clock', 'Keeps it to Dec 2028', 'Another 24 months for the file and the text read from it.', ''), li('check', 'Stays as it is', 'Its ledger events and the audit trail do not change.', '')])}<p class="small muted">This approval covers this file at this version, and asks for a fresh sign-in, because it changes a record. Unlocking the app does not count.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${wbtn('Not now', 'tinted')}${wbtn(s === 'disagreement' || s === 'stale' ? 'Approve again' : s === 'error' ? 'Try again' : s === 'loading' ? 'Renewing' : 'Renew', 'primary', s === 'loading' ? 'spin' : 'lock', dis)}</div>`}</div>`;
   }
 
   /* ---------- one notice, opened: its evidence, and no action ---------- */

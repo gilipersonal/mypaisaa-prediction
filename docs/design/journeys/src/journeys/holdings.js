@@ -485,12 +485,13 @@
     error: () => stateCard('alert', 'Too late to revoke', 'The commit started at 21:22, so it finishes whole or not at all. To undo it, reverse the import.', btn('Back to Imports', 'tinted sm')),
     stale: () => stateCard('clock', 'This approval expired', 'It expired at 21:33 with no commit started, so nothing was committed. The rows have not changed, so a fresh approval is enough.', btn('Sign in and approve', 'primary sm')),
     offline: () => off(ctx, 'Revoking needs a connection. If no commit starts by 21:33, this approval expires by itself.') + stillApproved().replace(btn('Revoke approval', 'plain sm'), dis('Revoke approval', 'plain')),
-    disagreement: () => stateCard('alert', 'Refused for a stale revision', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', btn('Refresh preview', 'primary sm', 'refresh')),
-    abstention: () => stateCard('lock', 'Fresh sign-in needed', 'Your sign-in is too old for this step, and a Face ID unlock alone does not count. Nothing has changed.', btn('Sign in again', 'primary sm'), proposed('CT-01'))
+    disagreement: () => stateCard('alert', 'Refused for a stale revision', 'Your ledger moved to revision 214, so this approval for 213 can never commit. Nothing was committed. Refresh the preview to approve it again.', btn('Refresh preview', 'primary sm', 'refresh'))
   });
+  /* OWN-16, "An open session is enough": revoking asks for no fresh sign-in, so the step-up this screen drew in Abstaining is gone */
+  const naLive = { ...naApprove, abstention: 'An open session is enough to revoke (OWN-16), so no sign-in step can hold it up, and a decision is yours, so nothing can abstain on it.' };
   const liveScreen = (id, top = '') => ({
-    id, title: 'Approved, until the commit starts', na: naApprove,
-    note: 'What an approval does next. Ready is live, Empty revoked, Stale expired, Disagreement refused for a stale revision and Abstaining a step-up. Revoking before the commit stops it from taking effect.',
+    id, title: 'Approved, until the commit starts', na: naLive,
+    note: 'What an approval does next. Ready is live, Empty revoked, Stale expired and Disagreement refused for a stale revision. Revoking before the commit stops it from taking effect, and an open session is enough to revoke (OWN-16, "An open session is enough").',
     render: ctx => imp(ctx, { tab: 4, title: 'Approved', back: 'Imports', fresh: 'default', actions: eyeInfo('About approvals'), body: top + liveBody(ctx) })
   });
 

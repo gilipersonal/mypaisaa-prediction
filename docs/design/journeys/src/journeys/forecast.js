@@ -211,7 +211,8 @@ const KEY = [
   { n: '12 months', chip: () => pill('', 'ban', 'Abstained'), why: 'Too little comparable history, so no range.' },
   { n: '6 months', chip: () => pill('stale', 'clock', 'Stale input'), why: `An input is past its freshness limit, so the last issue is held, not current. ${qLate}` },
   { n: '10 sessions', chip: () => pill('', 'pause', 'Model paused'), why: 'Paused by the safety rule (POLICY-003). The rules show instead.' },
-  { n: '20 sessions', state: 'costpaused', why: `The next run waits at the £85 line of the £100 ceiling. The last issue stays dated, and nothing is made up. ${qH}` },
+  /* OWN-25, "Daily forecasts keep running": a daily forecast carries on past £85, so Cost paused shows only where a forecast needs optional paid work */
+  { n: '20 sessions', state: 'costpaused', why: 'Shown only where a forecast needs optional paid work, which pauses at the £85 line. Daily forecasts carry on, inside the £15 kept above £85. The last issue stays dated, and nothing is made up.' },
   { n: 'All seven', chip: () => pill('', 'ban', 'Unavailable'), why: 'No forecast can be made, and the reason shows: gold and silver today (SCI-D08).' }
 ];
 const keyLead = () => `<div class="fc-sub" data-mo="fade">A horizon always says which state it is in. None is removed, and none is given a made-up number.</div>`;

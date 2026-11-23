@@ -91,6 +91,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 
 ### MP-190: Redraw the control screens to match the owner's picks
 
+Drawn on branch `MP-190-control-screens` (23 November 2026), in the Journeys and Admin designs and the admin permission inventory, with the owner's later "Yes, add them" for daily forecasts inside the £15. One act the rule leaves unclear, acknowledging an incident under OWN-39, stays open for the owner. Stories that word the old rules (MP-114, MP-103, MP-145) are MP-192's.
+
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
 | OWN-35 | Code may draft one (not the Recommended option) | pressed | Screens redrawn |

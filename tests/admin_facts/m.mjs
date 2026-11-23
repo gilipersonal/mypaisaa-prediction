@@ -150,10 +150,11 @@ export default {
       has(n.text, /mapping not qualified/); has(n.text, /not scoreable/); has(n.text, /Mapping R0-RULEMAP · not qualified/);
       lacks(n.text, /Rules v6 0\.194/);
       lacks(n.text, /These scores come through/);
-      must(/data-act="A78"/.test(n.html), `${o}: no A78 where the mapping failed`);
+      // Narrowed for ADM-09, "Use the best simple baseline": a rules-against-rules trial waits for a mapping, so A78 left this screen for the model trial it serves
+      must(!/data-act="A78"/.test(n.html) && /waits until a mapping qualifies/.test(n.text), `${o}: a rules trial that does not wait for a mapping`);
       must(!/data-act="A62"/.test(n.html), `${o}: A62 is live with no mapping`);
     }
-    has(view('models', 'a', 'a-pipe', 'web', 'error').text, /Rules v6 shadow · not scoreable · waits for you/);
+    has(view('models', 'a', 'a-pipe', 'web', 'error').text, /Rules v6 shadow · not scoreable · waits for a mapping/); // narrowed for ADM-09
     has(view('models', 'a', 'a-evidence', 'web', 'error').text, /Rules Not scoreable/);
     has(view('models', 'b', 'b-board', 'web', 'error').text, /Rules v6 Not scoreable/);
     each({ journey: 'models', option: 'a', screen: 'a-evidence', state: 'default' }, (v) => has(v.text, /R0-RULEMAP/));
@@ -194,10 +195,11 @@ export default {
       for (const st of ['empty', 'partial', 'error', 'stale', 'expired', 'denied']) has(view('models', o, sc, 'web', st).text, /Labelling and thresholds (open|wait|return)/);
     }
   },
-  'R2-m6-screens': ({ view, has }) => {
+  'R2-m6-screens': ({ view, has, must }) => {
     for (const o of OPT) {
-      has(view('agents', o, `${o}-factors`, 'web', 'default').text, /No record names who withdraws a factor/);
-      has(view('models', o, `${o}-rules`, 'web', 'default').text, /No record names who withdraws a rules version/);
+      has(view('agents', o, `${o}-factors`, 'web', 'default').text, /Code withdraws one by itself only on a trigger you approved in advance/); // narrowed for ADM-08
+      // Narrowed for ADM-08, "Code on trigger, or you": who withdraws is answered, and the rules screen draws your control (A83) beside code's trigger rule
+      has(view('models', o, `${o}-rules`, 'web', 'default').text, /Code does it by itself only on a trigger you approved in advance/); must(/data-act="A83"/.test(view('models', o, `${o}-rules`, 'web', 'default').html), `${o}-rules: no way to withdraw by hand`);
     }
   },
   'R2-m7': ({ view, must }) => {
@@ -270,7 +272,8 @@ export default {
     /* Failed tells one story: no mapping for v5 or v6, one base-rate value */
     for (const [o, sc] of [['a', 'a-rules'], ['b', 'b-rules'], ['a', 'a-pipe']]) has(view('models', o, sc, 'web', 'error').text, /v5 or v6/);
     has(view('models', 'a', 'a-evidence', 'web', 'error').text, /No rules mapping qualified for v5 or v6/);
-    for (const [o, sc] of [['a', 'a-evidence'], ['a', 'a-decide']]) has(view('models', o, sc, 'web', 'error').text, /This trial also waits on your decision about the rules mapping/);
+    // Narrowed for ADM-09: the trial no longer waits on a decision about the mapping; the best simple baseline stands in, with your yes, once the scores load
+    for (const [o, sc] of [['a', 'a-evidence'], ['a', 'a-decide']]) has(view('models', o, sc, 'web', 'error').text, /The strongest simple baseline stands in for them on each task, with your yes each time, once the scores load/);
     each({ journey: 'models', state: 'error', surface: 'web' }, (v, at) => {
       lacks(v.text, /Base rate 0\.203/, `${at.screen}: a base rate beside a failed evaluation`);
       lacks(v.text, /mapping qualified for v6/, `${at.screen}: v6 alone`);
@@ -282,17 +285,20 @@ export default {
   'R3-m4': ({ view, has, must }) => {
     for (const o of OPT) {
       const v = view('models', o, `${o}-rules`, 'web', 'error');
-      must(/data-act="A78"/.test(v.html), `${o}-rules: A78 is gone`);
-      has(v.text, /No record lists the choices yet, so none is drawn\./);
+      // Narrowed for ADM-09, "Use the best simple baseline": the choices are listed now, so A78 moved to the model trial and the open id stays on what is still open
+      must(!/data-act="A78"/.test(v.html), `${o}-rules: A78 on a rules trial, which waits for a mapping`);
       has(v.text, /Meanwhile Rules v6 stays in shadow and Rules v5 stays current\./);
-      must(/data-act="A78"[\s\S]*Proposed · SCI-D03[\s\S]*No record lists the choices/.test(v.html), `${o}-rules: the open id is not under the control`);
+      must(/Proposed · SCI-D03[\s\S]*How rules get a proper score is still open/.test(v.html), `${o}-rules: the open id is not on what stays open`);
+      for (const sc of ['a-evidence', 'a-decide']) must(/data-act="A78"/.test(view('models', 'a', sc, 'web', 'error').html), `${sc}: no A78 on the model trial`);
     }
   },
   'R3-m5': ({ view, has, lacks, must }) => {
     const t = view('models', 'a', 'a-pipe', 'web', 'error').text;
-    must(t.indexOf('Waiting on you') >= 0 && t.indexOf('Waiting on you') < t.indexOf('Rules v6 shadow') && t.indexOf('Rules v6 shadow') < t.indexOf('Not ready for you'), 'Rules v6 is not under Waiting on you');
+    // Narrowed for ADM-09, "Use the best simple baseline": a rules-against-rules trial waits for a mapping under any answer, so Rules v6 no longer waits on you.
+    // What stays: one section for what is not ready, holding R2-HGB v4, and the failed run told once.
+    must(t.indexOf('Waiting on you') < 0, 'Rules v6 is still drawn as waiting on you');
     has(t.split('Not ready for you')[1].split('Live')[0], /R2-HGB v4/);
-    lacks(t.split('Not ready for you')[1].split('Live')[0], /Rules v6/);
+    has(t.split('Not ready for you')[1].split('Live')[0], /Rules v6 shadow · not scoreable · waits for a mapping/);
     lacks(t, /incomplete, never green, and no rules mapping/);
   },
   'R3-m6': ({ view, has, must }) => {

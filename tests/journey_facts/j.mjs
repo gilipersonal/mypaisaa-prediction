@@ -113,7 +113,9 @@ const honestReason = ({ each, has, lacks }) => {
 const importLine = ({ each, has, lacks }) => {
   for (const [state, t] of [['noModel', /queued, not read/], ['offline', /stopped at 62%/], ['error', /3 files not taken in/], ['abstention', /ready for you/], ['stale', /1 import last seen at 21:09/], ['loading', /1 import is uploading/], ['disagreement', /1 difference open/]]) each({ journey: 'holdings', screen: 'a-list', state }, (v, at) => { has(v.text, t, `${at.surface} ${state}: not what Imports shows`); lacks(v.text, /is being read/, `${at.surface} ${state}: not what Imports shows`); });
   each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => has(v.text, /1 import is being read/, `${at.surface}: Ready lost its line`));
-  for (const s of ['a-live', 'b-live']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Proposed · CT-01/, `${s} ${at.surface}: the step-up is not labelled`));
+  // Narrowed for OWN-16, "An open session is enough": revoking asks for no fresh sign-in, so a-live and b-live draw no step-up to label.
+  // What stays: neither screen draws an unlabelled step-up in Abstaining. It is not applicable there, with its reason.
+  for (const s of ['a-live', 'b-live']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => { lacks(v.text, /Fresh sign-in needed|Sign-in too old/, `${s} ${at.surface}: a step-up to revoke`); if (!v.na || !/OWN-16/.test(v.na)) has(v.text, /Proposed · CT-01/, `${s} ${at.surface}: the step-up is not labelled`); });
 };
 // A date Claude could not read is absent on the three steps too, and Ready still shows it.
 const unreadSteps = ({ each, has, lacks }) => {

@@ -763,7 +763,8 @@ export default {
   'R4-h7': ({ screens, view, must }) => {
     // every Home frame says which Empty it means, so a tile that shows a list and the frame it opens can both be true
     const meaning = (s) => (/metals$/.test(s) ? /Empty here means no list, as in every state\./ : ['a-portfolio', 'a-12m', 'a-launch', 'b-ledger', 'b-12m', 'b-launch'].includes(s) ? /Empty here means no holdings yet: the lists still show, because a ranking needs no holdings \(MP-135\)\./
-      : /brief$/.test(s) ? /Empty is the first morning; a weekend brief waits on MP40-Q11\./ : s === 'a-action' ? /Empty here means a holding with no action band\./ : s === 'b-open' ? /Empty here means no holdings yet, so no row opens\./
+      // Narrowed for MP40-Q11b, "Weekdays only": the weekend no longer waits on MP40-Q11, and its own screen says what Empty means there
+      : /brief$/.test(s) ? /Empty is the first morning\. There is no brief at the weekend, and No brief at the weekend says why \(MP40-Q11b\)\./ : /weekend$/.test(s) ? /Empty here means no holdings yet, so the first brief comes on the first weekday after they are in\./ : s === 'a-action' ? /Empty here means a holding with no action band\./ : s === 'b-open' ? /Empty here means no holdings yet, so no row opens\./
         : /search$/.test(s) ? /Empty here means a search that finds nothing\./ : /Empty here means the first morning, before any daily run, so no list exists yet\./);
     for (const o of ['a', 'b']) {
       const all = screens('home', o);
