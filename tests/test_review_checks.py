@@ -112,6 +112,54 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(covered, tests, "a test file has no check that runs it")
 
 
+class SkipTests(unittest.TestCase):
+    """--skip leaves a named check out and says so; an unknown name stops everything (MP-195)."""
+
+    def run_script(self, *args):
+        return subprocess.run([sys.executable, str(SCRIPT), "--base", "HEAD", *args],
+                              capture_output=True, text=True, cwd=ROOT, timeout=60)
+
+    def test_all_with_skip_selects_everything_but_the_walk(self):
+        r = self.run_script("--all", "--skip", "design-walk")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        lines = {l.split()[1]: l.split()[0] for l in r.stdout.splitlines() if l.startswith("  ") and len(l.split()) > 2}
+        self.assertEqual(lines.get("design-walk"), "SKIP")
+        others = {c.name for c in checks.CHECKS} - {"design-walk"}
+        self.assertEqual({n for n, how in lines.items() if how == "SELECT"}, others)
+        self.assertNotIn("DEFER", lines.values())
+
+    def test_unknown_skip_name_runs_nothing(self):
+        r = self.run_script("--all", "--skip", "design-walks", "--run")
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("no check named design-walks", r.stdout)
+        self.assertNotIn("PASS:", r.stdout)
+
+    def test_a_skipped_check_is_never_reported_as_a_pass(self):
+        # in-process, with two stand-in checks, so the test never runs the real gates (or itself)
+        import contextlib, io, json
+        fake = (checks.Check("kept", ("x/*",), (("true",),)), checks.Check("left", ("x/*",), (("true",),), tier="broader"))
+        saved = (checks.CHECKS, checks.changed_paths, checks.whitespace, sys.argv)
+        with tempfile.TemporaryDirectory() as tmp:
+            record = Path(tmp) / "r.json"
+            try:
+                checks.CHECKS = fake
+                checks.changed_paths = lambda base: ["x/a"]
+                checks.whitespace = lambda base: {"status": "PASS", "detail": ""}
+                sys.argv = ["review_checks.py", "--all", "--skip", "left", "--run", "--record", str(record)]
+                out = io.StringIO()
+                with contextlib.redirect_stdout(out):
+                    code = checks.main()
+            finally:
+                checks.CHECKS, checks.changed_paths, checks.whitespace, sys.argv = saved
+            body = json.loads(record.read_text())
+        self.assertEqual(code, 0, out.getvalue())
+        self.assertIn("PASS: kept", out.getvalue())
+        self.assertIn("SKIPPED: left (left out with --skip; not a pass)", out.getvalue())
+        self.assertNotIn("PASS: left", out.getvalue())
+        self.assertNotIn("left", body["checks"])
+        self.assertEqual(body["skipped"], ["left"])
+
+
 class FingerprintTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()

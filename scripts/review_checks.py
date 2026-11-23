@@ -235,19 +235,26 @@ def main() -> int:
     parser.add_argument("--run", action="store_true", help="run the selected checks")
     parser.add_argument("--broader", action="store_true", help="also run broader-tier checks")
     parser.add_argument("--all", action="store_true", help="select every check (release gates)")
+    parser.add_argument("--skip", action="append", default=[], metavar="NAME",
+                        help="leave a named check out; it is reported as SKIPPED, never as a pass (MP-195)")
     parser.add_argument("--reuse", type=Path,
                         help="earlier --record file; reuse its PASS where inputs are unchanged")
     parser.add_argument("--record", type=Path, help="write results and fingerprints as JSON")
     args = parser.parse_args()
 
+    unknown = sorted(set(args.skip) - {c.name for c in CHECKS})
+    if unknown:
+        print(f"review_checks: no check named {', '.join(unknown)}; nothing ran")
+        return 2
     paths = changed_paths(args.base)
     chosen, unmapped = (list(CHECKS), []) if args.all else select(paths)
-    deferred = [] if args.all or args.broader else [c for c in chosen if c.tier == "broader"]
-    to_run = [c for c in chosen if c not in deferred]
+    skipped = [c for c in chosen if c.name in args.skip]
+    deferred = [] if args.all or args.broader else [c for c in chosen if c.tier == "broader" and c not in skipped]
+    to_run = [c for c in chosen if c not in deferred and c not in skipped]
 
     print(f"{len(paths)} changed path(s) since {args.base}.")
     for check in chosen:
-        print(f"  {'DEFER' if check in deferred else 'SELECT'} {check.name} ({check.tier})")
+        print(f"  {'SKIP' if check in skipped else 'DEFER' if check in deferred else 'SELECT'} {check.name} ({check.tier})")
     for path in unmapped:
         print(f"  UNMAPPED {path}: choose its checks by risk; unknown impact means expand")
     if not args.run:
@@ -274,10 +281,13 @@ def main() -> int:
         print(f"{result['status']}: {name}{note} {result['detail']}".rstrip())
     for check in deferred:
         print(f"DEFERRED: {check.name} (broader tier; run with --broader when risk requires)")
+    for check in skipped:
+        print(f"SKIPPED: {check.name} (left out with --skip; not a pass)")
     if args.record:
         args.record.write_text(json.dumps({
             "base": args.base, "paths": paths, "unmapped": unmapped,
-            "deferred": [c.name for c in deferred], "checks": results}, indent=2) + "\n",
+            "deferred": [c.name for c in deferred], "skipped": [c.name for c in skipped],
+            "checks": results}, indent=2) + "\n",
             encoding="utf-8")
     statuses = {r["status"] for r in results.values()}
     if "FAIL" in statuses:
