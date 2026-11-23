@@ -1,8 +1,11 @@
 /* Identity and Devices (MP-64, PH02, PH07). One owner. Only you link, unlink, revoke or enrol, each with a fresh sign-in, and no
-   route recovers this account for you. The iPhone passkey is shown as the Privacy journey shows it and nothing here builds on it:
-   MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so every flow stands on Passkey, Mac and Google, and enrolling is
-   drawn on the Mac alone (facts.md 6B item 1, CT-17, PL-09). Revocation time is open (CT-17). Stories MP-73, MP-87, MP-78, MP-83,
-   MP-94, MP-134, MP-168, MP-164, MP-165, MP-166. Every figure is illustrative. */
+   route recovers this account for you. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so the iPhone
+   passkey row waits on the purchase, as Privacy draws it too, and every flow stands on Passkey, Mac and Google (facts.md 6B item 1,
+   CT-17, PL-09). The owner's picks of 5 Nov 2026 (MP-184, drawn in MP-188): "Allowed in the browser" (ADM-04) and "Finish in the
+   phone browser" (ADM-15), so Phone web enrols a passkey and a phone's recovery ends there; "Revoke removes it too" (ADM-02); "Any
+   healthy path" (ADM-03) for a revoke's fresh sign-in. The browser passkey and the removal are unverified until MP-197, and the
+   one-path fallback is drawn beside them. Revocation time is open (CT-17). Stories MP-73, MP-87, MP-78, MP-83, MP-94, MP-134,
+   MP-168, MP-164, MP-165, MP-166. Every figure is illustrative. */
 {
   const LINE = 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.';
   const chip = (k, t, i = '') => `<span class="chip ${k}">${i ? ic(i, 's14') : '<span class="dot"></span>'}${t}</span>`;
@@ -32,15 +35,22 @@
   };
 
   /* ---------- who is signed in, by device ---------- */
-  const DEVICES = [['iPhone', 'Active 40 min ago · Passkey'], ['iPad', 'Active 2 h ago · Google'], ['Mac, Safari', 'Active yesterday · Passkey'], ['Phone web', 'Active 3 days ago · Google']];
+  /* the iPhone app signs in with Google in the system browser until the purchase, as Privacy now draws it ("Redraw Privacy now", ADM-13) */
+  const DEVICES = [['iPhone', 'Active 40 min ago · Google'], ['iPad', 'Active 2 h ago · Google'], ['Mac, Safari', 'Active yesterday · Passkey'], ['Phone web', 'Active 3 days ago · Google']];
   const HERE = { iphone: 'iPhone', ipad: 'iPad', web: 'Mac, Safari', pwa: 'Phone web' };
   /* a flow's first target, as Privacy picks it: never the device in your hand. Any other device can be revoked, the iPhone too: revoking needs no iPhone passkey */
   const gone = ctx => (ctx.kind !== 'ipad' ? 'iPad' : ctx.state === 'expired' ? 'Phone web' : 'iPhone');
   const lineOf = n => DEVICES.find(d => d[0] === n)[1];
   const isApp = n => n === 'iPad' || n === 'iPhone';
-  const OPENQ = () => tags(proposed('CT-17'), proposed('PL-09'));
-  const IPHONE = 'Shown as the Privacy journey shows it. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so nothing here builds on this row.';
+  const IPHONE = 'Waits on the purchase. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), so nothing here builds on this row. Privacy draws it the same way.';
   const WAITING = () => chip('stale', 'Waiting on MP-179', 'clock');
+  /* the owner's picks that rest on a test not yet run carry the issue that runs it (lesson 36) */
+  const UNV = () => chip('unverified', 'Unverified · MP-197', 'info');
+  /* "Revoke removes it too" (ADM-02), in the owner's words, and what is not yet known */
+  const RV = 'Revoking also removes any passkey held on that device. Where it held one, your path count drops by one. Whether Cognito can remove it, and whether a synced copy ends too, is not tested yet.';
+  /* "Any healthy path" (ADM-03) */
+  const ANY = 'A fresh sign-in on any healthy path, passkey or Google.';
+  const phoneBrowser = ctx => (ctx.kind === 'iphone' ? 'this phone\'s browser' : 'your phone\'s browser');
   const quiet = ctx => (ctx.kind === 'pwa' ? 'Mac, Safari' : 'Phone web');
   const devRows = (ctx, flat) => {
     const s = ctx.state, here = HERE[ctx.kind], g = gone(ctx), go = flat ? row : opens;
@@ -51,7 +61,7 @@
       if (s === 'expired' && n === 'Phone web') return go('clock', n, 'Session expired · needs a new sign-in', `${tags(chip('stale', 'Expired', 'clock'))}${rv(n)}`, 'warn');
       if (s === 'expired' && n === 'iPad') return go('clock', n, 'Build expired · reinstall from your Mac', `${tags(chip('stale', 'Build expired', 'clock'))}${rv(n)}`, 'warn');
       if (s === 'partial' && n === quiet(ctx)) return go('clock', n, 'Did not report · last activity unknown', `${tags(chip('stale', 'Unknown', 'clock'))}${rv(n)}`, 'warn');
-      const x = n === 'iPhone' ? tags(WAITING(), proposed('CT-17'), proposed('PL-09')) : s === 'stale' ? tags(chip('stale', 'Last known', 'clock')) : '';
+      const x = s === 'stale' ? tags(chip('stale', 'Last known', 'clock')) : '';
       return go('person', n, sub, `${x}${rv(n)}`);
     });
     return list([row('person', here, 'Active now', tags(chip('owner', 'This device'), here === 'iPhone' ? proposed('CT-17') : '')), ...rows].join(''));
@@ -65,7 +75,7 @@
     if (s === 'empty') return list((o.flat ? row : opens)('person', 'Google', 'Linked on proof of both · the only path', tags(chip('stale', 'Last path', 'alert')), 'warn'));
     const google = { partial: chip('stale', 'Unknown', 'clock'), error: chip('stale', 'Unavailable', 'clock') }[s] || healthy(ctx);
     return list([
-      row('lock', 'Passkey, iPhone', 'Last used today', `${note(IPHONE)}${tags(WAITING(), proposed('CT-17'), proposed('PL-09'))}`),
+      row('lock', 'Passkey, iPhone', 'Cannot be set up yet', `${note(IPHONE)}${tags(WAITING(), proposed('CT-17'), proposed('PL-09'))}`),
       row('lock', 'Passkey, Mac', macSub(ctx), tags(healthy(ctx))),
       (o.flat ? row : opens)('person', 'Google', 'Linked on proof of both', tags(google))
     ].join(''));
@@ -136,8 +146,9 @@
   };
   const enrolHere = (ctx, why = {}) => {
     if (ctx.kind === 'web') return card(`${head('Enrol a passkey on this Mac')}${note('A second passkey on a device you control. It is scoped to prod, and dev has its own user pool.')}${can(ctx, act('A48', 'Enrol a passkey', 'primary'), why)}${note(LINE)}${tags(proposed('CT-17'))}`);
-    if (ctx.kind === 'pwa') return card(`${head('Enrol from your Mac')}${note('Whether a browser passkey on a phone counts is not recorded, so enrolling is drawn on the Mac alone until you answer.')}${OPENQ()}`);
-    return card(`${head('Enrol from your Mac')}${note('Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser.')}${OPENQ()}`);
+    /* "Allowed in the browser" (ADM-04): the bar covers the Apple app only, so Phone web enrols, once MP-197's test proves it works */
+    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(UNV(), proposed('CT-17'))}`);
+    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(UNV(), proposed('CT-17'), proposed('PL-09'))}`);
   };
   const T_ENROL = {
     what: 'This passkey', rows: 2, loading: 'Waiting for your passkey.',
@@ -153,19 +164,26 @@
   const sessionsNote = ctx => (browser(ctx) ? `${note('What a browser keeps offline is open.')}${tags(proposed('MP40-Q12'))}` : note('The offline copy on this device is encrypted, and it clears on sign-out or revoke.'));
 
   /* ---------- lost a device: the same recovery from either door ---------- */
-  const RV = 'What a revoke does to a passkey held on that device is not recorded.';
-  const rvNote = () => `${note(RV)}${tags(proposed('CT-17'))}`;
+  const rvNote = () => `${note(RV)}${tags(UNV(), proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
-  const noEnd = ctx => `${note(`No record says how recovery ends on this device ${ctx.kind === 'pwa' ? 'until you answer whether a browser passkey counts' : 'until the Developer Program is bought (MP-179)'}. Enrolling is off here, so you stay on one path.`)}${OPENQ()}`;
+  /* "Finish in the phone browser" (ADM-15): with the Mac lost, the replacement goes in a phone's browser and you end on two paths. The iPhone app cannot hold one, so it sends you there. */
+  const fallbackLine = () => note('If the browser test fails, recovery ends after the revoke on one path, Google, and MP warns you until you reach a Mac.');
+  const phoneEnd = ctx => (ctx.kind === 'pwa'
+    ? st(3, '', 'Enrol a replacement passkey', 'In this browser, once the lost devices are revoked. You end on two paths: Google and this passkey.', `${act('A48', 'Enrol in this browser')}${tags(UNV())}${fallbackLine()}`)
+    : st(3, '', 'Finish in a phone\'s browser', `This app cannot hold a passkey until the Developer Program is bought (MP-179). Open MyPrediction in ${phoneBrowser(ctx)} and enrol the replacement there, so you end on two paths.`, `${tags(UNV())}${fallbackLine()}`));
+  /* the fallback the owner was offered, "End on one path, warned", drawn beside the browser step until MP-197 has run */
+  const fallbackCard = ctx => (ctx.kind === 'web' || ctx.state === 'loading' ? '' : card(`${head('If the browser test fails', UNV())}${list(row('person', 'Google', 'The one path left after the revoke', tags(chip('stale', 'Last path', 'alert')), 'warn'))}${note('Enrolling in a phone\'s browser is off, so recovery ends on one path and MP warns you until you reach a Mac.')}`));
   const lostSteps = ctx => {
     const s = ctx.state, g = gone(ctx);
     const revoke = can(ctx, act('A49', `Revoke ${g}`, 'primary'), NOEMAILBACK);
-    const replace = ctx.kind === 'web' ? can(ctx, act('A48', 'Enrol a replacement passkey'), NOEMAILBACK) : held('Enrol the replacement from your Mac. This device cannot hold one yet.');
-    const first = st(1, 'done', 'Sign in from another path', 'A fresh sign-in with Passkey, Mac or Google.');
+    const replace = ctx.kind === 'web' ? can(ctx, act('A48', 'Enrol a replacement passkey'), NOEMAILBACK)
+      : ctx.kind === 'pwa' ? `${can(ctx, act('A48', 'Enrol in this browser'), NOEMAILBACK)}${note('Or on your Mac.')}${tags(UNV())}`
+      : `${held(`Enrol the replacement on your Mac, or in ${phoneBrowser(ctx)}. This app cannot hold one until the Developer Program is bought (MP-179).`)}${tags(UNV())}`;
+    const first = st(1, 'done', 'Sign in from another path', ANY);
     if (s === 'partial') return [first, st(2, 'done', `Revoke ${g}`, 'Its sessions ended.', rvNote()), st(3, 'now', 'Enrol a replacement passkey', 'Not confirmed yet. Your old paths stay as they are until it is.', replace)];
     if (s === 'error') return [first, st(2, 'warn', `Revoke ${g}`, `This step stopped. ${g} is still signed in.`, `${act('A59', 'Resume this recovery', 'primary')}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'Waiting for step 2.')];
     if (s === 'empty') {
-      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : st(3, '', 'Add a replacement', 'Not on this device yet.', noEnd(ctx));
+      const end = ctx.kind === 'web' ? st(3, '', 'Enrol a replacement passkey', 'On this Mac, once the lost devices are revoked.', act('A48', 'Enrol a replacement passkey')) : phoneEnd(ctx);
       return [st(1, 'done', 'Sign in with what is left', 'Google, with a fresh sign-in. It is the path that remains.'), st(2, 'now', 'Revoke what is lost', 'Ends their sessions and closes their live streams, in a time you approve.', `${lostTargets(ctx).map(n => act('A49', `Revoke ${n}`, 'primary')).join('')}${rvNote()}`), end];
     }
     return [first, st(2, 'now', `Revoke ${g}`, 'Ends its sessions and closes its live streams, in a time you approve.', `${revoke}${rvNote()}`), st(3, '', 'Enrol a replacement passkey', 'On a device you control. Each step is on your audit trail.', replace)];
@@ -177,10 +195,10 @@
   };
   const lostBody = ctx => card(`${head('This recovery', lostChip(ctx))}${steps('Lost device recovery', lostSteps(ctx))}${note('If you stop before the end, your old paths stay as they are. It is resumed or cancelled, never half-applied.')}${lostTools(ctx)}${note(LINE)}`);
   /* the Mac holds the only passkey that counts today, so losing it has its own card wherever the Mac is not in your hand */
-  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${noEnd(ctx)}`));
+  const macCard = ctx => (ctx.kind === 'web' || ['loading', 'empty'].includes(ctx.state) ? '' : card(`${head('If your Mac is the lost device')}${note('It holds the only passkey that counts today. Sign in with Google and revoke it here. Revoking removes that passkey too, so you drop to one path, Google.')}${can(ctx, act('A49', 'Revoke Mac, Safari'), NOEMAILBACK)}${note(ctx.kind === 'pwa' ? 'Then enrol the replacement in this browser, in the steps here, and you are back on two paths.' : `Then finish in ${phoneBrowser(ctx)}: enrol the replacement there, and you are back on two paths. This app cannot hold one until the Developer Program is bought (MP-179).`)}${tags(UNV())}`));
   const T_LOST = {
     what: 'This recovery', rows: 3, alone: ['denied'], loading: 'Waiting for your fresh sign-in.',
-    empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert')),
+    empty: ctx => (ctx.kind === 'web' ? banner('warn', 'No other device to confirm on.', 'Your Google sign-in is the path that remains. Revoke what is lost from here.', 'alert') : banner('warn', 'Your Mac is lost, and no other device can confirm.', 'Your Google sign-in is the path that remains. Revoke what is lost here, then add the replacement in a phone\'s browser.', 'alert')),
     partial: banner('warn', 'Part of this recovery is done.', 'The lost device is revoked and the new passkey is not confirmed yet.', 'clock'),
     error: banner('fall', 'This recovery stopped midway.', 'Your old paths are intact and the new one is unconfirmed. Resume it or cancel it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked. Refresh before the next step.', 'clock'),
@@ -190,7 +208,7 @@
     denied: ''
   };
 
-  const lostRail = ctx => (ctx.state === 'denied' ? allLost() : `${macCard(ctx)}${allLost()}${card(`${head('On this device')}${sessionsNote(ctx)}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`);
+  const lostRail = ctx => (ctx.state === 'denied' ? allLost() : `${macCard(ctx)}${fallbackCard(ctx)}${allLost()}${card(`${head('On this device')}${sessionsNote(ctx)}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`);
 
   /* locked out is seen signed out: no records, no tabs, nothing to go back to */
   const lockedFrame = ctx => {
@@ -209,7 +227,7 @@
   const offlineRow = (ctx, n) => ['Offline copy', isApp(n) ? (ctx.state === 'conflict' ? 'Clears when it next connects' : ctx.state === 'error' ? 'Rebuilt from the server' : 'Encrypted · cached and aged') : 'Open'];
   const deviceCard = (ctx, ended) => {
     const n = gone(ctx);
-    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', n === 'iPhone' ? 'Not settled · MP-179' : isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'), isApp(n) ? '' : proposed('MP40-Q12'))}`);
+    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'), isApp(n) ? '' : proposed('MP40-Q12'))}`);
   };
   const sideBySide = ctx => {
     const n = gone(ctx), h = HERE[ctx.kind], side = (x, status) => kv([['Status', status], offlineRow(ctx, x), buildRow(ctx, x)]);
@@ -237,9 +255,9 @@
     expired: ctx => (ctx.kind === 'ipad' ? banner('warn', 'Phone web needs you.', 'Its session expired, so it needs a new sign-in.', 'clock') : ctx.kind === 'pwa' ? banner('warn', 'The iPad needs you.', 'Its build expired, and reinstalling from your Mac restores it.', 'clock') : banner('warn', 'Two devices need you.', 'Phone web\'s session expired. The iPad build expired, and reinstalling from your Mac restores it.', 'clock')),
     denied: ctx => signNote('This list stays readable.')
   };
-  const revokeNote = ctx => (ctx.state === 'empty' ? '' : card(`${head('Revoking')}${note('Asks for a fresh sign-in, ends the device\'s sessions and closes its live streams, in a time you approve. Revoking needs no iPhone passkey.')}${WAIT[ctx.state] ? held(WAIT[ctx.state]) : ''}${note(LINE)}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`));
+  const revokeNote = ctx => (ctx.state === 'empty' ? '' : card(`${head('Revoking')}${note(`${ANY} It ends the device's sessions and closes its live streams, in a time you approve. Revoking needs no iPhone passkey.`)}${WAIT[ctx.state] ? held(WAIT[ctx.state]) : ''}${note(LINE)}${rvNote()}`));
   const devList = ctx => (ctx.state === 'empty' ? list(row('person', HERE[ctx.kind], 'Active now', tags(chip('owner', 'This device')))) : devRows(ctx));
-  const revokeTool = ctx => (ctx.state === 'empty' || ctx.state === 'conflict' ? '' : card(`${head('Revoke this device')}${note('Asks for a fresh sign-in, ends its sessions and closes its live streams, in a time you approve.')}${can(ctx, ctx.state === 'error' ? act('A49', 'Try again', 'primary') : act('A49', `Revoke ${gone(ctx)}`, 'primary'))}${note(LINE)}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`));
+  const revokeTool = ctx => (ctx.state === 'empty' || ctx.state === 'conflict' ? '' : card(`${head('Revoke this device')}${note(`${ANY} It ends its sessions and closes its live streams, in a time you approve.`)}${can(ctx, ctx.state === 'error' ? act('A49', 'Try again', 'primary') : act('A49', `Revoke ${gone(ctx)}`, 'primary'))}${note(LINE)}${rvNote()}`));
 
   /* ---------- the revoke sheet: a fresh sign-in, one exact device ---------- */
   const SHEET = {
@@ -256,9 +274,9 @@
   const revokeSheet = ctx => {
     const s = ctx.state, n = gone(ctx), mine = SHEET[s];
     const title = mine ? mine[0] : `Revoke ${n}`;
-    const facts = box(kv([['Device', n], ['Environment', 'Production'], ['Ends', 'Its sessions and refresh tokens'], ['Closes', 'Its live streams, in a time you approve'], ['Keeps', 'Your ledger, audit and every other device']]));
+    const facts = box(kv([['Device', n], ['Environment', 'Production'], ['Sign in with', 'Any healthy path, passkey or Google'], ['Ends', 'Its sessions and refresh tokens'], ['Closes', 'Its live streams, in a time you approve'], ['Removes', 'Any passkey held on it'], ['Keeps', 'Your ledger, audit and every other device']]));
     const go = s === 'default' ? act('A49', `Revoke ${n}`, 'primary') : s === 'error' ? act('A49', 'Try again', 'primary') : s === 'expired' || s === 'denied' ? btn('Sign in again', 'primary', 'lock') : '';
-    return `<div class="sheet" role="dialog" aria-modal="true" aria-label="${title}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4>${title}</h4><div class="aidentity-sheet">${note(mine ? mine[1] : 'You revoke exactly this device. Sign-out and revoke both clear its offline copy.')}${s === 'empty' || s === 'conflict' ? '' : `${facts}${note('What a revoke does to a passkey held on that device is not recorded.')}${tags(proposed('CT-17'))}`}${s === 'default' || s === 'error' ? note(LINE) : ''}${go}<button class="btn sm btn-plain" type="button">Not now</button></div></div>`;
+    return `<div class="sheet" role="dialog" aria-modal="true" aria-label="${title}" data-mo="sheet">${wide(ctx) ? '' : '<div class="grabber"></div>'}<h4>${title}</h4><div class="aidentity-sheet">${note(mine ? mine[1] : 'You revoke exactly this device. Sign-out and revoke both clear its offline copy.')}${s === 'empty' || s === 'conflict' ? '' : `${facts}${rvNote()}`}${s === 'default' || s === 'error' ? note(LINE) : ''}${go}<button class="btn sm btn-plain" type="button">Not now</button></div></div>`;
   };
 
   /* ---------- the second door, on each option ---------- */
@@ -277,7 +295,7 @@
       cost: 'What is signed in now sits one step down, so a lost device is a row to press, not the first thing on screen.',
       covers: { compare: 'a-path', decide: COVER_DECIDE, source: 'a-path', correct: 'a-lost', config: COVER_CONFIG, cost: COVER_COST, recover: 'a-lost' },
       screens: [{
-        id: 'a-paths', title: 'Ways back in', note: 'The iPhone passkey row is copied from the Privacy journey, labelled, and nothing depends on it.',
+        id: 'a-paths', title: 'Ways back in', note: 'The iPhone passkey row waits on the purchase (MP-179), as Privacy now draws it too ("Redraw Privacy now", ADM-13). Nothing depends on it.',
         render: ctx => frame(ctx, {
           title: 'Ways back in', back: 'Admin',
           body: view(ctx, T_PATHS, () => `${countCard(ctx)}${pathRows(ctx)}${list(`${opens('plus', 'Enrol a passkey', 'A second path you control')}${opens('person', 'Signed in now', `${ctx.state === 'empty' ? '1 device' : '4 devices'} · ${HERE[ctx.kind]} is this one`)}`)}`),
@@ -298,21 +316,21 @@
           rail: `${card(`${head('What a link never does')}${note('A matching email never links or merges two identities. A link that fails midway leaves both unlinked, and the attempt is audited.')}`)}${refused('R10', 'Email, SMS and support never recover this account. Only your own proof does.')}`
         })
       }, {
-        id: 'a-enrol', title: 'Enrol a passkey', note: 'Drawn as a control on the Mac only. iPhone and iPad say why not until the Developer Program is bought (MP-179), with CT-17 and PL-09 still open. Phone web says why not until you answer whether a browser passkey counts.',
+        id: 'a-enrol', title: 'Enrol a passkey', note: 'A control on the Mac and in a phone\'s browser. iPhone and iPad say why not until the Developer Program is bought (MP-179), with CT-17 and PL-09 still open. Phone web enrols in the browser, as you picked ("Allowed in the browser", ADM-04), unverified until MP-197.',
         render: ctx => frame(ctx, {
           title: 'Enrol a passkey', back: 'Ways back in',
           body: view(ctx, T_ENROL, () => enrolHere(ctx)),
           rail: `${card(`${head('Where this works')}${note('Trusted origins and passkey scope are not settled yet, per environment.')}${tags(proposed('CT-17'))}`)}${notPaths()}`
         })
       }, {
-        id: 'a-devices', title: 'Signed in now', note: 'One step down from your paths. Any device but the one in your hand can be revoked. Revoking needs no iPhone passkey.',
+        id: 'a-devices', title: 'Signed in now', note: 'One step down from your paths. Any device but the one in your hand can be revoked, with a fresh sign-in on any healthy path ("Any healthy path", ADM-03), and a revoke removes any passkey on it ("Revoke removes it too", ADM-02).',
         render: ctx => frame(ctx, {
           title: 'Signed in now', back: 'Ways back in',
           body: view(ctx, T_DEVS, () => `${ctx.state === 'empty' ? list(row('person', HERE[ctx.kind], 'Active now', tags(chip('owner', 'This device')))) : devRows(ctx, true)}${revokeNote(ctx)}`),
           rail: `${card(`${head('On this device')}${sessionsNote(ctx)}`)}${lostRow(ctx)}`
         })
       }, {
-        id: 'a-lost', title: 'Lost a device', note: 'Recovery never leans on the iPhone passkey: step 1 is your Mac passkey or Google. Empty draws the lost Mac. Privacy says a replacement lands on the new device; here it stays on the Mac until the Developer Program is bought (MP-179).',
+        id: 'a-lost', title: 'Lost a device', note: 'Recovery never leans on the iPhone passkey: step 1 is any healthy path, passkey or Google (ADM-03). The replacement goes on the Mac, as Privacy draws it (ADM-13). Empty draws the lost Mac: a phone finishes in its browser ("Finish in the phone browser", ADM-15), unverified until MP-197, with the one-path fallback beside it.',
         render: ctx => lostFrame(ctx) || frame(ctx, {
           title: 'Lost a device', back: 'Ways back in',
           body: view(ctx, T_LOST, () => lostBody(ctx)),
@@ -325,7 +343,7 @@
       cost: 'How many ways back in you have is a row, not the headline, so running down to one path is easier to miss.',
       covers: { compare: 'b-device', decide: COVER_DECIDE, source: 'b-device', correct: 'b-lost', config: COVER_CONFIG, cost: COVER_COST, recover: 'b-lost' },
       screens: [{
-        id: 'b-devices', title: 'Signed in now', note: 'Any device but the one in your hand opens and can be revoked. Revoking needs no iPhone passkey.',
+        id: 'b-devices', title: 'Signed in now', note: 'Any device but the one in your hand opens and can be revoked, with a fresh sign-in on any healthy path (ADM-03). A revoke removes any passkey on it (ADM-02).',
         render: ctx => frame(ctx, {
           title: 'Signed in now', back: 'Admin',
           body: view(ctx, T_DEVS, () => `${devList(ctx)}${ctx.state === 'error' ? rvNote() : ''}${lostRow(ctx)}`),
@@ -345,21 +363,21 @@
           body: ctx.state === 'empty' ? '' : deviceCard(ctx, ctx.state === 'partial'), rail: '', sheet: revokeSheet(ctx)
         })
       }, {
-        id: 'b-lost', title: 'Lost a device', note: 'The same recovery as Paths first, entered from the device. Empty draws the lost Mac. Privacy says a replacement lands on the new device; here it stays on the Mac until the Developer Program is bought (MP-179).',
+        id: 'b-lost', title: 'Lost a device', note: 'The same recovery as Paths first, entered from the device. The replacement goes on the Mac, as Privacy draws it (ADM-13). Empty draws the lost Mac: a phone finishes in its browser (ADM-15), unverified until MP-197, with the one-path fallback beside it.',
         render: ctx => lostFrame(ctx) || frame(ctx, {
           title: 'Lost a device', back: 'Signed in now',
           body: view(ctx, T_LOST, () => lostBody(ctx)),
           rail: lostRail(ctx)
         })
       }, {
-        id: 'b-paths', title: 'Ways back in', note: 'The iPhone passkey row is copied from the Privacy journey, labelled, and nothing depends on it.',
+        id: 'b-paths', title: 'Ways back in', note: 'The iPhone passkey row waits on the purchase (MP-179), as Privacy now draws it too ("Redraw Privacy now", ADM-13). Nothing depends on it.',
         render: ctx => frame(ctx, {
           title: 'Ways back in', back: 'Signed in now',
           body: view(ctx, T_PATHS, () => `${pathRows(ctx, { flat: true })}${ctx.state === 'empty' ? note('Google cannot be unlinked while it is your last path. Add another path first.') : card(`${head('Unlink Google')}${note('This leaves Passkey, Mac, and the iPhone row, which cannot count until the Developer Program is bought (MP-179). So you would be on one path, and MP warns you.')}${can(ctx, act('A47', 'Unlink Google'), PATHSHELD)}${note(LINE)}`)}`),
           rail: `${list(opens('plus', 'Add a path', 'Link Google, or enrol a passkey'))}${notPaths()}${allLost()}${NEVER()}`
         })
       }, {
-        id: 'b-add', title: 'Add a path', note: 'Link is reached after an unlink, because Ready has Google linked. Enrol is a control on the Mac only.',
+        id: 'b-add', title: 'Add a path', note: 'Link is reached after an unlink, because Ready has Google linked. Enrol is a control on the Mac and in a phone\'s browser (ADM-04), unverified until MP-197.',
         render: ctx => frame(ctx, {
           title: 'Add a path', back: 'Ways back in',
           body: view(ctx, T_LINK, () => `${linkSteps(ctx)}${enrolHere(ctx, NOEMAIL)}`),

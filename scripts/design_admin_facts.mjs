@@ -58,7 +58,8 @@ export function problems(journeys, whole = true) {
   walk(journeys, (html, at, where) => {
     for (const m of html.matchAll(/data-act="(A\d+)"/g)) { acts.add(m[1]); if (!drawnIn.has(m[1])) drawnIn.set(m[1], new Set()); drawnIn.get(m[1]).add(where.j.id); }
     for (const m of html.matchAll(/data-refuse="(R\d+)"/g)) refused.add(m[1]);
-    if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) if (PERMS.actions.find((p) => p.id === m[1]).phone !== 'live') out.push(`${at}: ${m[1]} is a live control on a phone`);
+    // browser: live in a phone's browser (pwa) only, never in the iPhone app (ADM-04, MP-188)
+    if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) { const ph = PERMS.actions.find((p) => p.id === m[1]).phone; if (ph !== 'live' && !(ph === 'browser' && where.kind === 'pwa')) out.push(`${at}: ${m[1]} is a live control on a phone`); }
     if (where.kind === 'iphone' || where.kind === 'pwa') for (const m of html.matchAll(/data-act="(A\d+)"(?! data-phone-off)/g)) live.add(m[1]);
     for (const m of html.replace(/<span class="aact"[^>]*>[\s\S]*?<\/span>/g, '').matchAll(/<button\b[^>]*>([\s\S]*?)<\/button>/g)) { const label = textOf(m[1]); if (WRITE.test(label) && !NAV.test(label)) out.push(`${at}: the button "${label}" reads like a write, outside act()`); }
     const text = textOf(html);
@@ -70,7 +71,8 @@ export function problems(journeys, whole = true) {
     for (const p of PERMS.actions) if (p.step_up !== 'outside' && p.control !== 'named' && !acts.has(p.id)) out.push(`${p.id} (${p.action}) has no control on any screen`);
     for (const p of PERMS.actions) if (p.control === 'named' && acts.has(p.id)) out.push(`${p.id} (${p.action}) is marked named, and a screen draws it`);
     for (const [id, js2] of drawnIn) { const p = PERMS.actions.find((x) => x.id === id); for (const j of js2) if (!p.journeys.includes(j)) out.push(`${id} is drawn in ${j}, and its row does not list that journey`); }
-    for (const p of PERMS.actions) if (p.phone === 'live' && !live.has(p.id)) out.push(`${p.id} (${p.action}) is marked live on a phone, and no phone screen draws it live`);
+    for (const p of PERMS.actions) if ((p.phone === 'live' || p.phone === 'browser') && !live.has(p.id)) out.push(`${p.id} (${p.action}) is marked live on a phone, and no phone screen draws it live`);
+    for (const p of PERMS.actions) if (!['live', 'off', 'browser'].includes(p.phone) && p.step_up !== 'outside') out.push(`${p.id} (${p.action}): phone is ${JSON.stringify(p.phone)}, not live, off or browser`);
     for (const p of PERMS.actions) if (!p.audit || /^(open|audit|none named)\b/i.test(p.audit) || /\[inferred|as \d/i.test(p.audit)) out.push(`${p.id}: the audit column does not name a record: "${p.audit}"`);
     for (const r of NEEDED) if (!refused.has(r)) out.push(`refusal ${r} is drawn nowhere`);
   }
@@ -86,6 +88,8 @@ function selftest() {
     ['a barred word', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<p>Hit the kill switch</p>'; }, 'kill switch'],
     ['an unknown proposal', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<p>Proposed · SOON</p>'; }, 'not a record id'],
     ['a live control on a phone', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<span class="aact" data-act="A07"><button>Approve</button></span>'; }, 'is a live control on a phone'],
+    // A48 is browser: live on Phone web, and refused live in the iPhone app (ADM-04)
+    ['a browser act live in the iPhone app', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + (c.kind === 'iphone' ? '<span class="aact" data-act="A48"><button>Enrol a passkey</button></span>' : ''); }, 'A48 is a live control on a phone'],
     ['an unknown record', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<p>Proposed · CT-99</p>'; }, 'not a record id'],
     ['a write outside act', (js) => { const r = js[1].options[0].screens[0].render; js[1].options[0].screens[0].render = (c) => r(c) + '<button class="btn">Retry safely</button>'; }, 'reads like a write'],
     ['an action undrawn', (js) => { for (const j of js) for (const o of j.options) for (const s of o.screens) { const r = s.render; s.render = (c) => r(c).replace(/data-act="A16"/g, ''); } }, 'A16'],
@@ -128,7 +132,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   try {
     const args = process.argv.slice(2), i = args.indexOf('--page');
     if (args.includes('--selftest')) process.exit(selftest());
-    const ids = args.filter((x, k) => /^R\d+-/.test(x) && args[k - 1] !== '--page');
+    // a check id: a review finding (R1-s1) or an issue's own fact (MP188-adm04-identity); --page and --journeys take a path
+    const ids = args.filter((x, k) => /^(R\d+|MP\d+)-/.test(x) && !['--page', '--journeys'].includes(args[k - 1]));
     if (ids.length || args.includes('--facts')) {
       const facts = await factFiles(), a = adminApi(load(i >= 0 ? resolve(args[i + 1]) : PAGE)), run = ids.length ? ids : Object.keys(facts);
       let failed = 0;

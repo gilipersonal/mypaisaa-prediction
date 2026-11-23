@@ -352,7 +352,7 @@ const OPEN = [
   ['Which runs does a Reduce line cut? (MP-103)', 'Labelled proposed: fewer optional runs.'],
   ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Proposed: it clears when it next connects (MP40-Q12).'],
   ['What is kept offline, and which devices (MP40-Q12)', 'Labelled proposed.'],
-  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'No exact time is promised. Every approval asks for a fresh sign-in, in both options. Renewing an original and turning on a less private option also ask for one (Proposed · CT-01).']
+  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'No exact time is promised. Every approval asks for a fresh sign-in, in both options. Renewing an original and turning on a less private option also ask for one (Proposed · CT-01). Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
 ];
 function showInventory() {
   mark('inv');
