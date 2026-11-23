@@ -49,36 +49,36 @@
    "jira": "MP-64"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "d09e1233138f9fbb9cc5194bbc25329ef85fb535fe4da79dc93fda44eaa883a8",
-   "published_at": "2026-11-05",
-   "jira": "MP-185"
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "53ba987ecf3909e9bec960beabd0221d9404cd1d14a728e155e5e8f36c1aa531",
+   "published_at": "2026-11-23",
+   "jira": "MP-188"
   },
   {
    "slug": "question-pack",
    "source": "docs/design/question-pack/index.html",
    "artifact_url": "https://claude.ai/artifact/5E3h9FVXwYQfYrwbLYCxfQ",
-   "published_sha256": "b0365f77508653074d98f4afa6dae298541b60682a8e3fa40fb952f23b7360ab",
-   "published_at": "2026-11-05",
-   "jira": "MP-185"
-  },
-  {
-   "slug": "ds-option-b-prism",
-   "source": "docs/design/prism/index.html",
-   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "b49e9670515cd59d0e262ea8de173a5064494b8d0ba6d1be1b1e7932021b94c1",
+   "published_sha256": "7c86f946d50c7e65907fca0cf360a67b7cf748b4b54731b445957139b6427f93",
    "published_at": "2026-11-23",
-   "jira": "MP-191"
+   "jira": "MP-188"
   },
   {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "168914a1c1fb797f74c1f893ce922684189d1db431ebba200b1de4c7ecd827b7",
+   "published_sha256": "80e63860eb203fd7ae270401df28627267d1b6bb0a059a5e92ef5a9c263af29e",
    "published_at": "2026-11-23",
-   "jira": "MP-191"
+   "jira": "MP-189"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "2ab6f24ec62ac7e612f04524a1ea25246eb8a65512511b1a0a9115fe7b25c123",
+   "published_at": "2026-11-23",
+   "jira": "MP-189"
   }
  ]
 }

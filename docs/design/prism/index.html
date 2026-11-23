@@ -1977,7 +1977,7 @@ const CMP = [
     demo: () => `<div class="matdemo" data-mo-frame="wait" style="padding:10px;min-height:0;justify-content:flex-start"><div class="dfield" aria-hidden="true" style="height:520px"></div><div class="side glass" style="border-radius:18px" data-mo="rise">${side(0)}</div></div>`,
     anatomy: 'Glass panel, rows of icon, label and count.', states: 'Default, hover, pressed, selected, focus.', sizes: '248 on the web, 280 on iPad. Rows 44.', a11y: 'A navigation landmark. The current row is marked.', do: 'Keep the tabs\' order, and put the three places the phone reaches through a tab after Track record. That order and their icons are Proposed.', dont: 'Nest a second sidebar.', web: '<Sidebar>', swift: 'NavigationSplitView' },
   { id: 'costpill', split: true, dw: '360px', name: 'Cost pill', status: OWNER, lede: 'The month in a few words, in the top bar of every Home, whichever way Cost is flipped. You see a figure, not the next line; one tap opens the month, where the meter sits.',
-    demo: () => `<div class="matdemo" data-mo-frame="wait" style="min-height:0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-start;padding:16px"><div class="dfield" aria-hidden="true"></div>${costPill('£46 of £100', { fill: 46, more: '£46.42 committed so far. On plan. Forecast up to £59.73. Opens the month' })}${costPill('£46<span class="sr"> of £100</span> · billing 39 h old', { icon: 'clock', more: 'Forecast up to £59.73. Opens the month' })}${costPill('£46<span class="sr"> of £100</span> · saved', { icon: 'wifi-off', more: 'Offline. Opens the month' })}</div>`,
+    demo: () => `<div class="matdemo" data-mo-frame="wait" style="min-height:0;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-start;padding:16px"><div class="dfield" aria-hidden="true"></div>${homePill()}${costPill('£46<span class="sr"> of £100</span> · billing 39 h old', { icon: 'clock', more: 'Forecast up to £59.73. Opens the month' })}${costPill('£46<span class="sr"> of £100</span> · saved', { icon: 'wifi-off', more: 'Offline. Opens the month' })}</div>`,
     anatomy: 'Glass chip, a bar of the month against £100 or a status icon, the figure in whole pounds.', states: 'Plain, refreshing, late billing, collector failed, offline, bill differs, part unknown, Claude off.', sizes: '36 tall, its hit area 44.', a11y: 'A button. Its name carries the exact figure, its word, its status and the forecast, and says it opens the month.', do: 'Show it on every Home, from the cost journey\'s own figures.', dont: 'Put a cost card above the holdings.', web: '<CostPill month>', swift: 'ToolbarItem { CostPill() }' },
   { id: 'search', split: true, dw: '440px', name: 'Search', status: OWNER, lede: 'One field for tickers, names and venues. Results show ticker, venue and segment, so two listings never look alike.',
     demo: () => `<div class="panel" data-mo-frame="wait" style="display:grid;gap:12px"><div class="label">Idle, and with results</div><div class="search" data-mo="rise">${ic('search', 's18')}Search instruments<kbd>⌘K</kbd></div><div class="search on" data-mo="rise">${ic('search', 's18')}ni</div><div class="card" style="box-shadow:var(--shadow-2)" data-mo="card">${[['NVDA', 'NVIDIA', 'XNAS · US tech', '--seg-ustech', 'N'], ['NIFTYBEES', 'Nippon India Nifty 50 BeES', 'XNSE · India ETFs', '--seg-inetf', 'NB'], ['INFY', 'Infosys', 'XNSE · Nifty 50', '--seg-n50', 'In']].map((r, i) => `<div class="t5r" style="grid-template-columns:30px minmax(0,1fr) auto">${logo(r[3], r[4], true)}<div class="tt">${r[1]}<span>${r[0]} · ${r[2]}</span></div>${i === 0 ? '<span class="chip">In portfolio</span>' : ic('chev-r', 's16')}</div>`).join('')}</div></div>`,
@@ -2033,7 +2033,7 @@ function renderPatterns() {
       <div class="mdemo" id="sheetDemo"><div class="inner"><b style="font:600 17px/22px var(--font-text)">NVIDIA</b><span>${badge('Trim')}</span><p class="small muted">Widest 80% range of the example holdings. Illustrative.</p><button class="btn sm btn-primary" type="button" id="sheetOpen">Record your decision</button></div><div class="scrim" id="sheetScrim"></div>
       <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sd-t"><div class="grabber"></div><h4 id="sd-t">Record your decision</h4><p class="small" style="margin-top:6px;color:var(--ink)">NVIDIA · Trim. Saved to your journal, so the outcome can be scored later. No trade is placed.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><button class="btn sm btn-tinted" type="button" id="sheetClose">Not now</button><button class="btn sm btn-primary" type="button" id="sheetRecord">Record</button></div></div>
       <div class="toast glass" role="status"><span class="ok">${ic('check', 's14')}</span>Recorded in your journal<button class="btn sm btn-plain" type="button" id="sheetUndo" aria-label="Undo, recorded in your journal">Undo</button></div></div></div>`,
-    `<div class="card pat" data-mo-frame="wait"><h3>Pull to refresh</h3><p>The pull shows what will happen and from where. The provider and the time of the last good data stay in view the whole way, and the result says what changed. The desktop has a Refresh button.</p><div class="pull3"><div>${ic('chev-d')}<b>Pulling</b>Release to refresh<br>Last good 22:15 · Twelve Data</div><div>${ic('refresh')}<b>Refreshing</b>Asking Twelve Data and Yahoo. Showing 22:15</div><div>${ic('check')}<b>Done</b>Updated 21:16. 7 of 7 priced</div></div></div>`,
+    `<div class="card pat" data-mo-frame="wait"><h3>Pull to refresh</h3><p>The pull shows what will happen and from where. The provider and the time of the last good data stay in view the whole way, and the result says what changed. The desktop has a Refresh button.</p><div class="pull3"><div>${ic('chev-d')}<b>Pulling</b>Release to refresh<br>Last good 22:15 · Twelve Data</div><div>${ic('refresh')}<b>Refreshing</b>Asking Twelve Data and Yahoo. Showing 22:15</div><div>${ic('check')}<b>Done</b>Updated 22:16. 7 of 7 priced</div></div></div>`,
     `<div class="card pat" data-mo-frame="wait"><h3>Search</h3><p>Recent items first. No result says what to try.</p><div class="search on">${ic('search', 's18')}xauusdt</div><div class="chip" style="white-space:normal;border-radius:var(--r-sm);min-height:44px;color:var(--ink)">${ic('info', 's16')}No instrument matches "XAUUSDT". Try a ticker like XAU or a name like Gold.</div><div class="card" style="box-shadow:inset 0 0 0 1px var(--hairline)">${[['NVDA', 'NVIDIA · XNAS · recent'], ['RELIANCE', 'Reliance · XNSE · recent']].map(r => `<div class="t5r" style="grid-template-columns:20px minmax(0,1fr)">${ic('clock', 's18')}<div class="tt">${r[0]}<span>${r[1]}</span></div></div>`).join('')}</div></div>`,
     `<div class="card pat" data-mo-frame="wait"><h3>The empty state says what to do next</h3><p>Every empty screen names the next step and the button that takes it.</p><div style="display:grid;justify-items:center;text-align:center;gap:10px;padding:20px 8px;border-radius:var(--r-md);box-shadow:inset 0 0 0 1px var(--hairline);--ic2:var(--link)">${ic('grid', 's26')}<b style="font:600 17px/22px var(--font-text)">No holdings yet</b><p class="small muted" style="max-width:26em">Add the instruments you want to watch. MyPrediction never connects to a broker.</p><button class="btn sm btn-primary" type="button">${ic('plus', 's16')}Add a holding</button></div></div>`
   ];
@@ -2137,7 +2137,7 @@ const tb = (i, label, cls = 's18') => `<button class="tbtn glass" type="button" 
 function scrHomeTop() {
   return `${sbar()}<div class="dfield"></div>
   <div class="content" style="padding-top:54px">
-    <div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${tb('search', 'Search')}${tb('eye-off', 'Hide amounts')}${tb('person', 'Account')}</div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${homePill()}${tb('search', 'Search')}${tb('eye-off', 'Hide amounts')}${tb('person', 'Account')}</div>
     <div class="ltitle" style="margin-top:2px" data-mo="rise">Portfolio</div>
     <div class="on-glass" style="display:flex;gap:6px;padding:6px 16px 12px;flex-wrap:wrap">${fresh('Twelve Data')}${fresh('Yahoo')}</div>
     <div style="padding:0 16px">${valcard()}</div>
@@ -2146,6 +2146,8 @@ function scrHomeTop() {
     <div class="list card">${H.slice(0, 5).map(h => hrow(h)).join('')}</div>
   </div>${dtab(0)}${homeInd}`;
 }
+/* the pill on Prism's own Home screens, in Ready, kept out of what the journey pages copy: the month as the owner journeys' Cost states it */
+const homePill = () => costPill('£46 of £100', { fill: 46, more: '£46.42 committed so far. On plan. Forecast up to £59.73. Opens the month' });
 function scrHomeScrolled() {
   return `${sbar()}
   <div class="content" style="margin-top:-142px">
@@ -2154,7 +2156,7 @@ function scrHomeScrolled() {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 16px 0">${Object.keys(SEG).map(k => tile(k, { sel: k === 'ustech', compact: true, h: 86 })).join('')}</div>
     <div class="card top5" style="margin:14px 16px 0">${top5('ustech')}</div>
   </div>
-  <div class="navbar glass"><div class="nb"><span></span><span class="nbt">Portfolio</span><button class="tbtn" type="button" aria-label="Search">${ic('search', 's18')}</button></div></div>
+  <div class="navbar glass"><div class="nb"><span>${homePill()}</span><span class="nbt">Portfolio</span><button class="tbtn" type="button" aria-label="Search">${ic('search', 's18')}</button></div></div>
   ${dtab(0)}${homeInd}`;
 }
 function scrDetail() {
@@ -2185,6 +2187,7 @@ function scrIpad() {
       <div class="on-glass" style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start"><span class="label" style="color:var(--ink)">Data</span>${fresh('Twelve Data')}${fresh('Yahoo')}<span class="small">As of 22:15 London · cutoffs US 22:00, UK 17:35, India 11:00</span></div>
     </div>
     <div style="position:relative;z-index:1;background:var(--ground);border-right:1px solid var(--hairline);overflow:hidden;padding-top:24px">
+      <div style="display:flex;justify-content:flex-end;padding:0 12px" data-mo="fade">${homePill()}</div>
       <div class="ltitle" data-mo="rise">Holdings</div>
       <div style="padding:12px 12px 0">${valcard(36)}</div>
       <div class="sech" style="padding:16px 16px 8px" data-mo="rise"><h3 style="font-size:17px;line-height:22px">7 holdings · 6 months</h3><span class="small muted">By value</span></div>
@@ -2217,7 +2220,7 @@ function scrDesk() {
       <div style="position:relative;z-index:1;overflow:hidden;background:var(--ground)">
         <div style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--hairline)" data-mo="rise">
           <h1 style="font-size:28px;line-height:34px;letter-spacing:-.02em">Portfolio</h1>${illus('Illustrative figures')}
-          <div class="search" style="margin-left:auto;width:220px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>
+          <span style="margin-left:auto">${homePill()}</span><div class="search" style="width:220px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>
           ${H36(1)}
         </div>
         <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;padding:14px 20px">
@@ -2246,7 +2249,7 @@ function scrPwa() {
   return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
   <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">
     <span class="brand-mark" aria-hidden="true"></span><span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">Portfolio</span>
-    <div class="search" style="margin-left:auto;flex:1;max-width:170px">${ic('search', 's16')}Search</div>
+    <span style="margin-left:auto">${homePill()}</span><div class="search" style="flex:1;max-width:170px">${ic('search', 's16')}Search</div>
   </div>
   <div class="dfield"></div>
   <div class="content" style="padding-top:124px">
