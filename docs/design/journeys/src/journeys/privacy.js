@@ -72,7 +72,7 @@
     return `${top}${note}${deviceSteps(ctx)}<div class="privacy-acts" data-mo="rise">${wbtn(s === 'loading' ? 'Waiting for your passkey' : s === 'error' || s === 'stale' ? 'Try again' : 'Confirm with a passkey', 'primary', s === 'loading' ? 'spin' : 'lock', dis)}${wbtn('Cancel', 'plain')}<p class="small muted" style="text-align:center">If you stop before the end, your old paths stay as they are.</p></div>`;
   }
 
-  /* ---------- privacy mode: money masked, percentages kept ---------- */
+  /* ---------- privacy mode: money and units masked, percentages kept (the owner, "Mask units too", OWN-18) ---------- */
   const maskRow = (h, mid) => `<div class="hrow" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div><div class="vv"><div class="val"><span class="priv">£••••</span></div>${chg(h.day)}</div><div class="fl">${mid}</div></div>`;
   const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
   function masked(ctx, h) {
@@ -81,6 +81,8 @@
     if (s === 'abstention' && h.t === 'AZN') return maskRow(h, `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`);
     if (s === 'disagreement' && h.t === 'RELIANCE') return maskRow(h, `<div style="flex:1;min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 8px;align-items:center;font:600 12px/16px var(--font-text);letter-spacing:0;color:var(--ink-2)"><span>Baseline</span>${range({ ...h, med: -2.4, lo: -15.5, hi: 11.2, lo50: -8.9, hi50: 4.2 })}<span>${pct(-2.4)}</span><span>R2-HGB v3</span>${range(h)}<span>${pct(h.med)}</span></div>`);
     if (s === 'offline') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="chip offline">${ic('clock', 's14')}Saved 21:15</span>`);
+    /* Apple is out at another horizon in these states, so it is not ranked and has no action (OWN-17, OWN-20); the banner says why */
+    if ((s === 'abstention' || s === 'disagreement') && h.t === 'AAPL') return maskRow(h, `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span><span class="small muted">None</span>`);
     return s === 'stale' ? hrow(h, { priv: true }) : late(hrow(h, { priv: true }));
   }
   /* both options hide the same rows: Apple, the holding this state is about, and HSBC */
@@ -91,13 +93,15 @@
     stale: () => banner('warn', 'Stale.', 'HSBC last priced 14:10. Its forecast is held and its action paused until its price returns.', 'clock'),
     offline: () => banner('', 'Offline.', 'Saved copies. Each row shows its age, and nothing updates until you reconnect.', 'wifi-off'),
     noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
-    disagreement: () => banner('', 'Rules and models disagree on Reliance.', 'Both ranges stay visible at 6 months, and Reliance has no ranked action.', 'split'),
-    abstention: () => banner('', 'The model abstained on AstraZeneca at 6 months.', 'Too little comparable history for a calibrated range, so none is shown.', 'ban')
+    disagreement: () => banner('', 'Rules and models disagree on Reliance.', 'They differ at 3, 6 and 12 months. Both ranges stay visible at 6 months, and Reliance has no ranked action. The models split on Apple at 3 months, so Apple is not ranked and has none either.', 'split'),
+    abstention: () => banner('', 'The model abstained on AstraZeneca at 6 months.', 'Too little comparable history for a calibrated range, so none is shown. It also abstained on Apple at 12 months. Neither is ranked, so neither has an action.', 'ban')
   }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
   const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good run' : 'today'}</span>`}</div>`;
-  const maskCopy = 'Amounts hidden. Percentages and ranges stay visible. Tap to show for 30 seconds.';
+  /* one set of words wherever privacy mode explains itself */
+  const maskSay = 'Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.';
+  const maskCopy = `Amounts hidden. ${maskSay}`;
   function modeCard(ctx) {
     if (ctx.state === 'loading') return skCard('Privacy mode', 3);
     if (ctx.state === 'empty') return box(`${head('Privacy mode', sw('Hide amounts', true))}<p class="small muted">No holdings yet, so nothing is hidden. It stays on for the first one you add.</p>`);
@@ -336,7 +340,7 @@
     const s = ctx.state;
     if (s === 'loading') return skel(3);
     if (s === 'empty') return stateCard('grid', 'No holdings yet', 'Add what you hold and MyPrediction starts watching it. It never connects to a broker. Amounts stay hidden when you do.', btn('Add a holding'));
-    const say = homeSay(s) || banner('', 'Amounts hidden.', 'Percentages and ranges stay visible. Tap to show for 30 seconds.', 'eye-off');
+    const say = homeSay(s) || banner('', 'Amounts hidden.', maskSay, 'eye-off');
     const rows = maskedRows(ctx);
     return `${box(maskValue(s))}${say}<div class="list card" style="margin:0">${supported(rows)}${rows}</div>`;
   }
@@ -359,7 +363,7 @@
         render: ctx => signFrame(ctx, cover(ctx, deviceFlow(ctx)))
       }, {
         id: 'privacy-a-centre', title: 'Privacy centre',
-        note: 'Settings, then Privacy. Money is masked and percentages stay; nothing confidential shows outside the app.',
+        note: 'Settings, then Privacy. The owner picked "Mask units too" (OWN-18): money and units are masked, and percentages stay. Nothing confidential shows outside the app.',
         render: ctx => homePage(ctx, {
           tab: 4, back: 'Settings', title: 'Privacy',
           body: homeSay(ctx.state) + modeCard(ctx) + (wide(ctx) ? '' : outside(ctx)) + pushCard(ctx),
@@ -407,7 +411,7 @@
         render: ctx => signFrame(ctx, cover(ctx, deviceFlow(ctx)))
       }, {
         id: 'privacy-b-home', title: 'Home, amounts hidden',
-        note: 'The eye on the top bar. Money masks, percentages stay, and offline each row shows its age.',
+        note: 'The eye on the top bar. The owner picked "Mask units too" (OWN-18): money and units are masked, and percentages stay. Offline, each row shows its age.',
         render: ctx => homePage(ctx, {
           tab: 0, title: 'Portfolio', actions: tb('search', 'Search') + `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`, webActions: wide(ctx) ? `<button class="btn sm btn-primary" type="button" aria-pressed="true">${ic('eye-off', 's18')}Amounts hidden</button>` : `<button class="tbtn glass" type="button" aria-pressed="true" aria-label="Amounts hidden" style="background:var(--btn);color:var(--btn-ink)">${ic('eye-off', 's18')}</button>`,
           body: homeHidden(ctx),

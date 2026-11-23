@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Nothing below has been changed yet, except that each pick is recorded here and in the decision log. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's and MP-191's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -109,6 +109,8 @@ Also a redraw that needs no owner choice: the owner journeys' clock wording cont
 | MP40-Q11b | Weekdays only | in chat | Screens redrawn |
 
 ### MP-191: Apply the decision rules to rows, the journal and hidden amounts
+
+Drawn on branch `MP-191-decision-rules` (23 November 2026), in the Journeys and Prism designs. Stories and specifications that word the old rule (MP-158, MP-135, MP-144, MP-84) are MP-192's.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |

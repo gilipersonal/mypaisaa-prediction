@@ -664,7 +664,8 @@ const FACTS = {
         lacks(v.text, /AstraZeneca has no 12-month|at 12 months, so no range/, `${said(at)}: the wrong horizon`);
       });
       each({ journey: R, option, screen, state: 'disagreement' }, (v, at) => {
-        has(v.text, /Rules and models disagree on Reliance at 6 months/, `${said(at)}: who disagrees`);
+        // narrowed in MP-191: Reliance disagrees at every long horizon (OWN-32)
+        has(v.text, /Rules and models disagree on Reliance at 3, 6 and 12 months/, `${said(at)}: who disagrees`);
         has(v.text, /split on Apple at 3 months/, `${said(at)}: who splits`);
         has(v.text, /80% range −12\.0% to \+24\.9%, no median/, `${said(at)}: a split shows its range and no median`);
         lacks(v.text, /Two models differ|\+7\.4%/, `${said(at)}: a median on a split`);

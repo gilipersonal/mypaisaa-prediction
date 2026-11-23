@@ -64,7 +64,9 @@ const ladderHeads = ({ each, view, must }) => {
   });
 };
 /* R3-h5: who abstains and who splits, by horizon: 0 is 3 months, 1 is 6, 2 is 12. Read off the rendered rows, so a name added to the page's tables is caught. */
-const OUTS = { abstention: { AZN: 1, AAPL: 2 }, disagreement: { RELIANCE: 1, AAPL: 0 } };
+/* narrowed in MP-191: Reliance disagrees at every long horizon ("Conflict at every long horizon", OWN-32) */
+const OUTS = { abstention: { AZN: [1], AAPL: [2] }, disagreement: { RELIANCE: [0, 1, 2], AAPL: [0] } };
+const outAt = (state, t, hz) => (OUTS[state][t] || []).includes(hz);
 const HELD = ['AAPL', 'NVDA', 'SPY', 'AZN', 'HSBA', 'RELIANCE', 'NIFTYBEES'];
 const ROOT_NAMES = [...HELD, 'MSFT', 'JPM', 'ICICIBANK', 'XAU/USD'];
 const SAYS_OUT = /split|disagree|abstain/i;
@@ -77,7 +79,7 @@ const flaggedOnly = ({ each, view, must }) => {
       const found = nameIn(r, names);
       must(found.length === 1, `${where}: a row reads as ${found.join(', ') || 'no name'}`);
       const t = found[0], text = cell ? cell(r, hz) : r;
-      must(SAYS_OUT.test(words(text)) === (OUTS[state][t] === hz), `${where}: ${t} at ${['3', '6', '12'][hz]} months ${SAYS_OUT.test(words(text)) ? 'shows out' : 'does not show out'}: ${words(text).slice(0, 120)}`);
+      must(SAYS_OUT.test(words(text)) === outAt(state, t, hz), `${where}: ${t} at ${['3', '6', '12'][hz]} months ${SAYS_OUT.test(words(text)) ? 'shows out' : 'does not show out'}: ${words(text).slice(0, 120)}`);
     }
   };
   const td = (r, hz, from) => r.split(/(?=<td)/).filter((x) => x.startsWith('<td'))[from + hz] || '';
@@ -89,7 +91,7 @@ const flaggedOnly = ({ each, view, must }) => {
     holdsAt(`b-forecasts ${surface} ${state}`, table, ROOT_NAMES, state, hz, (r, i) => td(r, i, 1));
     if (WIDE.includes(surface)) holdsAt(`b-ledger ${surface} ${state}`, holdingRows(pressed('home', 'b', 'b-ledger', surface, state).html), HELD, state, hz, (r, i) => td(r, i, 3));
   }
-  // and on the ranked lists: at 6 months only Apple's split is named, and only Apple drops out
+  // and on the ranked lists: only Apple drops out, and no other name reads as out
   for (const state of ['disagreement', 'abstention']) for (const screen of SEGS) each({ journey: 'home', option: 'a', screen, state }, (v, at) => {
     for (const name of LISTS[listOf(screen)]) if (name !== 'AAPL') {
       const r = rowFor(v.html, name);
@@ -426,14 +428,16 @@ export default {
       each({ journey: 'forecast', screen, state: 'disagreement' }, (v, at) => lacks(v.text, /Reliance/, `${screen} ${at.surface}: another name on Apple's page`));
     }
     each({ journey: 'forecast', screen: 'a-3m', state: 'abstention' }, (v, at) => {
-      has(v.html, /class="badge b-hold"/, `${at.surface}: 3 months stands, so its action stands`);
-      has(v.text, /Apple is 16\.4% of the portfolio/, `${at.surface}: the action is not Apple's`);
-      has(v.text, /3-month 80% range still includes a loss of 8\.2%/, `${at.surface}: the action is not at 3 months`);
+      // narrowed in MP-191: a name not ranked carries no action at any horizon ("No score, no action", OWN-20), so 3 months keeps its range and loses its Hold
+      lacks(v.html, /class="badge b-hold"/, `${at.surface}: a Hold on a name that is not ranked`);
+      has(v.text, /12 months abstained, so growth and protection are both missing\. Apple is not ranked, and carries no action at any horizon/, `${at.surface}: the action is not Apple's, or gives no reason`);
+      has(v.text, /80% range −8\.2% to/, `${at.surface}: the range is not at 3 months`);
       lacks(v.text, /No range at/, `${at.surface}: "no range" over a range`);
     });
     each({ journey: 'forecast', screen: 'a-12m', state: 'abstention' }, (v, at) => has(v.text, /No range at 12 months, so no action\. Apple is not ranked/, `${at.surface}: the abstained action`));
     each({ journey: 'forecast', screen: 'a-3m', state: 'disagreement' }, (v, at) => has(v.text, /No action is ranked on Apple at 3 months/, `${at.surface}: the split action`));
-    each({ journey: 'forecast', screen: 'a-12m', state: 'disagreement' }, (v, at) => has(v.html, /class="badge b-hold"/, `${at.surface}: 12 months has no conflict`));
+    // narrowed in MP-191: 12 months has no conflict, and Apple still carries no action there, because the split at 3 months leaves it not ranked (OWN-17, OWN-20)
+    each({ journey: 'forecast', screen: 'a-12m', state: 'disagreement' }, (v, at) => { has(v.text, /No conflict at 12 months/, `${at.surface}: 12 months has no conflict`); lacks(v.html, /class="badge b-hold"/, `${at.surface}: a Hold on a name that is not ranked`); has(v.text, /The models split on Apple at 3 months, so growth and protection are both missing/, `${at.surface}: no reason for no action`); });
   },
   'R2-h9': ({ each, has, lacks }) => {
     const money = (v) => `£${Math.round(v).toLocaleString('en-GB')}`, run = (r, y) => { let v = 6104.2; for (let i = 0; i < y; i++) v *= 1 + (r - 0.2) / 100; return v; };
@@ -464,7 +468,8 @@ export default {
       must(az.includes('+1.5%') && az.includes('+6.0%') && !az.includes('+3.0%') && az.includes('Abstained'), `${surface}: AstraZeneca abstains at 6 months only`);
       must(ap.includes('+3.1%') && ap.includes('+6.2%') && !ap.includes('+12.4%') && ap.includes('Abstained'), `${surface}: Apple abstains at 12 months only`);
       must(!apd.includes('+3.1%') && apd.includes('Split') && apd.includes('+6.2%') && apd.includes('+12.4%'), `${surface}: Apple splits at 3 months only`);
-      must(!rel.includes('+7.4%') && rel.includes('Disagree') && rel.includes('+3.7%') && rel.includes('+14.8%'), `${surface}: Reliance splits at 6 months only`);
+      // narrowed in MP-191: the owner picked "Conflict at every long horizon" (OWN-32), so Reliance disagrees at 3, 6 and 12 months
+      must(!rel.includes('+3.7%') && !rel.includes('+7.4%') && !rel.includes('+14.8%') && (rel.match(/Disagree/g) || []).length >= 3, `${surface}: Reliance disagrees at 3, 6 and 12 months`);
       must(words(rel).includes('−12.0% to +24.9%') && words(apd).includes('−8.2% to +13.8%'), `${surface}: a split horizon keeps its range`);
     }
     // the rows follow the horizon they show, and so does the action
@@ -478,20 +483,20 @@ export default {
       const a3 = pressed('home', 'a', 'a-portfolio', surface, 'disagreement', { hz: '0' });
       lacks(a3.html, /\+3\.1%/, `${surface}: Apple's split 3 months`);
       has(a3.text, /Models split/i, `${surface}: Apple is not flagged at 3 months`);
-      lacks(a3.text, /Rules and models disagree · no action|Disagree · no action/, `${surface}: Reliance is flagged at 3 months`);
+      has(a3.text, /Rules and models disagree · no action|Disagree · no action/, `${surface}: Reliance is not flagged at 3 months (OWN-32)`);
     }
     // no other name: read off the rendered rows of Home and Forecast
     flaggedOnly({ each, view, must });
     // the root and the board agree with the table
     each({ journey: 'forecast', option: 'b', screen: 'b-forecasts', state: 'disagreement', surface: 'web' }, (v) => {
       must(tableRow(v.html, 'JPM').includes('+6.4%'), 'JPM stands');
-      must(!tableRow(v.html, 'RELIANCE').includes('+7.4%') && tableRow(v.html, 'RELIANCE').includes('+3.7%'), 'Reliance splits at 6 months only');
+      must(!tableRow(v.html, 'RELIANCE').includes('+7.4%') && !tableRow(v.html, 'RELIANCE').includes('+3.7%'), 'Reliance disagrees at 3 and 6 months (OWN-32)');
     });
-    each({ journey: 'home', option: 'a', screen: 'a-board', state: 'abstention' }, (v, at) => { has(v.text, /Apple lost its growth part when the model abstained at 12 months/, `${at.surface}: the board`); lacks(v.html, />AAPL<span class="sr">, you hold it<\/span>[^]{0,120}<b>\d\d<\/b>/, `${at.surface}: Apple keeps a score with a part missing`); });
-    each({ journey: 'home', option: 'a', screen: 'a-board', state: 'disagreement' }, (v, at) => has(v.text, /The models split on Apple at 3 months/, `${at.surface}: the board`));
+    each({ journey: 'home', option: 'a', screen: 'a-board', state: 'abstention' }, (v, at) => { has(v.text, /Apple lost its growth and protection parts when the model abstained at 12 months/, `${at.surface}: the board`); lacks(v.html, />AAPL<span class="sr">, you hold it<\/span>[^]{0,120}<b>\d\d<\/b>/, `${at.surface}: Apple keeps a score with a part missing`); });
+    each({ journey: 'home', option: 'a', screen: 'a-board', state: 'disagreement' }, (v, at) => { has(v.text, /The models split on Apple at 3 months, so it lost its growth and protection parts/, `${at.surface}: the board`); lacks(v.html, />AAPL<span class="sr">, you hold it<\/span>[^]{0,120}<b>\d\d<\/b>/, `${at.surface}: Apple keeps a score over a split horizon (OWN-17)`); });
     for (const [o, screen] of [['a', 'a-segment'], ['b', 'b-explore']]) {
       each({ journey: 'home', option: o, screen, state: 'abstention' }, (v, at) => has(v.text, /Apple dropped out/, `${screen} ${at.surface}: the list`));
-      each({ journey: 'home', option: o, screen, state: 'disagreement' }, (v, at) => has(v.text, /Apple is split at 3 months/, `${screen} ${at.surface}: the list`));
+      each({ journey: 'home', option: o, screen, state: 'disagreement' }, (v, at) => has(v.text, /Apple dropped out\. The models split on it at 3 months/, `${screen} ${at.surface}: the list`));
     }
   },
   'R2-h12': ({ each, has, lacks }) => {
@@ -645,15 +650,16 @@ export default {
   },
   'R3-h7': ({ each, must, has, lacks }) => {
     // the tile has room for a mark and hidden words; the row says it where it can be read. Both say what is true of Apple.
+    // Narrowed in MP-191: a split takes Apple off its list ("Both parts go", OWN-17), so the tile names the gap and the row reads Not ranked.
     for (const screen of ['a-board', 'a-portfolio']) each({ journey: 'home', option: 'a', screen, state: 'disagreement' }, (v, at) => {
-      const li = techTile(v.html).split('<li>').find((r) => r.includes('class="tk">AAPL')) || '';
-      has(li, /<span class="sr">, split at 3 months<\/span>/, `${screen} ${at.surface}: the tile`);
-      lacks(li, /rules and models disagree/i, `${screen} ${at.surface}: the conflict is Reliance's`);
+      const t = techTile(v.html);
+      has(t, /class="tk">AAPL split<\/span><b>–<\/b>/, `${screen} ${at.surface}: the tile`);
+      lacks(t, /rules and models disagree/i, `${screen} ${at.surface}: the conflict is Reliance's`);
     });
     each({ journey: 'home', option: 'b', screen: 'b-top5', state: 'disagreement' }, (v, at) => {
       const r = techCard(v.html).split(/(?=<div class="t5r)/).find((x) => /class="tt">AAPL\b/.test(x)) || '';
       must(r, `${at.surface}: no Apple row`);
-      has(words(r.replace(/<span class="sr">[^<]*<\/span>/g, '')), /split at 3 months/, `${at.surface}: the row does not say it in visible text`);
+      has(words(r), /Not ranked/, `${at.surface}: the row does not say it in visible text`);
       lacks(r, /rules and models disagree/i, `${at.surface}: the conflict is Reliance's`);
     });
   },
@@ -663,8 +669,9 @@ export default {
   },
   'R3-h9': ({ each, has, lacks }) => {
     for (const screen of ['a-brief', 'b-brief']) {
-      each({ journey: 'home', screen, state: 'disagreement' }, (v, at) => { has(v.text, /One conflict moves an action\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One conflict\./, `${screen} ${at.surface}: one conflict, then a second`); });
-      each({ journey: 'home', screen, state: 'abstention' }, (v, at) => { has(v.text, /One abstention moves an action\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One abstention\./, `${screen} ${at.surface}: one abstention, then a second`); });
+      // narrowed in MP-191: both names lose their action ("No score, no action", OWN-20), so the banner counts two
+      each({ journey: 'home', screen, state: 'disagreement' }, (v, at) => { has(v.text, /Two conflicts move actions\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One conflict/, `${screen} ${at.surface}: one conflict, then a second`); });
+      each({ journey: 'home', screen, state: 'abstention' }, (v, at) => { has(v.text, /Two abstentions move actions\./, `${screen} ${at.surface}: the banner`); lacks(v.text, /One abstention/, `${screen} ${at.surface}: one abstention, then a second`); });
     }
     each({ journey: 'home', screen: 'a-portfolio', state: 'abstention' }, (v, at) => { has(v.text, /Two holdings abstained\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 abstentions/, `${at.surface}: the pill counts another figure`); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'disagreement' }, (v, at) => { has(v.text, /Two holdings are split\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 conflicts/, `${at.surface}: the pill counts another figure`); });
@@ -755,7 +762,7 @@ export default {
   },
   'R4-h7': ({ screens, view, must }) => {
     // every Home frame says which Empty it means, so a tile that shows a list and the frame it opens can both be true
-    const meaning = (s) => (/metals$/.test(s) ? /Empty here means no list, as in every state\./ : ['a-portfolio', 'a-12m', 'b-ledger', 'b-12m'].includes(s) ? /Empty here means no holdings yet: the lists still show, because a ranking needs no holdings \(MP-135\)\./
+    const meaning = (s) => (/metals$/.test(s) ? /Empty here means no list, as in every state\./ : ['a-portfolio', 'a-12m', 'a-launch', 'b-ledger', 'b-12m', 'b-launch'].includes(s) ? /Empty here means no holdings yet: the lists still show, because a ranking needs no holdings \(MP-135\)\./
       : /brief$/.test(s) ? /Empty is the first morning; a weekend brief waits on MP40-Q11\./ : s === 'a-action' ? /Empty here means a holding with no action band\./ : s === 'b-open' ? /Empty here means no holdings yet, so no row opens\./
         : /search$/.test(s) ? /Empty here means a search that finds nothing\./ : /Empty here means the first morning, before any daily run, so no list exists yet\./);
     for (const o of ['a', 'b']) {
@@ -830,8 +837,9 @@ export default {
       lacks(v.text, /matured forecast|One grade waits/, `${screen} ${at.surface}: a matured forecast, with none matured`);
     });
   },
-  'R4-h17': ({ each, has }) => {
-    for (const [o, screen, line] of [['a', 'a-board', /its score stand\. Reliance is on none of these lists\. Proposed · MP-135/], ['b', 'b-top5', /its score stand\. Reliance is on none of these lists\. Proposed · MP-135/], ['a', 'a-segment', /its action stand\. Proposed · MP-135/], ['b', 'b-explore', /its action stand\. Proposed · MP-135/]]) each({ journey: 'home', option: o, screen, state: 'disagreement' }, (v, at) => has(v.text, line, `${screen} ${at.surface}: a score over a split horizon, as settled`));
+  'R4-h17': ({ each, has, lacks }) => {
+    // narrowed in MP-191: the owner answered MP-135 with "Both parts go" (OWN-17), so a split takes the score, on every list, and no Proposed label is left on it
+    for (const [o, screen, line] of [['a', 'a-board', /growth and protection parts[^.]*\.? ?[^.]*shows as not ranked, with no action, and nothing fills the gap\. (Reliance|AstraZeneca) is on none of these lists\./], ['b', 'b-top5', /growth and protection parts[^.]*\.? ?[^.]*shows as not ranked, with no action, and nothing fills the gap\. (Reliance|AstraZeneca) is on none of these lists\./], ['a', 'a-segment', /is not ranked, carries no action, and nothing fills the gap\./], ['b', 'b-explore', /is not ranked, carries no action, and nothing fills the gap\./]]) for (const state of ['disagreement', 'abstention']) each({ journey: 'home', option: o, screen, state }, (v, at) => { has(v.text, line, `${screen} ${at.surface} ${state}: a score over a split horizon, as settled`); lacks(v.text, /Proposed · MP-135/, `${screen} ${at.surface} ${state}: MP-135 is answered`); });
   },
   'R4-h18': ({ has }) => {
     for (const surface of ALL) {
