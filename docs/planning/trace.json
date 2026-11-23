@@ -1938,7 +1938,13 @@
     "docs/design/journeys/README.md",
     "docs/design/artifacts.json",
     "docs/planning/trace.json",
-    "tests/journey_facts/"
+    "tests/journey_facts/",
+    "docs/planning/owner-question-pack-2026-11-05/scope.md",
+    "docs/design/journeys/build.py",
+    "tests/test_journeys_build.py",
+    ".github/workflows/verify.yml",
+    "scripts/review_checks.py",
+    "review/MP-191/"
    ]
   },
   {

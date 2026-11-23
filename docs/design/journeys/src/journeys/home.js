@@ -130,7 +130,7 @@ const hzNote = (hz = 1) => (hz === 2 ? `<div class="home-sub"><span class="chip 
 const holdingsNote = {
   loading: () => banner('', 'Refreshing.', 'The last good rows from 21:15 stay here, with their ranges and flags, until the run lands.', 'refresh'),
   error: () => banner('fall', 'Holdings did not refresh.', 'Twelve Data failed at 21:14. Last good run Mon 21:15 · cutoff 21:00. Every row below is from that one version.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>`,
-  stale: () => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £84,051.05 known, 6 of 7 priced. Its forecast stays held and its action stays Pause until its price returns. ${qLate}`, 'clock'),
+  stale: ctx => banner('warn', '1 of 7 rows is stale.', `HSBC is past the freshness limit, so it leaves the total: £84,051.05 known, 6 of 7 priced. Its forecast stays held${ctx && ctx.launch ? '' : ' and its action stays Pause'} until its price returns. ${qLate}`, 'clock'),
   offline: ctx => banner('', 'Offline.', `Holdings from 21:15, saved on this device. Nothing here is fresh analysis until you reconnect.${q12(ctx)}`, 'wifi-off'),
   noModel: () => banner('', 'No approved model covers India yet.', 'Reliance and the Nifty ETF keep their value and price, with no range and no action.', 'cube'),
   disagreement: () => banner('', 'Two holdings are split.', 'The rules and the model disagree on Reliance at 3, 6 and 12 months. At 3 months the models split on Apple. Each shows its range and no median where it is split. Neither is ranked, so neither carries an action at any horizon until it can be ranked again.', 'split'),
@@ -144,7 +144,7 @@ function holdings(ctx, sel) {
     loading: () => holdingsNote.loading() + dim(list()),
     empty: () => stateCard('grid', 'No holdings yet', 'Add what you hold and MyPrediction starts watching it. It never connects to a broker.', btn('Add a holding', 'primary', 'plus')),
     error: () => holdingsNote.error() + list(),
-    stale: () => holdingsNote.stale() + list(),
+    stale: () => holdingsNote.stale(ctx) + list(),
     offline: () => holdingsNote.offline(ctx) + list(),
     noModel: () => holdingsNote.noModel() + list(),
     disagreement: () => holdingsNote.disagreement() + list(),
@@ -395,7 +395,7 @@ function searchMain(ctx, opts = {}) {
     stale: () => list(RES.map(r => resRow(r, r[0] === 'HSBA' ? { score: ic('clock', 's18') } : {})).join(''), banner('warn', 'HSBC is stale.', `Its last price is 14:10, until its price returns. Every other result is current. ${qLate}`, 'clock')),
     offline: () => `${field}${banner('', 'Offline.', `Search covers your 7 holdings and 9 saved names on this device. The wider catalogue returns when you reconnect.${q12(ctx)}`, 'wifi-off')}<div class="list card" style="margin:0">${resRow(RES[1])}${resRow(RES[2])}</div>`,
     noModel: () => list(RES.map(r => resRow(r, /· XNSE/.test(r[1]) ? { score: '–' } : {})).join('') + un, banner('', 'India results have no score.', 'No approved model covers India, so ICICIBANK, BANKBEES and HDFCBANK are not ranked. A listing with unverified rights shows as unavailable, never with made-up data.', 'cube')),
-    disagreement: () => list(rows, banner('', 'No conflict in these results.', 'Rules and models disagree on Reliance at 6 months, and the models split on Apple at 3 months. Neither is in this search.', 'split')),
+    disagreement: () => list(rows, banner('', 'No conflict in these results.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, and the models split on Apple at 3 months. Neither is in this search.', 'split')),
     abstention: () => list(rows, banner('', 'Nothing here abstained.', 'The model abstained on AstraZeneca at 6 months and on Apple at 12 months. Neither is in this search.', 'ban'))
   });
 }
@@ -435,7 +435,7 @@ function ledgerB(ctx, open) {
   return region(ctx, {
     what: 'Holdings', ok: body, loading: () => holdingsNote.loading() + dim(body()),
     empty: () => stateCard('grid', 'No holdings yet', 'Add what you hold and the ledger starts. It never connects to a broker.', btn('Add a holding', 'primary', 'plus')),
-    error: () => holdingsNote.error() + body(), stale: () => holdingsNote.stale() + body(), offline: () => holdingsNote.offline(ctx) + body(),
+    error: () => holdingsNote.error() + body(), stale: () => holdingsNote.stale(ctx) + body(), offline: () => holdingsNote.offline(ctx) + body(),
     noModel: () => holdingsNote.noModel() + body(), disagreement: () => holdingsNote.disagreement() + body(), abstention: () => holdingsNote.abstention() + body()
   });
 }

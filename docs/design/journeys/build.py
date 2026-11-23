@@ -4,6 +4,7 @@
     python3 docs/design/journeys/build.py          # write index.html
     python3 docs/design/journeys/build.py --check  # fail if index.html is stale
     python3 docs/design/journeys/build.py --only home,forecast --out PATH   # a partial page, for a designer's preview
+    python3 docs/design/journeys/build.py --out PATH                        # the whole page, somewhere other than index.html
 
 Prism is the one source: the tokens, components, icons, helpers and device frames are taken from
 docs/design/prism/index.html as it stands, so a journey cannot drift from the system. A journey is one file in src/,
@@ -56,6 +57,22 @@ def build(only: tuple[str, ...] = ()) -> str:
 
 
 def main(argv: list[str]) -> int:
+    # an argument this script does not read is refused, so a mistyped build never falls back to writing index.html (MP-191)
+    takes = {"--only": 1, "--out": 1, "--check": 0}
+    i = 0
+    while i < len(argv):
+        if argv[i] not in takes or i + takes[argv[i]] >= len(argv) + (0 if takes[argv[i]] else 1):
+            print(f"build.py: cannot read {argv[i]!r}; use --check, --out PATH, or --only a,b --out PATH")
+            return 2
+        i += 1 + takes[argv[i]]
+    if "--only" in argv and "--out" not in argv:
+        print("build.py: --only needs --out PATH")
+        return 2
+    if "--out" in argv and "--only" not in argv:
+        out = Path(argv[argv.index("--out") + 1])
+        out.write_text(build())
+        print(f"built {out}: the whole page")
+        return 0
     if "--only" in argv:
         only = tuple(argv[argv.index("--only") + 1].split(","))
         out = Path(argv[argv.index("--out") + 1])

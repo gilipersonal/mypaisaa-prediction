@@ -45,7 +45,7 @@ const backOf = ctx => pick(ctx).t;
    marks keeps that state, and any other reads as Ready, so an abstained horizon never shows a range under its own title. The one thing
    a horizon cannot change is what the rules read: a 200-day average and a drawdown are the same at 3 months as at 12, so Reliance keeps
    its Pause on every tab in Disagreement. */
-const clear = ctx => { const h = pick(ctx), hz = +(ctx.hz ?? 1), calm = ['disagreement', 'abstention'].includes(ctx.state) && !isOut(ctx.state, h.t, hz); return { ...ctx, state: calm ? 'default' : ctx.state, h, hz, pause: ctx.state === 'disagreement' && h.t === 'RELIANCE' }; };
+const clear = ctx => { const h = pick(ctx), hz = +(ctx.hz ?? 1), calm = ['disagreement', 'abstention'].includes(ctx.state) && !isOut(ctx.state, h.t, hz); return { ...ctx, state: calm ? 'default' : ctx.state, was: ctx.state, h, hz, pause: ctx.state === 'disagreement' && h.t === 'RELIANCE' }; };
 /* the models split on Apple: the two sides are the model and the baseline, not rules and models as on Reliance */
 const modelSplit = c => c.state === 'disagreement' && c.h.t !== 'RELIANCE';
 const shortH = st => (st === 'stale' ? byT.HSBA : A);
@@ -87,7 +87,7 @@ function histChart(ctx, label, seed = 11) {
    true: an abstained 12 months has no band and no figures, and a split 3 months has no median marked. */
 function ladderFan(ctx, o = {}) {
   const st = ctx.state, h = o.h || A, ls = longOf(h), span = o.to || 12, one = !!o.to, ref = one ? ls.find(l => l.k === o.to) : ls[2];
-  const gap12 = !one && st === 'abstention' && isOut(st, h.t, 2), split3 = (!one && isSplit(st, h.t, 0)) || !!o.split, end = gap12 ? ls[1] : ref, upto = gap12 ? 6 : span, from = !one && split3 ? 6 : 0;
+  const allSp = !one && !!o.split, gap12 = !one && st === 'abstention' && isOut(st, h.t, 2), split3 = (!one && isSplit(st, h.t, 0)) || !!o.split, end = gap12 ? ls[1] : ref, upto = gap12 ? 6 : span, from = !one && split3 ? 6 : 0;
   const W = cw(ctx, 326, 500), Ht = cw(ctx, 180, 240), ml = 38, mr = 52, mt = 14, mb = 22;
   const step = ref.f.hi - ref.f.lo > 30 ? 10 : 5, lo = Math.floor((ref.f.lo - 2) / step) * step, hi = Math.ceil((ref.f.hi + 2) / step) * step;
   const X = m => ml + (m / span) * (W - ml - mr), Y = v => mt + (1 - (v - lo) / (hi - lo)) * (Ht - mt - mb);
@@ -95,8 +95,8 @@ function ladderFan(ctx, o = {}) {
   const pathOf = (a, b) => { const up = [], dn = [], last = upto / span; for (let i = 0; i <= N; i++) { const f = (i / N) * last, c = at(f); up.push(`${X(f * span).toFixed(1)} ${Y(c[a]).toFixed(1)}`); dn.unshift(`${X(f * span).toFixed(1)} ${Y(c[b]).toFixed(1)}`); } return 'M' + up.join('L') + 'L' + dn.join('L') + 'Z'; };
   const ticks = []; for (let t = lo + (lo % step ? step : 0); t <= hi; t += step) ticks.push(t);
   const marks = one ? [ref] : ls;
-  const words = one ? `${ref.n}: ${o.split ? 'split, no median stands' : `median ${pct(ref.f.med)}`}, 80% range ${pct(ref.f.lo)} to ${pct(ref.f.hi)}` : ls.map(l => (gap12 && l.k === 12 ? '12 months: abstained, no range' : split3 && l.k === 3 ? `3 months: split, no median stands, 80% range ${pct(l.f.lo)} to ${pct(l.f.hi)}` : `${l.n}: median ${pct(l.f.med)}, 80% range ${pct(l.f.lo)} to ${pct(l.f.hi)}`)).join('. ');
-  const dot = l => (gap12 && l.k === 12 ? '' : split3 && l.k === 3 ? `<text class="lbl" x="${X(3)}" y="${Math.max(mt + 8, Y(l.f.hi) - 6)}" text-anchor="middle">Split</text>` : `<circle cx="${X(l.k)}" cy="${Y(l.f.med)}" r="4" class="nowdot"/>`);
+  const words = one ? `${ref.n}: ${o.split ? 'split, no median stands' : `median ${pct(ref.f.med)}`}, 80% range ${pct(ref.f.lo)} to ${pct(ref.f.hi)}` : ls.map(l => (gap12 && l.k === 12 ? '12 months: abstained, no range' : (allSp || (split3 && l.k === 3)) ? `${l.n}: split, no median stands, 80% range ${pct(l.f.lo)} to ${pct(l.f.hi)}` : `${l.n}: median ${pct(l.f.med)}, 80% range ${pct(l.f.lo)} to ${pct(l.f.hi)}`)).join('. ');
+  const dot = l => (gap12 && l.k === 12 ? '' : (allSp || (split3 && l.k === 3)) ? `<text class="lbl" x="${X(l.k)}" y="${Math.max(mt + 8, Y(l.f.hi) - 6)}" text-anchor="middle">Split</text>` : `<circle cx="${X(l.k)}" cy="${Y(l.f.med)}" r="4" class="nowdot"/>`);
   const ends = `${o.split ? '' : `<text class="fcl" x="${X(upto) + 4}" y="${Y(end.f.med) + 4}">${pct(end.f.med)}</text>`}<text class="lbl" x="${X(upto) + 4}" y="${Y(end.f.hi) + 12}">${pct(end.f.hi)}</text><text class="lbl" x="${X(upto) + 4}" y="${Y(end.f.lo) + 4}">${pct(end.f.lo)}</text>`;
   return `<svg class="cx" viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="${h.n}: one fan from now to ${upto} months. ${words}. Illustrative.">${ticks.map(t => `<line class="${t === 0 ? 'zero' : 'grid'}" x1="${ml}" x2="${W - mr}" y1="${Y(t)}" y2="${Y(t)}"/><text x="${ml - 6}" y="${Y(t) + 4}" text-anchor="end">${t === 0 ? '0%' : (t > 0 ? '+' : '−') + Math.abs(t) + '%'}</text>`).join('')}<g data-mo="draw"><path class="b80" d="${pathOf('u', 'd')}"/><path class="b50" d="${pathOf('u5', 'd5')}"/>${o.split ? '' : `<path class="med" d="M${X(from)} ${Y(at(from / span).m)} L${X(upto)} ${Y(at(upto / span).m)}"/>`}</g>${marks.map(l => `<line class="now" stroke-dasharray="2 3" x1="${X(l.k)}" x2="${X(l.k)}" y1="${mt - 4}" y2="${Ht - mb}"/>${dot(l)}<text x="${l.k === span ? W - mr : X(l.k)}" y="${Ht - 6}" text-anchor="${l.k === span ? 'end' : 'middle'}">${l.n}</text>`).join('')}${ends}${gap12 ? `<text class="lbl" x="${X(12)}" y="${mt + 10}" text-anchor="end">12 months abstained</text>` : ''}<circle class="nowdot" cx="${X(0)}" cy="${Y(0)}" r="4.5"/><text x="${ml}" y="${Ht - 6}">Now</text></svg>`;
 }
@@ -371,6 +371,9 @@ function chain(x) {
   if (st === 'disagreement') { const b = baseOf(f); c[3] = ['split', 'Forecast', `Two sides: ${modelSplit(x) ? `R2-HGB v3 range ${pct(f.lo)} to ${pct(f.hi)}, baseline ${pct(b.lo)} to ${pct(b.hi)}` : `rules Pause, R2-HGB v3 range ${pct(f.lo)} to ${pct(f.hi)}`}`, 'Both are stored. Neither is overwritten.']; set(4, 'Action', 'None: conflicted, not ranked', 'Nothing was published.'); }
   if (st === 'abstention') { c[3] = ['ban', 'Forecast', 'Abstained: too little comparable history', 'The abstention is stored and dated.']; set(4, 'Action', 'None: no range', 'Nothing was published.'); set(5, 'Outcome', 'Nothing to score', 'An abstention is not scored as a hit or a miss.'); }
   if (st === 'stale') { set(3, 'Forecast', `v2 · ${pct(f.med)} at ${HS[hz]} · R2-HGB v3 · held from Mon 21:15`, 'No new forecast until its price returns.'); }
+  /* a horizon that stands on a name out at another one: the name is not ranked, so nothing was published (OWN-17, OWN-20) */
+  const other = st === 'default' && x.was ? othersOut(x.was, h.t, hz) : '';
+  if (other) set(4, 'Action', 'None: not ranked', `${x.was === 'abstention' ? `${other[0].toUpperCase()}${other.slice(1)} abstained` : `The models split at ${other}`}, so growth and protection are both missing. Nothing was published.`);
   if (st === 'offline') { c.forEach(s => { s[2] += ' · saved 21:15'; }); c[6] = ['lock', 'Audit', 'Saved 21:15 · cannot re-check offline', 'Each link shows its age. Writes are refused until you reconnect.']; }
   return `<div class="card fc-chain" data-mo="card">${c.map((s, i) => stepOf(i, s, 3)).join('')}</div>`;
 }
@@ -416,7 +419,7 @@ const scenBlock = (h = A) => { const s = +h.val.replace(/,/g, ''); return `<div 
 function ladderMain(ctx, h) {
   const st = ctx.state;
   const tags = `<div class="fc-tags"><span class="chip fc">${ic('fan', 's14')}Evaluated</span>${st === 'abstention' ? '' : '<span class="chip proposed"><span class="dot"></span>12 months: Exploratory</span>'}</div>`;
-  const main = () => `<div class="card fcard" data-mo="card"><div class="label">Long term · 3, 6 and 12 months · ${h.t}</div>${tags}<div style="margin-top:8px">${ladderFan(ctx, { h })}</div><div class="fmeta"><span>${asOf(st)}</span><span>Data cutoff 21:00</span><span>R2-HGB v3</span><span>Illustrative</span></div></div><div class="card" data-mo="card">${longOf(h).map(l => ladRow(l, ctx, 0, h)).join('')}</div><div class="fc-sub" data-mo="fade">Open a row for its dossier: forecast, proof, views and evidence.</div>`;
+  const main = () => `<div class="card fcard" data-mo="card"><div class="label">Long term · 3, 6 and 12 months · ${h.t}</div>${tags}<div style="margin-top:8px">${ladderFan(ctx, { h, split: [0, 1, 2].every(i => isSplit(st, h.t, i)) })}</div><div class="fmeta"><span>${asOf(st)}</span><span>Data cutoff 21:00</span><span>R2-HGB v3</span><span>Illustrative</span></div></div><div class="card" data-mo="card">${longOf(h).map(l => ladRow(l, ctx, 0, h)).join('')}</div><div class="fc-sub" data-mo="fade">Open a row for its dossier: forecast, proof, views and evidence.</div>`;
   return region(ctx, {
     what: 'This forecast', ok: main,
     loading: () => banner('', 'Refreshing.', 'The last good set from 21:15 stays here, with its ranges, until the run lands.', 'refresh') + dim(main()),
@@ -425,7 +428,7 @@ function ladderMain(ctx, h) {
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so every horizon shows its last issue until its price returns. ${qLate}`, 'clock') + main(),
     offline: () => banner('', 'Saved at 21:15.', `Every horizon here is from your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + main(),
     noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
-    disagreement: () => banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands there. Open the row for both.', 'split') + main(),
+    disagreement: () => (h.t === 'RELIANCE' ? banner('', 'Rules and models disagree at 3, 6 and 12 months.', 'The rules point down and the model points up, so no median stands and no action is ranked. Open a row for both.', 'split') : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands there. Open the row for both.', 'split')) + main(),
     abstention: () => banner('', '12 months abstained.', '3 and 6 months stand on their own evidence.', 'ban') + main()
   });
 }
