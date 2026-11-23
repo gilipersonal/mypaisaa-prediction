@@ -1928,7 +1928,7 @@
    "key": "MP-191",
    "summary": "Apply the decision rules to rows, the journal and hidden amounts",
    "type": "Task",
-   "status": "In Review",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1970,6 +1970,20 @@
    "status": "To Do",
    "parent": "MP-4",
    "code": []
+  },
+  {
+   "key": "MP-195",
+   "summary": "Leave the whole-page browser walk out of the commit and PR gates",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    ".claude/skills/autoship/SKILL.md",
+    "scripts/review_checks.py",
+    "tests/test_review_checks.py",
+    "tests/test_claude_workflow_skills.py",
+    "docs/planning/trace.json"
+   ]
   }
  ]
 }

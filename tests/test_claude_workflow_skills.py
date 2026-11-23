@@ -42,6 +42,9 @@ class ClaudeWorkflowSkillTests(unittest.TestCase):
         self.assertIn("git merge --ff-only origin/main", body)
         self.assertIn("Never reset, stash or force anything", body)
         self.assertIn("--run --all", body)
+        # the owner, 23 November 2026: "whole-page browser walk is not needed during PR or commit" (MP-195)
+        self.assertIn("--skip design-walk", body)
+        self.assertIn("whole-page browser walk is not needed during PR or commit", body)
         self.assertNotIn("wrapper", body.lower())
 
     def test_plan_sync_defaults_to_read_only_and_scopes_writes(self):
