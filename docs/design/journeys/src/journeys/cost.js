@@ -14,7 +14,8 @@
   /* A late bill is not a late price, so a screen with no price on it keeps the price chips as they are. Home shows prices, so it
      takes the state as it stands and keeps its value and rows true to it. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
-  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="cost-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps what the Apple app keeps, and says how it is protected is unverified */
+  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + spec.body });
   const page = (ctx, spec) => homePage(ctx, { fresh: 'default', ...spec });
   const li = (icon, t, s, e = '', o = {}) => `<div class="cost-li${icon ? '' : ' plain'}${o.cls ? ' ' + o.cls : ''}" data-mo="rise">${icon ? `<span class="cost-ic">${ic(icon, 's18')}</span>` : ''}<div style="min-width:0"><div class="t">${t}</div>${s ? `<div class="s">${s}</div>` : ''}</div><div class="e">${e}</div></div>`;

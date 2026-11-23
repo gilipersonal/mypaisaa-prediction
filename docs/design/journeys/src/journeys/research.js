@@ -31,8 +31,8 @@
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
   /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
   const LATE = proposed('DATA-DEC-02');
-  /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
+  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* when today's run failed, the last good run shows in full, so one screen never mixes two versions */
   const lastGood = h => h.replace(/As of 21:15 London/g, 'Last good run Mon 21:15').replace(/(as of|·|,) 21:15/g, '$1 Mon 21:15');
   const fr = (ctx, spec) => {

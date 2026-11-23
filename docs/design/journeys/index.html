@@ -989,6 +989,8 @@ footer p + p { margin-top: 6px; }
 .jtop { display: flex; align-items: center; gap: 12px; padding: 16px 24px 10px; flex-wrap: wrap; }
 .jtop .ttl { font: 700 28px/34px var(--font-text); letter-spacing: -.02em; }
 .jtop .acts { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+/* a browser's offline copy: what is saved here, and that how a browser protects it is unverified (MP40-Q12c) */
+.jkept { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .jfresh { display: flex; gap: 6px; flex-wrap: wrap; }
 .jsheet { position: absolute; inset: 0; z-index: 24; display: flex; align-items: flex-end; }
 .jsheet .scrim { position: absolute; inset: 0; background: var(--scrim); }
@@ -2307,6 +2309,11 @@ function show() {
   setTimeout(more, 16);
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
+/* What a browser keeps offline. The owner pressed "Both keep the five" (MP40-Q12c, 5 Nov 2026): a browser keeps the same five
+   records as the Apple app, each with its age. No record says how a browser protects them, so every offline frame on web and phone
+   web says so, in this one sentence, and an Apple frame does not. */
+const BROWSER_UNVERIFIED = 'How a browser protects saved records is unverified.';
+const browserKept = () => `<div class="jkept" data-mo="rise"><span class="chip offline" data-mo="chip">${ic('wifi-off', 's14')}Saved in this browser</span><span class="small muted">${BROWSER_UNVERIFIED}</span></div>`;
 const OPEN = [
   ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Research hangs off Portfolio; Approvals and Imports sit under Settings.'],
@@ -2317,7 +2324,7 @@ const OPEN = [
   ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
   ['Action thresholds (FIN-OD-07)', 'Settled, 5 Nov 2026 ("Evidence first", OWN-09): no label appears until evaluation supports the thresholds and you approve a ranking policy version. Portfolio and Ledger at launch draw that time; every other screen draws labels as they read after the approval. Open: the thresholds themselves.'],
   ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
-  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Labelled proposed: unlock on your device.'],
+  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Import limits: labelled proposed. Locked PDFs: settled, 5 Nov 2026 ("Local unlock step", MP40-Q2): you type its password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Drawn as Unlock a PDF in both options of Holdings and imports.'],
   ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed.'],
   ['Weekend brief (MP40-Q11)', 'Not drawn.'],
   ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Proposed: Reliance stays Ambiguous, with its one found rate shown and not picked. AstraZeneca stays Nonconvergent: the search used its budget before it could separate the possible rates, so none is stated.'],
@@ -2343,8 +2350,8 @@ const OPEN = [
   ['How long a risk alert cools down (CT-18)', 'No time is promised.'],
   ['May a budget be raised through an approval? MP-114 bars it and MP-78 lists it as a sensitive action.', 'Not drawn. The records conflict.'],
   ['Which runs does a Reduce line cut? (MP-103)', 'Labelled proposed: fewer optional runs.'],
-  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Proposed: it clears when it next connects (MP40-Q12).'],
-  ['What is kept offline, and which devices (MP40-Q12)', 'Labelled proposed.'],
+  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Settled, 5 Nov 2026 ("Saved copy also times out", OWN-37): the copy clears when the device next connects, and the app also stops showing it after a set time without reaching the server. Open: that time, which you choose, so no number is drawn. Unverified: how well an offline app can enforce it.'],
+  ['What is kept offline, and which devices (MP40-Q12)', 'What is kept: settled, 5 Nov 2026 ("Both keep the five", MP40-Q12c): the Apple app and a browser each keep holdings, prices, forecasts, notices and cost, each with its age. Unverified: how a browser protects them, which needs an architecture answer before build, so every browser offline frame says so. Which devices: labelled proposed.'],
   ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'No exact time is promised. Every approval asks for a fresh sign-in, in both options. Renewing an original and turning on a less private option also ask for one (Proposed · CT-01).']
 ];
 function showInventory() {
@@ -2430,8 +2437,8 @@ const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-/* a browser's offline copy is an open question; the Apple apps have their own answer */
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* the month, in the words and figures of the cost journey: one row after the holdings, whichever way Cost is flipped */
 const COST = {
   default: ['£46.42 so far, up to £59.73 of the £100 ceiling', 'On plan'],
@@ -3001,9 +3008,10 @@ J.add({
   const LAST = 'Last good run Mon 21:15 · cutoff 21:00';
   const CLAUDE_OFF = 'Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.';
   const LATE = 'HSBC last priced 14:10, before the 16:35 UK close. That is inside the freshness limit, so it stays in the total.';
-  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
-  const kept = `<div class="holdings-acts">${proposed('MP40-Q12')}</div>`;
-  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept;
+  /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
+     How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
   /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
   const limit = `<div class="holdings-acts">${proposed('DATA-DEC-02')}</div>`;
   /* a line and the open question it rests on, inside one measure */
@@ -3179,12 +3187,15 @@ J.add({
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
     <p>Nothing is plugged or overwritten. Fix a row, add the missing one, or ${o.done ? '' : 'commit and '}keep the difference open, in plain sight, with your reason.</p>${acts(btn('Find the row', 'tinted sm'), btn('Keep it open, with a reason', 'plain sm'))}</div>`;
 
-  /* the failures an upload can meet. Two depend on open owner questions, so they are labelled proposed */
+  /* the failures an upload can meet. The upload limit is an open owner question, so it is labelled proposed. A locked PDF opens on
+     your device: the owner pressed "Local unlock step" (MP40-Q2), so its row leads to Unlock a PDF */
+  /* one sentence, word for word, wherever a statement password is met (MP40-Q2) */
+  const PDF_RULE = 'The password never leaves this device, and it is never stored, logged or sent to a model.';
   const failRow = (k, n, t, s, chip, a) => `<div class="hrow" style="grid-template-columns:30px minmax(0,1fr);align-items:start" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0;display:grid;gap:6px"><div><div class="nm">${n}</div><div class="tk" style="white-space:normal">${t}</div></div><p class="small muted">${s}</p>${chip ? `<div class="holdings-acts">${chip}</div>` : ''}${a}</div></div>`;
   const failures = () => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>3 files not taken in</h3>${ev('bad', 'Nothing was read')}</div>
     ${failRow('PDF', 'isa-scan-copy.pdf', 'Unreadable file', 'Its contents do not match a PDF. It was refused at the door, and nothing reached Claude. Export it again from your broker.', '', acts(btn('Choose another', 'tinted sm')))}
     ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. No upload limit is approved yet.', proposed('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
-    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', 'Unlock it on your device, then upload the copy. MyPrediction never asks for or stores a statement password.', proposed('MP40-Q2'), acts(btn('How to unlock', 'tinted sm')))}</div>`;
+    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', `Locked with a password, so nothing read it. Open it on this device with its password, and only the unlocked copy is sent. ${PDF_RULE}`, '', acts(btn('Unlock on this device', 'tinted sm')))}</div>`;
   const interrupted = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('wifi-off', 's18')}</span>Upload stopped at 62%</div><p>isa-oct-2026-scan.pdf did not finish, so no part of it was kept. Send it again once you are back online. Your link has expired and a new one is made for you.</p><div class="calbar" role="img" aria-label="Stopped at 62%"><i style="width:62%;background:var(--ink-2)"></i></div>${acts(`<button class="btn btn-tinted sm" type="button" disabled>Send again when online</button>`)}</div>`;
   const STEP = ['Received', 'Checked', 'Reading', 'Ready'];
   const steps = at => `<ol class="holdings-steps" aria-label="Import progress">${STEP.map((t, i) => `<li class="${i < at ? 'done' : i === at ? 'now' : ''}"${i === at ? ' aria-current="step"' : ''}><i data-mo="barx"></i><span>${i < at ? ic('check', 's14') : ''}${t}</span></li>`).join('')}</ol>`;
@@ -3360,7 +3371,7 @@ J.add({
     ${gRow(G.d, { dis: true, chip: ev('none', 'Duplicate'), nofx: true })}</div>`;
 
   /* ---------- a field in a form. Every value here is illustrative ---------- */
-  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="text" value="${v}"${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
+  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="${o.type || 'text'}" value="${v}"${o.type === 'password' ? ' autocomplete="off"' : ''}${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
   const claudeOff = t => banner('', 'Claude is off.', `${CLAUDE_OFF} ${t}`, 'cube');
   const stale214 = t => banner('warn', 'This draft is out of date.', t, 'clock') + acts(btn('Refresh preview', 'primary sm', 'refresh'));
 
@@ -3387,6 +3398,31 @@ J.add({
     id, title: 'Type it in',
     note: 'A typed row becomes a draft, then takes the same preview and approval as a file. Error refuses a missing field, Stale resumes an unsent draft against a newer ledger, and Abstaining records a snapshot with no invented purchases.',
     render: ctx => imp(ctx, { tab: 4, title: 'Type it in', back: 'Imports', fresh: 'default', actions: eyeInfo('About typed entries'), body: top + manualBody(ctx), rail: stateCard('shield', 'Same path as a file', 'Your entry becomes a draft, then a preview, then an approval. It never reaches your ledger on its own. Claude takes no part, and no agent can type one for you.') })
+  });
+
+  /* ---------- a password-protected PDF, opened on this device. The owner pressed "Local unlock step" (MP40-Q2, 5 Nov 2026): you type
+     the password in a step on your device, which opens the PDF there and sends the unlocked copy. Drawn on web, iPhone and iPad. ---------- */
+  const lockChip = t => `<span class="chip" data-mo="chip">${ic('lock', 's14')}${t}</span>`;
+  const unlockCard = (ctx, o = {}) => `<div class="card state" data-mo="card">${fileHead(o.chip || lockChip('Locked'), 'Password-protected PDF', o.none ? 'No file chosen on this device' : 'demat-oct-locked.pdf · on this device')}
+    <p>${PDF_RULE}</p>
+    <div class="holdings-form">${fld('Statement password', o.typed ? '••••••••••' : '', { wide: 1, type: 'password', off: o.off || o.none, bad: o.bad })}</div>
+    <p>Only the unlocked copy is sent. It is checked at the door like any file and read into a draft. Nothing reaches your holdings until you approve it.</p>
+    ${acts(o.go || btn('Open on this device', 'primary sm'), btn('Cancel', 'plain sm'))}</div>`;
+  const unlockBody = ctx => region(ctx, {
+    ok: () => unlockCard(ctx, { typed: true }),
+    loading: () => banner('', 'Opening on this device.', 'Nothing has been sent yet. If this stops, nothing is sent and the password is not kept.', 'clock') + unlockCard(ctx, { typed: true, off: true, chip: `<span class="chip" data-mo="chip"><span class="spin" aria-hidden="true"></span>Opening</span>`, go: dis('Opening on this device', 'primary') }),
+    empty: () => banner('', 'Choose the locked PDF.', 'It opens on the device that has it, so choose it from this one.', 'layers') + unlockCard(ctx, { none: true, go: btn('Choose a file', 'primary sm') }),
+    error: () => banner('fall', 'That password did not open it.', 'Nothing was sent, and what you typed is cleared. Type it again.', 'alert') + unlockCard(ctx, { bad: 'This password did not open the PDF.', go: dis('Open on this device', 'primary') }),
+    stale: () => banner('warn', 'You left this step at 21:09.', 'The password you typed was not kept, so type it again. Nothing was sent.', 'clock') + unlockCard(ctx, { go: dis('Open on this device', 'primary') }),
+    offline: () => banner('', 'Offline.', 'Unlocking sends the copy straight away, and imports never run offline. Nothing is opened or kept until you reconnect.', 'wifi-off') + unlockCard(ctx, { off: true, go: dis('Open when online', 'primary') }),
+    noModel: () => claudeOff('Unlocking needs no model. Once sent, a text PDF reads now and a scan waits in the queue.') + unlockCard(ctx, { typed: true })
+  });
+  const unlockScreen = (id, back, top = '', after = 'Preview') => ({
+    id, title: 'Unlock a PDF',
+    note: 'The owner pressed "Local unlock step" (MP40-Q2): you type the password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Reached from a locked file. Error is a wrong password, Stale a step left open, and Offline waits, because imports never run offline.',
+    na: { disagreement: `Unlocking opens one file on this device and compares it with nothing. A difference shows once the unlocked copy is read, on ${after}.`, abstention: 'No model reads anything in this step, so nothing can abstain. The password never reaches a model.' },
+    /* on a phone the bar holds the back label beside the title, so the title is the one word */
+    render: ctx => imp(ctx, { tab: 4, title: phone(ctx) ? 'Unlock' : 'Unlock a PDF', back, fresh: 'default', actions: tb('x', 'Cancel'), body: top + unlockBody(ctx), rail: phone(ctx) ? '' : stateCard('lock', 'Why on this device', 'The PDF opens where it is kept, so its password is typed and used only there. MyPrediction receives the unlocked copy, never the password.') })
   });
 
   /* ---------- guided edit and exclude: each makes a new revision and voids any earlier approval (MP-53) ---------- */
@@ -3592,9 +3628,9 @@ J.add({
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
-        note: 'Imports is its own place, under Settings until the owner says where it lives. Error shows the three ways a file is refused; the upload limit (MP40-Q1) and how a locked PDF is opened (MP40-Q2) are open owner questions, so those two are labelled proposed. Offline shows an interrupted upload; Stale shows reconnect.',
+        note: 'Imports is its own place, under Settings until the owner says where it lives. Error shows the three ways a file is refused. The upload limit (MP40-Q1) is an open owner question, so it is labelled proposed. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, dropZone(ctx), 'Open preview'), rail: importsRail(ctx) })
-      }, manualScreen('a-manual'), {
+      }, unlockScreen('a-unlock', 'Imports'), manualScreen('a-manual'), {
         id: 'a-preview', title: 'Preview: check every row',
         note: 'A scan read by Claude with no tools, one field flagged low confidence, a duplicate found, and one ambiguous listing. Unresolved groups stay visible and unselected. Each edit makes a new revision and voids any earlier approval. Disagreement shows a reconciliation mismatch.',
         render: ctx => {
@@ -3655,7 +3691,7 @@ J.add({
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, ctx.state === 'empty' ? methods(ctx) : accountPick(), 'Start checking'), rail: importsRail(ctx) })
       }, {
         id: 'b-add', title: 'Add a statement, read it',
-        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply; the upload limit (MP40-Q1) and locked PDFs (MP40-Q2) are open, so those two are labelled proposed.',
+        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. The upload limit (MP40-Q1) is open, so it is labelled proposed, and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
         render: ctx => {
           const st = ctx.state, top = STEPB(st === 'default' || st === 'stale' || st === 'noModel' || st === 'abstention' ? 1 : 0);
           const body = top + region(ctx, {
@@ -3672,7 +3708,7 @@ J.add({
           const rail = phone(ctx) ? (['default', 'stale', 'abstention', 'disagreement', 'loading'].includes(st) ? methods(ctx) : '') : methods(ctx) + records(false, st === 'offline');
           return imp(ctx, { tab: 4, title: 'Add statement', back: 'Imports', fresh: 'default', actions: tb('x', 'Cancel'), body, rail });
         }
-      }, manualScreen('b-manual', STEPB(0)), {
+      }, unlockScreen('b-unlock', 'Add statement', STEPB(0), 'Check'), manualScreen('b-manual', STEPB(0)), {
         id: 'b-check', title: 'Check: one question at a time',
         note: 'A scan read by Claude with no tools. A low-confidence field, an unclear listing and a transfer each become one question, and answering makes a new revision. A duplicate is not a question: it is left out and listed until you say otherwise. Unanswered groups stay visible and unselected.',
         render: ctx => {
@@ -3792,7 +3828,8 @@ const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 const LASTGOOD = 'Last good run Mon 21:15 · cutoff 21:00';
 const asOf = st => (st === 'error' ? 'Last good run Mon 21:15' : st === 'stale' ? 'Held from Mon 21:15' : 'As of 21:15 London');
 /* Prism's chart and proof, labelled as what they are: walk-forward testing, not a live record */
@@ -4400,8 +4437,8 @@ J.add({
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
   /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
   const LATE = proposed('DATA-DEC-02');
-  /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
+  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* when today's run failed, the last good run shows in full, so one screen never mixes two versions */
   const lastGood = h => h.replace(/As of 21:15 London/g, 'Last good run Mon 21:15').replace(/(as of|·|,) 21:15/g, '$1 Mon 21:15');
   const fr = (ctx, spec) => {
@@ -4757,9 +4794,10 @@ J.add({
      (the owner, "Any time evidence shows", OWN-15). A disagreement, an abstention, no model and no label all stay recordable. */
   /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
   const limit = `<div class="journal-acts">${proposed('DATA-DEC-02')}</div>`;
-  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
-  const kept = `<div class="journal-acts">${proposed('MP40-Q12')}</div>`;
-  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept;
+  /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
+     How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept(ctx);
   /* a failed read or save is not a failed price, so the price chips stay as they are */
   const notPrices = ctx => (ctx.state === 'error' ? 'default' : undefined);
   const waiting = t => chipMark(ic('clock', 's14'), t);
@@ -5105,7 +5143,8 @@ J.add({
   /* A late bill is not a late price, so a screen with no price on it keeps the price chips as they are. Home shows prices, so it
      takes the state as it stands and keeps its value and rows true to it. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
-  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="cost-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps what the Apple app keeps, and says how it is protected is unverified */
+  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + spec.body });
   const page = (ctx, spec) => homePage(ctx, { fresh: 'default', ...spec });
   const li = (icon, t, s, e = '', o = {}) => `<div class="cost-li${icon ? '' : ' plain'}${o.cls ? ' ' + o.cls : ''}" data-mo="rise">${icon ? `<span class="cost-ic">${ic(icon, 's18')}</span>` : ''}<div style="min-width:0"><div class="t">${t}</div>${s ? `<div class="s">${s}</div>` : ''}</div><div class="e">${e}</div></div>`;
@@ -5550,8 +5589,8 @@ J.add({
   /* the sidebar has a sixth item, Data sources, so Settings is 5 there and 4 on the tab bar */
   const SET = ctx => (wide(ctx) ? 5 : 4);
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
-  /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
+  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* a proposal's state is not about market data, so the price chips stay as they are. The queue, its Home flip and the notices pass fresh: undefined, so both sides follow the state */
   const fr = (ctx, spec) => frame(ctx, { fresh: 'default', ...spec, body: (spec.noKept ? '' : kept(ctx)) + (spec.body || '') });
 
@@ -6155,7 +6194,10 @@ J.add({
   const wide = ctx => ctx.kind === 'web' || ctx.kind === 'ipad';
   /* A failed export is not a failed price, so a screen with no price on it keeps the price chips as they are. A screen that shows or quotes a price (Privacy, Home, a notice about a price) takes the state as it stands. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
-  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="privacy-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps what the Apple app keeps, and says how it is protected is unverified */
+  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
+  /* the owner pressed "Saved copy also times out" (OWN-37): one phrase wherever a revoked device's copy is described. The time is theirs to set */
+  const CLEARS = 'Its offline copy clears when it next connects, and stops showing after the offline time-out.';
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + (spec.body || '') });
   const page = (ctx, spec) => homePage(ctx, { fresh: 'default', ...spec });
   const chipOf = ([kind, text, icon]) => `<span class="chip ${kind}" data-mo="chip">${icon ? ic(icon, 's14') : '<span class="dot"></span>'}${text}</span>`;
@@ -6332,9 +6374,9 @@ J.add({
       error: banner('fall', `${gone} was not revoked.`, 'It failed at 21:14 and is still signed in. Try again.', 'alert'),
       stale: banner('warn', 'From 14:10.', 'A device may look active after it has been revoked. This list refreshes when it can.', 'clock'),
       offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
-      disagreement: banner('', `${gone} shows as signed in on the ${gone} itself.`, 'The server has ended it. Its offline copy clears when it next connects.', 'split')
+      disagreement: banner('', `${gone} shows as signed in on the ${gone} itself.`, `The server has ended it. ${CLEARS}`, 'split')
     }[s] || '';
-    return `${top}${box(`${head('Devices and sessions', '<span class="small muted">4 devices</span>')}${list([li('', here, 'Active now', `<span class="small muted">This device</span>`), ...rows])}<p class="small muted">Revoking asks for a fresh sign-in, ends the device's sessions and closes its live streams, in a time you approve.</p>${CHIP_ROWS(proposed('CT-17') + (s === 'disagreement' ? proposed('MP40-Q12') : ''))}`)}`;
+    return `${top}${box(`${head('Devices and sessions', '<span class="small muted">4 devices</span>')}${list([li('', here, 'Active now', `<span class="small muted">This device</span>`), ...rows])}<p class="small muted">Revoking asks for a fresh sign-in, ends the device's sessions and closes its live streams, in a time you approve.</p>${CHIP_ROWS(proposed('CT-17') + (s === 'disagreement' ? timeoutChip : ''))}`)}`;
   }
   function pathsCard(ctx) {
     const s = ctx.state;
@@ -6364,15 +6406,22 @@ J.add({
   /* the age of each record on this device. The checkup quotes the oldest from this one list. */
   const agesOf = s => (s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 21:15', 'Saved 21:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h']);
   const oldestOf = s => agesOf(s)[s === 'stale' ? 4 : 2].replace('Saved', 'saved');
+  /* the time-out is the owner's to set (OWN-37), so no number is drawn, and how well an offline app keeps to it is unverified */
+  const timeoutChip = chipOf(['', 'Time-out not set · OWN-37', 'clock']);
+  const TIMEOUT = 'You set the time-out. How well an offline app can enforce it is unverified.';
+  const timeoutRow = `<div class="privacy-row"><span class="small muted">Stops showing after</span><span class="small" style="font-weight:600">Not set yet</span></div><p class="small muted">${TIMEOUT}</p>`;
   function offlineCopy(ctx) {
-    const s = ctx.state;
+    const s = ctx.state, web = browser(ctx);
     if (s === 'loading') return skCard('Offline copy', 4);
-    if (s === 'empty') return box(`${head('Offline copy', proposed('MP40-Q12'))}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
+    const here = web ? 'this browser' : 'this device';
+    if (s === 'empty') return box(`${head('Offline copy')}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
     const ages = agesOf(s);
     const rows = ['Holdings', 'Prices', 'Forecasts', 'Notices', 'Cost'].map((n, i) => `<tr data-mo="rise"><td>${n}</td><td class="r">${ages[i]}</td></tr>`).join('');
     const top = { error: banner('warn', 'Copy rebuilt.', 'A damaged copy was thrown away and rebuilt from the server at 21:14.', 'refresh'), stale: banner('warn', 'Older than usual.', 'Each record keeps its own age and is never shown as fresh.', 'clock') }[s] || '';
-    const where = browser(ctx) ? 'This is what the Apple app keeps. What this browser keeps is not settled yet.' : 'Encrypted on this device. Sign-out or a revoke clears it, and approvals, imports and settings never run offline.';
-    return box(`${head('Offline copy', proposed('MP40-Q12'))}${top}<table class="ht"><thead><tr><th>Record</th><th class="r">Age</th></tr></thead><tbody>${rows}</tbody></table><p class="small muted">${where}</p>`);
+    /* the owner pressed "Both keep the five" (MP40-Q12c) and "Saved copy also times out" (OWN-37) */
+    const what = web ? `This browser keeps the same five records as the Apple app, each with its age. ${BROWSER_UNVERIFIED} That needs an architecture answer before build.` : 'Encrypted on this device, with each record\'s age. Sign-out clears it.';
+    const ends = `A revoke clears it when ${here} next connects. It also stops showing once ${here} has gone the offline time-out without reaching the server. Approvals, imports and settings never run offline.`;
+    return box(`${head('Offline copy', web ? chipOf(['offline', 'Saved in this browser', 'wifi-off']) : '')}${top}<table class="ht"><thead><tr><th>Record</th><th class="r">Age</th></tr></thead><tbody>${rows}</tbody></table><p class="small muted">${what}</p><p class="small muted">${ends}</p>${timeoutRow}`);
   }
   const ORIGINALS = [['Broker statement, Oct 2026', 'PDF · kept to Oct 2028'], ['Broker statement, Sep 2026', 'PDF · kept to Sep 2028'], ['Holdings screenshot, Aug 2026', 'PNG · kept to Aug 2028'], ['Indian funds statement, Dec 2024', 'PDF · due in Dec 2026']];
   function originals(ctx) {
@@ -6453,7 +6502,7 @@ J.add({
       default: [renew],
       empty: [tap('alert', 'Add a second sign-in path', 'Only this device can sign in. Losing it would lock you out', go)],
       error: [tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go), tap('alert', 'A revoke did not finish', `${gone} is still signed in. Try again`, go), tap('alert', 'A privacy change did not save', 'The private default stays in force. Try again', go), tap('alert', 'Originals did not load', 'They failed at 21:14. Nothing is deleted or changed', go)],
-      stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'Apple app · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
+      stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'This browser · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
       offline: [renew],
       disagreement: [tap('split', 'A device has not checked in', `${gone} is revoked but shows signed in on the ${gone} itself`, go), tap('ban', 'Phone notifications are blocked', 'On here, denied in this device\'s settings. Your inbox still has everything', go), renew]
     }[s] || [];
@@ -6462,7 +6511,7 @@ J.add({
       !['empty', 'error', 'disagreement'].includes(s) && ['person', 'Devices', s === 'stale' ? '4 signed in at 14:10 · newest added 2 days ago' : '4 signed in · newest added 2 days ago'],
       s !== 'error' && ['eye-off', 'Lock screen and widgets', s === 'stale' ? 'Private defaults · last synced 14:10' : s === 'disagreement' ? 'Private here · Holdings in widgets is on from your Mac' : 'Nothing confidential shows'],
       !['error', 'disagreement'].includes(s) && ['shield', 'Notifications', { empty: 'Not asked yet · quiet 22:00 to 07:00', offline: 'Web Push on · changes wait until you reconnect', abstention: 'Web Push on · held for quiet hours until 07:30' }[s] || 'Web Push on · quiet 22:00 to 07:00'],
-      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'Apple app' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:14' : ''} · oldest record ${age}`]
+      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'This browser' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:14' : ''} · oldest record ${age}`]
     ].filter(Boolean);
     return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 21:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need.length ? box(`${head('Needs you', `<span class="small muted">${need.length} item${need.length > 1 ? 's' : ''}</span>`)}${list(need)}`) : ''}${box(`${head('Looks good', `<span class="small muted">Checked ${s === 'stale' ? '14:10' : '21:15'}</span>`)}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
   }
@@ -6470,7 +6519,7 @@ J.add({
   const SEEN = { iPhone: '40 min ago', iPad: '2 h ago' };
   function lostSteps(ctx) {
     const s = ctx.state, gone = target(ctx);
-    const three = s === 'stale' ? `That approval expired, so the ${gone} is not yet revoked. Approve it again.` : 'Ends its sessions, closes its live streams and clears its offline copy when it next connects.';
+    const three = s === 'stale' ? `That approval expired, so the ${gone} is not yet revoked. Approve it again.` : `Ends its sessions and closes its live streams. ${CLEARS}`;
     return `<ol class="privacy-steps">${step(1, 'Signed in from another path', `${PATH_IN[ctx.kind]}, just now`, 'done')}${step(2, 'Which device?', `${gone}, last active ${SEEN[gone]}`, 'done')}${step(3, 'Revoke it', three, 'now')}${step(4, 'Add a replacement passkey', `On the new ${gone}, when you have it.`)}</ol>`;
   }
   function lostFlow(ctx) {

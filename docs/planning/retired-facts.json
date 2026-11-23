@@ -176,6 +176,28 @@
     "docs/design/admin/src/journeys/*",
     "docs/design/journeys/README.md"
    ]
+  },
+  {
+   "pattern": "never\\s+asks\\s+for\\s+or\\s+stores\\s+a\\s+statement\\s+password|Unlock\\s+it\\s+on\\s+your\\s+device,\\s+then\\s+upload|How\\s+to\\s+unlock",
+   "why": "a password-protected PDF is unlocked in a step on the owner's device, and the password never leaves it (owner, 5 Nov 2026, \"Local unlock step\", MP40-Q2, MP-189)",
+   "paths": [
+    "docs/design/journeys/src/*",
+    "docs/design/journeys/src/journeys/*",
+    "docs/design/admin/src/*",
+    "docs/design/admin/src/journeys/*",
+    "docs/design/journeys/README.md"
+   ]
+  },
+  {
+   "pattern": "Sign-out\\s+or\\s+a\\s+revoke\\s+clears\\s+it|clears\\s+on\\s+sign-out\\s+or\\s+revoke|What\\s+this\\s+browser\\s+keeps\\s+is\\s+not\\s+settled",
+   "why": "a revoke clears a device's offline copy only when it next connects, and the copy also stops showing after a time-out the owner sets; a browser keeps the same five records as the Apple app (owner, 5 Nov 2026, \"Saved copy also times out\", OWN-37, and \"Both keep the five\", MP40-Q12c, MP-189)",
+   "paths": [
+    "docs/design/journeys/src/*",
+    "docs/design/journeys/src/journeys/*",
+    "docs/design/admin/src/*",
+    "docs/design/admin/src/journeys/*",
+    "docs/design/journeys/README.md"
+   ]
   }
  ]
 }

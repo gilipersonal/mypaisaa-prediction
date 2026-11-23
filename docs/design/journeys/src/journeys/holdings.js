@@ -21,9 +21,10 @@
   const LAST = 'Last good run Mon 21:15 · cutoff 21:00';
   const CLAUDE_OFF = 'Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.';
   const LATE = 'HSBC last priced 14:10, before the 16:35 UK close. That is inside the freshness limit, so it stays in the total.';
-  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
-  const kept = `<div class="holdings-acts">${proposed('MP40-Q12')}</div>`;
-  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept;
+  /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
+     How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
   /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
   const limit = `<div class="holdings-acts">${proposed('DATA-DEC-02')}</div>`;
   /* a line and the open question it rests on, inside one measure */
@@ -199,12 +200,15 @@
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
     <p>Nothing is plugged or overwritten. Fix a row, add the missing one, or ${o.done ? '' : 'commit and '}keep the difference open, in plain sight, with your reason.</p>${acts(btn('Find the row', 'tinted sm'), btn('Keep it open, with a reason', 'plain sm'))}</div>`;
 
-  /* the failures an upload can meet. Two depend on open owner questions, so they are labelled proposed */
+  /* the failures an upload can meet. The upload limit is an open owner question, so it is labelled proposed. A locked PDF opens on
+     your device: the owner pressed "Local unlock step" (MP40-Q2), so its row leads to Unlock a PDF */
+  /* one sentence, word for word, wherever a statement password is met (MP40-Q2) */
+  const PDF_RULE = 'The password never leaves this device, and it is never stored, logged or sent to a model.';
   const failRow = (k, n, t, s, chip, a) => `<div class="hrow" style="grid-template-columns:30px minmax(0,1fr);align-items:start" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0;display:grid;gap:6px"><div><div class="nm">${n}</div><div class="tk" style="white-space:normal">${t}</div></div><p class="small muted">${s}</p>${chip ? `<div class="holdings-acts">${chip}</div>` : ''}${a}</div></div>`;
   const failures = () => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>3 files not taken in</h3>${ev('bad', 'Nothing was read')}</div>
     ${failRow('PDF', 'isa-scan-copy.pdf', 'Unreadable file', 'Its contents do not match a PDF. It was refused at the door, and nothing reached Claude. Export it again from your broker.', '', acts(btn('Choose another', 'tinted sm')))}
     ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. No upload limit is approved yet.', proposed('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
-    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', 'Unlock it on your device, then upload the copy. MyPrediction never asks for or stores a statement password.', proposed('MP40-Q2'), acts(btn('How to unlock', 'tinted sm')))}</div>`;
+    ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', `Locked with a password, so nothing read it. Open it on this device with its password, and only the unlocked copy is sent. ${PDF_RULE}`, '', acts(btn('Unlock on this device', 'tinted sm')))}</div>`;
   const interrupted = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('wifi-off', 's18')}</span>Upload stopped at 62%</div><p>isa-oct-2026-scan.pdf did not finish, so no part of it was kept. Send it again once you are back online. Your link has expired and a new one is made for you.</p><div class="calbar" role="img" aria-label="Stopped at 62%"><i style="width:62%;background:var(--ink-2)"></i></div>${acts(`<button class="btn btn-tinted sm" type="button" disabled>Send again when online</button>`)}</div>`;
   const STEP = ['Received', 'Checked', 'Reading', 'Ready'];
   const steps = at => `<ol class="holdings-steps" aria-label="Import progress">${STEP.map((t, i) => `<li class="${i < at ? 'done' : i === at ? 'now' : ''}"${i === at ? ' aria-current="step"' : ''}><i data-mo="barx"></i><span>${i < at ? ic('check', 's14') : ''}${t}</span></li>`).join('')}</ol>`;
@@ -380,7 +384,7 @@
     ${gRow(G.d, { dis: true, chip: ev('none', 'Duplicate'), nofx: true })}</div>`;
 
   /* ---------- a field in a form. Every value here is illustrative ---------- */
-  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="text" value="${v}"${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
+  const fld = (l, v = '', o = {}) => `<label class="holdings-f${o.wide ? ' w' : ''}${o.bad ? ' bad' : ''}"><span>${l}</span><input type="${o.type || 'text'}" value="${v}"${o.type === 'password' ? ' autocomplete="off"' : ''}${o.off ? ' disabled' : ''}${o.bad ? ' aria-invalid="true"' : ''}>${o.bad ? `<em>${o.bad}</em>` : ''}</label>`;
   const claudeOff = t => banner('', 'Claude is off.', `${CLAUDE_OFF} ${t}`, 'cube');
   const stale214 = t => banner('warn', 'This draft is out of date.', t, 'clock') + acts(btn('Refresh preview', 'primary sm', 'refresh'));
 
@@ -407,6 +411,31 @@
     id, title: 'Type it in',
     note: 'A typed row becomes a draft, then takes the same preview and approval as a file. Error refuses a missing field, Stale resumes an unsent draft against a newer ledger, and Abstaining records a snapshot with no invented purchases.',
     render: ctx => imp(ctx, { tab: 4, title: 'Type it in', back: 'Imports', fresh: 'default', actions: eyeInfo('About typed entries'), body: top + manualBody(ctx), rail: stateCard('shield', 'Same path as a file', 'Your entry becomes a draft, then a preview, then an approval. It never reaches your ledger on its own. Claude takes no part, and no agent can type one for you.') })
+  });
+
+  /* ---------- a password-protected PDF, opened on this device. The owner pressed "Local unlock step" (MP40-Q2, 5 Nov 2026): you type
+     the password in a step on your device, which opens the PDF there and sends the unlocked copy. Drawn on web, iPhone and iPad. ---------- */
+  const lockChip = t => `<span class="chip" data-mo="chip">${ic('lock', 's14')}${t}</span>`;
+  const unlockCard = (ctx, o = {}) => `<div class="card state" data-mo="card">${fileHead(o.chip || lockChip('Locked'), 'Password-protected PDF', o.none ? 'No file chosen on this device' : 'demat-oct-locked.pdf · on this device')}
+    <p>${PDF_RULE}</p>
+    <div class="holdings-form">${fld('Statement password', o.typed ? '••••••••••' : '', { wide: 1, type: 'password', off: o.off || o.none, bad: o.bad })}</div>
+    <p>Only the unlocked copy is sent. It is checked at the door like any file and read into a draft. Nothing reaches your holdings until you approve it.</p>
+    ${acts(o.go || btn('Open on this device', 'primary sm'), btn('Cancel', 'plain sm'))}</div>`;
+  const unlockBody = ctx => region(ctx, {
+    ok: () => unlockCard(ctx, { typed: true }),
+    loading: () => banner('', 'Opening on this device.', 'Nothing has been sent yet. If this stops, nothing is sent and the password is not kept.', 'clock') + unlockCard(ctx, { typed: true, off: true, chip: `<span class="chip" data-mo="chip"><span class="spin" aria-hidden="true"></span>Opening</span>`, go: dis('Opening on this device', 'primary') }),
+    empty: () => banner('', 'Choose the locked PDF.', 'It opens on the device that has it, so choose it from this one.', 'layers') + unlockCard(ctx, { none: true, go: btn('Choose a file', 'primary sm') }),
+    error: () => banner('fall', 'That password did not open it.', 'Nothing was sent, and what you typed is cleared. Type it again.', 'alert') + unlockCard(ctx, { bad: 'This password did not open the PDF.', go: dis('Open on this device', 'primary') }),
+    stale: () => banner('warn', 'You left this step at 21:09.', 'The password you typed was not kept, so type it again. Nothing was sent.', 'clock') + unlockCard(ctx, { go: dis('Open on this device', 'primary') }),
+    offline: () => banner('', 'Offline.', 'Unlocking sends the copy straight away, and imports never run offline. Nothing is opened or kept until you reconnect.', 'wifi-off') + unlockCard(ctx, { off: true, go: dis('Open when online', 'primary') }),
+    noModel: () => claudeOff('Unlocking needs no model. Once sent, a text PDF reads now and a scan waits in the queue.') + unlockCard(ctx, { typed: true })
+  });
+  const unlockScreen = (id, back, top = '', after = 'Preview') => ({
+    id, title: 'Unlock a PDF',
+    note: 'The owner pressed "Local unlock step" (MP40-Q2): you type the password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Reached from a locked file. Error is a wrong password, Stale a step left open, and Offline waits, because imports never run offline.',
+    na: { disagreement: `Unlocking opens one file on this device and compares it with nothing. A difference shows once the unlocked copy is read, on ${after}.`, abstention: 'No model reads anything in this step, so nothing can abstain. The password never reaches a model.' },
+    /* on a phone the bar holds the back label beside the title, so the title is the one word */
+    render: ctx => imp(ctx, { tab: 4, title: phone(ctx) ? 'Unlock' : 'Unlock a PDF', back, fresh: 'default', actions: tb('x', 'Cancel'), body: top + unlockBody(ctx), rail: phone(ctx) ? '' : stateCard('lock', 'Why on this device', 'The PDF opens where it is kept, so its password is typed and used only there. MyPrediction receives the unlocked copy, never the password.') })
   });
 
   /* ---------- guided edit and exclude: each makes a new revision and voids any earlier approval (MP-53) ---------- */
@@ -612,9 +641,9 @@
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
-        note: 'Imports is its own place, under Settings until the owner says where it lives. Error shows the three ways a file is refused; the upload limit (MP40-Q1) and how a locked PDF is opened (MP40-Q2) are open owner questions, so those two are labelled proposed. Offline shows an interrupted upload; Stale shows reconnect.',
+        note: 'Imports is its own place, under Settings until the owner says where it lives. Error shows the three ways a file is refused. The upload limit (MP40-Q1) is an open owner question, so it is labelled proposed. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, dropZone(ctx), 'Open preview'), rail: importsRail(ctx) })
-      }, manualScreen('a-manual'), {
+      }, unlockScreen('a-unlock', 'Imports'), manualScreen('a-manual'), {
         id: 'a-preview', title: 'Preview: check every row',
         note: 'A scan read by Claude with no tools, one field flagged low confidence, a duplicate found, and one ambiguous listing. Unresolved groups stay visible and unselected. Each edit makes a new revision and voids any earlier approval. Disagreement shows a reconciliation mismatch.',
         render: ctx => {
@@ -675,7 +704,7 @@
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, ctx.state === 'empty' ? methods(ctx) : accountPick(), 'Start checking'), rail: importsRail(ctx) })
       }, {
         id: 'b-add', title: 'Add a statement, read it',
-        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply; the upload limit (MP40-Q1) and locked PDFs (MP40-Q2) are open, so those two are labelled proposed.',
+        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. The upload limit (MP40-Q1) is open, so it is labelled proposed, and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
         render: ctx => {
           const st = ctx.state, top = STEPB(st === 'default' || st === 'stale' || st === 'noModel' || st === 'abstention' ? 1 : 0);
           const body = top + region(ctx, {
@@ -692,7 +721,7 @@
           const rail = phone(ctx) ? (['default', 'stale', 'abstention', 'disagreement', 'loading'].includes(st) ? methods(ctx) : '') : methods(ctx) + records(false, st === 'offline');
           return imp(ctx, { tab: 4, title: 'Add statement', back: 'Imports', fresh: 'default', actions: tb('x', 'Cancel'), body, rail });
         }
-      }, manualScreen('b-manual', STEPB(0)), {
+      }, unlockScreen('b-unlock', 'Add statement', STEPB(0), 'Check'), manualScreen('b-manual', STEPB(0)), {
         id: 'b-check', title: 'Check: one question at a time',
         note: 'A scan read by Claude with no tools. A low-confidence field, an unclear listing and a transfer each become one question, and answering makes a new revision. A duplicate is not a question: it is left out and listed until you say otherwise. Unanswered groups stay visible and unselected.',
         render: ctx => {

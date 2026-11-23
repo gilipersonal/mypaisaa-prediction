@@ -337,8 +337,14 @@ export default {
     each({ journey: 'journal', state: 'error' }, (v, at) => lacks(v.text, /Twelve Data · error/, `${at.screen} ${at.surface}: a price chip on a read or save failure`));
     each({ journey: 'holdings', screen: 'a-list', state: 'error' }, (v, at) => has(v.text, /Twelve Data · error/, `${at.surface}: a screen of prices lost its error chip`));
   },
-  'R1-j18': ({ each, has }) => {
-    for (const journey of ['holdings', 'journal']) each({ journey, surface: ALL_SURFACES, state: 'offline' }, (v, at) => has(v.text, /Proposed · MP40-Q12/, `${journey} ${at.option} ${at.screen} ${at.surface}: an offline copy with no label`));
+  // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c, 5 Nov 2026), so what is kept offline is no longer open and its
+  // Proposed label comes off every surface. An offline copy in a browser is still labelled: saved here, and its protection unverified.
+  // Unlock a PDF shows no saved copy offline (the file is the owner's own, on the device), so it carries no such label.
+  'R1-j18': ({ each, has, lacks }) => {
+    for (const journey of ['holdings', 'journal']) each({ journey, surface: ALL_SURFACES, state: 'offline' }, (v, at) => {
+      lacks(v.text, /Proposed · MP40-Q12/, `${journey} ${at.option} ${at.screen} ${at.surface}: a settled question still labelled open`);
+      if (['web', 'pwa'].includes(at.surface) && !/-unlock$/.test(at.screen)) has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${journey} ${at.option} ${at.screen} ${at.surface}: an offline copy with no label`);
+    });
   },
   'R1-j19': ({ each, has, lacks, screens, must }) => {
     each({ journey: 'holdings', screen: 'a-list', surface: 'pwa', state: 'default' }, (v) => must(v.html.includes('Hide amounts'), 'phone web has no Hide amounts'));

@@ -60,8 +60,8 @@ const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-/* a browser's offline copy is an open question; the Apple apps have their own answer */
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* the month, in the words and figures of the cost journey: one row after the holdings, whichever way Cost is flipped */
 const COST = {
   default: ['£46.42 so far, up to £59.73 of the £100 ceiling', 'On plan'],
