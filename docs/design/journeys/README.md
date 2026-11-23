@@ -89,7 +89,8 @@ Never hide risk, staleness or a provider's status behind a spinner: freshness st
   means no score, said in words.
 - Numbers come from code and models; Claude only explains, and every figure it quotes carries a source.
 - Holdings first on home. Holdings and imports are separate places.
-- Privacy mode masks money and keeps percentages. Lock screens, widgets and snapshots show no holdings.
+- Privacy mode masks money and units, and percentages stay ("Mask units too", OWN-18). Lock screens, widgets and
+  snapshots show no holdings.
 - Every figure is illustrative and labelled. Use the shared figures in `docs/design/reviews/MP-62/brief.md`.
 - Prism's tokens, type, icons, motion and 44-point targets. Add `data-mo` roles so screens arrive subtly. Text at least 12 px.
 - Prefer short, active, plain copy.

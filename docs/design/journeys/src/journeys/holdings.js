@@ -37,8 +37,8 @@
   const SAY_OFF = 'Showing holdings from 21:15. Imports and approvals wait until you reconnect.';
   const SAY_NO_MODEL = 'Forecast ranges and actions are off. Value, cost basis and return come from your records, so they stand.';
   const sayError = () => stateCard('alert', 'Holdings did not load', 'The read failed at 21:14. These are the last good figures, from Mon 21:15. They may have moved.', btn('Try again', 'tinted sm', 'refresh'));
-  const saySplit = () => banner('', 'Rules and models disagree on Reliance.', 'At 6 months the rules point down and the model points up. Both show, and no action is ranked. Models also split on Apple at 3 months.', 'split');
-  const sayAbstain = () => banner('', 'The model abstained on AstraZeneca.', 'Too little comparable history for a calibrated 6-month range, so none shows. Its value stands. It also abstains on Apple at 12 months.', 'ban');
+  const saySplit = () => banner('', 'Rules and models disagree on Reliance.', 'At 3, 6 and 12 months the rules point down and the model points up. Both show, and no action is ranked. Models also split on Apple at 3 months, so Apple is not ranked and has no action either.', 'split');
+  const sayAbstain = () => banner('', 'The model abstained on AstraZeneca.', 'Too little comparable history for a calibrated 6-month range, so none shows. Its value stands. It also abstains on Apple at 12 months. Neither is ranked, so neither has an action.', 'ban');
 
   /* ---------- the ledger behind the shared figures. Illustrative; values add up to the shared £84,612.40 ---------- */
   const L = {
@@ -108,7 +108,9 @@
     if (st === 'abstention' && h.t === 'AZN') return `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`;
     if (st === 'disagreement' && h.t === 'RELIANCE') return dual();
     if (h.stale) return `<span class="chip stale">${ic('clock', 's14')}Forecast held</span>${badge('Pause')}`;
-    return `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span>${badge(h.act)}`;
+    /* Apple is out at another horizon in these states, so it is not ranked and has no action at any horizon (OWN-17, OWN-20); the banner says why */
+    const none = (st === 'abstention' || st === 'disagreement') && h.t === 'AAPL';
+    return `<div class="rangewrap">${range(h)}</div><span class="fcv">${pct(h.med)} · 6M</span>${none ? '<span class="small muted">None</span>' : badge(h.act)}`;
   };
   const holdRow = (h, ctx) => {
     const l = L[h.t], [a, b] = h.val.split('.');
@@ -191,7 +193,7 @@
     <div class="holdings-acts">${draftChip}<span class="cl-chip"><span class="cl-mark s" aria-hidden="true"><i></i><i></i><i></i></span>${o.claude || 'Read by Claude, no tools, 1 field flagged'}</span></div></div>`;
   const change = (o = {}) => `<div class="card" style="padding:14px 16px;display:grid;gap:10px" data-mo="card"><div class="holdings-bar"><div class="w"><b>What will change</b>${o.sub || '1 group selected · 3 rows of 11'}</div>${illus()}</div>
     <div class="holdings-ba">${(o.rows || [['Apple, Stocks ISA', '60 → 64 units'], ['Cash, Stocks ISA', '£4,012.60 → £3,335.81']]).map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join('')}</div>
-    <p class="small muted">${o.note || 'Changes value, cost basis, gain and return on Apple, and your ISA cash. 2 groups need you. The duplicate and the transfer stay listed.'}</p>${o.trade ? noTrade : ''}${o.go === false ? '' : btn('Review and approve', 'primary sm')}</div>`;
+    <p class="small muted">${o.note || 'Changes value, cost basis, gain and return on Apple, and your ISA cash. 2 groups need you. The duplicate and the transfer stay listed.'}${o.more ? ` ${o.more}` : ''}</p>${o.trade ? noTrade : ''}${o.go === false ? '' : btn('Review and approve', 'primary sm')}</div>`;
   const pending = (n = '1 group') => `<div class="holdings-bar"><div class="w"><b>${n} · 3 rows</b>2 groups need you</div>${btn('Review', 'primary sm')}</div>`;
   const mismatch = (o = {}) => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('split', 's18')}</span>Statement and rows differ by £12.40</div>
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
@@ -492,16 +494,19 @@
     render: ctx => imp(ctx, { tab: 4, title: 'Approved', back: 'Imports', fresh: 'default', actions: eyeInfo('About approvals'), body: top + liveBody(ctx) })
   });
 
-  /* ---------- hide amounts: money is masked, percentages stay, here and in Imports. A failed permission shows no figure at all (MP-84) ---------- */
+  /* ---------- hide amounts: money and units are masked, percentages stay, here and in Imports (the owner, "Mask units too", OWN-18).
+     A unit count takes the same mask as money, with its word kept so you can tell which figure is hidden. A failed permission shows no figure at all (MP-84) ---------- */
   const AMT = /[+−]?£[\d,]+(?:\.\d+)?/g, MASK = '<span class="sr">Amount hidden</span><span aria-hidden="true">••••</span>';
-  const mask = s => s.replace(/<span class="pp?">\.\d+<\/span>/g, '').replace(/<span class="roll" data-roll="[^"]*£[^"]*">.*?<\/span><\/span>/g, MASK).replace(/<[^>]*>|[+−]?£[\d,]+(?:\.\d+)?/g, m => (m[0] === '<' ? m.replace(AMT, '••••') : MASK));
+  const UNITS = /\b\d[\d,]*(?: → [\d,]+)? units\b/g, dots = u => u.replace(/[\d,]+/g, '••••');
+  const unitMask = u => `<span class="sr">Units hidden</span><span aria-hidden="true">${dots(u)}</span>`;
+  const mask = s => s.replace(/<span class="pp?">\.\d+<\/span>/g, '').replace(/<span class="roll" data-roll="[^"]*£[^"]*">.*?<\/span><\/span>/g, MASK).replace(/<[^>]*>|[+−]?£[\d,]+(?:\.\d+)?|\b\d[\d,]*(?: → [\d,]+)? units\b/g, m => (m[0] === '<' ? m.replace(AMT, '••••').replace(UNITS, dots) : /^\d/.test(m) ? unitMask(m) : MASK));
   const privateScreen = (id, parts, back) => ({
     id, title: 'Amounts hidden',
-    note: 'Hide amounts masks money and keeps percentages, on the holdings and on what an import would change. Units stay in view for now: whether they count as amounts is open (Proposed · MP-84). Error is permission denied: nothing is drawn from a read that was refused.',
+    note: 'The owner picked "Mask units too" (OWN-18), which reads: Hide amounts masks money and units, and percentages stay. That holds on the holdings and on what an import would change. Its stated cost: you cannot check unit counts on an import while amounts are hidden, so they show when you show amounts. Error is permission denied: nothing is drawn from a read that was refused.',
     render: ctx => {
       const no = ctx.state === 'error', s = parts(ctx);
-      const body = no ? stateCard('lock', 'Permission denied', 'This session cannot read your holdings, so no figure shows. Sign in again to carry on.', btn('Sign in again', 'primary sm')) : banner('', 'Amounts hidden.', 'Money is masked and percentages stay, here and in Imports.', 'eye-off') + acts(proposed('MP-84')) + mask(s.body);
-      const rail = no ? '' : mask(s.rail) + (ctx.state === 'empty' ? '' : mask(change({ go: false, trade: true, sub: 'Imports · 1 group selected · 3 rows of 11' })));
+      const body = no ? stateCard('lock', 'Permission denied', 'This session cannot read your holdings, so no figure shows. Sign in again to carry on.', btn('Sign in again', 'primary sm')) : banner('', 'Amounts hidden.', 'Money and units are masked, and percentages stay, here and in Imports.', 'eye-off') + mask(s.body);
+      const rail = no ? '' : mask(s.rail) + (ctx.state === 'empty' ? '' : mask(change({ go: false, trade: true, sub: 'Imports · 1 group selected · 3 rows of 11', more: 'Unit counts show when you show amounts.' })));
       return frame(ctx, { tab: 0, title: 'Amounts hidden', back, fresh: no ? 'default' : undefined, actions: tb('eye-off', 'Show amounts'), body, rail });
     }
   });

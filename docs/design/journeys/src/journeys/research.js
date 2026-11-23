@@ -9,7 +9,8 @@
   const CLAUDE_OFF = 'Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in.';
   /* with HSBC out of the total, a share is of what is known */
   const share = ctx => (ctx.state === 'stale' ? { us: '31.2%', ap: '17.6%', nv: '13.6%', of: 'the known total', bar: 62.4 } : { us: '29.1%', ap: '16.4%', nv: '12.6%', of: 'the portfolio', bar: 58.2 });
-  /* each state is drawn where it is true: the rules and models disagree on Reliance at 6 months, and the model abstains on AstraZeneca at 6 months */
+  /* each state is drawn where it is true: the rules and models disagree on Reliance at 3, 6 and 12 months (OWN-32), and the model abstains on AstraZeneca at 6 months.
+     A name out at any horizon is not ranked and carries no action at any horizon (OWN-17, OWN-20), as on Home and Forecast */
   const subject = ctx => ({ disagreement: byT.RELIANCE, abstention: byT.AZN }[ctx.state] || N);
   const SEGMENT = { NVDA: 'US tech', RELIANCE: 'Nifty 50', AZN: 'UK' };
   /* a split horizon shows its range and no median */
@@ -84,8 +85,8 @@
   const actionRow = (h, why) => item(logo(h.c, h.lg), h.n, `${h.t} · ${h.v}`, badge(h.act), `<p class="small muted">${why}</p>${uncert(h)}`);
   const actionRows = (ctx, o = {}) => ['NVDA', 'SPY', 'RELIANCE', 'HSBA'].map(t => {
     const h = byT[t], why = t === 'HSBA' && ctx.state === 'stale' ? `Stale: its last price is 14:10,${ref(3)} past the freshness limit, so it leaves the total until its price returns.` : ctx.state === 'noModel' ? TEMPLATE[t] : t === 'NVDA' ? WHY.NVDA(ctx) : WHY[t];
-    if (t === 'RELIANCE' && o.split) return item(logo(h.c, h.lg), h.n, `${h.t} · ${h.v}`, `<span class="chip">${ic('split', 's14')}No action ranked</span>`, `<p class="small muted">Rules and models disagree at 6 months.${ref(2)}</p><div style="margin-top:6px">${noMedian(h)}</div><p class="small muted" style="margin-top:2px">80% range ${pct(h.lo)} to ${pct(h.hi)}, no median</p>`);
-    if (t === 'HSBA' && o.abstain) return actionRow(h, why) + item(logo(byT.AZN.c, byT.AZN.lg), byT.AZN.n, 'AZN · XLON', `<span class="chip">${ic('ban', 's14')}Abstained</span>`, `<p class="small muted">Too little comparable history at 6 months, so no range is shown and nothing is ranked.${ref(2)}</p>`);
+    if (t === 'RELIANCE' && o.split) return item(logo(h.c, h.lg), h.n, `${h.t} · ${h.v}`, `<span class="chip">${ic('split', 's14')}No action ranked</span>`, `<p class="small muted">Rules and models disagree at 3, 6 and 12 months, so Reliance carries no action.${ref(2)}</p><div style="margin-top:6px">${noMedian(h)}</div><p class="small muted" style="margin-top:2px">80% range ${pct(h.lo)} to ${pct(h.hi)}, no median</p>`);
+    if (t === 'HSBA' && o.abstain) return actionRow(h, why) + item(logo(byT.AZN.c, byT.AZN.lg), byT.AZN.n, 'AZN · XLON', `<span class="chip">${ic('ban', 's14')}Abstained</span>`, `<p class="small muted">Too little comparable history at 6 months, so no range is shown. AstraZeneca is not ranked and carries no action until the model qualifies again.${ref(2)}</p>`);
     return actionRow(h, why);
   }).join('');
   const riskRow = ctx => item(lead('alert', 'warn'), `US tech is ${share(ctx).us} of ${share(ctx).of}`, 'Material · above your 28% line · detected Tue 22:15 · held by quiet hours', ic('chev-r', 's18'), '', false, true);
@@ -93,8 +94,8 @@
   const changes = ctx => list((ctx.state === 'stale' ? '' : item(lead('up'), 'Portfolio up £1,236.18 (1.39%)', 'Tuesday, by code from the ledger')) + item(lead('fan'), 'SPY median rose from +4.1% to +4.3%', '6 months · run Tue 21:15 · R2-HGB v3') + item(lead('clock', 'warn'), 'HSBC last priced 14:10', hsbcLine(ctx), '', LATE));
   const soon = () => box(`${lbl('Coming up')}<div style="margin-top:8px">${kv([['Thu 5 Nov', 'Bank of England rate decision'], ['Wed 18 Nov', 'NVIDIA results'], ['Fri 4 Dec', 'RBI rate decision']])}</div>`);
   const briefSrc = () => sources('1 · Ledger, 21:15', '2 · Model R2-HGB v3', '3 · Yahoo, 14:10');
-  const CONFLICTS = ['Two conflicts.', 'Rules and models disagree on Reliance at 6 months, so no action is ranked for it. The models also split on Apple at 3 months, which shows its range and no median.'];
-  const ABSTAINED = ['Two abstentions.', 'The model abstained on AstraZeneca at 6 months and on Apple at 12 months, for want of comparable history. Neither shows a range there, and the brief says so rather than filling the gap.'];
+  const CONFLICTS = ['Two conflicts.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, so no action is ranked for it. The models also split on Apple at 3 months, which shows its range and no median there. Neither is ranked, so neither carries an action.'];
+  const ABSTAINED = ['Two abstentions.', 'The model abstained on AstraZeneca at 6 months and on Apple at 12 months, for want of comparable history. Neither shows a range there, and the brief says so rather than filling the gap. Neither is ranked, so neither carries an action.'];
   const briefBody = ctx => {
     const head = (o = {}) => hero(ctx, o.title || 'Four ranked actions and one risk held overnight.', o.text || 'Issued once. Nothing here acts: you read, you decide.', o.when);
     const main = (o = {}) => head(o) + sec('Actions', illus('Decision support')) + list(actionRows(ctx, o)) + sec('Risks') + list(riskRow(ctx));
@@ -306,7 +307,7 @@
       stale: () => q + banner('warn', 'Superseded.', 'Version 4 is ready. Version 3 stays in the thread because it was cited.', 'clock') + versions() + top() + bullBear(ctx, caseFor(ctx)),
       offline: () => banner('', 'Offline.', 'Showing the card saved at 21:15.', 'wifi-off') + q + top() + bullBear(ctx),
       noModel: () => q + top() + bullBear(ctx, caseFor(ctx)),
-      disagreement: () => q + banner('', 'Rules and models disagree.', 'At 6 months, so no action is ranked and no median stands.', 'split') + top() + bullBear(ctx, caseFor(ctx)),
+      disagreement: () => q + banner('', 'Rules and models disagree.', 'At 3, 6 and 12 months, so no action is ranked and no median stands.', 'split') + top() + bullBear(ctx, caseFor(ctx)),
       abstention: () => q + banner('', 'The model abstained.', 'At 6 months, for want of comparable history. No range is shown, and nothing is ranked.', 'ban') + top() + bullBear(ctx, caseFor(ctx))
     });
   };

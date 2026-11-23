@@ -283,9 +283,10 @@ export default {
     for (const s of ['a-record', 'a-pick', 'a-list', 'a-one', 'b-decide', 'b-one']) each({ journey: 'journal', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /Approved 1 Oct 2026/, `${s} ${at.surface}: proof of an approved model under No model`));
   },
   'R1-j10': ({ each, has, lacks }) => {
-    each({ journey: 'journal', screen: 'a-record', state: 'abstention' }, (v, at) => { has(v.text, /nothing to record against/, `${at.surface}: wrong rule`); has(v.text, /Proposed · MP-158/, `${at.surface}: not named`); });
-    each({ journey: 'journal', screen: 'a-list', state: 'abstention' }, (v, at) => { has(v.text, /abstains on AstraZeneca/, `${at.surface}: wrong holding`); lacks(v.text, /abstained on Apple|No range to score/, `${at.surface}: an entry against an abstention`); has(v.text, /Proposed · MP-158/, `${at.surface}: not named`); });
-    for (const s of ['a-one', 'b-one']) each({ journey: 'journal', screen: s, state: 'abstention' }, (v, at) => { has(v.text, /abstains on AstraZeneca today/, `${s} ${at.surface}: wrong holding`); lacks(v.text, /NVIDIA|No range to score/, `${s} ${at.surface}: another entry`); has(v.text, /Proposed · MP-158/, `${s} ${at.surface}: not named`); has(v.text, /14\.0 points/, `${s} ${at.surface}: no outcome`); });
+    // narrowed in MP-191: the owner picked "Any time evidence shows" (OWN-15), so an abstention is recordable against the evidence, the entry says why no action was ranked, and MP-158 carries no Proposed label
+    each({ journey: 'journal', screen: 'a-record', state: 'abstention' }, (v, at) => { has(v.text, /You can still record a decision against the evidence shown/, `${at.surface}: wrong rule`); has(v.text, /with why no action was ranked: the model abstained at 6 months/, `${at.surface}: the entry does not say why`); has(v.text, /may never get an outcome/, `${at.surface}: the cost of the pick is not said`); lacks(v.text, /Proposed · MP-158/, `${at.surface}: MP-158 is answered`); });
+    each({ journey: 'journal', screen: 'a-list', state: 'abstention' }, (v, at) => { has(v.text, /abstains on AstraZeneca/, `${at.surface}: wrong holding`); lacks(v.text, /abstained on Apple|No range to score/, `${at.surface}: an entry against an abstention`); lacks(v.text, /Proposed · MP-158/, `${at.surface}: MP-158 is answered`); });
+    for (const s of ['a-one', 'b-one']) each({ journey: 'journal', screen: s, state: 'abstention' }, (v, at) => { has(v.text, /abstains on AstraZeneca today/, `${s} ${at.surface}: wrong holding`); lacks(v.text, /NVIDIA|No range to score/, `${s} ${at.surface}: another entry`); lacks(v.text, /Proposed · MP-158/, `${s} ${at.surface}: MP-158 is answered`); has(v.text, /14\.0 points/, `${s} ${at.surface}: no outcome`); });
   },
   'R1-j11': ({ each, has, lacks }) => {
     for (const s of ['a-imports', 'a-preview', 'b-add', 'b-check', 'b-imports']) each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => {
@@ -370,7 +371,8 @@ export default {
     });
     must(screens('journal', 'a').includes('a-pick'), 'Record a decision leads nowhere');
     each({ journey: 'journal', screen: 'a-pick', state: 'default' }, (v, at) => has(v.text, /Reliance/, `${at.surface}: no open action`));
-    each({ journey: 'journal', screen: 'a-pick', state: 'empty' }, (v, at) => has(v.text, /No ranked action is open/, `${at.surface}: no empty path`));
+    // narrowed in MP-191: with no label, a holding is still open to record against the evidence (OWN-15)
+    each({ journey: 'journal', screen: 'a-pick', state: 'empty' }, (v, at) => { has(v.text, /No action label yet\./, `${at.surface}: no empty path`); has(v.text, /Reliance/, `${at.surface}: nothing open to record`); });
     each({ journey: 'journal', screen: 'a-pick', surface: PHONES, state: 'default' }, (v, at) => must(v.html.includes('role="button"'), `${at.surface}: the rows are not controls`));
   },
   'R1-j25': ({ each, has, lacks }) => {
@@ -404,14 +406,15 @@ export default {
       must(countOf(a.html, /class="journal-e"/g) === 7, `${at}: the timeline holds ${countOf(a.html, /class="journal-e"/g)} of 7`);
       must(countOf(b.html, /class="journal-e lane" data-mo="rise"/g) === 7, `${at}: the lanes hold ${countOf(b.html, /class="journal-e lane" data-mo="rise"/g)} of 7`);
       has(b.text, /3 for a horizon, 1 unresolved/, `${at}: the Waiting lane`); has(b.text, /Scored 3 of 7/, `${at}: the Scored lane`);
-      has(b.text, state === 'noModel' ? /To decide None ranked/ : /To decide 1/, `${at}: the To decide count`);
+      // narrowed in MP-191: a holding with no action ranked is open to decide too (OWN-15)
+      has(b.text, state === 'noModel' || state === 'disagreement' ? /To decide 1, none ranked/ : state === 'abstention' ? /To decide 2, 1 ranked/ : /To decide 1 ranked/, `${at}: the To decide count`);
       for (const v of [a, b]) {
         has(v.text, /1 entry recorded\. 1 outcome matured last week: NVIDIA, inside its range\. Next outcome: Apple, 12 Nov\./, `${at}: the wrap-up differs`);
         has(v.text, /4 times in 7 decisions\. 3 have scored so far/, `${at}: the count of differences`);
       }
       lacks(b.html, /<b>NVIDIA<\/b><span>Ranked today/, `${at}: NVIDIA is recorded, not open`);
       lacks(view('journal', 'a', 'a-pick', surface, state).text, /NVIDIA/, `${at}: NVIDIA is recorded, not open`);
-      if (state !== 'noModel') must(countOf(b.html, /[Rr]anked today/g) === 1, `${at}: To decide holds ${countOf(b.html, /[Rr]anked today/g)}`);
+      must(countOf(b.html, /[Rr]anked today/g) === (state === 'abstention' ? 2 : 1), `${at}: To decide holds ${countOf(b.html, /[Rr]anked today/g)}`);
     }
     for (const surface of ALL_SURFACES) for (const state of ['default', 'loading', 'stale', 'offline', 'disagreement', 'abstention', 'error']) {
       const a = view('journal', 'a', 'a-differ', surface, state), b = view('journal', 'b', 'b-differ', surface, state), at = `${surface} ${state}`;
@@ -583,9 +586,9 @@ export default {
       must(/aria-label="Hide amounts"/.test(barOf(v.html)), 'Hide amounts left the bar');
     });
   },
-  // Open, not decided: whether units count as amounts.
-  'R2-j19': ({ each, has }) => {
-    for (const s of ['a-private', 'b-private']) each({ journey: 'holdings', screen: s, state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Proposed · MP-84/, `${s} ${at.surface} ${at.state}: not labelled`));
+  // Whether units count as amounts was open; the owner answered "Mask units too" (OWN-18, narrowed in MP-191), so the screens say so and carry no open label.
+  'R2-j19': ({ each, has, lacks }) => {
+    for (const s of ['a-private', 'b-private']) each({ journey: 'holdings', screen: s, state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => { has(v.text, /Money and units are masked/, `${s} ${at.surface} ${at.state}: not said`); lacks(v.text, /Proposed · MP-84/, `${s} ${at.surface} ${at.state}: MP-84 is answered`); });
   },
   // A hidden amount has a name, and masking leaves the markup whole.
   'R2-j20': ({ each, must, lacks }) => {
@@ -676,14 +679,16 @@ export default {
   'R3-j5': stepTicks,
   // Both sides of the flip give Reliance's two figures, not "both sides show" with neither.
   'R3-j6': ({ each, has }) => {
-    for (const s of ['a-list', 'b-board']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /At 6 months the baseline shows −2\.4% and R2-HGB v3 \+7\.4%, and no action is ranked/, `${s} ${at.surface}: no figures`));
+    // narrowed in MP-191: the rules and models differ at every long horizon (OWN-32)
+    for (const s of ['a-list', 'b-board']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /At 6 months the baseline shows −2\.4% and R2-HGB v3 \+7\.4%\. They differ at 3 and 12 months too, so no action is ranked/, `${s} ${at.surface}: no figures`));
   },
-  // Recording a disagreement is open, so each screen that offers it says so, and nothing claims an action that does not exist.
+  // Recording a disagreement was open; the owner answered it ("Any time evidence shows", OWN-15, narrowed in MP-191), so no screen labels it
+  // Proposed any more, and nothing claims an action that does not exist.
   'R3-j7': ({ each, has, lacks }) => {
-    for (const s of ['a-record', 'a-pick', 'a-list', 'b-board', 'b-decide']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /Proposed · MP-158/, `${s} ${at.surface}: not labelled`));
+    for (const s of ['a-record', 'a-pick', 'a-list', 'b-board', 'b-decide']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => lacks(v.text, /Proposed · MP-158/, `${s} ${at.surface}: MP-158 is answered`));
     each({ journey: 'journal', screen: 'a-record', state: 'disagreement' }, (v, at) => {
       const sheet = v.html.slice(v.html.indexOf('class="sheet"'));
-      has(sheet, /Proposed · MP-158/, `${at.surface}: the sheet is not labelled`); has(sheet, /Saved with both sides/, `${at.surface}: the wrong saved line`); lacks(sheet, /Saved with the action/, `${at.surface}: saved with an action that does not exist`);
+      has(sheet, /why no action was ranked: rules and models differ at 3, 6 and 12 months/, `${at.surface}: the sheet does not say why`); has(sheet, /Saved with both sides/, `${at.surface}: the wrong saved line`); lacks(sheet, /Saved with the action/, `${at.surface}: saved with an action that does not exist`);
     });
     each({ journey: 'journal', screen: 'b-decide', state: 'disagreement' }, (v, at) => { has(v.text, /Saved with both sides/, `${at.surface}: the wrong saved line`); lacks(v.text, /Saved with the action/, `${at.surface}: saved with an action that does not exist`); });
     each({ journey: 'journal', screen: 'a-record', state: 'default' }, (v, at) => has(v.text, /Saved with the action/, `${at.surface}: Ready lost its line`));

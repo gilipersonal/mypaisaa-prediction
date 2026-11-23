@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-05",
+ "as_of": "2026-11-23",
  "source": "Jira MP via the Atlassian MCP (cloudId 81c51173-bbea-4905-bbc5-1a880fa348bb)",
  "jql": "project = MP ORDER BY key ASC",
  "code_from": "git log main --no-renames --name-only -E --grep '^MP-<n>:' at d98eb55; a folder below the top level holding five or more of an issue's files is listed as the folder",
@@ -1863,7 +1863,7 @@
    "key": "MP-185",
    "summary": "Put cash in the portfolio total across every journey",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/prism/index.html",
@@ -1928,9 +1928,18 @@
    "key": "MP-191",
    "summary": "Apply the decision rules to rows, the journal and hidden amounts",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/prism/index.html",
+    "docs/design/journeys/src/journeys/",
+    "docs/design/journeys/src/shell.js",
+    "docs/design/journeys/index.html",
+    "docs/design/journeys/README.md",
+    "docs/design/artifacts.json",
+    "docs/planning/trace.json",
+    "tests/journey_facts/"
+   ]
   },
   {
    "key": "MP-192",
