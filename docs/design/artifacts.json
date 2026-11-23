@@ -49,14 +49,6 @@
    "jira": "MP-64"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "d09e1233138f9fbb9cc5194bbc25329ef85fb535fe4da79dc93fda44eaa883a8",
-   "published_at": "2026-11-05",
-   "jira": "MP-185"
-  },
-  {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
@@ -77,6 +69,14 @@
    "source": "docs/design/prism/index.html",
    "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
    "published_sha256": "b21083c7232cfbddea50abade826a70a7e618a67d49d20ccdea07aae4dfe3ce9",
+   "published_at": "2026-11-23",
+   "jira": "MP-186"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "c139313337b9d00e3d019be25664268e2fc8eeef05ecd91aabe46c1122ea4194",
    "published_at": "2026-11-23",
    "jira": "MP-186"
   }
