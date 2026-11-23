@@ -61,8 +61,8 @@ const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-/* a browser's offline copy is an open question; the Apple apps have their own answer */
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* the month: a pill in the top bar of every Home, whichever way Cost is flipped, and no row after the holdings ("Pill on every Home", OWN-06).
    The pill and its figures are the shell's, which Cost shares, so Home and Cost say the same month in every state. */
 const homeActs = ctx => ({ actions: costPillOf(ctx) + tb('search', 'Search') + tb('eye-off', 'Hide amounts'), webActions: costPillOf(ctx) + webSearch(ctx) });

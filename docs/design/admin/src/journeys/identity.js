@@ -161,7 +161,10 @@
     expired: banner('warn', 'That request expired.', 'Nothing changed. Start this step again.', 'clock'),
     denied: ctx => signNote('Your paths stay readable.')
   };
-  const sessionsNote = ctx => (browser(ctx) ? `${note('What a browser keeps offline is open.')}${tags(proposed('MP40-Q12'))}` : note('The offline copy on this device is encrypted, and it clears on sign-out or revoke.'));
+  /* the owner pressed "Both keep the five" (MP40-Q12c) and "Saved copy also times out" (OWN-37), 5 Nov 2026. The time-out is theirs to set */
+  const CLEARS = 'Its offline copy clears when it next connects, and stops showing after the offline time-out.';
+  const TIMEOUT = 'You set the time-out. How well an offline app can enforce it is unverified.';
+  const sessionsNote = ctx => `${note(browser(ctx) ? 'This browser keeps the same five records as the Apple app, each with its age. How a browser protects saved records is unverified.' : 'The offline copy on this device is encrypted. Sign-out clears it.')}${note(`If this device is revoked: ${CLEARS} ${TIMEOUT}`)}${tags(chip('', 'Time-out not set · OWN-37', 'clock'))}`;
 
   /* ---------- lost a device: the same recovery from either door ---------- */
   const rvNote = () => `${note(RV)}${tags(UNV(), proposed('CT-17'))}`;
@@ -224,14 +227,14 @@
     if (!isApp(n)) return ['App shell', ctx.state === 'expired' ? 'Session expired' : 'Ready'];
     return ['App build', ctx.state === 'expired' ? 'Expired · reinstall from your Mac' : ctx.state === 'partial' ? 'Expiring soon' : 'Installed · 7-day build'];
   };
-  const offlineRow = (ctx, n) => ['Offline copy', isApp(n) ? (ctx.state === 'conflict' ? 'Clears when it next connects' : ctx.state === 'error' ? 'Rebuilt from the server' : 'Encrypted · cached and aged') : 'Open'];
+  const offlineRow = (ctx, n) => ['Offline copy', ctx.state === 'conflict' ? 'Clears when it next connects · stops showing after the time-out' : ctx.state === 'error' ? 'Rebuilt from the server' : isApp(n) ? 'Encrypted · cached and aged' : 'Saved and aged · protection unverified'];
   const deviceCard = (ctx, ended) => {
     const n = gone(ctx);
-    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'), isApp(n) ? '' : proposed('MP40-Q12'))}`);
+    return card(`${head(n, ended ? chip('stale', 'Ended', 'split') : { error: chip('error', 'Still signed in', 'alert'), conflict: chip('stale', 'Ended', 'split'), expired: chip('stale', 'Expired', 'clock') }[ctx.state] || chip('', 'Signed in'))}${kv([['Last active', ctx.state === 'conflict' ? 'Revoked 21:02' : lineOf(n).split(' · ')[0]], ['Signed in with', isApp(n) ? 'Google, in the system browser' : 'Google'], offlineRow(ctx, n), buildRow(ctx, n), ['Updates', 'Polling for now']])}${tags(proposed('PL-04'))}`);
   };
   const sideBySide = ctx => {
     const n = gone(ctx), h = HERE[ctx.kind], side = (x, status) => kv([['Status', status], offlineRow(ctx, x), buildRow(ctx, x)]);
-    return card(`${head('This device and that one')}<div class="aidentity-two"><div>${lbl(h)}${kv([['Status', 'Active now'], ['Offline copy', isApp(h) ? 'Encrypted · fresh' : 'Open'], [isApp(h) ? 'App build' : 'App shell', isApp(h) ? 'Installed · 7-day build' : 'Ready']])}</div><div>${lbl(n)}${side(n, ctx.state === 'conflict' ? 'Ended on the server' : lineOf(n).split(' · ')[0])}</div></div>`);
+    return card(`${head('This device and that one')}<div class="aidentity-two"><div>${lbl(h)}${kv([['Status', 'Active now'], ['Offline copy', isApp(h) ? 'Encrypted · fresh' : 'Saved · fresh · protection unverified'], [isApp(h) ? 'App build' : 'App shell', isApp(h) ? 'Installed · 7-day build' : 'Ready']])}</div><div>${lbl(n)}${side(n, ctx.state === 'conflict' ? 'Ended on the server' : lineOf(n).split(' · ')[0])}</div></div>`);
   };
   const T_DEV = {
     what: 'This device', rows: 4, loading: 'Reading this device.',
@@ -240,7 +243,7 @@
     error: banner('fall', 'This revoke did not finish.', 'It failed at 21:16 and the device is still signed in. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked.', 'clock'),
     offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
-    conflict: banner('warn', 'This device still shows as signed in on itself.', 'The server has ended it. Its offline copy clears when it next connects.', 'split'),
+    conflict: banner('warn', 'This device still shows as signed in on itself.', `The server has ended it. ${CLEARS}`, 'split'),
     expired: banner('warn', 'This device has run out.', 'A new sign-in or a reinstall from your Mac brings it back, with the server as the source of truth.', 'clock'),
     denied: ctx => signNote('This device stays readable.')
   };
@@ -251,7 +254,7 @@
     error: ctx => banner('fall', `${gone(ctx)} was not revoked.`, 'It failed at 21:16 and is still signed in. Try again.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'A device may look active after it has been revoked. This list refreshes when it can.', 'clock'),
     offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
-    conflict: ctx => banner('', `${gone(ctx)} still shows as signed in on the device itself.`, 'The server has ended it. Its offline copy clears when it next connects.', 'split'),
+    conflict: ctx => banner('', `${gone(ctx)} still shows as signed in on the device itself.`, `The server has ended it. ${CLEARS}`, 'split'),
     expired: ctx => (ctx.kind === 'ipad' ? banner('warn', 'Phone web needs you.', 'Its session expired, so it needs a new sign-in.', 'clock') : ctx.kind === 'pwa' ? banner('warn', 'The iPad needs you.', 'Its build expired, and reinstalling from your Mac restores it.', 'clock') : banner('warn', 'Two devices need you.', 'Phone web\'s session expired. The iPad build expired, and reinstalling from your Mac restores it.', 'clock')),
     denied: ctx => signNote('This list stays readable.')
   };
@@ -263,7 +266,7 @@
   const SHEET = {
     loading: ['Waiting for your fresh sign-in', 'Nothing has changed yet.'],
     empty: ['Nothing to revoke', 'Only this device is signed in.'],
-    partial: ['Revoked, one thing left', 'Its sessions ended. Its offline copy clears when it next connects.'],
+    partial: ['Revoked, one thing left', `Its sessions ended. ${CLEARS}`],
     error: ['This did not finish', 'It failed at 21:16 and the device is still signed in.'],
     stale: ['Refresh first', 'This list is from 11:12, and the device may already be revoked.'],
     offline: ['You are offline', 'A fresh sign-in has to reach the server, so nothing can be revoked offline.'],

@@ -335,7 +335,8 @@ const FACTS = {
       lacks(v.text, /Cooldown runs to/, `${said(at)}: a cooldown time on no record`);
       has(v.text, /Proposed · CT-18/, `${said(at)}: cooldowns are open`);
     });
-    for (const journey of [R, A]) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => has(v.text, /Proposed · MP40-Q12/, `${said(at)}: an offline copy in a browser`));
+    // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c), so a browser's copy is no longer labelled open. It says it is saved here, and that its protection is unverified.
+    for (const journey of [R, A]) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => { has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${said(at)}: an offline copy in a browser`); lacks(v.text, /Proposed · MP40-Q12|keeps offline is open/, `${said(at)}: a settled question still labelled open`); });
   },
 
   'R1-r22': ({ each, must }) => {

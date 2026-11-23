@@ -11,9 +11,10 @@
      (the owner, "Any time evidence shows", OWN-15). A disagreement, an abstention, no model and no label all stay recordable. */
   /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
   const limit = `<div class="journal-acts">${proposed('DATA-DEC-02')}</div>`;
-  /* what the app keeps offline is an open owner question, so any offline copy says so, on every surface */
-  const kept = `<div class="journal-acts">${proposed('MP40-Q12')}</div>`;
-  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept;
+  /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
+     How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
+  const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
+  const off = (ctx, t) => banner('', 'Offline.', t, 'wifi-off') + kept(ctx);
   /* a failed read or save is not a failed price, so the price chips stay as they are */
   const notPrices = ctx => (ctx.state === 'error' ? 'default' : undefined);
   const waiting = t => chipMark(ic('clock', 's14'), t);

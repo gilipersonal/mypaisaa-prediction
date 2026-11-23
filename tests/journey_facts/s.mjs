@@ -177,16 +177,18 @@ export default {
   },
 
   // A browser's offline copy is labelled, on every framed screen.
+  // Narrowed in MP-189: the owner pressed "Both keep the five" (MP40-Q12c), so the label says it is saved in this browser and that its protection is unverified, not that the question is open.
   'R1-s18': ({ each, has, lacks }) => {
     for (const journey of ['cost', 'privacy']) each({ journey, surface: ['web', 'pwa'], state: 'offline' }, (v, at) => {
-      lacks(v.text, /This browser keeps nothing/, here(at));
-      if (!/privacy-cover/.test(v.html)) has(v.text, /Proposed · MP40-Q12/, `${here(at)}: a browser's offline copy with no label`);
+      lacks(v.text, /This browser keeps nothing|Proposed · MP40-Q12/, here(at));
+      if (!/privacy-cover/.test(v.html)) has(v.text, /Saved in this browser How a browser protects saved records is unverified\./, `${here(at)}: a browser's offline copy with no label`);
     });
   },
 
   // A revoked device that has not connected: no promise it cannot keep.
+  // Narrowed in MP-189: the owner pressed "Saved copy also times out" (OWN-37), so the Proposed label comes off and the time-out, whose value is still the owner's to set, is said instead.
   'R1-s19': ({ each, has, lacks }) => {
-    for (const [option, screen] of [['a', 'privacy-a-devices'], ['b', 'privacy-b-devices']]) each({ journey: 'privacy', option, screen, state: 'disagreement' }, (v, at) => { has(v.text, /clears when it next connects/, here(at)); lacks(v.text, /cannot be read/, here(at)); has(v.text, /Proposed · MP40-Q12/, here(at)); });
+    for (const [option, screen] of [['a', 'privacy-a-devices'], ['b', 'privacy-b-devices']]) each({ journey: 'privacy', option, screen, state: 'disagreement' }, (v, at) => { has(v.text, /clears when it next connects/, here(at)); lacks(v.text, /cannot be read/, here(at)); has(v.text, /stops showing after the offline time-out/, here(at)); has(v.text, /Time-out not set · OWN-37/, here(at)); lacks(v.text, /Proposed · MP40-Q12/, here(at)); });
   },
 
   // The fit is conditional in Ready, and the 27p margin says what it leaves out.

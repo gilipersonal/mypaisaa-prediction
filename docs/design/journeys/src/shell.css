@@ -37,6 +37,8 @@
 .jtop { display: flex; align-items: center; gap: 12px; padding: 16px 24px 10px; flex-wrap: wrap; }
 .jtop .ttl { font: 700 28px/34px var(--font-text); letter-spacing: -.02em; }
 .jtop .acts { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+/* a browser's offline copy: what is saved here, and that how a browser protects it is unverified (MP40-Q12c) */
+.jkept { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .jfresh { display: flex; gap: 6px; flex-wrap: wrap; }
 .jsheet { position: absolute; inset: 0; z-index: 24; display: flex; align-items: flex-end; }
 .jsheet .scrim { position: absolute; inset: 0; background: var(--scrim); }

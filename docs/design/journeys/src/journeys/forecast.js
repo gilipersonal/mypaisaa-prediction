@@ -53,7 +53,8 @@ const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
 /* the late-price rule: how late a price may be and still count, on every use of it */
 const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
-const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ' <span class="chip proposed"><span class="dot"></span>Proposed · MP40-Q12</span>' : '');
+/* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
+const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* Each name reads its own market's run (POLICY-002, ADM-10, ADM-22): Apple the US run, issued 22:15 with its cutoff at 22:00; HSBC and
    AstraZeneca the UK's, 17:50 and 17:35; Reliance India's, 11:15 and 11:00. In Error only the US run failed, so only a US name is on Monday's. */
 const LASTGOOD = 'Last good run Mon 22:15 · cutoff 22:00';

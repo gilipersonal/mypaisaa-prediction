@@ -11,7 +11,10 @@
   const wide = ctx => ctx.kind === 'web' || ctx.kind === 'ipad';
   /* A failed export is not a failed price, so a screen with no price on it keeps the price chips as they are. A screen that shows or quotes a price (Privacy, Home, a notice about a price) takes the state as it stands. */
   const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
-  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div class="privacy-chips" data-mo="rise">${chipOf(['offline', 'Saved in this browser', 'wifi-off'])}${proposed('MP40-Q12')}</div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps what the Apple app keeps, and says how it is protected is unverified */
+  const offNote = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
+  /* the owner pressed "Saved copy also times out" (OWN-37): one phrase wherever a revoked device's copy is described. The time is theirs to set */
+  const CLEARS = 'Its offline copy clears when it next connects, and stops showing after the offline time-out.';
   const homePage = (ctx, spec) => frame(ctx, { ...spec, body: offNote(ctx) + (spec.body || '') });
   const page = (ctx, spec) => homePage(ctx, { fresh: 'default', ...spec });
   const chipOf = ([kind, text, icon]) => `<span class="chip ${kind}" data-mo="chip">${icon ? ic(icon, 's14') : '<span class="dot"></span>'}${text}</span>`;
@@ -203,9 +206,9 @@
       error: banner('fall', `${gone} was not revoked.`, 'It failed at 21:16 and is still signed in. Try again.', 'alert'),
       stale: banner('warn', 'From 14:10.', 'A device may look active after it has been revoked. This list refreshes when it can.', 'clock'),
       offline: banner('', 'Offline.', 'Revoking needs a connection. Nothing has changed.', 'wifi-off'),
-      disagreement: banner('', `${gone} shows as signed in on the ${gone} itself.`, 'The server has ended it. Its offline copy clears when it next connects.', 'split')
+      disagreement: banner('', `${gone} shows as signed in on the ${gone} itself.`, `The server has ended it. ${CLEARS}`, 'split')
     }[s] || '';
-    return `${top}${box(`${head('Devices and sessions', '<span class="small muted">4 devices</span>')}${list([li('', here, 'Active now', `<span class="small muted">This device</span>`), ...rows])}<p class="small muted">Revoking asks for a fresh sign-in. ${ANY} It ends the device's sessions and closes its live streams, in a time you approve. ${REMOVES}</p>${CHIP_ROWS(proposed('CT-17') + unv() + (s === 'disagreement' ? proposed('MP40-Q12') : ''))}`)}`;
+    return `${top}${box(`${head('Devices and sessions', '<span class="small muted">4 devices</span>')}${list([li('', here, 'Active now', `<span class="small muted">This device</span>`), ...rows])}<p class="small muted">Revoking asks for a fresh sign-in. ${ANY} It ends the device's sessions and closes its live streams, in a time you approve. ${REMOVES}</p>${CHIP_ROWS(proposed('CT-17') + unv() + (s === 'disagreement' ? timeoutChip : ''))}`)}`;
   }
   function pathsCard(ctx) {
     const s = ctx.state;
@@ -243,15 +246,22 @@
   /* the age of each record on this device. The checkup quotes the oldest from this one list. */
   const agesOf = s => (s === 'stale' ? ['3 days', '3 days', '3 days', '3 days', '4 days'] : s === 'offline' ? ['Saved 22:15', 'Saved 22:15', 'Saved 21:30 yesterday', 'Saved 19:02', 'Saved 15:10'] : ['2 h', '21:15', '21:30 yesterday', '3 h', '6 h']);
   const oldestOf = s => agesOf(s)[s === 'stale' ? 4 : 2].replace('Saved', 'saved');
+  /* the time-out is the owner's to set (OWN-37), so no number is drawn, and how well an offline app keeps to it is unverified */
+  const timeoutChip = chipOf(['', 'Time-out not set · OWN-37', 'clock']);
+  const TIMEOUT = 'You set the time-out. How well an offline app can enforce it is unverified.';
+  const timeoutRow = `<div class="privacy-row"><span class="small muted">Stops showing after</span><span class="small" style="font-weight:600">Not set yet</span></div><p class="small muted">${TIMEOUT}</p>`;
   function offlineCopy(ctx) {
-    const s = ctx.state;
+    const s = ctx.state, web = browser(ctx);
     if (s === 'loading') return skCard('Offline copy', 4);
-    if (s === 'empty') return box(`${head('Offline copy', proposed('MP40-Q12'))}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
+    const here = web ? 'this browser' : 'this device';
+    if (s === 'empty') return box(`${head('Offline copy')}<p class="small muted">Nothing saved on this device yet. It fills in the next time the app is open and connected.</p>`);
     const ages = agesOf(s);
     const rows = ['Holdings', 'Prices', 'Forecasts', 'Notices', 'Cost'].map((n, i) => `<tr data-mo="rise"><td>${n}</td><td class="r">${ages[i]}</td></tr>`).join('');
     const top = { error: banner('warn', 'Copy rebuilt.', 'A damaged copy was thrown away and rebuilt from the server at 21:16.', 'refresh'), stale: banner('warn', 'Older than usual.', 'Each record keeps its own age and is never shown as fresh.', 'clock') }[s] || '';
-    const where = browser(ctx) ? 'This is what the Apple app keeps. What this browser keeps is not settled yet.' : 'Encrypted on this device. Sign-out or a revoke clears it, and approvals, imports and settings never run offline.';
-    return box(`${head('Offline copy', proposed('MP40-Q12'))}${top}<table class="ht"><thead><tr><th>Record</th><th class="r">Age</th></tr></thead><tbody>${rows}</tbody></table><p class="small muted">${where}</p>`);
+    /* the owner pressed "Both keep the five" (MP40-Q12c) and "Saved copy also times out" (OWN-37) */
+    const what = web ? `This browser keeps the same five records as the Apple app, each with its age. ${BROWSER_UNVERIFIED} That needs an architecture answer before build.` : 'Encrypted on this device, with each record\'s age. Sign-out clears it.';
+    const ends = `A revoke clears it when ${here} next connects. It also stops showing once ${here} has gone the offline time-out without reaching the server. Approvals, imports and settings never run offline.`;
+    return box(`${head('Offline copy', web ? chipOf(['offline', 'Saved in this browser', 'wifi-off']) : '')}${top}<table class="ht"><thead><tr><th>Record</th><th class="r">Age</th></tr></thead><tbody>${rows}</tbody></table><p class="small muted">${what}</p><p class="small muted">${ends}</p>${timeoutRow}`);
   }
   const ORIGINALS = [['Broker statement, Oct 2026', 'PDF · kept to Oct 2028'], ['Broker statement, Sep 2026', 'PDF · kept to Sep 2028'], ['Holdings screenshot, Aug 2026', 'PNG · kept to Aug 2028'], ['Indian funds statement, Dec 2024', 'PDF · due in Dec 2026']];
   function originals(ctx) {
@@ -332,7 +342,7 @@
       default: [renew],
       empty: [tap('alert', 'Add a second sign-in path', 'Only Google can sign you in. Losing it would lock you out', go)],
       error: [tap('alert', 'Phone notifications stopped', 'The subscription expired. Your inbox still has everything', go), tap('alert', 'A revoke did not finish', `${gone} is still signed in. Try again`, go), tap('alert', 'A privacy change did not save', 'The private default stays in force. Try again', go), tap('alert', 'Originals did not load', 'They failed at 21:16. Nothing is deleted or changed', go)],
-      stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'Apple app · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
+      stale: [tap('clock', 'Check this list again', 'Last checked 14:10. Devices may have changed since', go), tap('clock', 'Offline copy is older than usual', `${browser(ctx) ? 'This browser · oldest' : 'Oldest'} record ${age}. Each record keeps its own age`, go), renew],
       offline: [renew],
       disagreement: [tap('split', 'A device has not checked in', `${gone} is revoked but shows signed in on the ${gone} itself`, go), tap('ban', 'Phone notifications are blocked', 'On here, denied in this device\'s settings. Your inbox still has everything', go), renew]
     }[s] || [];
@@ -341,7 +351,7 @@
       !['empty', 'error', 'disagreement'].includes(s) && ['person', 'Devices', s === 'stale' ? '4 signed in at 14:10 · newest added 2 days ago' : '4 signed in · newest added 2 days ago'],
       s !== 'error' && ['eye-off', 'Lock screen and widgets', s === 'stale' ? 'Private defaults · last synced 14:10' : s === 'disagreement' ? 'Private here · Holdings in widgets is on from your Mac' : 'Nothing confidential shows'],
       !['error', 'disagreement'].includes(s) && ['shield', 'Notifications', { empty: 'Not asked yet · quiet 22:00 to 07:00', offline: 'Web Push on · changes wait until you reconnect', abstention: 'Web Push on · held for quiet hours until 07:30' }[s] || 'Web Push on · quiet 22:00 to 07:00'],
-      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'Apple app' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:16' : ''} · oldest record ${age}`]
+      s !== 'stale' && ['db', 'Offline copy', s === 'empty' ? 'Nothing saved on this device yet' : `${browser(ctx) ? 'This browser' : 'Encrypted'}${s === 'error' ? ' · rebuilt 21:16' : ''} · oldest record ${age}`]
     ].filter(Boolean);
     return `${s === 'offline' ? banner('', 'Offline.', 'Showing the checkup from 22:15. Anything that changes a setting waits until you reconnect.', 'wifi-off') : ''}${need.length ? box(`${head('Needs you', `<span class="small muted">${need.length} item${need.length > 1 ? 's' : ''}</span>`)}${list(need)}`) : ''}${box(`${head('Looks good', `<span class="small muted">Checked ${s === 'stale' ? '14:10' : '21:15'}</span>`)}${list(good.map(([i, t, d]) => tap(i, t, d, go)))}`)}`;
   }
@@ -350,7 +360,7 @@
   const SEEN = { iPhone: '40 min ago', iPad: '2 h ago' };
   function lostSteps(ctx) {
     const s = ctx.state, gone = target(ctx);
-    const three = s === 'stale' ? `That approval expired, so the ${gone} is not yet revoked. Approve it again.` : `Ends its sessions, closes its live streams and clears its offline copy when it next connects. ${REMOVES} ${unv()}`;
+    const three = s === 'stale' ? `That approval expired, so the ${gone} is not yet revoked. Approve it again.` : `Ends its sessions and closes its live streams. ${CLEARS} ${REMOVES} ${unv()}`;
     const four = ctx.kind === 'web' ? `On this Mac. The new ${gone} cannot hold one until the Developer Program is bought (MP-179).` : ctx.kind === 'pwa' ? `On your Mac, or in this browser. The new ${gone} cannot hold one until the Developer Program is bought (MP-179). ${unv()}` : `On your Mac. The new ${gone} cannot hold one until the Developer Program is bought (MP-179).`;
     return `<ol class="privacy-steps">${step(1, 'Signed in from another path', `${PATH_IN[ctx.kind]}, just now. ${ANY}`, 'done')}${step(2, 'Which device?', `${gone}, last active ${SEEN[gone]}`, 'done')}${step(3, 'Revoke it', three, 'now')}${step(4, 'Add a replacement passkey', four)}</ol>`;
   }

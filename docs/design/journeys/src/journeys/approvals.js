@@ -21,8 +21,8 @@
   /* Settings is tab 4; the shell puts it last in the sidebar */
   const SET = () => 4;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
-  /* what a browser keeps offline is open (MP40-Q12), so any offline copy on web and phone web says so */
-  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" data-mo="rise">${proposed('MP40-Q12')}<span class="small muted">What a browser keeps offline is open.</span></div>` : '');
+  /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
+  const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* a proposal's state is not about market data, so the price chips stay as they are. The queue, its Home flip and the notices pass fresh: undefined, so both sides follow the state */
   /* option A's queue and every screen it opens are Approvals' own place in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02).
      B decides each thing where it lives, so its screens light the place they sit in. */

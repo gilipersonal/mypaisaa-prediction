@@ -353,6 +353,11 @@ function show() {
   setTimeout(more, 16);
   try { history.replaceState(null, '', `#${j.id}.${o.id}.${surf[0]}.${sum.at.st}`); } catch (e) { /* the view still shows */ }
 }
+/* What a browser keeps offline. The owner pressed "Both keep the five" (MP40-Q12c, 5 Nov 2026): a browser keeps the same five
+   records as the Apple app, each with its age. No record says how a browser protects them, so every offline frame on web and phone
+   web says so, in this one sentence, and an Apple frame does not. */
+const BROWSER_UNVERIFIED = 'How a browser protects saved records is unverified.';
+const browserKept = () => `<div class="jkept" data-mo="rise"><span class="chip offline" data-mo="chip">${ic('wifi-off', 's14')}Saved in this browser</span><span class="small muted">${BROWSER_UNVERIFIED}</span></div>`;
 const OPEN = [
   ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Settled, 5 Nov 2026 ("Add them to the sidebar", OWN-02): the iPad and desktop sidebar carries Research, Approvals and Imports, and each of their screens lights its own place there. The phone keeps its five tabs: Research hangs off Portfolio, and Approvals and Imports sit under Settings. Proposed: their order in the sidebar and their icons. Open: in Approvals B, where each decision stays where the thing lives, what the sidebar\'s Approvals opens is not drawn.'],
@@ -363,7 +368,7 @@ const OPEN = [
   ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
   ['Action thresholds (FIN-OD-07)', 'Settled, 5 Nov 2026 ("Evidence first", OWN-09): no label appears until evaluation supports the thresholds and you approve a ranking policy version. Portfolio and Ledger at launch draw that time; every other screen draws labels as they read after the approval. Open: the thresholds themselves.'],
   ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
-  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Labelled proposed: unlock on your device.'],
+  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Import limits: labelled proposed. Locked PDFs: settled, 5 Nov 2026 ("Local unlock step", MP40-Q2): you type its password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Drawn as Unlock a PDF in both options of Holdings and imports.'],
   ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed.'],
   ['Weekend brief (MP40-Q11)', 'Not drawn.'],
   ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Proposed: Reliance stays Ambiguous, with its one found rate shown and not picked. AstraZeneca stays Nonconvergent: the search used its budget before it could separate the possible rates, so none is stated.'],
@@ -389,8 +394,8 @@ const OPEN = [
   ['How long a risk alert cools down (CT-18)', 'No time is promised.'],
   ['May a budget be raised through an approval? MP-114 bars it and MP-78 lists it as a sensitive action.', 'Not drawn. The records conflict.'],
   ['Which runs does a Reduce line cut? (MP-103)', 'Labelled proposed: fewer optional runs.'],
-  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Proposed: it clears when it next connects (MP40-Q12).'],
-  ['What is kept offline, and which devices (MP40-Q12)', 'Labelled proposed.'],
+  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Settled, 5 Nov 2026 ("Saved copy also times out", OWN-37): the copy clears when the device next connects, and the app also stops showing it after a set time without reaching the server. Open: that time, which you choose, so no number is drawn. Unverified: how well an offline app can enforce it.'],
+  ['What is kept offline, and which devices (MP40-Q12)', 'What is kept: settled, 5 Nov 2026 ("Both keep the five", MP40-Q12c): the Apple app and a browser each keep holdings, prices, forecasts, notices and cost, each with its age. Unverified: how a browser protects them, which needs an architecture answer before build, so every browser offline frame says so. Which devices: labelled proposed.'],
   ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'No exact time is promised. Every approval asks for a fresh sign-in, in both options. Renewing an original and turning on a less private option also ask for one (Proposed · CT-01). Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
 ];
 function showInventory() {

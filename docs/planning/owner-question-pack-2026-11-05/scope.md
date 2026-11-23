@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's and MP-188's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's and MP-189's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
@@ -86,6 +86,8 @@ Drawn on branch `MP-188-passkeys-recovery` (23 November 2026), in the Privacy jo
 | ADM-03 | Any healthy path | pressed | Words on screens change |
 
 ### MP-189: Draw the local PDF unlock and settle the offline screens
+
+Drawn on branch `MP-189-pdf-unlock-offline` (23 November 2026), in the Holdings and Privacy journeys, the browser offline frames of every owner journey, and the admin Files and Identity journeys. A locked PDF opens in a new Unlock a PDF step on the device. A browser's offline copy says how a browser protects it is unverified, and the offline time-out shows as not set yet: no number is drawn.
 
 | Id | The pick | How | Effect |
 | --- | --- | --- | --- |
