@@ -76,9 +76,9 @@
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "b11349b91048ff3a93d66ab93c19e137d876f9cde88d21eb0a6b5aecc3d1a9db",
+   "published_sha256": "80e63860eb203fd7ae270401df28627267d1b6bb0a059a5e92ef5a9c263af29e",
    "published_at": "2026-11-23",
-   "jira": "MP-188"
+   "jira": "MP-189"
   }
  ]
 }
