@@ -118,6 +118,16 @@ test.describe('accessibility and layout', () => {
     });
   }
 
+  test('every page\'s browser title names the page its heading names (WCAG 2.4.2)', async ({ page }) => {
+    const paths = [...PLACES.map(([p]) => p), '/holdings', '/holdings/NVDA', '/holdings/RELIANCE', '/settings/privacy'];
+    for (const path of paths) {
+      await page.goto(path);
+      const h1 = page.getByRole('heading', { level: 1 });
+      await expect(h1).toBeVisible();
+      await expect(page, path).toHaveTitle(`${(await h1.innerText()).trim()} · MyPrediction`);
+    }
+  });
+
   test('no place scrolls sideways at any width from 320 to 1440', async ({ page }) => {
     test.skip(wide(page), 'one sweep is enough; it sets its own widths');
     for (const [path, label] of PLACES) {

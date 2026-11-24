@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { PLACES, TABS, childrenOf, placeOf, tabOf } from '../../src/lib/places';
+import { PLACES, TABS, childrenOf, pageTitle, placeOf, tabOf } from '../../src/lib/places';
 
 const prism = readFileSync(new URL('../../../docs/design/prism/index.html', import.meta.url), 'utf8');
 const icons = readFileSync(new URL('../../../docs/design/prism/icons.svg', import.meta.url), 'utf8');
@@ -54,5 +54,19 @@ describe('places follow Prism', () => {
     expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('settings');
     expect(placeOf('/settings' + '/'.repeat(200_000)).id).toBe('settings');
     expect(performance.now() - start).toBeLessThan(200);
+  });
+});
+
+describe('page titles', () => {
+  it('names the page, not only its place (MP-205)', () => {
+    expect(pageTitle('/')).toBe('Portfolio');
+    expect(pageTitle('/record')).toBe('Journal');
+    expect(pageTitle('/holdings')).toBe('Holdings');
+    expect(pageTitle('/holdings/')).toBe('Holdings');
+    expect(pageTitle('/holdings/nvda')).toBe('NVDA');
+    expect(pageTitle('/holdings/%E0')).toBe('%E0');
+    expect(pageTitle('/settings')).toBe('Settings');
+    expect(pageTitle('/settings/privacy')).toBe('Privacy');
+    expect(pageTitle('/sources')).toBe('Data sources');
   });
 });

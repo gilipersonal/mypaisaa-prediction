@@ -52,6 +52,28 @@ export function placeOf(pathname: string): Place {
     ?? placeById('portfolio');
 }
 
+/**
+ * The browser title for a path: it names the page its heading names (WCAG 2.4.2), not only the place it sits in.
+ * Record opens on the Journal (OWN-24); /holdings, one holding and the privacy centre sit inside Portfolio and
+ * Settings but are pages of their own (MP-205).
+ */
+export function pageTitle(pathname: string): string {
+  const parts = pathname.split('/').filter(Boolean);
+  if (parts[0] === 'holdings') return parts.length === 1 ? 'Holdings' : tickerOf(parts[1]!);
+  if (parts[0] === 'settings' && parts[1] === 'privacy') return 'Privacy';
+  const place = placeOf(pathname);
+  return place.id === 'record' ? 'Journal' : place.label;
+}
+
+/** A malformed escape in the address names the page as written rather than throwing in the layout. */
+function tickerOf(segment: string): string {
+  try {
+    return decodeURIComponent(segment).toUpperCase();
+  } catch {
+    return segment.toUpperCase();
+  }
+}
+
 export function tabOf(place: Place): Place {
   return place.under ? placeById(place.under) : place;
 }

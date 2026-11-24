@@ -4,14 +4,14 @@
   import { afterNavigate, goto } from '$app/navigation';
   import Sidebar from '#lib/components/Sidebar.svelte';
   import TabBar from '#lib/components/TabBar.svelte';
-  import { placeOf } from '#lib/places.ts';
+  import { pageTitle, placeOf } from '#lib/places.ts';
   import { auth } from '#lib/auth/auth.svelte.ts';
   import { privacy } from '#lib/privacy.svelte.ts';
 
   let { children } = $props();
   const current = $derived(placeOf(page.url.pathname));
-  // the Record place opens on the Journal (OWN-24), so its page is titled for what it shows (MP-205)
-  const title = $derived(current.id === 'record' ? 'Journal' : current.label);
+  // the title names the page the heading names, not only its place (MP-205)
+  const title = $derived(pageTitle(page.url.pathname));
   let main: HTMLElement | undefined = $state();
 
   // Nothing behind sign-in is drawn until a session is confirmed; without one the page goes to sign-in.
