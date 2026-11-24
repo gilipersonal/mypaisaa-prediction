@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
+  import { MediaQuery } from 'svelte/reactivity';
   import { afterNavigate } from '$app/navigation';
   import { source } from '#lib/data/index.ts';
   import { currentDataState, type DataState } from '#lib/data/state.ts';
@@ -7,14 +8,16 @@
   import EntryView from '#lib/journal/EntryView.svelte';
   import Frame from '#lib/shell/Frame.svelte';
   import Ico from '#lib/journal/Ico.svelte';
+  import Later from '#lib/journal/Later.svelte';
   import ListView from '#lib/journal/ListView.svelte';
+  import { LATER } from '#lib/journal/sample.ts';
   import { entriesFor, hrefOf, joinEntries, viewOf, type ShownEntry } from '#lib/journal/journal.ts';
 
   /*
-   * Record holds two views, the Journal and the Track record ("A view in Record", OWN-24). This step builds the Journal, option A
-   * "Timeline" (MP-158), for viewing only: the log, one decision opened, and where you differed. Recording a decision, adding a
-   * correction and the Track record view come later, so nothing here offers them. MyPrediction never trades: an entry records
-   * what the owner did and why, at the broker, outside the app.
+   * Record holds two views, the Journal and the Track record ("A view in Record", OWN-24). This is the Journal, option A
+   * "Timeline" (MP-158), drawn as its design draws it (docs/design/journeys/src/journeys/journal.js): the log (a-list), one
+   * decision opened (a-one) and where you differed (a-differ). Viewing only: Record a decision, Add a correction and the info
+   * buttons are drawn as designed and say, when pressed, that their act comes in a later step. MyPrediction never trades.
    *
    * Everything is read in the browser, never at build time. The data state comes from the address (?data=), and loading is held
    * until the page is pressed on, so it can be seen and tested; then the journal is ready.
@@ -23,21 +26,28 @@
   let dataState: DataState = $state('loading');
   let failed = $state(false);
   let search = $state('');
-  let wide = $state(false);
+  const wideQ = new MediaQuery('min-width: 1024px', false);
+  const wide = $derived(wideQ.current);
   let run = 0;
   let release: (() => void) | undefined;
 
   const entries = $derived(entriesFor(dataState, all));
   const view = $derived(viewOf(search));
+  // one decision keeps its entry in every state: the design's Empty for it is a decision still waiting for its horizon
   const opened = $derived.by(() => {
     if (view.kind !== 'entry') return undefined;
     const id = view.id;
-    const e = entries.find((x) => x.id === id);
+    const e = all.find((x) => x.id === id);
     return e && e.detail ? { ...e, detail: e.detail } : undefined;
   });
   const shown = $derived(view.kind === 'entry' && !opened ? ({ kind: 'list' } as const) : view);
   const title = $derived(shown.kind === 'differed' ? 'Where you differed' : opened && shown.kind === 'entry' ? opened.detail.title : 'Journal');
   const back = $derived(hrefOf({ kind: 'list' }, search));
+  const hasRail = $derived(
+    shown.kind === 'entry' ? true
+      : shown.kind === 'differed' ? !(['empty'] as DataState[]).includes(dataState)
+      : wide || (!failed && !(['loading', 'empty'] as DataState[]).includes(dataState))
+  );
 
   /** Waits for a press anywhere on the page; a later read cancels the wait. */
   function pressed(): Promise<void> {
@@ -85,46 +95,38 @@
   });
 
   onMount(() => {
-    const mq = matchMedia('(min-width: 1024px)');
-    const fit = () => { wide = mq.matches; };
-    fit();
-    mq.addEventListener('change', fit);
     const net = () => { readFor = currentDataState(); read(); };
     addEventListener('online', net);
     addEventListener('offline', net);
     return () => {
       release?.();
-      mq.removeEventListener('change', fit);
       removeEventListener('online', net);
       removeEventListener('offline', net);
     };
   });
 </script>
 
-{#snippet record()}<button class="btn btn-tinted sm" type="button" aria-describedby="record-later"><Ico name="plus" size="s18" />Record a decision</button>{/snippet}
-{#snippet recordTb()}<button class="tbtn glass" type="button" aria-label="Record a decision" aria-describedby="record-later"><Ico name="plus" size="s18" /></button>{/snippet}
+{#snippet record()}<Later text={LATER.record}>{#snippet children(press)}<button class="btn btn-tinted sm" type="button" onclick={press}><Ico name="plus" size="s18" />Record a decision</button>{/snippet}</Later>{/snippet}
+{#snippet recordTb()}<Later text={LATER.record}>{#snippet children(press)}<button class="tbtn glass" type="button" aria-label="Record a decision" onclick={press}><Ico name="plus" size="s18" /></button>{/snippet}</Later>{/snippet}
+{#snippet about()}<Later text={LATER.about}>{#snippet children(press)}<button class="tbtn glass" type="button" aria-label={shown.kind === 'entry' ? 'About this score' : 'About this view'} onclick={press}><Ico name="info" size="s18" /></button>{/snippet}</Later>{/snippet}
 
-<Frame title={title} state={dataState} fresh={dataState === 'error' ? 'default' : undefined} back={shown.kind === 'list' ? undefined : { label: 'Journal', href: back }} actions={shown.kind === 'list' ? record : undefined} phoneActions={shown.kind === 'list' ? recordTb : undefined}>
-  {#snippet body()}
-    {#if shown.kind === 'list'}
-      <div><div class="segctl full" role="group" aria-label="Record" style="--n: 2; --i: 0">
-        <span class="lens" aria-hidden="true"></span>
-        <button type="button" aria-pressed="true">Journal</button>
-        <button type="button" aria-pressed="false" disabled aria-describedby="track-later">Track record</button>
-      </div></div>
-    {/if}
-    {#if failed}
-      <div class="card state" role="alert">
-        <div class="sh"><span class="ic"><Ico name="alert" size="s18" /></span>The journal did not load</div>
-        <p>Nothing you saved is lost.</p>
-        <button class="btn btn-tinted sm" type="button" onclick={() => read(true)}><Ico name="refresh" size="s18" />Try again</button>
-      </div>
-    {:else if shown.kind === 'entry' && opened}
-      <EntryView entry={opened} state={dataState} onretry={() => read(true)} />
-    {:else if shown.kind === 'differed'}
-      <DifferedView state={dataState} {entries} {search} onretry={() => read(true)} />
-    {:else}
-      <ListView state={dataState} {entries} {wide} {search} onretry={() => read(true)} />
-    {/if}
-  {/snippet}
-</Frame>
+{#snippet body()}
+  {#if shown.kind === 'entry' && opened}
+    <EntryView part="body" entry={opened} state={dataState} {wide} onretry={() => read(true)} />
+  {:else if shown.kind === 'differed'}
+    <DifferedView part="body" state={dataState} {entries} {search} onretry={() => read(true)} />
+  {:else}
+    <ListView part="body" state={dataState} {entries} {wide} {search} {failed} onretry={() => read(true)} />
+  {/if}
+{/snippet}
+{#snippet rail()}
+  {#if shown.kind === 'entry' && opened}
+    <EntryView part="rail" entry={opened} state={dataState} {wide} onretry={() => read(true)} />
+  {:else if shown.kind === 'differed'}
+    <DifferedView part="rail" state={dataState} {entries} {search} onretry={() => read(true)} />
+  {:else}
+    <ListView part="rail" state={dataState} {entries} {wide} {search} {failed} onretry={() => read(true)} />
+  {/if}
+{/snippet}
+
+<Frame {title} state={dataState} fresh={dataState === 'error' ? 'default' : undefined} back={shown.kind === 'list' ? undefined : { label: 'Journal', href: back }} actions={shown.kind === 'list' ? record : about} phoneActions={shown.kind === 'list' ? recordTb : about} {body} rail={hasRail ? rail : undefined} />

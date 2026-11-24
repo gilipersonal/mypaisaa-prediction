@@ -16,7 +16,7 @@ async function openCentre(page: Page) {
 
 /** Goes to Portfolio by its own link, so the page is not reloaded. */
 async function toPortfolio(page: Page) {
-  await nav(page).getByRole('link', { name: 'Portfolio', exact: true }).click();
+  await nav(page).getByRole('link', { name: /^Portfolio( \d|$)/ }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Portfolio');
 }
 
@@ -85,18 +85,38 @@ test('the switch works from the keyboard and keeps focus', async ({ page }) => {
   await expect(hide(page)).toBeFocused();
 });
 
-test('the less private options are drawn off and cannot be pressed', async ({ page }) => {
+test('the less private options, phone notifications and notices never change anything, and say their act comes later', async ({ page }) => {
   await openCentre(page);
+  const sent: string[] = [];
+  page.on('request', (r) => sent.push(`${r.method()} ${r.url()}`));
+  const stored = () => page.evaluate(() => JSON.stringify(Object.entries(localStorage).sort()));
+  const before = await stored();
+  // the five switches the design draws, and only Hide amounts turns
+  await expect(page.getByRole('switch')).toHaveCount(5);
   for (const name of ['Holding names on the lock screen', 'Holdings in widgets', 'Values in shared content']) {
     const sw = page.getByRole('switch', { name });
     await expect(sw).toHaveAttribute('aria-checked', 'false');
-    await expect(sw).toBeDisabled();
+    await sw.click();
+    await expect(sw).toHaveAttribute('aria-checked', 'false');
+    await sw.press('Space');
+    await expect(sw).toHaveAttribute('aria-checked', 'false');
   }
-  await expect(page.getByRole('switch')).toHaveCount(4);
-  await expect(page.getByRole('switch', { disabled: false })).toHaveCount(1);
-  await expect(page.getByText(/turning one on asks for a fresh sign-in/)).toBeVisible();
-  // Devices, your data, deleting and notifications are not on this step's page.
-  for (const gone of ['Devices and sessions', 'Notifications', 'Notices', 'Delete']) await expect(page.getByRole('main').getByText(gone, { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('status').filter({ hasText: 'Turning this on comes in a later build step.' })).toHaveCount(3);
+  const phone = page.getByRole('switch', { name: 'Phone notifications' });
+  await expect(phone).toHaveAttribute('aria-checked', 'true');
+  await phone.click();
+  await expect(phone).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('status').filter({ hasText: 'Changing phone notifications comes in a later build step.' })).toBeVisible();
+  const notice = page.getByRole('button', { name: /Morning brief/ });
+  await notice.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status').filter({ hasText: 'Opening a notice comes in a later build step.' })).toBeVisible();
+  await expect(hide(page)).toHaveAttribute('aria-checked', 'false');
+  expect(await stored(), 'nothing is kept by a press').toBe(before);
+  expect(sent, 'nothing is sent by a press').toEqual([]);
+  await expect(page.getByText(/turning one on asks for a fresh sign-in/)).toHaveCount(0);
+  // Devices, your data and deleting are not on this page.
+  for (const gone of ['Devices and sessions', 'Your data', 'Delete']) await expect(page.getByRole('main').getByText(gone, { exact: true })).toHaveCount(0);
 });
 
 for (const scheme of ['light', 'dark'] as const) {

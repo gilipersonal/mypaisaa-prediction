@@ -7,6 +7,27 @@
     "path": "/record"
   },
   {
+    "name": "journal-one",
+    "journey": "journal",
+    "option": "a",
+    "screen": "a-one",
+    "path": {
+      "default": "/record?entry=nvda",
+      "loading": "/record?entry=nvda",
+      "error": "/record?entry=nvda",
+      "offline": "/record?entry=nvda",
+      "empty": "/record?entry=aapl",
+      "stale": "/record?entry=hsba"
+    }
+  },
+  {
+    "name": "journal-differ",
+    "journey": "journal",
+    "option": "a",
+    "screen": "a-differ",
+    "path": "/record?view=differed"
+  },
+  {
     "name": "privacy",
     "journey": "privacy",
     "option": "a",

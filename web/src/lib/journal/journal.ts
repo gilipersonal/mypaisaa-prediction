@@ -5,7 +5,7 @@ import { ENTRIES, type FrozenForecast, type JournalEntry } from './sample';
 /** Prism's icons the journal draws (docs/design/prism/icons.svg). */
 export type JournalIcon =
   | 'clock' | 'split' | 'ban' | 'alert' | 'wifi-off' | 'fan' | 'lock' | 'chev-l' | 'target' | 'cube' | 'refresh' | 'chev-r'
-  | 'plus' | 'equal' | 'pause' | 'trim' | 'rebalance' | 'check';
+  | 'plus' | 'equal' | 'pause' | 'trim' | 'rebalance' | 'check' | 'info' | 'shield' | 'up' | 'down' | 'search';
 
 /** One journal entry as a screen shows it: the sample entry with its holding's name, logo and colour from Prism's sample. */
 export interface ShownEntry extends JournalEntry {
