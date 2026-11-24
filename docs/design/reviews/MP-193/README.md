@@ -40,9 +40,10 @@ how it recovers and what the record keeps:
 | Amounts hidden, with a budget raise to approve | Budget raise, Ready, amounts masked, with the hidden banner | OWN-18 (mask units too), OWN-35 (code may draft a raise) |
 | The month cannot be known, and you are offline | Budget raise, Abstaining, with the offline banner | MP40-Q5 (the prod collector fills the month) |
 
-## Proposed for the owner
+## Settled by the owner
 
-Labelled on the page as **Proposed · MP-193**; none of these is the owner's rule until the owner says so.
+On 24 November 2026 the owner pressed "Accept all three (Recommended)" for these (MP-66); the option read "Each Proposed ·
+MP-193 label becomes settled with your words." The page now labels them **Settled · MP-66**.
 
 - **The rule for any pair:** "Every condition that stops a write keeps stopping it, whichever banner shows first. A screen with
   two conditions shows both banners, each in its own words. Reading, going back and showing what is hidden stay open;

@@ -7,8 +7,12 @@ records each: two done here by the maker, two that only the owner can do on a re
 | --- | --- | --- |
 | Journeys runtime: no long animation frame over 50 ms on Chrome desktop, light and dark | Maker | **Passes** (below) |
 | Keyboard-only pass on the web, across the picked options | Maker | **Passes** (below) |
-| Prism, Journeys and Prism Admin on a real iPhone at 20% brightness, light and dark | Owner | Waiting on the owner |
-| VoiceOver on iPhone and iPad, across the picked options | Owner | Waiting on the owner |
+| Prism, Journeys and Prism Admin on a real iPhone at 20% brightness, light and dark | Owner | Not done: accepted without checking |
+| VoiceOver on iPhone and iPad, across the picked options | Owner | Not done: accepted without checking |
+
+The owner, 24 November 2026, pressed "Accept without checking". The option read: "You accept the designs without a device
+check; I record that in your words and it stays an open item." The two device checks stay open in the MP-66 record; the
+checklist below stands for when the owner chooses to run them.
 
 ## The long frame (fixed)
 
