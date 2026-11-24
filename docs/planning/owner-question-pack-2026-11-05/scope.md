@@ -2,7 +2,7 @@
 
 All 64 questions are answered: 23 pressed on the page, and 41 by the owner's words in chat, "for the remaining pick up recommended options". The 41 are recorded as the Recommended option because that is what those words chose. 61 of the 64 are the Recommended option. `answers.json` holds each one.
 
-Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's, MP-189's and MP-190's are drawn; the rest are not yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
+Answering is not applying. Each pick is recorded here and in the decision log; an issue's section says when its picks are drawn. MP-185's, MP-191's, MP-186's, MP-188's, MP-189's, MP-190's and MP-187's are drawn, and MP-192's are recorded in the written records; the screen labels MP-192 also carries are not done yet. UX approval (MP-66) waits on the first seven issues. Permission to build is separate.
 
 ## Answered after the pack
 
