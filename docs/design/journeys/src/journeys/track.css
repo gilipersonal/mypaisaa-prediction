@@ -1,0 +1,64 @@
+/* Track record journey (MP-187): only what Prism has no module for. Cards, chips, tables, the calibration bar and the segmented
+   control are Prism's own. A part the owner's pick keeps goes into Prism first, before anything is built. */
+.track-sub { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-sub b { color: var(--ink); font-weight: 600; }
+.track-card { padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; min-width: 0; align-content: start; }
+.track-card h4 { font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.track-vh { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; min-height: 26px; }
+.track-vh h4 { flex: 1 1 auto; white-space: nowrap; }
+.track-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.track-kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-kv b { font-weight: 600; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+.track-rule { border-top: 1px solid var(--hairline); margin: 2px 0; }
+/* a summary with too few matured forecasts says so, in place of a rate */
+.track-few { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); }
+.track-few b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; color: var(--ink); }
+.track-few span { font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* the three windows, side by side */
+.track-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.track-trio > div { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border-radius: var(--r-sm); background: var(--surface-2); min-width: 0; }
+.track-trio b { font: 800 22px/26px var(--font-figure); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.track-trio .u { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-trio .calbar { margin-top: 8px; }
+/* the measures: hit rate never without coverage, calibration, error, the baseline and turnover */
+.track-met { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+.track-met.w3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.track-met > div { min-width: 0; }
+.track-met b { display: block; margin-top: 2px; font: 800 22px/26px var(--font-figure); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.track-met .u { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* sections and lists */
+.track-sec { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.track-sec h3 { flex: 1 1 auto; font: 600 17px/22px var(--font-text); letter-spacing: -.01em; }
+.track-sec.in, .track-sub.in, .track-acts.in { padding: 0 16px; }
+.track-sec.in { padding-top: 14px; }
+.track-list, .track-wide, .track-by { display: grid; gap: 8px; padding: 0 0 12px; min-width: 0; }
+.track-ic { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); flex: none; }
+.track-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 12px; align-items: center; min-height: 52px; padding: 8px 16px; border: 0; background: none; color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.track-row + .track-row { border-top: 1px solid var(--hairline); }
+.track-row b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.track-row small { display: block; font: 400 13px/18px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-row .ico { color: var(--ink-2); }
+/* one breakdown row: who, its sample, its coverage and the bar against the 80% target */
+.track-br { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 16px; border-top: 1px solid var(--hairline); }
+.track-br.nolead { grid-template-columns: minmax(0, 1fr) auto; }
+.track-br .m b { display: block; font: 600 15px/20px var(--font-text); letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track-br .m span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-br .v { text-align: right; }
+.track-br .v b { display: block; font: 700 17px/22px var(--font-figure); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.track-br .v span { display: block; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+.track-br .calbar, .track-br .o { grid-column: 2 / 4; }
+.track-br.nolead .calbar, .track-br.nolead .o { grid-column: 1 / 3; }
+.track-br .calbar { margin-top: 6px; }
+.track-br .o { font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); margin-top: 2px; }
+/* Option B: the tables */
+.track-scroll { overflow-x: auto; padding: 0 6px; }
+table.track-t td, table.track-t th { padding-inline: 8px; }
+table.track-t tbody tr { cursor: default; }
+table.track-t tr.track-pend td { color: var(--ink-2); font-size: 12px; line-height: 16px; padding-block: 2px 8px; }
+table.track-t tr.track-grp td { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+.track-pr { display: grid; gap: 6px; padding: 10px 16px; border-top: 1px solid var(--hairline); }
+.track-pr .k { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.track-pr .k b { font: 600 15px/20px var(--font-text); letter-spacing: -.01em; }
+.track-pr .k span { flex-basis: 100%; font: 400 12px/16px var(--font-text); letter-spacing: 0; color: var(--ink-2); }
+/* loading keeps the last good record in view, desaturated, never faded below contrast */
+.track-dim { display: grid; gap: 12px; min-width: 0; filter: saturate(.4); }

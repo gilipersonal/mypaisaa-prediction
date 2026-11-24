@@ -65,20 +65,20 @@
    "jira": "MP-198"
   },
   {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "99b3510137d5ab384f40195184145e1f110c61e66ae5657fb1ccd302ca604f18",
-   "published_at": "2026-11-24",
-   "jira": "MP-198"
-  },
-  {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
    "published_sha256": "89ba0522f3889509715b1a73d44925c58aba309c8295900744f7be5355090246",
    "published_at": "2026-11-24",
    "jira": "MP-199"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "600f45fbc44736b70a4a9d038d561f844a7c0d4aeab2d7a4ff8f46e725418a91",
+   "published_at": "2026-11-24",
+   "jira": "MP-187"
   }
  ]
 }

@@ -2,7 +2,7 @@
 
 Every owner journey of MyPrediction, drawn in [Prism](../prism/README.md): two options each, kept with a flip, every
 screen in every state, on iPhone, iPad, desktop and phone web, in light and dark. `index.html` is one interactive page,
-synced to a private Claude artifact. The owner keeps both options on all eight journeys, with a flip between them (MP-178,
+synced to a private Claude artifact. The owner keeps both options on the first eight journeys, with a flip between them (MP-178,
 `docs/design/reviews/MP-62/decision.md`).
 Admin journeys are MP-64, not here. Nothing here is product code: UX is not approved and nothing may be built.
 
@@ -10,7 +10,7 @@ Admin journeys are MP-64, not here. Nothing here is product code: UX is not appr
 
 | File | What |
 | --- | --- |
-| `src/journeys/<id>.js` | One journey, registered with `J.add()`. Ids and order: home, holdings, forecast, research, journal, cost, approvals, privacy |
+| `src/journeys/<id>.js` | One journey, registered with `J.add()`. Ids and order: home, holdings, forecast, research, journal, track, cost, approvals, privacy. Track record (MP-187) carries `picked: 'a'`: the owner picked A, Scorecard, on 24 Nov 2026, and B stays drawn, labelled not picked |
 | `src/journeys/<id>.css` | Layout only that journey needs, classes prefixed with its id. Prefer Prism's components. A component a picked option keeps goes into Prism first, under `.claude/rules/design-sync.md`, before anything is built |
 | `src/shell.*` | The page around the screens, the device chrome and the state helpers |
 | `build.py` | Takes tokens, components, icons, helpers and frames from `docs/design/prism/` as they stand, and writes `index.html` |
