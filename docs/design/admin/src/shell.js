@@ -345,8 +345,7 @@ const OPEN = [
   ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Settled, 5 Nov 2026 ("By kind, as drawn", OWN-08): each kind keeps its own wait, days for a promotion or a setting, none for a restart. Open: how many days, a replay\'s wait, and the schema itself, so every non-financial expiry is illustrative and labelled Proposed · CT-02.'],
   ['MP-162 shows the HSBC notice as dismissed, and admin holds inc_0012 as acknowledged. Are a notice and an incident two records?', 'Drawn as two records. No record says so.'],
   ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'Your daily window holds (ADM-22): the cutoff freezes at +60 and forecasts issue by +75, 22:00 and 22:15 for the US. The owner journeys now say the same, and each run keeps their words (MP-186). The window is still to be proven on real sources.'],
-  ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.'],
-  ['What counts as production lost, and where is that record kept if MP is down? (CT-14)', 'Open. You record it lost (ADM-05), and the sheet shows what code saw with no threshold, and no place outside MP for the record. Both are labelled Proposed · CT-14.']
+  ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.']
 ];
 /* What the owner has answered: each row quotes the label the owner picked, with its id (MP-184, MP-192). A row moves here only when the picks answer the whole question */
 const SETTLED = [

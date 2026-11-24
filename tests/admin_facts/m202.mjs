@@ -107,11 +107,11 @@ export default {
     for (const kind of ALL) has(view('home', 'b', 'b-home', kind, 'conflict').text, /Production is recorded lost\. You recorded it at 11:31, and the switch waits in Recovery\./);
   },
 
-  // the settled row names the act, and what stays open is an OPEN row of its own (CT-14)
+  // the settled row names the act and what it leaves open (CT-14); the question itself is wholly answered, so it has no OPEN row
   'MP202-tables': ({ must }) => {
     const settled = table('SETTLED'), open = table('OPEN');
     must(/\("Code flags, you confirm", ADM-05\)[^\n]*That is A85, Record production lost, on iPad or desktop \(MP-202\)\. Open: what counts as lost, and where the record is kept if MP is down \(CT-14\)\./.test(settled), 'the ADM-05 row does not name A85 and what stays open');
     must(!/not yet an act in the inventory/.test(settled + open), 'a row still says the act is missing');
-    must(/What counts as production lost, and where is that record kept if MP is down\? \(CT-14\)', 'Open\./.test(open), 'what ADM-05 leaves open has no OPEN row');
+    must(!/How does production come to be recorded lost/.test(open), 'the answered ADM-05 question is still in OPEN');
   },
 };
