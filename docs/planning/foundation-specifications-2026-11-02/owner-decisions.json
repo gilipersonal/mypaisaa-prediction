@@ -76,6 +76,21 @@
           "work-state.json",
           "README.md"
         ]
+      },
+      {
+        "date": "2026-11-05",
+        "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+        "issue": "MP-184 (answered); recorded by MP-192",
+        "summary": "Owner picks from the MP-184 question pack that touch this pack: cost (paid Claude approved for launch but not turned on until the owner's explicit word, OWN-04; the Anthropic admin key adopted, its price and availability unverified, MP40-Q5; all three cost freshness rules, 36 hours, 30 minutes and the £15 kept above £85, MP40-Q6, which also covers daily forecasts by the owner's \"Yes, add them\"; daily forecasts keep running past £85, OWN-25; cuts at £75 in a set order, OWN-36; code may draft a budget raise, OWN-35). Data (the proposed freshness limits approved with the close grace still open, OWN-07; a late price stays a data quality incident, ADM-06; Yahoo values already sent to Claude are recorded and the outputs kept, ADM-07). Forecasting (a lower score is enough to beat a comparator in the trial, OWN-33; the best simple baseline stands in when the rules cannot be scored fairly, with the owner's yes each time, ADM-09; the bad-week rule as proposed, OWN-27; the provider's daily bar for gold and silver once cover is proven, OWN-26; scenario values from a sourced proposal, OWN-10; restart evidence and a fresh approval for that scope only, OWN-28; 15 minutes to apply, OWN-21; withdrawal by code on an approved trigger or by the owner, ADM-08). Financial (a found but unproved rate shown, not picked, OWN-14; whole history only for a rebuild, OWN-19; withhold a return only above an approved limit, OWN-31; action labels, gaps, conflicts and decisions with no action, OWN-09, OWN-15, OWN-17, OWN-20, OWN-32; mask units too, OWN-18; orphans recorded by the owner, ADM-20; factsheets the owner supplies, MP40-Q8). SCI-D07, SCI-D08 and FIN-OD-04 become partly answered; every value a pick leaves open stays open.",
+        "folded_into": [
+          "costs/",
+          "data/",
+          "financial/",
+          "forecasting/",
+          "fixed-policies.json",
+          "integration-specification.md",
+          "README.md"
+        ]
       }
     ]
   }

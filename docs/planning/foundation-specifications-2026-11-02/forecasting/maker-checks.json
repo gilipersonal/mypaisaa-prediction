@@ -27,18 +27,18 @@
     "independent_review"
   ],
   "artifact_sha256": {
-    "acceptance-cases.json": "9234ab0fe96804a51a9105a697bb5c672377d5d3c23fff17360e12f9e7cce1ab",
+    "acceptance-cases.json": "159439b508a4455affe392ff818b6d62caa5723cb1e052af3fd5d6e542dad51b",
     "contract-examples.json": "5a3fb4e092f7fb870edb511e5d4d2d1d26c2daad0e87949d04a544466c01d4fc",
     "contracts.schema.json": "e53c2ebb985efd8cf540d4501a1d1d85052ddd6bf12d28a4e5fddf2bef8cf774",
-    "evaluation-protocol.json": "1421a8a1250ade450ec115db5f73f0fdb2a416863dbb1ecbd55fe96229842377",
-    "forecasting-specification.md": "394c769aebe657149735e0d776255cba1f3a06db99dccd4f163d964c4e48b508",
+    "evaluation-protocol.json": "d2580382721a70afa37880b2155e55b372e129a925b74603f6cf893293a1d57b",
+    "forecasting-specification.md": "7025b4c616fc43ef47370355ee6bc46125ba36fb80967e7ad35fe9ef980cadb7",
     "golden-examples.json": "1f1ed7353ddba364ab1f9a818dc1028ce682ef43bab5e18a1d9da72be70896e2",
     "model-catalogue.json": "60420d51021efb6a6464ca00a8e484a32a466af03df1eb1cdbd9d0ebe32e1bae",
-    "open-decisions.json": "b4ff745a0ea64277635ca5d56f713df4ff992ee0837616c93087939f371c0024",
+    "open-decisions.json": "2a703d16cf823894566b7e7d52b7379d9ff7cfa1dcad602a13c774b523c6107f",
     "research-register.json": "8376c04576c42cf770286bd4cc155a1a18d09f44f7a7d43c2d7f513bc5b37f01",
-    "task-catalogue.json": "42fa4968525a130a6b8995de158d280b0f8e3555522b61f536c354c26dae99d7",
+    "task-catalogue.json": "3ac9b70a4c811eb1967c041069a185fc8a4e8b9d711b567c30e19b75c35f6c9e",
     "timing-examples.json": "fffdb90e7da0c2327e64461c88a8ca1baeac1167f1a229c155845b7caf86e162",
-    "timing_checks.py": "cbc77c6006cf42f3cddd10b53b08ece096104de89515d3709e84e6b76e59fbc5"
+    "timing_checks.py": "8c0ccc5602c1c868df1960685a8ebd8eb88f0412456976856a4a3be05032a3fd"
   },
   "review_fix_checks": {
     "status": "maker_fix_checks_passed_awaiting_fresh_independent_delta_review",
@@ -186,6 +186,38 @@
     ],
     "results": "daily 6, event 9, owner-number and open-question checks 90 (was 51), policy cases 23, document mutations refused 66 (was 34), gate mutants killed 12 (was 8), also under python -O; ruff F passed",
     "material_owner_choices": "SCI-D05 and SCI-D09 closed; SCI-D01, D03, D04, D06 partly answered; SCI-D02, D07, D08, D10 owner_pending",
+    "status": "maker_checks_rerun_not_independent_review"
+  },
+  "mp192_owner_picks": {
+    "date": "2026-11-24",
+    "issue": "MP-192",
+    "note": "Owner picks of 5 Nov 2026 (MP-184, docs/planning/owner-question-pack-2026-11-05/answers.json) recorded: OWN-33 and ADM-09 on SCI-D03 (beat meaning owner-selected, the 2% hurdle for the walk-forward test only, the best simple baseline stands in with the owner's yes each time); OWN-10 on SCI-D06 (the route for template values; the values stay open); OWN-27 on SCI-D07, now partly_answered (minimum count, safety triggers and first-promotion comparator stay open); OWN-26 on SCI-D08, now partly_answered (cover, bar time, pinned GBP rate, price type and calendar stay open; unavailable_with_reason until cover is proven); OWN-28, OWN-21 and ADM-08 in evaluation-protocol.json. Superseded wording kept under superseded_2026_11_05_mp192 notes. timing_checks.py: the beat-meaning check now requires the owner's OWN-33 pick in place of 'proposed' (rules_proper_score still must stay proposed and open in SCI-D03); verify_picks_2026_11_05 added (each pick recorded where it lands, SCI-D07 and SCI-D08 hold what stays open, one phrase across spec and protocol, a sweep for stale phrasings); every earlier refusal kept; 16 document mutations and 3 gate mutants added. Maker checks only, not independently reviewed.",
+    "refreshed_files": [
+      "acceptance-cases.json",
+      "evaluation-protocol.json",
+      "forecasting-specification.md",
+      "open-decisions.json",
+      "task-catalogue.json",
+      "timing_checks.py"
+    ],
+    "unchanged_files": [
+      "contract-examples.json",
+      "contracts.schema.json",
+      "golden-examples.json",
+      "model-catalogue.json",
+      "research-register.json",
+      "timing-examples.json"
+    ],
+    "also_changed_outside_this_receipt": [
+      "../fixed-policies.json (forecasts.owner_answers_2026_11_05; not hash-pinned here)"
+    ],
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "python3 -O docs/planning/foundation-specifications-2026-11-02/forecasting/timing_checks.py --check all",
+      "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
+    ],
+    "results": "daily 6, event 9, owner-number and open-question checks 113 (was 90), policy cases 23, document mutations refused 82 (was 66), gate mutants killed 15 (was 12), also under python -O",
+    "material_owner_choices": "SCI-D05 and SCI-D09 closed; SCI-D01, D03, D04, D06, D07, D08 partly answered; SCI-D02, D10 owner_pending",
     "status": "maker_checks_rerun_not_independent_review"
   }
 }

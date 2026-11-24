@@ -217,7 +217,19 @@
       "counterfactual portfolio impact and uncertainty"
     ],
     "unavailable_value": null,
-    "missing_score_policy": "abstain; no neutral substitution or automatic renormalization"
+    "missing_score_policy": "abstain; no neutral substitution or automatic renormalization",
+    "owner_answers_2026_11_05": {
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "XIRR_found_but_unproved_rate": "OWN-14 (\"Show it, not picked\"): the option read \"The found rate appears in the note beside the status, never as the headline.\" The headline stays null; the solver policy stays open (FIN-OD-04).",
+      "open_cash_difference": "OWN-31 (\"Withhold only if material\"): the option read \"A small difference leaves the return showing and flagged. Above a limit you approve, the return is withheld.\" The limit is not set (FIN-OD-01).",
+      "partial_history_rebuild": "OWN-19 (\"Whole history only\"): the option read \"A rebuild can be approved only when statements cover every unit. A part one stays held and visible.\"",
+      "action_labels": "OWN-09 (\"Evidence first\"): the option read \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"",
+      "missing_or_split_horizon": "OWN-17 (\"Both parts go\"): the option read \"Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the name is not ranked.\"",
+      "not_ranked": "OWN-20 (\"No score, no action\"): the option read \"A holding not ranked shows no action until it can be ranked again, with the reason.\"",
+      "rules_model_conflict": "OWN-32 (\"Conflict at every long horizon\"): the option read \"Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there.\"",
+      "decision_with_no_ranked_action": "OWN-15 (\"Any time evidence shows\"): the option read \"You can save an entry against the evidence on screen whenever no action is ranked, and the entry records why none was.\"",
+      "hidden_amounts": "OWN-18 (\"Mask units too\"): the option read \"Hide amounts masks money and units, and percentages stay.\""
+    }
   },
   "flow_boundaries": {
     "sign": "investor perspective: into measured investment negative, out positive",

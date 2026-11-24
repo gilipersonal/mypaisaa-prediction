@@ -149,16 +149,17 @@
  },
  {
   "id": "R2-p1",
-  "finding": "The owner's 2 Nov policy answers are folded into the financial open decisions as partly answered, with what is still open; FIN-OD-01, 04 and 06 stay pending",
+  "finding": "The owner's 2 Nov policy answers are folded into the financial open decisions as partly answered, with what is still open; FIN-OD-01 and 06 stay pending, and FIN-OD-04 is partly answered only by the owner's 5 Nov pick OWN-14",
   "check": {
    "type": "command",
    "argv": [
     "python3",
     "-c",
-    "import json,sys; d={x['id']:x for x in json.load(open('docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json'))['decisions']}; want={'FIN-OD-02':['POLICY-001','POLICY-005'],'FIN-OD-03':['POLICY-007','POLICY-012'],'FIN-OD-05':['POLICY-009'],'FIN-OD-07':['POLICY-006'],'FIN-OD-08':['POLICY-010','POLICY-011']}; ok=len(d)==8 and all((d[k]['status']=='partly_answered' and d[k]['answered_by']==want[k] and bool(d[k]['still_open'].strip()) and bool(d[k]['evidence_needed'])) if k in want else (d[k]['status']=='owner_pending' and d[k]['answered_by']==[]) for k in d); sys.exit(0 if ok else 1)"
+    "import json,sys; d={x['id']:x for x in json.load(open('docs/planning/foundation-specifications-2026-11-02/financial/open-decisions.json'))['decisions']}; want={'FIN-OD-02':['POLICY-001','POLICY-005'],'FIN-OD-03':['POLICY-007','POLICY-012'],'FIN-OD-04':[],'FIN-OD-05':['POLICY-009'],'FIN-OD-07':['POLICY-006'],'FIN-OD-08':['POLICY-010','POLICY-011']}; later={'FIN-OD-04':['OWN-14']}; ok=len(d)==8 and all((d[k]['status']=='partly_answered' and d[k]['answered_by'][:len(want[k])]==want[k] and all(a.startswith('OWN-') for a in d[k]['answered_by'][len(want[k]):]) and set(later.get(k,[]))<=set(d[k]['answered_by']) and bool(d[k]['answered_by']) and bool(d[k]['still_open'].strip()) and bool(d[k]['evidence_needed'])) if k in want else (d[k]['status']=='owner_pending' and d[k]['answered_by']==[]) for k in d); sys.exit(0 if ok else 1)"
    ],
    "timeout_seconds": 60
-  }
+  },
+  "narrowed": "MP-192, 24 Nov 2026: the owner's 5 Nov picks (MP-184) add OWN- ids after the 2 Nov POLICY ids, and OWN-14 moves FIN-OD-04 to partly answered. The check still requires the 2 Nov POLICY ids first and in order, each partly answered decision to keep what is still open and its evidence, FIN-OD-01 and 06 pending and empty, and eight decisions; it now also allows only OWN- ids after them."
  },
  {
   "id": "R2-p2",

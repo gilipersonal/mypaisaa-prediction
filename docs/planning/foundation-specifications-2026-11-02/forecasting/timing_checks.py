@@ -4,8 +4,10 @@ Run with python3 <this file> [--check daily|event|policy|selftest|all]. Explicit
 exceptions keep the refusal checks active with python -O. The daily clocks remain
 owner-pending; policy checks hold the owner's 3 Nov 2026 numbers and the SCI-D09
 answers (ETF lists one per market; ranking horizons per component, daily cadence and
-Nasdaq-100 tech, MP-177; SCI-D09 closed with its tie-break a stated proposal) against the records
-and run synthetic band, overlay, trial-count and slip cases whose readings are
+Nasdaq-100 tech, MP-177; SCI-D09 closed with its tie-break a stated proposal) and the
+owner's picks of 5 Nov 2026 (MP-184, recorded by MP-192: OWN-33 and ADM-09 on SCI-D03,
+OWN-10 on SCI-D06, OWN-27 on SCI-D07, OWN-26 on SCI-D08) against the records, and run
+synthetic band, overlay, trial-count and slip cases whose remaining readings are
 proposed (SCI-D03, SCI-D07, SCI-D10). The selftest mutates copies and proves the
 policy gate refuses each fault.
 """
@@ -150,6 +152,19 @@ OWNER = {
     "us_tech_membership": "the technology names in the Nasdaq-100",
     "us_tech_phrase": "US tech means the technology names in the Nasdaq-100",
     "d09_status": "closed_owner_answered_2026-11-03",
+    # Owner picks of 5 Nov 2026 (MP-184; answers.json), recorded by MP-192: pick id -> the open decisions it answers.
+    "picks_2026_11_05": {"OWN-33": ["SCI-D03"], "ADM-09": ["SCI-D03"], "OWN-10": ["SCI-D06"], "OWN-27": ["SCI-D07"],
+                         "OWN-26": ["SCI-D08"]},
+    "own33_option": ("The model must score better on average than each comparator on the same forecasts. "
+                     "Rules are scored through the frozen mapping."),
+    "own27_option": ("A bad week scores strictly worse than the previous model on that week's matured pairs. "
+                     "Two must run together. At 6 and 12 months probation checks clean running only."),
+    # What each partly answered decision must still hold open (rule 4: partly answered stays partly answered).
+    "still_open_2026_11_05": {
+        "SCI-D07": ("minimum count", "safety triggers", "first promotion"),
+        "SCI-D08": ("cover and bar time", "GBP rate pinned", "new price type", "calendar of valuation days",
+                    "unavailable_with_reason"),
+    },
 }
 # Each number above is anchored to the owner's own words; whitespace is normalised so a
 # phrase split over a line break still matches.
@@ -358,8 +373,9 @@ def verify_ranking_answers(docs: dict, ranking: dict) -> int:
 def verify_open_questions_held(docs: dict) -> int:
     """Maker proposals that need an owner choice stay marked proposed and recorded as open questions."""
     trial = at(docs["protocol"], "live_trial")
-    require(at(trial, "rules_proper_score", "status") == "proposed_open_in_SCI-D03" and at(trial, "beat_meaning").startswith("proposed"),
-            "rules proper score presented as settled")
+    require(at(trial, "rules_proper_score", "status") == "proposed_open_in_SCI-D03", "rules proper score presented as settled")
+    require(at(trial, "beat_meaning").startswith("owner_selected_2026-11-05 (OWN-33") and OWNER["own33_option"] in at(trial, "beat_meaning"),
+            "beat meaning does not carry the owner's pick (OWN-33)")
     require(at(trial, "scored_week_by_horizon", "status") == "proposed_open_in_SCI-D03"
             and "SCI-D03" in at(trial, "long_horizon_calibration_check"),
             "scored week or long-horizon calibration presented as settled")
@@ -401,7 +417,50 @@ def verify_open_questions_held(docs: dict) -> int:
             "SCI-D09's superseded proposal is not kept under a dated note naming what it supersedes")
     for key in ("rules get a proper score", "scored week is for each horizon", "calibrated on what has matured"):
         require(key in at(choices["SCI-D03"], "still_open"), "SCI-D03 does not hold the open trial question: " + key)
-    return 10
+    return 11 + verify_picks_2026_11_05(docs, choices)
+
+
+# Every phrasing that presented a 5 Nov 2026 pick as still open (lessons 3 and 49), read in every live
+# record; superseded notes keep the old wording on purpose and are left out.
+STALE_PICK_PHRASINGS = (
+    re.compile(r"hurdle also appl[a-z]* to the trial", re.IGNORECASE),
+    re.compile(r"owner to confirm in SCI-D07", re.IGNORECASE),
+    re.compile(r"SCI-D0[78][^.;\"]{0,40}owner[ _]pending|owner[ _]pending[^.;\"]{0,40}SCI-D0[78]", re.IGNORECASE),
+    re.compile(r"exact scoring rule for a worse week stays open", re.IGNORECASE),
+)
+
+
+def verify_picks_2026_11_05(docs: dict, choices: dict) -> int:
+    """Owner picks of 5 Nov 2026 (MP-184), recorded by MP-192: each answer is held where it lands, and what it leaves stays open."""
+    answers = {at(a, "id"): a for a in at(docs["decisions"], "owner_answers_2026_11_05")}
+    for pick, decides in OWNER["picks_2026_11_05"].items():
+        require(pick in answers and at(answers[pick], "decides") == decides,
+                "owner answer of 5 Nov 2026 missing: " + pick)
+        require(('"' + at(answers[pick], "pick") + '"') in at(answers[pick], "record") and at(answers[pick], "received_on") == "2026-11-05",
+                "owner answer of 5 Nov 2026 does not quote the pick: " + pick)
+        for choice_id in decides:
+            require(pick in at(choices[choice_id], "answered_by"), "owner answer not recorded on " + choice_id + ": " + pick)
+    for choice_id, keys in OWNER["still_open_2026_11_05"].items():
+        choice = choices[choice_id]
+        require(at(choice, "status") == "partly_answered" and at(choice, "superseded_2026_11_05_mp192", "status_was") == "owner_pending",
+                choice_id + " does not hold its partly answered state")
+        for key in keys:
+            require(key in at(choice, "still_open"), choice_id + " does not hold what stays open: " + key)
+    slip = at(docs["protocol"], "probation_and_slip")
+    require(at(slip, "probation_reading").startswith("owner_selected_2026-11-05 (OWN-27") and OWNER["own27_option"] in at(slip, "probation_reading"),
+            "probation reading does not carry the owner's pick (OWN-27)")
+    require("SCI-D07" in at(slip, "bad_week") and "minimum count" in at(slip, "bad_week"), "bad week loses its open minimum count")
+    spec = " ".join(docs["spec"].split())
+    require(OWNER["own33_option"] in spec and OWNER["own27_option"] in spec, "owner's pick is not one phrase across spec and protocol")
+    live = {
+        "spec": spec,
+        "protocol": json.dumps(without_superseded(docs["protocol"])),
+        "open-decisions": json.dumps(without_superseded(docs["decisions"])),
+    }
+    for name, text in live.items():
+        for pattern in STALE_PICK_PHRASINGS:
+            require(not pattern.search(text), "a 5 Nov 2026 pick still presented as open in " + name + ": " + pattern.pattern)
+    return len(OWNER["picks_2026_11_05"]) + len(OWNER["still_open_2026_11_05"]) + 3 + len(live) * len(STALE_PICK_PHRASINGS)
 
 
 def trial_result(trial: dict, case: dict) -> str:
@@ -672,6 +731,44 @@ DOCUMENT_MUTATIONS = (
      "decision log no longer says"),
     ("rules proper score settled", lambda d: d["protocol"]["live_trial"]["rules_proper_score"].update(status="settled"),
      "rules proper score presented as settled"),
+    # MP-192: the owner's picks of 5 Nov 2026.
+    ("beat meaning back to proposed", lambda d: d["protocol"]["live_trial"].update(
+        beat_meaning=d["protocol"]["live_trial"]["superseded_2026_11_05_mp192"]["beat_meaning_was"]),
+     "beat meaning does not carry the owner's pick (OWN-33)"),
+    ("beat meaning loses the option text", lambda d: d["protocol"]["live_trial"].update(
+        beat_meaning=d["protocol"]["live_trial"]["beat_meaning"].replace("Rules are scored through the frozen mapping.", "")),
+     "beat meaning does not carry the owner's pick (OWN-33)"),
+    ("OWN-33 receipt dropped", lambda d: d["decisions"]["owner_answers_2026_11_05"].remove(
+        next(a for a in d["decisions"]["owner_answers_2026_11_05"] if a["id"] == "OWN-33")), "owner answer of 5 Nov 2026 missing: OWN-33"),
+    ("ADM-09 dropped from SCI-D03", lambda d: _choice(d, "SCI-D03")["answered_by"].remove("ADM-09"),
+     "owner answer not recorded on SCI-D03: ADM-09"),
+    ("OWN-26 receipt decides nothing", lambda d: next(a for a in d["decisions"]["owner_answers_2026_11_05"] if a["id"] == "OWN-26").update(
+        decides=[]), "owner answer of 5 Nov 2026 missing: OWN-26"),
+    ("OWN-10 receipt paraphrased", lambda d: next(a for a in d["decisions"]["owner_answers_2026_11_05"] if a["id"] == "OWN-10").update(
+        record="OWN-10: the owner wants sourced values."), "owner answer of 5 Nov 2026 does not quote the pick: OWN-10"),
+    ("SCI-D07 back to owner_pending", lambda d: _choice(d, "SCI-D07").update(status="owner_pending"),
+     "SCI-D07 does not hold its partly answered state"),
+    ("SCI-D07 closed", lambda d: _choice(d, "SCI-D07").update(status="closed_owner_answered_2026-11-05"),
+     "SCI-D07 does not hold its partly answered state"),
+    ("SCI-D07 loses the minimum count", lambda d: _choice(d, "SCI-D07").update(
+        still_open=_choice(d, "SCI-D07")["still_open"].replace("minimum count", "count")), "SCI-D07 does not hold what stays open: minimum count"),
+    ("SCI-D08 claims cover proven", lambda d: _choice(d, "SCI-D08").update(
+        still_open=_choice(d, "SCI-D08")["still_open"].replace("unavailable_with_reason", "available")),
+     "SCI-D08 does not hold what stays open: unavailable_with_reason"),
+    ("SCI-D08 loses the calendar question", lambda d: _choice(d, "SCI-D08").update(
+        still_open=_choice(d, "SCI-D08")["still_open"].replace("calendar of valuation days", "calendar")),
+     "SCI-D08 does not hold what stays open: calendar of valuation days"),
+    ("trial hurdle question back in SCI-D03", lambda d: _choice(d, "SCI-D03").update(
+        still_open=_choice(d, "SCI-D03")["still_open"] + " Also whether that hurdle also applies to the trial."),
+     "a 5 Nov 2026 pick still presented as open in open-decisions"),
+    ("probation reading back to owner to confirm", lambda d: d["protocol"]["probation_and_slip"].update(
+        long_horizons="rarely scoreable; owner to confirm in SCI-D07"), "a 5 Nov 2026 pick still presented as open in protocol"),
+    ("spec says the worse-week rule stays open", lambda d: d.update(spec=d["spec"] + " The exact scoring rule for a worse week stays open (SCI-D07)."),
+     "a 5 Nov 2026 pick still presented as open in spec"),
+    ("probation reading loses OWN-27", lambda d: d["protocol"]["probation_and_slip"].update(probation_reading="2 bad weeks running (proposed)"),
+     "probation reading does not carry the owner's pick (OWN-27)"),
+    ("spec loses OWN-33's option text", lambda d: d.update(spec=d["spec"].replace("Rules are scored through the frozen mapping.", "")),
+     "owner's pick is not one phrase across spec and protocol"),
     ("old SCI-D05 recommendation restored", lambda d: _choice(d, "SCI-D05").update(
         recommendation=_choice(d, "SCI-D05")["superseded_2026_11_03"]["recommendation_was"]), "SCI-D05 still recommends"),
     ("SCI-D10 dropped", lambda d: d["decisions"]["material_choices"].pop(), "not SCI-D01 to SCI-D10"),
@@ -716,6 +813,15 @@ GATE_MUTANTS = (
      "            pass\n", "selftest mutation accepted: membership_proposed key restored"),
     ("short horizons allowed into growth", '    for component in ("growth", "protection"):\n', '    for component in ("protection",):\n',
      "selftest mutation accepted: growth fed by a short horizon"),
+    ("OWN-33 beat-meaning check removed",
+     '            "beat meaning does not carry the owner\'s pick (OWN-33)")\n',
+     '            "beat meaning does not carry the owner\'s pick (OWN-33)") if False else None\n',
+     "selftest mutation accepted: beat meaning back to proposed"),
+    ("5 Nov picks check removed", "    return 11 + verify_picks_2026_11_05(docs, choices)\n", "    return 11\n",
+     "selftest mutation accepted: OWN-33 receipt dropped"),
+    ("5 Nov stale-phrasing sweep removed",
+     '            require(not pattern.search(text), "a 5 Nov 2026 pick still presented as open in " + name + ": " + pattern.pattern)\n',
+     "            pass\n", "selftest mutation accepted: trial hurdle question back in SCI-D03"),
 )
 
 

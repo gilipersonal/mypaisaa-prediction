@@ -1,7 +1,7 @@
 {
   "as_of": "2026-11-02",
   "consolidated_on": "2026-11-03",
-  "status": "FIN-OD-02/03/05/07/08 partly answered by the owner's 2 Nov 2026 policy answers; FIN-OD-01/04/06 owner_pending; no group fully approved",
+  "status": "FIN-OD-02/03/04/05/07/08 partly answered (the owner's 2 Nov 2026 policy answers; FIN-OD-03, 04 and 07 also by the owner's picks of 5 Nov 2026, MP-184); FIN-OD-01/06 owner_pending; no group fully approved",
   "owner_confirmed_choices": [
     "DynamoDB operational records and private encrypted S3 originals",
     "One controlled backend financial writer; agents draft and owner confirms exact payload",
@@ -53,7 +53,7 @@
       "id": "FIN-OD-03",
       "topic": "Trade/settlement and baseline rebase",
       "proposal": "Propose trade-date exposure with receivable/payable until supported settlement, nonadditive observations and an owner-confirmed backfill cutover generation.",
-      "consequence_if_unresolved": "Never guess settlement. Unsupported negative/margin positions and material reconciliation conflicts block affected metrics.",
+      "consequence_if_unresolved": "Never guess settlement. Unsupported negative/margin positions and material reconciliation conflicts block affected metrics. For an open cash difference, OWN-31's option read \"A small difference leaves the return showing and flagged. Above a limit you approve, the return is withheld.\" The limit is not set yet (FIN-OD-01).",
       "contract_refs": [
         "FIN-05",
         "FIN-13"
@@ -61,25 +61,60 @@
       "status": "partly_answered",
       "answered_by": [
         "POLICY-007",
-        "POLICY-012"
+        "POLICY-012",
+        "OWN-19",
+        "OWN-31"
       ],
-      "still_open": "Cutover, reconciliation and recovery proof, account edge cases, and the policy for unsupported negative or margin positions.",
+      "still_open": "Settled on 5 November 2026: OWN-19 (\"Whole history only\"), the option read \"A rebuild can be approved only when statements cover every unit. A part one stays held and visible.\"; OWN-31 (\"Withhold only if material\"), the option read \"A small difference leaves the return showing and flagged. Above a limit you approve, the return is withheld.\" The material-difference limit stays open with FIN-OD-01's reconciliation limits. Still open: cutover, reconciliation and recovery proof, account edge cases, and the policy for unsupported negative or margin positions.",
       "approved": false,
-      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification.",
+      "superseded_2026_11_05_mp192": {
+        "date": "2026-11-05",
+        "by": "OWN-19 and OWN-31: docs/planning/owner-question-pack-2026-11-05/answers.json (MP-184), recorded by MP-192",
+        "still_open_was": "Cutover, reconciliation and recovery proof, account edge cases, and the policy for unsupported negative or margin positions.",
+        "consequence_was": "Never guess settlement. Unsupported negative/margin positions and material reconciliation conflicts block affected metrics.",
+        "superseded": [
+          "whether a rebuild may go ahead when statements cover only part of a holding: only with every unit covered (OWN-19)",
+          "whether an open cash difference holds back the return: only above a limit the owner approves (OWN-31)"
+        ],
+        "kept": [
+          "cutover, reconciliation and recovery proof",
+          "account edge cases",
+          "unsupported negative or margin positions",
+          "the material-difference limit itself (FIN-OD-01)"
+        ]
+      }
     },
     {
       "id": "FIN-OD-04",
       "topic": "Numerical XIRR solver policy",
       "proposal": "Propose bounded (-0.999999,100] search, uniqueness certificate or abstention, rate tolerance 1e-10 and NPV tolerance max(1e-8 currency units,1e-12×sum absolute flows). Measure a finite resource budget before implementation.",
-      "consequence_if_unresolved": "No headline rate under ambiguity or nonconvergence. A grid cannot certify full-domain uniqueness.",
+      "consequence_if_unresolved": "No headline rate under ambiguity or nonconvergence. A grid cannot certify full-domain uniqueness. How a found but unproved rate is shown: OWN-14's option read \"The found rate appears in the note beside the status, never as the headline.\"",
       "contract_refs": [
         "FIN-14"
       ],
-      "status": "owner_pending",
-      "answered_by": [],
-      "still_open": "Unchanged: the XIRR domain, tolerances, a finite resource budget, and a uniqueness certificate or abstention.",
+      "status": "partly_answered",
+      "answered_by": [
+        "OWN-14"
+      ],
+      "still_open": "Settled on 5 November 2026, only how a found but unproved rate is shown: OWN-14 (\"Show it, not picked\"), the option read \"The found rate appears in the note beside the status, never as the headline.\" Still open: the solver policy, that is the XIRR domain, tolerances, a finite resource budget, and a uniqueness certificate or abstention.",
       "approved": false,
-      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification.",
+      "superseded_2026_11_05_mp192": {
+        "date": "2026-11-05",
+        "by": "OWN-14: docs/planning/owner-question-pack-2026-11-05/answers.json (MP-184), recorded by MP-192",
+        "status_was": "owner_pending",
+        "answered_by_was": [],
+        "still_open_was": "Unchanged: the XIRR domain, tolerances, a finite resource budget, and a uniqueness certificate or abstention.",
+        "superseded": [
+          "the owner_pending status: how a found but unproved rate is shown is now the owner's answer"
+        ],
+        "kept": [
+          "the whole solver policy, still proposed and open",
+          "no headline rate under ambiguity or nonconvergence"
+        ],
+        "consequence_was": "No headline rate under ambiguity or nonconvergence. A grid cannot certify full-domain uniqueness."
+      }
     },
     {
       "id": "FIN-OD-05",
@@ -117,17 +152,34 @@
       "id": "FIN-OD-07",
       "topic": "Ranking normalization, thresholds and ties",
       "proposal": "Keep owner weights 35/40/25. Propose all three components required and normalization to [0,100] only after evaluation. No action threshold is selected.",
-      "consequence_if_unresolved": "Do not classify an action until normalization, tie handling and thresholds have evidence and owner agreement.",
+      "consequence_if_unresolved": "Do not classify an action until normalization, tie handling and thresholds have evidence and owner agreement. OWN-09's option read \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"",
       "contract_refs": [
         "FIN-18"
       ],
       "status": "partly_answered",
       "answered_by": [
-        "POLICY-006"
+        "POLICY-006",
+        "OWN-09",
+        "OWN-15",
+        "OWN-17",
+        "OWN-20",
+        "OWN-32"
       ],
-      "still_open": "Validated normalization, comparability, tie handling and action thresholds.",
+      "still_open": "Settled on 5 November 2026: OWN-09 (\"Evidence first\"), the option read \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"; OWN-15 (\"Any time evidence shows\"), the option read \"You can save an entry against the evidence on screen whenever no action is ranked, and the entry records why none was.\"; OWN-17 (\"Both parts go\"), the option read \"Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the name is not ranked.\"; OWN-20 (\"No score, no action\"), the option read \"A holding not ranked shows no action until it can be ranked again, with the reason.\"; OWN-32 (\"Conflict at every long horizon\"), the option read \"Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there.\" Still open: validated normalisation, comparability, tie handling and the action threshold values.",
       "approved": false,
-      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification."
+      "evidence_needed": "Worked cases, targeted offline correctness/spike evidence and owner agreement; not approval by this specification.",
+      "superseded_2026_11_05_mp192": {
+        "date": "2026-11-05",
+        "by": "OWN-09, OWN-15, OWN-17, OWN-20 and OWN-32: docs/planning/owner-question-pack-2026-11-05/answers.json (MP-184), recorded by MP-192",
+        "still_open_was": "Validated normalization, comparability, tie handling and action thresholds.",
+        "consequence_was": "Do not classify an action until normalization, tie handling and thresholds have evidence and owner agreement.",
+        "superseded": [
+          "nothing in the still-open list: the picks settle when labels switch on, what a missing, split, abstained or conflicted horizon does, and that a decision may be recorded with no action ranked"
+        ],
+        "kept": [
+          "normalisation, comparability, tie handling and the threshold values, all still open"
+        ]
+      }
     },
     {
       "id": "FIN-OD-08",
@@ -213,6 +265,116 @@
       "decides": [
         "FIN-OD-03"
       ]
+    }
+  ],
+  "owner_answers_2026_11_05": [
+    {
+      "id": "OWN-14",
+      "pick": "Show it, not picked",
+      "record": "OWN-14, 5 November 2026 (MP-184): the owner picked \"Show it, not picked\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The found rate appears in the note beside the status, never as the headline.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-04"
+      ]
+    },
+    {
+      "id": "OWN-19",
+      "pick": "Whole history only",
+      "record": "OWN-19, 5 November 2026 (MP-184): the owner picked \"Whole history only\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A rebuild can be approved only when statements cover every unit. A part one stays held and visible.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-03"
+      ]
+    },
+    {
+      "id": "OWN-31",
+      "pick": "Withhold only if material",
+      "record": "OWN-31, 5 November 2026 (MP-184): the owner picked \"Withhold only if material\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A small difference leaves the return showing and flagged. Above a limit you approve, the return is withheld.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-03"
+      ],
+      "note": "The limit above which the return is withheld is not set; it goes with the reconciliation limits (FIN-OD-01)."
+    },
+    {
+      "id": "OWN-09",
+      "pick": "Evidence first",
+      "record": "OWN-09, 5 November 2026 (MP-184): the owner picked \"Evidence first\" (pressed on the page). The option read: \"No label appears until evaluation supports the thresholds and you approve a ranking policy version.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "OWN-15",
+      "pick": "Any time evidence shows",
+      "record": "OWN-15, 5 November 2026 (MP-184): the owner picked \"Any time evidence shows\" (pressed on the page). The option read: \"You can save an entry against the evidence on screen whenever no action is ranked, and the entry records why none was.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "OWN-17",
+      "pick": "Both parts go",
+      "record": "OWN-17, 5 November 2026 (MP-184): the owner picked \"Both parts go\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Any missing or split 3, 6 or 12-month forecast takes both growth and protection, so the name is not ranked.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "OWN-20",
+      "pick": "No score, no action",
+      "record": "OWN-20, 5 November 2026 (MP-184): the owner picked \"No score, no action\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A holding not ranked shows no action until it can be ranked again, with the reason.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "OWN-32",
+      "pick": "Conflict at every long horizon",
+      "record": "OWN-32, 5 November 2026 (MP-184): the owner picked \"Conflict at every long horizon\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Wherever the rules and the model point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked there.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [
+        "FIN-OD-07"
+      ]
+    },
+    {
+      "id": "OWN-18",
+      "pick": "Mask units too",
+      "record": "OWN-18, 5 November 2026 (MP-184): the owner picked \"Mask units too\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Hide amounts masks money and units, and percentages stay.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [],
+      "note": "Presentation of amounts (MP-84); recorded in specification.md, owner answers of 5 November 2026."
+    },
+    {
+      "id": "ADM-20",
+      "pick": "Code cancels, orphans yours",
+      "record": "ADM-20, 5 November 2026 (MP-184): the owner picked \"Code cancels, orphans yours\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Only code cancels a run. You record what happens to each orphan, as drawn.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [],
+      "note": "Orphaned objects (FIN-11 reconciliation); recorded in specification.md."
+    },
+    {
+      "id": "MP40-Q8",
+      "pick": "Factsheets you supply",
+      "record": "MP40-Q8, 5 November 2026 (MP-184): the owner picked \"Factsheets you supply\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\"",
+      "source": "docs/planning/owner-question-pack-2026-11-05/answers.json",
+      "received_on": "2026-11-05",
+      "decides": [],
+      "note": "Fund look-through source (FIN-18); recorded in specification.md. Factsheet detail and use rights stay unverified."
     }
   ]
 }

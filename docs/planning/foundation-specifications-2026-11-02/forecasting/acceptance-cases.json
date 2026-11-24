@@ -193,7 +193,17 @@
         {
           "given": "Current rules with no qualified rules-to-probability mapping for a task",
           "when": "Compare a candidate with the rules",
-          "then": "The rules leg is not scoreable and the trial cannot complete for that task until the owner decides (SCI-D03); the rules never receive a fabricated probability"
+          "then": "For that task the strongest simple baseline stands in for the rules, with the owner's yes each time (ADM-09, 5 Nov 2026); without that yes the trial cannot complete for that task; the rules never receive a fabricated probability",
+          "superseded_2026_11_05_mp192": {
+            "then": "The rules leg is not scoreable and the trial cannot complete for that task until the owner decides (SCI-D03); the rules never receive a fabricated probability"
+          }
+        }
+      ],
+      "owner_decision_additions_2026_11_05": [
+        {
+          "given": "A short-horizon candidate whose matured trial scores are lower on average than both the base rate and the current rules (through the frozen mapping), by less than 2%",
+          "when": "Judge whether it beats them",
+          "then": "It beats them: a lower average score than each comparator on the same forecasts is enough (OWN-33, \"A lower score is enough\"); no 2% hurdle or 95% interval applies in the trial; the 2% hurdle applies only to the earlier walk-forward test"
         }
       ]
     },
@@ -238,7 +248,19 @@
           "then": "Reject the weight change (FIN-OD-07 is outside self-correction); the second step takes the cumulative move to 8 points within 7 days, so it waits for the owner (reading proposed, SCI-D10)"
         }
       ],
-      "offline_specification_proof": "python3 forecasting/timing_checks.py --check policy; synthetic slip, band and trial cases, not runtime evidence"
+      "offline_specification_proof": "python3 forecasting/timing_checks.py --check policy; synthetic slip, band and trial cases, not runtime evidence",
+      "owner_decision_additions_2026_11_05": [
+        {
+          "given": "A model in its first 4 live weeks, with its previous approved model in shadow on the same origins",
+          "when": "It scores strictly worse on week 1's matured pairs, better on week 2's, then worse on week 3's",
+          "then": "No revert: the 2 bad weeks must run together (OWN-27, \"As proposed\")"
+        },
+        {
+          "given": "A model paused by a safety trigger",
+          "when": "The owner is asked to restart it",
+          "then": "Code shows why it paused, that the cause is gone and that the model passes today's checks; the owner's yes renews its approval for that scope only (OWN-28) and must start applying within 15 minutes, or the owner approves again (OWN-21)"
+        }
+      ]
     },
     {
       "id": "SCI-08-AC01",

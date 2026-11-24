@@ -220,5 +220,16 @@
       "check_cash_timing.py": "623ef41fe910c88775267eae177000fea631bcd2ae57cd874f9cc52c874c77ba",
       "validate_specifications.py": "d5197f00157b6f1a3f13282ab04410460a22056fc4ce2ed5332c00d079ca0386"
     }
+  },
+  "mp192_owner_picks": {
+    "date": "2026-11-24",
+    "issue": "MP-192",
+    "status": "maker_checked_not_independently_reviewed",
+    "note": "MP-192: owner picks of 5 Nov 2026 (MP-184) recorded in specification.md, model.json owner_cost_decisions (claude_paid_at_launch OWN-04, anthropic_admin_key MP40-Q5, cost_freshness_rules MP40-Q6 with the owner's 'Yes, add them' for daily forecasts in the GBP15 window, daily_forecasts_past_pause OWN-25, reduce_line_order OWN-36, budget_raise_proposals OWN-35), acceptance.json (COST-AT-05, 09, 14, 18) and reservation-contract.json. No figure, line or variant changed; scenario ids and checker-read keys kept. Paid Claude is approved for launch but not turned on; admissible credit stays zero; the admin key's price and availability stay unverified. The helper hashes above are unchanged.",
+    "commands": [
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/validate_specifications.py",
+      "python3 docs/planning/foundation-specifications-2026-11-02/costs/check_cash_timing.py --self-test",
+      "uv run --no-project --with jsonschema==4.25.1 python docs/planning/foundation-specifications-2026-11-02/validate.py"
+    ]
   }
 }
