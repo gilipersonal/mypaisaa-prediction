@@ -1,5 +1,8 @@
 # Mypaisaa Prediction — Claude handover
 
+> **Newer handover: [where MP stands on 24 November 2026](docs/handover/claude-2026-11-24/README.md) (MP-206).**
+> Start there. This page describes the planning stage of 2 November 2026 and is kept as history.
+
 **Prepared 2 November 2026 · Documentation/knowledge transfer · Unreviewed**
 
 This is the starting point for taking over MP from Codex. It describes the work,
