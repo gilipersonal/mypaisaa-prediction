@@ -5880,7 +5880,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const LATE = 'A late price is not a missed collection, so code re-runs nothing. The +40 retry, at 17:15, was the only automatic one and found no newer price, and a newer one arrives at the next check.';
   const pt = (st, t, s, x = '') => `<li class="${st}"${st === 'now' ? ' aria-current="step"' : ''}><span class="pt">${st === 'done' ? ic('check', 's14') : st === 'warn' ? ic('alert', 's14') : ''}</span><div style="min-width:0"><b>${st === 'done' ? '<span class="sr">Done: </span>' : st === 'now' ? '<span class="sr">Now: </span>' : ''}${t}</b><p>${s}</p>${x ? `<div class="x">${x}</div>` : ''}</div></li>`;
   const tl = (name, rows) => `<ol class="aincidents-tl" aria-label="${name}">${rows.join('')}</ol>`;
-    const close14 = ctx => `${phone(ctx) ? '' : field(ctx)}${act('A75', 'Resolve this incident', 'primary')}`;
+  const close14 = ctx => `${phone(ctx) ? '' : field(ctx)}${act('A75', 'Resolve this incident', 'primary')}`;
   const CLOSE14 = 'A switch does not close this. An incident closes only with a recorded resolution, and only you record it.';
   const again12 = (ctx, inner) => card(`${head('HSBC price late', ST.again)}${kv([['Incident', 'inc_0012'], ['Class', 'Data quality']])}${note('You opened this as Acknowledged, and the fault came back. Your view stays at that version, and nothing was applied.')}${inner}`);
   function timeline(ctx, i = inc(ctx)) {
