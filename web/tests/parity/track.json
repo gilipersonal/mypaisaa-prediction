@@ -5,5 +5,33 @@
     "option": "a",
     "screen": "a-record",
     "path": "/record/track"
+  },
+  {
+    "name": "track-slice",
+    "journey": "track",
+    "option": "a",
+    "screen": "a-slice",
+    "path": "/record/track/slice"
+  },
+  {
+    "name": "track-holding",
+    "journey": "track",
+    "option": "a",
+    "screen": "a-holding",
+    "path": "/record/track/holding"
+  },
+  {
+    "name": "track-model",
+    "journey": "track",
+    "option": "a",
+    "screen": "a-model",
+    "path": "/record/track/model"
+  },
+  {
+    "name": "track-regime",
+    "journey": "track",
+    "option": "a",
+    "screen": "a-regime",
+    "path": "/record/track/regime"
   }
 ]
