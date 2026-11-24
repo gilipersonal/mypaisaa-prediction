@@ -70,7 +70,7 @@
      "Each captured item stores its publisher and URL or filing id, its content SHA-256, its published, updated, retrieved and ingested times, a conservative known-at time, the rights record it was collected under and its entity-link confidence.",
      "An item seen again with the same content hash is deduplicated to the existing record; an updated version is a new revision linked to the first, never an overwrite.",
      "Every item lands in quarantine with no tools attached; only schema-validated fields with provenance leave quarantine as an evidence bundle that triage and event analysis may read.",
-     "Calendar items cover all seven first-wave event kinds (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections) for the US, UK and India, each dated by when it became known.",
+     "All seven first-wave event kinds (rate surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections) for the US, UK and India stay the target for calendar items, each dated by when it became known. A kind that no checked source covers shows as no source yet and informs no forecast until one qualifies. MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\"",
      "Intake starts from public official pages such as central banks, statistics offices, exchanges and regulators, and each source is checked before use. MP40-Q10, 5 November 2026 (MP-184): the owner picked \"Official sources first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Start from public official pages such as central banks, statistics offices, exchanges and regulators. Each is then checked before use.\" Their coverage, use rights and any fee are unverified until each check is done."
     ],
     "negative": [
@@ -117,7 +117,8 @@
     "duplicate",
     "rights_blocked",
     "stale (source not refreshed within its expected window)",
-    "withdrawn"
+    "withdrawn",
+    "no source yet (an event kind no checked source covers)"
    ],
    "depends_on": {
     "stories": [
@@ -137,7 +138,8 @@
    "evidence": [
     "pytest cases for duplicate, revision, missing known-at, rights_blocked and withdrawn items",
     "Poisoned PDF, HTML and calendar fixtures that try to instruct a route, ending with no tool call, disclosure or record change",
-    "A provenance audit of one synthetic day's intake listing every item's citation, hash and times"
+    "A provenance audit of one synthetic day's intake listing every item's citation, hash and times",
+    "A case where one event kind has no checked source: it shows as no source yet and no forecast reads it"
    ]
   },
   {

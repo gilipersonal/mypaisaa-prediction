@@ -182,19 +182,20 @@
    "phase": "PH-07",
    "epic": "MP-8",
    "title": "Free seven-day local builds and the Apple test matrix",
-   "story": "As the owner, I want the iPhone and iPad app built and installed from my Mac without the paid Apple Developer Program, and tested on simulators and my own devices, so that the app works now at no cost.",
+   "story": "As the owner, I want the iPhone and iPad app built and installed from my Mac without the paid Apple Developer Program, its build and unit tests checked on every pull request, and tested on simulators and my own devices, so that the app works now at no cost.",
    "from_drafts": [
     "L7-S01"
    ],
    "acceptance": {
     "positive": [
      "The app is signed with a free personal team and installed on the owner's iPhone and iPad from the owner's Mac; each install records its expiry seven days later.",
-     "XCTest and the Maestro CLI run on simulators on the owner's Mac against the owner's own iPhone and iPad at the iOS they run, including a narrow iPad window that uses the phone layout. MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner; the Maestro CLI journeys run on simulators on the owner's Mac, and real-device builds are made there. MP203-11, 24 November 2026 (MP-203): the owner picked \"Build and unit tests in CI\" (pressed on the page). The option read: \"Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.\" Tests cover the owner's own iPhone and iPad at the iOS they run, including a narrow iPad window that uses the phone layout. MP40-Q12a, 5 November 2026 (MP-184): the owner picked \"Your own devices only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "Sign-in in the app uses Cognito with Google through the system browser with PKCE, and tokens are kept in the Keychain."
     ],
     "negative": [
      "No TestFlight, Apple push, Sign in with Apple or on-device passkeys is used until the Developer Program is bought (owner, 4 November 2026: \"The purchase (Recommended)\", MP-179). The bar covers the Apple app only; a phone's browser may enrol a passkey once a test proves it works. ADM-04, 5 November 2026 (MP-184): the owner picked \"Allowed in the browser\" (pressed on the page).",
-     "No build is distributed to anyone else, and CI does not sign Apple builds."
+     "No build is distributed to anyone else, and CI does not sign Apple builds.",
+     "A pull request whose Apple build or XCTest run fails on the macOS runner does not pass its checks."
     ],
     "recovery": [
      "The app warns before its build expires; after expiry, reinstalling from the owner's Mac restores it, with the server as the source of truth."
@@ -237,7 +238,7 @@
    "blocked_on_owner": false,
    "evidence": [
     "A build and install walkthrough on the owner's Mac",
-    "Simulator runs of XCTest and Maestro flows",
+    "A pull request run that builds the Apple app and runs XCTest on a macOS runner, and Maestro simulator runs on the owner's Mac",
     "An expiry-warning and reinstall case"
    ]
   },
@@ -259,7 +260,7 @@
     ],
     "negative": [
      "No financial write (an approval, an import, a settings change or a confirm) is accepted offline; it is refused with its reason.",
-     "A cached record is never shown as fresh. A revoked device's copy clears on its next connection, and the app also stops showing its copy after a set time without reaching the server; the owner chooses that time, and it is not set yet. OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\" How well an offline app can enforce this is unverified."
+     "A cached record is never shown as fresh. A revoked device's copy clears on its next connection, and the app also stops showing its copy after a set time without reaching the server; the owner chooses that time, and it is not set yet. OWN-37, 5 November 2026 (MP-184): the owner picked \"Saved copy also times out\" (pressed on the page). The option read: \"The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time.\" A browser's copy follows the same rule and the same time-out as the Apple app: it clears on its next connection and stops showing after the same time, one value the owner still sets. MP203-01, 24 November 2026 (MP-203): the owner picked \"Same rule, same time\" (pressed on the page). The option read: \"The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set.\" How well an offline app or a browser can enforce this is unverified."
     ],
     "recovery": [
      "On reconnect, stale records are replaced; a corrupt cache is discarded and rebuilt from the server."
@@ -301,7 +302,7 @@
    },
    "blocked_on_owner": false,
    "evidence": [
-    "Offline, reconnect and revoked-session tests",
+    "Offline, reconnect and revoked-session tests for the Apple app and a browser, with one time-out value for both",
     "An offline write-refusal case for every write journey",
     "An inspection showing the cache is encrypted at rest"
    ]
@@ -444,7 +445,7 @@
      "The PWA asks for notification permission only after an owner action and stores one push subscription per device, owner and environment.",
      "Notices leave from a durable outbox with a dedup key; each attempt and the push service's acceptance are recorded as delivery attempts, not as read.",
      "Payloads are neutral; a tap opens a deep link that re-reads durable state after sign-in.",
-     "Quiet hours (22:00 to 07:00 Europe/London) apply, and held notices arrive with the 07:30 brief on weekdays; with no brief on Saturday or Sunday, held alerts land in the in-app inbox at 07:30 (proposed). MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "Quiet hours (22:00 to 07:00 Europe/London) apply, and only a critical fault on the named list in PH06-S12 and PH08-S05 pushes during them; no investment alert does (MP203-02 and MP203-03, recorded in PH06-S12). Held notices arrive with the 07:30 brief on weekdays; with no brief on Saturday or Sunday, held alerts land in the in-app inbox at 07:30 (proposed). MP40-Q11b, 5 November 2026 (MP-184): the owner picked \"Weekdays only\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
      "Web Push support on the owner's iPhone and iPad (as a home-screen web app) and browsers is verified before it is relied on."
     ],
     "negative": [
@@ -584,7 +585,7 @@
    "phase": "PH-07",
    "epic": "MP-8",
    "title": "Native capability decision table: launch or later, with nothing dropped silently",
-   "story": "As the owner, I want every inherited native capability listed with my launch or later choice, so that nothing is lost quietly because it was hard or needs the paid Apple program.",
+   "story": "As the owner, I want every inherited native capability listed with my launch or later choice, and the two I chose for launch built, so that nothing is lost quietly because it was hard or needs the paid Apple program.",
    "from_drafts": [
     "L7-S04"
    ],
@@ -592,14 +593,18 @@
     "positive": [
      "The table lists widgets, share-sheet statement intake, Spotlight search and deep links, Siri and App Intents, Live Activities for long jobs, Apple push, Sign in with Apple, on-device passkeys and TestFlight, each with its privacy, availability, cost and fallback.",
      "Capabilities that need the paid Apple Developer Program are marked later until the Developer Program is bought (MP-179), with today's fallback (Web Push, Google sign-in, local builds).",
-     "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words. The owner's choice is recorded: widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later. MP40-Q13, 5 November 2026 (MP-184): the owner picked \"Widgets and share first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\" Whether widgets and sharing work on free seven-day builds is unverified; if either does not, it moves to later (proposed)."
+     "Each row becomes launch-required or later only by the owner's explicit choice, recorded with its date and words. The owner's choice is recorded: widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later. MP40-Q13, 5 November 2026 (MP-184): the owner picked \"Widgets and share first\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later.\" Whether widgets and sharing work on free seven-day builds is unverified; the option's cost note said that if either does not, it moves to later.",
+     "This story also builds the two capabilities picked for launch: widgets and share-sheet statement intake, each with its privacy kept by PH07-S05 (MP-166). MP203-07, 24 November 2026 (MP-203): the owner picked \"Widen three existing stories\" (pressed on the page). The option read: \"MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds.\" Either moves to later if it does not work on free seven-day builds, as the 5 November option's cost note said.",
+     "A statement shared to MP from another app enters the validated upload intake (PH01-S06) as a new source, for the owner's review like any upload, and a widget shows the age of its data and opens the app by a deep link (proposed)."
     ],
     "negative": [
      "No capability is removed without an owner decision record.",
-     "Android product screens stay outside the agreed release scope."
+     "Android product screens stay outside the agreed release scope.",
+     "A widget shows no holdings unless the owner turns them on, and a shared statement is never parsed, approved or posted by sharing alone (proposed)."
     ],
     "recovery": [
-     "A changed owner choice creates a new table version; the previous version is kept."
+     "A changed owner choice creates a new table version; the previous version is kept.",
+     "A share that fails or is cancelled imports nothing and says so, and a widget that cannot reach fresh data shows its age, never a fresh-looking figure (proposed)."
     ]
    },
    "contracts": [
@@ -610,18 +615,32 @@
     {
      "name": "NativeBridge",
      "role": "reads"
+    },
+    {
+     "name": "ClientState",
+     "role": "reads"
+    },
+    {
+     "name": "DeepLink",
+     "role": "reads"
     }
    ],
-   "authority": "The maker proposes; only the owner classifies a capability. No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
+   "authority": "The maker proposes; only the owner classifies a capability. Code builds the widgets and the share intake; a shared statement is imported only through the validated upload intake and the owner's review (proposed). No paid Apple Developer Program for now (owner, 3 November 2026): free 7-day local builds, Web Push for notifications, and no TestFlight, Apple push or Sign in with Apple until the Developer Program is bought (MP-179).",
    "states": [
     "proposed",
     "owner_launch",
     "owner_later",
     "waits_for_developer_program",
-    "superseded"
+    "superseded",
+    "built_for_launch",
+    "moved_to_later (does not work on free builds)"
    ],
    "depends_on": {
-    "stories": [],
+    "stories": [
+     "PH07-S03",
+     "PH07-S05",
+     "PH01-S06"
+    ],
     "gaps": [
      "PL-14"
     ],
@@ -631,7 +650,9 @@
    "blocked_on_owner": false,
    "evidence": [
     "The capability decision table with the owner's recorded choices",
-    "Platform fallback and privacy examples for each capability"
+    "Platform fallback and privacy examples for each capability",
+    "A widget and a share-sheet intake case on a free seven-day build, each passing PH07-S05's privacy matrix",
+    "A cancelled and a failed share that import nothing"
    ]
   }
  ]

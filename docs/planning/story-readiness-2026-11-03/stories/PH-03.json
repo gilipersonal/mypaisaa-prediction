@@ -1035,7 +1035,7 @@
    "phase": "PH-03",
    "epic": "MP-5",
    "title": "Exposure, overlap, concentration and covariance facts",
-   "story": "As the owner, I want my exposure by issuer, sector, country and currency, fund overlap and concentration measured only from dated evidence, so that I see real concentration risk and what is still unknown.",
+   "story": "As the owner, I want my exposure by issuer, sector, country and currency, fund overlap and concentration measured only from dated evidence, with the fund factsheets I add read into the holdings they list, so that I see real concentration risk and what is still unknown.",
    "from_drafts": [
     "L3-S04"
    ],
@@ -1043,16 +1043,19 @@
     "positive": [
      "Exposure weights use common-cutoff GBP values over complete positive value; look-through issuer exposure adds dated fund holdings without counting the wrapper twice, with cycle detection, a depth limit and a residual (FIN-18).",
      "Fund overlap, top issuer, sector, country and currency weights and HHI are reported with scope, mapping versions and residual; HHI over known holdings only is labelled partial (FIN-AC-27).",
-     "Covariance uses synchronised GBP total returns over a 126-session window with at least 100 common observations, plus a 252-session sensitivity, once FIN-OD-06 is approved."
+     "Covariance uses synchronised GBP total returns over a 126-session window with at least 100 common observations, plus a 252-session sensitivity, once FIN-OD-06 is approved.",
+     "This story also builds the fund factsheet reader: dated factsheets the owner adds through the import route are read by deterministic code into the holdings they list, each with its page reference, and what a factsheet leaves unlisted stays unknown, never zero. MP203-07, 24 November 2026 (MP-203): the owner picked \"Widen three existing stories\" (pressed on the page). The option read: \"MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds.\""
     ],
     "negative": [
      "Stale or missing fund holdings are labelled provisional proxy or missing, never zero exposure. Look-through holdings come from dated fund factsheets the owner adds through the import route, and MP shows the shares they list plus what is left unknown. MP40-Q8, 5 November 2026 (MP-184): the owner picked \"Factsheets you supply\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"You add dated fund factsheets through the import route, and MP shows the shares they list plus what is left unknown.\" Factsheet detail and use rights are unverified and no accepted source scope covers them today (DATA-02), so look-through stays missing until a factsheet is imported under an accepted scope (proposed).",
      "No zero return is invented for an open but missing day, and an incomplete or unstable covariance matrix withholds volatility and correlation claims.",
-     "Scenario facts use only dated evidence."
+     "Scenario facts use only dated evidence.",
+     "The reader never infers a holding, weight or date the factsheet does not print, and text inside a factsheet is data only; it changes no route, tool or record (proposed)."
     ],
     "recovery": [
      "A newer holdings report recomputes exposure as a new version tied to the report's effective date.",
-     "A failed covariance run keeps the last valid result visible with its date and the reason it was not refreshed."
+     "A failed covariance run keeps the last valid result visible with its date and the reason it was not refreshed.",
+     "A factsheet the reader cannot read, or a layout it does not support, is reported with its reason and the fund's look-through stays missing; a newer dated factsheet creates a new holdings version and keeps the old one (proposed)."
     ]
    },
    "contracts": [
@@ -1071,21 +1074,27 @@
     {
      "name": "EvidenceRef",
      "role": "reads"
+    },
+    {
+     "name": "SourceReceipt",
+     "role": "reads"
     }
    ],
-   "authority": "Deterministic code computes the facts. Claude may explain them, never compute them. Nobody edits a stored snapshot.",
+   "authority": "Deterministic code reads factsheets into the holdings they list and computes the facts. Claude may explain them, never compute them. Nobody edits a stored snapshot.",
    "states": [
     "complete",
     "partial (known holdings only)",
     "provisional proxy",
     "missing exposure",
     "stale holdings report",
-    "withheld (too few common observations)"
+    "withheld (too few common observations)",
+    "factsheet unreadable (look-through missing)"
    ],
    "depends_on": {
     "stories": [
      "PH03-S06",
-     "PH03-S11"
+     "PH03-S11",
+     "PH01-S06"
     ],
     "gaps": [
      "FC-11"
@@ -1093,14 +1102,13 @@
     "owner_questions": [
      "FIN-OD-06"
     ],
-    "external": [
-     "PH-01: dated fund factsheets the owner adds through the import route, read into dated fund holdings with rights (MP40-Q8)"
-    ]
+    "external": []
    },
    "blocked_on_owner": true,
    "evidence": [
     "FIN-AC-27 passes as an executable test with FIN-EX-14.",
-    "A covariance known-answer case matches an independent calculation; a known-only HHI case is labelled partial."
+    "A covariance known-answer case matches an independent calculation; a known-only HHI case is labelled partial.",
+    "A factsheet reader case on synthetic factsheets: listed holdings with page references, the unlisted part shown as unknown, and an unreadable factsheet leaving look-through missing."
    ]
   }
  ]

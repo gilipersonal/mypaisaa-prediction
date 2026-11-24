@@ -454,16 +454,17 @@
     "positive": [
      "R0 baselines are zero return, trailing event rate, constant base rate and historical empirical and block-path distributions over 252 and 756 eligible observations, with a seeded, reproducible bootstrap (SCI-04).",
      "Baselines run on the same eligible dates as every candidate and are the mandatory comparators.",
-     "The rules-to-probability mapping (R0-RULEMAP) is fitted on the pre-trial calibration block and qualified per rules version; without a qualified mapping the rules comparison is reported as not scoreable. Rules are scored through the frozen mapping. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\")."
+     "The rules-to-probability mapping (R0-RULEMAP) is fitted on the pre-trial calibration block and qualified per rules version; without a qualified mapping the rules comparison is reported as not scoreable. Rules are scored through the frozen mapping. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). In the live trial a lower average score than each comparator on the same matured forecasts is enough: there is no 2% hurdle and no 95% interval, and both stay in the walk-forward test only. MP203-06, 24 November 2026 (MP-203): the owner picked \"Confirm: no hurdle, no interval\" (pressed on the page). The option read: \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\""
     ],
     "negative": [
      "A historical empirical forecast is never called calibrated without evidence.",
      "Window choices count as tried configurations, and no window is chosen after viewing results.",
-     "A baseline lacking history gives insufficient_history rather than a shortened window."
+     "A baseline lacking history gives insufficient_history rather than a shortened window.",
+     "A range task's promotion screen never omits the baseline that stood in for the rules."
     ],
     "recovery": [
      "A rerun with the same seed and manifest reproduces identical outputs; a mismatch fails the run.",
-     "A failed mapping qualification leaves the rules unscored; for that task, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\""
+     "A failed mapping qualification on an event task leaves the rules unscored; for that task, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"For that task, the strongest simple baseline stands in for the rules, with your yes each time.\" For range tasks, scored by pinball loss, the owner approves once, as a standing rule, that the strongest simple range baseline stands in for the rules; each promotion screen names it, and the owner still approves every promotion. MP203-05, 24 November 2026 (MP-203): the owner picked \"Once, as a standing rule\" (pressed on the page). The option read: \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\""
     ]
    },
    "contracts": [
@@ -488,13 +489,14 @@
      "role": "writes"
     }
    ],
-   "authority": "Code computes baselines and fits the mapping inside its calibration block. When no mapping qualifies, the owner gives a yes each time the strongest simple baseline stands in for the rules. No agent can change a baseline.",
+   "authority": "Code computes baselines and fits the mapping inside its calibration block. When an event task's mapping does not qualify, the owner gives a yes each time the strongest simple baseline stands in for the rules. For range tasks the owner's one standing approval lets the strongest simple range baseline stand in; each promotion screen names it, and the owner still approves every promotion. No agent can change a baseline.",
    "states": [
     "eligible baseline",
     "insufficient_history",
     "mapping not qualified",
     "stale input",
-    "reproducibility failed"
+    "reproducibility failed",
+    "range baseline standing in (standing approval)"
    ],
    "depends_on": {
     "stories": [
@@ -513,7 +515,8 @@
    "blocked_on_owner": true,
    "evidence": [
     "A seeded replay report shows identical outputs across two runs.",
-    "Base-rate proper-score tests and SCI-06-AC01's baseline cases pass."
+    "Base-rate proper-score tests and SCI-06-AC01's baseline cases pass.",
+    "A range-task promotion case that names the stand-in baseline under the standing approval, and an event-task case that asks the owner's yes."
    ]
   },
   {
@@ -891,7 +894,7 @@
    ],
    "acceptance": {
     "positive": [
-     "The first wave covers all seven kinds for the US, UK and India; each event is dated by when it became known and its source's rights are checked (SCI-OA-01).",
+     "All seven kinds for the US, UK and India stay the first wave's target; each event is dated by when it became known and its source's rights are checked (SCI-OA-01). A kind that no checked source covers shows as no source yet and informs no forecast until one qualifies. MP203-09, 24 November 2026 (MP-203): the owner picked \"All seven, gaps shown\" (pressed on the page). The option read: \"All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies.\"",
      "Scheduled kinds may use the prerelease mode only where the schedule was public by the cutoff; unscheduled kinds enter only in postrelease mode at a later daily origin.",
      "A surprise is measured against an expectation known by the cutoff, or else the announcement alone, labelled as such.",
      "Numerical code computes event counts, spread and intervals, accounting for overlapping outcomes and multiple testing; each kind declares its windows and comparators before its campaign."
@@ -1335,7 +1338,7 @@
    ],
    "acceptance": {
     "positive": [
-     "A candidate runs in shadow, writing immutable prospective predictions with no action authority, for 8 scored weeks, and must beat both the base rate and the current rules (SCI-OA-04). To beat a comparator, the model must score better on average than it on the same forecasts, with the rules scored through the frozen mapping; the option's cost note says the 2% hurdle applies only to the earlier walk-forward test. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" Where no mapping qualifies, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\").",
+     "A candidate runs in shadow, writing immutable prospective predictions with no action authority, for 8 scored weeks, and must beat both the base rate and the current rules (SCI-OA-04). To beat a comparator, the model must score better on average than it on the same forecasts, with the rules scored through the frozen mapping. OWN-33, 5 November 2026 (MP-184): the owner picked \"A lower score is enough\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"The model must score better on average than each comparator on the same forecasts. Rules are scored through the frozen mapping.\" There is no 2% hurdle and no 95% interval in the trial; both stay in the walk-forward test only. MP203-06, 24 November 2026 (MP-203): the owner picked \"Confirm: no hurdle, no interval\" (pressed on the page). The option read: \"A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.\" Where no mapping qualifies for an event task, the strongest simple baseline stands in for the rules, with the owner's yes each time. ADM-09, 5 November 2026 (MP-184): the owner picked \"Use the best simple baseline\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). For range tasks the owner approves once, as a standing rule, that the strongest simple range baseline stands in for the rules; each promotion screen names it, and the owner still approves every promotion. MP203-05, 24 November 2026 (MP-203): the owner picked \"Once, as a standing rule\" (pressed on the page). The option read: \"You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.\"",
      "A week that cannot be scored (a data outage, a holiday week) pauses the count; for 3, 6 and 12 months the 8 weeks check clean running and calibration on what has matured, and walk-forward history carries the accuracy evidence.",
      "The owner's approval binds the exact artefact, calibrator, tasks, scope, evidence hash, limits, expiry and previous safe version; states run candidate, offline_qualified, shadow, owner_approved, probation, active, with rejected, paused and rolled_back.",
      "A rules change takes the same trial against the current rules."
@@ -1416,7 +1419,7 @@
    ],
    "acceptance": {
     "positive": [
-     "A newly promoted model is on probation for 4 live weeks and reverts after 2 bad weeks; after that, 4 weeks running worse than the previous approved model on matured forecasts reverts it automatically (SCI-OA-05, SCI-OA-06). A bad week scores strictly worse than the previous model on that week's matured pairs. OWN-27, 5 November 2026 (MP-184): the owner picked \"As proposed\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" The minimum count, the exact safety triggers for advance approval, and the comparator and revert target at a first promotion stay open (SCI-D07).",
+     "A newly promoted model is on probation for 4 live weeks and reverts after 2 bad weeks; after that, 4 weeks running worse than the previous approved model on matured forecasts reverts it automatically (SCI-OA-05, SCI-OA-06). A bad week scores strictly worse than the previous model on that week's matured pairs. OWN-27, 5 November 2026 (MP-184): the owner picked \"As proposed\" (by the owner's words in chat, \"for the remaining pick up recommended options\"). The option read: \"A bad week scores strictly worse than the previous model on that week's matured pairs. Two must run together. At 6 and 12 months probation checks clean running only.\" A 3-month model on probation is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too; with no such pairs, it is checked for clean running only. MP203-04, 24 November 2026 (MP-203): the owner picked \"Pairs when there are any\" (pressed on the page). The option read: \"A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.\" The minimum count, the exact safety triggers for advance approval, and the comparator and revert target at a first promotion stay open (SCI-D07).",
      "A revert appends PromotionRecords (the slipping model rolled_back, the previous model active under its own unexpired approval) and notifies the owner.",
      "An advance-approved safety trigger pauses only the affected scope and notifies the owner; invalid outputs stay withheld (POLICY-003).",
      "The previous approved model keeps issuing shadow forecasts, so comparisons are paired."
@@ -1480,7 +1483,8 @@
    "blocked_on_owner": true,
    "evidence": [
     "timing_checks.py --check policy passes its slip_cases, including slip_previous_ineligible_pauses.",
-    "SCI-07-AC01's authorised-safety-pause case passes."
+    "SCI-07-AC01's authorised-safety-pause case passes.",
+    "A 3-month probation case judged on shadow-made pairs that mature in its 4 weeks, and one with no pairs judged on clean running only."
    ]
   },
   {
