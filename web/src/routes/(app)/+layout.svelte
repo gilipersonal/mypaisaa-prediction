@@ -10,6 +10,8 @@
 
   let { children } = $props();
   const current = $derived(placeOf(page.url.pathname));
+  // the Record place opens on the Journal (OWN-24), so its page is titled for what it shows (MP-205)
+  const title = $derived(current.id === 'record' ? 'Journal' : current.label);
   let main: HTMLElement | undefined = $state();
 
   // Nothing behind sign-in is drawn until a session is confirmed; without one the page goes to sign-in.
@@ -42,7 +44,7 @@
 </script>
 
 <svelte:head>
-  <title>{current.label} · MyPrediction</title>
+  <title>{title} · MyPrediction</title>
 </svelte:head>
 
 {#if auth.status === 'signed_in'}

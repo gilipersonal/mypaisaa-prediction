@@ -1,6 +1,6 @@
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { problems, SOURCES } from '../../scripts/prism-components.mjs';
 import { inspect, PLACES } from '../../scripts/check-build.mjs';
@@ -10,7 +10,7 @@ const css = readFileSync(new URL('../../src/lib/prism/components.css', import.me
 
 function cleanBuild(): string {
   const dir = mkdtempSync(join(tmpdir(), 'mp-build-'));
-  for (const p of PLACES as string[]) writeFileSync(join(dir, p), '<!doctype html><title>x</title>');
+  for (const p of PLACES as string[]) { mkdirSync(dirname(join(dir, p)), { recursive: true }); writeFileSync(join(dir, p), '<!doctype html><title>x</title>'); }
   writeFileSync(join(dir, 'manifest.webmanifest'), '{}');
   writeFileSync(join(dir, 'service-worker.js'), '');
   return dir;
