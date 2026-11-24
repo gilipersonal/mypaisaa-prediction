@@ -11,6 +11,9 @@
   import { PLACES, type Place } from '#lib/places.ts';
   import type { DataState } from '#lib/data/state.ts';
   let { current, state, counts }: { current: Place; state: DataState; counts: Record<string, number | undefined> } = $props();
+  // a count is heard with what it counts, after the visible words (WCAG 2.5.3): "Portfolio 7 holdings"
+  const NOUN: Record<string, string> = { portfolio: 'holdings', segments: 'segments' };
+  const named = (p: Place) => (counts[p.id] === undefined ? undefined : `${p.label} ${counts[p.id]} ${NOUN[p.id] ?? ''}`.trim());
 </script>
 
 <nav class="glass jside side-nav" style="border-radius:0" aria-label="Places">
@@ -18,8 +21,8 @@
   <ul class="side" style="flex:1">
     {#each PLACES as p (p.id)}
       <li style="display:contents">
-        <a class="si" class:on={p.id === current.id} href={p.path} style="text-decoration:none" aria-current={p.id === current.id ? 'page' : undefined}>
-          <Icon name={p.icon} size="s18" />{p.label}{#if counts[p.id] !== undefined}<span class="n">{counts[p.id]}</span>{/if}
+        <a class="si" class:on={p.id === current.id} href={p.path} style="text-decoration:none" aria-label={named(p)} aria-current={p.id === current.id ? 'page' : undefined}>
+          <Icon name={p.icon} size="s18" />{p.label}{#if counts[p.id] !== undefined}{' '}<span class="n">{counts[p.id]}</span>{/if}
         </a>
       </li>
     {/each}

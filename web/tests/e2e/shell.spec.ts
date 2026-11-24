@@ -21,7 +21,10 @@ test.describe('navigation', () => {
     if (wide(page)) {
       await expect(side).toBeVisible();
       await expect(tabs).toBeHidden();
-      await expect(side.getByRole('link')).toHaveText(['MyPrediction', ...PLACES.map(([, l]) => l)]);
+      // the design's counts sit beside Portfolio and Segments, and are heard with what they count
+      await expect(side.getByRole('link')).toHaveText(['MyPrediction', ...PLACES.map(([, l]) => (l === 'Portfolio' ? 'Portfolio 7' : l === 'Segments' ? 'Segments 8' : l))]);
+      await expect(side.getByRole('link', { name: 'Portfolio 7 holdings', exact: true })).toBeVisible();
+      await expect(side.getByRole('link', { name: 'Segments 8 segments', exact: true })).toBeVisible();
     } else {
       await expect(side).toBeHidden();
       await expect(tabs).toBeVisible();
@@ -34,12 +37,12 @@ test.describe('navigation', () => {
     const nav = page.getByRole('navigation', { name: wide(page) ? 'Places' : 'Tabs' });
     const targets = wide(page) ? PLACES.map(([p, l]) => [p, l, l] as const) : PLACES.filter(([, l]) => TABS.includes(l) || l === 'Track record').map(([p, l]) => [p, l, l === 'Track record' ? 'Record' : l] as const);
     for (const [path, heading, link] of targets) {
-      await nav.getByRole('link', { name: link, exact: true }).click();
+      await nav.getByRole('link', { name: new RegExp(`^${link}( \\d|$)`) }).click();
       await expect(page).toHaveURL(new RegExp(path === '/' ? '/$' : `${path}$`));
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(H1[path] ?? heading);
       await expect(page.locator('main')).toBeFocused();
       await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
-      await expect(nav.locator('[aria-current="page"]')).toHaveText(link);
+      await expect(nav.locator('[aria-current="page"]')).toHaveText(new RegExp(`^${link}( \\d+)?$`));
     }
   });
 
