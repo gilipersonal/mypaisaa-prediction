@@ -201,7 +201,7 @@ jobs:
   static-preview:
     name: Static preview
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -213,7 +213,9 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: site/package-lock.json
+          cache-dependency-path: |
+            site/package-lock.json
+            web/package-lock.json
       - name: Build and check the architecture atlas
         working-directory: site
         run: |
@@ -222,6 +224,26 @@ jobs:
           npm run check
       - name: Check preview document and local links
         run: python -m unittest discover -s tests -p test_site_preview.py -v
+      - name: Install the web app's locked packages
+        working-directory: web
+        run: npm ci
+      - name: Type-check the web app and hold its components to Prism
+        working-directory: web
+        run: npm run check
+      - name: Unit-test the web app and its gates
+        working-directory: web
+        run: npm test
+      - name: Build the web app and inspect the static output
+        working-directory: web
+        run: npm run build
+      - name: Install Playwright's Chromium
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+      - name: Browser tests with axe WCAG 2.2 checks, desktop and phone
+        working-directory: web
+        env:
+          CI: 'true'
+        run: npx playwright test
 
   workflow-lint:
     name: Workflow lint

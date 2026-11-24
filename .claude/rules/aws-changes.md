@@ -6,7 +6,7 @@ account, Region, domains, parameter paths or Terraform layout.
 ## Where MP stands (2 Nov 2026)
 
 - **Nothing is deployed.** No MP AWS account, resource, parameter or pipeline exists. The only code that runs is the
-  FastAPI starter, locally.
+  FastAPI starter and the web app's shell on sample data (MP-134), locally.
 - **IaC is plan-only in this repository** (`AGENTS.md`, Infrastructure rules). Never apply, deploy or make a paid-service
   call unless the owner explicitly asks in the prompt that is running.
 - **The IaC tool is Terraform, and only Terraform** (owner, 3 November 2026): every AWS change, from the first

@@ -39,9 +39,11 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 > **Status: planning.** The owner signed off the architecture baseline on 3 November 2026 (MP-20,
 > [sign-off pack](docs/planning/baseline-signoff-2026-11-03/README.md)): the twelve directions as refined, the order in
 > which records win, and the phase-to-story map. Its open items stay open. What runs today is a FastAPI starter with a
-> health route and a sample SSE stream, the synthetic test-data tools, and CI. Nothing is deployed, no live data is
-> fetched and no model is called. The order from here is fixed: the owner accepts the 136 ready Jira stories (MP-40),
-> then the whole UX is designed, then approved, and only then built.
+> health route and a sample SSE stream, the web app's shell on sample data (MP-134), the synthetic test-data tools, and
+> CI. Nothing is deployed, no live data is fetched and no model is called. On 24 November 2026 the owner started the
+> build in small steps before approving the whole UX ([decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md)):
+> the web shell, then the sign-in screens, then the screens that only show data, then a local read API, all on
+> synthetic data. Whole-product UX approval (MP-66) is still open.
 
 Mypaisaa Prediction (MP) helps one owner understand their holdings and judge where to add, hold, pause or trim. It
 keeps its own record of what you own, from CSV, Excel, PDF statements, screenshots or typed entries, and checks it
@@ -68,6 +70,7 @@ cannot change a number, publish a forecast, move money or trade.
 - [How it gets built](#how-it-gets-built)
 - [What is in the repository](#what-is-in-the-repository)
 - [Run the starter](#run-the-starter)
+- [Run the web app](#run-the-web-app)
 - [Checks](#checks)
 - [How work is done here](#how-work-is-done-here)
 
@@ -103,7 +106,7 @@ cannot change a number, publish a forecast, move money or trade.
 
 | Status | What |
 | --- | --- |
-| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, nine CI checks and CodeQL code scanning |
+| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), the web app's shell on sample data (`web/`, MP-134), synthetic market and document fixtures, nine CI checks and CodeQL code scanning |
 | **Approved architecture** | The baseline's structure, the twelve directions (ARC-01 to ARC-12) as refined by the owner's later answers, the precedence order and the phase-to-story map (owner sign-off, 3 November 2026) |
 | **Owner-selected** | The horizons, twelve policy answers from 2 November 2026, the answers of 2 and 3 November, and the question packs answered on 5 November (MP-184) and 24 November 2026 (MP-203), in the [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) |
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
@@ -137,7 +140,7 @@ Ten phases, each with a gate. These are planning layers, not dates.
 
 | Phase | Outcome | Gate |
 | --- | --- | --- |
-| PH-00 | Signed-off baseline and shared contracts | Architecture sign-off, then full UX approval, before any build |
+| PH-00 | Signed-off baseline and shared contracts | Architecture sign-off, then full UX approval, before any build; the owner started a small web build before it on 24 November 2026 (decision log) |
 | PH-01 | Your own portfolio and every import method | Reconciliation, approval and correction work end to end |
 | PH-02 | Identity, private runtime, audit and costs | Isolation, recovery, deletion and cost admission proven |
 | PH-03 | Market data, performance and portfolio risk | Listing rights, calendars and freshness checked |
@@ -159,7 +162,8 @@ Ten phases, each with a gate. These are planning layers, not dates.
 | [`scripts/`](scripts/) · [`tests/`](tests/) | Synthetic-data generators, review and PR tooling, and their tests. |
 | [`site/`](site/) | A static concept and architecture presentation. It is documentation, not the product app. |
 | [`review/`](review/) | Independent-review findings, the fixed-findings ledger and round state. |
-| `web/`, `mobile/`, `infra/` | Reserved for the product apps and infrastructure. Empty until the build is approved. |
+| [`web/`](web/) | The web app: a static SvelteKit PWA built on Prism (MP-134). Step 1 is the shell, its nine places and a sample total from a fake data source; nothing in it is the owner's data. |
+| `mobile/`, `infra/` | Reserved for the Apple app and infrastructure. Empty: the owner's 24 November permission covers web screens and a local API only. |
 
 ## Run the starter
 
@@ -180,6 +184,21 @@ uv run --project backend --frozen --extra dev uvicorn app.main:app --reload --ap
 Then open [`localhost:8000/api/v1/health`](http://localhost:8000/api/v1/health) or the sample stream at
 [`localhost:8000/api/v1/stream`](http://localhost:8000/api/v1/stream).
 
+## Run the web app
+
+Node 24. No keys are needed, and the app reads only sample data.
+
+```bash
+npm --prefix web ci
+```
+
+```bash
+npm --prefix web run dev
+```
+
+Then open [`localhost:5173`](http://localhost:5173). `npm --prefix web run check`, `test`, `build` and `e2e` run its
+type checks, unit tests, build inspection and browser tests; the browser tests use the installed Chrome.
+
 ## Checks
 
 ```bash
@@ -197,7 +216,8 @@ python3 scripts/review_checks.py --base origin/main --run
 The first runs the backend gates. The second checks these three documents' links, the mark's SVGs and
 reduced-motion fallbacks, and every GIF's frames and still image. The third picks and runs the checks for whatever
 a branch changed. CI runs nine checks on every pull request (Backend, Docs, Review tooling, Agent config, Plan sync, Confluence
-receipts, Static preview, Workflow lint, Jira traceability), and GitHub's CodeQL code scanning is a required check too. It deploys nothing.
+receipts, Static preview, Workflow lint, Jira traceability), and GitHub's CodeQL code scanning is a required check too. Static preview
+also builds and tests the web app. It deploys nothing.
 
 ## How work is done here
 
