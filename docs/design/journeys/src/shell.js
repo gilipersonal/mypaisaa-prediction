@@ -392,6 +392,8 @@ function show() {
   /* Screens draw one at a time, each after the press has answered, so a long journey never holds a frame. The walker draws them all. */
   const all = o.screens, run = sum.run = {};
   let at = window.__prismNoFit ? all.length : 0;
+  /* a walker measuring every frame at its true size has every frame rendered; a viewer's off-screen frames skip rendering (MP-180) */
+  root.classList.toggle('jall', !!window.__prismNoFit);
   if (at) { row.innerHTML = all.map(boardFor).join(''); settle(row); }
   const more = () => {
     if (sum.run !== run || at >= all.length) return;

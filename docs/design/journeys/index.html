@@ -975,7 +975,11 @@ footer p + p { margin-top: 6px; }
 .jwhy b { color: var(--ink); font-weight: 600; }
 .jrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 410px), 1fr)); gap: 20px 24px; margin-top: 20px; }
 .jrow.wide { grid-template-columns: minmax(0, 1fr); }
-.jrow .board { padding-bottom: 20px; content-visibility: visible; }
+/* Off-screen frames skip rendering, as Prism's own boards do, so a theme switch repaints only what is in view. Each board
+   carries its own contain-intrinsic-size, so the page keeps its length. Forcing every frame to render cost a 51 to 59 ms
+   frame on Chrome at 4x CPU (MP-180). */
+.jrow .board { padding-bottom: 20px; content-visibility: auto; }
+.jall .jrow .board { content-visibility: visible; }
 .jnote { margin: 8px 0 0; font-size: 13px; line-height: 18px; color: var(--ink-2); max-width: 60ch; }
 /* a screen scrolls inside its device, as the app would */
 .jscroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: none; z-index: 1; }
@@ -2489,6 +2493,8 @@ function show() {
   /* Screens draw one at a time, each after the press has answered, so a long journey never holds a frame. The walker draws them all. */
   const all = o.screens, run = sum.run = {};
   let at = window.__prismNoFit ? all.length : 0;
+  /* a walker measuring every frame at its true size has every frame rendered; a viewer's off-screen frames skip rendering (MP-180) */
+  root.classList.toggle('jall', !!window.__prismNoFit);
   if (at) { row.innerHTML = all.map(boardFor).join(''); settle(row); }
   const more = () => {
     if (sum.run !== run || at >= all.length) return;

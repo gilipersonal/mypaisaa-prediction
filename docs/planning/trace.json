@@ -1804,9 +1804,18 @@
    "key": "MP-180",
    "summary": "Check the designs on a real phone at 20% brightness and with assistive technology before UX approval",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/",
+    "docs/design/reviews/MP-180/",
+    "docs/design/reviews/MP-66/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/m180.mjs",
+    "scripts/design_keyboard_pass.mjs",
+    "scripts/review_checks.py",
+    "docs/planning/trace.json"
+   ]
   },
   {
    "key": "MP-181",
@@ -2277,7 +2286,7 @@
    "key": "MP-204",
    "summary": "Bring the design pages' Proposed labels and open lists into line with the owner's picks",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/",
