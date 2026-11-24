@@ -26,6 +26,7 @@ These choices fix broad directions. They do not certify rights, cost, compatibil
 - ML: capped SageMaker CPU training/evaluation, approved portable Lambda inference where compatible and stored daily forecasts.
 - Claude: separate task-route Lambda workers share a bounded client-SDK runner; Claude models run on Anthropic.
 - Money: £100 all-in aggregate for dev/prod AWS, data and Claude/evals; £70 operation and £30 reserve. Shared credits/quotas are not multiplied.
+- Releases: MP203-08, 24 November 2026 (MP-203): the owner picked "An environment replaces route A" (pressed on the page). The option read: "A merge to main starts the release, which waits in the production environment for your approval." It replaces route A, a release workflow the owner alone dispatched (chosen 3 November 2026), and refines ARC-11. Proposed: the prod role trusts only that environment, checked against GitHub's documentation before build.
 - Governance: architecture/contracts/phase/story agreement before UX; full admin/end-to-end UX and explicit permission before implementation.
 
 ## Remaining work

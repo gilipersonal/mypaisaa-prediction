@@ -4,7 +4,10 @@ The questions the owner's 5 November picks (MP-184) left open, found while MP-19
 those picks, and the two MP-199 left open. As of `4df40d6`, 24 November 2026. **All 11 are answered**, on 24 November
 2026, in `answers.json`: nine pressed on the page and two (MP203-02, MP203-03) picked on a question card in chat. Nine
 are the Recommended option; MP203-07 "Widen three existing stories" and MP203-08 "An environment replaces route A" are
-not. None is applied yet.
+not. **The answers are applied to the records** on 24 November 2026 (MP-203): the root documents, the AWS rule, the decision
+log, the gap register, the phase pages and baseline, the decision cards and the Confluence generator, each answer in one
+sentence form (the [decision log](../ma-reconciliation-2026-11-02/decision-log.md) lists every record). Publishing to
+Confluence, Jira and Lucid waits for the owner's yes for each.
 
 | File | What it holds |
 | --- | --- |
@@ -26,7 +29,7 @@ Twelve entries for the eleven questions given: MP-138's question holds two.
 | MP203-05 | For range forecasts, does the baseline stand in for the rules without a yes each time? (ADM-09) | Before build | MP-124, SCI-D03 |
 | MP203-06 | Does a model's live trial need no 2% lead and no 95% interval? (OWN-33) | Before build | MP-124, SCI-D03 |
 | MP203-07 | How should the three builds the picks added be carried in the stories? (MP40-Q2, Q8, Q13) | Before build | The baseline in PH-01, PH-03 and PH-07 |
-| MP203-08 | Does route A stand for production releases now the repository is public? (MP-199) | Before build | PL-11, the release workflow and the AWS rule's wording |
+| MP203-08 | Does route A stand for production releases now the repository is public? (MP-199) | Before build | PL-11, the release workflow and the AWS rule's wording; and one product screen: Admin's Incidents journey draws "Start the release ... in a workflow only you can start" (`docs/design/admin/src/journeys/incidents.js`), redrawn for the production environment |
 | MP203-09 | Must the first event wave cover all seven kinds? (MP40-Q10) | Later | MP-81 |
 | MP203-10 | Which days are valuation days for gold and silver? (OWN-26) | Later | SCI-D08 |
 | MP203-11 | Should Apple builds and simulator runs move to free macOS runners? (MP-199) | Later | TECH-STACK, Apple testing, the PH-07 CI |
@@ -37,7 +40,9 @@ personal launch", so the pick "Stay with no private network" answered PH-08 itse
 
 A question is before approval only if picking another option would make the drawn screens wrong. MP203-01's Recommended
 option is what Privacy already draws. MP203-04's Recommended option keeps Admin's drawn revert of a 3-month model on
-probation; the other two options would redraw it.
+probation; the other two options would redraw it. MP203-08 was put before build, and `pack.json` says it decides no product
+screen. That was wrong: Admin's Incidents journey draws "Start the release" "In GitHub, in a workflow only you can start"
+(`docs/design/admin/src/journeys/incidents.js` at `4cc8800`, lines 311 and 430), so the owner's pick redraws a drawn screen.
 
 ## How it was made
 

@@ -169,7 +169,9 @@ neither zero nor a reason to reweight. Training is capped at two campaigns a mon
 surprises, inflation surprises, tariffs, conflict, earnings, OPEC+ decisions and elections, across the US, UK and India,
 each qualifying on its own evidence. The similar-days search runs over every eligible session since 2015, about ten
 years. Both supersede the narrower proposals in the foundation forecasting specification (earnings first, a
-756-session lookback), which took them on in the MP-20 consolidation (3 November 2026).
+756-session lookback), which took them on in the MP-20 consolidation (3 November 2026). MP203-09, 24 November 2026 (MP-203): the owner picked "All seven, gaps shown" (pressed on the page). The option read: "All seven stay the target. A kind that no checked source covers shows as no source yet, and informs no forecast until one qualifies."
+
+**Gold and silver valuation days (24 November 2026, MP-203):** MP203-10, 24 November 2026 (MP-203): the owner picked "The provider's bar days" (pressed on the page). The option read: "Each day the provider publishes a daily bar is a valuation day. A missing bar is recorded as missing, never filled."
 
 **Learning and release rules, owner, 3 November 2026:** code, never an agent, makes bounded self-corrections: a
 forecast's probabilities may shift at most 5 percentage points a week, and how much a signal counts at most 10% a
@@ -181,6 +183,8 @@ probation for 4 live weeks and reverts after 2 bad weeks; after that, scoring wo
 for 4 weeks running reverts it automatically. Switching forward or restarting a paused forecast needs the owner's yes.
 The rules-versus-models split is shown from launch, and an F7 contribution policy only after it beats simple rules for
 8 weeks; both are labelled experimental.
+
+**The owner's answers on the trial and probation, 24 November 2026 (MP-203):** MP203-04, 24 November 2026 (MP-203): the owner picked "Pairs when there are any" (pressed on the page). The option read: "A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only." MP203-05, 24 November 2026 (MP-203): the owner picked "Once, as a standing rule" (pressed on the page). The option read: "You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion." MP203-06, 24 November 2026 (MP-203): the owner picked "Confirm: no hurdle, no interval" (pressed on the page). The option read: "A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only."
 
 <div align="center">
 
@@ -277,9 +281,12 @@ plus up to £5 for the top-5 scan (at most £59.73);
 OWN-04 "Approve paid Claude at launch": the option read "You approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation." Picking it does not turn Claude on: paid calls still need the owner's explicit word when the time comes. MP40-Q5 "Adopt the key": the option read "The prod collector alone reads it from secure storage every six hours and fills the Claude line. Ready stands." The key's price, and whether the account can have one, are unverified.
 
 **No customer VPC at launch (5 November 2026, MP-184):** MP40-Q7 "Stay with no private network": the option read "Sign-in, permissions and each worker's allowed hosts stay the controls, with no VPC." The optional lockdown steps stay costed on the
-perimeter page. GitHub's Free plan could not enforce a prod approval while the repository was private, so the owner chose
-(3 November 2026) a release workflow only the owner can start (PL-11, MP-30). The repository is public since
-24 November 2026, where GitHub Free offers environments with required reviewers; whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).
+perimeter page.
+
+**Production releases (24 November 2026, MP-203):** MP203-08, 24 November 2026 (MP-203): the owner picked "An environment replaces route A" (pressed on the page). The option read: "A merge to main starts the release, which waits in the production environment for your approval." It replaces route A, a release workflow the owner
+alone dispatched, which the owner chose on 3 November 2026 because GitHub's Free plan could not enforce a prod approval
+while the repository was private (PL-11, MP-30). The repository is public since 24 November 2026, where GitHub Free
+offers environments with required reviewers. Administrators can bypass environment rules by default (recorded 24 November 2026). Proposed: the prod role trusts only that environment, checked against GitHub's documentation before build. It costs £0 while the repository is public; on a private repository required reviewers would need GitHub Enterprise, about £20.16 a user a month (recorded 3 November 2026).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
 SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. On 5 November 2026 (MP-184) three
@@ -299,8 +306,10 @@ and the existing domain, mypaisapp.com. Proposed: a boundary matrix for every ro
 - **Apple:** SwiftUI owns the iOS and iPadOS screens, persistence, widgets, Keychain and notifications. The React
   Native shell owns cross-platform navigation and typed bridge contracts only.
 - **Owner decisions, 5 November 2026 (MP-184):** MP40-Q12a "Your own devices only": the option read "Support and test the iPhone and iPad you own, at the iOS they run. You give the models." MP40-Q12b "Any window width": the option read "The Apple app lays out by window width, so a narrow iPad window uses the phone layout." MP40-Q13 "Widgets and share first": the option read "Widgets and statement sharing come at launch, and Spotlight, Siri and Live Activities are recorded as later."
-  MP40-Q12c "Both keep the five": the option read "A browser keeps the same five kinds, each with its age, as the web frames draw now." OWN-37 "Saved copy also times out": the option read "The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time." Still open: the models, the time-out, how a browser protects its offline copy
+  MP40-Q12c "Both keep the five": the option read "A browser keeps the same five kinds, each with its age, as the web frames draw now." OWN-37 "Saved copy also times out": the option read "The copy clears on the next connection, and the app also stops showing it after a set time without reaching the server. You choose the time." Still open: the models, the time-out's one value, how a browser protects its offline copy
   (it needs an architecture answer before build), and whether widgets and statement sharing work on free seven-day builds.
+- **Owner decisions, 24 November 2026 (MP-203):** MP203-01, 24 November 2026 (MP-203): the owner picked "Same rule, same time" (pressed on the page). The option read: "The browser's copy clears on its next connection and stops showing after the same time-out as the Apple app. One value, which you still set." MP203-07, 24 November 2026 (MP-203): the owner picked "Widen three existing stories" (pressed on the page). The option read: "MP-47 gains the unlock step, MP-107 the factsheet reader and MP-163 the two builds." So MP-47 carries the local unlock step, MP-107
+  the factsheet reader and MP-163 the widget and share-sheet builds, and the baseline stays at 136 stories. MP203-11, 24 November 2026 (MP-203): the owner picked "Build and unit tests in CI" (pressed on the page). The option read: "Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac."
 - **Owner decisions, 3 November 2026 (MP-39):** the owner's holdings plus the top 5 per segment (US large caps and
   tech, India Nifty 50 and midcap, ETFs as one top 5 each for the US, UK and India, gold and silver) from a curated
   universe of about 150; new markets and
@@ -335,6 +344,8 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
   drafts are now 136 ready Jira stories ([MP-40](docs/planning/story-readiness-2026-11-03/README.md)), awaiting the
   owner's acceptance, with 14 new owner questions (MP40-Q1 to Q14): Q3 and Q14 answered on 3 November 2026, the rest on
   5 November 2026 (MP-184), with the values below still open.
+- **Round 2 (MP-203):** the eleven questions the 5 November picks and MP-199 left open were answered on 24 November
+  2026 ([answers](docs/planning/owner-question-pack-2026-11-24/answers.json)) and are recorded above.
 - **Source rights (MP-10):** on published terms, Yahoo forbids automated collection and Twelve Data labels Grow
   view-only. On 2 November 2026 the owner confirmed ARC-01 for personal hobby use and accepted that risk, with
   Twelve Data Grow 55 ($29) alongside Yahoo ([MP-10 findings](docs/planning/source-rights-2026-11-02/README.md)). The Region is Virginia
@@ -349,11 +360,13 @@ The [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) h
   Sign in with Apple.
 - **VPC lockdown:** none at launch: MP40-Q7 "Stay with no private network" (5 November 2026, MP-184).
 - **Values the owner's picks of 5 November 2026 leave open (MP-184):** how recent a fresh sign-in must be and how fast
-  a revoke works (OWN-39); the time after which a saved copy stops showing offline (OWN-37); the iPhone and iPad
+  a revoke works (OWN-39); the one time after which a saved copy stops showing offline, in the Apple app and a browser
+  alike (OWN-37, MP203-01); the iPhone and iPad
   models (MP40-Q12a); each alert line's value (MP40-Q11a); the four upload limits, set from the owner's real
   statements when they arrive (MP40-Q1); the price grace (OWN-07); the reconciliation limit (OWN-31); a replay's wait
   (OWN-08). Unproved: passkeys in a phone's browser and a revoke removing a passkey (MP-197), browser storage of the
-  offline copy, the Anthropic admin key's price and availability, factsheet rights, official-source coverage, and
+  offline copy, the Anthropic admin key's price and availability, factsheet rights, official-source coverage (a kind no
+  checked source covers shows as no source yet, MP203-09), and
   widgets and statement sharing on free seven-day builds.
 - **Proofs:** DynamoDB ledger atomicity, durable-function replay, streaming through API Gateway, Cognito tier and
   recovery, and listing coverage per market.

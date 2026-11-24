@@ -2213,7 +2213,25 @@
     "docs/design/artifacts.json",
     "scripts/question_pack.py",
     "docs/planning/trace.json",
-    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md"
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "README.md",
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    ".claude/rules/aws-changes.md",
+    "docs/planning/story-readiness-2026-11-03/",
+    "docs/planning/foundation-specifications-2026-11-02/",
+    "docs/planning/foundation-policy-discussion-2026-11-02.md",
+    "docs/planning/ma-reconciliation-2026-11-02/",
+    "docs/planning/source-rights-2026-11-02/README.md",
+    "docs/confluence/build_pages.py",
+    "docs/confluence/pages/",
+    "docs/diagrams/mp-quality-2026-11-02/README.md",
+    "docs/design/admin/",
+    "docs/design/journeys/",
+    "docs/architecture-explainer/index.html",
+    "docs/market-agent/index.html",
+    "tests/admin_facts/m190.mjs",
+    "tests/journey_facts/m190.mjs"
    ]
   }
  ]

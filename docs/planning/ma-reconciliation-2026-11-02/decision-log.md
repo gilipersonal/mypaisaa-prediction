@@ -203,7 +203,9 @@ any data source.
 6. **A slipping promoted model:** reverts by itself to the previous approved model and notifies the owner; switching
    forward again needs the owner's yes.
 7. **Production releases:** a release workflow only the owner can start (GitHub Free). This settles PL-11's release
-   route.
+   route. **Superseded on 24 November 2026 by MP203-08** ("An environment replaces route A", MP-203): a merge to main
+   starts the release, which waits in the GitHub production environment for the owner's approval. Route A is kept here as
+   history, chosen 3 November 2026 and replaced 24 November 2026.
 8. **UK fund prices:** test Grow 55 by API in its first month; if they are not covered, value UK funds from the
    owner's statements.
 9. **Indian funds:** the owner supplies the holdings statements; all other market data comes from Twelve Data.
@@ -300,11 +302,11 @@ Applied to the written records on 24 November 2026 (MP-192): the story pack (55 
 
 ## 24 November 2026: the questions the 5 November picks left open (MP-203)
 
-Round 2 of the owner's question pack, on the same page as round 1: eleven questions MP-192 and MP-199 left open. Nine were pressed on the page; MP203-02 and MP203-03 were picked on a question card in chat. Nine are the Recommended option; the owner chose otherwise on MP203-07, "Widen three existing stories", and MP203-08, "An environment replaces route A". Each answer and what its option read is in [round 2's answers](../owner-question-pack-2026-11-24/answers.json). A pick's option text is not the owner's own reasoning (lesson 42), and none is applied yet.
+Round 2 of the owner's question pack, on the same page as round 1: eleven questions MP-192 and MP-199 left open. Nine were pressed on the page; MP203-02 and MP203-03 were picked on a question card in chat. Nine are the Recommended option; the owner chose otherwise on MP203-07, "Widen three existing stories", and MP203-08, "An environment replaces route A". Each answer and what its option read is in [round 2's answers](../owner-question-pack-2026-11-24/answers.json). A pick's option text is not the owner's own reasoning (lesson 42). All eleven are applied to the written records (below).
 
 - MP203-01 (OWN-37), "Same rule, same time": a browser's saved copy clears on its next connection and stops showing after the same time-out as the Apple app.
 - MP203-02 (MP40-Q11a), "Never for investment alerts": an approved quiet-hour exception can only be a critical security or service fault.
-- MP203-03 (MP40-Q11a), "A short named list": the option read "a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write".
+- MP203-03 (MP40-Q11a), "A short named list": the option read "Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write", so critical means a short named list and the four faults on it are proposed.
 - MP203-04 (OWN-27), "Pairs when there are any": a 3-month model on probation is judged on any pairs that mature in its 4 weeks, and checked for clean running.
 - MP203-05 (ADM-09), "Once, as a standing rule": for range tasks the strongest simple range baseline stands in for the rules by one approval; the owner still approves every promotion.
 - MP203-06 (OWN-33), "Confirm: no hurdle, no interval": the 2% hurdle and the 95% interval stay in the walk-forward test only.
@@ -315,6 +317,8 @@ Round 2 of the owner's question pack, on the same page as round 1: eleven questi
 - MP203-11 (MP-199), "Build and unit tests in CI": pull requests that touch the Apple app build it and run XCTest on a free macOS runner; Maestro journeys and real-device builds stay on the owner's Mac.
 
 MP40-Q7 was not asked again: it was asked "At PH-08, keep N0 (no VPC) or take a lockdown step", and PH-08 is the launch phase.
+
+Applied to the written records on 24 November 2026 (MP-203): the root documents, the AWS rule (`.claude/rules/aws-changes.md`: the prod apply and deploy rows name the GitHub production environment), this log (item 7 above), the decision cards, the gap register (PL-11, CT-18 and the other rows each answer settles), the phase pages and the phase-story baseline, the owner decisions, the direction summary, the MP-10 recheck and the Confluence generator, with its pages regenerated locally and not published. Each answer is recorded in one sentence form, copied word for word: "MP203-NN, 24 November 2026 (MP-203): the owner picked ... The option read: ...". MP203-07 keeps the baseline at 136 stories. Proposed, not the owner's words: the prod role trusts only the production environment, checked against GitHub's documentation before build. Administrators can bypass environment rules by default (recorded 24 November 2026). The Lucid drawings and the motion GIFs still state route A until the owner approves their re-import and render, and Jira descriptions and Confluence pages follow only with the owner's yes for each.
 
 ## 23 November 2026: Twelve Data and Yahoo kept after a second look (MP-196)
 

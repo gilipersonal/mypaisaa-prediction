@@ -354,7 +354,7 @@ def rec_rules(s: str) -> str:
                 ["Coverage", "20 to 30 shares and ETFs across the US, UK and India", "Yahoo Finance and Twelve Data Grow, each listing checked for rights"],
                 ["Forecasts", "Ranges for 1 day, 5, 10, 20 trading days, 3, 6, 12 months", "Baselines first, then bounded challengers, qualified per task"],
                 ["Scenarios", "3 and 5-year downside, central and upside", "Editable assumptions that need approval; no implied likelihood"],
-                ["Monitoring", "Quote and risk checks every 30 minutes; a 07:30 briefing on weekdays (MP40-Q11b &quot;Weekdays only&quot;)", "Push to the app and the PWA; quiet hours 22:00 to 07:00. Critical covers security and service faults only, so investment alerts wait for 07:30 (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;)"],
+                ["Monitoring", "Quote and risk checks every 30 minutes; a 07:30 briefing on weekdays (MP40-Q11b &quot;Weekdays only&quot;)", "Push to the app and the PWA; quiet hours 22:00 to 07:00. No investment alert breaks them: it waits for 07:30 (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;). Only a short named list of faults does. MP203-02, 24 November 2026 (MP-203): the owner picked &quot;Never for investment alerts&quot; (on a question card in chat). The option read: &quot;An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.&quot; MP203-03, 24 November 2026 (MP-203): the owner picked &quot;A short named list&quot; (on a question card in chat). The option read: &quot;Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.&quot;"],
                 ["Recommendations", "Add, hold, pause, trim, rebalance", "With reasons and uncertainty; MP abstains when the evidence is thin. No label appears until evaluation supports the thresholds and you approve a ranking policy version (OWN-09 &quot;Evidence first&quot;)"]])
             + "<h2>⚖️ Which decision wins</h2><p>Current owner instructions, then the twelve policy answers, then the selected directions, then the drafts, then history.</p>"
             + footer())
@@ -431,7 +431,8 @@ def rec_forecast(s: str) -> str:
                   "Two experiment campaigns a month at most across dev and prod, each up to 96 fits and 6 instance-hours (POLICY-008).",
                   "The combined score needs all three of growth, protection and opportunity at 35, 40 and 25 (POLICY-006).",
                   "An affected scope pauses itself on an approved trigger and restarts only with the owner's approval (POLICY-003).",
-                  "Bounded self-correction (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the owner approved on 3 November 2026 (at most 5 percentage points a week on a probability, 10% a month on a signal\'s weight), and rolls back automatically if scores worsen. New models need 8 weeks in shadow and the owner\'s yes; a promoted model that slips reverts by itself and notifies the owner."])
+                  "Bounded self-correction (owner, 3 November 2026): code, never an agent, makes small calibration and weighting adjustments inside bands the owner approved on 3 November 2026 (at most 5 percentage points a week on a probability, 10% a month on a signal\'s weight), and rolls back automatically if scores worsen. New models need 8 weeks in shadow and the owner\'s yes; a promoted model that slips reverts by itself and notifies the owner.",
+                  "The owner's answers of 24 November 2026 (MP-203): MP203-04, 24 November 2026 (MP-203): the owner picked &quot;Pairs when there are any&quot; (pressed on the page). The option read: &quot;A 3-month model is judged on any pairs that mature in its 4 weeks, from forecasts it made in shadow, and is checked for clean running too. With no pairs, clean running only.&quot; MP203-05, 24 November 2026 (MP-203): the owner picked &quot;Once, as a standing rule&quot; (pressed on the page). The option read: &quot;You approve once that for range tasks the strongest simple range baseline stands in for the rules. Each promotion screen names it, and you still approve every promotion.&quot; MP203-06, 24 November 2026 (MP-203): the owner picked &quot;Confirm: no hurdle, no interval&quot; (pressed on the page). The option read: &quot;A lower average score than each comparator on the same matured forecasts is enough in the trial. The 2% hurdle and the 95% interval stay in the walk-forward test only.&quot;"])
             + "<h2>🔁 Controlled learning</h2>" + gif(s, "learning-loop", "Record, wait, score, propose, shadow, and only then your approval.")
             + footer())
 
@@ -614,7 +615,7 @@ def rec_observability(s: str) -> str:
                         "A downstream outage is one incident with its symptoms linked, not ten messages. An OK closes it without erasing it."),
                    card("chart_with_upwards_trend", "#E3FCEF", "Investment alerts",
                         "Material risk and opportunity alerts go through the product: push to the app and the PWA, the 07:30 briefing on weekdays, quiet hours 22:00 to 07:00 (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;, MP40-Q11b &quot;Weekdays only&quot;, OWN-34 &quot;Once in 24 hours&quot;). "
-                        "They never use the operations topic, and a failed provider can never send a confident all-clear (CT-18)."))
+                        "They never use the operations topic, and a failed provider can never send a confident all-clear (CT-18). No investment alert breaks quiet hours; only the short named list of critical faults does. MP203-02, 24 November 2026 (MP-203): the owner picked &quot;Never for investment alerts&quot; (on a question card in chat). The option read: &quot;An approved exception can only be one of the critical security or service faults. Every investment alert waits for 07:30, and MP-138 says so.&quot; MP203-03, 24 November 2026 (MP-203): the owner picked &quot;A short named list&quot; (on a question card in chat). The option read: &quot;Proposed: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost (ADM-05); and a failed backup or ledger write. Everything else, such as a missed run or a stalled collector, waits for 07:30.&quot;"))
             + table(["Alarm (proposed)", "Prod", "Dev"], [
                 ["Any Lambda error, from the account-wide metric", "✓", "✓"],
                 ["<code>ClaudeSpendEstimateUSD</code> past the day's guard", "✓", "✓"],
@@ -676,7 +677,7 @@ def rec_observability(s: str) -> str:
                 "Sampled X-Ray, or every span through Transaction Search, and the per-environment telemetry envelope (PL-12, MP-27).",
                 "The run record schema, the stuck-run thresholds, and what is content versus metadata (CT-05, MP-27).",
                 "The minimum launch signals: the eight metrics, six alarms and sampling rates above (CT-06, MP-27).",
-                "Whether email is the operations emergency channel, the value of each alert line (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;), and which security and service faults count as critical (CT-18, MP-30).",
+                "Whether email is the operations emergency channel, the value of each alert line (MP40-Q11a &quot;Your lines, no investment wake-ups&quot;), and the four faults on the critical list, which are proposed (MP203-03): CT-18, MP-30.",
                 "Whether Application Signals, a CloudWatch dashboard or a composite alarm earns its cost after a measured month in dev."]))
             + f"<p><strong>Phases:</strong> {link('ph-02', 'PH-02')} builds the run record, traces, logs, metrics and cost collection; {link('ph-05', 'PH-05')} adds the Claude spans and evaluation evidence; "
             + f"{link('ph-07', 'PH-07')} routes investment alerts to push; {link('ph-08', 'PH-08')} accepts the whole as operational.</p>"
@@ -807,9 +808,10 @@ def rec_testing(s: str) -> str:
                 ["3. Deploy to dev", "GitHub OIDC into a dev-only role that trusts <code>main</code> and the release workflow, nothing else; "
                  "no stored AWS keys", lozenge("proposed")],
                 ["4. Dev smoke", "The full synthetic profile below", lozenge("proposed")],
-                ["5. Owner approves", "The owner promotes that exact sha256 by starting a release workflow only the owner can start "
-                 "(route A below, owner-selected 3 November 2026)", lozenge("selected")],
-                ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11)", lozenge("selected")],
+                ["5. Owner approves", "A merge to <code>main</code> starts the release, which waits in GitHub's production environment until the owner "
+                 "approves that exact sha256 (MP203-08, owner-selected 24 November 2026; it replaces route A below)", lozenge("selected")],
+                ["6. Deploy to prod", "From CI on <code>main</code> only, into a separate prod role (ARC-11). Proposed: the prod role trusts only the "
+                 "production environment, checked against GitHub's documentation before build", lozenge("selected")],
                 ["7. Prod smoke, then keep or roll back", "Read-only checks; a failure moves the alias back", lozenge("proposed")],
                 ["IaC", "Terraform only, from day one: every AWS change goes through Terraform (owner, 3 November 2026). Plan-only until an apply is asked for", lozenge("selected")],
                 ["How the code is packaged", "Zip or container image is not decided. Durable Functions list managed Python 3.13 and 3.14; "
@@ -817,8 +819,8 @@ def rec_testing(s: str) -> str:
             + panel("warning", "#FFFAE6",
                     "<p><strong>The Free plan could not hold the prod gate while the repository was private.</strong> On a private repo, GitHub's "
                     "required reviewers and wait timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner "
-                    "approves in a protected environment&quot; could not be built on that plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen.</p>"
-                    + ul(["<strong>A, free, owner-selected:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
+                    "approves in a protected environment&quot; could not be built on that plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen. On 24 November 2026 a production environment replaced A (below).</p>"
+                    + ul(["<strong>A, free, chosen 3 November 2026 and replaced 24 November 2026:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
                           "that trusts only <code>main</code> and that workflow file. The org has one member today.",
                           "<strong>B:</strong> GitHub Team, $4 a user a month (about £3.84): branch protection and environment secrets, still no "
                           "required reviewers on a private repo.",
@@ -827,7 +829,7 @@ def rec_testing(s: str) -> str:
                           "managed service, so it needs a costed ADR."])
                     + "<p><strong>Since 24 November 2026 the repository is public</strong> (owner: &quot;Make the repo public, that is fine&quot;). "
                       "On a public repository GitHub Free offers environments with required reviewers, wait timers and deployment branch rules, "
-                      "and environment secrets; administrators can bypass them by default. Whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).</p>")
+                      "and environment secrets. " + "MP203-08, 24 November 2026 (MP-203): the owner picked &quot;An environment replaces route A&quot; (pressed on the page). The option read: &quot;A merge to main starts the release, which waits in the production environment for your approval.&quot; It replaces route A. Administrators can bypass environment rules by default (recorded 24 November 2026). Proposed: the prod role trusts only that environment, checked against GitHub's documentation before build. It costs £0 while the repository is public; on a private repository required reviewers would need GitHub Enterprise, about £20.16 a user a month (recorded 3 November 2026).</p>")
 
             + "<h2>🛡️ Vulnerability scanning</h2>"
             + "<p>Free and open-source first. GitHub's code scanning and secret scanning, paid add-ons on a private repo, are free on a public one "
@@ -890,8 +892,8 @@ def rec_testing(s: str) -> str:
                         "219 Linux minutes and MA 58: setup days, not a normal month."))
             + ul(["A proposed normal month, 40 PR pushes and 20 merges, is about 520 Linux minutes. On a public repository that costs nothing.",
                   "Only if the repository went private again would minutes be billed, past a $12 shared allowance: 100 Linux minutes about £0.58, 100 macOS minutes about £5.95.",
-                  "Apple builds run on the owner's Mac " + f"({link('rec-apple-testing', 'Apple testing')}). macOS runner minutes are now free too; "
-                  "whether any Apple build moves to CI is open for the owner (MP-199).",
+                  "MP203-11, 24 November 2026 (MP-203): the owner picked &quot;Build and unit tests in CI&quot; (pressed on the page). The option read: &quot;Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.&quot; " + f"({link('rec-apple-testing', 'Apple testing')}). "
+                  "Those macOS minutes cost £0 while the repository is public, and about £5.95 per 100 if it went private again.",
                   "GitHub is not yet in the cost model; it needs a line, planned at £0 with a cap " + f"({link('rec-cost', 'Cost and the £100 ceiling')})."])
             + expand("How these figures were reached",
                      ul(["Public-repository billing and limits: docs.github.com, checked 24 November 2026: standard runners free and unlimited, concurrency limits apply.",
@@ -902,12 +904,10 @@ def rec_testing(s: str) -> str:
 
             + "<h2>❓ To decide</h2>"
             + panel("hourglass", "#FFFAE6", ul([
-                "The wording of the AWS rule for route A, the release workflow only the owner can start (owner-selected 3 November 2026). PL-11 (MP-30)",
                                 "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
                 "The CI budget: minutes are free while the repository is public; a hard stop or budget matters only if it goes private again. PL-11 (MP-30)",
-                "Whether to switch on OSV-Scanner and gitleaks now, under their own MP issue. Dependabot alerts, CodeQL and secret scanning already run.",
-                "The prod gate on a public repository: whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199)."]))
+                "Whether to switch on OSV-Scanner and gitleaks now, under their own MP issue. Dependabot alerts, CodeQL and secret scanning already run."]))
             + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} writes the Terraform ADR and sets up the accounts; "
               f"{link('ph-02', 'PH-02')} brings the first deployed runtime, so the dev pipeline and dev smoke; "
               f"{link('ph-08', 'PH-08')} holds prod promotion, the rollback exercises and the whole-release gates (L8-S02, L8-S04).</p>"
@@ -998,7 +998,7 @@ def rec_apple_testing(s: str) -> str:
                 ["Android screens stay out of the release; the shell does not imply an Android app", "L7-S04", lozenge("proposed")]])
             + "<h2>🧪 Three layers, cheapest first</h2>"
             + table(["Layer", "Tool", "Runs on", "Cost", "Status"], [
-                ["Views and units", "XCTest and XCUITest in Xcode", "The owner's Mac", "£0", lozenge("proposed")],
+                ["Views and units", "XCTest and XCUITest in Xcode", "A free macOS runner on every pull request that touches the Apple app, which builds it and runs XCTest (MP203-11); the owner's Mac too", "£0 while the repository is public", lozenge("selected") + " CI " + lozenge("proposed") + " tools"],
                 ["Journeys end to end", "Maestro CLI and Studio, free and open source, on iOS simulators", "The owner's Mac", "£0", lozenge("proposed")],
                 ["Every pull request", "Maestro's flow syntax check and the test-ID check (below)", "GitHub's Linux runner, seconds", "Inside the free allowance", lozenge("proposed")],
                 ["Real hardware", "A free local build from Xcode on the owner's iPhone and iPad; it expires after 7 days and has no Apple push", "Real devices", "£0", lozenge("selected")]])
@@ -1039,7 +1039,7 @@ def rec_apple_testing(s: str) -> str:
                 ["A build uploaded as TestFlight Internal Only can go only to internal groups", "Every MP build is uploaded that way", lozenge("proposed")],
                 ["External testing (up to 10,000 people) goes through App Review", "Not used", lozenge("proposed")],
                 ["The Developer Program is 99 USD a membership year", "Needs the owner's yes and a cost model update", lozenge("open")]])
-            + ul(["Builds are uploaded by hand from Xcode on the owner's Mac, so no App Store Connect key is stored in GitHub and no Mac CI minutes are spent.",
+            + ul(["Builds are uploaded by hand from Xcode on the owner's Mac, so no App Store Connect key is stored in GitHub; CI only builds and runs XCTest (MP203-11).",
                   "A beta build talks to the dev account only, which must exist first (PH-02, ARC-11). TestFlight access is not sign-in: Cognito still decides who gets in.",
                   "TestFlight feedback screenshots go to Apple. Send them only from synthetic data or with amounts hidden."])
             + "<h2>💷 What it costs</h2>"
@@ -1047,7 +1047,7 @@ def rec_apple_testing(s: str) -> str:
             + table(["Item", "Price", "In MP's money", "Status"], [
                 ["Maestro CLI and Studio", "Free", "£0", lozenge("proposed")],
                 ["Maestro Cloud", "250 USD per device a month", "£240.00 a month: 2.4 times the whole £100 ceiling", lozenge("open") + " not proposed"],
-                ["GitHub macOS runner", "Free and unlimited on a public repository (GitHub docs, checked 24 November 2026); 0.062 USD a minute on a private one", "£0 while the repository is public; GitHub Free runs at most 5 macOS jobs at once", lozenge("open") + " not proposed"],
+                ["GitHub macOS runner", "Free and unlimited on a public repository (GitHub docs, checked 24 November 2026); 0.062 USD a minute on a private one", "£0 while the repository is public; about £5.95 per 100 minutes if it went private again. GitHub Free runs at most 5 macOS jobs at once", lozenge("selected") + " build and XCTest (MP203-11)"],
                 ["Apple Developer Program", "99 USD a membership year, charged in local currency at enrolment", "£95.04 in the month it is paid", lozenge("open")]])
             + panel("warning", "#FFEBE6",
                     "<p>MP counts cash in the month an invoice is due. If the owner joins, the Apple fee on top of an ordinary Grow 55 month "
@@ -1055,11 +1055,10 @@ def rec_apple_testing(s: str) -> str:
                     "The owner allowed that one month a year above £100, for this fee only (2 November 2026), and has not joined for now (3 November 2026). "
                     "Push, Sign in with Apple and passkeys on a real device most likely need the membership too, so this is a cost of the Apple door itself, not only of TestFlight.</p>")
             + "<p>The repository is public, so GitHub's standard runners, macOS included, cost nothing (GitHub docs, checked 24 November 2026). "
-            + "Local first still holds: simulator runs stay on the owner's Mac until the owner chooses otherwise (MP-199).</p>"
+            + "MP203-11, 24 November 2026 (MP-203): the owner picked &quot;Build and unit tests in CI&quot; (pressed on the page). The option read: &quot;Each pull request that touches the Apple app builds it and runs XCTest on a free macOS runner. Maestro journeys and real-device builds stay on your Mac.&quot;</p>"
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
                 "The iPhone and iPad models, which the owner gives (MP40-Q12a), and whether widgets and statement sharing work on free seven-day builds (MP40-Q13): PL-14 (MP-30).",
                 "Whether and when to join the Apple Developer Program. Its fee month is allowed above £100 as a one-off exception (owner, 2 November 2026): PL-11 (MP-30).",
-                "The Mac CI budget: £0 either way now; whether simulator runs stay on the owner's Mac or move to free macOS runners: PL-11 (MP-30), MP-199.",
                 "The test-ID prefix and where the shared dictionary lives: PL-14 (MP-30).",
                 "The largest Dynamic Type size and the settings every screen must pass: PL-14 (MP-30), L7-S02.",
                 "Testers: the owner only, or others too (no gap yet)."]))
