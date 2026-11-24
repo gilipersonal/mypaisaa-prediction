@@ -55,6 +55,8 @@ test.describe('navigation', () => {
 
   test('the skip link takes focus to the page', async ({ page }) => {
     await page.goto('/forecasts');
+    // The shell is drawn only once the session is confirmed in the browser; wait for it before pressing keys.
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Forecasts');
     await page.keyboard.press('Tab');
     await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
     await page.keyboard.press('Enter');
@@ -102,8 +104,10 @@ test.describe('accessibility and layout', () => {
   for (const scheme of ['light', 'dark'] as const) {
     test(`every place passes axe WCAG 2.2 A and AA in ${scheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
-      for (const [path] of PLACES) {
+      for (const [path, label] of PLACES) {
         await page.goto(path);
+        // Check the drawn page, never the blank one before the session is confirmed.
+        await expect(page.getByRole('heading', { level: 1 })).toHaveText(label);
         await page.waitForLoadState('networkidle');
         const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
         expect(r.passes.length, 'axe ran no checks').toBeGreaterThan(0);
@@ -114,8 +118,9 @@ test.describe('accessibility and layout', () => {
 
   test('no place scrolls sideways at any width from 320 to 1440', async ({ page }) => {
     test.skip(wide(page), 'one sweep is enough; it sets its own widths');
-    for (const [path] of PLACES) {
+    for (const [path, label] of PLACES) {
       await page.goto(path);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(label);
       for (let w = 320; w <= 1440; w += 8) {
         await page.setViewportSize({ width: w, height: 800 });
         const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
