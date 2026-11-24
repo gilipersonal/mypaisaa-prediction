@@ -67,8 +67,8 @@ The page keeps each flip in this browser (`mp178-flips`), journey by journey, so
 that view and the one it came from, and nothing else: no figure, instrument, horizon, draft or approval, so a horizon pressed inside a frame goes back to its
 default on a reload. If storage is refused the flip still turns, for that page only. The strip turns one frame at a time, and the rest of it stays where it is.
 
-Open, for the owner (MP-182, listed on the page): does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the
-frame drawn here? A flip kept in this browser shows on every drawn device. Proposed, not decided: the app's choice covers the whole journey.
+Settled by the owner, 5 November 2026 (MP-184): in the app a kept flip covers the whole journey ("Whole journey", OWN-01a), and each iPhone, iPad
+and browser keeps its own choice ("Your real devices only", OWN-01b). The review page stays as it is: a flip kept in this browser shows on every drawn device.
 
 The page's selectors keep focus on the control pressed, and a theme press repaints the frames already drawn, without a reload. Both hold on Prism Admin too.
 `scripts/design_prism_press.mjs` presses all of this, with its `--selftest` undoing each fix on a copy.
@@ -105,5 +105,8 @@ Never hide risk, staleness or a provider's status behind a spinner: freshness st
 - Every Home carries the cost pill in its top bar, `costPillOf(ctx)`, from the cost journey's own month ("Pill on every Home",
   OWN-06). No cost row or card sits on the holdings.
 - Every figure is illustrative and labelled. Use the shared figures in `docs/design/reviews/MP-62/brief.md`.
+- A rule an owner's pick settles carries `settled(id)`, Settled · the pick's id, and a value the pick leaves open keeps its
+  Proposed or Illustrative label (MP-192). The page lists open questions under "What these screens wait on" and answered ones
+  under "Settled by the owner".
 - Prism's tokens, type, icons, motion and 44-point targets. Add `data-mo` roles so screens arrive subtly. Text at least 12 px.
 - Prefer short, active, plain copy.

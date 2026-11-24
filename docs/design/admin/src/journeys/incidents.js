@@ -38,11 +38,11 @@
     open: chip('error', 'Open', 'alert'), ack: chip('stale', 'Acknowledged', 'clock'), done: chip('', 'Resolved', 'check'), again: chip('error', 'Reopened', 'refresh')
   };
   const statusOf = (ctx, i) => (i === I13 || i === I14 ? ST.open : ctx.state === 'empty' ? ST.done : ctx.state === 'conflict' ? ST.again : ST.ack);
-  const incRow = (ctx, i) => opens(i.i, i.name, `${i.id} · ${i.sub}`, `${tags(statusOf(ctx, i), i === I14 ? proposed('CT-14') : '', ctx.state === 'partial' ? chip('stale', 'Run link unavailable', 'clock') : '')}`, i.tone);
+  const incRow = (ctx, i) => opens(i.i, i.name, `${i.id} · ${i.sub}`, `${tags(statusOf(ctx, i), i === I14 ? settled('ADM-05') : '', ctx.state === 'partial' ? chip('stale', 'Run link unavailable', 'clock') : '')}`, i.tone);
   const incRows = ctx => list((ctx.state === 'error' ? [I13, I12] : ctx.state === 'conflict' ? [I14, I12] : [I12]).map(i => incRow(ctx, i)).join(''));
   const incHead = ctx => {
     const i = inc(ctx);
-    return card(`${head(i.name, tags(statusOf(ctx, i), i === I14 ? proposed('CT-14') : ''))}${kv([['Incident', i.id], ['Class', i.cls], ['Opened by', i.at ? `Code · ${i.at}` : 'Code'], ['Environment', 'Production']])}`);
+    return card(`${head(i.name, tags(statusOf(ctx, i), i === I14 ? settled('ADM-05') : ''))}${kv([['Incident', i.id], ['Class', i.cls], ['Opened by', i.at ? `Code · ${i.at}` : 'Code'], ['Environment', 'Production']])}`);
   };
   const who = () => note('Code opens incidents. You acknowledge and resolve them. Agents cannot close an incident.');
 
@@ -71,8 +71,8 @@
     error: banner('fall', 'Twelve Data failed at 21:16.', 'Last good run Mon 22:15 · cutoff 22:00. One outage, one incident, with its symptoms linked. inc_0013 waits for you to acknowledge it.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so an incident opened after 11:12 would not show here. A quiet list proves nothing.', 'clock'),
     offline: banner('', 'Offline.', 'Showing incidents from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: `${banner('warn', 'Two records changed while you read.', 'Production is recorded lost, so inc_0014 is open and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(proposed('CT-14'))}`,
-    expired: `${banner('warn', 'A replay request expired.', 'Its time ran out on inc_0012, so nothing ran. It needs a new request.', 'clock')}${tags(proposed('CT-02'))}`,
+    conflict: `${banner('warn', 'Two records changed while you read.', 'Production is recorded lost, so inc_0014 is open and Recovery holds the copy. inc_0012 also reopened, because the fault came back.', 'split')}${tags(settled('ADM-05'))}`,
+    expired: `${banner('warn', 'A replay request expired.', 'Its time ran out on inc_0012, so nothing ran. It needs a new request.', 'clock')}${tags(settled('OWN-08'), proposed('CT-02'))}`,
     denied: banner('warn', 'Reading stays open.', 'Acknowledging, resolving and replaying each say what they need before they run, and nothing is pre-approved.', 'lock')
   };
 
@@ -84,7 +84,7 @@
     error: banner('fall', 'This incident waits on you.', 'Twelve Data failed at 21:16. Last good run Mon 22:15 · cutoff 22:00. Reads stay open while it is unresolved.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a later step may have landed. Nothing here is newer than that.', 'clock'),
     offline: banner('', 'Offline.', 'This timeline is from 11:20. No financial write offline, and nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(proposed('CT-14'))}`,
+    conflict: `${banner('warn', 'Production is recorded lost.', 'inc_0014 waits for you to acknowledge it, and the switch sits in Recovery. inc_0012 also reopened, and shows below.', 'split')}${tags(settled('ADM-05'))}`,
     expired: ctx => `${phone(ctx) ? banner('warn', 'A resolution did not land in time.', 'Nothing was recorded, so inc_0012 stays Acknowledged. Resolving happens on iPad or desktop.', 'clock') : banner('warn', 'Your resolution did not land in time.', 'The request passed its time, so nothing was recorded and inc_0012 stays Acknowledged. Your words stay in the box.', 'clock')}${tags(proposed('CT-02'))}`,
     denied: ctx => `${signNote('This timeline stays readable.')}${tags(proposed('CT-01'))}`
   };
@@ -105,7 +105,7 @@
   function timeline(ctx, i = inc(ctx)) {
     const s = ctx.state;
     if (i === I14) return tl('What happened to inc_0014', [
-      pt('done', 'Detected', 'How production came to be recorded lost is not recorded.', tags(proposed('CT-14'))),
+      pt('done', 'Detected', 'Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.', tags(settled('ADM-05'))),
       pt('now', 'Acknowledge', 'Waiting for you.', ack14()),
       pt('', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
       pt('', 'Resolve', CLOSE14, close14(ctx))
@@ -169,7 +169,7 @@
     stale: banner('warn', 'From 11:12.', 'The index is lagging, so a link may have moved. Each record opens at its own time.', 'clock'),
     offline: banner('', 'Offline.', 'These links are from 11:20. Following one needs a connection, and the ids stay readable.', 'wifi-off'),
     conflict: banner('warn', 'Two sources disagree.', 'The gap is past tolerance, so this is a data quality fault. Both hashes are kept and neither is dropped.', 'split'),
-    expired: `${banner('warn', 'A replay request expired.', 'Its time ran out, so nothing ran, and HSBC stays late. The evidence below stands as it was.', 'clock')}${tags(proposed('CT-02'))}`,
+    expired: `${banner('warn', 'A replay request expired.', 'Its time ran out, so nothing ran, and HSBC stays late. The evidence below stands as it was.', 'clock')}${tags(settled('OWN-08'), proposed('CT-02'))}`,
     denied: banner('warn', 'One link was refused.', 'The Audit link came back permission denied, so it shows as denied, not as empty. Everything else here stays readable.', 'lock')
   };
   const evRail = () => `${card(`${head('What this record holds')}${note('Ids and references only. An incident carries no holdings or secrets, and each link opens its own record.')}`)}${refused('R3', 'A stored price cannot be edited, by you or by anyone. A missing price stays missing.')}${refused('R4', 'A frozen cutoff cannot be moved and an origin cannot be backdated, by you or by anyone.')}`;
@@ -203,7 +203,7 @@
     conflict: 'Refused on recheck. The changed config needs a new request.'
   };
   const bind = rows => `<div class="aincidents-bind">${kv(rows)}</div>`;
-  const askBroad = ctx => ask('Broad replay of job_3e9a', 'Beyond the allowlist. You approve exactly this, and any changed line needs a new approval.', `${act('A41', 'Approve this replay', 'primary')}${act('A60', 'Decline this replay')}`, `${bind([['Owner', 'You'], ['Environment', 'Production'], ['Action', 'Broad replay, all of job_3e9a'], ['Payload', '3c9e…a1f4'], ['Expected config', 'Settings v9'], ['Expires', 'Not set yet']])}${tags(proposed('CT-02'))}`);
+  const askBroad = ctx => ask('Broad replay of job_3e9a', 'Beyond the allowlist. You approve exactly this, and any changed line needs a new approval.', `${act('A41', 'Approve this replay', 'primary')}${act('A60', 'Decline this replay')}`, `${bind([['Owner', 'You'], ['Environment', 'Production'], ['Action', 'Broad replay, all of job_3e9a'], ['Payload', '3c9e…a1f4'], ['Expected config', 'Settings v9'], ['Expires', 'Not set yet']])}${tags(settled('OWN-08'), proposed('CT-02'))}`);
   const askFin = ctx => ask('Financial reprocessing, ISA statement, Oct 2026', 'Nothing is visible and your ledger stays at revision 213. Only the controlled writer commits this, and only this exact change.', `${act('A13', 'Approve reprocessing')}${act('A60', 'Decline reprocessing')}`, `${bind([['Owner', 'You'], ['Environment', 'Production'], ['Selection', '9 of 11 rows · draft revision 6'], ['Selected rows hash', '7f3a…c21e'], ['Expected ledger', 'Revision 213'], ['Starts', 'Within 15 minutes of your approval']])}${note('This records what already happened at your broker. It places no trade.')}`);
   const declined = () => note('Declining closes the request as declined, on the record. Nothing runs.');
   const whyNot = ctx => `${note('A broad replay, a new paid external call or financial reprocessing needs you. Each shows its exact change here first, and only then asks.')}${ctx.state === 'offline' ? refused('R16', 'No financial write offline. It is refused until you reconnect, with this reason on the record.') : held(WHYNOT[ctx.state] || WAIT[ctx.state])}`;
@@ -246,7 +246,7 @@
   };
   const switchTool = ctx => {
     if (ctx.state !== 'conflict') return held(NOSWITCH[ctx.state] || WAIT[ctx.state]);
-    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Production'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. How production comes to be recorded lost is not recorded either.')}${tags(proposed('CT-14'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
+    return `${bind([['Copy', 'rx_0007'], ['As of', 'Sun 1 Nov'], ['Ledger in the copy', 'Revision 213'], ['Gap', 'Anything recorded after Sun 1 Nov'], ['Environment', 'Production'], ['Payload', '5d2e…09bc'], ['Expires', 'Not set yet']])}${note('No recovery point is agreed, so the gap has no target. Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.')}${tags(proposed('CT-14'), settled('ADM-05'), proposed('CT-02'))}${act('A42', 'Approve this switch', 'primary')}${act('A60', 'Decline this switch')}${declined()}`;
   };
   const switchCard = ctx => card(`${head('Switch to a restored copy')}${note('Only if production is lost. The copy takes no authority until reconciliation passes and you approve the switch.')}${switchTool(ctx)}${refused('R11', 'Nothing restores over production. A destructive restore into prod is refused.')}`);
   const KINDS = [['App, by Lambda alias', 'Passed'], ['Contract, old reader still works', 'Passed'], ['Model and calibration revert', 'Passed'], ['Failed import reversal', 'Passed']];
@@ -264,20 +264,20 @@
     error: banner('fall', 'A restore exercise stopped with a mismatch.', 'A failed exercise opens an incident and blocks the next release until it is fixed and re-run.', 'alert'),
     stale: banner('warn', 'From 11:12.', 'The gate report is older than this release, so it reads stale, not green.', 'clock'),
     offline: banner('', 'Offline.', 'Showing recovery records from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
-    conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, and anything recorded after that is the gap below. Separately, infrastructure drift blocks the release until it is resolved through Terraform.', 'split')}${tags(proposed('CT-14'))}`,
+    conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, and anything recorded after that is the gap below. Separately, infrastructure drift blocks the release until it is resolved through Terraform.', 'split')}${tags(settled('ADM-05'))}`,
     expired: banner('warn', 'A new exercise is overdue.', 'An import change landed after rx_0007, and rel_0031 went out with none since, so rx_0007 no longer covers what is stored now.', 'clock'),
     denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Nothing here needs a fresh sign-in until production is recorded lost, and then a switch may.', 'lock')}${tags(proposed('CT-01'))}`
   };
 
   const T_REL = { ...T_REC, conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split') };
 
-  /* ---------- pause switches: only the POLICY-003 scope pause has a rule ---------- */
+  /* ---------- pause switches: all three settled on 5 Nov 2026 ("All three, as drawn", ADM-19), on iPad or desktop, each kept in the record ---------- */
   const PAUSES = ctx => {
     const s = ctx.state, scope = s === 'empty' ? 'No scope is paused.' : s === 'conflict' ? 'Code paused US tech, 12 months while you read: Previous model not eligible, Tue 21:20.' : 'US tech, 12 months is paused: Previous model not eligible, Tue 21:20.';
     return [
-      ['Optional work', 'Holds optional work and leaves the nightly forecast alone.', 'Pause optional work', proposed('CT-14')],
-      ['A forecast scope', `${scope} Code pauses a scope by itself when a trigger you approved fires, and a restart needs your yes.`, 'Pause a scope', proposed('POLICY-003')],
-      ['A feature', 'Holds one feature. Nothing else changes.', 'Pause a feature', proposed('CT-16')]
+      ['Optional work', 'Holds optional work and leaves the nightly forecast alone.', 'Pause optional work', settled('ADM-19')],
+      ['A forecast scope', `${scope} Code pauses a scope by itself when a trigger you approved fires, and a restart needs your yes.`, 'Pause a scope', settled('ADM-19')],
+      ['A feature', 'Holds one feature. Nothing else changes.', 'Pause a feature', settled('ADM-19')]
     ];
   };
   const PAUSEWHY = { conflict: 'Held. A scope changed while you read, so read what code did before you press anything.' };
@@ -315,13 +315,13 @@
   const nowBand = ctx => {
     const i = inc(ctx);
     if (ctx.state === 'empty') return card(`${head('Right now')}${note('No incident is open, so no procedure is running.')}`);
-    if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, proposed('CT-14')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
+    if (ctx.state === 'conflict') return `${sec('Right now')}${list(`${opens(I14.i, I14.name, 'inc_0014 · step 2 of 4, Acknowledge', tags(ST.open, settled('ADM-05')), I14.tone)}${opens(I12.i, I12.name, 'inc_0012 · reopened, back to step 3 of 5', tags(ST.again), I12.tone)}`)}`;
     return `${sec('Right now')}${list(opens(i.i, i.name, `${i.id} · ${ctx.state === 'error' ? 'step 2 of 5, Acknowledge' : 'step 3 of 5, waiting for a newer price'}`, tags(statusOf(ctx, i)), i.tone))}`;
   };
   const T_BOOK = {
     ...T_LIST, what: 'The runbook', rows: 5, loading: 'Reading the runbook and what is running.',
     empty: banner('', 'No incident is open.', 'Silence is not a sign that nothing is wrong, so the last run and the last restore stay in view.', 'check'),
-    conflict: `${banner('warn', 'A procedure changed after you signed it off.', 'Incident escalation reads Changed since sign-off until you walk it again. Production is also recorded lost, so inc_0014 is open, and inc_0012 reopened.', 'split')}${tags(proposed('CT-14'))}`,
+    conflict: `${banner('warn', 'A procedure changed after you signed it off.', 'Incident escalation reads Changed since sign-off until you walk it again. Production is also recorded lost, so inc_0014 is open, and inc_0012 reopened.', 'split')}${tags(settled('ADM-05'))}`,
     expired: banner('warn', 'A new restore exercise is overdue.', 'An import change landed after rx_0007, and rel_0031 went out with none since. Recovery says what comes next.', 'clock')
   };
   const bookRail = ctx => `${still(ctx)}${card(`${head('The rule')}${note('Agents have no operational authority. The runbook is written and walked on dev, with synthetic data, and you sign it off.')}`)}${refused('R17', 'No runbook step goes around the controlled writer, a fresh sign-in or the release workflow.')}`;
@@ -329,7 +329,7 @@
   function escalate(ctx, i = inc(ctx)) {
     const s = ctx.state;
     if (i === I14) return steps('Incident escalation for inc_0014', [
-      st(1, 'done', 'code', 'Code opens one incident', 'inc_0014. How production came to be recorded lost is not recorded.', tags(proposed('CT-14'))),
+      st(1, 'done', 'code', 'Code opens one incident', 'inc_0014. Code opens the incident when production stops answering its checks, and you record it lost with a fresh sign-in.', tags(settled('ADM-05'))),
       st(2, 'now', 'you', 'Acknowledge', 'Waiting for you.', ack14()),
       st(3, '', 'you', 'Switch in Recovery', 'Only you approve it, and only with a reconciled copy.', list(opens('db', 'Recovery', 'rx_0007 · as of Sun 1 Nov'))),
       st(4, '', 'you', 'Resolve', CLOSE14, close14(ctx))
@@ -383,7 +383,7 @@
     const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag)));
     return steps('Pause switches', [
       st(1, 'done', 'you', 'Say what is wrong', 'Read the incident first, so the pause fits the fault.'),
-      st(2, 'now', 'you', 'Choose the smallest switch', 'Only the forecast scope pause has a rule today. Who may press the other two is open.', rows.join('')),
+      st(2, 'now', 'you', 'Choose the smallest switch', 'All three switches are yours, on iPad or desktop, each kept in the record ("All three, as drawn", ADM-19).', rows.join('')),
       st(3, '', 'code', 'Code records it', 'The pause and its reason are recorded. How they are recorded is open.'),
       st(4, '', 'you', 'Restart with your yes', 'Nothing restarts itself.')
     ]);

@@ -28,10 +28,10 @@
      How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
   const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
   const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
-  /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
-  const limit = `<div class="holdings-acts">${proposed('DATA-DEC-02')}</div>`;
-  /* a line and the open question it rests on, inside one measure */
-  const flagged = (t, ref) => `<span class="holdings-late" style="margin-top:0"><span>${t}</span>${proposed(ref)}</span>`;
+  /* how old a price may be is DATA-DEC-02, settled on 5 Nov 2026 ("Approve the proposed limits now", OWN-07), so every use of the late-price rule says so */
+  const limit = `<div class="holdings-acts">${settled('OWN-07')}</div>`;
+  /* a line and the label of the rule it rests on, inside one measure: a pick that settles it, or the record that leaves it open */
+  const flagged = (t, chip) => `<span class="holdings-late" style="margin-top:0"><span>${t}</span>${chip}</span>`;
   /* one sentence, word for word, on every import, typed entry, draft, live approval, receipt and approve sheet */
   const NO_TRADE = 'This records what already happened at your broker. It places no trade.';
   const noTrade = `<p class="holdings-note">${NO_TRADE}</p>`;
@@ -70,7 +70,7 @@
       ['Money-weighted return', 'Unavailable', ev('none', 'Unavailable'), 'Needs dated cash flows. Never shown as zero.']
     ],
     HSBA: [
-      ['Value', '£6,104.20', ev('old', 'Stale'), flagged('Last price 14:10, Yahoo. Left out of the total until its price returns.', 'DATA-DEC-02')],
+      ['Value', '£6,104.20', ev('old', 'Stale'), flagged('Last price 14:10, Yahoo. Left out of the total until its price returns.', settled('OWN-07'))],
       ['Cost basis', '£5,300.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£804.20 (+15.2%)', ev('old', 'Stale'), 'Uses the 14:10 price.'],
       ['Money-weighted return', 'Withheld', ev('old', 'Stale'), 'Its closing value is stale, so the rate is withheld until its price returns.']
@@ -79,13 +79,13 @@
       ['Value', '£8,940.30', ev('ok', 'Available'), 'Priced 10:00, Yahoo. FX 20:58.'],
       ['Cost basis', '£7,700.00', ev('ok', 'Available'), 'Broker figure in INR, dated FX labelled estimated.'],
       ['Gain', '+£1,240.30 (+16.1%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), flagged('These cash flows change direction three times, so more than one rate could fit. The search found +22.3% a year and cannot prove it is the only one, so none is picked. FX estimated from dated reference rates.', 'FIN-OD-04')]
+      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), flagged('These cash flows change direction three times, so more than one rate could fit. The search found +22.3% a year and cannot prove it is the only one, so none is picked. FX estimated from dated reference rates.', settled('OWN-14'))]
     ],
     AZN: [
       ['Value', '£9,215.75', ev('ok', 'Available'), 'Priced 16:35, Yahoo.'],
       ['Cost basis', '£8,200.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£1,015.75 (+12.4%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No rate stated', ev('amb', 'Nonconvergent'), flagged('These cash flows change direction three times, and the search used its budget before it could separate the possible rates, so none is stated. Same inputs give the same result. Diagnostics kept.', 'FIN-OD-04')]
+      ['Money-weighted return', 'No rate stated', ev('amb', 'Nonconvergent'), flagged('These cash flows change direction three times, and the search used its budget before it could separate the possible rates, so none is stated. Same inputs give the same result. Diagnostics kept.', proposed('FIN-OD-04'))]
     ]
   }[h.t]);
   const accountsOf = h => ({
@@ -135,7 +135,7 @@
     if (h.stale) return `<span class="chip stale">${ic('clock', 's14')}Held</span>`;
     return `<div style="display:flex;align-items:center;gap:6px"><span style="width:38px;color:var(--fc-ink);font-weight:600;text-align:right">${pct(h.med)}</span><span style="width:56px;display:block">${range(h, 56, 14)}</span></div><div class="small muted" style="font-size:12px;line-height:16px;white-space:nowrap">${pct(h.lo)} to ${pct(h.hi)}</div>`;
   };
-  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${proposed('DATA-DEC-02')}</div>`}</div>`;
+  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${settled('OWN-07')}</div>`}</div>`;
   const retCell = r => (r.startsWith('+') ? r.replace(' a year', '') : r === 'Unavailable' ? '' : `<span class="muted">${{ 'No single rate': 'Not proved', 'No rate stated': 'Not stated', Withheld: 'Withheld' }[r]}</span>`);
   const evCell = (h, ctx) => (withheld(h, ctx) ? ev('old', 'Stale') : ev(...L[h.t].s));
   const holdTable = (ctx, title = 'Holdings') => {
@@ -159,7 +159,7 @@
   const partialCard = ctx => valueCard(ctx, { label: 'Known value, 6 of 7 priced', val: '84,051.05', held: '78,508.20', partial: true, chip: ev('part', 'Partial'), sub: partialSub() });
   const coverage = ctx => `<div class="card" style="padding:14px 16px" data-mo="card"><div class="label">What your evidence supports</div>
     ${(ctx.state === 'stale' ? [['Value', 6], ['Cost basis', 6], ['Gain', 5], ['Return', 3]] : [['Value', 7], ['Cost basis', 6], ['Gain', 6], ['Return', 4]]).map(([k, n]) => `<div class="holdings-cov"><span>${k}</span><i role="img" aria-label="${k}: ${n} of 7 holdings"><u data-mo="barx" style="--v:${Math.round(n / 7 * 100)}%"></u></i><b>${n} of 7</b></div>`).join('')}
-    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Older statements fill the gaps. No single rate is proved for Reliance. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}</div></div>`;
+    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Older statements fill the gaps. No single rate is proved for Reliance. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}${settled('OWN-14')}</div></div>`;
   const IMPORT_NOW = { loading: '1 import is uploading', error: '3 files not taken in', stale: '1 import last seen at 21:09', offline: '1 upload stopped at 62%', noModel: '1 scan is queued, not read', disagreement: '', abstention: '1 import is ready for you' };
   const importNow = st => [IMPORT_NOW[st] ?? '1 import is being read', '1 difference open'].filter(Boolean).join(' · ');
   const toImports = (n, t = 'General account, Q3 · cash differs by £8.15. Nothing here changes until you approve it.') => `<button class="card holdings-link" type="button" data-mo="card"><span class="ic">${ic('layers', 's18')}</span><span>${n}<small>${t}</small></span>${ic('chev-r', 's18')}</button>`;
@@ -204,14 +204,14 @@
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
     <p>Nothing is plugged or overwritten. Fix a row, add the missing one, or ${o.done ? '' : 'commit and '}keep the difference open, in plain sight, with your reason.</p>${acts(btn('Find the row', 'tinted sm'), btn('Keep it open, with a reason', 'plain sm'))}</div>`;
 
-  /* the failures an upload can meet. The upload limit is an open owner question, so it is labelled proposed. A locked PDF opens on
+  /* the failures an upload can meet. Oversized files stay held, and the limits are set from your real statements ("Set from your real statements", MP40-Q1), so no value is drawn. A locked PDF opens on
      your device: the owner pressed "Local unlock step" (MP40-Q2), so its row leads to Unlock a PDF */
   /* one sentence, word for word, wherever a statement password is met (MP40-Q2) */
   const PDF_RULE = 'The password never leaves this device, and it is never stored, logged or sent to a model.';
   const failRow = (k, n, t, s, chip, a) => `<div class="hrow" style="grid-template-columns:30px minmax(0,1fr);align-items:start" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0;display:grid;gap:6px"><div><div class="nm">${n}</div><div class="tk" style="white-space:normal">${t}</div></div><p class="small muted">${s}</p>${chip ? `<div class="holdings-acts">${chip}</div>` : ''}${a}</div></div>`;
   const failures = () => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>3 files not taken in</h3>${ev('bad', 'Nothing was read')}</div>
     ${failRow('PDF', 'isa-scan-copy.pdf', 'Unreadable file', 'Its contents do not match a PDF. It was refused at the door, and nothing reached Claude. Export it again from your broker.', '', acts(btn('Choose another', 'tinted sm')))}
-    ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. No upload limit is approved yet.', proposed('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
+    ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. The four limits are set from your largest real statements, with a margin, when they arrive.', settled('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
     ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', `Locked with a password, so nothing read it. Open it on this device with its password, and only the unlocked copy is sent. ${PDF_RULE}`, '', acts(btn('Unlock on this device', 'tinted sm')))}</div>`;
   const interrupted = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('wifi-off', 's18')}</span>Upload stopped at 62%</div><p>isa-oct-2026-scan.pdf did not finish, so no part of it was kept. Send it again once you are back online. Your link has expired and a new one is made for you.</p><div class="calbar" role="img" aria-label="Stopped at 62%"><i style="width:62%;background:var(--ink-2)"></i></div>${acts(`<button class="btn btn-tinted sm" type="button" disabled>Send again when online</button>`)}</div>`;
   const STEP = ['Received', 'Checked', 'Reading', 'Ready'];
@@ -235,7 +235,7 @@
   const dropZone = ctx => `<div class="holdings-drop" data-mo="card"><span class="ring">${ic('layers', 's24')}</span><b>${phone(ctx) ? 'Add a statement' : 'Drop a statement here'}</b><p>CSV, Excel, PDF or a screenshot. It is held apart and checked before anything reads it.</p>${acts(btn('Choose a file', 'primary sm'), btn('Type it in', 'tinted sm'))}</div>`;
   /* open work in Imports: an unsent typed entry and a difference that stays open across sessions */
   const openRow = (i, n, s) => `<button class="holdings-acc holdings-btn" type="button" data-mo="rise"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${ic(i, 's16')}</span><span class="t"><b>${n}</b><span>${s}</span></span>${ic('chev-r', 's18')}</button>`;
-  const REBUILD_ROW = { default: ['Rebuild proposal ready', 'Nippon India Nifty 50 BeES · from 3 older statements'], stale: ['Rebuild proposal out of date', 'Nippon India Nifty 50 BeES · refresh it and approve it again'], disagreement: ['Rebuild proposal held', 'Nippon India Nifty 50 BeES · 20 units short'], abstention: ['Rebuild proposal, part history', 'Nippon India Nifty 50 BeES · Proposed · FIN-OD-03'] };
+  const REBUILD_ROW = { default: ['Rebuild proposal ready', 'Nippon India Nifty 50 BeES · from 3 older statements'], stale: ['Rebuild proposal out of date', 'Nippon India Nifty 50 BeES · refresh it and approve it again'], disagreement: ['Rebuild proposal held', 'Nippon India Nifty 50 BeES · 20 units short'], abstention: ['Rebuild proposal, part history', 'Nippon India Nifty 50 BeES · Settled · OWN-19'] };
   const openWork = (st = 'default') => `<div class="card top5" style="padding:2px 0 6px" data-mo="card"><div class="holdings-head"><h3>Open work</h3></div>${openRow('plus', 'Resume typed entry', 'General account · saved 21:09 · not added')}${openRow('split', 'Open the difference', 'General account, Q3 · cash differs by £8.15')}${openRow('layers', ...REBUILD_ROW[st])}</div>`;
   const openDiff = () => `<div class="card state" data-mo="card">${fileHead(ev('amb', 'Difference open'), 'General account, Q3', 'Committed 24 Oct · R-0212')}<p>The statement closes £8.15 away from the ledger on cash. It stays open across sessions until you fix or resolve it, and no plug trade clears it.</p>${acts(btn('Open the difference', 'tinted sm'))}</div>`;
   const readyCard = (ctx, go) => running(ctx, { at: 3, chip: ev('ok', 'Ready for you'), body: `<p>Claude read 10 of the 11 rows in full. 1 field it could not read is blank, not guessed, and waits for you.</p>${acts(btn(go, 'primary sm'))}` });
@@ -344,7 +344,7 @@
   const accCard = (a, ctx) => { const part = ctx.state === 'stale' && a.known; return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${a.c})"><h4>${a.n}</h4><p>${a.m}</p></div>
     ${a.rows.map(([t, u, v]) => { const h = byT[t], stale = h.stale; return `<div class="holdings-acc" data-mo="rise">${logo(h.c, h.lg, true)}<div style="min-width:0"><b>${h.n}</b><span>${t} · ${u}</span></div><div><div class="r">${v}</div>${stale ? `<span style="text-align:right;color:var(--warn)">${ctx.state === 'stale' ? 'Stale' : 'Late'} · ${h.stale} · ${ctx.state === 'noModel' ? 'No forecast' : 'forecast held'}</span>` : `<span style="text-align:right">${fcSmall(h, ctx)}</span>`}</div></div>${ctx.state === 'disagreement' && t === 'RELIANCE' ? `<div class="holdings-sides"><span>${sides()}</span>${dual()}</div>` : ''}`; }).join('')}
     <div class="holdings-foot"><div><span>${part ? 'Known, 2 of 3' : 'Holdings'}</span><b>${part ? a.known : a.hold}</b></div><div><span>Cash</span><b>${a.cash}</b></div><div><span>Return</span><b>${part ? a.retStale : a.ret}</b></div></div>
-    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${proposed('DATA-DEC-02')}</div></div>` : ''}</div>`; };
+    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${settled('OWN-07')}</div></div>` : ''}</div>`; };
   const fcSmall = (h, ctx) => {
     const st = ctx.state;
     if (st === 'noModel') return 'No forecast';
@@ -480,7 +480,7 @@
     offline: () => off(ctx, 'Showing this proposal from 22:15. Approval needs a connection.') + rebuildCard(ctx) + rebuildFx({ go: dis('Review and approve') }),
     disagreement: () => banner('', 'The statements fall 20 units short.', 'They reach 4,180 units and your snapshot says 4,200. The baseline cannot retire until you settle it.', 'split') + rebuildCard(ctx, { chip: ev('amb', 'Difference open'), base: '4,200 units, kept', units: '4,180 units, 8 events', after: '4,200, 20 unexplained', gen: 'Stays at 1' }) + rebuildFx({ rec: '20 units apart', basis: 'Unavailable until settled', gain: 'Unavailable until settled', ret: 'Unavailable until settled', go: dis('Review and approve') }),
     noModel: () => claudeOff('Code builds this proposal from your older statements, so it carries on.') + rebuildCard(ctx) + rebuildFx(),
-    abstention: () => banner('', 'The history is only part there.', 'The statements reach back to June 2025 and cover 2,600 of the 4,200 units, so the return stays unavailable. How a part history rebases is still open, so this is one way to draw it, and it cannot be approved yet.', 'ban') + acts(proposed('FIN-OD-03')) + rebuildCard(ctx, { chip: ev('part', 'Part history'), base: '1,600 units kept', units: '2,600 units, 5 events', after: '4,200, 1,600 from the baseline', gen: 'Stays at 1' }) + rebuildFx({ rec: 'Units agree', basis: 'Partial, 2,600 of 4,200 units', gain: 'Partial, 2,600 of 4,200 units', ret: 'Stays unavailable', go: dis('Review and approve') })
+    abstention: () => banner('', 'The history is only part there.', 'The statements reach back to June 2025 and cover 2,600 of the 4,200 units, so the return stays unavailable. A rebuild can be approved only when statements cover every unit, so a part one stays held and visible.', 'ban') + acts(settled('OWN-19')) + rebuildCard(ctx, { chip: ev('part', 'Part history'), base: '1,600 units kept', units: '2,600 units, 5 events', after: '4,200, 1,600 from the baseline', gen: 'Stays at 1' }) + rebuildFx({ rec: 'Units agree', basis: 'Partial, 2,600 of 4,200 units', gain: 'Partial, 2,600 of 4,200 units', ret: 'Stays unavailable', go: dis('Review and approve') })
   });
   const rebuildScreen = (id, top = '') => ({
     id, title: 'Rebuild history',
@@ -642,11 +642,11 @@
         render: ctx => frame(ctx, { tab: 0, title: 'Holdings', back: 'Portfolio', actions: eyeBtn(), webActions: `${btn('Imports', 'tinted sm', 'layers')}${eyeBtn()}`, ...listParts(ctx) })
       }, privateScreen('a-private', listParts, 'Holdings'), {
         id: 'a-one', title: 'One holding',
-        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance, whose flows change direction, so one rate found is not proved the only one, Abstaining AstraZeneca, whose search used its budget before it could separate the possible rates. How far the search goes and what proves a single rate are open (Proposed · FIN-OD-04).',
+        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance, whose flows change direction, so one rate found is not proved the only one, Abstaining AstraZeneca, whose search used its budget before it could separate the possible rates. The owner picked "Show it, not picked" (OWN-14): a found rate shows in the note beside the status, never as the headline. How far the search goes and what proves a single rate are open (Proposed · FIN-OD-04).',
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
-        note: 'Imports is its own place: in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02), and under Settings on a phone. Error shows the three ways a file is refused. The upload limit (MP40-Q1) is an open owner question, so it is labelled proposed. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
+        note: 'Imports is its own place: in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02), and under Settings on a phone. Error shows the three ways a file is refused. Oversized files stay held, and the four limits are set from your largest real statements when they arrive ("Set from your real statements", MP40-Q1), so no value is drawn. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, dropZone(ctx), 'Open preview'), rail: importsRail(ctx) })
       }, unlockScreen('a-unlock', 'Imports'), manualScreen('a-manual'), {
         id: 'a-preview', title: 'Preview: check every row',
@@ -709,7 +709,7 @@
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, ctx.state === 'empty' ? methods(ctx) : accountPick(), 'Start checking'), rail: importsRail(ctx) })
       }, {
         id: 'b-add', title: 'Add a statement, read it',
-        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. The upload limit (MP40-Q1) is open, so it is labelled proposed, and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
+        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. Oversized files stay held, and the four limits are set from your largest real statements when they arrive ("Set from your real statements", MP40-Q1), and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
         render: ctx => {
           const st = ctx.state, top = STEPB(st === 'default' || st === 'stale' || st === 'noModel' || st === 'abstention' ? 1 : 0);
           const body = top + region(ctx, {

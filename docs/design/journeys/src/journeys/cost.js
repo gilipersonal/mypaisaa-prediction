@@ -52,8 +52,9 @@
       <span class="cost-lbl start">${o.start || '£0'}</span></div>`;
   }
   const keyOf = m => `<div class="allocl" style="margin-top:0">${m.keys.map(([c, t, v]) => `<span style="--c:var(${c})">${t} <b>${v}</b></span>`).join('')}${m.to ? `<span style="--c:var(--fc-80)">Forecast</span>` : ''}<span style="--c:var(--hairline-2)">Reserve from £70</span></div>`;
-  const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? proposed(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
-  const askOf = m => (m.q ? `<div class="cost-chips">${proposed(m.q)}</div>` : '');
+  /* every m.q is a rule the owner settled on 5 Nov 2026: "Approve all three" (MP40-Q6) and "Adopt the key" (MP40-Q5), MP-192 */
+  const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? settled(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
+  const askOf = m => (m.q ? `<div class="cost-chips">${settled(m.q)}</div>` : '');
   const dayOf = m => `November · day ${m.day} of 30`;
   const lastGood = 'Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.';
 
@@ -130,7 +131,7 @@
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
   /* the £15 above £85 also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them"). The window itself stays labelled until MP-192 */
   const KEPT = ['Sign-in', 'Ledger reads', 'Audit', 'Recovery', 'Daily forecasts'];
-  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${settled('MP40-Q6')}</div>`);
   /* OWN-35, "Code may draft one": one sentence, word for word here and in admin Costs */
   const RAISE = 'When a line is close, code may draft a raise for your Approvals, with its cost and rollback. Only your yes, with a fresh sign-in, applies it, and it stays under £100.';
 
@@ -142,12 +143,12 @@
     offline: [['Reconciled billing', 'Saved · AWS to 17 Nov', 'Age 15 h', 'offline'], ['Anthropic usage', 'Saved · to 18:00', 'Age 3 h', 'offline'], ['Internal estimates', 'Saved · to 22:15', 'Offline', 'offline']],
     noModel: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Claude is off, so there is nothing to collect', 'Off', ''], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
     empty: [['Reconciled billing', 'First run tomorrow, 06:10', 'None yet', ''], ['Anthropic usage', 'First report within six hours', 'None yet', ''], ['Internal estimates', 'Live · nothing to estimate yet', 'Now', 'fresh']],
-    abstention: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Unavailable until an admin key is adopted', 'Unknown', ''], ['Internal estimates', 'Live · AWS only', 'Now', 'fresh']]
+    abstention: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Not collected, so unknown', 'Unknown', ''], ['Internal estimates', 'Live · AWS only', 'Now', 'fresh']]
   };
   const laneRows = ctx => list((LANES[ctx.state] || LANES.default).map(([t, s, age, kind]) => li('', t, s, `<span class="chip ${kind}">${kind === 'fresh' ? '<span class="dot"></span>' : kind === 'stale' ? ic('clock', 's14') : kind === 'error' ? ic('alert', 's14') : kind === 'offline' ? ic('wifi-off', 's14') : ic('ban', 's14')}${age}</span>`)).concat(li('', 'Billing pages', 'Monthly cap of 120. Past it, a collection waits and shows as partial', ctx.state === 'empty' ? '0 of 120' : '54 of 120')));
   function sourcesCard(ctx) {
     if (ctx.state === 'loading') return skCard('How old each figure is');
-    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p><div class="cost-chips">${proposed('MP40-Q5: Anthropic admin key')}</div>`);
+    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p><div class="cost-chips">${settled('MP40-Q5: Anthropic admin key')}</div>`);
   }
   function committedCard(ctx, o = {}) {
     const s = ctx.state;
@@ -165,7 +166,7 @@
   function creditCard(ctx) {
     if (ctx.state === 'loading') return skCard('Gross, credit and cash');
     const s = ctx.state, gross = { noModel: '£0.00', empty: '£0.00', abstention: 'Unknown', error: '£6.71' }[s] || '£7.06';
-    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', s === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', ['£0.00', 'Unknown'].includes(gross) ? gross : `Up to ${gross}`)])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', s === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', ['£0.00', 'Unknown'].includes(gross) ? gross : `Up to ${gross}`)])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${settled('MP40-Q6')}</div>`);
   }
   function drill(ctx) {
     if (ctx.state === 'loading') return skCard('Claude by feature', 4);
@@ -261,12 +262,12 @@
 
   /* ---------- home ---------- */
   /* Home shows prices, so its value and rows follow the shared story. Ready: HSBC is late but inside the limit. Stale: it leaves the total. Error: the last good run shows in full. */
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${settled('OWN-07')}`);
   const rowsOf = (ctx, n) => `<div class="sech" style="padding:6px 0 0" data-mo="rise"><h3>Holdings</h3><span class="cost-chips" style="align-items:center"><span class="small muted">6 months</span>${illus('Decision support')}</span></div><div class="list card" style="margin:0">${H.slice(0, n).map(h => (ctx.state === 'stale' ? hrow(h) : late(hrow(h)))).join('')}</div>`;
   function valueOf(ctx) {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
     if (ctx.state === 'error') return v.replace(ASOF_ALL, LASTGOOD_ALL).replace('>today<', '>last good<');
-    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('DATA-DEC-02')}</div>`).replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
+    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${settled('OWN-07')}</div>`).replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
     return v;
   }
   const top5s = ctx => (wide(ctx) ? `<div class="card top5 dk5" data-mo="card">${top5('ustech')}</div>` : '');

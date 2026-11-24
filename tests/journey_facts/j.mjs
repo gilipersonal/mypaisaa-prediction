@@ -169,14 +169,15 @@ export default {
     each({ journey: 'holdings', option: 'b', screen: 'b-accounts', state: 'default' }, (v, at) => must(v.html.includes('holdings-link') && /Imports/.test(v.text), `${at.surface}: no way into Imports from the accounts`));
     each({ journey: 'holdings', option: 'a', screen: 'a-imports', state: 'default', surface: ['iphone', 'pwa'] }, (v, at) => must(backTo(v, 'Settings'), `${at.surface}: Imports must read back Settings`));   // narrowed in MP-186 (OWN-02): phones only
   },
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R1-j2': ({ each, has, lacks, must }) => {
     each({ journey: 'holdings', screen: 'a-list', state: 'default' }, (v, at) => {
       has(v.text, /HSBC last priced 14:10/, `${at.surface}: Ready does not say how HSBC is treated`);
-      has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: the freshness limit is not labelled proposed`);
+      has(v.text, /Settled · OWN-07/, `${at.surface}: the freshness limit is not labelled proposed`);
       has(v.text, /90,155/, `${at.surface}: HSBC should stay in the total`);
       lacks(v.text, /Stale|16:35 ·|Price 16:35/, `${at.surface}: Ready calls HSBC stale`);
     });
-    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => { has(v.text, /Late · 14:10/, `${at.surface}: HSBC is not late`); has(v.text, /Proposed · DATA-DEC-02/, `${at.surface}: no label`); });
+    each({ journey: 'holdings', screen: 'b-accounts', state: 'default' }, (v, at) => { has(v.text, /Late · 14:10/, `${at.surface}: HSBC is not late`); has(v.text, /Settled · OWN-07/, `${at.surface}: no label`); });
     for (const s of ['a-list', 'b-accounts']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => {
       has(v.text, /84,051/, `${s} ${at.surface}: no known subtotal`);
       has(v.text, /6 of 7 priced/, `${s} ${at.surface}: no count`);
@@ -492,6 +493,7 @@ export default {
     }
   },
   // The amended outcome and both state facts on both sides; one banner, not two stories.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R2-j8': ({ each, has, lacks }) => {
     for (const s of ['a-list', 'b-board', 'a-differ', 'b-differ']) each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => {
       has(v.text, /1 outcome was amended/, `${s} ${at.surface}: no amendment`);
@@ -500,7 +502,7 @@ export default {
     });
     for (const s of ['a-list', 'b-board']) {
       each({ journey: 'journal', screen: s, state: 'disagreement' }, (v, at) => has(v.text, /Rules and models differ on Reliance/, `${s} ${at.surface}: Reliance is not named`));
-      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Last joined 14:10/, `${s} ${at.surface}: outcomes`); has(v.text, /HSBC last priced 14:10/, `${s} ${at.surface}: rankings`); has(v.text, /Proposed · DATA-DEC-02/, `${s} ${at.surface}: no label`); });
+      each({ journey: 'journal', screen: s, state: 'stale' }, (v, at) => { has(v.text, /Last joined 14:10/, `${s} ${at.surface}: outcomes`); has(v.text, /HSBC last priced 14:10/, `${s} ${at.surface}: rankings`); has(v.text, /Settled · OWN-07/, `${s} ${at.surface}: no label`); });
     }
     each({ journey: 'journal', screen: 'b-board', state: 'disagreement' }, (v, at) => { has(v.text, /Amended/, `${at.surface}: no mark`); has(v.text, /Corrected to \+11\.9%/, `${at.surface}: no corrected line`); });
     each({ journey: 'journal', screen: 'b-board', state: 'abstention' }, (v, at) => has(v.text, /Recorded against a ranked action on 3 Mar/, `${at.surface}: the entry reads differently from A`));
@@ -572,9 +574,10 @@ export default {
     });
   },
   // A part-history rebase is not in the records, so it is labelled and cannot be approved; nothing approved the older statements.
+  // narrowed in MP-192: the owner's picks settle these rules ("Whole history only", OWN-19), so the label reads Settled with the pick's id, beside the same fact
   'R2-j17': ({ each, has, lacks, must }) => {
     for (const s of ['a-rebuild', 'b-rebuild']) {
-      each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => { has(v.text, /Proposed · FIN-OD-03/, `${s} ${at.surface}: not labelled`); must(!liveBtn(v.html, 'Review and approve'), `${s} ${at.surface}: live approval of an open question`); lacks(v.text, /1 → 2/, `${s} ${at.surface}: a new generation on an open question`); });
+      each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => { has(v.text, /Settled · OWN-19/, `${s} ${at.surface}: not labelled`); must(!liveBtn(v.html, 'Review and approve'), `${s} ${at.surface}: live approval of an open question`); lacks(v.text, /1 → 2/, `${s} ${at.surface}: a new generation on an open question`); });
       each({ journey: 'holdings', screen: s, state: 'noModel' }, (v, at) => lacks(v.text, /rows you already approved/, `${s} ${at.surface}: nothing approved the older statements`));
       each({ journey: 'holdings', screen: s, state: 'default' }, (v, at) => must(liveBtn(v.html, 'Review and approve'), `${s} ${at.surface}: Ready lost its approval`));
     }
@@ -643,6 +646,7 @@ export default {
     });
   },
   // Every stated rate is one the drawn schedule produces, and a status is one its flows can produce.
+  // narrowed in MP-192: the owner picked "Show it, not picked" (OWN-14), so Reliance's found rate carries Settled · OWN-14; AstraZeneca's search limit stays Proposed · FIN-OD-04
   'R3-j2': (api) => {
     const { each, view, must, has, lacks } = api;
     each({ journey: 'holdings', screen: 'b-one', state: 'default' }, (v, at) => {
@@ -667,7 +671,7 @@ export default {
     for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => {
       const f = flowsOf(view('holdings', 'b', 'b-one', at.surface, 'disagreement').text, closing(v.text)), row = sideRow(v.text);
       must(turns(f) === 3, `Reliance ${s} ${at.surface}: Ambiguous needs flows that change direction, found ${turns(f)} turns`);
-      has(row, /No single rate/, `Reliance ${s} ${at.surface}: a headline rate`); has(row, /Ambiguous/, `Reliance ${s} ${at.surface}: no status`); has(row, /Proposed · FIN-OD-04/, `Reliance ${s} ${at.surface}: the rule is open`);
+      has(row, /No single rate/, `Reliance ${s} ${at.surface}: a headline rate`); has(row, /Ambiguous/, `Reliance ${s} ${at.surface}: no status`); has(row, /Settled · OWN-14/, `Reliance ${s} ${at.surface}: the rule the owner picked is not labelled`);
       const named = [...row.matchAll(/([+−]?\d+(?:\.\d+)?)% a year/g)].map((m) => m[1]);
       must(named.length >= 1, `Reliance ${s} ${at.surface}: its true rate is not shown`);
       for (const r of named) must(holds(f, rateOf(r)), `Reliance ${s} ${at.surface}: ${r}% is not a rate these flows produce (XNPV ${xnpv(f, rateOf(r) / 100).toFixed(2)})`);
@@ -681,10 +685,11 @@ export default {
     for (const s of ['a-done', 'b-done']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Proposed · FIN-OD-04/, `${s} ${at.surface}: the rule is open`));
   },
   // The late-price rule cites DATA-DEC-02, on every screen that states it, on both sides of each flip.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6; "Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R3-j3': ({ each, has, lacks }) => {
     const rule = /freshness limit|left out of the total|left out until its price returns/i;
-    for (const journey of ['holdings', 'journal']) each({ journey }, (v, at) => { lacks(v.text, /Proposed · MP40-Q6/, `${journey} ${at.screen} ${at.surface} ${at.state}: a price cites the billing question`); if (rule.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${journey} ${at.screen} ${at.surface} ${at.state}: the rule has no label`); });
-    for (const [journey, ids] of [['holdings', ['a-list', 'b-accounts', 'a-private', 'b-private', 'a-one', 'b-one']], ['journal', ['a-list', 'b-board', 'a-record', 'b-decide', 'a-pick']]]) for (const s of ids) each({ journey, screen: s, state: 'stale' }, (v, at) => has(v.text, /Proposed · DATA-DEC-02/, `${journey} ${s} ${at.surface}: no label`));
+    for (const journey of ['holdings', 'journal']) each({ journey }, (v, at) => { lacks(v.text, /(?:Proposed|Settled) · MP40-Q6/, `${journey} ${at.screen} ${at.surface} ${at.state}: a price cites the billing question`); if (rule.test(v.text)) has(v.text, /Settled · OWN-07/, `${journey} ${at.screen} ${at.surface} ${at.state}: the rule has no label`); });
+    for (const [journey, ids] of [['holdings', ['a-list', 'b-accounts', 'a-private', 'b-private', 'a-one', 'b-one']], ['journal', ['a-list', 'b-board', 'a-record', 'b-decide', 'a-pick']]]) for (const s of ids) each({ journey, screen: s, state: 'stale' }, (v, at) => has(v.text, /Settled · OWN-07/, `${journey} ${s} ${at.surface}: no label`));
   },
   'R3-j4': unreadSteps,
   'R3-j5': stepTicks,
@@ -704,8 +709,9 @@ export default {
     each({ journey: 'journal', screen: 'b-decide', state: 'disagreement' }, (v, at) => { has(v.text, /Saved with both sides/, `${at.surface}: the wrong saved line`); lacks(v.text, /Saved with the action/, `${at.surface}: saved with an action that does not exist`); });
     each({ journey: 'journal', screen: 'a-record', state: 'default' }, (v, at) => has(v.text, /Saved with the action/, `${at.surface}: Ready lost its line`));
   },
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R3-j8': ({ each, has }) => {
-    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => has(v.text, /Left out of the total until its price returns\. Proposed · DATA-DEC-02/, `${s} ${at.surface}: the rule has no label beside it`));
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'stale' }, (v, at) => has(v.text, /Left out of the total until its price returns\. Settled · OWN-07/, `${s} ${at.surface}: the rule has no label beside it`));
   },
   'R3-j9': maskedTrade,
   // The two tightened checks catch what they claim: entries compared in order, and any "Reconciled" beside an open difference.
@@ -784,8 +790,9 @@ export default {
     for (const s of ['a-approve', 'b-approve']) each({ journey: 'holdings', screen: s, state: 'abstention' }, (v, at) => has(v.text, /Commit 2 groups, 6 of 11 rows/, `${s} ${at.surface}: the approval changed`));
   },
   // An INR holding's GBP rate is labelled estimated, as its cost row is.
+  // narrowed in MP-192: the owner picked "Show it, not picked" (OWN-14), so the found rate's note carries Settled · OWN-14
   'R4-j8': ({ each, has }) => {
-    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => has(sideRow(v.text) || '', /\+22\.3% a year[^]*?FX estimated from dated reference rates\. Proposed · FIN-OD-04/, `${s} ${at.surface}: a GBP rate on INR flows, not labelled`));
+    for (const s of ['a-one', 'b-one']) each({ journey: 'holdings', screen: s, state: 'disagreement' }, (v, at) => has(sideRow(v.text) || '', /\+22\.3% a year[^]*?FX estimated from dated reference rates\. Settled · OWN-14/, `${s} ${at.surface}: a GBP rate on INR flows, not labelled`));
   },
   // Older statements answer the snapshot, not the rates after it.
   'R4-j9': ({ each, has, lacks }) => {

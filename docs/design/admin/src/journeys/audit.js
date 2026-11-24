@@ -124,7 +124,7 @@
   /* ---------- who did what: the recorded changes ---------- */
   const CH = [
     ['eye-off', 'Export link issued', 'You · Wed 11:02 · revision 213', note('Export access')],
-    ['clock', 'Watch Barclays', 'Nobody · expired Wed 08:14', hold('Expired'), proposed('MP40-Q9')],
+    ['clock', 'Watch Barclays', 'Nobody · expired Wed 08:14', hold('Expired'), settled('MP40-Q9')],
     ['pause', 'US tech, 12 months paused', 'Code · Tue 21:20 · previous model not eligible', note('Automatic')],
     ['ban', 'Let the chat route add listings', 'Code · Tue 17:20 · would widen authority', fail('Refused', 'ban')],
     ['refresh', 'R1-LGB v2 reverted to v1', 'Code · Mon 22:20 · 2 bad weeks on probation', note('Automatic')],
@@ -174,7 +174,7 @@
   /* an expired approval has its own short trail: it never reached the ledger, so nothing after it happened */
   const PANE_X = [['Source', `ISA statement, Oct 2026 · ${mono('src_2f7b')}`, 'resolved'], ['Draft', 'Revision 6 · 9 of 11 rows', 'resolved'], ['Approval', `${mono('apr_6c03')} · approved Tue 21:18, expired Tue 21:33`, 'Expired'], ['Before and after', 'No commit started', 'None'], ['Correction', 'None', 'None'], ['Dependencies', 'None', 'None'], ['Risk', 'Unchanged: nothing reached the ledger', 'None'], ['Forecast', 'None used it', 'None'], ['Action', 'None', 'None'], ['Outcome', 'None', 'None'], ['Audit', mono('aud_5b19'), 'resolved']];
   const pane = (over = {}, rows = PANE) => `${sec(over.t || 'Lineage of R-0210')}${chipset(over.c || good('Complete lineage'))}${chainOf(rows, over)}`;
-  const CH_X = [['clock', 'Watch Taiwan Semiconductor', 'Nobody · expired Wed 18:00', hold('Expired'), proposed('MP40-Q9')], ...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
+  const CH_X = [['clock', 'Watch Taiwan Semiconductor', 'Nobody · expired Wed 18:00', hold('Expired'), settled('MP40-Q9')], ...CH.slice(0, 2), ['clock', 'Statement import approval expired', 'Nobody · Tue 21:33 · no commit started', hold('Expired')], ...CH.slice(2)];
   const bar = () => `<div class="aaudit-bar" data-mo="rise"><span class="chip illus">${mono('recorded_changes')}</span><span class="chip illus">Account lifetime</span><span class="chip illus">Revision 213</span>${bs('Filter', 'tinted', 'sliders')}</div>`;
   const expBody = ctx => region(ctx, {
     what: 'Recorded changes', rows: 7, ok: () => bar() + chRows(8),

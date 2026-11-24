@@ -51,8 +51,8 @@ const modelSplit = c => c.state === 'disagreement' && c.h.t !== 'RELIANCE';
 const shortH = st => (st === 'stale' ? byT.HSBA : A);
 const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK · GBP', AZN: 'AZN · XLON · UK · GBP', RELIANCE: 'RELIANCE · XNSE · India · INR' };
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
-/* the late-price rule: how late a price may be and still count, on every use of it */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
+/* the late-price rule: how late a price may be and still count, on every use of it. Settled, "Approve the proposed limits now" (OWN-07, MP-192) */
+const qLate = settled('OWN-07');
 /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* Each name reads its own market's run (POLICY-002, ADM-10, ADM-22): Apple the US run, issued 22:15 with its cutoff at 22:00; HSBC and
@@ -107,7 +107,7 @@ function ladderFan(ctx, o = {}) {
 
 /* ---------- the instrument ---------- */
 function inst(ctx, h = who(ctx.state)) {
-  if (ctx.state === 'noModel') return `<div class="fc-inst" data-mo="rise">${logo(GOLD.c, GOLD.lg)}<div style="min-width:0"><div class="nm">Gold</div><div class="small">XAU/USD · spot · Gold &amp; silver</div><div class="small">Quote 21:00 · Source open (SCI-D08)</div></div><div class="sum">$2,684.20${chg(-0.4)}</div></div>`;
+  if (ctx.state === 'noModel') return `<div class="fc-inst" data-mo="rise">${logo(GOLD.c, GOLD.lg)}<div style="min-width:0"><div class="nm">Gold</div><div class="small">XAU/USD · spot · Gold &amp; silver</div><div class="small">Quote 21:00 · Daily bar, cover unproven (OWN-26)</div></div><div class="sum">$2,684.20${chg(-0.4)}</div></div>`;
   return `<div class="fc-inst" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="small">${INFO[h.t]}</div></div><div class="sum">£${h.val}${ctx.state === 'stale' ? `<span class="chg" style="color:var(--warn);justify-content:flex-end">${ic('clock', 's14')}14:10</span>` : chg(h.day)}</div></div>`;
 }
 const hzSwitch = (ctx, on = 1, short = false) => {
@@ -137,7 +137,7 @@ function forecastMain(ctx, hz = 1, h = subj(ctx.state, hz)) {
     error: () => banner('fall', 'This forecast did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + card(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so this is the last forecast issued. Its action stays Pause until its price returns. ${qLate}`, 'clock') + card(),
     offline: () => banner('', 'Saved at 22:15.', `This is the forecast on your device, not fresh analysis. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') + card(),
-    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any horizon for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
+    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any horizon for gold until its daily bar proves cover for a first month (OWN-26). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Daily bar, cover unproven (OWN-26)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (isOut(st, h.t, hz) ? (h.t === 'RELIANCE' ? twoRanges(h, hz) : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both ranges show.', 'split') + card()) : banner('', `No conflict at ${n}.`, `R2-HGB v3 and the baseline agree here.${other ? ` ${h.n} is split at ${other} only, so it is not ranked and carries no action at any horizon.` : ''}`, 'split') + card()),
     abstention: () => (isOut(st, h.t, hz) ? stateCard('ban', 'The model abstained', `Too little comparable history for a calibrated ${n.replace(' months', '')}-month range, so no range is shown. Nothing stands in for it.`, '', pill('', 'ban', 'Abstained · no range shown')) + hist(ctx, h.n) : banner('', `${n[0].toUpperCase()}${n.slice(1)} stands.`, `${other ? `${other[0].toUpperCase()}${other.slice(1)} abstained, so ${h.n} is not ranked and carries no action at any horizon. ` : ''}This range rests on its own evidence.`, 'ban') + card())
   });
@@ -200,7 +200,7 @@ function shortMain(ctx) {
     error: () => banner('fall', 'Short-term forecasts did not load.', `${LASTGOOD}. That run shows in full.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + shortCard(ctx),
     stale: () => banner('warn', 'Stale input.', `HSBC's price stopped at 14:10, so 10 and 20 sessions are held, not current, until its price returns. ${qLate}`, 'clock') + shortCard(ctx),
     offline: () => banner('', 'Saved at 22:15.', `Short-term figures age fastest. Treat these as a record, not a reading.${q12(ctx)}`, 'wifi-off') + shortCard(ctx),
-    noModel: () => banner('', 'Rules only.', 'The short-term model is paused (POLICY-003), so all four rows show the rules with their heuristic strength. Gold has no rows: no forecast and no rules until its valuation convention is set (SCI-D08).', 'pause') + shortCard(ctx),
+    noModel: () => banner('', 'Rules only.', 'The short-term model is paused (POLICY-003), so all four rows show the rules with their heuristic strength. Gold has no rows: no forecast and no rules until its daily bar proves cover for a first month (OWN-26).', 'pause') + shortCard(ctx),
     disagreement: () => banner('', 'Models disagree at 10 sessions.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both are in the proof.', 'split') + shortCard(ctx),
     abstention: () => banner('', '20 sessions abstained.', 'The other rows stand on their own evidence.', 'ban') + shortCard(ctx)
   });
@@ -251,18 +251,18 @@ function proofMain(c) {
     error: () => stateCard('alert', 'Proof unavailable', 'The record did not load at 21:16. The forecast still shows, and its calibration line stays labelled with its time.', btn('Try again', 'tinted', 'refresh')),
     stale: () => banner('warn', 'HSBC\'s price is stale.', `No live forecast has matured yet, so no grade is held up. A grade that falls due waits until its price returns. Nobody edits a past score. ${qLate}`, 'clock') + ok(),
     offline: () => banner('', 'Saved at 22:15.', `The record on your device. New grades arrive when you reconnect.${q12(ctx)}`, 'wifi-off') + ok(),
-    noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast while its valuation convention is open (SCI-D08). There is nothing here to score, and no record is claimed.'),
+    noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast until its daily bar proves cover for a first month (OWN-26). There is nothing here to score, and no record is claimed.'),
     disagreement: () => banner('', 'Baseline comparison.', 'R2-HGB v3 and the baseline sit together so you can weigh them. Rules carry no scored record.', 'split') + `<div class="card fc-card" data-mo="card"><div class="fc-kv"><span>R2-HGB v3 · coverage</span><b>${l.held}%</b><span>Baseline · coverage</span><b>${r.baseHeld}%</b><span>R2-HGB v3 · error</span><b>${r.err}</b><span>Baseline · error</span><b>${r.baseErr}</b></div></div>` + ok(),
     abstention: () => banner('', 'Abstentions are counted.', `The model abstained on 7 of ${l.scored + 7} origins. They are reported here, and are not scored as hits or misses.`, 'ban') + ok()
   });
 }
-const proofRail = c => (c.state === 'noModel' ? `<div class="card fc-card" data-mo="card"><h4>Why there is no sheet</h4><p class="fc-sub">Model, regime and analog sheets stand behind a forecast. Gold has none until its valuation convention is set (SCI-D08).</p></div>` : ['empty', 'error'].includes(c.state) ? sheets() : hzRecord() + walk(c.hz) + sheets());
+const proofRail = c => (c.state === 'noModel' ? `<div class="card fc-card" data-mo="card"><h4>Why there is no sheet</h4><p class="fc-sub">Model, regime and analog sheets stand behind a forecast. Gold has none until its daily bar proves cover for a first month (OWN-26).</p></div>` : ['empty', 'error'].includes(c.state) ? sheets() : hzRecord() + walk(c.hz) + sheets());
 
 /* ---------- three views ---------- */
 const clMark = '<span class="cl-mark s" aria-hidden="true"><i></i><i></i><i></i></span>';
 function vRules(c) {
   const st = c.state;
-  if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4><span class="chip proposed"><span class="dot"></span>Proposed · SCI-D08</span></div><div class="fc-kv"><span>Reads</span><b>Nothing</b></div><p class="fc-sub">Rules read nothing for gold without a valuation convention.</p></div>`;
+  if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4>${settled('OWN-26')}</div><div class="fc-kv"><span>Reads</span><b>Nothing</b></div><p class="fc-sub">Rules read nothing for gold until its daily bar proves cover for a first month.</p></div>`;
   const body = c.pause ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is below its 200-day average.</li><li>Drawdown of 11% from its high.</li></ul>`
     : st === 'stale' ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Last price is past the freshness limit.</li><li>Nothing newer to read until its price returns.</li></ul>`
       : `<div class="fc-kv"><span>Reads</span><b>Hold</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is above its 200-day average.</li><li>Valuation is above its 5-year median.</li></ul>`;
@@ -301,7 +301,7 @@ function viewsMain(c) {
     error: banner('warn', 'One view failed.', 'The others still show. The failed view says why.', 'alert'),
     stale: banner('warn', 'HSBC\'s price is stale.', `It stopped at 14:10, so all three views describe the last issue, not today, until its price returns. ${qLate}`, 'clock'),
     offline: banner('', 'Saved at 22:15.', `All three views are from your device.${q12(ctx)}`, 'wifi-off'),
-    noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its valuation convention is set (SCI-D08). No combined reading is made.', 'cube'),
+    noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its daily bar proves cover for a first month (OWN-26). No combined reading is made.', 'cube'),
     disagreement: modelSplit(c) ? banner('', `Models disagree at ${HN[c.hz]}.`, 'Each keeps its own range, no median stands, and no action is ranked there.', 'split') : banner('', 'Rules and models disagree.', 'Each side keeps its own evidence, and no action is ranked.', 'split'),
     abstention: banner('', `The model abstained at ${HN[c.hz]}.`, 'The rules still show. Nothing is folded into one score.', 'ban')
   }[st] || '';
@@ -332,7 +332,7 @@ function scenMain(ctx, figuresFirst = false) {
   return region(ctx, {
     what: 'Scenarios', ok: all,
     loading: () => banner('', 'Reading your saved copy.', 'The last saved paths stay here, from 2 November, until it lands.', 'refresh') + dim(all()),
-    empty: () => stateCard('scenario', 'Template values wait for you', 'The downside, central and upside values need your approval before they are used (SCI-D06). Until then no scenario runs and no path is drawn.', btn('Review the template values', 'primary')),
+    empty: () => stateCard('scenario', 'Template values wait for you', 'A separate piece of work proposes each downside, central and upside value with its evidence, and you approve them ("Sourced proposal, then approve", OWN-10). Until then no scenario runs and no path is drawn.', btn('Review the template values', 'primary')),
     error: () => banner('fall', 'Inflation of 40% was refused.', 'It must be between 0% and 15%. The last saved assumptions stay, and so do these paths.', 'alert') + all(),
     stale: () => banner('warn', 'FX is from 2 November.', 'The GBP/USD quote is a day old, so the pound figures are held to that rate.', 'clock') + all(),
     offline: () => banner('', 'Saved at 22:15.', `Editing waits until you reconnect. These paths are from your last saved assumptions.${q12(ctx)}`, 'wifi-off') + all()
@@ -361,10 +361,10 @@ const chainOf = (h, hz = 1) => { const l = longOf(h)[hz]; return [
   ['lock', 'Audit', `Recorded ${clockOf(h)[0]} · 7 of 7 links resolve`, 'Each link opens the stored record. Nothing is rebuilt.']
 ]; };
 const goldChain = () => [
-  ['db', 'Source', 'Spot quote 21:00 · Source open (SCI-D08)', 'Quoted at 21:00. Its source, and so its clock, are still to be set.'],
+  ['db', 'Source', 'Spot quote 21:00 · Daily bar, cover unproven (OWN-26)', 'Quoted at 21:00. Each day\'s value is the provider\'s daily bar, with its boundary recorded, once the first month proves cover.'],
   ['layers', 'Ledger', 'Watch-only: no position', 'Gold is on your watch list. The ledger holds none.'],
   ['shield', 'Risk', 'Not in the portfolio, so no exposure', 'Nothing here counts towards the snapshot.'],
-  ['ban', 'Forecast', 'None: the valuation convention is open (SCI-D08)', 'No model or rule produced a figure, and none is implied.'],
+  ['ban', 'Forecast', 'None until the daily bar proves cover (OWN-26)', 'No model or rule produced a figure, and none is implied.'],
   ['target', 'Action', 'None: not ranked', 'Nothing was published.'],
   ['clock', 'Outcome', 'Nothing to score', 'No forecast was issued, so nothing matures.'],
   ['lock', 'Audit', 'Recorded 22:15 · 7 of 7 links resolve', 'Each link opens the stored record. Nothing is rebuilt.']
@@ -432,14 +432,14 @@ function ladderMain(ctx, h) {
     error: () => banner('fall', 'Forecasts did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + main(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so every horizon shows its last issue until its price returns. ${qLate}`, 'clock') + main(),
     offline: () => banner('', 'Saved at 22:15.', `Every horizon here is from your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + main(),
-    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
+    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold until its daily bar proves cover for a first month (OWN-26). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Daily bar, cover unproven (OWN-26)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (h.t === 'RELIANCE' ? banner('', 'Rules and models disagree at 3, 6 and 12 months.', 'The rules point down and the model points up, so no median stands and no action is ranked. Open a row for both.', 'split') : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands there. Open the row for both.', 'split')) + main(),
     abstention: () => banner('', '12 months abstained.', '3 and 6 months stand on their own evidence.', 'ban') + main()
   });
 }
 function ladderRail(ctx) {
   const st = ctx.state;
-  if (st === 'noModel' || st === 'empty') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Short-term and scenarios</h4>${st === 'noModel' ? '<span class="chip proposed"><span class="dot"></span>Proposed · SCI-D08</span>' : ''}</div><p class="fc-sub">${st === 'noModel' ? 'Neither runs for gold: rules read nothing without a valuation convention, and scenarios need one too.' : 'Short-term rows and scenarios appear with the first run.'}</p></div>`;
+  if (st === 'noModel' || st === 'empty') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Short-term and scenarios</h4>${st === 'noModel' ? settled('OWN-26') : ''}</div><p class="fc-sub">${st === 'noModel' ? 'Neither runs for gold until its daily bar proves cover for a first month: rules and scenarios both read it.' : 'Short-term rows and scenarios appear with the first run.'}</p></div>`;
   return `<div class="card" data-mo="card"><div class="fc-link" style="min-height:44px">${ic('clock', 's18')}<span>Short-term<small>1 to 20 sessions, kept apart</small></span></div>${shortOf(shortH(st)).map(s => shortRow(s, ctx)).join('')}</div>${scenBlock(shortH(st))}`;
 }
 const TABS = ['Forecast', 'Proof', 'Views', 'Evidence'];
@@ -475,7 +475,7 @@ function rootMain(ctx, list) {
     error: () => banner('fall', 'Forecasts did not refresh.', 'Twelve Data failed at 21:16. US rows show Monday\'s run, issued 22:15 · cutoff 22:00. The UK and India ran today, each on its own clock.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + list(),
     stale: () => banner('warn', 'HSBC is stale.', `Its last price is 14:10, past the freshness limit. Its forecast stays held until its price returns. ${qLate}`, 'clock') + list(),
     offline: () => banner('', 'Saved at 22:15.', `These forecasts are on your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + list(),
-    noModel: () => banner('', 'India has no approved model.', 'Reliance, the Nifty ETF and ICICI Bank show as no model, at every long horizon. Gold has no forecast while its valuation convention is open (SCI-D08).', 'cube') + list(),
+    noModel: () => banner('', 'India has no approved model.', 'Reliance, the Nifty ETF and ICICI Bank show as no model, at every long horizon. Gold has no forecast until its daily bar proves cover for a first month (OWN-26).', 'cube') + list(),
     disagreement: () => banner('', 'Two conflicts.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, and models disagree on Apple at 3 months. Neither is ranked, so neither carries an action.', 'split') + list(),
     abstention: () => banner('', 'Two abstentions.', 'AstraZeneca at 6 months and Apple at 12 months, for want of comparable history. Neither is ranked, so neither carries an action.', 'ban') + list()
   });
@@ -590,7 +590,7 @@ J.add({
       id: 'a-views', title: 'Rules, models, Claude', note: 'Three separate views, so one score can never hide a conflict. The split is experimental and carries no probability; the contribution policy stays hidden until it qualifies.',
       render: ctx => frame(ctx, { tab: 1, back: backOf(ctx), title: 'Three views', actions: tb('info', 'About these views'), webActions: isWide(ctx) && ctx.state !== 'noModel' ? `<span class="chip">${HN[+(ctx.hz ?? 1)]}</span>` : '', body: viewsMain(clear(ctx)) })
     }, {
-      id: 'a-scenarios', title: 'Scenarios', note: 'Their own section: dotted, conditional, with no likelihood. Empty is the state today: template values wait on SCI-D06.',
+      id: 'a-scenarios', title: 'Scenarios', note: 'Their own section: dotted, conditional, with no likelihood. Empty is the state today: template values wait for a sourced proposal and your approval ("Sourced proposal, then approve", OWN-10).',
       na: naScen,
       render: ctx => frame(ctx, { tab: 1, back: 'AAPL', title: 'Scenarios', actions: tb('info', 'About scenarios'), body: `<span class="fc-wl"></span>${scenMain(ctx)}`, rail: assume(ctx) })
     }, {
@@ -623,7 +623,7 @@ J.add({
       id: 'b-evidence', title: 'Dossier: evidence', note: 'The chain, the last tab. Each link opens in place. Empty is a link that finds nothing; Error is a refused link.',
       render: ctx => { const c = clear(ctx); return frame(ctx, { tab: 1, back: backOf(ctx), title: dTitle(ctx), actions: tb('info', 'About evidence'), body: `<span class="fc-wl"></span>${dossier(3)}${evidenceMain(c)}`, rail: recordCard(c) }); }
     }, {
-      id: 'b-scenarios', title: 'Scenarios', note: 'Opened from the ladder\'s dotted block, so the figures lead and the chart follows. Conditional, with no likelihood. Empty is the state today: template values wait on SCI-D06.',
+      id: 'b-scenarios', title: 'Scenarios', note: 'Opened from the ladder\'s dotted block, so the figures lead and the chart follows. Conditional, with no likelihood. Empty is the state today: template values wait for a sourced proposal and your approval ("Sourced proposal, then approve", OWN-10).',
       na: naScen,
       render: ctx => frame(ctx, { tab: 1, back: 'AAPL', title: 'Scenarios', actions: tb('info', 'About scenarios'), body: `<span class="fc-wl"></span>${scenMain(ctx, true)}`, rail: assume(ctx) })
     }, {

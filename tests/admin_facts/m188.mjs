@@ -26,6 +26,9 @@ const live = (html, id) => new RegExp(`data-act="${id}"(?! data-phone-off)`).tes
 const liveWith = (html, id, label) => [...html.matchAll(new RegExp(`<span class="aact" data-act="${id}">([\\s\\S]*?)</span>`, 'g'))].some((m) => m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().startsWith(label));
 const between = (t, a, b) => { const i = t.indexOf(a); if (i < 0) return ''; const j = t.indexOf(b, i + a.length); return t.slice(i, j < 0 ? undefined : j); };
 const source = () => readFileSync(page(), 'utf8');
+// narrowed in MP-192: an answered row moves from OPEN to SETTLED ("Settled by the owner"), so each pick is read in SETTLED and refused in OPEN
+const table = (name) => { const m = source().match(new RegExp(`const ${name} = \\[([\\s\\S]*?)\\n\\];`)); if (!m) throw new Error(`no ${name} table on the page`); return m[1]; };
+const settledNotOpen = (re) => { if (!re.test(table('SETTLED'))) throw new Error(`not in SETTLED: ${re}`); if (re.test(table('OPEN'))) throw new Error(`still in OPEN: ${re}`); };
 
 export default {
   // ADM-04: Phone web enrols in its browser, labelled unverified; the iPhone app never draws enrolling live; the inventory says so
@@ -48,7 +51,7 @@ export default {
     }
     // the iPhone app says where enrolling happens, not "on iPad or desktop"
     has(view('identity', 'a', 'a-lost', 'iphone', 'default').text, /Enrol the replacement on your Mac, or in this phone's browser\./);
-    has(source(), /Settled, 5 Nov 2026 \("Allowed in the browser", ADM-04\)/);
+    settledNotOpen(/Settled, 5 Nov 2026 \("Allowed in the browser", ADM-04\)/);
   },
 
   // ADM-15: with the Mac lost, a phone ends in a browser on two paths; the one-path fallback stands beside it until MP-197 runs
@@ -75,7 +78,7 @@ export default {
       for (const st of ['default', 'empty']) lacks(view('identity', o, s, 'web', st).text, /If the browser test fails/, `${s} web ${st}: the Mac is in your hand`);
       lacks(view('identity', o, s, 'pwa', 'loading').text, /If the browser test fails/, `${s} pwa loading`);
     }
-    has(source(), /Settled, 5 Nov 2026 \("Finish in the phone browser", ADM-15\)/);
+    settledNotOpen(/Settled, 5 Nov 2026 \("Finish in the phone browser", ADM-15\)/);
   },
 
   // ADM-02: the note beside each revoke is replaced by what the owner picked, and says what is not yet tested
@@ -88,7 +91,7 @@ export default {
     must(revokes >= 70, `only ${revokes} views revoke`);   // 76 when written: every identity view with a live A49
     for (const kind of ALL) has(view('identity', 'b', 'b-revoke', kind, 'default').text, /Removes\s*Any passkey held on it/, `b-revoke ${kind}`);
     has(view('identity', 'a', 'a-lost', 'ipad', 'default').text, /Revoking removes that passkey too, so you drop to one path, Google\./);
-    has(source(), /Settled, 5 Nov 2026 \("Revoke removes it too", ADM-02\)/);
+    settledNotOpen(/Settled, 5 Nov 2026 \("Revoke removes it too", ADM-02\)/);
   },
 
   // ADM-03: any healthy path, passkey or Google, signs in to revoke, on every screen that revokes
@@ -100,7 +103,7 @@ export default {
       has(view('identity', 'b', 'b-device', kind, 'default').text, /Revoke this device A fresh sign-in on any healthy path, passkey or Google\./, `b-device ${kind}`);
     }
     each({ journey: 'identity' }, (v, at) => lacks(v.text, /A fresh sign-in with Passkey, Mac or Google/, `${at.screen} ${at.surface} ${at.state}`));
-    has(source(), /Settled, 5 Nov 2026 \("Any healthy path", ADM-03\)/);
+    settledNotOpen(/Settled, 5 Nov 2026 \("Any healthy path", ADM-03\)/);
   },
 
   // ADM-13: Identity no longer copies Privacy's iPhone passkey: the iPhone signs in with Google, and its passkey row waits on the purchase
@@ -112,7 +115,7 @@ export default {
     });
     for (const kind of ['ipad']) has(view('identity', 'b', 'b-device', kind, 'default').text, /Signed in with\s*Google, in the system browser/);
     has(view('identity', 'a', 'a-paths', 'web', 'default').text, /Passkey, iPhone Cannot be set up yet Waits on the purchase\./);
-    has(source(), /Settled, 5 Nov 2026 \("Redraw Privacy now", ADM-13\)/);
+    settledNotOpen(/Settled, 5 Nov 2026 \("Redraw Privacy now", ADM-13\)/);
   },
 
   // Privacy and Identity tell one story: the same paths, the same devices, the same revoke rule, the same last path

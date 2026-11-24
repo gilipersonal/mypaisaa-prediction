@@ -2040,7 +2040,15 @@
     "docs/planning/trace.json",
     "review/MP-20/fixed.json",
     "docs/confluence/confluence.json",
-    "docs/confluence/receipts/"
+    "docs/confluence/receipts/",
+    "docs/design/journeys/",
+    "docs/design/admin/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "review/MP-182/pins.py",
+    "review/MP-190/mutate.mjs",
+    "scripts/question_pack.py"
    ]
   },
   {

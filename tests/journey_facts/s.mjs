@@ -134,10 +134,11 @@ export default {
   },
 
   // A screen with prices never hides a price fault, and its body follows the shared story.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R1-s11': ({ each, has, lacks }) => {   // narrowed in MP-186: the US run starts 21:15, so Twelve Data fails at 21:16, and only the US is on Monday's run (ADM-10, ADM-11, ADM-22)
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); lacks(v.text, /Yahoo · Fresh/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /until its price returns/, here(at)); lacks(v.text, /16:35/, here(at)); });
     each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); lacks(v.text, /Twelve Data · Fresh/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /\) today|% today/, `${here(at)}: the last good run is not today`); });
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Proposed · DATA-DEC-02/, here(at)); });
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-home', state: 'default' }, (v, at) => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, here(at)); lacks(v.text, /Stale: last price/, here(at)); has(v.text, /Settled · OWN-07/, here(at)); });
     for (const [option, screen] of COST_HOME) {
       each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => { has(v.text, /Yahoo · HSBC stale/, here(at)); has(v.text, /Known value, 6 of 7 priced/, here(at)); has(v.text, /£78,508/, here(at)); lacks(v.text, /£84,612/, here(at)); });
       each({ journey: 'cost', option, screen, state: 'error' }, (v, at) => { has(v.text, /Twelve Data · error 21:16/, here(at)); has(v.text, /US: last good run Mon 22:15 · cutoff 22:00\. UK and India ran today/, here(at)); lacks(v.text, /As of 22:15 London/, here(at)); lacks(v.text, /\) today/, `${here(at)}: the last good run is not today`); });
@@ -402,27 +403,28 @@ export default {
   },
 
   // The late-price rule cites DATA-DEC-02 wherever a screen states it, Stale and both sides of a flip included. MP40-Q6 stays on billing data and cost freshness.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6; "Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R3-s-label': ({ each, must, has, lacks }) => {
     let seen = 0;
     for (const journey of ['cost', 'privacy']) each({ journey }, (v, at) => {
-      lacks(v.html, /(?:last price 14:10 \(Yahoo\)|price is (?:late|stale)|freshness limit)(?:(?!class="card|class="privacy-box).)*Proposed · MP40-Q6/s, `${here(at)}: a price under a billing question`);
+      lacks(v.html, /(?:last price 14:10 \(Yahoo\)|price is (?:late|stale)|freshness limit)(?:(?!class="card|class="privacy-box).)*Settled · MP40-Q6/s, `${here(at)}: a price under a billing question`);
       if (!PRICE_RULE.test(v.text)) return;
       seen++;
-      has(v.text, /Proposed · DATA-DEC-02/, `${here(at)}: the rule is stated and not labelled`);
+      has(v.text, /Settled · OWN-07/, `${here(at)}: the rule is stated and not labelled`);
     });
     must(seen >= 180, `only ${seen} views state the rule, so the check has lost what it reads`);
     for (const [option, screen] of COST_HOME) {
-      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => has(v.text, /is left out until its price returns\. Proposed · DATA-DEC-02/, here(at)));
-      each({ journey: 'cost', option, screen, state: 'default', surface: ['ipad', 'web'] }, (v, at) => { if (screen !== 'cost-b-sheet') has(v.text, /Late: last price 14:10 \(Yahoo\) Proposed · DATA-DEC-02/, here(at)); });
+      each({ journey: 'cost', option, screen, state: 'stale' }, (v, at) => has(v.text, /is left out until its price returns\. Settled · OWN-07/, here(at)));
+      each({ journey: 'cost', option, screen, state: 'default', surface: ['ipad', 'web'] }, (v, at) => { if (screen !== 'cost-b-sheet') has(v.text, /Late: last price 14:10 \(Yahoo\) Settled · OWN-07/, here(at)); });
     }
     for (const [option, screen] of [['a', 'privacy-a-centre'], ['b', 'privacy-b-home']]) {
-      each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => has(v.text, /HSBC is left out until its price returns Proposed · DATA-DEC-02/, here(at)));
-      each({ journey: 'privacy', option, screen, state: 'default' }, (v, at) => has(v.text, /Late: last price 14:10 \(Yahoo\) Proposed · DATA-DEC-02/, here(at)));
+      each({ journey: 'privacy', option, screen, state: 'stale' }, (v, at) => has(v.text, /HSBC is left out until its price returns Settled · OWN-07/, here(at)));
+      each({ journey: 'privacy', option, screen, state: 'default' }, (v, at) => has(v.text, /Late: last price 14:10 \(Yahoo\) Settled · OWN-07/, here(at)));
     }
-    for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) for (const state of ['default', 'stale']) each({ journey: 'privacy', option, screen, state }, (v, at) => has(v.text, /(?:stays in|is out of) the total\. Proposed · DATA-DEC-02/, here(at)));
-    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-notices', state: ['default', 'stale'] }, (v, at) => has(v.text, /HSBC price is (?:late|stale) Last price 14:10 · 16:50 Proposed · DATA-DEC-02/, here(at)));
+    for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) for (const state of ['default', 'stale']) each({ journey: 'privacy', option, screen, state }, (v, at) => has(v.text, /(?:stays in|is out of) the total\. Settled · OWN-07/, here(at)));
+    each({ journey: 'privacy', option: 'b', screen: 'privacy-b-notices', state: ['default', 'stale'] }, (v, at) => has(v.text, /HSBC price is (?:late|stale) Last price 14:10 · 16:50 Settled · OWN-07/, here(at)));
     each({ journey: 'privacy' }, (v, at) => lacks(v.text, /MP40-Q6/, `${here(at)}: Privacy has no billing data`));
-    for (const [option, screen, state] of [['a', 'cost-a-month', 'stale'], ['a', 'cost-a-warned', 'stale'], ['a', 'cost-a-limits', 'default'], ['b', 'cost-b-limits', 'default'], ['a', 'cost-a-sources', 'default'], ['b', 'cost-b-log', 'default']]) each({ journey: 'cost', option, screen, state }, (v, at) => has(v.text, /Proposed · MP40-Q6/, `${here(at)}: billing lost its label`));
+    for (const [option, screen, state] of [['a', 'cost-a-month', 'stale'], ['a', 'cost-a-warned', 'stale'], ['a', 'cost-a-limits', 'default'], ['b', 'cost-b-limits', 'default'], ['a', 'cost-a-sources', 'default'], ['b', 'cost-b-log', 'default']]) each({ journey: 'cost', option, screen, state }, (v, at) => has(v.text, /Settled · MP40-Q6/, `${here(at)}: billing lost its label`));
   },
 
   // A flip that lands on the same facts shows them another way, on every surface, so it never changes nothing.
@@ -469,10 +471,11 @@ export default {
   },
 
   // A proposed rule carries its label in the card that states it, on every screen that states it. Where you are holds it on both sides of the lines.
+  // narrowed in MP-192: the owner's picks settle these rules ("Adopt the key", MP40-Q5; "Approve all three", MP40-Q6), so the label reads Settled with the pick's id, beside the same fact
   'R4-s8': ({ each, view, must, has, lacks }) => {
     const RULES = {
-      stale: [/Past 36, optional work waits|holds until AWS billing is reconciled|Optional work held/, /Proposed · MP40-Q6/, ['cost-a-limits', 'cost-b-limits', 'cost-b-log', 'cost-a-month', 'cost-b-burn', 'cost-b-sheet', 'cost-a-warned', 'cost-b-paused']],
-      abstention: [/Its £15 allocation is held|stopped being collected|Stays unknown, never £0|Unavailable until an admin key is adopted/, /Proposed · MP40-Q5/, ['cost-a-limits', 'cost-b-limits', 'cost-b-log', 'cost-a-sources', 'cost-a-month', 'cost-b-burn', 'cost-b-sheet', 'cost-a-warned', 'cost-b-paused']],
+      stale: [/Past 36, optional work waits|holds until AWS billing is reconciled|Optional work held/, /Settled · MP40-Q6/, ['cost-a-limits', 'cost-b-limits', 'cost-b-log', 'cost-a-month', 'cost-b-burn', 'cost-b-sheet', 'cost-a-warned', 'cost-b-paused']],
+      abstention: [/Its £15 allocation is held|stopped being collected|Stays unknown, never £0|Unavailable until an admin key is adopted|Not collected, so unknown/, /Settled · MP40-Q5/, ['cost-a-limits', 'cost-b-limits', 'cost-b-log', 'cost-a-sources', 'cost-a-month', 'cost-b-burn', 'cost-b-sheet', 'cost-a-warned', 'cost-b-paused']],
     };
     for (const [state, [rule, label, screens]] of Object.entries(RULES)) {
       const seen = new Set();
@@ -485,8 +488,8 @@ export default {
     for (const surface of SURFACES) for (const state of STATES) for (const [option, screen, end] of [['a', 'cost-a-limits', 'Each line is judged'], ['b', 'cost-b-limits', 'Every limit']]) {
       if (option === 'a' && state === 'loading') continue;   // A leads with the month's own card while it loads, and that carries its status
       const card = inCard(view('cost', option, screen, surface, state).text, end), at = `${screen} ${surface} ${state}`;
-      if (state === 'stale') has(card, /optional work waits until it is reconciled\. Proposed · MP40-Q6/, at);
-      else if (state === 'abstention') has(card, /Its £15 allocation is held\. Proposed · MP40-Q5/, at);
+      if (state === 'stale') has(card, /optional work waits until it is reconciled\. Settled · MP40-Q6/, at);
+      else if (state === 'abstention') has(card, /Its £15 allocation is held\. Settled · MP40-Q5/, at);
       else lacks(card, /Proposed/, `${at}: a label this state does not raise`);
     }
   },
@@ -502,10 +505,11 @@ export default {
   },
 
   // The late-price label sits on the late price. "Never performs an action" is settled, so nothing proposed follows it.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R4-s16': ({ each, has, lacks }) => {
     for (const [option, screen] of [['a', 'privacy-a-centre'], ['b', 'privacy-b-notices']]) each({ journey: 'privacy', option, screen }, (v, at) => {
       lacks(v.text, /performs? (?:an|no) action\. Proposed/, `${here(at)}: a settled negative reads as proposed`);
-      if (!['loading', 'empty', 'error'].includes(at.state)) has(v.text, /HSBC price is (?:late|stale) Last price 14:10 · 16:50 Proposed · DATA-DEC-02/, `${here(at)}: the late price has no label`);
+      if (!['loading', 'empty', 'error'].includes(at.state)) has(v.text, /HSBC price is (?:late|stale) Last price 14:10 · 16:50 Settled · OWN-07/, `${here(at)}: the late price has no label`);
     });
     for (const [option, screen] of [['a', 'privacy-a-notice'], ['b', 'privacy-b-notice']]) each({ journey: 'privacy', option, screen }, (v, at) => lacks(v.text, /performs no action\. Proposed/, `${here(at)}: a settled negative reads as proposed`));
   },

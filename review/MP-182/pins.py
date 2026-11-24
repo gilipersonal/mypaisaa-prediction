@@ -27,7 +27,11 @@ PINS = {
     "R1-f6": [(PRISM, r"st\.scrollIntoView\(\{ block: 'nearest' \}\)")],
     "R1-s2": [(PRESS, re.escape(n)) for n in ("Not now does nothing", "admin does not watch the system theme", "the chosen control loses its look", "Undo leaves the toast live", "opening again leaves the toast live", "a turn back keeps a detail")],
     "R1-c1": [(RUNTIME, r"hybrid-\[ab\]\\/\/\.test\(file\) \? 10\.95 : 11\.95"), (RUNTIME, r"if \(t\.size < sizeFloor\)"), (RUNTIME, r"t\.size < 10\.95", False)],
-    "R1-c3": [(OWNER, r"Does a kept flip cover one screen or the whole journey"), (README, r"Proposed,\s+not\s+decided"), (OWNER, r"as the app would", False),
+    # narrowed in MP-192: the owner answered the question R1-c3 kept open, "Whole journey" (OWN-01a) and "Your real devices only" (OWN-01b),
+    # so the README states the owner's answer in place of its "Proposed, not decided" label, and the old label must be gone. The refusals stand.
+    "R1-c3": [(OWNER, r"Does a kept flip cover one screen or the whole journey"), (README, r"Proposed,\s+not\s+decided", False),
+              (README, r'a kept flip covers the whole journey \("Whole journey", OWN-01a\)'), (README, r'"Your real devices only", OWN-01b'),
+              (OWNER, r'Settled, 5 Nov 2026 \("Whole journey", OWN-01a\)'), (OWNER, r"as the app would", False),
               (OWNER, r"A flip is\s+per\s+journey", False), (README, r"would\s+cover\s+the\s+whole\s+journey", False)],
     "R2-f1": [(PRISM, r"toast\.inert = false; open\(false\);"), (PRISM, r"focus\(\{ preventScroll: v \}\)"), (PRISM, r"Record lands on Undo", False), (PRESS, r"a toast never takes focus")],
     "R2-s1": [(RUNTIME, r"ups\.scale"), (RUNTIME, r"the scale property")],

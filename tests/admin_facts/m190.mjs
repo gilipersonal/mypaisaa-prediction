@@ -12,6 +12,8 @@ const liveAct = (html, id) => new RegExp(`data-act="${id}"><button(?![^>]*disabl
 const drawn = (html, id) => html.includes(`data-act="${id}"`);
 const OWNER = () => api(load(new URL('../../docs/design/journeys/index.html', import.meta.url).pathname));
 const openRows = () => { const src = readFileSync(new URL('../../docs/design/admin/index.html', import.meta.url), 'utf8'); const m = src.match(/const OPEN = \[([\s\S]*?)\n\];/); return m ? m[1] : ''; };
+// narrowed in MP-192: an answered row moves from OPEN to SETTLED, "Settled by the owner", so the owner's answer is read from both tables together
+const settledRows = () => { const src = readFileSync(new URL('../../docs/design/admin/index.html', import.meta.url), 'utf8'); const m = src.match(/const SETTLED = \[([\s\S]*?)\n\];/); return m ? m[1] : ''; };
 
 export default {
   // ADM-23, "Code marks it": the Mark as mitigated control goes, and the timeline shows code marking it.
@@ -158,8 +160,9 @@ export default {
 
   // The admin OPEN table gives the owner's answers, in the owner's words.
   'MP190-open': ({ must }) => {
-    const rows = openRows();
-    must(rows.length > 1000, 'the OPEN table was not found');
+    const open = openRows(), settled = settledRows(), rows = `${open}\n${settled}`;
+    must(open.length > 500, 'the OPEN table was not found');
+    must(settled.length > 1000, 'the SETTLED table was not found');
     for (const [q, want] of [
       ['Is a late price a missed collection', /Settled, 5 Nov 2026 \("No, keep it apart", ADM-06\)/],
       ['What happens to Yahoo values already sent to Anthropic', /Settled, 5 Nov 2026 \("Record it, keep the outputs", ADM-07\)/],
@@ -167,6 +170,6 @@ export default {
       ['What does an owner decide when no rules mapping qualifies', /Settled, 5 Nov 2026 \("Use the best simple baseline", ADM-09\)/],
       ['Who marks an incident mitigated', /Settled, 5 Nov 2026 \("Code marks it", ADM-23\)/],
       ['Does an overdue exercise have a threshold', /Settled, 5 Nov 2026 \("Tie to month and release", ADM-24\)/]
-    ]) { const line = (rows.match(new RegExp(`${q}[^\\n]*`)) || [''])[0]; must(want.test(line), `the OPEN row "${q}" does not give the owner's answer`); }
+    ]) { const line = (rows.match(new RegExp(`${q}[^\\n]*`)) || [''])[0]; must(want.test(line), `the OPEN row "${q}" does not give the owner's answer`); must(!new RegExp(q).test(open), `the answered row "${q}" is still in OPEN`); }
   },
 };

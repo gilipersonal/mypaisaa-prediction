@@ -338,7 +338,7 @@
    ],
    "step_up": "yes",
    "step_up_note": "Yes (OWN-39, \"Anything that writes or widens\"): it changes a record, and it is drawn with a fresh sign-in",
-   "audit": "PromotionRecord, tagged `Proposed · POLICY-003`",
+   "audit": "PromotionRecord; what a restart shows is settled (OWN-28, \"Cause cleared, fresh approval\")",
    "source": "DL:219; J:approvals:302",
    "phone": "off"
   },
@@ -518,7 +518,7 @@
     "incidents"
    ],
    "step_up": "no",
-   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops; only the runbook names the switches",
+   "step_up_note": "No (OWN-39, \"Anything that writes or widens\"): it only stops. The three switches are settled (ADM-19, \"All three, as drawn\"): optional work, one forecast scope or one feature, on iPad or desktop, each kept in the record",
    "audit": "AuditEvidence; class open (CT-03)",
    "source": "PH08-S09",
    "phone": "off"

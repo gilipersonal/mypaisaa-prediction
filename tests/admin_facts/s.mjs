@@ -217,8 +217,9 @@ export default {
   'R3-s4': ({ each, must }) => {
     each({ journey: 'incidents', state: 'expired' }, (v, at) => must(!/are back|access expired|No new HSBC price/.test(v.text), `Expired tells two stories at ${at.screen}`));
   },
+  // narrowed in MP-192: the owner picked "Code flags, you confirm" (ADM-05), so production recorded lost carries Settled · ADM-05 where it carried Proposed · CT-14
   'R3-s5': ({ view, each, must, has, lacks }) => {
-    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) for (const kind of ALL) { const t = view('incidents', o, s, kind, 'conflict').text; has(t, /Production recorded lost/); has(t, /inc_0014/); has(t, /Proposed · CT-14/); }
+    for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) for (const kind of ALL) { const t = view('incidents', o, s, kind, 'conflict').text; has(t, /Production recorded lost/); has(t, /inc_0014/); has(t, /Settled · ADM-05/); }
     has(view('incidents', 'a', 'a-list', 'web', 'conflict').text, /Not classed\s*1 open · inc_0014/);
     for (const [o, s] of [['a', 'a-list'], ['b', 'b-runbook']]) has(view('incidents', o, s, 'web', 'conflict').text, /Production\s*Recorded lost · inc_0014/);
     has(view('incidents', 'b', 'b-runbook', 'web', 'conflict').text, /Production is also recorded lost/);
@@ -254,12 +255,13 @@ export default {
     for (const [o, s] of REPLAY) for (const st of STATES.filter((x) => !['error', 'loading'].includes(x))) lacks(view('incidents', o, s, 'web', st).text, /inc_0012 · missed collection/);
     for (const o of ['a', 'b']) must(/Twelve Data listing spends credits/.test(option('incidents', o).covers.cost) && /Yahoo listing spends none/.test(option('incidents', o).covers.cost), 'covers.cost lost the split between listings');
   },
+  // narrowed in MP-192: the owner picked "Code flags, you confirm" (ADM-05), so production recorded lost carries Settled · ADM-05 where it carried Proposed · CT-14
   'R4-s1': ({ view, must, has, lacks }) => {
     for (const [o, s] of [['a', 'a-detail'], ['b', 'b-escalate']]) {
       for (const kind of ALL) {
         const v = view('incidents', o, s, kind, 'conflict');
         has(v.text, /Production recorded lost[\s\S]*Incident\s*inc_0014\s*Class\s*Not classed/);
-        has(v.text, /Proposed · CT-14/);
+        has(v.text, /Settled · ADM-05/);
         must(live(v.html, 'A40'), `no live acknowledge for inc_0014 on ${s} ${kind}`);
         has(v.text, /Switch in Recovery/);
         has(v.text, /inc_0012/);

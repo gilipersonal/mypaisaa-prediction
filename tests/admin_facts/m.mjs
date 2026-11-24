@@ -288,7 +288,9 @@ export default {
       // Narrowed for ADM-09, "Use the best simple baseline": the choices are listed now, so A78 moved to the model trial and the open id stays on what is still open
       must(!/data-act="A78"/.test(v.html), `${o}-rules: A78 on a rules trial, which waits for a mapping`);
       has(v.text, /Meanwhile Rules v6 stays in shadow and Rules v5 stays current\./);
-      must(/Proposed · SCI-D03[\s\S]*How rules get a proper score is still open/.test(v.html), `${o}-rules: the open id is not on what stays open`);
+      // narrowed in MP-192: the owner picked "A lower score is enough" (OWN-33): rules are scored through the frozen mapping, so the label reads Settled · OWN-33
+      must(/Settled · OWN-33[\s\S]*Rules are scored through the frozen mapping/.test(v.html), `${o}-rules: the settled rule is not labelled`);
+      must(!/How rules get a proper score is still open|Proposed · SCI-D03/.test(v.html), `${o}-rules: OWN-33 settled, still labelled open`);
       for (const sc of ['a-evidence', 'a-decide']) must(/data-act="A78"/.test(view('models', 'a', sc, 'web', 'error').html), `${sc}: no A78 on the model trial`);
     }
   },
@@ -390,7 +392,8 @@ export default {
     }
   },
   'R5-m3': ({ view, each, must, has }) => {
-    each({ journey: 'models' }, (v, at) => { if (/15 minutes/.test(v.text)) must(/Proposed · CT-02/.test(v.text), `${at.screen} ${at.state} ${at.surface}: 15 minutes with no CT-02`); });
+    // narrowed in MP-192: a switch forward's 15 minutes are settled ("15 minutes, as drawn", OWN-21), so on Reverted and paused they carry Settled · OWN-21; a promotion's and a rules version's window keep CT-02
+    each({ journey: 'models' }, (v, at) => { if (/15 minutes/.test(v.text)) must(/-live$/.test(at.screen) ? /Settled · OWN-21/.test(v.text) && !/This window is drawn as proposed/.test(v.text) : /Proposed · CT-02/.test(v.text), `${at.screen} ${at.state} ${at.surface}: 15 minutes with no ${/-live$/.test(at.screen) ? 'OWN-21' : 'CT-02'}`); });
     for (const st of ['expired']) has(view('models', 'a', 'a-evidence', 'web', st).text, /This window is drawn as proposed\./);
     for (const [o, sc] of [['a', 'a-decide'], ['a', 'a-rules'], ['b', 'b-scope'], ['b', 'b-rules']]) has(view('models', o, sc, 'web', 'default').text, /Your approval then has 15 minutes to apply\./);
   },
