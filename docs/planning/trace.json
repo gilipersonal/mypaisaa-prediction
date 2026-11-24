@@ -1404,9 +1404,21 @@
    "key": "MP-134",
    "summary": "Static SvelteKit PWA shell with authenticated data and private caching",
    "type": "Story",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-7",
-   "code": []
+   "code": [
+    "web/",
+    ".github/workflows/verify.yml",
+    "scripts/review_checks.py",
+    ".claude/launch.json",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/planning/trace.json",
+    "README.md",
+    "TECH-STACK.md",
+    "docs/github-workflow.md",
+    ".claude/rules/aws-changes.md",
+    "AGENTS.md"
+   ]
   },
   {
    "key": "MP-135",

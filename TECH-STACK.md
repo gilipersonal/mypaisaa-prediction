@@ -80,11 +80,11 @@ feature exists.
 
 | Piece | Choice | Why | Status |
 | --- | --- | --- | --- |
-| Framework | SvelteKit 3, prebuilt and static | Fast, small, no server to run for the shell | Owner-selected (ARC-10) |
+| Framework | SvelteKit **3.4.0** with Svelte **5.59.1** and Vite **8.3.8**, prebuilt and static (`@sveltejs/adapter-static` **4.0.1**) | Fast, small, no server to run for the shell | Owner-selected (ARC-10); the shell implemented locally on sample data (MP-134) |
 | Hosting | S3 and CloudFront | Cheap static hosting with a private origin | Owner-selected |
 | Data | Authenticated calls to FastAPI; SSE for notices | Durable state is always a normal read | Owner-selected |
 | Install | PWA with Web Push | Works on a laptop, an iPad or a phone | Owner-selected |
-| Testing | Playwright end to end with ARIA snapshots, axe-core WCAG 2.2 A and AA checks, Playwright screenshot comparison | Free tools; nothing hosted | Proposed (MP-36) |
+| Testing | Playwright end to end with ARIA snapshots, axe-core WCAG 2.2 A and AA checks, Playwright screenshot comparison | Free tools; nothing hosted | Proposed (MP-36); for the shell, Vitest **5.1.1** unit tests and Playwright **1.65.1** with axe-core **4.14.1** implemented (MP-134); ARIA snapshots and screenshot comparison not yet |
 
 The React and Vite project in `site/` is a documentation presentation, not the product app.
 

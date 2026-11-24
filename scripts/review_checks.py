@@ -153,6 +153,15 @@ CHECKS = (
           (("npm", "--prefix", "site", "run", "build"), ("npm", "--prefix", "site", "run", "check"),
            (*UNITTEST, "test_site_preview.py")),
           tier="broader", inputs=("site/package-lock.json",), timeout=600, tools=("npm",)),
+    # The web app (MP-134): type checks and the Prism drift gate, unit tests, the build and its inspection, then the
+    # browser tests against the build. Locally the browser tests use the installed Chrome (PW_CHANNEL=chrome).
+    Check("web", ("web/*", "docs/design/prism/*"),
+          (("npm", "--prefix", "web", "ci"), ("npm", "--prefix", "web", "run", "check"),
+           ("npm", "--prefix", "web", "test"), ("npm", "--prefix", "web", "run", "build"),
+           ("npm", "--prefix", "web", "run", "e2e")),
+          tier="broader", inputs=("web/package-lock.json", "docs/design/prism/tokens.css",
+                                  "docs/design/prism/icons.svg", "docs/design/prism/index.html"),
+          timeout=900, tools=("npm",)),
     Check("workflow-lint", (".github/workflows/*",),
           (("actionlint", "-color", ".github/workflows/jira-key.yml",
             ".github/workflows/verify.yml"),), tools=("actionlint",)),

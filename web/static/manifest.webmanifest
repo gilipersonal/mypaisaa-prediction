@@ -1,0 +1,16 @@
+{
+  "name": "Mypaisaa Prediction",
+  "short_name": "Mypaisaa",
+  "description": "Private research and decision support. It never trades or gives personalised financial advice.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#060A18",
+  "theme_color": "#060A18",
+  "icons": [
+    { "src": "/brand/mark-icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/brand/mark-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/brand/mark-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/mark-icon-1024.png", "sizes": "1024x1024", "type": "image/png" }
+  ]
+}

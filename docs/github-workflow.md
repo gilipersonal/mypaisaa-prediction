@@ -32,7 +32,7 @@ All ten named checks should be green before merging:
 | Plan sync | `scripts/plan_sync.py`: the Jira mirror in `docs/planning/trace.json`, the root documents, the phases and the Confluence pages agree; on a PR, every product file changed belongs to the branch's issue; plus its self-test |
 | Confluence receipts | `docs/confluence/build_pages.py`: every page is rendered from the repo, published, and read back whole; plus its self-test |
 | Agent config | `scripts/check_agent_config.py`: Claude skill frontmatter, `.claude/rules/` links and named paths, `.claude/jira-flow.json`, Codex JSON syntax, and that `.github/main-protection.json` names exactly these jobs plus CodeQL, which must stay listed; then its tests, the Claude skill tests and the hooks' self-test |
-| Static preview | Preview HTML language/title/viewport presence, local file references and same-page anchor targets |
+| Static preview | Preview HTML language/title/viewport presence, local file references and same-page anchor targets; then the web app (MP-134): locked install, type checks and the Prism drift gate, unit tests, the build and its inspection, and Playwright browser tests with axe WCAG 2.2 checks on desktop and phone widths |
 | Workflow lint | Checksum-verified actionlint 1.7.12 checks all workflow YAML and supported shell expressions |
 | Jira traceability | PR targets `main`; branch/title share an MP key; every included commit has an MP key |
 | CodeQL | GitHub code scanning in its default setup, not a workflow in this repository: Python, JavaScript and TypeScript, and GitHub Actions, with the default query suite. A new alert fails the check. Required since 24 November 2026 (MP-198) |
@@ -41,7 +41,7 @@ CI runs on PRs to `main` and on `main` pushes; the Jira metadata check runs for 
 
 Backend dependencies are recorded in `backend/uv.lock`. Update intentionally with `uv lock --project backend`, review the dependency diff and rerun checks. CI pins uv 0.12.9 and refuses stale locks. Update action SHAs and the actionlint archive checksum through an MP issue PR. No cloud credentials are needed. Hosted Actions consumes the organisation's Actions allowance; these settings do not change its billing limit or buy additional capacity.
 
-`web/` and `mobile/native-ios/` are currently placeholders without `package.json` or `Package.swift`. Their previous CI jobs could not run. No web build, browser E2E or Swift test pass is claimed. When adding the first executable web, Swift or React Native project, add its locked installation, lint/type checks, build and tests to CI in the same PR. Device/browser suites follow the risk and milestone policy in `review-optimisation.md`. The static preview check is a structural smoke test, not browser, accessibility or product validation.
+`web/` holds the web app since MP-134, and its locked installation, type checks, unit tests, build and browser tests run in the Static preview job (kept inside an existing required check so the count of required checks stays ten). `mobile/native-ios/` is still a placeholder without `Package.swift`; no Swift test pass is claimed. When adding the first executable Swift or React Native project, add its locked installation, lint/type checks, build and tests to CI in the same PR. Device/browser suites follow the risk and milestone policy in `review-optimisation.md`. For the architecture atlas the static preview check is a structural smoke test; for the web app it adds browser and axe accessibility checks on the shell, not product validation.
 
 ## Server-side protection
 
