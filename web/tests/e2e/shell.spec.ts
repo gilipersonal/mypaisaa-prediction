@@ -6,6 +6,8 @@ const PLACES = [
   ['/', 'Portfolio'], ['/forecasts', 'Forecasts'], ['/segments', 'Segments'], ['/record', 'Track record'], ['/research', 'Research'],
   ['/approvals', 'Approvals'], ['/imports', 'Imports'], ['/sources', 'Data sources'], ['/settings', 'Settings']
 ] as const;
+// A page's own title where it differs from its place's name: Record opens on the Journal (MP-205).
+const H1: Record<string, string> = { '/record': 'Journal' };
 const TABS = ['Portfolio', 'Forecasts', 'Segments', 'Record', 'Settings'];
 const wide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 1024;
 
@@ -34,7 +36,7 @@ test.describe('navigation', () => {
     for (const [path, heading, link] of targets) {
       await nav.getByRole('link', { name: link, exact: true }).click();
       await expect(page).toHaveURL(new RegExp(path === '/' ? '/$' : `${path}$`));
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText(heading);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(H1[path] ?? heading);
       await expect(page.locator('main')).toBeFocused();
       await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
       await expect(nav.locator('[aria-current="page"]')).toHaveText(link);
@@ -107,7 +109,7 @@ test.describe('accessibility and layout', () => {
       for (const [path, label] of PLACES) {
         await page.goto(path);
         // Check the drawn page, never the blank one before the session is confirmed.
-        await expect(page.getByRole('heading', { level: 1 })).toHaveText(label);
+        await expect(page.getByRole('heading', { level: 1 })).toHaveText(H1[path] ?? label);
         await page.waitForLoadState('networkidle');
         const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
         expect(r.passes.length, 'axe ran no checks').toBeGreaterThan(0);
@@ -120,7 +122,7 @@ test.describe('accessibility and layout', () => {
     test.skip(wide(page), 'one sweep is enough; it sets its own widths');
     for (const [path, label] of PLACES) {
       await page.goto(path);
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText(label);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(H1[path] ?? label);
       for (let w = 320; w <= 1440; w += 8) {
         await page.setViewportSize({ width: w, height: 800 });
         const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
