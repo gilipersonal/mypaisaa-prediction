@@ -1,5 +1,4 @@
 <script lang="ts">
-  import '#lib/prism/privacy.css';
   import { privacy } from '#lib/privacy.svelte.ts';
   import { COPY, LESS, modeSay } from '#lib/privacy-centre.ts';
 

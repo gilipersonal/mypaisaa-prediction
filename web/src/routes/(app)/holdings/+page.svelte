@@ -1,7 +1,6 @@
 <script lang="ts">
   // Holdings, option A "Review desk" (docs/design/journeys/src/journeys/holdings.js, screen a-list; MP-205). Viewing only:
   // nothing here writes, and import, edit and correction arrive in later steps. Read in the browser, never at build time.
-  import '#lib/prism/holdings.css';
   import { onMount } from 'svelte';
   import { source, type Holding, type Portfolio } from '#lib/data/index.ts';
   import { currentDataState, type DataState } from '#lib/data/state.ts';

@@ -5,3 +5,4 @@ static/brand/
 test-results/
 playwright-report/
 src/lib/data/sample.generated.json
+src/lib/prism/design.generated.css

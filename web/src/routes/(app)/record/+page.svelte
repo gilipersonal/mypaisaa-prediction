@@ -1,12 +1,11 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
   import { afterNavigate } from '$app/navigation';
-  import '#lib/prism/journal.css';
   import { source } from '#lib/data/index.ts';
   import { currentDataState, type DataState } from '#lib/data/state.ts';
   import DifferedView from '#lib/journal/DifferedView.svelte';
   import EntryView from '#lib/journal/EntryView.svelte';
-  import Freshness from '#lib/journal/Freshness.svelte';
+  import Frame from '#lib/shell/Frame.svelte';
   import Ico from '#lib/journal/Ico.svelte';
   import ListView from '#lib/journal/ListView.svelte';
   import { entriesFor, hrefOf, joinEntries, viewOf, type ShownEntry } from '#lib/journal/journal.ts';
@@ -102,46 +101,30 @@
   });
 </script>
 
-<header class="jhead">
-  {#if shown.kind !== 'list'}
-    <a class="jback" href={back}><Ico name="chev-l" size="s24" /><span>Journal</span></a>
-  {/if}
-  <h1 class="ltitle">{title}</h1>
-  <Freshness state={dataState} />
-</header>
+{#snippet record()}<button class="btn btn-tinted sm" type="button" aria-describedby="record-later"><Ico name="plus" size="s18" />Record a decision</button>{/snippet}
+{#snippet recordTb()}<button class="tbtn glass" type="button" aria-label="Record a decision" aria-describedby="record-later"><Ico name="plus" size="s18" /></button>{/snippet}
 
-{#if shown.kind === 'list'}
-  <div class="switch">
-    <div class="segctl full" role="group" aria-label="Record" style="--n: 2; --i: 0">
-      <span class="lens" aria-hidden="true"></span>
-      <button type="button" aria-pressed="true">Journal</button>
-      <button type="button" aria-pressed="false" disabled aria-describedby="track-later">Track record</button>
-    </div>
-    <p class="small muted" id="track-later">The Track record view is not built yet.</p>
-  </div>
-{/if}
-
-{#if failed}
-  <div class="card state" role="alert">
-    <div class="sh"><span class="ic"><Ico name="alert" size="s18" /></span>The journal did not load</div>
-    <p>Nothing you saved is lost.</p>
-    <button class="btn btn-tinted sm" type="button" onclick={() => read(true)}><Ico name="refresh" size="s18" />Try again</button>
-  </div>
-{:else if shown.kind === 'entry' && opened}
-  <EntryView entry={opened} state={dataState} onretry={() => read(true)} />
-{:else if shown.kind === 'differed'}
-  <DifferedView state={dataState} {entries} {search} onretry={() => read(true)} />
-{:else}
-  <ListView state={dataState} {entries} {wide} {search} onretry={() => read(true)} />
-{/if}
-
-<style>
-  .jhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 20px 0 12px; }
-  .jhead h1 { padding: 0; flex: 1 1 100%; min-width: 0; overflow-wrap: anywhere; }
-  .jback { text-decoration: none; color: var(--link); font: 400 17px/22px var(--font-text); letter-spacing: -0.01em; flex: 1 1 100%; }
-  .switch { display: grid; gap: 6px; margin-bottom: 12px; }
-  @media (min-width: 1024px) {
-    .jhead h1 { flex: 0 1 auto; }
-    .jhead :global(.jfresh) { margin-left: auto; }
-  }
-</style>
+<Frame title={title} state={dataState} fresh={dataState === 'error' ? 'default' : undefined} back={shown.kind === 'list' ? undefined : { label: 'Journal', href: back }} actions={shown.kind === 'list' ? record : undefined} phoneActions={shown.kind === 'list' ? recordTb : undefined}>
+  {#snippet body()}
+    {#if shown.kind === 'list'}
+      <div><div class="segctl full" role="group" aria-label="Record" style="--n: 2; --i: 0">
+        <span class="lens" aria-hidden="true"></span>
+        <button type="button" aria-pressed="true">Journal</button>
+        <button type="button" aria-pressed="false" disabled aria-describedby="track-later">Track record</button>
+      </div></div>
+    {/if}
+    {#if failed}
+      <div class="card state" role="alert">
+        <div class="sh"><span class="ic"><Ico name="alert" size="s18" /></span>The journal did not load</div>
+        <p>Nothing you saved is lost.</p>
+        <button class="btn btn-tinted sm" type="button" onclick={() => read(true)}><Ico name="refresh" size="s18" />Try again</button>
+      </div>
+    {:else if shown.kind === 'entry' && opened}
+      <EntryView entry={opened} state={dataState} onretry={() => read(true)} />
+    {:else if shown.kind === 'differed'}
+      <DifferedView state={dataState} {entries} {search} onretry={() => read(true)} />
+    {:else}
+      <ListView state={dataState} {entries} {wide} {search} onretry={() => read(true)} />
+    {/if}
+  {/snippet}
+</Frame>

@@ -3,7 +3,7 @@
 // With --check, every rule line in every src/lib/prism/*.css must appear exactly in one of those sources, so a
 // component is changed in the design first and never redrawn in the app (.claude/rules/design-sync.md). Fails closed:
 // an unreadable source, an empty folder or a file with no rules is a failure.
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -11,8 +11,9 @@ const web = join(dirname(fileURLToPath(import.meta.url)), '..');
 const J = ['docs', 'design', 'journeys', 'src'];
 export const SOURCES = [
   ['docs', 'design', 'prism', 'index.html'],
+  ['docs', 'design', 'reviews', 'MP-62', 'shared', 'claude.html'],
   [...J, 'shell.css'],
-  ...['privacy', 'home', 'holdings', 'journal', 'cost'].map((n) => [...J, 'journeys', `${n}.css`])
+  ...['home', 'holdings', 'forecast', 'journal', 'track', 'cost', 'privacy'].map((n) => [...J, 'journeys', `${n}.css`])
 ];
 /** @param {string} componentsCss @param {string} prismHtml @param {string} [name] @returns {string[]} */
 export function problems(componentsCss, prismHtml, name = 'components.css') {
@@ -26,6 +27,21 @@ export function problems(componentsCss, prismHtml, name = 'components.css') {
     if (!prism.has(line)) out.push(`${name}:${i + 1} is not a design line: ${line.slice(0, 90)}`);
   }
   if (rules === 0) out.push(`${name} holds no rules`);
+  return out;
+}
+
+/** Every .svelte file's <style> block under a folder, as [relative path, css]. @param {string} dir @returns {[string, string][]} */
+export function svelteStyles(dir) {
+  /** @type {[string, string][]} */
+  const out = [];
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) out.push(...svelteStyles(p));
+    else if (name.endsWith('.svelte')) {
+      const m = /<style[^>]*>([\s\S]*?)<\/style>/.exec(readFileSync(p, 'utf8'));
+      if (m && m[1] !== undefined) out.push([p.slice(p.indexOf('src')), m[1]]);
+    }
+  }
   return out;
 }
 
@@ -43,10 +59,13 @@ if (process.argv.includes('--check')) {
     console.error('prism-components: no style file in src/lib/prism');
     process.exit(2);
   }
-  const p = files.flatMap((f) => problems(readFileSync(join(dir, f), 'utf8'), html, f));
+  // every component's own <style> block is held to the same rule: a style line the design does not have is drawn by hand
+  const blocks = svelteStyles(join(web, 'src'));
+  const p = [...files.flatMap((f) => problems(readFileSync(join(dir, f), 'utf8'), html, f)),
+    ...blocks.flatMap(([f, css]) => problems(css, html, f).filter((x) => !x.endsWith('holds no rules')))];
   if (p.length) {
     console.error(p.join('\n'));
     process.exit(1);
   }
-  console.log(`prism-components: every rule in ${files.join(', ')} is the design's own`);
+  console.log(`prism-components: every rule in ${files.join(', ')} and in ${blocks.length} component style block(s) is the design's own`);
 }

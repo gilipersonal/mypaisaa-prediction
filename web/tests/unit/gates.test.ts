@@ -2,11 +2,12 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { problems, SOURCES } from '../../scripts/prism-components.mjs';
+import { problems, SOURCES, svelteStyles } from '../../scripts/prism-components.mjs';
+import { designCss } from '../../scripts/design-css.mjs';
 import { inspect, PLACES } from '../../scripts/check-build.mjs';
 
 const prism = (SOURCES as string[][]).map((p) => readFileSync(new URL(`../../../${p.join('/')}`, import.meta.url), 'utf8')).join('\n');
-const css = readFileSync(new URL('../../src/lib/prism/components.css', import.meta.url), 'utf8');
+const css = designCss() as string;
 
 function cleanBuild(): string {
   const dir = mkdtempSync(join(tmpdir(), 'mp-build-'));
@@ -24,11 +25,22 @@ describe('the Prism drift gate bites', () => {
     expect(problems(changed, prism)).toHaveLength(1);
   });
   it('refuses an added rule', () => expect(problems(css + '\n.new { color: red; }\n', prism)).toHaveLength(1));
-  it('refuses a line from a journey the gate does not read', () => {
-    const home = readFileSync(new URL('../../../docs/design/journeys/src/journeys/forecast.css', import.meta.url), 'utf8');
-    const line = home.split('\n').find((l) => l.startsWith('.') && !prism.includes(l.trim()));
-    expect(line).toBeTruthy();
-    expect(problems(css + '\n' + line + '\n', prism)).toHaveLength(1);
+  it('refuses a hand-drawn rule in a component\'s own <style> block', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'mp-svelte-'));
+    mkdirSync(join(dir, 'src', 'x'), { recursive: true });
+    writeFileSync(join(dir, 'src', 'x', 'A.svelte'), '<p>a</p>\n<style>\n  .a { padding: 3px; }\n  .card { padding: 16px; }\n</style>\n');
+    const blocks = svelteStyles(join(dir, 'src')) as [string, string][];
+    expect(blocks).toHaveLength(1);
+    expect(blocks.flatMap(([f, c]) => problems(c, prism, f))).toHaveLength(blocks[0]![1].includes('.card { padding: 16px; }') && prism.includes('.card { padding: 16px; }') ? 1 : 2);
+    rmSync(dir, { recursive: true, force: true });
+  });
+  it('draws with the design\'s whole sheet, in the design\'s order', () => {
+    const built = readFileSync(new URL('../../src/lib/prism/design.generated.css', import.meta.url), 'utf8');
+    expect(built).toBe(css);
+    const page = readFileSync(new URL('../../../docs/design/journeys/index.html', import.meta.url), 'utf8');
+    // every line of the sheet is on the Journeys page the owner approved
+    const lines = new Set(page.split('\n').map((l) => l.trim()));
+    expect(css.split('\n').slice(1).filter((l) => l.trim() && !lines.has(l.trim()))).toEqual([]);
   });
   it('refuses an empty file', () => expect(problems('/* nothing */\n', prism)).toEqual(['components.css holds no rules']));
 });

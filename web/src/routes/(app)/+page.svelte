@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { MediaQuery } from 'svelte/reactivity';
-  import '#lib/prism/home.css';
   import PlaceLinks from '#lib/components/PlaceLinks.svelte';
   import Amount from '#lib/components/Amount.svelte';
   import { childrenOf } from '#lib/places.ts';

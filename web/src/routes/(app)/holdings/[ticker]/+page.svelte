@@ -1,7 +1,6 @@
 <script lang="ts">
   // One holding, option A "Review desk" (docs/design/journeys/src/journeys/holdings.js, screen a-one; MP-205). Viewing
   // only: the design's Record decision is a write and arrives in a later step. Read in the browser, never at build time.
-  import '#lib/prism/holdings.css';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { source, type Holding } from '#lib/data/index.ts';

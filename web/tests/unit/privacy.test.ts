@@ -7,7 +7,7 @@ const read = (p: string) => readFileSync(new URL(`../../../${p}`, import.meta.ur
 const privacyJs = read(PRIVACY_JS);
 const holdingsJs = read(HOLDINGS_JS);
 const page = readFileSync(new URL('../../src/routes/(app)/settings/privacy/+page.svelte', import.meta.url), 'utf8');
-const css = readFileSync(new URL('../../src/lib/prism/privacy.css', import.meta.url), 'utf8');
+const css = read('docs/design/journeys/src/journeys/privacy.css');
 const designCss = (SOURCES as string[][]).map((p) => read(p.join('/'))).join('\n');
 
 describe('the privacy centre says only what its design says (Privacy option A, privacy-a-centre)', () => {
@@ -69,9 +69,10 @@ describe('the privacy centre page', () => {
 });
 
 describe('the privacy styles are the design\'s own lines', () => {
+  it('draws with the design\'s privacy styles, whole', () => expect(readFileSync(new URL('../../src/lib/prism/design.generated.css', import.meta.url), 'utf8')).toContain(css));
   it('passes the drift gate', () => expect(problems(css, designCss, 'privacy.css')).toEqual([]));
-  it('refuses a changed switch', () => {
-    const changed = css.replace('translateX(14px)', 'translateX(12px)');
+  it('refuses a changed value', () => {
+    const changed = css.replace(/(\n\.[^\n]*?)(\d+)px/, (_m, a: string, n: string) => `${a}${Number(n) + 1}px`);
     expect(changed).not.toBe(css);
     expect(problems(changed, designCss, 'privacy.css')).toHaveLength(1);
   });
