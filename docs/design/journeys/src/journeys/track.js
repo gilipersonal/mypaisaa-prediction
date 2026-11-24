@@ -157,7 +157,8 @@
   const sliceB = ctx => inState(ctx, () => `${sliceTable()}${flow()}${yours(ctx.state)}`);
 
   J.add({
-    id: 'track', title: 'Track record', stories: ['MP-154', 'MP-187'], round: true,
+    /* the owner picked "A · Scorecard" on 24 Nov 2026 (MP-187). B stays drawn, labelled not picked, so the round can be read back */
+    id: 'track', title: 'Track record', stories: ['MP-154', 'MP-187'], picked: 'a', pickedOn: '24 Nov 2026',
     summary: 'How the live forecasts did once their horizons passed, by horizon, holding, model and regime, over 30, 90 and 365 days, with every sample, pending and censored count in view.',
     options: [{
       id: 'a', name: 'Scorecard', rec: true,

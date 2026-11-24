@@ -53,5 +53,18 @@ needs on most visits. The breakdowns are what MP-154 asks for, but they are a se
 
 ## Decision
 
-Waiting on the owner's pick. When it is made, record the owner's words, the date and the option here, then draw the picked
-option's remaining states and move its parts into Prism before anything is built.
+**Picked: A · Scorecard.** The owner, 24 November 2026, in the MP-187 session, answering "Which Track record option do you
+pick?" by pressing the button labelled "A · Scorecard". The other button read "B · One table". The option it names is the
+Recommended one: one card per horizon, coverage over 30, 90 and 365 days at a glance and the full measures beside the sample,
+with holding, model and regime one tap away (screens: Track record, 6 months in full, By holding, By model, By regime).
+
+What follows from it:
+
+- **Every state on every device.** Option A is drawn on iPhone, iPad, desktop web and phone web, in all nine states, in light
+  and dark. The walker and `tests/journey_facts/m187.mjs` hold it.
+- **B stays drawn, labelled "not picked".** Proposed, not the owner's words: it is kept so the round reads back, with the flip;
+  removing it is a small change if the owner prefers.
+- **Before anything is built,** Option A's parts move into Prism (the window trio, the measures grid, the too-few block and the
+  breakdown row), under `.claude/rules/design-sync.md`.
+- **Still proposed:** a rate shows once 30 forecasts have scored (SCI-D03), and the regime rule (SCI-D04). The pick does not
+  settle either.
