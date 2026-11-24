@@ -147,7 +147,7 @@
   const AUTO = '<ul class="aruns-ul"><li>Retry an idempotent job</li><li>Replay a dead-letter item</li><li>Re-run a missed collection</li><li>Resume a durable workflow</li></ul>';
   const YOURS = '<ul class="aruns-ul"><li>A broad replay</li><li>Financial reprocessing</li><li>A new paid external call</li></ul>';
   const lateHead = (c = WARN('Acknowledged')) => runHead('HSBC price late', 'inc_0012 · UK close, Tue 3 Nov', c, 'Late: last price 14:10 (Yahoo)');
-  const lateTL = (read = true) => box(`${lbl('The UK clock, Tue')}<div class="aruns-tls">${moment('14:10', 'Last price', 'Before the 16:35 UK close · Yahoo')}${moment('16:50', 'Detected at +15', read ? 'Collect found no newer price' : 'Collect not read')}${moment('17:15', 'Retry at +40', read ? 'Still none' : 'Not read')}${moment('17:35', 'Freeze at +60', read ? 'The cutoff did not move for it' : 'Not read')}</div><div style="margin-top:8px">${proposed('DATA-DEC-02')}</div>`);
+  const lateTL = (read = true) => box(`${lbl('The UK clock, Tue')}<div class="aruns-tls">${moment('14:10', 'Last price', 'Before the 16:35 UK close · Yahoo')}${moment('16:50', 'Detected at +15', read ? 'Collect found no newer price' : 'Collect not read')}${moment('17:15', 'Retry at +40', read ? 'Still none' : 'Not read')}${moment('17:35', 'Freeze at +60', read ? 'The cutoff did not move for it' : 'Not read')}</div><div style="margin-top:8px">${settled('OWN-07')}</div>`);
   const failHead = () => runHead('Forecast run failed', 'inc_0013 · run_8d02', BAD('Open'), `${FAIL_LINE} ${LAST_GOOD}`);
 
   const recoverOK = () => lateHead() + lateTL() + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0012', 'primary')}</div>`;
@@ -233,7 +233,7 @@
   const railQueue = () => REPLAY() + `${refused('R12', 'A replay never crosses environments. A dev job cannot be replayed into prod.')}`;
 
   const deadHead = () => runHead('job_3e9a, dead-lettered', 'Collection · run_8d02 · quarantined', BAD('bound reached: escalated'), `${FAIL_LINE} ${LAST_GOOD}`);
-  const deadOK = (read = true) => box(`${lbl('A dead-letter item opens here')}<p class="small muted" style="margin-top:6px">${read ? 'None is held now. ' : ''}This is where one lands, with its reason and its run. HSBC's late price raised an incident, not a dead-letter item.</p>`) + lateHead() + tagged(proposed('DATA-DEC-02'), 'How late is late is not approved.') + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0012', 'primary')}</div>`;
+  const deadOK = (read = true) => box(`${lbl('A dead-letter item opens here')}<p class="small muted" style="margin-top:6px">${read ? 'None is held now. ' : ''}This is where one lands, with its reason and its run. HSBC's late price raised an incident, not a dead-letter item.</p>`) + lateHead() + tagged(settled('OWN-07'), 'The freshness limits are settled. The grace on a close is not set yet.') + ladder(AUTO, YOURS) + `<div>${bs('Open inc_0012', 'primary')}</div>`;
   const deadRegion = ctx => region(ctx, {
     what: 'This item', rows: 4, ok: deadOK,
     loading: () => skel(4),
@@ -292,7 +292,7 @@
         render: ctx => frame(ctx, { title: 'Two nights', back: 'Tonight\'s clock', body: cmpRegion(ctx), rail: railCmp(ctx) })
       }, {
         id: 'a-recover', title: 'When a run goes wrong',
-        note: 'Replay and rollback are decided on the incident, so this screen says who may do what and opens it. There is no cancel control: permissions.json lists no such act.',
+        note: 'Replay and rollback are decided on the incident, so this screen says who may do what and opens it. Only code cancels a run ("Code cancels, orphans yours", ADM-20), so there is no cancel control, and permissions.json lists no such act.',
         render: ctx => frame(ctx, { title: 'When it goes wrong', back: 'Tonight\'s clock', body: recoverRegion(ctx), rail: railRecover() })
       }]
     }, {

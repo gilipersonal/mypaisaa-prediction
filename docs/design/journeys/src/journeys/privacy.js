@@ -94,7 +94,7 @@
 
   /* ---------- privacy mode: money and units masked, percentages kept (the owner, "Mask units too", OWN-18) ---------- */
   const maskRow = (h, mid) => `<div class="hrow" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div><div class="vv"><div class="val"><span class="priv">£••••</span></div>${chg(h.day)}</div><div class="fl">${mid}</div></div>`;
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${settled('OWN-07')}`);
   function masked(ctx, h) {
     const s = ctx.state;
     if (s === 'noModel' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model · no action</span>`);
@@ -118,7 +118,7 @@
   }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
-  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good' : 'today'}</span>`}</div>`;
+  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${settled('OWN-07')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good' : 'today'}</span>`}</div>`;
   /* one set of words wherever privacy mode explains itself */
   const maskSay = 'Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.';
   const maskCopy = `Amounts hidden. ${maskSay}`;
@@ -159,11 +159,11 @@
   /* ---------- notices ---------- */
   const NOTICES = [
     ['alert', 'Cost close to the £60 warning', 'Forecast up to £59.73 · 08:12', 1],
-    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1, 'DATA-DEC-02'],
+    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1, 'OWN-07'],
     ['fan', 'Morning brief', '3 items · 07:30', 0],
     ['check', 'Forecast run finished', '21 runs · yesterday 21:30', 0]
   ];
-  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u, q]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, q ? s + CHIP_ROWS(proposed(q)) : s, go, u ? 'unread' : '')));
+  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u, q]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, q ? s + CHIP_ROWS(settled(q)) : s, go, u ? 'unread' : '')));
   function inbox(ctx, n = 3) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Notices', 3);
@@ -330,7 +330,7 @@
       abstention: banner('', 'Held for quiet hours.', 'It arrived with the 07:30 brief.', 'clock')
     }[s] || '';
     const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
-    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">This notice performs no action. ${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'}</p>`}${CHIP_ROWS(proposed('DATA-DEC-02'))}`)}`;
+    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">This notice performs no action. ${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'}</p>`}${CHIP_ROWS(settled('OWN-07'))}`)}`;
   }
 
   /* ---------- the checkup, and notices in place ---------- */

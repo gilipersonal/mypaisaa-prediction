@@ -2392,7 +2392,7 @@ function show() {
     fitFrames();
     watch(row);
   };
-  /* The flip turns this one frame on the review strip. Whether the app's choice covers a screen or a journey is an open question (see OPEN). A press takes its target from the control, and a second press returns to exactly what
+  /* The flip turns this one frame on the review strip. In the app a kept flip covers the whole journey ("Whole journey", OWN-01a), and the review page stays as it is ("Your real devices only", OWN-01b), so the strip still turns one frame at a time. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
   row.onclick = e => {
     const b = e.target.closest('[data-flip]');
@@ -2443,46 +2443,51 @@ function show() {
    records as the Apple app, each with its age. No record says how a browser protects them, so every offline frame on web and phone
    web says so, in this one sentence, and an Apple frame does not. */
 const BROWSER_UNVERIFIED = 'How a browser protects saved records is unverified.';
+/* a rule the owner's pick settles: the chip quotes the pick's id, beside any value it leaves open (MP-192) */
+const settled = id => `<span class="chip owner" data-mo="chip"><span class="dot"></span>Settled · ${id}</span>`;
 const browserKept = () => `<div class="jkept" data-mo="rise"><span class="chip offline" data-mo="chip">${ic('wifi-off', 's14')}Saved in this browser</span><span class="small muted">${BROWSER_UNVERIFIED}</span></div>`;
 const OPEN = [
-  ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Open. The strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['Where do Research, Approvals and Imports live in the navigation? Neither the five tabs nor the sidebar has them.', 'Settled, 5 Nov 2026 ("Add them to the sidebar", OWN-02): the iPad and desktop sidebar carries Research, Approvals and Imports, and each of their screens lights its own place there. The phone keeps its five tabs: Research hangs off Portfolio, and Approvals and Imports sit under Settings. Proposed: their order in the sidebar and their icons. Open: in Approvals B, where each decision stays where the thing lives, what the sidebar\'s Approvals opens is not drawn.'],
-  ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Watch only.'],
-  ['Is Claude on or off at launch? Admissible credit is zero today.', 'Ready shows Claude on, £54.73. Claude off is the No model state.'],
-  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Settled, 5 Nov 2026 ("Pill on every Home", OWN-06): a pill in the top bar shows the month on every Home, whichever way Cost is flipped, and the row after the holdings goes. The meter sits inside Cost, at the top of This month. No cost card sits before the holdings. Proposed: with amounts hidden, the pill\'s pounds are masked with the rest and its bar stays.'],
-  ['When is a late price still used in the total? (DATA-DEC-02)', 'Settled (MP-65): a price past the limit leaves the total and the reason shows. Open: the limit itself. Proposed: 14:10 is inside it in Ready and past it in Stale.'],
-  ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Proposed: the expiries drawn are illustrative; only the 15-minute financial window is settled (POLICY-001).'],
+  ['When is a late price still used in the total? (DATA-DEC-02)', 'Settled (MP-65): a price past the limit leaves the total and the reason shows. Settled, 5 Nov 2026 ("Approve the proposed limits now", OWN-07): a quote is fresh to its interval end plus its delay plus 5 minutes, a close to the next expected close plus a grace, a fund price is overdue 60 minutes after its deadline, and FX may be 24 hours old. Open: the grace on a close. Illustrative: 14:10 is inside the limit in Ready and past it in Stale.'],
+  ['How long may a chat-proposed listing wait for your confirm? (MP40-Q9) And other proposals? (CT-02)', 'Settled, 5 Nov 2026 ("Same day, as drawn", MP40-Q9): a chat-proposed listing expires the same day, at 18:00 as drawn, or sooner if its check changes. Settled, 5 Nov 2026 ("By kind, as drawn", OWN-08): each other kind keeps its own wait, days for a promotion or a setting, none for a restart. Open: how many days, and a replay\'s wait, so those dates are illustrative and labelled Proposed · CT-02. The 15-minute financial window is settled too (POLICY-001).'],
   ['Action thresholds (FIN-OD-07)', 'Settled, 5 Nov 2026 ("Evidence first", OWN-09): no label appears until evaluation supports the thresholds and you approve a ranking policy version. Portfolio and Ledger at launch draw that time; every other screen draws labels as they read after the approval. Open: the thresholds themselves.'],
-  ['Scenario returns (SCI-D06)', 'The figures are placeholders. Empty is the state today.'],
-  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Import limits: labelled proposed. Locked PDFs: settled, 5 Nov 2026 ("Local unlock step", MP40-Q2): you type its password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Drawn as Unlock a PDF in both options of Holdings and imports.'],
-  ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Labelled proposed. The £15 kept above £85 now also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them").'],
+  ['Import limits and locked PDFs (MP40-Q1, MP40-Q2)', 'Settled, 5 Nov 2026 ("Set from your real statements", MP40-Q1): oversized files stay held as drawn, and the four limits are set from your largest real statements, with a margin, when they arrive. Open: the four limit values, so none is drawn. Locked PDFs: settled, 5 Nov 2026 ("Local unlock step", MP40-Q2): you type its password in a step on your device, which opens the PDF there and sends only the unlocked copy. The password never leaves the device, and it is never stored, logged or sent to a model. Drawn as Unlock a PDF in both options of Holdings and imports.'],
+  ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Settled, 5 Nov 2026 ("Show it, not picked", OWN-14): a found rate that is not proved the only one appears in the note beside the status, never as the headline, so Reliance stays Ambiguous with its one found rate shown and not picked. Open: how the search limit is worded and its tolerances, which the pack leaves to the specification. AstraZeneca stays Nonconvergent: the search used its budget before it could separate the possible rates, so none is stated, labelled Proposed · FIN-OD-04.'],
+  ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'The cost pause is settled, 5 Nov 2026 ("Daily forecasts keep running", OWN-25): daily forecasts carry on past £85, inside the £15 kept above it, and Cost paused shows only where a forecast needs optional paid work. Open: what no clear view and the technical mode show, which stay labelled proposed (MP-145).'],
+  ['In No model, is only NVIDIA unlabelled, or every non-India row? The reason given covers them all. (FIN-OD-07)', 'Not yours to choose (OWN-30): MP-144 already leaves every row unlabelled until thresholds are approved, and the launch screens now draw that. Still to do as design work: move the unclassified case out of No model, whose subject is India. NVIDIA alone reads No label there today.'],
+  ['Does an open reconciliation difference withhold the account return? (FIN-OD-04)', 'Settled, 5 Nov 2026 ("Withhold only if material", OWN-31): a small difference leaves the return showing and flagged, and above a limit you approve the return is withheld. Open: that limit. Proposed: £8.15 counts as small, so General shows +17.4% beside it.'],
+  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Settled, 5 Nov 2026 ("Saved copy also times out", OWN-37): the copy clears when the device next connects, and the app also stops showing it after a set time without reaching the server. Open: that time, which you choose, so no number is drawn. Unverified: how well an offline app can enforce it.'],
+  ['What is kept offline, and which devices (MP40-Q12)', 'What is kept: settled, 5 Nov 2026 ("Both keep the five", MP40-Q12c): the Apple app and a browser each keep holdings, prices, forecasts, notices and cost, each with its age. Unverified: how a browser protects them, which needs an architecture answer before build, so every browser offline frame says so. Which devices: settled, 5 Nov 2026 ("Your own devices only", MP40-Q12a): support and test the iPhone and iPad you own, at the iOS they run, and ("Any window width", MP40-Q12b) the Apple app lays out by window width, so a narrow iPad window uses the phone layout. Open: the models, which you give, so none is named.'],
+  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'The acts are settled, 5 Nov 2026 ("Anything that writes or widens", OWN-39): every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in, and reading and stopping do not. Open: how recent a sign-in must be, and the revocation time. Both are set from measured proof before the identity phase ends, so no time is promised. Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
+];
+/* What the owner has answered: each row quotes the label the owner picked, with its id (MP-184, MP-192). A row moves here only when the picks answer the whole question */
+const SETTLED = [
+  ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Settled, 5 Nov 2026 ("Whole journey", OWN-01a): flip once anywhere in a journey and every screen in that journey opens in that view on that device. Settled, 5 Nov 2026 ("Your real devices only", OWN-01b): in the app, each iPhone, iPad and browser keeps its own choice, and the review page stays as it is: the strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
+  ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Settled, 5 Nov 2026 ("Watch only", OWN-03): every candidate reads Watch, and MP-144 drops the word buy.'],
+  ['Is Claude on or off at launch? Admissible credit is zero today.', 'Settled, 5 Nov 2026 ("Approve paid Claude at launch", OWN-04): you approve paid use, so chat, research and explanations can run from day one, each route after passing its evaluation. Ready shows Claude on, £54.73. Claude off is the No model state.'],
+  ['How much cost shows on Home, and may a card sit before the holdings on a phone?', 'Settled, 5 Nov 2026 ("Pill on every Home", OWN-06): a pill in the top bar shows the month on every Home, whichever way Cost is flipped, and the row after the holdings goes. The meter sits inside Cost, at the top of This month. No cost card sits before the holdings. Proposed: with amounts hidden, the pill\'s pounds are masked with the rest and its bar stays.'],
+  ['Scenario returns (SCI-D06)', 'Settled, 5 Nov 2026 ("Sourced proposal, then approve", OWN-10): a separate piece of work proposes each template value with its evidence, and you approve them. The drawn figures are placeholders, and Empty is the state today.'],
+  ['Billing data and freshness (MP40-Q5, MP40-Q6)', 'Settled, 5 Nov 2026 ("Adopt the key", MP40-Q5): the prod collector alone reads it from secure storage every six hours and fills the Claude line, and Ready stands. Settled, 5 Nov 2026 ("Approve all three", MP40-Q6): past 36 hours relevant optional work waits, credit counts only with proof under 30 minutes old, and the £15 above the £85 pause stays for sign-in, ledger reads, audit and recovery. The £15 kept above £85 now also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them").'],
   ['Weekend brief (MP40-Q11)', 'Settled, 5 Nov 2026 ("Weekdays only", MP40-Q11b): no brief on Saturday or Sunday, and Home says why, drawn as No brief at the weekend. That held alerts then land in the inbox at 07:30 is proposed in the pick itself, and labelled.'],
-  ['Is one root with no uniqueness certificate Ambiguous, and how is a search limit worded? (FIN-OD-04)', 'Proposed: Reliance stays Ambiguous, with its one found rate shown and not picked. AstraZeneca stays Nonconvergent: the search used its budget before it could separate the possible rates, so none is stated.'],
   ['Can a disagreement with no ranked action be recorded at all? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, saved with both sides and why no action was ranked.'],
   ['Does revoking an approval need a fresh sign-in? (CT-01)', 'Settled, 5 Nov 2026 ("An open session is enough", OWN-16): any live signed-in session revokes at once, and a signed-out device signs in first. The Sign-in too old state is gone from Approvals and Holdings.'],
   ['Does an abstained or split horizon take only growth, or protection too? (MP-135)', 'Settled, 5 Nov 2026 ("Both parts go", OWN-17): both go, so the name is not ranked. Apple leaves US tech in Disagreement and in Abstaining.'],
   ['Do units count as amounts when amounts are hidden? (MP-84)', 'Settled, 5 Nov 2026 ("Mask units too", OWN-18): money and units are masked, and percentages stay.'],
-  ['How does rebasing a part of a history work? (FIN-OD-03)', 'Labelled proposed, and its approval is disabled.'],
+  ['How does rebasing a part of a history work? (FIN-OD-03)', 'Settled, 5 Nov 2026 ("Whole history only", OWN-19): a rebuild can be approved only when statements cover every unit, and a part one stays held and visible. Drawn as a part rebuild whose approval is disabled.'],
   ['With the model abstaining at 12 months, does a holding keep its action at 3 and 6 months? (MP-144)', 'Settled, 5 Nov 2026 ("No score, no action", OWN-20): no. A holding not ranked shows no action at any horizon until it can be ranked again, with the reason.'],
-  ['How long does an approved switch forward or restart stay open? (CT-02)', 'Proposed: 15 minutes after you approve.'],
-  ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
+  ['How long does an approved switch forward or restart stay open? (CT-02)', 'Settled, 5 Nov 2026 ("15 minutes, as drawn", OWN-21): your yes must start applying within 15 minutes, or you approve again.'],
+  ['Must ranges show on Home itself? MP-153 asks for them, and a tile cannot hold one.', 'Settled, 5 Nov 2026 ("One tap in, reword MP-153", OWN-22): Home A keeps its tiles, Home B keeps its rows, and MP-153 says the range sits on the segment list. Home A shows ranges one tap in, on every segment list, and says so in its cost. Home B shows them in the rows.'],
   ['Can a decision be recorded against an abstention? (MP-158)', 'Settled, 5 Nov 2026 ("Any time evidence shows", OWN-15): yes, against the evidence, and the entry says why no action was ranked. With no forecast at that horizon it may never get an outcome. Past entries stand.'],
   ['Where do track records by horizon and regime live? (MP-154)', 'Settled, 5 Nov 2026 ("A view in Record", OWN-24): a Track record view in Record, beside the Journal. Its shape is settled too, 24 Nov 2026 ("A · Scorecard", MP-187): one card per horizon, with holding, model and regime a tap away. One table (B) stays drawn, labelled not picked. Proposed: a rate shows once 30 forecasts have scored (SCI-D03), and the regime rule (SCI-D04).'],
-  ['What no clear view, a cost pause and the technical mode show on a forecast (MP-145)', 'The cost pause is settled, 5 Nov 2026 ("Daily forecasts keep running", OWN-25): daily forecasts carry on past £85, inside the £15 kept above it, and Cost paused shows only where a forecast needs optional paid work. No clear view and the technical mode stay labelled proposed.'],
-  ['Gold and silver have no short-term rows, views or scenarios (SCI-D08)', 'Labelled proposed.'],
-  ['Probation at 6 and 12 months, where nothing matures in the first 4 live weeks, and the bad-week rule (SCI-D07)', 'Labelled proposed. Probation ends with no score at those horizons.'],
-  ['What evidence does restarting a paused scope need, and does the yes give the model a fresh approval? (POLICY-003)', 'Labelled proposed.'],
-  ['Does a proposal you keep paused stay with what waits on you? (CT-02)', 'Proposed: it stays.'],
-  ['In No model, is only NVIDIA unlabelled, or every non-India row? The reason given covers them all. (FIN-OD-07)', 'Not yours to choose (OWN-30): MP-144 already leaves every row unlabelled until thresholds are approved, and the launch screens now draw that. Still to do as design work: move the unclassified case out of No model, whose subject is India. NVIDIA alone reads No label there today.'],
-  ['Does an open reconciliation difference withhold the account return? (FIN-OD-04)', 'Not withheld: General shows +17.4% beside the open £8.15.'],
+  ['Gold and silver have no short-term rows, views or scenarios (SCI-D08)', 'Settled, 5 Nov 2026 ("Use the provider\'s daily bar", OWN-26): each day\'s value is the provider\'s daily bar, with its boundary recorded, once the first month proves cover. Until then gold and silver show prices, with no short-term rows, views, scenarios or list.'],
+  ['Probation at 6 and 12 months, where nothing matures in the first 4 live weeks, and the bad-week rule (SCI-D07)', 'Settled, 5 Nov 2026 ("As proposed", OWN-27): a bad week scores strictly worse than the previous model on that week\'s matured pairs, and two must run together. At 6 and 12 months probation checks clean running only, so it ends with no score at those horizons.'],
+  ['What evidence does restarting a paused scope need, and does the yes give the model a fresh approval? (POLICY-003)', 'Settled, 5 Nov 2026 ("Cause cleared, fresh approval", OWN-28): code shows why it paused, that the cause is gone and that the model passes today\'s checks. Your yes renews its approval for that scope only.'],
+  ['Does a proposal you keep paused stay with what waits on you? (CT-02)', 'Settled, 5 Nov 2026 ("It stays, undated", OWN-29): it stays with what waits on you, with no expiry, until you restart.'],
   ['Reliance reads Pause beside a positive median at 3 and 12 months, and the conflict is recorded only at 6. Is that right? (SCI-D03)', 'Settled, 5 Nov 2026 ("Conflict at every long horizon", OWN-32): wherever they point different ways at 3, 6 or 12 months, that horizon is conflicted and no action is ranked. Reliance is conflicted at all three.'],
-  ['What counts as beating the rules, and how rules are scored (SCI-D03)', 'Labelled proposed. One part is settled, 5 Nov 2026 ("Use the best simple baseline", ADM-09): where the rules cannot be scored fairly, the strongest simple baseline stands in for them on that task, with your yes each time, in admin Models.'],
+  ['What counts as beating the rules, and how rules are scored (SCI-D03)', 'Settled, 5 Nov 2026 ("A lower score is enough", OWN-33): the model must score better on average than each comparator on the same forecasts, and rules are scored through the frozen mapping. Settled, 5 Nov 2026 ("Use the best simple baseline", ADM-09): where the rules cannot be scored fairly, the strongest simple baseline stands in for them on that task, with your yes each time, in admin Models.'],
   ['How long a risk alert cools down (CT-18)', 'Settled, 5 Nov 2026 ("Once in 24 hours", OWN-34): one push per holding, rule and severity in 24 hours, sooner only if it worsens or the cause is new. What makes an alert material or critical is settled too ("Your lines, no investment wake-ups", MP40-Q11a). Each line\'s value is still yours to set (CT-18).'],
   ['May a budget be raised through an approval? MP-114 bars it and MP-78 lists it as a sensitive action.', 'Settled, 5 Nov 2026 ("Code may draft one", OWN-35, not the Recommended option): when a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in. Drawn as Budget raise in Approvals. How code sizes a raise is open (CT-13).'],
-  ['Which runs does a Reduce line cut? (MP-103)', 'Settled, 5 Nov 2026 ("Cut in a set order", OWN-36): backfills first, then challenger models, then Claude jobs, and code says which step it reached. How far each step cuts is not set (CT-13).'],
-  ['A revoked device that has not connected can still read its saved copy, against MP-165. Is that acceptable?', 'Settled, 5 Nov 2026 ("Saved copy also times out", OWN-37): the copy clears when the device next connects, and the app also stops showing it after a set time without reaching the server. Open: that time, which you choose, so no number is drawn. Unverified: how well an offline app can enforce it.'],
-  ['What is kept offline, and which devices (MP40-Q12)', 'What is kept: settled, 5 Nov 2026 ("Both keep the five", MP40-Q12c): the Apple app and a browser each keep holdings, prices, forecasts, notices and cost, each with its age. Unverified: how a browser protects them, which needs an architecture answer before build, so every browser offline frame says so. Which devices: labelled proposed.'],
-  ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'The acts are settled, 5 Nov 2026 ("Anything that writes or widens", OWN-39): every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in, and reading and stopping do not. Open: how recent a sign-in must be, and the revocation time. Both are set from measured proof before the identity phase ends, so no time is promised. Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
+  ['Which runs does a Reduce line cut? (MP-103)', 'Settled, 5 Nov 2026 ("Cut in a set order", OWN-36): backfills first, then challenger models, then Claude jobs, and code says which step it reached. How far each step cuts is not set (CT-13).']
 ];
 function showInventory() {
   mark('inv');
@@ -2499,7 +2504,7 @@ function showInventory() {
   inv.innerHTML = `<h2>State inventory</h2><p class="sum">Every screen against every state, generated from the screens themselves. ${drawn} of ${cells} cells are drawn; ${na} do not apply, each with its reason. Each screen also adapts to iPhone, iPad, desktop and phone web, in light and dark. Tap a tick to open that state.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th>${STATES.map(s => `<th>${s[1]}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   const naRows = sum.journeys.flatMap(j => j.options.flatMap(o => o.screens.flatMap(s => Object.entries(s.na || {}).map(([k, r]) => `<tr><td>${j.title} · ${o.id.toUpperCase()} · ${s.title}</td><td>${(STATES.find(x => x[0] === k) || [k, k])[1]}</td><td>${r}</td></tr>`))));
   inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What a flip changes</h2><p class="sum">A flip turns the view of a place. The freshness, the provider status and the risk stay the same, the figures both sides show stay the same, and a side may hold more. Each journey starts in A, keeps your choice on that device, and flips on its own. There is no flip while signed out, during a step-up, behind an open sheet, or on a proposal, an approval or a record being written, and none on a few read-only screens with no counterpart, such as the notices list in Approvals B or an opened source, nor on Cost's Home, which is the same whichever way Cost is flipped (OWN-06). A receipt turns only once its commit is done, and a refused permission does not turn. In Disagreement and Abstaining, the instrument in question turns to its dossier or its own horizon, so the name never changes.</p><h2 style="margin-top:32px">Cells that do not apply</h2><p class="sum">Why each of the ${na} cells cannot occur on its screen. This is a reading of "every screen shows", put to you to accept.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Screen</th><th>State</th><th>Why it cannot occur</th></tr></thead><tbody>${naRows.join('')}</tbody></table></div>`);
-  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on the first eight journeys, with a flip. On Track record you picked A, Scorecard; B stays drawn, labelled not picked, with the flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: which devices are supported is still open (MP40-Q12).</p>`);
+  inv.insertAdjacentHTML('beforeend', `<h2 style="margin-top:32px">What these screens wait on</h2><p class="sum">Both options stay on the first eight journeys, with a flip. On Track record you picked A, Scorecard; B stays drawn, labelled not picked, with the flip. These questions cross journeys, and each is drawn as the records stand today, labelled where it is proposed.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>How it is drawn</th></tr></thead><tbody>${OPEN.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Settled by the owner</h2><p class="sum">The owner answered these on 5 November 2026 (MP-184), or on the date given. Each quotes the label the owner picked.</p><div class="tblwrap"><table class="spec"><thead><tr><th>Question</th><th>The owner's answer</th></tr></thead><tbody>${SETTLED.map(([q, d]) => `<tr><td>${q}</td><td>${d}</td></tr>`).join('')}</tbody></table></div><h2 style="margin-top:32px">Checked against current releases</h2><p class="sum">Checked on 4 November 2026 and nothing is installed. SvelteKit 3.1.1 with Svelte 5.57.3 on npm, which matches SvelteKit 3 in TECH-STACK. Current simulators list iPhone 17, 17 Pro, 17 Pro Max and 17e, the iPhone 16 family, iPad, iPad Air and iPad Pro (M4 and M5). The frames here are 390 × 844 and 1180 × 820. They are drawing sizes, not a device promise: the app supports the iPhone and iPad you own, at the iOS they run ("Your own devices only", MP40-Q12a), and you give their models.</p>`);
   inv.onclick = e => { const b = e.target.closest('[data-go]'); if (!b) return; const [jj, oo, k] = b.dataset.go.split('|'); J.go(jj, oo, sum.at.s, k); scrollTo({ top: 0 }); };
   try { history.replaceState(null, '', '#inventory'); } catch (e) { /* the view still shows */ }
 }
@@ -2566,8 +2571,8 @@ const sup = 'Actions are decision support, not advice. MyPrediction places no tr
 const watch = `<span class="badge">${ic('target', 's16')}Watch</span>`;
 const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:190px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>` : ctx.kind === 'pwa' ? tb('search', 'Search') : '';
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
-/* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
+/* the late-price rule: how late a price may be and still count, on every use of it. Settled, "Approve the proposed limits now" (OWN-07, MP-192). Billing freshness cites its own pick in COST. */
+const qLate = settled('OWN-07');
 /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* the month: a pill in the top bar of every Home, whichever way Cost is flipped, and no row after the holdings ("Pill on every Home", OWN-06).
@@ -2779,12 +2784,12 @@ const quoteAt = st => (st === 'offline' ? 'saved 22:15' : st === 'error' ? 'Mon 
 function bTile(k, st, sm, noHold) {
   const s = SEG[k];
   let body;
-  if (k === 'metals') body = `<p class="un">${ic('ban', 's14')}Forecast unavailable</p><ol><li><span class="rk">–</span><span class="tk">Gold</span><b class="home-px">$2,684</b></li><li><span class="rk">–</span><span class="tk">Silver</span><b class="home-px">$31.72</b></li></ol><p class="tm">${sm ? 'Not ranked (SCI-D08)' : 'Not ranked until a valuation convention is set (SCI-D08).'}</p>`;
+  if (k === 'metals') body = `<p class="un">${ic('ban', 's14')}Forecast unavailable</p><ol><li><span class="rk">–</span><span class="tk">Gold</span><b class="home-px">$2,684</b></li><li><span class="rk">–</span><span class="tk">Silver</span><b class="home-px">$31.72</b></li></ol><p class="tm">${sm ? 'Not ranked (SCI-D08)' : 'Not ranked until their daily bar proves cover for a first month (OWN-26).'}</p>`;
   else if (st === 'empty') body = `<p class="tm">First list after the first daily run.</p>`;
   else if (st === 'noModel' && INDIA.includes(k)) body = `<p class="un">${ic('cube', 's14')}No approved model</p><p class="tm">Not ranked until one covers India at 3 to 12 months.</p>`;
   else body = tileRows(k, st, noHold);
   const [t, who] = k === 'metals' ? [] : PRICE[SEGP[k]];
-  const foot = k === 'metals' ? `<p class="tm">Quote ${quoteAt(st)} · Source open (SCI-D08)</p>` : st === 'empty' ? '' : `<p class="tm">${st === 'offline' ? 'Saved 22:15' : st === 'error' ? `Ranked 2 Nov · ${who} Mon ${t}` : `${who} ${t}`}</p>`;
+  const foot = k === 'metals' ? `<p class="tm">Quote ${quoteAt(st)} · Daily bar, cover unproven (OWN-26)</p>` : st === 'empty' ? '' : `<p class="tm">${st === 'offline' ? 'Saved 22:15' : st === 'error' ? `Ranked 2 Nov · ${who} Mon ${t}` : `${who} ${t}`}</p>`;
   return `<div class="segtile home-tile${st === 'loading' ? ' home-tdim' : ''}" style="--c:var(${s.c})" role="button" tabindex="0" data-mo="card"><span class="mk">${s.mk}</span><div class="tn">${s.name}</div>${body}${foot}</div>`;
 }
 const board = (ctx, sm) => `<div class="home-board${isWide(ctx) ? ' w4' : ''}${sm ? ' sm' : ''}">${ORDER.map(k => bTile(k, ctx.state, sm, ctx.nohold)).join('')}</div>`;
@@ -2826,7 +2831,7 @@ function segTable(k, st) {
   const nr = n => `<tr data-mo="rise"><td class="r">–</td><td>${nameBtn({ c: SEG[k].c, lg: n[2] }, n[0], byT[n[0]] ? 'You hold it' : 'Candidate')}</td><td><b style="font-weight:600">Not ranked</b></td><td class="home-n">${n[3]}</td><td class="home-n">${n[4]}</td><td class="home-n">${n[5]}</td><td colspan="2"><span class="muted">${n[6]}</span></td></tr>`;
   return `<table class="ht dk home-seg"><thead><tr><th class="r">#</th><th>Listing</th><th>Score</th><th class="home-n">Growth</th><th class="home-n">Protect.</th><th class="home-n">Opport.</th><th>6M, 80% range</th><th>Action</th></tr></thead><tbody>${list.map(tr).join('')}${list.length < 5 ? `<tr data-mo="rise"><td class="r">${list.length + 1}</td><td colspan="7"><span class="muted">${whyGap(k, st)}. Nothing is filled in.</span></td></tr>` : ''}${nrOf(k, st).map(nr).join('')}</tbody></table>`;
 }
-const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Source open (SCI-D08)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable: the valuation convention is open (SCI-D08). Neither metal is ranked, and nothing stands in for a score. Source open (SCI-D08).</span></div></div>`;
+const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Daily bar, cover unproven (OWN-26)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable until its daily bar proves cover for a first month (OWN-26). Neither metal is ranked, and nothing stands in for a score. Daily bar, cover unproven (OWN-26).</span></div></div>`;
 const indiaWait = () => stateCard('cube', 'No approved model', 'No approved model covers India yet, so this list is not ranked. A missing part is never zero, and prices and holdings still work.');
 /* US tech's own line in a state, in the same words on both options */
 const TECHSAY = { disagreement: { ustech: ['Apple dropped out.', 'The models split on it at 3 months, so it lost its growth and protection parts. It is not ranked, carries no action, and nothing fills the gap.'] }, abstention: { ustech: ['Apple dropped out.', 'It lost its growth and protection parts when the model abstained at 12 months, so it is not ranked, carries no action, and nothing fills the gap.'] } };
@@ -2836,11 +2841,11 @@ function segMain(ctx, k = 'ustech') {
   if (k === 'metals') return region(ctx, {
     what: 'Gold and silver', ok: metals,
     loading: () => banner('', 'Refreshing.', 'The last good quotes from 22:15 stay here until the refresh lands.', 'refresh') + dim(metals()),
-    empty: () => stateCard('grid', 'No top 5 yet', 'Gold and silver stay unranked until a valuation convention is set (SCI-D08). Nothing stands in for a list.') + metals(),
+    empty: () => stateCard('grid', 'No top 5 yet', 'Gold and silver stay unranked until their daily bar proves cover for a first month (OWN-26). Nothing stands in for a list.') + metals(),
     error: () => banner('fall', 'Prices did not refresh.', `${LASTGOOD_ALL}.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + metals(),
     stale: () => banner('warn', 'HSBC is stale.', `Gold and silver are not affected, and they stay unranked (SCI-D08). ${qLate}`, 'clock') + metals(),
     offline: () => banner('', 'Offline.', `Quotes from 22:15, saved on this device.${q12(ctx)}`, 'wifi-off') + metals(),
-    noModel: () => banner('', 'No model can cover these yet.', 'Gold and silver wait for a valuation convention (SCI-D08), so no forecast and no score exist.', 'cube') + metals()
+    noModel: () => banner('', 'No model can cover these yet.', 'Gold and silver have no forecast and no score until their daily bar proves cover for a first month (OWN-26).', 'cube') + metals()
   });
   const card = () => `<div class="card top5" data-mo="card">${segHead(k)}${isWide(ctx) ? segTable(k, st) : segPhone(k, st)}${rankFoot(k, st)}</div>`;
   const say = (icon, none) => { const b = (TECHSAY[st] || {})[k]; return (b ? banner('', b[0], b[1], icon) : banner('', none[0], none[1], icon)) + card(); };
@@ -2859,7 +2864,7 @@ function segMain(ctx, k = 'ustech') {
 }
 function segRail(ctx, k = 'ustech') {
   const st = ctx.state;
-  if (k === 'metals') return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Gold and silver clear only when you set a valuation instant, a source and a calendar for each spot quote (SCI-D08).</p></div>`;
+  if (k === 'metals') return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Gold and silver clear once each day's value, the provider's daily bar with its boundary recorded, proves cover for a first month ("Use the provider's daily bar", OWN-26).</p></div>`;
   if (st === 'empty') return rule();
   if (st === 'noModel' && INDIA.includes(k)) return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Growth and protection come from the 3, 6 and 12-month forecasts, so with no approved model neither exists. The list returns when one covers India.</p></div>${rule()}`;
   const r = rowsOf(k, st)[0], f = fcOf(r[0]), mine = held(r[0], st), actText = byT[r[0]] ? byT[r[0]].act : 'Watch';
@@ -3082,7 +3087,7 @@ J.add({
       id: 'a-segment', title: 'One segment', note: `What a tile opens: every name with its median, 80% range and price time. A not-ranked listing shows the parts it has; the withheld fifth place stays empty. ${EMPTY.lists}`,
       render: ctx => segFrame(ctx, 'ustech')
     }, ...OTHERS.map(k => ({
-      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? `Gold and silver have prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `What the ${SEG[k].name} tile opens. ${EMPTY.lists}`,
+      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? `Gold and silver have prices and no list until their daily bar proves cover for a first month (OWN-26). ${EMPTY.metals}` : `What the ${SEG[k].name} tile opens. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => segFrame(ctx, k)
     })), {
@@ -3128,7 +3133,7 @@ J.add({
       id: 'b-top5', title: 'Top 5 in place', note: `The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: switcher(ctx) })
     }, ...OTHERS.map(k => ({
-      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? `The picker on Gold & silver: prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `The picker on ${SEG[k].name}. ${EMPTY.lists}`,
+      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? `The picker on Gold & silver: prices and no list until their daily bar proves cover for a first month (OWN-26). ${EMPTY.metals}` : `The picker on ${SEG[k].name}. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: `${k === 'metals' ? '<span class="home-wl"></span>' : ''}${switcher(ctx, k)}`, rail: k === 'metals' ? segRail(ctx, k) : '' })
     })), {
@@ -3173,10 +3178,10 @@ J.add({
      How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
   const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
   const off = (ctx, t, title = 'Offline.') => banner('', title, t, 'wifi-off') + kept(ctx);
-  /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
-  const limit = `<div class="holdings-acts">${proposed('DATA-DEC-02')}</div>`;
-  /* a line and the open question it rests on, inside one measure */
-  const flagged = (t, ref) => `<span class="holdings-late" style="margin-top:0"><span>${t}</span>${proposed(ref)}</span>`;
+  /* how old a price may be is DATA-DEC-02, settled on 5 Nov 2026 ("Approve the proposed limits now", OWN-07), so every use of the late-price rule says so */
+  const limit = `<div class="holdings-acts">${settled('OWN-07')}</div>`;
+  /* a line and the label of the rule it rests on, inside one measure: a pick that settles it, or the record that leaves it open */
+  const flagged = (t, chip) => `<span class="holdings-late" style="margin-top:0"><span>${t}</span>${chip}</span>`;
   /* one sentence, word for word, on every import, typed entry, draft, live approval, receipt and approve sheet */
   const NO_TRADE = 'This records what already happened at your broker. It places no trade.';
   const noTrade = `<p class="holdings-note">${NO_TRADE}</p>`;
@@ -3215,7 +3220,7 @@ J.add({
       ['Money-weighted return', 'Unavailable', ev('none', 'Unavailable'), 'Needs dated cash flows. Never shown as zero.']
     ],
     HSBA: [
-      ['Value', '£6,104.20', ev('old', 'Stale'), flagged('Last price 14:10, Yahoo. Left out of the total until its price returns.', 'DATA-DEC-02')],
+      ['Value', '£6,104.20', ev('old', 'Stale'), flagged('Last price 14:10, Yahoo. Left out of the total until its price returns.', settled('OWN-07'))],
       ['Cost basis', '£5,300.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£804.20 (+15.2%)', ev('old', 'Stale'), 'Uses the 14:10 price.'],
       ['Money-weighted return', 'Withheld', ev('old', 'Stale'), 'Its closing value is stale, so the rate is withheld until its price returns.']
@@ -3224,13 +3229,13 @@ J.add({
       ['Value', '£8,940.30', ev('ok', 'Available'), 'Priced 10:00, Yahoo. FX 20:58.'],
       ['Cost basis', '£7,700.00', ev('ok', 'Available'), 'Broker figure in INR, dated FX labelled estimated.'],
       ['Gain', '+£1,240.30 (+16.1%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), flagged('These cash flows change direction three times, so more than one rate could fit. The search found +22.3% a year and cannot prove it is the only one, so none is picked. FX estimated from dated reference rates.', 'FIN-OD-04')]
+      ['Money-weighted return', 'No single rate', ev('amb', 'Ambiguous'), flagged('These cash flows change direction three times, so more than one rate could fit. The search found +22.3% a year and cannot prove it is the only one, so none is picked. FX estimated from dated reference rates.', settled('OWN-14'))]
     ],
     AZN: [
       ['Value', '£9,215.75', ev('ok', 'Available'), 'Priced 16:35, Yahoo.'],
       ['Cost basis', '£8,200.00', ev('ok', 'Available'), 'Broker figure, statement of 30 Sep.'],
       ['Gain', '+£1,015.75 (+12.4%)', ev('ok', 'Available'), 'Value less the cost basis above.'],
-      ['Money-weighted return', 'No rate stated', ev('amb', 'Nonconvergent'), flagged('These cash flows change direction three times, and the search used its budget before it could separate the possible rates, so none is stated. Same inputs give the same result. Diagnostics kept.', 'FIN-OD-04')]
+      ['Money-weighted return', 'No rate stated', ev('amb', 'Nonconvergent'), flagged('These cash flows change direction three times, and the search used its budget before it could separate the possible rates, so none is stated. Same inputs give the same result. Diagnostics kept.', proposed('FIN-OD-04'))]
     ]
   }[h.t]);
   const accountsOf = h => ({
@@ -3280,7 +3285,7 @@ J.add({
     if (h.stale) return `<span class="chip stale">${ic('clock', 's14')}Held</span>`;
     return `<div style="display:flex;align-items:center;gap:6px"><span style="width:38px;color:var(--fc-ink);font-weight:600;text-align:right">${pct(h.med)}</span><span style="width:56px;display:block">${range(h, 56, 14)}</span></div><div class="small muted" style="font-size:12px;line-height:16px;white-space:nowrap">${pct(h.lo)} to ${pct(h.hi)}</div>`;
   };
-  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${proposed('DATA-DEC-02')}</div>`}</div>`;
+  const listFoot = ctx => `<div class="t5foot">${ctx.state === 'noModel' ? '' : 'Decision support: each holding gives the reasons for its action, and forecast ranges are 80%. '}MyPrediction never places a trade. Illustrative.${ctx.state === 'stale' ? '' : `<div class="holdings-late"><span>${LATE}</span>${settled('OWN-07')}</div>`}</div>`;
   const retCell = r => (r.startsWith('+') ? r.replace(' a year', '') : r === 'Unavailable' ? '' : `<span class="muted">${{ 'No single rate': 'Not proved', 'No rate stated': 'Not stated', Withheld: 'Withheld' }[r]}</span>`);
   const evCell = (h, ctx) => (withheld(h, ctx) ? ev('old', 'Stale') : ev(...L[h.t].s));
   const holdTable = (ctx, title = 'Holdings') => {
@@ -3304,7 +3309,7 @@ J.add({
   const partialCard = ctx => valueCard(ctx, { label: 'Known value, 6 of 7 priced', val: '84,051.05', held: '78,508.20', partial: true, chip: ev('part', 'Partial'), sub: partialSub() });
   const coverage = ctx => `<div class="card" style="padding:14px 16px" data-mo="card"><div class="label">What your evidence supports</div>
     ${(ctx.state === 'stale' ? [['Value', 6], ['Cost basis', 6], ['Gain', 5], ['Return', 3]] : [['Value', 7], ['Cost basis', 6], ['Gain', 6], ['Return', 4]]).map(([k, n]) => `<div class="holdings-cov"><span>${k}</span><i role="img" aria-label="${k}: ${n} of 7 holdings"><u data-mo="barx" style="--v:${Math.round(n / 7 * 100)}%"></u></i><b>${n} of 7</b></div>`).join('')}
-    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Older statements fill the gaps. No single rate is proved for Reliance. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}</div></div>`;
+    <p class="small muted" style="margin-top:10px">${ctx.state === 'stale' ? 'HSBC is past the freshness limit, so it leaves the value, gain and return. ' : ''}Nippon India Nifty 50 BeES is a snapshot with no history. Older statements fill the gaps. No single rate is proved for Reliance. For AstraZeneca the search used its budget before it could separate the possible rates, so none is stated.</p><div class="holdings-acts" style="margin-top:8px">${proposed('FIN-OD-04')}${settled('OWN-14')}</div></div>`;
   const IMPORT_NOW = { loading: '1 import is uploading', error: '3 files not taken in', stale: '1 import last seen at 21:09', offline: '1 upload stopped at 62%', noModel: '1 scan is queued, not read', disagreement: '', abstention: '1 import is ready for you' };
   const importNow = st => [IMPORT_NOW[st] ?? '1 import is being read', '1 difference open'].filter(Boolean).join(' · ');
   const toImports = (n, t = 'General account, Q3 · cash differs by £8.15. Nothing here changes until you approve it.') => `<button class="card holdings-link" type="button" data-mo="card"><span class="ic">${ic('layers', 's18')}</span><span>${n}<small>${t}</small></span>${ic('chev-r', 's18')}</button>`;
@@ -3349,14 +3354,14 @@ J.add({
     <div class="holdings-ba"><span>Closing cash on the statement</span><b>£4,630.43</b><span>From these rows, with the £500.00 transfer</span><b>£4,642.83</b><span>Difference, cash</span><b>£12.40</b></div>
     <p>Nothing is plugged or overwritten. Fix a row, add the missing one, or ${o.done ? '' : 'commit and '}keep the difference open, in plain sight, with your reason.</p>${acts(btn('Find the row', 'tinted sm'), btn('Keep it open, with a reason', 'plain sm'))}</div>`;
 
-  /* the failures an upload can meet. The upload limit is an open owner question, so it is labelled proposed. A locked PDF opens on
+  /* the failures an upload can meet. Oversized files stay held, and the limits are set from your real statements ("Set from your real statements", MP40-Q1), so no value is drawn. A locked PDF opens on
      your device: the owner pressed "Local unlock step" (MP40-Q2), so its row leads to Unlock a PDF */
   /* one sentence, word for word, wherever a statement password is met (MP40-Q2) */
   const PDF_RULE = 'The password never leaves this device, and it is never stored, logged or sent to a model.';
   const failRow = (k, n, t, s, chip, a) => `<div class="hrow" style="grid-template-columns:30px minmax(0,1fr);align-items:start" data-mo="rise">${logo('--seg-metals', k, true)}<div style="min-width:0;display:grid;gap:6px"><div><div class="nm">${n}</div><div class="tk" style="white-space:normal">${t}</div></div><p class="small muted">${s}</p>${chip ? `<div class="holdings-acts">${chip}</div>` : ''}${a}</div></div>`;
   const failures = () => `<div class="card" style="padding:2px 0" data-mo="card"><div class="holdings-head"><h3>3 files not taken in</h3>${ev('bad', 'Nothing was read')}</div>
     ${failRow('PDF', 'isa-scan-copy.pdf', 'Unreadable file', 'Its contents do not match a PDF. It was refused at the door, and nothing reached Claude. Export it again from your broker.', '', acts(btn('Choose another', 'tinted sm')))}
-    ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. No upload limit is approved yet.', proposed('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
+    ${failRow('PDF', 'isa-2019-to-2026.pdf', 'Oversized file', 'Larger than a statement should be. It is held apart and not read until you decide. The four limits are set from your largest real statements, with a margin, when they arrive.', settled('MP40-Q1'), acts(btn('Split and resend', 'tinted sm'), btn('Discard', 'plain sm')))}
     ${failRow('PDF', 'demat-oct-locked.pdf', 'Password-protected PDF', `Locked with a password, so nothing read it. Open it on this device with its password, and only the unlocked copy is sent. ${PDF_RULE}`, '', acts(btn('Unlock on this device', 'tinted sm')))}</div>`;
   const interrupted = () => `<div class="card state" data-mo="card"><div class="sh"><span class="ic">${ic('wifi-off', 's18')}</span>Upload stopped at 62%</div><p>isa-oct-2026-scan.pdf did not finish, so no part of it was kept. Send it again once you are back online. Your link has expired and a new one is made for you.</p><div class="calbar" role="img" aria-label="Stopped at 62%"><i style="width:62%;background:var(--ink-2)"></i></div>${acts(`<button class="btn btn-tinted sm" type="button" disabled>Send again when online</button>`)}</div>`;
   const STEP = ['Received', 'Checked', 'Reading', 'Ready'];
@@ -3380,7 +3385,7 @@ J.add({
   const dropZone = ctx => `<div class="holdings-drop" data-mo="card"><span class="ring">${ic('layers', 's24')}</span><b>${phone(ctx) ? 'Add a statement' : 'Drop a statement here'}</b><p>CSV, Excel, PDF or a screenshot. It is held apart and checked before anything reads it.</p>${acts(btn('Choose a file', 'primary sm'), btn('Type it in', 'tinted sm'))}</div>`;
   /* open work in Imports: an unsent typed entry and a difference that stays open across sessions */
   const openRow = (i, n, s) => `<button class="holdings-acc holdings-btn" type="button" data-mo="rise"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${ic(i, 's16')}</span><span class="t"><b>${n}</b><span>${s}</span></span>${ic('chev-r', 's18')}</button>`;
-  const REBUILD_ROW = { default: ['Rebuild proposal ready', 'Nippon India Nifty 50 BeES · from 3 older statements'], stale: ['Rebuild proposal out of date', 'Nippon India Nifty 50 BeES · refresh it and approve it again'], disagreement: ['Rebuild proposal held', 'Nippon India Nifty 50 BeES · 20 units short'], abstention: ['Rebuild proposal, part history', 'Nippon India Nifty 50 BeES · Proposed · FIN-OD-03'] };
+  const REBUILD_ROW = { default: ['Rebuild proposal ready', 'Nippon India Nifty 50 BeES · from 3 older statements'], stale: ['Rebuild proposal out of date', 'Nippon India Nifty 50 BeES · refresh it and approve it again'], disagreement: ['Rebuild proposal held', 'Nippon India Nifty 50 BeES · 20 units short'], abstention: ['Rebuild proposal, part history', 'Nippon India Nifty 50 BeES · Settled · OWN-19'] };
   const openWork = (st = 'default') => `<div class="card top5" style="padding:2px 0 6px" data-mo="card"><div class="holdings-head"><h3>Open work</h3></div>${openRow('plus', 'Resume typed entry', 'General account · saved 21:09 · not added')}${openRow('split', 'Open the difference', 'General account, Q3 · cash differs by £8.15')}${openRow('layers', ...REBUILD_ROW[st])}</div>`;
   const openDiff = () => `<div class="card state" data-mo="card">${fileHead(ev('amb', 'Difference open'), 'General account, Q3', 'Committed 24 Oct · R-0212')}<p>The statement closes £8.15 away from the ledger on cash. It stays open across sessions until you fix or resolve it, and no plug trade clears it.</p>${acts(btn('Open the difference', 'tinted sm'))}</div>`;
   const readyCard = (ctx, go) => running(ctx, { at: 3, chip: ev('ok', 'Ready for you'), body: `<p>Claude read 10 of the 11 rows in full. 1 field it could not read is blank, not guessed, and waits for you.</p>${acts(btn(go, 'primary sm'))}` });
@@ -3489,7 +3494,7 @@ J.add({
   const accCard = (a, ctx) => { const part = ctx.state === 'stale' && a.known; return `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(${a.c})"><h4>${a.n}</h4><p>${a.m}</p></div>
     ${a.rows.map(([t, u, v]) => { const h = byT[t], stale = h.stale; return `<div class="holdings-acc" data-mo="rise">${logo(h.c, h.lg, true)}<div style="min-width:0"><b>${h.n}</b><span>${t} · ${u}</span></div><div><div class="r">${v}</div>${stale ? `<span style="text-align:right;color:var(--warn)">${ctx.state === 'stale' ? 'Stale' : 'Late'} · ${h.stale} · ${ctx.state === 'noModel' ? 'No forecast' : 'forecast held'}</span>` : `<span style="text-align:right">${fcSmall(h, ctx)}</span>`}</div></div>${ctx.state === 'disagreement' && t === 'RELIANCE' ? `<div class="holdings-sides"><span>${sides()}</span>${dual()}</div>` : ''}`; }).join('')}
     <div class="holdings-foot"><div><span>${part ? 'Known, 2 of 3' : 'Holdings'}</span><b>${part ? a.known : a.hold}</b></div><div><span>Cash</span><b>${a.cash}</b></div><div><span>Return</span><b>${part ? a.retStale : a.ret}</b></div></div>
-    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${proposed('DATA-DEC-02')}</div></div>` : ''}</div>`; };
+    <div style="padding:0 16px 12px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap">${ev(...a.ev)}${btn('Add statement', 'plain sm')}</div>${a.known && ctx.state !== 'stale' ? `<div class="t5foot"><div class="holdings-late" style="margin-top:0"><span>${LATE}</span>${settled('OWN-07')}</div></div>` : ''}</div>`; };
   const fcSmall = (h, ctx) => {
     const st = ctx.state;
     if (st === 'noModel') return 'No forecast';
@@ -3625,7 +3630,7 @@ J.add({
     offline: () => off(ctx, 'Showing this proposal from 22:15. Approval needs a connection.') + rebuildCard(ctx) + rebuildFx({ go: dis('Review and approve') }),
     disagreement: () => banner('', 'The statements fall 20 units short.', 'They reach 4,180 units and your snapshot says 4,200. The baseline cannot retire until you settle it.', 'split') + rebuildCard(ctx, { chip: ev('amb', 'Difference open'), base: '4,200 units, kept', units: '4,180 units, 8 events', after: '4,200, 20 unexplained', gen: 'Stays at 1' }) + rebuildFx({ rec: '20 units apart', basis: 'Unavailable until settled', gain: 'Unavailable until settled', ret: 'Unavailable until settled', go: dis('Review and approve') }),
     noModel: () => claudeOff('Code builds this proposal from your older statements, so it carries on.') + rebuildCard(ctx) + rebuildFx(),
-    abstention: () => banner('', 'The history is only part there.', 'The statements reach back to June 2025 and cover 2,600 of the 4,200 units, so the return stays unavailable. How a part history rebases is still open, so this is one way to draw it, and it cannot be approved yet.', 'ban') + acts(proposed('FIN-OD-03')) + rebuildCard(ctx, { chip: ev('part', 'Part history'), base: '1,600 units kept', units: '2,600 units, 5 events', after: '4,200, 1,600 from the baseline', gen: 'Stays at 1' }) + rebuildFx({ rec: 'Units agree', basis: 'Partial, 2,600 of 4,200 units', gain: 'Partial, 2,600 of 4,200 units', ret: 'Stays unavailable', go: dis('Review and approve') })
+    abstention: () => banner('', 'The history is only part there.', 'The statements reach back to June 2025 and cover 2,600 of the 4,200 units, so the return stays unavailable. A rebuild can be approved only when statements cover every unit, so a part one stays held and visible.', 'ban') + acts(settled('OWN-19')) + rebuildCard(ctx, { chip: ev('part', 'Part history'), base: '1,600 units kept', units: '2,600 units, 5 events', after: '4,200, 1,600 from the baseline', gen: 'Stays at 1' }) + rebuildFx({ rec: 'Units agree', basis: 'Partial, 2,600 of 4,200 units', gain: 'Partial, 2,600 of 4,200 units', ret: 'Stays unavailable', go: dis('Review and approve') })
   });
   const rebuildScreen = (id, top = '') => ({
     id, title: 'Rebuild history',
@@ -3787,11 +3792,11 @@ J.add({
         render: ctx => frame(ctx, { tab: 0, title: 'Holdings', back: 'Portfolio', actions: eyeBtn(), webActions: `${btn('Imports', 'tinted sm', 'layers')}${eyeBtn()}`, ...listParts(ctx) })
       }, privateScreen('a-private', listParts, 'Holdings'), {
         id: 'a-one', title: 'One holding',
-        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance, whose flows change direction, so one rate found is not proved the only one, Abstaining AstraZeneca, whose search used its budget before it could separate the possible rates. How far the search goes and what proves a single rate are open (Proposed · FIN-OD-04).',
+        note: 'Each measure carries its own status. Each state shows the holding that best proves it: Empty a snapshot, Stale HSBC, Disagreement Reliance, whose flows change direction, so one rate found is not proved the only one, Abstaining AstraZeneca, whose search used its budget before it could separate the possible rates. The owner picked "Show it, not picked" (OWN-14): a found rate shows in the note beside the status, never as the headline. How far the search goes and what proves a single rate are open (Proposed · FIN-OD-04).',
         render: ctx => { const h = pick(ctx.state), s = holdingA(ctx); return frame(ctx, { tab: 0, title: ctx.kind === 'web' ? 'One holding' : h.t, back: 'Holdings', actions: eyeBtn(), ...s }); }
       }, {
         id: 'a-imports', title: 'Imports: drop a file, watch it read',
-        note: 'Imports is its own place: in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02), and under Settings on a phone. Error shows the three ways a file is refused. The upload limit (MP40-Q1) is an open owner question, so it is labelled proposed. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
+        note: 'Imports is its own place: in the iPad and desktop sidebar ("Add them to the sidebar", OWN-02), and under Settings on a phone. Error shows the three ways a file is refused. Oversized files stay held, and the four limits are set from your largest real statements when they arrive ("Set from your real statements", MP40-Q1), so no value is drawn. A password-protected PDF opens on your device: the owner pressed "Local unlock step" (MP40-Q2), drawn on Unlock a PDF. Offline shows an interrupted upload; Stale shows reconnect.',
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, dropZone(ctx), 'Open preview'), rail: importsRail(ctx) })
       }, unlockScreen('a-unlock', 'Imports'), manualScreen('a-manual'), {
         id: 'a-preview', title: 'Preview: check every row',
@@ -3854,7 +3859,7 @@ J.add({
         render: ctx => imp(ctx, { tab: 4, title: 'Imports', back: 'Settings', fresh: 'default', actions: eyeInfo('About imports'), body: importsPlace(ctx, ctx.state === 'empty' ? methods(ctx) : accountPick(), 'Start checking'), rail: importsRail(ctx) })
       }, {
         id: 'b-add', title: 'Add a statement, read it',
-        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. The upload limit (MP40-Q1) is open, so it is labelled proposed, and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
+        note: 'One job on screen. The owner picks how the records arrive, then watches them read. The same refusals as A apply. Oversized files stay held, and the four limits are set from your largest real statements when they arrive ("Set from your real statements", MP40-Q1), and a password-protected PDF opens on your device ("Local unlock step", MP40-Q2), on Unlock a PDF.',
         render: ctx => {
           const st = ctx.state, top = STEPB(st === 'default' || st === 'stale' || st === 'noModel' || st === 'abstention' ? 1 : 0);
           const body = top + region(ctx, {
@@ -3989,8 +3994,8 @@ const modelSplit = c => c.state === 'disagreement' && c.h.t !== 'RELIANCE';
 const shortH = st => (st === 'stale' ? byT.HSBA : A);
 const INFO = { AAPL: 'AAPL · XNAS · US tech · USD', HSBA: 'HSBA · XLON · UK · GBP', AZN: 'AZN · XLON · UK · GBP', RELIANCE: 'RELIANCE · XNSE · India · INR' };
 const dim = html => `<div class="fc-dim" aria-busy="true">${html}</div>`;
-/* the late-price rule: how late a price may be and still count, on every use of it */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
+/* the late-price rule: how late a price may be and still count, on every use of it. Settled, "Approve the proposed limits now" (OWN-07, MP-192) */
+const qLate = settled('OWN-07');
 /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* Each name reads its own market's run (POLICY-002, ADM-10, ADM-22): Apple the US run, issued 22:15 with its cutoff at 22:00; HSBC and
@@ -4045,7 +4050,7 @@ function ladderFan(ctx, o = {}) {
 
 /* ---------- the instrument ---------- */
 function inst(ctx, h = who(ctx.state)) {
-  if (ctx.state === 'noModel') return `<div class="fc-inst" data-mo="rise">${logo(GOLD.c, GOLD.lg)}<div style="min-width:0"><div class="nm">Gold</div><div class="small">XAU/USD · spot · Gold &amp; silver</div><div class="small">Quote 21:00 · Source open (SCI-D08)</div></div><div class="sum">$2,684.20${chg(-0.4)}</div></div>`;
+  if (ctx.state === 'noModel') return `<div class="fc-inst" data-mo="rise">${logo(GOLD.c, GOLD.lg)}<div style="min-width:0"><div class="nm">Gold</div><div class="small">XAU/USD · spot · Gold &amp; silver</div><div class="small">Quote 21:00 · Daily bar, cover unproven (OWN-26)</div></div><div class="sum">$2,684.20${chg(-0.4)}</div></div>`;
   return `<div class="fc-inst" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="small">${INFO[h.t]}</div></div><div class="sum">£${h.val}${ctx.state === 'stale' ? `<span class="chg" style="color:var(--warn);justify-content:flex-end">${ic('clock', 's14')}14:10</span>` : chg(h.day)}</div></div>`;
 }
 const hzSwitch = (ctx, on = 1, short = false) => {
@@ -4075,7 +4080,7 @@ function forecastMain(ctx, hz = 1, h = subj(ctx.state, hz)) {
     error: () => banner('fall', 'This forecast did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + card(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so this is the last forecast issued. Its action stays Pause until its price returns. ${qLate}`, 'clock') + card(),
     offline: () => banner('', 'Saved at 22:15.', `This is the forecast on your device, not fresh analysis. Nothing updates until you reconnect.${q12(ctx)}`, 'wifi-off') + card(),
-    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any horizon for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
+    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any horizon for gold until its daily bar proves cover for a first month (OWN-26). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Daily bar, cover unproven (OWN-26)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (isOut(st, h.t, hz) ? (h.t === 'RELIANCE' ? twoRanges(h, hz) : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both ranges show.', 'split') + card()) : banner('', `No conflict at ${n}.`, `R2-HGB v3 and the baseline agree here.${other ? ` ${h.n} is split at ${other} only, so it is not ranked and carries no action at any horizon.` : ''}`, 'split') + card()),
     abstention: () => (isOut(st, h.t, hz) ? stateCard('ban', 'The model abstained', `Too little comparable history for a calibrated ${n.replace(' months', '')}-month range, so no range is shown. Nothing stands in for it.`, '', pill('', 'ban', 'Abstained · no range shown')) + hist(ctx, h.n) : banner('', `${n[0].toUpperCase()}${n.slice(1)} stands.`, `${other ? `${other[0].toUpperCase()}${other.slice(1)} abstained, so ${h.n} is not ranked and carries no action at any horizon. ` : ''}This range rests on its own evidence.`, 'ban') + card())
   });
@@ -4138,7 +4143,7 @@ function shortMain(ctx) {
     error: () => banner('fall', 'Short-term forecasts did not load.', `${LASTGOOD}. That run shows in full.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + shortCard(ctx),
     stale: () => banner('warn', 'Stale input.', `HSBC's price stopped at 14:10, so 10 and 20 sessions are held, not current, until its price returns. ${qLate}`, 'clock') + shortCard(ctx),
     offline: () => banner('', 'Saved at 22:15.', `Short-term figures age fastest. Treat these as a record, not a reading.${q12(ctx)}`, 'wifi-off') + shortCard(ctx),
-    noModel: () => banner('', 'Rules only.', 'The short-term model is paused (POLICY-003), so all four rows show the rules with their heuristic strength. Gold has no rows: no forecast and no rules until its valuation convention is set (SCI-D08).', 'pause') + shortCard(ctx),
+    noModel: () => banner('', 'Rules only.', 'The short-term model is paused (POLICY-003), so all four rows show the rules with their heuristic strength. Gold has no rows: no forecast and no rules until its daily bar proves cover for a first month (OWN-26).', 'pause') + shortCard(ctx),
     disagreement: () => banner('', 'Models disagree at 10 sessions.', 'R2-HGB v3 points up and the baseline points down, so no median stands. Both are in the proof.', 'split') + shortCard(ctx),
     abstention: () => banner('', '20 sessions abstained.', 'The other rows stand on their own evidence.', 'ban') + shortCard(ctx)
   });
@@ -4189,18 +4194,18 @@ function proofMain(c) {
     error: () => stateCard('alert', 'Proof unavailable', 'The record did not load at 21:16. The forecast still shows, and its calibration line stays labelled with its time.', btn('Try again', 'tinted', 'refresh')),
     stale: () => banner('warn', 'HSBC\'s price is stale.', `No live forecast has matured yet, so no grade is held up. A grade that falls due waits until its price returns. Nobody edits a past score. ${qLate}`, 'clock') + ok(),
     offline: () => banner('', 'Saved at 22:15.', `The record on your device. New grades arrive when you reconnect.${q12(ctx)}`, 'wifi-off') + ok(),
-    noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast while its valuation convention is open (SCI-D08). There is nothing here to score, and no record is claimed.'),
+    noModel: () => stateCard('cube', 'No forecast, no record', 'Gold has no forecast until its daily bar proves cover for a first month (OWN-26). There is nothing here to score, and no record is claimed.'),
     disagreement: () => banner('', 'Baseline comparison.', 'R2-HGB v3 and the baseline sit together so you can weigh them. Rules carry no scored record.', 'split') + `<div class="card fc-card" data-mo="card"><div class="fc-kv"><span>R2-HGB v3 · coverage</span><b>${l.held}%</b><span>Baseline · coverage</span><b>${r.baseHeld}%</b><span>R2-HGB v3 · error</span><b>${r.err}</b><span>Baseline · error</span><b>${r.baseErr}</b></div></div>` + ok(),
     abstention: () => banner('', 'Abstentions are counted.', `The model abstained on 7 of ${l.scored + 7} origins. They are reported here, and are not scored as hits or misses.`, 'ban') + ok()
   });
 }
-const proofRail = c => (c.state === 'noModel' ? `<div class="card fc-card" data-mo="card"><h4>Why there is no sheet</h4><p class="fc-sub">Model, regime and analog sheets stand behind a forecast. Gold has none until its valuation convention is set (SCI-D08).</p></div>` : ['empty', 'error'].includes(c.state) ? sheets() : hzRecord() + walk(c.hz) + sheets());
+const proofRail = c => (c.state === 'noModel' ? `<div class="card fc-card" data-mo="card"><h4>Why there is no sheet</h4><p class="fc-sub">Model, regime and analog sheets stand behind a forecast. Gold has none until its daily bar proves cover for a first month (OWN-26).</p></div>` : ['empty', 'error'].includes(c.state) ? sheets() : hzRecord() + walk(c.hz) + sheets());
 
 /* ---------- three views ---------- */
 const clMark = '<span class="cl-mark s" aria-hidden="true"><i></i><i></i><i></i></span>';
 function vRules(c) {
   const st = c.state;
-  if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4><span class="chip proposed"><span class="dot"></span>Proposed · SCI-D08</span></div><div class="fc-kv"><span>Reads</span><b>Nothing</b></div><p class="fc-sub">Rules read nothing for gold without a valuation convention.</p></div>`;
+  if (st === 'noModel') return `<div class="card fc-card" data-mo="card"><div class="fc-vh">${ic('sliders', 's18')}<h4>Rules</h4>${settled('OWN-26')}</div><div class="fc-kv"><span>Reads</span><b>Nothing</b></div><p class="fc-sub">Rules read nothing for gold until its daily bar proves cover for a first month.</p></div>`;
   const body = c.pause ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is below its 200-day average.</li><li>Drawdown of 11% from its high.</li></ul>`
     : st === 'stale' ? `<div class="fc-kv"><span>Reads</span><b>Pause</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Last price is past the freshness limit.</li><li>Nothing newer to read until its price returns.</li></ul>`
       : `<div class="fc-kv"><span>Reads</span><b>Hold</b><span>Heuristic strength</span><b>Moderate</b></div><ul class="fc-sub"><li>Price is above its 200-day average.</li><li>Valuation is above its 5-year median.</li></ul>`;
@@ -4239,7 +4244,7 @@ function viewsMain(c) {
     error: banner('warn', 'One view failed.', 'The others still show. The failed view says why.', 'alert'),
     stale: banner('warn', 'HSBC\'s price is stale.', `It stopped at 14:10, so all three views describe the last issue, not today, until its price returns. ${qLate}`, 'clock'),
     offline: banner('', 'Saved at 22:15.', `All three views are from your device.${q12(ctx)}`, 'wifi-off'),
-    noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its valuation convention is set (SCI-D08). No combined reading is made.', 'cube'),
+    noModel: banner('', 'Nothing to compare yet.', 'Gold has no model and no rules reading until its daily bar proves cover for a first month (OWN-26). No combined reading is made.', 'cube'),
     disagreement: modelSplit(c) ? banner('', `Models disagree at ${HN[c.hz]}.`, 'Each keeps its own range, no median stands, and no action is ranked there.', 'split') : banner('', 'Rules and models disagree.', 'Each side keeps its own evidence, and no action is ranked.', 'split'),
     abstention: banner('', `The model abstained at ${HN[c.hz]}.`, 'The rules still show. Nothing is folded into one score.', 'ban')
   }[st] || '';
@@ -4270,7 +4275,7 @@ function scenMain(ctx, figuresFirst = false) {
   return region(ctx, {
     what: 'Scenarios', ok: all,
     loading: () => banner('', 'Reading your saved copy.', 'The last saved paths stay here, from 2 November, until it lands.', 'refresh') + dim(all()),
-    empty: () => stateCard('scenario', 'Template values wait for you', 'The downside, central and upside values need your approval before they are used (SCI-D06). Until then no scenario runs and no path is drawn.', btn('Review the template values', 'primary')),
+    empty: () => stateCard('scenario', 'Template values wait for you', 'A separate piece of work proposes each downside, central and upside value with its evidence, and you approve them ("Sourced proposal, then approve", OWN-10). Until then no scenario runs and no path is drawn.', btn('Review the template values', 'primary')),
     error: () => banner('fall', 'Inflation of 40% was refused.', 'It must be between 0% and 15%. The last saved assumptions stay, and so do these paths.', 'alert') + all(),
     stale: () => banner('warn', 'FX is from 2 November.', 'The GBP/USD quote is a day old, so the pound figures are held to that rate.', 'clock') + all(),
     offline: () => banner('', 'Saved at 22:15.', `Editing waits until you reconnect. These paths are from your last saved assumptions.${q12(ctx)}`, 'wifi-off') + all()
@@ -4299,10 +4304,10 @@ const chainOf = (h, hz = 1) => { const l = longOf(h)[hz]; return [
   ['lock', 'Audit', `Recorded ${clockOf(h)[0]} · 7 of 7 links resolve`, 'Each link opens the stored record. Nothing is rebuilt.']
 ]; };
 const goldChain = () => [
-  ['db', 'Source', 'Spot quote 21:00 · Source open (SCI-D08)', 'Quoted at 21:00. Its source, and so its clock, are still to be set.'],
+  ['db', 'Source', 'Spot quote 21:00 · Daily bar, cover unproven (OWN-26)', 'Quoted at 21:00. Each day\'s value is the provider\'s daily bar, with its boundary recorded, once the first month proves cover.'],
   ['layers', 'Ledger', 'Watch-only: no position', 'Gold is on your watch list. The ledger holds none.'],
   ['shield', 'Risk', 'Not in the portfolio, so no exposure', 'Nothing here counts towards the snapshot.'],
-  ['ban', 'Forecast', 'None: the valuation convention is open (SCI-D08)', 'No model or rule produced a figure, and none is implied.'],
+  ['ban', 'Forecast', 'None until the daily bar proves cover (OWN-26)', 'No model or rule produced a figure, and none is implied.'],
   ['target', 'Action', 'None: not ranked', 'Nothing was published.'],
   ['clock', 'Outcome', 'Nothing to score', 'No forecast was issued, so nothing matures.'],
   ['lock', 'Audit', 'Recorded 22:15 · 7 of 7 links resolve', 'Each link opens the stored record. Nothing is rebuilt.']
@@ -4370,14 +4375,14 @@ function ladderMain(ctx, h) {
     error: () => banner('fall', 'Forecasts did not load.', `Twelve Data failed at 21:16. ${LASTGOOD}. That run shows in full, with its date.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + main(),
     stale: () => banner('warn', 'Held, not current.', `HSBC's last price is 14:10, past the freshness limit, so every horizon shows its last issue until its price returns. ${qLate}`, 'clock') + main(),
     offline: () => banner('', 'Saved at 22:15.', `Every horizon here is from your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + main(),
-    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold, while its valuation convention is open (SCI-D08). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Source open (SCI-D08)</span><span>Illustrative</span></div></div>`,
+    noModel: () => stateCard('ban', 'Forecast unavailable', 'No forecast at any of the seven horizons for gold until its daily bar proves cover for a first month (OWN-26). Price history still shows.', '', pill('', 'ban', 'Unavailable at all 7 horizons')) + `<div class="card fcard" data-mo="card"><div class="label">Price history · 12 months · not a forecast</div><div style="margin-top:8px">${histChart(ctx, 'Gold', 29)}</div><div class="fmeta"><span>Daily bar, cover unproven (OWN-26)</span><span>Illustrative</span></div></div>`,
     disagreement: () => (h.t === 'RELIANCE' ? banner('', 'Rules and models disagree at 3, 6 and 12 months.', 'The rules point down and the model points up, so no median stands and no action is ranked. Open a row for both.', 'split') : banner('', 'Models disagree at 3 months.', 'R2-HGB v3 points up and the baseline points down, so no median stands there. Open the row for both.', 'split')) + main(),
     abstention: () => banner('', '12 months abstained.', '3 and 6 months stand on their own evidence.', 'ban') + main()
   });
 }
 function ladderRail(ctx) {
   const st = ctx.state;
-  if (st === 'noModel' || st === 'empty') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Short-term and scenarios</h4>${st === 'noModel' ? '<span class="chip proposed"><span class="dot"></span>Proposed · SCI-D08</span>' : ''}</div><p class="fc-sub">${st === 'noModel' ? 'Neither runs for gold: rules read nothing without a valuation convention, and scenarios need one too.' : 'Short-term rows and scenarios appear with the first run.'}</p></div>`;
+  if (st === 'noModel' || st === 'empty') return `<div class="card fc-card" data-mo="card"><div class="fc-vh"><h4>Short-term and scenarios</h4>${st === 'noModel' ? settled('OWN-26') : ''}</div><p class="fc-sub">${st === 'noModel' ? 'Neither runs for gold until its daily bar proves cover for a first month: rules and scenarios both read it.' : 'Short-term rows and scenarios appear with the first run.'}</p></div>`;
   return `<div class="card" data-mo="card"><div class="fc-link" style="min-height:44px">${ic('clock', 's18')}<span>Short-term<small>1 to 20 sessions, kept apart</small></span></div>${shortOf(shortH(st)).map(s => shortRow(s, ctx)).join('')}</div>${scenBlock(shortH(st))}`;
 }
 const TABS = ['Forecast', 'Proof', 'Views', 'Evidence'];
@@ -4413,7 +4418,7 @@ function rootMain(ctx, list) {
     error: () => banner('fall', 'Forecasts did not refresh.', 'Twelve Data failed at 21:16. US rows show Monday\'s run, issued 22:15 · cutoff 22:00. The UK and India ran today, each on its own clock.', 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + list(),
     stale: () => banner('warn', 'HSBC is stale.', `Its last price is 14:10, past the freshness limit. Its forecast stays held until its price returns. ${qLate}`, 'clock') + list(),
     offline: () => banner('', 'Saved at 22:15.', `These forecasts are on your device, not fresh analysis.${q12(ctx)}`, 'wifi-off') + list(),
-    noModel: () => banner('', 'India has no approved model.', 'Reliance, the Nifty ETF and ICICI Bank show as no model, at every long horizon. Gold has no forecast while its valuation convention is open (SCI-D08).', 'cube') + list(),
+    noModel: () => banner('', 'India has no approved model.', 'Reliance, the Nifty ETF and ICICI Bank show as no model, at every long horizon. Gold has no forecast until its daily bar proves cover for a first month (OWN-26).', 'cube') + list(),
     disagreement: () => banner('', 'Two conflicts.', 'Rules and models disagree on Reliance at 3, 6 and 12 months, and models disagree on Apple at 3 months. Neither is ranked, so neither carries an action.', 'split') + list(),
     abstention: () => banner('', 'Two abstentions.', 'AstraZeneca at 6 months and Apple at 12 months, for want of comparable history. Neither is ranked, so neither carries an action.', 'ban') + list()
   });
@@ -4528,7 +4533,7 @@ J.add({
       id: 'a-views', title: 'Rules, models, Claude', note: 'Three separate views, so one score can never hide a conflict. The split is experimental and carries no probability; the contribution policy stays hidden until it qualifies.',
       render: ctx => frame(ctx, { tab: 1, back: backOf(ctx), title: 'Three views', actions: tb('info', 'About these views'), webActions: isWide(ctx) && ctx.state !== 'noModel' ? `<span class="chip">${HN[+(ctx.hz ?? 1)]}</span>` : '', body: viewsMain(clear(ctx)) })
     }, {
-      id: 'a-scenarios', title: 'Scenarios', note: 'Their own section: dotted, conditional, with no likelihood. Empty is the state today: template values wait on SCI-D06.',
+      id: 'a-scenarios', title: 'Scenarios', note: 'Their own section: dotted, conditional, with no likelihood. Empty is the state today: template values wait for a sourced proposal and your approval ("Sourced proposal, then approve", OWN-10).',
       na: naScen,
       render: ctx => frame(ctx, { tab: 1, back: 'AAPL', title: 'Scenarios', actions: tb('info', 'About scenarios'), body: `<span class="fc-wl"></span>${scenMain(ctx)}`, rail: assume(ctx) })
     }, {
@@ -4561,7 +4566,7 @@ J.add({
       id: 'b-evidence', title: 'Dossier: evidence', note: 'The chain, the last tab. Each link opens in place. Empty is a link that finds nothing; Error is a refused link.',
       render: ctx => { const c = clear(ctx); return frame(ctx, { tab: 1, back: backOf(ctx), title: dTitle(ctx), actions: tb('info', 'About evidence'), body: `<span class="fc-wl"></span>${dossier(3)}${evidenceMain(c)}`, rail: recordCard(c) }); }
     }, {
-      id: 'b-scenarios', title: 'Scenarios', note: 'Opened from the ladder\'s dotted block, so the figures lead and the chart follows. Conditional, with no likelihood. Empty is the state today: template values wait on SCI-D06.',
+      id: 'b-scenarios', title: 'Scenarios', note: 'Opened from the ladder\'s dotted block, so the figures lead and the chart follows. Conditional, with no likelihood. Empty is the state today: template values wait for a sourced proposal and your approval ("Sourced proposal, then approve", OWN-10).',
       na: naScen,
       render: ctx => frame(ctx, { tab: 1, back: 'AAPL', title: 'Scenarios', actions: tb('info', 'About scenarios'), body: `<span class="fc-wl"></span>${scenMain(ctx, true)}`, rail: assume(ctx) })
     }, {
@@ -4604,8 +4609,8 @@ J.add({
   const pad = ctx => (wide(ctx) ? '' : '<div style="height:44px" aria-hidden="true"></div>');
   const info = (label, icon = 'info') => `<button class="tbtn" type="button" aria-label="${label}">${ic(icon, 's24')}</button>`;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
-  /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
-  const LATE = proposed('DATA-DEC-02');
+  /* a price past the limit leaves the total and the reason shows (MP-65). The limits are settled ("Approve the proposed limits now", OWN-07), so every screen that states it says so */
+  const LATE = settled('OWN-07');
   /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
   const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* when the US run failed, its last good run shows in full, so one screen never mixes two versions of a US figure (ADM-10) */
@@ -4970,8 +4975,8 @@ J.add({
   const proposed = ref => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${ref}</span>`;
   /* with no action ranked, an entry can still be saved against the evidence on screen, and it records why none was
      (the owner, "Any time evidence shows", OWN-15). A disagreement, an abstention, no model and no label all stay recordable. */
-  /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
-  const limit = `<div class="journal-acts">${proposed('DATA-DEC-02')}</div>`;
+  /* how old a price may be is DATA-DEC-02, settled on 5 Nov 2026 ("Approve the proposed limits now", OWN-07), so every use of the late-price rule says so */
+  const limit = `<div class="journal-acts">${settled('OWN-07')}</div>`;
   /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
      How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
   const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');
@@ -5382,7 +5387,7 @@ J.add({
   const SAY = {
     loading: () => stateCard('clock', 'Rebuilding the summaries', 'They are rebuilt from stored scores, which reproduce exactly. The last good figures, from 22:15, stay on screen meanwhile.'),
     error: () => stateCard('alert', 'The record did not load', 'The read failed at 21:16. These are the summaries as of 21:05 today, from stored scores. No score is lost.', btn('Try again', 'tinted sm', 'refresh')),
-    stale: () => banner('warn', 'Scores are behind.', 'Outcomes last joined 14:10, so the newest scores may be missing. HSBC last priced 14:10, past the freshness limit: its outcomes wait as pending, and a late price is never scored as a miss.', 'clock') + `<div class="track-acts">${proposed('DATA-DEC-02')}</div>`,
+    stale: () => banner('warn', 'Scores are behind.', 'Outcomes last joined 14:10, so the newest scores may be missing. HSBC last priced 14:10, past the freshness limit: its outcomes wait as pending, and a late price is never scored as a miss.', 'clock') + `<div class="track-acts">${settled('OWN-07')}</div>`,
     offline: ctx => banner('', 'Offline.', 'Showing the record from 22:15. Nothing updates until you reconnect.', 'wifi-off') + kept(ctx),
     noModel: () => banner('', 'No approved model now.', 'No new forecasts are issued, so nothing new joins pending. Every score so far stays on record against the version that made it.', 'cube'),
     disagreement: () => banner('', '1 score was amended.', 'NVIDIA’s close was corrected on 30 Oct, from +12.4% to +11.9%. Its 6-month forecast of 28 Apr still lands inside its range, so no summary moves. The first and corrected scores both stay.', 'split') + banner('', 'Rules and models differ on Reliance today.', 'That changes no score: the model’s forecasts are scored as issued, and both sides are stored.', 'split'),
@@ -5564,8 +5569,9 @@ J.add({
       <span class="cost-lbl start">${o.start || '£0'}</span></div>`;
   }
   const keyOf = m => `<div class="allocl" style="margin-top:0">${m.keys.map(([c, t, v]) => `<span style="--c:var(${c})">${t} <b>${v}</b></span>`).join('')}${m.to ? `<span style="--c:var(--fc-80)">Forecast</span>` : ''}<span style="--c:var(--hairline-2)">Reserve from £70</span></div>`;
-  const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? proposed(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
-  const askOf = m => (m.q ? `<div class="cost-chips">${proposed(m.q)}</div>` : '');
+  /* every m.q is a rule the owner settled on 5 Nov 2026: "Approve all three" (MP40-Q6) and "Adopt the key" (MP40-Q5), MP-192 */
+  const statusOf = m => `<div class="cost-status">${chipOf(m.st)}${m.st2 ? chipOf(m.st2) : ''}${m.q ? settled(m.q) : ''}<p class="small muted">${m.say}</p></div>`;
+  const askOf = m => (m.q ? `<div class="cost-chips">${settled(m.q)}</div>` : '');
   const dayOf = m => `November · day ${m.day} of 30`;
   const lastGood = 'Last good: £46.42 committed, forecast up to £59.73. This view reads saved figures, so refreshing never calls billing.';
 
@@ -5642,7 +5648,7 @@ J.add({
   const miniRungs = () => RUNGS.slice(0, 3).map(([v, t, p]) => `<div class="cost-rung mini" data-mo="rise"><span class="v">${v}</span><span class="t">${t}</span><p>${p}</p></div>`).join('');
   /* the £15 above £85 also holds daily forecasts (the owner, 5 Nov 2026: "Yes, add them"). The window itself stays labelled until MP-192 */
   const KEPT = ['Sign-in', 'Ledger reads', 'Audit', 'Recovery', 'Daily forecasts'];
-  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+  const always = () => box(`${head('Never paused')}<div class="cost-chips">${KEPT.map(t => chipOf(['fresh', t])).join('')}</div><p class="small muted">These stay available at every threshold. A £15 window above £85 is kept for them, daily forecasts included.</p><div class="cost-chips">${settled('MP40-Q6')}</div>`);
   /* OWN-35, "Code may draft one": one sentence, word for word here and in admin Costs */
   const RAISE = 'When a line is close, code may draft a raise for your Approvals, with its cost and rollback. Only your yes, with a fresh sign-in, applies it, and it stays under £100.';
 
@@ -5654,12 +5660,12 @@ J.add({
     offline: [['Reconciled billing', 'Saved · AWS to 17 Nov', 'Age 15 h', 'offline'], ['Anthropic usage', 'Saved · to 18:00', 'Age 3 h', 'offline'], ['Internal estimates', 'Saved · to 22:15', 'Offline', 'offline']],
     noModel: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Claude is off, so there is nothing to collect', 'Off', ''], ['Internal estimates', 'Live · to 22:15', 'Now', 'fresh']],
     empty: [['Reconciled billing', 'First run tomorrow, 06:10', 'None yet', ''], ['Anthropic usage', 'First report within six hours', 'None yet', ''], ['Internal estimates', 'Live · nothing to estimate yet', 'Now', 'fresh']],
-    abstention: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Unavailable until an admin key is adopted', 'Unknown', ''], ['Internal estimates', 'Live · AWS only', 'Now', 'fresh']]
+    abstention: [['Reconciled billing', 'Daily · AWS to 17 Nov', 'Age 15 h', 'fresh'], ['Anthropic usage', 'Not collected, so unknown', 'Unknown', ''], ['Internal estimates', 'Live · AWS only', 'Now', 'fresh']]
   };
   const laneRows = ctx => list((LANES[ctx.state] || LANES.default).map(([t, s, age, kind]) => li('', t, s, `<span class="chip ${kind}">${kind === 'fresh' ? '<span class="dot"></span>' : kind === 'stale' ? ic('clock', 's14') : kind === 'error' ? ic('alert', 's14') : kind === 'offline' ? ic('wifi-off', 's14') : ic('ban', 's14')}${age}</span>`)).concat(li('', 'Billing pages', 'Monthly cap of 120. Past it, a collection waits and shows as partial', ctx.state === 'empty' ? '0 of 120' : '54 of 120')));
   function sourcesCard(ctx) {
     if (ctx.state === 'loading') return skCard('How old each figure is');
-    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p><div class="cost-chips">${proposed('MP40-Q5: Anthropic admin key')}</div>`);
+    return box(`${head('How old each figure is')}${laneRows(ctx)}<p class="small muted">The view reads saved figures, so opening it never calls billing.</p><div class="cost-chips">${settled('MP40-Q5: Anthropic admin key')}</div>`);
   }
   function committedCard(ctx, o = {}) {
     const s = ctx.state;
@@ -5677,7 +5683,7 @@ J.add({
   function creditCard(ctx) {
     if (ctx.state === 'loading') return skCard('Gross, credit and cash');
     const s = ctx.state, gross = { noModel: '£0.00', empty: '£0.00', abstention: 'Unknown', error: '£6.71' }[s] || '£7.06';
-    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', s === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', ['£0.00', 'Unknown'].includes(gross) ? gross : `Up to ${gross}`)])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${proposed('MP40-Q6')}</div>`);
+    return box(`${head('Gross, credit and cash')}${list([li('', 'Claude gross usage', s === 'error' ? 'What the calls cost, to 18:00' : 'What the calls cost', gross), li('', 'Credit applied', 'A shared credit is reported, not proven', 'Unknown'), li('', 'Cash', 'Counted in full until a bill proves credit', ['£0.00', 'Unknown'].includes(gross) ? gross : `Up to ${gross}`)])}<p class="small muted">Credit counts only with proof under 30 minutes old. A usage report is never that proof.</p><div class="cost-chips">${settled('MP40-Q6')}</div>`);
   }
   function drill(ctx) {
     if (ctx.state === 'loading') return skCard('Claude by feature', 4);
@@ -5773,12 +5779,12 @@ J.add({
 
   /* ---------- home ---------- */
   /* Home shows prices, so its value and rows follow the shared story. Ready: HSBC is late but inside the limit. Stale: it leaves the total. Error: the last good run shows in full. */
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${settled('OWN-07')}`);
   const rowsOf = (ctx, n) => `<div class="sech" style="padding:6px 0 0" data-mo="rise"><h3>Holdings</h3><span class="cost-chips" style="align-items:center"><span class="small muted">6 months</span>${illus('Decision support')}</span></div><div class="list card" style="margin:0">${H.slice(0, n).map(h => (ctx.state === 'stale' ? hrow(h) : late(hrow(h)))).join('')}</div>`;
   function valueOf(ctx) {
     const size = wide(ctx) ? 40 : 44, v = valcard(size);
     if (ctx.state === 'error') return v.replace(ASOF_ALL, LASTGOOD_ALL).replace('>today<', '>last good<');
-    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${proposed('DATA-DEC-02')}</div>`).replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
+    if (ctx.state === 'stale') return v.replace('Portfolio value', 'Known value, 6 of 7 priced').replace(money('90,155.25', size), money('84,051.05', size)).replace('Holdings £84,612.40', 'Holdings £78,508.20').replace(/<div class="d">[\s\S]*?<\/div>/, `<div class="d" style="font-size:13px;line-height:18px;letter-spacing:0"><span class="muted">HSBC, £6,104.20 at 14:10, is left out until its price returns.</span>${settled('OWN-07')}</div>`).replace(/50\.1/g, '53.8').replace(/26\.7/g, '28.7').replace(/17\.0/g, '11.0').replace(/\b6\.1\b/g, '6.6');
     return v;
   }
   const top5s = ctx => (wide(ctx) ? `<div class="card top5 dk5" data-mo="card">${top5('ustech')}</div>` : '');
@@ -6002,12 +6008,18 @@ J.add({
   const decideCard = (ctx, yes, foot, o = {}) => (wide(ctx) ? box(`${lbl('Your decision')}<p class="small muted" style="margin:4px 0 10px">${foot}</p>${o.tag ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">${o.tag}</div>` : ''}${buttons(yes, o)}`) : '');
   /* which acts need a fresh sign-in is settled (OWN-39, "Anything that writes or widens"): every act here writes or widens, so each
      asks for one, and the CT-01 label that marked the acts no record named is gone. How recent a sign-in must be is still open */
-  /* how long a chat-proposed listing waits is open (MP40-Q9), and so are every other proposal's expiry and the 15-minute window on switching forward or restarting (CT-02). POLICY-001's 15 minutes covers financial writes only */
-  const Q9 = proposed('MP40-Q9'), CT2 = proposed('CT-02');
-  /* only your yes restarts a paused scope (POLICY-003). What evidence a restart needs, and so what the yes gives the model, is left open by POLICY-003 itself */
-  const RESTARTS = proposed('POLICY-003');
-  /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02) */
-  const LATE = proposed('DATA-DEC-02');
+  /* the owner's picks of 5 Nov 2026 (MP-184), applied in MP-192. A chat-proposed listing expires the same day ("Same day, as drawn",
+     MP40-Q9). Every other kind keeps its own wait ("By kind, as drawn", OWN-08): days for a promotion or a setting, none for a restart,
+     and how many days is open (CT-02), so each date drawn is illustrative. An approved switch forward or restart has 15 minutes to start
+     ("15 minutes, as drawn", OWN-21), and a scope you keep paused stays with what waits on you, undated ("It stays, undated", OWN-29).
+     An approval window on any other change is still open (CT-02). POLICY-001's 15 minutes covers financial writes only */
+  const Q9 = settled('MP40-Q9'), CT2 = proposed('CT-02'), KIND = settled('OWN-08') + proposed('CT-02'), WINDOW = settled('OWN-21'), KEPT_PAUSED = settled('OWN-29');
+  /* only your yes restarts a paused scope (POLICY-003). What a restart shows, and that the yes renews the model's approval for that
+     scope only, is settled ("Cause cleared, fresh approval", OWN-28) */
+  const RESTARTS = settled('OWN-28');
+  /* a price past the limit leaves the total and the reason shows (MP-65). The limits are settled ("Approve the proposed limits now",
+     OWN-07); the grace on a close is open, and HSBC's 14:10 is illustrative */
+  const LATE = settled('OWN-07');
   /* chips set under an outcome, or anywhere two sit together */
   const tags = (...c) => `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${c.join('')}</div>`;
 
@@ -6074,12 +6086,12 @@ J.add({
   };
   /* the approval binds the exact scope (MP-156). One phrase, word for word, here and in admin Approvals and Models */
   const SCOPE = 'All segments, except US tech, 12 months and India midcap, 3 months';
-  const modelHead = (chip = expiry('Expires Fri 18:00') + CT2) => headCard(lead('cube'), 'Promote R2-HGB v4', `3, 6 and 12 months · ${SCOPE}`, chip);
+  const modelHead = (chip = expiry('Expires Fri 18:00') + KIND) => headCard(lead('cube'), 'Promote R2-HGB v4', `3, 6 and 12 months · ${SCOPE}`, chip);
   const evidence = (o = {}) => box(`<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">${lbl('Shadow trial')}<span class="small muted">${o.count || '8 of 8 scored weeks'}</span></div>${trial(o)}<p class="small muted" style="margin-top:8px">${o.text || 'The week of 12 Oct could not be scored after a data outage, so the count paused. No forecast from this trial reached you.'}</p>`);
-  const scoreTable = (o = {}) => box(`${lbl('Against both comparators · Brier score, lower is better')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Walk-forward</th><th class="r">v4</th><th class="r">Rules</th><th class="r">Base rate</th></tr></thead><tbody><tr><td>3, 6, 12 months</td><td class="r"><b>${o.v4 || '0.188'}</b></td><td class="r">0.197</td><td class="r">0.203</td></tr></tbody></table></div><div style="margin-top:8px">${proposed('SCI-D03')}</div><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv([['Clean running', '8 of 8 scored weeks'], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']])}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
+  const scoreTable = (o = {}) => box(`${lbl('Against both comparators · Brier score, lower is better')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Walk-forward</th><th class="r">v4</th><th class="r">Rules</th><th class="r">Base rate</th></tr></thead><tbody><tr><td>3, 6, 12 months</td><td class="r"><b>${o.v4 || '0.188'}</b></td><td class="r">0.197</td><td class="r">0.203</td></tr></tbody></table></div><div style="margin-top:8px">${settled('OWN-33')}</div><div style="margin-top:12px">${lbl('What the 8 weeks checked')}<div style="margin-top:8px">${kv([['Clean running', '8 of 8 scored weeks'], ['Matured, 3 months', '0, first about 30 Nov'], ['Matured, 6 months', '0, first about 28 Feb'], ['Matured, 12 months', '0, first about 31 Aug 2027']])}</div></div><p class="small muted" style="margin-top:8px">The 8 weeks check that it runs cleanly and is calibrated on what has matured, and no 3, 6 or 12-month forecast has matured yet. Years of walk-forward history carry the accuracy evidence for these horizons, and 8 weeks alone never validate 12 months.</p>`);
   const MODEL_ROWS = [['Active model', 'v3', 'v4'], ['Calibrator', 'c7', 'c8'], ['Width of the portfolio\'s 80% range', '23.2 pts', '22.1 pts', '1.1 points narrower.'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v3 by itself', 'On probation for its first 4 live weeks, it reverts after 2 bad weeks. After that, 4 weeks running worse than v3 on matured forecasts reverts it.']];
   const PREV_PAUSED = 'R2-HGB v3, where eligible';
-  const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
+  const bound = (title = 'This approval is bound to', prev = PREV_PAUSED) => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Artefact', '4be1…09fa'], ['Calibrator', 'c8'], ['Tasks', '3, 6, 12 months'], ['Scope', SCOPE], ['Evidence hash', '9c1e…44ab'], ['Limits', '5 points, 10%'], ['Previous safe', prev], ['Expires', 'Fri 6 Nov, 18:00']])}</div><div style="margin-top:8px">${KIND}</div>`);
   /* no proposal is open while a trial runs, pauses or waits to mature, so nothing is bound then. A blocked or refused one shows what it proposed */
   /* the two scopes the exact scope leaves out, in admin Models' words */
   const SCOPES = () => box(`${lbl('Two scopes this does not settle')}<div style="margin-top:8px">${kv([['US tech, 12 months', 'Stays paused'], ['India midcap, 3 months', 'Stays on R1-LGB v1']])}</div><p class="small muted" style="margin-top:8px">R2-HGB v3's approval expired on US tech, 12 months, so it cannot be the safe fallback there. Promoting neither restarts that scope nor switches India midcap forward, and each keeps its own yes.</p>`);
@@ -6105,8 +6117,8 @@ J.add({
   };
   const modelYes = ctx => {
     const st = ctx.state;
-    if (st === 'offline') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
-    if (st === 'default' || st === 'noModel') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: CT2 } };
+    if (st === 'offline') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: KIND } };
+    if (st === 'default' || st === 'noModel') return { yes: 'Approve', foot: 'Bound to evidence 9c1e…44ab · expires Fri 18:00 · needs a fresh sign-in', o: { tag: KIND } };
     return null;
   };
 
@@ -6133,7 +6145,7 @@ J.add({
   const STEP_SET = [['Action', 'Change a setting'], ['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
   /* on a refused step the rail shows what was proposed, not what is bound */
   /* the sheet binds the same lines in No model, and says the waiting scope stays out of it */
-  const stepTag = ctx => (ctx.state === 'noModel' ? `${CT2}<span class="chip stale">${ic('pause', 's14')}US tech, 12 months stays paused</span>` : CT2);
+  const stepTag = ctx => (ctx.state === 'noModel' ? `${KIND}<span class="chip stale">${ic('pause', 's14')}US tech, 12 months stays paused</span>` : KIND);
   const stepBound = ctx => bound(ctx.state === 'disagreement' ? 'What this proposed' : undefined);
 
   /* ---------- after the decision (MP-55, MP-114, MP-159) ---------- */
@@ -6144,11 +6156,11 @@ J.add({
     loading: () => box(`${lbl('Applying · approved at 09:14')}<p class="small muted" style="margin-top:4px">The previous version stays current until this finishes, and an interrupted promotion completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Promote', 'Writing the promotion record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'R2-HGB v3 stays active. The candidate stays readable with its evidence, and a repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
-    stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'The window closed on Fri 6 Nov at 18:00, before a decision. Run the check again for a fresh proposal, with fresh evidence and a new expiry.', tags(status.expired, CT2)) + bs('Run the check again', 'primary', 'refresh'),
+    stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'The window closed on Fri 6 Nov at 18:00, before a decision. Run the check again for a fresh proposal, with fresh evidence and a new expiry.', tags(status.expired, KIND)) + bs('Run the check again', 'primary', 'refresh'),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:14. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:14, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
-  const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Each market\'s next run', 'First forecasts from v4, labelled with their version. Each market runs after its own close', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
+  const NEXT = () => box(`${lbl('What happens next')}<div style="margin-top:8px">${steps(step('Each market\'s next run', 'First forecasts from v4, labelled with their version. Each market runs after its own close', 'next'), step('Each week', 'v3 keeps running in shadow, and scoring runs on matured paired forecasts only. A week with no matured paired forecasts neither counts toward nor breaks a run.', 'next'), step('First 4 live weeks', 'On probation. After 2 bad weeks it reverts to v3 by itself, and tells you.', 'next'), step('After that', '4 weeks running worse than v3 on matured forecasts reverts it, and tells you.', 'next'))}</div><p class="small muted" style="margin-top:8px">The first 3-month pair matures about 30 Nov. No 6 or 12-month pair matures in the first 4 live weeks, so for 6 and 12 months probation ends with no score.</p><div style="margin-top:8px">${settled('OWN-27')}</div><p class="small muted" style="margin-top:8px">Switching forward again after a revert needs your yes.</p>`);
   const safeBox = t => box(`${lbl('Why this is safe')}<p class="small muted" style="margin-top:4px">${t}</p>`);
   const resultRail = ctx => (ctx.state === 'default' || ctx.state === 'disagreement' ? NEXT() : ctx.state === 'noModel' ? NEXT() + safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
@@ -6177,10 +6189,10 @@ J.add({
   };
 
   /* ---------- a settings change (MP-114): its impact, evidence, cost and how to roll it back, before you approve ---------- */
-  const setHead = (chip = expiry('Expires Mon 18:00') + CT2) => headCard(lead('sliders'), 'Narrow a self-correction band', 'Probabilities · 5 to 4 points a week', chip);
+  const setHead = (chip = expiry('Expires Mon 18:00') + KIND) => headCard(lead('sliders'), 'Narrow a self-correction band', 'Probabilities · 5 to 4 points a week', chip);
   const SET_ROWS = [['Weekly band', '5 points', '4 points', 'A forecast\'s probabilities may shift at most 4 points a week.'], ['Settings version', 'v9', 'v10']];
   const SET_WHY = [['Expected impact', '', 'Slower correction', 'After a miss, a forecast takes longer to adjust.'], ['Evidence', '', '26 weeks of replay', 'Evidence hash e40b…7d12.'], ['Cost a month', '', '£0'], ['How to roll it back', '', 'A new version', 'A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.']];
-  const setBound = (title = 'This approval is bound to') => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Expires', 'Mon 9 Nov, 18:00']])}</div><div style="margin-top:8px">${CT2}</div>`);
+  const setBound = (title = 'This approval is bound to') => box(`${lbl(title)}<div style="margin-top:8px">${kv([['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Expires', 'Mon 9 Nov, 18:00']])}</div><div style="margin-top:8px">${KIND}</div>`);
   const setRail = ctx => (ctx.state === 'default' || ctx.state === 'offline' ? setBound() : ['error', 'stale', 'disagreement'].includes(ctx.state) ? setBound('What this proposed') : '');
   const settingCore = ctx => {
     const trail = chain();
@@ -6189,15 +6201,15 @@ J.add({
       loading: () => setHead(`<span class="chip"><span class="spin" aria-hidden="true"></span>Loading</span>`) + box(`${lbl('Reading the stored evidence')}<span class="sk" style="height:60px;margin-top:10px"></span>`),
       empty: () => stateCard('check', 'No settings change waits', 'Every setting stays as you approved it. A proposal lands here with its impact, evidence, cost and how to roll it back.'),
       error: () => setHead(status.refused) + stateCard('alert', 'The evidence changed', 'The evidence hash no longer matches what this proposal was built on, so it cannot be approved. Code rebuilds the proposal.', '', `<span class="chip error">Evidence hash mismatch</span>`),
-      stale: () => banner('warn', 'Expired Mon 18:00.', 'An expired proposal cannot be approved, and nothing changed. A repeat backs off with a visible reason.', 'clock') + setHead(expiry('Expired') + CT2) + changeCard(SET_ROWS, 'What this proposed'),
+      stale: () => banner('warn', 'Expired Mon 18:00.', 'An expired proposal cannot be approved, and nothing changed. A repeat backs off with a visible reason.', 'clock') + setHead(expiry('Expired') + KIND) + changeCard(SET_ROWS, 'What this proposed'),
       offline: () => banner('', 'Offline.', 'You can read this proposal. Approving needs a connection and a fresh sign-in.', 'wifi-off') + setHead() + trail + changeCard(SET_ROWS) + changeCard(SET_WHY, 'Impact, evidence, cost and rollback'),
       disagreement: () => banner('', 'The setting moved.', 'Settings v10 was written at 09:01, so this proposal is refused against v9. Code rebuilds it on the new version.', 'split') + setHead(status.refused) + changeCard(SET_ROWS, 'What this proposed'),
       abstention: () => setHead(`<span class="chip">Impact not shown</span>`) + stateCard('ban', 'Not enough replay to show the impact', 'Code has too few replay weeks to state what this would do. It waits rather than guess, and nothing can be approved until then.', '', '<span class="chip">Impact withheld</span>')
     });
   };
   const settingYes = ctx => {
-    if (ctx.state === 'offline') return { yes: 'Approve', foot: 'Bound to settings v9 · expires Mon 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
-    return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to settings v9 · expires Mon 18:00 · needs a fresh sign-in', o: { tag: CT2 } } : null;
+    if (ctx.state === 'offline') return { yes: 'Approve', foot: 'Bound to settings v9 · expires Mon 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: KIND } };
+    return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to settings v9 · expires Mon 18:00 · needs a fresh sign-in', o: { tag: KIND } } : null;
   };
   const settingRail = ctx => (['loading', 'offline', 'default'].includes(ctx.state) ? limits('This changes one setting, inside the band you approved.') : '');
   const setResult = ctx => region(ctx, {
@@ -6205,7 +6217,7 @@ J.add({
     loading: () => box(`${lbl('Applying · approved at 09:16')}<p class="small muted" style="margin-top:4px">Settings v9 stays current until this finishes. A change that fails part way leaves v9 in place.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and settings v9'), step('Write', 'Settings v10', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You refused. Nothing changed.', 'Settings v9 stays current. A repeat proposal backs off with a visible reason.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('alert', 'fall', 'Approved, not applied.', 'The write failed part way, so settings v9 stays current and nothing was half-changed. Your approval holds, for a retry inside its window.', tags(status.notApplied, CT2)) + bs('Try again', 'primary', 'refresh'),
-    stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'The window closed on Mon 9 Nov at 18:00, before a decision. Nothing changed, and a repeat backs off with a visible reason.', tags(status.expired, CT2)),
+    stale: () => outcome('clock', 'warn', 'Expired. It cannot be approved.', 'The window closed on Mon 9 Nov at 18:00, before a decision. Nothing changed, and a repeat backs off with a visible reason.', tags(status.expired, KIND)),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:16. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:16, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
@@ -6218,7 +6230,7 @@ J.add({
      above the adverse month on record, £64.89. How code sizes a raise is not recorded, so that part is labelled */
   const RAISE_DAY = 'cost month, day 18 of 30';
   const RAISE_SIZE = `<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center" data-mo="rise">${proposed('CT-13')}<span class="small muted">How code sizes a raise is not recorded. This one clears the adverse month.</span></div>`;
-  const budHead = (chip = expiry('Expires tomorrow 18:00') + CT2) => headCard(lead('target'), 'Raise the warning line', `£60 to £65 · code drafted this · ${RAISE_DAY}`, chip);
+  const budHead = (chip = expiry('Expires tomorrow 18:00') + KIND) => headCard(lead('target'), 'Raise the warning line', `£60 to £65 · code drafted this · ${RAISE_DAY}`, chip);
   const BUD_ROWS = [['Warn line', '£60', '£65', 'A notice reaches you when the forecast passes £65, not £60.'], ['Budgets version', 'v2', 'v3']];
   const BUD_WHY = [
     ['Why now', '', '27p from the line', 'The forecast for the month is up to £59.73, 27p under the £60 warning.'],
@@ -6229,7 +6241,7 @@ J.add({
     ['How to roll it back', '', 'A new version', 'A rollback makes v4 equal to v2, with its own record. Nothing is overwritten.']
   ];
   const BUD_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Line', 'Warn line'], ['Value', '£65'], ['Current version', 'Budgets v2'], ['Evidence', 'Forecast up to £59.73, saved to 22:15'], ['Expires', 'Tomorrow, 18:00']];
-  const budBound = (title = 'This approval is bound to') => box(`${lbl(title)}<div style="margin-top:8px">${kv(BUD_BIND)}</div><div style="margin-top:8px">${CT2}</div>`);
+  const budBound = (title = 'This approval is bound to') => box(`${lbl(title)}<div style="margin-top:8px">${kv(BUD_BIND)}</div><div style="margin-top:8px">${KIND}</div>`);
   const budRail = ctx => (['default', 'offline'].includes(ctx.state) ? budBound() + limits('This raises one line, inside the £100 ceiling.') : ['error', 'stale', 'disagreement'].includes(ctx.state) ? budBound('What this proposed') : '');
   const budgetCore = ctx => {
     const trail = chain('Code drafted', 'Code checked', 'You decide');
@@ -6239,38 +6251,38 @@ J.add({
       loading: () => budHead(`<span class="chip"><span class="spin" aria-hidden="true"></span>Loading</span>`) + box(`${lbl('Reading the saved figures')}<span class="sk" style="height:60px;margin-top:10px"></span>`),
       empty: () => stateCard('check', 'No raise waits', 'Code drafts one only when a line is close, with its cost and rollback. Every line stays as you set it.'),
       error: () => budHead(status.refused) + stateCard('alert', 'The figures changed', 'The month moved after code drafted this, so it cannot be approved. Code drafts it again on the new figures, if a line is still close.', '', `<span class="chip error">Evidence changed</span>`),
-      stale: () => banner('warn', 'Expired.', 'It ran out at 18:00 the day after code drafted it. An expired proposal cannot be approved, and nothing changed. Code drafts again only if a line is still close.', 'clock') + budHead(expiry('Expired') + CT2) + changeCard(BUD_ROWS, 'What this proposed'),
+      stale: () => banner('warn', 'Expired.', 'It ran out at 18:00 the day after code drafted it. An expired proposal cannot be approved, and nothing changed. Code drafts again only if a line is still close.', 'clock') + budHead(expiry('Expired') + KIND) + changeCard(BUD_ROWS, 'What this proposed'),
       offline: () => banner('', 'Offline.', 'You can read this proposal. Approving needs a connection and a fresh sign-in.', 'wifi-off') + all(),
       disagreement: () => banner('', 'The line moved.', 'You moved the warning line to £55 in Settings, as Budgets v3, so this raise against v2 is refused. Code drafts again on v3 only if a line is close.', 'split') + budHead(status.refused) + changeCard(BUD_ROWS, 'What this proposed'),
-      abstention: () => budHead(`<span class="chip">Forecast unknown</span>`) + stateCard('ban', 'No raise while the month is unknown', 'Claude usage is not collected, so the forecast for the month is unknown, never £0. Code drafts no raise on an unknown, and nothing can be approved until it is known.', '', proposed('MP40-Q5'))
+      abstention: () => budHead(`<span class="chip">Forecast unknown</span>`) + stateCard('ban', 'No raise while the month is unknown', 'Claude usage is not collected, so the forecast for the month is unknown, never £0. Code drafts no raise on an unknown, and nothing can be approved until it is known.', '', settled('MP40-Q5'))
     });
   };
   const budgetYes = ctx => {
-    if (ctx.state === 'offline') return { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: CT2 } };
-    return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · needs a fresh sign-in', o: { tag: CT2 } } : null;
+    if (ctx.state === 'offline') return { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · approving needs a connection and a fresh sign-in', o: { off: true, tag: KIND } };
+    return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to Budgets v2 · expires tomorrow 18:00 · needs a fresh sign-in', o: { tag: KIND } } : null;
   };
   const STEP_BUD = [['Action', 'Raise a budget line'], ['Drafted by', 'Code'], ['Owner', 'You'], ['Environment', 'Production'], ['Line', 'Warn line'], ['Change', '£60 to £65'], ['Current version', 'Budgets v2'], ['Payload hash', '9d41…b2c7'], ['Expires', 'Tomorrow, 18:00']];
   const naBudget = { noModel: 'A cost line involves no forecasting model, so none can be missing from this proposal.' };
   const BUD_NOTE = 'The owner picked "Code may draft one" (OWN-35), not the Recommended option: when a line is close, code drafts an exact raise for your queue, with cost and rollback, and you approve it with a fresh sign-in. It must fit under £100. Drawn on the cost month\'s own clock, day 18 of 30, when the £60 warning is 27p away. The queue here is Wed 4 Nov, when no line is close, so the raise is not in its count.';
 
   /* ---------- switching forward and restarting (MP-159, owner answers 6 and 15): only your yes does either ---------- */
-  /* that it waits for your yes is settled (MP-159, owner answers 6 and 15). That the proposal stays open, with no expiry of its own, is what CT-02 leaves open */
+  /* that it waits for your yes is settled (MP-159, owner answers 6 and 15), and so is that it stays open with no expiry of its own: none for a restart ("By kind, as drawn", OWN-08), and a scope you keep paused stays, undated ("It stays, undated", OWN-29) */
   const WAITS = 'Stays open · waits for your yes';
-  const fwdHead = (chip = expiry(WAITS, 'illus') + CT2) => headCard(lead('refresh'), 'Switch forward to R1-LGB v2', 'India midcap, 3 months · reverted by code Mon 22:20', chip);
-  const pauseHead = () => headCard(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Paused by code · previous model not eligible', expiry(WAITS, 'illus') + CT2);
+  const fwdHead = (chip = expiry(WAITS, 'illus') + settled('OWN-08')) => headCard(lead('refresh'), 'Switch forward to R1-LGB v2', 'India midcap, 3 months · reverted by code Mon 22:20', chip);
+  const pauseHead = () => headCard(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Paused by code · previous model not eligible', expiry(WAITS, 'illus') + KEPT_PAUSED);
   const FWD_ROWS = [['Active model', 'v1', 'v2'], ['Scope', '', 'India midcap, 3 months'], ['Cost a month', '', '£0'], ['If it slips', '', 'Back to v1 by itself']];
   const RESTART_ROWS = [['Scope', 'Paused', 'Issuing'], ['Model', '', 'R2-HGB v3', 'Its approval expired, so the scope paused rather than reverted. This yes gives it a fresh approval.'], ['Forecasts from', '', 'The next run'], ['Cost a month', '', '£0']];
-  /* the proposal waits for the owner, and the approval has a window of its own (open: CT-02). Each binds what MP-156 and MP-78 name */
+  /* the proposal waits for the owner, and the approval has 15 minutes to start ("15 minutes, as drawn", OWN-21). Each binds what MP-156 and MP-78 name */
   const FWD_BIND = [['Artefact', 'R1-LGB v2 · 7e20…c4d1'], ['Calibrator', 'c5'], ['Tasks', '3 months'], ['Scope', 'India midcap'], ['Evidence hash', 'b3f6…2a90'], ['Limits', '5 points, 10%'], ['Previous safe', 'R1-LGB v1'], ['Expected version', 'Models v22'], ['Expires', '15 minutes after you approve']];
   const RESTART_BIND = [['Artefact', 'R2-HGB v3 · 91d4…e7b2'], ['Calibrator', 'c7'], ['Tasks', '12 months'], ['Scope', 'US tech'], ['Evidence hash', 'd52a…08c3'], ['Limits', '5 points, 10%'], ['Previous safe', 'None eligible'], ['Expected version', 'Models v22'], ['Expires', '15 minutes after you approve']];
-  const bindCard = (title, rows, open = true) => box(`${lbl(title)}<div style="margin-top:8px">${kv(rows)}</div>${open ? '<p class="small muted" style="margin-top:8px">The proposal waits for your yes. Your approval then has 15 minutes to apply.</p>' : ''}<div style="margin-top:8px">${CT2}</div>`);
+  const bindCard = (title, rows, open = true) => box(`${lbl(title)}<div style="margin-top:8px">${kv(rows)}</div>${open ? '<p class="small muted" style="margin-top:8px">The proposal waits for your yes. Your approval then has 15 minutes to apply.</p>' : ''}<div style="margin-top:8px">${WINDOW}</div>`);
   const restartBound = ctx => (ctx.state === 'noModel' ? bindCard('This approval is bound to', RESTART_BIND) : ['default', 'offline', 'disagreement', 'abstention'].includes(ctx.state) ? bindCard('This approval is bound to', FWD_BIND) : ctx.state === 'stale' ? bindCard('What this proposes', FWD_BIND) : '');
   /* a step-up is bound to its change until the record moves: only then does its rail show what was proposed */
   const restartStepBound = ctx => (ctx.state === 'disagreement' ? bindCard('What this proposed', FWD_BIND, false) : bindCard('This approval is bound to', ctx.state === 'noModel' ? RESTART_BIND : FWD_BIND));
   const WAITING = 'The proposal still waits for your yes.';
   const STEP_FWD = [['Action', 'Switch forward'], ['Change', 'R1-LGB v1 to v2'], ...FWD_BIND.slice(0, 8), ['Environment', 'Production'], ['Payload hash', 'e19c…7a45'], FWD_BIND[8]];
   const STEP_RESTART = [['Action', 'Restart a paused scope'], ['Change', 'Paused to issuing'], ...RESTART_BIND.slice(0, 8), ['Environment', 'Production'], ['Payload hash', '40fb…c6e8'], RESTART_BIND[8]];
-  const whyBack = () => box(`${lbl('Why it reverted')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Matured paired forecasts</th><th class="r">v2</th><th class="r">v1</th></tr></thead><tbody><tr><td>Week of 19 Oct</td><td class="r"><b>0.231</b></td><td class="r">0.219</td></tr><tr><td>Week of 26 Oct</td><td class="r"><b>0.228</b></td><td class="r">0.217</td></tr></tbody></table></div><p class="small muted" style="margin-top:8px">2 bad weeks on probation, so code reverted it and told you. Nothing switches forward without your yes.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div>`);
+  const whyBack = () => box(`${lbl('Why it reverted')}<div style="overflow-x:auto"><table class="ht" style="margin-top:6px"><thead><tr><th>Matured paired forecasts</th><th class="r">v2</th><th class="r">v1</th></tr></thead><tbody><tr><td>Week of 19 Oct</td><td class="r"><b>0.231</b></td><td class="r">0.219</td></tr><tr><td>Week of 26 Oct</td><td class="r"><b>0.228</b></td><td class="r">0.217</td></tr></tbody></table></div><p class="small muted" style="margin-top:8px">2 bad weeks on probation, so code reverted it and told you. Nothing switches forward without your yes.</p><div style="margin-top:8px">${settled('OWN-27')}</div>`);
   const restartCore = ctx => {
     const trail = chain('Code reverted', 'Code scored', 'You decide');
     return region(ctx, {
@@ -6286,7 +6298,7 @@ J.add({
     });
   };
   const restartYes = ctx => {
-    const st = ctx.state, tag = CT2, o = { no: 'Stay on v1', tag }, foot = 'Bound to R1-LGB v2 · 15 min once approved';
+    const st = ctx.state, tag = WINDOW, o = { no: 'Stay on v1', tag }, foot = 'Bound to R1-LGB v2 · 15 min once approved';
     if (st === 'offline') return { yes: 'Switch forward', foot: `${foot} · switching forward needs a connection and a fresh sign-in`, o: { ...o, off: true } };
     if (st === 'default' || st === 'disagreement' || st === 'abstention') return { yes: 'Switch forward', foot: `${foot} · needs a fresh sign-in`, o };
     return st === 'noModel' ? { yes: 'Restart', foot: 'Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in', o: { no: 'Keep paused', tag } } : null;
@@ -6298,13 +6310,13 @@ J.add({
     loading: () => box(`${lbl('Applying · approved at 09:18')}<p class="small muted" style="margin-top:4px">R1-LGB v1 stays active until this finishes, and it completes once or not at all.</p><div style="margin-top:8px">${steps(step('Recheck', 'Your approval, the expiry and the version'), step('Switch', 'Writing the new record', 'now'))}</div>`),
     empty: () => outcome('x', 'fall', 'You stayed on v1. Nothing changed.', 'R1-LGB v1 keeps issuing. Nothing switches forward without your yes.', `<div style="margin-top:10px">${status.refused}</div>`),
     error: () => outcome('x', 'fall', 'Refused by MP. Nothing changed.', 'The recheck found a new evidence hash after you approved, and an approval never moves to a different change. Review the new version.', `<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${status.refused}<span class="chip">Evidence hash mismatch</span></div>`) + bs('Review the new version', 'primary'),
-    stale: () => outcome('clock', 'warn', 'Expired. It did not apply.', 'The 15 minutes closed before this applied, so nothing changed. Approve again for a new window.', tags(status.expired, CT2)) + bs('Sign in and approve', 'primary', 'lock'),
+    stale: () => outcome('clock', 'warn', 'Expired. It did not apply.', 'The 15 minutes closed before this applied, so nothing changed. Approve again for a new window.', tags(status.expired, WINDOW)) + bs('Sign in and approve', 'primary', 'lock'),
     offline: () => banner('', 'Offline.', 'Your approval reached MP at 09:18. Applying runs on the server, and the result shows when you reconnect.', 'wifi-off') + outcome('clock', 'warn', 'Approved, result not seen yet.', 'Nothing is sent twice: the same approval cannot apply again.'),
     noModel: () => outcome('check', 'rise', 'Restarted. US tech, 12 months is issuing.', 'Applied at 09:18 with your fresh sign-in. R2-HGB v3 has a fresh approval, and forecasts return from the next run.', tags(status.approved)) + changeCard(RESTART_ROWS.slice(0, 2), 'What changed') + `<div>${RESTARTS}</div>`,
-    abstention: () => outcome('pause', 'warn', 'You kept it paused. Nothing changed.', 'US tech, 12 months stays paused, so its forecasts stay withheld. The proposal stays with what waits on you, and nothing restarts without your yes.', tags(status.paused, CT2)),
+    abstention: () => outcome('pause', 'warn', 'You kept it paused. Nothing changed.', 'US tech, 12 months stays paused, so its forecasts stay withheld. The proposal stays with what waits on you, and nothing restarts without your yes.', tags(status.paused, KEPT_PAUSED)),
     disagreement: () => outcome('check', 'rise', 'Already decided on your iPad.', 'You approved this at 09:18, and your tap here made no second approval. One record, one change.', `<div style="margin-top:10px">${status.approved}</div>`)
   });
-  const restartResultRail = ctx => (ctx.state === 'abstention' ? safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : ctx.state === 'default' ? box(`${lbl('What happens next')}<p class="small muted" style="margin-top:4px">If it slips, it goes back to v1 by itself and tells you. Switching forward again needs your yes.</p><div style="margin-top:8px">${proposed('SCI-D07')}</div>`) : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
+  const restartResultRail = ctx => (ctx.state === 'abstention' ? safeBox('A pause holds back this one scope. Prices, holdings and other forecasts still work.') : ctx.state === 'default' ? box(`${lbl('What happens next')}<p class="small muted" style="margin-top:4px">If it slips, it goes back to v1 by itself and tells you. Switching forward again needs your yes.</p><div style="margin-top:8px">${settled('OWN-27')}</div>`) : safeBox('An approval covers one exact change and cannot be replayed. A failed step leaves the previous version current.'));
 
   /* ---------- revoking before the commit starts (MP-55, MP-78): an approved change that has not started can still be stopped ---------- */
   /* the same import as Holdings' a-live and b-live: its rows, hash, times and recovery */
@@ -6333,8 +6345,8 @@ J.add({
   /* ---------- Option A: one queue ---------- */
   const Q = [
     ['plus', 'Watch Taiwan Semiconductor', 'TSM · XNYS · Claude proposed in chat', 'Expires today 18:00', Q9],
-    ['cube', 'Promote R2-HGB v4', 'Passed its shadow trial, 8 of 8 weeks', 'Expires Fri 18:00', CT2],
-    ['sliders', 'Narrow a self-correction band', 'Probabilities: 5 to 4 points a week', 'Expires Mon 18:00', CT2],
+    ['cube', 'Promote R2-HGB v4', 'Passed its shadow trial, 8 of 8 weeks', 'Expires Fri 18:00', KIND],
+    ['sliders', 'Narrow a self-correction band', 'Probabilities: 5 to 4 points a week', 'Expires Mon 18:00', KIND],
     ['layers', 'Confirm a statement import', '11 rows · ledger revision 213', '15 min once approved']
   ];
   const qRow = (q, i, ctx) => item(lead(q[0], wide(ctx) && i === 0 ? 'sel' : ''), q[1], q[2], ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(q[3])}${q[4] || ''}</span>`, wide(ctx) && i === 0, true);
@@ -6375,7 +6387,7 @@ J.add({
   const PAUSE_TEXT = 'US tech, 12 months has no eligible model, so forecasts are withheld. Restarting needs your yes. Prices and holdings still work.';
   const STALE_TEXT = `Each proposal rechecks itself before you can approve it. HSBC is past the freshness limit, so it leaves the total until its price returns: £84,051.05 known, 6 of 7 priced. ${LATE}`;
   /* the paused scope sits outside the count of dated decisions, in Ready as in No model */
-  const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${CT2}</span>`, false, true));
+  const restartRow = () => list(item(lead('pause', 'warn'), 'Restart US tech, 12 months', 'Previous model not eligible, so it paused rather than reverted', ic('chev-r', 's18'), `<span style="display:flex;gap:6px;flex-wrap:wrap">${expiry(WAITS, 'illus')}${KEPT_PAUSED}</span>`, false, true));
   const inboxBody = ctx => region(ctx, {
     what: 'What waits on you', rows: 4, ok: () => queueHero() + queue(ctx) + restartRow() + closed() + liveNote(),
     loading: () => `<div class="card fcard" data-mo="card"><span class="label">Last good 22:15 · expiry times come from the server</span><span class="sk" style="height:44px;width:60%;margin-top:10px"></span></div>` + skel(4),
@@ -6497,7 +6509,7 @@ J.add({
       }, {
         id: 'aa-setting-step', title: 'Step-up for a setting', note: 'Bound to the exact owner, environment, setting, value, current version and expiry.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: setHead() + chain() + changeCard(SET_ROWS), rail: wide(ctx) ? setBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_SET, CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: setHead() + chain() + changeCard(SET_ROWS), rail: wide(ctx) ? setBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_SET, KIND) })
       }, {
         id: 'aa-setting-result', title: 'Settings outcome', note: 'Ready is applied. Empty is you refusing. Error is a write that failed, approved but not applied. Stale is expired.',
         na: naResult,
@@ -6512,7 +6524,7 @@ J.add({
       }, {
         id: 'aa-budget-step', title: 'Step-up for a budget raise', note: 'Bound to the exact line, value, current version and expiry. Code drafted it; only your fresh sign-in approves it.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, KIND) })
       }, {
         id: 'aa-restart', title: 'Switch forward or restart', note: 'Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours. Nothing does either without your yes.',
         render: ctx => {
@@ -6521,7 +6533,7 @@ J.add({
         }
       }, {
         id: 'aa-restart-step', title: 'Step-up to switch or restart', note: 'Ready is the sheet for switching forward. No model is the sheet for restarting. Every line is bound to the approval.',
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT2, WAITING) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Proposal', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, WINDOW, WAITING) })
       }, {
         id: 'aa-restart-result', title: 'Switch or restart outcome', note: 'Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Error is MP refusing at execution. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: SET(ctx), back: 'Waiting', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
@@ -6591,7 +6603,7 @@ J.add({
       }, {
         id: 'ab-setting-step', title: 'Step-up for a setting', note: 'The same sheet, in Settings. Bound to the exact owner, environment, setting, value, current version and expiry.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', noKept: true, body: setHead() + chain() + changeCard(SET_ROWS), rail: wide(ctx) ? setBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_SET, CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', noKept: true, body: setHead() + chain() + changeCard(SET_ROWS), rail: wide(ctx) ? setBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_SET, KIND) })
       }, {
         id: 'ab-setting-result', title: 'Settings outcome', note: 'In Settings. Ready is applied. Empty is you refusing. Error is a write that failed, approved but not applied. Stale is expired.',
         na: naResult,
@@ -6606,7 +6618,7 @@ J.add({
       }, {
         id: 'ab-budget-step', title: 'Step-up for a budget raise', note: 'The same sheet, in Settings. Bound to the exact line, value, current version and expiry.',
         na: naStep,
-        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, CT2) })
+        render: ctx => fr(ctx, { tab: SET(ctx), back: 'Settings', title: 'Proposal', noKept: true, body: budHead() + chain('Code drafted', 'Code checked', 'You decide') + changeCard(BUD_ROWS), rail: wide(ctx) ? budBound(ctx.state === 'disagreement' ? 'What this proposed' : undefined) : '', sheet: stepFor(ctx, STEP_BUD, KIND) })
       }, {
         id: 'ab-restart', title: 'Switch forward or restart', note: 'On the models page. Ready switches a reverted model forward. No model restarts a paused scope. Abstaining has no new score, and the decision stays yours.',
         render: ctx => {
@@ -6615,7 +6627,7 @@ J.add({
         }
       }, {
         id: 'ab-restart-step', title: 'Step-up to switch or restart', note: 'The same sheet, over the models page. Ready is switching forward. No model is restarting.',
-        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, CT2, WAITING) })
+        render: ctx => fr(ctx, { tab: 1, back: 'Forecasts', title: 'Models', noKept: true, body: restartStep(ctx), rail: wide(ctx) ? restartStepBound(ctx) : '', sheet: stepFor(ctx, ctx.state === 'noModel' ? STEP_RESTART : STEP_FWD, WINDOW, WAITING) })
       }, {
         id: 'ab-restart-result', title: 'Switch or restart outcome', note: 'On the models page. Ready is switched forward. No model is restarted. Empty is you staying on v1. Abstaining is you keeping a paused scope paused. Stale is a window that closed.',
         render: ctx => fr(ctx, { tab: 1, back: 'Models', title: 'Decision', body: restartResult(ctx), rail: restartResultRail(ctx) })
@@ -6729,7 +6741,7 @@ J.add({
 
   /* ---------- privacy mode: money and units masked, percentages kept (the owner, "Mask units too", OWN-18) ---------- */
   const maskRow = (h, mid) => `<div class="hrow" data-mo="rise">${logo(h.c, h.lg)}<div style="min-width:0"><div class="nm">${h.n}</div><div class="tk">${h.t} · ${h.v}</div></div><div class="vv"><div class="val"><span class="priv">£••••</span></div>${chg(h.day)}</div><div class="fl">${mid}</div></div>`;
-  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${proposed('DATA-DEC-02')}`);
+  const late = html => html.replace('Stale: last price 14:10 (Yahoo)</span>', `Late: last price 14:10 (Yahoo)</span>${settled('OWN-07')}`);
   function masked(ctx, h) {
     const s = ctx.state;
     if (s === 'noModel' && h.t === 'RELIANCE') return maskRow(h, `<span class="chip">${ic('cube', 's14')}No approved model · no action</span>`);
@@ -6753,7 +6765,7 @@ J.add({
   }[s] || (() => ''))();
   /* a ranked action is labelled wherever one shows */
   const supported = rows => (rows.includes('class="badge') ? `<div class="privacy-row privacy-rows-h"><span class="label">Holdings</span>${illus('Decision support')}</div>` : '');
-  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${proposed('DATA-DEC-02')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good' : 'today'}</span>`}</div>`;
+  const maskValue = (s = 'default') => `<div class="privacy-row"><span class="label">${s === 'stale' ? 'Known value, 6 of 7 priced' : 'Portfolio value'}</span>${illus()}</div><div><span class="amt priv" style="font-size:30px">£•••••</span></div><div class="privacy-row" style="justify-content:flex-start;flex-wrap:wrap;font-size:15px;line-height:20px">${s === 'stale' ? `<span class="small muted">HSBC is left out until its price returns</span>${settled('OWN-07')}` : `${chg(1, '+1.39%')}<span class="small muted">${s === 'error' ? 'last good' : 'today'}</span>`}</div>`;
   /* one set of words wherever privacy mode explains itself */
   const maskSay = 'Money and units are masked. Percentages and ranges stay visible. Tap to show for 30 seconds.';
   const maskCopy = `Amounts hidden. ${maskSay}`;
@@ -6794,11 +6806,11 @@ J.add({
   /* ---------- notices ---------- */
   const NOTICES = [
     ['alert', 'Cost close to the £60 warning', 'Forecast up to £59.73 · 08:12', 1],
-    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1, 'DATA-DEC-02'],
+    ['clock', 'HSBC price is late', 'Last price 14:10 · 16:50', 1, 'OWN-07'],
     ['fan', 'Morning brief', '3 items · 07:30', 0],
     ['check', 'Forecast run finished', '21 runs · yesterday 21:30', 0]
   ];
-  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u, q]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, q ? s + CHIP_ROWS(proposed(q)) : s, go, u ? 'unread' : '')));
+  const noticeRows = (n, stale) => list(NOTICES.slice(0, n).map(([i, t, s, u, q]) => tap(i, `${u ? '<span class="sr">Unread: </span>' : ''}${stale ? t.replace('is late', 'is stale') : t}`, q ? s + CHIP_ROWS(settled(q)) : s, go, u ? 'unread' : '')));
   function inbox(ctx, n = 3) {
     const s = ctx.state;
     if (s === 'loading') return skCard('Notices', 3);
@@ -6965,7 +6977,7 @@ J.add({
       abstention: banner('', 'Held for quiet hours.', 'It arrived with the 07:30 brief.', 'clock')
     }[s] || '';
     const rows = [li('clock', 'Last price 14:10', 'Before the 16:35 UK close · Yahoo', ''), li('db', 'Detected 16:50', 'Priced again when Yahoo returns a price', ''), li('pause', 'Forecast held', 'Its action is Pause until its price returns', '')];
-    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">This notice performs no action. ${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'}</p>`}${CHIP_ROWS(proposed('DATA-DEC-02'))}`)}`;
+    return `${top}${box(`${head(`HSBC price is ${s === 'stale' ? 'stale' : 'late'}`, illus('Decision support'))}${s === 'error' ? smbtn('Try again') : `${list(inPlace ? [rows[2], rows[0], rows[1]] : rows)}<p class="small muted">This notice performs no action. ${s === 'stale' ? 'HSBC is past the freshness limit, so it is out of the total.' : 'HSBC is late but inside the freshness limit, so it stays in the total.'}</p>`}${CHIP_ROWS(settled('OWN-07'))}`)}`;
   }
 
   /* ---------- the checkup, and notices in place ---------- */

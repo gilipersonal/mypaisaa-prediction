@@ -160,11 +160,12 @@ export default {
     each({ journey: 'costs', screen: 'ca-budget', state: 'default', surface: 'web' }, (v) => must(/data-act="A34"><button[^>]*>[\s\S]*?Roll back to v1/.test(v.html), 'the rollback is not A34'));
     each({ journey: 'costs', screen: 'ca-change', state: 'empty', surface: 'web' }, (v) => must(/data-act="A34"><button[^>]*>[\s\S]*?Roll back to v2/.test(v.html), 'the rollback is not A34'));
   },
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6), so the label reads Settled with the pick's id, beside the same fact
   'R2-a6': ({ each, view, has, lacks }) => {
     for (const [o, screen] of [['a', 'ca-credit'], ['b', 'cb-credit']]) {
       const e = view('costs', o, screen, 'web', 'error').text, st = view('costs', o, screen, 'web', 'stale').text;
       has(e, /AWS collector failed at 06:10/); lacks(e, /did not arrive/);
-      has(st, /AWS billing is 39 hours old/); lacks(st, /older than one window/); has(st, /Proposed · MP40-Q6/);
+      has(st, /AWS billing is 39 hours old/); lacks(st, /older than one window/); has(st, /Settled · MP40-Q6/);
     }
     each({ journey: 'costs' }, (v) => lacks(v.text, /Try again/, 'a collector is retried at its window, never by hand'));
   },

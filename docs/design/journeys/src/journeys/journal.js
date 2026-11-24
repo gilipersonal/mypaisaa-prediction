@@ -9,8 +9,8 @@
   const proposed = ref => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${ref}</span>`;
   /* with no action ranked, an entry can still be saved against the evidence on screen, and it records why none was
      (the owner, "Any time evidence shows", OWN-15). A disagreement, an abstention, no model and no label all stay recordable. */
-  /* how old a price may be is DATA-DEC-02, when a price may be used as current, so every use of the late-price rule says so */
-  const limit = `<div class="journal-acts">${proposed('DATA-DEC-02')}</div>`;
+  /* how old a price may be is DATA-DEC-02, settled on 5 Nov 2026 ("Approve the proposed limits now", OWN-07), so every use of the late-price rule says so */
+  const limit = `<div class="journal-acts">${settled('OWN-07')}</div>`;
   /* the owner pressed "Both keep the five" (MP40-Q12c): the Apple app and a browser keep the same records, each with its age.
      How a browser protects them is unverified, so a browser's offline copy says so, and an Apple one does not */
   const kept = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? browserKept() : '');

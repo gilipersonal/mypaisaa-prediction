@@ -284,6 +284,7 @@ const FACTS = {
     }
   },
 
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R1-r14': ({ each, has, lacks }) => {
     for (const journey of [R, A]) {
       each({ journey }, (v, at) => {
@@ -294,7 +295,7 @@ const FACTS = {
     each({ journey: R, option: 'a', screen: 'ra-brief', state: 'default' }, (v, at) => {
       has(v.text, /Yahoo · HSBC late/, `${said(at)}: the chip`);
       has(v.text, /Late: its last price is 14:10, before the UK close/, `${said(at)}: the HSBC row`);
-      has(v.text, /Late but inside the freshness limit.*Proposed · DATA-DEC-02/, `${said(at)}: the limit is proposed`);
+      has(v.text, /Late but inside the freshness limit.*Settled · OWN-07/, `${said(at)}: the limit is proposed`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
       each({ journey: R, option, screen, state: 'stale' }, (v, at) => {
@@ -337,9 +338,10 @@ const FACTS = {
     each({ journey: A, option: 'a', screen: 'aa-model', state: 'default' }, (v, at) => has(v.text, /23\.2 pts 22\.1 pts/, `${said(at)}: no before value`));
   },
 
+  // narrowed in MP-192: the owner's picks settle these rules ("As proposed", OWN-27), so the label reads Settled with the pick's id, beside the same fact
   'R1-r21': ({ each, has, lacks }) => {
-    each({ journey: A, option: 'a', screen: 'aa-model', state: 'default' }, (v, at) => has(v.text, /Proposed · SCI-D03/, `${said(at)}: the rules score is open`));
-    each({ journey: A, option: 'a', screen: 'aa-result', state: 'default' }, (v, at) => has(v.text, /Proposed · SCI-D07/, `${said(at)}: the bad-week rule is open`));
+    each({ journey: A, option: 'a', screen: 'aa-model', state: 'default' }, (v, at) => { has(v.text, /Settled · OWN-33/, `${said(at)}: what beating the rules means is not labelled settled`); lacks(v.text, /Proposed · SCI-D03/, `${said(at)}: OWN-33 settled, still labelled open`); }); // narrowed in MP-192: "A lower score is enough" (OWN-33)
+    each({ journey: A, option: 'a', screen: 'aa-result', state: 'default' }, (v, at) => has(v.text, /Settled · OWN-27/, `${said(at)}: the bad-week rule is open`));
     each({ journey: R, option: 'a', screen: 'ra-alert', state: 'default' }, (v, at) => {
       lacks(v.text, /Cooldown runs to/, `${said(at)}: a cooldown time on no record`);
       // Narrowed for OWN-34, "Once in 24 hours": the cooldown is settled; CT-18 stays on what is still open, each line's value.
@@ -388,6 +390,7 @@ const FACTS = {
   },
 
   // The same listing is approved the same way in both options.
+  // narrowed in MP-192: the owner's picks settle these rules ("Same day, as drawn", MP40-Q9), so the label reads Settled with the pick's id, beside the same fact
   'R2-r2': ({ view, each, has, lacks, must }) => {
     for (const surface of SURFACES) for (const state of STATES.filter((s) => s !== 'noModel')) {
       const sheet = (o, s) => view(A, o, s, surface, state).html.match(/<div class="sheet"[\s\S]*$/);
@@ -399,28 +402,29 @@ const FACTS = {
       has(v.text, /Environment Production/, `${said(at)}: not the listing's sheet`);
       has(v.text, /Payload hash 2d7a…b310/, `${said(at)}: not the listing's sheet`);
       // Narrowed for OWN-39, "Anything that writes or widens": confirming a listing widens, so it needs a fresh sign-in by the owner's rule and its CT-01 label is gone. Its expiry stays open.
-      has(v.text, /Proposed · MP40-Q9/, `${said(at)}: the listing's expiry is open`); lacks(v.text, /Proposed · CT-01/, `${said(at)}: a sign-in OWN-39 settled, still labelled`);
+      has(v.text, /Settled · MP40-Q9/, `${said(at)}: the listing's expiry is open`); lacks(v.text, /Proposed · CT-01/, `${said(at)}: a sign-in OWN-39 settled, still labelled`);
     });
     for (const [option, screen] of [['a', 'aa-listing'], ['b', 'ab-chat']]) {
       // Narrowed for OWN-39: the foot keeps its fresh sign-in and its expiry label; the CT-01 label is gone.
-      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · confirming needs a connection and a fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: ['default', 'noModel', 'disagreement'] }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · needs a fresh sign-in Settled · MP40-Q9/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to catalogue v14 · expires 18:00 · confirming needs a connection and a fresh sign-in Settled · MP40-Q9/, `${said(at)}: the foot and its labels`));
     }
   },
 
   // Switching forward and restarting bind what any approval binds, and say how long it lasts.
+  // narrowed in MP-192: the owner's picks settle these rules ("As proposed", OWN-27; "Cause cleared, fresh approval", OWN-28), so the label reads Settled with the pick's id, beside the same fact
   'R2-r3': ({ each, has, lacks }) => {
     for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) {
       each({ journey: A, option, screen }, (v, at) => lacks(v.text, /No expiry/, `${said(at)}: an approval with no expiry`));
       each({ journey: A, option, screen, state: ['default', 'offline', 'disagreement', 'abstention', 'noModel'] }, (v, at) => {
         has(v.text, /This approval is bound to/, `${said(at)}: no bound card`);
-        for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', at.state === 'noModel' ? 'Proposed · POLICY-003' : 'Proposed · SCI-D07']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
-        has(v.text, /Your approval then has 15 minutes to apply\. Proposed · CT-02/, `${said(at)}: the window's label is not beside it`);
+        for (const w of ['Artefact', 'Calibrator', 'Tasks', 'Scope', 'Evidence hash', 'Limits', 'Previous safe', 'Expected version', 'Expires 15 minutes after you approve', at.state === 'noModel' ? 'Settled · OWN-28' : 'Settled · OWN-27']) has(v.text, new RegExp(w), `${said(at)}: no "${w}"`);
+        has(v.text, /Your approval then has 15 minutes to apply\. Settled · OWN-21/, `${said(at)}: the window's label is not beside it`); // narrowed in MP-192: "15 minutes, as drawn" (OWN-21)
       });
       // Narrowed for OWN-39, "Anything that writes or widens": switching forward and restarting write, so each needs a fresh sign-in by the owner's rule and loses its CT-01 label. The window's CT-02 label stays.
-      each({ journey: A, option, screen, state: ['default', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
-      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Proposed · CT-02/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: ['default', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · needs a fresh sign-in Settled · OWN-21/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'offline' }, (v, at) => has(v.text, /Bound to R1-LGB v2 · 15 min once approved · switching forward needs a connection and a fresh sign-in Settled · OWN-21/, `${said(at)}: the foot and its labels`));
+      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Bound to R2-HGB v3 on US tech, 12 months · 15 min once approved · needs a fresh sign-in Settled · OWN-21/, `${said(at)}: the foot and its labels`));
       each({ journey: A, option, screen, state: 'noModel' }, (v, at) => {
         has(v.text, /Bound to R2-HGB v3 on US tech, 12 months/, `${said(at)}: the foot does not name the model`);
         has(v.text, /Artefact R2-HGB v3/, `${said(at)}: the card does not name the model`);
@@ -715,67 +719,77 @@ const FACTS = {
   'R2-r22': ({ each, lacks }) => each({ journey: R, option: 'b', screen: 'rb-today', state: 'loading' }, (v, at) => lacks(v.text, /stays readable above/, `${said(at)}: nothing is drawn above`)),
 
   // Round 3. Each listing's expiry says MP40-Q9, every other proposal's expiry and window CT-02, beside the fact and not only on the screen.
+  // narrowed in MP-192: the owner's picks settle these rules ("Same day, as drawn", MP40-Q9), so the label reads Settled with the pick's id, beside the same fact
   'R3-r1': ({ each, has }) => {
     const LISTING = /[Ee]xpires? (?:today |Today, )?18:00|Expired(?: at)? 18:00|after 18:00|Taiwan Semiconductor, 18:00|Your confirmation holds, for a retry inside its window/;
-    const OTHER = /[Ee]xpire[sd]? (?:Fri|Mon)|closed on (?:Fri|Mon)|Expires 15 minutes|The 15 minutes closed|15 min once approved · (?:needs|switching)|[Ww]aits for your yes|Your approval holds, for a retry inside its window|stays with what waits on you/;
+    // narrowed in MP-192: the owner's picks split CT-02. A promotion's or a setting's days keep Proposed · CT-02 beside Settled · OWN-08 ("By kind, as drawn");
+    // the 15 minutes read Settled · OWN-21 ("15 minutes, as drawn"); a switch forward that stays open reads Settled · OWN-08, and a scope kept paused Settled · OWN-29 ("It stays, undated")
+    const OTHER = /[Ee]xpire[sd]? (?:Fri|Mon)|closed on (?:Fri|Mon)|Your approval holds, for a retry inside its window/;
+    const WINDOW = /Expires 15 minutes|The 15 minutes closed|15 min once approved · (?:needs|switching)/;
+    const WAITS = /[Ww]aits for your yes|stays with what waits on you/;
     each({ journey: A }, (v, at) => {
-      if (LISTING.test(v.text)) has(v.text, /Proposed · MP40-Q9/, `${said(at)}: a listing's expiry with no label`);
+      if (LISTING.test(v.text)) has(v.text, /Settled · MP40-Q9/, `${said(at)}: a listing's expiry with no label`);
       if (OTHER.test(v.text)) has(v.text, /Proposed · CT-02/, `${said(at)}: an expiry with no label`);
+      if (WINDOW.test(v.text)) has(v.text, /Settled · OWN-21/, `${said(at)}: the 15 minutes with no label`);
+      if (WAITS.test(v.text)) has(v.text, /Settled · OWN-(?:08|29)/, `${said(at)}: a wait with no label`);
     });
     each({ journey: A, option: 'a', screen: 'aa-queue', state: ['default', 'stale', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => {
-      for (const re of [/Expires today 18:00 Proposed · MP40-Q9/, /Expires Fri 18:00 Proposed · CT-02/, /Expires Mon 18:00 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+      for (const re of [/Expires today 18:00 Settled · MP40-Q9/, /Expires Fri 18:00 Settled · OWN-08 Proposed · CT-02/, /Expires Mon 18:00 Settled · OWN-08 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
     });
-    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'default' }, (v, at) => has(v.text, /Watch Barclays BARC · XLON · expired 08:14 Run again Proposed · MP40-Q9/, `${said(at)}: a past listing's expiry`));
-    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the restart's row`));
-    each({ journey: A, option: 'a', screen: 'aa-queue', surface: WIDE, state: 'default' }, (v, at) => has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the peek`));
-    each({ journey: A, option: 'b', screen: 'ab-home', state: 'default' }, (v, at) => has(v.text, /Next: Taiwan Semiconductor, 18:00 Proposed · MP40-Q9/, `${said(at)}: the strip`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'default' }, (v, at) => has(v.text, /Watch Barclays BARC · XLON · expired 08:14 Run again Settled · MP40-Q9/, `${said(at)}: a past listing's expiry`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Settled · OWN-29/, `${said(at)}: the restart's row`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', surface: WIDE, state: 'default' }, (v, at) => has(v.text, /Expires 18:00 Settled · MP40-Q9/, `${said(at)}: the peek`));
+    each({ journey: A, option: 'b', screen: 'ab-home', state: 'default' }, (v, at) => has(v.text, /Next: Taiwan Semiconductor, 18:00 Settled · MP40-Q9/, `${said(at)}: the strip`));
     for (const [option, screen, sheet] of [['a', 'aa-listing', 'aa-listing-step'], ['b', 'ab-chat', 'ab-step']]) {
       each({ journey: A, option, screen, state: ['default', 'offline', 'noModel', 'disagreement'] }, (v, at) => {
-        has(v.text, /Expires 18:00 Proposed · MP40-Q9/, `${said(at)}: the head`);
+        has(v.text, /Expires 18:00 Settled · MP40-Q9/, `${said(at)}: the head`);
         // Narrowed for OWN-39: the CT-01 label is gone; the expiry keeps MP40-Q9.
-        has(v.text, /expires 18:00 · [a-z ]*fresh sign-in Proposed · MP40-Q9/, `${said(at)}: the foot`);
+        has(v.text, /expires 18:00 · [a-z ]*fresh sign-in Settled · MP40-Q9/, `${said(at)}: the foot`);
       });
-      each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
-      each({ journey: A, option, screen: sheet, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Expires Today, 18:00 Proposed · MP40-Q9/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
+      each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Settled · MP40-Q9/, `${said(at)}: an expired listing`));
+      each({ journey: A, option, screen: sheet, state: ['default', 'loading', 'empty', 'error', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Expires Today, 18:00 Settled · MP40-Q9/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
     }
-    for (const [option, screen] of [['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · MP40-Q9/, `${said(at)}: an expired listing`));
+    for (const [option, screen] of [['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Settled · MP40-Q9/, `${said(at)}: an expired listing`));
     for (const [option, model, step, set, setStep] of [['a', 'aa-model', 'aa-step', 'aa-setting', 'aa-setting-step'], ['b', 'ab-model', 'ab-model-step', 'ab-setting', 'ab-setting-step']]) {
       each({ journey: A, option, screen: model, state: 'default' }, (v, at) => {
-        for (const re of [/Expires Fri 18:00 Proposed · CT-02/, /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, /expires Fri 18:00 · needs a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+        for (const re of [/Expires Fri 18:00 Settled · OWN-08 Proposed · CT-02/, /Expires Fri 6 Nov, 18:00 Settled · OWN-08 Proposed · CT-02/, /expires Fri 18:00 · needs a fresh sign-in Settled · OWN-08 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
       });
       each({ journey: A, option, screen: model, state: 'offline' }, (v, at) => {
-        for (const re of [/Expires Fri 18:00 Proposed · CT-02/, /expires Fri 18:00 · approving needs a connection and a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+        for (const re of [/Expires Fri 18:00 Settled · OWN-08 Proposed · CT-02/, /expires Fri 18:00 · approving needs a connection and a fresh sign-in Settled · OWN-08 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
       });
       each({ journey: A, option, screen: set, state: 'default' }, (v, at) => {
-        for (const re of [/Expires Mon 18:00 Proposed · CT-02/, /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, /expires Mon 18:00 · needs a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+        for (const re of [/Expires Mon 18:00 Settled · OWN-08 Proposed · CT-02/, /Expires Mon 9 Nov, 18:00 Settled · OWN-08 Proposed · CT-02/, /expires Mon 18:00 · needs a fresh sign-in Settled · OWN-08 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
       });
       each({ journey: A, option, screen: set, state: 'offline' }, (v, at) => {
-        for (const re of [/Expires Mon 18:00 Proposed · CT-02/, /expires Mon 18:00 · approving needs a connection and a fresh sign-in Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
+        for (const re of [/Expires Mon 18:00 Settled · OWN-08 Proposed · CT-02/, /expires Mon 18:00 · approving needs a connection and a fresh sign-in Settled · OWN-08 Proposed · CT-02/]) has(v.text, re, `${said(at)}: ${re}`);
       });
-      each({ journey: A, option, screen: set, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired setting`));
+      each({ journey: A, option, screen: set, state: 'stale' }, (v, at) => has(v.text, /Expired Settled · OWN-08 Proposed · CT-02/, `${said(at)}: an expired setting`));
       // every state of a sheet draws its rows, so every state keeps the label beside the fact
-      each({ journey: A, option, screen: step, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Fri 6 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
-      each({ journey: A, option, screen: setStep, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Mon 9 Nov, 18:00 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: step, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Fri 6 Nov, 18:00 Settled · OWN-08 Proposed · CT-02/, `${said(at)}: the sheet`));
+      each({ journey: A, option, screen: setStep, state: SHEET_STATES }, (v, at) => has(words(sheetOf(v.html)), /Expires Mon 9 Nov, 18:00 Settled · OWN-08 Proposed · CT-02/, `${said(at)}: the sheet`));
     }
-    for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result'], ['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Proposed · CT-02/, `${said(at)}: an expired proposal`));
+    for (const [option, screen] of [['a', 'aa-result'], ['b', 'ab-model-result'], ['a', 'aa-setting-result'], ['b', 'ab-setting-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Settled · OWN-08 Proposed · CT-02/, `${said(at)}: an expired proposal`));
+    for (const [option, screen] of [['a', 'aa-restart-result'], ['b', 'ab-restart-result']]) each({ journey: A, option, screen, state: 'stale' }, (v, at) => has(v.text, /Expired Settled · OWN-21/, `${said(at)}: an expired approval`));
     for (const [option, screen, sheet] of [['a', 'aa-restart', 'aa-restart-step'], ['b', 'ab-restart', 'ab-restart-step']]) {
-      each({ journey: A, option, screen, state: ['default', 'noModel', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the head`));
-      each({ journey: A, option, screen: sheet }, (v, at) => has(words(sheetOf(v.html)), /Expires 15 minutes after you approve Proposed · CT-02/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
+      each({ journey: A, option, screen, state: ['default', 'stale', 'offline', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /Stays open · waits for your yes Settled · OWN-08/, `${said(at)}: the head`));
+      each({ journey: A, option, screen, state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Settled · OWN-29/, `${said(at)}: the head`));
+      each({ journey: A, option, screen: sheet }, (v, at) => has(words(sheetOf(v.html)), /Expires 15 minutes after you approve Settled · OWN-21/, `${said(at)}: the sheet`)); // narrowed for OWN-39: the CT-01 label is gone
     }
-    each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'stale', 'offline', 'error'] }, (v, at) => has(v.text, /Watch Barclays Nobody · expired Wed 08:14 Expired Proposed · MP40-Q9/, `${said(at)}: the record`));
-    each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'stale', 'offline'] }, (v, at) => has(v.text, /Earlier proposal Thu 22 Oct · nobody acted Expired Proposed · MP40-Q9/, `${said(at)}: the history`));
+    each({ journey: A, option: 'a', screen: 'aa-record', state: ['default', 'stale', 'offline', 'error'] }, (v, at) => has(v.text, /Watch Barclays Nobody · expired Wed 08:14 Expired Settled · MP40-Q9/, `${said(at)}: the record`));
+    each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'stale', 'offline'] }, (v, at) => has(v.text, /Earlier proposal Thu 22 Oct · nobody acted Expired Settled · MP40-Q9/, `${said(at)}: the history`));
   },
 
   // The late-price rule is labelled in the stale banner that states it, and beside the rule in the brief, on both sides of the flip.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R3-r2': ({ each, has, must }) => {
     for (const [journey, option, screen] of [[A, 'a', 'aa-queue'], [A, 'b', 'ab-home'], [R, 'a', 'ra-brief'], [R, 'b', 'rb-today'], [R, 'a', 'ra-alert'], [R, 'b', 'rb-alert']]) each({ journey, option, screen, state: 'stale' }, (v, at) => {
       const b = bannerOf(v.html);
       must(/(?:leaves|left) the total until its price returns/.test(b), `${said(at)}: the banner does not state the rule: "${b.slice(0, 120)}"`);
-      must(b.includes('Proposed · DATA-DEC-02'), `${said(at)}: the banner states the rule flat`);
+      must(b.includes('Settled · OWN-07'), `${said(at)}: the banner states the rule flat`);
     });
     for (const [option, screen] of [['a', 'ra-brief'], ['b', 'rb-today']]) {
-      each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /it left the total until its price returns\.? Proposed · DATA-DEC-02/i, `${said(at)}: the changes state the rule flat`));
-      each({ journey: R, option, screen, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /inside the freshness limit, so its forecast is held\.? Proposed · DATA-DEC-02/, `${said(at)}: the changes state the rule flat`));
+      each({ journey: R, option, screen, state: 'stale' }, (v, at) => has(v.text, /it left the total until its price returns\.? Settled · OWN-07/i, `${said(at)}: the changes state the rule flat`));
+      each({ journey: R, option, screen, state: ['default', 'error', 'offline', 'noModel', 'disagreement', 'abstention'] }, (v, at) => has(v.text, /inside the freshness limit, so its forecast is held\.? Settled · OWN-07/, `${said(at)}: the changes state the rule flat`));
     }
   },
 
@@ -818,14 +832,15 @@ const FACTS = {
     each({ journey: A, option: 'b', screen: 'ab-history', state: ['default', 'error', 'stale', 'offline'] }, (v, at) => has(v.text, new RegExp(`Confirmed by you Wed 09:02 · catalogue v15 · fresh sign-in Approved ${LABEL}`), `${said(at)}: the history`));
     for (const [option, res, rev] of [['a', 'aa-restart-result', 'aa-revoke'], ['b', 'ab-restart-result', 'ab-revoke']]) {
       each({ journey: A, option, screen: res, state: ['default', 'noModel'] }, (v, at) => has(v.text, new RegExp(`Applied at 09:18 with your fresh sign-in\\..*? Approved ${LABEL}`), `${said(at)}: the outcome`));
-      each({ journey: A, option, screen: res, state: 'stale' }, (v, at) => has(v.text, new RegExp(`Expired Proposed · CT-02 ${LABEL}`), `${said(at)}: signing in again`));
+      each({ journey: A, option, screen: res, state: 'stale' }, (v, at) => has(v.text, new RegExp(`Expired Settled · OWN-21 ${LABEL}`), `${said(at)}: signing in again`)); // narrowed in MP-192: the 15 minutes are settled ("15 minutes, as drawn", OWN-21)
       // Narrowed for OWN-16: revoking needs no fresh sign-in, so no stop control waits behind one.
       each({ journey: A, option, screen: rev, state: 'abstention' }, (v, at) => must(v.na && /OWN-16/.test(v.na), `${said(at)}: a stop control behind a sign-in`));
     }
   },
 
+  // narrowed in MP-192: the owner's picks settle these rules ("As proposed", OWN-27), so the label reads Settled with the pick's id, beside the same fact
   'R3-r9': ({ each, lacks }) => {
-    for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen }, (v, at) => lacks(v.text, /15 minutes to apply\. Proposed · SCI-D07/, `${said(at)}: SCI-D07 does not hold the window`));
+    for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen }, (v, at) => lacks(v.text, /15 minutes to apply\. (?:Proposed · SCI-D07|Settled · OWN-27)/, `${said(at)}: SCI-D07 does not hold the window`));
   },
 
   // Plain slips: the Reliance turn sits under Reliance, with no median.
@@ -846,8 +861,9 @@ const FACTS = {
     each({ journey: A }, (v, at) => lacks(v.text, /one retry/, `${said(at)}: MP-78 gives no count`));
     for (const [option, screen] of [['a', 'aa-setting-result'], ['b', 'ab-setting-result'], ['a', 'aa-after'], ['b', 'ab-after']]) each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, /for a retry inside its window/, `${said(at)}: the window`));
   },
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6), so the label reads Settled with the pick's id, beside the same fact
   'R3-r14': ({ each, lacks }) => {
-    for (const journey of [R, A]) each({ journey }, (v, at) => lacks(v.text, /Proposed · MP40-Q6/, `${said(at)}: MP40-Q6 is about billing data, not a late price`));
+    for (const journey of [R, A]) each({ journey }, (v, at) => lacks(v.text, /(?:Proposed|Settled) · MP40-Q6/, `${said(at)}: MP40-Q6 is about billing data, not a late price`));
   },
   'R3-r15': ({ each, lacks, must }) => {
     for (const [option, screen] of [['a', 'ra-card'], ['b', 'rb-card']]) each({ journey: R, option, screen, state: 'empty' }, (v, at) => {
@@ -871,6 +887,7 @@ const FACTS = {
   'R4-r2': (a) => FACTS['R2-r10'](a),
 
   // A row that opens something is named by everything on it, its status too. Its children are presentational, so the name is all a screen reader gets.
+  // narrowed in MP-192: the owner's picks settle these rules ("Same day, as drawn", MP40-Q9), so the label reads Settled with the pick's id, beside the same fact
   'R4-r3': ({ each, must, has }) => {
     const same = (t) => words(t).replace(/[.,]/g, '').replace(/\s+/g, ' ');
     let rows = 0;
@@ -886,7 +903,7 @@ const FACTS = {
     must(rows > 100, `only ${rows} open rows were read`);
     const name = (html) => [...html.matchAll(/role="button" tabindex="0" aria-label="([^"]*)"/g)].map((m) => m[1]).join(' | ');
     each({ journey: A, option: 'a', screen: 'aa-record', state: 'default' }, (v, at) => {
-      for (const re of [/R2-HGB v4 promoted, You · Wed 09:14 · on probation, Approved/, /Taiwan Semiconductor added, You · Wed 09:02 · catalogue v15 · fresh sign-in, Approved(?!, Proposed · CT-01)/, /* narrowed for OWN-39: the CT-01 label is gone */ /Watch Barclays, Nobody · expired Wed 08:14, Expired, Proposed · MP40-Q9/, /Let the chat route add listings, Code · Tue 17:20 · would widen authority, Blocked/, /R1-LGB v2 reverted to v1, Code · Mon 22:20 · 2 bad weeks on probation, Automatic/, /Statement import approval revoked, You · Fri 30 Oct · before the commit started, Revoked/]) has(name(v.html), re, `${said(at)}: ${re}`);
+      for (const re of [/R2-HGB v4 promoted, You · Wed 09:14 · on probation, Approved/, /Taiwan Semiconductor added, You · Wed 09:02 · catalogue v15 · fresh sign-in, Approved(?!, Proposed · CT-01)/, /* narrowed for OWN-39: the CT-01 label is gone */ /Watch Barclays, Nobody · expired Wed 08:14, Expired, Settled · MP40-Q9/, /Let the chat route add listings, Code · Tue 17:20 · would widen authority, Blocked/, /R1-LGB v2 reverted to v1, Code · Mon 22:20 · 2 bad weeks on probation, Automatic/, /Statement import approval revoked, You · Fri 30 Oct · before the commit started, Revoked/]) has(name(v.html), re, `${said(at)}: ${re}`);
     });
     for (const [option, screen] of [['a', 'ra-memory'], ['b', 'rb-memory']]) {
       each({ journey: R, option, screen, state: 'default' }, (v, at) => {
@@ -897,11 +914,12 @@ const FACTS = {
   },
 
   // The late-price limit is DATA-DEC-02 wherever a screen states it, and no other question holds it.
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R4-r4': ({ each, has, lacks }) => {
     const RULE = /(?:leaves?|left) the total|left out until its price returns|freshness limit/;
     for (const journey of [R, A]) each({ journey }, (v, at) => {
       lacks(v.text, /Proposed · FIN-OD-06/, `${said(at)}: the limit is DATA-DEC-02`);
-      if (RULE.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${said(at)}: the limit stated flat`);
+      if (RULE.test(v.text)) has(v.text, /Settled · OWN-07/, `${said(at)}: the limit stated flat`);
     });
   },
 
@@ -916,26 +934,31 @@ const FACTS = {
   },
 
   // Waiting for the yes is settled. What CT-02 leaves open is that the proposal stays open, so that is what the label sits on.
+  // narrowed in MP-192: that it stays open is now settled too, none for a restart ("By kind, as drawn", OWN-08) and a scope kept paused undated ("It stays, undated", OWN-29),
+  // so the label on the stay reads Settled with that id, and a settled fact still carries no CT-02
   'R4-r6': ({ each, has, lacks }) => {
     for (const [option, screen] of [['a', 'aa-restart'], ['b', 'ab-restart']]) each({ journey: A, option, screen, state: ['default', 'noModel'] }, (v, at) => {
-      has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the label is not on what it leaves open`);
+      has(v.text, at.state === 'noModel' ? /Stays open · waits for your yes Settled · OWN-29/ : /Stays open · waits for your yes Settled · OWN-08/, `${said(at)}: the label is not on what it settles`);
+      lacks(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the stay is settled, still labelled open`);
       lacks(v.text, /(?<!· )[Ww]aits for your yes Proposed · CT-02/, `${said(at)}: the label sits on a settled fact`);
     });
-    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Proposed · CT-02/, `${said(at)}: the queue's row`));
+    each({ journey: A, option: 'a', screen: 'aa-queue', state: 'noModel' }, (v, at) => has(v.text, /Stays open · waits for your yes Settled · OWN-29/, `${said(at)}: the queue's row`));
   },
 
   // SCI-D07 does not hold restarting: POLICY-003 leaves restart evidence open, so that is what labels it.
+  // narrowed in MP-192: the owner's picks settle these rules ("As proposed", OWN-27; "Cause cleared, fresh approval", OWN-28), so the label reads Settled with the pick's id, beside the same fact
   'R4-r7': ({ each, has, lacks }) => {
-    each({ journey: A }, (v, at) => { if (/gives it a fresh approval|has a fresh approval/.test(v.text)) has(v.text, /Proposed · POLICY-003/, `${said(at)}: a fresh approval no record gives`); });
+    each({ journey: A }, (v, at) => { if (/gives it a fresh approval|has a fresh approval/.test(v.text)) has(v.text, /Settled · OWN-28/, `${said(at)}: a fresh approval no record gives`); });
     for (const screen of ['aa-restart', 'aa-restart-step', 'aa-restart-result', 'ab-restart', 'ab-restart-step', 'ab-restart-result']) each({ journey: A, option: screen[1], screen, state: 'noModel' }, (v, at) => {
-      has(v.text, /Proposed · POLICY-003/, `${said(at)}: restarting is labelled by the wrong question`);
-      lacks(v.text, /Proposed · SCI-D07/, `${said(at)}: SCI-D07 does not hold restarting`);
+      has(v.text, /Settled · OWN-28/, `${said(at)}: restarting is labelled by the wrong question`);
+      lacks(v.text, /Proposed · SCI-D07|Settled · OWN-27/, `${said(at)}: SCI-D07 does not hold restarting`);
     });
   },
 
   // The retry window is open, so a failed write says so, under the question that holds each kind.
+  // narrowed in MP-192: the owner's picks settle these rules ("Same day, as drawn", MP40-Q9), so the label reads Settled with the pick's id, beside the same fact
   'R4-r8': ({ each, has }) => {
-    for (const [option, screen, re] of [['a', 'aa-setting-result', /Not applied Proposed · CT-02/], ['b', 'ab-setting-result', /Not applied Proposed · CT-02/], ['a', 'aa-after', /Not applied Proposed · MP40-Q9/], ['b', 'ab-after', /Not applied Proposed · MP40-Q9/]]) each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, re, `${said(at)}: the window stated flat`));
+    for (const [option, screen, re] of [['a', 'aa-setting-result', /Not applied Proposed · CT-02/], ['b', 'ab-setting-result', /Not applied Proposed · CT-02/], ['a', 'aa-after', /Not applied Settled · MP40-Q9/], ['b', 'ab-after', /Not applied Settled · MP40-Q9/]]) each({ journey: A, option, screen, state: 'error' }, (v, at) => has(v.text, re, `${said(at)}: the window stated flat`));
   },
 
   // Smaller holes: each step-up's lines in the sheet alone, the import's cash, and a wait with no budget word. R3-r1, R1-r11 and R2-r9 hold the rest.
@@ -959,7 +982,7 @@ const FACTS = {
       has(v.text, /You kept it paused\. Nothing changed\./, `${said(at)}: no outcome for Keep paused`);
       has(v.text, /stays paused, so its forecasts stay withheld/, `${said(at)}: what stays`);
       has(v.text, /The proposal stays with what waits on you/, `${said(at)}: where the proposal goes`);
-      has(v.text, /Still paused Proposed · CT-02/, `${said(at)}: the status and its label`);
+      has(v.text, /Still paused Settled · OWN-29/, `${said(at)}: the status and its label`); // narrowed in MP-192: "It stays, undated" (OWN-29)
       lacks(v.text, /Restarted|Switched forward|You stayed on v1/, `${said(at)}: another outcome's words`);
       must(chipOf(v.html) === '', `${said(at)}: the chip reads "${chipOf(v.html)}"`);
     });

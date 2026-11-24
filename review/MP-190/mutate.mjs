@@ -21,7 +21,8 @@ const M = {
   // OWN-35, "Code may draft one"
   '35-sentence': ['MP190-own35', 'J', [["It grants no tool, source or permission, and code refuses any change that would. ${BUDGET}`, 'shield');", "It grants no tool, source, budget or permission, and code refuses any change that would.`, 'shield');", 1]]],
   '35-margin': ['MP190-own35', 'J', [["['Against the month', '', '£5.27 under it', 'Up to £59.73 sits £5.27 under £65.']", "['Against the month', '', '£5.00 under it', 'Up to £59.73 sits £5.00 under £65.']", 1]]],
-  '35-sheet': ['MP190-own35', 'J', [["sheet: stepFor(ctx, STEP_BUD, CT2) })", "sheet: '' })", 2]]],
+  // MP-192 moved the raise's sheet label from CT2 to KIND ("By kind, as drawn", OWN-08), so the proof undoes the sheet at its new text
+  '35-sheet': ['MP190-own35', 'J', [["sheet: stepFor(ctx, STEP_BUD, KIND) })", "sheet: '' })", 2]]],
   '35-decide': ['MP190-own35', 'J', [["return ctx.state === 'default' ? { yes: 'Approve', foot: 'Bound to Budgets v2", "return false ? { yes: 'Approve', foot: 'Bound to Budgets v2", 1]]],
   '35-flip': ['MP190-own35', 'J', [["approvals: pairs(['aa-queue', 'ab-home']),", "approvals: pairs(['aa-queue', 'ab-home'], ['aa-budget', 'ab-budget']),", 1]]],
   '35-lines': ['MP190-own35', 'J', [["Only you change one, in Settings, with a fresh sign-in. ${RAISE}</p>", "Only you change one, in Settings, with a fresh sign-in.</p>", 2]]],

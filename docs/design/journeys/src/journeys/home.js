@@ -59,8 +59,8 @@ const sup = 'Actions are decision support, not advice. MyPrediction places no tr
 const watch = `<span class="badge">${ic('target', 's16')}Watch</span>`;
 const webSearch = ctx => ctx.kind === 'web' ? `<div class="search" style="width:190px">${ic('search', 's18')}Search<kbd>⌘K</kbd></div>` : ctx.kind === 'pwa' ? tb('search', 'Search') : '';
 const dim = html => `<div class="home-dim" aria-busy="true">${html}</div>`;
-/* the late-price rule: how late a price may be and still count, on every use of it. Billing freshness cites its own question in COST. */
-const qLate = '<span class="chip proposed"><span class="dot"></span>Proposed · DATA-DEC-02</span>';
+/* the late-price rule: how late a price may be and still count, on every use of it. Settled, "Approve the proposed limits now" (OWN-07, MP-192). Billing freshness cites its own pick in COST. */
+const qLate = settled('OWN-07');
 /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and how it protects it is unverified */
 const q12 = ctx => (ctx.kind === 'web' || ctx.kind === 'pwa' ? ` ${BROWSER_UNVERIFIED}` : '');
 /* the month: a pill in the top bar of every Home, whichever way Cost is flipped, and no row after the holdings ("Pill on every Home", OWN-06).
@@ -272,12 +272,12 @@ const quoteAt = st => (st === 'offline' ? 'saved 22:15' : st === 'error' ? 'Mon 
 function bTile(k, st, sm, noHold) {
   const s = SEG[k];
   let body;
-  if (k === 'metals') body = `<p class="un">${ic('ban', 's14')}Forecast unavailable</p><ol><li><span class="rk">–</span><span class="tk">Gold</span><b class="home-px">$2,684</b></li><li><span class="rk">–</span><span class="tk">Silver</span><b class="home-px">$31.72</b></li></ol><p class="tm">${sm ? 'Not ranked (SCI-D08)' : 'Not ranked until a valuation convention is set (SCI-D08).'}</p>`;
+  if (k === 'metals') body = `<p class="un">${ic('ban', 's14')}Forecast unavailable</p><ol><li><span class="rk">–</span><span class="tk">Gold</span><b class="home-px">$2,684</b></li><li><span class="rk">–</span><span class="tk">Silver</span><b class="home-px">$31.72</b></li></ol><p class="tm">${sm ? 'Not ranked (SCI-D08)' : 'Not ranked until their daily bar proves cover for a first month (OWN-26).'}</p>`;
   else if (st === 'empty') body = `<p class="tm">First list after the first daily run.</p>`;
   else if (st === 'noModel' && INDIA.includes(k)) body = `<p class="un">${ic('cube', 's14')}No approved model</p><p class="tm">Not ranked until one covers India at 3 to 12 months.</p>`;
   else body = tileRows(k, st, noHold);
   const [t, who] = k === 'metals' ? [] : PRICE[SEGP[k]];
-  const foot = k === 'metals' ? `<p class="tm">Quote ${quoteAt(st)} · Source open (SCI-D08)</p>` : st === 'empty' ? '' : `<p class="tm">${st === 'offline' ? 'Saved 22:15' : st === 'error' ? `Ranked 2 Nov · ${who} Mon ${t}` : `${who} ${t}`}</p>`;
+  const foot = k === 'metals' ? `<p class="tm">Quote ${quoteAt(st)} · Daily bar, cover unproven (OWN-26)</p>` : st === 'empty' ? '' : `<p class="tm">${st === 'offline' ? 'Saved 22:15' : st === 'error' ? `Ranked 2 Nov · ${who} Mon ${t}` : `${who} ${t}`}</p>`;
   return `<div class="segtile home-tile${st === 'loading' ? ' home-tdim' : ''}" style="--c:var(${s.c})" role="button" tabindex="0" data-mo="card"><span class="mk">${s.mk}</span><div class="tn">${s.name}</div>${body}${foot}</div>`;
 }
 const board = (ctx, sm) => `<div class="home-board${isWide(ctx) ? ' w4' : ''}${sm ? ' sm' : ''}">${ORDER.map(k => bTile(k, ctx.state, sm, ctx.nohold)).join('')}</div>`;
@@ -319,7 +319,7 @@ function segTable(k, st) {
   const nr = n => `<tr data-mo="rise"><td class="r">–</td><td>${nameBtn({ c: SEG[k].c, lg: n[2] }, n[0], byT[n[0]] ? 'You hold it' : 'Candidate')}</td><td><b style="font-weight:600">Not ranked</b></td><td class="home-n">${n[3]}</td><td class="home-n">${n[4]}</td><td class="home-n">${n[5]}</td><td colspan="2"><span class="muted">${n[6]}</span></td></tr>`;
   return `<table class="ht dk home-seg"><thead><tr><th class="r">#</th><th>Listing</th><th>Score</th><th class="home-n">Growth</th><th class="home-n">Protect.</th><th class="home-n">Opport.</th><th>6M, 80% range</th><th>Action</th></tr></thead><tbody>${list.map(tr).join('')}${list.length < 5 ? `<tr data-mo="rise"><td class="r">${list.length + 1}</td><td colspan="7"><span class="muted">${whyGap(k, st)}. Nothing is filled in.</span></td></tr>` : ''}${nrOf(k, st).map(nr).join('')}</tbody></table>`;
 }
-const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Source open (SCI-D08)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable: the valuation convention is open (SCI-D08). Neither metal is ranked, and nothing stands in for a score. Source open (SCI-D08).</span></div></div>`;
+const metalsCard = st => `<div class="card top5" data-mo="card"><div class="t5h" style="--c:var(--seg-metals)"><h4>Gold &amp; silver</h4><p>Spot quotes · no top 5 yet</p></div>${[['XAU/USD', 'Gold', '$2,684.20', -0.4, 'Au'], ['XAG/USD', 'Silver', '$31.72', 0.9, 'Ag']].map(([t, n, p, d, sym]) => `<div class="t5r" data-mo="rise" style="grid-template-columns:30px minmax(0,1fr) auto"><span class="logo sm" style="--c:var(--seg-metals)" aria-hidden="true">${sym}</span><div class="tt">${n}<span class="home-q">${t} · price only · quote ${quoteAt(st)} · Daily bar, cover unproven (OWN-26)</span></div><div style="text-align:right;font:600 15px/20px var(--font-text)">${p}<div style="font-size:13px;line-height:18px">${chg(d)}</div></div></div>`).join('')}<div class="t5foot" style="display:flex;gap:6px;align-items:flex-start">${ic('ban', 's14')}<span>Forecast unavailable until its daily bar proves cover for a first month (OWN-26). Neither metal is ranked, and nothing stands in for a score. Daily bar, cover unproven (OWN-26).</span></div></div>`;
 const indiaWait = () => stateCard('cube', 'No approved model', 'No approved model covers India yet, so this list is not ranked. A missing part is never zero, and prices and holdings still work.');
 /* US tech's own line in a state, in the same words on both options */
 const TECHSAY = { disagreement: { ustech: ['Apple dropped out.', 'The models split on it at 3 months, so it lost its growth and protection parts. It is not ranked, carries no action, and nothing fills the gap.'] }, abstention: { ustech: ['Apple dropped out.', 'It lost its growth and protection parts when the model abstained at 12 months, so it is not ranked, carries no action, and nothing fills the gap.'] } };
@@ -329,11 +329,11 @@ function segMain(ctx, k = 'ustech') {
   if (k === 'metals') return region(ctx, {
     what: 'Gold and silver', ok: metals,
     loading: () => banner('', 'Refreshing.', 'The last good quotes from 22:15 stay here until the refresh lands.', 'refresh') + dim(metals()),
-    empty: () => stateCard('grid', 'No top 5 yet', 'Gold and silver stay unranked until a valuation convention is set (SCI-D08). Nothing stands in for a list.') + metals(),
+    empty: () => stateCard('grid', 'No top 5 yet', 'Gold and silver stay unranked until their daily bar proves cover for a first month (OWN-26). Nothing stands in for a list.') + metals(),
     error: () => banner('fall', 'Prices did not refresh.', `${LASTGOOD_ALL}.`, 'alert') + `<div>${btn('Try again', 'tinted', 'refresh')}</div>` + metals(),
     stale: () => banner('warn', 'HSBC is stale.', `Gold and silver are not affected, and they stay unranked (SCI-D08). ${qLate}`, 'clock') + metals(),
     offline: () => banner('', 'Offline.', `Quotes from 22:15, saved on this device.${q12(ctx)}`, 'wifi-off') + metals(),
-    noModel: () => banner('', 'No model can cover these yet.', 'Gold and silver wait for a valuation convention (SCI-D08), so no forecast and no score exist.', 'cube') + metals()
+    noModel: () => banner('', 'No model can cover these yet.', 'Gold and silver have no forecast and no score until their daily bar proves cover for a first month (OWN-26).', 'cube') + metals()
   });
   const card = () => `<div class="card top5" data-mo="card">${segHead(k)}${isWide(ctx) ? segTable(k, st) : segPhone(k, st)}${rankFoot(k, st)}</div>`;
   const say = (icon, none) => { const b = (TECHSAY[st] || {})[k]; return (b ? banner('', b[0], b[1], icon) : banner('', none[0], none[1], icon)) + card(); };
@@ -352,7 +352,7 @@ function segMain(ctx, k = 'ustech') {
 }
 function segRail(ctx, k = 'ustech') {
   const st = ctx.state;
-  if (k === 'metals') return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Gold and silver clear only when you set a valuation instant, a source and a calendar for each spot quote (SCI-D08).</p></div>`;
+  if (k === 'metals') return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Gold and silver clear once each day's value, the provider's daily bar with its boundary recorded, proves cover for a first month ("Use the provider's daily bar", OWN-26).</p></div>`;
   if (st === 'empty') return rule();
   if (st === 'noModel' && INDIA.includes(k)) return `<div class="card home-card" data-mo="card"><h4>Why this list waits</h4><p class="home-sub">Growth and protection come from the 3, 6 and 12-month forecasts, so with no approved model neither exists. The list returns when one covers India.</p></div>${rule()}`;
   const r = rowsOf(k, st)[0], f = fcOf(r[0]), mine = held(r[0], st), actText = byT[r[0]] ? byT[r[0]].act : 'Watch';
@@ -575,7 +575,7 @@ J.add({
       id: 'a-segment', title: 'One segment', note: `What a tile opens: every name with its median, 80% range and price time. A not-ranked listing shows the parts it has; the withheld fifth place stays empty. ${EMPTY.lists}`,
       render: ctx => segFrame(ctx, 'ustech')
     }, ...OTHERS.map(k => ({
-      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? `Gold and silver have prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `What the ${SEG[k].name} tile opens. ${EMPTY.lists}`,
+      id: `a-seg-${k}`, title: `Segment: ${SEG[k].name}`, note: k === 'metals' ? `Gold and silver have prices and no list until their daily bar proves cover for a first month (OWN-26). ${EMPTY.metals}` : `What the ${SEG[k].name} tile opens. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => segFrame(ctx, k)
     })), {
@@ -621,7 +621,7 @@ J.add({
       id: 'b-top5', title: 'Top 5 in place', note: `The top 5 as it sits below the holdings on the ledger, here on its own, with eight segments as a picker, so the list changes under your thumb and you never leave home. Each name carries its median and 80% range. ${EMPTY.lists}`,
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: switcher(ctx) })
     }, ...OTHERS.map(k => ({
-      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? `The picker on Gold & silver: prices and no list until a valuation convention is set (SCI-D08). ${EMPTY.metals}` : `The picker on ${SEG[k].name}. ${EMPTY.lists}`,
+      id: `b-top5-${k}`, title: `Top 5: ${SEG[k].name}`, note: k === 'metals' ? `The picker on Gold & silver: prices and no list until their daily bar proves cover for a first month (OWN-26). ${EMPTY.metals}` : `The picker on ${SEG[k].name}. ${EMPTY.lists}`,
       ...(k === 'metals' ? { na: naMetals } : {}),
       render: ctx => frame(ctx, { tab: 0, title: 'Top 5', ...homeActs(ctx), body: `${k === 'metals' ? '<span class="home-wl"></span>' : ''}${switcher(ctx, k)}`, rail: k === 'metals' ? segRail(ctx, k) : '' })
     })), {

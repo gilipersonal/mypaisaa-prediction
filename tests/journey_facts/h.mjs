@@ -285,12 +285,13 @@ export default {
     each({ journey: 'forecast', screen: 'a-views', state: 'default' }, (v, at) => has(v.text, /Held 79% of 52 scored in walk-forward testing/, `${at.surface}: the model view`));
     each({ journey: 'home', screen: 'b-ledger', state: 'default', surface: WIDE }, (v, at) => has(v.text, /12 months Exploratory/, `${at.surface}: the 12-month column`));
   },
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R1-h16': ({ each, has, lacks }) => {
     each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: WIDE }, (v, at) => {
       for (const re of [/21:00 Twelve Data/, /16:35 Yahoo/, /14:10 Yahoo · late/, /10:00 Yahoo/]) has(v.text, re, `${at.surface}: ${re}`);
       lacks(v.text, /\s21:15 (Twelve Data|Yahoo)/, `${at.surface}: a row's price time is the run's`);
     });
-    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Proposed · DATA-DEC-02/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
+    each({ journey: 'home', screen: 'a-portfolio', state: 'default', surface: 'iphone' }, v => { has(v.text, /Late: last price 14:10 \(Yahoo\)/, 'HSBC is not late'); has(v.text, /Settled · OWN-07/, 'the limit is not labelled'); has(v.text, /7 of 7 priced/, 'Ready is not fully priced'); has(v.text, /84,612/, 'the total'); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'stale' }, (v, at) => {
       has(v.text, /84,051/, `${at.surface}: HSBC stays in the total`);
       has(v.text, /6 of 7 priced/, `${at.surface}: the count`);
@@ -452,13 +453,14 @@ export default {
     });
     each({ journey: 'forecast', option: 'b', screen: 'b-ladder', state: 'default', surface: 'web' }, (v) => has(v.text, /£13,864 to £19,619/, 'Apple keeps its own figures'));
   },
+  // narrowed in MP-192: the owner picked "Use the provider's daily bar" (OWN-26), so gold's rules wait for its daily bar to prove cover, not for a convention
   'R2-h10': ({ each, has, lacks }) => {
     for (const [o, screen] of [['a', 'a-proof'], ['a', 'a-views'], ['a', 'a-evidence'], ['b', 'b-forecast'], ['b', 'b-proof'], ['b', 'b-views'], ['b', 'b-evidence']]) each({ journey: 'forecast', option: o, screen, state: 'noModel' }, (v, at) => {
       has(v.html, /aria-label="Back to XAU\/USD"/, `${screen} ${at.surface}: back does not lead to gold`);
       lacks(v.text, /AAPL|Apple|No approved model at this horizon|Reads Hold|reading Hold|Rules only at 6 months|R2-HGB v3, heuristic/, `${screen} ${at.surface}: another subject in gold's No model`);
     });
     for (const [o, screen] of [['a', 'a-views'], ['b', 'b-views']]) each({ journey: 'forecast', option: o, screen, state: 'noModel' }, (v, at) => {
-      has(v.text, /Rules read nothing for gold without a valuation convention/, `${screen} ${at.surface}: the rules text`);
+      has(v.text, /Rules read nothing for gold until its daily bar proves cover for a first month/, `${screen} ${at.surface}: the rules text`); lacks(v.text, /without a valuation convention|valuation convention is open/, `${screen} ${at.surface}: a convention OWN-26 settled, still open`);
       has(v.text, /Claude stays off until credit is verified or you approve paid use, in Settings, with a fresh sign-in\./, `${screen} ${at.surface}: Claude off`);
     });
     for (const [o, screen] of [['a', 'a-evidence'], ['b', 'b-evidence']]) each({ journey: 'forecast', option: o, screen, state: 'noModel' }, (v, at) => has(v.text, /Watch-only: no position/, `${screen} ${at.surface}: gold is not held`));
@@ -520,11 +522,12 @@ export default {
     for (const state of ['disagreement', 'abstention']) must(view('home', 'b', 'b-top5-metals', 'iphone', state).na && view('home', 'a', 'a-seg-metals', 'iphone', state).na === view('home', 'b', 'b-top5-metals', 'iphone', state).na, `${state}: the two options do not both say it does not apply`);
     each({ journey: 'home', option: 'b', screen: 'b-top5-metals', state: 'empty' }, (v, at) => must(!/ranked after each daily/.test(v.text), `${at.surface}: metals are not ranked after a run`));
   },
+  // narrowed in MP-192: the owner picked "Use the provider's daily bar" (OWN-26), so the quote's source reads Daily bar, cover unproven, where it read Source open
   'R2-h14': ({ each, has }) => {
-    const want = { default: /quote 21:00 · Source open \(SCI-D08\)/, error: /quote Mon 21:00 · Source open \(SCI-D08\)/, offline: /quote saved 22:15 · Source open \(SCI-D08\)/ };   // narrowed in MP-186: saved after the US run lands, 22:15 (ADM-22)
+    const want = { default: /quote 21:00 · Daily bar, cover unproven \(OWN-26\)/, error: /quote Mon 21:00 · Daily bar, cover unproven \(OWN-26\)/, offline: /quote saved 22:15 · Daily bar, cover unproven \(OWN-26\)/ };   // narrowed in MP-186: saved after the US run lands, 22:15 (ADM-22)
     for (const [state, re] of Object.entries(want)) for (const [o, screen] of [['a', 'a-seg-metals'], ['b', 'b-top5-metals']]) each({ journey: 'home', option: o, screen, state }, (v, at) => has(v.text, re, `${screen} ${at.surface} ${state}: the row has no quote time`));
-    for (const state of STATES) each({ journey: 'home', option: 'a', screen: 'a-board', state }, (v, at) => has(v.text, /Quote [^·]+ · Source open \(SCI-D08\)/i, `${at.surface} ${state}: the tile has no quote time`));
-    each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'noModel' }, (v, at) => has(v.text, /Quote 21:00 · Source open \(SCI-D08\)/, `${at.surface}: gold's head`));
+    for (const state of STATES) each({ journey: 'home', option: 'a', screen: 'a-board', state }, (v, at) => has(v.text, /Quote [^·]+ · Daily bar, cover unproven \(OWN-26\)/i, `${at.surface} ${state}: the tile has no quote time`));
+    each({ journey: 'forecast', option: 'a', screen: 'a-instrument', state: 'noModel' }, (v, at) => has(v.text, /Quote 21:00 · Daily bar, cover unproven \(OWN-26\)/, `${at.surface}: gold's head`));
   },
   'R2-h15': ({ each, has, must }) => {
     each({ journey: 'forecast', option: 'b', screen: 'b-ladder', state: ['default', 'stale', 'disagreement', 'abstention'] }, (v, at) => {
@@ -686,18 +689,19 @@ export default {
     each({ journey: 'home', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.screen} ${at.surface}: Trim, with action thresholds unapproved`));
   },
   /* the late-price rule cites DATA-DEC-02 on every price use, on both sides of a flip. MP40-Q6 stays on billing and cost freshness only. */
+  // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6; "Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
   'R3-h-late': ({ each, view, has, lacks, must }) => {
     for (const journey of ['home', 'forecast']) each({ journey }, (v, at) => {
-      lacks(v.text.replace(/Billing 39 h old · Proposed · MP40-Q6/g, ''), /MP40-Q6/, `${at.screen} ${at.surface} ${at.state}: a price use cites the billing question`);
-      if (LATE_RULE.test(v.text)) has(v.text, /Proposed · DATA-DEC-02/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
+      lacks(v.text.replace(/Billing 39 h old · (?:Proposed|Settled) · MP40-Q6/g, ''), /MP40-Q6/, `${at.screen} ${at.surface} ${at.state}: a price use cites the billing question`);
+      if (LATE_RULE.test(v.text)) has(v.text, /Settled · OWN-07/, `${at.screen} ${at.surface} ${at.state}: states the rule, unlabelled: ${(v.text.match(LATE_RULE) || [])[0]}`);
     });
     // narrowed in MP-186: "Pill on every Home" (OWN-06) takes the row off Home. The pill states billing's age, as Cost's own Home always has, and no
-    // rule, so it carries no label; Cost, one tap on, states the 36-hour rule with Proposed · MP40-Q6 (R2-s6, the cost lanes' checks).
+    // rule, so it carries no label; Cost, one tap on, states the 36-hour rule with Settled · MP40-Q6 (R2-s6, the cost lanes' checks).
     for (const screen of ['a-portfolio', 'b-ledger']) each({ journey: 'home', screen, state: 'stale' }, (v, at) => has(v.text, /billing 39 h old/, `${screen} ${at.surface}: the pill drops billing's age`));
     for (const state of ['default', 'stale']) for (const journey of ['home', 'forecast']) each({ journey, state }, (v, at) => {
       for (const f of flips(v.html)) {
         const [, oo, ss] = f.split('|'), other = view(journey, oo, ss, at.surface, state);
-        if (/Proposed · DATA-DEC-02/.test(v.text) && LATE_RULE.test(other.text)) has(other.text, /Proposed · DATA-DEC-02/, `${at.screen} ${at.surface} ${state}: the label goes on the turn to ${ss}`);
+        if (/Settled · OWN-07/.test(v.text) && LATE_RULE.test(other.text)) has(other.text, /Settled · OWN-07/, `${at.screen} ${at.surface} ${state}: the label goes on the turn to ${ss}`);
       }
     });
   },

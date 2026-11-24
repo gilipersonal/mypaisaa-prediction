@@ -57,14 +57,6 @@
    "jira": "MP-198"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "e6657df2f2ea222f45ae689df927a6869e13cd4e4f23e4abca964aa6cdffa45f",
-   "published_at": "2026-11-24",
-   "jira": "MP-198"
-  },
-  {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
@@ -73,12 +65,20 @@
    "jira": "MP-199"
   },
   {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "02aed1db2359689f917d2f8a40f46a3c19a582def15411ccd0a7774b63eaa7c0",
+   "published_at": "2026-11-24",
+   "jira": "MP-192"
+  },
+  {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "600f45fbc44736b70a4a9d038d561f844a7c0d4aeab2d7a4ff8f46e725418a91",
+   "published_sha256": "5c50fcb53f60f18d7c3c16243ea7a72de94840405613e52a0700157b76bf8233",
    "published_at": "2026-11-24",
-   "jira": "MP-187"
+   "jira": "MP-192"
   }
  ]
 }

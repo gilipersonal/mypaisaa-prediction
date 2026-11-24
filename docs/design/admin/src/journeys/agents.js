@@ -118,7 +118,7 @@
   const HOLDS = () => list(rRow('Nightly explanations', 'Reserved at its worst case', '£0.34') + rRow('Event analysis, 17 Nov', 'Settled. The bill replaced the hold', '£0.22') + rRow('Top-5 batch, 14 Nov', 'Refused: £3.20 could cross the £5 cap', 'Refused'));
   const HOLDS_UNREAD = () => list(rRow('Nightly explanations', 'Reserved at its worst case', '£0.34') + rRow('Event analysis, 17 Nov', 'Settled figure not read', 'Unknown') + rRow('Top-5 batch, 14 Nov', 'Refused: £3.20 could cross the £5 cap', 'Refused'));
   const CAPS = () => box(`${lbl('Limits')}<div style="margin-top:8px">${kv([['Claude and evaluations', '£15 a month, shared across routes'], ['Admissible credit', 'Zero · credit unknown'], ['Opus', 'At most three analyses a day']])}</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">${proposed('ARC-06b-O3')}${proposed('CT-13')}</div>`);
-  const USAGE = () => tagged(proposed('MP40-Q5: Anthropic admin key'), 'Usage by route needs this key. Without it, that split shows unavailable, never zero.');
+  const USAGE = () => tagged(settled('MP40-Q5: Anthropic admin key'), 'Usage by route needs this key. Without it, that split shows unavailable, never zero.');
   const STATES = () => box(`${lbl('A reservation is one of')}<div class="aagents-chips">${['reserved', 'dispatched', 'ambiguous', 'settled', 'cancel_pending', 'released', 'refused'].map(PLAIN).join('')}</div><p class="small muted" style="margin-top:8px">Every call reserves its maximum cost before it starts, and reconciles once.</p>`);
   const toCost = () => `<div>${bs('Open Costs and budgets', 'tinted', 'target')}</div>`;
   const costState = ctx => region(ctx, {

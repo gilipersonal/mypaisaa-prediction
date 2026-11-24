@@ -253,12 +253,13 @@ export default {
     has(e, /3 decisions wait on you/); lacks(e, /4 decisions|Next: Taiwan Semiconductor/);
     has(view('home', 'a', 'a-home', 'web', 'conflict').text, /3 decisions wait on you/);
   },
+  // narrowed in MP-192: the owner picked "Code flags, you confirm" (ADM-05), so production recorded lost carries Settled · ADM-05 where it carried Proposed · CT-14
   'R4-f1': ({ view, must, has, lacks }) => {
     for (const k of ALL) {
       const v = view('home', 'b', 'b-home', k, 'conflict');
       has(tile(v, 'Incidents and recovery'), /production recorded lost/);
       lacks(tile(v, 'Incidents and recovery'), /last restore passed/);
-      has(v.html, /Production is recorded lost/); has(v.text, /Proposed · CT-14/);
+      has(v.html, /Production is recorded lost/); has(v.text, /Settled · ADM-05/); lacks(v.text, /Proposed · CT-14/);
     }
     for (const k of PHONES) { const h = view('home', 'b', 'b-home', k, 'conflict').html; must(h.indexOf('Production is recorded lost') < h.indexOf('ahome-grid'), `${k}: below the first view`); }
     lacks(view('home', 'b', 'b-home', 'web', 'default').text, /recorded lost/);

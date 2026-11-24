@@ -29,8 +29,8 @@
   const pad = ctx => (wide(ctx) ? '' : '<div style="height:44px" aria-hidden="true"></div>');
   const info = (label, icon = 'info') => `<button class="tbtn" type="button" aria-label="${label}">${ic(icon, 's24')}</button>`;
   const proposed = q => `<span class="chip proposed" data-mo="chip"><span class="dot"></span>Proposed · ${q}</span>`;
-  /* a price past the limit leaves the total and the reason shows (MP-65). The limit itself is open (DATA-DEC-02), so every screen that states it says so */
-  const LATE = proposed('DATA-DEC-02');
+  /* a price past the limit leaves the total and the reason shows (MP-65). The limits are settled ("Approve the proposed limits now", OWN-07), so every screen that states it says so */
+  const LATE = settled('OWN-07');
   /* the owner pressed "Both keep the five" (MP40-Q12c): a browser keeps the same saved copy, and any offline copy on web and phone web says how it is protected is unverified */
   const kept = ctx => (ctx.state === 'offline' && browser(ctx) ? browserKept() : '');
   /* when the US run failed, its last good run shows in full, so one screen never mixes two versions of a US figure (ADM-10) */

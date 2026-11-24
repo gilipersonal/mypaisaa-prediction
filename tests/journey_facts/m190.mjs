@@ -16,6 +16,8 @@ export const PAUSE = 'New optional paid work pauses, and each pause shows its re
 const OLD_BUDGET = /grants no tool, source, budget or permission/;
 // what the OPEN table says, read from the built page that draws it
 const openRows = (page) => { const src = readFileSync(page, 'utf8'); const m = src.match(/const OPEN = \[([\s\S]*?)\n\];/); return m ? m[1] : ''; };
+// narrowed in MP-192: an answered row moves from OPEN to SETTLED, "Settled by the owner", so the owner's answer is read from both tables together
+const settledRows = (page) => { const src = readFileSync(page, 'utf8'); const m = src.match(/const SETTLED = \[([\s\S]*?)\n\];/); return m ? m[1] : ''; };
 
 export default {
   // OWN-35, "Code may draft one" (not the Recommended option): a raise code drafted, with its cost and rollback, approved with a fresh sign-in, under £100.
@@ -165,8 +167,9 @@ export default {
 
   // The OPEN table no longer calls a settled question open, and each row quotes the label the owner chose.
   'MP190-open': ({ must }) => {
-    const rows = openRows(new URL('../../docs/design/journeys/index.html', import.meta.url).pathname);
-    must(rows.length > 1000, 'the OPEN table was not found on the built page');
+    const page = new URL('../../docs/design/journeys/index.html', import.meta.url).pathname, open = openRows(page), settled = settledRows(page), rows = `${open}\n${settled}`;
+    must(open.length > 1000, 'the OPEN table was not found on the built page');
+    must(settled.length > 1000, 'the SETTLED table was not found on the built page');
     for (const [q, want] of [
       ['Weekend brief \\(MP40-Q11\\)', /Settled, 5 Nov 2026 \("Weekdays only", MP40-Q11b\)/],
       ['Does revoking an approval need a fresh sign-in\\? \\(CT-01\\)', /Settled, 5 Nov 2026 \("An open session is enough", OWN-16\)/],
@@ -179,5 +182,7 @@ export default {
       ['Billing data and freshness \\(MP40-Q5, MP40-Q6\\)', /now also holds daily forecasts \(the owner, 5 Nov 2026: \\?"Yes, add them\\?"\)/]
     ]) must(new RegExp(`${q}[^\\n]*`).test(rows) && want.test(rows.match(new RegExp(`${q}[^\\n]*`))[0]), `the OPEN row "${q}" does not give the owner's answer`);
     must(!/'Not drawn\. The records conflict\.'|'No time is promised\.'\]|'Labelled proposed: fewer optional runs\.'/.test(rows), 'an OPEN row still reads open');
+    // MP-192: a question the picks answer whole has left OPEN
+    for (const q of ['Weekend brief \\(MP40-Q11\\)', 'Does revoking an approval need a fresh sign-in\\?', 'How long a risk alert cools down', 'May a budget be raised through an approval\\?', 'Which runs does a Reduce line cut\\?']) must(!new RegExp(q).test(open), `the answered row "${q}" is still in OPEN`);
   },
 };

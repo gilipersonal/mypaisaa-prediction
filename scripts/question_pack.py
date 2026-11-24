@@ -165,8 +165,11 @@ def selftest() -> int:
     first = next(i for i in good["items"] if i["status"] == "decide")
     fid = first["id"]
 
+    # an entry whose question is still on a page: ADM-04's row left OPEN when MP-192 moved answered rows to SETTLED
+    still = next(i["id"] for i in good["items"] if (i.get("asked") or {}).get("question") in src.values())
+
     def drop(p):
-        p["items"] = [i for i in p["items"] if i["id"] != "ADM-04"]
+        p["items"] = [i for i in p["items"] if i["id"] != still]
 
     def item(p, k=fid):
         return next(i for i in p["items"] if i["id"] == k)
