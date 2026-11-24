@@ -138,7 +138,7 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 
 | Piece | Choice | Status |
 | --- | --- | --- |
-| Tests | pytest **8.4.2**, httpx **0.28.1** | Implemented for the starter |
+| Tests | pytest **9.2.0**, pytest-asyncio **1.5.0**, httpx **0.28.1** | Implemented for the starter |
 | Lint | Ruff **0.17.3** | Implemented |
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
 | Code scanning | GitHub CodeQL, default setup: Python, JavaScript and TypeScript, GitHub Actions; a required check in `.github/main-protection.json` | Implemented (MP-198) |
