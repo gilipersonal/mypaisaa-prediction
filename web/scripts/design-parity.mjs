@@ -2,6 +2,7 @@
 //
 //   node scripts/design-parity.mjs [--only journal,track] [--surface web,pwa] [--state default,loading,empty,error,stale,offline]
 //        [--theme light,dark] [--port 4191 | --base URL] [--show N | --all]
+//   node scripts/design-parity.mjs --selftest --only journal --surface web    # proves the gate bites
 //
 // The design is the Journeys page (docs/design/journeys/index.html), drawn at its true size (no fit-to-page scaling).
 // Each pair names a design screen (journey, option, screen) and the app path built from it. Both are drawn at the
@@ -31,6 +32,14 @@ const THEMES = (opt('--theme', 'light')).split(',');
 const STATE_MAP = { default: 'ready', loading: 'loading', empty: 'empty', error: 'error', stale: 'stale', offline: 'offline' };
 const STATES = (opt('--state', 'default')).split(',');
 const SHOW = Number(opt('--show', '40'));
+/* --selftest: the gate proves it bites. One pair is measured clean (it must pass), then with a padding nudged by 1 px, a
+   colour changed and a line of text removed; each must fail, for its own reason. */
+const SELFTEST = args.includes('--selftest');
+const MUTATIONS = [
+  ['a padding 1 px off', 'differs', () => { const c = document.querySelector('main .card'); if (c) c.style.paddingLeft = `${parseFloat(getComputedStyle(c).paddingLeft) + 1}px`; return !!c; }],
+  ['a colour changed', 'differs', () => { const t = document.querySelector('main .card b, main .card h2, main .card h3'); if (t) t.style.color = 'rgb(1, 2, 3)'; return !!t; }],
+  ['a line removed', 'missing', () => { const t = [...document.querySelectorAll('main p')].find((e) => e.getBoundingClientRect().height > 0); t?.remove(); return !!t; }]
+];
 
 /**
  * The pairs, one file per screen group in tests/parity/*.json: [{ name, journey, option, screen, path }], where path is the
@@ -112,7 +121,9 @@ if (!GIVEN) {
   for (let i = 0; i < 100 && !up; i++) { try { up = (await fetch(BASE)).ok; } catch { await new Promise((r) => setTimeout(r, 150)); } }
   if (!up) { console.log(`FAIL the preview server did not start on ${PORT}`); try { process.kill(-server.pid); } catch {} process.exit(2); }
 }
-const browser = await chromium.launch({ channel: 'chrome' });
+// as the browser tests do: the installed Chrome locally, Playwright's own Chromium in CI (PW_CHANNEL overrides)
+const channel = process.env.PW_CHANNEL ?? (process.env.CI ? undefined : 'chrome');
+const browser = await chromium.launch(channel ? { channel } : {});
 let failed = 0;
 try {
   const html = readFileSync(join(web, '..', 'docs', 'design', 'journeys', 'index.html'), 'utf8');
@@ -162,6 +173,21 @@ try {
       if (!d.length || !a.length) { console.log(`FAIL ${where}: nothing measured (design ${d.length}, app ${a.length})`); failed++; continue; }
       const c = compare(d, a);
       const ok = !c.missing.length && !c.extra.length && !c.diffs.length;
+      if (SELFTEST) {
+        if (!ok) { console.log(`FAIL selftest: ${where} must pass clean before it is broken`); failed++; continue; }
+        for (const [what, kind, fn] of MUTATIONS) {
+          await ap.reload();
+          await ap.getByRole('heading', { level: 1 }).first().waitFor();
+          if (appState !== 'loading') await ap.waitForFunction(() => !document.querySelector('[aria-busy="true"]'));
+          await ap.waitForTimeout(150);
+          if (!await ap.evaluate(fn)) { console.log(`FAIL selftest: ${what}: nothing on ${where} to break`); failed++; continue; }
+          const m = compare(d, await ap.evaluate(MEASURE, { scope: null, originSel: null, dy: 0, skip: '.skip' }));
+          const bit = kind === 'missing' ? m.missing.length > 0 : m.diffs.length > 0;
+          console.log(`${bit ? 'PASS' : 'FAIL'} selftest: ${what} is refused (${m.missing.length} missing, ${m.diffs.length} differ)`);
+          if (!bit) failed++;
+        }
+        continue;
+      }
       if (!ok) failed++;
       console.log(`${ok ? 'PASS' : 'FAIL'} ${where}: ${d.length} design elements, ${c.matched} matched, ${c.missing.length} missing, ${c.extra.length} added, ${c.diffs.length} differ`);
       if (!ok && (args.includes('--all') || SHOW)) {

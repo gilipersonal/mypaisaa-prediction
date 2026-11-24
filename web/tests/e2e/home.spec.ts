@@ -4,7 +4,7 @@
 // rendered design; scripts/design-parity.mjs measures the page against the design element by element.
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import { signIn } from './helpers';
+import { signIn, overflowX } from './helpers';
 import { DATA_STATES, type DataState } from '../../src/lib/data/state';
 import {
   BRIEF, BROWSER_UNVERIFIED, EMPTY, LATE_RULE, LATER, LEGEND, ORDER, SUPPORT, designState, freshOf, noteOf, pillOf, rankLine
@@ -262,7 +262,7 @@ test.describe('accessibility and layout', () => {
         // Read in the next frame the browser paints. The design's two-column rule (home.css .jcols:has(.home-wl)) follows the
         // width through a media query listener, which updates the page before that frame is painted; reading straight
         // after the resize measured a layout no frame ever shows (1440 to 320 in one step).
-        const over = await page.evaluate(() => new Promise<number>((done) => requestAnimationFrame(() => done(document.documentElement.scrollWidth - document.documentElement.clientWidth))));
+        const over = await overflowX(page);
         expect(over, `${st} at ${w}px`).toBeLessThanOrEqual(0);
       }
     }

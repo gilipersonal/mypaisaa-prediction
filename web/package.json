@@ -19,7 +19,8 @@
     "sync": "svelte-kit sync",
     "check": "npm run assets && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings && tsc -p src/service-worker --noEmit && node scripts/prism-components.mjs --check",
     "test": "npm run assets && svelte-kit sync && vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "parity": "node scripts/design-parity.mjs --surface web,pwa --state default,loading,empty,error,stale,offline --theme light,dark --show 20"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.1",

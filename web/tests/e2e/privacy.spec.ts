@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { signIn } from './helpers';
+import { signIn, overflowX } from './helpers';
 
 // The privacy centre (MP-205, Privacy option A "One privacy centre", the screen privacy-a-centre).
 const wide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 1024;
@@ -8,6 +8,9 @@ const nav = (page: Page) => page.getByRole('navigation', { name: wide(page) ? 'P
 const hide = (page: Page) => page.getByRole('switch', { name: 'Hide amounts' });
 const SHOWN = '£90,155.25';
 const MASKED = '£••';
+// Home draws its value card for a desktop and for a phone and shows one; the figure is the design's roll, read as drawn
+const total = (page: Page) => page.getByTestId('total').filter({ visible: true }).first();
+const totalIs = (page: Page, want: string) => expect.poll(async () => (await total(page).innerText()).replace(/\s+/g, '')).toBe(want);
 
 async function openCentre(page: Page) {
   await page.goto('/settings/privacy');
@@ -35,7 +38,7 @@ test('Settings reaches the privacy centre, and the centre goes back to Settings'
 
 test('Hide amounts masks the sample total at once and after a reload, and pressing again shows it', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByTestId('total')).toHaveText(SHOWN);
+  await totalIs(page, SHOWN);
 
   // To the centre without a reload, so Portfolio's total is pressed on with the app already drawn (lesson 50).
   await nav(page).getByRole('link', { name: 'Settings', exact: true }).click();
@@ -53,12 +56,12 @@ test('Hide amounts masks the sample total at once and after a reload, and pressi
   expect(sent, 'the switch writes nothing to any server').toEqual([]);
 
   await toPortfolio(page);
-  await expect(page.getByTestId('total')).toHaveText(MASKED);
-  await expect(page.getByTestId('total').getByLabel('Amount hidden')).toBeVisible();
+  await totalIs(page, MASKED);
+  await expect(total(page).getByLabel('Amount hidden')).toBeVisible();
   await expect(page.getByText(SHOWN)).toHaveCount(0);
 
   await page.reload();
-  await expect(page.getByTestId('total')).toHaveText(MASKED);
+  await totalIs(page, MASKED);
 
   // After the reload, the switch reads the kept choice, and a second press shows amounts again.
   await openCentre(page);
@@ -69,9 +72,9 @@ test('Hide amounts masks the sample total at once and after a reload, and pressi
   await expect(page.getByText('Hide amounts masks money and units, and percentages stay.')).toBeVisible();
   expect(await page.evaluate(() => localStorage.getItem('mp-hide-amounts'))).toBeNull();
   await toPortfolio(page);
-  await expect(page.getByTestId('total')).toHaveText(SHOWN);
+  await totalIs(page, SHOWN);
   await page.reload();
-  await expect(page.getByTestId('total')).toHaveText(SHOWN);
+  await totalIs(page, SHOWN);
 });
 
 test('the switch works from the keyboard and keeps focus', async ({ page }) => {
@@ -142,7 +145,7 @@ test('the privacy centre and Settings never scroll sideways from 320 to 1440', a
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(label);
     for (let w = 320; w <= 1440; w += 8) {
       await page.setViewportSize({ width: w, height: 800 });
-      const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      const over = await overflowX(page);
       expect(over, `${path} at ${w}px`).toBeLessThanOrEqual(0);
     }
   }

@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { signIn } from './helpers';
+import { signIn, overflowX } from './helpers';
 
 // The decision journal, option A "Timeline", viewing only (MP-158, MP-205). Sample data, illustrative.
 const wide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 1024;
@@ -279,7 +279,7 @@ test.describe('accessibility and layout', () => {
       await open(page, path, title);
       for (let w = 320; w <= 1440; w += 8) {
         await page.setViewportSize({ width: w, height: 800 });
-        const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+        const over = await overflowX(page);
         expect(over, `${path} at ${w}px`).toBeLessThanOrEqual(0);
       }
     }

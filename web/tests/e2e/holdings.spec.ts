@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { signIn } from './helpers';
+import { signIn, overflowX } from './helpers';
 
 // Holdings, option A "Review desk" (MP-205): the list and one holding, viewing only, on sample data, drawn with the
 // design's own markup. On desktop the list is the design's table and one holding is titled "One holding"; on a phone the
@@ -314,7 +314,7 @@ test.describe('access and layout', () => {
         await page.setViewportSize({ width: w, height: 800 });
         // measured in the first frame drawn at the new width: the page switches between the table and the rows on the
         // resize, before that frame, so a width a person could see is a width measured
-        const o = await page.evaluate(() => new Promise<number>((done) => requestAnimationFrame(() => done(document.documentElement.scrollWidth - document.documentElement.clientWidth))));
+        const o = await overflowX(page);
         if (o > 0) over.push(w);
       }
       expect(over, path).toEqual([]);
