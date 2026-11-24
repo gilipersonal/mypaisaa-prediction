@@ -53,7 +53,7 @@ As checked on 2026-11-24 (MP-198), the repository is **public**, and both APIs a
 - One active ruleset, "main" (id 27945580, created 2026-11-23), holds the deletion and non-fast-forward rules, but its branch list is empty, so it applies to no branch; `gh api repos/gilipersonal/mypaisaa-prediction/rules/branches/main` returns no rules.
 - Code scanning: GitHub's CodeQL default setup is configured.
 
-The visibility change was not made by MP-198. This file had said the repository stays private, so whether public is intended is an open question for the owner.
+The visibility change was not made by MP-198. This file had said the repository stays private; the owner confirmed public on 2026-11-24: "Make the repo public, that is fine". As checked the same day, GitHub secret scanning and push protection are off on this repository and it holds no gitleaks configuration (mypaisa-agent has all three); MP-36 proposes the gitleaks CLI.
 
 **Server-side PR-only and required-check enforcement is not active.** Repository instructions and CI are in place; they do not prevent an administrator or another client from bypassing the process.
 

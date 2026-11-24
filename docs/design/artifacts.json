@@ -49,14 +49,6 @@
    "jira": "MP-64"
   },
   {
-   "slug": "ds-option-b-prism",
-   "source": "docs/design/prism/index.html",
-   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "53ba987ecf3909e9bec960beabd0221d9404cd1d14a728e155e5e8f36c1aa531",
-   "published_at": "2026-11-23",
-   "jira": "MP-188"
-  },
-  {
    "slug": "question-pack",
    "source": "docs/design/question-pack/index.html",
    "artifact_url": "https://claude.ai/artifact/5E3h9FVXwYQfYrwbLYCxfQ",
@@ -79,6 +71,14 @@
    "published_sha256": "3a22d523aa20924f1fa4405572ddc4cfa698b14acf4ce284f09d291ad3aa8e9d",
    "published_at": "2026-11-24",
    "jira": "MP-190"
+  },
+  {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "d1bd4a2b20a75a99ad2750ade6b71e0f9d18a478b8782446f5442932a291fad1",
+   "published_at": "2026-11-24",
+   "jira": "MP-198"
   }
  ]
 }
