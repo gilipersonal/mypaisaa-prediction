@@ -103,7 +103,7 @@ cannot change a number, publish a forecast, move money or trade.
 
 | Status | What |
 | --- | --- |
-| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, nine CI checks |
+| **Runs today** | FastAPI starter (`/api/v1/health` and a sample SSE stream), synthetic market and document fixtures, nine CI checks and CodeQL code scanning |
 | **Approved architecture** | The baseline's structure, the twelve directions (ARC-01 to ARC-12) as refined by the owner's later answers, the precedence order and the phase-to-story map (owner sign-off, 3 November 2026) |
 | **Owner-selected** | The horizons, twelve policy answers from 2 November 2026, and the answers of 2 and 3 November in the [decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md) |
 | **Draft** | Data, financial and forecast contracts, the phase and story baseline (PH-00 to PH-09), cost scenarios, the admin journeys |
@@ -197,7 +197,7 @@ python3 scripts/review_checks.py --base origin/main --run
 The first runs the backend gates. The second checks these three documents' links, the mark's SVGs and
 reduced-motion fallbacks, and every GIF's frames and still image. The third picks and runs the checks for whatever
 a branch changed. CI runs nine checks on every pull request (Backend, Docs, Review tooling, Agent config, Plan sync, Confluence
-receipts, Static preview, Workflow lint, Jira traceability). It deploys nothing.
+receipts, Static preview, Workflow lint, Jira traceability), and GitHub's CodeQL code scanning is a required check too. It deploys nothing.
 
 ## How work is done here
 

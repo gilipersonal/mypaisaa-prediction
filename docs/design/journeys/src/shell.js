@@ -177,6 +177,10 @@ function frame(ctx, spec) {
       <div class="jpane">${head}${cols}</div></div>${sheet}`;
 }
 
+/* A frame's horizon, mode and name come back from its data attributes or from storage. Only the code's own copy of each reaches the
+   HTML, so text written into the page or into storage never does (MP-198, CodeQL js/xss-through-dom). */
+const FRAME_HZ = ['0', '1', '2'], FRAME_MODE = ['0', '1'];
+const frameExtra = e => ({ hz: FRAME_HZ.find(x => x === String(e.hz)), mode: FRAME_MODE.find(x => x === String(e.mode)), t: (byT[e.t] || {}).t });
 /* ---------- the registry ---------- */
 const J = {
   /* J.add({ id, title, stories: ['MP-153'], summary, options: [{ id: 'a', name, rec: true, why, cost, screens: [{ id, title, note, na: { noModel: 'reason' }, render: ctx => frame(ctx, {...}) }] }] }) */
@@ -188,8 +192,9 @@ const J = {
     const i = sum.journeys.findIndex(j => j.id === hash[0]);
     if (i >= 0) sum.at.j = i;
     if (hash[1] === 'b') sum.at.o = 1;
-    if (SURFACES.some(s => s[0] === hash[2])) sum.at.s = hash[2];
-    if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
+    const surfAt = SURFACES.find(s => s[0] === hash[2]), stateAt = STATES.find(s => s[0] === hash[3]);   // the code's own ids, never the address bar's text (MP-198)
+    if (surfAt) sum.at.s = surfAt[0];
+    if (stateAt) sum.at.st = stateAt[0];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else show();
     /* a theme press, or the system's theme changing under Auto */
@@ -202,7 +207,7 @@ const J = {
   matrix() {
     return sum.journeys.flatMap(j => j.options.map(o => ({ j: j.id, o: o.id, screens: o.screens.map(s => ({ id: s.id, title: s.title, na: s.na || {} })) })));
   },
-  go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s, st }); show(); }
+  go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s: (SURFACES.find(x => x[0] === s) || [sum.at.s])[0], st: (STATES.find(x => x[0] === st) || [sum.at.st])[0] }); show(); }
 };
 window.__prismJourneys = J;
 window.__prismStates = STATES;
@@ -267,9 +272,12 @@ function show() {
   const sideOf = s => {
     const f = sum.flipped[slotKey(s)], base = { oid: o.id, sc: s };
     if (!f) return base;
-    if (f.st === sum.at.st) { const sc = screenOf(f.o, f.s); return sc ? { oid: f.o, sc } : base; }
-    const to = f.o === o.id ? null : flipTarget(j.id, s.id, sum.at.st), sc = to && screenOf(f.o, to);
-    return sc ? { oid: f.o, sc } : base;
+    /* a turn read back from storage names its side by the code's own ids, never by the stored text (MP-198) */
+    const side = j.options.find(x => x.id === f.o);
+    if (!side) return base;
+    if (f.st === sum.at.st) { const sc = screenOf(side.id, f.s); return sc ? { oid: side.id, sc } : base; }
+    const to = side.id === o.id ? null : flipTarget(j.id, s.id, sum.at.st), sc = to && screenOf(side.id, to);
+    return sc ? { oid: side.id, sc } : base;
   };
   const ctxFor = (oid, sc, extra = {}) => ({ kind: surf[0], state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme(), journey: j.id, option: oid, screen: sc.id, ...extra });
   const noteFor = sc => { const r = (sc.na || {})[sum.at.st]; return r ? `This state does not apply here: ${r}` : sc.note || ''; };
@@ -325,6 +333,7 @@ function show() {
     let to = screenOf(oo, ss);
     if (!to && back) { [, oo, ss] = b.dataset.flip.split('|'); extra = saved; to = screenOf(oo, ss); }   // a kept way back can name a screen since removed
     if (!to) return;
+    oo = j.options.find(x => x.id === oo).id; ss = to.id; extra = frameExtra(extra);   // from here on, the code's own ids and values (MP-198)
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
     flipsSave(key);

@@ -34,7 +34,7 @@ const stub = () => new Proxy(function () {}, {
 export function load(page) {
   if (!existsSync(page)) throw new Error(`no page at ${page}`);
   const html = readFileSync(page, 'utf8');
-  const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map((m) => m[1]).filter((s) => s.includes('J.start();'));
+  const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script\s*>/gi)].map((m) => m[1]).filter((s) => s.includes('J.start();'));
   if (scripts.length !== 1) throw new Error(`expected one journeys script in ${page}, found ${scripts.length}`);
   const src = scripts[0].replace('J.start();', 'globalThis.__J = J;');
   const sandbox = { console, setTimeout: () => 0, clearTimeout: () => 0, setInterval: () => 0, requestAnimationFrame: () => 0, cancelAnimationFrame: () => 0 };
@@ -53,7 +53,7 @@ export function load(page) {
 const ENT = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&nbsp;': ' ' };
 export const textOf = (html) => html
   .replace(/<svg[\s\S]*?<\/svg>/g, (m) => (m.match(/aria-label="([^"]*)"/) || [, ' '])[1] + ' ')
-  .replace(/<(style|script)[\s\S]*?<\/\1>/g, ' ')
+  .replace(/<(style|script)\b[\s\S]*?<\/\1\s*>/gi, ' ')
   .replace(/<[^>]+>/g, ' ')
   .replace(/&[a-z#0-9]+;/g, (e) => ENT[e] ?? ' ')
   .replace(/\s+/g, ' ').trim();

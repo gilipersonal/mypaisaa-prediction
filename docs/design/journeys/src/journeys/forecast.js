@@ -484,11 +484,13 @@ function rootMain(ctx, list) {
 /* a switch really switches: a press redraws this frame at the chosen horizon, mode or tab. It reads what the frame shows from
    data-at, so a turned frame stays turned, keeps its flip and acts on its own side; its own hz, mode and name stay on the frame. */
 const redraw = (scr, id, extra = {}) => {
-  const oid = scr.dataset.at.split('|')[1], s = J.all().find(j => j.id === 'forecast').options.find(o => o.id === oid).screens.find(x => x.id === id);
+  const side = J.all().find(j => j.id === 'forecast').options.find(o => o.id === scr.dataset.at.split('|')[1]), s = side && side.screens.find(x => x.id === id);
   if (!s) return;
-  Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${id}` });
+  const oid = side.id;   // the code's own ids and values reach the HTML, never the attributes' text (MP-198)
+  Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${s.id}` });
+  const f = frameExtra(scr.dataset);
   const na = (s.na || {})[sum.at.st], scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light', box = scr.closest('[data-slot]');
-  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: id, hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t });
+  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t });
   $$('svg.cx.inter', scr).forEach(wire);
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;

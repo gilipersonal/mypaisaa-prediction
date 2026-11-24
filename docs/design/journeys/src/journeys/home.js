@@ -94,7 +94,7 @@ function pTr(h, o = {}) {
 const noLabel = '<span class="small muted">No label</span>';
 const noneNR = (st, t) => ({ act: '<span class="small muted">None</span><div class="small muted" style="font-size:12px;line-height:16px">Not ranked</div>', actP: '<span class="small muted">None</span>', chip: `<span class="chip">${ic('ban', 's14')}Not ranked · no action</span><span class="home-sub">${NRWHY[st][t]}</span>` });
 const flagged = {
-  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
+  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flP: 'No approved model · no action', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
   disagreement: (t, hz) => (isOut('disagreement', t, hz) ? { split: true, chip: `<span class="chip">${ic('split', 's14')}${t === 'RELIANCE' ? 'Rules and models disagree' : 'Models split'} · no action</span>`, flS: 'Split', flT: t === 'RELIANCE' ? 'Disagree · no action' : 'Split · no action', act: '<span class="small muted">None</span>' } : unranked('disagreement', t) ? noneNR('disagreement', t) : {}),
   abstention: (t, hz) => (isOut('abstention', t, hz) ? { fl: `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`, flS: 'Abstained', flT: 'Abstained · no range', act: '<span class="small muted">None</span>' } : unranked('abstention', t) ? noneNR('abstention', t) : {})
 };
@@ -445,7 +445,7 @@ const ldgr3 = (h, m, st) => {
     return `<td class="r"><div style="color:var(--fc-ink);font-weight:600">${pct(c.med)}</div>${small(fig)}</td>`;
   };
   const blank = t => `<td class="r" colspan="3"><span class="small">${t}</span></td>`;
-  return `<tr data-mo="rise"><td>${nameBtn(h, h.n, `${h.t} · ${CCY[h.v]}`)}</td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${flag ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}${s.t}</span>` : chg(h.day)}</td>${st === 'noModel' && m.flS !== undefined ? blank(m.fl.replace(/<[^>]+>/g, '') || m.flS) : cell(0) + cell(1) + cell(2)}<td>${m.act !== undefined ? m.act : badge(h.act)}</td><td>${dataCell(h, st)}</td></tr>`;
+  return `<tr data-mo="rise"><td>${nameBtn(h, h.n, `${h.t} · ${CCY[h.v]}`)}</td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${flag ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}${s.t}</span>` : chg(h.day)}</td>${st === 'noModel' && m.flS !== undefined ? blank(m.flP || m.flS) : cell(0) + cell(1) + cell(2)}<td>${m.act !== undefined ? m.act : badge(h.act)}</td><td>${dataCell(h, st)}</td></tr>`;
 };
 function ledgerFull(ctx) {
   return `<div class="card" data-mo="card"><table class="ht dk"><thead><tr><th>Instrument</th><th class="r">Value</th><th class="r">${ctx.state === 'error' ? 'Monday' : 'Today'}</th><th class="r">3 months</th><th class="r">6 months</th><th class="r">12 months<br>Exploratory</th><th>Action, ${HZ[ctx.hz ?? 1].s}</th><th>Data</th></tr></thead><tbody>${H.map(h => ldgr3(h, mods(ctx, h.t), ctx.state)).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
@@ -506,11 +506,11 @@ function explorer(ctx) {
 doc.addEventListener('segchange', e => {
   const g = e.target, scr = g.closest && g.closest('.scr'), [jid, oid, id] = ((scr && scr.dataset.at) || '').split('|');
   if (jid !== 'home' || g.getAttribute('aria-label') !== 'Forecast horizon') return;
-  const s = J.all().find(j => j.id === 'home').options.find(o => o.id === oid).screens.find(x => x.id === id);
+  const side = J.all().find(j => j.id === 'home').options.find(o => o.id === oid), s = side && side.screens.find(x => x.id === id);
   if (!s) return;
   scr.dataset.hz = e.detail;
   const box = scr.closest('[data-slot]'), cap = box && $('.bcap', box), title = s.titleFor ? s.titleFor(scr.dataset) : s.title, scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light';
-  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: oid, screen: id, hz: e.detail });
+  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz });
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
   if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;

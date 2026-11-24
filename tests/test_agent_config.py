@@ -39,7 +39,7 @@ class AgentConfigTests(unittest.TestCase):
         for rel in (".codex/hooks.json", ".codex/review-policy.json", ".codex/review-document-baseline.json"):
             self.write(rel, "{}")
         self.write(".github/main-protection.json",
-                   json.dumps({"required_status_checks": {"contexts": ["Backend", "Jira traceability"]}}))
+                   json.dumps({"required_status_checks": {"contexts": ["Backend", "Jira traceability", "CodeQL"]}}))
         self.write(".github/workflows/verify.yml", VERIFY)
         self.write(".github/workflows/jira-key.yml", JIRA)
 
@@ -73,8 +73,17 @@ class AgentConfigTests(unittest.TestCase):
 
     def test_protection_must_name_exactly_the_workflow_jobs(self):
         self.write(".github/main-protection.json",
-                   json.dumps({"required_status_checks": {"contexts": ["Backend", "Codex tooling"]}}))
+                   json.dumps({"required_status_checks": {"contexts": ["Backend", "Codex tooling", "CodeQL"]}}))
         self.assertIn("but the workflows define", " ".join(config.check(self.root)))
+
+    def test_codeql_comes_from_code_scanning_not_a_workflow(self):
+        # MP-198: CodeQL is required, but no workflow job defines it, and that must not read as a mismatch
+        self.assertNotIn("but the workflows define", " ".join(config.check(self.root)))
+
+    def test_codeql_must_stay_required(self):
+        self.write(".github/main-protection.json",
+                   json.dumps({"required_status_checks": {"contexts": ["Backend", "Jira traceability"]}}))
+        self.assertIn("CodeQL must stay required", " ".join(config.check(self.root)))
 
     def test_step_names_are_not_mistaken_for_jobs(self):
         self.assertNotIn("Test backend", " ".join(config.check(self.root)))

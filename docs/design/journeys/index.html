@@ -2180,6 +2180,10 @@ function frame(ctx, spec) {
       <div class="jpane">${head}${cols}</div></div>${sheet}`;
 }
 
+/* A frame's horizon, mode and name come back from its data attributes or from storage. Only the code's own copy of each reaches the
+   HTML, so text written into the page or into storage never does (MP-198, CodeQL js/xss-through-dom). */
+const FRAME_HZ = ['0', '1', '2'], FRAME_MODE = ['0', '1'];
+const frameExtra = e => ({ hz: FRAME_HZ.find(x => x === String(e.hz)), mode: FRAME_MODE.find(x => x === String(e.mode)), t: (byT[e.t] || {}).t });
 /* ---------- the registry ---------- */
 const J = {
   /* J.add({ id, title, stories: ['MP-153'], summary, options: [{ id: 'a', name, rec: true, why, cost, screens: [{ id, title, note, na: { noModel: 'reason' }, render: ctx => frame(ctx, {...}) }] }] }) */
@@ -2191,8 +2195,9 @@ const J = {
     const i = sum.journeys.findIndex(j => j.id === hash[0]);
     if (i >= 0) sum.at.j = i;
     if (hash[1] === 'b') sum.at.o = 1;
-    if (SURFACES.some(s => s[0] === hash[2])) sum.at.s = hash[2];
-    if (STATES.some(s => s[0] === hash[3])) sum.at.st = hash[3];
+    const surfAt = SURFACES.find(s => s[0] === hash[2]), stateAt = STATES.find(s => s[0] === hash[3]);   // the code's own ids, never the address bar's text (MP-198)
+    if (surfAt) sum.at.s = surfAt[0];
+    if (stateAt) sum.at.st = stateAt[0];
     buildToc();
     if (hash[0] === 'inventory') showInventory(); else show();
     /* a theme press, or the system's theme changing under Auto */
@@ -2205,7 +2210,7 @@ const J = {
   matrix() {
     return sum.journeys.flatMap(j => j.options.map(o => ({ j: j.id, o: o.id, screens: o.screens.map(s => ({ id: s.id, title: s.title, na: s.na || {} })) })));
   },
-  go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s, st }); show(); }
+  go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s: (SURFACES.find(x => x[0] === s) || [sum.at.s])[0], st: (STATES.find(x => x[0] === st) || [sum.at.st])[0] }); show(); }
 };
 window.__prismJourneys = J;
 window.__prismStates = STATES;
@@ -2270,9 +2275,12 @@ function show() {
   const sideOf = s => {
     const f = sum.flipped[slotKey(s)], base = { oid: o.id, sc: s };
     if (!f) return base;
-    if (f.st === sum.at.st) { const sc = screenOf(f.o, f.s); return sc ? { oid: f.o, sc } : base; }
-    const to = f.o === o.id ? null : flipTarget(j.id, s.id, sum.at.st), sc = to && screenOf(f.o, to);
-    return sc ? { oid: f.o, sc } : base;
+    /* a turn read back from storage names its side by the code's own ids, never by the stored text (MP-198) */
+    const side = j.options.find(x => x.id === f.o);
+    if (!side) return base;
+    if (f.st === sum.at.st) { const sc = screenOf(side.id, f.s); return sc ? { oid: side.id, sc } : base; }
+    const to = side.id === o.id ? null : flipTarget(j.id, s.id, sum.at.st), sc = to && screenOf(side.id, to);
+    return sc ? { oid: side.id, sc } : base;
   };
   const ctxFor = (oid, sc, extra = {}) => ({ kind: surf[0], state: (sc.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme: scheme(), journey: j.id, option: oid, screen: sc.id, ...extra });
   const noteFor = sc => { const r = (sc.na || {})[sum.at.st]; return r ? `This state does not apply here: ${r}` : sc.note || ''; };
@@ -2328,6 +2336,7 @@ function show() {
     let to = screenOf(oo, ss);
     if (!to && back) { [, oo, ss] = b.dataset.flip.split('|'); extra = saved; to = screenOf(oo, ss); }   // a kept way back can name a screen since removed
     if (!to) return;
+    oo = j.options.find(x => x.id === oo).id; ss = to.id; extra = frameExtra(extra);   // from here on, the code's own ids and values (MP-198)
     if (oo === o.id && ss === s.id) delete sum.flipped[key];
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
     flipsSave(key);
@@ -2518,7 +2527,7 @@ function pTr(h, o = {}) {
 const noLabel = '<span class="small muted">No label</span>';
 const noneNR = (st, t) => ({ act: '<span class="small muted">None</span><div class="small muted" style="font-size:12px;line-height:16px">Not ranked</div>', actP: '<span class="small muted">None</span>', chip: `<span class="chip">${ic('ban', 's14')}Not ranked · no action</span><span class="home-sub">${NRWHY[st][t]}</span>` });
 const flagged = {
-  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
+  noModel: t => (t === 'RELIANCE' || t === 'NIFTYBEES' ? { fl: '<span class="chip proposed"><span class="dot"></span>No approved model · no action</span>', flP: 'No approved model · no action', flS: 'No model', flT: 'No model · no action', act: '<span class="small muted">None</span>' } : t === 'NVDA' ? { act: noLabel } : {}),
   disagreement: (t, hz) => (isOut('disagreement', t, hz) ? { split: true, chip: `<span class="chip">${ic('split', 's14')}${t === 'RELIANCE' ? 'Rules and models disagree' : 'Models split'} · no action</span>`, flS: 'Split', flT: t === 'RELIANCE' ? 'Disagree · no action' : 'Split · no action', act: '<span class="small muted">None</span>' } : unranked('disagreement', t) ? noneNR('disagreement', t) : {}),
   abstention: (t, hz) => (isOut('abstention', t, hz) ? { fl: `<span class="chip">${ic('ban', 's14')}Abstained · no range shown</span>`, flS: 'Abstained', flT: 'Abstained · no range', act: '<span class="small muted">None</span>' } : unranked('abstention', t) ? noneNR('abstention', t) : {})
 };
@@ -2869,7 +2878,7 @@ const ldgr3 = (h, m, st) => {
     return `<td class="r"><div style="color:var(--fc-ink);font-weight:600">${pct(c.med)}</div>${small(fig)}</td>`;
   };
   const blank = t => `<td class="r" colspan="3"><span class="small">${t}</span></td>`;
-  return `<tr data-mo="rise"><td>${nameBtn(h, h.n, `${h.t} · ${CCY[h.v]}`)}</td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${flag ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}${s.t}</span>` : chg(h.day)}</td>${st === 'noModel' && m.flS !== undefined ? blank(m.fl.replace(/<[^>]+>/g, '') || m.flS) : cell(0) + cell(1) + cell(2)}<td>${m.act !== undefined ? m.act : badge(h.act)}</td><td>${dataCell(h, st)}</td></tr>`;
+  return `<tr data-mo="rise"><td>${nameBtn(h, h.n, `${h.t} · ${CCY[h.v]}`)}</td><td class="r" style="font-weight:600">£${h.val}</td><td class="r">${flag ? `<span class="chg" style="color:var(--warn)">${ic('clock', 's14')}${s.t}</span>` : chg(h.day)}</td>${st === 'noModel' && m.flS !== undefined ? blank(m.flP || m.flS) : cell(0) + cell(1) + cell(2)}<td>${m.act !== undefined ? m.act : badge(h.act)}</td><td>${dataCell(h, st)}</td></tr>`;
 };
 function ledgerFull(ctx) {
   return `<div class="card" data-mo="card"><table class="ht dk"><thead><tr><th>Instrument</th><th class="r">Value</th><th class="r">${ctx.state === 'error' ? 'Monday' : 'Today'}</th><th class="r">3 months</th><th class="r">6 months</th><th class="r">12 months<br>Exploratory</th><th>Action, ${HZ[ctx.hz ?? 1].s}</th><th>Data</th></tr></thead><tbody>${H.map(h => ldgr3(h, mods(ctx, h.t), ctx.state)).join('')}</tbody></table>${lateFoot(ctx.state)}</div>`;
@@ -2930,11 +2939,11 @@ function explorer(ctx) {
 doc.addEventListener('segchange', e => {
   const g = e.target, scr = g.closest && g.closest('.scr'), [jid, oid, id] = ((scr && scr.dataset.at) || '').split('|');
   if (jid !== 'home' || g.getAttribute('aria-label') !== 'Forecast horizon') return;
-  const s = J.all().find(j => j.id === 'home').options.find(o => o.id === oid).screens.find(x => x.id === id);
+  const side = J.all().find(j => j.id === 'home').options.find(o => o.id === oid), s = side && side.screens.find(x => x.id === id);
   if (!s) return;
   scr.dataset.hz = e.detail;
   const box = scr.closest('[data-slot]'), cap = box && $('.bcap', box), title = s.titleFor ? s.titleFor(scr.dataset) : s.title, scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light';
-  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: oid, screen: id, hz: e.detail });
+  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz });
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
   if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;
@@ -4339,11 +4348,13 @@ function rootMain(ctx, list) {
 /* a switch really switches: a press redraws this frame at the chosen horizon, mode or tab. It reads what the frame shows from
    data-at, so a turned frame stays turned, keeps its flip and acts on its own side; its own hz, mode and name stay on the frame. */
 const redraw = (scr, id, extra = {}) => {
-  const oid = scr.dataset.at.split('|')[1], s = J.all().find(j => j.id === 'forecast').options.find(o => o.id === oid).screens.find(x => x.id === id);
+  const side = J.all().find(j => j.id === 'forecast').options.find(o => o.id === scr.dataset.at.split('|')[1]), s = side && side.screens.find(x => x.id === id);
   if (!s) return;
-  Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${id}` });
+  const oid = side.id;   // the code's own ids and values reach the HTML, never the attributes' text (MP-198)
+  Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${s.id}` });
+  const f = frameExtra(scr.dataset);
   const na = (s.na || {})[sum.at.st], scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light', box = scr.closest('[data-slot]');
-  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: id, hz: scr.dataset.hz, mode: scr.dataset.mode, t: scr.dataset.t });
+  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t });
   $$('svg.cx.inter', scr).forEach(wire);
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;
