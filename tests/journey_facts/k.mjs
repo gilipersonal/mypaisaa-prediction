@@ -1,7 +1,8 @@
 // MP-191: the owner's pick on the journal, proved on the rendered Journal screens.
 // OWN-15, "Any time evidence shows": "You can save an entry against the evidence on screen whenever no action is ranked, and the entry records why none was."
 const SURFACES = ['iphone', 'ipad', 'web', 'pwa'];
-const NONE = { empty: /no label: the thresholds that turn a score into an action are not approved/, noModel: /no approved model covered it/, abstention: /the model abstained at 6 months, so there was no range/, disagreement: /rules and models differ at 3, 6 and 12 months/ };
+// narrowed in MP-194: No model's record is on Reliance, India's case (OWN-30), so its reason names India
+const NONE = { empty: /no label: the thresholds that turn a score into an action are not approved/, noModel: /no approved model covered India/, abstention: /the model abstained at 6 months, so there was no range/, disagreement: /rules and models differ at 3, 6 and 12 months/ };
 // every button a screen draws, with whether it can be pressed
 const live = (html, label) => [...html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)].some((m) => !/\bdisabled\b/.test(m[1]) && m[2].replace(/<[^>]+>/g, ' ').includes(label));
 export default {

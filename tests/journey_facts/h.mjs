@@ -505,12 +505,15 @@ export default {
       each({ journey: 'home', option: o, screen, state: 'disagreement' }, (v, at) => has(v.text, /Apple dropped out\. The models split on it at 3 months/, `${screen} ${at.surface}: the list`));
     }
   },
+  // narrowed in MP-194: OWN-30 (not a pick for the owner) moves the unclassified case out of No model, whose subject is India. No model's sheet
+  // opens Reliance with India's reason, and NVIDIA keeps its Trim there like every covered row, so the No model lines check that instead.
+  // The unclassified case is held on the launch screens and the journal's Empty state (MP194-launch-only).
   'R2-h12': ({ each, has, lacks }) => {
-    each({ journey: 'home', option: 'a', screen: 'a-action', state: 'noModel' }, (v, at) => { has(v.text, /no label, rather than a guess/, `${at.surface}: the sheet`); lacks(v.html, /b-trim/, `${at.surface}: Trim behind the sheet`); has(v.text, /No label/, `${at.surface}: the row`); });
+    each({ journey: 'home', option: 'a', screen: 'a-action', state: 'noModel' }, (v, at) => { has(v.text, /No approved model covers India yet, so Reliance has no range and no action/, `${at.surface}: the sheet`); lacks(v.text, /rather than a guess|Unclassified|No label/, `${at.surface}: the unclassified case in No model`); });
     each({ journey: 'home', option: 'a', screen: 'a-action', state: 'empty' }, (v, at) => { has(v.text, /Nothing is suggested for NVIDIA today/, `${at.surface}: the sheet`); lacks(v.html, /b-trim/, `${at.surface}: Trim behind the sheet`); });
-    each({ journey: 'home', option: 'b', screen: 'b-open', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.surface}: Trim beside the unclassified sheet`));
+    each({ journey: 'home', option: 'b', screen: 'b-open', state: 'noModel' }, (v, at) => lacks(v.text, /Unclassified|rather than a guess/, `${at.surface}: the unclassified sheet in No model`));
     each({ journey: 'home', option: 'b', screen: 'b-open', state: 'empty' }, (v, at) => { has(v.text, /No holdings yet/, `${at.surface}: the empty ledger`); lacks(v.text, /NVIDIA/, `${at.surface}: a sheet with no holdings`); });
-    for (const [o, screen] of [['a', 'a-portfolio'], ['b', 'b-ledger'], ['a', 'a-brief'], ['b', 'b-brief']]) each({ journey: 'home', option: o, screen, state: 'noModel' }, (v, at) => { has(v.text, /No label/, `${screen} ${at.surface}: the row`); lacks(v.html, /b-trim/, `${screen} ${at.surface}: Trim on a row the sheet calls unclassified`); });
+    for (const [o, screen] of [['a', 'a-portfolio'], ['b', 'b-ledger'], ['a', 'a-brief'], ['b', 'b-brief']]) each({ journey: 'home', option: o, screen, state: 'noModel' }, (v, at) => lacks(v.text, /No label/, `${screen} ${at.surface}: a row the sheet calls unclassified`));
   },
   'R2-h13': ({ each, view, has, must }) => {
     // narrowed in MP-186: the last good and saved figures are from 22:15, when the US run lands, and only the US run failed (ADM-10, ADM-22)
@@ -685,8 +688,10 @@ export default {
     each({ journey: 'home', screen: 'a-portfolio', state: 'abstention' }, (v, at) => { has(v.text, /Two holdings abstained\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 abstentions/, `${at.surface}: the pill counts another figure`); });
     each({ journey: 'home', screen: 'a-portfolio', state: 'disagreement' }, (v, at) => { has(v.text, /Two holdings are split\./, `${at.surface}: the holdings`); has(v.text, /3 actions · 2 conflicts/, `${at.surface}: the pill counts another figure`); });
   },
+  // narrowed in MP-194: OWN-30 takes the unclassified case out of No model, so NVIDIA's Trim stands there like every covered row. Unapproved
+  // thresholds are drawn only on the launch screens, which still carry no Trim in No model; India's rows carry none (MP194-india).
   'R3-h10': ({ each, lacks }) => {
-    each({ journey: 'home', state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.screen} ${at.surface}: Trim, with action thresholds unapproved`));
+    for (const screen of ['a-launch', 'b-launch']) each({ journey: 'home', screen, state: 'noModel' }, (v, at) => lacks(v.html, /b-trim/, `${at.screen} ${at.surface}: Trim, with action thresholds unapproved`));
   },
   /* the late-price rule cites DATA-DEC-02 on every price use, on both sides of a flip. MP40-Q6 stays on billing and cost freshness only. */
   // narrowed in MP-192: the owner's picks settle these rules ("Approve all three", MP40-Q6; "Approve the proposed limits now", OWN-07), so the label reads Settled with the pick's id, beside the same fact
