@@ -512,7 +512,7 @@ doc.addEventListener('segchange', e => {
   if (!s) return;
   scr.dataset.hz = e.detail;
   const box = scr.closest('[data-slot]'), cap = box && $('.bcap', box), title = s.titleFor ? s.titleFor(scr.dataset) : s.title, scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light';
-  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz });
+  scr.innerHTML = markControls(s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz }), 'home');
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
   if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;

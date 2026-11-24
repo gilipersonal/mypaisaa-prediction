@@ -49,22 +49,6 @@
    "jira": "MP-203"
   },
   {
-   "slug": "ds-admin",
-   "source": "docs/design/admin/index.html",
-   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "a49db0cb85c8a1c06548adc4eea05250caefb842a080043af81f2b91506d8082",
-   "published_at": "2026-11-24",
-   "jira": "MP-203"
-  },
-  {
-   "slug": "ds-journeys",
-   "source": "docs/design/journeys/index.html",
-   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "16cc0a53fa4d7b166b56d55393921b88974eece1086ec0f2b18e58a41f98695f",
-   "published_at": "2026-11-24",
-   "jira": "MP-203"
-  },
-  {
    "slug": "architecture-explainer",
    "source": "docs/architecture-explainer/index.html",
    "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
@@ -79,6 +63,22 @@
    "published_sha256": "bc1d6ce49473122d3da4aa2654b7ca02db6c766246deceac9e3e5469df4d4950",
    "published_at": "2026-11-24",
    "jira": "MP-203"
+  },
+  {
+   "slug": "ds-journeys",
+   "source": "docs/design/journeys/index.html",
+   "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
+   "published_sha256": "3d91c5323f0e17c6e44a0901421fafa8aa0da1dcfd799f4753ce5d5d4a30b8d5",
+   "published_at": "2026-11-24",
+   "jira": "MP-193"
+  },
+  {
+   "slug": "ds-admin",
+   "source": "docs/design/admin/index.html",
+   "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
+   "published_sha256": "28a110521edc75a574cab042dc10e58155b13551b01e2f9db4970c3a5979043c",
+   "published_at": "2026-11-24",
+   "jira": "MP-193"
   }
  ]
 }

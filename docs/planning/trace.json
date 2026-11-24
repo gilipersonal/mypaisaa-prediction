@@ -2071,9 +2071,23 @@
    "key": "MP-193",
    "summary": "Settle the audit's dead controls and combined states before UX approval",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/",
+    "docs/design/admin/",
+    "docs/design/reviews/MP-193/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/m193.mjs",
+    "tests/journey_facts/m193c.mjs",
+    "tests/admin_facts/m193.mjs",
+    "scripts/design_journeys_facts.mjs",
+    "scripts/design_admin_press.mjs",
+    "scripts/design_combos_press.mjs",
+    "scripts/review_checks.py",
+    ".claude/launch.json",
+    "docs/planning/trace.json"
+   ]
   },
   {
    "key": "MP-194",

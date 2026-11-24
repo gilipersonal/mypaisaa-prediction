@@ -21,6 +21,15 @@ Admin journeys are MP-64, not here. Nothing here is product code: UX is not appr
 builds a partial page for one designer's preview. `node scripts/design_journeys_check.mjs PAGE [--only home]` walks every
 journey, option, device, state and theme.
 
+## What works, and combined conditions (MP-193)
+
+Every control a screen draws is marked as it is drawn on the page (`markControls` in `src/shell.js`): **works here** (a flip,
+the horizon, detail and dossier switches, a ladder row), an **illustration** (drawn, does nothing here) or **not allowed here**
+(disabled, and the screen says why). **Mark what works**, under State, outlines them; a screen reader hears the kind. A new
+control that really works carries `data-flip`, `data-dossier` or `data-go`, or sits in a switch listed in `WORKING_SEGS`.
+**Combined conditions**, in the journey list, draws risky pairs on the Approvals screens (`COMBOS` in `src/shell.js`); see
+`../reviews/MP-193/README.md`. `node scripts/design_combos_press.mjs` presses it.
+
 ## A journey
 
 ```js

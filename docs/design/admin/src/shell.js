@@ -24,6 +24,29 @@ function refused(id, text) {
   if (!PERMS.refused.some(r => r.id === id)) throw new Error(`no refused act ${id} in permissions.json`);
   return `<div class="arefuse" data-refuse="${id}">${ic('ban', 's18')}<span>${text}</span></div>`;
 }
+/* ---------- Which drawn controls work (MP-193, the audit's UX-02) ----------
+   Every control on a screen is one of three kinds, marked as the screen is drawn on this page:
+   work: it does something here (a flip, a switch that redraws, a row that opens, a place that opens its journey);
+   illus: an illustration, a control the product will have that does nothing on this page;
+   policy: not allowed here, drawn disabled, and the screen says why.
+   A screen reader hears the kind, and "Mark what works" outlines them. The screens' own drawings do not change. */
+const WORKING_SEGS = {};
+const CONTROL = /^(button)$|role="(button|switch|link|tab|checkbox|radio|menuitem)"/;
+function markControls(html, journey) {
+  const segs = WORKING_SEGS[journey] || [];
+  if (segs.length) html = html.replace(/(<div class="segctl[^"]*" role="group" aria-label="([^"]*)"[^>]*>)([\s\S]*?)(<\/div>)/g,
+    (m, open, label, inner, close) => (segs.includes(label) ? open + inner.replace(/<button(?![\w-])/g, '<button data-ctl="work"') + close : m));
+  return html.replace(/<(button|div|span|a|li)(?![\w-])([^>]*)>/g, (m, tag, attrs) => {
+    if (/\sdata-ctl=/.test(attrs) || !(tag === 'button' || CONTROL.test(attrs))) return m;
+    const kind = /\sdata-(flip|dossier|go)=/.test(attrs) ? 'work' : /\sdisabled(?=[\s>=]|$)|aria-disabled="true"/.test(attrs) ? 'policy' : 'illus';
+    const note = kind === 'work' ? '' : `mp-${kind}`;
+    if (!note) return `<${tag} data-ctl="work"${attrs}>`;
+    const described = /\saria-describedby="([^"]*)"/.exec(attrs);
+    const rest = described ? attrs.replace(described[0], ` aria-describedby="${described[1]} ${note}"`) : `${attrs} aria-describedby="${note}"`;
+    return `<${tag} data-ctl="${kind}"${rest}>`;
+  });
+}
+
 /* ---------- Prism rows and small parts, composed the same way on every screen ---------- */
 const wide = ctx => ctx.kind === 'ipad' || ctx.kind === 'web';
 const browser = ctx => ctx.kind === 'web' || ctx.kind === 'pwa';
@@ -38,7 +61,7 @@ const kv = rows => `<dl class="kv">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd
 const box = (inner, st = '') => `<div class="card fcard" data-mo="card" style="${st}">${inner}</div>`;
 const lbl = t => `<div class="label">${t}</div>`;
 const PLACES = [['files', 'Files and imports', 'layers'], ['audit', 'Audit', 'shield'], ['runs', 'Runs and health', 'refresh'], ['agents', 'Agents', 'cube'], ['models', 'Models and evaluations', 'fan'], ['approvals', 'Approvals and configuration', 'sliders'], ['costs', 'Costs and budgets', 'target'], ['incidents', 'Incidents and recovery', 'alert'], ['identity', 'Identity and devices', 'person']];
-const adminSide = on => [['home', 'Admin home', 'home'], ...PLACES].map(([k, n, i]) => `<div class="si${k === on ? ' on' : ''}">${ic(i, 's18')}${n}</div>`).join('');
+const adminSide = on => [['home', 'Admin home', 'home'], ...PLACES].map(([k, n, i]) => `<div class="si${k === on ? ' on' : ''}" role="button" tabindex="0" data-go="${k}"${k === on ? ' aria-current="page"' : ''}>${ic(i, 's18')}${n}</div>`).join('');   /* each place opens its journey on this page (MP-193) */
 const SURFACES = [
   ['iphone', 'iPhone', 'phone', 390, 844], ['ipad', 'iPad', 'tab', 1180, 820],
   ['web', 'Desktop', 'win', 1200, 950], ['pwa', 'Phone web', 'phone', 390, 844]
@@ -106,11 +129,11 @@ function frame(ctx, spec) {
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
   const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Records</span>${freshRow(ctx)}<span class="small">Wed 4 Nov · London</span></div>`;
   const sideList = () => adminSide(ctx.journey);
-  const backBtn = (size, style) => `<button class="jback" type="button" aria-label="Back to ${spec.back}" style="${style}">${ic('chev-l', size)}<span>${spec.back}</span></button>`;
+  const backBtn = (size, style) => `<button class="jback" type="button"${spec.back === 'Admin' ? ' data-go="home"' : ''} aria-label="Back to ${spec.back}" style="${style}">${ic('chev-l', size)}<span>${spec.back}</span></button>`;
   if (ctx.kind === 'iphone') {
     /* A back label that would run into the centred title gives way, as on iOS: the chevron stays, and it keeps its name for a screen reader. */
     const fits = spec.back && spec.back.length * 9 + spec.title.length * 4.8 + 40 < 190;
-    const back = fits ? backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em') : `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>`;
+    const back = fits ? backBtn('s24', 'font:400 17px/22px var(--font-text);letter-spacing:-.01em') : `<button class="jback" type="button"${spec.back === 'Admin' ? ' data-go="home"' : ''} aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>`;
     const nav = spec.back ? `<div class="navbar glass"><div class="nb">${back}<span class="nbt">${spec.title}</span><span style="display:flex;gap:6px;align-items:center;justify-content:flex-end">${flipHTML(ctx, true, spec)}${spec.actions || ''}</span></div></div>` : '';
     return `<div data-contrast-exempt style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>${field}<div class="jscroll"><div class="content" style="padding-top:${spec.back ? 102 : 54}px">
       ${spec.back ? '' : `<div style="display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 0" data-mo="fade">${flipHTML(ctx, false, spec)}${spec.actions || tb('search', 'Search')}</div><div class="ltitle" style="margin-top:2px" data-mo="rise">${spec.title}</div>`}
@@ -120,7 +143,7 @@ function frame(ctx, spec) {
   }
   if (ctx.kind === 'pwa') {
     return `<div style="position:absolute;inset:0 0 auto;height:54px;z-index:25">${sbar()}</div>
-      <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button" aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true, spec)}${spec.webActions ?? spec.actions ?? ''}</span></div>
+      <div class="glass" style="position:absolute;top:54px;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:8px 12px" data-mo="fade">${spec.back ? `<button class="jback" type="button"${spec.back === 'Admin' ? ' data-go="home"' : ''} aria-label="Back to ${spec.back}">${ic('chev-l', 's24')}</button>` : '<span class="brand-mark" aria-hidden="true"></span>'}<span style="font:600 17px/22px var(--font-text);letter-spacing:-.01em">${spec.title}</span><span style="margin-left:auto;display:flex;gap:6px;align-items:center">${flipHTML(ctx, true, spec)}${spec.webActions ?? spec.actions ?? ''}</span></div>
       ${field}<div class="jscroll"><div class="content" style="padding-top:116px"><div style="padding:0 12px 10px">${freshRow(ctx, spec.fresh, spec.chip)}</div><div class="jbody" style="padding:0 12px">${offNote}${spec.body || ''}${spec.rail || ''}</div><div class="jspace${spec.accessory ? ' tall' : ''}"></div></div></div>
       ${spec.accessory ? `<div class="glass" style="position:absolute;left:12px;right:12px;bottom:90px;z-index:19;border-radius:18px;padding:8px">${spec.accessory}</div>` : ''}
       <nav class="glass" style="position:absolute;left:0;right:0;bottom:0;z-index:20;height:80px" aria-label="Tabs">${tabbarEl(tab)}</nav>${homeInd}${sheet}`;
@@ -163,6 +186,9 @@ const J = {
     if (surfAt) sum.at.s = surfAt[0];
     if (stateAt) sum.at.st = stateAt[0];
     buildToc();
+    /* Mark what works (MP-193): a page setting, kept for this visit only */
+    const mk = $('#markctl');
+    mk.onclick = () => { const on = mk.getAttribute('aria-checked') !== 'true'; mk.setAttribute('aria-checked', String(on)); root.classList.toggle('markctl', on); $('#jlive').textContent = on ? 'Controls marked: solid works here, dashed is an illustration, dotted is not allowed here' : 'Controls not marked'; };
     if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'permissions') showPermissions(); else if (hash[0] === 'compare') showCompare(); else if (hash[0] === 'coverage') showCoverage(); else show();
     /* a theme press, or the system's theme changing under Auto */
     const repaint = () => {
@@ -181,6 +207,7 @@ const J = {
   go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s: (SURFACES.find(x => x[0] === s) || [sum.at.s])[0], st: (STATES.find(x => x[0] === st) || [sum.at.st])[0] }); show(); }
 };
 window.__prismJourneys = J;
+J.markControls = markControls;
 window.__prismStates = STATES;
 window.__prismFlipless = true;
 window.__prismSurfaces = SURFACES;
@@ -283,7 +310,7 @@ function show() {
   };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
-    return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
+    return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], markControls(sc.render(ctx), j.id), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
   };
   const settle = el => {
     (el.matches('[data-slot]') ? [el] : $$('[data-slot]', el)).forEach(box => { const s = o.screens.find(x => x.id === box.dataset.slot), side = sideOf(s); dress(box, side.oid, side.sc); });
@@ -293,7 +320,24 @@ function show() {
   };
   /* The flip turns this one frame on the review strip. A press takes its target from the control, and a second press returns to exactly what
      the frame showed, with its instrument, horizon and detail, unless the owner has moved on inside the frame. */
+  /* A place on Admin home, in the sidebar or a Back to Admin opens that journey on this page, on its picked option, the same device and
+     state, and says so; a key press works as a click (MP-193). */
+  const goPlace = e => {
+    const g = e.target.closest('.scr [data-go]');
+    if (!g || (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ')) return false;
+    const to = sum.journeys.find(x => x.id === g.dataset.go);
+    if (!to) return false;
+    e.preventDefault();
+    J.go(to.id, to.options[pickedOption(to)].id, sum.at.s, sum.at.st);
+    scrollTo({ top: 0 });
+    $('#jtitle').setAttribute('tabindex', '-1');
+    $('#jtitle').focus({ preventScroll: true });
+    $('#jlive').textContent = `Opened ${to.title}`;
+    return true;
+  };
+  row.onkeydown = e => { goPlace(e); };
   row.onclick = e => {
+    if (goPlace(e)) return;
     const b = e.target.closest('[data-flip]');
     if (!b) return;
     const box = b.closest('[data-slot]'), s = box && o.screens.find(x => x.id === box.dataset.slot);
@@ -313,7 +357,7 @@ function show() {
     else sum.flipped[key] = { o: oo, s: ss, st: sum.at.st, landed: `${j.id}|${oo}|${ss}`, got: extra, from: back ? null : [cur[1], cur[2], saved] };
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
-      scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
+      scr.innerHTML = markControls(to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) })), j.id);
       $$('svg.cx.inter', scr).forEach(wire);
       $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
       dress(box, oo, to);

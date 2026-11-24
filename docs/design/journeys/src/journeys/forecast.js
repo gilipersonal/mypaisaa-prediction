@@ -490,7 +490,7 @@ const redraw = (scr, id, extra = {}) => {
   Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${s.id}` });
   const f = frameExtra(scr.dataset);
   const na = (s.na || {})[sum.at.st], scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light', box = scr.closest('[data-slot]');
-  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t });
+  scr.innerHTML = markControls(s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t }), 'forecast');
   $$('svg.cx.inter', scr).forEach(wire);
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;

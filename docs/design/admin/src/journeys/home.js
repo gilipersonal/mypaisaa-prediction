@@ -25,8 +25,8 @@
   const hot = ctx => ctx.state !== 'empty';   // an incident is open in every world but Empty
   const FIRST = { expired: { 0: ['3 decisions wait on you', 'Next: Promote R2-HGB v4, Fri 18:00'] }, conflict: { 0: ['3 decisions wait on you', 'Next: Taiwan Semiconductor, 18:00'], 2: ['2 incidents not resolved', 'Production recorded lost · HSBC price late, reopened'] }, error: { 2: ['2 incidents not resolved', 'Forecast run failed · HSBC price late'] } };
   const needs = ctx => list(NEEDS.map(([i, t, a, b], n) => { const [x, y] = (FIRST[ctx.state] || {})[n] || [a, b]; return item(lead(i, t), x, y, ic('chev-r', 's18'), '', false, true); }).join(''));
-  const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, lineOf(ctx, k), ic('chev-r', 's18'), '', false, true)).join(''));
-  const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" aria-label="${name}. ${lineOf(ctx, k)}" data-mo="card">${lead(i, k === 'incidents' && hot(ctx) ? 'warn' : '')}<b>${name}</b><span class="small">${lineOf(ctx, k)}</span></div>`).join('')}</div>`;
+  const places = (ctx, n = PLACES.length) => list(PLACES.slice(0, n).map(([k, name, i]) => item(lead(i), name, lineOf(ctx, k), ic('chev-r', 's18'), '', false, true).replace('role="button"', `role="button" data-go="${k}"`)).join(''));
+  const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" data-go="${k}" aria-label="${name}. ${lineOf(ctx, k)}" data-mo="card">${lead(i, k === 'incidents' && hot(ctx) ? 'warn' : '')}<b>${name}</b><span class="small">${lineOf(ctx, k)}</span></div>`).join('')}</div>`;
   const WAITS = (n, inc = '1 incident') => `${n} decisions wait on you. 1 paused scope waits on your restart. ${inc} not resolved.`;
   const WAIT = WAITS(4);
   /* follows the owner Approvals strip: what it says changes with what is known */

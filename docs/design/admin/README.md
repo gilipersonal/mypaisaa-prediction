@@ -18,5 +18,9 @@ words. `node scripts/design_journeys_check.mjs docs/design/admin/index.html` wal
 
 Compare and pick shows one card per screen, option by option, and copies the owner's picks as text. `node scripts/design_prism_press.mjs` presses the theme, the selectors and Compare's rows, and `node scripts/design_admin_press.mjs` presses it.
 
+Admin home's places, the sidebar and every **Back to Admin** open their journeys on this page, on the picked option, by
+pointer or key, and every control is marked as working, an illustration or not allowed here, with **Mark what works** to
+outline them (MP-193, `../reviews/MP-193/README.md`).
+
 How a journey is written is in `../journeys/README.md`, and the makers' brief, with the shared story, is in
 `../reviews/MP-64/brief.md`.
