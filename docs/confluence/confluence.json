@@ -52,8 +52,8 @@
   },
   "rec-rules": {
    "id": "6291509",
-   "version": 3,
-   "sha256": "d274b5533ad43d266e072d88ae09b61f5da98cdb3c70b9be64fd0c6d14d9f68e"
+   "version": 4,
+   "sha256": "f4a1b78224bec35f317c91640bc1f251dff6d7a6ba238c0669268aa8c9b0a7ef"
   },
   "rec-system": {
    "id": "6389796",
@@ -72,8 +72,8 @@
   },
   "rec-forecast": {
    "id": "6127742",
-   "version": 4,
-   "sha256": "474a2933cbc1e07a06ae95e3e322ed5fd55f6490a5c6e86f6fedd2d883c68c86"
+   "version": 5,
+   "sha256": "4013b730a723369fb4b62d2b9f3c2c0c7fb505148aaf39b51f08c43f29a7afef"
   },
   "rec-claude": {
    "id": "6127762",
@@ -102,8 +102,8 @@
   },
   "rec-delivery": {
    "id": "6094881",
-   "version": 5,
-   "sha256": "32087db53ca375effd1398dd33eddc9558ee84bdc01d59526bb2c9ac547387fc"
+   "version": 6,
+   "sha256": "26b7dd3f6c722f0aeaca144782f6e077004a78ea27fadbf1150fbf7de66d479c"
   },
   "rec-cost": {
    "id": "6291529",
@@ -112,8 +112,8 @@
   },
   "rec-observability": {
    "id": "6357075",
-   "version": 6,
-   "sha256": "ce667819b16f93dd1675aa673618b75ca9e4fafb4818d6d2f259cf25c874c4f0"
+   "version": 7,
+   "sha256": "338babe7f246f65921c6532b5acd6f6471149a420b69c3ce459a95739746fbf7"
   },
   "rec-decisions": {
    "id": "6357095",
@@ -127,43 +127,43 @@
   },
   "ph-01": {
    "id": "6357115",
-   "version": 5,
-   "sha256": "e5381ab775afeaaab4b2b6f6d0d46c0d1787b7083990d2b8153c0ba5162a686f"
+   "version": 6,
+   "sha256": "4597f12253c6ba9c999d4271b09f31379f8bcbc52084c4d5e14d0d1df26d8cd0"
   },
   "ph-02": {
    "id": "6094901",
-   "version": 5,
-   "sha256": "5bbfd944f25c1dbd9fe819f54c9c2cd133a14f02300cb2083f16dd47669ac21d"
+   "version": 6,
+   "sha256": "aa89cd1a3d8dd52f3158c39006ddb446abfb551da6129284f4bab87cd66b5110"
   },
   "ph-03": {
    "id": "6291549",
-   "version": 5,
-   "sha256": "ab81303d2510130c96801887c83d762fe4e68b291ace520b3d8027bb63890078"
+   "version": 6,
+   "sha256": "00e05d6bc98f02d215847229c7ddf7eecf5d2cae2fd7ea2892de18c428dc96ce"
   },
   "ph-04": {
    "id": "6127802",
-   "version": 4,
-   "sha256": "9236cb5ff49cc847459f105d048d13f2ba9e6ebee036b21ae148ab1841e0294c"
+   "version": 5,
+   "sha256": "943232770b8fb93887da303e5f588f0c49b8226c2e5720db71f907c0fdb090c8"
   },
   "ph-05": {
    "id": "6291569",
-   "version": 4,
-   "sha256": "13e1b2665923202c7ed1897f8ef31089c60bea157bd94ff5a2836867531dbace"
+   "version": 5,
+   "sha256": "ec8e000a09332bb4777f1b1b39ee95f99190841fad025185ac1060f90370744a"
   },
   "ph-06": {
    "id": "6389856",
-   "version": 5,
-   "sha256": "f5c22300228a6f2c12fec6cc2f1150aca06acda265db607c8c99e1d4a782e91e"
+   "version": 6,
+   "sha256": "f2d96d2291dc4d98643da232d7ef903e05c907130db03eeb112eaf71db09ba07"
   },
   "ph-07": {
    "id": "6291589",
-   "version": 7,
-   "sha256": "1da6dceb2d5ea4a7e958327e0cd3c82f5d515536e444c110a19b3b8d47cad477"
+   "version": 8,
+   "sha256": "de05ee2be65f647125cadcde64c361228d0002c3457bd35b758f391af72b80ce"
   },
   "ph-08": {
    "id": "6291609",
-   "version": 5,
-   "sha256": "07145a49d1aa09f206dc483c7aff16c82391ba246beb58127916262040792f0c"
+   "version": 6,
+   "sha256": "f20cffbb20aea8b3a1f621882ff1f9fe0bea9194aed3722067d1471e0f85dbdd"
   },
   "ph-09": {
    "id": "6094921",
@@ -177,13 +177,13 @@
   },
   "rec-testing": {
    "id": "6291936",
-   "version": 6,
-   "sha256": "3157b3e868c4e0d646d0b39cc8acb91db5d0398eb38f7aa08ae5493dc48cabdc"
+   "version": 7,
+   "sha256": "0a75d7d1abd573b4dc5048c5b60ea455f6c87b6503592dc62c2ff3c943f0c7b8"
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 10,
-   "sha256": "cf1d318086dcd6010f80bd0c555275cb7b7f79e8a0f2ee9891c87286b4d5494f"
+   "version": 11,
+   "sha256": "e76aa5865895a561b6e516c5bc10a0be5825d3232d7b980b8d95fb1b64c0855b"
   },
   "rec-perimeter": {
    "id": "6390123",
@@ -344,10 +344,10 @@
   },
   "rec-delivery": {
    "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png": {
-    "id": "b2e9471e-6588-41af-b266-12dc869ec771",
+    "id": "8d1135ca-efac-4ef6-bd14-1c87baed4702",
     "collection": "contentId-6094881",
     "attachment": "att6390028",
-    "sha256": "275ec08a5452457439e12ef9707a59867d6278cec17aaf21980d953a730f73e7"
+    "sha256": "377879f491c5fbf94020056d4532039ec760365aec5d62feb70f8e5ec872f31e"
    }
   },
   "record": {
@@ -424,30 +424,30 @@
   },
   "rec-apple-testing": {
    "docs/motion/device-matrix.gif": {
-    "id": "0e3e6ab2-d6f5-47ea-817b-a2005f0ec4fd",
+    "id": "e7b5b3b8-6a0e-4451-8eb0-7ba5c0ba8c35",
     "collection": "contentId-6291956",
     "attachment": "att6390857",
-    "sha256": "5e0bb36d4a16dc66315d1065316c6849a23832c03f045cad24aa561c74be1752"
+    "sha256": "9df533e7e507d67e5bf16bdb2f1b1d378e653ea0af9b11a01847ab0e93f81953"
    },
    "docs/diagrams/mp-quality-2026-11-02/04-apple-testing.png": {
-    "id": "581181a2-55d2-441d-927b-cd82a3290772",
+    "id": "c5bee3d9-72be-491f-9974-f71337739931",
     "collection": "contentId-6291956",
     "attachment": "att6128904",
-    "sha256": "5bf245e077ce4844b3e4395540de31fd995b8af7655039cc021647fbb15b3643"
+    "sha256": "cf4347b79c82b98e479305854b1a4a8a7e3bbc81186cc9fe87db0e4d57674ab2"
    }
   },
   "rec-testing": {
    "docs/motion/delivery-pipeline.gif": {
-    "id": "705bd487-3b66-49cb-a013-c69891f42843",
+    "id": "65da2cf5-a002-4b7b-b84b-91f8d1836380",
     "collection": "contentId-6291936",
     "attachment": "att6096173",
-    "sha256": "b1313363dfab040d135ba988e7ecbaec9ccb86948d2230d137be65e8ed3ad25b"
+    "sha256": "0a20298c02e3b56fa67eb251cebc870846544de8d281027b74a04fa286660c3e"
    },
    "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png": {
-    "id": "11618238-933c-421b-a9fb-00fb002537a4",
+    "id": "82945081-5859-4bce-8af1-58f948fd09d9",
     "collection": "contentId-6291936",
     "attachment": "att6390873",
-    "sha256": "770eb3dbb9d8d296a549c28197481d88d90d99a2f946e6608e90423c2906feca"
+    "sha256": "3386cf6384944ef5ced81f59caf608dd729ca34e8b2e2232bcf5c284797e40ea"
    }
   }
  },
