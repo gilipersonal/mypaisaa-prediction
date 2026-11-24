@@ -1024,6 +1024,33 @@ footer p + p { margin-top: 6px; }
   .jctl .segctl.full button { white-space: normal; min-width: 0; padding: 6px 8px; }
   .jctl .segctl.full button[aria-pressed="true"] { background: var(--thumb); box-shadow: var(--shadow-lens); }
 }
+
+/* Which drawn controls work (MP-193). Off by default, so the screens show as designed; on, each control is outlined by its kind. */
+.jctlkind { display: grid; gap: 6px; }
+.jctlkind .small { color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.ck { display: inline-flex; align-items: center; gap: 6px; }
+.ck::before { content: ""; width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.ck-work::before { outline: 2px solid var(--link); outline-offset: -2px; }
+.ck-illus::before { outline: 2px dashed var(--ink-2); outline-offset: -2px; }
+.ck-policy::before { outline: 2px dotted var(--fall); outline-offset: -2px; }
+html.markctl .scr [data-ctl="work"] { outline: 2px solid var(--link); outline-offset: 1px; }
+html.markctl .scr [data-ctl="illus"] { outline: 2px dashed var(--ink-2); outline-offset: 1px; }
+html.markctl .scr [data-ctl="policy"] { outline: 2px dotted var(--fall); outline-offset: 1px; }
+
+/* Combined conditions (MP-193): the rule, then each pair with its table and two drawn devices */
+.combo-rule { padding: 16px; margin: 12px 0 24px; display: grid; gap: 6px; max-width: 880px; }
+.combo-rule b { font: 600 17px/22px var(--font-text); }
+.combo { margin: 0 0 40px; }
+.combo h3 { font: 600 20px/25px var(--font-text); letter-spacing: -.01em; margin: 0 0 8px; }
+.combo-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.combo-kv { display: grid; gap: 8px; margin: 0 0 16px; max-width: 880px; }
+.combo-kv div { display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 12px; }
+.combo-kv dt { font: 600 15px/20px var(--font-text); color: var(--ink); }
+.combo-kv dd { margin: 0; font: 400 15px/20px var(--font-text); color: var(--ink); }
+.combo-boards { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.combo-board { min-width: 0; overflow: hidden; }
+.combo-also { margin: 0 0 12px; }
+@media (max-width: 900px) { .combo-boards { grid-template-columns: minmax(0, 1fr); } .combo-kv div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 /* Home: only what Prism has no module for. A tile that carries its whole top 5, one-line rows and filter chips. */
 .jcols:has(.home-wl) { grid-template-columns: minmax(0, 2.15fr) minmax(0, 1fr); }
 .home-sech { padding: 10px 2px 0; }
@@ -1692,12 +1719,14 @@ button.cost-pick { min-height: 44px; }
       <div class="jctl-row"><span class="label">Option</span><div id="jopt"></div></div>
       <div class="jctl-row"><span class="label">Device</span><div id="jsurf"></div></div>
       <div class="jctl-row"><span class="label">State</span><div class="jstates" id="jstate" role="group" aria-label="State"></div></div>
+      <div class="jctl-row"><span class="label">Controls</span><div class="jctlkind"><button class="dimctl" type="button" role="switch" aria-checked="false" id="markctl" aria-describedby="markkey"><span>Mark what works</span><span class="sw2" aria-hidden="true"><i></i></span></button><p class="small" id="markkey"><span class="ck ck-work">Works here</span> <span class="ck ck-illus">Illustration: drawn, does nothing on this page</span> <span class="ck ck-policy">Not allowed here: the screen says why</span></p></div></div>
     </section>
     <section class="jwhy" id="jwhy"></section>
     <section class="jrow" id="jrow" aria-label="Screens"></section>
     <section class="jinv" id="jinv" hidden></section>
   </main>
 </div>
+<p id="mp-illus" hidden>Illustration: drawn, and does nothing on this page.</p><p id="mp-policy" hidden>Not allowed here; the screen says why.</p>
 <div id="jlive" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)"></div>
 <footer><div class="wrap"><p>MyPrediction · Prism Journeys · MP-62 · Both options kept, with a flip. Not approved UX; nothing is built from this page. MyPrediction cannot trade and gives no personalised advice. Every figure is illustrative. Inter and Nunito: SIL Open Font License. Some icon geometry follows Lucide (ISC).</p></div></footer>
 <script>
@@ -2153,6 +2182,29 @@ const recordSwitch = on => `<div data-mo="rise">${seg(['Journal', 'Track record'
 /* one instrument's as-of and cutoff, by its market */
 const clockOf = h => CLOCK[(h && h.v) || 'XNAS'] || CLOCK.XNAS;
 
+/* ---------- Which drawn controls work (MP-193, the audit's UX-02) ----------
+   Every control on a screen is one of three kinds, marked as the screen is drawn on this page:
+   work: it does something here (a flip, a switch that redraws, a row that opens, a place that opens its journey);
+   illus: an illustration, a control the product will have that does nothing on this page;
+   policy: not allowed here, drawn disabled, and the screen says why.
+   A screen reader hears the kind, and "Mark what works" outlines them. The screens' own drawings do not change. */
+const WORKING_SEGS = { home: ['Forecast horizon'], forecast: ['Forecast horizon', 'Detail', 'Dossier'] };
+const CONTROL = /^(button)$|role="(button|switch|link|tab|checkbox|radio|menuitem)"/;
+function markControls(html, journey) {
+  const segs = WORKING_SEGS[journey] || [];
+  if (segs.length) html = html.replace(/(<div class="segctl[^"]*" role="group" aria-label="([^"]*)"[^>]*>)([\s\S]*?)(<\/div>)/g,
+    (m, open, label, inner, close) => (segs.includes(label) ? open + inner.replace(/<button(?![\w-])/g, '<button data-ctl="work"') + close : m));
+  return html.replace(/<(button|div|span|a|li)(?![\w-])([^>]*)>/g, (m, tag, attrs) => {
+    if (/\sdata-ctl=/.test(attrs) || !(tag === 'button' || CONTROL.test(attrs))) return m;
+    const kind = /\sdata-(flip|dossier|go)=/.test(attrs) ? 'work' : /\sdisabled(?=[\s>=]|$)|aria-disabled="true"/.test(attrs) ? 'policy' : 'illus';
+    const note = kind === 'work' ? '' : `mp-${kind}`;
+    if (!note) return `<${tag} data-ctl="work"${attrs}>`;
+    const described = /\saria-describedby="([^"]*)"/.exec(attrs);
+    const rest = described ? attrs.replace(described[0], ` aria-describedby="${described[1]} ${note}"`) : `${attrs} aria-describedby="${note}"`;
+    return `<${tag} data-ctl="${kind}"${rest}>`;
+  });
+}
+
 /* ---------- the sidebar, from 1024 up: the tab bar's places, then Research, Approvals and Imports ("Add them to the sidebar", OWN-02) ----------
    A screen in one of those three lights its own place on iPad and desktop, and its first screen there needs no way back to the tab it hangs
    off on a phone (from). A phone keeps its five tabs, and its back links, as drawn. */
@@ -2218,6 +2270,7 @@ function region(ctx, o) {
 
 /* spec: { tab, title, back, actions: html, body: html, rail: html, accessory: html, sheet: html, field: bool } */
 function frame(ctx, spec) {
+  if (ctx.also) spec = { ...spec, body: alsoBanner(ctx.also) + (spec.body || '') };   // a combined condition (MP-193)
   const tab = spec.tab ?? 0, sideTab = spec.side ? SIDE.indexOf(spec.side) : [0, 1, 2, 3, 8][tab], field = spec.field === false ? '' : '<div class="dfield"></div>';   // tab 4 is Settings, the sidebar's ninth item
   const sheet = spec.sheet ? `<div class="jsheet${ctx.kind === 'iphone' || ctx.kind === 'pwa' ? '' : ' center'}"><div class="scrim"></div>${spec.sheet}</div>` : '';
   const dataRow = `<div style="margin:12px;padding:12px;border-radius:16px;background:var(--glass-thin);display:grid;gap:6px;justify-items:start" class="on-glass"><span class="label" style="color:var(--ink)">Data</span>${freshRow(ctx, spec.fresh)}<span class="small">${ctx.state === 'error' && !spec.fresh ? LASTGOOD_ALL : ASOF_ALL}</span></div>`;
@@ -2273,7 +2326,10 @@ const J = {
     if (surfAt) sum.at.s = surfAt[0];
     if (stateAt) sum.at.st = stateAt[0];
     buildToc();
-    if (hash[0] === 'inventory') showInventory(); else show();
+    /* Mark what works (MP-193): a page setting, kept for this visit only */
+    const mk = $('#markctl');
+    mk.onclick = () => { const on = mk.getAttribute('aria-checked') !== 'true'; mk.setAttribute('aria-checked', String(on)); root.classList.toggle('markctl', on); $('#jlive').textContent = on ? 'Controls marked: solid works here, dashed is an illustration, dotted is not allowed here' : 'Controls not marked'; };
+    if (hash[0] === 'inventory') showInventory(); else if (hash[0] === 'combined') showCombos(); else show();
     /* a theme press, or the system's theme changing under Auto */
     const repaint = () => { if (sum.retheme) sum.retheme(); };
     if (typeof MutationObserver === 'function') new MutationObserver(repaint).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
@@ -2287,16 +2343,21 @@ const J = {
   go(j, o, s, st) { Object.assign(sum.at, { j: sum.journeys.findIndex(x => x.id === j), o: o === 'b' ? 1 : 0, s: (SURFACES.find(x => x[0] === s) || [sum.at.s])[0], st: (STATES.find(x => x[0] === st) || [sum.at.st])[0] }); show(); }
 };
 window.__prismJourneys = J;
+J.markControls = markControls;
+J.combos = () => COMBOS;
+J.comboHTML = comboHTML;
+J.comboRule = () => COMBO_RULE;
 window.__prismStates = STATES;
 window.__prismSurfaces = SURFACES;
 
 function buildToc() {
   const toc = $('#toc');
-  toc.innerHTML = sum.journeys.map((j, i) => `<a href="#${j.id}" data-i="${i}">${j.title}</a>`).join('') + `<a href="#inventory" data-i="inv">State inventory</a>`;
+  toc.innerHTML = sum.journeys.map((j, i) => `<a href="#${j.id}" data-i="${i}">${j.title}</a>`).join('') + `<a href="#inventory" data-i="inv">State inventory</a><a href="#combined" data-i="cmb">Combined conditions</a>`;
   toc.addEventListener('click', e => {
     const a = e.target.closest('a'); if (!a) return;
     e.preventDefault();
     if (a.dataset.i === 'inv') { showInventory(); return; }
+    if (a.dataset.i === 'cmb') { showCombos(); scrollTo({ top: 0 }); return; }
     sum.at.j = +a.dataset.i; sum.at.o = 0; show();
     scrollTo({ top: 0 });
   });
@@ -2384,7 +2445,7 @@ function show() {
   };
   const boardFor = s => {
     const { oid, sc } = sideOf(s), ctx = ctxFor(oid, sc);
-    return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], sc.render(ctx), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
+    return `<div data-slot="${s.id}" data-owner="${j.id}|${o.id}">${boardHTML(surf[2], surf[3], surf[4], markControls(sc.render(ctx), j.id), ctx.scheme, sc.title)}<p class="jnote">${noteFor(sc)}</p></div>`;
   };
   const settle = el => {
     (el.matches('[data-slot]') ? [el] : $$('[data-slot]', el)).forEach(box => { const s = o.screens.find(x => x.id === box.dataset.slot), side = sideOf(s); dress(box, side.oid, side.sc); });
@@ -2416,7 +2477,7 @@ function show() {
     flipsSave(key);
     (window.__prismInstantFlip ? (el, fn) => fn() : flipTurn)(scr, () => {
       Object.entries(extra).forEach(([k, v]) => { if (v === undefined) delete scr.dataset[k]; else scr.dataset[k] = v; });
-      scr.innerHTML = to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) }));
+      scr.innerHTML = markControls(to.render(ctxFor(oo, to, { ...extra, scheme: frameScheme(box) })), j.id);
       $$('svg.cx.inter', scr).forEach(wire);
       $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
       dress(box, oo, to);
@@ -2460,6 +2521,82 @@ const OPEN = [
   ['Revocation time (CT-17) and which acts need a fresh sign-in (CT-01)', 'The acts are settled, 5 Nov 2026 ("Anything that writes or widens", OWN-39): every act that changes a record, widens what MP may do or opens an original needs a fresh sign-in, and reading and stopping do not. Open: how recent a sign-in must be, and the revocation time. Both are set from measured proof before the identity phase ends, so no time is promised. Settled, 5 Nov 2026 ("Any healthy path", ADM-03): revoking a device asks for a fresh sign-in on any healthy path, passkey or Google, and the revoke removes any passkey held on it ("Revoke removes it too", ADM-02), unverified until MP-197.']
 ];
 /* What the owner has answered: each row quotes the label the owner picked, with its id (MP-184, MP-192). A row moves here only when the picks answer the whole question */
+/* ---------- Combined conditions on the approval path (MP-193, the audit's UX-12) ----------
+   Each screen above shows one state at a time. These draw a few risky pairs, each on the real Approvals screen in one state, with
+   the second condition's banner on top. The rule they show is proposed for the owner (MP-193): every
+   condition that stops a write keeps stopping it, whichever banner comes first; reading, going back and showing what is hidden
+   stay open. */
+const COMBO_RULE = 'Every condition that stops a write keeps stopping it, whichever banner shows first. A screen with two conditions shows both banners, each in its own words. Reading, going back and showing what is hidden stay open; approving, refusing and anything else that writes waits until every condition has cleared.';
+const WRITES = /^(Approve|Refuse|Confirm|Continue with passkey|Raise|Ask again|Try again|Restart|Switch forward|Promote|Revoke)\b/;
+const COMBOS = [
+  {
+    id: 'offline-expired', title: 'Offline, and the proposal expired meanwhile', screen: 'aa-setting', state: 'stale',
+    also: ['', 'Offline.', 'Showing this from 22:15. Nothing can be approved or asked again until you reconnect.', 'wifi-off'],
+    when: 'You open a settings proposal on a train. Its expiry, Mon 18:00, passed while you were offline.',
+    stays: 'The proposal, exactly what it would change, its bound version v9 and the time it expired. The data row keeps its age.',
+    can: 'Read it, and go back.', held: 'Approve and Refuse: it has expired, and you are offline. Neither condition alone would let them back.',
+    recover: 'Reconnect. The proposal still reads Expired. If code proposes it again, the repeat backs off with a visible reason (OWN-08), and the new one is bound to the version current then, with its own expiry and a fresh sign-in.',
+    record: 'Code records the expiry. Nothing is written while you are offline, and nothing is queued to send later.',
+    settled: ['OWN-08'], proposed: []
+  },
+  {
+    id: 'hidden-raise', title: 'Amounts hidden, with a budget raise to approve', screen: 'aa-budget', state: 'default', hide: true,
+    also: ['', 'Amounts are hidden.', 'This approval is about an amount, so Approve waits until you show amounts. Showing them needs only a press, on this device.', 'eye-off'],
+    allow: /^(Show amounts|Refuse)/, extra: 'Show amounts',
+    when: 'Privacy mode is on (money and units masked, OWN-18) and code has drafted a raise of the warning line for your queue (OWN-35).',
+    stays: 'The proposal, its line, its expiry and the binding; percentages stay. Every amount reads £••.',
+    can: 'Read it, refuse it, go back, or show amounts.', held: 'Approve, until amounts show: you never approve a figure you cannot see.',
+    recover: 'Show amounts. Approve opens with the figures in view, then asks for your fresh sign-in, as every raise does. Amounts stay shown until you hide them again.',
+    record: 'The approval, as any raise, bound to the line, value, version and expiry. Showing amounts writes nothing.',
+    settled: ['OWN-18', 'OWN-35'], proposed: ['MP-193']
+  },
+  {
+    id: 'unknown-offline', title: 'The month cannot be known, and you are offline', screen: 'aa-budget', state: 'abstention',
+    also: ['', 'Offline.', 'Showing this from 22:15. Billing cannot be refreshed until you reconnect.', 'wifi-off'],
+    when: 'Claude usage is not collected, so the month is unknown, and the phone has lost its connection.',
+    stays: 'The raise code drafted earlier, its line and value, held, with why it cannot be approved now. The month reads unknown, never £0.',
+    can: 'Read it, and go back.', held: 'Approving the raise: nothing can be approved while the month is unknown, and nothing is approved offline.',
+    recover: 'Reconnecting clears only the offline part. The raise waits until the prod collector fills the month (MP40-Q5); then code checks it again, and approving it needs a fresh sign-in.',
+    record: 'Nothing new. The unknown month and the collector that failed are already in the cost record.',
+    settled: ['MP40-Q5'], proposed: []
+  }
+];
+/* One combination drawn on one device: the real screen, the second banner on top, every write held, amounts masked when hidden. */
+function comboHTML(c, surf, scheme) {
+  const ap = sum.journeys.find(j => j.id === 'approvals'), sc = ap.options[0].screens.find(s => s.id === c.screen);
+  const ctx = { kind: surf, state: c.state, scheme, journey: 'approvals', option: 'a', hidden: !!c.hide, also: c };
+  let html = sc.render(ctx);
+  if (c.hide) html = html.replace(/£\s?\d[\d,]*(?:\.\d+)?/g, '£••');
+  html = html.replace(/<button([^>]*)>([\s\S]*?)<\/button>/g, (m, attrs, inner) => {
+    const said = inner.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!WRITES.test(said) || (c.allow && c.allow.test(said)) || /\sdisabled(?=[\s>=]|$)/.test(attrs)) return m;
+    return `<button${attrs} disabled>${inner}</button>`;
+  });
+  return markControls(html, 'approvals');
+}
+/* the frame puts the second condition's banner first in the body */
+const alsoBanner = c => `<div class="combo-also">${banner(c.also[0], c.also[1], c.also[2], c.also[3])}${c.extra ? `<div style="margin-top:8px">${btn(c.extra, 'tinted', 'eye-off')}</div>` : ''}</div>`;
+function showCombos() {
+  mark('cmb');
+  ['#jrow', '#jwhy', '.jctl', '.jhead'].forEach(s => { $(s).hidden = true; });
+  const inv = $('#jinv'); inv.hidden = false;
+  const sch = schemeNow(), chip = (cls, t) => `<span class="chip ${cls}"><span class="dot"></span>${t}</span>`;
+  const devs = [SURFACES.find(s => s[0] === 'iphone'), SURFACES.find(s => s[0] === 'web')];
+  inv.innerHTML = `<h2>Combined conditions</h2><p class="sum">Each screen elsewhere shows one state at a time. These are the risky pairs on the approval path, each drawn on the real Approvals screen with both conditions showing. The screens are illustrative.</p>
+    <div class="card combo-rule"><b>The rule</b> ${chip('proposed', 'Proposed · MP-193')}<p>${COMBO_RULE}</p></div>
+    ${COMBOS.map(c => `<section class="combo" id="combo-${c.id}" aria-labelledby="combo-h-${c.id}"><h3 id="combo-h-${c.id}">${c.title}</h3><div class="combo-chips">${c.settled.map(s => chip('owner', `Settled · ${s}`)).join('')}${c.proposed.map(s => chip('proposed', `Proposed · ${s}`)).join('')}</div>
+      <dl class="combo-kv">${[['When', c.when], ['What stays', c.stays], ['What you can do', c.can], ['What is held', c.held], ['How it recovers', c.recover], ['What the record keeps', c.record]].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+      <div class="combo-boards">${devs.map(d => `<div class="combo-board">${boardHTML(d[2], d[3], d[4], comboHTML(c, d[0], sch), sch, `${c.title} · ${d[1]}`)}</div>`).join('')}</div></section>`).join('')}`;
+  fitCombos();
+  if (!sum.comboFit) { sum.comboFit = true; addEventListener('resize', () => { if (!$('#jinv').hidden && $('#jinv .combo')) fitCombos(); }); }
+  watch(inv);
+  try { history.replaceState(null, '', '#combined'); } catch (e) { /* the view still shows */ }
+}
+/* a desktop frame fits its column, as fitFrames does on the review strip */
+function fitCombos() {
+  $$('#jinv .combo-board .board > .dev').forEach(d => { d.style.zoom = ''; const z = (d.closest('.combo-board').clientWidth - 8) / d.offsetWidth; if (z < 1) d.style.zoom = Math.max(.2, z).toFixed(3); });   // .2 lets a desktop frame fit a 320 wide phone
+}
+
 const SETTLED = [
   ['Does a kept flip cover one screen or the whole journey, and is "per device" the phone in your hand or the frame drawn here? The owner\'s words were "A, kept per device". (MP-182)', 'Settled, 5 Nov 2026 ("Whole journey", OWN-01a): flip once anywhere in a journey and every screen in that journey opens in that view on that device. Settled, 5 Nov 2026 ("Your real devices only", OWN-01b): in the app, each iPhone, iPad and browser keeps its own choice, and the review page stays as it is: the strip turns one frame at a time, and a flip kept in this browser shows on every drawn device.'],
   ['MP-144 lets a candidate be labelled buy or watch, and MP never trades. Which word?', 'Settled, 5 Nov 2026 ("Watch only", OWN-03): every candidate reads Watch, and MP-144 drops the word buy.'],
@@ -3023,7 +3160,7 @@ doc.addEventListener('segchange', e => {
   if (!s) return;
   scr.dataset.hz = e.detail;
   const box = scr.closest('[data-slot]'), cap = box && $('.bcap', box), title = s.titleFor ? s.titleFor(scr.dataset) : s.title, scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light';
-  scr.innerHTML = s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz });
+  scr.innerHTML = markControls(s.render({ kind: sum.at.s, state: (s.na || {})[sum.at.st] ? 'default' : sum.at.st, scheme, journey: 'home', option: side.id, screen: s.id, hz: frameExtra({ hz: e.detail }).hz }), 'home');
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   scr.setAttribute('aria-label', `${title}, ${scheme} theme`);
   if (cap && cap.childNodes[1]) cap.childNodes[1].textContent = cap.childNodes[2] ? `${title} ` : title;
@@ -4434,7 +4571,7 @@ const redraw = (scr, id, extra = {}) => {
   Object.assign(scr.dataset, extra, { at: `forecast|${oid}|${s.id}` });
   const f = frameExtra(scr.dataset);
   const na = (s.na || {})[sum.at.st], scheme = /dark theme$/.test(scr.getAttribute('aria-label') || '') ? 'dark' : 'light', box = scr.closest('[data-slot]');
-  scr.innerHTML = s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t });
+  scr.innerHTML = markControls(s.render({ kind: sum.at.s, state: na ? 'default' : sum.at.st, scheme, journey: 'forecast', option: oid, screen: s.id, hz: f.hz, mode: f.mode, t: f.t }), 'forecast');
   $$('svg.cx.inter', scr).forEach(wire);
   $$('[data-mo]', scr).forEach(n => n.removeAttribute('data-mo'));
   const title = s.titleFor ? s.titleFor(scr.dataset) : s.title;

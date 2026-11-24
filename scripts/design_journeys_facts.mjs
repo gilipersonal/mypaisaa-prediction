@@ -47,7 +47,11 @@ export function load(page) {
   vm.createContext(sandbox);
   vm.runInContext(src, sandbox, { filename: 'journeys-page.js', timeout: 20000 });
   if (!sandbox.__J) throw new Error('the page script did not reach J.start()');
-  return sandbox.__J.all();
+  const all = sandbox.__J.all();
+  // the page's own control marker (MP-193), so a check proves the classifier the page runs, not a copy of it
+  if (sandbox.__J.markControls) Object.defineProperty(all, 'markControls', { value: sandbox.__J.markControls });
+  Object.defineProperty(all, 'page', { value: sandbox.__J });
+  return all;
 }
 
 const ENT = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&nbsp;': ' ' };
@@ -68,8 +72,9 @@ export function api(journeys) {
     return { html, text: textOf(html), note: sc.note || '', na: (sc.na || {})[state] };
   };
   const must = (c, m) => { if (!c) throw new Error(m); };
+  const mark = (html, j) => { must(typeof journeys.markControls === 'function', 'the page has no markControls (MP-193)'); return journeys.markControls(html, j); };
   return {
-    view, must,
+    view, must, mark, page: journeys.page,
     journeys: () => journeys.map((j) => j.id),
     options: (j) => J(j).options.map((o) => o.id),
     screens: (j, o) => O(j, o).screens.map((s) => s.id),

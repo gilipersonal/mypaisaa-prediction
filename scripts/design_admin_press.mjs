@@ -65,6 +65,39 @@ try {
     await p.evaluate(() => document.querySelector('#toc a[href="#audit"]').click());
     await p.waitForTimeout(300);
     must(await p.evaluate(() => /^audit\.b/.test(location.hash.slice(1))), `${width}: the journey list did not open Audit on its pick`);
+    // MP-193: Admin home's places open their journeys on their picks, Back to Admin returns, by pointer and by key, on each device
+    const dev = width > 800 ? 'web' : 'iphone';
+    await p.evaluate(() => { try { localStorage.clear(); } catch (e) { /* nothing kept */ } });
+    await p.goto(`${url}#home.b.${dev}.default`); await p.reload(); await p.waitForTimeout(600);
+    const hashIs = (re) => p.evaluate((src) => new RegExp(src).test(location.hash.slice(1)), re.source);
+    await p.locator('.scr .ahome-tile[data-go="files"]').first().click();
+    await p.waitForTimeout(400);
+    must(await hashIs(/^files\.a\./), `${width}: the Files tile did not open Files on its pick`);
+    must(await p.evaluate(() => document.activeElement && document.activeElement.id === 'jtitle'), `${width}: focus did not move to the journey's title`);
+    await p.locator('.scr [data-go="home"]').first().click();
+    await p.waitForTimeout(400);
+    must(await hashIs(/^home\.b\./), `${width}: Back to Admin did not return to Admin home B`);
+    await p.locator('.scr .ahome-tile[data-go="audit"]').first().focus();
+    await p.keyboard.press('Enter');
+    await p.waitForTimeout(400);
+    must(await hashIs(/^audit\.b\./), `${width}: Enter on the Audit tile did not open Audit on its pick, B`);
+    await p.locator('.scr [data-go="home"]').first().focus();
+    await p.keyboard.press(' ');
+    await p.waitForTimeout(400);
+    must(await hashIs(/^home\.b\./), `${width}: Space on Back to Admin did not return home`);
+    // lesson 35: change the state, then press again
+    await p.evaluate(() => [...document.querySelectorAll('#jstate button')].find((x) => /Stale/.test(x.textContent)).click());
+    await p.waitForTimeout(500);
+    await p.locator('.scr [data-go="incidents"]').first().click();
+    await p.waitForTimeout(400);
+    must(await hashIs(/^incidents\.a\.[a-z]+\.stale$/), `${width}: after a change of state, the tile did not open Incidents in that state`);
+    // Mark what works outlines each kind, and turns off again
+    await p.click('#markctl');
+    must(await p.evaluate(() => document.documentElement.classList.contains('markctl')), `${width}: Mark what works did not switch on`);
+    const outline = await p.evaluate(() => { const e = document.querySelector('.scr [data-ctl="illus"]'); return e ? getComputedStyle(e).outlineStyle : 'none'; });
+    must(outline === 'dashed', `${width}: an illustration is outlined ${outline}`);
+    await p.click('#markctl');
+    must(await p.evaluate(() => !document.documentElement.classList.contains('markctl')), `${width}: Mark what works did not switch off`);
     for (const e of errs) must(false, `${width}: ${e}`);
     await c.close();
   }

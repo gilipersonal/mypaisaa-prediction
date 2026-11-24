@@ -88,3 +88,15 @@
 .acmp-out { display: grid; gap: 8px; margin-top: 20px; padding: 14px 16px; }
 .acmp-out textarea { width: 100%; min-height: 72px; padding: 10px 12px; border: 0; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink); font: 400 15px/22px var(--font-text); resize: vertical; }
 .acmp-copy { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+
+/* Which drawn controls work (MP-193). Off by default, so the screens show as designed; on, each control is outlined by its kind. */
+.jctlkind { display: grid; gap: 6px; }
+.jctlkind .small { color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.ck { display: inline-flex; align-items: center; gap: 6px; }
+.ck::before { content: ""; width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.ck-work::before { outline: 2px solid var(--link); outline-offset: -2px; }
+.ck-illus::before { outline: 2px dashed var(--ink-2); outline-offset: -2px; }
+.ck-policy::before { outline: 2px dotted var(--fall); outline-offset: -2px; }
+html.markctl .scr [data-ctl="work"] { outline: 2px solid var(--link); outline-offset: 1px; }
+html.markctl .scr [data-ctl="illus"] { outline: 2px dashed var(--ink-2); outline-offset: 1px; }
+html.markctl .scr [data-ctl="policy"] { outline: 2px dotted var(--fall); outline-offset: 1px; }
