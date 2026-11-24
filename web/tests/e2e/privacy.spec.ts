@@ -115,6 +115,7 @@ for (const scheme of ['light', 'dark'] as const) {
 }
 
 test('the privacy centre and Settings never scroll sideways from 320 to 1440', async ({ page }) => {
+  test.setTimeout(300_000); // a whole sweep on a slow CI runner (lesson 55)
   test.skip(wide(page), 'one sweep is enough; it sets its own widths');
   for (const [path, label] of [['/settings/privacy', 'Privacy'], ['/settings', 'Settings']] as const) {
     await page.goto(path);

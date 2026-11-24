@@ -249,6 +249,7 @@ test.describe('accessibility and layout', () => {
   }
 
   test('no journal view scrolls sideways at any width from 320 to 1440', async ({ page }) => {
+    test.setTimeout(300_000); // a whole sweep on a slow CI runner (lesson 55)
     test.skip(wide(page), 'one sweep is enough; it sets its own widths');
     for (const [path, title] of [PAGES[0], PAGES[4], PAGES[5], PAGES[8]]) {
       await open(page, path, title);

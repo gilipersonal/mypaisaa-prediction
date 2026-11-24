@@ -245,6 +245,8 @@ test.describe('access and layout', () => {
 
   test('no sideways scroll at any width from 320 to 1440', async ({ page }) => {
     test.skip((page.viewportSize()?.width ?? 0) < 1024, 'one sweep is enough');
+    // 1,405 resizes: CI's runner needs more than the default 30 s. The sweep stays a sweep (lesson 55), as on Home.
+    test.setTimeout(300_000);
     for (const path of ['/holdings', '/holdings?data=stale', '/holdings/NIFTYBEES', '/holdings/HSBA', '/holdings/RELIANCE?data=error']) {
       await page.setViewportSize({ width: 1280, height: 800 });
       await page.goto(path);
