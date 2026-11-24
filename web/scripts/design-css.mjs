@@ -13,7 +13,7 @@ const web = join(dirname(fileURLToPath(import.meta.url)), '..');
 const design = join(web, '..', 'docs', 'design');
 const OUT = join(web, 'src', 'lib', 'prism', 'design.generated.css');
 /* the Journeys build's order (build.py ORDER) */
-const ORDER = ['home', 'holdings', 'forecast', 'research', 'journal', 'track', 'cost', 'approvals', 'privacy'];
+const ORDER = ['home', 'holdings', 'forecast', 'research', 'journal', 'track', 'cost', 'approvals', 'privacy', 'peek'];
 
 /** @param {string} html @param {string} name @returns {string} */
 function styleOf(html, name) {

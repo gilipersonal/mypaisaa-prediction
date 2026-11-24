@@ -34,7 +34,7 @@ function flipsSave(key) {
 /* ---------- the flip: both options kept on the first eight journeys (the owner, 4 Nov 2026, MP-178). On Track record the owner picked A (24 Nov 2026, MP-187); B stays drawn, labelled not picked, with the flip. Each journey flips on its own. It is
    absent while signed out, during a step-up, behind an open sheet, and on a proposal, an approval or a record being written, so it can
    never change what an approval binds. ---------- */
-const FLIP_NAMES = { home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], track: ['Scorecard', 'Table'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
+const FLIP_NAMES = { peek: ['Whole screen', 'One figure'], home: ['Tiles', 'Ledger'], holdings: ['Desk', 'One by one'], forecast: ['One horizon', 'Ladder'], research: ['Brief', 'Thread'], journal: ['Timeline', 'Lanes'], track: ['Scorecard', 'Table'], cost: ['Ladder', 'Burn-up'], approvals: ['Queue', 'In place'], privacy: ['Centre', 'In place'] };
 /* A name of its own, where the view a flip lands on is not its option's usual one. */
 const FLIP_AT = { 'cost-a-sources': 'Sources', 'cost-b-log': 'Log', 'cost-a-fit': 'Months', 'cost-b-fit': 'List', 'cost-b-limits': 'Table', 'b-forecast': 'Dossier', 'b-proof': 'Dossier', 'b-views': 'Dossier', 'b-evidence': 'Dossier' };
 const pairs = (...p) => Object.fromEntries(p);
@@ -49,6 +49,7 @@ const FLIPS = {
   /* no flip on Cost's Home: since "Pill on every Home" (OWN-06) both options draw the same Home, so a flip there would change nothing */
   cost: pairs(['cost-a-month', 'cost-b-burn'], ['cost-a-limits', 'cost-b-limits'], ['cost-a-warned', 'cost-b-warned'], ['cost-a-reduced', 'cost-b-reduced'], ['cost-a-paused', 'cost-b-paused'], ['cost-a-sources', 'cost-b-log'], ['cost-a-fit', 'cost-b-fit']),
   approvals: pairs(['aa-queue', 'ab-home']),
+  peek: pairs(['peek-a-hidden', 'peek-b-hidden'], ['peek-a-showing', 'peek-b-showing'], ['peek-a-again', 'peek-b-again']),
   privacy: pairs(['privacy-a-centre', 'privacy-b-home'], ['privacy-a-devices', 'privacy-b-devices'], ['privacy-a-notice', 'privacy-b-notice'], ['privacy-a-data', 'privacy-b-checkup'])
 };
 /* A state that gives a screen another partner: on these two, the instrument in question is drawn on the dossier, not the ladder. */

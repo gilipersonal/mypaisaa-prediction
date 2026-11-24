@@ -502,4 +502,6 @@
       }]
     }]
   });
+  /* the hidden Home, lent to the Tap to show round (peek.js) so both draw one Home and one set of words */
+  J.kit = Object.assign(J.kit || {}, { privacy: { homeHidden, homeSay, homePage, maskValue, maskedRows, maskSay, supported, box, outsideHead, costPillOf, wide } });
 }

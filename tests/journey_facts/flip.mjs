@@ -35,7 +35,7 @@ const NEVER = [['holdings', 'a', 'a-approve'], ['holdings', 'a', 'a-live'], ['ho
 export default {
   // Every journey flips, on every surface and in every state. Narrowed in MP-187: Track record joined as a ninth journey, an options round drawn with the same flip.
   'MP-178-eight': ({ journeys, screens, view, must }) => {
-    must(journeys().length === 9 && journeys().includes('track'), `${journeys().length} journeys: ${journeys().join(', ')}`);
+    must(journeys().length === 10 && journeys().includes('track') && journeys().includes('peek'), `${journeys().length} journeys: ${journeys().join(', ')}`);
     for (const j of journeys()) for (const o of ['a', 'b']) for (const surface of SURFACES) for (const state of STATES) {
       const n = screens(j, o).filter((s) => flips(view(j, o, s, surface, state).html).length).length;
       must(n >= 1, `${j}.${o} ${surface} ${state}: no screen has a flip`);
