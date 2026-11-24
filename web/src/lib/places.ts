@@ -40,7 +40,10 @@ export function placeById(id: string): Place {
 
 /** The place a path belongs to; on a phone, a place under a tab lights that tab. */
 export function placeOf(pathname: string): Place {
-  const clean = pathname.replace(/\/+$/, '') || '/';
+  // Trailing slashes are trimmed by hand, not by a regular expression, so a long run of them stays linear (CodeQL).
+  let end = pathname.length;
+  while (end > 0 && pathname.charCodeAt(end - 1) === 47) end -= 1;
+  const clean = pathname.slice(0, end) || '/';
   return PLACES.find((p) => p.path === clean) ?? placeById('portfolio');
 }
 

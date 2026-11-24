@@ -41,5 +41,14 @@ describe('places follow Prism', () => {
     expect(tabOf(placeOf('/research')).id).toBe('portfolio');
     expect(tabOf(placeOf('/imports')).id).toBe('settings');
     expect(placeOf('/nowhere').id).toBe('portfolio');
+    expect(placeOf('/settings///').id).toBe('settings');
+    expect(placeOf('///').id).toBe('portfolio');
+  });
+
+  it('trims a very long run of slashes quickly', () => {
+    const start = performance.now();
+    expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('portfolio');
+    expect(placeOf('/settings' + '/'.repeat(200_000)).id).toBe('settings');
+    expect(performance.now() - start).toBeLessThan(200);
   });
 });
