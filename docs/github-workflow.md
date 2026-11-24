@@ -47,23 +47,19 @@ Backend dependencies are recorded in `backend/uv.lock`. Update intentionally wit
 
 As checked on 2026-11-01, GitHub returned HTTP 403 for both branch-protection and ruleset APIs on this repository, then private, requesting a plan upgrade.
 
-As checked on 2026-11-24 (MP-198), the repository is **public**, and both APIs answer:
+The repository is **public**. The visibility change was not made by MP-198; this file had said the repository stays private, and the owner confirmed public on 2026-11-24: "Make the repo public, that is fine". Both APIs now answer.
 
-- Branch protection on `main`: none (HTTP 404, "Branch not protected").
-- One active ruleset, "main" (id 27945580, created 2026-11-23), holds the deletion and non-fast-forward rules, but its branch list is empty, so it applies to no branch; `gh api repos/gilipersonal/mypaisaa-prediction/rules/branches/main` returns no rules.
-- Code scanning: GitHub's CodeQL default setup is configured.
+**Server-side enforcement is active** since 2026-11-24 (MP-198, owner: "Do all 4 without review"), through the repository ruleset "main" (id 27945580), not classic branch protection, which stays unset (HTTP 404, "Branch not protected"). Read back the same day with `gh api repos/gilipersonal/mypaisaa-prediction/rules/branches/main`, it applies to the default branch with no bypass actors, administrators included, and holds:
 
-The visibility change was not made by MP-198. This file had said the repository stays private; the owner confirmed public on 2026-11-24: "Make the repo public, that is fine". As checked the same day, GitHub secret scanning and push protection are off on this repository and it holds no gitleaks configuration (mypaisa-agent has all three); MP-36 proposes the gitleaks CLI.
+- no deletion and no force push (non-fast-forward);
+- a pull request for every change, zero required approvals, stale approvals dismissed, every conversation resolved, and merge commits only;
+- the ten named checks, on a branch up to date with `main`: the nine GitHub Actions jobs, pinned to the GitHub Actions app, and CodeQL, pinned to GitHub's code-scanning app.
 
-**Server-side PR-only and required-check enforcement is not active.** Repository instructions and CI are in place; they do not prevent an administrator or another client from bypassing the process.
+Also as of 2026-11-24:
 
-The intended settings are versioned in `.github/main-protection.json`: require a PR, the ten named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. No plan upgrade is authorised by this setup. GitHub documents plan availability at https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches.
+- Code scanning: GitHub's CodeQL default setup is configured (Python, JavaScript and TypeScript, GitHub Actions; default suite).
+- Secret scanning and push protection: turned on by MP-198 at the owner's word. Until then both were off, and this repository holds no gitleaks configuration (mypaisa-agent has one); MP-36 proposes the gitleaks CLI.
 
-Applying the saved policy is a repository-settings change and needs the owner's yes in the running prompt. While the APIs answer, apply it with:
+The intended settings are also versioned in `.github/main-protection.json`, in the shape of classic branch protection: require a PR, the ten named checks with an up-to-date base, resolved conversations, admin enforcement, and no force pushes or deletion. Zero mandatory GitHub approvals supports the personal-only workflow; the separately approved Codex review is not a GitHub approval. The ruleset above applies the same policy. No plan upgrade is authorised by this setup.
 
-```sh
-gh api --method PUT repos/gilipersonal/mypaisaa-prediction/branches/main/protection \
-  --input .github/main-protection.json
-```
-
-Then read back the protection and verify the exact check names against a successful PR. The JSON is a desired configuration, not proof that GitHub has applied it. Do not change repository visibility or billing as a workaround.
+A change to the ruleset is a repository-settings change and needs the owner's yes in the running prompt. When a check is added or renamed, change `.github/main-protection.json` and the ruleset together, then read back `rules/branches/main` and verify the exact check names against a successful PR. Do not change repository visibility or billing as a workaround.
