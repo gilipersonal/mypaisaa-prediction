@@ -13,6 +13,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const PACK = resolve(ROOT, 'docs/planning/owner-question-pack-2026-11-05/pack.json');
 const ANSWERS = resolve(ROOT, 'docs/planning/owner-question-pack-2026-11-05/answers.json');
+// round 2 (MP-203, 24 Nov 2026): its picks are quoted on the page too, so each quote is checked against them (MP-204)
+const ANSWERS_2 = resolve(ROOT, 'docs/planning/owner-question-pack-2026-11-24/answers.json');
 // picks the owner made outside the 5 Nov pack, quoted on the page with their own date and issue
 const LATER = { 'MP-187': 'A · Scorecard' };
 // the picks MP-192 applies as labels (scope.md, "A Proposed label comes off"), and the record ids whose rule they settle
@@ -36,12 +38,12 @@ const table = (src, name) => {
 
 export function settledFacts(page, { each, must }, want) {
   const src = readFileSync(page, 'utf8');
-  const answers = Object.fromEntries(JSON.parse(readFileSync(ANSWERS, 'utf8')).answers.map((a) => [a.id, a.pick]));
+  const answers = Object.fromEntries([ANSWERS, ANSWERS_2].flatMap((f) => JSON.parse(readFileSync(f, 'utf8')).answers).map((a) => [a.id, a.pick]));
   const pack = JSON.parse(readFileSync(PACK, 'utf8')).items;
   const open = table(src, 'OPEN'), settled = table(src, 'SETTLED');
   must(settled.length >= want.settledRows, `only ${settled.length} SETTLED rows, expected at least ${want.settledRows}`);
   // 1. every quote of a pick, in either table, is the owner's label with its id; every SETTLED row has one
-  const quotes = (a) => [...a.matchAll(/\("([^"]+)", ((?:OWN|ADM|MP40|MP182|MP)-[\w-]+?)(?=[,)])/g)].map((m) => [m[1], m[2]]);
+  const quotes = (a) => [...a.matchAll(/\("([^"]+)", ((?:OWN|ADM|MP40|MP182|MP203|MP)-[\w-]+?)(?=[,)])/g)].map((m) => [m[1], m[2]]);
   for (const [q, a] of [...open, ...settled]) for (const [label, id] of quotes(a)) {
     const owner = answers[id] ?? LATER[id];
     must(owner !== undefined, `"${q.slice(0, 50)}": quotes ${id}, which the owner did not answer`);
@@ -64,7 +66,7 @@ export function settledFacts(page, { each, must }, want) {
     views++;
     const m = v.text.match(bad);
     must(!m, `${at.journey}.${at.screen} ${at.surface} ${at.state}: "${m && m[0]}" on a rule the owner's pick settles`);
-    for (const x of v.text.matchAll(/Settled · ((?:OWN|ADM|MP40)-[\w-]+?)(?![\w-])/g)) seen.add(x[1]);
+    for (const x of v.text.matchAll(/Settled · ((?:OWN|ADM|MP40|MP203)-[\w-]+?)(?![\w-])/g)) seen.add(x[1]);
   });
   must(views >= want.views, `walked ${views} views, expected at least ${want.views}`);
   for (const id of seen) must(answers[id] !== undefined, `a Settled · ${id} chip, and the owner never answered ${id}`);
@@ -76,6 +78,7 @@ export const page = () => arg('--page') || resolve(ROOT, 'docs/design/journeys/i
 export default {
   'MP192-settled': (a) => settledFacts(page(), a, {
     settledRows: 26, views: 6500,
-    chips: ['OWN-07', 'OWN-08', 'OWN-14', 'OWN-19', 'OWN-21', 'OWN-26', 'OWN-27', 'OWN-28', 'OWN-29', 'OWN-33', 'MP40-Q1', 'MP40-Q5', 'MP40-Q6', 'MP40-Q9'],
+    // MP203-04 added in MP-204: "Pairs when there are any" settles the 3-month probation the OWN-27 chips sit beside
+    chips: ['OWN-07', 'OWN-08', 'OWN-14', 'OWN-19', 'OWN-21', 'OWN-26', 'OWN-27', 'OWN-28', 'OWN-29', 'OWN-33', 'MP40-Q1', 'MP40-Q5', 'MP40-Q6', 'MP40-Q9', 'MP203-04'],
   }),
 };

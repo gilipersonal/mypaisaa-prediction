@@ -1855,7 +1855,7 @@
    "key": "MP-183",
    "summary": "Stop the burn-up chart's day labels overlapping on phones",
    "type": "Bug",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/",
@@ -2271,6 +2271,21 @@
     "docs/diagrams/mp-architecture-2026-11-02/",
     "docs/motion/",
     "docs/planning/retired-facts.json"
+   ]
+  },
+  {
+   "key": "MP-204",
+   "summary": "Bring the design pages' Proposed labels and open lists into line with the owner's picks",
+   "type": "Task",
+   "status": "In Progress",
+   "parent": "MP-4",
+   "code": [
+    "docs/design/journeys/",
+    "docs/design/admin/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/",
+    "tests/admin_facts/",
+    "docs/planning/trace.json"
    ]
   }
  ]

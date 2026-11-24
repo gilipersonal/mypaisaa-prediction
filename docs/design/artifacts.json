@@ -68,17 +68,17 @@
    "slug": "ds-admin",
    "source": "docs/design/admin/index.html",
    "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "28a110521edc75a574cab042dc10e58155b13551b01e2f9db4970c3a5979043c",
+   "published_sha256": "a456fc68f02d37c5bbd0678d8a7fffca1233c1bf430f2e77c4fa9556517d9026",
    "published_at": "2026-11-24",
-   "jira": "MP-193"
+   "jira": "MP-204"
   },
   {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "680429ea5e48a5917b0094ba2bc316ec3aeff717af2e1fa458d0bd7e8bf46d7f",
+   "published_sha256": "d7ae8c1a77fa2108ed0ce08eed9b90a78a47cd16b5956939a94415eab03dc700",
    "published_at": "2026-11-24",
-   "jira": "MP-183"
+   "jira": "MP-204"
   }
  ]
 }

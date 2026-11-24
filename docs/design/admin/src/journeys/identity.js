@@ -147,8 +147,8 @@
   const enrolHere = (ctx, why = {}) => {
     if (ctx.kind === 'web') return card(`${head('Enrol a passkey on this Mac')}${note('A second passkey on a device you control. It is scoped to prod, and dev has its own user pool.')}${can(ctx, act('A48', 'Enrol a passkey', 'primary'), why)}${note(LINE)}${tags(proposed('CT-17'))}`);
     /* "Allowed in the browser" (ADM-04): the bar covers the Apple app only, so Phone web enrols, once MP-197's test proves it works */
-    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(UNV(), proposed('CT-17'))}`);
-    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(UNV(), proposed('CT-17'), proposed('PL-09'))}`);
+    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(settled('ADM-04'), UNV(), proposed('CT-17'))}`);
+    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(settled('ADM-04'), UNV(), proposed('CT-17'), proposed('PL-09'))}`);
   };
   const T_ENROL = {
     what: 'This passkey', rows: 2, loading: 'Waiting for your passkey.',
@@ -167,7 +167,8 @@
   const sessionsNote = ctx => `${note(browser(ctx) ? 'This browser keeps the same five records as the Apple app, each with its age. How a browser protects saved records is unverified.' : 'The offline copy on this device is encrypted. Sign-out clears it.')}${note(`If this device is revoked: ${CLEARS} ${TIMEOUT}`)}${tags(chip('', 'Time-out not set · OWN-37', 'clock'))}`;
 
   /* ---------- lost a device: the same recovery from either door ---------- */
-  const rvNote = () => `${note(RV)}${tags(UNV(), proposed('CT-17'))}`;
+  /* the rule is the owner's ("Revoke removes it too", ADM-02); whether a revoke can remove one is the open part (CT-17, MP-197) */
+  const rvNote = () => `${note(RV)}${tags(settled('ADM-02'), UNV(), proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
   /* "Finish in the phone browser" (ADM-15): with the Mac lost, the replacement goes in a phone's browser and you end on two paths. The iPhone app cannot hold one, so it sends you there. */
   const fallbackLine = () => note('If the browser test fails, recovery ends after the revoke on one path, Google, and MP warns you until you reach a Mac.');

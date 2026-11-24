@@ -95,7 +95,8 @@
   const bandHead = (c = WARN('Expires Mon 18:00')) => head(lead('sliders'), 'Narrow a self-correction band', '5 to 4 points a week · settings v9 to v10', c);
   const bandLimits = (overlay = 'overlay active') => box(`${lbl('Today\'s bands, code only')}<div style="margin-top:8px">${kv([['Probabilities', 'At most 5 percentage points a week'], ['A signal\'s weight', 'At most 10% a month'], ['Overlay', overlay]])}</div><div style="margin-top:8px">${proposed('SCI-D10')}</div>`);
   const BAND_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
-  const bandBind = (rows = BAND_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
+  /* the same band proposal as Approvals draws: a setting waits days ("By kind, as drawn", OWN-08), and how many is open (CT-02) */
+  const bandBind = (rows = BAND_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${settled('OWN-08')}${proposed('CT-02')}</div>`);
   const bandWhy = () => box(`${lbl('Impact, evidence, cost and rollback')}<div style="margin-top:8px">${kv([['Expected impact', 'Slower correction'], ['Evidence', '26 weeks of replay'], ['Evidence hash', 'e40b…7d12'], ['Cost a month', '£0'], ['How to roll it back', 'A new version']])}</div><p class="small muted" style="margin-top:8px">After a miss, a forecast takes longer to adjust. A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.</p>${OVERLAP()}`);
   const bandYes = () => `<div class="amodels-acts">${act('A29', 'Approve this band', 'primary')}</div>${para(STEP)}`;
   const bandOK = () => bandHead() + bandLimits() + bandWhy() + bandBind() + bandYes();

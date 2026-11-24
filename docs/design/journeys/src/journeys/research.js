@@ -351,7 +351,7 @@
         id: 'ra-memory', title: 'Memory notes', note: 'Reached from Settings. Disagreement shows a note against the ledger; the ledger wins.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 4, back: 'Settings', title: 'Memory notes', body: memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'ra-alert', title: 'Risk alert', note: 'The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) for what makes an alert material or critical, and "Once in 24 hours" (OWN-34) for repeats. The 28% line is illustrative: its value is the owner\'s to set. A weekend landing in the inbox is proposed in "Weekdays only" (MP40-Q11b) itself. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'ra-alert', title: 'Risk alert', note: 'The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) for what makes an alert material or critical, and "Once in 24 hours" (OWN-34) for repeats. On 24 Nov 2026 the owner picked "Never for investment alerts" (MP203-02) and "A short named list" (MP203-03): only a named critical fault breaks quiet hours, and the four faults on the list are proposed (CT-18). The 28% line is illustrative: its value is the owner\'s to set. A weekend landing in the inbox is proposed in "Weekdays only" (MP40-Q11b) itself. Empty never reads as an all-clear. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Brief', title: 'Risk alert', body: alertBody(ctx), rail: alertLog(ctx) })
       }]
@@ -376,7 +376,7 @@
         id: 'rb-memory', title: 'Memory in the thread', note: 'You ask what Claude holds, and the notes come back as a post you can correct or forget.',
         render: ctx => fr(ctx, { fresh: 'default', tab: 0, back: 'Today', title: 'Today', body: (ctx.state === 'noModel' ? '' : ask('What do you remember about me?')) + memBody(ctx), rail: noteDetail(ctx) })
       }, {
-        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) and "Once in 24 hours" (OWN-34). The 28% line is illustrative: its value is the owner\'s to set. No model shows Claude off: the alert stands and Ask why is unavailable.',
+        id: 'rb-alert', title: 'Risk alert', note: 'Posted with the brief, then expanded in place. The owner picked "Your lines, no investment wake-ups" (MP40-Q11a) and "Once in 24 hours" (OWN-34). On 24 Nov 2026 the owner picked "Never for investment alerts" (MP203-02) and "A short named list" (MP203-03): only a named critical fault breaks quiet hours, and the four faults on the list are proposed (CT-18). The 28% line is illustrative: its value is the owner\'s to set. No model shows Claude off: the alert stands and Ask why is unavailable.',
         na: { abstention: 'A risk alert is a rule run by code, so no model can abstain on it.' },
         render: ctx => fr(ctx, { tab: 0, back: 'Today', title: 'Today', body: threadAlert(ctx), rail: alertLog(ctx) })
       }]

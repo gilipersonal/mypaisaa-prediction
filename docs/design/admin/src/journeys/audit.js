@@ -1,6 +1,9 @@
 /* Audit (MP-64, PH00-S06): read-only. It holds references, never document content, prompts, tokens or holding values, so no amount appears here. The worked question is PH01-S04's. Every figure is illustrative. */
 {
   const FRESH = 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.';
+  /* "Anything that writes or widens" (OWN-39) settles that opening an original asks for one; how recent, and how strong, stay open (CT-01) */
+  const RECENT = 'How recent a sign-in must be is still open.';
+  const OPENS = () => chipset(settled('OWN-39'), proposed('CT-01'));
   const TARGET = 'A fee in ISA statement, September · R-0210';
   const good = t => `<span class="chip fresh"><span class="dot"></span>${t}</span>`;
   const hold = (t, i = 'clock') => `<span class="chip stale">${ic(i, 's14')}${t}</span>`;
@@ -71,7 +74,7 @@
     offline: () => off(ctx, 'Showing the answer saved at 11:20.') + verdict({ c: hold('offline_cached', 'wifi-off') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, text('Opening it needs a connection.')] }),
     conflict: () => banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split') + verdict({ c: hold('superseded', 'split') }) + answer({ who: ['You approved it, and the controlled writer committed it', 'Recorded 6 Oct · a later correction exists', chipset(note('Code checked'), note('Claude drafted'), mine('You decided'))] }) + `<div class=\"aaudit-row\">${bs('Read the newer record', 'tinted', 'layers')}</div>`,
     expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired on Tue at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved Tue 21:18 · expired Tue 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
-    denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that asks for a fresh sign-in (OWN-39). ${FRESH}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, chipset(proposed('CT-01'))] })
+    denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that asks for a fresh sign-in (OWN-39). ${FRESH} ${RECENT}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, OPENS()] })
   });
   const ansLinks = () => list(rowGo('split', 'Follow the chain', 'Source, ledger, risk, forecast, action, outcome, audit') + rowGo('shield', 'Read the full record', mono('aud_4c17')));
   const ansRail = () => `${box(`${lbl('Who did what')}<div class="aaudit-gap">${kv([['Code checked', 'The file, before anything read it'], ['Claude drafted', 'The rows, with no tools'], ['You decide', 'You approved 12 rows']])}</div>`)}${refs()}`;
@@ -100,7 +103,7 @@
     offline: () => off(ctx, 'Showing the chain saved at 11:20.') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'offline_cached'), Forecast: [`${mono('run_8d02')} · saved 11:20`, 'offline_cached'] }),
     conflict: () => banner('warn', 'A step was superseded.', 'A newer ledger event replaced this one. Each forecast keeps the inputs it was made with, and none is rewritten.', 'split') + chainOf(FOLLOW, { Ledger: [`R-0210 · event ${mono('evt_77d3')} · a newer event exists`, 'superseded'] }),
     expired: () => banner('warn', 'Logs for the first run are gone.', 'The first run to use this fee was on 6 Oct, and logs last 14 days. Its run summary and its audit record stay.', 'clock') + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · the 6 Oct run keeps its summary, not its logs`, 'Logs expired'] }),
-    denied: () => banner('warn', 'One step needs a fresh sign-in.', FRESH, 'lock') + chainOf(FOLLOW, { Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + chipset(proposed('CT-01'))
+    denied: () => banner('warn', 'One step needs a fresh sign-in.', `Opening the original asks for one (OWN-39). ${FRESH} ${RECENT}`, 'lock') + chainOf(FOLLOW, { Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + OPENS()
   });
 
   /* ---------- one record ---------- */
@@ -198,7 +201,7 @@
     offline: () => pane({ c: hold('offline_cached', 'wifi-off'), ...allAs(PANE, 'offline_cached') }),
     conflict: () => pane({ c: hold('superseded', 'split'), Correction: [`Superseded by ${mono('aud_5a02')}`, 'superseded'] }),
     expired: () => pane({ t: 'Lineage of this expired approval', c: hold('Expired approval') }, PANE_X),
-    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + chipset(proposed('CT-01'))
+    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + OPENS()
   });
   /* a full screen says why: the pane beside the list leans on the list's own banner */
   const linWhy = ctx => ({

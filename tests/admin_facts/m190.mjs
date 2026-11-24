@@ -157,7 +157,8 @@ export default {
       has(v.text, /You picked "Your lines, no investment wake-ups"[\s\S]*"Once in 24 hours"[\s\S]*Each line still needs a value from you, and no record sets one yet, so nothing is here to approve\.[\s\S]*proposed in "Weekdays only" itself/, `${w}: the picks and what stays open`);
       lacks(v.text, /No record sets their values yet/, `${w}: the old reading`);
     });
-    has(view('incidents', 'a', 'a-list', 'web', 'default').text, /Material means a line you set is crossed, and each line's value is still yours to set\. Proposed · CT-18/, 'incidents: material');
+    // narrowed in MP-204: the meaning of material is the owner's ("Your lines, no investment wake-ups", MP40-Q11a), and each line's value stays open
+    has(view('incidents', 'a', 'a-list', 'web', 'default').text, /Material means a line you set is crossed, and each line's value is still yours to set\.\s*Settled · MP40-Q11a\s*Proposed · CT-18/, 'incidents: material');
   },
 
   // The admin OPEN table gives the owner's answers, in the owner's words.
