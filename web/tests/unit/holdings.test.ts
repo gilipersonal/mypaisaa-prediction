@@ -2,8 +2,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { SAMPLE_PORTFOLIO } from '../../src/lib/data/fake';
 import {
-  ACCOUNTS, CLOCK, CUTOFFS, FIGURE, FRESH, HOLDINGS_JS, LASTGOOD_ALL, LEDGER, MEASURES, PRISM_HTML, RETURN_FAILED, SAY, SHELL_JS,
-  SKEL_CHIP, SOURCES, WATCH, WHY, WHY_TAIL, asOf, coverage, lastGood, pct, pencePart, returnOf, signedGbp, type Ev, type Measure
+  ACCOUNTS, CLOCK, CUTOFFS, DIFF_OPEN, FIGURE, FRESH, HOLDINGS_JS, IMPORT_NOW, IMPORT_SUB, LASTGOOD_ALL, LATER, LEDGER, MEASURES, PRISM_HTML,
+  RETURN_FAILED, SAY, SHELL_JS, SKEL_CHIP, SOURCES, TABLE, WATCH, WHY, WHY_TAIL, asOf, coverage, lastGood, pct, pencePart, plain, retCell,
+  returnOf, signedGbp, type Ev, type Measure
 } from '../../src/lib/holdings/design';
 
 // Every figure and word the Holdings screens take from the design rather than the source is found here in its design
@@ -20,7 +21,7 @@ describe('the design figures are the design\'s own', () => {
   it('pins each holding\'s ledger row, whole, to its holding', () => {
     expect(Object.keys(LEDGER).sort()).toEqual(SAMPLE_PORTFOLIO.items.map((h) => h.ticker).sort());
     for (const [t, l] of Object.entries(LEDGER)) {
-      const row = `${t}: { at: ${q(l.at)}, units: ${q(l.units)}, gain: ${q(l.gain)}, ret: ${q(l.ret)}, ev: [${q(l.ev[0])}, ${q(l.ev[1])}]`;
+      const row = `${t}: { at: ${q(l.at)}, units: ${q(l.units)}, gain: ${q(l.gain)}, ret: ${q(l.ret)}, ev: [${q(l.ev[0])}, ${q(l.ev[1])}], s: [${q(l.s[0])}, ${q(l.s[1])}] }`;
       expect(holdings, t).toContain(row);
     }
   });
@@ -92,6 +93,35 @@ describe('the design figures are the design\'s own', () => {
   });
 });
 
+describe('the desktop table and the way to Imports are the design\'s own', () => {
+  it('pins the table\'s title, scale, columns and held chip', () => {
+    expect(holdings).toContain(`const holdTable = (ctx, title = ${q(TABLE.title)})`);
+    expect(holdings).toContain(`<span class="small muted">${TABLE.scale}</span>`);
+    const [a, b, c, d, e, f] = TABLE.head;
+    expect(holdings).toContain(`<th>${a}</th><th class="r">${b}</th>\${gain ? '<th class="r">${c}</th>' : ''}<th class="r">${d}</th><th>${e}</th><th>${f}</th>`);
+    expect(holdings).toContain(`ic('clock', 's14')}${TABLE.held}</span>`);
+  });
+
+  it('writes a return in the table as retCell() does', () => {
+    expect(holdings).toContain("{ 'No single rate': 'Not proved', 'No rate stated': 'Not stated', Withheld: 'Withheld' }");
+    expect(retCell('+14.2% a year')).toEqual({ text: '+14.2%', muted: false });
+    expect(retCell('No single rate')).toEqual({ text: 'Not proved', muted: true });
+    expect(retCell('No rate stated')).toEqual({ text: 'Not stated', muted: true });
+    expect(retCell('Withheld')).toEqual({ text: 'Withheld', muted: true });
+    expect(retCell('Unavailable')).toBeNull();
+  });
+
+  it('pins the way to Imports, state by state, the titles and the one control not built yet', () => {
+    for (const st of ['loading', 'error', 'stale', 'offline']) expect(holdings, st).toContain(`${st}: ${q(IMPORT_NOW[st]!)}`);
+    expect(holdings).toContain(`IMPORT_NOW[st] ?? ${q(IMPORT_NOW.ready!)}, ${q(DIFF_OPEN)}`);
+    expect(holdings).toContain(`const toImports = (n, t = ${q(IMPORT_SUB)})`);
+    expect(holdings).toContain(`btn(${q(SAY.imports)}, 'tinted sm', 'layers')`);
+    expect(holdings).toContain(`tb('eye-off', ${q(SAY.hideAmounts)})`);
+    expect(holdings).toContain(`title: ctx.kind === 'web' ? ${q(SAY.oneTitle)} : h.t`);
+    expect(holdings).toContain(`btn(${q(LATER.record)}, 'tinted sm')`);
+  });
+});
+
 describe('figures beside their inputs are computed from them (lesson 37)', () => {
   it('counts the evidence and sums the gains as the design states them', () => {
     const all = coverage(false);
@@ -155,6 +185,18 @@ describe('the helpers', () => {
     expect(figs('From a snapshot of 4,200 units. Priced 10:00')).toEqual(['4,200 units']);
     expect(figs('+14.2% a year')).toEqual([]);
     expect(figs(SAY.dayMove)).toEqual(['+£1,236.18']);
+  });
+
+  it('masks whole pounds and a unit change too, as the design\'s mask() does', () => {
+    const figs = (s: string) => s.split(FIGURE).filter((_, i) => i % 2 === 1);
+    expect(figs('£14,820')).toEqual(['£14,820']);
+    expect(figs('+£3,288 and 60 → 64 units')).toEqual(['+£3,288', '60 → 64 units']);
+  });
+
+  it('writes pence inside the pound sign, and refuses anything but whole pence', () => {
+    expect(plain(1_482_050)).toBe('14,820.50');
+    expect(plain(9_015_525)).toBe('90,155.25');
+    expect(() => plain(1.5)).toThrow();
   });
 
   it('reads signed money to pence', () => {
