@@ -2094,6 +2094,14 @@
    "status": "To Do",
    "parent": "MP-4",
    "code": []
+  },
+  {
+   "key": "MP-200",
+   "summary": "Update pytest to 9.0.3 to clear Dependabot alert 1",
+   "type": "Task",
+   "status": "To Do",
+   "parent": "MP-4",
+   "code": []
   }
  ]
 }
