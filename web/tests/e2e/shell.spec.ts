@@ -68,8 +68,8 @@ test.describe('the sample total', () => {
   test('reads in the browser and says it is sample data', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByTestId('total')).toHaveText('£90,155.25');
-    await expect(page.getByText('Sample data')).toBeVisible();
-    await expect(page.getByText('Holdings £84,612.40 · cash £5,542.85 · As of 22:15 London')).toBeVisible();
+    await expect(page.getByText('Illustrative', { exact: true })).toBeVisible();
+    await expect(page.getByText('Holdings £84,612.40 · Cash £5,542.85')).toBeVisible();
   });
 
   test('is not in the prebuilt page', async ({ request }) => {
