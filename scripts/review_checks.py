@@ -158,21 +158,20 @@ CHECKS = (
           tier="broader", inputs=("site/package-lock.json",), timeout=600, tools=("npm",)),
     # The web app (MP-134): type checks and the Prism drift gate, unit tests, the build and its inspection, then the
     # browser tests against the build. Locally the browser tests use the installed Chrome (PW_CHANNEL=chrome).
-    # every built screen measured against its design screen, element by element, desktop and phone web, six states, both
-    # themes (MP-205). It builds first, so it measures what the change draws.
-    Check("design-parity", ("web/*", "docs/design/prism/*", "docs/design/journeys/*", "docs/design/reviews/MP-62/shared/*"),
-          (("npm", "--prefix", "web", "ci"), ("npm", "--prefix", "web", "run", "build"),
+    # Ends with design parity: every built screen measured against its design screen, element by element, desktop and phone
+    # web, six states, both themes, after a selftest that proves the gate bites (MP-205). In this one check, after the build,
+    # because checks run side by side and two `npm ci` runs in web/ would clash.
+    Check("web", ("web/*", "docs/design/prism/*", "docs/design/journeys/*", "docs/design/reviews/MP-62/shared/*"),
+          (("npm", "--prefix", "web", "ci"), ("npm", "--prefix", "web", "run", "check"),
+           ("npm", "--prefix", "web", "test"), ("npm", "--prefix", "web", "run", "build"),
+           ("npm", "--prefix", "web", "run", "e2e"),
            ("node", "web/scripts/design-parity.mjs", "--selftest", "--only", "journal", "--surface", "web", "--port", "4192"),
            ("node", "web/scripts/design-parity.mjs", "--surface", "web,pwa",
             "--state", "default,loading,empty,error,stale,offline", "--theme", "light,dark", "--show", "20")),
-          tier="broader", inputs=("web/package-lock.json",), timeout=3600, tools=("npm", "node")),
-    Check("web", ("web/*", "docs/design/prism/*"),
-          (("npm", "--prefix", "web", "ci"), ("npm", "--prefix", "web", "run", "check"),
-           ("npm", "--prefix", "web", "test"), ("npm", "--prefix", "web", "run", "build"),
-           ("npm", "--prefix", "web", "run", "e2e")),
           tier="broader", inputs=("web/package-lock.json", "docs/design/prism/tokens.css",
-                                  "docs/design/prism/icons.svg", "docs/design/prism/index.html"),
-          timeout=900, tools=("npm",)),
+                                  "docs/design/prism/icons.svg", "docs/design/prism/index.html",
+                                  "docs/design/journeys/index.html", "docs/design/reviews/MP-62/shared/claude.html"),
+          timeout=3600, tools=("npm", "node")),
     Check("workflow-lint", (".github/workflows/*",),
           (("actionlint", "-color", ".github/workflows/jira-key.yml",
             ".github/workflows/verify.yml"),), tools=("actionlint",)),
