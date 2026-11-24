@@ -860,9 +860,18 @@
    "key": "MP-66",
    "summary": "Record the owner's whole-product UX approval and the separate permission to build",
    "type": "Story",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/reviews/MP-66/",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "docs/design/prism/",
+    "docs/design/journeys/",
+    "docs/design/admin/",
+    "docs/design/artifacts.json",
+    "README.md",
+    "AGENTS.md"
+   ]
   },
   {
    "key": "MP-67",
@@ -1804,9 +1813,25 @@
    "key": "MP-180",
    "summary": "Check the designs on a real phone at 20% brightness and with assistive technology before UX approval",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "docs/design/journeys/",
+    "docs/design/reviews/MP-180/",
+    "docs/design/reviews/MP-66/",
+    "docs/design/artifacts.json",
+    "tests/journey_facts/m180.mjs",
+    "scripts/design_keyboard_pass.mjs",
+    "scripts/review_checks.py",
+    "docs/planning/trace.json",
+    "docs/design/prism/",
+    "docs/design/admin/",
+    "tests/journey_facts/m193c.mjs",
+    "docs/design/reviews/MP-193/",
+    "docs/planning/ma-reconciliation-2026-11-02/decision-log.md",
+    "README.md",
+    "AGENTS.md"
+   ]
   },
   {
    "key": "MP-181",
@@ -2277,7 +2302,7 @@
    "key": "MP-204",
    "summary": "Bring the design pages' Proposed labels and open lists into line with the owner's picks",
    "type": "Task",
-   "status": "In Progress",
+   "status": "Done",
    "parent": "MP-4",
    "code": [
     "docs/design/journeys/",

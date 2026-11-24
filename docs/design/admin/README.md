@@ -3,7 +3,7 @@
 Every admin journey of MyPrediction, drawn in [Prism](../prism/README.md): two options each, every screen in every state, on
 iPhone, iPad, desktop and phone web, in light and dark, with the permission inventory. `index.html` is one interactive page,
 synced to a private Claude artifact. The owner picks one option per journey (PH00-S06), so there is no flip here.
-Nothing here is product code: UX is not approved and nothing may be built.
+Nothing here is product code. The owner approved the UX with named conditions on 24 November 2026 (MP-66); building is limited to four web steps on synthetic data.
 
 | File | What |
 | --- | --- |

@@ -295,7 +295,7 @@ function show() {
   mark(sum.at.j);
   $('#jtitle').textContent = j.title;
   $('#jsummary').textContent = j.summary;
-  $('#jmeta').innerHTML = `<span class="chip proposed"><span class="dot"></span>Proposed</span>${j.picked ? `<span class="chip owner"><span class="dot"></span>Owner picked ${j.picked.toUpperCase()} · ${(j.options.find(x => x.id === j.picked) || {}).name}, ${j.pickedOn}</span>` : '<span class="chip owner"><span class="dot"></span>Both kept, with a flip</span>'}<span class="chip illus">Not approved UX</span><span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
+  $('#jmeta').innerHTML = `<span class="chip owner"><span class="dot"></span>UX approved with conditions · MP-66</span>${j.picked ? `<span class="chip owner"><span class="dot"></span>Owner picked ${j.picked.toUpperCase()} · ${(j.options.find(x => x.id === j.picked) || {}).name}, ${j.pickedOn}</span>` : '<span class="chip owner"><span class="dot"></span>Both kept, with a flip</span>'}<span class="chip illus">All figures illustrative</span>${(j.stories || []).map(s => `<span class="chip">${s}</span>`).join('')}`;
   $('#jopt').innerHTML = seg(j.options.map(x => [`${x.id.toUpperCase()} · ${x.name}${j.picked ? (x.id === j.picked ? ' (picked)' : ' (not picked)') : x.rec ? ' (starts here)' : ''}`]), sum.at.o, 'Option', 'full');
   $('#jopt').onclick = e => { const b = e.target.closest('button'); if (!b) return; const i = $$('#jopt button').indexOf(b), said = `Option ${b.textContent}`; sum.at.o = i; show(); hold('#jopt', i, said); };
   $('#jsurf').innerHTML = seg(SURFACES.map(s => [s[1]]), SURFACES.indexOf(surf), 'Device', 'full');
@@ -392,6 +392,8 @@ function show() {
   /* Screens draw one at a time, each after the press has answered, so a long journey never holds a frame. The walker draws them all. */
   const all = o.screens, run = sum.run = {};
   let at = window.__prismNoFit ? all.length : 0;
+  /* a walker measuring every frame at its true size has every frame rendered; a viewer's off-screen frames skip rendering (MP-180) */
+  root.classList.toggle('jall', !!window.__prismNoFit);
   if (at) { row.innerHTML = all.map(boardFor).join(''); settle(row); }
   const more = () => {
     if (sum.run !== run || at >= all.length) return;
@@ -426,7 +428,7 @@ const OPEN = [
 /* What the owner has answered: each row quotes the label the owner picked, with its id (MP-184, MP-192). A row moves here only when the picks answer the whole question */
 /* ---------- Combined conditions on the approval path (MP-193, the audit's UX-12) ----------
    Each screen above shows one state at a time. These draw a few risky pairs, each on the real Approvals screen in one state, with
-   the second condition's banner on top. The rule they show is proposed for the owner (MP-193): every
+   the second condition's banner on top. The rule they show is the owner's, accepted on 24 November 2026 ("Accept all three", MP-66): every
    condition that stops a write keeps stopping it, whichever banner comes first; reading, going back and showing what is hidden
    stay open. */
 const COMBO_RULE = 'Every condition that stops a write keeps stopping it, whichever banner shows first. A screen with two conditions shows both banners, each in its own words. Reading, going back and showing what is hidden stay open; approving, refusing and anything else that writes waits until every condition has cleared.';
@@ -451,7 +453,7 @@ const COMBOS = [
     can: 'Read it, refuse it, go back, or show amounts.', held: 'Approve, until amounts show: you never approve a figure you cannot see.',
     recover: 'Show amounts. Approve opens with the figures in view, then asks for your fresh sign-in, as every raise does. Amounts stay shown until you hide them again.',
     record: 'The approval, as any raise, bound to the line, value, version and expiry. Showing amounts writes nothing.',
-    settled: ['OWN-18', 'OWN-35'], proposed: ['MP-193']
+    settled: ['OWN-18', 'OWN-35', 'MP-66'], proposed: []
   },
   {
     id: 'unknown-offline', title: 'The month cannot be known, and you are offline', screen: 'aa-budget', state: 'abstention',
@@ -486,7 +488,7 @@ function showCombos() {
   const sch = schemeNow(), chip = (cls, t) => `<span class="chip ${cls}"><span class="dot"></span>${t}</span>`;
   const devs = [SURFACES.find(s => s[0] === 'iphone'), SURFACES.find(s => s[0] === 'web')];
   inv.innerHTML = `<h2>Combined conditions</h2><p class="sum">Each screen elsewhere shows one state at a time. These are the risky pairs on the approval path, each drawn on the real Approvals screen with both conditions showing. The screens are illustrative.</p>
-    <div class="card combo-rule"><b>The rule</b> ${chip('proposed', 'Proposed · MP-193')}<p>${COMBO_RULE}</p></div>
+    <div class="card combo-rule"><b>The rule</b> ${chip('owner', 'Settled · MP-66')}<p>${COMBO_RULE}</p></div>
     ${COMBOS.map(c => `<section class="combo" id="combo-${c.id}" aria-labelledby="combo-h-${c.id}"><h3 id="combo-h-${c.id}">${c.title}</h3><div class="combo-chips">${c.settled.map(s => chip('owner', `Settled · ${s}`)).join('')}${c.proposed.map(s => chip('proposed', `Proposed · ${s}`)).join('')}</div>
       <dl class="combo-kv">${[['When', c.when], ['What stays', c.stays], ['What you can do', c.can], ['What is held', c.held], ['How it recovers', c.recover], ['What the record keeps', c.record]].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
       <div class="combo-boards">${devs.map(d => `<div class="combo-board">${boardHTML(d[2], d[3], d[4], comboHTML(c, d[0], sch), sch, `${c.title} · ${d[1]}`)}</div>`).join('')}</div></section>`).join('')}`;

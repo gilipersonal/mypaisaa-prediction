@@ -43,7 +43,8 @@ Code does the maths, models forecast with honest ranges, Claude explains the evi
 > (MP-134, MP-73), the synthetic test-data tools, and CI. Nothing is deployed, no live data is fetched and no model is called. On 24 November 2026 the owner started the
 > build in small steps before approving the whole UX ([decision log](docs/planning/ma-reconciliation-2026-11-02/decision-log.md)):
 > the web shell, then the sign-in screens, then the screens that only show data, then a local read API, all on
-> synthetic data. Whole-product UX approval (MP-66) is still open.
+> synthetic data. The owner approved the whole UX with named conditions on 24 November 2026 (MP-66), and kept the
+> build to those four steps.
 
 Mypaisaa Prediction (MP) helps one owner understand their holdings and judge where to add, hold, pause or trim. It
 keeps its own record of what you own, from CSV, Excel, PDF statements, screenshots or typed entries, and checks it
@@ -140,7 +141,7 @@ Ten phases, each with a gate. These are planning layers, not dates.
 
 | Phase | Outcome | Gate |
 | --- | --- | --- |
-| PH-00 | Signed-off baseline and shared contracts | Architecture sign-off, then full UX approval, before any build; the owner started a small web build before it on 24 November 2026 (decision log) |
+| PH-00 | Signed-off baseline and shared contracts | Architecture sign-off, then full UX approval, before any build; the owner started a small web build on 24 November 2026 and approved the UX with named conditions the same day (MP-66, decision log) |
 | PH-01 | Your own portfolio and every import method | Reconciliation, approval and correction work end to end |
 | PH-02 | Identity, private runtime, audit and costs | Isolation, recovery, deletion and cost admission proven |
 | PH-03 | Market data, performance and portfolio risk | Listing rights, calendars and freshness checked |
@@ -230,4 +231,4 @@ also builds and tests the web app. It deploys nothing.
 - Nothing is applied to AWS and no paid service is called without an explicit request. IaC here is plan-only.
 - [AGENTS.md](AGENTS.md) holds the working agreement for every contributor, human or agent.
 
-<sub>The mark, "the Fan", is the documentation identity and is proposed for the app, pending UX approval. See [docs/brand](docs/brand/README.md).</sub>
+<sub>The mark, "the Fan", is the documentation identity and is proposed for the app, an item still open in the UX approval (MP-66). See [docs/brand](docs/brand/README.md).</sub>

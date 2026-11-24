@@ -4,7 +4,7 @@ Every owner journey of MyPrediction, drawn in [Prism](../prism/README.md): two o
 screen in every state, on iPhone, iPad, desktop and phone web, in light and dark. `index.html` is one interactive page,
 synced to a private Claude artifact. The owner keeps both options on the first eight journeys, with a flip between them (MP-178,
 `docs/design/reviews/MP-62/decision.md`).
-Admin journeys are MP-64, not here. Nothing here is product code: UX is not approved and nothing may be built.
+Admin journeys are MP-64, not here. Nothing here is product code. The owner approved the UX with named conditions on 24 November 2026 (MP-66); building is limited to four web steps on synthetic data.
 
 ## How it is made
 

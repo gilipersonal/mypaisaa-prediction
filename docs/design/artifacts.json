@@ -33,14 +33,6 @@
    "jira": "MP-62"
   },
   {
-   "slug": "ds-option-b-prism",
-   "source": "docs/design/prism/index.html",
-   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
-   "published_sha256": "d1bd4a2b20a75a99ad2750ade6b71e0f9d18a478b8782446f5442932a291fad1",
-   "published_at": "2026-11-24",
-   "jira": "MP-198"
-  },
-  {
    "slug": "question-pack",
    "source": "docs/design/question-pack/index.html",
    "artifact_url": "https://claude.ai/artifact/5E3h9FVXwYQfYrwbLYCxfQ",
@@ -65,20 +57,28 @@
    "jira": "MP-203"
   },
   {
+   "slug": "ds-option-b-prism",
+   "source": "docs/design/prism/index.html",
+   "artifact_url": "https://claude.ai/artifact/JNjSL7QearPap1zGHBTPGu",
+   "published_sha256": "27a6b86206814d3a3d729a970ff05217281e0c28977acf3d7ba6354e46f016f0",
+   "published_at": "2026-11-24",
+   "jira": "MP-66"
+  },
+  {
    "slug": "ds-admin",
    "source": "docs/design/admin/index.html",
    "artifact_url": "https://claude.ai/artifact/TSrmRb5RpjhGE1iqrZkejf",
-   "published_sha256": "a456fc68f02d37c5bbd0678d8a7fffca1233c1bf430f2e77c4fa9556517d9026",
+   "published_sha256": "829163788db625584805e78cb7b863a5d1a7dacc2a8045c5b530b94e42769355",
    "published_at": "2026-11-24",
-   "jira": "MP-204"
+   "jira": "MP-66"
   },
   {
    "slug": "ds-journeys",
    "source": "docs/design/journeys/index.html",
    "artifact_url": "https://claude.ai/artifact/UXvLXTKyH9zd1r7CtXG2Kq",
-   "published_sha256": "d7ae8c1a77fa2108ed0ce08eed9b90a78a47cd16b5956939a94415eab03dc700",
+   "published_sha256": "5f4d7fb279a66bbb360bc6a51b9bdce0d31744378eed20ca4b5add8a3d7d3533",
    "published_at": "2026-11-24",
-   "jira": "MP-204"
+   "jira": "MP-66"
   }
  ]
 }

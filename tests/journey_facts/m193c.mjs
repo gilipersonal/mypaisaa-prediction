@@ -46,7 +46,8 @@ export default {
     const html = readFileSync(pagePath(), 'utf8'), rule = page.comboRule();
     must(/Every condition that stops a write keeps stopping it, whichever banner shows first\./.test(rule), 'the rule lost its first sentence');
     must(html.includes(rule), 'the rule is not on the page as written');
-    must(/<b>The rule<\/b> \$\{chip\('proposed', 'Proposed · MP-193'\)\}/.test(html), 'the rule is not labelled Proposed · MP-193');
+    // the owner accepted the rule on 24 November 2026 ("Accept all three", MP-66), so it is labelled settled (MP-66)
+    must(/<b>The rule<\/b> \$\{chip\('owner', 'Settled · MP-66'\)\}/.test(html), 'the rule is not labelled Settled · MP-66');
     must(/<a href="#combined" data-i="cmb">Combined conditions<\/a>/.test(html), 'the journey list has no Combined conditions');
   },
 };
