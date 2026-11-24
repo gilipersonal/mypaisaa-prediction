@@ -7,6 +7,8 @@ const wide = (page: Page) => (page.viewportSize()?.width ?? 0) >= 1024;
 const h1 = (page: Page) => page.getByRole('heading', { level: 1 });
 const main = (page: Page) => page.getByRole('main');
 const rows = (page: Page) => main(page).locator('.journal-e');
+// the frame draws the freshness chips in the desktop bar and in the phone row, and shows one of them
+const chip = (page: Page, t: string) => main(page).getByText(t).locator('visible=true');
 const NAMES = ['NVIDIA', 'SPDR S&P 500 ETF Trust', 'Reliance', 'Apple', 'NVIDIA', 'HSBC', 'AstraZeneca'];
 const WHEN = ['Today · 6 months', '21 Aug 2026 · 3 months', '2 Jun 2026 · 3 months', '12 May 2026 · 6 months', '28 Apr 2026 · 6 months', '14 Apr 2026 · 6 months', '3 Mar 2026 · 6 months'];
 const OPENS = [['nvda', 'NVIDIA 28 Apr 2026', 'NVIDIA · 28 Apr'], ['aapl', 'Apple 12 May 2026', 'Apple · 12 May'], ['hsba', 'HSBC 14 Apr 2026', 'HSBC · 14 Apr'], ['azn', 'AstraZeneca 3 Mar 2026', 'AstraZeneca · 3 Mar']] as const;
@@ -32,19 +34,38 @@ test.describe('the timeline', () => {
     await expect(rows(page).getByText('Differed')).toHaveCount(4);
     await expect(main(page).getByText('Decision support, not advice. MyPrediction places no trades. Illustrative.')).toBeVisible();
     await expect(main(page).getByText('You differed from the ranked action 4 times in 7 decisions. 3 have scored so far, too few to show a rate.')).toBeVisible();
-    await expect(main(page).getByText('Twelve Data · Fresh')).toBeVisible();
+    await expect(chip(page, 'Twelve Data · Fresh')).toBeVisible();
     // only the decisions the design draws opened are links
     await expect(main(page).locator('a.journal-e')).toHaveCount(4);
   });
 
-  test('offers no write and does not promise the Track record', async ({ page }) => {
+  test('draws Record a decision and Add a correction as designed, and each only says its act comes later', async ({ page }) => {
     await expect(rows(page)).toHaveCount(7);
-    await expect(main(page).getByRole('button', { name: /record a decision|add a correction|buy|sell|order/i })).toHaveCount(0);
-    await expect(main(page).getByRole('link', { name: /record a decision|add a correction|buy|sell|order/i })).toHaveCount(0);
-    const track = main(page).getByRole('group', { name: 'Record' }).getByRole('button', { name: 'Track record' });
-    await expect(track).toBeDisabled();
-    await expect(track).toHaveAccessibleDescription('The Track record view is not built yet.');
+    // nothing offers to trade, ever
+    await expect(page.getByRole('button', { name: /buy|sell|order/i })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: /record a decision|add a correction|buy|sell|order/i })).toHaveCount(0);
+    const sent: string[] = [];
+    page.on('request', (r) => sent.push(`${r.method()} ${r.url()}`));
+    const later = page.getByRole('status').filter({ hasText: 'comes in a later build step' });
+    await expect(later).toHaveCount(0);
+    const record = page.getByRole('button', { name: 'Record a decision' }).locator('visible=true');
+    await expect(record).toHaveCount(1);
+    await record.click();
+    await expect(page.getByRole('status').filter({ hasText: 'Recording a decision comes in a later build step.' })).toBeVisible();
+    await expect(rows(page)).toHaveCount(7);
+    await open(page, '/record?entry=nvda', 'NVIDIA · 28 Apr');
+    await main(page).getByRole('button', { name: 'Add a correction' }).click();
+    await expect(main(page).getByRole('status').filter({ hasText: 'Adding a correction comes in a later build step.' })).toBeVisible();
+    expect(sent.filter((s) => !s.startsWith('GET ')), 'a press writes nothing').toEqual([]);
+    await expect(main(page).getByText('I chose not to. Kept all 60 units. Long-term position. I accept the wider range for now.')).toBeVisible();
+  });
+
+  test('the Record switch shows the Journal and opens the Track record', async ({ page }) => {
     await expect(main(page).getByRole('button', { name: 'Journal' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(main(page).getByText('not built yet')).toHaveCount(0);
+    await main(page).getByRole('group', { name: 'Record' }).getByRole('link', { name: 'Track record' }).click();
+    // the Track record page is built in its own slice; this view only leads there
+    await expect(page).toHaveURL(/\/record\/track$/);
   });
 });
 
@@ -55,7 +76,7 @@ test.describe('one decision', () => {
       await expect(page).toHaveURL(new RegExp(`/record\\?entry=${id}$`));
       await expect(h1(page)).toHaveText(title);
       await expect(main(page).getByText('What you recorded')).toBeVisible();
-      await main(page).getByRole('link', { name: 'Journal', exact: true }).click();
+      await main(page).getByRole('link', { name: 'Back to Journal' }).click();
       await expect(page).toHaveURL(/\/record$/);
       await expect(h1(page)).toHaveText('Journal');
       await expect(page.locator(`#entry-${id}`)).toBeFocused();
@@ -73,7 +94,7 @@ test.describe('one decision', () => {
     await page.goForward();
     await expect(h1(page)).toHaveText('AstraZeneca · 3 Mar');
     // pressed again after a change of state: back, then open another
-    await main(page).getByRole('link', { name: 'Journal', exact: true }).click();
+    await main(page).getByRole('link', { name: 'Back to Journal' }).click();
     await page.locator('#entry-hsba').press('Enter');
     await expect(h1(page)).toHaveText('HSBC · 14 Apr');
   });
@@ -111,13 +132,13 @@ test.describe('where you differed', () => {
   test('counts, not a rate, and back returns focus to the link', async ({ page }) => {
     await main(page).getByRole('link', { name: 'See where you differed' }).click();
     await expect(h1(page)).toHaveText('Where you differed');
-    await expect(main(page).locator('.journal-ba .v')).toHaveText(['3', '4']);
+    await expect(main(page).locator('.journal-ba .v .roll-live')).toHaveText(['3', '4']);
     await expect(main(page).locator('.journal-ba .n')).toHaveText(['0 scored · 2 waiting · 1 unresolved', '3 scored · 1 waiting']);
     await expect(main(page).getByText('Too few scored decisions to show a rate. A scored outcome grades the forecast, not you.')).toBeVisible();
     await expect(rows(page).locator('.m b')).toHaveText(['NVIDIA', 'Reliance', 'NVIDIA', 'AstraZeneca']);
     await expect(rows(page).getByText('Differed')).toHaveCount(0);
     await expect(main(page).getByText('Of the 3 scored, 2 landed inside their 80% range and 1 outside.', { exact: false })).toBeVisible();
-    await main(page).getByRole('link', { name: 'Journal', exact: true }).click();
+    await main(page).getByRole('link', { name: 'Back to Journal' }).click();
     await expect(h1(page)).toHaveText('Journal');
     await expect(main(page).getByRole('link', { name: 'See where you differed' })).toBeFocused();
   });
@@ -127,11 +148,11 @@ test.describe('data states', () => {
   test('loading holds until the page is pressed, then the journal is ready', async ({ page }) => {
     await open(page, '/record?data=loading');
     await expect(main(page).getByText('Last good 22:15', { exact: true })).toHaveCount(5);
-    await expect(main(page).getByText('Refreshing · last good 22:15')).toBeVisible();
+    await expect(chip(page, 'Refreshing · last good 22:15')).toBeVisible();
     await expect(rows(page)).toHaveCount(0);
     await h1(page).click();
     await expect(rows(page)).toHaveCount(7);
-    await expect(main(page).getByText('Refreshing · last good 22:15')).toHaveCount(0);
+    await expect(chip(page, 'Refreshing · last good 22:15')).toHaveCount(0);
   });
 
   test('empty says how an entry arrives, and leads to the ranked actions', async ({ page }) => {
@@ -151,14 +172,14 @@ test.describe('data states', () => {
     await expect(again).toBeFocused();
     await expect(main(page).getByText('The journal did not load')).toBeVisible();
     // a failed read is not a failed price: the price chips stay
-    await expect(main(page).getByText('Yahoo · HSBC late')).toBeVisible();
+    await expect(chip(page, 'Yahoo · HSBC late')).toBeVisible();
   });
 
   test('stale says outcomes are behind, with the settled limit', async ({ page }) => {
     await open(page, '/record?data=stale');
     await expect(main(page).getByText('Outcomes and rankings are behind.')).toBeVisible();
     await expect(main(page).getByText('Settled · OWN-07')).toBeVisible();
-    await expect(main(page).getByText('Yahoo · HSBC stale')).toBeVisible();
+    await expect(chip(page, 'Yahoo · HSBC stale')).toBeVisible();
     await expect(rows(page)).toHaveCount(7);
   });
 
@@ -166,13 +187,13 @@ test.describe('data states', () => {
     await open(page, '/record?data=offline');
     await expect(main(page).getByText('Showing your journal from 22:15. New entries stay as drafts until you reconnect.')).toBeVisible();
     await expect(main(page).getByText('How a browser protects saved records is unverified.')).toBeVisible();
-    await expect(main(page).getByText('Offline · from 22:15')).toBeVisible();
+    await expect(chip(page, 'Offline · from 22:15')).toBeVisible();
     await open(page, '/record');
     await context.setOffline(true);
-    await expect(main(page).getByText('Offline · from 22:15')).toBeVisible();
+    await expect(chip(page, 'Offline · from 22:15')).toBeVisible();
     await expect(rows(page)).toHaveCount(7);
     await context.setOffline(false);
-    await expect(main(page).getByText('Offline · from 22:15')).toHaveCount(0);
+    await expect(chip(page, 'Offline · from 22:15')).toHaveCount(0);
   });
 
   test('one decision in each state keeps the entry and says what is missing', async ({ page }) => {
@@ -188,11 +209,14 @@ test.describe('data states', () => {
     await open(page, '/record?entry=aapl&data=error', 'Apple · 12 May');
     await expect(main(page).getByText('The journal did not load')).toBeVisible();
     await expect(main(page).getByText('Outcome due 12 Nov 2026', { exact: true })).toBeVisible();
-    await open(page, '/record?entry=nvda&data=empty');
-    await expect(main(page).getByText('No decisions yet')).toBeVisible();
+    // the design's Empty for one decision is a decision still waiting for its horizon, so the entry stays
+    await open(page, '/record?entry=aapl&data=empty', 'Apple · 12 May');
+    await expect(main(page).getByText('Outcome due 12 Nov 2026', { exact: true })).toBeVisible();
+    await expect(chip(page, 'Yahoo · Fresh')).toBeVisible();
+    await expect(main(page).getByText('No decisions yet')).toHaveCount(0);
     // the data state goes along when you go back
     await open(page, '/record?entry=hsba&data=stale', 'HSBC · 14 Apr');
-    await main(page).getByRole('link', { name: 'Journal', exact: true }).click();
+    await main(page).getByRole('link', { name: 'Back to Journal' }).click();
     await expect(page).toHaveURL(/\/record\?data=stale$/);
     await expect(main(page).getByText('Outcomes and rankings are behind.')).toBeVisible();
   });
@@ -202,7 +226,7 @@ test.describe('data states', () => {
     await expect(main(page).getByText('You have followed every ranked action')).toBeVisible();
     await expect(main(page).getByText('How the forecasts did')).toHaveCount(0);
     await open(page, '/record?view=differed&data=loading', 'Where you differed');
-    await expect(main(page).locator('.journal-ba .v')).toHaveText(['3', '4']);
+    await expect(main(page).locator('.journal-ba .v .roll-live')).toHaveText(['3', '4']);
     await expect(main(page).getByText('Last good 22:15', { exact: true })).toHaveCount(3);
   });
 });
@@ -261,11 +285,14 @@ test.describe('accessibility and layout', () => {
     }
   });
 
+  // The journal's own columns. The frame's bars (the desktop top bar and the phone glass bar) are the shared shell's, drawn
+  // from the design's frame; their 36 px tool buttons are reported to the shell, not measured here. A frame part hidden at
+  // this width is not a target.
   test('every link and button in the journal is a 44 px target', async ({ page }) => {
     for (const [path, title] of [PAGES[0], PAGES[1], PAGES[5], PAGES[8]]) {
       await open(page, path, title);
-      const small = await main(page).locator('a, button:not([disabled])').evaluateAll((els) =>
-        els.map((e) => {
+      const small = await main(page).locator('.jcols a, .jcols button:not([disabled])').evaluateAll((els) =>
+        els.filter((e) => e.checkVisibility()).map((e) => {
           const r = e.getBoundingClientRect(), after = getComputedStyle(e, '::after');
           // Prism's segmented control widens its 32 px buttons to 44 with an ::after laid over them
           const extra = after.content !== 'none' && after.position === 'absolute' ? -parseFloat(after.top) - parseFloat(after.bottom) : 0;

@@ -30,7 +30,7 @@
 {#snippet list()}<ListCard {entries} {search} />{/snippet}
 
 {#if part === 'body'}
-  <div data-mo="rise"><div class="segctl full" role="group" aria-label="Record" style="--n:2;--i:0"><span class="lens" aria-hidden="true"></span><button type="button" aria-pressed="true">Journal</button><button type="button" role="link" onclick={() => goto('/record/track')}>Track record</button></div></div>
+  <div data-mo="rise"><div class="segctl full" role="group" aria-label="Record" style="--n:2;--i:0"><span class="lens" aria-hidden="true"></span><button type="button" aria-pressed="true">Journal</button><button type="button" role="link" onclick={() => goto('/record/track').catch(() => location.assign('/record/track'))}>Track record</button></div></div>
   {#if failed}
     <StateCard icon="alert" title={COPY.loadFailed[0]} text="Nothing you saved is lost."><button class="btn btn-tinted sm" type="button" onclick={onretry}><Ico name="refresh" size="s18" />Try again</button></StateCard>
   {:else if state === 'loading'}

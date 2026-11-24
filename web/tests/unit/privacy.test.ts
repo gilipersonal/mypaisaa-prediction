@@ -6,14 +6,19 @@ import { problems, SOURCES } from '../../scripts/prism-components.mjs';
 const read = (p: string) => readFileSync(new URL(`../../../${p}`, import.meta.url), 'utf8');
 const privacyJs = read(PRIVACY_JS);
 const holdingsJs = read(HOLDINGS_JS);
-const page = readFileSync(new URL('../../src/routes/(app)/settings/privacy/+page.svelte', import.meta.url), 'utf8');
+const src = (p: string) => readFileSync(new URL(`../../src/${p}`, import.meta.url), 'utf8');
+const page = src('routes/(app)/settings/privacy/+page.svelte');
+const sw = src('routes/(app)/settings/privacy/Sw.svelte');
+const row = src('routes/(app)/settings/privacy/HoldRow.svelte');
+const later = src('lib/journal/Later.svelte');
 const css = read('docs/design/journeys/src/journeys/privacy.css');
 const designCss = (SOURCES as string[][]).map((p) => read(p.join('/'))).join('\n');
 
 describe('the privacy centre says only what its design says (Privacy option A, privacy-a-centre)', () => {
   it.each(Object.entries(COPY))('finds %s in its design source', (key, phrase) => {
     const file = SOURCE_OF[key as keyof typeof COPY];
-    expect(read(file), `${key} in ${file}`).toContain(phrase);
+    // the design writes an apostrophe inside a quoted string as \', so the source is read as its strings read
+    expect(read(file).replace(/\\'/g, "'"), `${key} in ${file}`).toContain(phrase);
   });
 
   it('takes the screen, its back control and its title from option A', () => {
@@ -57,14 +62,25 @@ describe('the privacy centre page', () => {
     for (const phrase of long) expect(page, phrase).not.toContain(phrase);
   });
 
-  it('has one working switch, and the less private options are drawn off and disabled', () => {
-    expect(page.match(/role="switch"/g)).toHaveLength(2);
-    expect(page).toContain('onclick={() => privacy.set(!privacy.hidden)}');
-    expect(page).toMatch(/aria-checked="false" aria-label=\{t\} disabled>/);
+  it('has one working switch; every other switch is drawn as designed and only says its act comes later', () => {
+    // every switch is the one drawing in Sw.svelte, and what a press does is the page's
+    expect(sw.match(/role="switch"/g)).toHaveLength(1);
+    expect(sw).toContain('onclick={onpress}');
+    expect(page.match(/<Sw /g)).toHaveLength(3);
+    expect(page.match(/privacy\.set\(/g)).toHaveLength(1);
+    expect(page).toContain('<Sw label={COPY.hide} {on} onpress={() => privacy.set(!privacy.hidden)} />');
+    // the less private options are drawn off, can never turn on, and their press only says so
+    expect(page).toContain('<Later text={LATER.less}>{#snippet children(press)}<Sw label={t} on={false} disabled={st === \'offline\'} onpress={press} />');
+    expect(page).toMatch(/<Later text=\{LATER\.push\}>\{#snippet children\(press\)\}\{#if pc === 'on' \|\| pc === 'off'\}<Sw label=\{COPY\.phone\} on=\{pc === 'on'\} disabled=\{st === 'offline'\} onpress=\{press\} \/>/);
+    expect(later).toContain('{@render children(() => { said = true; })}');
+    expect(later).not.toMatch(/fetch\(|localStorage|sessionStorage|privacy\./);
   });
 
-  it('writes nothing to a server', () => {
-    expect(page).not.toMatch(/fetch\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource|source\./);
+  it('writes nothing to a server, and only reads the sample portfolio', () => {
+    for (const f of [page, sw, row, later]) {
+      expect(f).not.toMatch(/fetch\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource/);
+      expect(f).not.toMatch(/source\.(?!portfolio\(\))/);
+    }
   });
 });
 

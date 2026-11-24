@@ -45,8 +45,8 @@
   const back = $derived(hrefOf({ kind: 'list' }, search));
   const hasRail = $derived(
     shown.kind === 'entry' ? true
-      : shown.kind === 'differed' ? dataState !== 'empty'
-      : wide || (!failed && dataState !== 'loading' && dataState !== 'empty')
+      : shown.kind === 'differed' ? !(['empty'] as DataState[]).includes(dataState)
+      : wide || (!failed && !(['loading', 'empty'] as DataState[]).includes(dataState))
   );
 
   /** Waits for a press anywhere on the page; a later read cancels the wait. */
