@@ -67,14 +67,16 @@
   }
 
   let readFor = '';
+  let reading: Promise<void> = Promise.resolve();
   afterNavigate(async ({ from }) => {
     search = location.search;
     const want = currentDataState();
-    if (want !== readFor) { readFor = want; read(); }
+    if (want !== readFor) { readFor = want; reading = read(); }
     // Back from a screen the scorecard opens, focus returns to what was pressed to open it.
     if (view !== 'record' || !from) return;
     const was = (Object.keys(PATHS) as TrackView[]).find((v) => v !== 'record' && PATHS[v] === from.url.pathname);
     if (!was) return;
+    await reading;
     await tick();
     document.getElementById(`track-open-${was}`)?.focus();
   });
