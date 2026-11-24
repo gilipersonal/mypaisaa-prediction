@@ -386,9 +386,10 @@ def page_trace() -> dict:
 
 # --------------------------------------------------------------------------------------------- page 3: merge to prod
 
-CHECKS = ["Backend", "Docs", "Review tooling", "Agent config", "Plan sync", "Confluence receipts", "Static preview", "Workflow lint", "Jira traceability"]
+CHECKS = ["Backend", "Docs", "Review tooling", "Agent config", "Plan sync", "Confluence receipts", "Static preview", "Workflow lint", "Jira traceability", "CodeQL"]
 SCANS = [
-    ("Dependabot", "alerts and security updates: uv, npm, Swift, Actions", "prop"),
+    ("Dependabot", "alerts and security updates, on", "impl"),
+    ("GitHub secret scanning", "with push protection; free on a public repo", "impl"),
     ("OSV-Scanner", "on backend/uv.lock and the site's package-lock.json", "prop"),
     ("pip-audit", "a second source for Python advisories", "prop"),
     ("gitleaks", "secrets in commits; checksum-verified", "prop"),
@@ -406,29 +407,29 @@ def page_delivery() -> dict:
     W = 2440
     s = header("p3", W, "From a merge to prod",
                "One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. "
-               "Today's nine checks are implemented. The release route and Terraform are owner-selected (3 Nov 2026); the rest after the merge is proposed. "
+               "Today's ten checks are implemented. The release route and Terraform are owner-selected (3 Nov 2026); the rest after the merge is proposed. "
                "Steps are numbered in order.",
                "Checks IMPLEMENTED; release route OWNER-SELECTED; rest PROPOSED")
     s.append(heading("gh_h", 60, 146, 600, "GITHUB, OUTSIDE AWS"))
     rowy = 385  # the row's centre line
     s.append(box("pr", 60, rowy - 55, 200, 110, "1 Pull request", "to main: [MP-&lt;n&gt;] title, Jira key", "blue", "impl", size=14))
-    ph = 420  # the notes sit straight under the boxes, so the panels have no empty bottom third
-    s.append(panel("checks", 310, 180, 580, ph, "2 Nine checks on every PR"))
+    ph = 510  # the notes sit straight under the boxes; ten checks and seven scans each take a fourth row (MP-199)
+    s.append(panel("checks", 310, 180, 580, ph, "2 Ten checks on every PR"))
     for k, name in enumerate(CHECKS):
         r, c = divmod(k, 3)
         s.append(box(f"ck{k}", 330 + c * 190, 230 + r * 74, 170, 60, name, "", "teal", "impl", size=13))
-    s.append(text("checks_n", 330, 456, 540, 124,
+    s.append(text("checks_n", 330, 536, 540, 124,
                   f'<p style="font-size:12px;text-align:left">Also {tag("impl")}: Claude hooks run the selected checks before a PR is raised; the fixed-findings '
-                  f'ledger re-runs on every PR; every action is pinned to a commit SHA.<br>Branch protection {tag("open")}: GitHub Free answers 403 for a private '
-                  f'repo, so the settings wait in .github/main-protection.json.</p>'))
+                  f'ledger re-runs on every PR; every action is pinned to a commit SHA.<br>The main ruleset {tag("impl")} requires a pull request and the ten '
+                  f'checks, with no bypass (MP-198).</p>'))
     s.append(panel("scan", 940, 180, 580, ph, "3 Scan gate, free and open source"))
     for k, (name, detail, st) in enumerate(SCANS):
         r, c = divmod(k, 2)
         s.append(box(f"sc{k}", 960 + c * 280, 230 + r * 86, 260, 76, name, detail, "amber", st, size=13))
-    s.append(text("scan_n", 960, 486, 540, 104,
+    s.append(text("scan_n", 960, 576, 540, 104,
                   f'<p style="font-size:12px;text-align:left">A High or Critical finding with a fix blocks the merge; an exception names its owner, reason and '
-                  f'expiry; a weekly sweep catches later advisories {tag("prop")}.<br>Paid on a private repo, so not selected: GitHub secret scanning ($19) and '
-                  f'CodeQL ($30) per active committer a month {tag("open")}.</p>'))
+                  f'expiry; a weekly sweep catches later advisories {tag("prop")}.<br>CodeQL and GitHub secret scanning are free on a public repo and run today '
+                  f'{tag("impl")}.</p>'))
     s.append(box("merge", 1570, rowy - 55, 200, 110, "4 Merge to main", "only when the owner asks", "teal", "impl", size=14, width=3))
     s.append(box("build", 1830, rowy - 65, 260, 130, "5 Build once", "Lambda packages and the PWA bundle, each with a recorded sha256 and an SBOM", "amber", "prop", size=14))
     s.append(box("iac", 2150, rowy - 65, 270, 130, "IaC: Terraform only", "every AWS change; plan only until an apply is asked for. Zip or image: still open", "amber", "sel", size=13, extra=" (MP-29)"))
@@ -466,8 +467,9 @@ def page_delivery() -> dict:
     # right of the diamond's centre line, so the "route A" connector does not cross it
     s.append(heading("routes_h", 1020, 1320, W - 1020, "PROD RELEASES: A RELEASE WORKFLOW ONLY THE OWNER CAN START, ROUTE A (OWNER-SELECTED 3 NOV 2026, PL-11)", BLUE))
     s.append(note("enforce", 60, 1360, 640, 130,
-                  "<b>How it holds on GitHub Free.</b> GitHub Free cannot hold a protected environment on a private repo, so the check lives in AWS: "
-                  "only the owner can start the workflow, and the prod role trusts only main and that workflow file.", 13))
+                  "<b>How it holds on GitHub Free.</b> While the repo was private, GitHub Free could not hold a protected environment, so the check lives in AWS: "
+                  "only the owner can start the workflow, and the prod role trusts only main and that workflow file. The repo is public since "
+                  "24 Nov 2026; " + "whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).", 12))
     s.append(box("routeA", 740, 1360, 560, 130, "Route A, chosen: an owner-started release",
                  "free; the owner starts it with the sha256 as its input", "blue", "sel", size=14, width=3))
     for i, (title, detail) in enumerate(ROUTES_NOT):

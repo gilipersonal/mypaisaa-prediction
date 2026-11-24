@@ -143,9 +143,10 @@ Not in the plan without a costed ADR: NAT Gateway, load balancers, RDS, GPUs, al
 | CI | GitHub Actions: Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, Workflow lint, Jira traceability | Implemented |
 | Code scanning | GitHub CodeQL, default setup: Python, JavaScript and TypeScript, GitHub Actions; a required check in `.github/main-protection.json` | Implemented (MP-198) |
 | Change checks | `scripts/review_checks.py` picks checks by changed path | Implemented |
-| Vulnerability scanning | Dependabot alerts; OSV-Scanner and pip-audit on the locks; gitleaks CLI; Ruff S rules; terraform validate, TFLint and Checkov on the Terraform | Proposed (MP-36) |
+| Secret scanning | GitHub secret scanning with push protection, free on a public repository | Implemented (MP-198) |
+| Vulnerability scanning | Dependabot alerts and security updates are on (read 24 Nov 2026); proposed: OSV-Scanner and pip-audit on the locks, gitleaks CLI, Ruff S rules, terraform validate, TFLint and Checkov on the Terraform | Dependabot implemented; the rest proposed (MP-36) |
 | Release path | One artefact built on main, deployed by GitHub OIDC to dev, then to prod by a release workflow only the owner can start; Lambda alias rollback | Release route owner-selected 3 Nov 2026; the rest proposed (MP-36) |
-| CI minutes | GitHub Free for organisations: $12 a month shared by the org's private repos; Apple builds on the owner's Mac | Proposed (MP-36) |
+| CI minutes | Free: standard GitHub-hosted runners, macOS included, are free and unlimited on a public repository (GitHub docs, checked 24 Nov 2026); GitHub Free caps concurrency at 20 jobs, 5 of them macOS. Apple builds stay on the owner's Mac until the owner chooses otherwise (MP-199) | Proposed (MP-36) |
 | Test IDs | One shared dictionary generating web `data-testid` and Swift accessibility identifiers | Proposed (MP-36) |
 | Infrastructure as code | **Terraform only**, from day one: every AWS change goes through Terraform. Plan-only until an apply is asked for ([MP-29](docs/planning/region-network-2026-11-03/README.md)) | Owner-selected 3 Nov 2026 |
 

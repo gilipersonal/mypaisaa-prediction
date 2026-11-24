@@ -47,8 +47,8 @@
   },
   "sync": {
    "id": "6389776",
-   "version": 3,
-   "sha256": "9845310c1de6e54908d1356414a0e164d4403eb7218b9dd78bf4b6c8669118f3"
+   "version": 4,
+   "sha256": "217787a24a1473f122c36f89714550378bb2e60d5b1f668b83a7f0e68464c727"
   },
   "rec-rules": {
    "id": "6291509",
@@ -102,8 +102,8 @@
   },
   "rec-delivery": {
    "id": "6094881",
-   "version": 4,
-   "sha256": "0771124ad023f2ff256cad265d9a61b7c584166a24adaee82970e9d1c6e4a702"
+   "version": 5,
+   "sha256": "32087db53ca375effd1398dd33eddc9558ee84bdc01d59526bb2c9ac547387fc"
   },
   "rec-cost": {
    "id": "6291529",
@@ -177,13 +177,13 @@
   },
   "rec-testing": {
    "id": "6291936",
-   "version": 5,
-   "sha256": "17ee83ea72a39ec0f80e1563ff92f548323cff3132a7f27ee1cce73117d1d8d6"
+   "version": 6,
+   "sha256": "3157b3e868c4e0d646d0b39cc8acb91db5d0398eb38f7aa08ae5493dc48cabdc"
   },
   "rec-apple-testing": {
    "id": "6291956",
-   "version": 8,
-   "sha256": "b0a18f164f687990c21aeafe4a849c1c5d835c64aeebaadb8128017f6c0e3a4e"
+   "version": 9,
+   "sha256": "c536ea13e9ecf5fa34e40e507c3617aaf58fd2680e514de87948b7a48982de56"
   },
   "rec-perimeter": {
    "id": "6390123",
@@ -192,8 +192,8 @@
   },
   "rec-web-quality": {
    "id": "6095187",
-   "version": 4,
-   "sha256": "959739b6b3aa05a1766ecfc21e23e860866db86fa5102c2ffc63e5c6aeccce52"
+   "version": 5,
+   "sha256": "a013ecd6cea62b78634d9ec8a1298b403170d3259f362ac6847b132b55e1af80"
   }
  },
  "media": {
@@ -344,10 +344,10 @@
   },
   "rec-delivery": {
    "docs/diagrams/mp-architecture-2026-11-02/07-environments-delivery.png": {
-    "id": "75905027-adf0-4b78-8e43-dc40d676209b",
+    "id": "b2e9471e-6588-41af-b266-12dc869ec771",
     "collection": "contentId-6094881",
     "attachment": "att6390028",
-    "sha256": "fdfe4a3bbceb6d88f6dd4780986f32ccebc7fe4aff1511354a1b52458ab2df1b"
+    "sha256": "275ec08a5452457439e12ef9707a59867d6278cec17aaf21980d953a730f73e7"
    }
   },
   "record": {
@@ -438,16 +438,16 @@
   },
   "rec-testing": {
    "docs/motion/delivery-pipeline.gif": {
-    "id": "f65b5971-7935-4a7d-bb11-c49c1c4b0e7a",
+    "id": "705bd487-3b66-49cb-a013-c69891f42843",
     "collection": "contentId-6291936",
     "attachment": "att6096173",
-    "sha256": "5ee66084d6f659dac35a2971236f4ac8757e230756ec8da0691366a972715964"
+    "sha256": "b1313363dfab040d135ba988e7ecbaec9ccb86948d2230d137be65e8ed3ad25b"
    },
    "docs/diagrams/mp-quality-2026-11-02/03-merge-to-prod.png": {
-    "id": "2e4eb120-2e60-4688-9949-c617fa007a4e",
+    "id": "11618238-933c-421b-a9fb-00fb002537a4",
     "collection": "contentId-6291936",
     "attachment": "att6390873",
-    "sha256": "a831df40579d613ca13f600a16323afba0e2d3731c9565b402bbf402e3230714"
+    "sha256": "770eb3dbb9d8d296a549c28197481d88d90d99a2f946e6608e90423c2906feca"
    }
   }
  },

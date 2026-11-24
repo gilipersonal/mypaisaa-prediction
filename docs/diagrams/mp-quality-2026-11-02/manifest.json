@@ -7,7 +7,7 @@
   "jira": "MP-36",
   "status": "PROPOSED. Today's nine CI checks are drawn as IMPLEMENTED; the ARC directions and the owner's 2 and 3 November 2026 decisions (Terraform, the owner-started release, SSM Parameter Store, Organizations with the cost-guard SCP, N0, free Apple builds) as OWNER-SELECTED; nothing is deployed",
   "source": "lucid_spec.py writes spec.json (Lucid Standard Import); `--page N` is the one-page document each drawing was imported from, with use_assisted_layout false. Regenerate and re-import rather than editing exports",
-  "spec_sha256": "fb39c5ca91a6799feb444a94b62e5a7b7da8eb564b92d567784556a79972dc9a",
+  "spec_sha256": "becb2ab74a7caf25e7e8ec44ad148b742938025466e59a6cb8ce85f26e832c3e",
   "pages": [
     {
       "page_number": 1,
@@ -34,11 +34,11 @@
       "page_number": 3,
       "title": "From a merge to prod",
       "filename": "03-merge-to-prod.png",
-      "document_id": "297187e7-4138-4dc3-ba44-61ea8a848d48",
-      "document_url": "https://lucid.app/lucidchart/297187e7-4138-4dc3-ba44-61ea8a848d48/edit",
-      "document_version": 84,
-      "sha256": "a831df40579d613ca13f600a16323afba0e2d3731c9565b402bbf402e3230714",
-      "export_date_utc": "2026-11-03",
+      "document_id": "e6a27ee4-1181-47ad-b189-ecb9b308c37e",
+      "document_url": "https://lucid.app/lucidchart/e6a27ee4-1181-47ad-b189-ecb9b308c37e/edit",
+      "document_version": 86,
+      "sha256": "770eb3dbb9d8d296a549c28197481d88d90d99a2f946e6608e90423c2906feca",
+      "export_date_utc": "2026-11-24",
       "status": "PROPOSED; today's CI checks drawn as IMPLEMENTED and owner choices as OWNER-SELECTED"
     },
     {
@@ -151,6 +151,10 @@
     {
       "document_id": "a65eddeb-513a-4f66-82f0-23fe716d6bef",
       "reason": "drawing 4 wording: until the Developer Program is bought (MP-179) replaced until the owner says when; the connector could not edit this document, so the owner said create new, dont edit lucid (4 Nov 2026) and drawing 4 was re-imported"
+    },
+    {
+      "document_id": "297187e7-4138-4dc3-ba44-61ea8a848d48",
+      "reason": "drawing 3 until 24 Nov 2026 (version 84): nine checks and scanning drawn as paid; replaced by e6a27ee4 in MP-199 because the connector refused in-place edits; not edited"
     }
   ]
 }

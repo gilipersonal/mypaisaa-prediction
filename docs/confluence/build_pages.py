@@ -521,10 +521,11 @@ def rec_delivery(s: str) -> str:
                 ["Confluence receipts", "Every page rendered from the repo, published and read back whole", lozenge("implemented")],
                 ["Static preview", "The concept site build and checks", lozenge("implemented")],
                 ["Workflow lint", "actionlint on every workflow", lozenge("implemented")],
-                ["Jira traceability", "MP key on the branch, the title and every commit", lozenge("implemented")]])
+                ["Jira traceability", "MP key on the branch, the title and every commit", lozenge("implemented")],
+                ["CodeQL", "GitHub code scanning: Python, JavaScript and TypeScript, GitHub Actions", lozenge("implemented")]])
             + ul(["Every change is on an <code>MP-&lt;n&gt;-&lt;slug&gt;</code> branch, merged to main through a PR.",
                   "Infrastructure as code is plan-only; nothing is applied without an explicit request.",
-                  "Branch protection is not enforced on the current GitHub plan; the intended settings are versioned."])
+                  "The <code>main</code> ruleset enforces a pull request and the ten checks, with no bypass (MP-198); the intended settings are also versioned."])
             + footer())
 
 
@@ -754,7 +755,7 @@ def drawings(s: str) -> str:
 def sync(s: str) -> str:
     return (banner("record", "Five records describe MP. They agree because each one has an owner and a check.", [".claude/rules/mp-workflow.md"])
             + table(["Record", "Holds", "Kept in step by"], [
-                ["The repo", "Decisions, contracts, ARCHITECTURE.md, TECH-STACK.md, the generators", "CI's nine checks on every PR"],
+                ["The repo", "Decisions, contracts, ARCHITECTURE.md, TECH-STACK.md, the generators", "The ten required checks on every PR: nine CI jobs and CodeQL"],
                 [f'<a href="{JIRA_BOARD}">Jira MP</a>', "Work and its status", "Branch, title and commits carry the MP key"],
                 ["Lucid", "The architecture drawings", "Generated from the repo; exported with hashes"],
                 ["This space", "The readable plan", "Rendered from the repo; the next publish overwrites edits made here"],
@@ -763,11 +764,11 @@ def sync(s: str) -> str:
 
 
 def rec_testing(s: str) -> str:
-    return (banner("proposed", "Today's nine CI checks, the Claude hooks and the fixed-findings ledger are implemented. "
+    return (banner("proposed", "Today's ten required checks (nine CI jobs and CodeQL code scanning), secret scanning, the Claude hooks and the fixed-findings ledger are implemented. "
                    "Everything else on this page is proposed: nothing is deployed and no account exists. The IaC tool is Terraform, owner-selected on 3 November 2026.",
                    [".github/workflows/verify.yml", "docs/github-workflow.md", ".claude/rules/aws-changes.md",
                     "docs/planning/ma-reconciliation-2026-11-02/gap-register.json"])
-            + gif(s, "delivery-pipeline", "Nine checks today, then the proposed road to prod with a rollback.")
+            + gif(s, "delivery-pipeline", "Ten checks today, then the proposed road to prod with a rollback.")
             + "<h2>🗺️ The drawing</h2>" + lucid(s, 3, "From a merge to prod: today's checks, the scan gate, dev, approval, prod and rollback.", LUCID_QUALITY)
             + f"<p>{link('rec-delivery', 'Environments, CI and delivery')} stays the summary of today's checks. This page is the plan for "
               "what comes next: the road to dev and prod, scanning, smoke, rollback and the regression layers. It answers "
@@ -775,17 +776,21 @@ def rec_testing(s: str) -> str:
 
             + "<h2>✅ What runs today</h2>"
             + table(["Piece", "What it does", "Status"], [
-                ["Nine CI checks", "Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, "
-                 "Workflow lint and Jira traceability, on every PR to <code>main</code> and every push to it", lozenge("implemented")],
+                ["Ten required checks", "Backend, Docs, Review tooling, Agent config, Plan sync, Confluence receipts, Static preview, "
+                 "Workflow lint and Jira traceability, on every PR to <code>main</code> and every push to it, and CodeQL code scanning "
+                 "(Python, JavaScript and TypeScript, GitHub Actions)", lozenge("implemented")],
                 ["Claude hooks", "<code>.claude/hooks/mp_hook.py</code>: before a PR is raised it runs the selected checks, plan sync and "
                  "the Confluence check and refuses the PR on a failure; after an edit it reports drift; a new-work prompt gets a Jira reminder",
                  lozenge("implemented")],
                 ["Fixed stays fixed", "<code>scripts/review_regress.py --every</code> re-runs every fixed review finding on every PR",
                  lozenge("implemented")],
                 ["Pinned actions", "Every action pinned to a commit SHA; actionlint checked against its checksum", lozenge("implemented")],
-                ["Branch protection", "Not enforced: GitHub answers 403 on the Free plan for a private repo. The settings wait in "
-                 "<code>.github/main-protection.json</code>", lozenge("open")],
-                ["Vulnerability scanning, deploys, smoke", "None yet", lozenge("proposed")]])
+                ["The <code>main</code> ruleset", "A pull request, resolved conversations, merge commits only and the ten checks on an up-to-date "
+                 "branch, with no bypass; no deletion or force push (MP-198). The same policy is versioned in "
+                 "<code>.github/main-protection.json</code>", lozenge("implemented")],
+                ["Code and secret scanning", "CodeQL code scanning, GitHub secret scanning with push protection, and Dependabot alerts, "
+                 "free on a public repository", lozenge("implemented")],
+                ["Deploys, smoke", "None yet", lozenge("proposed")]])
 
             + "<h2>🚚 From a merge to prod</h2>"
             + "<p>One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does.</p>"
@@ -804,22 +809,26 @@ def rec_testing(s: str) -> str:
                 ["How the code is packaged", "Zip or container image is not decided. Durable Functions list managed Python 3.13 and 3.14; "
                  "MP targets 3.12 or later, so this choice matters", lozenge("open")]])
             + panel("warning", "#FFFAE6",
-                    "<p><strong>The Free plan cannot hold the prod gate.</strong> On a private repo, GitHub's required reviewers and wait "
-                    "timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner approves in a protected "
-                    "environment&quot; cannot be built on today's plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen.</p>"
+                    "<p><strong>The Free plan could not hold the prod gate while the repository was private.</strong> On a private repo, GitHub's "
+                    "required reviewers and wait timers need Enterprise, and environment secrets need Pro or Team. So the rule's &quot;owner "
+                    "approves in a protected environment&quot; could not be built on that plan. The owner chose A on 3 November 2026; B to D are recorded as not chosen.</p>"
                     + ul(["<strong>A, free, owner-selected:</strong> a release workflow only the owner dispatches, with the sha256 as input, and a prod role "
                           "that trusts only <code>main</code> and that workflow file. The org has one member today.",
                           "<strong>B:</strong> GitHub Team, $4 a user a month (about £3.84): branch protection and environment secrets, still no "
                           "required reviewers on a private repo.",
                           "<strong>C:</strong> GitHub Enterprise, $21 a user a month (about £20.16): required reviewers.",
                           "<strong>D:</strong> an AWS CodePipeline manual approval in the prod account. Approvals are not charged, but it is a new "
-                          "managed service, so it needs a costed ADR."]))
+                          "managed service, so it needs a costed ADR."])
+                    + "<p><strong>Since 24 November 2026 the repository is public</strong> (owner: &quot;Make the repo public, that is fine&quot;). "
+                      "On a public repository GitHub Free offers environments with required reviewers, wait timers and deployment branch rules, "
+                      "and environment secrets; administrators can bypass them by default. Whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).</p>")
 
             + "<h2>🛡️ Vulnerability scanning</h2>"
-            + "<p>Free and open-source first. Two GitHub features that MA lists are paid add-ons on a private repo, so they are not selected.</p>"
-            + table(["Gate", "Tool", "Free on a private repo?", "Status"], [
-                ["Dependency alerts", "Dependabot alerts and security updates (uv, npm, Swift and GitHub Actions)", "Yes, every plan",
-                 lozenge("proposed")],
+            + "<p>Free and open-source first. GitHub's code scanning and secret scanning, paid add-ons on a private repo, are free on a public one "
+              "and run today (MP-198).</p>"
+            + table(["Gate", "Tool", "Free for MP?", "Status"], [
+                ["Dependency alerts", "Dependabot alerts and security updates, on (read 24 November 2026)", "Yes, every plan",
+                 lozenge("implemented")],
                 ["Lockfile audit in CI", "OSV-Scanner on <code>backend/uv.lock</code> and <code>site/package-lock.json</code>; "
                  "pip-audit as a second source", "Yes, Apache-2.0", lozenge("proposed")],
                 ["Secrets in commits", "gitleaks CLI, checksum-verified like actionlint", "Yes, MIT", lozenge("proposed")],
@@ -828,9 +837,9 @@ def rec_testing(s: str) -> str:
                 ["Infrastructure code", "terraform fmt and validate, TFLint and Checkov on the Terraform",
                  "Yes", lozenge("proposed")],
                 ["Container images", "Trivy or Grype, only if images are chosen", "Yes", lozenge("open")],
-                ["GitHub secret scanning", "Secret Protection, $19 per active committer a month, Team or Enterprise only", "No",
-                 lozenge("open")],
-                ["CodeQL", "Code Security, $30 per active committer a month, Team or Enterprise only", "No", lozenge("open")]])
+                ["GitHub secret scanning", "Secret scanning with push protection (MP-198)", "Yes, on a public repo",
+                 lozenge("implemented")],
+                ["CodeQL", "Code scanning, default setup: Python, JavaScript and TypeScript, GitHub Actions; a required check (MP-198)", "Yes, on a public repo", lozenge("implemented")]])
             + ul(["A High or Critical finding with a fix blocks the merge. An exception names its owner, its reason and its expiry.",
                   "A weekly scheduled sweep catches advisories published after the merge.",
                   "Actions stay pinned to SHAs. In March 2026 nearly every trivy-action tag was repointed to credential-stealing code "
@@ -867,29 +876,32 @@ def rec_testing(s: str) -> str:
                 ["Fixed stays fixed", "The review ledger", "Every PR", lozenge("implemented")]])
 
             + "<h2>💷 What CI costs</h2>"
-            + cols(card("bar_chart", "#DEEBFF", "$12 a month, shared",
-                        "GitHub Free for organisations includes $12 of runner time. Every private repo in the org draws on it, MA included. "
-                        "Linux is $0.006 a minute (about 2,000 minutes); macOS is $0.062 (about 193 minutes, 10.3 times Linux)."),
+            + cols(card("bar_chart", "#DEEBFF", "Free on a public repo",
+                        "The standard GitHub-hosted runners, macOS included, are free and unlimited on a public repository (GitHub docs, checked 24 November 2026). GitHub Free limits concurrency instead: "
+                        "20 jobs at once, 5 of them macOS. Until 24 November MP was private and drew on the org's $12 a month."),
                    card("stopwatch", "#E3FCEF", "MP's CI today",
                         "A PR run bills about 9 minutes (each job rounds up to a minute); a merge about 8. On 1 and 2 November MP used "
                         "219 Linux minutes and MA 58: setup days, not a normal month."))
-            + ul(["A proposed normal month, 40 PR pushes and 20 merges, is about 520 Linux minutes: $3.12, about £3.00. Inside the allowance.",
-                  "Past the allowance, 100 Linux minutes cost about £0.58 and 100 macOS minutes about £5.95.",
-                  "Apple builds run on the owner's Mac, which bills no GitHub minutes " + f"({link('rec-apple-testing', 'Apple testing')}).",
+            + ul(["A proposed normal month, 40 PR pushes and 20 merges, is about 520 Linux minutes. On a public repository that costs nothing.",
+                  "Only if the repository went private again would minutes be billed, past a $12 shared allowance: 100 Linux minutes about £0.58, 100 macOS minutes about £5.95.",
+                  "Apple builds run on the owner's Mac " + f"({link('rec-apple-testing', 'Apple testing')}). macOS runner minutes are now free too; "
+                  "whether any Apple build moves to CI is open for the owner (MP-199).",
                   "GitHub is not yet in the cost model; it needs a line, planned at £0 with a cap " + f"({link('rec-cost', 'Cost and the £100 ceiling')})."])
             + expand("How these figures were reached",
-                     ul(["Prices: docs.github.com, GitHub Actions billing and Actions runner pricing, checked 2 November 2026.",
+                     ul(["Public-repository billing and limits: docs.github.com, checked 24 November 2026: standard runners free and unlimited, concurrency limits apply.",
+                         "Prices: docs.github.com, GitHub Actions billing and Actions runner pricing, checked 2 November 2026.",
                          "Usage: the org's billing usage report for October and November 2026, read 2 November 2026.",
                          "Pounds use the cost specification's central £0.80 per dollar and 20% tax.",
-                         "Without a payment method GitHub stops runs at the allowance; whether one is on file is not verified."]))
+                         "While the repository was private: without a payment method GitHub stops runs at the allowance; whether one is on file is not verified."]))
 
             + "<h2>❓ To decide</h2>"
             + panel("hourglass", "#FFFAE6", ul([
                 "The wording of the AWS rule for route A, the release workflow only the owner can start (owner-selected 3 November 2026). PL-11 (MP-30)",
                                 "Zip or container images, and the Python version for durable workflows. PL-11 (MP-30)",
                 "The vulnerability policy: threshold, exception expiry, the weekly sweep. PL-11 (MP-30)",
-                "The CI budget: the shared $12, a hard stop or a payment method, Mac minutes. PL-11 (MP-30)",
-                "Whether to switch on Dependabot, OSV-Scanner and gitleaks now, under their own MP issue."]))
+                "The CI budget: minutes are free while the repository is public; a hard stop or budget matters only if it goes private again. PL-11 (MP-30)",
+                "Whether to switch on OSV-Scanner and gitleaks now, under their own MP issue. Dependabot alerts, CodeQL and secret scanning already run.",
+                "The prod gate on a public repository: whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199)."]))
             + f"<p><strong>Phases:</strong> {link('ph-00', 'PH-00')} writes the Terraform ADR and sets up the accounts; "
               f"{link('ph-02', 'PH-02')} brings the first deployed runtime, so the dev pipeline and dev smoke; "
               f"{link('ph-08', 'PH-08')} holds prod promotion, the rollback exercises and the whole-release gates (L8-S02, L8-S04).</p>"
@@ -943,7 +955,7 @@ def rec_web_quality(s: str) -> str:
                 ["Argos Pro", "100 USD a month for 35,000 captures, then 0.004 USD each", "£96.00 a month: nearly the whole £100 ceiling", lozenge("open") + " not proposed"],
                 ["Other hosted services (Percy, Chromatic and the like)", "Not priced here; unverified", "Same trade-off as Argos", lozenge("open") + " not proposed"]])
             + ul(["Volume if Argos were chosen: about 12 screen areas, 2 widths and 2 themes make 48 captures a run, so about 100 runs a month before the Hobby limit.",
-                  "Running the suite in CI on GitHub's Linux runner: 0.006 USD a minute, so a 5-minute run costs £0.03 and 40 runs £1.15 a month, inside the 12 USD of compute GitHub Free includes, which the nine existing checks share."])
+                  "Running the suite in CI on GitHub's Linux runner costs nothing: standard GitHub-hosted runners, macOS included, are free and unlimited on a public repository (GitHub docs, checked 24 November 2026)."])
             + "<h2>🗓️ When it runs</h2>"
             + table(["Step", "When", "Status"], [
                 ["Lint, type checks, unit tests", "Every pull request that touches <code>web/</code>", lozenge("proposed")],
@@ -1027,19 +1039,19 @@ def rec_apple_testing(s: str) -> str:
             + table(["Item", "Price", "In MP's money", "Status"], [
                 ["Maestro CLI and Studio", "Free", "£0", lozenge("proposed")],
                 ["Maestro Cloud", "250 USD per device a month", "£240.00 a month: 2.4 times the whole £100 ceiling", lozenge("open") + " not proposed"],
-                ["GitHub macOS runner", "0.062 USD a minute, about ten times Linux at 0.006", "A 15-minute simulator run £0.89; 20 runs £17.86 a month, close to the £22 planned for all of AWS", lozenge("open") + " not proposed"],
+                ["GitHub macOS runner", "Free and unlimited on a public repository (GitHub docs, checked 24 November 2026); 0.062 USD a minute on a private one", "£0 while the repository is public; GitHub Free runs at most 5 macOS jobs at once", lozenge("open") + " not proposed"],
                 ["Apple Developer Program", "99 USD a membership year, charged in local currency at enrolment", "£95.04 in the month it is paid", lozenge("open")]])
             + panel("warning", "#FFEBE6",
                     "<p>MP counts cash in the month an invoice is due. If the owner joins, the Apple fee on top of an ordinary Grow 55 month "
                     "makes about £141.52 with Claude off, or £149.77 with Claude on: over the £100 ceiling. "
                     "The owner allowed that one month a year above £100, for this fee only (2 November 2026), and has not joined for now (3 November 2026). "
                     "Push, Sign in with Apple and passkeys on a real device most likely need the membership too, so this is a cost of the Apple door itself, not only of TestFlight.</p>")
-            + "<p>GitHub's Free plan includes 12 USD of compute a month for this private repo, shared with the nine existing checks; that is about 193 macOS minutes. "
-            + "Local first keeps it for the checks.</p>"
+            + "<p>The repository is public, so GitHub's standard runners, macOS included, cost nothing (GitHub docs, checked 24 November 2026). "
+            + "Local first still holds: simulator runs stay on the owner's Mac until the owner chooses otherwise (MP-199).</p>"
             + panel("hourglass", "#FFFAE6", "<p><strong>To decide</strong></p>" + ul([
                 "Supported iOS and iPadOS versions, devices and what &quot;Duo&quot; means: PL-14 (MP-30).",
                 "Whether and when to join the Apple Developer Program. Its fee month is allowed above £100 as a one-off exception (owner, 2 November 2026): PL-11 (MP-30).",
-                "The Mac CI budget: proposed £0, with simulator runs on the owner's Mac: PL-11 (MP-30).",
+                "The Mac CI budget: £0 either way now; whether simulator runs stay on the owner's Mac or move to free macOS runners: PL-11 (MP-30), MP-199.",
                 "The test-ID prefix and where the shared dictionary lives: PL-14 (MP-30).",
                 "The largest Dynamic Type size and the settings every screen must pass: PL-14 (MP-30), L7-S02.",
                 "Testers: the owner only, or others too (no gap yet)."]))
@@ -1305,7 +1317,8 @@ def tree() -> None:
 # word, tag, link, status, macro parameter and media node we sent, so a page cut short or changed
 # in transit still differs. The cases are in selftest().
 
-RB_DROP = {"data-local-id"}  # Confluence adds an id to every block
+RB_DROP = {"data-local-id",  # Confluence adds an id to every block
+           "data-confluence-metadata"}  # and, since about 4 Nov 2026, a link title and version to every link (MP-199)
 RB_DROP_BY_TYPE = {
     "media-single": {"data-width", "data-width-type"},  # 90% becomes a pixel width; full width loses its type
     "media": {"data-width", "data-height"},  # the file's own pixel size, added
@@ -1611,6 +1624,9 @@ def selftest() -> int:
                                                                 "&quot;depth&quot;: {&quot;value&quot;: &quot;2&quot;}"), 1)
         run("a renumbered list fails", faithful.replace("<ol", '<ol start="2"', 1), 1)
         run("the faithful read-back passes again", faithful, 0)
+        meta = '<a data-confluence-metadata="{&quot;linkTitle&quot;:&quot;x&quot;,&quot;version&quot;:4}" href='
+        run("a link Confluence annotates with its metadata passes", faithful.replace("<a href=", meta, 1), 0)
+        run("... but an annotated link whose target changed fails", re.sub(r'href="[^"]*"', 'href="https://example.com/x"', faithful.replace("<a href=", meta, 1), count=1), 1)
         man["pages"]["p"]["sha256"] = "0" * 64
         (root / "pages" / "p.html").write_text("changed")
         man["pages"]["p"]["sha256"] = hashlib.sha256(b"changed").hexdigest()

@@ -967,14 +967,14 @@ def trace_journey() -> tuple[str, int, int, float, float]:
 
 # ---------------------------------------------------------------- 12. from a pull request to prod
 
-CHECKS = ["Backend", "Docs", "Review tooling", "Agent config", "Plan sync", "Confluence receipts", "Static preview", "Workflow lint", "Jira traceability"]
+CHECKS = ["Backend", "Docs", "Review tooling", "Agent config", "Plan sync", "Confluence receipts", "Static preview", "Workflow lint", "Jira traceability", "CodeQL"]
 
 
 def delivery_pipeline() -> tuple[str, int, int, float, float]:
     w, h = 1200, 620
     checks = ""
     for i, name in enumerate(CHECKS):
-        y, t = 196 + i * 34, 0.6 + i * 0.15
+        y, t = 194 + i * 31, 0.6 + i * 0.14  # ten rows fit inside the box (MP-199)
         checks += (
             f'<g class="rise" {at(0.3 + i * 0.04)}><circle cx="80" cy="{y}" r="9" fill="none" stroke="{C["line"]}" stroke-width="2"/>'
             f'<text x="100" y="{y + 5}" fill="{C["text"]}" font-size="14" font-weight="600">{name}</text></g>'
@@ -1018,7 +1018,7 @@ def delivery_pipeline() -> tuple[str, int, int, float, float]:
     move = 7.7
     body = f"""
 <svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" style="position:absolute;inset:0">
-  {kicker(60, 50, "FROM A PULL REQUEST TO PROD", "Nine checks today, then a proposed road to prod")}
+  {kicker(60, 50, "FROM A PULL REQUEST TO PROD", "Ten checks today, then a proposed road to prod")}
   <g class="rise" {at(0.2)}>
     <rect x="50" y="110" width="280" height="390" rx="14" fill="{C['surface']}" stroke="{C['line']}"/>
     <text x="68" y="136" fill="{C['muted']}" font-size="11" font-weight="700" letter-spacing="1.5">ON EVERY PR, TODAY</text>
@@ -1047,7 +1047,7 @@ def delivery_pipeline() -> tuple[str, int, int, float, float]:
     <text x="930" y="468" fill="{C['text']}" font-size="14" font-weight="700">data does not.</text>
     <text x="930" y="492" fill="{C['muted']}" font-size="12">Schema changes go in two steps.</text>
   </g>
-  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/workflows · release: a workflow only the owner can start · IaC: Terraform only (both owner-selected) · nothing is deployed</text>
+  <text x="50" y="590" fill="{C['muted']}" font-size="12" class="fade" {at(move + 1.0)}>Check names from .github/main-protection.json · release: a workflow only the owner can start · IaC: Terraform only (both owner-selected) · nothing is deployed</text>
 </svg>{dots}"""
     css = "@keyframes alias { to { transform: translateX(-180px); } }"
     end = 11.0

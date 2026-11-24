@@ -2091,9 +2091,28 @@
    "key": "MP-199",
    "summary": "Show CodeQL code scanning and the repository's visibility in the drawings, Confluence and the site",
    "type": "Task",
-   "status": "To Do",
+   "status": "In Progress",
    "parent": "MP-4",
-   "code": []
+   "code": [
+    "ARCHITECTURE.md",
+    "TECH-STACK.md",
+    "docs/confluence/build_pages.py",
+    "docs/confluence/pages/",
+    "docs/confluence/confluence.json",
+    "docs/confluence/receipts/",
+    "docs/diagrams/mp-architecture-2026-11-02/",
+    "docs/diagrams/mp-quality-2026-11-02/",
+    "docs/motion/build_motion.py",
+    "docs/motion/delivery-pipeline.gif",
+    "docs/motion/delivery-pipeline.png",
+    "docs/motion/README.md",
+    "docs/architecture-explainer/index.html",
+    "docs/design/artifacts.json",
+    "site/architecture/main.jsx",
+    "site/dist/",
+    "docs/planning/source-rights-2026-11-02/README.md",
+    "docs/planning/trace.json"
+   ]
   },
   {
    "key": "MP-200",

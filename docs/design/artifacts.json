@@ -1,14 +1,6 @@
 {
  "designs": [
   {
-   "slug": "architecture-explainer",
-   "source": "docs/architecture-explainer/index.html",
-   "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
-   "published_sha256": "86c90c7c0b562c5517692231025e3cd36603bb24345a77190b5efd6591062565",
-   "published_at": "2026-11-03",
-   "jira": "MP-177"
-  },
-  {
    "slug": "ds-option-a-fan",
    "source": "docs/design/reviews/MP-62/option-a/index.html",
    "artifact_url": "https://claude.ai/artifact/WpjRPNZRvfa6VKA9V5W57c",
@@ -79,6 +71,14 @@
    "published_sha256": "99b3510137d5ab384f40195184145e1f110c61e66ae5657fb1ccd302ca604f18",
    "published_at": "2026-11-24",
    "jira": "MP-198"
+  },
+  {
+   "slug": "architecture-explainer",
+   "source": "docs/architecture-explainer/index.html",
+   "artifact_url": "https://claude.ai/artifact/JLvu61vugzR6ydEkQ5RFr2",
+   "published_sha256": "89ba0522f3889509715b1a73d44925c58aba309c8295900744f7be5355090246",
+   "published_at": "2026-11-24",
+   "jira": "MP-199"
   }
  ]
 }

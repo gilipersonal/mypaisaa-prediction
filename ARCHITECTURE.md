@@ -273,8 +273,9 @@ plus up to £5 for the top-5 scan (at most £59.73);
 [TECH-STACK.md](TECH-STACK.md#9-monthly-cost) shows the earlier drafts and why Grow 55 fits.
 
 **Proposed (MP-36):** no customer VPC by default; an optional VPC lockdown is costed on the perimeter page and decided
-at PH-08. GitHub's Free plan cannot enforce a prod approval on a private repo, so the owner chose (3 November 2026) a
-release workflow only the owner can start (PL-11, MP-30).
+at PH-08. GitHub's Free plan could not enforce a prod approval while the repository was private, so the owner chose
+(3 November 2026) a release workflow only the owner can start (PL-11, MP-30). The repository is public since
+24 November 2026, where GitHub Free offers environments with required reviewers; whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).
 
 **MP-29 (2 November 2026):** Virginia (us-east-1) is owner-selected. On 3 November 2026 the owner chose Terraform for every AWS change,
 SSM Parameter Store for secrets, and Organizations with all features plus a cost-guard SCP. The owner also approved N0 (no VPC, with an empty

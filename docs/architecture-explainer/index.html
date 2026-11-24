@@ -709,7 +709,7 @@ footer p + p { margin-top: 8px; }
       </div>
     </div>
     <div class="statuskey" aria-label="Status labels used on this page">
-      <div><span class="tag t-impl">Implemented</span>Code that runs today: only the nine CI checks and the local FastAPI starter (health route, sample SSE).</div>
+      <div><span class="tag t-impl">Implemented</span>Code that runs today: only the ten required checks (nine CI jobs and CodeQL code scanning) and the local FastAPI starter (health route, sample SSE).</div>
       <div><span class="tag t-sel">Owner-selected</span>Chosen by the owner, with a date. Not built.</div>
       <div><span class="tag t-prop">Proposed</span>Drafted in the plan, waiting for the owner's yes or a proof.</div>
       <div><span class="tag t-open">Open</span>Not decided yet. Named so it cannot be mistaken for a choice.</div>
@@ -1070,11 +1070,11 @@ footer p + p { margin-top: 8px; }
     <div class="sec-head">
       <p class="eyebrow">Environments and delivery · MP-29, MP-30</p>
       <h2 id="del-h">Terraform only, one artefact, prod from a workflow only the owner starts</h2>
-      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the nine CI checks. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-sel">Owner-selected</span> 3 November 2026: a prod release runs from a release workflow that only the owner can start, on GitHub Free. This answers PL-11's release route.</p>
+      <p>Every AWS change, from the first resource, goes through Terraform; IaC stays plan-only until an apply is asked for. One artefact is built once, tested in dev, and the same bytes go to prod. CI deploys; no laptop and no Claude session does. <span class="tag t-impl">Implemented</span> the ten required checks and secret scanning. <span class="tag t-prop">Proposed</span> the rest. <span class="tag t-sel">Owner-selected</span> 3 November 2026: a prod release runs from a release workflow that only the owner can start, on GitHub Free. This answers PL-11's release route. Since 24 November 2026 the repository is public, where GitHub Free offers environments with required reviewers; whether route A stands, or a protected environment replaces or joins it, is open for the owner (MP-199).</p>
     </div>
     <div class="pipe-wrap"><span class="runner" aria-hidden="true"></span>
     <ol class="pipe" aria-label="The release pipeline, in order">
-      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-branch"/></svg></span><b>PR gates</b><span>Nine checks today; scans proposed: OSV-Scanner, pip-audit, gitleaks, Ruff S</span><span class="tag t-impl">9 checks</span></li>
+      <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-branch"/></svg></span><b>PR gates</b><span>Ten checks today, CodeQL among them, and secret scanning; scans proposed: OSV-Scanner, pip-audit, gitleaks, Ruff S</span><span class="tag t-impl">10 checks</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-terraform"/></svg></span><b>Terraform</b><span>fmt, validate, TFLint and Checkov now; <code>plan</code> with read-only credentials later</span><span class="tag t-sel">Terraform</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-lambda"/></svg></span><b>Build once</b><span>Lambda packages and the static PWA, each with a sha256 and an SBOM</span><span class="tag t-prop">proposed</span></li>
       <li class="stg"><span class="ic"><svg aria-hidden="true"><use href="#g-shield"/></svg></span><b>Dev</b><span>GitHub OIDC into a dev-only role; synthetic smoke through the queue and workflow</span><span class="tag t-prop">proposed</span></li>

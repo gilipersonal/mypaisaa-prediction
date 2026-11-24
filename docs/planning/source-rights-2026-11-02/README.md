@@ -78,6 +78,12 @@ missing, and writes [evidence/cost-months.json](evidence/cost-months.json): 756 
 domain option `none` is the owner's selection (owner, 3 Nov 2026: mypaisapp.com is renewed outside MP); the `com16`
 and `uk9` options stay in the grid for the record.
 
+**Recheck, 24 November 2026 (MP-199).** The repository is public (owner: "Make the repo public, that is fine"), and so is
+mypaisa-agent. GitHub's documentation, checked that day, says standard GitHub-hosted runners, macOS included, are free and
+unlimited on a public repository. The planned `github_actions` line (USD 0) is unchanged. Its USD 3.12 worst case, and the
+owner and vendor questions about the shared USD 12 allowance and a payment method, apply only if a repository goes private
+again. The evidence below stands as checked on 2 November.
+
 | The owner's selection: Virginia, Basic in dev, no domain line, no Apple fee | Every month, 1 to 12 | Result |
 | --- | ---: | --- |
 | Grow 55, Claude blocked | £46.48 | Under £70 and the £60 warning every month |
