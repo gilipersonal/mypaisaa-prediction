@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import PlaceHeader from '#lib/components/PlaceHeader.svelte';
   import PlaceLinks from '#lib/components/PlaceLinks.svelte';
+  import Icon from '#lib/components/Icon.svelte';
+  import { privacy } from '#lib/privacy.svelte.ts';
   import { placeById, childrenOf } from '#lib/places.ts';
   import { applyTheme, readTheme, THEMES, type Theme } from '#lib/theme.ts';
   import { goto } from '$app/navigation';
@@ -37,6 +39,15 @@
   <p class="small muted">Kept on this device only.</p>
 </section>
 
+<!-- Privacy option A, "One privacy centre": Settings, then Privacy, with its status showing. -->
+<div class="card privacy-link">
+  <a href="/settings/privacy">
+    <Icon name="lock" />
+    <span class="txt">Privacy<span class="small muted">Hide amounts: {privacy.hidden ? 'On' : 'Off'}</span></span>
+    <Icon name="chev-r" size="s18" />
+  </a>
+</div>
+
 <section class="card pane" aria-labelledby="account-h">
   <h2 id="account-h">Account</h2>
   <p class="small muted">Signed in with {how}. {auth.provider?.label ?? ''}: no real account is used.</p>
@@ -50,5 +61,7 @@
   .pane h2 { font: 600 17px/22px var(--font-text); letter-spacing: -0.01em; }
   .seg { display: flex; gap: 8px; flex-wrap: wrap; }
   .small { margin: 0; }
-  .pane + .pane { margin-top: 16px; }
+  .privacy-link { margin: 16px 0; }
+  .privacy-link a { display: flex; align-items: center; gap: 12px; min-height: var(--tap); padding: 10px 16px; color: var(--ink); text-decoration: none; font: 400 17px/22px var(--font-text); letter-spacing: -0.01em; --ic2: var(--link); }
+  .privacy-link .txt { flex: 1; display: grid; min-width: 0; }
 </style>
