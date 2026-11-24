@@ -3428,7 +3428,7 @@ const OPEN = [
   ['Holdings says 6 originals are kept, and the receipts name 8.', 'Drawn as 8. The owner journeys stay as they are.'],
   ['R1-LGB names LightGBM, and the records define R1 as ridge. Should the name change everywhere?', 'Kept, as the owner journeys use it.'],
   ['Who records which actor for an owner act? AuditEvidence has an admin actor, and MP has no admin role. (CT-03)', 'Drawn as You. The actor name is not an approved vocabulary.'],
-  ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Settled, 5 Nov 2026 ("By kind, as drawn", OWN-08): each kind keeps its own wait, days for a promotion or a setting, none for a restart. Open: how many days, a replay\'s wait, and the schema itself, so every non-financial expiry is illustrative and labelled Proposed · CT-02.'],
+  ['Non-financial approvals have no schema: ApprovalRequest is only a name. (CT-02)', 'Settled, 5 Nov 2026 ("By kind, as drawn", OWN-08): each kind keeps its own wait, days for a promotion or a setting, none for a restart. A chat-proposed listing expires the same day ("Same day, as drawn", MP40-Q9), an approved switch forward or restart has 15 minutes to apply ("15 minutes, as drawn", OWN-21), and a scope you keep paused stays, undated ("It stays, undated", OWN-29). Open: how many days, a replay\'s wait, the wait on a route, factor or rules change, the window after any other yes, and the schema itself, so those expiries are illustrative and labelled Proposed · CT-02.'],
   ['MP-162 shows the HSBC notice as dismissed, and admin holds inc_0012 as acknowledged. Are a notice and an incident two records?', 'Drawn as two records. No record says so.'],
   ['The daily clock freezes the cutoff at +60, 22:00 for the US, and the owner journeys say cutoff 21:00. Which holds? (POLICY-002)', 'Your daily window holds (ADM-22): the cutoff freezes at +60 and forecasts issue by +75, 22:00 and 22:15 for the US. The owner journeys now say the same, and each run keeps their words (MP-186). The window is still to be proven on real sources.'],
   ['Is ISA statement, Oct 2026 the same file as Broker statement, Oct 2026? (MP-62)', 'Drawn as the ISA statement, the import the owner journeys use.']
@@ -3601,6 +3601,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" data-go="${k}" aria-label="${name}. ${lineOf(ctx, k)}" data-mo="card">${lead(i, k === 'incidents' && hot(ctx) ? 'warn' : '')}<b>${name}</b><span class="small">${lineOf(ctx, k)}</span></div>`).join('')}</div>`;
   const WAITS = (n, inc = '1 incident') => `${n} decisions wait on you. 1 paused scope waits on your restart. ${inc} not resolved.`;
   const WAIT = WAITS(4);
+  /* what "Anything that writes or widens" (OWN-39) leaves open: how recent the fresh sign-in must be (CT-01) */
+  const RECENT = 'How recent a sign-in must be is still open.';
   /* follows the owner Approvals strip: what it says changes with what is known */
   const topOf = ctx => ({
     default: banner('warn', WAIT, 'Next: Taiwan Semiconductor, 18:00. HSBC price late, detected Tue 16:50.', 'alert'),
@@ -3612,14 +3614,14 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: banner('', WAIT, 'From 11:20. Reading only. No financial write offline.', 'wifi-off'),
     conflict: `${banner('warn', 'Settings changed while you read.', `Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied. ${WAITS(3, '2 incidents')} Production is recorded lost. You recorded it at 11:31, and the switch waits in Recovery.`, 'split')}<div>${settled('ADM-05')}</div>`,
     expired: banner('warn', WAITS(3), 'Taiwan Semiconductor expired at 18:00. It changed nothing.', 'clock'),
-    denied: `${banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it. ${WAIT}`, 'lock')}<div>${proposed('CT-01')}</div>`
+    denied: `${banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it. ${RECENT} ${WAIT}`, 'lock')}<div>${settled('OWN-39')}${settled('OWN-16')}${proposed('CT-01')}</div>`
   }[ctx.state]);
   const bBody = ctx => `${wide(ctx) && ctx.state !== 'empty' ? '' : topOf(ctx)}${ctx.state === 'error' ? `<div>${bs('Try again', 'tinted', 'refresh')}</div>` : ''}${tiles(ctx)}`;
   const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and account recovery works anywhere.</p>`;
   const state = (ctx, ok, what) => region(ctx, {
     what, rows: 5, ok,
     empty: () => banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check') + places(ctx),
-    denied: () => banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', 'Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it, and nothing is pre-approved.', 'lock') + `<div>${proposed('CT-01')}</div>` + ok()
+    denied: () => banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it, and nothing is pre-approved. ${RECENT}`, 'lock') + `<div>${settled('OWN-39')}${settled('OWN-16')}${proposed('CT-01')}</div>` + ok()
   });
   J.add({
     id: 'home', title: 'Admin home', stories: ['MP-64'],
@@ -3931,6 +3933,9 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
 /* Audit (MP-64, PH00-S06): read-only. It holds references, never document content, prompts, tokens or holding values, so no amount appears here. The worked question is PH01-S04's. Every figure is illustrative. */
 {
   const FRESH = 'Opening the app with Face ID, or an open session, is not enough. The server checks a fresh sign-in.';
+  /* "Anything that writes or widens" (OWN-39) settles that opening an original asks for one; how recent, and how strong, stay open (CT-01) */
+  const RECENT = 'How recent a sign-in must be is still open.';
+  const OPENS = () => chipset(settled('OWN-39'), proposed('CT-01'));
   const TARGET = 'A fee in ISA statement, September · R-0210';
   const good = t => `<span class="chip fresh"><span class="dot"></span>${t}</span>`;
   const hold = (t, i = 'clock') => `<span class="chip stale">${ic(i, 's14')}${t}</span>`;
@@ -4001,7 +4006,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: () => off(ctx, 'Showing the answer saved at 11:20.') + verdict({ c: hold('offline_cached', 'wifi-off') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, text('Opening it needs a connection.')] }),
     conflict: () => banner('warn', 'Superseded.', 'A newer record replaced this one after you opened it. You are reading the version you opened, pinned to revision 213.', 'split') + verdict({ c: hold('superseded', 'split') }) + answer({ who: ['You approved it, and the controlled writer committed it', 'Recorded 6 Oct · a later correction exists', chipset(note('Code checked'), note('Claude drafted'), mine('You decided'))] }) + `<div class=\"aaudit-row\">${bs('Read the newer record', 'tinted', 'layers')}</div>`,
     expired: () => banner('warn', 'This approval expired, and the record says so.', 'It expired on Tue at 21:33 with no commit started, so nothing was committed and no forecast used it.', 'clock') + verdict({ c: hold('Expired approval'), t: 'Statement import, ISA statement, Oct 2026' }) + answer({ who: ['Nobody changed it', 'No commit started', ''], doc: ['ISA statement, Oct 2026', 'Scan · draft revision 6', ''], app: ['Your approval, then nothing', 'Approved Tue 21:18 · expired Tue 21:33', ''], fc: ['None', 'Nothing reached the ledger, so no forecast could use it', ''] }),
-    denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that asks for a fresh sign-in (OWN-39). ${FRESH}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, chipset(proposed('CT-01'))] })
+    denied: () => banner('warn', 'You can read all of this.', `Opening the original is the part that asks for a fresh sign-in (OWN-39). ${FRESH} ${RECENT}`, 'lock') + verdict({ c: hold('permission_denied on the source', 'lock') }) + answer({ doc: ['ISA statement, September', `PDF · 12 rows · source ${mono('src_1e08')}`, OPENS()] })
   });
   const ansLinks = () => list(rowGo('split', 'Follow the chain', 'Source, ledger, risk, forecast, action, outcome, audit') + rowGo('shield', 'Read the full record', mono('aud_4c17')));
   const ansRail = () => `${box(`${lbl('Who did what')}<div class="aaudit-gap">${kv([['Code checked', 'The file, before anything read it'], ['Claude drafted', 'The rows, with no tools'], ['You decide', 'You approved 12 rows']])}</div>`)}${refs()}`;
@@ -4030,7 +4035,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: () => off(ctx, 'Showing the chain saved at 11:20.') + chainOf(FOLLOW, { ...allAs(FOLLOW, 'offline_cached'), Forecast: [`${mono('run_8d02')} · saved 11:20`, 'offline_cached'] }),
     conflict: () => banner('warn', 'A step was superseded.', 'A newer ledger event replaced this one. Each forecast keeps the inputs it was made with, and none is rewritten.', 'split') + chainOf(FOLLOW, { Ledger: [`R-0210 · event ${mono('evt_77d3')} · a newer event exists`, 'superseded'] }),
     expired: () => banner('warn', 'Logs for the first run are gone.', 'The first run to use this fee was on 6 Oct, and logs last 14 days. Its run summary and its audit record stay.', 'clock') + chainOf(FOLLOW, { Forecast: [`${mono('run_8d02')} · the 6 Oct run keeps its summary, not its logs`, 'Logs expired'] }),
-    denied: () => banner('warn', 'One step needs a fresh sign-in.', FRESH, 'lock') + chainOf(FOLLOW, { Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + chipset(proposed('CT-01'))
+    denied: () => banner('warn', 'One step needs a fresh sign-in.', `Opening the original asks for one (OWN-39). ${FRESH} ${RECENT}`, 'lock') + chainOf(FOLLOW, { Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + OPENS()
   });
 
   /* ---------- one record ---------- */
@@ -4128,7 +4133,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: () => pane({ c: hold('offline_cached', 'wifi-off'), ...allAs(PANE, 'offline_cached') }),
     conflict: () => pane({ c: hold('superseded', 'split'), Correction: [`Superseded by ${mono('aud_5a02')}`, 'superseded'] }),
     expired: () => pane({ t: 'Lineage of this expired approval', c: hold('Expired approval') }, PANE_X),
-    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + chipset(proposed('CT-01'))
+    denied: () => pane({ c: hold('permission_denied on the source', 'lock'), Source: [`ISA statement, September · ${mono('src_1e08')}`, 'permission_denied'] }) + OPENS()
   });
   /* a full screen says why: the pane beside the list leans on the list's own banner */
   const linWhy = ctx => ({
@@ -4913,7 +4918,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const bandHead = (c = WARN('Expires Mon 18:00')) => head(lead('sliders'), 'Narrow a self-correction band', '5 to 4 points a week · settings v9 to v10', c);
   const bandLimits = (overlay = 'overlay active') => box(`${lbl('Today\'s bands, code only')}<div style="margin-top:8px">${kv([['Probabilities', 'At most 5 percentage points a week'], ['A signal\'s weight', 'At most 10% a month'], ['Overlay', overlay]])}</div><div style="margin-top:8px">${proposed('SCI-D10')}</div>`);
   const BAND_BIND = [['Owner', 'You'], ['Environment', 'Production'], ['Setting', 'Weekly band'], ['Value', '4 points'], ['Current version', 'v9'], ['Payload hash', '1b7c…d3e4'], ['Expires', 'Mon 9 Nov, 18:00']];
-  const bandBind = (rows = BAND_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${proposed('CT-02')}</div>`);
+  /* the same band proposal as Approvals draws: a setting waits days ("By kind, as drawn", OWN-08), and how many is open (CT-02) */
+  const bandBind = (rows = BAND_BIND) => box(`${lbl('This approval is bound to')}<div style="margin-top:8px">${kv(rows)}</div><div style="margin-top:8px">${settled('OWN-08')}${proposed('CT-02')}</div>`);
   const bandWhy = () => box(`${lbl('Impact, evidence, cost and rollback')}<div style="margin-top:8px">${kv([['Expected impact', 'Slower correction'], ['Evidence', '26 weeks of replay'], ['Evidence hash', 'e40b…7d12'], ['Cost a month', '£0'], ['How to roll it back', 'A new version']])}</div><p class="small muted" style="margin-top:8px">After a miss, a forecast takes longer to adjust. A rollback makes v11 equal to v9, with its own record. Nothing is overwritten.</p>${OVERLAP()}`);
   const bandYes = () => `<div class="amodels-acts">${act('A29', 'Approve this band', 'primary')}</div>${para(STEP)}`;
   const bandOK = () => bandHead() + bandLimits() + bandWhy() + bandBind() + bandYes();
@@ -5218,7 +5224,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: () => banner('', 'Offline.', 'You can read this proposal. Confirming needs a connection, because the server rechecks it first.', 'wifi-off') + lstOk(ctx),
     conflict: () => banner('warn', 'The catalogue moved first.', 'Another confirmation landed at 09:01, so this one is refused against v15. The check runs again on the new version.', 'split') + lstHead(ST.refused) + changeCard(TSM_ROWS, 'What this proposed') + catVersions(ctx) + act('A57', 'Run the check again', 'primary', 'refresh'),
     expired: () => banner('warn', 'Expired at 18:00.', 'An expired proposal cannot be approved, and nothing was added. The catalogue may have moved, so the check must run again.', 'clock') + lstHead(expiry('Expired') + Q9) + changeCard(TSM_ROWS, 'What this proposed') + catVersions(ctx) + act('A57', 'Run the check again', 'primary', 'refresh'),
-    denied: () => banner('warn', 'Your sign-in needs checking.', 'Reading needs no fresh sign-in. How strong a sign-in a catalogue change needs is open, so this is drawn as asking for one.', 'lock') + lstHead() + tags(proposed('CT-01')) + chain() + changeCard(TSM_ROWS) + catVersions(ctx)
+    denied: () => banner('warn', 'Your sign-in needs checking.', 'Reading needs no fresh sign-in. A catalogue change widens what MP may do, so it asks for one. How strong and how recent that sign-in must be is still open.', 'lock') + lstHead() + tags(settled('OWN-39'), proposed('CT-01')) + chain() + changeCard(TSM_ROWS) + catVersions(ctx)
   });
   const listingRail = ctx => {
     const s = ctx.state;
@@ -5262,8 +5268,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const policies = (ctx, o = {}) => {
     /* a withdrawal only stops a use, so it needs no fresh sign-in (OWN-39). In Denied the scope's state is unknown, so it still waits (R1-a13) */
     const stop = ['offline', 'denied', 'error', 'partial', 'conflict'].includes(ctx.state), a = h => (stop ? off(h) : h);
-    return pol('grid', 'Ranking policy', chip('illus', 'draft_policy', 'clock'), [['Growth', '35'], ['Protection', '40'], ['Opportunity', '25']], 'A combined score exists only when all three are eligible. No action band classifies a listing until normalisation, ties and thresholds are approved, so this cannot be approved yet.', off(act('A33', 'Approve this policy version', 'primary')), proposed('FIN-OD-07'))
-      + pol('alert', 'Alerts and quiet hours', chip('illus', 'No values proposed', 'clock'), [['Material', 'A line you set, crossed: exposure, price move, volatility or an event flag'], ['Critical', 'Only these: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost; a failed backup or ledger write'], ['Quiet hours', '22:00 to 07:00 London'], ['Held alerts arrive', 'With the 07:30 brief on weekdays. In your inbox at 07:30 at the weekend'], ['Repeat push', 'Once in 24 hours per holding, rule and severity, sooner if it worsens or the cause is new']], 'You picked "Your lines, no investment wake-ups" and "Never for investment alerts", so an investment alert never breaks quiet hours. It waits for 07:30. You picked "A short named list" for Critical, and the four faults on it are proposed. Only they break quiet hours. "Once in 24 hours" holds for repeats. Each line still needs a value from you, and no record sets one yet, so nothing is here to approve. The weekend landing is proposed in "Weekdays only" itself.', off(act('A39', 'Approve these thresholds')), settled('MP203-02') + settled('MP203-03') + proposed('CT-18') + proposed('MP40-Q11'))
+    return pol('grid', 'Ranking policy', chip('illus', 'draft_policy', 'clock'), [['Growth', '35'], ['Protection', '40'], ['Opportunity', '25']], 'A combined score exists only when all three are eligible. No action band classifies a listing until evaluation supports the thresholds and you approve a ranking policy version. Normalisation, ties and the threshold values are still open, so this cannot be approved yet.', off(act('A33', 'Approve this policy version', 'primary')), settled('OWN-09') + proposed('FIN-OD-07'))
+      + pol('alert', 'Alerts and quiet hours', chip('illus', 'No values proposed', 'clock'), [['Material', 'A line you set, crossed: exposure, price move, volatility or an event flag'], ['Critical', 'Only these: a sign-in, passkey or recovery you did not start; a device revoke that fails; production lost; a failed backup or ledger write'], ['Quiet hours', '22:00 to 07:00 London'], ['Held alerts arrive', 'With the 07:30 brief on weekdays. In your inbox at 07:30 at the weekend'], ['Repeat push', 'Once in 24 hours per holding, rule and severity, sooner if it worsens or the cause is new']], 'You picked "Your lines, no investment wake-ups" and "Never for investment alerts", so an investment alert never breaks quiet hours. It waits for 07:30. You picked "A short named list" for Critical, and the four faults on it are proposed. Only they break quiet hours. "Once in 24 hours" holds for repeats. Each line still needs a value from you, and no record sets one yet, so nothing is here to approve. The weekend landing is proposed in "Weekdays only" itself.', off(act('A39', 'Approve these thresholds')), settled('MP40-Q11a') + settled('MP203-02') + settled('MP203-03') + settled('OWN-34') + settled('MP40-Q11b') + proposed('CT-18') + proposed('MP40-Q11'))
       + pol('shield', 'Risk-acceptance scopes', o.scope || chip('fresh', 'risk_accepted'), [['Scopes', 'S1 to S10'], ['Claude routes', 'S9 Grow 55, S10 Yahoo, prod'], ['Basis', 'owner_risk_acceptance']], 'Your accepted risk, never a licence. Gate code checks every use and cannot widen a scope. Withdrawing one stops that use.', a(act('A37', 'Withdraw S10, Yahoo to Claude')), proposed('DATA-DEC-04') + proposed('DATA-DEC-15'))
       + pol('layers', 'Market extensions', chip('illus', 'proposed', 'clock'), [['Taiwan, XTAI', 'Not eligible in the first release'], ['Contract tests', 'Not yet'], ['Point-in-time replay', 'Not yet'], ['Shadow evidence', 'Not yet'], ['Credits and cash against £100', 'Not yet']], 'An extension needs its own evidence and your activation before any listing in it becomes eligible. Deactivating rolls its version pointer back and keeps its history.', off(act('A38', 'Activate this extension')));
   };
@@ -5280,7 +5286,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     stale: () => banner('warn', 'Capability proof is old.', 'S10\'s proof is past its review date, so its use is marked stale proof, not passed. Index from 11:12.', 'clock') + policies(ctx, { scope: chip('stale', 'stale proof', 'clock') }),
     conflict: () => banner('warn', 'Version moved.', 'A scope was withdrawn on another device while you read, so this page stays at the version you opened and nothing applied here.', 'split') + policies(ctx, { scope: chip('stale', 'withdrawn, disposition pending', 'clock') }),
     expired: () => banner('warn', 'A proposal here passed its time.', 'Nothing applied, and nothing waits here now. A repeat backs off with a visible reason.', 'clock') + tags(KIND) + policies(ctx),
-    denied: () => banner('warn', 'A fresh sign-in is needed to change these.', 'Reading needs none. Approving or setting writes or widens, so it does, and withdrawing only stops, so it does not. Here the scope\'s state is unknown, so its use is blocked and the withdrawal waits until it is known.', 'lock') + tags(proposed('CT-01')) + policies(ctx, { scope: chip('error', 'unknown (use blocked)', 'ban') }),
+    denied: () => banner('warn', 'A fresh sign-in is needed to change these.', 'Reading needs none. Approving or setting writes or widens, so it does, and withdrawing only stops, so it does not. How recent a sign-in must be is still open. Here the scope\'s state is unknown, so its use is blocked and the withdrawal waits until it is known.', 'lock') + tags(settled('OWN-39'), proposed('CT-01')) + policies(ctx, { scope: chip('error', 'unknown (use blocked)', 'ban') }),
     offline: () => banner('', 'Offline.', 'You can read these policies. Nothing can be changed until you reconnect.', 'wifi-off') + refused('R16', OFFLINE) + policies(ctx)
   });
   const policiesRail = ctx => (ctx.state === 'loading' ? '' : `${scopeEffect()}${limits('A policy change stays inside what you approved.')}${refused('R14', 'No settings change can grant a route a new tool, source, budget, infrastructure permission or approval authority.')}`);
@@ -5676,7 +5682,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     const s = ctx.state, y = act('A58', 'Change a line', 'primary');
     if (s === 'loading') return skel(2);
     const live = s !== 'offline';
-    return `${box(`${lbl('Change a line')}<p class="small muted acosts-gap">Code applies the lines. Only you change one, and each change writes a new version and an audit record. The next screen takes the line or allocation and its new value, then shows what would change before you approve. The meter in the main app stays read-only.</p><p class="small muted acosts-gap">${RAISE}</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}</div>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${s === 'denied' && wide(ctx) ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}${tags(proposed('CT-13'))}`)}${never()}${refused('R14', 'No setting can give a Claude route a budget. A route budget needs a reviewed change and your approval, in Agents.')}`;
+    return `${box(`${lbl('Change a line')}<p class="small muted acosts-gap">Code applies the lines. Only you change one, and each change writes a new version and an audit record. The next screen takes the line or allocation and its new value, then shows what would change before you approve. The meter in the main app stays read-only.</p><p class="small muted acosts-gap">${RAISE}</p><div class="acosts-acts acosts-gap">${live ? y : off(y)}</div>${s === 'offline' ? `<div class="acosts-gap">${refused('R16', OFFLINE)}</div>` : ''}${s === 'denied' && wide(ctx) ? `<div class="acosts-gap">${btn('Sign in again', 'primary', 'lock')}</div>` : ''}${tags(settled('OWN-35'), proposed('CT-13'))}`)}${never()}${refused('R14', 'No setting can give a Claude route a budget. A route budget needs a reviewed change and your approval, in Agents.')}`;
   };
 
   /* ---------- changing a line (MP-103, MP-114): draft it, code checks it, you decide. The same shape as a settings proposal. The worked example moves the warning to £55 ---------- */
@@ -5859,6 +5865,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const can = (ctx, html, o = {}) => {
     const s = ctx.state;
     if ((o.why || {})[s]) return held(o.why[s]);
+    if ((o.live || []).includes(s)) return html;
     return WAIT[s] ? held(WAIT[s]) : html;
   };
 
@@ -5893,7 +5900,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   };
   const classes = ctx => {
     const s = ctx.state, none = ['stale', 'partial', 'offline'].includes(s) ? 'None seen' : 'None open';
-    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 acknowledged · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(proposed('CT-18'))}`);
+    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 acknowledged · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(settled('MP40-Q11a'), proposed('CT-18'))}`);
   };
 
   /* every topic has one sentence per state, drawn the same by both options */
@@ -6152,7 +6159,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: banner('', 'Offline.', 'Showing recovery records from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, and anything recorded after that is the gap below. Separately, infrastructure drift blocks the release until it is resolved through Terraform.', 'split')}${tags(settled('ADM-05'))}`,
     expired: banner('warn', 'A new exercise is overdue.', 'An import change landed after rx_0007, and rel_0031 went out with none since, so rx_0007 no longer covers what is stored now.', 'clock'),
-    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Recording production lost and approving a switch each need a fresh sign-in, and neither applies while production answers its checks.', 'lock')}${tags(proposed('CT-01'))}`
+    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Recording production lost and approving a switch each need a fresh sign-in, and neither applies while production answers its checks. How recent a sign-in must be is still open.', 'lock')}${tags(settled('OWN-39'), proposed('CT-01'))}`
   };
 
   const T_REL = { ...T_REC, conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split') };
@@ -6167,6 +6174,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     ];
   };
   const PAUSEWHY = { conflict: 'Held. A scope changed while you read, so read what code did before you press anything.' };
+  /* "Anything that writes or widens" (OWN-39): a pause only stops, so a stale session still pauses (A43) */
+  const PAUSELIVE = ['denied'];
   const keeps = () => card(`${head('What keeps running')}${note('Sign-in, ledger reads, audit, recovery and daily forecasts stay available at every cost threshold.')}${note('A pause is scoped. POLICY-003 is not authority for a blanket application shutdown, so no switch here stops all of MP.')}`);
   const elsewhere = () => list(`${opens('fan', 'Restart a paused scope', 'In Models and evaluations, with its evidence')}${opens('sliders', 'Alert thresholds and quiet hours', 'In Approvals and configuration')}`);
   const T_PAU = {
@@ -6178,7 +6187,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     offline: banner('', 'Offline.', 'These switches are from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: banner('warn', 'A scope changed while you read.', 'Code paused it, as POLICY-003 allows. Your view stays at the version you opened and nothing was applied.', 'split'),
     expired: `${banner('warn', 'A pause request ran out.', 'It passed its time, so nothing was paused. It needs a new request.', 'clock')}${tags(proposed('CT-02'))}`,
-    denied: ctx => `${signNote('What is paused stays readable.')}${tags(proposed('CT-01'))}`
+    denied: `${banner('', 'Pausing needs no fresh sign-in.', 'A pause only stops, so an open session is enough. Restarting a scope writes, so it asks for one, in Models and evaluations.', 'pause')}${tags(settled('OWN-39'))}`
   };
 
   /* ---------- B: the runbook, each procedure as steps that say whose they are ---------- */
@@ -6267,7 +6276,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
     ]);
   }
   function pauseSteps(ctx) {
-    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag)));
+    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY, live: PAUSELIVE }), tags(tag)));
     return steps('Pause switches', [
       st(1, 'done', 'you', 'Say what is wrong', 'Read the incident first, so the pause fits the fault.'),
       st(2, 'now', 'you', 'Choose the smallest switch', 'All three switches are yours, on iPad or desktop, each kept in the record ("All three, as drawn", ADM-19).', rows.join('')),
@@ -6326,7 +6335,7 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
         id: 'a-pause', title: 'Pause switches', note: 'The three the runbook names. Only the forecast scope pause has a rule, so the others are labelled.',
         render: ctx => frame(ctx, {
           title: 'Pause switches', back: 'Incidents',
-          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag))).join(''))),
+          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY, live: PAUSELIVE }), tags(tag))).join(''))),
           rail: `${keeps()}${elsewhere()}${refused('R17', 'No pause goes around the controlled writer, a fresh sign-in or the release workflow.')}`
         })
       }]
@@ -6532,8 +6541,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const enrolHere = (ctx, why = {}) => {
     if (ctx.kind === 'web') return card(`${head('Enrol a passkey on this Mac')}${note('A second passkey on a device you control. It is scoped to prod, and dev has its own user pool.')}${can(ctx, act('A48', 'Enrol a passkey', 'primary'), why)}${note(LINE)}${tags(proposed('CT-17'))}`);
     /* "Allowed in the browser" (ADM-04): the bar covers the Apple app only, so Phone web enrols, once MP-197's test proves it works */
-    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(UNV(), proposed('CT-17'))}`);
-    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(UNV(), proposed('CT-17'), proposed('PL-09'))}`);
+    if (ctx.kind === 'pwa') return card(`${head('Enrol a passkey in this browser')}${note('A passkey held in this phone\'s browser, not in the iPhone app. The bar covers the Apple app only. This rests on a test that has not run: if it fails, the bar stands and this control goes.')}${can(ctx, act('A48', 'Enrol a passkey in this browser', 'primary'), why)}${note(LINE)}${tags(settled('ADM-04'), UNV(), proposed('CT-17'))}`);
+    return card(`${head('Enrol in a phone\'s browser or on your Mac')}${note(`Not from this app. MP-164 bars on-device passkeys until the Developer Program is bought (MP-179), and sign-in here is Google through the system browser. A passkey in ${phoneBrowser(ctx)} counts.`)}${tags(settled('ADM-04'), UNV(), proposed('CT-17'), proposed('PL-09'))}`);
   };
   const T_ENROL = {
     what: 'This passkey', rows: 2, loading: 'Waiting for your passkey.',
@@ -6552,7 +6561,8 @@ const pickedOption = j => Math.max(0, j.options.findIndex(o => o.id === (sum.kee
   const sessionsNote = ctx => `${note(browser(ctx) ? 'This browser keeps the same five records as the Apple app, each with its age. How a browser protects saved records is unverified.' : 'The offline copy on this device is encrypted. Sign-out clears it.')}${note(`If this device is revoked: ${CLEARS} ${TIMEOUT}`)}${tags(chip('', 'Time-out not set · OWN-37', 'clock'))}`;
 
   /* ---------- lost a device: the same recovery from either door ---------- */
-  const rvNote = () => `${note(RV)}${tags(UNV(), proposed('CT-17'))}`;
+  /* the rule is the owner's ("Revoke removes it too", ADM-02); whether a revoke can remove one is the open part (CT-17, MP-197) */
+  const rvNote = () => `${note(RV)}${tags(settled('ADM-02'), UNV(), proposed('CT-17'))}`;
   const lostTargets = ctx => ['Mac, Safari', 'iPhone', 'iPad', 'Phone web'].filter(n => n !== HERE[ctx.kind]);
   /* "Finish in the phone browser" (ADM-15): with the Mac lost, the replacement goes in a phone's browser and you end on two paths. The iPhone app cannot hold one, so it sends you there. */
   const fallbackLine = () => note('If the browser test fails, recovery ends after the revoke on one path, Google, and MP warns you until you reach a Mac.');

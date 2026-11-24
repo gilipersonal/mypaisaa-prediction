@@ -29,6 +29,8 @@
   const tiles = ctx => `<div class="ahome-grid">${PLACES.map(([k, name, i]) => `<div class="card ahome-tile" role="button" tabindex="0" data-go="${k}" aria-label="${name}. ${lineOf(ctx, k)}" data-mo="card">${lead(i, k === 'incidents' && hot(ctx) ? 'warn' : '')}<b>${name}</b><span class="small">${lineOf(ctx, k)}</span></div>`).join('')}</div>`;
   const WAITS = (n, inc = '1 incident') => `${n} decisions wait on you. 1 paused scope waits on your restart. ${inc} not resolved.`;
   const WAIT = WAITS(4);
+  /* what "Anything that writes or widens" (OWN-39) leaves open: how recent the fresh sign-in must be (CT-01) */
+  const RECENT = 'How recent a sign-in must be is still open.';
   /* follows the owner Approvals strip: what it says changes with what is known */
   const topOf = ctx => ({
     default: banner('warn', WAIT, 'Next: Taiwan Semiconductor, 18:00. HSBC price late, detected Tue 16:50.', 'alert'),
@@ -40,14 +42,14 @@
     offline: banner('', WAIT, 'From 11:20. Reading only. No financial write offline.', 'wifi-off'),
     conflict: `${banner('warn', 'Settings changed while you read.', `Settings v10 was written at 09:01, so a proposal built on v9 needs a new look. Nothing was applied. ${WAITS(3, '2 incidents')} Production is recorded lost. You recorded it at 11:31, and the switch waits in Recovery.`, 'split')}<div>${settled('ADM-05')}</div>`,
     expired: banner('warn', WAITS(3), 'Taiwan Semiconductor expired at 18:00. It changed nothing.', 'clock'),
-    denied: `${banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it. ${WAIT}`, 'lock')}<div>${proposed('CT-01')}</div>`
+    denied: `${banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it. ${RECENT} ${WAIT}`, 'lock')}<div>${settled('OWN-39')}${settled('OWN-16')}${proposed('CT-01')}</div>`
   }[ctx.state]);
   const bBody = ctx => `${wide(ctx) && ctx.state !== 'empty' ? '' : topOf(ctx)}${ctx.state === 'error' ? `<div>${bs('Try again', 'tinted', 'refresh')}</div>` : ''}${tiles(ctx)}`;
   const note = () => `<p class="small">Admin sits under Settings. Phones read and acknowledge; changes happen on iPad or desktop, and account recovery works anywhere.</p>`;
   const state = (ctx, ok, what) => region(ctx, {
     what, rows: 5, ok,
     empty: () => banner('', 'Nothing waits on you.', 'Runs, audit and costs stay here to read. Silence is not a sign that nothing is wrong, so the last run and the last restore always show.', 'check') + places(ctx),
-    denied: () => banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', 'Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it, and nothing is pre-approved.', 'lock') + `<div>${proposed('CT-01')}</div>` + ok()
+    denied: () => banner('warn', 'Reading needs no fresh sign-in. Every change that writes or widens does.', `Most stops need none, such as revoking an approval. Revoking a device still does, because it removes a passkey. Each control says what it needs before you press it, and nothing is pre-approved. ${RECENT}`, 'lock') + `<div>${settled('OWN-39')}${settled('OWN-16')}${proposed('CT-01')}</div>` + ok()
   });
   J.add({
     id: 'home', title: 'Admin home', stories: ['MP-64'],

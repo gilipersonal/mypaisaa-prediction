@@ -26,6 +26,7 @@
   const can = (ctx, html, o = {}) => {
     const s = ctx.state;
     if ((o.why || {})[s]) return held(o.why[s]);
+    if ((o.live || []).includes(s)) return html;
     return WAIT[s] ? held(WAIT[s]) : html;
   };
 
@@ -60,7 +61,7 @@
   };
   const classes = ctx => {
     const s = ctx.state, none = ['stale', 'partial', 'offline'].includes(s) ? 'None seen' : 'None open';
-    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 acknowledged · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(proposed('CT-18'))}`);
+    return card(`${head('By class')}${kv([['Data quality', s === 'empty' ? none : s === 'conflict' ? '1 reopened' : '1 acknowledged'], ['Job failure', s === 'error' ? '1 open' : none], ['Billing', none], ['System security', none], ...(s === 'conflict' ? [['Not classed', '1 acknowledged · inc_0014']] : [])])}${note('Financial risk is a separate class. Those alerts sit in your inbox, not here. Material means a line you set is crossed, and each line\'s value is still yours to set.')}${tags(settled('MP40-Q11a'), proposed('CT-18'))}`);
   };
 
   /* every topic has one sentence per state, drawn the same by both options */
@@ -319,7 +320,7 @@
     offline: banner('', 'Offline.', 'Showing recovery records from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: `${banner('warn', 'Production is recorded lost, and a restored copy waits.', 'The copy stops at Sun 1 Nov, and anything recorded after that is the gap below. Separately, infrastructure drift blocks the release until it is resolved through Terraform.', 'split')}${tags(settled('ADM-05'))}`,
     expired: banner('warn', 'A new exercise is overdue.', 'An import change landed after rx_0007, and rel_0031 went out with none since, so rx_0007 no longer covers what is stored now.', 'clock'),
-    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Recording production lost and approving a switch each need a fresh sign-in, and neither applies while production answers its checks.', 'lock')}${tags(proposed('CT-01'))}`
+    denied: `${banner('warn', 'Reading stays open.', 'Every exercise and its result stay readable. Recording production lost and approving a switch each need a fresh sign-in, and neither applies while production answers its checks. How recent a sign-in must be is still open.', 'lock')}${tags(settled('OWN-39'), proposed('CT-01'))}`
   };
 
   const T_REL = { ...T_REC, conflict: banner('warn', 'The plan and what is deployed disagree.', 'Drift blocks a release until it is resolved through Terraform. Nothing here changes it.', 'split') };
@@ -334,6 +335,8 @@
     ];
   };
   const PAUSEWHY = { conflict: 'Held. A scope changed while you read, so read what code did before you press anything.' };
+  /* "Anything that writes or widens" (OWN-39): a pause only stops, so a stale session still pauses (A43) */
+  const PAUSELIVE = ['denied'];
   const keeps = () => card(`${head('What keeps running')}${note('Sign-in, ledger reads, audit, recovery and daily forecasts stay available at every cost threshold.')}${note('A pause is scoped. POLICY-003 is not authority for a blanket application shutdown, so no switch here stops all of MP.')}`);
   const elsewhere = () => list(`${opens('fan', 'Restart a paused scope', 'In Models and evaluations, with its evidence')}${opens('sliders', 'Alert thresholds and quiet hours', 'In Approvals and configuration')}`);
   const T_PAU = {
@@ -345,7 +348,7 @@
     offline: banner('', 'Offline.', 'These switches are from 11:20. Nothing can be changed until you reconnect.', 'wifi-off'),
     conflict: banner('warn', 'A scope changed while you read.', 'Code paused it, as POLICY-003 allows. Your view stays at the version you opened and nothing was applied.', 'split'),
     expired: `${banner('warn', 'A pause request ran out.', 'It passed its time, so nothing was paused. It needs a new request.', 'clock')}${tags(proposed('CT-02'))}`,
-    denied: ctx => `${signNote('What is paused stays readable.')}${tags(proposed('CT-01'))}`
+    denied: `${banner('', 'Pausing needs no fresh sign-in.', 'A pause only stops, so an open session is enough. Restarting a scope writes, so it asks for one, in Models and evaluations.', 'pause')}${tags(settled('OWN-39'))}`
   };
 
   /* ---------- B: the runbook, each procedure as steps that say whose they are ---------- */
@@ -434,7 +437,7 @@
     ]);
   }
   function pauseSteps(ctx) {
-    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag)));
+    const rows = PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY, live: PAUSELIVE }), tags(tag)));
     return steps('Pause switches', [
       st(1, 'done', 'you', 'Say what is wrong', 'Read the incident first, so the pause fits the fault.'),
       st(2, 'now', 'you', 'Choose the smallest switch', 'All three switches are yours, on iPad or desktop, each kept in the record ("All three, as drawn", ADM-19).', rows.join('')),
@@ -493,7 +496,7 @@
         id: 'a-pause', title: 'Pause switches', note: 'The three the runbook names. Only the forecast scope pause has a rule, so the others are labelled.',
         render: ctx => frame(ctx, {
           title: 'Pause switches', back: 'Incidents',
-          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY }), tags(tag))).join(''))),
+          body: view(ctx, T_PAU, () => card(PAUSES(ctx).map(([t, s, b, tag]) => ask(t, s, can(ctx, act('A43', b), { why: PAUSEWHY, live: PAUSELIVE }), tags(tag))).join(''))),
           rail: `${keeps()}${elsewhere()}${refused('R17', 'No pause goes around the controlled writer, a fresh sign-in or the release workflow.')}`
         })
       }]
