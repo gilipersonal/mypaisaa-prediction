@@ -121,6 +121,16 @@ export const ENTRIES: readonly JournalEntry[] = [
   }
 ];
 
+/**
+ * The app's own sentences, not the design's: what a drawn control whose act is not built in this step says when it is pressed.
+ * Each says only that the act comes later; none promises when.
+ */
+export const LATER = {
+  record: 'Recording a decision comes in a later build step.',
+  correction: 'Adding a correction comes in a later build step.',
+  about: 'This explanation comes in a later build step.'
+} as const;
+
 /** The design's own words for the journal's cards and states, quoted as drawn. */
 export const COPY = {
   supportFoot: 'Decision support, not advice. MyPrediction places no trades. Illustrative.',
