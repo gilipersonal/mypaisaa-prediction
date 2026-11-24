@@ -41,13 +41,17 @@ describe('places follow Prism', () => {
     expect(tabOf(placeOf('/research')).id).toBe('portfolio');
     expect(tabOf(placeOf('/imports')).id).toBe('settings');
     expect(placeOf('/nowhere').id).toBe('portfolio');
+    expect(placeOf('/settings/privacy').id).toBe('settings');
+    expect(placeOf('/holdings/AAPL').id).toBe('portfolio');
+    expect(placeOf('/settingsx').id).toBe('portfolio');
     expect(placeOf('/settings///').id).toBe('settings');
     expect(placeOf('///').id).toBe('portfolio');
   });
 
   it('trims a very long run of slashes quickly', () => {
     const start = performance.now();
-    expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('portfolio');
+    // a path under Settings lights Settings since MP-205; the timing is what this case guards (CodeQL)
+    expect(placeOf('/settings' + '/'.repeat(200_000) + 'x').id).toBe('settings');
     expect(placeOf('/settings' + '/'.repeat(200_000)).id).toBe('settings');
     expect(performance.now() - start).toBeLessThan(200);
   });

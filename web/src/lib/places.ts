@@ -45,7 +45,11 @@ export function placeOf(pathname: string): Place {
   let end = pathname.length;
   while (end > 0 && pathname.charCodeAt(end - 1) === 47) end -= 1;
   const clean = pathname.slice(0, end) || '/';
-  return PLACES.find((p) => p.path === clean) ?? placeById('portfolio');
+  // A page inside a place lights that place: /settings/privacy is Settings. Anything else, /holdings among them, is
+  // reached from Portfolio and lights it (MP-205).
+  return PLACES.find((p) => p.path === clean)
+    ?? PLACES.find((p) => p.path !== '/' && clean.startsWith(p.path + '/'))
+    ?? placeById('portfolio');
 }
 
 export function tabOf(place: Place): Place {
